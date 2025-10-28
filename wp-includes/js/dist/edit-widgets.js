@@ -966,6 +966,7 @@ function ComplementaryArea({
         target: name,
         scope,
         icon,
+        identifier,
         children: title
       }
     ),

@@ -250,12 +250,12 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	// Image.
 	$processor->next_tag( 'img' );
 	$processor->set_attribute( 'data-wp-init', 'callbacks.setButtonStyles' );
-	$processor->set_attribute( 'data-wp-on-async--load', 'callbacks.setButtonStyles' );
-	$processor->set_attribute( 'data-wp-on-async-window--resize', 'callbacks.setButtonStyles' );
+	$processor->set_attribute( 'data-wp-on--load', 'callbacks.setButtonStyles' );
+	$processor->set_attribute( 'data-wp-on-window--resize', 'callbacks.setButtonStyles' );
 	// Sets an event callback on the `img` because the `figure` element can also
 	// contain a caption, and we don't want to trigger the lightbox when the
 	// caption is clicked.
-	$processor->set_attribute( 'data-wp-on-async--click', 'actions.showLightbox' );
+	$processor->set_attribute( 'data-wp-on--click', 'actions.showLightbox' );
 	$processor->set_attribute( 'data-wp-class--hide', 'state.isContentHidden' );
 	$processor->set_attribute( 'data-wp-class--show', 'state.isContentVisible' );
 
@@ -273,7 +273,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			aria-haspopup="dialog"
 			aria-label="' . esc_attr( $aria_label ) . '"
 			data-wp-init="callbacks.initTriggerButton"
-			data-wp-on-async--click="actions.showLightbox"
+			data-wp-on--click="actions.showLightbox"
 			data-wp-style--right="state.imageButtonRight"
 			data-wp-style--top="state.imageButtonTop"
 		>
@@ -324,12 +324,12 @@ function block_core_image_print_lightbox_overlay() {
 			data-wp-class--show-closing-animation="state.overlayOpened"
 			data-wp-watch="callbacks.setOverlayFocus"
 			data-wp-on--keydown="actions.handleKeydown"
-			data-wp-on-async--touchstart="actions.handleTouchStart"
+			data-wp-on--touchstart="actions.handleTouchStart"
 			data-wp-on--touchmove="actions.handleTouchMove"
-			data-wp-on-async--touchend="actions.handleTouchEnd"
-			data-wp-on-async--click="actions.hideLightbox"
-			data-wp-on-async-window--resize="callbacks.setOverlayStyles"
-			data-wp-on-async-window--scroll="actions.handleScroll"
+			data-wp-on--touchend="actions.handleTouchEnd"
+			data-wp-on--click="actions.hideLightbox"
+			data-wp-on-window--resize="callbacks.setOverlayStyles"
+			data-wp-on-window--scroll="actions.handleScroll"
 			data-wp-bind--style="state.overlayStyles"
 			tabindex="-1"
 			>

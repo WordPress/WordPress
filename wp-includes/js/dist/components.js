@@ -52820,21 +52820,28 @@ function font_size_picker_styles_EMOTION_STRINGIFIED_CSS_ERROR_() {
 
 
 
+
 const styles_Container = /* @__PURE__ */ emotion_styled_base_browser_esm("fieldset",  true ? {
-  target: "e8tqeku3"
+  target: "e8tqeku4"
 } : 0)( true ? {
   name: "k2q51s",
   styles: "border:0;margin:0;padding:0;display:contents"
 } : 0);
 const styles_Header = /* @__PURE__ */ emotion_styled_base_browser_esm(h_stack_component_component_default,  true ? {
-  target: "e8tqeku2"
+  target: "e8tqeku3"
 } : 0)("height:", space(4), ";" + ( true ? "" : 0));
 const HeaderToggle = /* @__PURE__ */ emotion_styled_base_browser_esm(button_default,  true ? {
-  target: "e8tqeku1"
+  target: "e8tqeku2"
 } : 0)("margin-top:", space(-1), ";" + ( true ? "" : 0));
 const HeaderLabel = /* @__PURE__ */ emotion_styled_base_browser_esm(base_control_default.VisualLabel,  true ? {
-  target: "e8tqeku0"
+  target: "e8tqeku1"
 } : 0)("display:flex;gap:", space(1), ";justify-content:flex-start;margin-bottom:0;" + ( true ? "" : 0));
+const StyledCustomSelectControl = /* @__PURE__ */ emotion_styled_base_browser_esm(custom_select_control_default,  true ? {
+  target: "e8tqeku0"
+} : 0)( true ? {
+  name: "anvx77",
+  styles: ".components-custom-select-control__item .components-custom-select-control__item-hint{width:100%;}"
+} : 0);
 
 
 ;// ./node_modules/@wordpress/components/build-module/font-size-picker/utils.js
@@ -52842,9 +52849,19 @@ function isSimpleCssValue(value) {
   const sizeRegex = /^[\d\.]+(px|em|rem|vw|vh|%|svw|lvw|dvw|svh|lvh|dvh|vi|svi|lvi|dvi|vb|svb|lvb|dvb|vmin|svmin|lvmin|dvmin|vmax|svmax|lvmax|dvmax)?$/i;
   return sizeRegex.test(String(value));
 }
+function generateFontSizeHint(fontSize) {
+  if (fontSize.hint) {
+    return fontSize.hint;
+  }
+  if (isSimpleCssValue(fontSize.size)) {
+    return String(fontSize.size);
+  }
+  return void 0;
+}
 
 
 ;// ./node_modules/@wordpress/components/build-module/font-size-picker/font-size-picker-select.js
+
 
 
 
@@ -52855,19 +52872,16 @@ const DEFAULT_OPTION = {
   value: void 0
 };
 const FontSizePickerSelect = (props) => {
-  var _options$find;
   const {
     __next40pxDefaultSize,
     fontSizes,
     value,
     size,
+    valueMode = "literal",
     onChange
   } = props;
   const options = [DEFAULT_OPTION, ...fontSizes.map((fontSize) => {
-    let hint;
-    if (isSimpleCssValue(fontSize.size)) {
-      hint = String(fontSize.size);
-    }
+    const hint = generateFontSizeHint(fontSize);
     return {
       key: fontSize.slug,
       name: fontSize.name || fontSize.slug,
@@ -52875,8 +52889,20 @@ const FontSizePickerSelect = (props) => {
       hint
     };
   })];
-  const selectedOption = (_options$find = options.find((option) => option.value === value)) !== null && _options$find !== void 0 ? _options$find : DEFAULT_OPTION;
-  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(custom_select_control_default, {
+  const selectedOption = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    var _options$find;
+    if (value === void 0) {
+      return DEFAULT_OPTION;
+    }
+    if (valueMode === "slug") {
+      const optionBySlug = options.find((option) => option.key === value);
+      if (optionBySlug) {
+        return optionBySlug;
+      }
+    }
+    return (_options$find = options.find((option) => option.value === value)) !== null && _options$find !== void 0 ? _options$find : DEFAULT_OPTION;
+  }, [value, valueMode, options]);
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(StyledCustomSelectControl, {
     __next40pxDefaultSize,
     __shouldNotWarnDeprecated36pxSize: true,
     className: "components-font-size-picker__select",
@@ -52893,7 +52919,8 @@ const FontSizePickerSelect = (props) => {
     onChange: ({
       selectedItem
     }) => {
-      onChange(selectedItem.value);
+      const matchingFontSize = selectedItem.key === "default" ? void 0 : fontSizes.find((fontSize) => fontSize.slug === selectedItem.key);
+      onChange(selectedItem.value, matchingFontSize);
     },
     size
   });
@@ -52927,22 +52954,46 @@ const FontSizePickerToggleGroup = (props) => {
   const {
     fontSizes,
     value,
+    valueMode = "literal",
     __next40pxDefaultSize,
     size,
     onChange
   } = props;
+  const currentValue = (() => {
+    if (!value) {
+      return void 0;
+    }
+    if (valueMode === "slug") {
+      return String(value);
+    }
+    const matchingFontSizes = fontSizes.filter((fontSize) => fontSize.size === value);
+    if (matchingFontSizes.length > 1) {
+      return void 0;
+    }
+    const fontSizeBySize = fontSizes.find((fontSize) => fontSize.size === value);
+    return fontSizeBySize?.slug;
+  })();
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(toggle_group_control_component_component_default, {
     __nextHasNoMarginBottom: true,
     __next40pxDefaultSize,
     __shouldNotWarnDeprecated36pxSize: true,
     label: (0,external_wp_i18n_namespaceObject.__)("Font size"),
     hideLabelFromVision: true,
-    value,
-    onChange,
+    value: currentValue,
+    onChange: (newSlug) => {
+      if (newSlug === void 0) {
+        onChange(void 0);
+      } else {
+        const selectedFontSize = fontSizes.find((fontSize) => fontSize.slug === String(newSlug));
+        if (selectedFontSize) {
+          onChange(selectedFontSize.size, selectedFontSize);
+        }
+      }
+    },
     isBlock: true,
     size,
     children: fontSizes.map((fontSize, index) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(toggle_group_control_option_component_component_default, {
-      value: fontSize.size,
+      value: fontSize.slug,
       label: T_SHIRT_ABBREVIATIONS[index],
       "aria-label": fontSize.name || T_SHIRT_NAMES[index],
       showTooltip: true
@@ -52979,6 +53030,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
     size = "default",
     units: unitsProp = DEFAULT_UNITS,
     value,
+    valueMode = "literal",
     withSlider = false,
     withReset = true
   } = props;
@@ -52986,9 +53038,18 @@ const UnforwardedFontSizePicker = (props, ref) => {
   const units = useCustomUnits({
     availableUnits: unitsProp
   });
-  const selectedFontSize = fontSizes.find((fontSize) => fontSize.size === value);
+  const selectedFontSize = (() => {
+    if (!value) {
+      return void 0;
+    }
+    if (valueMode === "slug") {
+      return fontSizes.find((fontSize) => fontSize.slug === value);
+    }
+    return fontSizes.find((fontSize) => fontSize.size === value);
+  })();
   const isCustomValue = !!value && !selectedFontSize;
   const [userRequestedCustom, setUserRequestedCustom] = (0,external_wp_element_namespaceObject.useState)(isCustomValue);
+  const resolvedValueForControls = valueMode === "slug" ? selectedFontSize?.size : value;
   let currentPickerType;
   if (!disableCustomFontSizes && userRequestedCustom) {
     currentPickerType = "custom";
@@ -52998,8 +53059,8 @@ const UnforwardedFontSizePicker = (props, ref) => {
   if (fontSizes.length === 0 && disableCustomFontSizes) {
     return null;
   }
-  const hasUnits = typeof value === "string" || typeof fontSizes[0]?.size === "string";
-  const [valueQuantity, valueUnit] = parseQuantityAndUnitFromRawValue(value, units);
+  const hasUnits = typeof resolvedValueForControls === "string" || typeof fontSizes[0]?.size === "string";
+  const [valueQuantity, valueUnit] = parseQuantityAndUnitFromRawValue(resolvedValueForControls, units);
   const isValueUnitRelative = !!valueUnit && ["em", "rem", "vw", "vh"].includes(valueUnit);
   const isDisabled = value === void 0;
   maybeWarnDeprecated36pxSize({
@@ -53030,26 +53091,28 @@ const UnforwardedFontSizePicker = (props, ref) => {
         __next40pxDefaultSize,
         fontSizes,
         value,
+        valueMode,
         disableCustomFontSizes,
         size,
-        onChange: (newValue) => {
+        onChange: (newValue, selectedItem) => {
           if (newValue === void 0) {
-            onChange?.(void 0);
+            onChange?.(void 0, selectedItem);
           } else {
-            onChange?.(hasUnits ? newValue : Number(newValue), fontSizes.find((fontSize) => fontSize.size === newValue));
+            onChange?.(hasUnits ? newValue : Number(newValue), selectedItem);
           }
         },
         onSelectCustom: () => setUserRequestedCustom(true)
       }), currentPickerType === "togglegroup" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(font_size_picker_toggle_group_default, {
         fontSizes,
         value,
+        valueMode,
         __next40pxDefaultSize,
         size,
-        onChange: (newValue) => {
+        onChange: (newValue, selectedItem) => {
           if (newValue === void 0) {
-            onChange?.(void 0);
+            onChange?.(void 0, selectedItem);
           } else {
-            onChange?.(hasUnits ? newValue : Number(newValue), fontSizes.find((fontSize) => fontSize.size === newValue));
+            onChange?.(hasUnits ? newValue : Number(newValue), selectedItem);
           }
         }
       }), currentPickerType === "custom" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(flex_component_component_default, {
@@ -53062,10 +53125,10 @@ const UnforwardedFontSizePicker = (props, ref) => {
             label: (0,external_wp_i18n_namespaceObject.__)("Font size"),
             labelPosition: "top",
             hideLabelFromVision: true,
-            value,
+            value: hasUnits ? `${valueQuantity !== null && valueQuantity !== void 0 ? valueQuantity : ""}${valueUnit !== null && valueUnit !== void 0 ? valueUnit : ""}` : resolvedValueForControls,
             onChange: (newValue) => {
               setUserRequestedCustom(true);
-              if (newValue === void 0) {
+              if (newValue === void 0 || newValue === "") {
                 onChange?.(void 0);
               } else {
                 onChange?.(hasUnits ? newValue : parseInt(newValue, 10));

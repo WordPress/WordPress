@@ -248,8 +248,11 @@ const { state, actions, callbacks } = (0,interactivity_namespaceObject.store)(
 				`;
       },
       setButtonStyles() {
-        const { imageId } = (0,interactivity_namespaceObject.getContext)();
         const { ref } = (0,interactivity_namespaceObject.getElement)();
+        if (!ref) {
+          return;
+        }
+        const { imageId } = (0,interactivity_namespaceObject.getContext)();
         state.metadata[imageId].imageRef = ref;
         state.metadata[imageId].currentSrc = ref.currentSrc;
         const {

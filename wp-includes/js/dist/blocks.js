@@ -7037,8 +7037,7 @@ const registerBlockBindingsSource = (source) => {
     getValues,
     setValues,
     canUserEditValue,
-    getFieldsList,
-    editorUI
+    getFieldsList
   } = source;
   const existingSource = unlock(
     (0,external_wp_data_namespaceObject.select)(store)
@@ -7108,94 +7107,6 @@ const registerBlockBindingsSource = (source) => {
   if (getFieldsList && typeof getFieldsList !== "function") {
     external_wp_warning_default()("Block bindings source getFieldsList must be a function.");
     return;
-  }
-  if (editorUI) {
-    if (typeof editorUI === "function") {
-      return unlock((0,external_wp_data_namespaceObject.dispatch)(store)).addBlockBindingsSource(
-        source
-      );
-    }
-    if (typeof editorUI !== "object" || Array.isArray(editorUI)) {
-      external_wp_warning_default()("EditorUI must be an object or a function");
-      return;
-    }
-    const { mode, data } = editorUI;
-    if (mode && !["dropdown", "modal"].includes(mode)) {
-      external_wp_warning_default()('EditorUI mode must be either "dropdown" or "modal"');
-      return;
-    }
-    if (mode === "dropdown") {
-      if (!data || !Array.isArray(data)) {
-        external_wp_warning_default()(
-          "EditorUI data must be an array of field objects for dropdown mode"
-        );
-        return;
-      }
-      for (const field of data) {
-        if (!field || typeof field !== "object") {
-          external_wp_warning_default()("Each field must be an object");
-          return;
-        }
-        if (!field.label || !field.args) {
-          external_wp_warning_default()(
-            'Each field must have "label" and "args" properties'
-          );
-          return;
-        }
-        if (typeof field.label !== "string") {
-          external_wp_warning_default()('Field "label" property must be a string');
-          return;
-        }
-        if (field.type) {
-          const validTypes = [
-            "null",
-            "boolean",
-            "object",
-            "array",
-            "string",
-            "integer",
-            "number"
-          ];
-          if (!validTypes.includes(field.type)) {
-            external_wp_warning_default()(
-              'Field "type" must be one of: ' + validTypes.join(", ")
-            );
-            return;
-          }
-          if (field.format) {
-            if (field.type !== "string") {
-              external_wp_warning_default()(
-                'Field "format" can only be used with string type'
-              );
-              return;
-            }
-            const validFormats = [
-              "date-time",
-              "uri",
-              "email",
-              "ip",
-              "uuid",
-              "hex-color"
-            ];
-            if (!validFormats.includes(field.format)) {
-              external_wp_warning_default()(
-                'Field "format" must be one of: ' + validFormats.join(", ")
-              );
-              return;
-            }
-          }
-        }
-      }
-    } else if (mode === "modal") {
-      if (!editorUI.renderModalContent) {
-        external_wp_warning_default()("Modal mode requires renderModalContent function");
-        return;
-      }
-      if (typeof editorUI.renderModalContent !== "function") {
-        external_wp_warning_default()("renderModalContent must be a function");
-        return;
-      }
-    }
   }
   return unlock((0,external_wp_data_namespaceObject.dispatch)(store)).addBlockBindingsSource(source);
 };
@@ -7710,10 +7621,6 @@ function getMergedUsesContext(existingUsesContext = [], newUsesContext = []) {
 function blockBindingsSources(state = {}, action) {
   switch (action.type) {
     case "ADD_BLOCK_BINDINGS_SOURCE":
-      let getFieldsList;
-      if (false) {} else if (action.name === "core/post-meta") {
-        getFieldsList = action.getFieldsList;
-      }
       return {
         ...state,
         [action.name]: {
@@ -7726,8 +7633,7 @@ function blockBindingsSources(state = {}, action) {
           setValues: action.setValues,
           // Only set `canUserEditValue` if `setValues` is also defined.
           canUserEditValue: action.setValues && action.canUserEditValue,
-          getFieldsList,
-          editorUI: action.editorUI
+          getFieldsList: action.getFieldsList
         }
       };
     case "REMOVE_BLOCK_BINDINGS_SOURCE":
@@ -8414,8 +8320,7 @@ function addBlockBindingsSource(source) {
     getValues: source.getValues,
     setValues: source.setValues,
     canUserEditValue: source.canUserEditValue,
-    getFieldsList: source.getFieldsList,
-    editorUI: source.editorUI
+    getFieldsList: source.getFieldsList
   };
 }
 function removeBlockBindingsSource(name) {

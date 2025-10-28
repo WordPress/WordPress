@@ -129,13 +129,13 @@ const { state, actions } = (0,interactivity_namespaceObject.store)(
           }
         }
       }),
-      handleMenuFocusout(event) {
+      handleMenuFocusout: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
         const { modal, type } = (0,interactivity_namespaceObject.getContext)();
         if (event.relatedTarget === null || !modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement && type === "submenu") {
           actions.closeMenu("click");
           actions.closeMenu("focus");
         }
-      },
+      }),
       openMenu(menuOpenedOn = "click") {
         const { type } = (0,interactivity_namespaceObject.getContext)();
         state.menuOpenedBy[menuOpenedOn] = true;

@@ -1976,8 +1976,7 @@ const DESIGN_POST_TYPES = [
   "wp_template",
   "wp_template_part",
   "wp_block",
-  "wp_navigation",
-  "wp_registered_template"
+  "wp_navigation"
 ];
 function useEditorStyles(...additionalStyles) {
   const { hasThemeStyleSupport, editorSettings } = (0,external_wp_data_namespaceObject.useSelect)((select) => {

@@ -38,10 +38,16 @@ function render_block_core_term_template( $attributes, $content, $block ) {
 		// Get the current term and taxonomy from the queried object.
 		$queried_object = get_queried_object();
 
-		// For hierarchical taxonomies, show direct children of the current term.
+		// For hierarchical taxonomies, show children of the current term.
 		// For non-hierarchical taxonomies, show all terms (don't set parent).
 		if ( is_taxonomy_hierarchical( $queried_object->taxonomy ) ) {
-			$query_args['parent'] = $queried_object->term_id;
+			// If showNested is true, use child_of to include nested terms.
+			// Otherwise, use parent to show only direct children.
+			if ( ! empty( $query['showNested'] ) ) {
+				$query_args['child_of'] = $queried_object->term_id;
+			} else {
+				$query_args['parent'] = $queried_object->term_id;
+			}
 		}
 		$query_args['taxonomy'] = $queried_object->taxonomy;
 	} else {

@@ -301,6 +301,9 @@ const getNavigationCommandLoaderPerPostType = (postType) => function useNavigati
     [delayedSearch]
   );
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (window.location.pathname.startsWith("/wp-admin/network/")) {
+      return [];
+    }
     return (records ?? []).map((record) => {
       const command = {
         name: postType + "-" + record.id,
@@ -380,6 +383,9 @@ const getNavigationCommandLoaderPerTemplate = (templateType) => function useNavi
     return orderEntityRecordsBySearch(records, search).slice(0, 10);
   }, [records, search]);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (window.location.pathname.startsWith("/wp-admin/network/")) {
+      return [];
+    }
     if (!canCreateTemplate || !isBlockBasedTheme && !templateType === "wp_template_part") {
       return [];
     }
@@ -463,6 +469,9 @@ const getSiteEditorBasicNavigationCommands = () => function useSiteEditorBasicNa
     };
   }, []);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (window.location.pathname.startsWith("/wp-admin/network/")) {
+      return [];
+    }
     const result = [];
     if (canCreateTemplate && isBlockBasedTheme) {
       result.push({
@@ -571,6 +580,9 @@ const getGlobalStylesOpenCssCommands = () => function useGlobalStylesOpenCssComm
     };
   }, []);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (window.location.pathname.includes("/wp-admin/network/")) {
+      return [];
+    }
     if (!canEditCSS) {
       return [];
     }

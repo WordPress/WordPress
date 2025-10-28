@@ -4,7 +4,7 @@
 	"name": "core/accordion-heading",
 	"title": "Accordion Heading",
 	"category": "design",
-	"description": "Displays an accordion heading.",
+	"description": "Toggles the accordion panel.",
 	"parent": [ "core/accordion-item" ],
 	"usesContext": [
 		"core/accordion-icon-position",

@@ -104,7 +104,7 @@ const PARTIAL_SYNCING_SUPPORTED_BLOCKS = {
   "core/paragraph": ["content"],
   "core/heading": ["content"],
   "core/button": ["text", "url", "linkTarget", "rel"],
-  "core/image": ["id", "url", "title", "alt"]
+  "core/image": ["id", "url", "title", "alt", "caption"]
 };
 const PATTERN_OVERRIDES_BINDING_SOURCE = "core/pattern-overrides";
 
@@ -1348,9 +1348,9 @@ function PatternOverridesControls({
   if (isConnectedToOtherSources) {
     return null;
   }
-  const hasUnsupportedImageAttributes = blockName === "core/image" && (!!attributes.caption?.length || !!attributes.href?.length);
+  const hasUnsupportedImageAttributes = blockName === "core/image" && !!attributes.href?.length;
   const helpText = !hasOverrides && hasUnsupportedImageAttributes ? (0,external_wp_i18n_namespaceObject.__)(
-    `Overrides currently don't support image captions or links. Remove the caption or link first before enabling overrides.`
+    `Overrides currently don't support image links. Remove the link first before enabling overrides.`
   ) : (0,external_wp_i18n_namespaceObject.__)(
     "Allow changes to this block throughout instances of this pattern."
   );

@@ -1977,15 +1977,17 @@ function Edit({
     });
   };
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [
-    isSingleSelected && !isContentOnlyMode && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-      external_wp_blockEditor_namespaceObject.HeadingLevelDropdown,
-      {
-        value: headingLevel,
-        options: levelOptions,
-        onChange: updateHeadingLevel
-      }
-    ) }) }),
-    isSingleSelected && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { group: "other", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, { onClick: addAccordionItemBlock, children: (0,external_wp_i18n_namespaceObject.__)("Add") }) }),
+    isSingleSelected && !isContentOnlyMode && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [
+      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+        external_wp_blockEditor_namespaceObject.HeadingLevelDropdown,
+        {
+          value: headingLevel,
+          options: levelOptions,
+          onChange: updateHeadingLevel
+        }
+      ) }) }),
+      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { group: "other", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, { onClick: addAccordionItemBlock, children: (0,external_wp_i18n_namespaceObject.__)("Add") }) })
+    ] }),
     /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
       external_wp_components_namespaceObject.__experimentalToolsPanel,
       {
@@ -2110,7 +2112,7 @@ function save() {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion/block.json
-const block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion","title":"Accordion","category":"design","description":"Displays a group of accordion headings and associated expandable content.","example":{},"supports":{"anchor":true,"html":false,"align":["wide","full"],"background":{"backgroundImage":true,"backgroundSize":true,"__experimentalDefaultControls":{"backgroundImage":true}},"color":{"background":true,"gradients":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"spacing":{"padding":true,"margin":["top","bottom"],"blockGap":true},"shadow":true,"layout":true,"ariaLabel":true,"interactivity":true,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"contentRole":true},"attributes":{"iconPosition":{"type":"string","default":"right"},"showIcon":{"type":"boolean","default":true},"autoclose":{"type":"boolean","default":false},"headingLevel":{"type":"number","default":3},"levelOptions":{"type":"array"}},"providesContext":{"core/accordion-icon-position":"iconPosition","core/accordion-show-icon":"showIcon","core/accordion-heading-level":"headingLevel"},"allowedBlocks":["core/accordion-item"],"textdomain":"default","viewScriptModule":"@wordpress/block-library/accordion/view"}');
+const block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion","title":"Accordion","category":"design","description":"Displays a foldable layout that groups content in collapsible sections.","example":{},"supports":{"anchor":true,"html":false,"align":["wide","full"],"background":{"backgroundImage":true,"backgroundSize":true,"__experimentalDefaultControls":{"backgroundImage":true}},"color":{"background":true,"gradients":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"spacing":{"padding":true,"margin":["top","bottom"],"blockGap":true},"shadow":true,"layout":true,"ariaLabel":true,"interactivity":true,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"contentRole":true},"attributes":{"iconPosition":{"type":"string","default":"right"},"showIcon":{"type":"boolean","default":true},"autoclose":{"type":"boolean","default":false},"headingLevel":{"type":"number","default":3},"levelOptions":{"type":"array"}},"providesContext":{"core/accordion-icon-position":"iconPosition","core/accordion-show-icon":"showIcon","core/accordion-heading-level":"headingLevel"},"allowedBlocks":["core/accordion-item"],"textdomain":"default","viewScriptModule":"@wordpress/block-library/accordion/view"}');
 ;// ./node_modules/@wordpress/block-library/build-module/utils/init-block.js
 
 function initBlock(block) {
@@ -2346,7 +2348,7 @@ function save_save({ attributes }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-item/block.json
-const accordion_item_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-item","title":"Accordion Item","category":"design","description":"Displays a section of content in an accordion, including a heading and expandable content.","parent":["core/accordion"],"allowedBlocks":["core/accordion-heading","core/accordion-panel"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"margin":["top","bottom"],"blockGap":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"shadow":true,"layout":{"allowEditing":false},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"contentRole":true},"attributes":{"openByDefault":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-item"}');
+const accordion_item_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-item","title":"Accordion Item","category":"design","description":"Wraps the heading and panel in one unit.","parent":["core/accordion"],"allowedBlocks":["core/accordion-heading","core/accordion-panel"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"margin":["top","bottom"],"blockGap":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"shadow":true,"layout":{"allowEditing":false},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"contentRole":true},"attributes":{"openByDefault":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-item"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-item/icon.js
 
 
@@ -2527,7 +2529,7 @@ function accordion_heading_save_save({ attributes }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/block.json
-const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Displays an accordion heading.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"blockVisibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
+const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Toggles the accordion panel.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"blockVisibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/icon.js
 
 
@@ -2708,7 +2710,7 @@ function accordion_panel_save_save() {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-panel/block.json
-const accordion_panel_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-panel","title":"Accordion Panel","category":"design","description":"Displays an accordion panel.","parent":["core/accordion-item"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"padding":true,"blockGap":true,"__experimentalDefaultControls":{"padding":true,"blockGap":true}},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"shadow":true,"layout":{"allowEditing":false},"blockVisibility":false,"contentRole":true,"allowedBlocks":true,"lock":false},"attributes":{"templateLock":{"type":["string","boolean"],"enum":["all","insert","contentOnly",false],"default":false},"openByDefault":{"type":"boolean","default":false},"isSelected":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-panel"}');
+const accordion_panel_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-panel","title":"Accordion Panel","category":"design","description":"Contains the hidden or revealed content beneath the heading.","parent":["core/accordion-item"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"padding":true,"blockGap":true,"__experimentalDefaultControls":{"padding":true,"blockGap":true}},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"shadow":true,"layout":{"allowEditing":false},"blockVisibility":false,"contentRole":true,"allowedBlocks":true,"lock":false},"attributes":{"templateLock":{"type":["string","boolean"],"enum":["all","insert","contentOnly",false],"default":false},"openByDefault":{"type":"boolean","default":false},"isSelected":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-panel"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-panel/icon.js
 
 
@@ -6326,19 +6328,10 @@ function getTransformedAttributes(attributes, newBlockName, bindingsCallback = n
   if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "ariaLabel") && attributes.ariaLabel) {
     transformedAttributes.ariaLabel = attributes.ariaLabel;
   }
-  if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "className") && attributes.className) {
-    transformedAttributes.className = attributes.className;
-  }
   if (attributes.metadata) {
-    const transformedMetadata = ["noteId"];
+    const transformedMetadata = [];
     if (bindingsCallback) {
       transformedMetadata.push("id", "bindings");
-    }
-    if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "renaming", true)) {
-      transformedMetadata.push("name");
-    }
-    if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "blockVisibility", true)) {
-      transformedMetadata.push("blockVisibility");
     }
     if (transformedMetadata.length > 0) {
       const newMetadata = Object.entries(attributes.metadata).reduce(
@@ -6405,6 +6398,7 @@ const transforms_transforms = {
             const link = element.querySelector("a");
             const url = link?.getAttribute("href");
             return (0,external_wp_blocks_namespaceObject.createBlock)("core/button", {
+              ...attributes,
               ...getTransformedAttributes(
                 attributes,
                 "core/button",
@@ -7516,6 +7510,7 @@ const code_transforms_transforms = {
       transform: (attributes) => {
         const { content } = attributes;
         return (0,external_wp_blocks_namespaceObject.createBlock)("core/code", {
+          ...attributes,
           ...getTransformedAttributes(attributes, "core/code"),
           content
         });
@@ -7527,6 +7522,7 @@ const code_transforms_transforms = {
       transform: (attributes) => {
         const { content: text } = attributes;
         return (0,external_wp_blocks_namespaceObject.createBlock)("core/code", {
+          ...attributes,
           ...getTransformedAttributes(attributes, "core/code"),
           // The HTML is plain text (with plain line breaks), so
           // convert it to rich text.
@@ -22061,7 +22057,7 @@ var home_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.j
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/home-link/block.json
-const home_link_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/home-link","category":"design","parent":["core/navigation"],"title":"Home Link","description":"Create a link that always points to the homepage of the site. Usually not necessary if there is already a site title link present in the header.","textdomain":"default","attributes":{"label":{"type":"string"}},"usesContext":["textColor","customTextColor","backgroundColor","customBackgroundColor","fontSize","customFontSize","style"],"supports":{"reusable":false,"html":false,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"interactivity":{"clientNavigation":true}},"editorStyle":"wp-block-home-link-editor","style":"wp-block-home-link"}');
+const home_link_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/home-link","category":"design","parent":["core/navigation"],"title":"Home Link","description":"Create a link that always points to the homepage of the site. Usually not necessary if there is already a site title link present in the header.","textdomain":"default","attributes":{"label":{"type":"string","role":"content"}},"usesContext":["textColor","customTextColor","backgroundColor","customBackgroundColor","fontSize","customFontSize","style"],"supports":{"reusable":false,"html":false,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"interactivity":{"clientNavigation":true}},"editorStyle":"wp-block-home-link-editor","style":"wp-block-home-link"}');
 ;// ./node_modules/@wordpress/block-library/build-module/home-link/edit.js
 
 
@@ -26812,6 +26808,7 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
               label: (0,external_wp_i18n_namespaceObject.__)("LaTeX math syntax"),
               hideLabelFromVision: true,
               value: latex,
+              className: "wp-block-math__textarea-control",
               onChange: (newLatex) => {
                 if (!latexToMathML) {
                   setAttributes({ latex: newLatex });
@@ -30674,7 +30671,69 @@ function OverlayMenuPreview({ setAttributes, hasIcon, icon }) {
 }
 
 
+;// ./node_modules/@wordpress/block-library/build-module/navigation-link/shared/use-entity-binding.js
+
+
+function buildNavigationLinkEntityBinding(kind) {
+  if (kind === void 0) {
+    throw new Error(
+      'buildNavigationLinkEntityBinding requires a kind parameter. Only "post-type" and "taxonomy" are supported.'
+    );
+  }
+  if (kind !== "post-type" && kind !== "taxonomy") {
+    throw new Error(
+      `Invalid kind "${kind}" provided to buildNavigationLinkEntityBinding. Only 'post-type' and 'taxonomy' are supported.`
+    );
+  }
+  const source = kind === "taxonomy" ? "core/term-data" : "core/post-data";
+  return {
+    url: {
+      source,
+      args: {
+        field: "link"
+      }
+    }
+  };
+}
+function useEntityBinding({ clientId, attributes }) {
+  const { updateBlockBindings } = (0,external_wp_blockEditor_namespaceObject.useBlockBindingsUtils)(clientId);
+  const { metadata, id, kind } = attributes;
+  const hasUrlBinding = !!metadata?.bindings?.url && !!id;
+  const expectedSource = kind === "post-type" ? "core/post-data" : "core/term-data";
+  const hasCorrectBinding = hasUrlBinding && metadata?.bindings?.url?.source === expectedSource;
+  const clearBinding = (0,external_wp_element_namespaceObject.useCallback)(() => {
+    if (hasUrlBinding) {
+      updateBlockBindings({ url: void 0 });
+    }
+  }, [updateBlockBindings, hasUrlBinding, metadata, id]);
+  const createBinding = (0,external_wp_element_namespaceObject.useCallback)(
+    (updatedAttributes) => {
+      const kindToUse = updatedAttributes?.kind ?? kind;
+      if (!kindToUse) {
+        return;
+      }
+      try {
+        const binding = buildNavigationLinkEntityBinding(kindToUse);
+        updateBlockBindings(binding);
+      } catch (error) {
+        console.warn(
+          "Failed to create entity binding:",
+          error.message
+        );
+      }
+    },
+    [updateBlockBindings, kind, id]
+  );
+  return {
+    hasUrlBinding: hasCorrectBinding,
+    clearBinding,
+    createBinding
+  };
+}
+
+
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/menu-items-to-blocks.js
+
 
 
 function menuItemsToBlocks(menuItems) {
@@ -30746,12 +30805,13 @@ function menuItemToBlockAttributes({
   if (object && object === "post_tag") {
     object = "tag";
   }
+  const inferredKind = menuItemTypeField?.replace("_", "-") || "custom";
   return {
     label: menuItemTitleField?.rendered || "",
     ...object?.length && {
       type: object
     },
-    kind: menuItemTypeField?.replace("_", "-") || "custom",
+    kind: inferredKind,
     url: url || "",
     ...xfn?.length && xfn.join(" ").trim() && {
       rel: xfn.join(" ").trim()
@@ -30763,8 +30823,11 @@ function menuItemToBlockAttributes({
     ...attr_title?.length && {
       title: attr_title
     },
-    ...object_id && "custom" !== object && {
-      id: object_id
+    ...object_id && (inferredKind === "post-type" || inferredKind === "taxonomy") && {
+      id: object_id,
+      metadata: {
+        bindings: buildNavigationLinkEntityBinding(inferredKind)
+      }
     },
     /* eslint-enable camelcase */
     ...description?.length && {
@@ -31482,67 +31545,6 @@ function LeafMoreMenu(props) {
       ] })
     }
   );
-}
-
-
-;// ./node_modules/@wordpress/block-library/build-module/navigation-link/shared/use-entity-binding.js
-
-
-function buildNavigationLinkEntityBinding(kind) {
-  if (kind === void 0) {
-    throw new Error(
-      'buildNavigationLinkEntityBinding requires a kind parameter. Only "post-type" and "taxonomy" are supported.'
-    );
-  }
-  if (kind !== "post-type" && kind !== "taxonomy") {
-    throw new Error(
-      `Invalid kind "${kind}" provided to buildNavigationLinkEntityBinding. Only 'post-type' and 'taxonomy' are supported.`
-    );
-  }
-  const source = kind === "taxonomy" ? "core/term-data" : "core/post-data";
-  return {
-    url: {
-      source,
-      args: {
-        field: "link"
-      }
-    }
-  };
-}
-function useEntityBinding({ clientId, attributes }) {
-  const { updateBlockBindings } = (0,external_wp_blockEditor_namespaceObject.useBlockBindingsUtils)(clientId);
-  const { metadata, id, kind } = attributes;
-  const hasUrlBinding = !!metadata?.bindings?.url && !!id;
-  const expectedSource = kind === "post-type" ? "core/post-data" : "core/term-data";
-  const hasCorrectBinding = hasUrlBinding && metadata?.bindings?.url?.source === expectedSource;
-  const clearBinding = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    if (hasUrlBinding) {
-      updateBlockBindings({ url: void 0 });
-    }
-  }, [updateBlockBindings, hasUrlBinding, metadata, id]);
-  const createBinding = (0,external_wp_element_namespaceObject.useCallback)(
-    (updatedAttributes) => {
-      const kindToUse = updatedAttributes?.kind ?? kind;
-      if (!kindToUse) {
-        return;
-      }
-      try {
-        const binding = buildNavigationLinkEntityBinding(kindToUse);
-        updateBlockBindings(binding);
-      } catch (error) {
-        console.warn(
-          "Failed to create entity binding:",
-          error.message
-        );
-      }
-    },
-    [updateBlockBindings, kind, id]
-  );
-  return {
-    hasUrlBinding: hasCorrectBinding,
-    clearBinding,
-    createBinding
-  };
 }
 
 
@@ -37817,7 +37819,7 @@ const post_content_init = () => initBlock({ name: post_content_name, metadata: p
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-date/block.json
-const post_date_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/post-date","title":"Date","category":"theme","description":"Display the publish date for an entry such as a post or page.","textdomain":"default","attributes":{"datetime":{"type":"string","role":"content"},"textAlign":{"type":"string"},"format":{"type":"string"},"isLink":{"type":"boolean","default":false,"role":"content"}},"usesContext":["postId","postType","queryId"],"example":{"viewportWidth":350},"supports":{"html":false,"color":{"gradients":true,"link":true,"__experimentalDefaultControls":{"background":true,"text":true,"link":true}},"spacing":{"margin":true,"padding":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"interactivity":{"clientNavigation":true},"__experimentalBorder":{"radius":true,"color":true,"width":true,"style":true,"__experimentalDefaultControls":{"radius":true,"color":true,"width":true,"style":true}}}}');
+const post_date_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/post-date","title":"Date","category":"theme","description":"Display a custom date.","textdomain":"default","attributes":{"datetime":{"type":"string","role":"content"},"textAlign":{"type":"string"},"format":{"type":"string"},"isLink":{"type":"boolean","default":false,"role":"content"}},"usesContext":["postId","postType","queryId"],"example":{"viewportWidth":350},"supports":{"html":false,"color":{"gradients":true,"link":true,"__experimentalDefaultControls":{"background":true,"text":true,"link":true}},"spacing":{"margin":true,"padding":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"interactivity":{"clientNavigation":true},"__experimentalBorder":{"radius":true,"color":true,"width":true,"style":true,"__experimentalDefaultControls":{"radius":true,"color":true,"width":true,"style":true}}}}');
 ;// ./node_modules/@wordpress/block-library/build-module/post-date/edit.js
 
 
@@ -37831,12 +37833,14 @@ const post_date_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"htt
 
 
 
+
 function PostDateEdit({
-  attributes: { datetime, textAlign, format, isLink, metadata },
+  attributes,
   context: { postType: postTypeSlug, queryId },
-  setAttributes
+  setAttributes,
+  name
 }) {
-  const displayType = metadata?.bindings?.datetime?.source === "core/post-data" && metadata?.bindings?.datetime?.args?.field;
+  const { datetime, textAlign, format, isLink } = attributes;
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     className: dist_clsx({
       [`has-text-align-${textAlign}`]: textAlign
@@ -37873,6 +37877,10 @@ function PostDateEdit({
     },
     [postTypeSlug]
   );
+  const activeBlockVariationName = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => select(external_wp_blocks_namespaceObject.store).getActiveBlockVariation(name, attributes)?.name,
+    [name, attributes]
+  );
   const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
   let postDate = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("time", { dateTime: (0,external_wp_date_namespaceObject.dateI18n)("c", datetime), ref: setPopoverAnchor, children: format === "human-diff" ? (0,external_wp_date_namespaceObject.humanTimeDiff)(datetime) : (0,external_wp_date_namespaceObject.dateI18n)(format || siteFormat, datetime) });
   if (isLink && datetime) {
@@ -37896,14 +37904,14 @@ function PostDateEdit({
           }
         }
       ),
-      displayType !== "modified" && !isDescendentOfQueryLoop && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      activeBlockVariationName !== "post-date-modified" && (!isDescendentOfQueryLoop || !activeBlockVariationName) && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
         external_wp_components_namespaceObject.Dropdown,
         {
           popoverProps,
           renderContent: ({ onClose }) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
             external_wp_blockEditor_namespaceObject.__experimentalPublishDateTimePicker,
             {
-              title: displayType === "date" ? (0,external_wp_i18n_namespaceObject.__)("Publish Date") : (0,external_wp_i18n_namespaceObject.__)("Date"),
+              title: activeBlockVariationName === "post-date" ? (0,external_wp_i18n_namespaceObject.__)("Publish Date") : (0,external_wp_i18n_namespaceObject.__)("Date"),
               currentDate: datetime,
               onChange: (newDatetime) => setAttributes({
                 datetime: newDatetime
@@ -38102,7 +38110,7 @@ const post_date_deprecated_v3 = {
     };
   },
   isEligible(attributes) {
-    return !!attributes?.metadata?.bindings?.datetime?.args?.key;
+    return attributes?.metadata?.bindings?.datetime?.source === "core/post-data" && !!attributes?.metadata?.bindings?.datetime?.args?.key;
   }
 };
 const post_date_deprecated_v2 = {
@@ -38239,7 +38247,6 @@ var post_date_deprecated_deprecated_default = [post_date_deprecated_v3, post_dat
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-date/variations.js
 
-
 const post_date_variations_variations = [
   {
     name: "post-date",
@@ -38255,9 +38262,8 @@ const post_date_variations_variations = [
         }
       }
     },
-    scope: ["block", "inserter", "transform"],
-    isActive: (blockAttributes) => blockAttributes?.metadata?.bindings?.datetime?.source === "core/post-data" && blockAttributes?.metadata?.bindings?.datetime?.args?.field === "date",
-    icon: post_date_default
+    scope: ["inserter", "transform"],
+    isActive: (blockAttributes) => blockAttributes?.metadata?.bindings?.datetime?.source === "core/post-data" && blockAttributes?.metadata?.bindings?.datetime?.args?.field === "date"
   },
   {
     name: "post-date-modified",
@@ -38274,9 +38280,8 @@ const post_date_variations_variations = [
       },
       className: "wp-block-post-date__modified-date"
     },
-    scope: ["block", "inserter", "transform"],
-    isActive: (blockAttributes) => blockAttributes?.metadata?.bindings?.datetime?.source === "core/post-data" && blockAttributes?.metadata?.bindings?.datetime?.args?.field === "modified",
-    icon: post_date_default
+    scope: ["inserter", "transform"],
+    isActive: (blockAttributes) => blockAttributes?.metadata?.bindings?.datetime?.source === "core/post-data" && blockAttributes?.metadata?.bindings?.datetime?.args?.field === "modified"
   }
 ];
 var post_date_variations_variations_default = post_date_variations_variations;
@@ -39613,7 +39618,19 @@ const post_template_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":
 
 const post_template_edit_TEMPLATE = [
   ["core/post-title"],
-  ["core/post-date"],
+  [
+    "core/post-date",
+    {
+      metadata: {
+        bindings: {
+          datetime: {
+            source: "core/post-data",
+            args: { field: "date" }
+          }
+        }
+      }
+    }
+  ],
   ["core/post-excerpt"]
 ];
 function PostTemplateInnerBlocks({ classList }) {
@@ -43364,6 +43381,19 @@ const imageDateTitle = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObje
 ;// ./node_modules/@wordpress/block-library/build-module/query/variations.js
 
 
+const postDate = [
+  "core/post-date",
+  {
+    metadata: {
+      bindings: {
+        datetime: {
+          source: "core/post-data",
+          args: { field: "date" }
+        }
+      }
+    }
+  }
+];
 const query_variations_variations = [
   {
     name: "title-date",
@@ -43371,11 +43401,7 @@ const query_variations_variations = [
     icon: titleDate,
     attributes: {},
     innerBlocks: [
-      [
-        "core/post-template",
-        {},
-        [["core/post-title"], ["core/post-date"]]
-      ],
+      ["core/post-template", {}, [["core/post-title"], postDate]],
       ["core/query-pagination"],
       ["core/query-no-results"]
     ],
@@ -43406,11 +43432,7 @@ const query_variations_variations = [
       [
         "core/post-template",
         {},
-        [
-          ["core/post-title"],
-          ["core/post-date"],
-          ["core/post-excerpt"]
-        ]
+        [["core/post-title"], postDate, ["core/post-excerpt"]]
       ],
       ["core/query-pagination"],
       ["core/query-no-results"]
@@ -43428,7 +43450,7 @@ const query_variations_variations = [
         {},
         [
           ["core/post-featured-image"],
-          ["core/post-date"],
+          postDate,
           ["core/post-title"]
         ]
       ],
@@ -43927,7 +43949,17 @@ const query_settings = {
             name: "core/post-title"
           },
           {
-            name: "core/post-date"
+            name: "core/post-date",
+            attributes: {
+              metadata: {
+                bindings: {
+                  datetime: {
+                    source: "core/post-data",
+                    args: { field: "date" }
+                  }
+                }
+              }
+            }
           },
           {
             name: "core/post-excerpt"
@@ -54655,13 +54687,11 @@ function InheritControl({ value, onChange, label }) {
       isBlock: true,
       onChange: (newValue) => {
         onChange({
-          inherit: newValue === "default",
-          // When enabling inherit, hierarchical is not supported.
-          ...newValue === "default" ? { showNested: false } : {}
+          inherit: newValue === "default"
         });
       },
       help: value ? (0,external_wp_i18n_namespaceObject.__)(
-        "Display terms based on the current taxonomy archive. For hierarchical taxonomies, shows direct children of the current term. For non-hierarchical taxonomies, shows all terms."
+        "Display terms based on the current taxonomy archive. For hierarchical taxonomies, shows children of the current term. For non-hierarchical taxonomies, shows all terms."
       ) : (0,external_wp_i18n_namespaceObject.__)("Display terms based on specific criteria."),
       value: value ? "default" : "custom",
       children: [
@@ -54903,7 +54933,7 @@ function TermsQueryInspectorControls({
   )?.hierarchical;
   const inheritQuery = !!inherit;
   const displayInheritControl = ["taxonomy", "category", "tag", "archive"].includes(templateSlug) || templateSlug?.startsWith("taxonomy-") || templateSlug?.startsWith("category-") || templateSlug?.startsWith("tag-");
-  const displayShowNestedControl = isTaxonomyHierarchical && !inheritQuery;
+  const displayShowNestedControl = isTaxonomyHierarchical;
   const hasIncludeFilter = !!include?.length;
   const queryTypeControlLabel = (0,external_wp_i18n_namespaceObject.__)("Query type");
   const taxonomyControlLabel = (0,external_wp_i18n_namespaceObject.__)("Taxonomy");

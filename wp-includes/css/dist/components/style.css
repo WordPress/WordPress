@@ -90,6 +90,7 @@
   color:color-mix(in srgb, #000 50%, var(--base-color));
   display:inline-block;
   line-height:0;
+  max-width:100%;
   min-height:24px;
   padding:2px 8px;
 }

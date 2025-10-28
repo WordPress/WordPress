@@ -467,7 +467,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .editor-collab-sidebar-panel{
-  padding:16px;
+  padding:16px 16px 24px;
 }
 
 .editor-collab-sidebar-panel__thread{
@@ -622,21 +622,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   min-width:auto;
   padding:4px;
   position:relative;
-}
-.comment-avatar-indicator:hover:before{
-  background:#0000000a;
-}
-.comment-avatar-indicator.has-unresolved .comment-avatar-stack:after{
-  background:#d63638;
-  border:1px solid #fff;
-  border-radius:50%;
-  content:"";
-  height:8px;
-  position:absolute;
-  right:-2px;
-  top:-2px;
-  width:8px;
-  z-index:10;
 }
 
 .comment-avatar-stack{

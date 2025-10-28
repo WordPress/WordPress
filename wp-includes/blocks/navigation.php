@@ -497,7 +497,7 @@ class WP_Navigation_Block_Renderer {
 		$close_button_directives         = '';
 		if ( $is_interactive ) {
 			$open_button_directives                  = '
-				data-wp-on-async--click="actions.openMenuOnClick"
+				data-wp-on--click="actions.openMenuOnClick"
 				data-wp-on--keydown="actions.handleMenuKeydown"
 			';
 			$responsive_container_directives         = '
@@ -505,7 +505,7 @@ class WP_Navigation_Block_Renderer {
 				data-wp-class--is-menu-open="state.isMenuOpen"
 				data-wp-watch="callbacks.initMenu"
 				data-wp-on--keydown="actions.handleMenuKeydown"
-				data-wp-on-async--focusout="actions.handleMenuFocusout"
+				data-wp-on--focusout="actions.handleMenuFocusout"
 				tabindex="-1"
 			';
 			$responsive_dialog_directives            = '
@@ -514,7 +514,7 @@ class WP_Navigation_Block_Renderer {
 				data-wp-bind--role="state.roleAttribute"
 			';
 			$close_button_directives                 = '
-				data-wp-on-async--click="actions.closeMenuOnClick"
+				data-wp-on--click="actions.closeMenuOnClick"
 			';
 			$responsive_container_content_directives = '
 				data-wp-watch="callbacks.focusFirstElement"
@@ -830,8 +830,8 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 		$tags->set_attribute( 'tabindex', '-1' );
 
 		if ( ! isset( $block_attributes['openSubmenusOnClick'] ) || false === $block_attributes['openSubmenusOnClick'] ) {
-			$tags->set_attribute( 'data-wp-on-async--mouseenter', 'actions.openMenuOnHover' );
-			$tags->set_attribute( 'data-wp-on-async--mouseleave', 'actions.closeMenuOnHover' );
+			$tags->set_attribute( 'data-wp-on--mouseenter', 'actions.openMenuOnHover' );
+			$tags->set_attribute( 'data-wp-on--mouseleave', 'actions.closeMenuOnHover' );
 		}
 
 		// Add directives to the toggle submenu button.
@@ -841,7 +841,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 				'class_name' => 'wp-block-navigation-submenu__toggle',
 			)
 		) ) {
-			$tags->set_attribute( 'data-wp-on-async--click', 'actions.toggleMenuOnClick' );
+			$tags->set_attribute( 'data-wp-on--click', 'actions.toggleMenuOnClick' );
 			$tags->set_attribute( 'data-wp-bind--aria-expanded', 'state.isMenuOpen' );
 			// The `aria-expanded` attribute for SSR is already added in the submenu block.
 		}
@@ -852,7 +852,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 				'class_name' => 'wp-block-navigation__submenu-container',
 			)
 		) ) {
-			$tags->set_attribute( 'data-wp-on-async--focus', 'actions.openMenuOnFocus' );
+			$tags->set_attribute( 'data-wp-on--focus', 'actions.openMenuOnFocus' );
 		}
 
 		// Iterate through subitems if exist.

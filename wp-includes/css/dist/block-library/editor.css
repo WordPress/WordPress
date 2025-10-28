@@ -1107,6 +1107,11 @@ figure.wp-block-image:not(.wp-block){
   padding-left:0;
 }
 
+.wp-block-math__textarea-control textarea{
+  direction:ltr;
+  font-family:Menlo,Consolas,monaco,monospace;
+}
+
 .wp-block-media-text__media{
   position:relative;
 }

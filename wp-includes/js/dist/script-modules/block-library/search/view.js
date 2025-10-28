@@ -70,19 +70,19 @@ const { actions } = (0,interactivity_namespaceObject.store)(
         const ctx = (0,interactivity_namespaceObject.getContext)();
         ctx.isSearchInputVisible = false;
       },
-      handleSearchKeydown(event) {
+      handleSearchKeydown: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
         const { ref } = (0,interactivity_namespaceObject.getElement)();
         if (event?.key === "Escape") {
           actions.closeSearchInput();
           ref.querySelector("button").focus();
         }
-      },
-      handleSearchFocusout(event) {
+      }),
+      handleSearchFocusout: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
         const { ref } = (0,interactivity_namespaceObject.getElement)();
         if (!ref.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
           actions.closeSearchInput();
         }
-      }
+      })
     }
   },
   { lock: true }

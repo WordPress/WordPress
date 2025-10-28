@@ -897,10 +897,14 @@ const populateServerData = (data2) => {
           const pathParts = path.split(".");
           const prop = pathParts.splice(-1, 1)[0];
           const parent = pathParts.reduce(
-            (prev, key) => prev[key],
+            (prev, key) => peek(prev, key),
             st
           );
-          if (isPlainObject(parent[prop])) {
+          const desc = Object.getOwnPropertyDescriptor(
+            parent,
+            prop
+          );
+          if (isPlainObject(desc?.value)) {
             parent[prop] = PENDING_GETTER;
           }
         });
