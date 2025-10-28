@@ -1,8 +1,9 @@
 /* Combined Non-Critical CSS - Load with media="print" + onload trick */
 
-/* Section Styles */
+/* Section Styles with CLS prevention */
 section {
   padding: var(--spacing-xxl) 0;
+  contain: layout style; /* Prevent layout shifts from affecting other sections */
 }
 
 .section-header {
@@ -62,12 +63,13 @@ section {
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-md);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity; /* GPU optimization */
 }
 
 .agent-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px) scale(1.02);
+  opacity: 0.95;
 }
 
 .agent-animation {
@@ -332,11 +334,13 @@ section {
   border-radius: 12px;
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-md);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity; /* GPU optimization */
 }
 
 .resource-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
+  opacity: 0.95;
 }
 
 .resource-card h3 {
@@ -576,6 +580,8 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 500px;
+  height: 400px; /* Fixed dimensions to prevent CLS */
 }
 
 .performance-metrics {
@@ -587,10 +593,13 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Sidekick Section */
+/* Sidekick Section - Fixed dimensions to prevent CLS */
 .sidekick-section {
   padding: 80px 0;
   background: #f8f9fa;
+  min-height: 480px; /* Reserve space for animation */
+  display: flex;
+  align-items: center;
 }
 
 .sidekick-content {
@@ -612,6 +621,14 @@ section {
   color: #6c757d;
   margin-bottom: 30px;
   line-height: 1.6;
+}
+
+.sidekick-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 300px; /* Fixed dimensions to prevent CLS */
 }
 
 /* Agents Workflow Section */
@@ -832,19 +849,22 @@ section {
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   border: 1px solid #e9ecef;
+  will-change: transform, opacity; /* GPU optimization */
 }
 
 .agent-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px) scale(1.02);
+  opacity: 0.95;
 }
 
 .agent-animation {
   margin-bottom: 30px;
   display: flex;
   justify-content: center;
+  width: 200px;
+  height: 200px; /* Fixed dimensions to prevent CLS */
 }
 
 .agent-card h3 {
@@ -1049,14 +1069,21 @@ section {
   }
 }
 
-/* Lottie Player Enhancements */
-lottie-player {
+/* Lottie Player Enhancements - Prevent CLS */
+dotlottie-player {
   border-radius: 12px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity; /* GPU optimization */
 }
 
-lottie-player:hover {
+dotlottie-player:hover {
   transform: scale(1.05);
+}
+
+/* Ensure consistent dimensions for all Lottie players */
+dotlottie-player {
+  display: block;
+  contain: layout style paint; /* Prevent layout shifts */
 }
 
 /* Performance Metrics Styling */

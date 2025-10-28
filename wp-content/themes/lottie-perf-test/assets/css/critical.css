@@ -1,7 +1,7 @@
 /* Critical CSS - Above the Fold Styles */
 /* Inline this CSS in <head> for immediate rendering */
 
-/* CSS Reset - Essential */
+/* CSS Reset - Essential with CLS prevention */
 * {
   margin: 0;
   padding: 0;
@@ -10,19 +10,24 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent layout shifts during font loading */
+  font-display: swap;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #fff;
+  font-display: swap; /* Prevent invisible text flash */
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
+  /* Prevent layout shifts for images without dimensions */
+  aspect-ratio: attr(width) / attr(height);
 }
 
 a {
@@ -50,7 +55,7 @@ h1, h2, h3, h4, h5, h6 {
   --tipalti-gray: #666666;
   --tipalti-light-gray: #f8f9fa;
   --tipalti-border: #e1e5e9;
-  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;

@@ -232,6 +232,17 @@ function lottie_perf_test_resource_hints() {
     // External preconnects
     echo '<link rel="preconnect" href="https://wordpress-l92nz.wasmer.app" crossorigin>';
     echo '<link rel="dns-prefetch" href="https://wordpress-l92nz.wasmer.app">';
+    
+    // Font preloading to prevent CLS
+    echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
+    echo '<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>';
+    
+    // Preload critical Lottie animations to prevent CLS
+    $template = get_page_template_slug();
+    if ($template === 'page-local-test.php') {
+        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/invoice-capture-agent-1.lottie" as="fetch" type="application/json" crossorigin>';
+        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/bill-approvers-agent.lottie" as="fetch" type="application/json" crossorigin>';
+    }
 }
 add_action('wp_head', 'lottie_perf_test_resource_hints', 0);
 
