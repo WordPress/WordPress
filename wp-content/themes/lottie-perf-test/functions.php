@@ -105,6 +105,7 @@ add_action('wp_head', function() {
     if (current_user_can('administrator')) {
         echo '<!-- CSS Debug: Main CSS loaded: ' . (wp_style_is('lpt-main', 'enqueued') ? 'YES' : 'NO') . ' -->';
         echo '<!-- CSS Debug: Accordion CSS loaded: ' . (wp_style_is('lpt-accordion', 'enqueued') ? 'YES' : 'NO') . ' -->';
+        echo '<!-- JS Debug: Lottie script loaded: ' . (wp_script_is('lottie-minimal', 'enqueued') ? 'YES' : 'NO') . ' -->';
     }
     
     echo '<style>
@@ -209,6 +210,37 @@ add_action('wp_head', function() {
         }
     }
     </style>';
+    
+    // Add Lottie initialization script
+    echo '<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize all Lottie players
+        const lottiePlayers = document.querySelectorAll("dotlottie-player");
+        console.log("Found " + lottiePlayers.length + " Lottie players");
+        
+        lottiePlayers.forEach(function(player, index) {
+            console.log("Initializing Lottie player " + index + ":", player.src);
+            
+            // Ensure autoplay is enabled
+            if (player.hasAttribute("autoplay")) {
+                player.setAttribute("autoplay", "true");
+            }
+            
+            // Add event listeners for debugging
+            player.addEventListener("ready", function() {
+                console.log("Lottie player " + index + " is ready");
+            });
+            
+            player.addEventListener("play", function() {
+                console.log("Lottie player " + index + " started playing");
+            });
+            
+            player.addEventListener("error", function(e) {
+                console.error("Lottie player " + index + " error:", e);
+            });
+        });
+    });
+    </script>';
 }, 25);
 
 // Enqueue accordion tab slider JavaScript

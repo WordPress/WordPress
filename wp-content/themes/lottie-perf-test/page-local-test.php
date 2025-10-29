@@ -142,8 +142,12 @@ get_header(); ?>
                         class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
                         <dotlottie-player
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie"
-                            loop=""
-                            class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                            loop
+                            autoplay
+                            background="transparent"
+                            speed="1"
+                            class="dotlottie-player js-dotlottie-player"
+                            style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player>
                     </div>
 
                     <div
@@ -175,8 +179,12 @@ get_header(); ?>
                         class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
                         <dotlottie-player
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie"
-                            loop=""
-                            class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                            loop
+                            autoplay
+                            background="transparent"
+                            speed="1"
+                            class="dotlottie-player js-dotlottie-player"
+                            style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player>
                     </div>
 
                     <div
@@ -209,8 +217,12 @@ get_header(); ?>
                         class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
                         <dotlottie-player
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-request-agent.lottie"
-                            loop=""
-                            class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                            loop
+                            autoplay
+                            background="transparent"
+                            speed="1"
+                            class="dotlottie-player js-dotlottie-player"
+                            style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player>
                     </div>
 
                     <div
@@ -283,11 +295,11 @@ get_header(); ?>
             </div>
             <div class="slider-right">
                 <div class="media-slides">
-                    <div data-index="0" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-2.lottie" loop="" class="dotlottie-player" data-index="0" data-user-paused="true"><!--Comment of VWO--></dotlottie-player></div>
+                    <div data-index="0" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-2.lottie" loop autoplay class="dotlottie-player" data-index="0" background="transparent" speed="1" style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player></div>
                     <div data-index="1" class="media-slide display-none"><img class="is-style-rounded-40" src="https://tipalti.com/wp-content/uploads/2025/07/digitize-tax-form-collection.svg" alt="" width="562" height="401" loading="eager" fetchpriority="high" decoding="async"></div>
-                    <div data-index="2" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-matching-agent.lottie" loop="" class="dotlottie-player" data-index="2" data-user-paused="true"><!--Comment of VWO--></dotlottie-player></div>
-                    <div data-index="3" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/erp-sync-resolution-agent.lottie" loop="" class="dotlottie-player" data-index="3" data-user-paused="true"><!--Comment of VWO--></dotlottie-player></div>
-                    <div data-index="4" class="media-slide display-none active-item"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/scan-expenses-receipt-agent.lottie" loop="" class="dotlottie-player" data-index="4" data-user-paused="true"><!--Comment of VWO--></dotlottie-player></div>
+                    <div data-index="2" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-matching-agent.lottie" loop autoplay class="dotlottie-player" data-index="2" background="transparent" speed="1" style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player></div>
+                    <div data-index="3" class="media-slide display-none"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/erp-sync-resolution-agent.lottie" loop autoplay class="dotlottie-player" data-index="3" background="transparent" speed="1" style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player></div>
+                    <div data-index="4" class="media-slide display-none active-item"><dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/scan-expenses-receipt-agent.lottie" loop autoplay class="dotlottie-player" data-index="4" background="transparent" speed="1" style="width: 100%; height: 400px;"><!--Comment of VWO--></dotlottie-player></div>
                 </div>
             </div>
         </div>
@@ -325,7 +337,7 @@ get_header(); ?>
 
 
                     <div class="wp-block-group position-lottie has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
-                        <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" loop="" class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                        <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" loop autoplay background="transparent" speed="1" class="dotlottie-player js-dotlottie-player" style="width: 100%; height: 200px;"><!--Comment of VWO--></dotlottie-player>
                     </div>
                 </div>
             </div>
@@ -349,7 +361,7 @@ get_header(); ?>
 
 
                     <div class="wp-block-group position-lottie has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
-                        <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" loop="" class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                        <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" loop autoplay background="transparent" speed="1" class="dotlottie-player js-dotlottie-player" style="width: 100%; height: 200px;"><!--Comment of VWO--></dotlottie-player>
                     </div>
                 </div>
             </div>
@@ -370,7 +382,7 @@ get_header(); ?>
 
 
                 <div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
-                    <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" loop="" class="dotlottie-player js-dotlottie-player"><!--Comment of VWO--></dotlottie-player>
+                    <dotlottie-player src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" loop autoplay background="transparent" speed="1" class="dotlottie-player js-dotlottie-player" style="width: 100%; height: 200px;"><!--Comment of VWO--></dotlottie-player>
                 </div>
             </div>
         </div>
