@@ -3,8 +3,6 @@ node_modules/
 **/node_modules/
 
 # Vite/Rollup outputs
-**/dist/
-assets/dist/
 
 # Generated minified/compressed assets (keep originals in git)
 **/*.min.js.map
