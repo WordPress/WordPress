@@ -254,9 +254,16 @@ declare( strict_types = 1 );
  *     @type array<string, mixed> $meta                {
  *         Optional. Additional metadata for the ability.
  *
- *         @type array<string, bool|null> $annotations  Optional. Annotation metadata for the ability. Provides
- *                                                      additional semantic information about the ability's
- *                                                      characteristics and behavior.
+ *         @type array<string, bool|null> $annotations  {
+ *             Optional. Semantic annotations describing the ability's behavioral characteristics.
+ *             These annotations are hints for tooling and documentation.
+ *
+ *             @type bool|null $readonly    Optional. If true, the ability does not modify its environment.
+ *             @type bool|null $destructive Optional. If true, the ability may perform destructive updates to its environment.
+ *                                          If false, the ability performs only additive updates.
+ *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
+ *                                          will have no additional effect on its environment.
+ *         }
  *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
  *                                                      When true, the ability can be invoked via HTTP requests.
  *                                                      Default false.

@@ -33,7 +33,7 @@ class WP_Ability {
 	 * They are not guaranteed to provide a faithful description of ability behavior.
 	 *
 	 * @since 6.9.0
-	 * @var array<string, (null|bool)>
+	 * @var array<string, bool|null>
 	 */
 	protected static $default_annotations = array(
 		// If true, the ability does not modify its environment.
@@ -150,7 +150,16 @@ class WP_Ability {
 	 *     @type array<string, mixed> $meta                  {
 	 *         Optional. Additional metadata for the ability.
 	 *
-	 *         @type array<string, null|bool> $annotations  Optional. Annotation metadata for the ability.
+	 *         @type array<string, bool|null> $annotations  {
+	 *             Optional. Semantic annotations describing the ability's behavioral characteristics.
+	 *             These annotations are hints for tooling and documentation.
+	 *
+	 *             @type bool|null $readonly    Optional. If true, the ability does not modify its environment.
+	 *             @type bool|null $destructive Optional. If true, the ability may perform destructive updates to its environment.
+	 *                                          If false, the ability performs only additive updates.
+	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
+	 *                                          will have no additional effect on its environment.
+	 *         }
 	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API. Default false.
 	 *     }
 	 * }
@@ -205,7 +214,16 @@ class WP_Ability {
 	 *     @type array<string, mixed> $meta                  {
 	 *         Optional. Additional metadata for the ability.
 	 *
-	 *         @type array<string, null|bool> $annotations  Optional. Annotation metadata for the ability.
+	 *         @type array<string, bool|null> $annotations  {
+	 *             Optional. Semantic annotations describing the ability's behavioral characteristics.
+	 *             These annotations are hints for tooling and documentation.
+	 *
+	 *             @type bool|null $readonly    Optional. If true, the ability does not modify its environment.
+	 *             @type bool|null $destructive Optional. If true, the ability may perform destructive updates to its environment.
+	 *                                          If false, the ability performs only additive updates.
+	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
+	 *                                          will have no additional effect on its environment.
+	 *         }
 	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API. Default false.
 	 *     }
 	 * }
@@ -224,7 +242,16 @@ class WP_Ability {
 	 *     @type array<string, mixed> $meta                  {
 	 *         Additional metadata for the ability.
 	 *
-	 *         @type array<string, null|bool> $annotations  Optional. Annotation metadata for the ability.
+	 *         @type array<string, bool|null> $annotations  {
+	 *             Semantic annotations describing the ability's behavioral characteristics.
+	 *             These annotations are hints for tooling and documentation.
+	 *
+	 *             @type bool|null $readonly    If true, the ability does not modify its environment.
+	 *             @type bool|null $destructive If true, the ability may perform destructive updates to its environment.
+	 *                                          If false, the ability performs only additive updates.
+	 *             @type bool|null $idempotent  If true, calling the ability repeatedly with the same arguments
+	 *                                          will have no additional effect on its environment.
+	 *         }
 	 *         @type bool                     $show_in_rest Whether to expose this ability in the REST API. Default false.
 	 *     }
 	 * }
@@ -498,6 +525,14 @@ class WP_Ability {
 	 * @return bool|WP_Error Whether the ability has the necessary permission.
 	 */
 	public function check_permissions( $input = null ) {
+		if ( ! is_callable( $this->permission_callback ) ) {
+			return new WP_Error(
+				'ability_invalid_permission_callback',
+				/* translators: %s ability name. */
+				sprintf( __( 'Ability "%s" does not have a valid permission callback.' ), esc_html( $this->name ) )
+			);
+		}
+
 		return $this->invoke_callback( $this->permission_callback, $input );
 	}
 
