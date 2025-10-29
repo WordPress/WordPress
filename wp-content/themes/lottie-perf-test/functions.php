@@ -127,119 +127,14 @@ add_action('wp_head', function() {
         echo '<!-- JS Debug: Lottie script loaded: ' . (wp_script_is('lottie-minimal', 'enqueued') ? 'YES' : 'NO') . ' -->';
         echo '<!-- Server Debug: Dist dir exists: ' . (is_dir(get_template_directory() . '/assets/dist/css/') ? 'YES' : 'NO') . ' -->';
     }
-    
-    echo '<style>
-    /* Critical accordion layout fixes */
-    .accordion-tab__slider-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center;
-        gap: var(--wp--custom--min-24-max-80, 80px);
-    }
-    
-    .accordion-tab__slider-wrapper.is-row-reverse {
-        flex-direction: row-reverse !important;
-    }
-    
-    .accordion-tab__slider-wrapper .slider-left {
-        flex: 1;
-        padding: 0 0 0 var(--wp--custom--min-24-max-64, 64px);
-    }
-    
-    .accordion-tab__slider-wrapper .slider-right {
-        flex: 1;
-        padding-bottom: 0;
-    }
-    
-    .accordion-tab__slider-wrapper .pagination-item h3 {
-        display: block !important;
-        color: var(--wp--preset--color--synergy-gunmetal, #6c6c6c);
-        cursor: pointer;
-        margin: 0;
-        padding: 15px 0 0 0;
-        transition: all 0.4s ease-in-out;
-        font-size: 1.25rem;
-        font-weight: 500;
-    }
-    
-    .accordion-tab__slider-wrapper .pagination-item h3:hover {
-        color: var(--wp--preset--color--synergy-onyx, #141414);
-    }
-    
-    .accordion-tab__slider-wrapper .pagination-item.active-item h3 {
-        color: var(--wp--preset--color--synergy-onyx, #141414);
-    }
-    
-    .accordion-tab__slider-wrapper .info-slide {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: all 0.4s ease-in-out;
-        padding-bottom: 12px;
-    }
-    
-    .accordion-tab__slider-wrapper .info-slide.active-info-item {
-        max-height: 500px;
-        opacity: 1;
-    }
-    
-    .accordion-tab__slider-wrapper .info-slide p {
-        margin: 0;
-        color: var(--wp--preset--color--synergy-gunmetal, #6c6c6c);
-        line-height: 1.6;
-    }
-    
-    .accordion-tab__slider-wrapper .media-slide {
-        opacity: 0;
-        transition: all 0.4s ease-in-out;
-        width: 100%;
-    }
-    
-    .accordion-tab__slider-wrapper .media-slide.active-item {
-        opacity: 1;
-        display: block;
-    }
-    
-    .accordion-tab__slider-wrapper .media-slide img {
-        border-radius: var(--wp--custom--min-24-max-40, 40px);
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
-    }
-    
-    /* Mobile responsive */
-    @media (max-width: 961px) {
-        .accordion-tab__slider-wrapper {
-            flex-direction: column !important;
-        }
         
-        .accordion-tab__slider-wrapper .slider-left {
-            order: 2;
-            padding: 12px 0 0 0;
-        }
-        
-        .accordion-tab__slider-wrapper .slider-right {
-            order: 1;
-            padding-bottom: 24px;
-        }
-        
-        .accordion-tab__slider-wrapper .info-slide p {
-            padding-bottom: 44px;
-        }
-    }
-    </style>';
-    
     // Add Lottie initialization script
     echo '<script>
     document.addEventListener("DOMContentLoaded", function() {
         // Initialize all Lottie players
         const lottiePlayers = document.querySelectorAll("dotlottie-player");
-        console.log("Found " + lottiePlayers.length + " Lottie players");
         
         lottiePlayers.forEach(function(player, index) {
-            console.log("Initializing Lottie player " + index + ":", player.src);
             
             // Ensure autoplay is enabled
             if (player.hasAttribute("autoplay")) {
