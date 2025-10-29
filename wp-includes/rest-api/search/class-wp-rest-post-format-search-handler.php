@@ -100,7 +100,7 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
 	 *     @type string $title Optional. Post format name.
 	 *     @type string $url   Optional. Post format permalink URL.
 	 *     @type string $type  Optional. String 'post-format'.
-	 *}
+	 * }
 	 */
 	public function prepare_item( $id, array $fields ) {
 		$data = array();
