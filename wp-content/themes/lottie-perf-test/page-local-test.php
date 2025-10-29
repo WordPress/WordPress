@@ -769,6 +769,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Load optimized scripts -->
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/lite-vimeo-embed.js" defer></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/ultra-minimal-vimeo.js" defer></script>
 
 <?php get_footer(); ?>
