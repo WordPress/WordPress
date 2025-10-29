@@ -317,6 +317,52 @@ function lottie_perf_test_resource_hints() {
     
     // Local @font-face to avoid external font CSS
     echo '<style>
+        :root {
+            --wp--preset--color--synergy-white: #ffffff;
+            --wp--preset--color--synergy-paper: #fafafa;
+            --wp--preset--color--synergy-rhino: #efefef;
+            --wp--preset--color--synergy-pebble: #cccccc;
+            --wp--preset--color--synergy-gunmetal: #6c6c6c;
+            --wp--preset--color--synergy-onyx: #141414;
+            --wp--preset--color--synergy-misty-blue: #E4EDFB;
+            --wp--preset--color--synergy-blueberry: #4d62d3;
+            --wp--preset--color--synergy-magenta: #efe4fb;
+            --wp--preset--color--synergy-melon: #FFECBC;
+            --wp--preset--color--synergy-gold: #ffbd01;
+            --wp--preset--color--synergy-sage-green: #C9D6C9;
+            
+            --wp--custom--min-24-max-80: clamp(24px, 5vw, 80px);
+            --wp--custom--min-24-max-64: clamp(24px, 3vw, 64px);
+            --wp--custom--min-24-max-40: clamp(24px, 2vw, 40px);
+            --wp--custom--min-24-max-36: clamp(24px, 2vw, 36px);
+            --wp--custom--min-16-max-24: clamp(16px, 1.5vw, 24px);
+            --wp--custom--min-16-max-20: clamp(16px, 1vw, 20px);
+            --wp--custom--min-12-max-20: clamp(12px, 1vw, 20px);
+            --wp--custom--min-6-max-8: clamp(6px, 0.5vw, 8px);
+            --wp--custom--min-20-max-24: clamp(20px, 1.5vw, 24px);
+            --wp--custom--min-32-max-40: clamp(32px, 2vw, 40px);
+            --wp--custom--min-32-max-64: clamp(32px, 3vw, 64px);
+            --wp--custom--min-24-max-32: clamp(24px, 2vw, 32px);
+            --wp--custom--min-28-max-32: clamp(28px, 2vw, 32px);
+            --wp--custom--min-18-max-24: clamp(18px, 1.5vw, 24px);
+            --wp--custom--min-18-max-20: clamp(18px, 1vw, 20px);
+            --wp--custom--min-14-max-16: clamp(14px, 1vw, 16px);
+            --wp--custom--min-36-max-64: clamp(36px, 4vw, 64px);
+            --wp--custom--min-36-max-48: clamp(36px, 3vw, 48px);
+            --wp--custom--min-24-max-28: clamp(24px, 2vw, 28px);
+            --wp--custom--min-24-max-40: clamp(24px, 2.5vw, 40px);
+            --wp--custom--min-64-max-72: clamp(64px, 6vw, 72px);
+            --wp--custom--min-24-max-24: 24px;
+            --wp--custom--min-16-max-16: 16px;
+            --wp--custom--min-14-max-14: 14px;
+            --wp--custom--min-12-max-12: 12px;
+            --wp--custom--min-16-max-18: clamp(16px, 1.2vw, 18px);
+            --wp--custom--min-18-max-24: clamp(18px, 1.5vw, 24px);
+            --wp--custom--min-64-max-72: clamp(64px, 6vw, 72px);
+            --wp--custom--font-weight--regular: 400;
+            --wp--custom--font-weight--medium: 500;
+        }
+        
         @font-face {
             font-family: "Inter";
             src: url("' . get_template_directory_uri() . '/assets/font/Inter-Regular-subset-v1.1.0.woff2") format("woff2");
