@@ -4129,7 +4129,9 @@ function wp_create_initial_comment_meta() {
 					'enum' => array( 'resolved', 'reopen' ),
 				),
 			),
+			'auth_callback' => function ( $allowed, $meta_key, $object_id ) {
+				return current_user_can( 'edit_comment', $object_id );
+			},
 		)
 	);
 }
-add_action( 'init', 'wp_create_initial_comment_meta' );

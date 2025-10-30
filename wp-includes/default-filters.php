@@ -151,6 +151,7 @@ add_filter( 'update_term_metadata_cache', 'wp_check_term_meta_support_prefilter'
 add_action( 'added_comment_meta', 'wp_cache_set_comments_last_changed' );
 add_action( 'updated_comment_meta', 'wp_cache_set_comments_last_changed' );
 add_action( 'deleted_comment_meta', 'wp_cache_set_comments_last_changed' );
+add_action( 'init', 'wp_create_initial_comment_meta' );
 
 // Places to balance tags on input.
 foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content' ) as $filter ) {
