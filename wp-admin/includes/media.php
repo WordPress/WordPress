@@ -3028,27 +3028,15 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
  * Displays the multi-file uploader message.
  *
  * @since 2.6.0
- *
- * @global int $post_ID
  */
 function media_upload_flash_bypass() {
-	$browser_uploader = admin_url( 'media-new.php?browser-uploader' );
-
-	$post = get_post();
-	if ( $post ) {
-		$browser_uploader .= '&amp;post_id=' . (int) $post->ID;
-	} elseif ( ! empty( $GLOBALS['post_ID'] ) ) {
-		$browser_uploader .= '&amp;post_id=' . (int) $GLOBALS['post_ID'];
-	}
-
 	?>
 	<p class="upload-flash-bypass">
 	<?php
 		printf(
-			/* translators: 1: URL to browser uploader, 2: Additional link attributes. */
-			__( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" %2$s>browser uploader</a> instead.' ),
-			$browser_uploader,
-			'target="_blank"'
+			/* translators: %s: HTML attributes for button. */
+			__( 'You are using the multi-file uploader. Problems? Try the <button %s>browser uploader</button> instead.' ),
+			'type="button" class="button-link"'
 		);
 	?>
 	</p>
@@ -3063,7 +3051,13 @@ function media_upload_flash_bypass() {
 function media_upload_html_bypass() {
 	?>
 	<p class="upload-html-bypass hide-if-no-js">
-		<?php _e( 'You are using the browser&#8217;s built-in file uploader. The WordPress uploader includes multiple file selection and drag and drop capability. <a href="#">Switch to the multi-file uploader</a>.' ); ?>
+	<?php
+		printf(
+			/* translators: %s: HTML attributes for button. */
+			__( 'You are using the browser&#8217;s built-in file uploader. The WordPress uploader includes multiple file selection and drag and drop capability. <button %s>Switch to the multi-file uploader</button>.' ),
+			'type="button" class="button-link"'
+		);
+	?>
 	</p>
 	<?php
 }
