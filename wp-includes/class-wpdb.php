@@ -826,7 +826,7 @@ class wpdb {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $name  The private member to unset
+	 * @param string $name The private member to unset.
 	 */
 	public function __unset( $name ) {
 		unset( $this->$name );
@@ -2659,12 +2659,12 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table           Table name.
-	 * @param array        $data            Data to update (in column => value pairs).
+	 * @param string          $table        Table name.
+	 * @param array           $data         Data to update (in column => value pairs).
 	 *                                      Both $data columns and $data values should be "raw" (neither should be SQL escaped).
 	 *                                      Sending a null value will cause the column to be set to NULL - the corresponding
 	 *                                      format is ignored in this case.
-	 * @param array        $where           A named array of WHERE clauses (in column => value pairs).
+	 * @param array           $where        A named array of WHERE clauses (in column => value pairs).
 	 *                                      Multiple clauses will be joined with ANDs.
 	 *                                      Both $where columns and $where values should be "raw".
 	 *                                      Sending a null value will create an IS NULL comparison - the corresponding
@@ -2910,7 +2910,7 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $data {
+	 * @param array  $data {
 	 *     Array of values and formats keyed by their field names,
 	 *     as it comes from the wpdb::process_field_formats() method.
 	 *
@@ -2961,7 +2961,7 @@ class wpdb {
 	 *
 	 * @since 4.2.1
 	 *
-	 * @param array $data {
+	 * @param array  $data {
 	 *     Array of values, formats, and charsets keyed by their field names,
 	 *     as it comes from the wpdb::process_field_charsets() method.
 	 *
