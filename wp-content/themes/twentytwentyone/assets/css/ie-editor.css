@@ -2331,7 +2331,7 @@ pre.wp-block-verse {
 	color: #28303d;
 }
 
-[data-block] {
+[data-block]:where(:not(.wp-block-list-item)) {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
@@ -2439,13 +2439,10 @@ pre.wp-block-verse {
 	left: 5px;
 }
 
-html {
-	line-height: 1.7;
-}
-
 html,
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	line-height: 1.7;
 }
 
 body {

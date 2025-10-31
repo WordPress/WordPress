@@ -70,7 +70,7 @@
 }
 
 // Spacing Overrides
-[data-block] {
+[data-block]:where(:not(.wp-block-list-item)) {
 	margin-top: var(--global--spacing-vertical);
 	margin-bottom: var(--global--spacing-vertical);
 }
