@@ -1436,7 +1436,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 *
 	 * @param string[] $title_array Array of parts of the page title.
 	 */
-	$title_array = apply_filters( 'wp_title_parts', explode( $t_sep, $title ) );
+	$title_array = apply_filters( 'wp_title_parts', ! empty( $title ) ? explode( $t_sep, $title ) : array() );
 
 	// Determines position of the separator and direction of the breadcrumb.
 	if ( 'right' === $seplocation ) { // Separator on right, so reverse the order.
