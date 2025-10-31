@@ -151,7 +151,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'order'                     => $order,
 			'post_type'                 => $post_type,
 			'update_comment_post_cache' => true,
-			'type__not_in'              => array( 'note' ),
 		);
 
 		/**
