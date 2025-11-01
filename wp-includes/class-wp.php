@@ -588,8 +588,8 @@ class WP {
 		/**
 		 * Fires once the requested HTTP headers for caching, content type, etc. have been sent.
 		 *
-		 * The {@see 'wp_send_late_headers'} action may be used to send headers after rendering the template into an
-		 * output buffer.
+		 * The {@see 'wp_finalized_template_enhancement_output_buffer'} action may be used to send
+		 * headers after rendering the template into an output buffer.
 		 *
 		 * @since 2.1.0
 		 *
