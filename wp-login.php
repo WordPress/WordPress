@@ -28,7 +28,7 @@ if ( isset( $_REQUEST[ $admin_login_query_arg ] ) ) {
  * @param string $context Current context. For wp-login.php this is 'login'.
  */
 if ( ! apply_filters( 'wp_admin_legacy_slugs', false, 'login' ) ) {
-        if ( $admin_login_slug !== $requested_admin_slug ) {
+        if ( ! hash_equals( $admin_login_slug, $requested_admin_slug ) ) {
                 status_header( 403 );
                 nocache_headers();
                 wp_die( __( 'Access to this resource requires the active administrator login slug.' ), 403 );
@@ -444,6 +444,13 @@ function login_footer( $input_id = '' ) {
 						<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action'] ); ?>" />
 					<?php } ?>
 
+					<?php
+					$admin_login_query_arg_ls = wp_admin_login_slug_query_arg();
+					if ( isset( $_GET[ $admin_login_query_arg_ls ] ) && '' !== $_GET[ $admin_login_query_arg_ls ] ) {
+						?>
+						<input type="hidden" name="<?php echo esc_attr( $admin_login_query_arg_ls ); ?>" value="<?php echo esc_attr( sanitize_admin_login_slug( wp_unslash( $_GET[ $admin_login_query_arg_ls ] ) ) ); ?>" />
+					<?php } ?>
+
 						<input type="submit" class="button" value="<?php esc_attr_e( 'Change' ); ?>">
 
 					</form>
@@ -551,7 +558,7 @@ if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set.
 }
 
 // Set a cookie now to see if they are supported by the browser.
-$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+$secure = is_ssl();
 setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
 
 if ( SITECOOKIEPATH !== COOKIEPATH ) {

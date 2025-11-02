@@ -51,7 +51,7 @@ if ( isset( $_REQUEST[ $admin_login_query_arg ] ) ) {
  * @param string $context Current context. For wp-admin this is 'admin'.
  */
 if ( ! apply_filters( 'wp_admin_legacy_slugs', false, 'admin' ) ) {
-        if ( $admin_login_slug !== $admin_request_slug ) {
+        if ( ! hash_equals( $admin_login_slug, $admin_request_slug ) ) {
                 status_header( 403 );
                 nocache_headers();
                 wp_die( __( 'Direct access to the administration area requires the active administrator login slug.' ), 403 );

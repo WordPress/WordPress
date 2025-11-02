@@ -540,7 +540,7 @@ function wp_maybe_redirect_admin_login_slug() {
                 }
         }
 
-        if ( $request_path !== $slug ) {
+        if ( ! hash_equals( $request_path, $slug ) ) {
                 return;
         }
 
