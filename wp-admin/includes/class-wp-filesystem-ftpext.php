@@ -17,7 +17,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	/**
 	 * @since 2.5.0
-	 * @var resource
+	 * @var FTP\Connection|resource|false
 	 */
 	public $link;
 
