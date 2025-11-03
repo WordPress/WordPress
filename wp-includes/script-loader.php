@@ -1043,7 +1043,7 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array( 'clipboard', 'jquery', 'plupload', 'underscore', 'wp-a11y', 'wp-i18n' ) );
 	did_action( 'init' ) && $scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
-	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array( 'plupload', 'jquery', 'json2', 'media-models' ), false, 1 );
+	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array( 'plupload', 'jquery', 'media-models' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-plupload', 'pluploadL10n', $uploader_l10n );
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", array(), false, 1 );
@@ -1052,8 +1052,9 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add_data( 'comment-reply', 'fetchpriority', 'low' ); // In Chrome this is automatically low due to the async strategy, but in Firefox and Safari the priority is normal/medium.
 	}
 
+	// Not used in core, obsolete. Registered for backward compatibility.
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2015-05-03' );
-	did_action( 'init' ) && $scripts->add_data( 'json2', 'conditional', 'lt IE 8' );
+	did_action( 'init' ) && $scripts->add_data( 'json2', 'conditional', '_required-conditional-dependency_' );
 
 	$scripts->add( 'underscore', "/wp-includes/js/underscore$dev_suffix.js", array(), '1.13.7', 1 );
 	$scripts->add( 'backbone', "/wp-includes/js/backbone$dev_suffix.js", array( 'underscore', 'jquery' ), '1.6.0', 1 );
@@ -1284,7 +1285,7 @@ function wp_default_scripts( $scripts ) {
 	// JS-only version of hoverintent (no dependencies).
 	$scripts->add( 'hoverintent-js', '/wp-includes/js/hoverintent-js.min.js', array(), '2.2.1', 1 );
 
-	$scripts->add( 'customize-base', "/wp-includes/js/customize-base$suffix.js", array( 'jquery', 'json2', 'underscore' ), false, 1 );
+	$scripts->add( 'customize-base', "/wp-includes/js/customize-base$suffix.js", array( 'jquery', 'underscore' ), false, 1 );
 	$scripts->add( 'customize-loader', "/wp-includes/js/customize-loader$suffix.js", array( 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-preview', "/wp-includes/js/customize-preview$suffix.js", array( 'wp-a11y', 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-models', '/wp-includes/js/customize-models.js', array( 'underscore', 'backbone' ), false, 1 );
@@ -1507,7 +1508,7 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery', 'clipboard', 'wp-i18n', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'media' );
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'jquery-ui-core', 'json2', 'imgareaselect', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'jquery-ui-core', 'imgareaselect', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'image-edit' );
 
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
@@ -1517,7 +1518,7 @@ function wp_default_scripts( $scripts ) {
 		 * Navigation Menus: Adding underscore as a dependency to utilize _.debounce
 		 * see https://core.trac.wordpress.org/ticket/42321
 		 */
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox', 'json2', 'underscore' ) );
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox', 'underscore' ) );
 		$scripts->set_translations( 'nav-menu' );
 
 		$scripts->add( 'custom-header', '/wp-admin/js/custom-header.js', array( 'jquery-masonry' ), false, 1 );
@@ -1651,9 +1652,7 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons', 'wp-mediaelement' ) );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'customize-preview', "/wp-includes/css/customize-preview$suffix.css", array( 'dashicons' ) );
-	$styles->add( 'wp-embed-template-ie', "/wp-includes/css/wp-embed-template-ie$suffix.css" );
 	$styles->add( 'wp-empty-template-alert', "/wp-includes/css/wp-empty-template-alert$suffix.css" );
-	$styles->add_data( 'wp-embed-template-ie', 'conditional', 'lte IE 8' );
 
 	// External libraries and friends.
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
@@ -1687,6 +1686,8 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.15' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
 	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6.
+	$styles->add( 'wp-embed-template-ie', false );
+	$styles->add_data( 'wp-embed-template-ie', 'conditional', '_required-conditional-dependency_' );
 
 	// Noto Serif is no longer used by core, but may be relied upon by themes and plugins.
 	$fonts_url = '';
@@ -1766,7 +1767,7 @@ function wp_default_styles( $styles ) {
 		'block-library'        => array(),
 		'block-directory'      => array(),
 		'components'           => array(),
-		'commands'             => array(),
+		'commands'             => array( 'wp-components' ),
 		'edit-post'            => array(
 			'wp-components',
 			'wp-block-editor',
@@ -2285,6 +2286,11 @@ function wp_print_head_scripts() {
 
 /**
  * Private, for use in *_footer_scripts hooks
+ *
+ * In classic themes, when block styles are loaded on demand via {@see wp_load_classic_theme_block_styles_on_demand()},
+ * this function is replaced by a closure in {@see wp_hoist_late_printed_styles()} which will capture the output of
+ * {@see print_late_styles()} before printing footer scripts as usual. The captured late-printed styles are then hoisted
+ * to the HEAD by means of the template enhancement output buffer.
  *
  * @since 3.3.0
  */
@@ -2886,7 +2892,7 @@ function wp_enqueue_editor_format_library_assets() {
  * @return string String made of sanitized `<script>` tag attributes.
  */
 function wp_sanitize_script_attributes( $attributes ) {
-	$html5_script_support = ! is_admin() && ! current_theme_supports( 'html5', 'script' );
+	$html5_script_support = is_admin() || current_theme_supports( 'html5', 'script' );
 	$attributes_string    = '';
 
 	/*
@@ -2896,7 +2902,7 @@ function wp_sanitize_script_attributes( $attributes ) {
 	foreach ( $attributes as $attribute_name => $attribute_value ) {
 		if ( is_bool( $attribute_value ) ) {
 			if ( $attribute_value ) {
-				$attributes_string .= $html5_script_support ? sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) ) : ' ' . esc_attr( $attribute_name );
+				$attributes_string .= $html5_script_support ? ' ' . esc_attr( $attribute_name ) : sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) );
 			}
 		} else {
 			$attributes_string .= sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
@@ -3072,13 +3078,14 @@ function wp_print_inline_script_tag( $data, $attributes = array() ) {
 function wp_maybe_inline_styles() {
 	global $wp_styles;
 
-	$total_inline_limit = 20000;
+	$total_inline_limit = 50000;
 	/**
 	 * The maximum size of inlined styles in bytes.
 	 *
 	 * @since 5.8.0
+	 * @since 6.9.0 The default limit increased from 20K to 50K.
 	 *
-	 * @param int $total_inline_limit The file-size threshold, in bytes. Default 20000.
+	 * @param int $total_inline_limit The file-size threshold, in bytes. Default 50000.
 	 */
 	$total_inline_limit = apply_filters( 'styles_inline_size_limit', $total_inline_limit );
 
@@ -3254,6 +3261,7 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
  * }
  */
 function wp_enqueue_stored_styles( $options = array() ) {
+	// Note: Styles printed at wp_footer for classic themes may still end up in the head due to wp_load_classic_theme_block_styles_on_demand().
 	$is_block_theme   = wp_is_block_theme();
 	$is_classic_theme = ! $is_block_theme;
 
@@ -3432,6 +3440,101 @@ function wp_enqueue_classic_theme_styles() {
 	if ( ! wp_theme_has_theme_json() ) {
 		wp_enqueue_style( 'classic-theme-styles' );
 	}
+}
+
+/**
+ * Enqueues the assets required for the Command Palette.
+ *
+ * @since 6.9.0
+ *
+ * @global array  $menu
+ * @global array  $submenu
+ */
+function wp_enqueue_command_palette_assets() {
+	global $menu, $submenu;
+
+	$command_palette_settings = array();
+
+	if ( $menu ) {
+		$menu_commands = array();
+		foreach ( $menu as $menu_item ) {
+			if ( empty( $menu_item[0] ) || ! empty( $menu_item[1] ) && ! current_user_can( $menu_item[1] ) ) {
+				continue;
+			}
+
+			// Remove all HTML tags and their contents.
+			$menu_label = $menu_item[0];
+			while ( preg_match( '/<[^>]*>/', $menu_label ) ) {
+				$menu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $menu_label );
+			}
+			$menu_label = trim( $menu_label );
+			$menu_url   = '';
+			$menu_slug  = $menu_item[2];
+
+			if ( preg_match( '/\.php($|\?)/', $menu_slug ) || wp_http_validate_url( $menu_slug ) ) {
+				$menu_url = $menu_slug;
+			} elseif ( ! empty( menu_page_url( $menu_slug, false ) ) ) {
+				$menu_url = menu_page_url( $menu_slug, false );
+			}
+
+			if ( $menu_url ) {
+				$menu_commands[] = array(
+					'label' => $menu_label,
+					'url'   => $menu_url,
+					'name'  => $menu_slug,
+				);
+			}
+
+			if ( array_key_exists( $menu_slug, $submenu ) ) {
+				foreach ( $submenu[ $menu_slug ] as $submenu_item ) {
+					if ( empty( $submenu_item[0] ) || ! empty( $submenu_item[1] ) && ! current_user_can( $submenu_item[1] ) ) {
+						continue;
+					}
+
+					// Remove all HTML tags and their contents.
+					$submenu_label = $submenu_item[0];
+					while ( preg_match( '/<[^>]*>/', $submenu_label ) ) {
+						$submenu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $submenu_label );
+					}
+					$submenu_label = trim( $submenu_label );
+					$submenu_url   = '';
+					$submenu_slug  = $submenu_item[2];
+
+					if ( preg_match( '/\.php($|\?)/', $submenu_slug ) || wp_http_validate_url( $submenu_slug ) ) {
+						$submenu_url = $submenu_slug;
+					} elseif ( ! empty( menu_page_url( $submenu_slug, false ) ) ) {
+						$submenu_url = menu_page_url( $submenu_slug, false );
+					}
+
+					if ( $submenu_url ) {
+						$menu_commands[] = array(
+							'label' => sprintf(
+								/* translators: 1: Menu label, 2: Submenu label. */
+								__( '%1$s > %2$s' ),
+								$menu_label,
+								$submenu_label
+							),
+							'url'   => $submenu_url,
+							'name'  => $menu_slug . '-' . $submenu_item[2],
+						);
+					}
+				}
+			}
+		}
+		$command_palette_settings['menu_commands'] = $menu_commands;
+	}
+
+	wp_enqueue_script( 'wp-commands' );
+	wp_enqueue_style( 'wp-commands' );
+	wp_enqueue_script( 'wp-core-commands' );
+
+	wp_add_inline_script(
+		'wp-core-commands',
+		sprintf(
+			'wp.coreCommands.initializeCommandPalette( %s );',
+			wp_json_encode( $command_palette_settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
+		)
+	);
 }
 
 /**
@@ -3872,4 +3975,326 @@ function wp_performance_enable_html_minification() {
 
         do_action( 'wp_performance_html_minification_started' );
         ob_start( 'wp_performance_minify_html' );
+}
+
+/**
+ * Adds hooks to load block styles on demand in classic themes.
+ *
+ * @since 6.9.0
+ */
+function wp_load_classic_theme_block_styles_on_demand() {
+	if ( wp_is_block_theme() ) {
+		return;
+	}
+
+	/*
+	 * Make sure that wp_should_output_buffer_template_for_enhancement() returns true even if there aren't any
+	 * `wp_template_enhancement_output_buffer` filters added, but do so at priority zero so that applications which
+	 * wish to stream responses can more easily turn this off.
+	 */
+	add_filter( 'wp_should_output_buffer_template_for_enhancement', '__return_true', 0 );
+
+	if ( ! wp_should_output_buffer_template_for_enhancement() ) {
+		return;
+	}
+
+	/*
+	 * If the theme supports block styles, add filters to ensure they are loaded separately and on demand. Without this,
+	 * if a theme does not want or support block styles, then enabling these filters can result in undesired separate
+	 * block-specific styles being enqueued, though a theme may also be trying to nullify the wp-block-library
+	 * stylesheet.
+	 */
+	if ( current_theme_supports( 'wp-block-styles' ) ) {
+		/*
+		 * Load separate block styles so that the large block-library stylesheet is not enqueued unconditionally,
+		 * and so that block-specific styles will only be enqueued when they are used on the page.
+		 */
+		add_filter( 'should_load_separate_core_block_assets', '__return_true', 0 );
+
+		// Also ensure that block assets are loaded on demand (although the default value is from should_load_separate_core_block_assets).
+		add_filter( 'should_load_block_assets_on_demand', '__return_true', 0 );
+	}
+
+	// Add hooks which require the presence of the output buffer. Ideally the above two filters could be added here, but they run too early.
+	add_action( 'wp_template_enhancement_output_buffer_started', 'wp_hoist_late_printed_styles' );
+}
+
+/**
+ * Adds the hooks needed for CSS output to be delayed until after the content of the page has been established.
+ *
+ * @since 6.9.0
+ *
+ * @see wp_load_classic_theme_block_styles_on_demand()
+ * @see _wp_footer_scripts()
+ */
+function wp_hoist_late_printed_styles() {
+	// Skip the embed template on-demand styles aren't relevant, and there is no wp_head action.
+	if ( is_embed() ) {
+		return;
+	}
+
+	/*
+	 * While normally late styles are printed, there is a filter to disable prevent this, so this makes sure they are
+	 * printed. Note that this filter was intended to control whether to print the styles queued too late for the HTML
+	 * head. This filter was introduced in <https://core.trac.wordpress.org/ticket/9346>. However, with the template
+	 * enhancement output buffer, essentially no style can be enqueued too late, because an output buffer filter can
+	 * always hoist it to the HEAD.
+	 */
+	add_filter( 'print_late_styles', '__return_true', PHP_INT_MAX );
+
+	/*
+	 * Print a placeholder comment where the late styles can be hoisted from the footer to be printed in the header
+	 * by means of a filter below on the template enhancement output buffer.
+	 */
+	$placeholder = sprintf( '/*%s*/', uniqid( 'wp_late_styles_placeholder:' ) );
+
+	wp_add_inline_style( 'wp-block-library', $placeholder );
+
+	// Wrap print_late_styles() with a closure that captures the late-printed styles.
+	$printed_late_styles = '';
+	$capture_late_styles = static function () use ( &$printed_late_styles ) {
+		ob_start();
+		print_late_styles();
+		$printed_late_styles = ob_get_clean();
+	};
+
+	/*
+	 * If _wp_footer_scripts() was unhooked from the wp_print_footer_scripts action, or if wp_print_footer_scripts()
+	 * was unhooked from running at the wp_footer action, then only add a callback to wp_footer which will capture the
+	 * late-printed styles.
+	 *
+	 * Otherwise, in the normal case where _wp_footer_scripts() will run at the wp_print_footer_scripts action, then
+	 * swap out _wp_footer_scripts() with an alternative which captures the printed styles (for hoisting to HEAD) before
+	 * proceeding with printing the footer scripts.
+	 */
+	$wp_print_footer_scripts_priority = has_action( 'wp_print_footer_scripts', '_wp_footer_scripts' );
+	if ( false === $wp_print_footer_scripts_priority || false === has_action( 'wp_footer', 'wp_print_footer_scripts' ) ) {
+		// The normal priority for wp_print_footer_scripts() is to run at 20.
+		add_action( 'wp_footer', $capture_late_styles, 20 );
+	} else {
+		remove_action( 'wp_print_footer_scripts', '_wp_footer_scripts', $wp_print_footer_scripts_priority );
+		add_action(
+			'wp_print_footer_scripts',
+			static function () use ( $capture_late_styles ) {
+				$capture_late_styles();
+				print_footer_scripts();
+			},
+			$wp_print_footer_scripts_priority
+		);
+	}
+
+	// Replace placeholder with the captured late styles.
+	add_filter(
+		'wp_template_enhancement_output_buffer',
+		function ( $buffer ) use ( $placeholder, &$printed_late_styles ) {
+
+			// Anonymous subclass of WP_HTML_Tag_Processor which exposes underlying bookmark spans.
+			$processor = new class( $buffer ) extends WP_HTML_Tag_Processor {
+				public function get_span(): WP_HTML_Span {
+					$instance = $this; // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewClosure.ThisFoundOutsideClass -- It is inside an anonymous class.
+					$instance->set_bookmark( 'here' );
+					return $instance->bookmarks['here'];
+				}
+			};
+
+			// Loop over STYLE tags.
+			while ( $processor->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
+
+				// We've encountered the inline style for the 'wp-block-library' stylesheet which probably has the placeholder comment.
+				if (
+					! $processor->is_tag_closer() &&
+					'STYLE' === $processor->get_tag() &&
+					'wp-block-library-inline-css' === $processor->get_attribute( 'id' )
+				) {
+					// If the inline style lacks the placeholder comment, then we have to continue until we get to </HEAD> to append the styles there.
+					$css_text = $processor->get_modifiable_text();
+					if ( ! str_contains( $css_text, $placeholder ) ) {
+						continue;
+					}
+
+					// Remove the placeholder now that we've located the inline style.
+					$processor->set_modifiable_text( str_replace( $placeholder, '', $css_text ) );
+					$buffer = $processor->get_updated_html();
+
+					// Insert the $printed_late_styles immediately after the closing inline STYLE tag. This preserves the CSS cascade.
+					$span   = $processor->get_span();
+					$buffer = implode(
+						'',
+						array(
+							substr( $buffer, 0, $span->start + $span->length ),
+							$printed_late_styles,
+							substr( $buffer, $span->start + $span->length ),
+						)
+					);
+					break;
+				}
+
+				// As a fallback, append the hoisted late styles to the end of the HEAD.
+				if ( $processor->is_tag_closer() && 'HEAD' === $processor->get_tag() ) {
+					$span   = $processor->get_span();
+					$buffer = implode(
+						'',
+						array(
+							substr( $buffer, 0, $span->start ),
+							$printed_late_styles,
+							substr( $buffer, $span->start ),
+						)
+					);
+					break;
+				}
+			}
+
+			return $buffer;
+		}
+	);
+}
+
+/**
+ * Return the corresponding JavaScript `dataset` name for an attribute
+ * if it represents a custom data attribute, or `null` if not.
+ *
+ * Custom data attributes appear in an element's `dataset` property in a
+ * browser, but there's a specific way the names are translated from HTML
+ * into JavaScript. This function indicates how the name would appear in
+ * JavaScript if a browser would recognize it as a custom data attribute.
+ *
+ * Example:
+ *
+ *     // Dash-letter pairs turn into capital letters.
+ *     'postId'       === wp_js_dataset_name( 'data-post-id' );
+ *     'Before'       === wp_js_dataset_name( 'data--before' );
+ *     '-One--Two---' === wp_js_dataset_name( 'data---one---two---' );
+ *
+ *     // Not every attribute name will be interpreted as a custom data attribute.
+ *     null === wp_js_dataset_name( 'post-id' );
+ *     null === wp_js_dataset_name( 'data' );
+ *
+ *     // Some very surprising names will; for example, a property whose name is the empty string.
+ *     '' === wp_js_dataset_name( 'data-' );
+ *     0  === strlen( wp_js_dataset_name( 'data-' ) );
+ *
+ * @since 6.9.0
+ *
+ * @see https://html.spec.whatwg.org/#concept-domstringmap-pairs
+ * @see \wp_html_custom_data_attribute_name()
+ *
+ * @param string $html_attribute_name Raw attribute name as found in the source HTML.
+ * @return string|null Transformed `dataset` name, if interpretable as a custom data attribute, else `null`.
+ */
+function wp_js_dataset_name( string $html_attribute_name ): ?string {
+	if ( 0 !== substr_compare( $html_attribute_name, 'data-', 0, 5, true ) ) {
+		return null;
+	}
+
+	$end = strlen( $html_attribute_name );
+
+	/*
+	 * If it contains characters which would end the attribute name parsing then
+	 * something else is wrong and this contains more than just an attribute name.
+	 */
+	if ( ( $end - 5 ) !== strcspn( $html_attribute_name, "=/> \t\f\r\n", 5 ) ) {
+		return null;
+	}
+
+	/**
+	 * > For each name in list, for each U+002D HYPHEN-MINUS character (-)
+	 * > in the name that is followed by an ASCII lower alpha, remove the
+	 * > U+002D HYPHEN-MINUS character (-) and replace the character that
+	 * > followed it by the same character converted to ASCII uppercase.
+	 *
+	 * @see https://html.spec.whatwg.org/#concept-domstringmap-pairs
+	 */
+	$custom_name = '';
+	$at          = 5;
+	$was_at      = $at;
+
+	while ( $at < $end ) {
+		$next_dash_at = strpos( $html_attribute_name, '-', $at );
+		if ( false === $next_dash_at || $next_dash_at === $end - 1 ) {
+			break;
+		}
+
+		// Transform `-a` to `A`, for example.
+		$c = $html_attribute_name[ $next_dash_at + 1 ];
+		if ( ( $c >= 'A' && $c <= 'Z' ) || ( $c >= 'a' && $c <= 'z' ) ) {
+			$prefix       = substr( $html_attribute_name, $was_at, $next_dash_at - $was_at );
+			$custom_name .= strtolower( $prefix );
+			$custom_name .= strtoupper( $c );
+			$at           = $next_dash_at + 2;
+			$was_at       = $at;
+			continue;
+		}
+
+		$at = $next_dash_at + 1;
+	}
+
+	// If nothing has been added it means there are no dash-letter pairs; return the name as-is.
+	return '' === $custom_name
+		? strtolower( substr( $html_attribute_name, 5 ) )
+		: ( $custom_name . strtolower( substr( $html_attribute_name, $was_at ) ) );
+}
+
+/**
+ * Returns a corresponding HTML attribute name for the given name,
+ * if that name were found in a JS element’s `dataset` property.
+ *
+ * Example:
+ *
+ *     'data-post-id'        === wp_html_custom_data_attribute_name( 'postId' );
+ *     'data--before'        === wp_html_custom_data_attribute_name( 'Before' );
+ *     'data---one---two---' === wp_html_custom_data_attribute_name( '-One--Two---' );
+ *
+ *     // Not every attribute name will be interpreted as a custom data attribute.
+ *     null === wp_html_custom_data_attribute_name( '/not-an-attribute/' );
+ *     null === wp_html_custom_data_attribute_name( 'no spaces' );
+ *
+ *     // Some very surprising names will; for example, a property whose name is the empty string.
+ *     'data-' === wp_html_custom_data_attribute_name( '' );
+ *
+ * @since 6.9.0
+ *
+ * @see https://html.spec.whatwg.org/#concept-domstringmap-pairs
+ * @see \wp_js_dataset_name()
+ *
+ * @param string $js_dataset_name Name of JS `dataset` property to transform.
+ * @return string|null Corresponding name of an HTML custom data attribute for the given dataset name,
+ *                     if possible to represent in HTML, otherwise `null`.
+ */
+function wp_html_custom_data_attribute_name( string $js_dataset_name ): ?string {
+	$end = strlen( $js_dataset_name );
+	if ( 0 === $end ) {
+		return 'data-';
+	}
+
+	/*
+	 * If it contains characters which would end the attribute name parsing then
+	 * something it’s not possible to represent this in HTML.
+	 */
+	if ( strcspn( $js_dataset_name, "=/> \t\f\r\n" ) !== $end ) {
+		return null;
+	}
+
+	$html_name = 'data-';
+	$at        = 0;
+	$was_at    = $at;
+
+	while ( $at < $end ) {
+		$next_upper_after = strcspn( $js_dataset_name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', $at );
+		$next_upper_at    = $at + $next_upper_after;
+		if ( $next_upper_at >= $end ) {
+			break;
+		}
+
+		$prefix     = substr( $js_dataset_name, $was_at, $next_upper_at - $was_at );
+		$html_name .= strtolower( $prefix );
+		$html_name .= '-' . strtolower( $js_dataset_name[ $next_upper_at ] );
+		$at         = $next_upper_at + 1;
+		$was_at     = $at;
+	}
+
+	if ( $was_at < $end ) {
+		$html_name .= strtolower( substr( $js_dataset_name, $was_at ) );
+	}
+
+	return $html_name;
 }

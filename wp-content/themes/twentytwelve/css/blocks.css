@@ -69,6 +69,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
 }
 
+.wp-block-image.is-style-rounded img,
+.wp-block-image .is-style-rounded img {
+	border-radius: 9999px;
+}
+
 .wp-block-image figcaption {
 	padding-top: 0.75em;
 }

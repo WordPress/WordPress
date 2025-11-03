@@ -170,7 +170,7 @@ class IRI
             $return = null;
         }
 
-        if ($return === null && isset($this->normalization[$this->scheme][$name])) {
+        if ($return === null && isset($this->scheme, $this->normalization[$this->scheme][$name])) {
             return $this->normalization[$this->scheme][$name];
         }
 
@@ -623,6 +623,10 @@ class IRI
      */
     protected function scheme_normalization()
     {
+        if ($this->scheme === null) {
+            return;
+        }
+
         if (isset($this->normalization[$this->scheme]['iuserinfo']) && $this->iuserinfo === $this->normalization[$this->scheme]['iuserinfo']) {
             $this->iuserinfo = null;
         }

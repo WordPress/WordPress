@@ -289,6 +289,13 @@ class WP_Dependencies {
 		if ( ! isset( $this->registered[ $handle ] ) ) {
 			return false;
 		}
+		if ( 'conditional' === $key && '_required-conditional-dependency_' !== $value ) {
+			_deprecated_argument(
+				'WP_Dependencies->add_data()',
+				'6.9.0',
+				__( 'IE conditional comments are ignored by all supported browsers.' )
+			);
+		}
 
 		return $this->registered[ $handle ]->add_data( $key, $value );
 	}

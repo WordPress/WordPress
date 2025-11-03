@@ -276,9 +276,12 @@ function switchUploader( s ) {
 
 		if ( typeof( uploader ) == 'object' )
 			uploader.refresh();
+
+		jQuery( '#plupload-browse-button' ).trigger( 'focus' );
 	} else {
 		setUserSetting( 'uploader', '1' ); // 1 == html uploader.
 		jQuery( '.media-upload-form' ).addClass( 'html-uploader' );
+		jQuery( '#async-upload' ).trigger( 'focus' );
 	}
 }
 
@@ -420,11 +423,11 @@ jQuery( document ).ready( function( $ ) {
 			target.parents( '.media-item' ).fadeOut( 200, function() {
 				$( this ).remove();
 			} );
-		} else if ( target.is( '.upload-flash-bypass a' ) || target.is( 'a.uploader-html' ) ) { // Switch uploader to html4.
+		} else if ( target.is( '.upload-flash-bypass button' ) || target.is( 'a.uploader-html' ) ) { // Switch uploader to html4.
 			$( '#media-items, p.submit, span.big-file-warning' ).css( 'display', 'none' );
 			switchUploader( 0 );
 			e.preventDefault();
-		} else if ( target.is( '.upload-html-bypass a' ) ) { // Switch uploader to multi-file.
+		} else if ( target.is( '.upload-html-bypass button' ) ) { // Switch uploader to multi-file.
 			$( '#media-items, p.submit, span.big-file-warning' ).css( 'display', '' );
 			switchUploader( 1 );
 			e.preventDefault();

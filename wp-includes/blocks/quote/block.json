@@ -89,7 +89,8 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"allowedBlocks": true
 	},
 	"styles": [
 		{

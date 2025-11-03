@@ -62,7 +62,7 @@ class WP_Block_Parser_Block {
 	 *   'innerContent' => array( 'Before', null, 'Inner', null, 'After' ),
 	 * )
 	 *
-	 * @since 4.2.0
+	 * @since 5.0.0
 	 * @var array
 	 */
 	public $innerContent; // phpcs:ignore WordPress.NamingConventions.ValidVariableName

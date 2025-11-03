@@ -414,6 +414,15 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 			);
 		}
 
+		if ( $theme->is_block_theme() && $this->is_same_theme( $theme, wp_get_theme() ) ) {
+			$links['https://api.w.org/export-theme'] = array(
+				'href'        => rest_url( 'wp-block-editor/v1/export' ),
+				'targetHints' => array(
+					'allow' => current_user_can( 'export' ) ? array( 'GET' ) : array(),
+				),
+			);
+		}
+
 		return $links;
 	}
 

@@ -5,10 +5,6 @@
   justify-content:center;
   text-align:center;
 }
-.wp-block-tag-cloud.alignfull{
-  padding-left:1em;
-  padding-right:1em;
-}
 .wp-block-tag-cloud a{
   display:inline-block;
   margin-left:5px;

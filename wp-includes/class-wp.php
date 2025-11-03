@@ -588,6 +588,9 @@ class WP {
 		/**
 		 * Fires once the requested HTTP headers for caching, content type, etc. have been sent.
 		 *
+		 * The {@see 'wp_finalized_template_enhancement_output_buffer'} action may be used to send
+		 * headers after rendering the template into an output buffer.
+		 *
 		 * @since 2.1.0
 		 *
 		 * @param WP $wp Current WordPress environment instance (passed by reference).

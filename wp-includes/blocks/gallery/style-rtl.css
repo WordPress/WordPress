@@ -141,28 +141,23 @@ figure.wp-block-gallery.has-nested-images{
   right:0;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image:has(figcaption):before{
-  -webkit-backdrop-filter:blur(3px);
-          backdrop-filter:blur(3px);
+  backdrop-filter:blur(3px);
   content:"";
   height:100%;
   -webkit-mask-image:linear-gradient(0deg, #000 20%, #0000);
           mask-image:linear-gradient(0deg, #000 20%, #0000);
   max-height:40%;
+  pointer-events:none;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
-  background:linear-gradient(0deg, #0006, #0000);
   box-sizing:border-box;
   color:#fff;
   font-size:13px;
   margin:0;
   overflow:auto;
   padding:1em;
-  scrollbar-color:#0000 #0000;
-  scrollbar-gutter:stable both-edges;
-  scrollbar-width:thin;
   text-align:center;
   text-shadow:0 0 1.5px #000;
-  will-change:transform;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption::-webkit-scrollbar{
   height:12px;
@@ -180,13 +175,24 @@ figure.wp-block-gallery.has-nested-images{
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption:focus-within::-webkit-scrollbar-thumb,.wp-block-gallery.has-nested-images figure.wp-block-image figcaption:focus::-webkit-scrollbar-thumb,.wp-block-gallery.has-nested-images figure.wp-block-image figcaption:hover::-webkit-scrollbar-thumb{
   background-color:#fffc;
 }
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
+  scrollbar-color:#0000 #0000;
+  scrollbar-gutter:stable both-edges;
+  scrollbar-width:thin;
+}
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption:focus,.wp-block-gallery.has-nested-images figure.wp-block-image figcaption:focus-within,.wp-block-gallery.has-nested-images figure.wp-block-image figcaption:hover{
   scrollbar-color:#fffc #0000;
+}
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
+  will-change:transform;
 }
 @media (hover:none){
   .wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
     scrollbar-color:#fffc #0000;
   }
+}
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
+  background:linear-gradient(0deg, #0006, #0000);
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption img{
   display:inline;

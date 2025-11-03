@@ -1,6 +1,3 @@
-.wp-block-navigation .wp-block-page-list,.wp-block-navigation .wp-block-page-list>div{
-  background-color:inherit;
-}
 .wp-block-navigation.items-justified-space-between .wp-block-page-list,.wp-block-navigation.items-justified-space-between .wp-block-page-list>div{
   display:contents;
   flex:1;

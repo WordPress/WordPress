@@ -36,7 +36,7 @@ class WP_Block_Parser {
 	 * List of parsed blocks
 	 *
 	 * @since 5.0.0
-	 * @var WP_Block_Parser_Block[]
+	 * @var array[]
 	 */
 	public $output;
 
@@ -303,7 +303,7 @@ class WP_Block_Parser {
 	 * Returns a new block object for freeform HTML
 	 *
 	 * @internal
-	 * @since 3.9.0
+	 * @since 5.0.0
 	 *
 	 * @param string $inner_html HTML content of block.
 	 * @return WP_Block_Parser_Block freeform block object.

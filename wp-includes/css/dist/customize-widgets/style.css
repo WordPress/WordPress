@@ -1,14 +1,15 @@
 :root{
-  --wp-admin-theme-color:#007cba;
-  --wp-admin-theme-color--rgb:0, 124, 186;
-  --wp-admin-theme-color-darker-10:#006ba1;
-  --wp-admin-theme-color-darker-10--rgb:0, 107, 161;
-  --wp-admin-theme-color-darker-20:#005a87;
-  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
-  --wp-admin-border-width-focus:2px;
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
   --wp-bound-block-color:var(--wp-block-synced-color);
+  --wp-editor-canvas-background:#ddd;
+  --wp-admin-theme-color:#007cba;
+  --wp-admin-theme-color--rgb:0, 124, 186;
+  --wp-admin-theme-color-darker-10:#006ba1;
+  --wp-admin-theme-color-darker-10--rgb:0, 107, 160.5;
+  --wp-admin-theme-color-darker-20:#005a87;
+  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
+  --wp-admin-border-width-focus:2px;
 }
 @media (min-resolution:192dpi){
   :root{
@@ -34,14 +35,6 @@
   transform:translateX(-100%);
 }
 
-.customize-widgets-header{
-  background:#f0f0f1;
-  border-bottom:1px solid #e0e0e0;
-  display:flex;
-  justify-content:flex-end;
-  margin:-15px -12px 0;
-  z-index:8;
-}
 @media (min-width:600px){
   .customize-widgets-header{
     margin-bottom:44px;
@@ -49,6 +42,14 @@
 }
 .customize-widgets-header.is-fixed-toolbar-active{
   margin-bottom:0;
+}
+.customize-widgets-header{
+  background:#f0f0f1;
+  border-bottom:1px solid #e0e0e0;
+  display:flex;
+  justify-content:flex-end;
+  margin:-15px -12px 0;
+  z-index:8;
 }
 
 .customize-widgets-header-toolbar{
@@ -203,13 +204,13 @@
   line-height:1.4;
 }
 
+#customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section.open{
+  overflow:unset;
+}
 #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section{
   background-color:#fff;
   min-height:100%;
   padding-top:12px !important;
-}
-#customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section.open{
-  overflow:unset;
 }
 #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section .customize-section-title{
   margin-top:-12px !important;

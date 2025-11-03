@@ -34,15 +34,6 @@ figure.wp-block-image:not(.wp-block){
   opacity:.1;
 }
 
-.wp-block-image .components-resizable-box__container{
-  display:table;
-}
-.wp-block-image .components-resizable-box__container img{
-  display:block;
-  height:inherit;
-  width:inherit;
-}
-
 .block-editor-block-list__block[data-type="core/image"] .block-editor-block-toolbar .block-editor-url-input__button-modal{
   left:0;
   margin:-1px 0;

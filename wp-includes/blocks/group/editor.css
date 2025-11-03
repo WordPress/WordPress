@@ -14,7 +14,6 @@
 
 .wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child{
   gap:inherit;
-  pointer-events:none;
 }
 .wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-default-block-appender__content,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-inserter{
   display:inherit;
@@ -28,6 +27,9 @@
   display:flex;
   flex:1 0 40px;
   min-height:38px;
+  pointer-events:none;
+}
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child{
   pointer-events:none;
 }
 .wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-button-block-appender,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-inserter{

@@ -27,8 +27,9 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 	$overlay_markup = get_block_core_post_featured_image_overlay_element_markup( $attributes );
 
 	if ( $is_link ) {
-		if ( get_the_title( $post_ID ) ) {
-			$attr['alt'] = trim( strip_tags( get_the_title( $post_ID ) ) );
+		$title = get_the_title( $post_ID );
+		if ( $title ) {
+			$attr['alt'] = trim( strip_tags( $title ) );
 		} else {
 			$attr['alt'] = sprintf(
 				// translators: %d is the post ID.

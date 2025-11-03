@@ -898,7 +898,6 @@ img[class*="attachment-"] {
 img.size-full,
 img.size-large {
 	max-width: 97.5%;
-	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
 	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
 .entry-content img.wp-smiley {
@@ -1586,8 +1585,6 @@ section.feature-image.large img {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera11.10+ */
-	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
 	width: 100%;
 	height: 45px;
@@ -2792,36 +2789,4 @@ p.comment-form-comment {
 	.commentlist .children > li.bypostauthor > article .comment-meta {
 		color: #666;
 	}
-}
-
-
-/* =IE7
------------------------------------------------ */
-
-#ie7 article.intro {
-	margin-left: -7.6%;
-	margin-right: -7.6%;
-	max-width: 1000px;
-}
-#ie7 .featured-posts {
-	margin: 0 -7.6%;
-}
-#ie7 .featured-post {
-	margin-left: 0;
-	margin-right: 0;
-	max-width: 100%;
-}
-#ie7 section.recent-posts {
-	margin-right: 7.6%;
-}
-
-
-/* =IE8
------------------------------------------------ */
-
-#ie8 section.feature-image.large img {
-	width: auto;
-}
-#ie8 section.featured-post .attachment-small-feature {
-	max-width: none;
 }

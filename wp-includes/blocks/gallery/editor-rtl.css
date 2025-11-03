@@ -43,19 +43,6 @@
 .gallery-settings-buttons .components-button:first-child{
   margin-left:8px;
 }
-
-.gallery-image-sizes .components-base-control__label{
-  margin-bottom:4px;
-}
-.gallery-image-sizes .gallery-image-sizes__loading{
-  align-items:center;
-  color:#757575;
-  display:flex;
-  font-size:12px;
-}
-.gallery-image-sizes .components-spinner{
-  margin:0 4px 0 8px;
-}
 .blocks-gallery-item figure:not(.is-selected):focus,.blocks-gallery-item img:focus{
   outline:none;
 }

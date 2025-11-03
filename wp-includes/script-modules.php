@@ -64,6 +64,7 @@ function wp_script_modules(): WP_Script_Modules {
  * @param array             $args    {
  *     Optional. An array of additional args. Default empty array.
  *
+ *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
  *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
  * }
  */
@@ -107,6 +108,7 @@ function wp_register_script_module( string $id, string $src, array $deps = array
  * @param array             $args    {
  *     Optional. An array of additional args. Default empty array.
  *
+ *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
  *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
  * }
  */
@@ -181,10 +183,28 @@ function wp_default_script_modules() {
 				break;
 		}
 
-		// The Interactivity API is designed with server-side rendering as its primary goal, so all of its script modules should be loaded with low fetch priority since they should not be needed in the critical rendering path.
+		/*
+		 * The Interactivity API is designed with server-side rendering as its primary goal, so all of its script modules
+		 * should be loaded with low fetchpriority and printed in the footer since they should not be needed in the
+		 * critical rendering path. Also, the @wordpress/a11y script module is intended to be used as a dynamic import
+		 * dependency, in which case the fetchpriority is irrelevant. See <https://make.wordpress.org/core/2024/10/14/updates-to-script-modules-in-6-7/>.
+		 * However, in case it is added as a static import dependency, the fetchpriority is explicitly set to be 'low'
+		 * since the module should not be involved in the critical rendering path, and if it is, its fetchpriority will
+		 * be bumped to match the fetchpriority of the dependent script.
+		 */
 		$args = array();
-		if ( str_starts_with( $script_module_id, '@wordpress/interactivity' ) || str_starts_with( $script_module_id, '@wordpress/block-library' ) ) {
+		if (
+			str_starts_with( $script_module_id, '@wordpress/interactivity' ) ||
+			str_starts_with( $script_module_id, '@wordpress/block-library' ) ||
+			'@wordpress/a11y' === $script_module_id
+		) {
 			$args['fetchpriority'] = 'low';
+			$args['in_footer']     = true;
+		}
+
+		// Marks all Core blocks as compatible with client-side navigation.
+		if ( str_starts_with( $script_module_id, '@wordpress/block-library' ) ) {
+			wp_interactivity()->add_client_navigation_support_to_script_module( $script_module_id );
 		}
 
 		$path = includes_url( "js/dist/script-modules/{$file_name}" );

@@ -470,14 +470,11 @@ class WP_Term_Query {
 		$exclude_tree = $args['exclude_tree'];
 		$include      = $args['include'];
 
-		$inclusions = '';
 		if ( ! empty( $include ) ) {
 			$exclude      = '';
 			$exclude_tree = '';
 			$inclusions   = implode( ',', wp_parse_id_list( $include ) );
-		}
 
-		if ( ! empty( $inclusions ) ) {
 			$this->sql_clauses['where']['inclusions'] = 't.term_id IN ( ' . $inclusions . ' )';
 		}
 
@@ -815,10 +812,13 @@ class WP_Term_Query {
 		$terms = $wpdb->get_results( $this->request ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( empty( $terms ) ) {
+			$this->terms = array();
+
 			if ( $args['cache_results'] ) {
-				wp_cache_set_salted( $cache_key, array(), 'term-queries', $last_changed );
+				wp_cache_set_salted( $cache_key, $this->terms, 'term-queries', $last_changed );
 			}
-			return array();
+
+			return $this->terms;
 		}
 
 		$term_ids = wp_list_pluck( $terms, 'term_id' );

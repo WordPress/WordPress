@@ -444,22 +444,25 @@ class WP_Block {
 					return false;
 				}
 
-				$depth = $this->get_current_depth();
+				$depth    = $this->get_current_depth();
+				$tag_name = $this->get_tag();
 
-				$this->set_bookmark( '_wp_block_bindings_tag_opener' );
+				$this->set_bookmark( '_wp_block_bindings' );
 				// The bookmark names are prefixed with `_` so the key below has an extra `_`.
-				$tag_opener = $this->bookmarks['__wp_block_bindings_tag_opener'];
+				$tag_opener = $this->bookmarks['__wp_block_bindings'];
 				$start      = $tag_opener->start + $tag_opener->length;
-				$this->release_bookmark( '_wp_block_bindings_tag_opener' );
 
 				// Find matching tag closer.
 				while ( $this->next_token() && $this->get_current_depth() >= $depth ) {
 				}
 
-				$this->set_bookmark( '_wp_block_bindings_tag_closer' );
-				$tag_closer = $this->bookmarks['__wp_block_bindings_tag_closer'];
+				if ( ! $this->is_tag_closer() || $tag_name !== $this->get_tag() ) {
+					return false;
+				}
+
+				$this->set_bookmark( '_wp_block_bindings' );
+				$tag_closer = $this->bookmarks['__wp_block_bindings'];
 				$end        = $tag_closer->start;
-				$this->release_bookmark( '_wp_block_bindings_tag_closer' );
 
 				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
 					$start,
@@ -491,6 +494,13 @@ class WP_Block {
 	 */
 	public function render( $options = array() ) {
 		global $post;
+
+		$before_wp_enqueue_scripts_count = did_action( 'wp_enqueue_scripts' );
+
+		// Capture the current assets queues.
+		$before_styles_queue         = wp_styles()->queue;
+		$before_scripts_queue        = wp_scripts()->queue;
+		$before_script_modules_queue = wp_script_modules()->get_queue();
 
 		/*
 		 * There can be only one root interactive block at a time because the rendered HTML of that block contains
@@ -659,6 +669,50 @@ class WP_Block {
 			// The root interactive block has finished rendering. Time to process directives.
 			$block_content          = wp_interactivity_process_directives( $block_content );
 			$root_interactive_block = null;
+		}
+
+		// Capture the new assets enqueued during rendering, and restore the queues the state prior to rendering.
+		$after_styles_queue         = wp_styles()->queue;
+		$after_scripts_queue        = wp_scripts()->queue;
+		$after_script_modules_queue = wp_script_modules()->get_queue();
+
+		/*
+		 * As a very special case, a dynamic block may in fact include a call to wp_head() (and thus wp_enqueue_scripts()),
+		 * in which all of its enqueued assets are targeting wp_footer. In this case, nothing would be printed, but this
+		 * shouldn't indicate that the just-enqueued assets should be dequeued due to it being an empty block.
+		 */
+		$just_did_wp_enqueue_scripts = ( did_action( 'wp_enqueue_scripts' ) !== $before_wp_enqueue_scripts_count );
+
+		$has_new_styles         = ( $before_styles_queue !== $after_styles_queue );
+		$has_new_scripts        = ( $before_scripts_queue !== $after_scripts_queue );
+		$has_new_script_modules = ( $before_script_modules_queue !== $after_script_modules_queue );
+
+		// Dequeue the newly enqueued assets with the existing assets if the rendered block was empty & wp_enqueue_scripts did not fire.
+		if (
+			! $just_did_wp_enqueue_scripts &&
+			( $has_new_styles || $has_new_scripts || $has_new_script_modules ) &&
+			(
+				trim( $block_content ) === '' &&
+				/**
+				 * Filters whether to enqueue assets for a block which has no rendered content.
+				 *
+				 * @since 6.9.0
+				 *
+				 * @param bool   $enqueue    Whether to enqueue assets.
+				 * @param string $block_name Block name.
+				 */
+				! (bool) apply_filters( 'enqueue_empty_block_content_assets', false, $this->name )
+			)
+		) {
+			foreach ( array_diff( $after_styles_queue, $before_styles_queue ) as $handle ) {
+				wp_dequeue_style( $handle );
+			}
+			foreach ( array_diff( $after_scripts_queue, $before_scripts_queue ) as $handle ) {
+				wp_dequeue_script( $handle );
+			}
+			foreach ( array_diff( $after_script_modules_queue, $before_script_modules_queue ) as $handle ) {
+				wp_dequeue_script_module( $handle );
+			}
 		}
 
 		return $block_content;

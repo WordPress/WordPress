@@ -38,10 +38,6 @@ GNU General Public License for more details.
 
 Twenty Eleven Theme bundles the following third-party resources:
 
-HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
-Licenses: MIT/GPL2
-Source: https://github.com/aFarkas/html5shiv
-
 Images
 "Yellow Flower Photo" by Bernard Spragg. CC0. https://stocksnap.io/photo/yellow-flower-GWT9JVALSV
 "People Woman Photo" by Brooke Cagle. CC0. https://stocksnap.io/photo/people-woman-MU7G67710S

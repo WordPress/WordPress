@@ -1,13 +1,11 @@
 .wp-block-post-featured-image .block-editor-media-placeholder{
-  -webkit-backdrop-filter:none;
-          backdrop-filter:none;
+  backdrop-filter:none;
   z-index:1;
 }
 .wp-block-post-featured-image .components-placeholder,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder{
   align-items:center;
   display:flex;
   justify-content:center;
-  min-height:200px;
   padding:0;
 }
 .wp-block-post-featured-image .components-placeholder .components-form-file-upload,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-form-file-upload{
@@ -30,6 +28,9 @@
 }
 .wp-block-post-featured-image .components-placeholder .components-button>svg,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-button>svg{
   color:inherit;
+}
+.wp-block-post-featured-image .components-placeholder,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder{
+  min-height:200px;
 }
 .wp-block-post-featured-image .components-placeholder:where(.has-border-color),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where(.has-border-color),.wp-block-post-featured-image img:where(.has-border-color){
   border-style:solid;

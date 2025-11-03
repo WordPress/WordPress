@@ -217,9 +217,8 @@ function twentytwelve_scripts_styles() {
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentytwelve-style' ), '20240812' );
 
-	// Loads the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentytwelve-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentytwelve-style' ), '20240722' );
-	$wp_styles->add_data( 'twentytwelve-ie', 'conditional', 'lt IE 9' );
+	// Register the Internet Explorer specific stylesheet.
+	wp_register_style( 'twentytwelve-ie', false, array( 'twentytwelve-style' ) );
 }
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
@@ -414,14 +413,28 @@ if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 	function twentytwelve_content_nav( $html_id ) {
 		global $wp_query;
 
-		if ( $wp_query->max_num_pages > 1 ) : ?>
+		if ( $wp_query->max_num_pages > 1 ) :
+			$order   = get_query_var( 'order', 'DESC' );
+			$is_desc = ( 'DESC' === $order );
+
+			$new_posts_text = __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentytwelve' );
+			$old_posts_text = __( '<span class="meta-nav">&larr;</span> Older posts', 'twentytwelve' );
+
+			$prev_link = $is_desc ? get_next_posts_link( $old_posts_text ) : get_previous_posts_link( $old_posts_text );
+			$next_link = $is_desc ? get_previous_posts_link( $new_posts_text ) : get_next_posts_link( $new_posts_text );
+			?>
 			<nav id="<?php echo esc_attr( $html_id ); ?>" class="navigation">
 				<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentytwelve' ); ?></h3>
-				<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentytwelve' ) ); ?></div>
-				<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?></div>
+				<?php if ( $prev_link ) : ?>
+					<div class="nav-previous"><?php echo $prev_link; ?></div>
+				<?php endif; ?>
+
+				<?php if ( $next_link ) : ?>
+					<div class="nav-next"><?php echo $next_link; ?></div>
+				<?php endif; ?>
 			</nav><!-- .navigation -->
 			<?php
-	endif;
+		endif;
 	}
 endif;
 

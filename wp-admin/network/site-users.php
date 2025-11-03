@@ -139,11 +139,25 @@ if ( $action ) {
 
 		case 'promote':
 			check_admin_referer( 'bulk-users' );
+
+			if ( ! current_user_can( 'promote_users' ) ) {
+				wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
+			}
+
 			$editable_roles = get_editable_roles();
 			$role           = $_REQUEST['new_role'];
 
+			// Mock `none` as editable role.
+			$editable_roles['none'] = array(
+				'name' => __( '&mdash; No role for this site &mdash;' ),
+			);
+
 			if ( empty( $editable_roles[ $role ] ) ) {
 				wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
+			}
+
+			if ( 'none' === $role ) {
+				$role = '';
 			}
 
 			if ( isset( $_REQUEST['users'] ) ) {
@@ -151,6 +165,10 @@ if ( $action ) {
 				$update  = 'promote';
 				foreach ( $userids as $user_id ) {
 					$user_id = (int) $user_id;
+
+					if ( ! current_user_can( 'promote_user', $user_id ) ) {
+						wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
+					}
 
 					// If the user doesn't already belong to the blog, bail.
 					if ( ! is_user_member_of_blog( $user_id ) ) {
@@ -162,6 +180,8 @@ if ( $action ) {
 					}
 
 					$user = get_userdata( $user_id );
+
+					// If $role is empty, none will be set.
 					$user->set_role( $role );
 				}
 			} else {

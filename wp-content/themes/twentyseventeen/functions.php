@@ -471,21 +471,12 @@ function twentyseventeen_scripts() {
 		wp_enqueue_style( 'twentyseventeen-colors-dark', get_theme_file_uri( '/assets/css/colors-dark.css' ), array( 'twentyseventeen-style' ), '20240412' );
 	}
 
-	// Register the Internet Explorer 9 specific stylesheet, to fix display issues in the Customizer.
+	// Register handles for removed stylesheets and scripts.
 	if ( is_customize_preview() ) {
-		wp_register_style( 'twentyseventeen-ie9', get_theme_file_uri( '/assets/css/ie9.css' ), array( 'twentyseventeen-style' ), '20161202' );
-		wp_style_add_data( 'twentyseventeen-ie9', 'conditional', 'IE 9' );
+		wp_register_style( 'twentyseventeen-ie9', false, array( 'twentyseventeen-style' ) );
 	}
-
-	// Register the Internet Explorer 8 specific stylesheet.
-	wp_register_style( 'twentyseventeen-ie8', get_theme_file_uri( '/assets/css/ie8.css' ), array( 'twentyseventeen-style' ), '20161202' );
-	wp_style_add_data( 'twentyseventeen-ie8', 'conditional', 'lt IE 9' );
-
-	// Register the html5 shiv.
-	wp_register_script( 'html5', get_theme_file_uri( '/assets/js/html5.js' ), array(), '20161020' );
-	wp_script_add_data( 'html5', 'conditional', 'lt IE 9' );
-
-	// Skip-link fix is no longer enqueued by default.
+	wp_register_style( 'twentyseventeen-ie8', false, array( 'twentyseventeen-style' ) );
+	wp_register_script( 'html5', false );
 	wp_register_script( 'twentyseventeen-skip-link-focus-fix', get_theme_file_uri( '/assets/js/skip-link-focus-fix.js' ), array(), '20161114', array( 'in_footer' => true ) );
 
 	wp_enqueue_script(

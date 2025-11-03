@@ -1,28 +1,9 @@
-:root{
-  --wp-admin-theme-color:#007cba;
-  --wp-admin-theme-color--rgb:0, 124, 186;
-  --wp-admin-theme-color-darker-10:#006ba1;
-  --wp-admin-theme-color-darker-10--rgb:0, 107, 161;
-  --wp-admin-theme-color-darker-20:#005a87;
-  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
-  --wp-admin-border-width-focus:2px;
-  --wp-block-synced-color:#7a00df;
-  --wp-block-synced-color--rgb:122, 0, 223;
-  --wp-bound-block-color:var(--wp-block-synced-color);
-}
-@media (min-resolution:192dpi){
-  :root{
-    --wp-admin-border-width-focus:1.5px;
-  }
-}
-
 .preference-base-option+.preference-base-option{
   margin-top:16px;
 }
-
 @media (min-width:600px){
   .preferences-modal{
-    height:calc(100% - 120px);
+    height:calc(100% - 128px);
     width:calc(100% - 32px);
   }
 }
@@ -45,7 +26,7 @@
 .preferences__tabs-tablist{
   position:absolute !important;
   right:16px;
-  top:84px;
+  top:88px;
   width:160px;
 }
 
@@ -60,7 +41,9 @@
   }
 }
 .preferences-modal__section{
+  border:0;
   margin:0 0 2.5rem;
+  padding:0;
 }
 .preferences-modal__section:last-child{
   margin:0;

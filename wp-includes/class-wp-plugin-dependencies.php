@@ -870,6 +870,9 @@ class WP_Plugin_Dependencies {
 	 * @return string The plugin's slug.
 	 */
 	protected static function convert_to_slug( $plugin_file ) {
+		if ( 'hello.php' === $plugin_file ) {
+			return 'hello-dolly';
+		}
 		return str_contains( $plugin_file, '/' ) ? dirname( $plugin_file ) : str_replace( '.php', '', $plugin_file );
 	}
 }

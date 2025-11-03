@@ -1349,26 +1349,7 @@ switch ( $action ) {
 			$redirect_to = admin_url();
 		}
 
-                $reauth            = empty( $_REQUEST['reauth'] ) ? false : true;
-                $login_credentials = array();
-                $maybe_limited     = false;
-
-                if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['log'] ) ) {
-                        $login_credentials = array(
-                                'user_login'    => is_string( $_POST['log'] ) ? wp_unslash( $_POST['log'] ) : '',
-                                'user_password' => ( isset( $_POST['pwd'] ) && is_string( $_POST['pwd'] ) ) ? $_POST['pwd'] : '',
-                                'remember'      => ! empty( $_POST['rememberme'] ),
-                        );
-
-                        $login_ip = '';
-
-                        if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-                                $login_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
-                        }
-
-                        $login_ip = apply_filters( 'login_rate_limit_ip', $login_ip, $login_credentials );
-
-                        $maybe_limited = wp_login_rate_limiter()->maybe_throttle( $login_credentials['user_login'], $login_ip );
+		$reauth = ! empty( $_REQUEST['reauth'] );
 
                         if ( ! is_wp_error( $maybe_limited ) ) {
                                 $login_credentials['rate_limit_checked'] = true;

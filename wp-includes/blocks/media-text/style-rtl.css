@@ -79,7 +79,6 @@
 .wp-block-media-text.is-image-fill-element>.wp-block-media-text__media{
   height:100%;
   min-height:250px;
-  position:relative;
 }
 
 .wp-block-media-text.is-image-fill-element>.wp-block-media-text__media>a{
@@ -90,7 +89,6 @@
 .wp-block-media-text.is-image-fill-element>.wp-block-media-text__media img{
   height:100%;
   object-fit:cover;
-  position:absolute;
   width:100%;
 }
 @media (max-width:600px){

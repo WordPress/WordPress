@@ -90,9 +90,6 @@
 		"focalPoint": {
 			"type": "object"
 		},
-		"allowedBlocks": {
-			"type": "array"
-		},
 		"useFeaturedImage": {
 			"type": "boolean",
 			"default": false
@@ -143,7 +140,8 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"allowedBlocks": true
 	},
 	"editorStyle": "wp-block-media-text-editor",
 	"style": "wp-block-media-text"

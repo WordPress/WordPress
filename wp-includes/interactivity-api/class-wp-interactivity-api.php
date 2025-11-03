@@ -59,6 +59,18 @@ final class WP_Interactivity_API {
 	private $config_data = array();
 
 	/**
+	 * Keeps track of all derived state closures accessed during server-side rendering.
+	 *
+	 * This data is serialized and sent to the client as part of the interactivity
+	 * data, and is handled later in the client to support derived state props that
+	 * are lazily hydrated.
+	 *
+	 * @since 6.9.0
+	 * @var array
+	 */
+	private $derived_state_closures = array();
+
+	/**
 	 * Flag that indicates whether the `data-wp-router-region` directive has
 	 * been found in the HTML and processed.
 	 *
@@ -72,6 +84,14 @@ final class WP_Interactivity_API {
 	 * @var bool
 	 */
 	private $has_processed_router_region = false;
+
+	/**
+	 * Set of script modules that can be loaded after client-side navigation.
+	 *
+	 * @since 6.9.0
+	 * @var array<string, true>
+	 */
+	private $script_modules_that_can_load_on_client_navigation = array();
 
 	/**
 	 * Stack of namespaces defined by `data-wp-interactive` directives, in
@@ -236,12 +256,17 @@ final class WP_Interactivity_API {
 	 * interactivity stores and the configuration will be available using a `getConfig` utility.
 	 *
 	 * @since 6.7.0
+	 * @since 6.9.0 Serializes derived state props accessed during directive processing.
 	 *
 	 * @param array $data Data to filter.
 	 * @return array Data for the Interactivity API script module.
 	 */
 	public function filter_script_module_interactivity_data( array $data ): array {
-		if ( empty( $this->state_data ) && empty( $this->config_data ) ) {
+		if (
+			empty( $this->state_data ) &&
+			empty( $this->config_data ) &&
+			empty( $this->derived_state_closures )
+		) {
 			return $data;
 		}
 
@@ -263,6 +288,16 @@ final class WP_Interactivity_API {
 		}
 		if ( ! empty( $state ) ) {
 			$data['state'] = $state;
+		}
+
+		$derived_props = array();
+		foreach ( $this->derived_state_closures as $key => $value ) {
+			if ( ! empty( $value ) ) {
+				$derived_props[ $key ] = $value;
+			}
+		}
+		if ( ! empty( $derived_props ) ) {
+			$data['derivedStateClosures'] = $derived_props;
 		}
 
 		return $data;
@@ -344,10 +379,56 @@ final class WP_Interactivity_API {
 	 * Adds the necessary hooks for the Interactivity API.
 	 *
 	 * @since 6.5.0
+	 * @since 6.9.0 Adds support for client-side navigation in script modules.
 	 */
 	public function add_hooks() {
 		add_filter( 'script_module_data_@wordpress/interactivity', array( $this, 'filter_script_module_interactivity_data' ) );
 		add_filter( 'script_module_data_@wordpress/interactivity-router', array( $this, 'filter_script_module_interactivity_router_data' ) );
+		add_filter( 'wp_script_attributes', array( $this, 'add_load_on_client_navigation_attribute_to_script_modules' ), 10, 1 );
+	}
+
+	/**
+	 * Adds the `data-wp-router-options` attribute to script modules that
+	 * support client-side navigation.
+	 *
+	 * This method filters the script attributes to include loading instructions
+	 * for the Interactivity API router, indicating which modules can be loaded
+	 * during client-side navigation.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param array<string, string|true>|mixed $attributes The script tag attributes.
+	 * @return array The modified script tag attributes.
+	 */
+	public function add_load_on_client_navigation_attribute_to_script_modules( $attributes ) {
+		if (
+			is_array( $attributes ) &&
+			isset( $attributes['type'], $attributes['id'] ) &&
+			'module' === $attributes['type'] &&
+			array_key_exists(
+				preg_replace( '/-js-module$/', '', $attributes['id'] ),
+				$this->script_modules_that_can_load_on_client_navigation
+			)
+		) {
+			$attributes['data-wp-router-options'] = wp_json_encode( array( 'loadOnClientNavigation' => true ) );
+		}
+		return $attributes;
+	}
+
+	/**
+	 * Marks a script module as compatible with client-side navigation.
+	 *
+	 * This method registers a script module to be loaded during client-side
+	 * navigation in the Interactivity API router. Script modules marked with
+	 * this method will have the `loadOnClientNavigation` option enabled in the
+	 * `data-wp-router-options` directive.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string $script_module_id The script module identifier.
+	 */
+	public function add_client_navigation_support_to_script_module( string $script_module_id ) {
+		$this->script_modules_that_can_load_on_client_navigation[ $script_module_id ] = true;
 	}
 
 	/**
@@ -451,27 +532,11 @@ final class WP_Interactivity_API {
 
 					// Checks if there is a server directive processor registered for each directive.
 					foreach ( $p->get_attribute_names_with_prefix( 'data-wp-' ) as $attribute_name ) {
-						if ( ! preg_match(
-							/*
-							 * This must align with the client-side regex used by the interactivity API.
-							 * @see https://github.com/WordPress/gutenberg/blob/ca616014255efbb61f34c10917d52a2d86c1c660/packages/interactivity/src/vdom.ts#L20-L32
-							 */
-							'/' .
-							'^data-wp-' .
-							// Match alphanumeric characters including hyphen-separated
-							// segments. It excludes underscore intentionally to prevent confusion.
-							// E.g., "custom-directive".
-							'([a-z0-9]+(?:-[a-z0-9]+)*)' .
-							// (Optional) Match '--' followed by any alphanumeric charachters. It
-							// excludes underscore intentionally to prevent confusion, but it can
-							// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
-							'(?:--([a-z0-9_-]+))?$' .
-							'/i',
-							$attribute_name
-						) ) {
+						$parsed_directive = $this->parse_directive_name( $attribute_name );
+						if ( empty( $parsed_directive ) ) {
 							continue;
 						}
-						list( $directive_prefix ) = $this->extract_prefix_and_suffix( $attribute_name );
+						$directive_prefix = 'data-wp-' . $parsed_directive['prefix'];
 						if ( array_key_exists( $directive_prefix, self::$directive_processors ) ) {
 							$directives_prefixes[] = $directive_prefix;
 						}
@@ -548,14 +613,10 @@ final class WP_Interactivity_API {
 		/*
 		 * It returns null if the HTML is unbalanced because unbalanced HTML is
 		 * not safe to process. In that case, the Interactivity API runtime will
-		 * update the HTML on the client side during the hydration. It will also
-		 * display a notice to the developer to inform them about the issue.
+		 * update the HTML on the client side during the hydration. It will display
+		 * a notice to the developer in the console to inform them about the issue.
 		 */
 		if ( $unbalanced || 0 < count( $tag_stack ) ) {
-			$tag_errored = 0 < count( $tag_stack ) ? end( $tag_stack )[0] : $tag_name;
-			/* translators: %1s: Namespace processed, %2s: The tag that caused the error; could be any HTML tag.  */
-			$message = sprintf( __( 'Interactivity directives failed to process in "%1$s" due to a missing "%2$s" end tag.' ), end( $this->namespace_stack ), $tag_errored );
-			_doing_it_wrong( __METHOD__, $message, '6.6.0' );
 			return null;
 		}
 
@@ -570,18 +631,18 @@ final class WP_Interactivity_API {
 	 * @since 6.6.0 The function now adds a warning when the namespace is null, falsy, or the directive value is empty.
 	 * @since 6.6.0 Removed `default_namespace` and `context` arguments.
 	 * @since 6.6.0 Add support for derived state.
+	 * @since 6.9.0 Recieve $entry as an argument instead of the directive value string.
 	 *
-	 * @param string|true $directive_value The directive attribute value string or `true` when it's a boolean attribute.
+	 * @param array $entry An array containing a whole directive entry with its namespace, value, suffix, or unique ID.
 	 * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist or the namespace is falsy.
 	 */
-	private function evaluate( $directive_value ) {
-		$default_namespace = end( $this->namespace_stack );
-		$context           = end( $this->context_stack );
+	private function evaluate( $entry ) {
+		$context                               = end( $this->context_stack );
+		['namespace' => $ns, 'value' => $path] = $entry;
 
-		list( $ns, $path ) = $this->extract_directive_value( $directive_value, $default_namespace );
 		if ( ! $ns || ! $path ) {
 			/* translators: %s: The directive value referenced. */
-			$message = sprintf( __( 'Namespace or reference path cannot be empty. Directive value referenced: %s' ), $directive_value );
+			$message = sprintf( __( 'Namespace or reference path cannot be empty. Directive value referenced: %s' ), json_encode( $entry ) );
 			_doing_it_wrong( __METHOD__, $message, '6.6.0' );
 			return null;
 		}
@@ -598,7 +659,7 @@ final class WP_Interactivity_API {
 		// Extracts the value from the store using the reference path.
 		$path_segments = explode( '.', $path );
 		$current       = $store;
-		foreach ( $path_segments as $path_segment ) {
+		foreach ( $path_segments as $index => $path_segment ) {
 			/*
 			 * Special case for numeric arrays and strings. Add length
 			 * property mimicking JavaScript behavior.
@@ -647,6 +708,20 @@ final class WP_Interactivity_API {
 				array_push( $this->namespace_stack, $ns );
 				try {
 					$current = $current();
+
+					/*
+					 * Tracks derived state properties that are accessed during
+					 * rendering.
+					 *
+					 * @since 6.9.0
+					 */
+					$this->derived_state_closures[ $ns ] = $this->derived_state_closures[ $ns ] ?? array();
+
+					// Builds path for the current property and add it to tracking if not already present.
+					$current_path = implode( '.', array_slice( $path_segments, 0, $index + 1 ) );
+					if ( ! in_array( $current_path, $this->derived_state_closures[ $ns ], true ) ) {
+						$this->derived_state_closures[ $ns ][] = $current_path;
+					}
 				} catch ( Throwable $e ) {
 					_doing_it_wrong(
 						__METHOD__,
@@ -671,25 +746,74 @@ final class WP_Interactivity_API {
 	}
 
 	/**
-	 * Extracts the directive attribute name to separate and return the directive
-	 * prefix and an optional suffix.
+	 * Parse the directive name to extract the following parts:
+	 * - Prefix: The main directive name without "data-wp-".
+	 * - Suffix: An optional suffix used during directive processing, extracted after the first double hyphen "--".
+	 * - Unique ID: An optional unique identifier, extracted after the first triple hyphen "---".
 	 *
-	 * The suffix is the string after the first double hyphen and the prefix is
-	 * everything that comes before the suffix.
+	 * This function has an equivalent version for the client side.
+	 * See `parseDirectiveName` in https://github.com/WordPress/gutenberg/blob/trunk/packages/interactivity/src/vdom.ts.:
 	 *
-	 * Example:
+	 * See examples in the function unit tests `test_parse_directive_name`.
 	 *
-	 *     extract_prefix_and_suffix( 'data-wp-interactive' )   => array( 'data-wp-interactive', null )
-	 *     extract_prefix_and_suffix( 'data-wp-bind--src' )     => array( 'data-wp-bind', 'src' )
-	 *     extract_prefix_and_suffix( 'data-wp-foo--and--bar' ) => array( 'data-wp-foo', 'and--bar' )
-	 *
-	 * @since 6.5.0
+	 * @since 6.9.0
 	 *
 	 * @param string $directive_name The directive attribute name.
-	 * @return array An array containing the directive prefix and optional suffix.
+	 * @return array An array containing the directive prefix, optional suffix, and optional unique ID.
 	 */
-	private function extract_prefix_and_suffix( string $directive_name ): array {
-		return explode( '--', $directive_name, 2 );
+	private function parse_directive_name( string $directive_name ): ?array {
+		// Remove the first 8 characters (assumes "data-wp-" prefix)
+		$name = substr( $directive_name, 8 );
+
+		// Check for invalid characters (anything not a-z, 0-9, -, or _)
+		if ( preg_match( '/[^a-z0-9\-_]/i', $name ) ) {
+			return null;
+		}
+
+		// Find the first occurrence of '--' to separate the prefix
+		$suffix_index = strpos( $name, '--' );
+
+		if ( false === $suffix_index ) {
+			return array(
+				'prefix'    => $name,
+				'suffix'    => null,
+				'unique_id' => null,
+			);
+		}
+
+		$prefix    = substr( $name, 0, $suffix_index );
+		$remaining = substr( $name, $suffix_index );
+
+		// If remaining starts with '---' but not '----', it's a unique_id
+		if ( '---' === substr( $remaining, 0, 3 ) && '-' !== ( $remaining[3] ?? '' ) ) {
+			return array(
+				'prefix'    => $prefix,
+				'suffix'    => null,
+				'unique_id' => '---' !== $remaining ? substr( $remaining, 3 ) : null,
+			);
+		}
+
+		// Otherwise, remove the first two dashes for a potential suffix
+		$suffix = substr( $remaining, 2 );
+
+		// Look for '---' in the suffix for a unique_id
+		$unique_id_index = strpos( $suffix, '---' );
+
+		if ( false !== $unique_id_index && '-' !== ( $suffix[ $unique_id_index + 3 ] ?? '' ) ) {
+			$unique_id = substr( $suffix, $unique_id_index + 3 );
+			$suffix    = substr( $suffix, 0, $unique_id_index );
+			return array(
+				'prefix'    => $prefix,
+				'suffix'    => empty( $suffix ) ? null : $suffix,
+				'unique_id' => empty( $unique_id ) ? null : $unique_id,
+			);
+		}
+
+		return array(
+			'prefix'    => $prefix,
+			'suffix'    => empty( $suffix ) ? null : $suffix,
+			'unique_id' => null,
+		);
 	}
 
 	/**
@@ -739,6 +863,53 @@ final class WP_Interactivity_API {
 		}
 
 		return array( $default_namespace, $directive_value );
+	}
+
+	/**
+	 * Parse the HTML element and get all the valid directives with the given prefix.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param WP_Interactivity_API_Directives_Processor $p      The directives processor instance.
+	 * @param string                                    $prefix The directive prefix to filter by.
+	 * @return array An array of entries containing the directive namespace, value, suffix, and unique ID.
+	 */
+	private function get_directive_entries( WP_Interactivity_API_Directives_Processor $p, string $prefix ) {
+		$directive_attributes = $p->get_attribute_names_with_prefix( 'data-wp-' . $prefix );
+		$entries              = array();
+		foreach ( $directive_attributes as $attribute_name ) {
+			[ 'prefix' => $attr_prefix, 'suffix' => $suffix, 'unique_id' => $unique_id] = $this->parse_directive_name( $attribute_name );
+			// Ensure it is the desired directive.
+			if ( $prefix !== $attr_prefix ) {
+				continue;
+			}
+			list( $namespace, $value ) = $this->extract_directive_value( $p->get_attribute( $attribute_name ), end( $this->namespace_stack ) );
+			$entries[]                 = array(
+				'namespace' => $namespace,
+				'value'     => $value,
+				'suffix'    => $suffix,
+				'unique_id' => $unique_id,
+			);
+		}
+		// Sort directive entries to ensure stable ordering with the client.
+		// Put nulls first, then sort by suffix and finally by uniqueIds.
+		usort(
+			$entries,
+			function ( $a, $b ) {
+				$a_suffix = $a['suffix'] ?? '';
+				$b_suffix = $b['suffix'] ?? '';
+				if ( $a_suffix !== $b_suffix ) {
+					return $a_suffix < $b_suffix ? -1 : 1;
+				}
+				$a_id = $a['unique_id'] ?? '';
+				$b_id = $b['unique_id'] ?? '';
+				if ( $a_id === $b_id ) {
+					return 0;
+				}
+				return $a_id > $b_id ? 1 : -1;
+			}
+		);
+		return $entries;
 	}
 
 	/**
@@ -822,31 +993,19 @@ final class WP_Interactivity_API {
 			return;
 		}
 
-		$attribute_value = $p->get_attribute( 'data-wp-context' );
-		$namespace_value = end( $this->namespace_stack );
+		$entries = $this->get_directive_entries( $p, 'context' );
+		$context = end( $this->context_stack ) !== false ? end( $this->context_stack ) : array();
+		foreach ( $entries as $entry ) {
+			if ( null !== $entry['suffix'] ) {
+				continue;
+			}
 
-		// Separates the namespace from the context JSON object.
-		list( $namespace_value, $decoded_json ) = is_string( $attribute_value ) && ! empty( $attribute_value )
-			? $this->extract_directive_value( $attribute_value, $namespace_value )
-			: array( $namespace_value, null );
-
-		/*
-		 * If there is a namespace, it adds a new context to the stack merging the
-		 * previous context with the new one.
-		 */
-		if ( is_string( $namespace_value ) ) {
-			$this->context_stack[] = array_replace_recursive(
-				end( $this->context_stack ) !== false ? end( $this->context_stack ) : array(),
-				array( $namespace_value => is_array( $decoded_json ) ? $decoded_json : array() )
+			$context = array_replace_recursive(
+				$context,
+				array( $entry['namespace'] => is_array( $entry['value'] ) ? $entry['value'] : array() )
 			);
-		} else {
-			/*
-			 * If there is no namespace, it pushes the current context to the stack.
-			 * It needs to do so because the function pops out the current context
-			 * from the stack whenever it finds a `data-wp-context`'s closing tag.
-			 */
-			$this->context_stack[] = end( $this->context_stack );
 		}
+		$this->context_stack[] = $context;
 	}
 
 	/**
@@ -862,22 +1021,19 @@ final class WP_Interactivity_API {
 	 */
 	private function data_wp_bind_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
-			$all_bind_directives = $p->get_attribute_names_with_prefix( 'data-wp-bind--' );
-
-			foreach ( $all_bind_directives as $attribute_name ) {
-				list( , $bound_attribute ) = $this->extract_prefix_and_suffix( $attribute_name );
-				if ( empty( $bound_attribute ) ) {
-					return;
+			$entries = $this->get_directive_entries( $p, 'bind' );
+			foreach ( $entries as $entry ) {
+				if ( empty( $entry['suffix'] ) || null !== $entry['unique_id'] ) {
+						return;
 				}
 
-				$attribute_value = $p->get_attribute( $attribute_name );
-				$result          = $this->evaluate( $attribute_value );
+				$result = $this->evaluate( $entry );
 
 				if (
 					null !== $result &&
 					(
 						false !== $result ||
-						( strlen( $bound_attribute ) > 5 && '-' === $bound_attribute[4] )
+						( strlen( $entry['suffix'] ) > 5 && '-' === $entry['suffix'][4] )
 					)
 				) {
 					/*
@@ -889,13 +1045,13 @@ final class WP_Interactivity_API {
 					 */
 					if (
 						is_bool( $result ) &&
-						( strlen( $bound_attribute ) > 5 && '-' === $bound_attribute[4] )
+						( strlen( $entry['suffix'] ) > 5 && '-' === $entry['suffix'][4] )
 					) {
 						$result = $result ? 'true' : 'false';
 					}
-					$p->set_attribute( $bound_attribute, $result );
+					$p->set_attribute( $entry['suffix'], $result );
 				} else {
-					$p->remove_attribute( $bound_attribute );
+					$p->remove_attribute( $entry['suffix'] );
 				}
 			}
 		}
@@ -915,15 +1071,20 @@ final class WP_Interactivity_API {
 	private function data_wp_class_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
 			$all_class_directives = $p->get_attribute_names_with_prefix( 'data-wp-class--' );
+			$entries              = $this->get_directive_entries( $p, 'class' );
+			foreach ( $entries as $entry ) {
+				if ( empty( $entry['suffix'] ) ) {
+					continue;
+				}
+				$class_name = isset( $entry['unique_id'] ) && $entry['unique_id']
+					? "{$entry['suffix']}---{$entry['unique_id']}"
+					: $entry['suffix'];
 
-			foreach ( $all_class_directives as $attribute_name ) {
-				list( , $class_name ) = $this->extract_prefix_and_suffix( $attribute_name );
 				if ( empty( $class_name ) ) {
 					return;
 				}
 
-				$attribute_value = $p->get_attribute( $attribute_name );
-				$result          = $this->evaluate( $attribute_value );
+				$result = $this->evaluate( $entry );
 
 				if ( $result ) {
 					$p->add_class( $class_name );
@@ -947,18 +1108,16 @@ final class WP_Interactivity_API {
 	 */
 	private function data_wp_style_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
-			$all_style_attributes = $p->get_attribute_names_with_prefix( 'data-wp-style--' );
-
-			foreach ( $all_style_attributes as $attribute_name ) {
-				list( , $style_property ) = $this->extract_prefix_and_suffix( $attribute_name );
-				if ( empty( $style_property ) ) {
+			$entries = $this->get_directive_entries( $p, 'style' );
+			foreach ( $entries as $entry ) {
+				$style_property = $entry['suffix'];
+				if ( empty( $style_property ) || null !== $entry['unique_id'] ) {
 					continue;
 				}
 
-				$directive_attribute_value = $p->get_attribute( $attribute_name );
-				$style_property_value      = $this->evaluate( $directive_attribute_value );
-				$style_attribute_value     = $p->get_attribute( 'style' );
-				$style_attribute_value     = ( $style_attribute_value && ! is_bool( $style_attribute_value ) ) ? $style_attribute_value : '';
+				$style_property_value  = $this->evaluate( $entry );
+				$style_attribute_value = $p->get_attribute( 'style' );
+				$style_attribute_value = ( $style_attribute_value && ! is_bool( $style_attribute_value ) ) ? $style_attribute_value : '';
 
 				/*
 				 * Checks first if the style property is not falsy and the style
@@ -1038,8 +1197,19 @@ final class WP_Interactivity_API {
 	 */
 	private function data_wp_text_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
-			$attribute_value = $p->get_attribute( 'data-wp-text' );
-			$result          = $this->evaluate( $attribute_value );
+			$entries     = $this->get_directive_entries( $p, 'text' );
+			$valid_entry = null;
+			// Get the first valid `data-wp-text` entry without suffix or unique ID.
+			foreach ( $entries as $entry ) {
+				if ( null === $entry['suffix'] && null === $entry['unique_id'] && ! empty( $entry['value'] ) ) {
+					$valid_entry = $entry;
+					break;
+				}
+			}
+			if ( null === $valid_entry ) {
+				return;
+			}
+			$result = $this->evaluate( $valid_entry );
 
 			/*
 			 * Follows the same logic as Preact in the client and only changes the
@@ -1160,6 +1330,7 @@ HTML;
 	 * `template` tag.
 	 *
 	 * @since 6.5.0
+	 * @since 6.9.0 Include the list path in the rendered `data-wp-each-child` directives.
 	 *
 	 * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
 	 * @param string                                    $mode            Whether the processing is entering or exiting the tag.
@@ -1167,11 +1338,17 @@ HTML;
 	 */
 	private function data_wp_each_processor( WP_Interactivity_API_Directives_Processor $p, string $mode, array &$tag_stack ) {
 		if ( 'enter' === $mode && 'TEMPLATE' === $p->get_tag() ) {
-			$attribute_name   = $p->get_attribute_names_with_prefix( 'data-wp-each' )[0];
-			$extracted_suffix = $this->extract_prefix_and_suffix( $attribute_name );
-			$item_name        = isset( $extracted_suffix[1] ) ? $this->kebab_to_camel_case( $extracted_suffix[1] ) : 'item';
-			$attribute_value  = $p->get_attribute( $attribute_name );
-			$result           = $this->evaluate( $attribute_value );
+			$entries = $this->get_directive_entries( $p, 'each' );
+			if ( count( $entries ) > 1 || empty( $entries ) ) {
+				// There should be only one `data-wp-each` directive per template tag.
+				return;
+			}
+			$entry = $entries[0];
+			if ( null !== $entry['unique_id'] ) {
+				return;
+			}
+			$item_name = isset( $entry['suffix'] ) ? $this->kebab_to_camel_case( $entry['suffix'] ) : 'item';
+			$result    = $this->evaluate( $entry );
 
 			// Gets the content between the template tags and leaves the cursor in the closer tag.
 			$inner_content = $p->get_content_between_balanced_template_tags();
@@ -1204,19 +1381,13 @@ HTML;
 				return;
 			}
 
-			// Extracts the namespace from the directive attribute value.
-			$namespace_value         = end( $this->namespace_stack );
-			list( $namespace_value ) = is_string( $attribute_value ) && ! empty( $attribute_value )
-				? $this->extract_directive_value( $attribute_value, $namespace_value )
-				: array( $namespace_value, null );
-
 			// Processes the inner content for each item of the array.
 			$processed_content = '';
 			foreach ( $result as $item ) {
 				// Creates a new context that includes the current item of the array.
 				$this->context_stack[] = array_replace_recursive(
 					end( $this->context_stack ) !== false ? end( $this->context_stack ) : array(),
-					array( $namespace_value => array( $item_name => $item ) )
+					array( $entry['namespace'] => array( $item_name => $item ) )
 				);
 
 				// Processes the inner content with the new context.
@@ -1228,10 +1399,20 @@ HTML;
 					return;
 				}
 
-				// Adds the `data-wp-each-child` to each top-level tag.
+				/*
+				 * Adds the `data-wp-each-child` directive to each top-level tag
+				 * rendered by this `data-wp-each` directive. The value is the
+				 * `data-wp-each` directive's namespace and path.
+				 *
+				 * Nested `data-wp-each` directives could render
+				 * `data-wp-each-child` elements at the top level as well, and
+				 * they should be overwritten.
+				 *
+				 * @since 6.9.0
+				 */
 				$i = new WP_Interactivity_API_Directives_Processor( $processed_item );
 				while ( $i->next_tag() ) {
-					$i->set_attribute( 'data-wp-each-child', true );
+					$i->set_attribute( 'data-wp-each-child', $entry['namespace'] . '::' . $entry['value'] );
 					$i->next_balanced_tag_closer_tag();
 				}
 				$processed_content .= $i->get_updated_html();

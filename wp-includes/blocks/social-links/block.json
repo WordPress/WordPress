@@ -50,6 +50,7 @@
 	"supports": {
 		"align": [ "left", "center", "right" ],
 		"anchor": true,
+		"html": false,
 		"__experimentalExposeControlsToChildren": true,
 		"layout": {
 			"allowSwitching": false,
@@ -93,7 +94,8 @@
 				"width": true,
 				"style": true
 			}
-		}
+		},
+		"contentRole": true
 	},
 	"styles": [
 		{ "name": "default", "label": "Default", "isDefault": true },

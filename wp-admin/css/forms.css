@@ -713,6 +713,37 @@ fieldset label,
 	display: inline-block;
 }
 
+/* Caps lock warning */
+.wp-pwd .caps-warning {
+	display: none;
+	position: relative;
+	background: #fcf9e8;
+	border: 1px solid #f0c33c;
+	color: #1d2327;
+	padding: 6px 10px;
+	top: -8px;
+}
+
+.profile-php .wp-pwd .caps-warning {
+	padding: 3px 5px;
+	top: -4px;
+	border-radius: 4px;
+}
+
+.wp-pwd .caps-icon {
+	display: inline-flex;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.wp-pwd .caps-warning-text {
+	vertical-align: middle;
+}
+/* Caps lock warning */
+
 p.search-box {
 	display: flex;
 	flex-wrap: wrap;
@@ -727,7 +758,6 @@ p.search-box {
 	clear: left;
 }
 
-.search-box input[name="s"],
 .tablenav .search-plugins input[name="s"],
 .tagsdiv .newtag {
 	float: left;
@@ -1641,6 +1671,10 @@ table.form-table td .updated p {
 		padding: 8px;
 	}
 
+	.profile-php .wp-pwd .caps-warning {
+		padding: 8px;
+	}
+
 	.password-input-wrapper {
 		display: block;
 	}
@@ -1653,10 +1687,14 @@ table.form-table td .updated p {
 	}
 
 	p.search-box input[name="s"] {
-		float: none;
 		width: 100%;
+		float: none;
 		margin-bottom: 10px;
 		vertical-align: middle;
+	}
+	.js.plugins-php .search-box .wp-filter-search {
+		width: 100%;
+		margin-bottom: 0;
 	}
 
 	p.search-box input[type="submit"] {

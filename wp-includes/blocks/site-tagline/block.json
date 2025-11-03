@@ -4,7 +4,7 @@
 	"name": "core/site-tagline",
 	"title": "Site Tagline",
 	"category": "theme",
-	"description": "Describe in a few words what the site is about. The tagline can be used in search results or when sharing on social networks even if it’s not displayed in the theme design.",
+	"description": "Describe in a few words what this site is about. This is important for search results, sharing on social media, and gives overall clarity to visitors.",
 	"keywords": [ "description" ],
 	"textdomain": "default",
 	"attributes": {
@@ -36,6 +36,7 @@
 				"text": true
 			}
 		},
+		"contentRole": true,
 		"spacing": {
 			"margin": true,
 			"padding": true,

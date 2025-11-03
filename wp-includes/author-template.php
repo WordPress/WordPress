@@ -86,24 +86,31 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
  * Retrieves the author who last edited the current post.
  *
  * @since 2.8.0
+ * @since 6.9.0 Added the `$post` parameter. Unknown return value is now explicitly null instead of void.
  *
- * @return string|void The author's display name, empty string if unknown.
+ * @param int|WP_Post|null $post Optional. Post ID or post object. Default is global `$post` object.
+ * @return string|null The author's display name. Empty string if user is unavailable. Null if there was no last editor or the post is invalid.
  */
-function get_the_modified_author() {
-	$last_id = get_post_meta( get_post()->ID, '_edit_last', true );
-
-	if ( $last_id ) {
-		$last_user = get_userdata( $last_id );
-
-		/**
-		 * Filters the display name of the author who last edited the current post.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param string $display_name The author's display name, empty string if unknown.
-		 */
-		return apply_filters( 'the_modified_author', $last_user ? $last_user->display_name : '' );
+function get_the_modified_author( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return null;
 	}
+
+	$last_id = get_post_meta( $post->ID, '_edit_last', true );
+	if ( ! $last_id ) {
+		return null;
+	}
+	$last_user = get_userdata( $last_id );
+
+	/**
+	 * Filters the display name of the author who last edited the current post.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $display_name The author's display name, empty string if user is unavailable.
+	 */
+	return apply_filters( 'the_modified_author', $last_user ? $last_user->display_name : '' );
 }
 
 /**

@@ -62,7 +62,8 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"contentRole": true
 	},
 	"editorStyle": "wp-block-buttons-editor",
 	"style": "wp-block-buttons"

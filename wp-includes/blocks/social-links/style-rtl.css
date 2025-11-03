@@ -43,12 +43,14 @@
 .wp-block-social-link{
   border-radius:9999px;
   display:block;
-  height:auto;
 }
 @media not (prefers-reduced-motion){
   .wp-block-social-link{
     transition:transform .1s ease;
   }
+}
+.wp-block-social-link{
+  height:auto;
 }
 .wp-block-social-link a{
   align-items:center;

@@ -20,7 +20,11 @@
 		$form,
 		originalFormContent,
 		$passwordWrapper,
-		successTimeout;
+		successTimeout,
+		isMac = window.navigator.platform ? window.navigator.platform.indexOf( 'Mac' ) !== -1 : false, 
+		ua = navigator.userAgent.toLowerCase(),
+		isSafari = window.safari !== 'undefined' && typeof window.safari === 'object',
+		isFirefox = ua.indexOf( 'firefox' ) !== -1;
 
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
@@ -80,6 +84,8 @@
 			$pass1.removeClass( 'short bad good strong' );
 			showOrHideWeakPasswordCheckbox();
 		} );
+
+		bindCapsLockWarning( $pass1 );
 	}
 
 	function resetToggle( show ) {
@@ -213,6 +219,8 @@
 		} else {
 			// Password field for the login form.
 			$pass1 = $( '#user_pass' );
+
+			bindCapsLockWarning( $pass1 );
 		}
 
 		/*
@@ -330,6 +338,79 @@
 			default:
 				$('#pass-strength-result').addClass('short').html( pwsL10n.short );
 		}
+	}
+
+	/**
+	 * Bind Caps Lock detection to a password input field.
+	 *
+	 * @param {jQuery} $input The password input field.
+	 */
+	function bindCapsLockWarning( $input ) {
+		var $capsWarning,
+			$capsIcon,
+			$capsText,
+			capsLockOn = false;
+
+		// Skip warning on macOS Safari + Firefox (they show native indicators).
+		if ( isMac && ( isSafari || isFirefox ) ) {
+			return;
+		}
+
+		$capsWarning = $( '<div id="caps-warning" class="caps-warning"></div>' );
+		$capsIcon    = $( '<span class="caps-icon" aria-hidden="true"><svg viewBox="0 0 24 26" xmlns="http://www.w3.org/2000/svg" fill="#3c434a" stroke="#3c434a" stroke-width="0.5"><path d="M12 5L19 15H16V19H8V15H5L12 5Z"/><rect x="8" y="21" width="8" height="1.5" rx="0.75"/></svg></span>' );
+		$capsText    = $( '<span>', { 'class': 'caps-warning-text', text: __( 'Caps lock is on.' ) } );
+		$capsWarning.append( $capsIcon, $capsText );
+
+		$input.parent( 'div' ).append( $capsWarning );
+
+		$input.on( 'keydown', function( jqEvent ) {
+			var event = jqEvent.originalEvent;
+
+			// Skip if key is not a printable character.
+			// Key length > 1 usually means non-printable (e.g., "Enter", "Tab").
+			if ( event.ctrlKey || event.metaKey || event.altKey || ! event.key || event.key.length !== 1 ) {
+				return;
+			}
+
+			var state = isCapsLockOn( event );
+
+			// React when the state changes or if caps lock is on when the user starts typing.
+			if ( state !== capsLockOn ) {
+				capsLockOn = state;
+
+				if ( capsLockOn ) {
+					$capsWarning.show();
+					// Don't duplicate existing screen reader Caps lock notifications.
+					if ( event.key !== 'CapsLock' ) {
+						wp.a11y.speak( __( 'Caps lock is on.' ), 'assertive' );
+					}
+				} else {
+					$capsWarning.hide();
+				}
+			}
+		} );
+
+		$input.on( 'blur', function() {
+			if ( ! document.hasFocus() ) {
+				return;
+			}
+			capsLockOn = false;
+			$capsWarning.hide();
+		} );
+	}
+
+	/**
+	 * Determines if Caps Lock is currently enabled.
+	 *
+	 * On macOS Safari and Firefox, the native warning is preferred,
+	 * so this function returns false to suppress custom warnings.
+	 *
+	 * @param {KeyboardEvent} e The keydown event object.
+	 *
+	 * @return {boolean} True if Caps Lock is on, false otherwise. 
+	 */
+	function isCapsLockOn( event ) {
+		return event.getModifierState( 'CapsLock' );
 	}
 
 	function showOrHideWeakPasswordCheckbox() {

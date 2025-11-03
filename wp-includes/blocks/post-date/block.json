@@ -4,9 +4,13 @@
 	"name": "core/post-date",
 	"title": "Date",
 	"category": "theme",
-	"description": "Display the publish date for an entry such as a post or page.",
+	"description": "Display a custom date.",
 	"textdomain": "default",
 	"attributes": {
+		"datetime": {
+			"type": "string",
+			"role": "content"
+		},
 		"textAlign": {
 			"type": "string"
 		},
@@ -17,10 +21,6 @@
 			"type": "boolean",
 			"default": false,
 			"role": "content"
-		},
-		"displayType": {
-			"type": "string",
-			"default": "date"
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],

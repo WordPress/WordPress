@@ -434,7 +434,7 @@ function twentyfifteen_scripts() {
 	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons, used in the main stylesheet.
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201026' );
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20251202' );
 
 	// Load our main stylesheet.
 	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array(), '20250415' );
@@ -442,15 +442,9 @@ function twentyfifteen_scripts() {
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentyfifteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentyfifteen-style' ), '20240715' );
 
-	// Register the Internet Explorer specific stylesheet.
-	wp_register_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20220908' );
-	wp_style_add_data( 'twentyfifteen-ie', 'conditional', 'lt IE 9' );
-
-	// Register the Internet Explorer 7 specific stylesheet.
-	wp_register_style( 'twentyfifteen-ie7', get_template_directory_uri() . '/css/ie7.css', array( 'twentyfifteen-style' ), '20141210' );
-	wp_style_add_data( 'twentyfifteen-ie7', 'conditional', 'lt IE 8' );
-
-	// Skip-link fix is no longer enqueued by default.
+	// Register handles for removed stylesheets and scripts.
+	wp_register_style( 'twentyfifteen-ie', false, array( 'twentyfifteen-style' ) );
+	wp_register_style( 'twentyfifteen-ie7', false, array( 'twentyfifteen-style' ) );
 	wp_register_script( 'twentyfifteen-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20230526', array( 'in_footer' => true ) );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

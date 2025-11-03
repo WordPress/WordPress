@@ -244,7 +244,9 @@ if ( $block_editor_context->post ) {
 			);
 		}
 	}
-} else {
+} elseif ( isset( $_GET['p'] ) && '/' !== $_GET['p'] ) {
+	// Only prefetch for the root. If we preload it for all pages and it's not
+	// used it won't be possible to invalidate.
 	$preload_paths[] = '/wp/v2/templates/lookup?slug=front-page';
 	$preload_paths[] = '/wp/v2/templates/lookup?slug=home';
 }

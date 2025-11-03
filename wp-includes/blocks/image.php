@@ -22,9 +22,38 @@ function render_block_core_image( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$p = new WP_HTML_Tag_Processor( $content );
+	$processor = new class( $content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Return input span for an empty FIGCAPTION element.
+		 *
+		 * Returns span of input for an empty FIGCAPTION, if currently matched on a
+		 * FIGCAPTION opening tag and if the element is properly closed and empty.
+		 *
+		 * @since 6.9.0
+		 *
+		 * @return WP_HTML_Span|false Span of input if the element is empty; otherwise false.
+		 */
+		public function block_core_image_extract_empty_figcaption_element() {
+			$this->set_bookmark( 'here' );
+			$opener = $this->bookmarks['here'];
 
-	if ( ! $p->next_tag( 'img' ) || ! $p->get_attribute( 'src' ) ) {
+			// Allow comments within the definition of “empty.”
+			while ( $this->next_token() && '#comment' === $this->get_token_name() ) {
+				continue;
+			}
+
+			if ( 'FIGCAPTION' !== $this->get_tag() || ! $this->is_tag_closer() ) {
+				return false;
+			}
+
+			$this->set_bookmark( 'here' );
+			$closer = $this->bookmarks['here'];
+
+			return new WP_HTML_Span( $opener->start, $closer->start + $closer->length - $opener->start );
+		}
+	};
+
+	if ( ! $processor->next_tag( 'img' ) || ! $processor->get_attribute( 'src' ) ) {
 		return '';
 	}
 
@@ -36,11 +65,11 @@ function render_block_core_image( $attributes, $content, $block ) {
 		// probably overridden by block bindings. Update it to the correct value.
 		// See https://github.com/WordPress/gutenberg/issues/62886 for why this is needed.
 		$id                       = $attributes['id'];
-		$image_classnames         = $p->get_attribute( 'class' );
+		$image_classnames         = $processor->get_attribute( 'class' );
 		$class_with_binding_value = "wp-image-$id";
 		if ( is_string( $image_classnames ) && ! str_contains( $image_classnames, $class_with_binding_value ) ) {
 			$image_classnames = preg_replace( '/wp-image-(\d+)/', $class_with_binding_value, $image_classnames );
-			$p->set_attribute( 'class', $image_classnames );
+			$processor->set_attribute( 'class', $image_classnames );
 		}
 	}
 
@@ -54,7 +83,15 @@ function render_block_core_image( $attributes, $content, $block ) {
 		// Else the `data-id` is used for backwards compatibility, since
 		// third parties may be filtering its value.
 		$data_id = $has_id_binding ? $attributes['id'] : $attributes['data-id'];
-		$p->set_attribute( 'data-id', $data_id );
+		$processor->set_attribute( 'data-id', $data_id );
+	}
+
+	/*
+	 * If the `caption` attribute is empty and we encounter a `<figcaption>` element,
+	 * we take note of its span so we can remove it later.
+	 */
+	if ( $processor->next_tag( 'FIGCAPTION' ) && empty( $attributes['caption'] ) ) {
+		$figcaption_span = $processor->block_core_image_extract_empty_figcaption_element();
 	}
 
 	$link_destination  = isset( $attributes['linkDestination'] ) ? $attributes['linkDestination'] : 'none';
@@ -88,7 +125,11 @@ function render_block_core_image( $attributes, $content, $block ) {
 		remove_filter( 'render_block_core/image', 'block_core_image_render_lightbox', 15 );
 	}
 
-	return $p->get_updated_html();
+	$output = $processor->get_updated_html();
+	if ( ! empty( $figcaption_span ) ) {
+		return substr( $output, 0, $figcaption_span->start ) . substr( $output, $figcaption_span->start + $figcaption_span->length );
+	}
+	return $output;
 }
 
 /**
@@ -100,7 +141,7 @@ function render_block_core_image( $attributes, $content, $block ) {
  *
  * @param array $block Block data.
  *
- * @return array Filtered block data.
+ * @return array|null Filtered block data.
  */
 function block_core_image_get_lightbox_settings( $block ) {
 	// Gets the lightbox setting from the block attributes.
@@ -141,18 +182,18 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	 * as-is. There's nothing that this code can knowingly modify to add the
 	 * lightbox behavior.
 	 */
-	$p = new WP_HTML_Tag_Processor( $block_content );
-	if ( $p->next_tag( 'figure' ) ) {
-		$p->set_bookmark( 'figure' );
+	$processor = new WP_HTML_Tag_Processor( $block_content );
+	if ( $processor->next_tag( 'figure' ) ) {
+		$processor->set_bookmark( 'figure' );
 	}
-	if ( ! $p->next_tag( 'img' ) ) {
+	if ( ! $processor->next_tag( 'img' ) ) {
 		return $block_content;
 	}
 
-	$alt               = $p->get_attribute( 'alt' );
-	$img_uploaded_src  = $p->get_attribute( 'src' );
-	$img_class_names   = $p->get_attribute( 'class' );
-	$img_styles        = $p->get_attribute( 'style' );
+	$alt               = $processor->get_attribute( 'alt' );
+	$img_uploaded_src  = $processor->get_attribute( 'src' );
+	$img_class_names   = $processor->get_attribute( 'class' );
+	$img_styles        = $processor->get_attribute( 'style' );
 	$img_width         = 'none';
 	$img_height        = 'none';
 	$aria_label        = __( 'Enlarge' );
@@ -166,9 +207,9 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	}
 
 	// Figure.
-	$p->seek( 'figure' );
-	$figure_class_names = $p->get_attribute( 'class' );
-	$figure_styles      = $p->get_attribute( 'style' );
+	$processor->seek( 'figure' );
+	$figure_class_names = $processor->get_attribute( 'class' );
+	$figure_styles      = $processor->get_attribute( 'style' );
 
 	// Create unique id and set the image metadata in the state.
 	$unique_image_id = uniqid();
@@ -193,9 +234,9 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 		)
 	);
 
-	$p->add_class( 'wp-lightbox-container' );
-	$p->set_attribute( 'data-wp-interactive', 'core/image' );
-	$p->set_attribute(
+	$processor->add_class( 'wp-lightbox-container' );
+	$processor->set_attribute( 'data-wp-interactive', 'core/image' );
+	$processor->set_attribute(
 		'data-wp-context',
 		wp_json_encode(
 			array(
@@ -204,20 +245,21 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
 		)
 	);
+	$processor->set_attribute( 'data-wp-key', $unique_image_id );
 
 	// Image.
-	$p->next_tag( 'img' );
-	$p->set_attribute( 'data-wp-init', 'callbacks.setButtonStyles' );
-	$p->set_attribute( 'data-wp-on-async--load', 'callbacks.setButtonStyles' );
-	$p->set_attribute( 'data-wp-on-async-window--resize', 'callbacks.setButtonStyles' );
+	$processor->next_tag( 'img' );
+	$processor->set_attribute( 'data-wp-init', 'callbacks.setButtonStyles' );
+	$processor->set_attribute( 'data-wp-on--load', 'callbacks.setButtonStyles' );
+	$processor->set_attribute( 'data-wp-on-window--resize', 'callbacks.setButtonStyles' );
 	// Sets an event callback on the `img` because the `figure` element can also
 	// contain a caption, and we don't want to trigger the lightbox when the
 	// caption is clicked.
-	$p->set_attribute( 'data-wp-on-async--click', 'actions.showLightbox' );
-	$p->set_attribute( 'data-wp-class--hide', 'state.isContentHidden' );
-	$p->set_attribute( 'data-wp-class--show', 'state.isContentVisible' );
+	$processor->set_attribute( 'data-wp-on--click', 'actions.showLightbox' );
+	$processor->set_attribute( 'data-wp-class--hide', 'state.isContentHidden' );
+	$processor->set_attribute( 'data-wp-class--show', 'state.isContentVisible' );
 
-	$body_content = $p->get_updated_html();
+	$body_content = $processor->get_updated_html();
 
 	// Adds a button alongside image in the body content.
 	$img = null;
@@ -231,7 +273,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			aria-haspopup="dialog"
 			aria-label="' . esc_attr( $aria_label ) . '"
 			data-wp-init="callbacks.initTriggerButton"
-			data-wp-on-async--click="actions.showLightbox"
+			data-wp-on--click="actions.showLightbox"
 			data-wp-style--right="state.imageButtonRight"
 			data-wp-style--top="state.imageButtonTop"
 		>
@@ -272,20 +314,22 @@ function block_core_image_print_lightbox_overlay() {
 		<div
 			class="wp-lightbox-overlay zoom"
 			data-wp-interactive="core/image"
+			data-wp-router-region='{ "id": "core/image-overlay", "attachTo": "body" }'
+			data-wp-key="wp-lightbox-overlay"
 			data-wp-context='{}'
 			data-wp-bind--role="state.roleAttribute"
 			data-wp-bind--aria-label="state.currentImage.ariaLabel"
 			data-wp-bind--aria-modal="state.ariaModal"
 			data-wp-class--active="state.overlayEnabled"
-			data-wp-class--show-closing-animation="state.showClosingAnimation"
+			data-wp-class--show-closing-animation="state.overlayOpened"
 			data-wp-watch="callbacks.setOverlayFocus"
 			data-wp-on--keydown="actions.handleKeydown"
-			data-wp-on-async--touchstart="actions.handleTouchStart"
+			data-wp-on--touchstart="actions.handleTouchStart"
 			data-wp-on--touchmove="actions.handleTouchMove"
-			data-wp-on-async--touchend="actions.handleTouchEnd"
-			data-wp-on-async--click="actions.hideLightbox"
-			data-wp-on-async-window--resize="callbacks.setOverlayStyles"
-			data-wp-on-async-window--scroll="actions.handleScroll"
+			data-wp-on--touchend="actions.handleTouchEnd"
+			data-wp-on--click="actions.hideLightbox"
+			data-wp-on-window--resize="callbacks.setOverlayStyles"
+			data-wp-on-window--scroll="actions.handleScroll"
 			data-wp-bind--style="state.overlayStyles"
 			tabindex="-1"
 			>

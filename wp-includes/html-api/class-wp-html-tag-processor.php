@@ -3930,41 +3930,32 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		/*
+		$name_length = strlen( $name );
+
+		/**
 		 * WordPress rejects more characters than are strictly forbidden
 		 * in HTML5. This is to prevent additional security risks deeper
-		 * in the WordPress and plugin stack. Specifically the
-		 * less-than (<) greater-than (>) and ampersand (&) aren't allowed.
+		 * in the WordPress and plugin stack. Specifically the following
+		 * are not allowed to be set as part of an HTML attribute name:
 		 *
-		 * The use of a PCRE match enables looking for specific Unicode
-		 * code points without writing a UTF-8 decoder. Whereas scanning
-		 * for one-byte characters is trivial (with `strcspn`), scanning
-		 * for the longer byte sequences would be more complicated. Given
-		 * that this shouldn't be in the hot path for execution, it's a
-		 * reasonable compromise in efficiency without introducing a
-		 * noticeable impact on the overall system.
+		 *  - greater-than “>”
+		 *  - ampersand “&”
 		 *
 		 * @see https://html.spec.whatwg.org/#attributes-2
-		 *
-		 * @todo As the only regex pattern maybe we should take it out?
-		 *       Are Unicode patterns available broadly in Core?
 		 */
-		if ( preg_match(
-			'~[' .
-				// Syntax-like characters.
-				'"\'>&</ =' .
-				// Control characters.
-				'\x{00}-\x{1F}' .
-				// HTML noncharacters.
-				'\x{FDD0}-\x{FDEF}' .
-				'\x{FFFE}\x{FFFF}\x{1FFFE}\x{1FFFF}\x{2FFFE}\x{2FFFF}\x{3FFFE}\x{3FFFF}' .
-				'\x{4FFFE}\x{4FFFF}\x{5FFFE}\x{5FFFF}\x{6FFFE}\x{6FFFF}\x{7FFFE}\x{7FFFF}' .
-				'\x{8FFFE}\x{8FFFF}\x{9FFFE}\x{9FFFF}\x{AFFFE}\x{AFFFF}\x{BFFFE}\x{BFFFF}' .
-				'\x{CFFFE}\x{CFFFF}\x{DFFFE}\x{DFFFF}\x{EFFFE}\x{EFFFF}\x{FFFFE}\x{FFFFF}' .
-				'\x{10FFFE}\x{10FFFF}' .
-			']~Ssu',
-			$name
-		) ) {
+		if (
+			0 === $name_length ||
+			// Syntax-like characters.
+			strcspn( $name, '"\'>&</ =' ) !== $name_length ||
+			// Control characters.
+			strcspn(
+				$name,
+				"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F" .
+				"\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
+			) !== $name_length ||
+			// Unicode noncharacters.
+			wp_has_noncharacters( $name )
+		) {
 			_doing_it_wrong(
 				__METHOD__,
 				__( 'Invalid attribute name.' ),

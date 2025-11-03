@@ -175,13 +175,23 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 	$block_version       = isset( $metadata['version'] ) ? $metadata['version'] : false;
 	$module_version      = isset( $module_asset['version'] ) ? $module_asset['version'] : $block_version;
 
-	// Blocks using the Interactivity API are server-side rendered, so they are by design not in the critical rendering path and should be deprioritized.
+	$supports_interactivity_true = isset( $metadata['supports']['interactivity'] ) && true === $metadata['supports']['interactivity'];
+	$is_interactive              = $supports_interactivity_true || ( isset( $metadata['supports']['interactivity']['interactive'] ) && true === $metadata['supports']['interactivity']['interactive'] );
+	$supports_client_navigation  = $supports_interactivity_true || ( isset( $metadata['supports']['interactivity']['clientNavigation'] ) && true === $metadata['supports']['interactivity']['clientNavigation'] );
+
 	$args = array();
-	if (
-		( isset( $metadata['supports']['interactivity'] ) && true === $metadata['supports']['interactivity'] ) ||
-		( isset( $metadata['supports']['interactivity']['interactive'] ) && true === $metadata['supports']['interactivity']['interactive'] )
-	) {
+
+	// Blocks using the Interactivity API are server-side rendered, so they are
+	// by design not in the critical rendering path and should be deprioritized.
+	if ( $is_interactive ) {
 		$args['fetchpriority'] = 'low';
+		$args['in_footer']     = true;
+	}
+
+	// Blocks using the Interactivity API that support client-side navigation
+	// must be marked as such in their script modules.
+	if ( $is_interactive && $supports_client_navigation ) {
+		wp_interactivity()->add_client_navigation_support_to_script_module( $module_id );
 	}
 
 	wp_register_script_module(
@@ -2375,6 +2385,17 @@ function render_block( $parsed_block ) {
 
 /**
  * Parses blocks out of a content string.
+ *
+ * Given an HTML document, this function fully-parses block content, producing
+ * a tree of blocks and their contents, as well as top-level non-block content,
+ * which will appear as a block with no `blockName`.
+ *
+ * This function can be memory heavy for certain documents, particularly those
+ * with deeply-nested blocks or blocks with extensive attribute values. Further,
+ * this function must parse an entire document in one atomic operation.
+ *
+ * If the entire parsed document is not necessary, consider using {@see WP_Block_Processor}
+ * instead, as it provides a streaming and low-overhead interface for finding blocks.
  *
  * @since 5.0.0
  *

@@ -26,19 +26,16 @@ var __webpack_exports__ = {};
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TokenList)
 /* harmony export */ });
-/**
- * A set of tokens.
- *
- * @see https://dom.spec.whatwg.org/#domtokenlist
- */
 class TokenList {
+  _currentValue;
+  _valueAsArray;
   /**
    * Constructs a new instance of TokenList.
    *
    * @param initialValue Initial value to assign.
    */
-  constructor(initialValue = '') {
-    this._currentValue = '';
+  constructor(initialValue = "") {
+    this._currentValue = "";
     this._valueAsArray = [];
     this.value = initialValue;
   }
@@ -54,7 +51,6 @@ class TokenList {
   values(...args) {
     return this._valueAsArray.values(...args);
   }
-
   /**
    * Returns the associated set as string.
    *
@@ -65,7 +61,6 @@ class TokenList {
   get value() {
     return this._currentValue;
   }
-
   /**
    * Replaces the associated set with a new string value.
    *
@@ -75,10 +70,11 @@ class TokenList {
    */
   set value(value) {
     value = String(value);
-    this._valueAsArray = [...new Set(value.split(/\s+/g).filter(Boolean))];
-    this._currentValue = this._valueAsArray.join(' ');
+    this._valueAsArray = [
+      ...new Set(value.split(/\s+/g).filter(Boolean))
+    ];
+    this._currentValue = this._valueAsArray.join(" ");
   }
-
   /**
    * Returns the number of tokens.
    *
@@ -89,7 +85,6 @@ class TokenList {
   get length() {
     return this._valueAsArray.length;
   }
-
   /**
    * Returns the stringified form of the TokenList.
    *
@@ -101,7 +96,6 @@ class TokenList {
   toString() {
     return this.value;
   }
-
   /**
    * Returns an iterator for the TokenList, iterating items of the set.
    *
@@ -112,7 +106,6 @@ class TokenList {
   *[Symbol.iterator]() {
     return yield* this._valueAsArray;
   }
-
   /**
    * Returns the token with index `index`.
    *
@@ -125,7 +118,6 @@ class TokenList {
   item(index) {
     return this._valueAsArray[index];
   }
-
   /**
    * Returns true if `token` is present, and false otherwise.
    *
@@ -138,7 +130,6 @@ class TokenList {
   contains(item) {
     return this._valueAsArray.indexOf(item) !== -1;
   }
-
   /**
    * Adds all arguments passed, except those already present.
    *
@@ -147,9 +138,8 @@ class TokenList {
    * @param items Items to add.
    */
   add(...items) {
-    this.value += ' ' + items.join(' ');
+    this.value += " " + items.join(" ");
   }
-
   /**
    * Removes arguments passed, if they are present.
    *
@@ -158,9 +148,8 @@ class TokenList {
    * @param items Items to remove.
    */
   remove(...items) {
-    this.value = this._valueAsArray.filter(val => !items.includes(val)).join(' ');
+    this.value = this._valueAsArray.filter((val) => !items.includes(val)).join(" ");
   }
-
   /**
    * If `force` is not given, "toggles" `token`, removing it if it’s present
    * and adding it if it’s not present. If `force` is true, adds token (same
@@ -175,7 +164,7 @@ class TokenList {
    * @return Whether token is present after toggle.
    */
   toggle(token, force) {
-    if (undefined === force) {
+    if (void 0 === force) {
       force = !this.contains(token);
     }
     if (force) {
@@ -185,7 +174,6 @@ class TokenList {
     }
     return force;
   }
-
   /**
    * Replaces `token` with `newToken`. Returns true if `token` was replaced
    * with `newToken`, and false otherwise.
@@ -205,7 +193,6 @@ class TokenList {
     this.add(newToken);
     return true;
   }
-
   /* eslint-disable @typescript-eslint/no-unused-vars */
   /**
    * Returns true if `token` is in the associated attribute’s supported
@@ -223,6 +210,7 @@ class TokenList {
   }
   /* eslint-enable @typescript-eslint/no-unused-vars */
 }
+
 
 (window.wp = window.wp || {}).tokenList = __webpack_exports__["default"];
 /******/ })()

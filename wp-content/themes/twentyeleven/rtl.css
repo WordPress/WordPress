@@ -571,11 +571,3 @@ section.recent-posts .other-recent-posts .comments-link > span {
 		margin-right: 50px;
 	}
 }
-
-/* =IE7
------------------------------------------------ */
-
-#ie7 section.recent-posts {
-	margin-right: 0;
-	margin-left: 7.6%;
-}

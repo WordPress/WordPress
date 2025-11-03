@@ -45,14 +45,6 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// ./node_modules/@wordpress/is-shallow-equal/build-module/objects.js
-/**
- * Returns true if the two objects are shallow equal, or false otherwise.
- *
- * @param {import('.').ComparableObject} a First object to compare.
- * @param {import('.').ComparableObject} b Second object to compare.
- *
- * @return {boolean} Whether the two objects are shallow equal.
- */
 function isShallowEqualObjects(a, b) {
   if (a === b) {
     return true;
@@ -67,12 +59,13 @@ function isShallowEqualObjects(a, b) {
     const key = aKeys[i];
     const aValue = a[key];
     if (
-    // In iterating only the keys of the first object after verifying
-    // equal lengths, account for the case that an explicit `undefined`
-    // value in the first is implicitly undefined in the second.
-    //
-    // Example: isShallowEqualObjects( { a: undefined }, { b: 5 } )
-    aValue === undefined && !b.hasOwnProperty(key) || aValue !== b[key]) {
+      // In iterating only the keys of the first object after verifying
+      // equal lengths, account for the case that an explicit `undefined`
+      // value in the first is implicitly undefined in the second.
+      //
+      // Example: isShallowEqualObjects( { a: undefined }, { b: 5 } )
+      aValue === void 0 && !b.hasOwnProperty(key) || aValue !== b[key]
+    ) {
       return false;
     }
     i++;
@@ -80,15 +73,8 @@ function isShallowEqualObjects(a, b) {
   return true;
 }
 
+
 ;// ./node_modules/@wordpress/is-shallow-equal/build-module/arrays.js
-/**
- * Returns true if the two arrays are shallow equal, or false otherwise.
- *
- * @param {any[]} a First array to compare.
- * @param {any[]} b Second array to compare.
- *
- * @return {boolean} Whether the two arrays are shallow equal.
- */
 function isShallowEqualArrays(a, b) {
   if (a === b) {
     return true;
@@ -104,28 +90,12 @@ function isShallowEqualArrays(a, b) {
   return true;
 }
 
+
 ;// ./node_modules/@wordpress/is-shallow-equal/build-module/index.js
-/**
- * Internal dependencies
- */
 
 
 
 
-
-/**
- * @typedef {Record<string, any>} ComparableObject
- */
-
-/**
- * Returns true if the two arrays or objects are shallow equal, or false
- * otherwise. Also handles primitive values, just in case.
- *
- * @param {unknown} a First object or array to compare.
- * @param {unknown} b Second object or array to compare.
- *
- * @return {boolean} Whether the two values are shallow equal.
- */
 function isShallowEqual(a, b) {
   if (a && b) {
     if (a.constructor === Object && b.constructor === Object) {
@@ -136,6 +106,7 @@ function isShallowEqual(a, b) {
   }
   return a === b;
 }
+
 
 (window.wp = window.wp || {}).isShallowEqual = __webpack_exports__;
 /******/ })()

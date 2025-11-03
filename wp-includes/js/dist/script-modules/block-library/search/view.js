@@ -30,83 +30,61 @@ var x = (y) => {
 var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store), ["withSyncEvent"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.withSyncEvent) });
 ;// ./node_modules/@wordpress/block-library/build-module/search/view.js
-/**
- * WordPress dependencies
- */
 
-const {
-  actions
-} = (0,interactivity_namespaceObject.store)('core/search', {
-  state: {
-    get ariaLabel() {
-      const {
-        isSearchInputVisible,
-        ariaLabelCollapsed,
-        ariaLabelExpanded
-      } = (0,interactivity_namespaceObject.getContext)();
-      return isSearchInputVisible ? ariaLabelExpanded : ariaLabelCollapsed;
+const { actions } = (0,interactivity_namespaceObject.store)(
+  "core/search",
+  {
+    state: {
+      get ariaLabel() {
+        const {
+          isSearchInputVisible,
+          ariaLabelCollapsed,
+          ariaLabelExpanded
+        } = (0,interactivity_namespaceObject.getContext)();
+        return isSearchInputVisible ? ariaLabelExpanded : ariaLabelCollapsed;
+      },
+      get ariaControls() {
+        const { isSearchInputVisible, inputId } = (0,interactivity_namespaceObject.getContext)();
+        return isSearchInputVisible ? null : inputId;
+      },
+      get type() {
+        const { isSearchInputVisible } = (0,interactivity_namespaceObject.getContext)();
+        return isSearchInputVisible ? "submit" : "button";
+      },
+      get tabindex() {
+        const { isSearchInputVisible } = (0,interactivity_namespaceObject.getContext)();
+        return isSearchInputVisible ? "0" : "-1";
+      }
     },
-    get ariaControls() {
-      const {
-        isSearchInputVisible,
-        inputId
-      } = (0,interactivity_namespaceObject.getContext)();
-      return isSearchInputVisible ? null : inputId;
-    },
-    get type() {
-      const {
-        isSearchInputVisible
-      } = (0,interactivity_namespaceObject.getContext)();
-      return isSearchInputVisible ? 'submit' : 'button';
-    },
-    get tabindex() {
-      const {
-        isSearchInputVisible
-      } = (0,interactivity_namespaceObject.getContext)();
-      return isSearchInputVisible ? '0' : '-1';
+    actions: {
+      openSearchInput: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
+        const ctx = (0,interactivity_namespaceObject.getContext)();
+        const { ref } = (0,interactivity_namespaceObject.getElement)();
+        if (!ctx.isSearchInputVisible) {
+          event.preventDefault();
+          ctx.isSearchInputVisible = true;
+          ref.parentElement.querySelector("input").focus();
+        }
+      }),
+      closeSearchInput() {
+        const ctx = (0,interactivity_namespaceObject.getContext)();
+        ctx.isSearchInputVisible = false;
+      },
+      handleSearchKeydown: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
+        const { ref } = (0,interactivity_namespaceObject.getElement)();
+        if (event?.key === "Escape") {
+          actions.closeSearchInput();
+          ref.querySelector("button").focus();
+        }
+      }),
+      handleSearchFocusout: (0,interactivity_namespaceObject.withSyncEvent)((event) => {
+        const { ref } = (0,interactivity_namespaceObject.getElement)();
+        if (!ref.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
+          actions.closeSearchInput();
+        }
+      })
     }
   },
-  actions: {
-    openSearchInput: (0,interactivity_namespaceObject.withSyncEvent)(event => {
-      const ctx = (0,interactivity_namespaceObject.getContext)();
-      const {
-        ref
-      } = (0,interactivity_namespaceObject.getElement)();
-      if (!ctx.isSearchInputVisible) {
-        event.preventDefault();
-        ctx.isSearchInputVisible = true;
-        ref.parentElement.querySelector('input').focus();
-      }
-    }),
-    closeSearchInput() {
-      const ctx = (0,interactivity_namespaceObject.getContext)();
-      ctx.isSearchInputVisible = false;
-    },
-    handleSearchKeydown(event) {
-      const {
-        ref
-      } = (0,interactivity_namespaceObject.getElement)();
-      // If Escape close the menu.
-      if (event?.key === 'Escape') {
-        actions.closeSearchInput();
-        ref.querySelector('button').focus();
-      }
-    },
-    handleSearchFocusout(event) {
-      const {
-        ref
-      } = (0,interactivity_namespaceObject.getElement)();
-      // If focus is outside search form, and in the document, close menu
-      // event.target === The element losing focus
-      // event.relatedTarget === The element receiving focus (if any)
-      // When focusout is outside the document,
-      // `window.document.activeElement` doesn't change.
-      if (!ref.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
-        actions.closeSearchInput();
-      }
-    }
-  }
-}, {
-  lock: true
-});
+  { lock: true }
+);
 

@@ -1,14 +1,15 @@
 :root{
-  --wp-admin-theme-color:#007cba;
-  --wp-admin-theme-color--rgb:0, 124, 186;
-  --wp-admin-theme-color-darker-10:#006ba1;
-  --wp-admin-theme-color-darker-10--rgb:0, 107, 161;
-  --wp-admin-theme-color-darker-20:#005a87;
-  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
-  --wp-admin-border-width-focus:2px;
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
   --wp-bound-block-color:var(--wp-block-synced-color);
+  --wp-editor-canvas-background:#ddd;
+  --wp-admin-theme-color:#007cba;
+  --wp-admin-theme-color--rgb:0, 124, 186;
+  --wp-admin-theme-color-darker-10:#006ba1;
+  --wp-admin-theme-color-darker-10--rgb:0, 107, 160.5;
+  --wp-admin-theme-color-darker-20:#005a87;
+  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
+  --wp-admin-border-width-focus:2px;
 }
 @media (min-resolution:192dpi){
   :root{
@@ -19,10 +20,6 @@
   cursor:pointer;
 }
 
-:root{
-  --wp--preset--font-size--normal:16px;
-  --wp--preset--font-size--huge:42px;
-}
 :root .has-very-light-gray-background-color{
   background-color:#eee;
 }
@@ -56,6 +53,10 @@
 :root .has-midnight-gradient-background{
   background:linear-gradient(-135deg, #020381, #2874fc);
 }
+:root{
+  --wp--preset--font-size--normal:16px;
+  --wp--preset--font-size--huge:42px;
+}
 
 .has-regular-font-size{
   font-size:1em;
@@ -83,6 +84,10 @@
 
 .has-text-align-right{
   text-align:right;
+}
+
+.has-fit-text{
+  white-space:nowrap !important;
 }
 
 #end-resizable-editor-section{

@@ -1252,6 +1252,7 @@ function grant_super_admin( $user_id ) {
  * Revokes Super Admin privileges.
  *
  * @since 3.0.0
+ * @since 6.9.0 Super admin privileges can be revoked regardless of email address.
  *
  * @global array $super_admins
  *
@@ -1278,7 +1279,7 @@ function revoke_super_admin( $user_id ) {
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
-	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
+	if ( $user ) {
 		$key = array_search( $user->user_login, $super_admins, true );
 		if ( false !== $key ) {
 			unset( $super_admins[ $key ] );

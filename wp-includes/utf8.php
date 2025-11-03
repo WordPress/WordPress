@@ -133,3 +133,45 @@ else :
 		return _wp_scrub_utf8_fallback( $text );
 	}
 endif;
+
+if ( _wp_can_use_pcre_u() ) :
+	/**
+	 * Returns whether the given string contains Unicode noncharacters.
+	 *
+	 * XML recommends against using noncharacters and HTML forbids their
+	 * use in attribute names. Unicode recommends that they not be used
+	 * in open exchange of data.
+	 *
+	 * Noncharacters are code points within the following ranges:
+	 *  - U+FDD0–U+FDEF
+	 *  - U+FFFE–U+FFFF
+	 *  - U+1FFFE, U+1FFFF, U+2FFFE, U+2FFFF, …, U+10FFFE, U+10FFFF
+	 *
+	 * @see https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-23/#G12612
+	 * @see https://www.w3.org/TR/xml/#charsets
+	 * @see https://html.spec.whatwg.org/#attributes-2
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string $text Are there noncharacters in this string?
+	 * @return bool Whether noncharacters were found in the string.
+	 */
+	function wp_has_noncharacters( string $text ): bool {
+		return 1 === preg_match(
+			'/[\x{FDD0}-\x{FDEF}\x{FFFE}\x{FFFF}\x{1FFFE}\x{1FFFF}\x{2FFFE}\x{2FFFF}\x{3FFFE}\x{3FFFF}\x{4FFFE}\x{4FFFF}\x{5FFFE}\x{5FFFF}\x{6FFFE}\x{6FFFF}\x{7FFFE}\x{7FFFF}\x{8FFFE}\x{8FFFF}\x{9FFFE}\x{9FFFF}\x{AFFFE}\x{AFFFF}\x{BFFFE}\x{BFFFF}\x{CFFFE}\x{CFFFF}\x{DFFFE}\x{DFFFF}\x{EFFFE}\x{EFFFF}\x{FFFFE}\x{FFFFF}\x{10FFFE}\x{10FFFF}]/u',
+			$text
+		);
+	}
+else :
+	/**
+	 * Fallback function for detecting noncharacters in a text.
+	 *
+	 * @ignore
+	 * @private
+	 *
+	 * @since 6.9.0
+	 */
+	function wp_has_noncharacters( string $text ): bool {
+		return _wp_has_noncharacters_fallback( $text );
+	}
+endif;

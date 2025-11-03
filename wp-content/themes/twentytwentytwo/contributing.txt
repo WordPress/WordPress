@@ -1,0 +1,19 @@
+=== Contributing to Twenty Twenty-Two ===
+
+= Minifying CSS =
+
+Twenty Twenty-Two has a single stylesheet `style.css` which is enqueued in addition to the global styles coming from core. On a normal production site, when `SCRIPT_DEBUG` is disabled, then the minified version `style.min.css` will be enqueued instead. If you make a change to `style.css`, you'll need to re-minify the `style.min.css` using the built-in npm build tool. As always, it is preferable to use the Site Editor to supply Additional CSS instead of directly editing the theme stylesheet.
+
+Installation instructions
+
+1. Using a command line interface, go to the “twentytwentytwo” directory `cd /my-computer/local-wordpress-install/src/wp-content/themes/twentytwentytwo`.
+
+2. Type `npm install` into the command line, and press the [return] key, to install all Node.js dependencies.
+
+3. The dependencies may take a few minutes to download but once it completes, you’re done.
+
+Usage instructions
+
+1. After making a change to the `style.css` file, run `npm run build` from within the theme directory to regenerate `style.min.css` with your new changes.
+
+2. You can also “watch” the theme directory for CSS changes and re-minify the CSS anytime a change occurs by running: `npm run watch`.

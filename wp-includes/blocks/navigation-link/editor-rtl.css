@@ -71,3 +71,17 @@
   gap:8px;
   height:auto;
 }
+
+.link-ui-page-creator{
+  max-width:350px;
+  min-width:auto;
+  padding-top:8px;
+  width:90vw;
+}
+.link-ui-page-creator__inner{
+  padding:16px;
+}
+.link-ui-page-creator__back{
+  margin-right:8px;
+  text-transform:uppercase;
+}

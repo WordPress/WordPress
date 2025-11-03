@@ -1,14 +1,15 @@
 :root{
-  --wp-admin-theme-color:#007cba;
-  --wp-admin-theme-color--rgb:0, 124, 186;
-  --wp-admin-theme-color-darker-10:#006ba1;
-  --wp-admin-theme-color-darker-10--rgb:0, 107, 161;
-  --wp-admin-theme-color-darker-20:#005a87;
-  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
-  --wp-admin-border-width-focus:2px;
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
   --wp-bound-block-color:var(--wp-block-synced-color);
+  --wp-editor-canvas-background:#ddd;
+  --wp-admin-theme-color:#007cba;
+  --wp-admin-theme-color--rgb:0, 124, 186;
+  --wp-admin-theme-color-darker-10:#006ba1;
+  --wp-admin-theme-color-darker-10--rgb:0, 107, 160.5;
+  --wp-admin-theme-color-darker-20:#005a87;
+  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
+  --wp-admin-border-width-focus:2px;
 }
 @media (min-resolution:192dpi){
   :root{
@@ -16,6 +17,9 @@
   }
 }
 
+.wp-block-legacy-widget__edit-form:not([hidden]){
+  display:flow-root;
+}
 .wp-block-legacy-widget__edit-form{
   background:#fff;
   border:1px solid #1e1e1e;
@@ -23,9 +27,6 @@
   max-height:calc(100vh - 2px);
   overflow-y:scroll;
   padding:11px;
-}
-.wp-block-legacy-widget__edit-form:not([hidden]){
-  display:flow-root;
 }
 .wp-block-legacy-widget__edit-form .wp-block-legacy-widget__edit-form-title{
   color:#000;
@@ -108,13 +109,13 @@
   width:100%;
 }
 
-.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview{
-  background:#f0f0f0;
-  padding:8px 12px;
-}
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview,.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3,.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview p{
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
   font-size:13px;
+}
+.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview{
+  background:#f0f0f0;
+  padding:8px 12px;
 }
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3{
   font-size:14px;

@@ -962,12 +962,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 
 	.themes-php .wp-filter-search {
-		float: none;
-		clear: both;
-		right: 0;
-		left: 0;
 		width: 100%;
-		max-width: 280px;
 	}
 
 	.theme-install-php .wp-filter p.search-box {

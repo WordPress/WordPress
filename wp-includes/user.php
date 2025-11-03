@@ -2046,13 +2046,14 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
  * Gets the number of posts written by a list of users.
  *
  * @since 3.0.0
+ * @since 6.9.0 The results are now cached.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int[]           $users       Array of user IDs.
  * @param string|string[] $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
  * @param bool            $public_only Optional. Only return counts for public posts.  Defaults to false.
- * @return string[] Amount of posts each user has written, as strings, keyed by user ID.
+ * @return array<int, string> Amount of posts each user has written, as strings, keyed by user ID.
  */
 function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
@@ -2079,14 +2080,30 @@ function count_many_users_posts( $users, $post_type = 'post', $public_only = fal
 		return $pre;
 	}
 
-	$userlist = implode( ',', array_map( 'absint', $users ) );
-	$where    = get_posts_by_author_sql( $post_type, true, null, $public_only );
+	// Cleanup the users array. Remove duplicates and sort for consistent ordering.
+	$users = array_unique( array_filter( array_map( 'intval', $users ) ) );
+	sort( $users );
 
-	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
+	// Cleanup the post type argument. Remove duplicates and sort for consistent ordering.
+	$post_type = array_unique( (array) $post_type );
+	sort( $post_type );
 
-	$count = array_fill_keys( $users, 0 );
-	foreach ( $result as $row ) {
-		$count[ $row[0] ] = $row[1];
+	$userlist    = implode( ',', $users );
+	$where       = get_posts_by_author_sql( $post_type, true, null, $public_only );
+	$query       = "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author";
+	$cache_key   = 'count_many_users_posts:' . md5( $query );
+	$cache_salts = array( wp_cache_get_last_changed( 'posts' ), wp_cache_get_last_changed( 'users' ) );
+	$count       = wp_cache_get_salted( $cache_key, 'post-queries', $cache_salts );
+
+	if ( false === $count ) {
+		$result = $wpdb->get_results( $query, ARRAY_N );
+
+		$count = array_fill_keys( $users, 0 );
+		foreach ( $result as $row ) {
+			$count[ $row[0] ] = $row[1];
+		}
+
+		wp_cache_set_salted( $cache_key, $count, 'post-queries', $cache_salts, HOUR_IN_SECONDS );
 	}
 
 	return $count;
@@ -2576,24 +2593,14 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		return false;
 	}
 
-	$keys = get_user_meta( $user_id );
-	if ( empty( $keys ) ) {
-		return false;
+	if ( 1 === $blog_id ) {
+		$capabilities_key = $wpdb->base_prefix . 'capabilities';
+	} else {
+		$capabilities_key = $wpdb->base_prefix . $blog_id . '_capabilities';
 	}
+	$has_cap = get_user_meta( $user_id, $capabilities_key, true );
 
-	// No underscore before capabilities in $base_capabilities_key.
-	$base_capabilities_key = $wpdb->base_prefix . 'capabilities';
-	$site_capabilities_key = $wpdb->base_prefix . $blog_id . '_capabilities';
-
-	if ( isset( $keys[ $base_capabilities_key ] ) && 1 === $blog_id ) {
-		return true;
-	}
-
-	if ( isset( $keys[ $site_capabilities_key ] ) ) {
-		return true;
-	}
-
-	return false;
+	return is_array( $has_cap );
 }
 
 /**

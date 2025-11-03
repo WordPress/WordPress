@@ -704,22 +704,10 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// ./node_modules/@wordpress/redux-routine/build-module/is-generator.js
-/* eslint-disable jsdoc/valid-types */
-/**
- * Returns true if the given object is a generator, or false otherwise.
- *
- * @see https://www.ecma-international.org/ecma-262/6.0/#sec-generator-objects
- *
- * @param {any} object Object to test.
- *
- * @return {object is Generator} Whether object is a generator.
- */
 function isGenerator(object) {
-  /* eslint-enable jsdoc/valid-types */
-  // Check that iterator (next) and iterable (Symbol.iterator) interfaces are satisfied.
-  // These checks seem to be compatible with several generator helpers as well as the native implementation.
-  return !!object && typeof object[Symbol.iterator] === 'function' && typeof object.next === 'function';
+  return !!object && typeof object[Symbol.iterator] === "function" && typeof object.next === "function";
 }
+
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
 var dist = __webpack_require__(8975);
@@ -765,69 +753,34 @@ function isPlainObject(o) {
 
 
 ;// ./node_modules/@wordpress/redux-routine/build-module/is-action.js
-/**
- * External dependencies
- */
 
-
-/* eslint-disable jsdoc/valid-types */
-/**
- * Returns true if the given object quacks like an action.
- *
- * @param {any} object Object to test
- *
- * @return {object is import('redux').AnyAction}  Whether object is an action.
- */
 function isAction(object) {
-  return isPlainObject(object) && typeof object.type === 'string';
+  return isPlainObject(object) && typeof object.type === "string";
 }
-
-/**
- * Returns true if the given object quacks like an action and has a specific
- * action type
- *
- * @param {unknown} object       Object to test
- * @param {string}  expectedType The expected type for the action.
- *
- * @return {object is import('redux').AnyAction} Whether object is an action and is of specific type.
- */
 function isActionOfType(object, expectedType) {
-  /* eslint-enable jsdoc/valid-types */
   return isAction(object) && object.type === expectedType;
 }
 
+
 ;// ./node_modules/@wordpress/redux-routine/build-module/runtime.js
-/**
- * External dependencies
- */
 
 
 
-/**
- * Internal dependencies
- */
-
-
-/**
- * Create a co-routine runtime.
- *
- * @param controls Object of control handlers.
- * @param dispatch Unhandled action dispatch.
- */
 function createRuntime(controls = {}, dispatch) {
-  const rungenControls = Object.entries(controls).map(([actionType, control]) => (value, next, iterate, yieldNext, yieldError) => {
-    if (!isActionOfType(value, actionType)) {
-      return false;
+  const rungenControls = Object.entries(controls).map(
+    ([actionType, control]) => (value, next, iterate, yieldNext, yieldError) => {
+      if (!isActionOfType(value, actionType)) {
+        return false;
+      }
+      const routine = control(value);
+      if (isPromise(routine)) {
+        routine.then(yieldNext, yieldError);
+      } else {
+        yieldNext(routine);
+      }
+      return true;
     }
-    const routine = control(value);
-    if (isPromise(routine)) {
-      // Async control routine awaits resolution.
-      routine.then(yieldNext, yieldError);
-    } else {
-      yieldNext(routine);
-    }
-    return true;
-  });
+  );
   const unhandledActionControl = (value, next) => {
     if (!isAction(value)) {
       return false;
@@ -838,37 +791,28 @@ function createRuntime(controls = {}, dispatch) {
   };
   rungenControls.push(unhandledActionControl);
   const rungenRuntime = (0,dist.create)(rungenControls);
-  return action => new Promise((resolve, reject) => rungenRuntime(action, result => {
-    if (isAction(result)) {
-      dispatch(result);
-    }
-    resolve(result);
-  }, reject));
+  return (action) => new Promise(
+    (resolve, reject) => rungenRuntime(
+      action,
+      (result) => {
+        if (isAction(result)) {
+          dispatch(result);
+        }
+        resolve(result);
+      },
+      reject
+    )
+  );
 }
 
+
 ;// ./node_modules/@wordpress/redux-routine/build-module/index.js
-/**
- * Internal dependencies
- */
 
 
-
-/**
- * Creates a Redux middleware, given an object of controls where each key is an
- * action type for which to act upon, the value a function which returns either
- * a promise which is to resolve when evaluation of the action should continue,
- * or a value. The value or resolved promise value is assigned on the return
- * value of the yield assignment. If the control handler returns undefined, the
- * execution is not continued.
- *
- * @param {Record<string, (value: import('redux').AnyAction) => Promise<boolean> | boolean>} controls Object of control handlers.
- *
- * @return {import('redux').Middleware} Co-routine runtime
- */
 function createMiddleware(controls = {}) {
-  return store => {
+  return (store) => {
     const runtime = createRuntime(controls, store.dispatch);
-    return next => action => {
+    return (next) => (action) => {
       if (!isGenerator(action)) {
         return next(action);
       }
@@ -876,6 +820,7 @@ function createMiddleware(controls = {}) {
     };
   };
 }
+
 
 (window.wp = window.wp || {}).reduxRoutine = __webpack_exports__["default"];
 /******/ })()

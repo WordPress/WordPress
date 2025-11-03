@@ -38,10 +38,6 @@ GNU General Public License for more details.
 
 Twenty Twelve Theme bundles the following third-party resources:
 
-HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
-Licenses: MIT/GPL2
-Source: https://github.com/aFarkas/html5shiv
-
 Open Sans Font
 Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans)
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
