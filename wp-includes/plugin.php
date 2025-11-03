@@ -267,6 +267,7 @@ function apply_filters_ref_array( $hook_name, $args ) {
  * that evaluates to false (e.g. 0), so use the `===` operator for testing the return value.
  *
  * @since 2.5.0
+ * @since 6.9.0 Added the `$priority` parameter.
  *
  * @global WP_Hook[] $wp_filter Stores all of the filters and actions.
  *
@@ -274,18 +275,22 @@ function apply_filters_ref_array( $hook_name, $args ) {
  * @param callable|string|array|false $callback  Optional. The callback to check for.
  *                                               This function can be called unconditionally to speculatively check
  *                                               a callback that may or may not exist. Default false.
+ * @param int|false                   $priority  Optional. The specific priority at which to check for the callback.
+ *                                               Default false.
  * @return bool|int If `$callback` is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority
  *                  of that hook is returned, or false if the function is not attached.
+ *                  If `$callback` and `$priority` are both provided, a boolean is returned
+ *                  for whether the specific function is registered at that priority.
  */
-function has_filter( $hook_name, $callback = false ) {
+function has_filter( $hook_name, $callback = false, $priority = false ) {
 	global $wp_filter;
 
 	if ( ! isset( $wp_filter[ $hook_name ] ) ) {
 		return false;
 	}
 
-	return $wp_filter[ $hook_name ]->has_filter( $hook_name, $callback );
+	return $wp_filter[ $hook_name ]->has_filter( $hook_name, $callback, $priority );
 }
 
 /**
@@ -574,6 +579,7 @@ function do_action_ref_array( $hook_name, $args ) {
  * that evaluates to false (e.g. 0), so use the `===` operator for testing the return value.
  *
  * @since 2.5.0
+ * @since 6.9.0 Added the `$priority` parameter.
  *
  * @see has_filter() This function is an alias of has_filter().
  *
@@ -581,12 +587,16 @@ function do_action_ref_array( $hook_name, $args ) {
  * @param callable|string|array|false $callback  Optional. The callback to check for.
  *                                               This function can be called unconditionally to speculatively check
  *                                               a callback that may or may not exist. Default false.
+ * @param int|false                   $priority  Optional. The specific priority at which to check for the callback.
+ *                                               Default false.
  * @return bool|int If `$callback` is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority
  *                  of that hook is returned, or false if the function is not attached.
+ *                  If `$callback` and `$priority` are both provided, a boolean is returned
+ *                  for whether the specific function is registered at that priority.
  */
-function has_action( $hook_name, $callback = false ) {
-	return has_filter( $hook_name, $callback );
+function has_action( $hook_name, $callback = false, $priority = false ) {
+	return has_filter( $hook_name, $callback, $priority );
 }
 
 /**

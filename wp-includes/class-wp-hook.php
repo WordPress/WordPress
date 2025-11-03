@@ -223,16 +223,21 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * that evaluates to false (e.g. 0), so use the `===` operator for testing the return value.
 	 *
 	 * @since 4.7.0
+	 * @since 6.9.0 Added the `$priority` parameter.
 	 *
 	 * @param string                      $hook_name Optional. The name of the filter hook. Default empty.
 	 * @param callable|string|array|false $callback  Optional. The callback to check for.
 	 *                                               This method can be called unconditionally to speculatively check
 	 *                                               a callback that may or may not exist. Default false.
+	 * @param int|false                   $priority  Optional. The specific priority at which to check for the callback.
+	 *                                               Default false.
 	 * @return bool|int If `$callback` is omitted, returns boolean for whether the hook has
 	 *                  anything registered. When checking a specific function, the priority
 	 *                  of that hook is returned, or false if the function is not attached.
+	 *                  If `$callback` and `$priority` are both provided, a boolean is returned
+	 *                  for whether the specific function is registered at that priority.
 	 */
-	public function has_filter( $hook_name = '', $callback = false ) {
+	public function has_filter( $hook_name = '', $callback = false, $priority = false ) {
 		if ( false === $callback ) {
 			return $this->has_filters();
 		}
@@ -243,9 +248,13 @@ final class WP_Hook implements Iterator, ArrayAccess {
 			return false;
 		}
 
-		foreach ( $this->callbacks as $priority => $callbacks ) {
+		if ( is_int( $priority ) ) {
+			return isset( $this->callbacks[ $priority ][ $function_key ] );
+		}
+
+		foreach ( $this->callbacks as $callback_priority => $callbacks ) {
 			if ( isset( $callbacks[ $function_key ] ) ) {
-				return $priority;
+				return $callback_priority;
 			}
 		}
 
