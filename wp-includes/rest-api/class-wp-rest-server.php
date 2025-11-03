@@ -655,12 +655,11 @@ class WP_REST_Server {
 	}
 
 	/**
-	 * Gets the target links for a REST API Link.
+	 * Gets the target hints for a REST API Link.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param array $link
-	 *
+	 * @param array $link The link to get target hints for.
 	 * @return array|null
 	 */
 	protected static function get_target_hints_for_link( $link ) {
@@ -764,6 +763,7 @@ class WP_REST_Server {
 	 *
 	 * @param array         $data  Data from the request.
 	 * @param bool|string[] $embed Whether to embed all links or a filtered list of link relations.
+	 *                             Default true.
 	 * @return array {
 	 *     Data with sub-requests embedded.
 	 *
