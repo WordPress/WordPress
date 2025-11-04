@@ -276,7 +276,7 @@ declare( strict_types = 1 );
  * @return WP_Ability|null The registered ability instance on success, `null` on failure.
  */
 function wp_register_ability( string $name, array $args ): ?WP_Ability {
-	if ( ! did_action( 'wp_abilities_api_init' ) ) {
+	if ( ! doing_action( 'wp_abilities_api_init' ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
@@ -465,7 +465,7 @@ function wp_get_abilities(): array {
  * @return WP_Ability_Category|null The registered ability category instance on success, `null` on failure.
  */
 function wp_register_ability_category( string $slug, array $args ): ?WP_Ability_Category {
-	if ( ! did_action( 'wp_abilities_api_categories_init' ) ) {
+	if ( ! doing_action( 'wp_abilities_api_categories_init' ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
