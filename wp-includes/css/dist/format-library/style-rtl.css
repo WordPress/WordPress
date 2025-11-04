@@ -34,3 +34,7 @@
   padding:1rem;
   width:auto;
 }
+
+.block-editor-format-toolbar__math-input{
+  direction:ltr;
+}

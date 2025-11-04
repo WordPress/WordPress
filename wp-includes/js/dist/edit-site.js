@@ -32854,6 +32854,7 @@ function PrimaryActions({
 
 
 
+
 function ActionWithModal({
   action,
   items,
@@ -32940,6 +32941,21 @@ function ActionTrigger({
   items
 }) {
   const label = typeof action.label === "string" ? action.label : action.label(items);
+  const isMobile = (0,external_wp_compose_namespaceObject.useViewportMatch)("medium", "<");
+  if (isMobile) {
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      external_wp_components_namespaceObject.Button,
+      {
+        disabled: isBusy,
+        accessibleWhenDisabled: true,
+        label,
+        icon: action.icon,
+        size: "compact",
+        onClick,
+        isBusy
+      }
+    );
+  }
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
     external_wp_components_namespaceObject.Button,
     {
@@ -33077,6 +33093,7 @@ function FooterContent({
     null
   );
   const footerContentRef = (0,external_wp_element_.useRef)(null);
+  const isMobile = (0,external_wp_compose_namespaceObject.useViewportMatch)("medium", "<");
   const bulkActions = (0,external_wp_element_.useMemo)(
     () => actions.filter((action) => action.supportsBulk),
     [actions]
@@ -33095,11 +33112,11 @@ function FooterContent({
   }, [selection, data, getItemId, selectableItems]);
   const actionsToShow = (0,external_wp_element_.useMemo)(
     () => actions.filter((action) => {
-      return action.supportsBulk && selectedItems.some(
+      return action.supportsBulk && (!isMobile || action.icon) && selectedItems.some(
         (item) => !action.isEligible || action.isEligible(item)
       );
     }),
-    [actions, selectedItems]
+    [actions, selectedItems, isMobile]
   );
   if (!actionInProgress) {
     if (footerContentRef.current) {
@@ -34427,10 +34444,10 @@ function PrimaryActionGridCell({
         {
           disabled: !!primaryAction.disabled,
           accessibleWhenDisabled: true,
+          text: label,
           size: "small",
           onClick: () => setIsModalOpen(true),
-          variant: "link",
-          children: label
+          variant: "link"
         }
       ),
       children: isModalOpen && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
@@ -43918,6 +43935,19 @@ const templatePartItemRoute = {
 };
 
 
+;// ./node_modules/@wordpress/icons/build-module/library/published.js
+
+
+var published_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+  external_wp_primitives_namespaceObject.Path,
+  {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M12 18.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13ZM4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm11.53-1.47-1.06-1.06L11 12.94l-1.47-1.47-1.06 1.06L11 15.06l4.53-4.53Z"
+  }
+) });
+
+
 ;// ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-templates-browse/content.js
 
 
@@ -43969,7 +43999,7 @@ function DataviewsTemplatesSidebarContent() {
       SidebarNavigationItem,
       {
         to: "/template",
-        icon: layout_default,
+        icon: published_default,
         "aria-current": activeView === "active",
         children: (0,external_wp_i18n_namespaceObject.__)("Active templates")
       }
@@ -43978,7 +44008,7 @@ function DataviewsTemplatesSidebarContent() {
       SidebarNavigationItem,
       {
         to: (0,external_wp_url_namespaceObject.addQueryArgs)("/template", { activeView: "user" }),
-        icon: layout_default,
+        icon: comment_author_avatar_default,
         "aria-current": activeView === "user",
         // Let's avoid calling them "custom templates" to avoid
         // confusion. "Created" is closest to meaning database
@@ -45970,10 +46000,10 @@ const activeField = {
   type: "boolean",
   getValue: ({ item }) => item._isActive,
   render: function Render({ item }) {
-    const activeLabel = item._isCustom ? (0,external_wp_i18n_namespaceObject.__)("Active when used") : (0,external_wp_i18n_namespaceObject.__)("Active");
+    const activeLabel = item._isCustom ? (0,external_wp_i18n_namespaceObject._x)("Active when used", "template") : (0,external_wp_i18n_namespaceObject._x)("Active", "template");
     const activeIntent = item._isCustom ? "info" : "success";
     const isActive = item._isActive;
-    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(fields_Badge, { intent: isActive ? activeIntent : "default", children: isActive ? activeLabel : (0,external_wp_i18n_namespaceObject.__)("Inactive") });
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(fields_Badge, { intent: isActive ? activeIntent : "default", children: isActive ? activeLabel : (0,external_wp_i18n_namespaceObject._x)("Inactive", "template") });
   }
 };
 const useThemeField = () => {
@@ -46038,6 +46068,10 @@ const view_utils_DEFAULT_VIEW = {
 function getDefaultView(activeView) {
   return {
     ...view_utils_DEFAULT_VIEW,
+    sort: activeView === "user" ? {
+      field: "date",
+      direction: "desc"
+    } : view_utils_DEFAULT_VIEW.sort,
     filters: !["active", "user"].includes(activeView) ? [
       {
         field: "author",
@@ -46071,7 +46105,7 @@ function getDefaultView(activeView) {
 
 
 
-const { usePostActions: page_templates_usePostActions, templateTitleField } = unlock(external_wp_editor_namespaceObject.privateApis);
+const { usePostActions: page_templates_usePostActions, usePostFields, templateTitleField } = unlock(external_wp_editor_namespaceObject.privateApis);
 const { useHistory: page_templates_useHistory, useLocation: page_templates_useLocation } = unlock(external_wp_router_namespaceObject.privateApis);
 const { useEntityRecordsWithPermissions: page_templates_useEntityRecordsWithPermissions } = unlock(external_wp_coreData_namespaceObject.privateApis);
 function PageTemplates() {
@@ -46214,6 +46248,10 @@ function PageTemplates() {
     },
     [history, path, view?.type]
   );
+  const postTypeFields = usePostFields({
+    postType: TEMPLATE_POST_TYPE
+  });
+  const dateField = postTypeFields.find((field) => field.id === "date");
   const themeField = useThemeField();
   const fields = (0,external_wp_element_.useMemo)(() => {
     const _fields = [
@@ -46225,6 +46263,9 @@ function PageTemplates() {
     ];
     if (activeView === "user") {
       _fields.push(themeField);
+      if (dateField) {
+        _fields.push(dateField);
+      }
     }
     const elements = [];
     for (const author in users) {
@@ -46238,7 +46279,7 @@ function PageTemplates() {
       elements
     });
     return _fields;
-  }, [users, activeView, themeField]);
+  }, [users, activeView, themeField, dateField]);
   const { data, paginationInfo } = (0,external_wp_element_.useMemo)(() => {
     return filterSortAndPaginate(records, view, fields);
   }, [records, view, fields]);
@@ -46250,6 +46291,7 @@ function PageTemplates() {
           {
             const newItem = items[0];
             const _title = typeof newItem.title === "string" ? newItem.title : newItem.title?.rendered;
+            history.navigate(`/template?activeView=user`);
             createSuccessNotice(
               (0,external_wp_i18n_namespaceObject.sprintf)(
                 // translators: %s: Title of the created post or template, e.g: "Hello world".
@@ -46353,12 +46395,7 @@ function PageTemplates() {
               duplicateAction.RenderModal,
               {
                 items: [selectedRegisteredTemplate],
-                closeModal: () => setSelectedRegisteredTemplate(),
-                onActionPerformed: ([item]) => {
-                  history.navigate(
-                    `/${item.type}/${item.id}?canvas=edit`
-                  );
-                }
+                closeModal: () => setSelectedRegisteredTemplate()
               }
             )
           }
@@ -46504,19 +46541,6 @@ var pages_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.
   /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M16 2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2ZM6 3.5h10a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5Z" }),
   /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M20 8v11c0 .69-.31 1-.999 1H6v1.5h13.001c1.52 0 2.499-.982 2.499-2.5V8H20Z" })
 ] });
-
-
-;// ./node_modules/@wordpress/icons/build-module/library/published.js
-
-
-var published_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-  external_wp_primitives_namespaceObject.Path,
-  {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M12 18.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13ZM4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm11.53-1.47-1.06-1.06L11 12.94l-1.47-1.47-1.06 1.06L11 15.06l4.53-4.53Z"
-  }
-) });
 
 
 ;// ./node_modules/@wordpress/icons/build-module/library/scheduled.js
@@ -46912,7 +46936,7 @@ function AddNewPostModal({ postType, onSave, onClose }) {
 
 
 
-const { usePostActions: post_list_usePostActions, usePostFields } = unlock(external_wp_editor_namespaceObject.privateApis);
+const { usePostActions: post_list_usePostActions, usePostFields: post_list_usePostFields } = unlock(external_wp_editor_namespaceObject.privateApis);
 const { useLocation: post_list_useLocation, useHistory: post_list_useHistory } = unlock(external_wp_router_namespaceObject.privateApis);
 const { useEntityRecordsWithPermissions: post_list_useEntityRecordsWithPermissions } = unlock(external_wp_coreData_namespaceObject.privateApis);
 const post_list_EMPTY_ARRAY = [];
@@ -46971,7 +46995,7 @@ function PostList({ postType }) {
     },
     [path, history]
   );
-  const fields = usePostFields({
+  const fields = post_list_usePostFields({
     postType
   });
   const queryArgs = (0,external_wp_element_.useMemo)(() => {

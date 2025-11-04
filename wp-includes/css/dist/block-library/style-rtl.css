@@ -18,10 +18,6 @@
   }
 }
 
-.wp-block-accordion .wp-block-accordion-heading{
-  padding:0;
-}
-
 .wp-block-accordion-heading__toggle{
   align-items:center;
   background:none;
@@ -31,6 +27,7 @@
   display:flex;
   font-family:inherit;
   font-size:inherit;
+  font-style:inherit;
   font-weight:inherit;
   letter-spacing:inherit;
   line-height:inherit;
@@ -1241,7 +1238,7 @@ figure.wp-block-gallery.has-nested-images{
   position:relative;
 }
 
-h1.has-background,h2.has-background,h3.has-background,h4.has-background,h5.has-background,h6.has-background{
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{
   padding:1.25em 2.375em;
 }
 h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){
@@ -1712,11 +1709,17 @@ ol,ul{
   padding:1.25em 2.375em;
 }
 
-.wp-block-loginout,.wp-block-media-text{
+.wp-block-loginout{
   box-sizing:border-box;
 }
 
+.wp-block-math{
+  overflow-x:auto;
+  overflow-y:hidden;
+}
+
 .wp-block-media-text{
+  box-sizing:border-box;
   direction:ltr;
   display:grid;
   grid-template-columns:50% 1fr;

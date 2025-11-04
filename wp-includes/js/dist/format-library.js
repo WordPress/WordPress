@@ -1913,7 +1913,8 @@ function math_InlineUI({
             value: latex,
             onChange: handleLatexChange,
             placeholder: (0,external_wp_i18n_namespaceObject.__)("e.g., x^2, \\frac{a}{b}"),
-            autoComplete: "off"
+            autoComplete: "off",
+            className: "block-editor-format-toolbar__math-input"
           }
         ),
         error && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [

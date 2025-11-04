@@ -104,7 +104,7 @@
     'name' => 'core/accordion-heading',
     'title' => 'Accordion Heading',
     'category' => 'design',
-    'description' => 'Toggles the accordion panel.',
+    'description' => 'Displays a heading that toggles the accordion panel.',
     'parent' => array(
       'core/accordion-item'
     ),
@@ -2516,9 +2516,13 @@
       )
     ),
     'supports' => array(
+      'html' => false,
       'className' => false,
       'customClassName' => false,
-      'reusable' => false
+      'lock' => false,
+      'reusable' => false,
+      'renaming' => false,
+      'blockVisibility' => false
     ),
     'editorStyle' => 'wp-block-freeform-editor'
   ),
@@ -3825,7 +3829,10 @@
       'customClassName' => false,
       'inserter' => false,
       'html' => false,
+      'lock' => false,
       'reusable' => false,
+      'renaming' => false,
+      'blockVisibility' => false,
       'interactivity' => array(
         'clientNavigation' => true
       )

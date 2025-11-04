@@ -66,8 +66,11 @@ function render_block_core_archives( $attributes ) {
 		$show_label = empty( $attributes['showLabel'] ) ? ' screen-reader-text' : '';
 
 		$block_content = '<label for="' . $dropdown_id . '" class="wp-block-archives__label' . $show_label . '">' . esc_html( $title ) . '</label>
-		<select id="' . $dropdown_id . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
+		<select id="' . esc_attr( $dropdown_id ) . '" name="archive-dropdown">
 		<option value="">' . esc_html( $label ) . '</option>' . $archives . '</select>';
+
+		// Inject the dropdown script immediately after the select dropdown.
+		$block_content .= block_core_archives_build_dropdown_script( $dropdown_id );
 
 		return sprintf(
 			'<div %1$s>%2$s</div>',
@@ -103,6 +106,55 @@ function render_block_core_archives( $attributes ) {
 		'<ul %1$s>%2$s</ul>',
 		$wrapper_attributes,
 		$archives
+	);
+}
+
+/**
+ * Generates the inline script for an archives dropdown field.
+ *
+ * @since 6.9.0
+ *
+ * @param string $dropdown_id ID of the dropdown field.
+ *
+ * @return string Returns the dropdown onChange redirection script.
+ */
+function block_core_archives_build_dropdown_script( $dropdown_id ) {
+	ob_start();
+
+	$exports = array( $dropdown_id, home_url() );
+	?>
+	<script>
+	( ( [ dropdownId, homeUrl ] ) => {
+		const dropdown = document.getElementById( dropdownId );
+		function onSelectChange() {
+			setTimeout( () => {
+				if ( 'escape' === dropdown.dataset.lastkey ) {
+					return;
+				}
+				if ( dropdown.value ) {
+					location.href = dropdown.value;
+				}
+			}, 250 );
+		}
+		function onKeyUp( event ) {
+			if ( 'Escape' === event.key ) {
+				dropdown.dataset.lastkey = 'escape';
+			} else {
+				delete dropdown.dataset.lastkey;
+			}
+		}
+		function onClick() {
+			delete dropdown.dataset.lastkey;
+		}
+		dropdown.addEventListener( 'keyup', onKeyUp );
+		dropdown.addEventListener( 'click', onClick );
+		dropdown.addEventListener( 'change', onSelectChange );
+	} )( <?php echo wp_json_encode( $exports, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> );
+	</script>
+	<?php
+	return wp_get_inline_script_tag(
+		trim( str_replace( array( '<script>', '</script>' ), '', ob_get_clean() ) ) .
+		"\n//# sourceURL=" . rawurlencode( __FUNCTION__ )
 	);
 }
 

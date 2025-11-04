@@ -2529,7 +2529,7 @@ function accordion_heading_save_save({ attributes }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/block.json
-const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Toggles the accordion panel.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"blockVisibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
+const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Displays a heading that toggles the accordion panel.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"blockVisibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/icon.js
 
 
@@ -6319,9 +6319,6 @@ function getTransformedAttributes(attributes, newBlockName, bindingsCallback = n
     return void 0;
   }
   const transformedAttributes = {};
-  if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "allowedBlocks") && attributes.allowedBlocks) {
-    transformedAttributes.allowedBlocks = attributes.allowedBlocks;
-  }
   if ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(newBlockType, "anchor") && attributes.anchor) {
     transformedAttributes.anchor = attributes.anchor;
   }
@@ -7390,7 +7387,7 @@ function edit_ClassicEdit({
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/block.json
-const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"reusable":false},"editorStyle":"wp-block-freeform-editor"}');
+const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"html":false,"className":false,"customClassName":false,"lock":false,"reusable":false,"renaming":false,"blockVisibility":false},"editorStyle":"wp-block-freeform-editor"}');
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/save.js
 
 
@@ -26859,18 +26856,51 @@ function math_save_save({ attributes }) {
   if (!latex) {
     return null;
   }
-  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save(), children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
     "math",
     {
-      ...external_wp_blockEditor_namespaceObject.useBlockProps.save(),
       display: "block",
       dangerouslySetInnerHTML: { __html: mathML }
     }
-  );
+  ) });
 }
 
 
+;// ./node_modules/@wordpress/block-library/build-module/math/deprecated.js
+
+
+const math_deprecated_v1 = {
+  attributes: {
+    latex: {
+      type: "string",
+      role: "content"
+    },
+    mathML: {
+      type: "string",
+      source: "html",
+      selector: "math"
+    }
+  },
+  save({ attributes }) {
+    const { latex, mathML } = attributes;
+    if (!latex) {
+      return null;
+    }
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      "math",
+      {
+        ...external_wp_blockEditor_namespaceObject.useBlockProps.save(),
+        display: "block",
+        dangerouslySetInnerHTML: { __html: mathML }
+      }
+    );
+  }
+};
+var math_deprecated_deprecated_default = [math_deprecated_v1];
+
+
 ;// ./node_modules/@wordpress/block-library/build-module/math/index.js
+
 
 
 
@@ -26887,7 +26917,8 @@ const math_settings = {
     viewportWidth: 300
   },
   edit: MathEdit,
-  save: math_save_save
+  save: math_save_save,
+  deprecated: math_deprecated_deprecated_default
 };
 const math_init = () => initBlock({ name: math_name, metadata: math_block_namespaceObject, settings: math_settings });
 
@@ -29545,7 +29576,7 @@ function MissingEdit({ attributes, clientId }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/missing/block.json
-const missing_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/missing","title":"Unsupported","category":"text","description":"Your site doesn’t include support for this block.","textdomain":"default","attributes":{"originalName":{"type":"string"},"originalUndelimitedContent":{"type":"string"},"originalContent":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"inserter":false,"html":false,"reusable":false,"interactivity":{"clientNavigation":true}}}');
+const missing_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/missing","title":"Unsupported","category":"text","description":"Your site doesn’t include support for this block.","textdomain":"default","attributes":{"originalName":{"type":"string"},"originalUndelimitedContent":{"type":"string"},"originalContent":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"inserter":false,"html":false,"lock":false,"reusable":false,"renaming":false,"blockVisibility":false,"interactivity":{"clientNavigation":true}}}');
 ;// ./node_modules/@wordpress/block-library/build-module/missing/save.js
 
 

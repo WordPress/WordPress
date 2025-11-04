@@ -301,9 +301,6 @@ const getNavigationCommandLoaderPerPostType = (postType) => function useNavigati
     [delayedSearch]
   );
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (window.location.pathname.startsWith("/wp-admin/network/")) {
-      return [];
-    }
     return (records ?? []).map((record) => {
       const command = {
         name: postType + "-" + record.id,
@@ -383,9 +380,6 @@ const getNavigationCommandLoaderPerTemplate = (templateType) => function useNavi
     return orderEntityRecordsBySearch(records, search).slice(0, 10);
   }, [records, search]);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (window.location.pathname.startsWith("/wp-admin/network/")) {
-      return [];
-    }
     if (!canCreateTemplate || !isBlockBasedTheme && !templateType === "wp_template_part") {
       return [];
     }
@@ -469,9 +463,6 @@ const getSiteEditorBasicNavigationCommands = () => function useSiteEditorBasicNa
     };
   }, []);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (window.location.pathname.startsWith("/wp-admin/network/")) {
-      return [];
-    }
     const result = [];
     if (canCreateTemplate && isBlockBasedTheme) {
       result.push({
@@ -580,9 +571,6 @@ const getGlobalStylesOpenCssCommands = () => function useGlobalStylesOpenCssComm
     };
   }, []);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (window.location.pathname.includes("/wp-admin/network/")) {
-      return [];
-    }
     if (!canEditCSS) {
       return [];
     }
@@ -613,31 +601,37 @@ const getGlobalStylesOpenCssCommands = () => function useGlobalStylesOpenCssComm
     commands
   };
 };
-function useSiteEditorNavigationCommands() {
+function useSiteEditorNavigationCommands(isNetworkAdmin) {
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/navigate-pages",
-    hook: getNavigationCommandLoaderPerPostType("page")
+    hook: getNavigationCommandLoaderPerPostType("page"),
+    disabled: isNetworkAdmin
   });
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/navigate-posts",
-    hook: getNavigationCommandLoaderPerPostType("post")
+    hook: getNavigationCommandLoaderPerPostType("post"),
+    disabled: isNetworkAdmin
   });
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/navigate-templates",
-    hook: getNavigationCommandLoaderPerTemplate("wp_template")
+    hook: getNavigationCommandLoaderPerTemplate("wp_template"),
+    disabled: isNetworkAdmin
   });
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/navigate-template-parts",
-    hook: getNavigationCommandLoaderPerTemplate("wp_template_part")
+    hook: getNavigationCommandLoaderPerTemplate("wp_template_part"),
+    disabled: isNetworkAdmin
   });
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/basic-navigation",
     hook: getSiteEditorBasicNavigationCommands(),
-    context: "site-editor"
+    context: "site-editor",
+    disabled: isNetworkAdmin
   });
   (0,external_wp_commands_namespaceObject.useCommandLoader)({
     name: "core/edit-site/global-styles-css",
-    hook: getGlobalStylesOpenCssCommands()
+    hook: getGlobalStylesOpenCssCommands(),
+    disabled: isNetworkAdmin
   });
 }
 
@@ -667,9 +661,9 @@ lock(privateApis, {
 
 const { RouterProvider } = unlock(external_wp_router_namespaceObject.privateApis);
 function CommandPalette({ settings }) {
-  const { menu_commands: menuCommands } = settings;
+  const { menu_commands: menuCommands, is_network_admin: isNetworkAdmin } = settings;
   useAdminNavigationCommands(menuCommands);
-  useSiteEditorNavigationCommands();
+  useSiteEditorNavigationCommands(isNetworkAdmin);
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(RouterProvider, { pathArg: "p", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_commands_namespaceObject.CommandMenu, {}) });
 }
 function initializeCommandPalette(settings) {

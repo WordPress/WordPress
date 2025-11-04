@@ -21780,6 +21780,53 @@ function allowed_blocks_addAttribute(settings) {
   "core/allowedBlocks/attribute",
   allowed_blocks_addAttribute
 );
+function addTransforms(result, source, index, results) {
+  if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(result.name, "allowedBlocks")) {
+    return result;
+  }
+  if (source.length !== 1 && results.length === 1 && result.innerBlocks.length === source.length) {
+    return result;
+  }
+  if (results.length === 1 && source.length > 1 || results.length > 1 && source.length === 1) {
+    return result;
+  }
+  if (results.length > 1 && source.length > 1 && results.length !== source.length) {
+    return result;
+  }
+  if (result.attributes.allowedBlocks) {
+    return result;
+  }
+  const sourceAllowedBlocks = source[index]?.attributes?.allowedBlocks;
+  if (!sourceAllowedBlocks) {
+    return result;
+  }
+  const blockType = (0,external_wp_blocks_namespaceObject.getBlockType)(result.name);
+  const destinationAllowedBlocks = blockType?.allowedBlocks || [];
+  if (!destinationAllowedBlocks.length) {
+    return {
+      ...result,
+      attributes: {
+        ...result.attributes,
+        allowedBlocks: sourceAllowedBlocks
+      }
+    };
+  }
+  const filteredSourceAllowedBlocks = sourceAllowedBlocks.filter(
+    (block) => destinationAllowedBlocks.includes(block)
+  );
+  return {
+    ...result,
+    attributes: {
+      ...result.attributes,
+      allowedBlocks: filteredSourceAllowedBlocks
+    }
+  };
+}
+(0,external_wp_hooks_namespaceObject.addFilter)(
+  "blocks.switchToBlockType.transformedBlock",
+  "core/allowedBlocks/addTransforms",
+  addTransforms
+);
 
 
 ;// ./node_modules/@wordpress/block-editor/build-module/hooks/anchor.js
@@ -21966,7 +22013,7 @@ function custom_class_name_addSaveProps(extraProps, blockType, attributes) {
   }
   return extraProps;
 }
-function addTransforms(result, source, index, results) {
+function custom_class_name_addTransforms(result, source, index, results) {
   if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(result.name, "customClassName", true)) {
     return result;
   }
@@ -21998,7 +22045,7 @@ function addTransforms(result, source, index, results) {
 (0,external_wp_hooks_namespaceObject.addFilter)(
   "blocks.switchToBlockType.transformedBlock",
   "core/customClassName/addTransforms",
-  addTransforms
+  custom_class_name_addTransforms
 );
 
 
@@ -26678,12 +26725,12 @@ function useFitText({ fitText, name, clientId }) {
   const blockElement = useBlockElement(clientId);
   const blockAttributes = (0,external_wp_data_namespaceObject.useSelect)(
     (select) => {
-      if (!clientId) {
+      if (!clientId || !hasFitTextSupport2 || !fitText) {
         return;
       }
       return select(store).getBlockAttributes(clientId);
     },
-    [clientId]
+    [clientId, hasFitTextSupport2, fitText]
   );
   const applyFitText = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (!blockElement || !hasFitTextSupport2 || !fitText) {
@@ -26706,14 +26753,35 @@ function useFitText({ fitText, name, clientId }) {
     if (!fitText || !blockElement || !clientId || !hasFitTextSupport2) {
       return;
     }
-    applyFitText();
     const currentElement = blockElement;
+    const previousVisibility = currentElement.style.visibility;
+    let hideFrameId = null;
+    let calculateFrameId = null;
+    let showTimeoutId = null;
+    hideFrameId = window.requestAnimationFrame(() => {
+      currentElement.style.visibility = "hidden";
+      calculateFrameId = window.requestAnimationFrame(() => {
+        applyFitText();
+        showTimeoutId = setTimeout(() => {
+          currentElement.style.visibility = previousVisibility;
+        }, 10);
+      });
+    });
     let resizeObserver;
     if (window.ResizeObserver && currentElement.parentElement) {
       resizeObserver = new window.ResizeObserver(applyFitText);
       resizeObserver.observe(currentElement.parentElement);
     }
     return () => {
+      if (hideFrameId !== null) {
+        window.cancelAnimationFrame(hideFrameId);
+      }
+      if (calculateFrameId !== null) {
+        window.cancelAnimationFrame(calculateFrameId);
+      }
+      if (showTimeoutId !== null) {
+        clearTimeout(showTimeoutId);
+      }
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
@@ -46601,8 +46669,12 @@ const BlockBindingsPanel = ({ name: blockName, metadata }) => {
 var block_bindings_default = {
   edit: BlockBindingsPanel,
   attributeKeys: ["metadata"],
-  hasSupport() {
-    return true;
+  hasSupport(name) {
+    return ![
+      "core/post-date",
+      "core/navigation-link",
+      "core/navigation-submenu"
+    ].includes(name);
   }
 };
 
@@ -51633,7 +51705,10 @@ function BlockSettingsDropdown({
                 count === 1 && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
                   block_comment_icon_slot_default.Slot,
                   {
-                    fillProps: { onClose }
+                    fillProps: {
+                      clientId: firstBlockClientId,
+                      onClose
+                    }
                   }
                 )
               ] }),
