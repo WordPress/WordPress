@@ -3442,9 +3442,11 @@ function wp_enqueue_command_palette_assets() {
 			}
 
 			// Remove all HTML tags and their contents.
-			$menu_label = $menu_item[0];
-			while ( preg_match( '/<[^>]*>/', $menu_label ) ) {
-				$menu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $menu_label );
+			$processor = new WP_HTML_Tag_Processor( $menu_item[0] );
+			while ( $processor->next_token() ) {
+				if ( '#text' === $processor->get_token_name() ) {
+					$menu_label .= $processor->get_modifiable_text();
+				}
 			}
 			$menu_label = trim( $menu_label );
 			$menu_url   = '';
@@ -3471,9 +3473,12 @@ function wp_enqueue_command_palette_assets() {
 					}
 
 					// Remove all HTML tags and their contents.
-					$submenu_label = $submenu_item[0];
-					while ( preg_match( '/<[^>]*>/', $submenu_label ) ) {
-						$submenu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $submenu_label );
+					$processor     = new WP_HTML_Tag_Processor( $submenu_item[0] );
+					$submenu_label = '';
+					while ( $processor->next_token() ) {
+						if ( '#text' === $processor->get_token_name() ) {
+							$submenu_label .= $processor->get_modifiable_text();
+						}
 					}
 					$submenu_label = trim( $submenu_label );
 					$submenu_url   = '';
