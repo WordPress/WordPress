@@ -384,6 +384,15 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		$phpmailer->Body    = '';
 		$phpmailer->AltBody = '';
 
+		/*
+		 * Reset encoding to 8-bit, as it may have been automatically downgraded
+		 * to 7-bit by PHPMailer (based on the body contents) in a previous call
+		 * to wp_mail().
+		 *
+		 * See https://core.trac.wordpress.org/ticket/33972
+		 */
+		$phpmailer->Encoding = PHPMailer\PHPMailer\PHPMailer::ENCODING_8BIT;
+
 		// Set "From" name and email.
 
 		// If we don't have a name from the input headers.
