@@ -3442,7 +3442,8 @@ function wp_enqueue_command_palette_assets() {
 			}
 
 			// Remove all HTML tags and their contents.
-			$processor = new WP_HTML_Tag_Processor( $menu_item[0] );
+			$processor  = new WP_HTML_Tag_Processor( $menu_item[0] );
+			$menu_label = '';
 			while ( $processor->next_token() ) {
 				if ( '#text' === $processor->get_token_name() ) {
 					$menu_label .= $processor->get_modifiable_text();
