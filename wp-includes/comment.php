@@ -4119,10 +4119,10 @@ function wp_create_initial_comment_meta() {
 		'comment',
 		'_wp_note_status',
 		array(
-			'type'         => 'string',
-			'description'  => __( 'Note resolution status' ),
-			'single'       => true,
-			'show_in_rest' => array(
+			'type'          => 'string',
+			'description'   => __( 'Note resolution status' ),
+			'single'        => true,
+			'show_in_rest'  => array(
 				'schema' => array(
 					'type' => 'string',
 					'enum' => array( 'resolved', 'reopen' ),
