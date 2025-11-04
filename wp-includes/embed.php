@@ -332,8 +332,19 @@ function wp_oembed_register_route() {
  *
  * @since 4.4.0
  * @since 6.8.0 Output was adjusted to only embed if the post supports it.
+ * @since 6.9.0 Now runs first at `wp_head` priority 4, with a fallback to priority 10. This helps ensure the discovery links appear within the first 150KB.
  */
 function wp_oembed_add_discovery_links() {
+	if ( doing_action( 'wp_head' ) ) {
+		// For back-compat, short-circuit if a plugin has removed the action at the original priority.
+		if ( ! has_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 ) ) {
+			return;
+		}
+
+		// Prevent running again at the original priority.
+		remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+	}
+
 	$output = '';
 
 	if ( is_singular() && is_post_embeddable() ) {
