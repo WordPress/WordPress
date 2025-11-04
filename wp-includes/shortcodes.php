@@ -319,7 +319,7 @@ function _filter_do_shortcode_context() {
  * @global array $shortcode_tags
  *
  * @param array $tagnames Optional. List of shortcodes to find. Defaults to all registered shortcodes.
- * @return string The shortcode search regular expression
+ * @return string The shortcode search regular expression.
  */
 function get_shortcode_regex( $tagnames = null ) {
 	global $shortcode_tags;

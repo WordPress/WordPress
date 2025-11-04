@@ -627,7 +627,7 @@ function get_embed_template() {
  *
  * @see get_query_template()
  *
- * @return string Full path to singular template file
+ * @return string Full path to singular template file.
  */
 function get_singular_template() {
 	return get_query_template( 'singular' );
