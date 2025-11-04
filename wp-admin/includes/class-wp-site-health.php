@@ -728,8 +728,8 @@ class WP_Site_Health {
 
 		$result = array(
 			'label'       => sprintf(
-				/* translators: %s: The recommended PHP version. */
-				__( 'Your site is running a recommended version of PHP (%s)' ),
+				/* translators: %s: The server PHP version. */
+				__( 'Your site is running PHP %s' ),
 				PHP_VERSION
 			),
 			'status'      => 'good',
@@ -739,11 +739,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				sprintf(
-					/* translators: %s: The minimum recommended PHP version. */
-					__( 'PHP is one of the programming languages used to build WordPress. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance. The minimum recommended version of PHP is %s.' ),
-					$response ? $response['recommended_version'] : ''
-				)
+				__( 'PHP is one of the programming languages used to build WordPress. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance.' )
 			),
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
@@ -755,8 +751,36 @@ class WP_Site_Health {
 			'test'        => 'php_version',
 		);
 
+		if ( ! $response ) {
+			$result['label'] = sprintf(
+				/* translators: %s: The server PHP version. */
+				__( 'Unable to determine the status of the current PHP version (%s)' ),
+				PHP_VERSION
+			);
+			$result['status']      = 'recommended';
+			$result['description'] = '<p><em>' . sprintf(
+				/* translators: %s is the URL to the Serve Happy docs page. */
+				__( 'Unable to access the WordPress.org API for <a href="%s">Serve Happy</a>.' ),
+				'https://codex.wordpress.org/WordPress.org_API#Serve_Happy'
+			) . '</em></p>' . $result['description'];
+			return $result;
+		}
+
+		$result['description'] .= '<p>' . sprintf(
+			/* translators: %s: The minimum recommended PHP version. */
+			__( 'The minimum recommended version of PHP is %s.' ),
+			$response['recommended_version']
+		) . '</p>';
+
 		// PHP is up to date.
-		if ( ! $response || version_compare( PHP_VERSION, $response['recommended_version'], '>=' ) ) {
+		if ( version_compare( PHP_VERSION, $response['recommended_version'], '>=' ) ) {
+			$result['label'] = sprintf(
+				/* translators: %s: The server PHP version. */
+				__( 'Your site is running a recommended version of PHP (%s)' ),
+				PHP_VERSION
+			);
+			$result['status'] = 'good';
+
 			return $result;
 		}
 
