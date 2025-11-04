@@ -965,50 +965,153 @@ function wp_finalize_template_enhancement_output_buffer( string $output, int $ph
 
 	$filtered_output = $output;
 
-	/**
-	 * Filters the template enhancement output buffer prior to sending to the client.
-	 *
-	 * This filter only applies the HTML output of an included template. This filter is a progressive enhancement
-	 * intended for applications such as optimizing markup to improve frontend page load performance. Sites must not
-	 * depend on this filter applying since they may opt to stream the responses instead. Callbacks for this filter are
-	 * highly discouraged from using regular expressions to do any kind of replacement on the output. Use the HTML API
-	 * (either `WP_HTML_Tag_Processor` or `WP_HTML_Processor`), or else use {@see DOM\HtmlDocument} as of PHP 8.4 which
-	 * fully supports HTML5.
-	 *
-	 * Important: Because this filter is applied inside an output buffer callback (i.e. display handler), any callbacks
-	 * added to the filter must not attempt to start their own output buffers. Otherwise, PHP will raise a fatal error:
-	 * "Cannot use output buffering in output buffering display handlers."
-	 *
-	 * @since 6.9.0
-	 *
-	 * @param string $filtered_output HTML template enhancement output buffer.
-	 * @param string $output          Original HTML template output buffer.
-	 */
-	$filtered_output = (string) apply_filters( 'wp_template_enhancement_output_buffer', $filtered_output, $output );
+	$did_just_catch = false;
 
-	/**
-	 * Fires after the template enhancement output buffer has been finalized.
-	 *
-	 * This happens immediately before the template enhancement output buffer is flushed. No output may be printed at
-	 * this action. However, HTTP headers may be sent, which makes this action complimentary to the
-	 * {@see 'send_headers'} action, in which headers may be sent before the template has started rendering. In
-	 * contrast, this `wp_finalized_template_enhancement_output_buffer` action is the possible point at which HTTP
-	 * headers can be sent. This action does not fire if the "template enhancement output buffer" was not started. This
-	 * output buffer is automatically started if this action is added before
-	 * {@see wp_start_template_enhancement_output_buffer()} runs at the {@see 'wp_before_include_template'} action with
-	 * priority 1000. Before this point, the output buffer will also be started automatically if there was a
-	 * {@see 'wp_template_enhancement_output_buffer'} filter added, or if the
-	 * {@see 'wp_should_output_buffer_template_for_enhancement'} filter is made to return `true`.
-	 *
-	 * Important: Because this action fires inside an output buffer callback (i.e. display handler), any callbacks added
-	 * to the action must not attempt to start their own output buffers. Otherwise, PHP will raise a fatal error:
-	 * "Cannot use output buffering in output buffering display handlers."
-	 *
-	 * @since 6.9.0
-	 *
-	 * @param string $output Finalized output buffer.
-	 */
-	do_action( 'wp_finalized_template_enhancement_output_buffer', $filtered_output );
+	$error_log = array();
+	set_error_handler(
+		static function ( int $level, string $message, ?string $file = null, ?int $line = null ) use ( &$error_log, &$did_just_catch ) {
+			// Switch a user error to an exception so that it can be caught and the buffer can be returned.
+			if ( E_USER_ERROR === $level ) {
+				throw new Exception( __( 'User error triggered:' ) . ' ' . $message );
+			}
+
+			// Display a caught exception as an error since it prevents any of the output buffer filters from applying.
+			if ( $did_just_catch ) { // @phpstan-ignore if.alwaysFalse (The variable is set in the catch block below.)
+				$level = E_USER_ERROR;
+			}
+
+			// Capture a reported error to be displayed by appending to the processed output buffer if display_errors is enabled.
+			if ( error_reporting() & $level ) {
+				$error_log[] = compact( 'level', 'message', 'file', 'line' );
+			}
+			return false;
+		}
+	);
+	$original_display_errors = ini_get( 'display_errors' );
+	if ( $original_display_errors ) {
+		ini_set( 'display_errors', 0 );
+	}
+
+	try {
+		/**
+		 * Filters the template enhancement output buffer prior to sending to the client.
+		 *
+		 * This filter only applies the HTML output of an included template. This filter is a progressive enhancement
+		 * intended for applications such as optimizing markup to improve frontend page load performance. Sites must not
+		 * depend on this filter applying since they may opt to stream the responses instead. Callbacks for this filter
+		 * are highly discouraged from using regular expressions to do any kind of replacement on the output. Use the
+		 * HTML API (either `WP_HTML_Tag_Processor` or `WP_HTML_Processor`), or else use {@see DOM\HtmlDocument} as of
+		 * PHP 8.4 which fully supports HTML5.
+		 *
+		 * Do not print any output during this filter. While filters normally don't print anything, this is especially
+		 * important since this applies during an output buffer callback. Prior to PHP 8.5, the output will be silently
+		 * omitted, whereas afterward a deprecation notice will be emitted.
+		 *
+		 * Important: Because this filter is applied inside an output buffer callback (i.e. display handler), any
+		 * callbacks added to the filter must not attempt to start their own output buffers. Otherwise, PHP will raise a
+		 * fatal error: "Cannot use output buffering in output buffering display handlers."
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string $filtered_output HTML template enhancement output buffer.
+		 * @param string $output          Original HTML template output buffer.
+		 */
+		$filtered_output = (string) apply_filters( 'wp_template_enhancement_output_buffer', $filtered_output, $output );
+	} catch ( Throwable $throwable ) {
+		// Emit to the error log as a warning not as an error to prevent halting execution.
+		$did_just_catch = true;
+		trigger_error(
+			sprintf(
+				/* translators: %s is the throwable class name */
+				__( 'Uncaught "%s" thrown:' ),
+				get_class( $throwable )
+			) . ' ' . $throwable->getMessage(),
+			E_USER_WARNING
+		);
+		$did_just_catch = false;
+	}
+
+	try {
+		/**
+		 * Fires after the template enhancement output buffer has been finalized.
+		 *
+		 * This happens immediately before the template enhancement output buffer is flushed. No output may be printed
+		 * at this action; prior to PHP 8.5, the output will be silently omitted, whereas afterward a deprecation notice
+		 * will be emitted. Nevertheless, HTTP headers may be sent, which makes this action complimentary to the
+		 * {@see 'send_headers'} action, in which headers may be sent before the template has started rendering. In
+		 * contrast, this `wp_finalized_template_enhancement_output_buffer` action is the possible point at which HTTP
+		 * headers can be sent. This action does not fire if the "template enhancement output buffer" was not started.
+		 * This output buffer is automatically started if this action is added before
+		 * {@see wp_start_template_enhancement_output_buffer()} runs at the {@see 'wp_before_include_template'} action
+		 * with priority 1000. Before this point, the output buffer will also be started automatically if there was a
+		 * {@see 'wp_template_enhancement_output_buffer'} filter added, or if the
+		 * {@see 'wp_should_output_buffer_template_for_enhancement'} filter is made to return `true`.
+		 *
+		 * Important: Because this action fires inside an output buffer callback (i.e. display handler), any callbacks
+		 * added to the action must not attempt to start their own output buffers. Otherwise, PHP will raise a fatal
+		 * error: "Cannot use output buffering in output buffering display handlers."
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string $output Finalized output buffer.
+		 */
+		do_action( 'wp_finalized_template_enhancement_output_buffer', $filtered_output );
+	} catch ( Throwable $throwable ) {
+		// Emit to the error log as a warning not as an error to prevent halting execution.
+		$did_just_catch = true;
+		trigger_error(
+			sprintf(
+				/* translators: %s is the class name */
+				__( 'Uncaught "%s" thrown:' ),
+				get_class( $throwable )
+			) . ' ' . $throwable->getMessage(),
+			E_USER_WARNING
+		);
+		$did_just_catch = false;
+	}
+
+	// Append any errors to be displayed before returning flushing the buffer.
+	if ( $original_display_errors && 'stderr' !== $original_display_errors ) {
+		foreach ( $error_log as $error ) {
+			switch ( $error['level'] ) {
+				case E_USER_NOTICE:
+					$type = 'Notice';
+					break;
+				case E_USER_DEPRECATED:
+					$type = 'Deprecated';
+					break;
+				case E_USER_WARNING:
+					$type = 'Warning';
+					break;
+				default:
+					$type = 'Error';
+			}
+
+			if ( ini_get( 'html_errors' ) ) {
+				/*
+				 * Adapted from PHP internals: <https://github.com/php/php-src/blob/a979e9f897a90a580e883b1f39ce5673686ffc67/main/main.c#L1478>.
+				 * The self-closing tags are a vestige of the XHTML past!
+				 */
+				$format = "%s<br />\n<b>%s</b>:  %s in <b>%s</b> on line <b>%s</b><br />\n%s";
+			} else {
+				// Adapted from PHP internals: <https://github.com/php/php-src/blob/a979e9f897a90a580e883b1f39ce5673686ffc67/main/main.c#L1492>.
+				$format = "%s\n%s: %s in %s on line %s\n%s";
+			}
+			$filtered_output .= sprintf(
+				$format,
+				ini_get( 'error_prepend_string' ),
+				$type,
+				$error['message'],
+				$error['file'],
+				$error['line'],
+				ini_get( 'error_append_string' )
+			);
+		}
+
+		ini_set( 'display_errors', $original_display_errors );
+	}
+
+	restore_error_handler();
 
 	return $filtered_output;
 }
