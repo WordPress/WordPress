@@ -121,11 +121,11 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			)
 		);
 
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/me',
-			array(
-				array(
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/me',
+                        array(
+                                array(
 					'methods'             => WP_REST_Server::READABLE,
 					'permission_callback' => '__return_true',
 					'callback'            => array( $this, 'get_current_item' ),
@@ -158,9 +158,75 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					),
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
-			)
-		);
-	}
+                        )
+                );
+
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/mfa',
+                        array(
+                                'args'        => array(
+                                        'id' => array(
+                                                'description' => __( 'Unique identifier for the user.' ),
+                                                'type'        => 'integer',
+                                        ),
+                                ),
+                                array(
+                                        'methods'             => WP_REST_Server::READABLE,
+                                        'callback'            => array( $this, 'get_user_mfa_factors' ),
+                                        'permission_callback' => array( $this, 'manage_user_mfa_permissions_check' ),
+                                ),
+                                array(
+                                        'methods'             => WP_REST_Server::CREATABLE,
+                                        'callback'            => array( $this, 'create_user_mfa_factor' ),
+                                        'permission_callback' => array( $this, 'manage_user_mfa_permissions_check' ),
+                                        'args'                => $this->get_mfa_args(),
+                                ),
+                                array(
+                                        'methods'             => WP_REST_Server::DELETABLE,
+                                        'callback'            => array( $this, 'delete_user_mfa_factor' ),
+                                        'permission_callback' => array( $this, 'manage_user_mfa_permissions_check' ),
+                                        'args'                => array(
+                                                'factor' => array(
+                                                        'type'        => 'string',
+                                                        'required'    => true,
+                                                        'description' => __( 'Identifier for the factor to remove.' ),
+                                                ),
+                                        ),
+                                ),
+                        )
+                );
+
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/me/mfa',
+                        array(
+                                array(
+                                        'methods'             => WP_REST_Server::READABLE,
+                                        'callback'            => array( $this, 'get_current_user_mfa_factors' ),
+                                        'permission_callback' => '__return_true',
+                                ),
+                                array(
+                                        'methods'             => WP_REST_Server::CREATABLE,
+                                        'callback'            => array( $this, 'create_current_user_mfa_factor' ),
+                                        'permission_callback' => array( $this, 'update_current_item_permissions_check' ),
+                                        'args'                => $this->get_mfa_args(),
+                                ),
+                                array(
+                                        'methods'             => WP_REST_Server::DELETABLE,
+                                        'callback'            => array( $this, 'delete_current_user_mfa_factor' ),
+                                        'permission_callback' => array( $this, 'update_current_item_permissions_check' ),
+                                        'args'                => array(
+                                                'factor' => array(
+                                                        'type'        => 'string',
+                                                        'required'    => true,
+                                                        'description' => __( 'Identifier for the factor to remove.' ),
+                                                ),
+                                        ),
+                                ),
+                        )
+                );
+        }
 
 	/**
 	 * Checks for a valid value for the reassign parameter when deleting users.
@@ -1679,6 +1745,390 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		 *
 		 * @param array $query_params JSON Schema-formatted collection parameters.
 		 */
-		return apply_filters( 'rest_user_collection_params', $query_params );
-	}
+                return apply_filters( 'rest_user_collection_params', $query_params );
+        }
+
+        /**
+         * Returns shared argument definitions for MFA routes.
+         *
+         * @since 6.7.0
+         *
+         * @return array
+         */
+        protected function get_mfa_args() {
+                return array(
+                        'type'       => array(
+                                'type'        => 'string',
+                                'required'    => true,
+                                'description' => __( 'Type of factor being registered.' ),
+                        ),
+                        'action'     => array(
+                                'type'        => 'string',
+                                'description' => __( 'Enrollment step to execute for the factor.' ),
+                        ),
+                        'label'      => array(
+                                'type'        => 'string',
+                                'description' => __( 'Display label for the factor.' ),
+                        ),
+                        'secret'     => array(
+                                'type'        => 'string',
+                                'description' => __( 'TOTP secret used for verification.' ),
+                        ),
+                        'code'       => array(
+                                'type'        => 'string',
+                                'description' => __( 'Verification code produced by the authenticator.' ),
+                        ),
+                        'credential' => array(
+                                'description' => __( 'Serialized WebAuthn credential payload.' ),
+                        ),
+                );
+        }
+
+        /**
+         * Ensures the current user may manage MFA for a given account.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return true|WP_Error
+         */
+        public function manage_user_mfa_permissions_check( $request ) {
+                $user_id = (int) $request['id'];
+                $user    = get_userdata( $user_id );
+
+                if ( ! $user ) {
+                        return new WP_Error( 'rest_user_invalid', __( 'Invalid user ID.' ), array( 'status' => 404 ) );
+                }
+
+                if ( get_current_user_id() === $user_id ) {
+                        return true;
+                }
+
+                if ( current_user_can( 'edit_user', $user_id ) ) {
+                        return true;
+                }
+
+                return new WP_Error(
+                        'rest_forbidden',
+                        __( 'Sorry, you are not allowed to manage authentication factors for this user.' ),
+                        array( 'status' => rest_authorization_required_code() )
+                );
+        }
+
+        /**
+         * Returns the MFA factors registered for a user.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function get_user_mfa_factors( $request ) {
+                $user_id = (int) $request['id'];
+                $user    = get_userdata( $user_id );
+
+                if ( ! $user ) {
+                        return new WP_Error( 'rest_user_invalid', __( 'Invalid user ID.' ), array( 'status' => 404 ) );
+                }
+
+                $factors = wp_get_user_auth_factors( $user_id );
+                $prepared = array();
+
+                foreach ( $factors as $factor ) {
+                        $prepared[] = $this->prepare_mfa_factor_for_response( $factor );
+                }
+
+                return rest_ensure_response( $prepared );
+        }
+
+        /**
+         * Creates or updates an MFA factor for a user via the REST API.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function create_user_mfa_factor( $request ) {
+                $user_id = (int) $request['id'];
+                $user    = get_userdata( $user_id );
+
+                if ( ! $user ) {
+                        return new WP_Error( 'rest_user_invalid', __( 'Invalid user ID.' ), array( 'status' => 404 ) );
+                }
+
+                $type   = sanitize_key( $request['type'] );
+                $label  = $request->has_param( 'label' ) ? sanitize_text_field( $request['label'] ) : '';
+                $action = $request->get_param( 'action' );
+
+                switch ( $type ) {
+                        case 'totp':
+                                return $this->handle_totp_factor_request( $request, $user, $label, $action );
+                        case 'email':
+                                return $this->handle_email_factor_request( $request, $user, $label );
+                        case 'webauthn':
+                                return $this->handle_webauthn_factor_request( $request, $user, $label );
+                }
+
+                return new WP_Error( 'rest_mfa_unsupported', __( 'Unsupported factor type.' ), array( 'status' => 400 ) );
+        }
+
+        /**
+         * Deletes an MFA factor for a given user.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function delete_user_mfa_factor( $request ) {
+                $user_id = (int) $request['id'];
+                $user    = get_userdata( $user_id );
+
+                if ( ! $user ) {
+                        return new WP_Error( 'rest_user_invalid', __( 'Invalid user ID.' ), array( 'status' => 404 ) );
+                }
+
+                $factor_id = sanitize_key( $request['factor'] );
+                $factors   = wp_get_user_auth_factors( $user_id );
+
+                if ( ! isset( $factors[ $factor_id ] ) ) {
+                        return new WP_Error( 'rest_mfa_not_found', __( 'The requested factor could not be located.' ), array( 'status' => 404 ) );
+                }
+
+                wp_delete_user_auth_factor( $user_id, $factor_id );
+
+                $remaining = wp_get_user_auth_factors( $user_id );
+                $prepared  = array();
+
+                foreach ( $remaining as $factor ) {
+                        $prepared[] = $this->prepare_mfa_factor_for_response( $factor );
+                }
+
+                return rest_ensure_response( $prepared );
+        }
+
+        /**
+         * Returns MFA factors for the current user.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function get_current_user_mfa_factors( $request ) {
+                if ( ! is_user_logged_in() ) {
+                        return new WP_Error( 'rest_not_logged_in', __( 'Sorry, you are not currently logged in.' ), array( 'status' => rest_authorization_required_code() ) );
+                }
+
+                $request->set_param( 'id', get_current_user_id() );
+
+                return $this->get_user_mfa_factors( $request );
+        }
+
+        /**
+         * Creates an MFA factor for the current user.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function create_current_user_mfa_factor( $request ) {
+                if ( ! is_user_logged_in() ) {
+                        return new WP_Error( 'rest_not_logged_in', __( 'Sorry, you are not currently logged in.' ), array( 'status' => rest_authorization_required_code() ) );
+                }
+
+                $request->set_param( 'id', get_current_user_id() );
+
+                return $this->create_user_mfa_factor( $request );
+        }
+
+        /**
+         * Deletes an MFA factor for the current user.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function delete_current_user_mfa_factor( $request ) {
+                if ( ! is_user_logged_in() ) {
+                        return new WP_Error( 'rest_not_logged_in', __( 'Sorry, you are not currently logged in.' ), array( 'status' => rest_authorization_required_code() ) );
+                }
+
+                $request->set_param( 'id', get_current_user_id() );
+
+                return $this->delete_user_mfa_factor( $request );
+        }
+
+        /**
+         * Prepares factor data for REST responses.
+         *
+         * @since 6.7.0
+         *
+         * @param array $factor Factor configuration.
+         * @return array
+         */
+        protected function prepare_mfa_factor_for_response( $factor ) {
+                unset( $factor['secret'] );
+
+                if ( isset( $factor['attributes']['credential'] ) ) {
+                        unset( $factor['attributes']['credential'] );
+                }
+
+                return $factor;
+        }
+
+        /**
+         * Handles enrollment for TOTP-based factors.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @param WP_User         $user    User object.
+         * @param string          $label   Factor label.
+         * @param string|null     $action  Enrollment action.
+         * @return WP_REST_Response|WP_Error
+         */
+        protected function handle_totp_factor_request( $request, $user, $label, $action ) {
+                if ( 'begin' === $action ) {
+                        $secret = wp_generate_totp_secret();
+                        $issuer = rawurlencode( get_bloginfo( 'name', 'display' ) );
+                        $account = rawurlencode( $user->user_login );
+
+                        return rest_ensure_response(
+                                array(
+                                        'secret'      => $secret,
+                                        'otpauth_url' => sprintf( 'otpauth://totp/%s:%s?secret=%s&issuer=%s', $issuer, $account, $secret, $issuer ),
+                                )
+                        );
+                }
+
+                $secret = $request->get_param( 'secret' );
+                $code   = $request->get_param( 'code' );
+
+                if ( empty( $secret ) || empty( $code ) ) {
+                        return new WP_Error( 'rest_mfa_missing_parameters', __( 'A secret and verification code are required.' ), array( 'status' => 400 ) );
+                }
+
+                $secret = strtoupper( preg_replace( '/[^A-Z2-7]/', '', $secret ) );
+                $decoded = wp_mfa_base32_decode( $secret );
+
+                if ( '' === $decoded ) {
+                        return new WP_Error( 'rest_mfa_invalid_secret', __( 'Invalid authenticator secret.' ), array( 'status' => 400 ) );
+                }
+
+                $valid = false;
+                for ( $offset = -1; $offset <= 1; $offset++ ) {
+                        $expected = wp_generate_totp_from_secret( $decoded, time() + ( $offset * 30 ) );
+
+                        if ( hash_equals( $expected, $code ) ) {
+                                $valid = true;
+                                break;
+                        }
+                }
+
+                if ( ! $valid ) {
+                        return new WP_Error( 'rest_mfa_invalid_code', __( 'The verification code could not be confirmed.' ), array( 'status' => 400 ) );
+                }
+
+                $factor_id = 'totp-' . strtolower( wp_generate_password( 8, false, false ) );
+                $factor    = array(
+                        'id'     => $factor_id,
+                        'type'   => 'totp',
+                        'label'  => $label ? $label : __( 'Authenticator app' ),
+                        'added'  => time(),
+                        'secret' => wp_encrypt_user_mfa_secret( $secret, $factor_id ),
+                );
+
+                $factor  = apply_filters( 'wp_rest_mfa_totp_factor', $factor, $user, $request );
+                $factors = wp_register_user_auth_factor( $user->ID, $factor );
+
+                return rest_ensure_response( $this->prepare_mfa_factor_for_response( $factors[ $factor_id ] ) );
+        }
+
+        /**
+         * Handles enrollment for email-based OTP factors.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @param WP_User         $user    User object.
+         * @param string          $label   Factor label.
+         * @return WP_REST_Response|WP_Error
+         */
+        protected function handle_email_factor_request( $request, $user, $label ) {
+                if ( empty( $user->user_email ) || ! is_email( $user->user_email ) ) {
+                        return new WP_Error( 'rest_mfa_missing_email', __( 'The user must have a valid email address before enabling email verification.' ), array( 'status' => 400 ) );
+                }
+
+                $factors = wp_get_user_auth_factors( $user );
+
+                foreach ( $factors as $existing ) {
+                        if ( 'email' === $existing['type'] ) {
+                                return new WP_Error( 'rest_mfa_email_exists', __( 'Email verification is already enabled.' ), array( 'status' => 400 ) );
+                        }
+                }
+
+                $factor_id = 'email-' . strtolower( wp_generate_password( 6, false, false ) );
+                $factor    = array(
+                        'id'    => $factor_id,
+                        'type'  => 'email',
+                        'label' => $label ? $label : __( 'Email passcodes' ),
+                        'added' => time(),
+                );
+
+                $factor  = apply_filters( 'wp_rest_mfa_email_factor', $factor, $user, $request );
+                $factors = wp_register_user_auth_factor( $user->ID, $factor );
+
+                return rest_ensure_response( $this->prepare_mfa_factor_for_response( $factors[ $factor_id ] ) );
+        }
+
+        /**
+         * Handles enrollment for WebAuthn factors.
+         *
+         * @since 6.7.0
+         *
+         * @param WP_REST_Request $request Request.
+         * @param WP_User         $user    User object.
+         * @param string          $label   Factor label.
+         * @return WP_REST_Response|WP_Error
+         */
+        protected function handle_webauthn_factor_request( $request, $user, $label ) {
+                $credential = $request->get_param( 'credential' );
+
+                if ( empty( $credential ) ) {
+                        return new WP_Error( 'rest_mfa_missing_parameters', __( 'A credential payload must be supplied.' ), array( 'status' => 400 ) );
+                }
+
+                $factor = apply_filters( 'wp_rest_mfa_webauthn_factor', null, $user, $request );
+
+                if ( null === $factor ) {
+                        $serialized = wp_json_encode( $credential );
+
+                        if ( false === $serialized ) {
+                                return new WP_Error( 'rest_mfa_invalid_payload', __( 'Could not encode the credential payload.' ), array( 'status' => 400 ) );
+                        }
+
+                        $factor_id = 'webauthn-' . strtolower( wp_generate_password( 8, false, false ) );
+                        $factor    = array(
+                                'id'        => $factor_id,
+                                'type'      => 'webauthn',
+                                'label'     => $label ? $label : __( 'Security key' ),
+                                'added'     => time(),
+                                'secret'    => wp_encrypt_user_mfa_secret( $serialized, $factor_id ),
+                                'attributes'=> array(),
+                        );
+                }
+
+                if ( empty( $factor['id'] ) ) {
+                        $factor['id'] = 'webauthn-' . strtolower( wp_generate_password( 8, false, false ) );
+                }
+
+                $factor  = apply_filters( 'wp_rest_mfa_webauthn_factor_persist', $factor, $user, $request );
+                $factors = wp_register_user_auth_factor( $user->ID, $factor );
+
+                return rest_ensure_response( $this->prepare_mfa_factor_for_response( $factors[ $factor['id'] ] ) );
+        }
 }

@@ -3587,11 +3587,13 @@ function admin_url( $path = '', $scheme = 'admin' ) {
  * @return string Admin URL link with optional path appended.
  */
 function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
-	$url = get_site_url( $blog_id, 'wp-admin/', $scheme );
+        $url = get_site_url( $blog_id, 'wp-admin/', $scheme );
 
-	if ( $path && is_string( $path ) ) {
-		$url .= ltrim( $path, '/' );
-	}
+        if ( $path && is_string( $path ) ) {
+                $url .= ltrim( $path, '/' );
+        }
+
+        $url = wp_add_admin_login_slug_to_url( $url );
 
 	/**
 	 * Filters the admin area URL.
@@ -3832,11 +3834,13 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 		return admin_url( $path, $scheme );
 	}
 
-	$url = network_site_url( 'wp-admin/network/', $scheme );
+        $url = network_site_url( 'wp-admin/network/', $scheme );
 
-	if ( $path && is_string( $path ) ) {
-		$url .= ltrim( $path, '/' );
-	}
+        if ( $path && is_string( $path ) ) {
+                $url .= ltrim( $path, '/' );
+        }
+
+        $url = wp_add_admin_login_slug_to_url( $url );
 
 	/**
 	 * Filters the network admin URL.
@@ -3864,11 +3868,13 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
  * @return string Admin URL link with optional path appended.
  */
 function user_admin_url( $path = '', $scheme = 'admin' ) {
-	$url = network_site_url( 'wp-admin/user/', $scheme );
+        $url = network_site_url( 'wp-admin/user/', $scheme );
 
-	if ( $path && is_string( $path ) ) {
-		$url .= ltrim( $path, '/' );
-	}
+        if ( $path && is_string( $path ) ) {
+                $url .= ltrim( $path, '/' );
+        }
+
+        $url = wp_add_admin_login_slug_to_url( $url );
 
 	/**
 	 * Filters the user admin URL for the current user.

@@ -89,6 +89,13 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+/*
+ * Enable HTTP Strict Transport Security (HSTS) only after confirming that the entire site,
+ * including assets loaded by themes and plugins, is served over HTTPS without mixed content.
+ * Once enabled, browsers will refuse to load the site over HTTP.
+ */
+// define( 'WP_ENABLE_HSTS', true );
+
 
 
 /* That's all, stop editing! Happy publishing. */

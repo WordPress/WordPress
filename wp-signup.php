@@ -535,8 +535,8 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
 		$login_url = wp_login_url();
 		restore_current_blog();
 	} else {
-		$home_url  = 'http://' . $domain . $path;
-		$login_url = 'http://' . $domain . $path . 'wp-login.php';
+               $home_url  = 'http://' . $domain . $path;
+               $login_url = wp_add_admin_login_slug_to_url( 'http://' . $domain . $path . 'wp-login.php' );
 	}
 
 	$site = sprintf(

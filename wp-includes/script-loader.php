@@ -1453,8 +1453,11 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'admin-widgets' );
 
-		$scripts->add( 'media-widgets', "/wp-admin/js/widgets/media-widgets$suffix.js", array( 'jquery', 'media-models', 'media-views', 'wp-api-request' ) );
-		$scripts->add_inline_script( 'media-widgets', 'wp.mediaWidgets.init();', 'after' );
+                $scripts->add( 'media-widgets', "/wp-admin/js/widgets/media-widgets$suffix.js", array( 'jquery', 'media-models', 'media-views', 'wp-api-request' ) );
+                $scripts->add_inline_script( 'media-widgets', 'wp.mediaWidgets.init();', 'after' );
+
+                $scripts->add( 'wp-media-organization', "/wp-admin/js/media-organization$suffix.js", array( 'jquery', 'media-views', 'wp-api-request' ), false, 1 );
+                $scripts->set_translations( 'wp-media-organization' );
 
 		$scripts->add( 'media-audio-widget', "/wp-admin/js/widgets/media-audio-widget$suffix.js", array( 'media-widgets', 'media-audiovideo' ) );
 		$scripts->add( 'media-image-widget', "/wp-admin/js/widgets/media-image-widget$suffix.js", array( 'media-widgets' ) );
@@ -1610,12 +1613,12 @@ function wp_default_styles( $styles ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	// Admin CSS.
-	$styles->add( 'common', "/wp-admin/css/common$suffix.css" );
-	$styles->add( 'forms', "/wp-admin/css/forms$suffix.css" );
-	$styles->add( 'admin-menu', "/wp-admin/css/admin-menu$suffix.css" );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css" );
-	$styles->add( 'list-tables', "/wp-admin/css/list-tables$suffix.css" );
-	$styles->add( 'edit', "/wp-admin/css/edit$suffix.css" );
+        $styles->add( 'common', "/wp-admin/css/common$suffix.css" );
+        $styles->add( 'forms', "/wp-admin/css/forms$suffix.css" );
+        $styles->add( 'admin-menu', "/wp-admin/css/admin-menu$suffix.css" );
+        $styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css" );
+        $styles->add( 'list-tables', "/wp-admin/css/list-tables$suffix.css" );
+        $styles->add( 'edit', "/wp-admin/css/edit$suffix.css" );
 	$styles->add( 'revisions', "/wp-admin/css/revisions$suffix.css" );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'themes', "/wp-admin/css/themes$suffix.css" );
@@ -1634,14 +1637,16 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'wp-color-picker', "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets', "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
-	$styles->add( 'customize-nav-menus', "/wp-admin/css/customize-nav-menus$suffix.css", array( 'wp-admin', 'colors' ) );
+        $styles->add( 'customize-nav-menus', "/wp-admin/css/customize-nav-menus$suffix.css", array( 'wp-admin', 'colors' ) );
+        $styles->add( 'wp-admin-dark-mode', "/wp-admin/css/dark-mode$suffix.css", array( 'wp-admin' ) );
 
-	// Common dependencies.
-	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
-	$styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
+        // Common dependencies.
+        $styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
+        $styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
+        $styles->add( 'wp-dark-mode', "/wp-includes/css/dark-mode$suffix.css" );
 
-	// Includes CSS.
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
+        // Includes CSS.
+        $styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons', 'wp-mediaelement' ) );
@@ -1657,8 +1662,26 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ) );
 	$styles->add( 'wp-codemirror', '/wp-includes/js/codemirror/codemirror.min.css', array(), '5.29.1-alpha-ee20357' );
 
-	// Deprecated CSS.
-	$styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
+        // Deprecated CSS.
+        $styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
+
+        if ( ! is_admin() && 'off' !== wp_get_dark_mode_preference( 'frontend' ) ) {
+                $styles->enqueue( 'wp-dark-mode' );
+
+                $frontend_dark_mode_css = wp_get_theme_dark_mode_stylesheet( 'frontend' );
+                if ( $frontend_dark_mode_css ) {
+                        wp_add_inline_style( 'wp-dark-mode', $frontend_dark_mode_css );
+                }
+        }
+
+        if ( 'off' !== wp_get_dark_mode_preference( 'admin' ) ) {
+                $styles->enqueue( 'wp-admin-dark-mode' );
+
+                $admin_dark_mode_css = wp_get_theme_dark_mode_stylesheet( 'admin' );
+                if ( $admin_dark_mode_css ) {
+                        wp_add_inline_style( 'wp-admin-dark-mode', $admin_dark_mode_css );
+                }
+        }
 	$styles->add( 'farbtastic', "/wp-admin/css/farbtastic$suffix.css", array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.15' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
@@ -3545,30 +3568,413 @@ function wp_enqueue_command_palette_assets() {
  *                original contents if both exact literals aren't present.
  */
 function wp_remove_surrounding_empty_script_tags( $contents ) {
-	$contents = trim( $contents );
-	$opener   = '<SCRIPT>';
-	$closer   = '</SCRIPT>';
+        $contents = trim( $contents );
+        $opener   = '<SCRIPT>';
+        $closer   = '</SCRIPT>';
 
-	if (
-		strlen( $contents ) > strlen( $opener ) + strlen( $closer ) &&
-		strtoupper( substr( $contents, 0, strlen( $opener ) ) ) === $opener &&
-		strtoupper( substr( $contents, -strlen( $closer ) ) ) === $closer
-	) {
-		return substr( $contents, strlen( $opener ), -strlen( $closer ) );
-	} else {
-		$error_message = __( 'Expected string to start with script tag (without attributes) and end with script tag, with optional whitespace.' );
-		_doing_it_wrong( __FUNCTION__, $error_message, '6.4' );
-		return sprintf(
-			'console.error(%s)',
-			wp_json_encode(
-				sprintf(
-					/* translators: %s: wp_remove_surrounding_empty_script_tags() */
-					__( 'Function %s used incorrectly in PHP.' ),
-					'wp_remove_surrounding_empty_script_tags()'
-				) . ' ' . $error_message
-			)
-		);
-	}
+        if (
+                strlen( $contents ) > strlen( $opener ) + strlen( $closer ) &&
+                strtoupper( substr( $contents, 0, strlen( $opener ) ) ) === $opener &&
+                strtoupper( substr( $contents, -strlen( $closer ) ) ) === $closer
+        ) {
+                return substr( $contents, strlen( $opener ), -strlen( $closer ) );
+        } else {
+                $error_message = __( 'Expected string to start with script tag (without attributes) and end with script tag, with optional whitespace.' );
+                _doing_it_wrong( __FUNCTION__, $error_message, '6.4' );
+                return sprintf(
+                        'console.error(%s)',
+                        wp_json_encode(
+                                sprintf(
+                                        /* translators: %s: wp_remove_surrounding_empty_script_tags() */
+                                        __( 'Function %s used incorrectly in PHP.' ),
+                                        'wp_remove_surrounding_empty_script_tags()'
+                                ) . ' ' . $error_message
+                        )
+                );
+        }
+}
+
+/**
+ * Boots the performance asset optimization pipeline.
+ */
+function wp_performance_bootstrap_asset_pipeline() {
+        if ( ! function_exists( 'wp_performance_get_asset_optimization_settings' ) ) {
+                return;
+        }
+
+        if ( is_admin() && ! wp_doing_ajax() ) {
+                return;
+        }
+
+        $settings = wp_performance_get_asset_optimization_settings();
+
+        if ( empty( $settings['enable_pipeline'] ) ) {
+                return;
+        }
+
+        if ( ! empty( $settings['async_js'] ) || ! empty( $settings['defer_js'] ) || ! empty( $settings['minify_js'] ) ) {
+                add_filter( 'script_loader_tag', 'wp_performance_optimize_script_tag', 10, 3 );
+        }
+
+        if ( ! empty( $settings['combine_js'] ) ) {
+                add_filter( 'print_scripts_array', 'wp_performance_combine_scripts', 99 );
+        }
+
+        if ( ! empty( $settings['combine_css'] ) ) {
+                add_filter( 'print_styles_array', 'wp_performance_combine_styles', 99 );
+        }
+
+        if ( ! empty( $settings['minify_html'] ) ) {
+                add_action( 'template_redirect', 'wp_performance_enable_html_minification', 1 );
+        }
+}
+add_action( 'init', 'wp_performance_bootstrap_asset_pipeline', 20 );
+
+/**
+ * Adds async/defer attributes and minifies inline scripts.
+ *
+ * @param string $tag    Script tag.
+ * @param string $handle Script handle.
+ * @param string $src    Script source URL.
+ *
+ * @return string
+ */
+function wp_performance_optimize_script_tag( $tag, $handle, $src ) {
+        if ( ! function_exists( 'wp_performance_get_asset_optimization_settings' ) ) {
+                return $tag;
+        }
+
+        $settings = wp_performance_get_asset_optimization_settings();
+
+        if ( empty( $settings['enable_pipeline'] ) ) {
+                return $tag;
+        }
+
+        if ( false !== strpos( $tag, ' src=' ) ) {
+                if ( ! empty( $settings['async_js'] ) && false === strpos( $tag, ' async' ) ) {
+                        $tag = str_replace( '<script ', '<script async ', $tag );
+                }
+
+                if ( ! empty( $settings['defer_js'] ) && false === strpos( $tag, ' defer' ) ) {
+                        $tag = str_replace( '<script ', '<script defer ', $tag );
+                }
+        } elseif ( ! empty( $settings['minify_js'] ) ) {
+                $tag = preg_replace_callback(
+                        '#(<script[^>]*>)(.*?)(</script>)#is',
+                        static function ( $matches ) {
+                                $minified = wp_performance_minify_js( $matches[2] );
+                                return $matches[1] . $minified . $matches[3];
+                        },
+                        $tag
+                );
+        }
+
+        return $tag;
+}
+
+/**
+ * Combines multiple JavaScript files into a single optimized asset.
+ *
+ * @param array $handles Script handles scheduled for printing.
+ *
+ * @return array
+ */
+function wp_performance_combine_scripts( $handles ) {
+        static $combined = false;
+
+        if ( $combined || empty( $handles ) ) {
+                return $handles;
+        }
+
+        if ( ! function_exists( 'wp_performance_get_asset_optimization_settings' ) ) {
+                return $handles;
+        }
+
+        $settings = wp_performance_get_asset_optimization_settings();
+
+        if ( empty( $settings['enable_pipeline'] ) || empty( $settings['combine_js'] ) ) {
+                return $handles;
+        }
+
+        global $wp_scripts;
+
+        if ( ! $wp_scripts instanceof WP_Scripts ) {
+                return $handles;
+        }
+
+        $combine      = array();
+        $dependencies = array();
+        foreach ( $handles as $index => $handle ) {
+                if ( empty( $wp_scripts->registered[ $handle ] ) ) {
+                        continue;
+                }
+
+                $script = $wp_scripts->registered[ $handle ];
+
+                if ( empty( $script->src ) || ! empty( $script->extra['conditional'] ) ) {
+                        continue;
+                }
+
+                $path = wp_performance_asset_src_to_path( $wp_scripts->base_url, $script->src );
+
+                if ( ! $path || ! file_exists( $path ) ) {
+                        continue;
+                }
+
+                $combine[ $handle ] = $path;
+                $dependencies       = array_merge( $dependencies, $script->deps );
+
+                unset( $handles[ $index ] );
+        }
+
+        if ( empty( $combine ) ) {
+                return array_values( $handles );
+        }
+
+        $combined_content = '';
+        foreach ( $combine as $handle => $path ) {
+                $contents = file_get_contents( $path );
+
+                if ( false === $contents ) {
+                        continue;
+                }
+
+                if ( ! empty( $settings['minify_js'] ) ) {
+                        $contents = wp_performance_minify_js( $contents );
+                }
+
+                $combined_content .= "\n/* {$handle} */\n" . $contents;
+
+                $after = $wp_scripts->get_data( $handle, 'after' );
+                if ( $after ) {
+                        $combined_content .= "\n" . implode( "\n", $after );
+                }
+        }
+
+        if ( '' === trim( $combined_content ) ) {
+                return array_values( $handles );
+        }
+
+        $hash     = md5( $combined_content );
+        $filename = 'combined-' . $hash . '.js';
+        $file     = wp_performance_write_cache_file( $filename, $combined_content );
+
+        if ( ! $file ) {
+                return array_values( $handles );
+        }
+
+        $url = wp_performance_get_cache_url();
+
+        if ( ! $url ) {
+                        return array_values( $handles );
+        }
+
+        $src   = trailingslashit( $url ) . $filename;
+        $ver   = filemtime( $file );
+        $deps  = array_diff( array_unique( array_filter( $dependencies ) ), array_keys( $combine ) );
+        $group = 0;
+        foreach ( array_keys( $combine ) as $handle ) {
+                $group = max( $group, (int) $wp_scripts->get_data( $handle, 'group' ) );
+        }
+
+        $combined_handle = 'wp-performance-combined-js';
+        $wp_scripts->add( $combined_handle, $src, $deps, $ver );
+        if ( $group ) {
+                $wp_scripts->add_data( $combined_handle, 'group', $group );
+        }
+
+        $handles   = array_values( $handles );
+        $handles[] = $combined_handle;
+
+        $combined = true;
+
+        return $handles;
+}
+
+/**
+ * Combines CSS handles into a single stylesheet.
+ *
+ * @param array $handles Style handles.
+ *
+ * @return array
+ */
+function wp_performance_combine_styles( $handles ) {
+        static $combined = false;
+
+        if ( $combined || empty( $handles ) ) {
+                return $handles;
+        }
+
+        if ( ! function_exists( 'wp_performance_get_asset_optimization_settings' ) ) {
+                return $handles;
+        }
+
+        $settings = wp_performance_get_asset_optimization_settings();
+
+        if ( empty( $settings['enable_pipeline'] ) || empty( $settings['combine_css'] ) ) {
+                return $handles;
+        }
+
+        global $wp_styles;
+
+        if ( ! $wp_styles instanceof WP_Styles ) {
+                return $handles;
+        }
+
+        $combine      = array();
+        $dependencies = array();
+        foreach ( $handles as $index => $handle ) {
+                if ( empty( $wp_styles->registered[ $handle ] ) ) {
+                        continue;
+                }
+
+                $style = $wp_styles->registered[ $handle ];
+
+                if ( empty( $style->src ) || ! empty( $style->extra['conditional'] ) ) {
+                        continue;
+                }
+
+                if ( ! empty( $style->args ) && 'all' !== $style->args ) {
+                        continue;
+                }
+
+                $path = wp_performance_asset_src_to_path( $wp_styles->base_url, $style->src );
+
+                if ( ! $path || ! file_exists( $path ) ) {
+                        continue;
+                }
+
+                $combine[ $handle ] = $path;
+                $dependencies       = array_merge( $dependencies, $style->deps );
+
+                unset( $handles[ $index ] );
+        }
+
+        if ( empty( $combine ) ) {
+                return array_values( $handles );
+        }
+
+        $combined_content = '';
+        foreach ( $combine as $handle => $path ) {
+                $contents = file_get_contents( $path );
+
+                if ( false === $contents ) {
+                        continue;
+                }
+
+                if ( ! empty( $settings['minify_css'] ) ) {
+                        $contents = wp_performance_minify_css( $contents );
+                }
+
+                $combined_content .= "\n/* {$handle} */\n" . $contents;
+
+                $after = $wp_styles->get_data( $handle, 'after' );
+                if ( $after ) {
+                        $combined_content .= "\n" . implode( "\n", $after );
+                }
+        }
+
+        if ( '' === trim( $combined_content ) ) {
+                return array_values( $handles );
+        }
+
+        $hash     = md5( $combined_content );
+        $filename = 'combined-' . $hash . '.css';
+        $file     = wp_performance_write_cache_file( $filename, $combined_content );
+
+        if ( ! $file ) {
+                return array_values( $handles );
+        }
+
+        $url = wp_performance_get_cache_url();
+
+        if ( ! $url ) {
+                return array_values( $handles );
+        }
+
+        $src             = trailingslashit( $url ) . $filename;
+        $ver             = filemtime( $file );
+        $deps            = array_diff( array_unique( array_filter( $dependencies ) ), array_keys( $combine ) );
+        $combined_handle = 'wp-performance-combined-css';
+
+        $wp_styles->add( $combined_handle, $src, $deps, $ver );
+        $wp_styles->registered[ $combined_handle ]->args = 'all';
+
+        $handles   = array_values( $handles );
+        $handles[] = $combined_handle;
+
+        $combined = true;
+
+        return $handles;
+}
+
+/**
+ * Converts an asset URL into an absolute path when pointing to this installation.
+ *
+ * @param string $base Base URL for the dependency object.
+ * @param string $src  Relative or absolute source.
+ *
+ * @return string|false Absolute path when available.
+ */
+function wp_performance_asset_src_to_path( $base, $src ) {
+        $src = trim( $src );
+
+        if ( '' === $src ) {
+                return false;
+        }
+
+        if ( 0 === strpos( $src, 'http://' ) || 0 === strpos( $src, 'https://' ) ) {
+                $full = $src;
+        } elseif ( 0 === strpos( $src, '//' ) ) {
+                $full = wp_parse_url( home_url(), PHP_URL_SCHEME ) . ':' . $src;
+        } else {
+                $full = $base . $src;
+        }
+
+        $full = strtok( $full, '?' );
+
+        $site_url = site_url();
+        $content  = content_url();
+        $includes = includes_url();
+
+        if ( 0 === strpos( $full, $content ) ) {
+                $relative = substr( $full, strlen( $content ) );
+                $path     = WP_CONTENT_DIR . $relative;
+        } elseif ( 0 === strpos( $full, $includes ) ) {
+                $relative = substr( $full, strlen( $includes ) );
+                $path     = ABSPATH . WPINC . '/' . ltrim( $relative, '/' );
+        } elseif ( 0 === strpos( $full, $site_url ) ) {
+                $relative = substr( $full, strlen( untrailingslashit( $site_url ) ) );
+                $path     = ABSPATH . ltrim( $relative, '/' );
+        } elseif ( 0 === strpos( $full, '/' ) ) {
+                $path = ABSPATH . ltrim( $full, '/' );
+        } else {
+                return false;
+        }
+
+        $path = wp_normalize_path( $path );
+
+        return $path;
+}
+
+/**
+ * Enables HTML minification via output buffering.
+ */
+function wp_performance_enable_html_minification() {
+        if ( ! function_exists( 'wp_performance_minify_html' ) ) {
+                return;
+        }
+
+        if ( is_admin() || wp_doing_ajax() || is_feed() ) {
+                return;
+        }
+
+        if ( did_action( 'wp_performance_html_minification_started' ) ) {
+                return;
+        }
+
+        do_action( 'wp_performance_html_minification_started' );
+        ob_start( 'wp_performance_minify_html' );
 }
 
 /**

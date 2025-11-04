@@ -1816,25 +1816,49 @@ function is_blog_installed() {
 	 * options table could not be accessed.
 	 */
 	$wp_tables = $wpdb->tables();
-	foreach ( $wp_tables as $table ) {
-		// The existence of custom user tables shouldn't suggest an unwise state or prevent a clean installation.
-		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE === $table ) {
-			continue;
-		}
+        $missing_table_errors = array( 1146 );
 
-		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE === $table ) {
-			continue;
-		}
+        if ( defined( 'ER_NO_SUCH_TABLE' ) ) {
+                $missing_table_errors[] = ER_NO_SUCH_TABLE;
+        }
 
-		$described_table = $wpdb->get_results( "DESCRIBE $table;" );
-		if (
-			( ! $described_table && empty( $wpdb->last_error ) ) ||
-			( is_array( $described_table ) && 0 === count( $described_table ) )
-		) {
-			continue;
-		}
+        if ( defined( 'MYSQLI_ER_NO_SUCH_TABLE' ) ) {
+                $missing_table_errors[] = MYSQLI_ER_NO_SUCH_TABLE;
+        }
 
-		// One or more tables exist. This is not good.
+        $missing_table_errors = array_unique( $missing_table_errors );
+
+        foreach ( $wp_tables as $table ) {
+                // The existence of custom user tables shouldn't suggest an unwise state or prevent a clean installation.
+                if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE === $table ) {
+                        continue;
+                }
+
+                if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE === $table ) {
+                        continue;
+                }
+
+                $wpdb->last_error = '';
+                $described_table = $wpdb->get_results( "DESCRIBE $table;" );
+                $error_code      = 0;
+
+                if ( isset( $wpdb->use_mysqli ) && $wpdb->use_mysqli && $wpdb->dbh instanceof mysqli ) {
+                        $error_code = mysqli_errno( $wpdb->dbh );
+                } elseif ( isset( $wpdb->use_mysqli ) && ! $wpdb->use_mysqli && function_exists( 'mysql_errno' ) && is_resource( $wpdb->dbh ) ) {
+                        $error_code = mysql_errno( $wpdb->dbh );
+                }
+
+                $is_missing_table_error = $error_code && in_array( $error_code, $missing_table_errors, true );
+
+                if (
+                        ( ! $described_table && empty( $wpdb->last_error ) ) ||
+                        ( is_array( $described_table ) && 0 === count( $described_table ) ) ||
+                        $is_missing_table_error
+                ) {
+                        continue;
+                }
+
+                // One or more tables exist. This is not good.
 
 		wp_load_translations_early();
 
@@ -6348,6 +6372,168 @@ function wp_guess_url() {
 }
 
 /**
+ * Sanitizes the administrator login slug value.
+ *
+ * @since 6.6.0
+ *
+ * @param string $slug Raw slug value.
+ * @return string Sanitized slug consisting of lowercase alphanumeric characters and hyphens.
+ */
+function sanitize_admin_login_slug( $slug ) {
+        $slug = strtolower( trim( (string) $slug ) );
+        $slug = preg_replace( '/[^a-z0-9\-]+/', '-', $slug );
+        $slug = trim( $slug, '-' );
+
+        return $slug;
+}
+
+/**
+ * Generates a cryptographically secure administrator login slug.
+ *
+ * @since 6.6.0
+ *
+ * @return string Generated slug string.
+ */
+function wp_generate_admin_login_slug() {
+        $prefix = apply_filters( 'admin_login_slug_prefix', 'admin' );
+        $prefix = sanitize_admin_login_slug( $prefix );
+
+        $random = strtolower( wp_generate_password( 12, false, false ) );
+        $random = preg_replace( '/[^a-z0-9]/', '', $random );
+
+        $segments = array_filter( array( $prefix, $random ) );
+        $slug     = implode( '-', $segments );
+
+        $slug = sanitize_admin_login_slug( $slug );
+
+        /**
+         * Filters the generated administrator login slug value.
+         *
+         * @since 6.6.0
+         *
+         * @param string $slug Generated slug value.
+         */
+        return apply_filters( 'generated_admin_login_slug', $slug );
+}
+
+/**
+ * Retrieves the active administrator login slug.
+ *
+ * Generates and persists a new slug if one has not been configured yet.
+ *
+ * @since 6.6.0
+ *
+ * @return string Current administrator login slug.
+ */
+function get_admin_login_slug() {
+        $slug = get_option( 'admin_login_slug', '' );
+        $slug = sanitize_admin_login_slug( $slug );
+
+        if ( empty( $slug ) ) {
+                $slug = wp_generate_admin_login_slug();
+                update_option( 'admin_login_slug', $slug );
+        }
+
+        /**
+         * Filters the active administrator login slug.
+         *
+         * @since 6.6.0
+         *
+         * @param string $slug Administrator login slug.
+         */
+        return apply_filters( 'get_admin_login_slug', $slug );
+}
+
+/**
+ * Retrieves the query parameter name used when enforcing the administrator login slug.
+ *
+ * @since 6.6.0
+ *
+ * @return string Query argument name.
+ */
+function wp_admin_login_slug_query_arg() {
+        /**
+         * Filters the administrator login slug query parameter name.
+         *
+         * @since 6.6.0
+         *
+         * @param string $query_arg Query argument name.
+         */
+        return apply_filters( 'admin_login_slug_query_arg', 'admin_slug' );
+}
+
+/**
+ * Adds the administrator login slug to a URL as a query argument.
+ *
+ * @since 6.6.0
+ *
+ * @param string $url URL to modify.
+ * @return string URL containing the slug argument when available.
+ */
+function wp_add_admin_login_slug_to_url( $url ) {
+        $slug = get_admin_login_slug();
+
+        if ( empty( $slug ) ) {
+                return $url;
+        }
+
+        return add_query_arg( wp_admin_login_slug_query_arg(), $slug, $url );
+}
+
+/**
+ * Sanitizes administrator login slug input from settings screens.
+ *
+ * @since 6.6.0
+ *
+ * @param string $slug Unsanitized slug value.
+ * @return string Sanitized slug. Falls back to the existing slug when empty.
+ */
+function wp_sanitize_admin_login_slug( $slug ) {
+        $slug = sanitize_admin_login_slug( $slug );
+
+        if ( empty( $slug ) ) {
+                add_settings_error( 'admin_login_slug', 'admin_login_slug', __( 'The admin login slug cannot be empty.' ) );
+
+                return get_admin_login_slug();
+        }
+
+        return $slug;
+}
+
+/**
+ * Flushes rewrite rules when the administrator login slug changes.
+ *
+ * @since 6.6.0
+ *
+ * @param string $old_value Previous value.
+ * @param string $value     Updated value.
+ */
+function wp_admin_login_slug_option_updated( $old_value, $value ) {
+        if ( $old_value === $value ) {
+                return;
+        }
+
+        flush_rewrite_rules();
+}
+
+/**
+ * Flushes rewrite rules after the administrator login slug is first saved.
+ *
+ * @since 6.6.0
+ *
+ * @param string $option Option name.
+ * @param string $value  Option value.
+ */
+function wp_admin_login_slug_option_added( $option, $value ) {
+        unset( $option, $value );
+
+        flush_rewrite_rules();
+}
+
+add_action( 'update_option_admin_login_slug', 'wp_admin_login_slug_option_updated', 10, 2 );
+add_action( 'add_option_admin_login_slug', 'wp_admin_login_slug_option_added', 10, 2 );
+
+/**
  * Temporarily suspends cache additions.
  *
  * Stops more data being added to the cache, but still allows cache retrieval.
@@ -7156,6 +7342,90 @@ function send_frame_options_header() {
 		header( 'X-Frame-Options: SAMEORIGIN' );
 		header( "Content-Security-Policy: frame-ancestors 'self';" );
 	}
+}
+
+/**
+ * Sends the Strict-Transport-Security header when enabled.
+ *
+ * @since 6.8.0
+ */
+function send_hsts_header() {
+	if ( headers_sent() || ! is_ssl() ) {
+		return;
+	}
+
+	static $did_send = false;
+
+	if ( $did_send ) {
+		return;
+	}
+
+	if ( defined( 'WP_ENABLE_HSTS' ) ) {
+		$enabled = wp_validate_boolean( WP_ENABLE_HSTS );
+	} else {
+		$enabled = wp_validate_boolean( get_option( 'enable_hsts', false ) );
+	}
+
+	if ( ! $enabled ) {
+		return;
+	}
+
+	$directives = array(
+		'max-age'           => YEAR_IN_SECONDS,
+		'includeSubDomains' => false,
+		'preload'           => false,
+	);
+
+	/**
+	 * Filters the directives used for the Strict-Transport-Security header.
+	 *
+	 * Allows customization of the `max-age`, `includeSubDomains`, and `preload` directives.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param array $directives {
+	 *     Associative array of directives for the Strict-Transport-Security header.
+	 *
+	 *     @type int  $max-age           Max-age directive, in seconds. Default YEAR_IN_SECONDS.
+	 *     @type bool $includeSubDomains Whether to send the includeSubDomains directive. Default false.
+	 *     @type bool $preload           Whether to send the preload directive. Default false.
+	 * }
+	 */
+	$directives = apply_filters( 'wp_hsts_header', $directives );
+
+	$max_age = isset( $directives['max-age'] ) ? (int) $directives['max-age'] : YEAR_IN_SECONDS;
+	$max_age = max( 0, $max_age );
+
+	$include_subdomains = isset( $directives['includeSubDomains'] )
+		? wp_validate_boolean( $directives['includeSubDomains'] )
+		: false;
+	$preload = isset( $directives['preload'] )
+		? wp_validate_boolean( $directives['preload'] )
+		: false;
+
+	$header_value = 'Strict-Transport-Security: max-age=' . $max_age;
+
+	if ( $include_subdomains ) {
+		$header_value .= '; includeSubDomains';
+	}
+
+	if ( $preload ) {
+		$header_value .= '; preload';
+	}
+
+	/**
+	 * Filters the Strict-Transport-Security header before it is sent.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param string $header_value Header string for Strict-Transport-Security.
+	 * @param array  $directives   Array of directives used to build the header.
+	 */
+	$header_value = apply_filters( 'wp_hsts_header_value', $header_value, $directives );
+
+	header( $header_value );
+
+	$did_send = true;
 }
 
 /**

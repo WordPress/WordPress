@@ -438,7 +438,12 @@ switch ( $step ) {
 
 		if ( false === $error ) {
 			$wpdb->show_errors();
-			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
+                        $result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
+
+                        // Ensure a login slug is created on initial installation.
+                        if ( empty( get_option( 'admin_login_slug', '' ) ) ) {
+                                update_option( 'admin_login_slug', wp_generate_admin_login_slug() );
+                        }
 			?>
 
 <h1><?php _e( 'Success!' ); ?></h1>

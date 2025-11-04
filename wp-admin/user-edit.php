@@ -329,11 +329,44 @@ switch ( $action ) {
 							</label>
 						</td>
 					</tr>
-					<?php endif; ?>
+                                        <?php endif; ?>
 
-					<?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
-					<tr class="user-admin-color-wrap">
-						<th scope="row"><?php _e( 'Administration Color Scheme' ); ?></th>
+                                        <?php
+                                        $dark_mode_choices       = wp_get_dark_mode_preference_choices();
+                                        $site_dark_mode_settings = wp_get_dark_mode_settings();
+                                        $user_dark_mode_settings = wp_get_user_dark_mode_preferences( $profile_user->ID );
+                                        $admin_default_label     = isset( $dark_mode_choices[ $site_dark_mode_settings['admin'] ] ) ? $dark_mode_choices[ $site_dark_mode_settings['admin'] ] : $dark_mode_choices['auto'];
+                                        $front_default_label     = isset( $dark_mode_choices[ $site_dark_mode_settings['frontend'] ] ) ? $dark_mode_choices[ $site_dark_mode_settings['frontend'] ] : $dark_mode_choices['auto'];
+                                        ?>
+                                        <tr class="user-dark-mode-preferences">
+                                                <th scope="row"><?php _e( 'Dark mode' ); ?></th>
+                                                <td>
+                                                        <fieldset>
+                                                                <legend class="screen-reader-text"><span><?php _e( 'Dark mode preferences' ); ?></span></legend>
+                                                                <label for="dark-mode-admin-override"><?php _e( 'Dashboard' ); ?></label>
+                                                                <select name="dark_mode_preference[admin]" id="dark-mode-admin-override">
+                                                                        <?php /* translators: %s: Site-level dark mode choice label. */ ?>
+                                                                        <option value="default"><?php echo esc_html( sprintf( __( 'Use site default (%s)' ), $admin_default_label ) ); ?></option>
+                                                                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                                                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( isset( $user_dark_mode_settings['admin'] ) ? $user_dark_mode_settings['admin'] : 'default', $value ); ?>><?php echo esc_html( $label ); ?></option>
+                                                                        <?php endforeach; ?>
+                                                                </select>
+                                                                <label for="dark-mode-frontend-override" class="screen-reader-text"><?php _e( 'Front end dark mode preference' ); ?></label>
+                                                                <select name="dark_mode_preference[frontend]" id="dark-mode-frontend-override">
+                                                                        <?php /* translators: %s: Site-level dark mode choice label. */ ?>
+                                                                        <option value="default"><?php echo esc_html( sprintf( __( 'Use site default (%s)' ), $front_default_label ) ); ?></option>
+                                                                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                                                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( isset( $user_dark_mode_settings['frontend'] ) ? $user_dark_mode_settings['frontend'] : 'default', $value ); ?>><?php echo esc_html( $label ); ?></option>
+                                                                        <?php endforeach; ?>
+                                                                </select>
+                                                                <p class="description"><?php _e( 'Override the global dark mode behavior for your account across the dashboard and public site.' ); ?></p>
+                                                        </fieldset>
+                                                </td>
+                                        </tr>
+
+                                        <?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
+                                        <tr class="user-admin-color-wrap">
+                                                <th scope="row"><?php _e( 'Administration Color Scheme' ); ?></th>
 						<td>
 							<?php
 							/**

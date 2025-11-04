@@ -419,7 +419,8 @@ function wp_logout_url( $redirect = '' ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$logout_url = add_query_arg( $args, site_url( 'wp-login.php?action=logout', 'login' ) );
+        $logout_url = add_query_arg( $args, site_url( 'wp-login.php?action=logout', 'login' ) );
+        $logout_url = wp_add_admin_login_slug_to_url( $logout_url );
 	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
 
 	/**
@@ -444,27 +445,117 @@ function wp_logout_url( $redirect = '' ) {
  * @return string The login URL. Not HTML-encoded.
  */
 function wp_login_url( $redirect = '', $force_reauth = false ) {
-	$login_url = site_url( 'wp-login.php', 'login' );
+        $slug      = get_admin_login_slug();
+        $query_arg = wp_admin_login_slug_query_arg();
 
-	if ( ! empty( $redirect ) ) {
-		$login_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $login_url );
-	}
+        if ( '' !== get_option( 'permalink_structure' ) ) {
+                global $wp_rewrite;
 
-	if ( $force_reauth ) {
-		$login_url = add_query_arg( 'reauth', '1', $login_url );
-	}
+                $path = ltrim( trailingslashit( $slug ), '/' );
 
-	/**
-	 * Filters the login URL.
-	 *
-	 * @since 2.8.0
-	 * @since 4.2.0 The `$force_reauth` parameter was added.
-	 *
-	 * @param string $login_url    The login URL. Not HTML-encoded.
-	 * @param string $redirect     The path to redirect to on login, if supplied.
-	 * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present.
-	 */
-	return apply_filters( 'login_url', $login_url, $redirect, $force_reauth );
+                if ( $wp_rewrite instanceof WP_Rewrite && $wp_rewrite->using_index_permalinks() ) {
+                        $front = trim( $wp_rewrite->front, '/' );
+
+                        if ( '' !== $front ) {
+                                $path = $front . '/' . $path;
+                        }
+                }
+
+                $login_url = home_url( $path );
+        } else {
+                $login_url = add_query_arg( $query_arg, $slug, site_url( 'wp-login.php', 'login' ) );
+        }
+
+        if ( ! empty( $redirect ) ) {
+                $login_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $login_url );
+        }
+
+        if ( $force_reauth ) {
+                $login_url = add_query_arg( 'reauth', '1', $login_url );
+        }
+
+        /**
+         * Filters the login URL.
+         *
+         * @since 2.8.0
+         * @since 4.2.0 The `$force_reauth` parameter was added.
+         *
+         * @param string $login_url    The login URL. Not HTML-encoded.
+         * @param string $redirect     The path to redirect to on login, if supplied.
+         * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present.
+         */
+        return apply_filters( 'login_url', $login_url, $redirect, $force_reauth );
+}
+
+/**
+ * Redirects requests to the friendly administrator login slug.
+ *
+ * @since 6.6.0
+ */
+function wp_maybe_redirect_admin_login_slug() {
+        if ( is_admin() || wp_installing() ) {
+                return;
+        }
+
+        $slug = get_admin_login_slug();
+
+        if ( empty( $slug ) ) {
+                return;
+        }
+
+        if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+                return;
+        }
+
+        $request_path = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
+
+        if ( null === $request_path ) {
+                return;
+        }
+
+        $home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+        if ( $home_path ) {
+                $home_path = rtrim( $home_path, '/' );
+                if ( $home_path && str_starts_with( $request_path, $home_path ) ) {
+                        $request_path = substr( $request_path, strlen( $home_path ) );
+                        if ( false === $request_path ) {
+                                $request_path = '';
+                        }
+                }
+        }
+
+        $request_path = trim( $request_path, '/' );
+
+        global $wp_rewrite;
+
+        if ( $wp_rewrite instanceof WP_Rewrite && $wp_rewrite->using_index_permalinks() ) {
+                $front = trim( $wp_rewrite->front, '/' );
+
+                if ( '' !== $front && str_starts_with( $request_path, $front ) ) {
+                        $stripped_request_path = substr( $request_path, strlen( $front ) );
+
+                        if ( false !== $stripped_request_path ) {
+                                $request_path = ltrim( $stripped_request_path, '/' );
+                        }
+                }
+        }
+
+        if ( ! hash_equals( $request_path, $slug ) ) {
+                return;
+        }
+
+        $target = wp_add_admin_login_slug_to_url( site_url( 'wp-login.php', 'login' ) );
+
+        if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
+                parse_str( $_SERVER['QUERY_STRING'], $query_vars );
+                unset( $query_vars[ wp_admin_login_slug_query_arg() ] );
+                if ( $query_vars ) {
+                        $target = add_query_arg( $query_vars, $target );
+                }
+        }
+
+        wp_safe_redirect( $target );
+        exit;
 }
 
 /**
@@ -482,7 +573,10 @@ function wp_registration_url() {
 	 *
 	 * @param string $register The user registration URL.
 	 */
-	return apply_filters( 'register_url', site_url( 'wp-login.php?action=register', 'login' ) );
+        $url = site_url( 'wp-login.php?action=register', 'login' );
+        $url = wp_add_admin_login_slug_to_url( $url );
+
+        return apply_filters( 'register_url', $url );
 }
 
 /**
@@ -593,12 +687,14 @@ function wp_login_form( $args = array() ) {
 	 */
 	$login_form_bottom = apply_filters( 'login_form_bottom', '', $args );
 
-	$form =
-		sprintf(
-			'<form name="%1$s" id="%1$s" action="%2$s" method="post">',
-			esc_attr( $args['form_id'] ),
-			esc_url( site_url( 'wp-login.php', 'login_post' ) )
-		) .
+        $form_action = wp_add_admin_login_slug_to_url( site_url( 'wp-login.php', 'login_post' ) );
+
+        $form =
+                sprintf(
+                        '<form name="%1$s" id="%1$s" action="%2$s" method="post">',
+                        esc_attr( $args['form_id'] ),
+                        esc_url( $form_action )
+                ) .
 		$login_form_top .
 		sprintf(
 			'<p class="login-username">
@@ -1066,11 +1162,14 @@ function get_custom_logo( $blog_id = 0 ) {
 
 	// We have a logo. Logo is go.
 	if ( has_custom_logo() ) {
-		$custom_logo_id   = get_theme_mod( 'custom_logo' );
-		$custom_logo_attr = array(
-			'class'   => 'custom-logo',
-			'loading' => false,
-		);
+                $custom_logo_id   = get_theme_mod( 'custom_logo' );
+                $custom_logo_attr = array(
+                        'class'   => 'custom-logo',
+                        'loading' => false,
+                );
+                $dark_logo_id     = wp_get_dark_mode_logo_id();
+                $dark_mode_pref   = wp_get_dark_mode_preference( 'frontend' );
+                $has_dark_logo    = $dark_logo_id && wp_attachment_is_image( $dark_logo_id );
 
 		$unlink_homepage_logo = (bool) get_theme_support( 'custom-logo', 'unlink-homepage-logo' );
 
@@ -1106,7 +1205,28 @@ function get_custom_logo( $blog_id = 0 ) {
 		 * If the alt attribute is not empty, there's no need to explicitly pass it
 		 * because wp_get_attachment_image() already adds the alt attribute.
 		 */
-		$image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
+                $logo_source_id = ( $has_dark_logo && 'dark' === $dark_mode_pref ) ? $dark_logo_id : $custom_logo_id;
+                $image          = wp_get_attachment_image( $logo_source_id, 'full', false, $custom_logo_attr );
+
+                if ( $has_dark_logo && 'dark' !== $dark_mode_pref ) {
+                        $fallback_image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
+                        $dark_srcset    = wp_get_attachment_image_srcset( $dark_logo_id, 'full' );
+                        $dark_src       = wp_get_attachment_image_url( $dark_logo_id, 'full' );
+                        $dark_sizes     = wp_get_attachment_image_sizes( $dark_logo_id, 'full' );
+
+                        if ( $dark_src ) {
+                                $picture  = '<picture class="custom-logo-picture">';
+                                $picture .= '<source media="(prefers-color-scheme: dark)" srcset="' . esc_attr( $dark_srcset ? $dark_srcset : $dark_src ) . '"';
+                                if ( $dark_sizes ) {
+                                        $picture .= ' sizes="' . esc_attr( $dark_sizes ) . '"';
+                                }
+                                $picture .= ' />';
+                                $picture .= $fallback_image;
+                                $picture .= '</picture>';
+
+                                $image = $picture;
+                        }
+                }
 
 		// Check that we have a proper HTML img element.
 		if ( $image ) {

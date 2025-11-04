@@ -31,11 +31,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @see register_rest_route()
 	 */
-	public function register_routes() {
-		parent::register_routes();
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
+        public function register_routes() {
+                parent::register_routes();
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'post_process_item' ),
@@ -53,17 +53,53 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				),
 			)
 		);
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\d]+)/edit',
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'edit_media_item' ),
-				'permission_callback' => array( $this, 'edit_media_item_permissions_check' ),
-				'args'                => $this->get_edit_media_item_args(),
-			)
-		);
-	}
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/edit',
+                        array(
+                                'methods'             => WP_REST_Server::CREATABLE,
+                                'callback'            => array( $this, 'edit_media_item' ),
+                                'permission_callback' => array( $this, 'edit_media_item_permissions_check' ),
+                                'args'                => $this->get_edit_media_item_args(),
+                        )
+                );
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/processing-status',
+                        array(
+                                'methods'             => WP_REST_Server::READABLE,
+                                'callback'            => array( $this, 'get_processing_status' ),
+                                'permission_callback' => array( $this, 'get_processing_status_permissions_check' ),
+                                'args'                => array(
+                                        'id'     => array(
+                                                'description' => __( 'Unique identifier for the attachment.' ),
+                                                'type'        => 'integer',
+                                        ),
+                                        'job_id' => array(
+                                                'description' => __( 'Processing job identifier to query.' ),
+                                                'type'        => 'string',
+                                                'required'    => true,
+                                        ),
+                                ),
+                        )
+                );
+        }
+
+        public function sanitize_media_taxonomy_param( $value, $request = null, $param = '' ) {
+                if ( is_string( $value ) && str_contains( $value, ',' ) ) {
+                        $value = explode( ',', $value );
+                }
+
+                if ( '' === $value || null === $value ) {
+                        return array();
+                }
+
+                $value = (array) $value;
+
+                $value = array_filter( array_map( 'absint', $value ) );
+
+                return array_values( $value );
+        }
 
 	/**
 	 * Determines the allowed query_vars for a get_items() response and
@@ -103,14 +139,49 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			}
 		}
 
-		if ( ! empty( $all_mime_types ) ) {
-			$query_args['post_mime_type'] = array_values( array_unique( $all_mime_types ) );
-		}
+                if ( ! empty( $all_mime_types ) ) {
+                        $query_args['post_mime_type'] = array_values( array_unique( $all_mime_types ) );
+                }
 
-		// Filter query clauses to include filenames.
-		if ( isset( $query_args['s'] ) ) {
-			add_filter( 'wp_allow_query_attachment_by_filename', '__return_true' );
-		}
+                $tax_filters = array();
+
+                if ( ! empty( $request['media_folder'] ) ) {
+                        $folders = array_filter( array_map( 'absint', (array) $request['media_folder'] ) );
+
+                        if ( $folders ) {
+                                $tax_filters[] = array(
+                                        'taxonomy'         => 'media_folder',
+                                        'field'            => 'term_id',
+                                        'terms'            => $folders,
+                                        'include_children' => true,
+                                );
+                        }
+                }
+
+                if ( ! empty( $request['media_tag'] ) ) {
+                        $tags = array_filter( array_map( 'absint', (array) $request['media_tag'] ) );
+
+                        if ( $tags ) {
+                                $tax_filters[] = array(
+                                        'taxonomy' => 'media_tag',
+                                        'field'    => 'term_id',
+                                        'terms'    => $tags,
+                                );
+                        }
+                }
+
+                if ( $tax_filters ) {
+                        $query_args['tax_query'] = array_merge(
+                                array( 'relation' => 'AND' ),
+                                isset( $query_args['tax_query'] ) && is_array( $query_args['tax_query'] ) ? (array) $query_args['tax_query'] : array(),
+                                $tax_filters
+                        );
+                }
+
+                // Filter query clauses to include filenames.
+                if ( isset( $query_args['s'] ) ) {
+                        add_filter( 'wp_allow_query_attachment_by_filename', '__return_true' );
+                }
 
 		return $query_args;
 	}
@@ -506,18 +577,28 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
 	 */
-	public function post_process_item( $request ) {
-		switch ( $request['action'] ) {
-			case 'create-image-subsizes':
-				require_once ABSPATH . 'wp-admin/includes/image.php';
-				wp_update_image_subsizes( $request['id'] );
-				break;
-		}
+        public function post_process_item( $request ) {
+                switch ( $request['action'] ) {
+                        case 'create-image-subsizes':
+                                require_once ABSPATH . 'wp-admin/includes/image.php';
+                                $image_meta = wp_update_image_subsizes( $request['id'] );
+                                $processing = isset( $image_meta['wp_image_processing'] ) ? $image_meta['wp_image_processing'] : array();
 
-		$request['context'] = 'edit';
-
-		return $this->prepare_item_for_response( get_post( $request['id'] ), $request );
-	}
+                                return rest_ensure_response(
+                                        $this->prepare_processing_response(
+                                                $request['id'],
+                                                $processing,
+                                                $request
+                                        )
+                                );
+                default:
+                        return new WP_Error(
+                                'rest_invalid_post_process_action',
+                                __( 'Invalid post-processing action.' ),
+                                array( 'status' => 400 )
+                        );
+                }
+        }
 
 	/**
 	 * Checks if a given request can perform post-processing on an attachment.
@@ -527,9 +608,139 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
 	 */
-	public function post_process_item_permissions_check( $request ) {
-		return $this->update_item_permissions_check( $request );
-	}
+        public function post_process_item_permissions_check( $request ) {
+                return $this->update_item_permissions_check( $request );
+        }
+
+        /**
+         * Retrieves the status of a background processing job.
+         *
+         * @since 6.9.0
+         *
+         * @param WP_REST_Request $request Request object.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function get_processing_status( $request ) {
+                $status = WP_Image_Processing_Queue::instance()->get_status( $request['job_id'] );
+
+                if ( isset( $status['status'] ) && 'not_found' === $status['status'] ) {
+                        return new WP_Error(
+                                'rest_processing_job_not_found',
+                                __( 'The requested processing job could not be found.' ),
+                                array( 'status' => 404 )
+                        );
+                }
+
+                if ( isset( $status['attachment_id'] ) && (int) $status['attachment_id'] !== (int) $request['id'] ) {
+                        return new WP_Error(
+                                'rest_processing_job_mismatch',
+                                __( 'The processing job does not belong to the requested attachment.' ),
+                                array( 'status' => 400 )
+                        );
+                }
+
+                return rest_ensure_response( $this->prepare_processing_status_for_response( $request['id'], $status, $request ) );
+        }
+
+        /**
+         * Ensures the current user can view processing job data for an attachment.
+         *
+         * @since 6.9.0
+         *
+         * @param WP_REST_Request $request Request object.
+         * @return true|WP_Error
+         */
+        public function get_processing_status_permissions_check( $request ) {
+                return $this->get_item_permissions_check( $request );
+        }
+
+        /**
+         * Formats processing data for responses when enqueuing work.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param array            $processing    Processing meta data.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function prepare_processing_response( $attachment_id, $processing, $request ) {
+                $job_id    = isset( $processing['job_id'] ) ? $processing['job_id'] : '';
+                $state     = isset( $processing['state'] ) ? $processing['state'] : 'completed';
+                $pending   = isset( $processing['pending'] ) ? $processing['pending'] : array();
+                $completed = isset( $processing['completed'] ) ? $processing['completed'] : array();
+                $errors    = isset( $processing['errors'] ) ? $processing['errors'] : array();
+
+                return $this->build_processing_state_response( $attachment_id, $job_id, $state, $pending, $completed, $errors, $request );
+        }
+
+        /**
+         * Formats queue status responses for polling requests.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param array            $status        Queue status payload.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function prepare_processing_status_for_response( $attachment_id, $status, $request ) {
+                $job_id  = isset( $status['job_id'] ) ? $status['job_id'] : '';
+                $state   = isset( $status['status'] ) ? $status['status'] : 'queued';
+                $sizes   = isset( $status['sizes'] ) ? $status['sizes'] : array();
+                $pending = array();
+                $errors  = array();
+                $done    = array();
+
+                foreach ( $sizes as $name => $details ) {
+                        $size_status = isset( $details['status'] ) ? $details['status'] : 'pending';
+                        if ( 'error' === $size_status ) {
+                                $errors[ $name ] = isset( $details['error'] ) ? $details['error'] : '';
+                        } elseif ( 'done' === $size_status ) {
+                                $done[] = $name;
+                        } else {
+                                $pending[] = $name;
+                        }
+                }
+
+                return $this->build_processing_state_response( $attachment_id, $job_id, $state, $pending, $done, $errors, $request );
+        }
+
+        /**
+         * Builds a response payload describing processing state.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param string           $job_id        Job identifier.
+         * @param string           $state         Current state.
+         * @param array            $pending       Pending size names.
+         * @param array            $completed     Completed size names.
+         * @param array            $errors        Array of errors keyed by size name.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function build_processing_state_response( $attachment_id, $job_id, $state, $pending, $completed, $errors, $request ) {
+                $response = array(
+                        'attachment_id' => (int) $attachment_id,
+                        'job_id'        => $job_id,
+                        'state'         => $state,
+                        'pending'       => array_values( $pending ),
+                        'completed'     => array_values( $completed ),
+                        'errors'        => $errors,
+                );
+
+                if ( $request instanceof WP_REST_Request && in_array( $state, array( 'completed', 'completed_with_errors' ), true ) ) {
+                        $request['context'] = 'edit';
+                        $prepared           = $this->prepare_item_for_response( get_post( $attachment_id ), $request );
+
+                        if ( ! is_wp_error( $prepared ) ) {
+                                $response['attachment'] = $this->prepare_response_for_collection( $prepared );
+                        }
+                }
+
+                return $response;
+        }
 
 	/**
 	 * Checks if a given request has access to editing media.
@@ -981,14 +1192,38 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$data['post'] = ! empty( $post->post_parent ) ? (int) $post->post_parent : null;
 		}
 
-		if ( in_array( 'source_url', $fields, true ) ) {
-			$data['source_url'] = wp_get_attachment_url( $post->ID );
-		}
+                if ( in_array( 'source_url', $fields, true ) ) {
+                        $data['source_url'] = wp_get_attachment_url( $post->ID );
+                }
 
-		if ( in_array( 'missing_image_sizes', $fields, true ) ) {
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-			$data['missing_image_sizes'] = array_keys( wp_get_missing_image_subsizes( $post->ID ) );
-		}
+                if ( in_array( 'media_folder', $fields, true ) ) {
+                        $folder_terms = wp_get_object_terms(
+                                $post->ID,
+                                'media_folder',
+                                array(
+                                        'fields' => 'ids',
+                                )
+                        );
+
+                        $data['media_folder'] = is_wp_error( $folder_terms ) ? array() : array_map( 'intval', $folder_terms );
+                }
+
+                if ( in_array( 'media_tag', $fields, true ) ) {
+                        $tag_terms = wp_get_object_terms(
+                                $post->ID,
+                                'media_tag',
+                                array(
+                                        'fields' => 'ids',
+                                )
+                        );
+
+                        $data['media_tag'] = is_wp_error( $tag_terms ) ? array() : array_map( 'intval', $tag_terms );
+                }
+
+                if ( in_array( 'missing_image_sizes', $fields, true ) ) {
+                        require_once ABSPATH . 'wp-admin/includes/image.php';
+                        $data['missing_image_sizes'] = array_keys( wp_get_missing_image_subsizes( $post->ID ) );
+                }
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 
@@ -1143,19 +1378,39 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'context'     => array( 'view', 'edit' ),
 		);
 
-		$schema['properties']['source_url'] = array(
-			'description' => __( 'URL to the original attachment file.' ),
-			'type'        => 'string',
-			'format'      => 'uri',
-			'context'     => array( 'view', 'edit', 'embed' ),
-			'readonly'    => true,
-		);
+                $schema['properties']['source_url'] = array(
+                        'description' => __( 'URL to the original attachment file.' ),
+                        'type'        => 'string',
+                        'format'      => 'uri',
+                        'context'     => array( 'view', 'edit', 'embed' ),
+                        'readonly'    => true,
+                );
 
-		$schema['properties']['missing_image_sizes'] = array(
-			'description' => __( 'List of the missing image sizes of the attachment.' ),
-			'type'        => 'array',
-			'items'       => array( 'type' => 'string' ),
-			'context'     => array( 'edit' ),
+                $schema['properties']['media_folder'] = array(
+                        'description' => __( 'Media folders assigned to the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'integer',
+                        ),
+                        'context'     => array( 'view', 'edit' ),
+                        'default'     => array(),
+                );
+
+                $schema['properties']['media_tag'] = array(
+                        'description' => __( 'Media tags assigned to the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'integer',
+                        ),
+                        'context'     => array( 'view', 'edit' ),
+                        'default'     => array(),
+                );
+
+                $schema['properties']['missing_image_sizes'] = array(
+                        'description' => __( 'List of the missing image sizes of the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array( 'type' => 'string' ),
+                        'context'     => array( 'edit' ),
 			'readonly'    => true,
 		);
 
@@ -1374,17 +1629,37 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			),
 		);
 
-		$params['mime_type'] = array(
-			'default'     => null,
-			'description' => __( 'Limit result set to attachments of a particular MIME type or MIME types.' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'string',
-			),
-		);
+                $params['mime_type'] = array(
+                        'default'     => null,
+                        'description' => __( 'Limit result set to attachments of a particular MIME type or MIME types.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'string',
+                        ),
+                );
 
-		return $params;
-	}
+                $params['media_folder'] = array(
+                        'description'       => __( 'Limit result set to attachments assigned to specific media folders.' ),
+                        'type'              => 'array',
+                        'items'             => array(
+                                'type' => 'integer',
+                        ),
+                        'default'           => array(),
+                        'sanitize_callback' => array( $this, 'sanitize_media_taxonomy_param' ),
+                );
+
+                $params['media_tag'] = array(
+                        'description'       => __( 'Limit result set to attachments assigned to specific media tags.' ),
+                        'type'              => 'array',
+                        'items'             => array(
+                                'type' => 'integer',
+                        ),
+                        'default'           => array(),
+                        'sanitize_callback' => array( $this, 'sanitize_media_taxonomy_param' ),
+                );
+
+                return $params;
+        }
 
 	/**
 	 * Handles an upload via multipart/form-data ($_FILES).

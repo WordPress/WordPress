@@ -4765,6 +4765,380 @@ function wp_prepare_attachment_for_js( $attachment ) {
  *     @type int|WP_Post $post Post ID or post object.
  * }
  */
+function wp_get_default_media_folder_id() {
+        return (int) get_option( 'wp_default_media_folder', 0 );
+}
+
+function wp_ensure_default_media_folder() {
+        if ( ! taxonomy_exists( 'media_folder' ) ) {
+                return;
+        }
+
+        $option_id = wp_get_default_media_folder_id();
+        if ( $option_id ) {
+                $term = get_term( $option_id, 'media_folder' );
+
+                if ( $term && ! is_wp_error( $term ) ) {
+                        return;
+                }
+        }
+
+        $existing = get_term_by( 'slug', 'uncategorized-media', 'media_folder' );
+
+        if ( $existing && ! is_wp_error( $existing ) ) {
+                $term_id = (int) $existing->term_id;
+        } else {
+                $created = wp_insert_term(
+                        __( 'All Media' ),
+                        'media_folder',
+                        array(
+                                'slug' => 'uncategorized-media',
+                        )
+                );
+
+                if ( is_wp_error( $created ) ) {
+                        return;
+                }
+
+                $term_id = (int) $created['term_id'];
+        }
+
+        if ( '' === get_term_meta( $term_id, 'folder_order', true ) ) {
+                update_term_meta( $term_id, 'folder_order', 0 );
+        }
+
+        update_option( 'wp_default_media_folder', $term_id );
+}
+
+add_action( 'init', 'wp_ensure_default_media_folder', 1 );
+
+function wp_media_folder_set_default_order( $term_id, $tt_id, $taxonomy ) {
+        if ( 'media_folder' !== $taxonomy ) {
+                return;
+        }
+
+        if ( '' === get_term_meta( $term_id, 'folder_order', true ) ) {
+                update_term_meta( $term_id, 'folder_order', 0 );
+        }
+}
+
+add_action( 'created_term', 'wp_media_folder_set_default_order', 10, 3 );
+
+function wp_get_media_folder_tree( $args = array() ) {
+        if ( ! taxonomy_exists( 'media_folder' ) ) {
+                return array();
+        }
+
+        $args = wp_parse_args(
+                $args,
+                array(
+                        'parent'     => 0,
+                        'hide_empty' => false,
+                )
+        );
+
+        $terms = get_terms(
+                array(
+                        'taxonomy'   => 'media_folder',
+                        'hide_empty' => $args['hide_empty'],
+                        'parent'     => (int) $args['parent'],
+                        'orderby'    => 'meta_value_num',
+                        'meta_key'   => 'folder_order',
+                        'order'      => 'ASC',
+                )
+        );
+
+        if ( is_wp_error( $terms ) || empty( $terms ) ) {
+                        return array();
+        }
+
+        $tree = array();
+
+        foreach ( $terms as $term ) {
+                $tree[] = array(
+                        'id'       => (int) $term->term_id,
+                        'name'     => $term->name,
+                        'slug'     => $term->slug,
+                        'parent'   => (int) $term->parent,
+                        'order'    => (int) get_term_meta( $term->term_id, 'folder_order', true ),
+                        'count'    => (int) $term->count,
+                        'children' => wp_get_media_folder_tree(
+                                array(
+                                        'parent'     => (int) $term->term_id,
+                                        'hide_empty' => $args['hide_empty'],
+                                )
+                        ),
+                );
+        }
+
+        return $tree;
+}
+
+function wp_get_media_organization_export_data() {
+        $data = array(
+                'folders'     => wp_get_media_folder_tree(),
+                'tags'        => array(),
+                'attachments' => array(),
+        );
+
+        if ( taxonomy_exists( 'media_tag' ) ) {
+                $tags = get_terms(
+                        array(
+                                'taxonomy'   => 'media_tag',
+                                'hide_empty' => false,
+                        )
+                );
+
+                if ( ! is_wp_error( $tags ) ) {
+                        foreach ( $tags as $tag ) {
+                                $data['tags'][] = array(
+                                        'id'          => (int) $tag->term_id,
+                                        'name'        => $tag->name,
+                                        'slug'        => $tag->slug,
+                                        'description' => $tag->description,
+                                        'count'       => (int) $tag->count,
+                                );
+                        }
+                }
+        }
+
+        $attachments = get_posts(
+                array(
+                        'post_type'      => 'attachment',
+                        'post_status'    => 'any',
+                        'posts_per_page' => -1,
+                        'fields'         => 'ids',
+                )
+        );
+
+        foreach ( $attachments as $attachment_id ) {
+                $folders = wp_get_object_terms(
+                        $attachment_id,
+                        'media_folder',
+                        array(
+                                'fields' => 'all',
+                        )
+                );
+
+                if ( is_wp_error( $folders ) ) {
+                        $folders = array();
+                }
+
+                $tags = wp_get_object_terms(
+                        $attachment_id,
+                        'media_tag',
+                        array(
+                                'fields' => 'all',
+                        )
+                );
+
+                if ( is_wp_error( $tags ) ) {
+                        $tags = array();
+                }
+
+                $data['attachments'][] = array(
+                        'id'            => (int) $attachment_id,
+                        'folders'       => array_map( 'intval', wp_list_pluck( $folders, 'term_id' ) ),
+                        'folder_slugs'  => array_values( wp_list_pluck( $folders, 'slug' ) ),
+                        'tags'          => array_map( 'intval', wp_list_pluck( $tags, 'term_id' ) ),
+                        'tag_slugs'     => array_values( wp_list_pluck( $tags, 'slug' ) ),
+                );
+        }
+
+        return $data;
+}
+
+function _wp_media_import_folders( $folders, $parent = 0 ) {
+        foreach ( $folders as $folder ) {
+                if ( empty( $folder['name'] ) ) {
+                        return new WP_Error( 'invalid_media_folder', __( 'Imported folders must include a name.' ) );
+                }
+
+                $slug    = empty( $folder['slug'] ) ? sanitize_title( $folder['name'] ) : sanitize_title( $folder['slug'] );
+                $term    = get_term_by( 'slug', $slug, 'media_folder' );
+                $term_id = 0;
+
+                if ( $term && ! is_wp_error( $term ) ) {
+                        $updated = wp_update_term(
+                                $term->term_id,
+                                'media_folder',
+                                array(
+                                        'name'   => $folder['name'],
+                                        'parent' => (int) $parent,
+                                )
+                        );
+
+                        if ( is_wp_error( $updated ) ) {
+                                return $updated;
+                        }
+
+                        $term_id = (int) $term->term_id;
+                } else {
+                        $created = wp_insert_term(
+                                $folder['name'],
+                                'media_folder',
+                                array(
+                                        'slug'   => $slug,
+                                        'parent' => (int) $parent,
+                                )
+                        );
+
+                        if ( is_wp_error( $created ) ) {
+                                return $created;
+                        }
+
+                        $term_id = (int) $created['term_id'];
+                }
+
+                if ( isset( $folder['order'] ) ) {
+                        update_term_meta( $term_id, 'folder_order', (int) $folder['order'] );
+                } else {
+                        wp_media_folder_set_default_order( $term_id, 0, 'media_folder' );
+                }
+
+                if ( ! empty( $folder['children'] ) && is_array( $folder['children'] ) ) {
+                        $child_result = _wp_media_import_folders( $folder['children'], $term_id );
+
+                        if ( is_wp_error( $child_result ) ) {
+                                return $child_result;
+                        }
+                }
+        }
+
+        return true;
+}
+
+function _wp_media_import_tags( $tags ) {
+        foreach ( $tags as $tag ) {
+                if ( empty( $tag['name'] ) ) {
+                        return new WP_Error( 'invalid_media_tag', __( 'Imported tags must include a name.' ) );
+                }
+
+                $slug = empty( $tag['slug'] ) ? sanitize_title( $tag['name'] ) : sanitize_title( $tag['slug'] );
+                $term = get_term_by( 'slug', $slug, 'media_tag' );
+
+                if ( $term && ! is_wp_error( $term ) ) {
+                        $updated = wp_update_term(
+                                $term->term_id,
+                                'media_tag',
+                                array(
+                                        'name'        => $tag['name'],
+                                        'description' => isset( $tag['description'] ) ? $tag['description'] : '',
+                                )
+                        );
+
+                        if ( is_wp_error( $updated ) ) {
+                                return $updated;
+                        }
+                } else {
+                        $created = wp_insert_term(
+                                $tag['name'],
+                                'media_tag',
+                                array(
+                                        'slug'        => $slug,
+                                        'description' => isset( $tag['description'] ) ? $tag['description'] : '',
+                                )
+                        );
+
+                        if ( is_wp_error( $created ) ) {
+                                return $created;
+                        }
+                }
+        }
+
+        return true;
+}
+
+function wp_import_media_organization( $data ) {
+        if ( empty( $data ) || ! is_array( $data ) ) {
+                return new WP_Error( 'invalid_media_import', __( 'Invalid media organization payload.' ) );
+        }
+
+        if ( isset( $data['folders'] ) && is_array( $data['folders'] ) ) {
+                $folders_result = _wp_media_import_folders( $data['folders'] );
+
+                if ( is_wp_error( $folders_result ) ) {
+                        return $folders_result;
+                }
+        }
+
+        if ( isset( $data['tags'] ) && is_array( $data['tags'] ) ) {
+                $tags_result = _wp_media_import_tags( $data['tags'] );
+
+                if ( is_wp_error( $tags_result ) ) {
+                        return $tags_result;
+                }
+        }
+
+        if ( isset( $data['attachments'] ) && is_array( $data['attachments'] ) ) {
+                foreach ( $data['attachments'] as $attachment ) {
+                        if ( empty( $attachment['id'] ) ) {
+                                continue;
+                        }
+
+                        $attachment_id = (int) $attachment['id'];
+
+                        if ( ! get_post( $attachment_id ) ) {
+                                continue;
+                        }
+
+                        $folder_terms = array();
+                        $folder_spec  = isset( $attachment['folder_slugs'] ) || isset( $attachment['folders'] );
+
+                        if ( ! empty( $attachment['folder_slugs'] ) && is_array( $attachment['folder_slugs'] ) ) {
+                                foreach ( $attachment['folder_slugs'] as $folder_slug ) {
+                                        $term = get_term_by( 'slug', $folder_slug, 'media_folder' );
+
+                                        if ( $term && ! is_wp_error( $term ) ) {
+                                                $folder_terms[] = (int) $term->term_id;
+                                        }
+                                }
+                        } elseif ( ! empty( $attachment['folders'] ) ) {
+                                $folder_terms = array_map( 'absint', (array) $attachment['folders'] );
+                        }
+
+                        $folder_terms = array_filter( $folder_terms );
+
+                        if ( $folder_spec ) {
+                                if ( ! empty( $folder_terms ) ) {
+                                        wp_set_object_terms( $attachment_id, $folder_terms, 'media_folder' );
+                                } else {
+                                        wp_set_object_terms( $attachment_id, array(), 'media_folder' );
+                                }
+                        }
+
+                        $tag_terms = array();
+                        $tag_spec  = isset( $attachment['tag_slugs'] ) || isset( $attachment['tags'] );
+
+                        if ( ! empty( $attachment['tag_slugs'] ) && is_array( $attachment['tag_slugs'] ) ) {
+                                foreach ( $attachment['tag_slugs'] as $tag_slug ) {
+                                        $term = get_term_by( 'slug', $tag_slug, 'media_tag' );
+
+                                        if ( $term && ! is_wp_error( $term ) ) {
+                                                $tag_terms[] = (int) $term->term_id;
+                                        }
+                                }
+                        } elseif ( ! empty( $attachment['tags'] ) ) {
+                                $tag_terms = array_map( 'absint', (array) $attachment['tags'] );
+                        }
+
+                        $tag_terms = array_filter( $tag_terms );
+
+                        if ( $tag_spec ) {
+                                if ( ! empty( $tag_terms ) ) {
+                                        wp_set_object_terms( $attachment_id, $tag_terms, 'media_tag' );
+                                } else {
+                                        wp_set_object_terms( $attachment_id, array(), 'media_tag' );
+                                }
+                        }
+                }
+        }
+
+        wp_ensure_default_media_folder();
+
+        return true;
+}
+
 function wp_enqueue_media( $args = array() ) {
 	// Enqueue me just once per page, please.
 	if ( did_action( 'wp_enqueue_media' ) ) {
@@ -5123,17 +5497,40 @@ function wp_enqueue_media( $args = array() ) {
 	 */
 	$strings = apply_filters( 'media_view_strings', $strings, $post );
 
-	$strings['settings'] = $settings;
+        $strings['settings'] = $settings;
 
-	/*
-	 * Ensure we enqueue media-editor first, that way media-views
-	 * is registered internally before we try to localize it. See #24724.
-	 */
-	wp_enqueue_script( 'media-editor' );
-	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
+        /*
+         * Ensure we enqueue media-editor first, that way media-views
+         * is registered internally before we try to localize it. See #24724.
+         */
+        wp_enqueue_script( 'media-editor' );
+        wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
-	wp_enqueue_script( 'media-audiovideo' );
-	wp_enqueue_style( 'media-views' );
+        $organization_settings = array(
+                'routes'        => array(
+                        'folders' => rest_url( 'wp/v2/media-organization/folders' ),
+                        'tags'    => rest_url( 'wp/v2/media-organization/tags' ),
+                        'bulk'    => rest_url( 'wp/v2/media-organization/bulk' ),
+                        'export'  => rest_url( 'wp/v2/media-organization/export' ),
+                        'import'  => rest_url( 'wp/v2/media-organization/import' ),
+                ),
+                'nonce'         => wp_create_nonce( 'wp_rest' ),
+                'defaultFolder' => wp_get_default_media_folder_id(),
+                'l10n'          => array(
+                        'allFolders' => __( 'All Media Folders' ),
+                        'allTags'    => __( 'All Media Tags' ),
+                        'folders'    => __( 'Folders' ),
+                        'tags'       => __( 'Tags' ),
+                ),
+        );
+
+        if ( wp_script_is( 'wp-media-organization', 'registered' ) ) {
+                wp_enqueue_script( 'wp-media-organization' );
+                wp_localize_script( 'wp-media-organization', '_wpMediaOrganizationSettings', $organization_settings );
+        }
+
+        wp_enqueue_script( 'media-audiovideo' );
+        wp_enqueue_style( 'media-views' );
 	if ( is_admin() ) {
 		wp_enqueue_script( 'mce-view' );
 		wp_enqueue_script( 'image-edit' );
@@ -6363,5 +6760,222 @@ function wp_get_image_editor_output_format( $filename, $mime_type ) {
 	 * @param string $filename  Path to the image.
 	 * @param string $mime_type The source image mime type.
 	 */
-	return apply_filters( 'image_editor_output_format', $output_format, $filename, $mime_type );
+        return apply_filters( 'image_editor_output_format', $output_format, $filename, $mime_type );
 }
+
+/**
+ * Adjusts the image output format based on performance configuration.
+ *
+ * @param array  $output_format Array of mime type mappings.
+ * @param string $filename      Path to the image file.
+ * @param string $mime_type     Original mime type.
+ *
+ * @return array
+ */
+function wp_performance_filter_image_editor_output_format( $output_format, $filename, $mime_type ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $output_format;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( empty( $settings['convert_webp'] ) && empty( $settings['convert_avif'] ) ) {
+                return $output_format;
+        }
+
+        if ( ! empty( $settings['convert_avif'] ) && wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) ) ) {
+                $output_format['image/jpeg'] = 'image/avif';
+                $output_format['image/png']  = 'image/avif';
+        } elseif ( ! empty( $settings['convert_webp'] ) && wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+                $output_format['image/jpeg'] = 'image/webp';
+                $output_format['image/png']  = 'image/webp';
+        }
+
+        return $output_format;
+}
+add_filter( 'image_editor_output_format', 'wp_performance_filter_image_editor_output_format', 10, 3 );
+
+/**
+ * Modifies image compression quality according to the configured mode.
+ *
+ * @param int    $quality   Original quality value.
+ * @param string $mime_type Mime type being generated.
+ *
+ * @return int
+ */
+function wp_performance_filter_image_quality( $quality, $mime_type = '' ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $quality;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( 'lossless' === ( isset( $settings['mode'] ) ? $settings['mode'] : 'lossless' ) ) {
+                return 100;
+        }
+
+        if ( isset( $settings['quality'] ) && $settings['quality'] ) {
+                return (int) $settings['quality'];
+        }
+
+        return $quality;
+}
+add_filter( 'wp_editor_set_quality', 'wp_performance_filter_image_quality', 10, 2 );
+add_filter( 'jpeg_quality', 'wp_performance_filter_image_quality' );
+
+/**
+ * Adds placeholder metadata for responsive image placeholders.
+ *
+ * @param array $metadata      Attachment metadata.
+ * @param int   $attachment_id Attachment ID.
+ *
+ * @return array
+ */
+function wp_performance_add_placeholder_metadata( $metadata, $attachment_id ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $metadata;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( empty( $settings['placeholders'] ) ) {
+                return $metadata;
+        }
+
+        $width  = isset( $metadata['width'] ) ? (int) $metadata['width'] : 1;
+        $height = isset( $metadata['height'] ) ? (int) $metadata['height'] : 1;
+
+        if ( $width <= 0 ) {
+                $width = 1;
+        }
+
+        if ( $height <= 0 ) {
+                $height = 1;
+        }
+
+        $svg = sprintf(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %1$d %2$d" preserveAspectRatio="none"><rect width="100%%" height="100%%" fill="%3$s"/></svg>',
+                $width,
+                $height,
+                apply_filters( 'wp_performance_placeholder_color', '#f6f7f8', $attachment_id )
+        );
+
+        $metadata['performance_placeholder'] = 'data:image/svg+xml;base64,' . base64_encode( $svg );
+
+        return $metadata;
+}
+add_filter( 'wp_generate_attachment_metadata', 'wp_performance_add_placeholder_metadata', 10, 2 );
+
+/**
+ * Applies lazy loading configuration to attachment image attributes.
+ *
+ * @param array        $attr       Image attributes.
+ * @param WP_Post      $attachment Attachment post object.
+ * @param string|array $size       Requested size.
+ *
+ * @return array
+ */
+function wp_performance_attachment_image_attributes( $attr, $attachment, $size ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $attr;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( ! empty( $settings['placeholders'] ) ) {
+                $metadata = wp_get_attachment_metadata( $attachment->ID );
+                if ( isset( $metadata['performance_placeholder'] ) ) {
+                        $attr['data-placeholder'] = $metadata['performance_placeholder'];
+                }
+        }
+
+        if ( ! empty( $settings['lazy_loading'] ) && 'default' !== $settings['lazy_loading'] ) {
+                $attr['loading'] = 'lazy' === $settings['lazy_loading'] ? 'lazy' : 'eager';
+        }
+
+        return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'wp_performance_attachment_image_attributes', 10, 3 );
+
+/**
+ * Overrides the lazy loading toggle when explicitly configured.
+ *
+ * @param bool   $default  Default decision.
+ * @param string $tag_name Tag name.
+ * @param string $context  Context.
+ *
+ * @return bool
+ */
+function wp_performance_lazy_loading_control( $default, $tag_name, $context ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $default;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( empty( $settings['lazy_loading'] ) || 'default' === $settings['lazy_loading'] ) {
+                return $default;
+        }
+
+        return 'lazy' === $settings['lazy_loading'];
+}
+add_filter( 'wp_lazy_loading_enabled', 'wp_performance_lazy_loading_control', 10, 3 );
+
+/**
+ * Adds placeholder information to JavaScript attachment responses.
+ *
+ * @param array   $response   Prepared attachment data.
+ * @param WP_Post $attachment Attachment object.
+ *
+ * @return array
+ */
+function wp_performance_prepare_attachment_for_js( $response, $attachment ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $response;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( empty( $settings['placeholders'] ) ) {
+                return $response;
+        }
+
+        $metadata = wp_get_attachment_metadata( $attachment->ID );
+        if ( isset( $metadata['performance_placeholder'] ) ) {
+                $response['performancePlaceholder'] = $metadata['performance_placeholder'];
+        }
+
+        return $response;
+}
+add_filter( 'wp_prepare_attachment_for_js', 'wp_performance_prepare_attachment_for_js', 10, 2 );
+
+/**
+ * Adds placeholder data to REST attachment responses.
+ *
+ * @param WP_REST_Response $response   Response object.
+ * @param WP_Post          $attachment Attachment object.
+ * @param WP_REST_Request  $request    Request object.
+ *
+ * @return WP_REST_Response
+ */
+function wp_performance_rest_prepare_attachment( $response, $attachment, $request ) {
+        if ( ! function_exists( 'wp_performance_get_image_optimization_settings' ) ) {
+                return $response;
+        }
+
+        $settings = wp_performance_get_image_optimization_settings();
+
+        if ( empty( $settings['placeholders'] ) ) {
+                return $response;
+        }
+
+        $metadata = wp_get_attachment_metadata( $attachment->ID );
+        if ( isset( $metadata['performance_placeholder'] ) ) {
+                $data                                 = $response->get_data();
+                $data['performance_placeholder']      = $metadata['performance_placeholder'];
+                $response->set_data( $data );
+        }
+
+        return $response;
+}
+add_filter( 'rest_prepare_attachment', 'wp_performance_rest_prepare_attachment', 10, 3 );

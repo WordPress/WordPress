@@ -869,47 +869,58 @@ function wp_next_scheduled( $hook, $args = array() ) {
  * @return bool True if spawned, false if no events spawned.
  */
 function spawn_cron( $gmt_time = 0 ) {
-	if ( ! $gmt_time ) {
-		$gmt_time = microtime( true );
-	}
+        if ( ! $gmt_time ) {
+                $gmt_time = microtime( true );
+        }
 
-	if ( defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] ) ) {
-		return false;
-	}
+        if ( defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] ) ) {
+                return false;
+        }
 
-	/*
-	 * Get the cron lock, which is a Unix timestamp of when the last cron was spawned
-	 * and has not finished running.
-	 *
-	 * Multiple processes on multiple web servers can run this code concurrently,
-	 * this lock attempts to make spawning as atomic as possible.
-	 */
-	$lock = (float) get_transient( 'doing_cron' );
+        /*
+         * Get the cron lock, which is a Unix timestamp of when the last cron was spawned
+         * and has not finished running.
+         *
+         * Multiple processes on multiple web servers can run this code concurrently,
+         * this lock attempts to make spawning as atomic as possible.
+         */
+        $lock = (float) get_transient( 'doing_cron' );
 
-	if ( $lock > $gmt_time + 10 * MINUTE_IN_SECONDS ) {
-		$lock = 0;
-	}
+        if ( $lock > $gmt_time + 10 * MINUTE_IN_SECONDS ) {
+                $lock = 0;
+        }
 
-	// Don't run if another process is currently running it or more than once every 60 sec.
-	if ( $lock + WP_CRON_LOCK_TIMEOUT > $gmt_time ) {
-		return false;
-	}
+        // Don't run if another process is currently running it or more than once every 60 sec.
+        if ( $lock + WP_CRON_LOCK_TIMEOUT > $gmt_time ) {
+                return false;
+        }
 
-	// Confidence check.
-	$crons = wp_get_ready_cron_jobs();
-	if ( empty( $crons ) ) {
-		return false;
-	}
+        // Confidence check.
+        $crons = wp_get_ready_cron_jobs();
+        if ( empty( $crons ) ) {
+                return false;
+        }
 
-	$keys = array_keys( $crons );
-	if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
-		return false;
-	}
+        $keys = array_keys( $crons );
+        if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
+                return false;
+        }
 
-	if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
-		if ( 'GET' !== $_SERVER['REQUEST_METHOD'] || defined( 'DOING_AJAX' ) || defined( 'XMLRPC_REQUEST' ) ) {
-			return false;
-		}
+        if ( wp_is_async_cron_enabled() ) {
+                $doing_wp_cron = sprintf( '%.22F', $gmt_time );
+                set_transient( 'doing_cron', $doing_wp_cron );
+
+                $queued = wp_enqueue_ready_async_cron_events( $crons, $gmt_time );
+
+                delete_transient( 'doing_cron' );
+
+                return $queued;
+        }
+
+        if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
+                if ( 'GET' !== $_SERVER['REQUEST_METHOD'] || defined( 'DOING_AJAX' ) || defined( 'XMLRPC_REQUEST' ) ) {
+                        return false;
+                }
 
 		$doing_wp_cron = sprintf( '%.22F', $gmt_time );
 		set_transient( 'doing_cron', $doing_wp_cron );
@@ -1009,49 +1020,264 @@ function wp_cron(): void {
  *                   events needed to be spawned), false if spawning fails for one or more events.
  */
 function _wp_cron() {
-	// Prevent infinite loops caused by lack of wp-cron.php.
-	if ( str_contains( $_SERVER['REQUEST_URI'], '/wp-cron.php' )
-		|| ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON )
-	) {
-		return 0;
-	}
+        // Prevent infinite loops caused by lack of wp-cron.php.
+        if ( str_contains( $_SERVER['REQUEST_URI'], '/wp-cron.php' )
+                || ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON )
+        ) {
+                return 0;
+        }
 
-	$crons = wp_get_ready_cron_jobs();
-	if ( empty( $crons ) ) {
-		return 0;
-	}
+        $crons = wp_get_ready_cron_jobs();
+        if ( empty( $crons ) ) {
+                return 0;
+        }
 
-	$gmt_time = microtime( true );
-	$keys     = array_keys( $crons );
-	if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
-		return 0;
-	}
+        $gmt_time = microtime( true );
+        $keys     = array_keys( $crons );
+        if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
+                return 0;
+        }
 
-	$schedules = wp_get_schedules();
-	$results   = array();
+        $schedules = wp_get_schedules();
+        $results   = array();
 
-	foreach ( $crons as $timestamp => $cronhooks ) {
-		if ( $timestamp > $gmt_time ) {
-			break;
-		}
+        foreach ( $crons as $timestamp => $cronhooks ) {
+                if ( $timestamp > $gmt_time ) {
+                        break;
+                }
 
-		foreach ( (array) $cronhooks as $hook => $args ) {
-			if ( isset( $schedules[ $hook ]['callback'] )
-				&& ! call_user_func( $schedules[ $hook ]['callback'] )
-			) {
-				continue;
-			}
+                foreach ( (array) $cronhooks as $hook => $args ) {
+                        if ( isset( $schedules[ $hook ]['callback'] )
+                                && ! call_user_func( $schedules[ $hook ]['callback'] )
+                        ) {
+                                continue;
+                        }
 
-			$results[] = spawn_cron( $gmt_time );
-			break 2;
-		}
-	}
+                        $results[] = spawn_cron( $gmt_time );
+                        break 2;
+                }
+        }
 
-	if ( in_array( false, $results, true ) ) {
-		return false;
-	}
+        if ( in_array( false, $results, true ) ) {
+                return false;
+        }
 
-	return count( $results );
+        return count( $results );
+}
+
+/**
+ * Determines whether asynchronous cron mode is enabled.
+ *
+ * @since 6.5.0
+ *
+ * @return bool True when asynchronous cron mode is enabled.
+ */
+function wp_is_async_cron_enabled() {
+        return defined( 'WP_CRON_MODE' ) && 'async' === WP_CRON_MODE;
+}
+
+/**
+ * Queues due cron events for asynchronous processing.
+ *
+ * @since 6.5.0
+ *
+ * @param array $crons     Array of cron events keyed by timestamp.
+ * @param float $gmt_time  Current GMT timestamp with microseconds.
+ * @return bool True if one or more events were queued, false otherwise.
+ */
+function wp_enqueue_ready_async_cron_events( $crons, $gmt_time ) {
+        if ( empty( $crons ) ) {
+                return false;
+        }
+
+        $queue       = wp_get_async_cron_queue();
+        $queued      = 0;
+        $now         = microtime( true );
+        $schedules   = wp_get_schedules();
+
+        foreach ( $crons as $timestamp => $cronhooks ) {
+                if ( $timestamp > $gmt_time ) {
+                        break;
+                }
+
+                foreach ( (array) $cronhooks as $hook => $events ) {
+                        if ( isset( $schedules[ $hook ]['callback'] )
+                                && ! call_user_func( $schedules[ $hook ]['callback'] )
+                        ) {
+                                continue;
+                        }
+
+                        foreach ( (array) $events as $event ) {
+                                if ( ! empty( $event['schedule'] ) ) {
+                                        $result = wp_reschedule_event( $timestamp, $event['schedule'], $hook, $event['args'], true );
+
+                                        if ( is_wp_error( $result ) ) {
+                                                error_log(
+                                                        sprintf(
+                                                                /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+                                                                __( 'Cron reschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s' ),
+                                                                $hook,
+                                                                $result->get_error_code(),
+                                                                $result->get_error_message(),
+                                                                wp_json_encode( $event )
+                                                        )
+                                                );
+
+                                                /**
+                                                 * Fires if an error happens when rescheduling a cron event.
+                                                 *
+                                                 * @since 6.1.0
+                                                 *
+                                                 * @param WP_Error $result The WP_Error object.
+                                                 * @param string   $hook   Action hook to execute when the event is run.
+                                                 * @param array    $event  Event data.
+                                                 */
+                                                do_action( 'cron_reschedule_event_error', $result, $hook, $event );
+                                        }
+                                }
+
+                                $result = wp_unschedule_event( $timestamp, $hook, $event['args'], true );
+
+                                if ( is_wp_error( $result ) ) {
+                                        error_log(
+                                                sprintf(
+                                                        /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+                                                        __( 'Cron unschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s' ),
+                                                        $hook,
+                                                        $result->get_error_code(),
+                                                        $result->get_error_message(),
+                                                        wp_json_encode( $event )
+                                                )
+                                        );
+
+                                        /**
+                                         * Fires if an error happens when unscheduling a cron event.
+                                         *
+                                         * @since 6.1.0
+                                         *
+                                         * @param WP_Error $result The WP_Error object.
+                                         * @param string   $hook   Action hook to execute when the event is run.
+                                         * @param array    $event  Event data.
+                                         */
+                                        do_action( 'cron_unschedule_event_error', $result, $hook, $event );
+
+                                        continue;
+                                }
+
+                                $queue[] = array(
+                                        'id'           => wp_unique_id( 'cron_' ),
+                                        'hook'         => $hook,
+                                        'args'         => isset( $event['args'] ) ? (array) $event['args'] : array(),
+                                        'timestamp'    => $timestamp,
+                                        'queued_at'    => $now,
+                                );
+
+                                $queued++;
+                        }
+                }
+        }
+
+        if ( ! $queued ) {
+                return false;
+        }
+
+        wp_update_async_cron_queue( $queue );
+
+        return true;
+}
+
+/**
+ * Retrieves queued cron events awaiting asynchronous execution.
+ *
+ * @since 6.5.0
+ *
+ * @return array Array of queued cron events.
+ */
+function wp_get_async_cron_queue() {
+        $queue = get_option( 'wp_async_cron_queue', array() );
+
+        if ( ! is_array( $queue ) ) {
+                $queue = array();
+        }
+
+        return $queue;
+}
+
+/**
+ * Updates the stored asynchronous cron queue.
+ *
+ * @since 6.5.0
+ *
+ * @param array $queue The queue to persist.
+ */
+function wp_update_async_cron_queue( $queue ) {
+        $queue = array_values( $queue );
+
+        if ( false === get_option( 'wp_async_cron_queue', false ) ) {
+                add_option( 'wp_async_cron_queue', $queue, '', 'no' );
+                return;
+        }
+
+        update_option( 'wp_async_cron_queue', $queue );
+}
+
+/**
+ * Processes queued cron events.
+ *
+ * @since 6.5.0
+ *
+ * @param int $limit Optional. Maximum number of events to process. Default 0 for no limit.
+ * @return int Number of events processed.
+ */
+function wp_process_async_cron_queue( $limit = 0 ) {
+        $queue = wp_get_async_cron_queue();
+
+        if ( empty( $queue ) ) {
+                return 0;
+        }
+
+        if ( ! defined( 'DOING_CRON' ) ) {
+                define( 'DOING_CRON', true );
+        }
+
+        wp_raise_memory_limit( 'cron' );
+
+        $processed = 0;
+        $changed   = false;
+
+        while ( ! empty( $queue ) ) {
+                if ( $limit && $processed >= $limit ) {
+                        break;
+                }
+
+                $event = array_shift( $queue );
+                $changed = true;
+
+                if ( empty( $event['hook'] ) ) {
+                        continue;
+                }
+
+                $hook = $event['hook'];
+                $args = isset( $event['args'] ) ? (array) $event['args'] : array();
+
+                /**
+                 * Fires scheduled events from the asynchronous cron queue.
+                 *
+                 * @since 6.5.0
+                 *
+                 * @param string $hook Name of the hook that was scheduled to be fired.
+                 * @param array  $args The arguments to be passed to the hook.
+                 */
+                do_action_ref_array( $hook, $args );
+
+                $processed++;
+        }
+
+        if ( $changed ) {
+                wp_update_async_cron_queue( $queue );
+        }
+
+        return $processed;
 }
 
 /**

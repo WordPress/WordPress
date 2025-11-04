@@ -1806,7 +1806,7 @@ function get_the_password_form( $post = 0 ) {
 		);
 	}
 
-	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form' . $class . '" method="post">' . $redirect_field . $invalid_password_html . '
+       $output = '<form action="' . esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) ) . '" class="post-password-form' . $class . '" method="post">' . $redirect_field . $invalid_password_html . '
 	<p>' . __( 'This content is password-protected. To view it, please enter the password below.' ) . '</p>
 	<p><label for="' . $field_id . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $field_id . '" type="password" spellcheck="false" required size="20"' . $aria . ' /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
 	';

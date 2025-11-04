@@ -13,8 +13,55 @@ require_once __DIR__ . '/admin.php';
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
+        wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 }
+
+if ( isset( $_GET['action'] ) && 'regenerate-admin-login-slug' === $_GET['action'] ) {
+        check_admin_referer( 'regenerate-admin-login-slug' );
+
+        update_option( 'admin_login_slug', wp_generate_admin_login_slug() );
+
+        $redirect = add_query_arg(
+                array(
+                        'settings-updated'               => 'true',
+                        'admin-login-slug-regenerated'   => '1',
+                ),
+                admin_url( 'options-general.php' )
+        );
+
+        wp_safe_redirect( $redirect );
+        exit;
+}
+
+register_setting(
+        'general',
+        'login_rate_limit_settings',
+        array(
+                'type'              => 'array',
+                'sanitize_callback' => 'wp_sanitize_login_rate_limit_settings',
+                'default'           => wp_get_login_rate_limit_defaults(),
+        )
+);
+
+register_setting(
+        'general',
+        'admin_login_slug',
+        array(
+                'type'              => 'string',
+                'sanitize_callback' => 'wp_sanitize_admin_login_slug',
+                'default'           => '',
+        )
+);
+
+register_setting(
+        'general',
+        'dark_mode_settings',
+        array(
+                'type'              => 'array',
+                'sanitize_callback' => 'wp_sanitize_dark_mode_settings',
+                'default'           => wp_get_default_dark_mode_settings(),
+        )
+);
 
 // Used in the HTML title tag.
 $title       = __( 'General Settings' );
@@ -62,10 +109,16 @@ get_current_screen()->set_help_sidebar(
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
+
+if ( isset( $_GET['admin-login-slug-regenerated'] ) ) {
+        add_settings_error( 'general', 'admin-login-slug-regenerated', __( 'The administrator login slug has been regenerated.' ), 'updated' );
+}
 ?>
 
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
+
+<?php settings_errors(); ?>
 
 <form method="post" action="options.php" novalidate="novalidate">
 <?php settings_fields( 'general' ); ?>
@@ -95,6 +148,33 @@ $tagline_description = sprintf(
 <th scope="row"><label for="blogdescription"><?php _e( 'Tagline' ); ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" />
 <p class="description" id="tagline-description"><?php echo $tagline_description; ?></p></td>
+</tr>
+
+<?php
+$dark_mode_settings = wp_get_dark_mode_settings();
+$dark_mode_choices  = wp_get_dark_mode_preference_choices();
+?>
+<tr>
+<th scope="row"><?php _e( 'Dark mode' ); ?></th>
+<td>
+        <fieldset>
+                <legend class="screen-reader-text"><span><?php _e( 'Dark mode preferences' ); ?></span></legend>
+                <label for="dark-mode-admin" class="screen-reader-text"><?php _e( 'Admin screens dark mode' ); ?></label>
+                <select name="dark_mode_settings[admin]" id="dark-mode-admin">
+                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $dark_mode_settings['admin'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                </select>
+                <p class="description"><?php _e( 'Controls whether the WordPress dashboard uses the light palette, a dark palette, or matches the device setting.' ); ?></p>
+                <label for="dark-mode-frontend" class="screen-reader-text"><?php _e( 'Front end dark mode' ); ?></label>
+                <select name="dark_mode_settings[frontend]" id="dark-mode-frontend">
+                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $dark_mode_settings['frontend'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                </select>
+                <p class="description"><?php _e( 'Set how visitors see your theme when dark mode is available. Themes with dark assets can swap them automatically.' ); ?></p>
+        </fieldset>
+</td>
 </tr>
 
 <?php if ( current_user_can( 'upload_files' ) ) : ?>
@@ -268,30 +348,52 @@ if ( ! is_multisite() ) {
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email ) {
-	$pending_admin_email_message = sprintf(
-		/* translators: %s: New admin email. */
-		__( 'There is a pending change of the admin email to %s.' ),
-		'<code>' . esc_html( $new_admin_email ) . '</code>'
-	);
-	$pending_admin_email_message .= sprintf(
-		' <a href="%1$s">%2$s</a>',
-		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
-		__( 'Cancel' )
-	);
-	wp_admin_notice(
-		$pending_admin_email_message,
-		array(
-			'additional_classes' => array( 'updated', 'inline' ),
-		)
-	);
+        $pending_admin_email_message = sprintf(
+                /* translators: %s: New admin email. */
+                __( 'There is a pending change of the admin email to %s.' ),
+                '<code>' . esc_html( $new_admin_email ) . '</code>'
+        );
+        $pending_admin_email_message .= sprintf(
+                ' <a href="%1$s">%2$s</a>',
+                esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
+                __( 'Cancel' )
+        );
+        wp_admin_notice(
+                $pending_admin_email_message,
+                array(
+                        'additional_classes' => array( 'updated', 'inline' ),
+                )
+        );
 }
 ?>
 </td>
 </tr>
 
 <?php
+$admin_login_slug_value = get_admin_login_slug();
+$regenerate_admin_login_slug_url = wp_nonce_url(
+        add_query_arg(
+                array(
+                        'action' => 'regenerate-admin-login-slug',
+                ),
+                admin_url( 'options-general.php' )
+        ),
+        'regenerate-admin-login-slug'
+);
+?>
+
+<tr>
+<th scope="row"><label for="admin_login_slug"><?php _e( 'Administrator login slug' ); ?></label></th>
+<td>
+        <input name="admin_login_slug" type="text" id="admin_login_slug" value="<?php echo esc_attr( $admin_login_slug_value ); ?>" class="regular-text code" />
+        <p class="description"><?php _e( 'This slug is required when accessing wp-login.php or wp-admin/. Share it only with trusted administrators.' ); ?></p>
+        <p><a class="button button-secondary" href="<?php echo esc_url( $regenerate_admin_login_slug_url ); ?>"><?php _e( 'Regenerate slug' ); ?></a></p>
+</td>
+</tr>
+
+<?php
 if ( ! is_multisite() ) {
-	$membership_title = __( 'Membership' );
+        $membership_title = __( 'Membership' );
 	?>
 <tr>
 <th scope="row"><?php echo $membership_title; ?></th>
@@ -308,7 +410,105 @@ if ( ! is_multisite() ) {
 </td>
 </tr>
 
-	<?php
+<?php
+$login_rate_settings = wp_get_login_rate_limit_settings();
+$login_rate_locks    = wp_login_rate_limiter()->get_active_locks();
+
+$per_user_threshold       = isset( $login_rate_settings['per_user']['threshold'] ) ? (int) $login_rate_settings['per_user']['threshold'] : 0;
+$per_user_window_minutes  = ( ! empty( $login_rate_settings['per_user']['window'] ) ) ? max( 0, (int) round( $login_rate_settings['per_user']['window'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_user_lock_minutes    = ( ! empty( $login_rate_settings['per_user']['lockout'] ) ) ? max( 0, (int) round( $login_rate_settings['per_user']['lockout'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_ip_threshold         = isset( $login_rate_settings['per_ip']['threshold'] ) ? (int) $login_rate_settings['per_ip']['threshold'] : 0;
+$per_ip_window_minutes    = ( ! empty( $login_rate_settings['per_ip']['window'] ) ) ? max( 0, (int) round( $login_rate_settings['per_ip']['window'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_ip_lock_minutes      = ( ! empty( $login_rate_settings['per_ip']['lockout'] ) ) ? max( 0, (int) round( $login_rate_settings['per_ip']['lockout'] / MINUTE_IN_SECONDS ) ) : 0;
+?>
+<tr>
+<th scope="row"><?php esc_html_e( 'Login rate limiting' ); ?></th>
+<td>
+        <fieldset>
+                <legend class="screen-reader-text"><span><?php esc_html_e( 'Login rate limiting' ); ?></span></legend>
+                <p><?php esc_html_e( 'Control how many failed login attempts are permitted before temporary lockouts are enforced.' ); ?></p>
+                <div class="login-rate-limit-settings">
+                        <h4><?php esc_html_e( 'Per username' ); ?></h4>
+                        <p>
+                                <label for="login_rate_limit_per_user_threshold"><?php esc_html_e( 'Failed attempts allowed' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][threshold]" type="number" id="login_rate_limit_per_user_threshold" value="<?php echo esc_attr( $per_user_threshold ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_user_window"><?php esc_html_e( 'Tracking window (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][window]" type="number" id="login_rate_limit_per_user_window" value="<?php echo esc_attr( $per_user_window_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_user_lockout"><?php esc_html_e( 'Lockout duration (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][lockout]" type="number" id="login_rate_limit_per_user_lockout" value="<?php echo esc_attr( $per_user_lock_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                </div>
+                <div class="login-rate-limit-settings">
+                        <h4><?php esc_html_e( 'Per IP address' ); ?></h4>
+                        <p>
+                                <label for="login_rate_limit_per_ip_threshold"><?php esc_html_e( 'Failed attempts allowed' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][threshold]" type="number" id="login_rate_limit_per_ip_threshold" value="<?php echo esc_attr( $per_ip_threshold ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_ip_window"><?php esc_html_e( 'Tracking window (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][window]" type="number" id="login_rate_limit_per_ip_window" value="<?php echo esc_attr( $per_ip_window_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_ip_lockout"><?php esc_html_e( 'Lockout duration (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][lockout]" type="number" id="login_rate_limit_per_ip_lockout" value="<?php echo esc_attr( $per_ip_lock_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                </div>
+                <p class="description"><?php esc_html_e( 'Set a value to zero to disable the corresponding limit.' ); ?></p>
+        </fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row"><?php esc_html_e( 'Login lockouts' ); ?></th>
+<td>
+        <?php if ( empty( $login_rate_locks ) ) : ?>
+                <p><?php esc_html_e( 'No lockouts are currently active.' ); ?></p>
+        <?php else : ?>
+                <table class="widefat striped">
+                        <thead>
+                                <tr>
+                                        <th scope="col"><?php esc_html_e( 'Scope' ); ?></th>
+                                        <th scope="col"><?php esc_html_e( 'Identifier' ); ?></th>
+                                        <th scope="col"><?php esc_html_e( 'Time remaining' ); ?></th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $current_time = current_time( 'timestamp' );
+
+                        foreach ( $login_rate_locks as $lock ) {
+                                $scope_label = ( 'per_user' === $lock['scope'] ) ? __( 'Username' ) : __( 'IP address' );
+                                $remaining   = max( 0, (int) ( $lock['expires'] - $current_time ) );
+                                $human_readable = $remaining > 0 ? human_time_diff( $current_time, $lock['expires'] ) : '';
+                                $status_text    = $remaining > 0
+                                        ? sprintf(
+                                                /* translators: %s: Human readable time difference. */
+                                                __( '%s remaining' ),
+                                                $human_readable
+                                        )
+                                        : __( 'Expired' );
+                                ?>
+                                <tr>
+                                        <td><?php echo esc_html( $scope_label ); ?></td>
+                                        <td><?php echo esc_html( $lock['label'] ); ?></td>
+                                        <td><?php echo esc_html( $status_text ); ?></td>
+                                </tr>
+                                <?php
+                        }
+                        ?>
+                        </tbody>
+                </table>
+                <p>
+                        <button type="submit" class="button" name="login_rate_limit_settings[clear_all]" value="1"><?php esc_html_e( 'Clear all lockouts' ); ?></button>
+                </p>
+        <?php endif; ?>
+</td>
+</tr>
+
+        <?php
 }
 
 $languages    = get_available_languages();
@@ -455,6 +655,25 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists.
 	</span>
 </p>
 <?php endif; ?>
+</td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e( 'Cron Execution Mode' ); ?></th>
+<td>
+        <p><?php _e( 'WordPress can run scheduled tasks inline or through an asynchronous queue managed by your own scheduler.' ); ?></p>
+        <p class="description">
+        <?php
+        printf(
+                /* translators: 1: WP_CRON_MODE definition. 2: wp-config.php. 3: WP-CLI command. */
+                __( 'To enable asynchronous processing, add %1$s to %2$s and schedule %3$s from your system cron or task runner.' ),
+                "<code>define( 'WP_CRON_MODE', 'async' );</code>",
+                '<code>wp-config.php</code>',
+                '<code>wp cron process-queue</code>'
+        );
+        ?>
+        </p>
+        <p class="description"><?php _e( 'Run the command manually after switching modes to verify that queued events complete successfully.' ); ?></p>
 </td>
 </tr>
 

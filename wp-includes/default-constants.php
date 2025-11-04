@@ -114,6 +114,10 @@ function wp_initial_constants() {
 		define( 'WP_CACHE', false );
 	}
 
+	if ( ! defined( 'WP_CRON_MODE' ) ) {
+		define( 'WP_CRON_MODE', 'inline' );
+	}
+
 	/*
 	 * Add define( 'SCRIPT_DEBUG', true ); to wp-config.php to enable loading of non-minified,
 	 * non-concatenated scripts and stylesheets.

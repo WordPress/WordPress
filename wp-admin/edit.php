@@ -42,12 +42,79 @@ if ( ! $post_type_object ) {
 }
 
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
-	wp_die(
-		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to edit posts in this post type.' ) . '</p>',
-		403
-	);
+        wp_die(
+                '<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
+                '<p>' . __( 'Sorry, you are not allowed to edit posts in this post type.' ) . '</p>',
+                403
+        );
 }
+
+$cancel_action = isset( $_GET['action'] ) ? sanitize_key( $_GET['action'] ) : '';
+
+if ( 'cancel-scheduled-update' === $cancel_action ) {
+        $revision_id = isset( $_GET['revision'] ) ? (int) $_GET['revision'] : 0;
+
+        check_admin_referer( 'cancel-scheduled-update_' . $revision_id );
+
+        $revision = get_post( $revision_id );
+
+        if ( ! $revision || 'revision' !== $revision->post_type || 'scheduled-update' !== $revision->post_status ) {
+                wp_die( __( 'Scheduled update not found.' ) );
+        }
+
+        if ( ! current_user_can( 'edit_post', $revision->post_parent ) ) {
+                wp_die( __( 'Sorry, you are not allowed to cancel this scheduled update.' ) );
+        }
+
+        $cancelled = wp_cancel_scheduled_update( $revision_id );
+
+        if ( is_wp_error( $cancelled ) ) {
+                wp_die( $cancelled->get_error_message() );
+        }
+
+        $redirect = add_query_arg(
+                array(
+                        'post_type'                 => $post_type,
+                        'scheduled-updates'         => 1,
+                        'cancelled-scheduled-update'=> 1,
+                ),
+                admin_url( 'edit.php' )
+        );
+
+        if ( ! empty( $_GET['paged'] ) ) {
+                $redirect = add_query_arg( 'paged', (int) $_GET['paged'], $redirect );
+        }
+
+        wp_redirect( $redirect );
+        exit;
+}
+
+$views_filter = "views_edit-{$post_type}";
+add_filter(
+        $views_filter,
+        static function( $views ) use ( $post_type ) {
+                $count = wp_count_scheduled_updates( $post_type );
+                $url   = add_query_arg(
+                        array(
+                                'post_type'         => $post_type,
+                                'scheduled-updates' => 1,
+                        ),
+                        admin_url( 'edit.php' )
+                );
+
+                $label = sprintf(
+                        /* translators: %s: Number of scheduled updates. */
+                        _n( 'Scheduled Update <span class="count">(%s)</span>', 'Scheduled Updates <span class="count">(%s)</span>', $count ),
+                        number_format_i18n( $count )
+                );
+
+                $class = isset( $_GET['scheduled-updates'] ) ? ' class="current"' : '';
+
+                $views['scheduled-updates'] = sprintf( '<a href="%s"%s>%s</a>', esc_url( $url ), $class, $label );
+
+                return $views;
+        }
+);
 
 $wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 $pagenum       = $wp_list_table->get_pagenum();
@@ -74,7 +141,7 @@ if ( 'post' !== $post_type ) {
 $doaction = $wp_list_table->current_action();
 
 if ( $doaction ) {
-	check_admin_referer( 'bulk-posts' );
+        check_admin_referer( 'bulk-posts' );
 
 	$sendback = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'locked', 'ids' ), wp_get_referer() );
 	if ( ! $sendback ) {
@@ -228,8 +295,59 @@ if ( $doaction ) {
 	wp_redirect( $sendback );
 	exit;
 } elseif ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
-	wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
-	exit;
+        wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+        exit;
+}
+
+if ( isset( $_GET['scheduled-updates'] ) ) {
+        require_once ABSPATH . 'wp-admin/includes/class-wp-scheduled-updates-list-table.php';
+
+        $scheduled_updates_table = new WP_Scheduled_Updates_List_Table( array( 'post_type' => $post_type ) );
+        $scheduled_updates_table->prepare_items();
+
+        require_once ABSPATH . 'wp-admin/admin-header.php';
+        ?>
+        <div class="wrap">
+        <h1 class="wp-heading-inline">
+                <?php
+                printf(
+                        /* translators: %s: Post type name. */
+                        __( '%s Scheduled Updates' ),
+                        $post_type_object->labels->name
+                );
+                ?>
+        </h1>
+        <?php
+        $wp_list_table->views();
+
+        echo '<hr class="wp-header-end">';
+
+        if ( isset( $_GET['cancelled-scheduled-update'] ) ) {
+                wp_admin_notice(
+                        __( 'Scheduled update cancelled.' ),
+                        array(
+                                'id'                 => 'message',
+                                'additional_classes' => array( 'updated' ),
+                                'dismissible'        => true,
+                        )
+                );
+        }
+        ?>
+        <form method="get">
+                <?php
+                if ( 'post' !== $post_type ) {
+                        ?>
+                        <input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>" />
+                        <?php
+                }
+                ?>
+                <input type="hidden" name="scheduled-updates" value="1" />
+                <?php $scheduled_updates_table->display(); ?>
+        </form>
+        </div>
+        <?php
+        require_once ABSPATH . 'wp-admin/admin-footer.php';
+        exit;
 }
 
 $wp_list_table->prepare_items();

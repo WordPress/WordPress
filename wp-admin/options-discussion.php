@@ -12,6 +12,16 @@ if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 }
 
+register_setting(
+	'discussion',
+	'xmlrpc_enabled',
+	array(
+		'type'              => 'boolean',
+		'sanitize_callback' => 'rest_sanitize_boolean',
+		'default'           => 1,
+	)
+);
+
 // Used in the HTML title tag.
 $title       = __( 'Discussion Settings' );
 $parent_file = 'options-general.php';
@@ -160,6 +170,17 @@ $thread_comments_depth .= '</select>';
 <label for="moderation_notify">
 <input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked( '1', get_option( 'moderation_notify' ) ); ?> />
 <?php _e( 'A comment is held for moderation' ); ?> </label>
+</fieldset></td>
+</tr>
+<?php $remote_publishing_title = __( 'Remote publishing' ); ?>
+<tr>
+<th scope="row"><?php echo $remote_publishing_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $remote_publishing_title; ?></span></legend>
+<label for="xmlrpc_enabled">
+<input name="xmlrpc_enabled" type="checkbox" id="xmlrpc_enabled" value="1" <?php checked( '1', get_option( 'xmlrpc_enabled', 1 ) ); ?> />
+<?php _e( 'Allow applications to publish posts via the XML-RPC protocol' ); ?>
+</label>
+<p class="description"><?php _e( 'XML-RPC enables remote publishing tools. Disable this when not needed to reduce your site&#8217;s attack surface.' ); ?></p>
 </fieldset></td>
 </tr>
 <?php $before_comment_appears_title = __( 'Before a comment appears' ); ?>

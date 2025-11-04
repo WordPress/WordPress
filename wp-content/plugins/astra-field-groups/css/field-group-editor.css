@@ -1,0 +1,31 @@
+#astra-field-group-editor {
+    margin-top: 1em;
+}
+
+.astra-field-group-editor-app {
+    display: grid;
+    gap: 16px;
+}
+
+.astra-field-group-card__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.astra-field-group-card__actions .components-button {
+    margin: 0;
+}
+
+.astra-field-group-card__post-types .components-base-control {
+    margin-bottom: 4px;
+}
+
+.astra-field-group-control {
+    margin-bottom: 16px;
+}
+
+.astra-field-group-control label {
+    display: block;
+    margin-bottom: 4px;
+}

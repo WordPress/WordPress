@@ -1443,13 +1443,21 @@ class WP_Theme_JSON {
 		}
 
 		// Load the custom CSS last so it has the highest specificity.
-		if ( in_array( 'custom-css', $types, true ) ) {
-			// Add the global styles root CSS.
-			$stylesheet .= _wp_array_get( $this->theme_json, array( 'styles', 'css' ) );
-		}
+                if ( in_array( 'custom-css', $types, true ) ) {
+                        // Add the global styles root CSS.
+                        $stylesheet .= _wp_array_get( $this->theme_json, array( 'styles', 'css' ) );
+                }
 
-		return $stylesheet;
-	}
+                if ( current_theme_supports( 'dark-mode' ) && ( in_array( 'styles', $types, true ) || in_array( 'custom-css', $types, true ) ) ) {
+                        $dark_stylesheet = wp_get_theme_dark_mode_stylesheet( 'frontend' );
+
+                        if ( $dark_stylesheet ) {
+                                $stylesheet .= $dark_stylesheet;
+                        }
+                }
+
+                return $stylesheet;
+        }
 
 	/**
 	 * Processes the CSS, to apply nesting.

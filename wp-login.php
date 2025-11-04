@@ -11,6 +11,30 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require __DIR__ . '/wp-load.php';
 
+$admin_login_slug     = get_admin_login_slug();
+$admin_login_query_arg = wp_admin_login_slug_query_arg();
+$requested_admin_slug = '';
+
+if ( isset( $_REQUEST[ $admin_login_query_arg ] ) ) {
+        $requested_admin_slug = sanitize_admin_login_slug( wp_unslash( $_REQUEST[ $admin_login_query_arg ] ) );
+}
+
+/**
+ * Filters whether legacy login locations are permitted.
+ *
+ * @since 6.6.0
+ *
+ * @param bool   $allow   Whether legacy locations should be allowed. Default false.
+ * @param string $context Current context. For wp-login.php this is 'login'.
+ */
+if ( ! apply_filters( 'wp_admin_legacy_slugs', false, 'login' ) ) {
+        if ( ! hash_equals( $admin_login_slug, $requested_admin_slug ) ) {
+                status_header( 403 );
+                nocache_headers();
+                wp_die( __( 'Access to this resource requires the active administrator login slug.' ), 403 );
+        }
+}
+
 // Redirect to HTTPS login if forced to use SSL.
 if ( force_ssl_admin() && ! is_ssl() ) {
 	if ( str_starts_with( $_SERVER['REQUEST_URI'], 'http' ) ) {
@@ -420,6 +444,13 @@ function login_footer( $input_id = '' ) {
 						<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action'] ); ?>" />
 					<?php } ?>
 
+					<?php
+					$admin_login_query_arg_ls = wp_admin_login_slug_query_arg();
+					if ( isset( $_GET[ $admin_login_query_arg_ls ] ) && '' !== $_GET[ $admin_login_query_arg_ls ] ) {
+						?>
+						<input type="hidden" name="<?php echo esc_attr( $admin_login_query_arg_ls ); ?>" value="<?php echo esc_attr( sanitize_admin_login_slug( wp_unslash( $_GET[ $admin_login_query_arg_ls ] ) ) ); ?>" />
+					<?php } ?>
+
 						<input type="submit" class="button" value="<?php esc_attr_e( 'Change' ); ?>">
 
 					</form>
@@ -527,7 +558,7 @@ if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set.
 }
 
 // Set a cookie now to see if they are supported by the browser.
-$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+$secure = is_ssl();
 setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
 
 if ( SITECOOKIEPATH !== COOKIEPATH ) {
@@ -673,7 +704,7 @@ switch ( $action ) {
 
 		?>
 
-		<form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ); ?>" method="post">
+           <form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ) ); ?>" method="post">
 			<?php
 			/**
 			 * Fires inside the admin-email-confirm-form form tags, before the hidden fields.
@@ -839,7 +870,7 @@ switch ( $action ) {
 			$errors = retrieve_password();
 
 			if ( ! is_wp_error( $errors ) ) {
-				$redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?checkemail=confirm';
+                               $redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?checkemail=confirm' ) );
 				wp_safe_redirect( $redirect_to );
 				exit;
 			}
@@ -894,7 +925,7 @@ switch ( $action ) {
 
 		?>
 
-		<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
+           <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ) ); ?>" method="post">
 			<p>
 				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
 				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
@@ -964,9 +995,9 @@ switch ( $action ) {
 			setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
 
 			if ( $user && $user->get_error_code() === 'expired_key' ) {
-				wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
+                           wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) ) );
 			} else {
-				wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
+                           wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) ) );
 			}
 
 			exit;
@@ -1031,7 +1062,7 @@ switch ( $action ) {
 		);
 
 		?>
-		<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
+           <form name="resetpassform" id="resetpassform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ) ); ?>" method="post" autocomplete="off">
 			<input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
 			<div class="user-pass1-wrap">
@@ -1113,7 +1144,7 @@ switch ( $action ) {
 		}
 
 		if ( ! get_option( 'users_can_register' ) ) {
-			wp_redirect( site_url( 'wp-login.php?registration=disabled' ) );
+                   wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?registration=disabled' ) ) );
 			exit;
 		}
 
@@ -1132,7 +1163,7 @@ switch ( $action ) {
 			$errors = register_new_user( $user_login, $user_email );
 
 			if ( ! is_wp_error( $errors ) ) {
-				$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
+                               $redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?checkemail=registered' ) );
 				wp_safe_redirect( $redirect_to );
 				exit;
 			}
@@ -1165,7 +1196,7 @@ switch ( $action ) {
 		);
 
 		?>
-		<form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
+           <form name="registerform" id="registerform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=register', 'login_post' ) ) ); ?>" method="post" novalidate="novalidate">
 			<p>
 				<label for="user_login"><?php _e( 'Username' ); ?></label>
 				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
@@ -1320,7 +1351,17 @@ switch ( $action ) {
 
 		$reauth = ! empty( $_REQUEST['reauth'] );
 
-		$user = wp_signon( array(), $secure_cookie );
+                        if ( ! is_wp_error( $maybe_limited ) ) {
+                                $login_credentials['rate_limit_checked'] = true;
+                                $login_credentials['rate_limit_ip']      = $login_ip;
+                        }
+                }
+
+                if ( is_wp_error( $maybe_limited ) ) {
+                        $user = $maybe_limited;
+                } else {
+                        $user = wp_signon( $login_credentials, $secure_cookie );
+                }
 
 		if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 			if ( headers_sent() ) {
@@ -1489,52 +1530,75 @@ switch ( $action ) {
 
 		login_header( __( 'Log In' ), '', $errors );
 
-		if ( isset( $_POST['log'] ) ) {
-			$user_login = ( 'incorrect_password' === $errors->get_error_code() || 'empty_password' === $errors->get_error_code() ) ? wp_unslash( $_POST['log'] ) : '';
-		}
+                if ( isset( $_POST['log'] ) ) {
+                        $user_login = ( 'incorrect_password' === $errors->get_error_code() || 'empty_password' === $errors->get_error_code() ) ? wp_unslash( $_POST['log'] ) : '';
+                }
 
-		$rememberme = ! empty( $_POST['rememberme'] );
+                $rememberme = ! empty( $_POST['rememberme'] );
 
-		$aria_describedby = '';
-		$has_errors       = $errors->has_errors();
+                $aria_describedby = '';
+                $has_errors       = $errors->has_errors();
+                $mfa_data         = $errors->get_error_data( 'mfa_required' );
+                $mfa_required     = is_array( $mfa_data );
+                $mfa_token        = $mfa_required && ! empty( $mfa_data['token'] ) ? sanitize_text_field( $mfa_data['token'] ) : '';
+                $mfa_factor       = $mfa_required && ! empty( $mfa_data['factor']['id'] ) ? sanitize_key( $mfa_data['factor']['id'] ) : '';
+                $mfa_type         = $mfa_required && ! empty( $mfa_data['factor']['type'] ) ? sanitize_key( $mfa_data['factor']['type'] ) : '';
 
-		if ( $has_errors ) {
-			$aria_describedby = ' aria-describedby="login_error"';
-		}
+                if ( $has_errors ) {
+                        $aria_describedby = ' aria-describedby="login_error"';
+                }
 
-		if ( $has_errors && 'message' === $errors->get_error_data() ) {
-			$aria_describedby = ' aria-describedby="login-message"';
-		}
+                if ( $has_errors && 'message' === $errors->get_error_data() ) {
+                        $aria_describedby = ' aria-describedby="login-message"';
+                }
 
-		wp_enqueue_script( 'user-profile' );
-		?>
+                wp_enqueue_script( 'user-profile' );
+                ?>
 
-		<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
-			<p>
-				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
-				<input type="text" name="log" id="user_login"<?php echo $aria_describedby; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
-			</p>
+           <form name="loginform" id="loginform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php', 'login_post' ) ) ); ?>" method="post">
+                        <p>
+                                <label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+                                <input type="text" name="log" id="user_login"<?php echo $aria_describedby; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
+                        </p>
 
-			<div class="user-pass-wrap">
-				<label for="user_pass"><?php _e( 'Password' ); ?></label>
-				<div class="wp-pwd">
-					<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby; ?> class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required" />
-					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
-						<span class="dashicons dashicons-visibility" aria-hidden="true"></span>
-					</button>
-				</div>
-			</div>
-			<?php
+                        <div class="user-pass-wrap">
+                                <label for="user_pass"><?php _e( 'Password' ); ?></label>
+                                <div class="wp-pwd">
+                                        <input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby; ?> class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required" />
+                                        <button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
+                                                <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+                                        </button>
+                                </div>
+                        </div>
+                        <?php if ( $mfa_required ) : ?>
+                        <div class="wp-mfa-step" aria-live="polite">
+                                <p id="mfa-instructions">
+                                        <?php
+                                        if ( 'email' === $mfa_type ) {
+                                                esc_html_e( 'Enter the verification code that was emailed to you.' );
+                                        } else {
+                                                esc_html_e( 'Enter the code from your authenticator application.' );
+                                        }
+                                        ?>
+                                </p>
+                                <label for="mfa_response"><?php _e( 'Verification code' ); ?></label>
+                                <input type="text" name="mfa_response" id="mfa_response" class="input" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required="required" />
+                                <input type="hidden" name="mfa_token" value="<?php echo esc_attr( $mfa_token ); ?>" />
+                                <input type="hidden" name="mfa_factor" value="<?php echo esc_attr( $mfa_factor ); ?>" />
+                        </div>
+                        <?php endif; ?>
 
-			/**
-			 * Fires following the 'Password' field in the login form.
-			 *
-			 * @since 2.1.0
-			 */
-			do_action( 'login_form' );
+                        <?php
 
-			?>
-			<p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
+                        /**
+                         * Fires following the 'Password' field in the login form.
+                         *
+                         * @since 2.1.0
+                         */
+                        do_action( 'login_form' );
+
+                        ?>
+                        <p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" />
 				<?php

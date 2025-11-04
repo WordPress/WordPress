@@ -34,6 +34,30 @@ if ( isset( $_GET['import'] ) && ! defined( 'WP_LOAD_IMPORTERS' ) ) {
 /** Load WordPress Bootstrap */
 require_once dirname( __DIR__ ) . '/wp-load.php';
 
+$admin_login_slug      = get_admin_login_slug();
+$admin_login_query_arg = wp_admin_login_slug_query_arg();
+$admin_request_slug    = '';
+
+if ( isset( $_REQUEST[ $admin_login_query_arg ] ) ) {
+        $admin_request_slug = sanitize_admin_login_slug( wp_unslash( $_REQUEST[ $admin_login_query_arg ] ) );
+}
+
+/**
+ * Filters whether legacy admin locations are permitted.
+ *
+ * @since 6.6.0
+ *
+ * @param bool   $allow   Whether legacy locations should be allowed. Default false.
+ * @param string $context Current context. For wp-admin this is 'admin'.
+ */
+if ( ! apply_filters( 'wp_admin_legacy_slugs', false, 'admin' ) ) {
+        if ( ! hash_equals( $admin_login_slug, $admin_request_slug ) ) {
+                status_header( 403 );
+                nocache_headers();
+                wp_die( __( 'Direct access to the administration area requires the active administrator login slug.' ), 403 );
+        }
+}
+
 nocache_headers();
 
 if ( get_option( 'db_upgraded' ) ) {

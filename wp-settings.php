@@ -35,6 +35,7 @@ require ABSPATH . WPINC . '/version.php';
 require ABSPATH . WPINC . '/compat-utf8.php';
 require ABSPATH . WPINC . '/compat.php';
 require ABSPATH . WPINC . '/load.php';
+require( ABSPATH . WPINC . '/plugin.php' );
 
 // Check the server requirements.
 wp_check_php_mysql_versions();
@@ -125,6 +126,7 @@ require ABSPATH . WPINC . '/l10n/class-wp-translations.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file-mo.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file-php.php';
+require ABSPATH . WPINC . '/l10n/translation.php';
 
 /**
  * @since 0.71
@@ -147,6 +149,9 @@ wp_set_wpdb_vars();
 
 // Start the WordPress object cache, or an external object cache if the drop-in is present.
 wp_start_object_cache();
+
+// Load performance framework integrations.
+require ABSPATH . WPINC . '/performance.php';
 
 // Attach the default filters.
 require ABSPATH . WPINC . '/default-filters.php';
@@ -199,6 +204,7 @@ require ABSPATH . WPINC . '/class-wp-block-template.php';
 require ABSPATH . WPINC . '/class-wp-block-templates-registry.php';
 require ABSPATH . WPINC . '/block-template-utils.php';
 require ABSPATH . WPINC . '/block-template.php';
+require ABSPATH . WPINC . '/class-wp-layout-canvas.php';
 require ABSPATH . WPINC . '/theme-templates.php';
 require ABSPATH . WPINC . '/theme-previews.php';
 require ABSPATH . WPINC . '/template.php';
@@ -253,6 +259,7 @@ require ABSPATH . WPINC . '/class-wp-embed.php';
 require ABSPATH . WPINC . '/class-wp-oembed.php';
 require ABSPATH . WPINC . '/class-wp-oembed-controller.php';
 require ABSPATH . WPINC . '/media.php';
+require ABSPATH . WPINC . '/class-wp-image-processing-queue.php';
 require ABSPATH . WPINC . '/http.php';
 require ABSPATH . WPINC . '/html-api/html5-named-character-references.php';
 require ABSPATH . WPINC . '/html-api/class-wp-html-attribute-token.php';
@@ -298,6 +305,7 @@ require ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-posts-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-attachments-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-media-organization-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-global-styles-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-post-types-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-post-statuses-controller.php';
@@ -305,6 +313,7 @@ require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-revisions-controlle
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-global-styles-revisions-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-template-revisions-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-autosaves-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-scheduled-updates-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-template-autosaves-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-taxonomies-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-terms-controller.php';

@@ -1,19 +1,21 @@
 <?php
-/**
- * HTTP API: WP_HTTP_Response class
- *
- * @package WordPress
- * @subpackage HTTP
- * @since 4.4.0
- */
 
-/**
- * Core class used to prepare HTTP responses.
- *
- * @since 4.4.0
- */
-#[AllowDynamicProperties]
-class WP_HTTP_Response {
+if ( ! class_exists( 'WP_HTTP_Response', false ) ) {
+	/**
+	 * HTTP API: WP_HTTP_Response class
+	 *
+	 * @package WordPress
+	 * @subpackage HTTP
+	 * @since 4.4.0
+	 */
+
+	/**
+	 * Core class used to prepare HTTP responses.
+	 *
+	 * @since 4.4.0
+	 */
+	#[AllowDynamicProperties]
+	class WP_HTTP_Response {
 
 	/**
 	 * Response data.
@@ -150,5 +152,6 @@ class WP_HTTP_Response {
 	 */
 	public function jsonSerialize() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		return $this->get_data();
+	}
 	}
 }
