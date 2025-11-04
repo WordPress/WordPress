@@ -271,20 +271,20 @@ function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiR
 			return ! isIdentical;
 		case 'emoji':
 			/*
-			 * Does Emoji 16.0 cause the browser to go splat?
+			 * Is there a large, hairy, humanoid mythical creature living in the browser?
 			 *
-			 * To test for Emoji 16.0 support, try to render a new emoji: Splatter.
+			 * To test for Emoji 17.0 support, try to render a new emoji: Hairy Creature.
 			 *
-			 * The splatter emoji is a single code point emoji. Testing for browser support
-			 * required testing the center point of the emoji to see if it is empty.
+			 * The hairy creature emoji is a single code point emoji. Testing for browser
+			 * support required testing the center point of the emoji to see if it is empty.
 			 *
-			 * 0xD83E 0xDEDF (\uD83E\uDEDF) == 🫟 Splatter.
+			 * 0xD83E 0x1FAC8 (\uD83E\u1FAC8) == 🫈 Hairy creature.
 			 *
 			 * When updating this test, please ensure that the emoji is either a single code point
 			 * or switch to using the emojiSetsRenderIdentically function and testing with a zero-width
 			 * joiner vs a zero-width space.
 			 */
-			const notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\uDEDF' );
+			const notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\u1FAC8' );
 			return ! notSupported;
 	}
 
