@@ -166,8 +166,8 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return WP_Error|null|true WP_Error indicates unsuccessful login, null indicates successful
-	 *                            or no authentication provided.
+	 * @return WP_Error|null|true WP_Error if authentication error occurred, null if authentication
+	 *                            method wasn't used, true if authentication succeeded.
 	 */
 	public function check_authentication() {
 		/**
@@ -191,7 +191,7 @@ class WP_REST_Server {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param WP_Error|null|true $errors WP_Error if authentication error, null if authentication
+		 * @param WP_Error|null|true $errors WP_Error if authentication error occurred, null if authentication
 		 *                                   method wasn't used, true if authentication succeeded.
 		 */
 		return apply_filters( 'rest_authentication_errors', null );
