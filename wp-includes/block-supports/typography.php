@@ -308,6 +308,20 @@ function wp_typography_get_preset_inline_style_value( $style_value, $css_propert
 function wp_render_typography_support( $block_content, $block ) {
 	if ( ! empty( $block['attrs']['fitText'] ) && ! is_admin() ) {
 		wp_enqueue_script_module( '@wordpress/block-editor/utils/fit-text-frontend' );
+
+		// Add Interactivity API directives for fit text to work with client-side navigation.
+		if ( ! empty( $block_content ) ) {
+			$processor = new WP_HTML_Tag_Processor( $block_content );
+			if ( $processor->next_tag() ) {
+				if ( ! $processor->get_attribute( 'data-wp-interactive' ) ) {
+					$processor->set_attribute( 'data-wp-interactive', true );
+				}
+				$processor->set_attribute( 'data-wp-context---core-fit-text', 'core/fit-text::{"fontSize":""}' );
+				$processor->set_attribute( 'data-wp-init---core-fit-text', 'core/fit-text::callbacks.init' );
+				$processor->set_attribute( 'data-wp-style--font-size', 'core/fit-text::context.fontSize' );
+				$block_content = $processor->get_updated_html();
+			}
+		}
 	}
 	if ( ! isset( $block['attrs']['style']['typography']['fontSize'] ) ) {
 		return $block_content;
