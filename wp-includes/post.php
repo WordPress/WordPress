@@ -5431,11 +5431,13 @@ function wp_resolve_post_date( $post_date = '', $post_date_gmt = '' ) {
 	}
 
 	// Validate the date.
-	$month = (int) substr( $post_date, 5, 2 );
-	$day   = (int) substr( $post_date, 8, 2 );
-	$year  = (int) substr( $post_date, 0, 4 );
+	preg_match( '/^(\d{4})-(\d{1,2})-(\d{1,2})/', $post_date, $matches );
 
-	$valid_date = wp_checkdate( $month, $day, $year, $post_date );
+	if ( empty( $matches ) || ! is_array( $matches ) || count( $matches ) < 4 ) {
+		return false;
+	}
+
+	$valid_date = wp_checkdate( $matches[2], $matches[3], $matches[1], $post_date );
 
 	if ( ! $valid_date ) {
 		return false;
