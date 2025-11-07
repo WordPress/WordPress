@@ -2425,8 +2425,9 @@ function wp_new_comment_notify_moderator( $comment_id ) {
  */
 function wp_new_comment_notify_postauthor( $comment_id ) {
 	$comment = get_comment( $comment_id );
+	$is_note = ( $comment && 'note' === $comment->comment_type );
 
-	$maybe_notify = get_option( 'comments_notify' );
+	$maybe_notify = $is_note ? get_option( 'wp_notes_notify' ) : get_option( 'comments_notify' );
 
 	/**
 	 * Filters whether to send the post author new comment notification emails,
@@ -2447,9 +2448,11 @@ function wp_new_comment_notify_postauthor( $comment_id ) {
 		return false;
 	}
 
-	// Only send notifications for approved comments.
-	if ( ! isset( $comment->comment_approved ) || '1' !== $comment->comment_approved ) {
-		return false;
+	// Send notifications for approved comments and all notes.
+	if (
+		! isset( $comment->comment_approved ) ||
+		( '1' !== $comment->comment_approved && ! $is_note ) ) {
+			return false;
 	}
 
 	return wp_notify_postauthor( $comment_id );

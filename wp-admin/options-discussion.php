@@ -160,6 +160,11 @@ $thread_comments_depth .= '</select>';
 <label for="moderation_notify">
 <input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked( '1', get_option( 'moderation_notify' ) ); ?> />
 <?php _e( 'A comment is held for moderation' ); ?> </label>
+<br />
+<label for="wp_notes_notify">
+<input name="wp_notes_notify" type="checkbox" id="wp_notes_notify" value="1" <?php checked( '1', get_option( 'wp_notes_notify' ) ); ?> />
+<?php _e( 'Anyone posts a note' ); ?> </label>
+
 </fieldset></td>
 </tr>
 <?php $before_comment_appears_title = __( 'Before a comment appears' ); ?>

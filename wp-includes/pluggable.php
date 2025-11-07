@@ -1894,6 +1894,20 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 					$subject = sprintf( __( '[%1$s] Pingback: "%2$s"' ), $blogname, $post->post_title );
 					break;
 
+				case 'note':
+					/* translators: %s: Post title. */
+					$notify_message = sprintf( __( 'New note on your post "%s"' ), $post->post_title ) . "\r\n";
+					/* translators: 1: Note author's name, 2: Note author's IP address, 3: Note author's hostname. */
+					$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+					/* translators: %s: Note author email. */
+					$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
+					/* translators: %s: Note text. */
+					$notify_message .= sprintf( __( 'Note: %s' ), "\r\n" . ( empty( $comment_content ) ? __( 'resolved/reopened' ) : $comment_content ) ) . "\r\n\r\n";
+					$notify_message .= __( 'You can see all notes on this post here:' ) . "\r\n";
+					/* translators: Note notification email subject. 1: Site title, 2: Post title. */
+					$subject = sprintf( __( '[%1$s] Note: "%2$s"' ), $blogname, $post->post_title );
+					break;
+
 				default: // Comments.
 					/* translators: %s: Post title. */
 					$notify_message = sprintf( __( 'New comment on your post "%s"' ), $post->post_title ) . "\r\n";
@@ -1917,11 +1931,15 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 					break;
 			}
 
-			$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
 			/* translators: %s: Comment URL. */
-			$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
+			if ( 'note' === $comment->comment_type ) {
+				$notify_message .= get_edit_post_link( $comment->comment_post_ID, 'url' ) . "\r\n";
+			} else {
+				$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
+				$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
+			}
 
-			if ( user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
+			if ( 'note' !== $comment->comment_type && user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
 				if ( EMPTY_TRASH_DAYS ) {
 					/* translators: Comment moderation. %s: Comment action URL. */
 					$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
