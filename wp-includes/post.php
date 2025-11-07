@@ -368,7 +368,7 @@ function create_initial_post_types() {
 	register_post_type(
 		'wp_template',
 		array(
-			'labels'                  => array(
+			'labels'                          => array(
 				'name'                  => _x( 'Templates', 'post type general name' ),
 				'singular_name'         => _x( 'Template', 'post type singular name' ),
 				'add_new'               => __( 'Add Template' ),
@@ -389,20 +389,22 @@ function create_initial_post_types() {
 				'items_list'            => __( 'Templates list' ),
 				'item_updated'          => __( 'Template updated.' ),
 			),
-			'description'             => __( 'Templates to include in your theme.' ),
-			'public'                  => false,
-			'_builtin'                => true, /* internal use only. don't use this when registering your own post type. */
-			'_edit_link'              => $template_edit_link, /* internal use only. don't use this when registering your own post type. */
-			'has_archive'             => false,
-			'show_ui'                 => false,
-			'show_in_menu'            => false,
-			'show_in_rest'            => true,
-			'rewrite'                 => false,
-			'rest_base'               => 'created-templates',
-			'rest_controller_class'   => 'WP_REST_Posts_Controller',
-			'late_route_registration' => true,
-			'capability_type'         => array( 'template', 'templates' ),
-			'capabilities'            => array(
+			'description'                     => __( 'Templates to include in your theme.' ),
+			'public'                          => false,
+			'_builtin'                        => true, /* internal use only. don't use this when registering your own post type. */
+			'_edit_link'                      => $template_edit_link, /* internal use only. don't use this when registering your own post type. */
+			'has_archive'                     => false,
+			'show_ui'                         => false,
+			'show_in_menu'                    => false,
+			'show_in_rest'                    => true,
+			'rewrite'                         => false,
+			'rest_base'                       => 'templates',
+			'rest_controller_class'           => 'WP_REST_Templates_Controller',
+			'autosave_rest_controller_class'  => 'WP_REST_Template_Autosaves_Controller',
+			'revisions_rest_controller_class' => 'WP_REST_Template_Revisions_Controller',
+			'late_route_registration'         => true,
+			'capability_type'                 => array( 'template', 'templates' ),
+			'capabilities'                    => array(
 				'create_posts'           => 'edit_theme_options',
 				'delete_posts'           => 'edit_theme_options',
 				'delete_others_posts'    => 'edit_theme_options',
@@ -416,15 +418,14 @@ function create_initial_post_types() {
 				'read'                   => 'edit_theme_options',
 				'read_private_posts'     => 'edit_theme_options',
 			),
-			'map_meta_cap'            => true,
-			'supports'                => array(
+			'map_meta_cap'                    => true,
+			'supports'                        => array(
 				'title',
 				'slug',
 				'excerpt',
 				'editor',
 				'revisions',
 				'author',
-				'custom-fields',
 			),
 		)
 	);
@@ -8633,18 +8634,6 @@ function wp_create_initial_post_meta() {
 					'enum' => array( 'partial', 'unsynced' ),
 				),
 			),
-		)
-	);
-
-	// Allow setting the is_wp_suggestion meta field, which partly determines if
-	// a template is a custom template.
-	register_post_meta(
-		'wp_template',
-		'is_wp_suggestion',
-		array(
-			'type'         => 'boolean',
-			'show_in_rest' => true,
-			'single'       => true,
 		)
 	);
 }

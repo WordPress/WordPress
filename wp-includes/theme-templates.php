@@ -49,11 +49,6 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
 		return $override_slug;
 	}
 
-	// For wp_template, slugs no longer have to be unique within the same theme.
-	if ( 'wp_template' === $post_type ) {
-		return $slug;
-	}
-
 	if ( ! $override_slug ) {
 		$override_slug = $slug;
 	}

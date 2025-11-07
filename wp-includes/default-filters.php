@@ -571,7 +571,6 @@ add_action( 'transition_post_status', '__clear_multi_author_cache' );
 
 // Post.
 add_action( 'init', 'create_initial_post_types', 0 ); // Highest priority.
-add_action( 'init', '_wp_migrate_active_templates', 0 ); // Highest priority.
 add_action( 'admin_menu', '_add_post_type_submenus' );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
 add_action( 'wp_trash_post', '_reset_front_page_settings_for_post' );
@@ -747,7 +746,6 @@ add_filter( 'user_has_cap', 'wp_maybe_grant_site_health_caps', 1, 4 );
 // Block templates post type and rendering.
 add_filter( 'render_block_context', '_block_template_render_without_post_block_context' );
 add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5 );
-add_action( 'save_post_wp_template', 'wp_maybe_activate_template' );
 add_action( 'save_post_wp_template_part', 'wp_set_unique_slug_on_create_template_part' );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' );
 add_action( 'wp_footer', 'the_block_template_skip_link' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_block_template_skip_link().
@@ -787,10 +785,6 @@ add_action( 'init', '_wp_register_default_font_collections' );
 // Add ignoredHookedBlocks metadata attribute to the template and template part post types.
 add_filter( 'rest_pre_insert_wp_template', 'inject_ignored_hooked_blocks_metadata_attributes' );
 add_filter( 'rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes' );
-
-// Assign the wp_theme term to any newly created wp_template with the new endpoint.
-// Must run before `inject_ignored_hooked_blocks_metadata_attributes`.
-add_action( 'rest_pre_insert_wp_template', 'wp_assign_new_template_to_theme', 9, 2 );
 
 // Update ignoredHookedBlocks postmeta for some post types.
 add_filter( 'rest_pre_insert_page', 'update_ignored_hooked_blocks_postmeta' );

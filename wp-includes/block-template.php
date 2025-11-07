@@ -164,67 +164,11 @@ function resolve_block_template( $template_type, $template_hierarchy, $fallback_
 		$template_hierarchy
 	);
 
-	$object_id         = get_queried_object_id();
-	$specific_template = $object_id && get_post( $object_id ) ? get_page_template_slug( $object_id ) : null;
-	$active_templates  = (array) get_option( 'active_templates', array() );
-
-	// We expect one template for each slug. Use the active template if it is
-	// set and exists. Otherwise use the static template.
-	$templates       = array();
-	$remaining_slugs = array();
-
-	foreach ( $slugs as $slug ) {
-		if ( $slug === $specific_template || empty( $active_templates[ $slug ] ) ) {
-			$remaining_slugs[] = $slug;
-			continue;
-		}
-
-		// TODO: it need to be possible to set a static template as active.
-		$post = get_post( $active_templates[ $slug ] );
-		if ( ! $post || 'publish' !== $post->post_status ) {
-			$remaining_slugs[] = $slug;
-			continue;
-		}
-
-		$template = _build_block_template_result_from_post( $post );
-
-		// Ensure the active templates are associated with the active theme.
-		// See _build_block_template_object_from_post_object.
-		if ( get_stylesheet() !== $template->theme ) {
-			$remaining_slugs[] = $slug;
-			continue;
-		}
-
-		$templates[] = $template;
-	}
-
-	// Apply the filter to the active templates for backward compatibility.
-	/** This filter is documented in wp-includes/block-template-utils.php */
-	if ( ! empty( $templates ) ) {
-		$templates = apply_filters(
-			'get_block_templates',
-			$templates,
-			array(
-				'slug__in' => array_map(
-					function ( $template ) {
-						return $template->slug;
-					},
-					$templates
-				),
-			),
-			'wp_template'
-		);
-	}
-
-	// For any remaining slugs, use the static template.
+	// Find all potential templates 'wp_template' post matching the hierarchy.
 	$query     = array(
-		'slug__in' => $remaining_slugs,
+		'slug__in' => $slugs,
 	);
-	$templates = array_merge( $templates, get_registered_block_templates( $query ) );
-
-	if ( $specific_template && in_array( $specific_template, $remaining_slugs, true ) ) {
-		$templates = array_merge( $templates, get_block_templates( array( 'slug__in' => array( $specific_template ) ) ) );
-	}
+	$templates = get_block_templates( $query );
 
 	// Order these templates per slug priority.
 	// Build map of template slugs to their priority in the current hierarchy.
