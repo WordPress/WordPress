@@ -22279,9 +22279,13 @@ function getAllValue(values = {}) {
   if (typeof values === "string") {
     return values;
   }
-  const parsedQuantitiesAndUnits = Object.values(values).map(
-    (value2) => (0,external_wp_components_namespaceObject.__experimentalParseQuantityAndUnitFromRawValue)(value2)
-  );
+  const parsedQuantitiesAndUnits = Object.values(values).map((value2) => {
+    const newValue = (0,external_wp_components_namespaceObject.__experimentalParseQuantityAndUnitFromRawValue)(value2);
+    if (typeof value2 === "string" && newValue[0] === void 0) {
+      return [value2, ""];
+    }
+    return newValue;
+  });
   const allValues = parsedQuantitiesAndUnits.map(
     (value2) => value2[0] ?? ""
   );
@@ -23128,16 +23132,20 @@ function BorderPanel({
   const showBorderWidth = useHasBorderWidthControl(settings);
   const showBorderRadius = useHasBorderRadiusControl(settings);
   const borderRadiusValues = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (typeof border?.radius !== "object") {
-      return border?.radius;
+    if (typeof inheritedValue?.border?.radius !== "object") {
+      return decodeValue(inheritedValue?.border?.radius);
     }
     return {
-      topLeft: border?.radius?.topLeft,
-      topRight: border?.radius?.topRight,
-      bottomLeft: border?.radius?.bottomLeft,
-      bottomRight: border?.radius?.bottomRight
+      topLeft: decodeValue(inheritedValue?.border?.radius?.topLeft),
+      topRight: decodeValue(inheritedValue?.border?.radius?.topRight),
+      bottomLeft: decodeValue(
+        inheritedValue?.border?.radius?.bottomLeft
+      ),
+      bottomRight: decodeValue(
+        inheritedValue?.border?.radius?.bottomRight
+      )
     };
-  }, [border?.radius]);
+  }, [inheritedValue?.border?.radius, decodeValue]);
   const setBorderRadius = (newBorderRadius) => setBorder({ ...border, radius: newBorderRadius });
   const hasBorderRadius = () => {
     const borderValues = value?.border?.radius;
@@ -26653,17 +26661,14 @@ function addAssignedTextAlign(props, blockType, attributes) {
 
 
 ;// ./node_modules/@wordpress/block-editor/build-module/utils/fit-text-utils.js
-function generateCSSRule(elementSelector, fontSize) {
-  return `${elementSelector} { font-size: ${fontSize}px !important; }`;
-}
-function findOptimalFontSize(textElement, elementSelector, applyStylesFn) {
+function findOptimalFontSize(textElement, applyFontSize) {
   const alreadyHasScrollableHeight = textElement.scrollHeight > textElement.clientHeight;
   let minSize = 5;
   let maxSize = 600;
   let bestSize = minSize;
   while (minSize <= maxSize) {
     const midSize = Math.floor((minSize + maxSize) / 2);
-    applyStylesFn(generateCSSRule(elementSelector, midSize));
+    applyFontSize(midSize);
     const fitsWidth = textElement.scrollWidth <= textElement.clientWidth;
     const fitsHeight = alreadyHasScrollableHeight || textElement.scrollHeight <= textElement.clientHeight;
     if (fitsWidth && fitsHeight) {
@@ -26675,18 +26680,14 @@ function findOptimalFontSize(textElement, elementSelector, applyStylesFn) {
   }
   return bestSize;
 }
-function optimizeFitText(textElement, elementSelector, applyStylesFn) {
+function optimizeFitText(textElement, applyFontSize) {
   if (!textElement) {
     return;
   }
-  applyStylesFn("");
-  const optimalSize = findOptimalFontSize(
-    textElement,
-    elementSelector,
-    applyStylesFn
-  );
-  const cssRule = generateCSSRule(elementSelector, optimalSize);
-  applyStylesFn(cssRule);
+  applyFontSize(0);
+  const optimalSize = findOptimalFontSize(textElement, applyFontSize);
+  applyFontSize(optimalSize);
+  return optimalSize;
 }
 
 
@@ -26698,6 +26699,7 @@ function optimizeFitText(textElement, elementSelector, applyStylesFn) {
 
 
 
+const EMPTY_OBJECT = {};
 
 
 
@@ -26723,12 +26725,15 @@ function fit_text_addAttributes(settings) {
 function useFitText({ fitText, name, clientId }) {
   const hasFitTextSupport2 = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, FIT_TEXT_SUPPORT_KEY);
   const blockElement = useBlockElement(clientId);
-  const blockAttributes = (0,external_wp_data_namespaceObject.useSelect)(
+  const { blockAttributes, parentId } = (0,external_wp_data_namespaceObject.useSelect)(
     (select) => {
       if (!clientId || !hasFitTextSupport2 || !fitText) {
-        return;
+        return EMPTY_OBJECT;
       }
-      return select(store).getBlockAttributes(clientId);
+      return {
+        blockAttributes: select(store).getBlockAttributes(clientId),
+        parentId: select(store).getBlockRootClientId(clientId)
+      };
     },
     [clientId, hasFitTextSupport2, fitText]
   );
@@ -26744,10 +26749,14 @@ function useFitText({ fitText, name, clientId }) {
       blockElement.ownerDocument.head.appendChild(styleElement);
     }
     const blockSelector = `#block-${clientId}`;
-    const applyStylesFn = (css) => {
-      styleElement.textContent = css;
+    const applyFontSize = (fontSize) => {
+      if (fontSize === 0) {
+        styleElement.textContent = "";
+      } else {
+        styleElement.textContent = `${blockSelector} { font-size: ${fontSize}px !important; }`;
+      }
     };
-    optimizeFitText(blockElement, blockSelector, applyStylesFn);
+    optimizeFitText(blockElement, applyFontSize);
   }, [blockElement, clientId, hasFitTextSupport2, fitText]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!fitText || !blockElement || !clientId || !hasFitTextSupport2) {
@@ -26771,6 +26780,7 @@ function useFitText({ fitText, name, clientId }) {
     if (window.ResizeObserver && currentElement.parentElement) {
       resizeObserver = new window.ResizeObserver(applyFitText);
       resizeObserver.observe(currentElement.parentElement);
+      resizeObserver.observe(currentElement);
     }
     return () => {
       if (hideFrameId !== null) {
@@ -26791,7 +26801,14 @@ function useFitText({ fitText, name, clientId }) {
         styleElement.remove();
       }
     };
-  }, [fitText, clientId, applyFitText, blockElement, hasFitTextSupport2]);
+  }, [
+    fitText,
+    clientId,
+    parentId,
+    applyFitText,
+    blockElement,
+    hasFitTextSupport2
+  ]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (fitText && blockElement && hasFitTextSupport2) {
       const frameId = window.requestAnimationFrame(() => {
@@ -37455,7 +37472,7 @@ function useBlockDropZone({
 
 
 
-const EMPTY_OBJECT = {};
+const inner_blocks_EMPTY_OBJECT = {};
 function BlockContext({ children, clientId }) {
   const context = useBlockContext(clientId);
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockContextProvider, { value: context, children });
@@ -37505,7 +37522,7 @@ function UncontrolledInnerBlocks(props) {
     templateLock,
     templateInsertUpdatesSelection
   );
-  const defaultLayoutBlockSupport = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, "layout") || (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, "__experimentalLayout") || EMPTY_OBJECT;
+  const defaultLayoutBlockSupport = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, "layout") || (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, "__experimentalLayout") || inner_blocks_EMPTY_OBJECT;
   const { allowSizingOnChildren = false } = defaultLayoutBlockSupport;
   const usedLayout = layout || defaultLayoutBlockSupport;
   const memoedLayout = (0,external_wp_element_namespaceObject.useMemo)(
@@ -61729,6 +61746,7 @@ const PublicForwardedRichTextContainer = (0,external_wp_element_namespaceObject.
     return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
       Tag,
       {
+        ref,
         ...contentProps,
         dangerouslySetInnerHTML: {
           __html: valueToHTMLString(value, multiline)

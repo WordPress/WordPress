@@ -7,6 +7,9 @@
 	"description": "Display mathematical notation using LaTeX.",
 	"keywords": [ "equation", "formula", "latex", "mathematics" ],
 	"textdomain": "default",
+	"supports": {
+		"html": false
+	},
 	"attributes": {
 		"latex": {
 			"type": "string",

@@ -1986,7 +1986,7 @@ function Edit({
           onChange: updateHeadingLevel
         }
       ) }) }),
-      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { group: "other", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, { onClick: addAccordionItemBlock, children: (0,external_wp_i18n_namespaceObject.__)("Add") }) })
+      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { group: "other", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, { onClick: addAccordionItemBlock, children: (0,external_wp_i18n_namespaceObject.__)("Add item") }) })
     ] }),
     /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
       external_wp_components_namespaceObject.__experimentalToolsPanel,
@@ -26754,11 +26754,11 @@ var math_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.j
 
 const { Badge } = unlock(external_wp_components_namespaceObject.privateApis);
 function MathEdit({ attributes, setAttributes, isSelected }) {
-  const { latex } = attributes;
+  const { latex, mathML } = attributes;
   const [blockRef, setBlockRef] = (0,external_wp_element_namespaceObject.useState)();
   const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
   const [latexToMathML, setLatexToMathML] = (0,external_wp_element_namespaceObject.useState)();
-  const initialLatex = (0,external_wp_element_namespaceObject.useRef)(attributes.latex);
+  const initialLatex = (0,external_wp_element_namespaceObject.useRef)(latex);
   const { __unstableMarkNextChangeAsNotPersistent } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     Promise.resolve(/* import() */).then(__webpack_require__.t.bind(__webpack_require__, 3533, 23)).then((module) => {
@@ -26782,11 +26782,11 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
     position: "relative"
   });
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", { ...blockProps, children: [
-    attributes.mathML ? /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    mathML ? /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
       "math",
       {
         display: "block",
-        dangerouslySetInnerHTML: { __html: attributes.mathML }
+        dangerouslySetInnerHTML: { __html: mathML }
       }
     ) : "\u200B",
     isSelected && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
@@ -26811,9 +26811,9 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
                   setAttributes({ latex: newLatex });
                   return;
                 }
-                let mathML = "";
+                let newMathML = "";
                 try {
-                  mathML = latexToMathML(newLatex, {
+                  newMathML = latexToMathML(newLatex, {
                     displayMode: true
                   });
                   setError(null);
@@ -26821,7 +26821,7 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
                   setError(err.message);
                 }
                 setAttributes({
-                  mathML,
+                  mathML: newMathML,
                   latex: newLatex
                 });
               },
@@ -26847,7 +26847,7 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/math/block.json
-const math_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/math","title":"Math","category":"text","description":"Display mathematical notation using LaTeX.","keywords":["equation","formula","latex","mathematics"],"textdomain":"default","attributes":{"latex":{"type":"string","role":"content"},"mathML":{"type":"string","source":"html","selector":"math"}}}');
+const math_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/math","title":"Math","category":"text","description":"Display mathematical notation using LaTeX.","keywords":["equation","formula","latex","mathematics"],"textdomain":"default","supports":{"html":false},"attributes":{"latex":{"type":"string","role":"content"},"mathML":{"type":"string","source":"html","selector":"math"}}}');
 ;// ./node_modules/@wordpress/block-library/build-module/math/save.js
 
 

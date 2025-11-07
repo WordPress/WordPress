@@ -214,9 +214,9 @@
   box-shadow:inset 0 0 0 1px var(--wp-components-color-background, #fff), 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button.is-primary:disabled,.components-button.is-primary:disabled:active:enabled,.components-button.is-primary[aria-disabled=true],.components-button.is-primary[aria-disabled=true]:active:enabled,.components-button.is-primary[aria-disabled=true]:enabled{
-  background:var(--wp-components-color-gray-300, #ddd);
-  border-color:var(--wp-components-color-gray-300, #ddd);
-  color:var(--wp-components-color-foreground-inverted, #fff);
+  background:var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  border-color:var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  color:#fff6;
   outline:none;
 }
 .components-button.is-primary:disabled:active:enabled:focus:enabled,.components-button.is-primary:disabled:focus:enabled,.components-button.is-primary[aria-disabled=true]:active:enabled:focus:enabled,.components-button.is-primary[aria-disabled=true]:enabled:focus:enabled,.components-button.is-primary[aria-disabled=true]:focus:enabled{

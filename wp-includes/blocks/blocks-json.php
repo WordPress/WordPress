@@ -3635,6 +3635,9 @@
       'mathematics'
     ),
     'textdomain' => 'default',
+    'supports' => array(
+      'html' => false
+    ),
     'attributes' => array(
       'latex' => array(
         'type' => 'string',

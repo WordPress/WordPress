@@ -1,17 +1,43 @@
+import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "@wordpress/interactivity";
+/******/ // The require scope
+/******/ var __webpack_require__ = {};
+/******/ 
+/************************************************************************/
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
+/************************************************************************/
 var __webpack_exports__ = {};
 
+;// external "@wordpress/interactivity"
+var x = (y) => {
+	var x = {}; __webpack_require__.d(x, y); return x
+} 
+var y = (x) => (() => (x))
+const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
 ;// ./node_modules/@wordpress/block-editor/build-module/utils/fit-text-utils.js
-function generateCSSRule(elementSelector, fontSize) {
-  return `${elementSelector} { font-size: ${fontSize}px !important; }`;
-}
-function findOptimalFontSize(textElement, elementSelector, applyStylesFn) {
+function findOptimalFontSize(textElement, applyFontSize) {
   const alreadyHasScrollableHeight = textElement.scrollHeight > textElement.clientHeight;
   let minSize = 5;
   let maxSize = 600;
   let bestSize = minSize;
   while (minSize <= maxSize) {
     const midSize = Math.floor((minSize + maxSize) / 2);
-    applyStylesFn(generateCSSRule(elementSelector, midSize));
+    applyFontSize(midSize);
     const fitsWidth = textElement.scrollWidth <= textElement.clientWidth;
     const fitsHeight = alreadyHasScrollableHeight || textElement.scrollHeight <= textElement.clientHeight;
     if (fitsWidth && fitsHeight) {
@@ -23,59 +49,46 @@ function findOptimalFontSize(textElement, elementSelector, applyStylesFn) {
   }
   return bestSize;
 }
-function optimizeFitText(textElement, elementSelector, applyStylesFn) {
+function optimizeFitText(textElement, applyFontSize) {
   if (!textElement) {
     return;
   }
-  applyStylesFn("");
-  const optimalSize = findOptimalFontSize(
-    textElement,
-    elementSelector,
-    applyStylesFn
-  );
-  const cssRule = generateCSSRule(elementSelector, optimalSize);
-  applyStylesFn(cssRule);
+  applyFontSize(0);
+  const optimalSize = findOptimalFontSize(textElement, applyFontSize);
+  applyFontSize(optimalSize);
+  return optimalSize;
 }
 
 
 ;// ./node_modules/@wordpress/block-editor/build-module/utils/fit-text-frontend.js
 
-let idCounter = 0;
-function getOrCreateStyleElement(elementId) {
-  const styleId = `fit-text-${elementId}`;
-  let styleElement = document.getElementById(styleId);
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = styleId;
-    document.head.appendChild(styleElement);
+
+(0,interactivity_namespaceObject.store)("core/fit-text", {
+  callbacks: {
+    init() {
+      const context = (0,interactivity_namespaceObject.getContext)();
+      const { ref } = (0,interactivity_namespaceObject.getElement)();
+      const applyFontSize = (fontSize) => {
+        if (fontSize === 0) {
+          ref.style.fontSize = "";
+        } else {
+          ref.style.fontSize = `${fontSize}px`;
+        }
+      };
+      context.fontSize = optimizeFitText(ref, applyFontSize);
+      if (window.ResizeObserver && ref.parentElement) {
+        const resizeObserver = new window.ResizeObserver(() => {
+          context.fontSize = optimizeFitText(ref, applyFontSize);
+        });
+        resizeObserver.observe(ref.parentElement);
+        resizeObserver.observe(ref);
+        return () => {
+          if (resizeObserver) {
+            resizeObserver.disconnect();
+          }
+        };
+      }
+    }
   }
-  return styleElement;
-}
-function getElementIdentifier(element) {
-  if (!element.dataset.fitTextId) {
-    element.dataset.fitTextId = `fit-text-${++idCounter}`;
-  }
-  return element.dataset.fitTextId;
-}
-function initializeFitText(element) {
-  const elementId = getElementIdentifier(element);
-  const applyFitText = () => {
-    const styleElement = getOrCreateStyleElement(elementId);
-    const elementSelector = `[data-fit-text-id="${elementId}"]`;
-    const applyStylesFn = (css) => {
-      styleElement.textContent = css;
-    };
-    optimizeFitText(element, elementSelector, applyStylesFn);
-  };
-  applyFitText();
-  if (window.ResizeObserver && element.parentElement) {
-    const resizeObserver = new window.ResizeObserver(applyFitText);
-    resizeObserver.observe(element.parentElement);
-  }
-}
-function initializeAllFitText() {
-  const elements = document.querySelectorAll(".has-fit-text");
-  elements.forEach(initializeFitText);
-}
-window.addEventListener("load", initializeAllFitText);
+});
 

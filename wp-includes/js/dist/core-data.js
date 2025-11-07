@@ -1608,12 +1608,8 @@ const deleteEntityRecord = (kind, name, recordId, query, { __unstableFetch = (ex
       recordId
     });
     let hasError = false;
-    let { baseURL } = entityConfig;
-    if (kind === "postType" && name === "wp_template" && recordId && typeof recordId === "string" && !/^\d+$/.test(recordId)) {
-      baseURL = baseURL.slice(0, baseURL.lastIndexOf("/")) + "/templates";
-    }
     try {
-      let path = `${baseURL}/${recordId}`;
+      let path = `${entityConfig.baseURL}/${recordId}`;
       if (query) {
         path = (0,external_wp_url_.addQueryArgs)(path, query);
       }
@@ -1767,12 +1763,8 @@ const saveEntityRecord = (kind, name, record, {
     let updatedRecord;
     let error;
     let hasError = false;
-    let { baseURL } = entityConfig;
-    if (kind === "postType" && name === "wp_template" && recordId && typeof recordId === "string" && !/^\d+$/.test(recordId)) {
-      baseURL = baseURL.slice(0, baseURL.lastIndexOf("/")) + "/templates";
-    }
     try {
-      const path = `${baseURL}${recordId ? "/" + recordId : ""}`;
+      const path = `${entityConfig.baseURL}${recordId ? "/" + recordId : ""}`;
       const persistedRecord = !isNewRecord ? select.getRawEntityRecord(kind, name, recordId) : {};
       if (isAutosave) {
         const currentUser = select.getCurrentUser();
@@ -3938,13 +3930,6 @@ const rootEntitiesConfig = [
     baseURLParams: { context: "edit" },
     plural: "statuses",
     key: "slug"
-  },
-  {
-    label: (0,external_wp_i18n_.__)("Registered Templates"),
-    name: "registeredTemplate",
-    kind: "root",
-    baseURL: "/wp/v2/registered-templates",
-    key: "id"
   }
 ];
 const deprecatedEntities = {
@@ -4006,7 +3991,7 @@ async function loadPostTypeEntities() {
       __unstable_rest_base: postType.rest_base,
       supportsPagination: true,
       getRevisionsUrl: (parentId, revisionId) => `/${namespace}/${postType.rest_base}/${parentId}/revisions${revisionId ? "/" + revisionId : ""}`,
-      revisionKey: DEFAULT_ENTITY_KEY
+      revisionKey: isTemplate ? "wp_id" : DEFAULT_ENTITY_KEY
     };
     if (window.__experimentalEnableSync) {
       if (false) {}
@@ -4224,14 +4209,13 @@ const getEntityRecord = (kind, name, key = "", query) => async ({ select, dispat
         return;
       }
     }
-    let { baseURL } = entityConfig;
-    if (kind === "postType" && name === "wp_template" && key && typeof key === "string" && !/^\d+$/.test(key)) {
-      baseURL = baseURL.slice(0, baseURL.lastIndexOf("/")) + "/templates";
-    }
-    const path = (0,external_wp_url_.addQueryArgs)(baseURL + (key ? "/" + key : ""), {
-      ...entityConfig.baseURLParams,
-      ...query
-    });
+    const path = (0,external_wp_url_.addQueryArgs)(
+      entityConfig.baseURL + (key ? "/" + key : ""),
+      {
+        ...entityConfig.baseURLParams,
+        ...query
+      }
+    );
     const response = await external_wp_apiFetch_default()({ path, parse: false });
     const record = await response.json();
     const permissions = (0,user_permissions/* getUserPermissionsFromAllowHeader */.qY)(
@@ -4261,12 +4245,6 @@ const getEntityRecord = (kind, name, key = "", query) => async ({ select, dispat
   } finally {
     dispatch.__unstableReleaseStoreLock(lock);
   }
-};
-getEntityRecord.shouldInvalidate = (action, kind, name) => {
-  return kind === "root" && name === "site" && (action.type === "RECEIVE_ITEMS" && // Making sure persistedEdits is set seems to be the only way of
-  // knowing whether it's an update or fetch. Only an update would
-  // have persistedEdits.
-  action.persistedEdits && action.persistedEdits.status !== "auto-draft" || action.type === "REMOVE_ITEMS") && action.kind === "postType" && action.name === "wp_template";
 };
 const getRawEntityRecord = forward_resolver_default("getEntityRecord");
 const getEditedEntityRecord = forward_resolver_default("getEntityRecord");
@@ -4310,12 +4288,7 @@ const getEntityRecords = (kind, name, query = {}) => async ({ dispatch, registry
         ].join()
       };
     }
-    let { baseURL } = entityConfig;
-    const { combinedTemplates = true } = query;
-    if (kind === "postType" && name === "wp_template" && combinedTemplates) {
-      baseURL = baseURL.slice(0, baseURL.lastIndexOf("/")) + "/templates";
-    }
-    const path = (0,external_wp_url_.addQueryArgs)(baseURL, {
+    const path = (0,external_wp_url_.addQueryArgs)(entityConfig.baseURL, {
       ...entityConfig.baseURLParams,
       ...query
     });
@@ -4679,24 +4652,19 @@ const getDefaultTemplateId = (query) => async ({ dispatch, registry, resolveSele
     path: (0,external_wp_url_.addQueryArgs)("/wp/v2/templates/lookup", query)
   });
   await resolveSelect.getEntitiesConfig("postType");
-  const id = template?.wp_id || template?.id;
-  if (id) {
-    template.id = id;
+  if (template?.id) {
     registry.batch(() => {
-      dispatch.receiveDefaultTemplateId(query, id);
-      dispatch.receiveEntityRecords("postType", template.type, [
+      dispatch.receiveDefaultTemplateId(query, template.id);
+      dispatch.receiveEntityRecords("postType", "wp_template", [
         template
       ]);
       dispatch.finishResolution("getEntityRecord", [
         "postType",
-        template.type,
-        id
+        "wp_template",
+        template.id
       ]);
     });
   }
-};
-getDefaultTemplateId.shouldInvalidate = (action) => {
-  return action.type === "RECEIVE_ITEMS" && action.kind === "root" && action.name === "site";
 };
 const getRevisions = (kind, name, recordKey, query = {}) => async ({ dispatch, registry, resolveSelect }) => {
   const configs = await resolveSelect.getEntitiesConfig(kind);
@@ -6466,9 +6434,6 @@ const getHomePage = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createRegist
       return { postType: "wp_template", postId: frontPageTemplateId };
     },
     (state) => [
-      // Even though getDefaultTemplateId.shouldInvalidate returns true when root/site changes,
-      // it doesn't seem to invalidate this cache, I'm not sure why.
-      (0,_selectors__WEBPACK_IMPORTED_MODULE_3__.getEntityRecord)(state, "root", "site"),
       (0,_selectors__WEBPACK_IMPORTED_MODULE_3__.getEntityRecord)(state, "root", "__unstableBase"),
       (0,_selectors__WEBPACK_IMPORTED_MODULE_3__.getDefaultTemplateId)(state, {
         slug: "front-page"
