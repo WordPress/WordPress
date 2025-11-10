@@ -534,7 +534,7 @@ var twemoji = (function (
       how = {callback: how};
     }
 
-	// WP start
+    // WP start
     // Allow passing of the doNotParse() callback in the settings.
     // The callback is used in `grabAllTextNodes()` (DOM mode only) as a filter
     // that allows bypassing of some of the text nodes. It gets the current subnode as argument.
