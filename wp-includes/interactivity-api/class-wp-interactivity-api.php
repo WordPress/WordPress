@@ -520,7 +520,12 @@ final class WP_Interactivity_API {
 					array_pop( $tag_stack );
 				}
 			} else {
-				if ( 0 !== count( $p->get_attribute_names_with_prefix( 'data-wp-each-child' ) ) ) {
+				$each_child_attrs = $p->get_attribute_names_with_prefix( 'data-wp-each-child' );
+				if ( null === $each_child_attrs ) {
+					continue;
+				}
+
+				if ( 0 !== count( $each_child_attrs ) ) {
 					/*
 					 * If the tag has a `data-wp-each-child` directive, jump to its closer
 					 * tag because those tags have already been processed.
