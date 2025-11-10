@@ -37,18 +37,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Send a notification to the post author when a new note is added via the REST API.
-	 *
-	 * @since 6.9.0
-	 *
-	 * @param WP_Comment $comment The comment object.
-	 */
-	public static function wp_new_comment_via_rest_notify_postauthor( $comment ) {
-		if ( 'note' === $comment->comment_type ) {
-			wp_new_comment_notify_postauthor( $comment->comment_ID );
-		}
-	}
-	/**
 	 * Registers the routes for comments.
 	 *
 	 * @since 4.7.0

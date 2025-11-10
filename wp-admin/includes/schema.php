@@ -563,7 +563,6 @@ function populate_options( array $options = array() ) {
 
 		// 6.9.0
 		'wp_notes_notify'                 => 1,
-
 	);
 
 	// 3.3.0

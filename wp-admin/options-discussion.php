@@ -162,7 +162,7 @@ $thread_comments_depth .= '</select>';
 <?php _e( 'A comment is held for moderation' ); ?> </label>
 <br />
 <label for="wp_notes_notify">
-<input name="wp_notes_notify" type="checkbox" id="wp_notes_notify" value="1" <?php checked( '1', get_option( 'wp_notes_notify' ) ); ?> />
+<input name="wp_notes_notify" type="checkbox" id="wp_notes_notify" value="1" <?php checked( '1', get_option( 'wp_notes_notify', 1 ) ); ?> />
 <?php _e( 'Anyone posts a note' ); ?> </label>
 
 </fieldset></td>
