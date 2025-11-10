@@ -1074,6 +1074,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		$comments_query['status'] = 'approve';
 	}
 
+	$comments_count = 0;
 	do {
 		$possible = get_comments( $comments_query );
 
