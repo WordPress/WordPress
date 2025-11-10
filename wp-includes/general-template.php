@@ -1424,9 +1424,15 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 		$title = __( 'Page not found' );
 	}
 
-	$prefix = '';
-	if ( ! empty( $title ) ) {
-		$prefix = " $sep ";
+	if ( ! is_string( $title ) ) {
+		$title = '';
+	}
+
+	$prefix      = '';
+	$title_array = array();
+	if ( '' !== $title ) {
+		$prefix      = " $sep ";
+		$title_array = explode( $t_sep, $title );
 	}
 
 	/**
@@ -1436,7 +1442,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 *
 	 * @param string[] $title_array Array of parts of the page title.
 	 */
-	$title_array = apply_filters( 'wp_title_parts', ! empty( $title ) ? explode( $t_sep, $title ) : array() );
+	$title_array = apply_filters( 'wp_title_parts', $title_array );
 
 	// Determines position of the separator and direction of the breadcrumb.
 	if ( 'right' === $seplocation ) { // Separator on right, so reverse the order.
