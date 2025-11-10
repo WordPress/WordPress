@@ -121,14 +121,24 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		$install_actions = array();
 
-		if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) && ! $theme_info->is_block_theme() ) {
-			$customize_url = add_query_arg(
-				array(
-					'theme'  => urlencode( $stylesheet ),
-					'return' => urlencode( admin_url( 'web' === $this->type ? 'theme-install.php' : 'themes.php' ) ),
-				),
-				admin_url( 'customize.php' )
-			);
+		if ( current_user_can( 'edit_theme_options' ) && ( $theme_info->is_block_theme() || current_user_can( 'customize' ) ) ) {
+			if ( $theme_info->is_block_theme() ) {
+				$customize_url = add_query_arg(
+					array(
+						'wp_theme_preview' => urlencode( $stylesheet ),
+						'return'           => urlencode( admin_url( 'web' === $this->type ? 'theme-install.php' : 'themes.php' ) ),
+					),
+					admin_url( 'site-editor.php' )
+				);
+			} else {
+				$customize_url = add_query_arg(
+					array(
+						'theme'  => urlencode( $stylesheet ),
+						'return' => urlencode( admin_url( 'web' === $this->type ? 'theme-install.php' : 'themes.php' ) ),
+					),
+					admin_url( 'customize.php' )
+				);
+			}
 
 			$install_actions['preview'] = sprintf(
 				'<a href="%s" class="hide-if-no-customize load-customize">' .
