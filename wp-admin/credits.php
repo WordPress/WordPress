@@ -14,6 +14,11 @@ require_once __DIR__ . '/includes/credits.php';
 $title = __( 'Credits' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
+$header_alt_text = sprintf(
+	/* translators: %s: Version number. */
+	__( 'WordPress %s' ),
+	$display_version
+);
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
@@ -22,6 +27,10 @@ $credits = wp_credits();
 <div class="wrap about__container">
 
 	<div class="about__header">
+		<div class="about__header-image">
+			<img src="images/about-release-logo.svg?ver=6.9" alt="<?php echo esc_attr( $header_alt_text ); ?>" />
+		</div>
+
 		<div class="about__header-title">
 			<h1>
 				<?php _e( 'Contributors' ); ?>
