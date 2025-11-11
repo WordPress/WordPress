@@ -19,7 +19,7 @@ if ( isset( $_GET['privacy-notice'] ) ) {
 $title = __( 'Freedoms' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
-$header_alt_text = sprintf(
+$header_alt_text         = sprintf(
 	/* translators: %s: Version number. */
 	__( 'WordPress %s' ),
 	$display_version

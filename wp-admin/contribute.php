@@ -13,7 +13,7 @@ require_once __DIR__ . '/admin.php';
 $title = __( 'Get Involved' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
-$header_alt_text = sprintf(
+$header_alt_text         = sprintf(
 	/* translators: %s: Version number. */
 	__( 'WordPress %s' ),
 	$display_version
