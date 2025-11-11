@@ -515,9 +515,15 @@ class WP_User {
 
 		$wp_roles = wp_roles();
 
-		// Filter out caps that are not role names and assign to $this->roles.
+		// Select caps that are role names and assign to $this->roles.
 		if ( is_array( $this->caps ) ) {
-			$this->roles = array_filter( array_keys( $this->caps ), array( $wp_roles, 'is_role' ) );
+			$this->roles = array();
+
+			foreach ( $this->caps as $key => $value ) {
+				if ( $wp_roles->is_role( $key ) ) {
+					$this->roles[] = $key;
+				}
+			}
 		}
 
 		// Build $allcaps from role caps, overlay user's $caps.
