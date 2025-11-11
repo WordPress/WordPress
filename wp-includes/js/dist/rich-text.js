@@ -565,34 +565,36 @@ function toTree({
           )
         });
       } else if (formatType?.contentEditable === false) {
-        pointer = getParent(pointer);
-        if (isEditableTree) {
-          const attrs = {
-            contenteditable: "false",
-            "data-rich-text-bogus": true
-          };
-          if (start === i && end === i + 1) {
-            attrs["data-rich-text-format-boundary"] = true;
+        if (innerHTML || isEditableTree) {
+          pointer = getParent(pointer);
+          if (isEditableTree) {
+            const attrs = {
+              contenteditable: "false",
+              "data-rich-text-bogus": true
+            };
+            if (start === i && end === i + 1) {
+              attrs["data-rich-text-format-boundary"] = true;
+            }
+            pointer = append(pointer, {
+              type: "span",
+              attributes: attrs
+            });
+            if (isEditableTree && i + 1 === text.length) {
+              append(getParent(pointer), ZWNBSP);
+            }
           }
-          pointer = append(pointer, {
-            type: "span",
-            attributes: attrs
-          });
-          if (isEditableTree && i + 1 === text.length) {
-            append(getParent(pointer), ZWNBSP);
+          pointer = append(
+            pointer,
+            fromFormat({
+              ...replacement,
+              isEditableTree
+            })
+          );
+          if (innerHTML) {
+            append(pointer, {
+              html: innerHTML
+            });
           }
-        }
-        pointer = append(
-          pointer,
-          fromFormat({
-            ...replacement,
-            isEditableTree
-          })
-        );
-        if (innerHTML) {
-          append(pointer, {
-            html: innerHTML
-          });
         }
       } else {
         pointer = append(

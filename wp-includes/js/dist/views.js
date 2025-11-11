@@ -214,7 +214,7 @@ function useView(config) {
   );
   const { set } = (0,external_wp_data_.useDispatch)(external_wp_preferences_.store);
   const baseView = persistedView ?? defaultView;
-  const page = queryParams?.page ?? baseView.page ?? 1;
+  const page = Number(queryParams?.page ?? baseView.page ?? 1);
   const search = queryParams?.search ?? baseView.search ?? "";
   const view = (0,external_wp_element_.useMemo)(() => {
     return {

@@ -1727,6 +1727,9 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   margin-left:8px;
   text-transform:uppercase;
 }
+.navigation-link-control__error-text{
+  color:#cc1818;
+}
 
 .wp-block-navigation-submenu{
   display:block;

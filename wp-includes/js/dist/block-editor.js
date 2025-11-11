@@ -11866,6 +11866,7 @@ const getInserterItems = (0,external_wp_data_namespaceObject.createRegistrySelec
           )
         }));
       }
+      const stretchVariations = [];
       const items = blockTypeInserterItems.reduce(
         (accumulator, item) => {
           const { variations = [] } = item;
@@ -11877,14 +11878,19 @@ const getInserterItems = (0,external_wp_data_namespaceObject.createRegistrySelec
               state,
               item
             );
-            accumulator.push(
-              ...variations.map(variationMapper)
-            );
+            variations.map(variationMapper).forEach((variation) => {
+              if (variation.id === "core/paragraph/stretchy-paragraph" || variation.id === "core/heading/stretchy-heading") {
+                stretchVariations.push(variation);
+              } else {
+                accumulator.push(variation);
+              }
+            });
           }
           return accumulator;
         },
         []
       );
+      items.push(...stretchVariations);
       const groupByType = (blocks, block) => {
         const { core, noncore } = blocks;
         const type = block.name.startsWith("core/") ? core : noncore;
@@ -25746,7 +25752,8 @@ function TypographyPanel({
   inheritedValue = value,
   settings,
   panelId,
-  defaultControls = typography_panel_DEFAULT_CONTROLS
+  defaultControls = typography_panel_DEFAULT_CONTROLS,
+  fitText = false
 }) {
   const decodeValue = (rawValue) => getValueFromVariable({ settings }, "", rawValue);
   const hasFontFamilyEnabled = useHasFontFamilyControl(settings);
@@ -25976,7 +25983,7 @@ function TypographyPanel({
             )
           }
         ),
-        hasFontSizeEnabled && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+        hasFontSizeEnabled && !fitText && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
           external_wp_components_namespaceObject.__experimentalToolsPanelItem,
           {
             label: (0,external_wp_i18n_namespaceObject.__)("Size"),
@@ -26356,10 +26363,13 @@ function font_size_addSaveProps(props, blockNameOrType, attributes) {
 }
 function FontSizeEdit(props) {
   const {
-    attributes: { fontSize, style },
+    attributes: { fontSize, style, fitText },
     setAttributes
   } = props;
   const [fontSizes] = useSettings("typography.fontSizes");
+  if (fitText) {
+    return null;
+  }
   const onChange = (value, selectedItem) => {
     const fontSizeSlug = selectedItem?.slug || getFontSizeObjectByValue(fontSizes, value).slug;
     setAttributes({
@@ -26440,7 +26450,7 @@ function font_size_useBlockProps({ name, fontSize, style }) {
 var font_size_default = {
   useBlockProps: font_size_useBlockProps,
   addSaveProps: font_size_addSaveProps,
-  attributeKeys: ["fontSize", "style"],
+  attributeKeys: ["fontSize", "style", "fitText"],
   hasSupport(name) {
     return (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, FONT_SIZE_SUPPORT_KEY);
   }
@@ -26693,7 +26703,7 @@ function addAssignedTextAlign(props, blockType, attributes) {
 function findOptimalFontSize(textElement, applyFontSize) {
   const alreadyHasScrollableHeight = textElement.scrollHeight > textElement.clientHeight;
   let minSize = 5;
-  let maxSize = 600;
+  let maxSize = 2400;
   let bestSize = minSize;
   while (minSize <= maxSize) {
     const midSize = Math.floor((minSize + maxSize) / 2);
@@ -26725,11 +26735,7 @@ function optimizeFitText(textElement, applyFontSize) {
 
 
 
-
-
-
 const EMPTY_OBJECT = {};
-
 
 
 
@@ -26855,58 +26861,6 @@ function useFitText({ fitText, name, clientId }) {
     hasFitTextSupport2
   ]);
 }
-function FitTextControl({
-  clientId,
-  fitText = false,
-  setAttributes,
-  name,
-  fontSize,
-  style
-}) {
-  if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, FIT_TEXT_SUPPORT_KEY)) {
-    return null;
-  }
-  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(inspector_controls_default, { group: "typography", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-    external_wp_components_namespaceObject.__experimentalToolsPanelItem,
-    {
-      hasValue: () => fitText,
-      label: (0,external_wp_i18n_namespaceObject.__)("Fit text"),
-      onDeselect: () => setAttributes({ fitText: void 0 }),
-      resetAllFilter: () => ({ fitText: void 0 }),
-      panelId: clientId,
-      children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        external_wp_components_namespaceObject.ToggleControl,
-        {
-          __nextHasNoMarginBottom: true,
-          label: (0,external_wp_i18n_namespaceObject.__)("Fit text"),
-          checked: fitText,
-          onChange: () => {
-            const newFitText = !fitText || void 0;
-            const updates = { fitText: newFitText };
-            if (newFitText) {
-              if (fontSize) {
-                updates.fontSize = void 0;
-              }
-              if (style?.typography?.fontSize) {
-                updates.style = {
-                  ...style,
-                  typography: {
-                    ...style?.typography,
-                    fontSize: void 0
-                  }
-                };
-              }
-            }
-            setAttributes(updates);
-          },
-          help: fitText ? (0,external_wp_i18n_namespaceObject.__)("Text will resize to fit its container.") : (0,external_wp_i18n_namespaceObject.__)(
-            "The text will resize to fit its container, resetting other font size settings."
-          )
-        }
-      )
-    }
-  ) });
-}
 function fit_text_addSaveProps(props, blockType, attributes) {
   if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockType, FIT_TEXT_SUPPORT_KEY)) {
     return props;
@@ -26941,9 +26895,9 @@ const hasFitTextSupport = (blockNameOrType) => {
 var fit_text_default = {
   useBlockProps: fit_text_useBlockProps,
   addSaveProps: fit_text_addSaveProps,
-  attributeKeys: ["fitText", "fontSize", "style"],
+  attributeKeys: ["fitText"],
   hasSupport: hasFitTextSupport,
-  edit: FitTextControl
+  edit: () => null
 };
 
 
@@ -27051,12 +27005,7 @@ function typography_TypographyPanel({ clientId, name, setAttributes, settings })
     [style, fontSize, fontFamily]
   );
   const onChange = (newStyle) => {
-    const newAttributes = typography_styleToAttributes(newStyle);
-    const hasFontSize = newAttributes.fontSize || newAttributes.style?.typography?.fontSize;
-    if (hasFontSize && fitText) {
-      newAttributes.fitText = void 0;
-    }
-    setAttributes(newAttributes);
+    setAttributes(typography_styleToAttributes(newStyle));
   };
   if (!isEnabled) {
     return null;
@@ -27073,7 +27022,8 @@ function typography_TypographyPanel({ clientId, name, setAttributes, settings })
       settings,
       value,
       onChange,
-      defaultControls
+      defaultControls,
+      fitText
     }
   );
 }

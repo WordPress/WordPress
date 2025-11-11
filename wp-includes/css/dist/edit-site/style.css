@@ -1378,7 +1378,6 @@ div.dataviews-view-list{
 
 .dataviews-view-table td.dataviews-view-table__checkbox-column,.dataviews-view-table th.dataviews-view-table__checkbox-column{
   padding-right:0;
-  width:1%;
 }
 
 .dataviews-view-table td.dataviews-view-table__checkbox-column .dataviews-view-table__cell-content-wrapper,.dataviews-view-table th.dataviews-view-table__checkbox-column .dataviews-view-table__cell-content-wrapper{
@@ -1492,6 +1491,7 @@ div.dataviews-view-list{
   align-items:center;
   display:flex;
   min-height:32px;
+  white-space:nowrap;
 }
 
 .dataviews-view-table tbody .dataviews-view-table__cell-content-wrapper.dataviews-view-table__cell-align-end{
@@ -1606,6 +1606,9 @@ div.dataviews-view-list{
   color:#1e1e1e;
   font-weight:500;
   padding:12px 48px;
+}
+.dataviews-view-table col[class^=dataviews-view-table__col-]:not(.dataviews-view-table__col-primary){
+  width:1%;
 }
 
 .dataviews-view-picker-grid .dataviews-view-picker-grid__card{

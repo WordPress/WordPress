@@ -21995,7 +21995,40 @@ const heading_transforms_transforms = {
 var heading_transforms_transforms_default = heading_transforms_transforms;
 
 
+;// ./node_modules/@wordpress/block-library/build-module/heading/variations.js
+
+
+
+
+const heading_variations_variations = [
+  {
+    name: "heading",
+    title: (0,external_wp_i18n_namespaceObject.__)("Heading"),
+    description: (0,external_wp_i18n_namespaceObject.__)(
+      "Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content."
+    ),
+    isDefault: true,
+    scope: ["inserter", "transform"],
+    attributes: { fitText: void 0 },
+    icon: heading_default
+  },
+  // There is a hardcoded workaround in packages/block-editor/src/store/selectors.js
+  // to make Stretchy variations appear as the last of their sections in the inserter.
+  {
+    name: "stretchy-heading",
+    title: (0,external_wp_i18n_namespaceObject.__)("Stretchy Heading"),
+    description: (0,external_wp_i18n_namespaceObject.__)("Heading that resizes to fit its container."),
+    icon: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "m3 18.6 6-4.7 6 4.7V5H3v13.6Zm16.2-9.8v1.5h2.2L17.7 14l1.1 1.1 3.7-3.7v2.2H24V8.8h-4.8Z" }) }),
+    attributes: { fitText: true },
+    scope: ["inserter", "transform"],
+    isActive: (blockAttributes) => blockAttributes.fitText === true
+  }
+];
+var heading_variations_variations_default = heading_variations_variations;
+
+
 ;// ./node_modules/@wordpress/block-library/build-module/heading/index.js
+
 
 
 
@@ -22042,7 +22075,8 @@ const heading_settings = {
     };
   },
   edit: heading_edit_edit_default,
-  save: heading_save_save
+  save: heading_save_save,
+  variations: heading_variations_variations_default
 };
 const heading_init = () => initBlock({ name: heading_name, metadata: heading_block_namespaceObject, settings: heading_settings });
 
@@ -30705,6 +30739,8 @@ function OverlayMenuPreview({ setAttributes, hasIcon, icon }) {
 ;// ./node_modules/@wordpress/block-library/build-module/navigation-link/shared/use-entity-binding.js
 
 
+
+
 function buildNavigationLinkEntityBinding(kind) {
   if (kind === void 0) {
     throw new Error(
@@ -30728,10 +30764,36 @@ function buildNavigationLinkEntityBinding(kind) {
 }
 function useEntityBinding({ clientId, attributes }) {
   const { updateBlockBindings } = (0,external_wp_blockEditor_namespaceObject.useBlockBindingsUtils)(clientId);
-  const { metadata, id, kind } = attributes;
+  const { metadata, id, kind, type } = attributes;
+  const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
   const hasUrlBinding = !!metadata?.bindings?.url && !!id;
   const expectedSource = kind === "post-type" ? "core/post-data" : "core/term-data";
   const hasCorrectBinding = hasUrlBinding && metadata?.bindings?.url?.source === expectedSource;
+  const isBoundEntityAvailable = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => {
+      if (!hasCorrectBinding || !id) {
+        return false;
+      }
+      const isPostType = kind === "post-type";
+      const isTaxonomy = kind === "taxonomy";
+      if (!isPostType && !isTaxonomy) {
+        return false;
+      }
+      if (blockEditingMode === "disabled") {
+        return true;
+      }
+      const { getEntityRecord, hasFinishedResolution } = select(external_wp_coreData_namespaceObject.store);
+      const entityType = isTaxonomy ? "taxonomy" : "postType";
+      const entityRecord = getEntityRecord(entityType, type, id);
+      const hasResolved = hasFinishedResolution("getEntityRecord", [
+        entityType,
+        type,
+        id
+      ]);
+      return hasResolved ? entityRecord !== void 0 : true;
+    },
+    [kind, type, id, hasCorrectBinding, blockEditingMode]
+  );
   const clearBinding = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (hasUrlBinding) {
       updateBlockBindings({ url: void 0 });
@@ -30753,10 +30815,11 @@ function useEntityBinding({ clientId, attributes }) {
         );
       }
     },
-    [updateBlockBindings, kind, id]
+    [updateBlockBindings, kind]
   );
   return {
     hasUrlBinding: hasCorrectBinding,
+    isBoundEntityAvailable,
     clearBinding,
     createBinding
   };
@@ -31834,6 +31897,7 @@ var block_inserter_default = LinkUIBlockInserter;
 
 
 
+
 function getSuggestionsQuery(type, kind) {
   switch (type) {
     case "post":
@@ -31864,7 +31928,8 @@ function getSuggestionsQuery(type, kind) {
   }
 }
 function UnforwardedLinkUI(props, ref) {
-  const { label, url, opensInNewTab, type, kind, id, metadata } = props.link;
+  const { label, url, opensInNewTab, type, kind, id } = props.link;
+  const { clientId } = props;
   const postType = type || "page";
   const [addingBlock, setAddingBlock] = (0,external_wp_element_namespaceObject.useState)(false);
   const [addingPage, setAddingPage] = (0,external_wp_element_namespaceObject.useState)(false);
@@ -31874,7 +31939,10 @@ function UnforwardedLinkUI(props, ref) {
     kind: "postType",
     name: postType
   });
-  const hasUrlBinding = (metadata?.bindings?.url?.source === "core/post-data" || metadata?.bindings?.url?.source === "core/term-data") && !!id;
+  const { isBoundEntityAvailable } = useEntityBinding({
+    clientId,
+    attributes: props.link
+  });
   const link = (0,external_wp_element_namespaceObject.useMemo)(
     () => ({
       url,
@@ -31935,7 +32003,7 @@ function UnforwardedLinkUI(props, ref) {
                   onChange: props.onChange,
                   onRemove: props.onRemove,
                   onCancel: props.onCancel,
-                  handleEntities: hasUrlBinding,
+                  handleEntities: isBoundEntityAvailable,
                   renderControlBottom: () => {
                     if (link?.url?.length) {
                       return null;
@@ -33857,17 +33925,34 @@ function controls_Controls({ attributes, setAttributes, clientId }) {
   const { label, url, description, rel, opensInNewTab } = attributes;
   const lastURLRef = (0,external_wp_element_namespaceObject.useRef)(url);
   const dropdownMenuProps = useToolsPanelDropdownMenuProps();
+  const urlInputRef = (0,external_wp_element_namespaceObject.useRef)();
+  const shouldFocusURLInputRef = (0,external_wp_element_namespaceObject.useRef)(false);
   const inputId = (0,external_wp_compose_namespaceObject.useInstanceId)(controls_Controls, "link-input");
   const helpTextId = `${inputId}__help`;
-  const { hasUrlBinding, clearBinding } = useEntityBinding({
+  const [inputValue, setInputValue] = (0,external_wp_element_namespaceObject.useState)(url);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    setInputValue(url);
+    lastURLRef.current = url;
+  }, [url]);
+  const { hasUrlBinding, isBoundEntityAvailable, clearBinding } = useEntityBinding({
     clientId,
     attributes
   });
   const { updateBlockAttributes } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
-  const editBoundLink = () => {
+  const unsyncBoundLink = () => {
     clearBinding();
-    updateBlockAttributes(clientId, { url: "", id: void 0 });
+    updateBlockAttributes(clientId, {
+      url: lastURLRef.current,
+      // set the lastURLRef as the new editable value so we avoid bugs from empty link states
+      id: void 0
+    });
   };
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!hasUrlBinding && shouldFocusURLInputRef.current) {
+      urlInputRef.current?.select();
+    }
+    shouldFocusURLInputRef.current = false;
+  }, [hasUrlBinding]);
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
     external_wp_components_namespaceObject.__experimentalToolsPanel,
     {
@@ -33915,39 +34000,54 @@ function controls_Controls({ attributes, setAttributes, clientId }) {
             children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
               external_wp_components_namespaceObject.__experimentalInputControl,
               {
+                ref: urlInputRef,
                 __nextHasNoMarginBottom: true,
                 __next40pxDefaultSize: true,
                 id: inputId,
                 label: (0,external_wp_i18n_namespaceObject.__)("Link"),
-                value: url ? (0,external_wp_url_namespaceObject.safeDecodeURI)(url) : "",
-                onChange: (urlValue) => {
-                  if (hasUrlBinding) {
-                    return;
+                value: (() => {
+                  if (hasUrlBinding && !isBoundEntityAvailable) {
+                    return "";
                   }
-                  setAttributes({
-                    url: encodeURI((0,external_wp_url_namespaceObject.safeDecodeURI)(urlValue))
-                  });
-                },
+                  return inputValue ? (0,external_wp_url_namespaceObject.safeDecodeURI)(inputValue) : "";
+                })(),
                 autoComplete: "off",
                 type: "url",
                 disabled: hasUrlBinding,
+                "aria-invalid": hasUrlBinding && !isBoundEntityAvailable ? "true" : void 0,
+                "aria-describedby": helpTextId,
+                className: hasUrlBinding && !isBoundEntityAvailable ? "navigation-link-control__input-with-error-suffix" : void 0,
+                onChange: (newValue) => {
+                  if (isBoundEntityAvailable) {
+                    return;
+                  }
+                  setInputValue(newValue);
+                },
                 onFocus: () => {
-                  if (hasUrlBinding) {
+                  if (isBoundEntityAvailable) {
                     return;
                   }
                   lastURLRef.current = url;
                 },
                 onBlur: () => {
-                  if (hasUrlBinding) {
+                  if (isBoundEntityAvailable) {
                     return;
                   }
-                  updateAttributes(
-                    { url: !url ? lastURLRef.current : url },
-                    setAttributes,
-                    { ...attributes, url: lastURLRef.current }
-                  );
+                  const finalValue = !inputValue ? lastURLRef.current : inputValue;
+                  setInputValue(finalValue);
+                  updateAttributes({ url: finalValue }, setAttributes, {
+                    ...attributes,
+                    url: lastURLRef.current
+                  });
                 },
-                help: hasUrlBinding && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+                help: hasUrlBinding && !isBoundEntityAvailable ? /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+                  MissingEntityHelpText,
+                  {
+                    id: helpTextId,
+                    type: attributes.type,
+                    kind: attributes.kind
+                  }
+                ) : isBoundEntityAvailable && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
                   BindingHelpText,
                   {
                     type: attributes.type,
@@ -33958,11 +34058,15 @@ function controls_Controls({ attributes, setAttributes, clientId }) {
                   external_wp_components_namespaceObject.Button,
                   {
                     icon: link_off_default,
-                    onClick: editBoundLink,
+                    onClick: () => {
+                      unsyncBoundLink();
+                      shouldFocusURLInputRef.current = true;
+                    },
                     "aria-describedby": helpTextId,
                     showTooltip: true,
                     label: (0,external_wp_i18n_namespaceObject.__)("Unsync and edit"),
-                    __next40pxDefaultSize: true
+                    __next40pxDefaultSize: true,
+                    className: hasUrlBinding && !isBoundEntityAvailable ? "navigation-link-control__error-suffix-button" : void 0
                   }
                 )
               }
@@ -34047,6 +34151,25 @@ function BindingHelpText({ type, kind }) {
     entityType
   );
 }
+function MissingEntityHelpText({ id, type, kind }) {
+  const entityType = getEntityTypeName(type, kind);
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    "span",
+    {
+      id,
+      className: "navigation-link-control__error-text",
+      role: "alert",
+      "aria-live": "polite",
+      children: (0,external_wp_i18n_namespaceObject.sprintf)(
+        /* translators: %s is the entity type (e.g., "page", "post", "category") */
+        (0,external_wp_i18n_namespaceObject.__)(
+          "Synced %s is missing. Please update or remove this link."
+        ),
+        entityType
+      )
+    }
+  );
+}
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation-link/edit.js
@@ -34103,20 +34226,30 @@ const useIsInvalidLink = (kind, type, id, enabled) => {
   const isPostType = kind === "post-type" || type === "post" || type === "page";
   const hasId = Number.isInteger(id);
   const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
-  const postStatus = (0,external_wp_data_namespaceObject.useSelect)(
+  const { postStatus, isDeleted } = (0,external_wp_data_namespaceObject.useSelect)(
     (select) => {
       if (!isPostType) {
-        return null;
+        return { postStatus: null, isDeleted: false };
       }
       if (blockEditingMode === "disabled" || !enabled) {
-        return null;
+        return { postStatus: null, isDeleted: false };
       }
-      const { getEntityRecord } = select(external_wp_coreData_namespaceObject.store);
-      return getEntityRecord("postType", type, id)?.status;
+      const { getEntityRecord, hasFinishedResolution } = select(external_wp_coreData_namespaceObject.store);
+      const entityRecord = getEntityRecord("postType", type, id);
+      const hasResolved = hasFinishedResolution("getEntityRecord", [
+        "postType",
+        type,
+        id
+      ]);
+      const deleted = hasResolved && entityRecord === void 0;
+      return {
+        postStatus: entityRecord?.status,
+        isDeleted: deleted
+      };
     },
     [isPostType, blockEditingMode, enabled, type, id]
   );
-  const isInvalid = isPostType && hasId && postStatus && "trash" === postStatus;
+  const isInvalid = isPostType && hasId && (isDeleted || postStatus && "trash" === postStatus);
   const isDraft = "draft" === postStatus;
   return [isInvalid, isDraft];
 };
@@ -34208,7 +34341,12 @@ function NavigationLinkEdit({
     [clientId, maxNestingLevel]
   );
   const { getBlocks } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store);
-  const { clearBinding, createBinding } = useEntityBinding({
+  const {
+    clearBinding,
+    createBinding,
+    hasUrlBinding,
+    isBoundEntityAvailable
+  } = useEntityBinding({
     clientId,
     attributes
   });
@@ -34315,13 +34453,13 @@ function NavigationLinkEdit({
       renderAppender: false
     }
   );
-  if (!url || isInvalid || isDraft) {
+  if (!url || isInvalid || isDraft || hasUrlBinding && !isBoundEntityAvailable) {
     blockProps.onClick = () => {
       setIsLinkOpen(true);
     };
   }
   const classes = dist_clsx("wp-block-navigation-item__content", {
-    "wp-block-navigation-link__placeholder": !url || isInvalid || isDraft
+    "wp-block-navigation-link__placeholder": !url || isInvalid || isDraft || hasUrlBinding && !isBoundEntityAvailable
   });
   const missingText = getMissingText(type);
   const placeholderText = `(${isInvalid ? (0,external_wp_i18n_namespaceObject.__)("Invalid") : (0,external_wp_i18n_namespaceObject.__)("Draft")})`;
@@ -34417,7 +34555,7 @@ function NavigationLinkEdit({
             link: attributes,
             onClose: () => {
               setIsLinkOpen(false);
-              if (!url) {
+              if (!url && !hasUrlBinding) {
                 onReplace([]);
               } else if (isNewLink.current) {
                 selectBlock(clientId);
@@ -36659,7 +36797,42 @@ const paragraph_transforms_transforms = {
 var paragraph_transforms_transforms_default = paragraph_transforms_transforms;
 
 
+;// ./node_modules/@wordpress/block-library/build-module/paragraph/variations.js
+
+
+
+
+const paragraph_variations_variations = [
+  {
+    name: "paragraph",
+    title: (0,external_wp_i18n_namespaceObject.__)("Paragraph"),
+    description: (0,external_wp_i18n_namespaceObject.__)(
+      "Start with the basic building block of all narrative."
+    ),
+    isDefault: true,
+    scope: ["block", "inserter", "transform"],
+    attributes: { fitText: void 0 },
+    icon: paragraph_default
+  },
+  // There is a hardcoded workaround in packages/block-editor/src/store/selectors.js
+  // to make Stretchy variations appear as the last of their sections in the inserter.
+  {
+    name: "stretchy-paragraph",
+    title: (0,external_wp_i18n_namespaceObject.__)("Stretchy Paragraph"),
+    description: (0,external_wp_i18n_namespaceObject.__)("Paragraph that resizes to fit its container."),
+    icon: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M3 9c0 2.8 2.2 5 5 5v-.2V20h1.5V5.5H12V20h1.5V5.5h3V4H8C5.2 4 3 6.2 3 9Zm16.2-.2v1.5h2.2L17.7 14l1.1 1.1 3.7-3.7v2.2H24V8.8h-4.8Z" }) }),
+    attributes: {
+      fitText: true
+    },
+    scope: ["inserter", "transform"],
+    isActive: (blockAttributes) => blockAttributes.fitText === true
+  }
+];
+var paragraph_variations_variations_default = paragraph_variations_variations;
+
+
 ;// ./node_modules/@wordpress/block-library/build-module/paragraph/index.js
+
 
 
 
@@ -36699,7 +36872,8 @@ const paragraph_settings = {
     };
   },
   edit: paragraph_edit_edit_default,
-  save: paragraph_save_save
+  save: paragraph_save_save,
+  variations: paragraph_variations_variations_default
 };
 const paragraph_init = () => initBlock({ name: paragraph_name, metadata: paragraph_block_namespaceObject, settings: paragraph_settings });
 

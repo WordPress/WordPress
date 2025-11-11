@@ -15555,12 +15555,15 @@ function PostTemplatePanel() {
     }) ?? false;
     return canCreateTemplates;
   }, []);
-  const canViewTemplates = (0,external_wp_data_namespaceObject.useSelect)((select) => {
-    return select(external_wp_coreData_namespaceObject.store).canUser("read", {
-      kind: "postType",
-      name: "wp_template"
-    }) ?? false;
-  }, []);
+  const canViewTemplates = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => {
+      return isVisible ? select(external_wp_coreData_namespaceObject.store).canUser("read", {
+        kind: "postType",
+        name: "wp_template"
+      }) : false;
+    },
+    [isVisible]
+  );
   if ((!isBlockTheme || !canViewTemplates) && isVisible) {
     return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(classic_theme_default, {});
   }
@@ -26090,6 +26093,7 @@ var comment_author_info_default = CommentAuthorInfo;
 
 
 
+
 function CommentForm({
   onSubmit,
   onCancel,
@@ -26112,6 +26116,12 @@ function CommentForm({
     {
       className: "editor-collab-sidebar-panel__comment-form",
       spacing: "4",
+      as: "form",
+      onSubmit: (event) => {
+        event.preventDefault();
+        onSubmit(inputComment);
+        setInputComment("");
+      },
       children: [
         /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, { as: "label", htmlFor: inputId, children: labelText ?? (0,external_wp_i18n_namespaceObject.__)("Note") }),
         /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
@@ -26124,7 +26134,12 @@ function CommentForm({
               debouncedCommentUpdated();
             },
             rows: 1,
-            maxRows: 20
+            maxRows: 20,
+            onKeyDown: (event) => {
+              if (external_wp_keycodes_namespaceObject.isKeyboardEvent.primary(event, "Enter") && !isDisabled) {
+                event.target.parentNode.requestSubmit();
+              }
+            }
           }
         ),
         /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, { spacing: "2", justify: "flex-end", wrap: true, children: [
@@ -26135,10 +26150,7 @@ function CommentForm({
               size: "compact",
               accessibleWhenDisabled: true,
               variant: "primary",
-              onClick: () => {
-                onSubmit(inputComment);
-                setInputComment("");
-              },
+              type: "submit",
               disabled: isDisabled,
               children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalTruncate, { children: submitButtonText })
             }
@@ -29002,6 +29014,9 @@ function Comments({
   const [boardOffsets, setBoardOffsets] = (0,external_wp_element_namespaceObject.useState)({});
   const [blockRefs, setBlockRefs] = (0,external_wp_element_namespaceObject.useState)({});
   const { setCanvasMinHeight } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store_store));
+  const { selectBlock, toggleBlockSpotlight } = unlock(
+    (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store)
+  );
   const { blockCommentId, selectedBlockClientId, orderedBlockIds } = (0,external_wp_data_namespaceObject.useSelect)((select) => {
     const {
       getBlockAttributes,
@@ -29167,6 +29182,40 @@ function Comments({
     selectedThread,
     setCanvasMinHeight
   ]);
+  const handleThreadNavigation = (event, thread, isSelected) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+    const currentIndex = threads.findIndex((t) => t.id === thread.id);
+    if ((event.key === "Enter" || event.key === "ArrowRight") && event.currentTarget === event.target && !isSelected) {
+      setNewNoteFormState("closed");
+      setSelectedThread(thread.id);
+      if (!!thread.blockClientId) {
+        selectBlock(thread.blockClientId, null);
+        toggleBlockSpotlight(thread.blockClientId, true);
+      }
+    } else if ((event.key === "Enter" || event.key === "ArrowLeft") && event.currentTarget === event.target && isSelected || event.key === "Escape") {
+      setSelectedThread(null);
+      setNewNoteFormState("closed");
+      if (thread.blockClientId) {
+        toggleBlockSpotlight(thread.blockClientId, false);
+      }
+      focusCommentThread(thread.id, commentSidebarRef.current);
+    } else if (event.key === "ArrowDown" && currentIndex < threads.length - 1 && event.currentTarget === event.target) {
+      const nextThread = threads[currentIndex + 1];
+      focusCommentThread(nextThread.id, commentSidebarRef.current);
+    } else if (event.key === "ArrowUp" && currentIndex > 0 && event.currentTarget === event.target) {
+      const prevThread = threads[currentIndex - 1];
+      focusCommentThread(prevThread.id, commentSidebarRef.current);
+    } else if (event.key === "Home" && event.currentTarget === event.target) {
+      focusCommentThread(threads[0].id, commentSidebarRef.current);
+    } else if (event.key === "End" && event.currentTarget === event.target) {
+      focusCommentThread(
+        threads[threads.length - 1].id,
+        commentSidebarRef.current
+      );
+    }
+  };
   const hasThreads = Array.isArray(threads) && threads.length > 0;
   if (!hasThreads && !isFloating) {
     return null;
@@ -29199,7 +29248,12 @@ function Comments({
         setBlockRef,
         selectedThread,
         commentLastUpdated,
-        newNoteFormState
+        newNoteFormState,
+        onKeyDown: (event) => handleThreadNavigation(
+          event,
+          thread,
+          selectedThread === thread.id
+        )
       },
       thread.id
     ))
@@ -29221,7 +29275,8 @@ function Thread({
   setSelectedThread,
   selectedThread,
   commentLastUpdated,
-  newNoteFormState
+  newNoteFormState,
+  onKeyDown
 }) {
   const { toggleBlockHighlight, selectBlock, toggleBlockSpotlight } = unlock(
     (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store)
@@ -29303,22 +29358,7 @@ function Thread({
       onMouseLeave,
       onFocus: onMouseEnter,
       onBlur: onMouseLeave,
-      onKeyDown: (event) => {
-        if (event.defaultPrevented) {
-          return;
-        }
-        if (event.key === "Enter" && event.currentTarget === event.target) {
-          if (isSelected) {
-            unselectThread();
-          } else {
-            handleCommentSelect();
-          }
-        }
-        if (event.key === "Escape") {
-          unselectThread();
-          focusCommentThread(thread.id, commentSidebarRef.current);
-        }
-      },
+      onKeyDown,
       tabIndex: 0,
       role: "treeitem",
       "aria-label": ariaLabel,
