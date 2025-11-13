@@ -960,13 +960,7 @@ class wpdb {
 				return;
 			}
 
-			$modes_str = $modes_array[0];
-
-			if ( empty( $modes_str ) ) {
-				return;
-			}
-
-			$modes = explode( ',', $modes_str );
+			$modes = explode( ',', $modes_array[0] );
 		}
 
 		$modes = array_change_key_case( $modes, CASE_UPPER );
