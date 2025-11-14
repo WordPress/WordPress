@@ -1427,7 +1427,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $call
 	if ( null === $position || ! is_numeric( $position ) ) {
 		$menu[] = $new_menu;
 	} elseif ( isset( $menu[ (string) $position ] ) ) {
-		$collision_avoider = base_convert( substr( md5( $menu_slug . $menu_title ), -4 ), 16, 10 ) * 0.00001;
+		$collision_avoider = (int) base_convert( substr( md5( $menu_slug . $menu_title ), -4 ), 16, 10 ) * 0.00001;
 		$position          = (string) ( $position + $collision_avoider );
 		$menu[ $position ] = $new_menu;
 	} else {
