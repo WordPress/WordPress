@@ -437,7 +437,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( $this->is_trash ) {
 				$actions['untrash'] = __( 'Restore' );
 			} else {
-				$actions['edit'] = __( 'Edit' );
+				$actions['edit'] = __( 'Bulk edit' );
 			}
 		}
 
