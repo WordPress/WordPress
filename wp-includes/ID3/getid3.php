@@ -387,7 +387,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.23-202310190849';
+	const VERSION           = '1.9.24-202509040923';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -409,10 +409,10 @@ class getID3
 		$memoryLimit = ini_get('memory_limit');
 		if (preg_match('#([0-9]+) ?M#i', $memoryLimit, $matches)) {
 			// could be stored as "16M" rather than 16777216 for example
-			$memoryLimit = $matches[1] * 1048576;
+			$memoryLimit = (int) $matches[1] * 1048576;
 		} elseif (preg_match('#([0-9]+) ?G#i', $memoryLimit, $matches)) { // The 'G' modifier is available since PHP 5.1.0
 			// could be stored as "2G" rather than 2147483648 for example
-			$memoryLimit = $matches[1] * 1073741824;
+			$memoryLimit = (int) $matches[1] * 1073741824;
 		}
 		$this->memory_limit = $memoryLimit;
 
@@ -446,7 +446,7 @@ class getID3
 			}
 			// Check for magic_quotes_gpc
 			if (function_exists('get_magic_quotes_gpc')) {
-				if (get_magic_quotes_gpc()) { // @phpstan-ignore-line
+				if (get_magic_quotes_gpc()) {
 					$this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).'."\n";
 				}
 			}
@@ -529,7 +529,7 @@ class getID3
 	 * @return bool
 	 */
 	public function setOption($optArray) {
-		if (!is_array($optArray) || empty($optArray)) {
+		if (empty($optArray)) {
 			return false;
 		}
 		foreach ($optArray as $opt => $val) {
@@ -680,6 +680,8 @@ class getID3
 					catch (getid3_exception $e) {
 						throw $e;
 					}
+				} else {
+					$this->warning('skipping check for '.$tag_name.' tags since option_tag_'.$tag_name.'=FALSE');
 				}
 			}
 			if (isset($this->info['id3v2']['tag_offset_start'])) {
@@ -1477,6 +1479,16 @@ class getID3
 
 				// Misc other formats
 
+				// GPX - data         - GPS Exchange Format
+				'gpx' => array (
+							'pattern'   => '^<\\?xml [^>]+>[\s]*<gpx ',
+							'group'     => 'misc',
+							'module'    => 'gpx',
+							'mime_type' => 'application/gpx+xml',
+							'fail_id3'  => 'ERROR',
+							'fail_ape'  => 'ERROR',
+						),
+
 				// PAR2 - data        - Parity Volume Set Specification 2.0
 				'par2' => array (
 							'pattern'   => '^PAR2\\x00PKT',
@@ -1890,8 +1902,8 @@ class getID3
 
 		// Calculate combined bitrate - audio + video
 		$CombinedBitrate  = 0;
-		$CombinedBitrate += (isset($this->info['audio']['bitrate']) ? $this->info['audio']['bitrate'] : 0);
-		$CombinedBitrate += (isset($this->info['video']['bitrate']) ? $this->info['video']['bitrate'] : 0);
+		$CombinedBitrate += (isset($this->info['audio']['bitrate']) && ($this->info['audio']['bitrate'] != 'free') ? $this->info['audio']['bitrate'] : 0);
+		$CombinedBitrate += (isset($this->info['video']['bitrate'])                                                ? $this->info['video']['bitrate'] : 0);
 		if (($CombinedBitrate > 0) && empty($this->info['bitrate'])) {
 			$this->info['bitrate'] = $CombinedBitrate;
 		}
@@ -1998,7 +2010,9 @@ class getID3
 		if (empty($this->info['audio']['bitrate']) || empty($this->info['audio']['channels']) || empty($this->info['audio']['sample_rate']) || !is_numeric($this->info['audio']['sample_rate'])) {
 			return false;
 		}
-		$this->info['audio']['compression_ratio'] = $this->info['audio']['bitrate'] / ($this->info['audio']['channels'] * $this->info['audio']['sample_rate'] * (!empty($this->info['audio']['bits_per_sample']) ? $this->info['audio']['bits_per_sample'] : 16));
+		if ($this->info['audio']['bitrate'] != 'free') {
+			$this->info['audio']['compression_ratio'] = $this->info['audio']['bitrate'] / ($this->info['audio']['channels'] * $this->info['audio']['sample_rate'] * (!empty($this->info['audio']['bits_per_sample']) ? $this->info['audio']['bits_per_sample'] : 16));
+		}
 
 		if (!empty($this->info['audio']['streams'])) {
 			foreach ($this->info['audio']['streams'] as $streamnumber => $streamdata) {

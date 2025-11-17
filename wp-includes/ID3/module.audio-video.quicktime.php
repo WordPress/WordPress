@@ -39,11 +39,20 @@ class getid3_quicktime extends getid3_handler
 	public $ParseAllPossibleAtoms = false;
 
 	/**
+	 * real ugly, but so is the QuickTime structure that stores keys and values in different multi-nested locations that are hard to relate to each other
+	 * https://github.com/JamesHeinrich/getID3/issues/214
+	 *
+	 * @var int
+	 */
+	private $metaDATAkey = 1;
+
+	/**
 	 * @return bool
 	 */
 	public function Analyze() {
 		$info = &$this->getid3->info;
 
+		$this->metaDATAkey = 1;
 		$info['fileformat'] = 'quicktime';
 		$info['quicktime']['hinting']    = false;
 		$info['quicktime']['controller'] = 'standard'; // may be overridden if 'ctyp' atom is present
@@ -147,27 +156,27 @@ class getid3_quicktime extends getid3_handler
 					@list($dummy, $lat_sign, $lat_deg, $lat_deg_dec, $lon_sign, $lon_deg, $lon_deg_dec, $dummy, $alt_sign, $alt_deg, $alt_deg_dec) = $matches;
 
 					if (strlen($lat_deg) == 2) {        // [+-]DD.D
-						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim($lat_deg, '0').$lat_deg_dec);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * (float) (ltrim($lat_deg, '0').$lat_deg_dec);
 					} elseif (strlen($lat_deg) == 4) {  // [+-]DDMM.M
-						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0').$lat_deg_dec / 60);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * (int) ltrim(substr($lat_deg, 0, 2), '0') + ((float) (ltrim(substr($lat_deg, 2, 2), '0').$lat_deg_dec) / 60);
 					} elseif (strlen($lat_deg) == 6) {  // [+-]DDMMSS.S
-						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval((int) ltrim(substr($lat_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec / 3600);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * (int) ltrim(substr($lat_deg, 0, 2), '0') + ((int) ltrim(substr($lat_deg, 2, 2), '0') / 60) + ((float) (ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec) / 3600);
 					}
 
 					if (strlen($lon_deg) == 3) {        // [+-]DDD.D
-						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim($lon_deg, '0').$lon_deg_dec);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * (float) (ltrim($lon_deg, '0').$lon_deg_dec);
 					} elseif (strlen($lon_deg) == 5) {  // [+-]DDDMM.M
-						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0').$lon_deg_dec / 60);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * (int) ltrim(substr($lon_deg, 0, 2), '0') + ((float) (ltrim(substr($lon_deg, 2, 2), '0').$lon_deg_dec) / 60);
 					} elseif (strlen($lon_deg) == 7) {  // [+-]DDDMMSS.S
-						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval((int) ltrim(substr($lon_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec / 3600);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * (int) ltrim(substr($lon_deg, 0, 2), '0') + ((int) ltrim(substr($lon_deg, 2, 2), '0') / 60) + ((float) (ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec) / 3600);
 					}
 
 					if (strlen($alt_deg) == 3) {        // [+-]DDD.D
-						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim($alt_deg, '0').$alt_deg_dec);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * (float) (ltrim($alt_deg, '0').$alt_deg_dec);
 					} elseif (strlen($alt_deg) == 5) {  // [+-]DDDMM.M
-						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0').$alt_deg_dec / 60);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * (int) ltrim(substr($alt_deg, 0, 2), '0') + ((float) (ltrim(substr($alt_deg, 2, 2), '0').$alt_deg_dec) / 60);
 					} elseif (strlen($alt_deg) == 7) {  // [+-]DDDMMSS.S
-						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval((int) ltrim(substr($alt_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec / 3600);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * (int) ltrim(substr($alt_deg, 0, 2), '0') + ((int) ltrim(substr($alt_deg, 2, 2), '0') / 60) + ((float) (ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec) / 3600);
 					}
 
 					foreach (array('latitude', 'longitude', 'altitude') as $key) {
@@ -213,6 +222,26 @@ class getid3_quicktime extends getid3_handler
 				unset($info['video']['dataformat']);
 			} else {
 				$info['mime_type']  = 'video/mp4';
+			}
+		}
+		if (!empty($info['quicktime']['ftyp']['signature']) && in_array($info['quicktime']['ftyp']['signature'], array('heic','heix','hevc','hevx','heim','heis','hevm','hevs'))) {
+			if ($info['mime_type'] == 'video/quicktime') { // default value, as we
+				// https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format
+$this->error('HEIF files not currently supported');
+				switch ($info['quicktime']['ftyp']['signature']) {
+					// https://github.com/strukturag/libheif/issues/83 (comment by Dirk Farin 2018-09-14)
+					case 'heic': // the usual HEIF images
+					case 'heix': // 10bit images, or anything that uses h265 with range extension
+					case 'hevc': // brands for image sequences
+					case 'hevx': // brands for image sequences
+					case 'heim': // multiview
+					case 'heis': // scalable
+					case 'hevm': // multiview sequence
+					case 'hevs': // scalable sequence
+						$info['fileformat'] = 'heif';
+						$info['mime_type'] = 'image/heif';
+						break;
+				}
 			}
 		}
 
@@ -793,7 +822,7 @@ class getid3_quicktime extends getid3_handler
 					}
 
 					$stsdEntriesDataOffset = 8;
-					for ($i = 0; $i < $atom_structure['number_entries']; $i++) {
+					for ($i = 0; $i < (int) $atom_structure['number_entries']; $i++) {
 						$atom_structure['sample_description_table'][$i]['size']             = getid3_lib::BigEndian2Int(substr($atom_data, $stsdEntriesDataOffset, 4));
 						$stsdEntriesDataOffset += 4;
 						$atom_structure['sample_description_table'][$i]['data_format']      =                           substr($atom_data, $stsdEntriesDataOffset, 4);
@@ -829,17 +858,20 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 
 								// video tracks
 								// http://developer.apple.com/library/mac/#documentation/QuickTime/QTFF/QTFFChap3/qtff3.html
-								$atom_structure['sample_description_table'][$i]['temporal_quality'] =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'],  8,  4));
-								$atom_structure['sample_description_table'][$i]['spatial_quality']  =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 12,  4));
-								$atom_structure['sample_description_table'][$i]['width']            =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 16,  2));
-								$atom_structure['sample_description_table'][$i]['height']           =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 18,  2));
-								$atom_structure['sample_description_table'][$i]['resolution_x']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], 24,  4));
-								$atom_structure['sample_description_table'][$i]['resolution_y']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], 28,  4));
-								$atom_structure['sample_description_table'][$i]['data_size']        =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 32,  4));
-								$atom_structure['sample_description_table'][$i]['frame_count']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 36,  2));
-								$atom_structure['sample_description_table'][$i]['compressor_name']  =                             substr($atom_structure['sample_description_table'][$i]['data'], 38,  4);
-								$atom_structure['sample_description_table'][$i]['pixel_depth']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 42,  2));
-								$atom_structure['sample_description_table'][$i]['color_table_id']   =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 44,  2));
+								// https://developer.apple.com/documentation/quicktime-file-format
+								$STSDvOffset = 8;
+								$atom_structure['sample_description_table'][$i]['temporal_quality'] =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  4)); $STSDvOffset +=  4;
+								$atom_structure['sample_description_table'][$i]['spatial_quality']  =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  4)); $STSDvOffset +=  4;
+								$atom_structure['sample_description_table'][$i]['width']            =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  2)); $STSDvOffset +=  2;
+								$atom_structure['sample_description_table'][$i]['height']           =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  2)); $STSDvOffset +=  2;
+								$atom_structure['sample_description_table'][$i]['resolution_x']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  4)); $STSDvOffset +=  4;
+								$atom_structure['sample_description_table'][$i]['resolution_y']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  4)); $STSDvOffset +=  4;
+								$atom_structure['sample_description_table'][$i]['data_size']        =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  4)); $STSDvOffset +=  4;
+								$atom_structure['sample_description_table'][$i]['frame_count']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  2)); $STSDvOffset +=  2;
+								$atom_structure['sample_description_table'][$i]['compressor_name']  =                             substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset, 32) ; $STSDvOffset += 32;
+								$atom_structure['sample_description_table'][$i]['compressor_name'] = $this->MaybePascal2String(rtrim($atom_structure['sample_description_table'][$i]['compressor_name'], "\x00")); // https://github.com/JamesHeinrich/getID3/issues/452
+								$atom_structure['sample_description_table'][$i]['pixel_depth']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  2)); $STSDvOffset +=  2;
+								$atom_structure['sample_description_table'][$i]['color_table_id']   =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], $STSDvOffset,  2)); $STSDvOffset +=  2;
 
 								switch ($atom_structure['sample_description_table'][$i]['data_format']) {
 									case '2vuY':
@@ -1641,7 +1673,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 						@list($all, $latitude, $longitude, $altitude) = $matches;
 						$info['quicktime']['comments']['gps_latitude'][]  = floatval($latitude);
 						$info['quicktime']['comments']['gps_longitude'][] = floatval($longitude);
-						if (!empty($altitude)) {
+						if (!empty($altitude)) { // @phpstan-ignore-line
 							$info['quicktime']['comments']['gps_altitude'][] = floatval($altitude);
 						}
 					} else {
@@ -1721,16 +1753,21 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					break;
 
 				case 'data': // metaDATA atom
-					static $metaDATAkey = 1; // real ugly, but so is the QuickTime structure that stores keys and values in different multinested locations that are hard to relate to each other
 					// seems to be 2 bytes language code (ASCII), 2 bytes unknown (set to 0x10B5 in sample I have), remainder is useful data
 					$atom_structure['language'] =                           substr($atom_data, 4 + 0, 2);
 					$atom_structure['unknown']  = getid3_lib::BigEndian2Int(substr($atom_data, 4 + 2, 2));
 					$atom_structure['data']     =                           substr($atom_data, 4 + 4);
-					$atom_structure['key_name'] = (isset($info['quicktime']['temp_meta_key_names'][$metaDATAkey]) ? $info['quicktime']['temp_meta_key_names'][$metaDATAkey] : '');
-					$metaDATAkey++;
+					$atom_structure['key_name'] = (isset($info['quicktime']['temp_meta_key_names'][$this->metaDATAkey]) ? $info['quicktime']['temp_meta_key_names'][$this->metaDATAkey] : '');
+					$this->metaDATAkey++;
+
+					switch ($atom_structure['key_name']) {
+						case 'com.android.capture.fps':
+							$atom_structure['data'] = getid3_lib::BigEndian2Float($atom_structure['data']);
+							break;
+					}
 
 					if ($atom_structure['key_name'] && $atom_structure['data']) {
-						@$info['quicktime']['comments'][str_replace('com.apple.quicktime.', '', $atom_structure['key_name'])][] = $atom_structure['data'];
+						@$info['quicktime']['comments'][str_replace('com.android.', '', str_replace('com.apple.quicktime.', '', $atom_structure['key_name']))][] = $atom_structure['data'];
 					}
 					break;
 
@@ -1971,16 +2008,16 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 									foreach (array('latitude','longitude') as $latlon) {
 										preg_match('#^([0-9]{1,3})([0-9]{2}\\.[0-9]+)$#', $GPS_this_GPRMC['raw'][$latlon], $matches);
 										list($dummy, $deg, $min) = $matches;
-										$GPS_this_GPRMC[$latlon] = $deg + ($min / 60);
+										$GPS_this_GPRMC[$latlon] = (int) $deg + ((float) $min / 60);
 									}
 									$GPS_this_GPRMC['latitude']  *= (($GPS_this_GPRMC['raw']['latitude_direction']  == 'S') ? -1 : 1);
 									$GPS_this_GPRMC['longitude'] *= (($GPS_this_GPRMC['raw']['longitude_direction'] == 'W') ? -1 : 1);
 
 									$GPS_this_GPRMC['heading']    = $GPS_this_GPRMC['raw']['angle'];
 									$GPS_this_GPRMC['speed_knot'] = $GPS_this_GPRMC['raw']['knots'];
-									$GPS_this_GPRMC['speed_kmh']  = $GPS_this_GPRMC['raw']['knots'] * 1.852;
+									$GPS_this_GPRMC['speed_kmh']  = (float) $GPS_this_GPRMC['raw']['knots'] * 1.852;
 									if ($GPS_this_GPRMC['raw']['variation']) {
-										$GPS_this_GPRMC['variation']  = $GPS_this_GPRMC['raw']['variation'];
+										$GPS_this_GPRMC['variation']  = (float) $GPS_this_GPRMC['raw']['variation'];
 										$GPS_this_GPRMC['variation'] *= (($GPS_this_GPRMC['raw']['variation_direction'] == 'W') ? -1 : 1);
 									}
 
@@ -2114,7 +2151,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['ES_DescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
 					$esds_offset += 1;
 					if ($atom_structure['ES_DescrTag'] != 0x03) {
-						$this->warning('expecting esds.ES_DescrTag = 0x03, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DescrTag']).'), at offset '.$atom_structure['offset']);
+						$this->warning('expecting esds.ES_DescrTag = 0x03, found 0x'.sprintf('%02X', $atom_structure['ES_DescrTag']).', at offset '.$atom_structure['offset']);
 						break;
 					}
 					$atom_structure['ES_DescrSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
@@ -2143,7 +2180,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['ES_DecoderConfigDescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
 					$esds_offset += 1;
 					if ($atom_structure['ES_DecoderConfigDescrTag'] != 0x04) {
-						$this->warning('expecting esds.ES_DecoderConfigDescrTag = 0x04, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DecoderConfigDescrTag']).'), at offset '.$atom_structure['offset']);
+						$this->warning('expecting esds.ES_DecoderConfigDescrTag = 0x04, found 0x'.sprintf('%02X', $atom_structure['ES_DecoderConfigDescrTag']).', at offset '.$atom_structure['offset']);
 						break;
 					}
 					$atom_structure['ES_DecoderConfigDescrTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
@@ -2174,7 +2211,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['ES_DecSpecificInfoTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
 					$esds_offset += 1;
 					if ($atom_structure['ES_DecSpecificInfoTag'] != 0x05) {
-						$this->warning('expecting esds.ES_DecSpecificInfoTag = 0x05, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DecSpecificInfoTag']).'), at offset '.$atom_structure['offset']);
+						$this->warning('expecting esds.ES_DecSpecificInfoTag = 0x05, found 0x'.sprintf('%02X', $atom_structure['ES_DecSpecificInfoTag']).', at offset '.$atom_structure['offset']);
 						break;
 					}
 					$atom_structure['ES_DecSpecificInfoTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
@@ -2185,7 +2222,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['ES_SLConfigDescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
 					$esds_offset += 1;
 					if ($atom_structure['ES_SLConfigDescrTag'] != 0x06) {
-						$this->warning('expecting esds.ES_SLConfigDescrTag = 0x05, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_SLConfigDescrTag']).'), at offset '.$atom_structure['offset']);
+						$this->warning('expecting esds.ES_SLConfigDescrTag = 0x05, found 0x'.sprintf('%02X', $atom_structure['ES_SLConfigDescrTag']).', at offset '.$atom_structure['offset']);
 						break;
 					}
 					$atom_structure['ES_SLConfigDescrTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);

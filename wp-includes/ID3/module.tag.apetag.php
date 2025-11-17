@@ -42,6 +42,10 @@ class getid3_apetag extends getid3_handler
 			$this->warning('Unable to check for APEtags because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
 			return false;
 		}
+		if (PHP_INT_MAX == 2147483647) {
+			// https://github.com/JamesHeinrich/getID3/issues/439
+			$this->warning('APEtag flags may not be parsed correctly on 32-bit PHP');
+		}
 
 		$id3v1tagsize     = 128;
 		$apetagheadersize = 32;

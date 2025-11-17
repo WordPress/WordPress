@@ -67,12 +67,19 @@ class getid3_riff extends getid3_handler
 		$RIFFsize    = substr($RIFFheader, 4, 4);
 		$RIFFsubtype = substr($RIFFheader, 8, 4);
 
-		switch ($RIFFtype) {
+		if ($RIFFsize == "\x00\x00\x00\x00") {
+			// https://github.com/JamesHeinrich/getID3/issues/468
+			// may occur in streaming files where the data size is unknown
+			$thisfile_riff['header_size'] = $info['avdataend'] - 8;
+			$this->warning('RIFF size field is empty, assuming the correct value is filesize-8 ('.$thisfile_riff['header_size'].')');
+		} else {
+			$thisfile_riff['header_size'] = $this->EitherEndian2Int($RIFFsize);
+		}
 
+		switch ($RIFFtype) {
 			case 'FORM':  // AIFF, AIFC
 				//$info['fileformat']   = 'aiff';
 				$this->container = 'aiff';
-				$thisfile_riff['header_size'] = $this->EitherEndian2Int($RIFFsize);
 				$thisfile_riff[$RIFFsubtype]  = $this->ParseRIFF($offset, ($offset + $thisfile_riff['header_size'] - 4));
 				break;
 
@@ -81,7 +88,6 @@ class getid3_riff extends getid3_handler
 			case 'RMP3':  // RMP3 is identical to RIFF, just renamed. Used by [unknown program] when creating RIFF-MP3s
 				//$info['fileformat']   = 'riff';
 				$this->container = 'riff';
-				$thisfile_riff['header_size'] = $this->EitherEndian2Int($RIFFsize);
 				if ($RIFFsubtype == 'RMP3') {
 					// RMP3 is identical to WAVE, just renamed. Used by [unknown program] when creating RIFF-MP3s
 					$RIFFsubtype = 'WAVE';
@@ -98,7 +104,7 @@ class getid3_riff extends getid3_handler
 					$info['avdataend'] = $info['filesize'];
 				}
 
-				$nextRIFFoffset = $Original['avdataoffset'] + 8 + $thisfile_riff['header_size']; // 8 = "RIFF" + 32-bit offset
+				$nextRIFFoffset = (int) $Original['avdataoffset'] + 8 + (int) $thisfile_riff['header_size']; // 8 = "RIFF" + 32-bit offset
 				while ($nextRIFFoffset < min($info['filesize'], $info['avdataend'])) {
 					try {
 						$this->fseek($nextRIFFoffset);
@@ -305,8 +311,9 @@ class getid3_riff extends getid3_handler
 						// assigned for text fields, resulting in a null-terminated string (or possibly just a single null) followed by garbage
 						// Keep only string as far as first null byte, discard rest of fixed-width data
 						// https://github.com/JamesHeinrich/getID3/issues/263
-						$null_terminator_offset = strpos($thisfile_riff_WAVE_bext_0[$bext_key], "\x00");
-						$thisfile_riff_WAVE_bext_0[$bext_key] = substr($thisfile_riff_WAVE_bext_0[$bext_key], 0, $null_terminator_offset);
+						// https://github.com/JamesHeinrich/getID3/issues/430
+						$null_terminator_rows = explode("\x00", $thisfile_riff_WAVE_bext_0[$bext_key]);
+						$thisfile_riff_WAVE_bext_0[$bext_key] = $null_terminator_rows[0];
 					}
 
 					$thisfile_riff_WAVE_bext_0['origin_date']    =                              substr($thisfile_riff_WAVE_bext_0['data'], 320,  10);
@@ -472,7 +479,7 @@ class getid3_riff extends getid3_handler
 								@list($key, $value) = explode(':', $line, 2);
 								if (substr($value, 0, 3) == '[{"') {
 									if ($decoded = @json_decode($value, true)) {
-										if (!empty($decoded) && (count($decoded) == 1)) {
+										if (count($decoded) === 1) {
 											$value = $decoded[0];
 										} else {
 											$value = $decoded;
@@ -1132,7 +1139,9 @@ class getid3_riff extends getid3_handler
 				$CommentsChunkNames = array('NAME'=>'title', 'author'=>'artist', '(c) '=>'copyright', 'ANNO'=>'comment');
 				foreach ($CommentsChunkNames as $key => $value) {
 					if (isset($thisfile_riff[$RIFFsubtype][$key][0]['data'])) {
-						$thisfile_riff['comments'][$value][] = $thisfile_riff[$RIFFsubtype][$key][0]['data'];
+						// https://github.com/JamesHeinrich/getID3/issues/430
+						$null_terminator_rows = explode("\x00", $thisfile_riff[$RIFFsubtype][$key][0]['data']);
+						$thisfile_riff['comments'][$value][] = $null_terminator_rows[0];
 					}
 				}
 /*
@@ -1224,7 +1233,9 @@ class getid3_riff extends getid3_handler
 				$CommentsChunkNames = array('NAME'=>'title', 'author'=>'artist', '(c) '=>'copyright', 'ANNO'=>'comment');
 				foreach ($CommentsChunkNames as $key => $value) {
 					if (isset($thisfile_riff[$RIFFsubtype][$key][0]['data'])) {
-						$thisfile_riff['comments'][$value][] = $thisfile_riff[$RIFFsubtype][$key][0]['data'];
+						// https://github.com/JamesHeinrich/getID3/issues/430
+						$null_terminator_rows = explode("\x00", $thisfile_riff[$RIFFsubtype][$key][0]['data']);
+						$thisfile_riff['comments'][$value][] = $null_terminator_rows[0];
 					}
 				}
 
@@ -1364,19 +1375,19 @@ class getid3_riff extends getid3_handler
 		}
 
 		if ($info['playtime_seconds'] > 0) {
-			if (isset($thisfile_riff_audio) && isset($thisfile_riff_video)) {
+			if ($thisfile_riff_audio !== null && $thisfile_riff_video !== null) {
 
 				if (!isset($info['bitrate'])) {
 					$info['bitrate'] = ((($info['avdataend'] - $info['avdataoffset']) / $info['playtime_seconds']) * 8);
 				}
 
-			} elseif (isset($thisfile_riff_audio) && !isset($thisfile_riff_video)) {
+			} elseif ($thisfile_riff_audio !== null && $thisfile_riff_video === null) { // @phpstan-ignore-line
 
 				if (!isset($thisfile_audio['bitrate'])) {
 					$thisfile_audio['bitrate'] = ((($info['avdataend'] - $info['avdataoffset']) / $info['playtime_seconds']) * 8);
 				}
 
-			} elseif (!isset($thisfile_riff_audio) && isset($thisfile_riff_video)) {
+			} elseif ($thisfile_riff_audio === null && $thisfile_riff_video !== null) {
 
 				if (!isset($thisfile_video['bitrate'])) {
 					$thisfile_video['bitrate'] = ((($info['avdataend'] - $info['avdataoffset']) / $info['playtime_seconds']) * 8);
@@ -1601,9 +1612,18 @@ class getid3_riff extends getid3_handler
 					$this->error('Expecting chunk name at offset '.($this->ftell() - 8).' but found nothing. Aborting RIFF parsing.');
 					break;
 				}
-				if (($chunksize == 0) && ($chunkname != 'JUNK')) {
-					$this->warning('Chunk ('.$chunkname.') size at offset '.($this->ftell() - 4).' is zero. Aborting RIFF parsing.');
-					break;
+				if ($chunksize == 0) {
+					if ($chunkname == 'JUNK') {
+						// this is allowed
+					} elseif ($chunkname == 'data') {
+						// https://github.com/JamesHeinrich/getID3/issues/468
+						// may occur in streaming files where the data size is unknown
+						$chunksize = $info['avdataend'] - $this->ftell();
+						$this->warning('RIFF.data size field is empty, assuming the correct value is filesize-offset ('.$chunksize.')');
+					} else {
+						$this->warning('Chunk ('.$chunkname.') size at offset '.($this->ftell() - 4).' is zero. Aborting RIFF parsing.');
+						break;
+					}
 				}
 				if (($chunksize % 2) != 0) {
 					// all structures are packed on word boundaries
@@ -1693,7 +1713,7 @@ class getid3_riff extends getid3_handler
 							break;
 						}
 						$thisindex = 0;
-						if (isset($RIFFchunk[$chunkname]) && is_array($RIFFchunk[$chunkname])) {
+						if (isset($RIFFchunk[$chunkname])) {
 							$thisindex = count($RIFFchunk[$chunkname]);
 						}
 						$RIFFchunk[$chunkname][$thisindex]['offset'] = $this->ftell() - 8;

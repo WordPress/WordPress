@@ -336,7 +336,7 @@ class getid3_asf extends getid3_handler
 					// shortcut
 					$thisfile_asf['codec_list_object'] = array();
 					/** @var mixed[] $thisfile_asf_codeclistobject */
-					$thisfile_asf_codeclistobject      = &$thisfile_asf['codec_list_object'];
+					$thisfile_asf_codeclistobject      = &$thisfile_asf['codec_list_object']; // @phpstan-ignore-line
 
 					$thisfile_asf_codeclistobject['offset']                    = $NextObjectOffset + $offset;
 					$thisfile_asf_codeclistobject['objectid']                  = $NextObjectGUID;
@@ -499,13 +499,17 @@ class getid3_asf extends getid3_handler
 					$offset += 2;
 					$thisfile_asf_scriptcommandobject['command_types_count']  = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
-					for ($CommandTypesCounter = 0; $CommandTypesCounter < $thisfile_asf_scriptcommandobject['command_types_count']; $CommandTypesCounter++) {
-						$CommandTypeNameLength = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2)) * 2; // 2 bytes per character
-						$offset += 2;
-						$thisfile_asf_scriptcommandobject['command_types'][$CommandTypesCounter]['name'] = substr($ASFHeaderData, $offset, $CommandTypeNameLength);
-						$offset += $CommandTypeNameLength;
+					if ($thisfile_asf_scriptcommandobject['command_types_count'] > 0) {
+						$thisfile_asf_scriptcommandobject['command_types'] = array();
+						for ($CommandTypesCounter = 0; $CommandTypesCounter < (int) $thisfile_asf_scriptcommandobject['command_types_count']; $CommandTypesCounter++) {
+							$CommandTypeNameLength = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2)) * 2; // 2 bytes per character
+							$offset += 2;
+							$thisfile_asf_scriptcommandobject['command_types'][$CommandTypesCounter] = array();
+							$thisfile_asf_scriptcommandobject['command_types'][$CommandTypesCounter]['name'] = substr($ASFHeaderData, $offset, $CommandTypeNameLength);
+							$offset += $CommandTypeNameLength;
+						}
 					}
-					for ($CommandsCounter = 0; $CommandsCounter < $thisfile_asf_scriptcommandobject['commands_count']; $CommandsCounter++) {
+					for ($CommandsCounter = 0; $CommandsCounter < (int) $thisfile_asf_scriptcommandobject['commands_count']; $CommandsCounter++) {
 						$thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['presentation_time']  = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 4));
 						$offset += 4;
 						$thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['type_index']         = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
@@ -554,6 +558,8 @@ class getid3_asf extends getid3_handler
 						break;
 					}
 					$thisfile_asf_markerobject['markers_count'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 4));
+					/** @var int|float|false $totalMakersCount */
+					$totalMakersCount = $thisfile_asf_markerobject['markers_count'];
 					$offset += 4;
 					$thisfile_asf_markerobject['reserved_2'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
@@ -565,7 +571,8 @@ class getid3_asf extends getid3_handler
 					$offset += 2;
 					$thisfile_asf_markerobject['name'] = substr($ASFHeaderData, $offset, $thisfile_asf_markerobject['name_length']);
 					$offset += $thisfile_asf_markerobject['name_length'];
-					for ($MarkersCounter = 0; $MarkersCounter < $thisfile_asf_markerobject['markers_count']; $MarkersCounter++) {
+					for ($MarkersCounter = 0; $MarkersCounter < $totalMakersCount; $MarkersCounter++) {
+						$thisfile_asf_markerobject['markers'][$MarkersCounter] = array();
 						$thisfile_asf_markerobject['markers'][$MarkersCounter]['offset']  = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 8));
 						$offset += 8;
 						$thisfile_asf_markerobject['markers'][$MarkersCounter]['presentation_time']         = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 8));
@@ -615,7 +622,7 @@ class getid3_asf extends getid3_handler
 					}
 					$thisfile_asf_bitratemutualexclusionobject['stream_numbers_count'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
-					for ($StreamNumberCounter = 0; $StreamNumberCounter < $thisfile_asf_bitratemutualexclusionobject['stream_numbers_count']; $StreamNumberCounter++) {
+					for ($StreamNumberCounter = 0; $StreamNumberCounter < (int) $thisfile_asf_bitratemutualexclusionobject['stream_numbers_count']; $StreamNumberCounter++) {
 						$thisfile_asf_bitratemutualexclusionobject['stream_numbers'][$StreamNumberCounter] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 						$offset += 2;
 					}
@@ -759,7 +766,7 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_extendedcontentdescriptionobject['objectsize']                = $NextObjectSize;
 					$thisfile_asf_extendedcontentdescriptionobject['content_descriptors_count'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
-					for ($ExtendedContentDescriptorsCounter = 0; $ExtendedContentDescriptorsCounter < $thisfile_asf_extendedcontentdescriptionobject['content_descriptors_count']; $ExtendedContentDescriptorsCounter++) {
+					for ($ExtendedContentDescriptorsCounter = 0; $ExtendedContentDescriptorsCounter < (int) $thisfile_asf_extendedcontentdescriptionobject['content_descriptors_count']; $ExtendedContentDescriptorsCounter++) {
 						// shortcut
 						$thisfile_asf_extendedcontentdescriptionobject['content_descriptors'][$ExtendedContentDescriptorsCounter] = array();
 						$thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current                 = &$thisfile_asf_extendedcontentdescriptionobject['content_descriptors'][$ExtendedContentDescriptorsCounter];
@@ -957,7 +964,8 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_streambitratepropertiesobject['objectsize']                = $NextObjectSize;
 					$thisfile_asf_streambitratepropertiesobject['bitrate_records_count']     = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
-					for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < $thisfile_asf_streambitratepropertiesobject['bitrate_records_count']; $BitrateRecordsCounter++) {
+					for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < (int) $thisfile_asf_streambitratepropertiesobject['bitrate_records_count']; $BitrateRecordsCounter++) {
+						$thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter] = array();
 						$thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags_raw'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 						$offset += 2;
 						$thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags']['stream_number'] = $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags_raw'] & 0x007F;
@@ -1006,7 +1014,7 @@ class getid3_asf extends getid3_handler
 		if (isset($thisfile_asf_streambitratepropertiesobject['bitrate_records_count'])) {
 			$ASFbitrateAudio = 0;
 			$ASFbitrateVideo = 0;
-			for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < $thisfile_asf_streambitratepropertiesobject['bitrate_records_count']; $BitrateRecordsCounter++) {
+			for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < (int) $thisfile_asf_streambitratepropertiesobject['bitrate_records_count']; $BitrateRecordsCounter++) {
 				if (isset($thisfile_asf_codeclistobject['codec_entries'][$BitrateRecordsCounter])) {
 					switch ($thisfile_asf_codeclistobject['codec_entries'][$BitrateRecordsCounter]['type_raw']) {
 						case 1:
@@ -1030,7 +1038,7 @@ class getid3_asf extends getid3_handler
 				$thisfile_video['bitrate'] = $ASFbitrateVideo;
 			}
 		}
-		if (isset($thisfile_asf['stream_properties_object']) && is_array($thisfile_asf['stream_properties_object'])) {
+		if (isset($thisfile_asf['stream_properties_object'])) {
 
 			$thisfile_audio['bitrate'] = 0;
 			$thisfile_video['bitrate'] = 0;
@@ -1067,7 +1075,7 @@ class getid3_asf extends getid3_handler
 						}
 
 						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) { // @phpstan-ignore-line
-							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) {
+							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) { // @phpstan-ignore-line
 								if (isset($dataarray['flags']['stream_number']) && ($dataarray['flags']['stream_number'] == $streamnumber)) {
 									$thisfile_asf_audiomedia_currentstream['bitrate'] = $dataarray['bitrate'];
 									$thisfile_audio['bitrate'] += $dataarray['bitrate'];
@@ -1153,7 +1161,7 @@ class getid3_asf extends getid3_handler
 						$thisfile_asf_videomedia_currentstream['format_data']['codec_data']       = substr($streamdata['type_specific_data'], $videomediaoffset);
 
 						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) { // @phpstan-ignore-line
-							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) {
+							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) { // @phpstan-ignore-line
 								if (isset($dataarray['flags']['stream_number']) && ($dataarray['flags']['stream_number'] == $streamnumber)) {
 									$thisfile_asf_videomedia_currentstream['bitrate'] = $dataarray['bitrate'];
 									$thisfile_video['streams'][$streamnumber]['bitrate'] = $dataarray['bitrate'];
@@ -1266,10 +1274,13 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_simpleindexobject['maximum_packet_count']      = getid3_lib::LittleEndian2Int(substr($SimpleIndexObjectData, $offset, 4));
 					$offset += 4;
 					$thisfile_asf_simpleindexobject['index_entries_count']       = getid3_lib::LittleEndian2Int(substr($SimpleIndexObjectData, $offset, 4));
+					/** @var int|float|false $totalIndexEntriesCount */
+					$totalIndexEntriesCount = $thisfile_asf_simpleindexobject['index_entries_count'];
 					$offset += 4;
 
-					$IndexEntriesData = $SimpleIndexObjectData.$this->fread(6 * $thisfile_asf_simpleindexobject['index_entries_count']);
-					for ($IndexEntriesCounter = 0; $IndexEntriesCounter < $thisfile_asf_simpleindexobject['index_entries_count']; $IndexEntriesCounter++) {
+					$IndexEntriesData = $SimpleIndexObjectData.$this->fread(6 * $totalIndexEntriesCount);
+					for ($IndexEntriesCounter = 0; $IndexEntriesCounter < $totalIndexEntriesCount; $IndexEntriesCounter++) {
+						$thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]                  = array();
 						$thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_number'] = getid3_lib::LittleEndian2Int(substr($IndexEntriesData, $offset, 4));
 						$offset += 4;
 						$thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_count']  = getid3_lib::LittleEndian2Int(substr($IndexEntriesData, $offset, 4));
@@ -1320,9 +1331,10 @@ class getid3_asf extends getid3_handler
 					$offset += 4;
 
 					$ASFIndexObjectData .= $this->fread(4 * $thisfile_asf_asfindexobject['index_specifiers_count']);
-					for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
+					for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < (int) $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
 						$IndexSpecifierStreamNumber = getid3_lib::LittleEndian2Int(substr($ASFIndexObjectData, $offset, 2));
 						$offset += 2;
+						$thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]                    = array();
 						$thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]['stream_number']   = $IndexSpecifierStreamNumber;
 						$thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]['index_type']      = getid3_lib::LittleEndian2Int(substr($ASFIndexObjectData, $offset, 2));
 						$offset += 2;
@@ -1331,17 +1343,19 @@ class getid3_asf extends getid3_handler
 
 					$ASFIndexObjectData .= $this->fread(4);
 					$thisfile_asf_asfindexobject['index_entry_count'] = getid3_lib::LittleEndian2Int(substr($ASFIndexObjectData, $offset, 4));
+					/** @var int|float|false $totalIndexEntryCount */
+					$totalIndexEntryCount = $thisfile_asf_asfindexobject['index_entry_count'];
 					$offset += 4;
 
 					$ASFIndexObjectData .= $this->fread(8 * $thisfile_asf_asfindexobject['index_specifiers_count']);
-					for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
+					for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < (int) $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
 						$thisfile_asf_asfindexobject['block_positions'][$IndexSpecifiersCounter] = getid3_lib::LittleEndian2Int(substr($ASFIndexObjectData, $offset, 8));
 						$offset += 8;
 					}
 
 					$ASFIndexObjectData .= $this->fread(4 * $thisfile_asf_asfindexobject['index_specifiers_count'] * $thisfile_asf_asfindexobject['index_entry_count']);
-					for ($IndexEntryCounter = 0; $IndexEntryCounter < $thisfile_asf_asfindexobject['index_entry_count']; $IndexEntryCounter++) {
-						for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
+					for ($IndexEntryCounter = 0; $IndexEntryCounter < $totalIndexEntryCount; $IndexEntryCounter++) {
+						for ($IndexSpecifiersCounter = 0; $IndexSpecifiersCounter < (int) $thisfile_asf_asfindexobject['index_specifiers_count']; $IndexSpecifiersCounter++) {
 							$thisfile_asf_asfindexobject['offsets'][$IndexSpecifiersCounter][$IndexEntryCounter] = getid3_lib::LittleEndian2Int(substr($ASFIndexObjectData, $offset, 4));
 							$offset += 4;
 						}
