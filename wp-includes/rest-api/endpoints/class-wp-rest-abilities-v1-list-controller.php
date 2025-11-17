@@ -195,6 +195,27 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Normalizes schema empty object defaults.
+	 *
+	 * Converts empty array defaults to objects when the schema type is 'object'
+	 * to ensure proper JSON serialization as {} instead of [].
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param array<string, mixed> $schema The schema array.
+	 * @return array<string, mixed> The normalized schema.
+	 */
+	private function normalize_schema_empty_object_defaults( array $schema ): array {
+		if ( isset( $schema['type'] ) && 'object' === $schema['type'] && isset( $schema['default'] ) ) {
+			$default = $schema['default'];
+			if ( is_array( $default ) && empty( $default ) ) {
+				$schema['default'] = (object) $default;
+			}
+		}
+		return $schema;
+	}
+
+	/**
 	 * Prepares an ability for response.
 	 *
 	 * @since 6.9.0
@@ -209,8 +230,8 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 			'label'         => $ability->get_label(),
 			'description'   => $ability->get_description(),
 			'category'      => $ability->get_category(),
-			'input_schema'  => $ability->get_input_schema(),
-			'output_schema' => $ability->get_output_schema(),
+			'input_schema'  => $this->normalize_schema_empty_object_defaults( $ability->get_input_schema() ),
+			'output_schema' => $this->normalize_schema_empty_object_defaults( $ability->get_output_schema() ),
 			'meta'          => $ability->get_meta(),
 		);
 
