@@ -1176,6 +1176,7 @@ div.dataviews-view-list{
   display:flex;
   flex:0 0 auto;
   gap:4px;
+  white-space:nowrap;
   width:max-content;
 }
 
