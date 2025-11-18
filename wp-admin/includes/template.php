@@ -2272,7 +2272,7 @@ function _post_states( $post, $display = true ) {
 	 *
 	 * @param string                 $post_states_html All relevant post states combined into an HTML string for display.
 	 *                                                 E.g. `&mdash; <span class='post-state'>Draft, </span><span class='post-state'>Sticky</span>`.
-	 * @param string<string, string> $post_states      A mapping of post state slugs to translated post state labels.
+	 * @param array<string, string>  $post_states      A mapping of post state slugs to translated post state labels.
 	 *                                                 E.g. `array( 'draft' => __( 'Draft' ), 'sticky' => __( 'Sticky' ), ... )`.
 	 * @param WP_Post                $post             The current post object.
 	 */
@@ -2355,7 +2355,7 @@ function get_post_states( $post ) {
 	 *              are used within the filter, their existence should be checked
 	 *              with `function_exists()` before being used.
 	 *
-	 * @param string<string, string> $post_states A mapping of post state slugs to translated post state labels.
+	 * @param array<string, string>  $post_states A mapping of post state slugs to translated post state labels.
 	 *                                            E.g. `array( 'draft' => __( 'Draft' ), 'sticky' => __( 'Sticky' ), ... )`.
 	 * @param WP_Post                $post        The current post object.
 	 */
