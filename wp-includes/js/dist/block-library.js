@@ -30784,10 +30784,11 @@ function useEntityBinding({ clientId, attributes }) {
       }
       const { getEntityRecord, hasFinishedResolution } = select(external_wp_coreData_namespaceObject.store);
       const entityType = isTaxonomy ? "taxonomy" : "postType";
-      const entityRecord = getEntityRecord(entityType, type, id);
+      const typeForAPI = type === "tag" ? "post_tag" : type;
+      const entityRecord = getEntityRecord(entityType, typeForAPI, id);
       const hasResolved = hasFinishedResolution("getEntityRecord", [
         entityType,
-        type,
+        typeForAPI,
         id
       ]);
       return hasResolved ? entityRecord !== void 0 : true;
@@ -34041,7 +34042,7 @@ function controls_Controls({ attributes, setAttributes, clientId }) {
                   });
                 },
                 help: hasUrlBinding && !isBoundEntityAvailable ? /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-                  MissingEntityHelpText,
+                  MissingEntityHelp,
                   {
                     id: helpTextId,
                     type: attributes.type,
@@ -34151,24 +34152,16 @@ function BindingHelpText({ type, kind }) {
     entityType
   );
 }
-function MissingEntityHelpText({ id, type, kind }) {
+function MissingEntityHelpText({ type, kind }) {
   const entityType = getEntityTypeName(type, kind);
-  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-    "span",
-    {
-      id,
-      className: "navigation-link-control__error-text",
-      role: "alert",
-      "aria-live": "polite",
-      children: (0,external_wp_i18n_namespaceObject.sprintf)(
-        /* translators: %s is the entity type (e.g., "page", "post", "category") */
-        (0,external_wp_i18n_namespaceObject.__)(
-          "Synced %s is missing. Please update or remove this link."
-        ),
-        entityType
-      )
-    }
+  return (0,external_wp_i18n_namespaceObject.sprintf)(
+    /* translators: %s is the entity type (e.g., "page", "post", "category") */
+    (0,external_wp_i18n_namespaceObject.__)("Synced %s is missing. Please update or remove this link."),
+    entityType
   );
+}
+function MissingEntityHelp({ id, type, kind }) {
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("span", { id, className: "navigation-link-control__error-text", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(MissingEntityHelpText, { type, kind }) });
 }
 
 
@@ -34423,6 +34416,9 @@ function NavigationLinkEdit({
       setIsLinkOpen(true);
     }
   }
+  const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(NavigationLinkEdit);
+  const hasMissingEntity = hasUrlBinding && !isBoundEntityAvailable;
+  const missingEntityDescriptionId = hasMissingEntity ? (0,external_wp_i18n_namespaceObject.sprintf)("navigation-link-edit-%d-desc", instanceId) : void 0;
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([setPopoverAnchor, listItemRef]),
     className: dist_clsx("wp-block-navigation-item", {
@@ -34435,6 +34431,8 @@ function NavigationLinkEdit({
       "has-background": !!backgroundColor || customBackgroundColor,
       [(0,external_wp_blockEditor_namespaceObject.getColorClassName)("background-color", backgroundColor)]: !!backgroundColor
     }),
+    "aria-describedby": missingEntityDescriptionId,
+    "aria-invalid": hasMissingEntity,
     style: {
       color: !textColor && customTextColor,
       backgroundColor: !backgroundColor && customBackgroundColor
@@ -34496,6 +34494,7 @@ function NavigationLinkEdit({
       }
     ) }),
     /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", { ...blockProps, children: [
+      hasMissingEntity && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, { id: missingEntityDescriptionId, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(MissingEntityHelpText, { type, kind }) }),
       /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)("a", { className: classes, children: [
         !url && !metadata?.bindings?.url ? /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { className: "wp-block-navigation-link__placeholder-text", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("span", { children: missingText }) }) : /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [
           !isInvalid && !isDraft && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [
@@ -49536,7 +49535,7 @@ function SocialLinksEdit(props) {
                 {
                   __next40pxDefaultSize: true,
                   __nextHasNoMarginBottom: true,
-                  label: (0,external_wp_i18n_namespaceObject.__)("Icon Size"),
+                  label: (0,external_wp_i18n_namespaceObject.__)("Icon size"),
                   onChange: (newSize) => {
                     setAttributes({
                       size: newSize === "" ? void 0 : newSize

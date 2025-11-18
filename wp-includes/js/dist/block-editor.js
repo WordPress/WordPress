@@ -22594,6 +22594,7 @@ function SingleInputControl({
   const onChangeUnit = (next) => {
     const newUnits = { ...selectedUnits };
     if (corner === "all") {
+      newUnits.flat = next;
       newUnits.topLeft = next;
       newUnits.topRight = next;
       newUnits.bottomLeft = next;
@@ -26705,10 +26706,17 @@ function findOptimalFontSize(textElement, applyFontSize) {
   let minSize = 5;
   let maxSize = 2400;
   let bestSize = minSize;
+  const computedStyle = window.getComputedStyle(textElement);
+  const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
+  const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
+  const range = document.createRange();
+  range.selectNodeContents(textElement);
   while (minSize <= maxSize) {
     const midSize = Math.floor((minSize + maxSize) / 2);
     applyFontSize(midSize);
-    const fitsWidth = textElement.scrollWidth <= textElement.clientWidth;
+    const rect = range.getBoundingClientRect();
+    const textWidth = rect.width;
+    const fitsWidth = textElement.scrollWidth <= textElement.clientWidth && textWidth <= textElement.clientWidth - paddingLeft - paddingRight;
     const fitsHeight = alreadyHasScrollableHeight || textElement.scrollHeight <= textElement.clientHeight;
     if (fitsWidth && fitsHeight) {
       bestSize = midSize;
@@ -26717,6 +26725,7 @@ function findOptimalFontSize(textElement, applyFontSize) {
       maxSize = midSize - 1;
     }
   }
+  range.detach();
   return bestSize;
 }
 function optimizeFitText(textElement, applyFontSize) {
@@ -46404,13 +46413,17 @@ function BlockBindingsPanelMenuContent({ attribute, binding, sources }) {
                 key: item.key
               }
             };
-            const values = source.getValues({
-              select,
-              context: blockContext,
-              bindings: {
-                [attribute]: itemBindings
-              }
-            });
+            let values = {};
+            try {
+              values = source.getValues({
+                select,
+                context: blockContext,
+                bindings: {
+                  [attribute]: itemBindings
+                }
+              });
+            } catch (e) {
+            }
             return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
               Menu.CheckboxItem,
               {
@@ -56896,7 +56909,13 @@ function VariationsToggleGroupControl({
 }
 function __experimentalBlockVariationTransforms({ blockClientId }) {
   const { updateBlockAttributes } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  const { activeBlockVariation, variations, isContentOnly, isSection } = (0,external_wp_data_namespaceObject.useSelect)(
+  const {
+    activeBlockVariation,
+    unfilteredVariations,
+    blockName,
+    isContentOnly,
+    isSection
+  } = (0,external_wp_data_namespaceObject.useSelect)(
     (select) => {
       const { getActiveBlockVariation, getBlockVariations } = select(external_wp_blocks_namespaceObject.store);
       const {
@@ -56906,9 +56925,7 @@ function __experimentalBlockVariationTransforms({ blockClientId }) {
         isSectionBlock
       } = unlock(select(store));
       const name = blockClientId && getBlockName(blockClientId);
-      const { hasContentRoleAttribute } = unlock(
-        select(external_wp_blocks_namespaceObject.store)
-      );
+      const { hasContentRoleAttribute } = unlock(select(external_wp_blocks_namespaceObject.store));
       const isContentBlock = hasContentRoleAttribute(name);
       return {
         activeBlockVariation: getActiveBlockVariation(
@@ -56916,13 +56933,36 @@ function __experimentalBlockVariationTransforms({ blockClientId }) {
           getBlockAttributes(blockClientId),
           "transform"
         ),
-        variations: name && getBlockVariations(name, "transform"),
+        unfilteredVariations: name && getBlockVariations(name, "transform"),
+        blockName: name,
         isContentOnly: getBlockEditingMode(blockClientId) === "contentOnly" && !isContentBlock,
         isSection: isSectionBlock(blockClientId)
       };
     },
     [blockClientId]
   );
+  const variations = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (blockName === "core/paragraph") {
+      if (activeBlockVariation?.name === "stretchy-paragraph" || unfilteredVariations.every(
+        (v) => ["paragraph", "stretchy-paragraph"].includes(v.name)
+      )) {
+        return [];
+      }
+      return unfilteredVariations.filter(
+        (v) => v.name !== "stretchy-paragraph"
+      );
+    } else if (blockName === "core/heading") {
+      if (activeBlockVariation?.name === "stretchy-heading" || unfilteredVariations.every(
+        (v) => ["heading", "stretchy-heading"].includes(v.name)
+      )) {
+        return [];
+      }
+      return unfilteredVariations.filter(
+        (v) => v.name !== "stretchy-heading"
+      );
+    }
+    return unfilteredVariations;
+  }, [activeBlockVariation?.name, blockName, unfilteredVariations]);
   const selectedValue = activeBlockVariation?.name;
   const hasUniqueIcons = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const variationIcons = /* @__PURE__ */ new Set();

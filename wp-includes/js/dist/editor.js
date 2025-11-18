@@ -29218,7 +29218,15 @@ function Comments({
   };
   const hasThreads = Array.isArray(threads) && threads.length > 0;
   if (!hasThreads && !isFloating) {
-    return null;
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      AddComment,
+      {
+        onSubmit: onAddReply,
+        newNoteFormState,
+        setNewNoteFormState,
+        commentSidebarRef
+      }
+    );
   }
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: [
     !isFloating && newNoteFormState === "open" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
@@ -29294,18 +29302,40 @@ function Thread({
     selectedThread,
     commentLastUpdated
   });
+  const isKeyboardTabbingRef = (0,external_wp_element_namespaceObject.useRef)(false);
   const onMouseEnter = () => {
     debouncedToggleBlockHighlight(thread.blockClientId, true);
   };
   const onMouseLeave = () => {
     debouncedToggleBlockHighlight(thread.blockClientId, false);
   };
+  const onFocus = () => {
+    toggleBlockHighlight(thread.blockClientId, true);
+  };
+  const onBlur = (event) => {
+    const isNoteFocused = event.relatedTarget?.closest(
+      ".editor-collab-sidebar-panel__thread"
+    );
+    const isDialogFocused = event.relatedTarget?.closest('[role="dialog"]');
+    const isTabbing = isKeyboardTabbingRef.current;
+    if (isNoteFocused && !isTabbing) {
+      return;
+    }
+    if (isDialogFocused) {
+      return;
+    }
+    if (isTabbing && event.currentTarget.contains(event.relatedTarget)) {
+      return;
+    }
+    toggleBlockHighlight(thread.blockClientId, false);
+    unselectThread();
+  };
   const handleCommentSelect = () => {
     setNewNoteFormState("closed");
     setSelectedThread(thread.id);
+    toggleBlockSpotlight(thread.blockClientId, true);
     if (!!thread.blockClientId) {
       selectBlock(thread.blockClientId, null);
-      toggleBlockSpotlight(thread.blockClientId, true);
     }
   };
   const unselectThread = () => {
@@ -29356,9 +29386,20 @@ function Thread({
       onClick: handleCommentSelect,
       onMouseEnter,
       onMouseLeave,
-      onFocus: onMouseEnter,
-      onBlur: onMouseLeave,
-      onKeyDown,
+      onFocus,
+      onBlur,
+      onKeyUp: (event) => {
+        if (event.key === "Tab") {
+          isKeyboardTabbingRef.current = false;
+        }
+      },
+      onKeyDown: (event) => {
+        if (event.key === "Tab") {
+          isKeyboardTabbingRef.current = true;
+        } else {
+          onKeyDown(event);
+        }
+      },
       tabIndex: 0,
       role: "treeitem",
       "aria-label": ariaLabel,
@@ -29379,7 +29420,7 @@ function Thread({
                 "textarea"
               );
             },
-            children: (0,external_wp_i18n_namespaceObject.__)("Add new note")
+            children: (0,external_wp_i18n_namespaceObject.__)("Add new reply")
           }
         ),
         !thread.blockClientId && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, { as: "p", weight: 500, variant: "muted", children: (0,external_wp_i18n_namespaceObject.__)("Original block deleted.") }),
@@ -29560,6 +29601,12 @@ const CommentBoard = ({
   ];
   const canResolve = thread.parent === 0;
   const moreActions = parent?.status !== "approved" ? actions.filter((item) => item.isEligible(thread)) : [];
+  const deleteConfirmMessage = (
+    // When deleting a top level note, descendants will also be deleted.
+    thread.parent === 0 ? (0,external_wp_i18n_namespaceObject.__)(
+      "Are you sure you want to delete this note? This will also delete all of this note's replies."
+    ) : (0,external_wp_i18n_namespaceObject.__)("Are you sure you want to delete this reply?")
+  );
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
     external_wp_components_namespaceObject.__experimentalVStack,
     {
@@ -29620,14 +29667,20 @@ const CommentBoard = ({
                       )
                     }
                   ),
-                  /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(comments_Menu.Popover, { children: moreActions.map((action) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-                    comments_Menu.Item,
+                  /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+                    comments_Menu.Popover,
                     {
-                      onClick: () => action.onClick(),
-                      children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(comments_Menu.ItemLabel, { children: action.title })
-                    },
-                    action.id
-                  )) })
+                      modal: false,
+                      children: moreActions.map((action) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+                        comments_Menu.Item,
+                        {
+                          onClick: () => action.onClick(),
+                          children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(comments_Menu.ItemLabel, { children: action.title })
+                        },
+                        action.id
+                      ))
+                    }
+                  )
                 ] })
               ] })
             }
@@ -29686,9 +29739,7 @@ const CommentBoard = ({
             onConfirm: handleConfirmDelete,
             onCancel: handleCancel,
             confirmButtonText: (0,external_wp_i18n_namespaceObject.__)("Delete"),
-            children: (0,external_wp_i18n_namespaceObject.__)(
-              "Are you sure you want to delete this note? This will also delete all of this note's replies."
-            )
+            children: deleteConfirmMessage
           }
         )
       ]
