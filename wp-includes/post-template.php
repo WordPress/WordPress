@@ -606,7 +606,10 @@ function get_post_class( $css_class = '', $post = null ) {
 	 */
 	$classes = apply_filters( 'post_class', $classes, $css_class, $post->ID );
 
-	return array_unique( $classes );
+	$classes = array_unique( $classes );
+	$classes = array_values( $classes );
+
+	return $classes;
 }
 
 /**
