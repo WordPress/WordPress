@@ -367,7 +367,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( ! $this->detached ) {
 			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
 
-			if ( post_type_supports( 'attachment', 'comments' ) ) {
+			if ( post_type_supports( 'attachment', 'comments' ) && get_option( 'wp_attachment_pages_enabled' ) ) {
 				$posts_columns['comments'] = sprintf(
 					'<span class="vers comment-grey-bubble" title="%1$s" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span>',
 					esc_attr__( 'Comments' ),
