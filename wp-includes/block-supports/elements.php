@@ -27,7 +27,7 @@ function wp_get_elements_class_name( $block ) {
  *
  * @param  array $block   Block object.
  * @param  array $options Per element type options e.g. whether to skip serialization.
- * @return boolean Whether the block needs an elements class name.
+ * @return bool Whether the block needs an elements class name.
  */
 function wp_should_add_elements_class_name( $block, $options ) {
 	if ( ! isset( $block['attrs']['style']['elements'] ) ) {

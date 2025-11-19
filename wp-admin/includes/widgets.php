@@ -69,7 +69,7 @@ function wp_list_widgets() {
  *
  * @param array $a First array.
  * @param array $b Second array.
- * @return int
+ * @return int Comparison result.
  */
 function _sort_name_callback( $a, $b ) {
 	return strnatcasecmp( $a['name'], $b['name'] );
@@ -129,7 +129,7 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
  * @global array $wp_registered_widgets
  *
  * @param array $params
- * @return array
+ * @return array Widget control arguments.
  */
 function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	global $wp_registered_widgets;
@@ -157,7 +157,7 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
  * @global array $wp_registered_widgets
  *
  * @param string $id_base
- * @return int
+ * @return int Next available widget ID number.
  */
 function next_widget_id_number( $id_base ) {
 	global $wp_registered_widgets;
@@ -185,7 +185,7 @@ function next_widget_id_number( $id_base ) {
  * @global array $sidebars_widgets
  *
  * @param array $sidebar_args
- * @return array
+ * @return array Passed through value of `$sidebar_args` param.
  */
 function wp_widget_control( $sidebar_args ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $sidebars_widgets;
@@ -322,7 +322,7 @@ function wp_widget_control( $sidebar_args ) {
 
 /**
  * @param string $classes
- * @return string
+ * @return string Modified body classes.
  */
 function wp_widgets_access_body_class( $classes ) {
 	return "$classes widgets_access ";

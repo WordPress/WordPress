@@ -803,7 +803,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
  * @access private
  *
  * @param array $matches preg_replace_callback matches array
- * @return string
+ * @return string Text with newlines replaced with placeholders.
  */
 function _autop_newline_preservation_helper( $matches ) {
 	return str_replace( "\n", '<WPPreserveNewline />', $matches[0] );
@@ -4680,7 +4680,7 @@ function esc_js( $text ) {
  * @since 2.8.0
  *
  * @param string $text
- * @return string
+ * @return string Escaped text.
  */
 function esc_html( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
@@ -4705,7 +4705,7 @@ function esc_html( $text ) {
  * @since 2.8.0
  *
  * @param string $text
- * @return string
+ * @return string Escaped text.
  */
 function esc_attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
@@ -4730,7 +4730,7 @@ function esc_attr( $text ) {
  * @since 3.1.0
  *
  * @param string $text
- * @return string
+ * @return string Escaped text.
  */
 function esc_textarea( $text ) {
 	$safe_text = htmlspecialchars( $text, ENT_QUOTES, get_option( 'blog_charset' ) );
@@ -4809,7 +4809,7 @@ EOF;
  * @since 6.5.5 Allow hyphens in tag names (i.e. custom elements).
  *
  * @param string $tag_name
- * @return string
+ * @return string Sanitized tag name.
  */
 function tag_escape( $tag_name ) {
 	$safe_tag = strtolower( preg_replace( '/[^a-zA-Z0-9-_:]/', '', $tag_name ) );
@@ -5683,7 +5683,7 @@ function _sanitize_text_fields( $str, $keep_newlines = false ) {
  *
  * @param string $path   A path.
  * @param string $suffix If the filename ends in suffix this will also be cut off.
- * @return string
+ * @return string The base name of the given path.
  */
 function wp_basename( $path, $suffix = '' ) {
 	return urldecode( basename( str_replace( array( '%2F', '%5C' ), '/', urlencode( $path ) ), $suffix ) );
