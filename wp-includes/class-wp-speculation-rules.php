@@ -21,7 +21,7 @@ final class WP_Speculation_Rules implements JsonSerializable {
 	 * Every `$rules` value is a map of `$id => $rule` pairs.
 	 *
 	 * @since 6.8.0
-	 * @var array<string, array<string, mixed>>
+	 * @var array<string, array<string, array<string, mixed>>>
 	 */
 	private $rules_by_mode = array();
 
@@ -230,7 +230,7 @@ final class WP_Speculation_Rules implements JsonSerializable {
 	 *
 	 * @since 6.8.0
 	 *
-	 * @return array<string, array<string, mixed>> Speculation rules data.
+	 * @return array<string, array<int, array<string, mixed>>> Speculation rules data.
 	 */
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
