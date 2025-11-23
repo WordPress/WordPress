@@ -6208,6 +6208,16 @@ body.page .main-navigation {
   outline-offset: -4px;
 }
 
+.entry .entry-content .wp-block-file.aligncenter .wp-block-file__button {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.entry .entry-content .wp-block-file.alignright .wp-block-file__button {
+  margin-right: auto;
+  margin-left: 0;
+}
+
 .entry .entry-content .wp-block-code {
   border-radius: 0;
 }
