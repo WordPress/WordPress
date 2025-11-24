@@ -350,6 +350,12 @@ $this->warning('Ogg Theora (v3) not fully supported in this version of getID3 ['
 			$this->fseek(max($info['avdataend'] - $this->getid3->fread_buffer_size(), 0));
 			$LastChunkOfOgg = strrev($this->fread($this->getid3->fread_buffer_size()));
 			if ($LastOggSpostion = strpos($LastChunkOfOgg, 'SggO')) {
+				if (substr($LastChunkOfOgg, 13, 8) === "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF") {
+					// https://github.com/JamesHeinrich/getID3/issues/450
+					// "Sometimes, Opus encoders (WhatsApp voice registrations and others) add a special last header with a granule duration of 0xFFFFFFFFFFFFFF.
+					// This value indicates "this is the end," but must be ignored; otherwise, it makes calculations wrong."
+					$LastOggSpostion = strpos($LastChunkOfOgg, 'SggO', $LastOggSpostion + 1);
+				}
 				$this->fseek($info['avdataend'] - ($LastOggSpostion + strlen('SggO')));
 				$info['avdataend'] = $this->ftell();
 				$info['ogg']['pageheader']['eos'] = $this->ParseOggPageHeader();
