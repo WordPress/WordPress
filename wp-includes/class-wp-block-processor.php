@@ -194,7 +194,7 @@
  * block, and re-serialize it into the original document. It’s possible to do so
  * while skipping over the parse of the rest of the document.
  *
- * {@see self::extract_block()} will scan forward from the current block opener
+ * {@see self::extract_full_block_and_advance()} will scan forward from the current block opener
  * and build the parsed block structure until the current block is closed. It will
  * include all inner HTML and inner blocks, and parse all of the inner blocks. It
  * can be used to extract a block at any depth in the document, helpful for operating
@@ -207,7 +207,7 @@
  *     }
  *
  *     $gallery_at    = $processor->get_span()->start;
- *     $gallery_block = $processor->extract_block();
+ *     $gallery_block = $processor->extract_full_block_and_advance();
  *     $after_gallery = $processor->get_span()->start;
  *     return (
  *         substr( $post_content, 0, $gallery_at ) .
@@ -1223,7 +1223,7 @@ class WP_Block_Processor {
 	 *     }
 	 *
 	 *     $gallery_at  = $processor->get_span()->start;
-	 *     $gallery     = $processor->extract_block();
+	 *     $gallery     = $processor->extract_full_block_and_advance();
 	 *     $ends_before = $processor->get_span();
 	 *     $ends_before = $ends_before->start ?? strlen( $post_content );
 	 *
@@ -1254,7 +1254,7 @@ class WP_Block_Processor {
 	 *     }
 	 * }
 	 */
-	public function extract_block(): ?array {
+	public function extract_full_block_and_advance(): ?array {
 		if ( $this->is_html() ) {
 			$chunk = $this->get_html_content();
 
@@ -1291,7 +1291,7 @@ class WP_Block_Processor {
 			 * @todo Use iteration instead of recursion, or at least refactor to tail-call form.
 			 */
 			if ( $this->opens_block() ) {
-				$inner_block             = $this->extract_block();
+				$inner_block             = $this->extract_full_block_and_advance();
 				$block['innerBlocks'][]  = $inner_block;
 				$block['innerContent'][] = null;
 			}
