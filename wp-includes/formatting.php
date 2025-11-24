@@ -4594,6 +4594,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  *
  * @since 2.8.0
  * @since 6.1.0 Turned into an alias for sanitize_url().
+ * @since 6.9.0 Prepends `https://` to the URL if it does not already contain a scheme
+ *              and the first item in `$protocols` is 'https'.
  *
  * @see sanitize_url()
  *
@@ -4612,6 +4614,8 @@ function esc_url_raw( $url, $protocols = null ) {
  * @since 2.3.1
  * @since 2.8.0 Deprecated in favor of esc_url_raw().
  * @since 5.9.0 Restored (un-deprecated).
+ * @since 6.9.0 Prepends `https://` to the URL if it does not already contain a scheme
+ *              and the first item in `$protocols` is 'https'.
  *
  * @see esc_url()
  *
