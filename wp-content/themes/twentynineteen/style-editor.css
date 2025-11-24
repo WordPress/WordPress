@@ -1103,6 +1103,12 @@ figcaption,
   color: #767676;
 }
 
+.wp-block-pullquote.has-text-color .wp-block-pullquote__citation,
+.wp-block-pullquote.has-primary-background-color blockquote p,
+.wp-block-pullquote.has-dark-gray-background-color blockquote p {
+  color: inherit;
+}
+
 .wp-block-pullquote.is-style-solid-color blockquote {
   width: calc(100% - (2 * 1rem));
   max-width: calc( 100% - (2 * 1rem));

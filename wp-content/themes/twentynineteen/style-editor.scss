@@ -515,6 +515,12 @@ figcaption,
 		color: $color__text-light;
 	}
 
+	&.has-text-color .wp-block-pullquote__citation,
+	&.has-primary-background-color blockquote p,
+	&.has-dark-gray-background-color blockquote p {
+		color: inherit;
+	}
+
 	&.is-style-solid-color {
 
 		blockquote {

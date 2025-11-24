@@ -436,6 +436,10 @@
 			}
 		}
 
+		&.has-text-color cite {
+			color: inherit;
+		}
+
 		&.is-style-solid-color {
 			background-color: $color__link;
 			padding-left: 0;
