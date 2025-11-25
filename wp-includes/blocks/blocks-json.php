@@ -159,7 +159,7 @@
         )
       ),
       'shadow' => true,
-      'blockVisibility' => false,
+      'visibility' => false,
       'lock' => false
     ),
     'selectors' => array(
@@ -319,7 +319,7 @@
       'layout' => array(
         'allowEditing' => false
       ),
-      'blockVisibility' => false,
+      'visibility' => false,
       'contentRole' => true,
       'allowedBlocks' => true,
       'lock' => false
@@ -2522,7 +2522,7 @@
       'lock' => false,
       'reusable' => false,
       'renaming' => false,
-      'blockVisibility' => false
+      'visibility' => false
     ),
     'editorStyle' => 'wp-block-freeform-editor'
   ),
@@ -3835,7 +3835,7 @@
       'lock' => false,
       'reusable' => false,
       'renaming' => false,
-      'blockVisibility' => false,
+      'visibility' => false,
       'interactivity' => array(
         'clientNavigation' => true
       )
@@ -4489,7 +4489,7 @@
       'html' => false,
       'inserter' => false,
       'renaming' => false,
-      'blockVisibility' => false,
+      'visibility' => false,
       'interactivity' => array(
         'clientNavigation' => true
       )

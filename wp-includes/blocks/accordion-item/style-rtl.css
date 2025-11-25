@@ -1,10 +1,3 @@
-.wp-block-accordion-item{
-  display:grid;
-  grid-template-rows:max-content 0fr;
-}
-.wp-block-accordion-item.is-open{
-  grid-template-rows:max-content 1fr;
-}
 .wp-block-accordion-item.is-open>.wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon{
   transform:rotate(-45deg);
 }

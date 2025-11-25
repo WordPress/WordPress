@@ -12527,17 +12527,14 @@ function TemplatePartNavigationEditButton({ clientId }) {
   if (!hasNavigationBlocks || !isNavigationEditable) {
     return null;
   }
-  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, { group: "other", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.ToolbarGroup, { children: [
-    /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalDivider, { orientation: "vertical", marginEnd: 3 }),
-    /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-      external_wp_components_namespaceObject.ToolbarButton,
-      {
-        label: (0,external_wp_i18n_namespaceObject.__)("Edit navigation"),
-        onClick: onEditNavigation,
-        children: (0,external_wp_i18n_namespaceObject.__)("Edit navigation")
-      }
-    )
-  ] }) });
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.__unstableBlockToolbarLastItem, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    external_wp_components_namespaceObject.ToolbarButton,
+    {
+      label: (0,external_wp_i18n_namespaceObject.__)("Edit navigation"),
+      onClick: onEditNavigation,
+      children: (0,external_wp_i18n_namespaceObject.__)("Edit navigation")
+    }
+  ) }) });
 }
 const withTemplatePartNavigationEditButton = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(
   (BlockEdit) => (props) => {

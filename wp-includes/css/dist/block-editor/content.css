@@ -177,6 +177,9 @@
 .block-editor-block-list__layout .block-editor-block-list__block[data-draggable=true],.block-editor-block-list__layout .block-editor-block-list__block[draggable=true]{
   cursor:grab;
 }
+.block-editor-block-list__layout .block-editor-block-list__block.is-multi-selected{
+  cursor:default;
+}
 .block-editor-block-list__layout .block-editor-block-list__block [contenteditable],.block-editor-block-list__layout .block-editor-block-list__block[contenteditable]{
   cursor:text;
 }

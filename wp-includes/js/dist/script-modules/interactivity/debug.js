@@ -69,6 +69,7 @@ const resetNamespace = () => {
 ;// ./node_modules/@wordpress/interactivity/build-module/scopes.js
 
 
+
 const scopeStack = [];
 const getScope = () => scopeStack.slice(-1)[0];
 const setScope = (scope) => {
@@ -108,6 +109,7 @@ const getElement = () => {
     attributes: deepReadOnly(attributes, deepReadOnlyOptions)
   });
 };
+const navigationContextSignal = signals_core_module_d(0);
 function getServerContext(namespace) {
   const scope = getScope();
   if (true) {
@@ -115,8 +117,8 @@ function getServerContext(namespace) {
       throwNotInScope("getServerContext");
     }
   }
-  getServerContext.subscribe = navigationSignal.value;
-  return scope.serverContext[namespace || getNamespace()];
+  getServerContext.subscribe = navigationContextSignal.value;
+  return deepClone(scope.serverContext[namespace || getNamespace()]);
 }
 getServerContext.subscribe = 0;
 
@@ -323,6 +325,20 @@ function deepReadOnly(obj, options) {
   return readOnlyMap.get(obj);
 }
 const navigationSignal = signals_core_module_d(0);
+function deepClone(source) {
+  if (isPlainObject(source)) {
+    return Object.fromEntries(
+      Object.entries(source).map(([key, value]) => [
+        key,
+        deepClone(value)
+      ])
+    );
+  }
+  if (Array.isArray(source)) {
+    return source.map((i) => deepClone(i));
+  }
+  return source;
+}
 
 
 ;// ./node_modules/@wordpress/interactivity/build-module/proxies/registry.js
@@ -768,10 +784,10 @@ const getConfig = (namespace) => storeConfigs.get(namespace || getNamespace()) |
 function getServerState(namespace) {
   const ns = namespace || getNamespace();
   if (!serverStates.has(ns)) {
-    serverStates.set(ns, deepReadOnly({}));
+    serverStates.set(ns, {});
   }
   getServerState.subscribe = navigationSignal.value;
-  return serverStates.get(ns);
+  return deepClone(serverStates.get(ns));
 }
 getServerState.subscribe = 0;
 const universalUnlock = "I acknowledge that using a private store means my plugin will inevitably break on the next store release.";
@@ -835,7 +851,7 @@ const populateServerData = (data2) => {
     Object.entries(data2.state).forEach(([namespace, state]) => {
       const st = store(namespace, {}, { lock: universalUnlock });
       deepMerge(st.state, state, false);
-      serverStates.set(namespace, deepReadOnly(state));
+      serverStates.set(namespace, state);
     });
   }
   if (isPlainObject(data2?.config)) {
@@ -869,7 +885,6 @@ const populateServerData = (data2) => {
       }
     );
   }
-  navigationSignal.value += 1;
 };
 const data = parseServerData();
 populateServerData(data);
@@ -1070,20 +1085,6 @@ const warnWithSyncEvent = (wrongPrefix, rightPrefix) => {
     );
   }
 };
-function deepClone(source) {
-  if (isPlainObject(source)) {
-    return Object.fromEntries(
-      Object.entries(source).map(([key, value]) => [
-        key,
-        deepClone(value)
-      ])
-    );
-  }
-  if (Array.isArray(source)) {
-    return source.map((i) => deepClone(i));
-  }
-  return source;
-}
 function wrapEventAsync(event) {
   const handler = {
     get(target, prop, receiver) {
@@ -1279,7 +1280,7 @@ var directives_default = () => {
           deepClone(value),
           false
         );
-        server[namespace] = deepReadOnly(value);
+        server[namespace] = value;
         namespaces.add(namespace);
       });
       namespaces.forEach((namespace) => {
@@ -1704,6 +1705,11 @@ var directives_default = () => {
         routerRegions.set(regionId, signals_core_module_d());
       }
       const vdom = routerRegions.get(regionId).value;
+      _(() => {
+        if (vdom && typeof vdom.type !== "string") {
+          navigationContextSignal.value = navigationContextSignal.peek() + 1;
+        }
+      }, [vdom]);
       if (vdom && typeof vdom.type !== "string") {
         const previousScope = getScope();
         return (0,preact_module/* cloneElement */.Ob)(vdom, { previousScope });

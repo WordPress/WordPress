@@ -26,7 +26,7 @@
 		"lock": false,
 		"reusable": false,
 		"renaming": false,
-		"blockVisibility": false,
+		"visibility": false,
 		"interactivity": {
 			"clientNavigation": true
 		}

@@ -31,7 +31,8 @@ var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store), ["withSyncEvent"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.withSyncEvent) });
 ;// ./node_modules/@wordpress/block-library/build-module/accordion/view.js
 
-(0,interactivity_namespaceObject.store)(
+let hashHandled = false;
+const { actions } = (0,interactivity_namespaceObject.store)(
   "core/accordion",
   {
     state: {
@@ -91,16 +92,57 @@ const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTER
         if (nextButton) {
           nextButton.focus();
         }
-      })
+      }),
+      openPanelByHash: () => {
+        if (hashHandled || !window.location?.hash?.length) {
+          return;
+        }
+        const context = (0,interactivity_namespaceObject.getContext)();
+        const { id, accordionItems, autoclose } = context;
+        const hash = decodeURIComponent(
+          window.location.hash.slice(1)
+        );
+        const targetElement = window.document.getElementById(hash);
+        if (!targetElement) {
+          return;
+        }
+        const panelElement = window.document.querySelector(
+          '.wp-block-accordion-panel[aria-labelledby="' + id + '"]'
+        );
+        if (!panelElement || !panelElement.contains(targetElement)) {
+          return;
+        }
+        hashHandled = true;
+        if (autoclose) {
+          accordionItems.forEach((item) => {
+            item.isOpen = item.id === id;
+          });
+        } else {
+          const targetItem = accordionItems.find(
+            (item) => item.id === id
+          );
+          if (targetItem) {
+            targetItem.isOpen = true;
+          }
+        }
+        window.setTimeout(() => {
+          targetElement.scrollIntoView();
+        }, 0);
+      }
     },
     callbacks: {
       initAccordionItems: () => {
         const context = (0,interactivity_namespaceObject.getContext)();
-        const { id, openByDefault } = context;
-        context.accordionItems.push({
+        const { id, openByDefault, accordionItems } = context;
+        accordionItems.push({
           id,
           isOpen: openByDefault
         });
+        actions.openPanelByHash();
+      },
+      hashChange: () => {
+        hashHandled = false;
+        actions.openPanelByHash();
       }
     }
   },

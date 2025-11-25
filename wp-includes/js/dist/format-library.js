@@ -1853,6 +1853,7 @@ var math_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.j
 
 
 
+
 const { Badge } = unlock(external_wp_components_namespaceObject.privateApis);
 const math_name = "core/math";
 const math_title = (0,external_wp_i18n_namespaceObject.__)("Math");
@@ -1880,6 +1881,7 @@ function math_InlineUI({
         setError(null);
       } catch (err) {
         setError(err.message);
+        (0,external_wp_a11y_namespaceObject.speak)(err.message);
         return;
       }
     }

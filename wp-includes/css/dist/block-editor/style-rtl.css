@@ -427,6 +427,10 @@ iframe[name=editor-canvas]{
   transform:translateX(50%) translateY(-50%);
 }
 
+.block-editor-block-tools--is-dragging>.popover-slot{
+  display:none;
+}
+
 .block-editor-block-lock-modal{
   z-index:1000001;
 }

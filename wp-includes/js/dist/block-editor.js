@@ -10632,7 +10632,7 @@ function getInsertionPoint(state) {
 }
 const isBlockHidden = (state, clientId) => {
   const blockName = getBlockName(state, clientId);
-  if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(state, blockName, "blockVisibility", true)) {
+  if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(state, blockName, "visibility", true)) {
     return false;
   }
   const attributes = state.blocks.attributes.get(clientId);
@@ -37300,11 +37300,7 @@ function useBlockDropZone({
           return;
         }
         const blocks = getBlocks(targetRootClientId).filter((block) => {
-          return !((0,external_wp_blocks_namespaceObject.hasBlockSupport)(
-            block.name,
-            "blockVisibility",
-            true
-          ) && block.attributes?.metadata?.blockVisibility === false);
+          return !((0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, "visibility", true) && block.attributes?.metadata?.blockVisibility === false);
         });
         if (blocks.length === 0) {
           registry.batch(() => {
@@ -46138,7 +46134,7 @@ function metadata_addTransforms(result, source, index, results) {
   if (sourceMetadata.name && !result.attributes?.metadata?.name && (0,external_wp_blocks_namespaceObject.hasBlockSupport)(result.name, "renaming", true)) {
     preservedMetadata.name = sourceMetadata.name;
   }
-  if (sourceMetadata.blockVisibility !== void 0 && !result.attributes?.metadata?.blockVisibility && (0,external_wp_blocks_namespaceObject.hasBlockSupport)(result.name, "blockVisibility", true)) {
+  if (sourceMetadata.blockVisibility !== void 0 && !result.attributes?.metadata?.blockVisibility && (0,external_wp_blocks_namespaceObject.hasBlockSupport)(result.name, "visibility", true)) {
     preservedMetadata.blockVisibility = sourceMetadata.blockVisibility;
   }
   if (Object.keys(preservedMetadata).length > 0) {
@@ -51329,7 +51325,7 @@ const BlockSettingsMenuControlsSlot = ({ fillProps, clientIds = null }) => {
         canToggleSelectedBlocksVisibility: getBlocksByClientId(
           ids
         ).every(
-          (block) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, "blockVisibility", true)
+          (block) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, "visibility", true)
         )
       };
     },
@@ -51862,7 +51858,7 @@ function BlockVisibilityToolbar({ clientIds }) {
         canToggleBlockVisibility: _blocks.every(
           ({ clientId }) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(
             getBlockName(clientId),
-            "blockVisibility",
+            "visibility",
             true
           )
         )
@@ -52934,6 +52930,7 @@ function useShowBlockTools() {
 
 
 
+
 function block_tools_selector(select) {
   const {
     getSelectedBlockClientId,
@@ -53077,7 +53074,7 @@ function BlockTools({
         const canToggleBlockVisibility = blocks.every(
           (block) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(
             getBlockName(block.clientId),
-            "blockVisibility",
+            "visibility",
             true
           )
         );
@@ -53108,50 +53105,60 @@ function BlockTools({
   const blockToolbarAfterRef = use_popover_scroll_default(__unstableContentRef);
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { ...props, onKeyDown, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(InsertionPointOpenRef.Provider, { value: (0,external_wp_element_namespaceObject.useRef)(false), children: [
-      !isTyping && !isZoomOutMode && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        InsertionPoint,
-        {
-          __unstableContentRef
-        }
-      ),
-      showEmptyBlockSideInserter && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        EmptyBlockInserter,
-        {
-          __unstableContentRef,
-          clientId
-        }
-      ),
-      showBlockToolbarPopover && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        BlockToolbarPopover,
-        {
-          __unstableContentRef,
-          clientId,
-          isTyping
-        }
-      ),
-      !isZoomOutMode && !hasFixedToolbar && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        external_wp_components_namespaceObject.Popover.Slot,
-        {
-          name: "block-toolbar",
-          ref: blockToolbarRef
-        }
-      ),
-      children,
-      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        external_wp_components_namespaceObject.Popover.Slot,
-        {
-          name: "__unstable-block-tools-after",
-          ref: blockToolbarAfterRef
-        }
-      ),
-      isZoomOutMode && !isDragging && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
-        zoom_out_mode_inserters_default,
-        {
-          __unstableContentRef
-        }
-      )
-    ] }) })
+    /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      "div",
+      {
+        ...props,
+        onKeyDown,
+        className: dist_clsx(props.className, {
+          "block-editor-block-tools--is-dragging": isDragging
+        }),
+        children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(InsertionPointOpenRef.Provider, { value: (0,external_wp_element_namespaceObject.useRef)(false), children: [
+          !isTyping && !isZoomOutMode && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            InsertionPoint,
+            {
+              __unstableContentRef
+            }
+          ),
+          showEmptyBlockSideInserter && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            EmptyBlockInserter,
+            {
+              __unstableContentRef,
+              clientId
+            }
+          ),
+          showBlockToolbarPopover && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            BlockToolbarPopover,
+            {
+              __unstableContentRef,
+              clientId,
+              isTyping
+            }
+          ),
+          !isZoomOutMode && !hasFixedToolbar && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            external_wp_components_namespaceObject.Popover.Slot,
+            {
+              name: "block-toolbar",
+              ref: blockToolbarRef
+            }
+          ),
+          children,
+          /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            external_wp_components_namespaceObject.Popover.Slot,
+            {
+              name: "__unstable-block-tools-after",
+              ref: blockToolbarAfterRef
+            }
+          ),
+          isZoomOutMode && !isDragging && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            zoom_out_mode_inserters_default,
+            {
+              __unstableContentRef
+            }
+          )
+        ] })
+      }
+    )
   );
 }
 
@@ -53335,7 +53342,7 @@ const getQuickActionsCommands = () => function useQuickActionsCommands() {
   });
   const canRemove = canRemoveBlocks(clientIds);
   const canToggleBlockVisibility = blocks.every(
-    ({ clientId }) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(getBlockName(clientId), "blockVisibility", true)
+    ({ clientId }) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(getBlockName(clientId), "visibility", true)
   );
   const commands = [];
   if (canDuplicate) {
@@ -53962,7 +53969,7 @@ function ListViewBlockSelectButton({
       return {
         canToggleBlockVisibility: (0,external_wp_blocks_namespaceObject.hasBlockSupport)(
           getBlockName(clientId),
-          "blockVisibility",
+          "visibility",
           true
         ),
         isBlockHidden: _isBlockHidden(clientId),
@@ -54475,10 +54482,10 @@ function ListViewBlock({
       event.preventDefault();
       const { blocksToUpdate } = getBlocksToUpdate();
       const blocks = getBlocksByClientId(blocksToUpdate);
-      const canToggleBlockVisibility = blocks.every(
-        (blockToUpdate) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockToUpdate.name, "blockVisibility", true)
+      const canToggleVisibility = blocks.every(
+        (blockToUpdate) => (0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockToUpdate.name, "visibility", true)
       );
-      if (!canToggleBlockVisibility) {
+      if (!canToggleVisibility) {
         return;
       }
       const hasHiddenBlock = blocks.some(

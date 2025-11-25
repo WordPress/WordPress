@@ -2529,7 +2529,7 @@ function accordion_heading_save_save({ attributes }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/block.json
-const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Displays a heading that toggles the accordion panel.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"blockVisibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
+const accordion_heading_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-heading","title":"Accordion Heading","category":"design","description":"Displays a heading that toggles the accordion panel.","parent":["core/accordion-item"],"usesContext":["core/accordion-icon-position","core/accordion-show-icon","core/accordion-heading-level"],"supports":{"anchor":true,"color":{"background":true,"gradients":true},"align":false,"interactivity":true,"spacing":{"padding":true,"__experimentalDefaultControls":{"padding":true},"__experimentalSkipSerialization":true,"__experimentalSelector":".wp-block-accordion-heading__toggle"},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"__experimentalSkipSerialization":["textDecoration","letterSpacing"],"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"fontFamily":true}},"shadow":true,"visibility":false,"lock":false},"selectors":{"typography":{"letterSpacing":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title","textDecoration":".wp-block-accordion-heading .wp-block-accordion-heading__toggle-title"}},"attributes":{"openByDefault":{"type":"boolean","default":false},"title":{"type":"rich-text","source":"rich-text","selector":".wp-block-accordion-heading__toggle-title","role":"content"},"level":{"type":"number"},"iconPosition":{"type":"string","enum":["left","right"],"default":"right"},"showIcon":{"type":"boolean","default":true}},"textdomain":"default"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/icon.js
 
 
@@ -2617,7 +2617,7 @@ const v1 = {
       }
     },
     shadow: true,
-    blockVisibility: false
+    visibility: false
   },
   save({ attributes }) {
     const { level, title, iconPosition, showIcon } = attributes;
@@ -2710,7 +2710,7 @@ function accordion_panel_save_save() {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-panel/block.json
-const accordion_panel_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-panel","title":"Accordion Panel","category":"design","description":"Contains the hidden or revealed content beneath the heading.","parent":["core/accordion-item"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"padding":true,"blockGap":true,"__experimentalDefaultControls":{"padding":true,"blockGap":true}},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"shadow":true,"layout":{"allowEditing":false},"blockVisibility":false,"contentRole":true,"allowedBlocks":true,"lock":false},"attributes":{"templateLock":{"type":["string","boolean"],"enum":["all","insert","contentOnly",false],"default":false},"openByDefault":{"type":"boolean","default":false},"isSelected":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-panel"}');
+const accordion_panel_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/accordion-panel","title":"Accordion Panel","category":"design","description":"Contains the hidden or revealed content beneath the heading.","parent":["core/accordion-item"],"supports":{"html":false,"color":{"background":true,"gradients":true},"interactivity":true,"spacing":{"padding":true,"blockGap":true,"__experimentalDefaultControls":{"padding":true,"blockGap":true}},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"shadow":true,"layout":{"allowEditing":false},"visibility":false,"contentRole":true,"allowedBlocks":true,"lock":false},"attributes":{"templateLock":{"type":["string","boolean"],"enum":["all","insert","contentOnly",false],"default":false},"openByDefault":{"type":"boolean","default":false},"isSelected":{"type":"boolean","default":false}},"textdomain":"default","style":"wp-block-accordion-panel"}');
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-panel/icon.js
 
 
@@ -7387,7 +7387,7 @@ function edit_ClassicEdit({
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/block.json
-const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"html":false,"className":false,"customClassName":false,"lock":false,"reusable":false,"renaming":false,"blockVisibility":false},"editorStyle":"wp-block-freeform-editor"}');
+const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"html":false,"className":false,"customClassName":false,"lock":false,"reusable":false,"renaming":false,"visibility":false},"editorStyle":"wp-block-freeform-editor"}');
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/save.js
 
 
@@ -26778,7 +26778,10 @@ const list_init = () => initBlock({ name: list_name, metadata: list_block_namesp
 var math_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M11.2 6.8c-.7 0-1.4.5-1.6 1.1l-2.8 7.5-1.2-1.8c-.1-.2-.4-.3-.6-.3H3v1.5h1.6l1.2 1.8c.6.9 1.9.7 2.2-.3l2.9-7.9s.1-.2.2-.2h7.8V6.7h-7.8Zm5.3 3.4-1.9 1.9-1.9-1.9-1.1 1.1 1.9 1.9-1.9 1.9 1.1 1.1 1.9-1.9 1.9 1.9 1.1-1.1-1.9-1.9 1.9-1.9-1.1-1.1Z" }) });
 
 
+;// external ["wp","a11y"]
+const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// ./node_modules/@wordpress/block-library/build-module/math/edit.js
+
 
 
 
@@ -26829,7 +26832,8 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
         placement: "bottom-start",
         offset: 8,
         anchor: blockRef,
-        focusOnMount: "firstContentElement",
+        focusOnMount: false,
+        __unstableSlotName: "__unstable-block-tools-after",
         children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { style: { padding: "4px", minWidth: "300px" }, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, { spacing: 1, children: [
           /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
             external_wp_components_namespaceObject.TextareaControl,
@@ -26853,6 +26857,7 @@ function MathEdit({ attributes, setAttributes, isSelected }) {
                   setError(null);
                 } catch (err) {
                   setError(err.message);
+                  (0,external_wp_a11y_namespaceObject.speak)(err.message);
                 }
                 setAttributes({
                   mathML: newMathML,
@@ -29610,7 +29615,7 @@ function MissingEdit({ attributes, clientId }) {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/missing/block.json
-const missing_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/missing","title":"Unsupported","category":"text","description":"Your site doesn’t include support for this block.","textdomain":"default","attributes":{"originalName":{"type":"string"},"originalUndelimitedContent":{"type":"string"},"originalContent":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"inserter":false,"html":false,"lock":false,"reusable":false,"renaming":false,"blockVisibility":false,"interactivity":{"clientNavigation":true}}}');
+const missing_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/missing","title":"Unsupported","category":"text","description":"Your site doesn’t include support for this block.","textdomain":"default","attributes":{"originalName":{"type":"string"},"originalUndelimitedContent":{"type":"string"},"originalContent":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"inserter":false,"html":false,"lock":false,"reusable":false,"renaming":false,"visibility":false,"interactivity":{"clientNavigation":true}}}');
 ;// ./node_modules/@wordpress/block-library/build-module/missing/save.js
 
 
@@ -29791,8 +29796,6 @@ var navigation_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceOb
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/block.json
 const navigation_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/navigation","title":"Navigation","category":"theme","allowedBlocks":["core/navigation-link","core/search","core/social-links","core/page-list","core/spacer","core/home-link","core/site-title","core/site-logo","core/navigation-submenu","core/loginout","core/buttons"],"description":"A collection of blocks that allow visitors to get around your site.","keywords":["menu","navigation","links"],"textdomain":"default","attributes":{"ref":{"type":"number"},"textColor":{"type":"string"},"customTextColor":{"type":"string"},"rgbTextColor":{"type":"string"},"backgroundColor":{"type":"string"},"customBackgroundColor":{"type":"string"},"rgbBackgroundColor":{"type":"string"},"showSubmenuIcon":{"type":"boolean","default":true},"openSubmenusOnClick":{"type":"boolean","default":false},"overlayMenu":{"type":"string","default":"mobile"},"icon":{"type":"string","default":"handle"},"hasIcon":{"type":"boolean","default":true},"__unstableLocation":{"type":"string"},"overlayBackgroundColor":{"type":"string"},"customOverlayBackgroundColor":{"type":"string"},"overlayTextColor":{"type":"string"},"customOverlayTextColor":{"type":"string"},"maxNestingLevel":{"type":"number","default":5},"templateLock":{"type":["string","boolean"],"enum":["all","insert","contentOnly",false]}},"providesContext":{"textColor":"textColor","customTextColor":"customTextColor","backgroundColor":"backgroundColor","customBackgroundColor":"customBackgroundColor","overlayTextColor":"overlayTextColor","customOverlayTextColor":"customOverlayTextColor","overlayBackgroundColor":"overlayBackgroundColor","customOverlayBackgroundColor":"customOverlayBackgroundColor","fontSize":"fontSize","customFontSize":"customFontSize","showSubmenuIcon":"showSubmenuIcon","openSubmenusOnClick":"openSubmenusOnClick","style":"style","maxNestingLevel":"maxNestingLevel"},"supports":{"align":["wide","full"],"ariaLabel":true,"html":false,"inserter":true,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontStyle":true,"__experimentalFontWeight":true,"__experimentalTextTransform":true,"__experimentalFontFamily":true,"__experimentalLetterSpacing":true,"__experimentalTextDecoration":true,"__experimentalSkipSerialization":["textDecoration"],"__experimentalDefaultControls":{"fontSize":true}},"spacing":{"blockGap":true,"units":["px","em","rem","vh","vw"],"__experimentalDefaultControls":{"blockGap":true}},"layout":{"allowSwitching":false,"allowInheriting":false,"allowVerticalAlignment":false,"allowSizingOnChildren":true,"default":{"type":"flex"}},"interactivity":true,"renaming":false,"contentRole":true},"editorStyle":"wp-block-navigation-editor","style":"wp-block-navigation"}');
-;// external ["wp","a11y"]
-const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// ./node_modules/@wordpress/icons/build-module/library/page.js
 
 
@@ -34291,7 +34294,7 @@ function NavigationLinkEdit({
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const linkUIref = (0,external_wp_element_namespaceObject.useRef)();
   const prevUrl = (0,external_wp_compose_namespaceObject.usePrevious)(url);
-  const isNewLink = (0,external_wp_element_namespaceObject.useRef)(!url);
+  const isNewLink = (0,external_wp_element_namespaceObject.useRef)(!url && !metadata?.bindings?.url);
   const {
     isAtMaxNesting,
     isTopLevelLink,
@@ -35362,7 +35365,7 @@ const nextpage_init = () => initBlock({ name: nextpage_name, metadata: nextpage_
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/pattern/block.json
-const pattern_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/pattern","title":"Pattern Placeholder","category":"theme","description":"Show a block pattern.","supports":{"html":false,"inserter":false,"renaming":false,"blockVisibility":false,"interactivity":{"clientNavigation":true}},"textdomain":"default","attributes":{"slug":{"type":"string"}}}');
+const pattern_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/pattern","title":"Pattern Placeholder","category":"theme","description":"Show a block pattern.","supports":{"html":false,"inserter":false,"renaming":false,"visibility":false,"interactivity":{"clientNavigation":true}},"textdomain":"default","attributes":{"slug":{"type":"string"}}}');
 ;// ./node_modules/@wordpress/block-library/build-module/pattern/recursion-detector.js
 
 const cachedParsers = /* @__PURE__ */ new WeakMap();
