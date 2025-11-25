@@ -8,7 +8,7 @@
  */
 
 /**
- * Properly enqueues styles and scripts for our theme options page.
+ * Enqueues styles and scripts for the theme options page.
  *
  * This function is attached to the admin_enqueue_scripts action hook.
  *
@@ -75,6 +75,8 @@ add_action( 'admin_init', 'twentyeleven_theme_options_init' );
  * By default, only administrators have either of these capabilities, but the desire here is
  * to allow for finer-grained control for roles and users.
  *
+ * @since Twenty Eleven 1.1
+ *
  * @param string $capability The capability used for the page, which is manage_options by default.
  * @return string The capability to actually use.
  */
@@ -84,7 +86,7 @@ function twentyeleven_option_page_capability( $capability ) {
 add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_page_capability' );
 
 /**
- * Adds a theme options page to the admin menu, including some help documentation.
+ * Adds the theme options page to the admin menu, including help documentation.
  *
  * This function is attached to the admin_menu action hook.
  *
@@ -107,6 +109,11 @@ function twentyeleven_theme_options_add_page() {
 }
 add_action( 'admin_menu', 'twentyeleven_theme_options_add_page' );
 
+/**
+ * Adds help documentation to the theme options page.
+ *
+ * @since Twenty Eleven 1.3
+ */
 function twentyeleven_theme_options_help() {
 
 	$help = '<p>' . __( 'Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:', 'twentyeleven' ) . '</p>' .
@@ -144,6 +151,8 @@ function twentyeleven_theme_options_help() {
  * Returns an array of color schemes registered for Twenty Eleven.
  *
  * @since Twenty Eleven 1.0
+ *
+ * @return array<string, array<string, string>> An associative array of color scheme options.
  */
 function twentyeleven_color_schemes() {
 	$color_scheme_options = array(
@@ -166,7 +175,7 @@ function twentyeleven_color_schemes() {
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
-	 * @param array $color_scheme_options An associative array of color scheme options.
+	 * @param array<string, array<string, string>> $color_scheme_options An associative array of color scheme options.
 	 */
 	return apply_filters( 'twentyeleven_color_schemes', $color_scheme_options );
 }
@@ -175,6 +184,8 @@ function twentyeleven_color_schemes() {
  * Returns an array of layout options registered for Twenty Eleven.
  *
  * @since Twenty Eleven 1.0
+ *
+ * @return array<string, array<string, string>> An associative array of layout options.
  */
 function twentyeleven_layouts() {
 	$layout_options = array(
@@ -200,7 +211,7 @@ function twentyeleven_layouts() {
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
-	 * @param array $layout_options An associative array of layout options.
+	 * @param array<string, array<string, string>> $layout_options An associative array of layout options.
 	 */
 	return apply_filters( 'twentyeleven_layouts', $layout_options );
 }
@@ -210,7 +221,7 @@ function twentyeleven_layouts() {
  *
  * @since Twenty Eleven 1.0
  *
- * @return array An array of default theme options.
+ * @return array<string, string> An array of default theme options.
  */
 function twentyeleven_get_default_theme_options() {
 	$default_theme_options = array(
@@ -228,7 +239,7 @@ function twentyeleven_get_default_theme_options() {
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
-	 * @param array $default_theme_options An array of default theme options.
+	 * @param array<string, string> $default_theme_options An array of default theme options.
 	 */
 	return apply_filters( 'twentyeleven_default_theme_options', $default_theme_options );
 }
@@ -240,7 +251,7 @@ function twentyeleven_get_default_theme_options() {
  *
  * @param string $color_scheme Optional. Color scheme.
  *                             Default null (or the active color scheme).
- * @return string The default link color.
+ * @return string|false The default link color, or false if not set.
  */
 function twentyeleven_get_default_link_color( $color_scheme = null ) {
 	if ( null === $color_scheme ) {
@@ -260,6 +271,8 @@ function twentyeleven_get_default_link_color( $color_scheme = null ) {
  * Returns the options array for Twenty Eleven.
  *
  * @since Twenty Eleven 1.0
+ *
+ * @return array<string, string> The theme options array.
  */
 function twentyeleven_get_theme_options() {
 	return get_option( 'twentyeleven_theme_options', twentyeleven_get_default_theme_options() );
@@ -372,6 +385,7 @@ function twentyeleven_theme_options_render_page() {
  * @since Twenty Eleven 1.0
  *
  * @param array $input An array of form input.
+ * @return array<string, string> An array of sanitized and validated form output.
  */
 function twentyeleven_theme_options_validate( $input ) {
 	$defaults = twentyeleven_get_default_theme_options();
@@ -401,9 +415,9 @@ function twentyeleven_theme_options_validate( $input ) {
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
-	 * @param array $output   An array of sanitized form output.
-	 * @param array $input    An array of un-sanitized form input.
-	 * @param array $defaults An array of default theme options.
+	 * @param array<string, string> $output   An array of sanitized form output.
+	 * @param array                 $input    An array of un-sanitized form input.
+	 * @param array<string, string> $defaults An array of default theme options.
 	 */
 	return apply_filters( 'twentyeleven_theme_options_validate', $output, $input, $defaults );
 }
@@ -486,7 +500,8 @@ add_action( 'wp_head', 'twentyeleven_print_link_color_style' );
  *
  * @since Twenty Eleven 1.0
  *
- * @param array $existing_classes An array of existing body classes.
+ * @param string[] $existing_classes An array of existing body classes.
+ * @return string[] The filtered array of body classes.
  */
 function twentyeleven_layout_classes( $existing_classes ) {
 	$options        = twentyeleven_get_theme_options();
@@ -511,8 +526,8 @@ function twentyeleven_layout_classes( $existing_classes ) {
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
-	 * @param array  $classes        An array of body classes.
-	 * @param string $current_layout The current theme layout.
+	 * @param string[] $classes        An array of body classes.
+	 * @param string   $current_layout The current theme layout.
 	 */
 	$classes = apply_filters( 'twentyeleven_layout_classes', $classes, $current_layout );
 
@@ -521,7 +536,7 @@ function twentyeleven_layout_classes( $existing_classes ) {
 add_filter( 'body_class', 'twentyeleven_layout_classes' );
 
 /**
- * Implements Twenty Eleven theme options into Customizer
+ * Implements Twenty Eleven theme options into Customizer.
  *
  * @since Twenty Eleven 1.3
  *
