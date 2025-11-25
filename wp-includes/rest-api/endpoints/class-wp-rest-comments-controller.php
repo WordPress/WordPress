@@ -123,20 +123,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
-		$is_note         = 'note' === $request['type'];
-		$is_edit_context = 'edit' === $request['context'];
+		$is_note          = 'note' === $request['type'];
+		$is_edit_context  = 'edit' === $request['context'];
+		$protected_params = array( 'author', 'author_exclude', 'author_email', 'type', 'status' );
+		$forbidden_params = array();
 
 		if ( ! empty( $request['post'] ) ) {
 			foreach ( (array) $request['post'] as $post_id ) {
 				$post = get_post( $post_id );
-
-				if ( $post && $is_note && ! $this->check_post_type_supports_notes( $post->post_type ) ) {
-					return new WP_Error(
-						'rest_comment_not_supported_post_type',
-						__( 'Sorry, this post type does not support notes.' ),
-						array( 'status' => 403 )
-					);
-				}
 
 				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post, $request ) ) {
 					return new WP_Error(
@@ -148,6 +142,36 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					return new WP_Error(
 						'rest_cannot_read',
 						__( 'Sorry, you are not allowed to read comments without a post.' ),
+						array( 'status' => rest_authorization_required_code() )
+					);
+				}
+
+				if ( $post && $is_note && ! $this->check_post_type_supports_notes( $post->post_type ) ) {
+					if ( current_user_can( 'edit_post', $post->ID ) ) {
+						return new WP_Error(
+							'rest_comment_not_supported_post_type',
+							__( 'Sorry, this post type does not support notes.' ),
+							array( 'status' => 403 )
+						);
+					}
+
+					foreach ( $protected_params as $param ) {
+						if ( 'status' === $param ) {
+							if ( 'approve' !== $request[ $param ] ) {
+								$forbidden_params[] = $param;
+							}
+						} elseif ( 'type' === $param ) {
+							if ( 'comment' !== $request[ $param ] ) {
+								$forbidden_params[] = $param;
+							}
+						} elseif ( ! empty( $request[ $param ] ) ) {
+							$forbidden_params[] = $param;
+						}
+					}
+					return new WP_Error(
+						'rest_forbidden_param',
+						/* translators: %s: List of forbidden parameters. */
+						sprintf( __( 'Query parameter not permitted: %s' ), implode( ', ', $forbidden_params ) ),
 						array( 'status' => rest_authorization_required_code() )
 					);
 				}
@@ -174,9 +198,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			$protected_params = array( 'author', 'author_exclude', 'author_email', 'type', 'status' );
-			$forbidden_params = array();
-
 			foreach ( $protected_params as $param ) {
 				if ( 'status' === $param ) {
 					if ( 'approve' !== $request[ $param ] ) {
@@ -1890,7 +1911,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @return bool Whether the comment can be read.
 	 */
 	protected function check_read_permission( $comment, $request ) {
-		if ( ! empty( $comment->comment_post_ID ) ) {
+		if ( 'note' !== $comment->comment_type && ! empty( $comment->comment_post_ID ) ) {
 			$post = get_post( $comment->comment_post_ID );
 			if ( $post ) {
 				if ( $this->check_read_post_permission( $post, $request ) && 1 === (int) $comment->comment_approved ) {
