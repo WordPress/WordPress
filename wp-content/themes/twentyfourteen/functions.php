@@ -315,7 +315,7 @@ if ( ! function_exists( 'twentyfourteen_font_url' ) ) :
 	 * @since Twenty Fourteen 1.0
 	 * @since Twenty Fourteen 3.6 Replaced Google URL with self-hosted fonts.
 	 *
-	 * @return string
+	 * @return string Font stylesheet URL or empty string if disabled.
 	 */
 	function twentyfourteen_font_url() {
 		$font_url = '';
@@ -755,6 +755,8 @@ if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow
  * `is_customize_preview` function was introduced.
  *
  * @global WP_Customize_Manager $wp_customize Customizer object.
+ *
+ * @return bool Whether the site is being previewed in the Customizer.
  */
 if ( ! function_exists( 'is_customize_preview' ) ) :
 	function is_customize_preview() {

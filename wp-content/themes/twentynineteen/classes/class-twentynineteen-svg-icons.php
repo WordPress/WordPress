@@ -27,6 +27,7 @@ class TwentyNineteen_SVG_Icons {
 	 * @param string $group The group of icons ('ui' or 'social').
 	 * @param string $icon  The specific icon to retrieve.
 	 * @param int    $size  The desired width and height for the SVG icon.
+	 * @return string|null SVG code for the icon, or null if not found.
 	 */
 	public static function get_svg( $group, $icon, $size ) {
 		if ( 'ui' === $group ) {
@@ -51,6 +52,7 @@ class TwentyNineteen_SVG_Icons {
 	 *
 	 * @param string $uri  The URL of the social network link.
 	 * @param int    $size The desired width and height for the SVG icon.
+	 * @return string|null SVG code for the social link icon, or null if not found.
 	 */
 	public static function get_social_link_svg( $uri, $size ) {
 		static $regex_map; // Only compute regex map once, for performance.

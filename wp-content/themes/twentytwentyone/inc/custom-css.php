@@ -18,7 +18,7 @@
  * @param string $prefix   The CSS prefix.
  * @param string $suffix   The CSS suffix.
  * @param bool   $display  Print the styles.
- * @return string
+ * @return string Generated CSS.
  */
 function twenty_twenty_one_generate_css( $selector, $style, $value, $prefix = '', $suffix = '', $display = true ) {
 

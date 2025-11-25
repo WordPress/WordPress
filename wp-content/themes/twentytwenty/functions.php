@@ -304,7 +304,7 @@ add_action( 'init', 'twentytwenty_menus' );
  * @since Twenty Twenty 1.0
  *
  * @param string $html The HTML output from get_custom_logo() (core function).
- * @return string
+ * @return string Custom logo HTML with "retina" resolution applied if enabled.
  */
 function twentytwenty_get_custom_logo( $html ) {
 
@@ -635,7 +635,7 @@ add_action( 'after_setup_theme', 'twentytwenty_block_editor_settings' );
  * Overwrite default more tag with styling and screen reader markup.
  *
  * @param string $html The default output HTML for the more tag.
- * @return string
+ * @return string The the read more link wrapped in a `div`.
  */
 function twentytwenty_read_more_tag( $html ) {
 	return preg_replace( '/<a(.*)>(.*)<\/a>/iU', sprintf( '<div class="read-more-button-wrap"><a$1><span class="faux-button">$2</span> <span class="screen-reader-text">"%1$s"</span></a></div>', get_the_title( get_the_ID() ) ), $html );
@@ -736,7 +736,7 @@ function twentytwenty_get_color_for_area( $area = 'content', $context = 'text' )
  *
  * @since Twenty Twenty 1.0
  *
- * @return array
+ * @return array Customizer color variables for the preview.
  */
 function twentytwenty_get_customizer_color_vars() {
 	$colors = array(
@@ -755,7 +755,7 @@ function twentytwenty_get_customizer_color_vars() {
  *
  * @since Twenty Twenty 1.0
  *
- * @return array
+ * @return array Elements to apply custom colors to.
  */
 function twentytwenty_get_elements_array() {
 

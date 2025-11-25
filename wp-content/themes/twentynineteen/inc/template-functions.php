@@ -11,7 +11,7 @@
  * Adds custom classes to the array of body classes.
  *
  * @param array $classes Classes for the body element.
- * @return array
+ * @return string[] The filtered body class list.
  */
 function twentynineteen_body_classes( $classes ) {
 

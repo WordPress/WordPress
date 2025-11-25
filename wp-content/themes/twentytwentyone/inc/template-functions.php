@@ -13,7 +13,7 @@
  * @since Twenty Twenty-One 1.0
  *
  * @param array $classes Classes for the body element.
- * @return array
+ * @return string[] Body classes with theme-specific additions.
  */
 function twenty_twenty_one_body_classes( $classes ) {
 
@@ -43,7 +43,7 @@ add_filter( 'body_class', 'twenty_twenty_one_body_classes' );
  * @since Twenty Twenty-One 1.0
  *
  * @param array $classes An array of CSS classes.
- * @return array
+ * @return string[] Post classes with 'entry' class added.
  */
 function twenty_twenty_one_post_classes( $classes ) {
 	$classes[] = 'entry';
@@ -91,7 +91,7 @@ add_action( 'wp_footer', 'twenty_twenty_one_supports_js' );
  * @since Twenty Twenty-One 1.0
  *
  * @param array $defaults The form defaults.
- * @return array
+ * @return array Comment form defaults with adjusted textarea height.
  */
 function twenty_twenty_one_comment_form_defaults( $defaults ) {
 
@@ -200,7 +200,7 @@ add_filter( 'the_title', 'twenty_twenty_one_post_title' );
  * @param string $group The icon group.
  * @param string $icon  The icon.
  * @param int    $size  The icon size in pixels.
- * @return string
+ * @return string SVG code for the requested icon.
  */
 function twenty_twenty_one_get_icon_svg( $group, $icon, $size = 24 ) {
 	return Twenty_Twenty_One_SVG_Icons::get_svg( $group, $icon, $size );
@@ -212,7 +212,7 @@ function twenty_twenty_one_get_icon_svg( $group, $icon, $size = 24 ) {
  * @since Twenty Twenty-One 1.0
  *
  * @param string $calendar_output The generated HTML of the calendar.
- * @return string
+ * @return string Calendar HTML with SVG navigation arrows.
  */
 function twenty_twenty_one_change_calendar_nav_arrows( $calendar_output ) {
 	$calendar_output = str_replace( '&laquo; ', is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ), $calendar_output );
@@ -229,7 +229,7 @@ add_filter( 'get_calendar', 'twenty_twenty_one_change_calendar_nav_arrows' );
  * @since Twenty Twenty-One 1.0
  *
  * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
- * @return string
+ * @return string CSS styles for non-Latin languages based on the site locale.
  */
 function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
 

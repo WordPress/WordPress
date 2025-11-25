@@ -289,7 +289,7 @@ if ( ! function_exists( 'twentyseventeen_fonts_url' ) ) :
 	 * @since Twenty Seventeen 1.0
 	 * @since Twenty Seventeen 3.2 Replaced Google URL with self-hosted fonts.
 	 *
-	 * @return string Fonts URL for the theme.
+	 * @return string Font stylesheet URL or empty string if disabled.
 	 */
 	function twentyseventeen_fonts_url() {
 		$fonts_url = '';
@@ -681,7 +681,9 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 	 *
 	 * Added for backward compatibility to support pre-6.0.0 WordPress versions.
 	 *
-	 * @since 6.0.0
+	 * @since Twenty Seventeen 3.0
+	 *
+	 * @return string Locale-specific list item separator.
 	 */
 	function wp_get_list_item_separator() {
 		/* translators: Used between list items, there is a space after the comma. */

@@ -11,7 +11,7 @@
  * Adds custom classes to the array of body classes.
  *
  * @param array $classes Classes for the body element.
- * @return array
+ * @return string[] Filtered body classes with theme-specific additions.
  */
 function twentyseventeen_body_classes( $classes ) {
 	// Add class of group-blog to blogs with more than 1 published author.

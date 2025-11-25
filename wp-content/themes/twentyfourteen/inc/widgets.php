@@ -26,7 +26,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
-	 * @return Twenty_Fourteen_Ephemera_Widget
+	 * @return Twenty_Fourteen_Ephemera_Widget Widget instance.
 	 */
 	public function __construct() {
 		parent::__construct(

@@ -142,7 +142,7 @@ add_action( 'customize_controls_enqueue_scripts', 'twentynineteen_panels_js' );
  * Sanitizes custom color choice.
  *
  * @param string $choice Whether image filter is active.
- * @return string
+ * @return string Sanitized color option.
  */
 function twentynineteen_sanitize_color_option( $choice ) {
 	$valid = array(

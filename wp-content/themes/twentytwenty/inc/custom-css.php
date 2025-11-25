@@ -20,6 +20,7 @@ if ( ! function_exists( 'twentytwenty_generate_css' ) ) {
 	 * @param string $prefix   The CSS prefix.
 	 * @param string $suffix   The CSS suffix.
 	 * @param bool   $display  Print the styles.
+	 * @return string Generated CSS.
 	 */
 	function twentytwenty_generate_css( $selector, $style, $value, $prefix = '', $suffix = '', $display = true ) {
 
@@ -54,6 +55,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 	 * @since Twenty Twenty 1.0
 	 *
 	 * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
+	 * @return string CSS styles built from Customizer options.
 	 */
 	function twentytwenty_get_customizer_css( $type = 'front-end' ) {
 

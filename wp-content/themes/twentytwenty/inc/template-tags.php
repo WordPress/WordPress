@@ -148,7 +148,7 @@ function twentytwenty_site_description( $display = true ) {
  * @since Twenty Twenty 1.0
  *
  * @param object $comment Comment data.
- * @return bool
+ * @return bool Whether the comment is by the post author.
  */
 function twentytwenty_is_comment_by_post_author( $comment = null ) {
 
@@ -249,6 +249,7 @@ add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
  *
  * @param int    $post_id  The ID of the post.
  * @param string $location The location where the meta is shown.
+ * @return string Post meta HTML.
  */
 function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' ) {
 

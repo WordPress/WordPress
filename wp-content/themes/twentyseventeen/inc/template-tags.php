@@ -184,7 +184,7 @@ function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 /**
  * Returns true if a blog has more than 1 category.
  *
- * @return bool
+ * @return bool Whether the blog has more than 1 category.
  */
 function twentyseventeen_categorized_blog() {
 	$category_count = get_transient( 'twentyseventeen_categories' );
