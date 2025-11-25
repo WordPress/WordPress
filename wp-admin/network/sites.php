@@ -240,7 +240,7 @@ if ( isset( $_GET['action'] ) ) {
 								<?php
 								require_once ABSPATH . 'wp-admin/admin-footer.php';
 								exit;
-							break;
+							// By exiting, there's no longer a switch to break out of.
 
 							case 'spam':
 							case 'notspam':
