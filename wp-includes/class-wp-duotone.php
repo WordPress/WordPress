@@ -52,7 +52,7 @@ class WP_Duotone {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @var array
+	 * @var ?array
 	 */
 	private static $global_styles_block_names;
 
@@ -76,7 +76,7 @@ class WP_Duotone {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @var array
+	 * @var ?array
 	 */
 	private static $global_styles_presets;
 

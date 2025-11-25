@@ -52,7 +52,7 @@ class WP_Rewrite {
 	 * Permalink structure for author archives.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $author_structure;
 
@@ -60,7 +60,7 @@ class WP_Rewrite {
 	 * Permalink structure for date archives.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $date_structure;
 
@@ -68,7 +68,7 @@ class WP_Rewrite {
 	 * Permalink structure for pages.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $page_structure;
 
@@ -84,7 +84,7 @@ class WP_Rewrite {
 	 * Permalink structure for searches.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $search_structure;
 
@@ -124,7 +124,7 @@ class WP_Rewrite {
 	 * Comments feed permalink structure.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $comment_feed_structure;
 
@@ -132,7 +132,7 @@ class WP_Rewrite {
 	 * Feed request permalink structure.
 	 *
 	 * @since 1.5.0
-	 * @var string
+	 * @var ?string
 	 */
 	public $feed_structure;
 

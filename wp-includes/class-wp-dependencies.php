@@ -91,7 +91,7 @@ class WP_Dependencies {
 	 *
 	 * @since 5.4.0
 	 *
-	 * @var array
+	 * @var ?array<string, true>
 	 */
 	private $all_queued_deps;
 
