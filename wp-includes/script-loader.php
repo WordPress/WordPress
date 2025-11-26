@@ -3438,26 +3438,67 @@ function wp_enqueue_command_palette_assets() {
 		'is_network_admin' => is_network_admin(),
 	);
 
-	if ( $menu ) {
-		$menu_commands = array();
-		foreach ( $menu as $menu_item ) {
-			if ( empty( $menu_item[0] ) || ! empty( $menu_item[1] ) && ! current_user_can( $menu_item[1] ) ) {
+	/**
+	 * Extracts root-level text nodes from HTML string.
+	 *
+	 * @ignore
+	 * @param string $label HTML string to extract text from.
+	 * @return string Extracted text content, trimmed.
+	 */
+	$extract_root_text = static function ( string $label ): string {
+		if ( '' === $label ) {
+			return '';
+		}
+
+		$processor  = new WP_HTML_Tag_Processor( $label );
+		$text_parts = array();
+		$depth      = 0;
+
+		while ( $processor->next_token() ) {
+			$token_type = $processor->get_token_type();
+
+			if ( '#text' === $token_type ) {
+				if ( 0 === $depth ) {
+					$text_parts[] = $processor->get_modifiable_text();
+				}
 				continue;
 			}
 
-			// Remove all HTML tags and their contents.
-			$menu_label = $menu_item[0];
-			while ( preg_match( '/<[^>]*>/', $menu_label ) ) {
-				$menu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $menu_label );
+			if ( '#tag' !== $token_type ) {
+				continue;
 			}
-			$menu_label = trim( $menu_label );
+
+			if ( $processor->is_tag_closer() ) {
+				if ( $depth > 0 ) {
+					--$depth;
+				}
+				continue;
+			}
+
+			$token_name = $processor->get_tag();
+			if ( $token_name && ! WP_HTML_Processor::is_void( $token_name ) ) {
+				++$depth;
+			}
+		}
+
+		return trim( implode( '', $text_parts ) );
+	};
+
+	if ( $menu ) {
+		$menu_commands = array();
+		foreach ( $menu as $menu_item ) {
+			if ( empty( $menu_item[0] ) || ! is_string( $menu_item[0] ) || ! empty( $menu_item[1] ) && ! current_user_can( $menu_item[1] ) ) {
+				continue;
+			}
+
+			$menu_label = $extract_root_text( $menu_item[0] );
 			$menu_url   = '';
 			$menu_slug  = $menu_item[2];
 
 			if ( preg_match( '/\.php($|\?)/', $menu_slug ) || wp_http_validate_url( $menu_slug ) ) {
 				$menu_url = $menu_slug;
 			} elseif ( ! empty( menu_page_url( $menu_slug, false ) ) ) {
-				$menu_url = html_entity_decode( menu_page_url( $menu_slug, false ), ENT_QUOTES, get_bloginfo( 'charset' ) );
+				$menu_url = WP_HTML_Decoder::decode_attribute( menu_page_url( $menu_slug, false ) );
 			}
 
 			if ( $menu_url ) {
@@ -3474,21 +3515,15 @@ function wp_enqueue_command_palette_assets() {
 						continue;
 					}
 
-					// Remove all HTML tags and their contents.
-					$submenu_label = $submenu_item[0];
-					while ( preg_match( '/<[^>]*>/', $submenu_label ) ) {
-						$submenu_label = preg_replace( '/<[^>]*>.*?<\/[^>]*>|<[^>]*\/>|<[^>]*>/s', '', $submenu_label );
-					}
-					$submenu_label = trim( $submenu_label );
+					$submenu_label = $extract_root_text( $submenu_item[0] );
 					$submenu_url   = '';
 					$submenu_slug  = $submenu_item[2];
 
 					if ( preg_match( '/\.php($|\?)/', $submenu_slug ) || wp_http_validate_url( $submenu_slug ) ) {
 						$submenu_url = $submenu_slug;
 					} elseif ( ! empty( menu_page_url( $submenu_slug, false ) ) ) {
-						$submenu_url = html_entity_decode( menu_page_url( $submenu_slug, false ), ENT_QUOTES, get_bloginfo( 'charset' ) );
+						$submenu_url = WP_HTML_Decoder::decode_attribute( menu_page_url( $submenu_slug, false ) );
 					}
-
 					if ( $submenu_url ) {
 						$menu_commands[] = array(
 							'label' => sprintf(
