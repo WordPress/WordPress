@@ -4804,6 +4804,8 @@ function wp_ajax_search_plugins() {
 	// Ensure after_plugin_row_{$plugin_file} gets hooked.
 	wp_plugin_update_rows();
 
+	WP_Plugin_Dependencies::initialize();
+
 	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
 	if ( 'plugins-network' === $pagenow || 'plugins' === $pagenow ) {
 		set_current_screen( $pagenow );
