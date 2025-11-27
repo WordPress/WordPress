@@ -30,7 +30,7 @@ get_header(); ?>
 						 *
 						 * @since Twenty Eleven 1.0
 						 *
-						 * @param string The default category description HTML.
+						 * @param string $html The default category description HTML.
 						 */
 						echo apply_filters( 'category_archive_meta', '<div class="category-archive-meta">' . $category_description . '</div>' );
 					}

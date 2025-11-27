@@ -188,7 +188,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			 *
 			 * @since Twenty Eleven 1.0
 			 *
-			 * @param int The default header image width in pixels. Default 1000.
+			 * @param int $width The default header image width in pixels. Default 1000.
 			 */
 			'width'                  => apply_filters( 'twentyeleven_header_image_width', 1000 ),
 			/**
@@ -196,7 +196,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			 *
 			 * @since Twenty Eleven 1.0
 			 *
-			 * @param int The default header image height in pixels. Default 288.
+			 * @param int $height The default header image height in pixels. Default 288.
 			 */
 			'height'                 => apply_filters( 'twentyeleven_header_image_height', 288 ),
 			// Support flexible heights.
