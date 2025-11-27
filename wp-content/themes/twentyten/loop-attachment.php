@@ -127,7 +127,7 @@ if ( have_posts() ) {
 							 *
 							 * @since Twenty Ten 1.0
 							 *
-							 * @param int The default attachment width in pixels. Default 900.
+							 * @param int $width The default attachment width in pixels. Default 900.
 							 */
 							$attachment_width = apply_filters( 'twentyten_attachment_size', 900 );
 							/**
@@ -135,7 +135,7 @@ if ( have_posts() ) {
 							 *
 							 * @since Twenty Ten 1.0
 							 *
-							 * @param int The default attachment height in pixels. Default 900.
+							 * @param int $height The default attachment height in pixels. Default 900.
 							 */
 							$attachment_height = apply_filters( 'twentyten_attachment_height', 900 );
 							// Filterable image width with, essentially, no limit for image height.
