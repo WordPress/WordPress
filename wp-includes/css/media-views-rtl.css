@@ -1077,14 +1077,20 @@
 	width: 22px;
 	padding: 0;
 	background-color: #fff;
-	background-position: -96px 4px;
 	border-radius: 3px;
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 	transition: none;
 }
 
-.wp-core-ui .attachment-close:hover,
-.wp-core-ui .attachment-close:focus {
+.wp-core-ui .attachment-close .media-modal-icon {
+	display: inline-block;
+	background-position: -96px 4px;
+	height: 22px;
+	width: 22px;
+}
+
+.wp-core-ui .attachment-close:hover .media-modal-icon,
+.wp-core-ui .attachment-close:focus .media-modal-icon {
 	background-position: -36px 4px;
 }
 
