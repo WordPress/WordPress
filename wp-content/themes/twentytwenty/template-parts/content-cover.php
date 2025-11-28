@@ -59,7 +59,7 @@
 							 *
 							 * @since Twenty Twenty 1.0
 							 *
-							 * @param bool Whether to show the categories in article header. Default true.
+							 * @param bool $show_categories Whether to show the categories in article header. Default true.
 							 */
 							$show_categories = apply_filters( 'twentytwenty_show_categories_in_entry_header', true );
 

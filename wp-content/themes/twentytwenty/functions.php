@@ -819,7 +819,7 @@ function twentytwenty_get_elements_array() {
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
-	 * @param array Array of elements.
+	 * @param array $elements Array of elements.
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }

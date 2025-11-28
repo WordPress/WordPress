@@ -266,7 +266,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
-	 * @param array Array of post types.
+	 * @param array $post_types Array of post types.
 	 */
 	$disallowed_post_types = apply_filters( 'twentytwenty_disallowed_post_types_for_meta_output', array( 'page' ) );
 
