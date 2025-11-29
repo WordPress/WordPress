@@ -3409,7 +3409,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 }
 
 /**
- * Loads classic theme styles on classic themes in the frontend.
+ * Loads classic theme styles when the current theme lacks a theme.json file.
  *
  * This is used for backwards compatibility for Button and File blocks specifically.
  *
