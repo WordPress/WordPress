@@ -2018,6 +2018,17 @@ function wp_get_archives( $args = '' ) {
 		'w'               => get_query_var( 'w' ),
 	);
 
+	/**
+	 * Filters the arguments for displaying archive links.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @see wp_get_archives()
+	 *
+	 * @param array<string, string|int|bool> $args Arguments.
+	 */
+	$args = apply_filters( 'wp_get_archives_args', $args );
+
 	$parsed_args = wp_parse_args( $args, $defaults );
 
 	$post_type_object = get_post_type_object( $parsed_args['post_type'] );
