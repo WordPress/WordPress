@@ -77,7 +77,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ececec' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.9/01-notes.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -85,7 +85,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ececec' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.9/02-visual-drag-drop.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -107,7 +107,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ececec' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.9/03-command-palette-everywhere.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -115,7 +115,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ececec' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.9/04-fit-text.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
