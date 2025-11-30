@@ -71,6 +71,17 @@ class WP_Script_Modules {
 	);
 
 	/**
+	 * List of IDs for script modules encountered which have missing dependencies.
+	 *
+	 * An ID is added to this list when it is discovered to have missing dependencies. At this time, a warning is
+	 * emitted with {@see _doing_it_wrong()}. The ID is then added to this list, so that duplicate warnings don't occur.
+	 *
+	 * @since 7.0.0
+	 * @var string[]
+	 */
+	private $modules_with_missing_dependencies = array();
+
+	/**
 	 * Registers the script module if no script module with that script module
 	 * identifier has already been registered.
 	 *
@@ -722,7 +733,22 @@ class WP_Script_Modules {
 		}
 
 		// If the item requires dependencies that do not exist, fail.
-		if ( count( array_diff( $dependency_ids, array_keys( $this->registered ) ) ) > 0 ) {
+		$missing_dependencies = array_diff( $dependency_ids, array_keys( $this->registered ) );
+		if ( count( $missing_dependencies ) > 0 ) {
+			if ( ! in_array( $id, $this->modules_with_missing_dependencies, true ) ) {
+				_doing_it_wrong(
+					get_class( $this ) . '::register',
+					sprintf(
+						/* translators: 1: Script module ID, 2: Comma-separated list of missing dependency IDs. */
+						__( 'The script module with the ID "%1$s" was enqueued with dependencies that are not registered: %2$s.' ),
+						$id,
+						implode( ', ', $missing_dependencies )
+					),
+					'7.0.0'
+				);
+				$this->modules_with_missing_dependencies[] = $id;
+			}
+
 			return false;
 		}
 

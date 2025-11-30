@@ -1164,4 +1164,22 @@ JS;
 		$this->ext_version    = '';
 		$this->ext_handles    = '';
 	}
+
+	/**
+	 * Gets a script-specific dependency warning message.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string   $handle                     Script handle with missing dependencies.
+	 * @param string[] $missing_dependency_handles Missing dependency handles.
+	 * @return string Formatted, localized warning message.
+	 */
+	protected function get_dependency_warning_message( $handle, $missing_dependency_handles ) {
+		return sprintf(
+			/* translators: 1: Script handle, 2: Comma-separated list of missing dependency handles. */
+			__( 'The script with the handle "%1$s" was enqueued with dependencies that are not registered: %2$s.' ),
+			$handle,
+			implode( ', ', $missing_dependency_handles )
+		);
+	}
 }
