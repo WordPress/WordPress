@@ -359,7 +359,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_customize_control_js() {
-	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls', 'iris', 'underscore', 'wp-util' ), '20141216', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls', 'iris', 'underscore', 'wp-util' ), '20250729', array( 'in_footer' => true ) );
 	wp_localize_script( 'color-scheme-control', 'colorScheme', twentyfifteen_get_color_schemes() );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_control_js' );

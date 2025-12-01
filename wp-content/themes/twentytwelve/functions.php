@@ -212,10 +212,10 @@ function twentytwelve_scripts_styles() {
 	}
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri(), array(), '20250715' );
+	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri(), array(), '20251202' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentytwelve-style' ), '20240812' );
+	wp_enqueue_style( 'twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentytwelve-style' ), '20251031' );
 
 	// Register the Internet Explorer specific stylesheet.
 	wp_register_style( 'twentytwelve-ie', false, array( 'twentytwelve-style' ) );

@@ -402,10 +402,10 @@ function twentysixteen_scripts() {
 	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons, used in the main stylesheet.
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20251202' );
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20251101' );
 
 	// Theme stylesheet.
-	wp_enqueue_style( 'twentysixteen-style', get_stylesheet_uri(), array(), '20250715' );
+	wp_enqueue_style( 'twentysixteen-style', get_stylesheet_uri(), array(), '20251202' );
 
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentysixteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentysixteen-style' ), '20240817' );

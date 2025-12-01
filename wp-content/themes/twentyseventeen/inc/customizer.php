@@ -254,6 +254,6 @@ add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
  * Loads dynamic logic for the customizer controls area.
  */
 function twentyseventeen_panels_js() {
-	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20250717', array( 'in_footer' => true ) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyseventeen_panels_js' );
