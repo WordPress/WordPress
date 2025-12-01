@@ -5829,7 +5829,7 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 			return array(
 				$size['width'],
 				$size['height'],
-				IMAGETYPE_HEIC,
+				IMAGETYPE_HEIF,
 				sprintf(
 					'width="%d" height="%d"',
 					$size['width'],
