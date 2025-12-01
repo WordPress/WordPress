@@ -432,7 +432,7 @@ function twentyeleven_enqueue_color_scheme() {
 	$color_scheme = $options['color_scheme'];
 
 	if ( 'dark' === $color_scheme ) {
-		wp_enqueue_style( 'dark', get_template_directory_uri() . '/colors/dark.css', array(), '20240603' );
+		wp_enqueue_style( 'dark', get_template_directory_uri() . '/colors/dark.css', array(), '20251017' );
 	}
 
 	/**
