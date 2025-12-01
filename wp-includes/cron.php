@@ -984,10 +984,17 @@ function spawn_cron( $gmt_time = 0 ) {
  * @since 2.1.0
  * @since 5.1.0 Return value added to indicate success or failure.
  * @since 5.7.0 Functionality moved to _wp_cron() to which this becomes a wrapper.
- * @since 6.9.0 The _wp_cron() callback is moved from {@see 'wp_loaded'} to the {@see 'shutdown'} action; the function always returns void.
+ * @since 6.9.0 The _wp_cron() callback is moved from {@see 'wp_loaded'} to the {@see 'shutdown'} action,
+ *              unless `ALTERNATE_WP_CRON` is enabled; the function now always returns void.
  */
 function wp_cron(): void {
-	if ( doing_action( 'shutdown' ) ) {
+	if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
+		if ( did_action( 'wp_loaded' ) ) {
+			_wp_cron();
+		} else {
+			add_action( 'wp_loaded', '_wp_cron', 20 );
+		}
+	} elseif ( doing_action( 'shutdown' ) ) {
 		_wp_cron();
 	} else {
 		add_action( 'shutdown', '_wp_cron' );
