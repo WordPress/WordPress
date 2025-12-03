@@ -1,0 +1,142 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"__experimental": true,
+	"apiVersion": 3,
+	"name": "core/tabs",
+	"title": "Tabs",
+	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
+	"version": "1.0.0",
+	"category": "design",
+	"textdomain": "default",
+	"allowedBlocks": [ "core/tab" ],
+	"attributes": {
+		"tabsId": {
+			"type": "string",
+			"default": ""
+		},
+		"orientation": {
+			"type": "string",
+			"default": "horizontal",
+			"enum": [ "horizontal", "vertical" ]
+		},
+		"activeTabIndex": {
+			"type": "number",
+			"default": 0
+		},
+		"tabInactiveColor": {
+			"type": "string"
+		},
+		"customTabInactiveColor": {
+			"type": "string"
+		},
+		"tabHoverColor": {
+			"type": "string"
+		},
+		"customTabHoverColor": {
+			"type": "string"
+		},
+		"tabActiveColor": {
+			"type": "string"
+		},
+		"customTabActiveColor": {
+			"type": "string"
+		},
+		"tabTextColor": {
+			"type": "string"
+		},
+		"customTabTextColor": {
+			"type": "string"
+		},
+		"tabActiveTextColor": {
+			"type": "string"
+		},
+		"customTabActiveTextColor": {
+			"type": "string"
+		},
+		"tabHoverTextColor": {
+			"type": "string"
+		},
+		"customTabHoverTextColor": {
+			"type": "string"
+		}
+	},
+	"styles": [
+		{
+			"name": "tab",
+			"label": "Tabs",
+			"isDefault": true
+		},
+		{
+			"name": "links",
+			"label": "Links"
+		},
+		{
+			"name": "button",
+			"label": "Button"
+		}
+	],
+	"supports": {
+		"align": true,
+		"color": {
+			"text": false,
+			"background": false
+		},
+		"html": false,
+		"interactivity": true,
+		"spacing": {
+			"blockGap": [ "horizontal", "vertical" ],
+			"margin": true,
+			"padding": false
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"className": "is-example"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/tab",
+				"attributes": {
+					"label": "Tab 1"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Pariatur commodo sint mollit. Veniam Lorem labore voluptate fugiat. Ad nulla est labore cillum cillum qui nostrud do incididunt eiusmod. Aliqua aliqua sunt consequat consequat in duis deserunt."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Adipisicing ullamco nisi in eu laborum adipisicing aliquip aliqua. Fugiat labore officia consequat nisi veniam velit commodo cillum enim duis quis ad."
+						}
+					}
+				]
+			},
+			{
+				"name": "core/tab",
+				"attributes": {
+					"label": "Tab 2"
+				}
+			},
+			{
+				"name": "core/tab",
+				"attributes": {
+					"label": "Tab 3"
+				}
+			}
+		]
+	},
+	"providesContext": {
+		"core/tabs-id": "tabsId"
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "@wordpress/block-library/tabs/view"
+}

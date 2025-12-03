@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/freeform",
+	"title": "Classic",
+	"category": "text",
+	"description": "Use the classic WordPress editor.",
+	"textdomain": "default",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "raw"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": false,
+		"customClassName": false,
+		"lock": false,
+		"reusable": false,
+		"renaming": false,
+		"blockVisibility": false
+	},
+	"editorStyle": "wp-block-freeform-editor"
+}

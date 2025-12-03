@@ -1,0 +1,19 @@
+.two-factor-methods-table tbody th,
+.two-factor-methods-table tbody td {
+	vertical-align: top;
+}
+
+.two-factor-methods-table .two-factor-method-label {
+	display: block;
+	font-weight: 700;
+}
+
+.two-factor-methods-table .two-factor-method-recommended {
+	font-size: 0.8rem;
+	line-height: 1;
+	font-weight: 400;
+	border: 1px dotted;
+	border-radius: 0.15rem;
+	padding: 0.1rem 0.25rem;
+	margin: 0 0.15rem;
+}

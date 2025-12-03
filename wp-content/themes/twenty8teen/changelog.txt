@@ -1,0 +1,278 @@
+== Changelog ==
+= 20220611 =
+* add inline-block style on menu to avoid overlap preventing click
+
+= 20220108 =
+* add cursor style on summary element
+
+= 20211216 =
+* check for Customizer when enqueuing styles
+* override overflow-wrap:break in Customizer added by core styles
+* fix cascade so swap-color works on main in block editor
+* fix wrapping of floated post navigation
+
+= 20211103 =
+* add tab-size for pre
+* add text-shadow on site description
+* default site footer to site-copyright instead of site-info
+* use correct function json_decode
+
+= 20210909 = 
+* match parent class parameter names for PHP 8 named parameters
+
+= 20210902 = 
+* check for false when using array_search
+
+= 20210629 =
+* tweak view-selector.js for new widget screen
+
+= 20210529 =
+* fix page conditional presets when multiple
+
+= 20210511 =
+* fix header_textcolor with hidden site title
+
+= 20210405 =
+* fix mobile menu by using unique IDs
+* change post-navigation-same-cat template part to use first taxonomy of post type
+* tweak news-column style for bottom margin
+* tweak width-* styles to be responsive
+* substitute :is for :matches in prefixfree.js
+* add support for prefers-reduced-motion
+* remove jQuery from view-selector.js
+* update to normalize.css 8.0.1
+
+= 20210126 =
+* add image links for attachment pages
+* add twenty8teen_attachment_meta template function
+* add attachment meta to entry footer 
+* use wp-caption-text class on attachment page caption
+
+= 20200925 =
+* tweak table row style to better handle HTML attributes
+
+= 20200911 =
+* add option for post type template naming support to loop-parts
+* add example of post type template part in child demo
+
+= 20200731 =
+* fix empty class error in block editor JS
+* tweak table padding and margin
+* add_theme_support for navigation-widgets (no styles affected)
+
+= 20200614 =
+* add checks for post type support: title, thumbnail
+* fix PHP notice in post_thumbnail_html filter
+* add alignments to Formats button in editor
+* fix preset filter for empty old value case
+* avoid edge case of PHP notice in widget class
+* adjust Page Walker to match core walker
+* fix mouse-xy script for Webkit offsetX bug
+* add class selection for all widgets
+
+= 20200329 =
+* fix empty ID on page menu
+* add news-columns class and styling
+* move where the alt attribute is applied
+* tweak styling: figure, visited links, kbd, iframe wrapper, width-* in content
+
+= 20200307 =
+* tweak editor styles for WP 5.4 class name changes
+* add responsive styles for width classes in content
+* tweak border style to allow override of box style
+* tweak round style for content area
+
+= 20200109 =
+* tweak some block styles for when there are no core styles
+* add details[open] style
+* add max-height for code in comments
+
+= 20191207 =
+* tweak column control title for wrapping
+* tweak nested menu widget style
+* tweak column block style for when there are no core styles
+
+= 20191111 =
+* tweak style for button block and screen-reader-text, add group block style
+* define starter content only in customizer_preview
+* move Requires PHP and Requires at least to style.css
+* style code tag for RTL (always LTR)
+* change target of Jump to top to #, add screen-reader-text
+* set the child demo search default to no images
+* adjust print style for pre and table
+
+= 20190922 =
+* add horizontal-rule and separator template parts
+* add theme support for html5 script and style tags
+* add tabindex=-1 for menu arrows and toggle
+* tweak style for skip link, calendar block, table-view, submenus
+* remove <link> profile for gmpg.org
+
+= 20190728 =
+* add style for round comment avatars
+* add the card class to the editor Formats button
+* tweak author bio, microformat, comments number
+* allow empty attributes
+
+= 20190727 =
+* style page links like pagination
+* style URL and email inputs for RTL
+* reformat readme.txt
+
+= 20190710 =
+* remove skip-link-focus-fix.js
+* fix skip-link and jump-to-top when No Header option is used
+* add style for broken image alt text
+* update class in iframe-fix.js for block editor
+
+= 20190613 =
+* remove unneeded role=
+* add empty alt tag to identimage
+
+= 20190608 =
+* add Google Font parameter to reduce unstyled text
+* add check for empty font list
+* add context variables to twenty8teen_ajax_preset_values filter
+* remove Custom Property support for Edge 15 to improve other browser support
+* fix background color for option elements with swap-color
+* tweak style for page numbers on small windows
+* fix centering of default featured images
+* change default featured image size to respect crop parameter and 0 values
+* changed some variable names in template files that could conflict with globals
+* move some code in template parts to reusable functions
+
+= 20190510 =
+* fix class-column-control sanitize removing 1st character
+* add code to preserve presets when saved through Customizer save action (import)
+* fix undefined index in widget
+
+= 20190505 =
+* update dependencies (tweak normalize, prefixfree, mouse-xy)
+* fix swap-color and colors in editor
+* check for direct access to index.php
+
+= 20190426 =
+* fix presets saved with non-array values or numeric names
+* output saved presets at bottom of list
+
+= 20190414 =
+* put font families into custom properties (changes CSS in twenty8teen_font_rules filter)
+* add titles_shadow custom property
+* apply Area class choices to editor container
+* add font classes to widget choices
+* add Format selection (classes) to Classic Editor (so Classic Block also)
+* add show_header option
+
+= 20190212 =
+* add esc_html to 404.php
+* refactor empty if statement
+* remove BOM from prefixfree.js
+
+= 20190129 =
+* hide rss-widget-icon when auticons are used
+
+= 20190112 =
+* add page_conditional_presets option
+* remove page title on front page, make site title h1
+* fix iframe-fix.js for iframes without width or height
+* move the sanitize_callback for column control to class
+* condense sanitize callbacks
+* tweak preset control
+* tweak style for range, rtl blockquote, page-title, wp-block-button
+* tweak view-selector and start_in_tableview javascript
+* update document reference links
+* improve child demo
+
+= 20181205 =
+* tweak print styles
+* add filtering of meta viewport
+* add hyphens style to navigation links, max-width to alignments
+* fixed comment template part classes not applying
+* add block styles for new editor
+* add version number for editor style
+* add featured_image_classes option
+* remove early return for background image callback
+* add option to prefixfree to process only theme stylesheets
+* remove extra bracket characters in preset names
+
+= 20180927
+* add preconnect for Google Fonts
+* tweak round, vignette, width, and semi-accent styles
+* use currentColor for header_textcolor when header text is hidden (see core ticket #44968)
+* fix large captioned centered images on mobile
+* fix background image callback to handle multiple backgrounds
+* add hook for `wp_body_open` (see core ticket #12563)
+* optimize customizer-preview script
+* add start_in_tableview option
+* add show_sidebar option
+* fix display of HTML on attachment page
+
+= 20180830
+* move table-view CSS below cards so it overrides correctly
+* fixed parse error (missing $) in 404 page
+* changed taxonomy root template to limit the number of terms output
+* clean up some spacing to meet standards a little better (still not there)
+
+= 20180826
+* add font-size-adjust values to existing presets
+* change how font-size-adjust works since that works only in Firefox
+* show archive description only on first page
+* tweak child demo
+* make iframes responsive
+* fix background color callback
+* add support for conditional presets
+* fix default presets that use arrays
+* remove prefixfree-dynamic-dom due to errors
+* change how default featured images use the user's image settings
+* remove blue screenshot preset
+* fix new clear with alignment class (space was being removed)
+* small update to prefixfree.js
+* improve styles for table-view and alignments and default featured images
+* add letter-spacing for area style choice
+
+= 20180803
+* add font-size-adjust option
+* fix description of featured image size used
+* fix jump to top character
+* add page template for taxonomy root
+* improved 404 page with taxonomies
+* add clear to alignment selection in loop widget
+* add generic class for tableview: entry-column
+
+= 20180710
+* tweaks for translations
+
+= 20180706.23
+* fix starter content
+* sanitize json preset values on save
+* fix undefined index in widgets
+
+= 20180706
+* style code element with stripe background
+* add custom property to round style
+* changed screenshot to jpg since Chrome can't handle animated png well enough
+* change esc_html_x to esc_attr_x
+* add jump-to-top template part
+* add post-navigation-same-cat template part
+* fix centered widget style
+
+= 20180623 =
+* add view-selector template part and styles
+* removed featured image on attachment page
+* added clear to loop widget
+* hide empty widgets
+* fixed z-index of header image behind swap color widgets
+* changed version number to date
+
+= 0.6.3 - May 30 2018 =
+* rename theme for upload to WordPress repository
+* add more area  styles
+* use css variables for area styles for backgrounds and shadows
+* tweak sticky style
+* move cards CSS so hover style cascades better
+* enqueue prefixfree-dynamic-dom script only for Customizer
+* define body-font and titles-font classes
+* output CSS for older browsers for swap-color
+* correct the default values for background image options
+* fix user styles self-exclusion
+* fix deletion of preset with same name as theme-defined preset

@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/math",
+	"title": "Math",
+	"category": "text",
+	"description": "Display mathematical notation using LaTeX.",
+	"keywords": [ "equation", "formula", "latex", "mathematics" ],
+	"textdomain": "default",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"latex": {
+			"type": "string",
+			"role": "content"
+		},
+		"mathML": {
+			"type": "string",
+			"source": "html",
+			"selector": "math"
+		}
+	}
+}
