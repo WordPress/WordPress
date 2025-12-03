@@ -1,0 +1,12 @@
+#security-keys-section .wp-list-table {
+	margin-bottom: 2em;
+}
+
+#security-keys-section .register-security-key .spinner {
+	float: none;
+}
+
+#security-keys-section .security-key-status {
+	vertical-align: middle;
+	font-style: italic;
+}

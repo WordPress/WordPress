@@ -1,0 +1,23 @@
+{
+  "name": "wordpress-sqe-testing",
+  "version": "1.0.0",
+  "description": "WordPress SQE Project - Cypress Testing",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:login": "cypress run --spec 'cypress/e2e/login.cy.js'",
+    "test:add-user": "cypress run --spec 'cypress/e2e/add-user.cy.js'"
+  },
+  "keywords": [
+    "cypress",
+    "testing",
+    "wordpress"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  }
+}
+

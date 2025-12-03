@@ -1,0 +1,74 @@
+/*
+Theme Name: Child Demo for Twenty8teen
+Description: This is to show that it is very easy to change styles and add template parts via a child theme.
+Version: 0.5
+Template: twenty8teen
+
+A child theme provides its own style.css to override or extend the
+parent style.css. This style sheet will be loaded by the parent theme.
+You can remove scripts or style sheets if needed, in functions.php.
+
+*/
+
+/*  ------------------------------------------------------
+ Add specific style overrides here.
+
+Just for example, this style will change the background color for the site,
+but this will not affect the value used in the Customizer (for default value).
+This is a CSS Custom Property (CSS Variable).
+*/
+
+:root {
+	--background_color: #eeeeff;
+	--header_textcolor: #5d0b0b;
+}
+
+/*  ---------------------------------------
+Some of the Custom Properties used by this theme are:
+
+:root {
+	--background_color: #fef8ee;
+	--body_textcolor: #5e4422;
+	--header_textcolor: #6b0000;
+	--accent_color: #d2b48c;
+	--link_color: #1666f0;
+	--card_backcolor: rgba(255, 255, 255, 0.3);
+	--identimage_alpha: 0.4;
+	--glass_bg:  linear-gradient(to top, rgba(50, 120, 100, 0.2) 0%,rgba(70, 140, 120, 0.1) 100%);
+	--semi_accent_shadow:  inset 0 0 7em -3em var(--accent_color);
+	--round_radius: 1.16em;
+}
+*/
+
+/* Use more white for semi-white */
+.semi-white {
+	background-color: rgba(255,255,255, 0.6);
+}
+:root {
+	--semi_whiteblack_bg: linear-gradient(rgba(255,255,255, 0.5) 0%, rgba(255,255,255, 0.4) 100%),
+		linear-gradient(rgba(0,0,0, 0.1) 0%, rgba(0,0,0, 0.2) 100%);
+}
+
+/* Decorate the horizontal rule and navigation links with a gradient. */
+hr, .nav-links {
+	background-image: linear-gradient(to right, transparent, var(--accent_color, currentColor) 20%, var(--accent_color, currentColor) 80%, transparent);
+}
+.nav-links {
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  padding: 4px 0;
+}
+
+/* Briefly highlight in-page link targets. */
+.custom-target, :target {
+  animation: 1.8s ease-out 0s normal none 1 running target-highlight;
+}
+@keyframes target-highlight {
+  0% {
+    background-color: var(--accent_color);
+  }
+  100% {
+    background-color: var(--background_color);
+  }
+}
+

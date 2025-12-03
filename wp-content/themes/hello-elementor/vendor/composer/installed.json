@@ -1,0 +1,40 @@
+{
+    "packages": [
+        {
+            "name": "elementor/wp-notifications-package",
+            "version": "1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elementor/wp-notifications-package.git",
+                "reference": "dd25ca9dd79402c3bb51fab112aa079702eb165e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/dd25ca9dd79402c3bb51fab112aa079702eb165e",
+                "reference": "dd25ca9dd79402c3bb51fab112aa079702eb165e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^v1.0.0",
+                "squizlabs/php_codesniffer": "^3.10.2",
+                "wp-coding-standards/wpcs": "^3.1.0"
+            },
+            "time": "2025-04-28T12:27:21+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Elementor\\WPNotificationsPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "source": "https://github.com/elementor/wp-notifications-package/tree/1.2.0"
+            },
+            "install-path": "../elementor/wp-notifications-package"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}

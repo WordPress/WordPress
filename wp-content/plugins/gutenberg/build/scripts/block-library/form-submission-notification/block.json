@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"__experimental": true,
+	"name": "core/form-submission-notification",
+	"title": "Form Submission Notification",
+	"category": "common",
+	"ancestor": [ "core/form" ],
+	"description": "Provide a notification message after the form has been submitted.",
+	"keywords": [ "form", "feedback", "notification", "message" ],
+	"textdomain": "default",
+	"icon": "feedback",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "success"
+		}
+	}
+}

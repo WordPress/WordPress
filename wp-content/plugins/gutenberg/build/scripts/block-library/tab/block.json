@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"__experimental": true,
+	"apiVersion": 3,
+	"name": "core/tab",
+	"title": "Tab",
+	"description": "Content for a tab in a tabbed interface.",
+	"version": "1.0.0",
+	"category": "design",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"parent": [ "core/tabs" ],
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"reusable": false,
+		"layout": {
+			"allowSwitching": true,
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"padding": true,
+			"margin": false
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			},
+			"__experimentalSkipSerialization": true
+		}
+	},
+	"providesContext": {
+		"core/tab-label": "label"
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}
