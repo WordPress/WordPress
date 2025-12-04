@@ -1457,10 +1457,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	margin: 2.5em 0 8px;
 }
 
-.plugin-install-php .wp-filter {
-	margin-bottom: 0;
-}
-
 /* Plugin card table view */
 .plugin-group {
 	overflow: hidden; /* clearfix */
@@ -1492,8 +1488,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 @media screen and (min-width: 1600px) and ( max-width: 2299px ) {
 	.plugin-card {
-		width: 30%;
-		width: calc( 33.1% - 8px );
+        width: calc( (100% - 32px) / 3 );
 	}
 
 	.plugin-card:nth-child(odd) {
