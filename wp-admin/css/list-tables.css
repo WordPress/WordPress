@@ -1456,10 +1456,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	margin: 2.5em 0 8px;
 }
 
-.plugin-install-php .wp-filter {
-	margin-bottom: 0;
-}
-
 /* Plugin card table view */
 .plugin-group {
 	overflow: hidden; /* clearfix */
