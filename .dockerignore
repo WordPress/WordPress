@@ -1,0 +1,8 @@
+README.md
+.git
+.gitignore
+.github
+*.md
+.DS_Store
+wp-content/uploads
+wp-content/cache
