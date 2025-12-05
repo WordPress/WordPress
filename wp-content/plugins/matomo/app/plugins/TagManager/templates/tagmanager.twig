@@ -1,0 +1,77 @@
+{% extends 'layout.twig' %}
+
+{% set categoryTitle %}Tag Manager{% endset %}
+
+{% set bodyClass = postEvent('Template.bodyClass', 'tagmanager') %}
+{% set isAdminArea = true %}
+
+{% block body %}
+    {% set topMenuModule = 'TagManager' %}
+    {% set topMenuAction = tagAction|default('') %}
+    {{ postEvent("Template.header", "tagmanager") }}
+    {{ parent() }}
+    {{ postEvent("Template.footer", "tagmanager") }}
+{% endblock %}
+
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
+
+<div class="top_controls">
+    <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl">
+    </div>
+
+    {% block topcontrols %}
+
+        <div class="top_bar_sites_selector piwikTopControl">
+            <div
+                vue-entry="CoreHome.SiteSelector"
+                show-selected-site="true"
+                show-all-sites-item="false"
+                class="sites_autocomplete"
+            ></div>
+        </div>
+
+        <div class="piwikTopControl">
+            <div
+                vue-entry="TagManager.ContainerSelector"
+                {% if container is defined and container is not empty %}container-name="{{ (container.name ~ ' (' ~ container.idcontainer ~ ')')|json_encode }}"{% endif %}
+            ></div>
+        </div>
+    {% endblock %}
+
+    <span class="icon icon-arrowup"></span>
+</div>
+
+{% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), areAdsForProfessionalServicesEnabled, currentModule) }}
+    {{ postEvent("Template.beforeContent", "admin", currentModule, currentAction) }}
+
+<div class="page">
+
+    {% if showMenu is not defined or showMenu %}
+        {% import '@CoreHome/_menu.twig' as menu %}
+        {{ menu.menu(tagManagerMenu, false, 'Menu--admin', currentModule, currentAction) }}
+    {% endif %}
+
+    <div class="pageWrap">
+        <a name="main"></a>
+        {% block notification %}
+            {% include "@CoreHome/_notifications.twig" %}
+        {% endblock %}
+        {% include "@CoreHome/_warningInvalidHost.twig" %}
+
+        <div class="admin" id="content">
+
+            <div class="ui-confirm" id="alert">
+                <h2></h2>
+                <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+            </div>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

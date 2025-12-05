@@ -1,0 +1,21 @@
+{# untrusted host warning #}
+{% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
+    {% set invalidHostText %}
+        <a class="btn btn-link" style="float:right;" href="{{ 'https://matomo.org/faq/troubleshooting/faq_171'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
+            <span class="icon-help"></span>
+            {{ 'General_Help'|translate }}
+        </a>
+        <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage|raw }}
+
+        <br>
+        <br>
+
+        {{ invalidHostMessageHowToFix|raw }}
+    {% endset %}
+
+    <div style="clear:both;width:800px;">
+        {{ invalidHostText|notification({'noclear': true, 'raw': true, 'context': 'warning'}) }}
+    </div>
+
+{% endif %}
+

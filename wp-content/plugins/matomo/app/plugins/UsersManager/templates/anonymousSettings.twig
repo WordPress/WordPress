@@ -1,0 +1,18 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate|raw }}{% endset %}
+
+{% block content %}
+{% if isSuperUser %}
+<div
+    vue-entry="UsersManager.AnonymousSettings"
+    title="{{ title|json_encode }}"
+    anonymous-sites="{{ anonymousSites|json_encode }}"
+    anonymous-default-report="{{ anonymousDefaultReport|json_encode }}"
+    anonymous-default-site="{{ anonymousDefaultSite|json_encode }}"
+    anonymous-default-date="{{ anonymousDefaultDate|json_encode }}"
+    available-default-dates="{{ availableDefaultDates|json_encode }}"
+    default-report-options="{{ defaultReportOptions|json_encode }}"
+></div>
+{% endif %}
+{% endblock %}

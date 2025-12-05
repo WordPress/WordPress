@@ -1,0 +1,51 @@
+{% extends '@CoreUpdater/layout.twig' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ 'CoreUpdater_UpdateSuccessTitle'|translate }}</h1>
+    </div>
+
+    <div class="content">
+        <h2>
+            {{ 'CoreUpdater_ThankYouUpdatePiwik'|translate }}
+        </h2>
+
+        <p>
+            {{ 'CoreUpdater_PostUpdateMessage'|translate }}
+
+        </p>
+
+        <h2>
+            {{ 'CoreUpdater_PostUpdateSupport'|translate }}
+        </h2>
+
+        <div class="row">
+            <div class="col s5 offset-s1">
+                <a href="{{ 'https://matomo.org/support-plans/'|trackmatomolink }}" class="btn btn-block">{{ 'CoreUpdater_ServicesSupport'|translate|raw }}</a>
+            </div>
+            <div class="col s5">
+                <a href="{{ 'https://matomo.org/hosting/'|trackmatomolink }}" class="btn btn-block">{{ 'CoreUpdater_CloudHosting'|translate }}</a>
+            </div>
+        </div>
+
+        {% if feedbackMessages is defined and feedbackMessages is not empty %}
+        <h2>{{ 'CoreUpdater_UpdateLog'|translate }}</h2>
+        <div class="row">
+            <div class="col s12">
+                <pre style="margin-top: 0;"><code>
+                    {%- for message in feedbackMessages %}
+&#10003; {{ message }}
+{% endfor -%}
+                </code></pre>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        <a href="index.php">{{ 'General_ContinueToPiwik'|translate }}</a>
+    </div>
+
+{% endblock %}

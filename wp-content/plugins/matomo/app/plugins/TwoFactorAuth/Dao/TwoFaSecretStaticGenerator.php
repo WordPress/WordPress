@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Plugins\TwoFactorAuth\Dao;
+
+class TwoFaSecretStaticGenerator extends \Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator
+{
+    public function generateSecret()
+    {
+        return str_pad('1', 16, '1');
+    }
+}

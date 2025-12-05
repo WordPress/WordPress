@@ -1,0 +1,44 @@
+.elementor-shape {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  direction: ltr;
+  /*
+   * @TODO: The `z-index: -1` rules below are temporary fixes for Chrome 85 issue.
+   *   It will be removed in a future version of Chrome.
+   */
+}
+.elementor-shape-top {
+  top: -1px;
+}
+.elementor-shape-top:not([data-negative=false]) svg {
+  z-index: -1;
+}
+.elementor-shape-bottom {
+  bottom: -1px;
+}
+.elementor-shape-bottom:not([data-negative=true]) svg {
+  z-index: -1;
+}
+.elementor-shape[data-negative=false].elementor-shape-bottom {
+  transform: rotate(180deg);
+}
+.elementor-shape[data-negative=true].elementor-shape-top {
+  transform: rotate(180deg);
+}
+.elementor-shape svg {
+  display: block;
+  width: calc(100% + 1.3px);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.elementor-shape .elementor-shape-fill {
+  fill: #fff;
+  transform-origin: center;
+  transform: rotateY(0deg);
+}
+
+/*# sourceMappingURL=shapes.css.map */

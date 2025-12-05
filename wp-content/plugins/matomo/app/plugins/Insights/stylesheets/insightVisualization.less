@@ -1,0 +1,46 @@
+.dataTableVizInsight {
+  th.orderBy {
+    cursor:pointer;
+  }
+}
+
+.insightsDataTable {
+
+  .controls {
+    padding: 10px 0 0;
+
+    > div {
+      padding: 10px 0;
+    }
+  }
+
+  th.orderBy {
+    width: 20%;
+  }
+
+  th.orderBy.active {
+    font-weight:bold;
+  }
+
+  .title {
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: inherit;
+    display: block;
+  }
+
+  tr:not(.subDataTableContainer) { // required to overwrite the color set in main.less
+    .grown {
+      color: green;
+    }
+
+    .notGrown {
+      color: red;
+    }
+  }
+
+  .isMoverAndShaker {
+    font-weight:bold;
+  }
+}

@@ -1,0 +1,51 @@
+.pluginMeasurableSettings {
+  background-color: white;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #c3c4c7;
+
+  p.noMeasurableSettingsAvailable {
+    padding: 1em;
+    font-size: .8em;
+    font-style: italic;
+  }
+
+  // copied from WP styles
+  // TODO: shouldn't be copied, somehow the iframe should include these.
+  .button-primary {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+
+    background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;
+
+    &:hover {
+      background: #135e96;
+      border-color: #135e96;
+      color: #fff;
+    }
+
+    &[disabled] {
+      color: #a7aaad !important;
+      background: #f6f7f7 !important;
+      border-color: #dcdcde !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      cursor: default;
+    }
+  }
+}

@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Plugins\SitesManager\SiteContentDetection;
+
+use Piwik\Piwik;
+use Piwik\SiteContentDetector;
+abstract class SiteContentDetectionAbstract
+{
+    public const TYPE_TRACKER = 1;
+    public const TYPE_CMS = 2;
+    public const TYPE_JS_FRAMEWORK = 3;
+    public const TYPE_CONSENT_MANAGER = 4;
+    public const TYPE_JS_CRASH_ANALYTICS = 5;
+    public const TYPE_OTHER = 99;
+    public function __construct()
+    {
+    }
+    /**
+     * Returns the ID of the current detection. Automatically built from the class name (without namespace)
+     *
+     * @return string
+     */
+    public static function getId() : string
+    {
+        $classParts = explode('\\', static::class);
+        return end($classParts);
+    }
+    /**
+     * Returns the Name of this detection (e.g. name of CMS, Framework, ...)
+     *
+     * @return string
+     */
+    public static abstract function getName() : string;
+    /**
+     * Returns the location of the icon of this detection
+     *
+     * @return string
+     */
+    public static function getIcon() : string
+    {
+        return '';
+    }
+    /**
+     * Returns the content type this detection provides
+     * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
+     *
+     * @return int
+     */
+    public static abstract function getContentType() : int;
+    /**
+     * Returns the URL to the instruction FAQ on how to integrate Matomo (if applicable)
+     *
+     * @return string|null
+     */
+    public static function getInstructionUrl() : ?string
+    {
+        return null;
+    }
+    /**
+     * Returns the priority the tab should be displayed with.
+     *
+     * @return int
+     */
+    public static function getPriority() : int
+    {
+        return 1000;
+    }
+    /**
+     * Returns if the current detection succeeded for the provided site content or not.
+     *
+     * @param string|null $data
+     * @param array|null  $headers
+     * @return bool
+     */
+    public abstract function isDetected(?string $data = null, ?array $headers = null) : bool;
+    /**
+     * Returns the content that should be rendered into a new Tab on the no data page
+     *
+     * @param SiteContentDetector $detector
+     * @return string
+     */
+    public function renderInstructionsTab(SiteContentDetector $detector) : string
+    {
+        return '';
+    }
+    /**
+     * Returns the content that should be displayed in the Others tab on the no data page
+     *
+     * @param SiteContentDetector $detector
+     * @return string
+     */
+    public function renderOthersInstruction(SiteContentDetector $detector) : string
+    {
+        return '';
+    }
+    /**
+     * Returns if the method should be recommended. Returns true if the method was detected
+     *
+     * @param SiteContentDetector $detector
+     * @return bool
+     */
+    public function isRecommended(SiteContentDetector $detector) : bool
+    {
+        return $detector->wasDetected(static::getId());
+    }
+    /**
+     * Returns details used to render the recommendation on no data screen
+     *
+     * @param SiteContentDetector $detector
+     * @return array
+     */
+    public function getRecommendationDetails(SiteContentDetector $detector) : array
+    {
+        return ['title' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithXRecommendation', [static::getName()]), 'text' => Piwik::translate('SitesManager_SiteWithoutDataRecommendationText', [static::getName()]), 'button' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithX', [static::getName()])];
+    }
+}

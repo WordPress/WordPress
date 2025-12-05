@@ -1,0 +1,153 @@
+#feedback-faq {
+  max-width: 850px;
+  margin: 0 auto;
+
+  ul {
+    list-style: none;
+    padding: 0 0 0 20px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  p {
+    font-size: 13px;
+    padding-bottom: 4px;
+  }
+
+  .browse-matomo-help {
+    padding-top: 10px;
+  }
+
+  h4 {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 4px;
+  }
+
+  .piwik-donate-call {
+    border: 0;
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+  .donate-form-instructions {
+    margin: 0 1.25em 0 0;
+    color: #5E5E5C;
+  }
+
+  .piwik-donate-slider {
+    margin: 1em 0 1em 0;
+  }
+
+  #piwik-worth {
+    margin: 0 1em 0 0;
+    font-size: 1em;
+    font-style: normal;
+  }
+
+  .feedback-help-resources {
+    h4 {
+      padding-top: 20px;
+      padding-bottom: 8px;
+    }
+
+    .search-matomo-form {
+      margin-right: 20px;
+      padding-bottom: 10px;
+      width: 100%;
+      display: table-row;
+
+      div.search-field {
+        display: table-cell;
+        width: 100%;
+        padding-left: 10px;
+      }
+
+      div.search-button {
+        height: 100%;
+        vertical-align: middle;
+        display: table-cell;
+        padding-right: 10px;
+      }
+
+      input[type="text"] {
+        width: 87%;
+        padding-left: 14.5px;
+        border: none;
+        margin-bottom: 0;
+
+        &:focus {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+
+    a {
+      color: @theme-color-text-contrast;
+    }
+
+    hr {
+      margin-top: 45px;
+      background-color: @color-silver-l90;
+      height: 1px;
+      border: 0;
+    }
+  }
+
+  .claim {
+    font-size: 13px;
+    line-height: 16px;
+    color: @theme-color-text-contrast;
+    margin-bottom: 50px;
+    margin-top: 15px;
+  }
+
+  .menu {
+    li {
+      margin: 0 10px 10px 0
+    }
+
+    li:not(:first-child) {
+      &:before {
+        color: #333;
+        content: '· ';
+      }
+    }
+
+    a {
+      display: inline-block;
+      padding-right: 10px;
+      padding-left: 18px;
+    }
+  }
+
+  .social {
+    margin-top: 22px;
+
+    li {
+      margin: 0 20px 10px;
+    }
+  }
+
+  .menu,
+  .social {
+    margin: 15px 0 10px;
+    display: block;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-bottom: 2px;
+    }
+
+    li {
+      display: inline-block;
+    }
+  }
+}

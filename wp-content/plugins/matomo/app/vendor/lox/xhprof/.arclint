@@ -1,0 +1,30 @@
+{
+  "exclude": [
+    "(^xhprof_html/jquery/)",
+    "(^xhprof_html/docs/)",
+    "(^extension/Makefile.local)"
+  ],
+  "linters": {
+    "chmod": {
+      "type": "chmod"
+    },
+    "filename": {
+      "type": "filename"
+    },
+    "generated": {
+      "type": "generated"
+    },
+    "merge-conflict": {
+      "type": "merge-conflict"
+    },
+    "nolint": {
+      "type": "nolint"
+    },
+    "text-without-length": {
+      "type": "text",
+      "severity": {
+        "3": "disabled"
+      }
+    }
+  }
+}

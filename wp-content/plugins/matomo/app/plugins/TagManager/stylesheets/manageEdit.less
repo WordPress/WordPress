@@ -1,0 +1,150 @@
+.tagManagerManageSelect,
+.tagManagerManageEdit {
+
+  .multiPairField {
+    margin-right: -0.75rem;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    .form-group.row {
+      margin-left: -0.75rem;
+    }
+
+    .input-field {
+      padding-right: 0;
+      margin: 0;
+    }
+  }
+
+  .comparisonField {
+    max-width: 275px !important;
+  }
+
+  textarea.materialize-textarea {
+    min-height: 3rem;
+  }
+
+  .multiple {
+    .innerFormField {
+      margin-right: 0.75rem;
+      max-width: 350px;
+      .form-group.row {
+        margin-top: 2px;
+        margin-bottom: 2px;
+      }
+    }
+    .innerFormField,
+    input, select {
+      width: ~"calc(100% - 60px)";
+    }
+
+    .fieldUiControl:has(input[id^='consentTypes-p1-']) {
+      width: 300px !important;
+    }
+
+    .innerFormField input, select{
+      width: 100%;
+    }
+
+    .icon-edit {
+      margin-right: 8px;
+    }
+
+    .icon-edit, .icon-plus, .icon-minus {
+      position: relative;
+      cursor: pointer !important;
+    }
+
+  }
+}
+
+.tagManagerVariableList,
+.tagManagerManageSelect,
+.tagManagerManageEdit {
+
+  .triggerConditionNode {
+    color: @color-silver !important;
+    font-style: italic;
+  }
+
+  .collection.with-header {
+    .collection-header {
+      background-color: @theme-color-background-tinyContrast;
+    }
+    .collection-item {
+      cursor: pointer;
+      min-height: auto;
+      &:hover {
+        background-color: @theme-color-background-tinyContrast;
+      }
+    }
+
+    .disabledTemplate {
+      opacity: 0.6;
+      cursor: help;
+    }
+
+    .icon-edit,
+    .icon-help {
+      color: @theme-color-link;
+    }
+    .icon-help {
+      cursor: help;
+    }
+    .avatar .circle {
+      padding: 6px;
+      border-radius: 0 !important;
+    }
+  }
+}
+
+.tagManagerVariableList {
+  .collection-item {
+    cursor: auto !important;
+    &:hover {
+      background-color: @theme-color-background-contrast !important;
+    }
+  }
+}
+
+.system.notification.notification-info {
+  .preview-debug-url-div {
+    padding-top: 1rem;
+
+    #previewDebugUrl {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      resize: vertical;
+      width: 25%;
+    }
+
+    .btn {
+      margin-top: -4px;
+    }
+  }
+}
+
+.tagManagerManageEdit {
+  .fieldVariableTemplate label {
+    display: inline-block;
+  }
+}
+
+.tag-ui-confirm.ui-confirm {
+  h2 {
+    text-align: left;
+  }
+}
+
+body.tagmanager .modal.open .expandableList {
+  position: relative;
+}
+
+.editVariable {
+  .form-group.row.matomo-form-field:has(#customData-p1-0) {
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+  }
+}

@@ -1,0 +1,310 @@
+COPYRIGHT
+
+	Matomo - free/libre analytics platform
+
+	The software package is:
+
+		Copyright (C) 2014  Matthieu Aubry
+
+	Individual contributions, components, and libraries are copyright
+	of their respective authors.
+
+
+SOFTWARE LICENSE
+
+	The free software license of Matomo is GNU General Public License v3
+	or later.  A copy of GNU GPL v3 should have been included in this
+	software package in LICENSE.
+
+
+TRADEMARK
+
+	Matomo (TM) is an internationally registered trademark.
+
+	The software license does not grant any rights under trademark
+	law for use of the trademark.  Refer to https://matomo.org/trademark/
+	for up-to-date trademark licensing information.
+
+*
+* The software license applies to both the aggregate software and
+* application-specific portions of the software.
+*
+* You may not remove this legal notice or modify the software
+* in such a way that misrepresents the origin of the software.
+*
+
+CREDITS
+
+	The software consists of contributions made by many individuals.
+	Major contributors are listed in https://matomo.org/team/.
+
+	For detailed contribution history, refer to the source, tickets,
+	patches, and Git revision history, available at
+	https://github.com/matomo-org/matomo/issues
+	https://github.com/matomo-org/matomo
+
+
+SEPARATELY LICENSED COMPONENTS AND LIBRARIES
+
+	The following components/libraries are distributed in this package,
+	and subject to their respective licenses.
+
+	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
+	Link:  https://github.com/matomo-org/matomo/blob/master/core/Tracker/javascriptTag.tpl
+	License:  Public Domain
+
+	Name:  jquery.truncate
+	Link:  https://github.com/matomo-org/matomo/blob/master/libs/jquery/truncate/
+	License:  New BSD
+
+	Name:  matomo.js & piwik.js - JavaScript tracker
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/matomo.js
+	License:  New BSD
+
+	Name:  PiwikTracker - server-side tracker (PHP)
+	Link: https://github.com/matomo-org/matomo/blob/master/libs/PiwikTracker/
+	License:  New BSD
+
+	Name:  DeviceDetector
+	Link:  https://github.com/matomo-org/device-detector
+	License:  LGPL
+
+	Name:  Piwik/Decompress
+	Link:  https://github.com/matomo-org/component-decompress
+	License:  LGPL v3.0
+
+	Name:  Piwik/Network
+	Link:  https://github.com/matomo-org/component-network
+	License:  LGPL v3.0
+
+
+THIRD-PARTY COMPONENTS AND LIBRARIES
+
+	The following components/libraries are redistributed in this package,
+	and subject to their respective licenses.
+
+	Name:  jqPlot
+	Link:  http://www.jqplot.com/
+	License:  Dual-licensed: MIT (Expat) or GPL v2
+
+	Name:  jQuery
+	Link:  https://jquery.com/
+	License:  Dual-licensed: MIT (Expat) or GPL
+	Notes:
+	- GPL version not explicitly stated in source but GPL v2 is in git
+	- includes Sizzle.js - multi-licensed: MIT (Expat), New BSD, or GPL [v2]
+
+	Name:  jQuery UI
+	Link:  https://jqueryui.com/
+	License:  Dual-licensed: MIT (Expat) or GPL
+	Notes:
+	- GPL version not explicitly stated in source but GPL v2 is in git
+
+	Name:  jquery.history
+	Link:  https://tkyk.github.io/jquery-history-plugin/
+	License:  MIT (Expat)
+
+	Name:  jquery.scrollTo
+	Link:  http://plugins.jquery.com/project/ScrollTo
+	License:  Dual licensed: MIT (Expat) or GPL
+
+	Name:  jquery Tooltip
+	Link:  http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
+	License:  Dual licensed: MIT (Expat) or GPL
+
+	Name:  jquery placeholder
+	Link:  http://mths.be/placeholder
+	License:  Dual licensed: MIT (Expat) or GPL
+
+	Name:  qrcode.js
+	Link:  https://github.com/davidshimjs/qrcodejs
+	License:  MIT
+
+	Name:  json2.js
+	Link:  http://json.org/
+	License:  Public domain
+	Notes:
+	- reference implementation
+
+	Name:  jshrink
+	Link: https://github.com/tedivm/jshrink
+	License: BSD-3-Clause
+
+	Name:  Sparkline
+	Link:  https://github.com/jamiebicknell/Sparkline
+	License:  MIT
+
+	Name:  sprintf
+	Link:  http://www.diveintojavascript.com/projects/javascript-sprintf
+	License:  New BSD
+
+	Name:  upgrade.php
+	Link:  http://upgradephp.berlios.de/
+	License:  Public domain
+
+	Name:  Archive Tar
+	Link:  https://pear.php.net/package/Archive_Tar
+	License:  New BSD
+
+	Name:  Event Dispatcher (and Notification)
+	Link:  https://pear.php.net/package/Event_Dispatcher/
+	License:  New BSD
+
+	Name:  HTML Common2
+	Link:  https://pear.php.net/package/HTML_Common2/
+	License:  New BSD
+
+	Name:  HTML QuickForm2
+	Link:  https://pear.php.net/package/HTML_QuickForm2/
+	License:  New BSD
+
+	Name:  HTML QuickForm2_Renderer_Smarty
+	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
+	License:  New BSD
+
+	Name:  MaxMindGeoIP
+	Link:  https://dev.maxmind.com/geoip/legacy/downloadable/#PHP-7
+	License:  LGPL
+
+	Name:  PclZip
+	Link:  http://www.phpconcept.net/pclzip/
+	License:  LGPL
+	Notes:
+	- GPL version not explicitly stated but tarball contains LGPL v2.1
+
+	Name:  PEAR (base system)
+	Link:  https://pear.php.net/package/PEAR
+	License:  New BSD
+
+	Name:  PhpSecInfo
+	Link:  http://phpsec.org/projects/phpsecinfo/
+	License:  New BSD
+
+	Name:  RankChecker
+	Link:  http://www.getrank.org/free-pagerank-script
+	License:  GPL
+
+	Name:  Twig
+	Link:  https://twig.symfony.com/
+	License:  BSD
+
+	Name:  TCPDF
+	Link:  https://sourceforge.net/projects/tcpdf/
+	License:  LGPL v3 or later
+
+	Name:  Zend Framework
+	Link:  https://framework.zend.com/
+	License:  New BSD
+
+	Name: pChart 2.1.4
+	Link: http://www.pchart.net
+	License: GPL v3
+
+	Name: Chroma.js
+	Link: https://github.com/gka/chroma.js
+	License: GPL v3
+
+	Name: qTip2 - Pretty powerful tooltips
+	Link: http://craigsworks.com/projects/qtip2/
+	License: GPL
+
+	Name: Kartograph.js
+	Link: http://kartograph.org/
+	License: LGPL v3 or later
+
+	Name: Raphaël - JavaScript Vector Library
+	Link: http://raphaeljs.com/
+	License: MIT (Expat)
+
+	Name: iFrame Resizer
+	Link: https://github.com/davidjbradshaw/iframe-resizer
+	License: MIT
+
+	Name: lessphp
+	Link: http://leafo.net/lessphp
+	License: GPL3, MIT (Expat)
+
+	Name: Symfony Console Component
+	Link: https://github.com/symfony/Console
+	License: MIT (Expat)
+
+	Name: Mousetrap
+	Link: https://github.com/ccampbell/mousetrap
+	License: Apache 2.0
+
+	Name: PHP-DI
+	Link: http://php-di.org/
+	License: MIT (Expat)
+
+    Name: Vue.js
+    Link: https://vuejs.org/
+    License: MIT (Expat)
+
+    Name: math.js
+    Link: https://mathjs.org/
+    License: Apache 2.0
+
+THIRD-PARTY CONTENT
+
+	Name:  FamFamFam icons - Mark James
+	Link:  http://www.famfamfam.com/lab/icons/
+	License:  CC BY 3.0
+
+	Name:  Solar System icons - Dan Wiersema
+	Link:  http://www.iconspedia.com/icon/neptune-4672.html
+	License:  Free for non-commercial use
+	Notes:
+	- used in Matomo's ExampleUI plugin
+
+	Name:  flag-icon-css - Lipis
+	Link:  https://github.com/lipis/flag-icon-css
+	License:  MIT (Expat)
+	Notes:
+	- used for flag PNGs
+
+	Name: Wine project - tahoma.ttf font
+	Link: http://source.winehq.org/git/wine.git/blob_plain/HEAD:/fonts/tahoma.ttf
+	License: LGPL v2.1
+	Notes:
+	- used in ImageGraph plugin
+
+	Name: plugins/Feedback/vue/src/RateFeature/thumbs-down.png
+	Link: https://www.iconfinder.com/icons/216428/down_thumbs_icon
+	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
+
+	Name: plugins/Feedback/vue/src/RateFeature/thumbs-up.png
+	Link: https://www.iconfinder.com/icons/216429/thumbs_up_icon
+	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
+
+	Name: plugins/Insights/images/idea.png
+	Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
+	License: GPL
+	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
+
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock", "icon-content-copy", "icon-done") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
+	Link: https://design.google.com/icons/
+	License: Apache License Version 2.0
+
+	Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive", "icon-rocket", "icon-embed", "icon-page-performance", "icon-github") in plugins/Morpheus/fonts
+	Link: https://icomoon.io/#icons-icomoon
+	License: GPL
+
+	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink", "icon-chevron-right", "icon-chevron-left", "icon-chevron-down", "icon-chevron-up", "icon-circle") in plugins/Morpheus/fonts
+	Link: https://fontawesome.com/
+	License: CC BY 4.0
+
+    Name: Pictogrammers icons ("icon-merge") in plugins/Morpheus/fonts
+    Link: https://pictogrammers.com/
+    License: Apache License Version 2.0
+
+    Name: Feather icons ("icon-dollar-sign", "icon-marketplace") in plugins/Morpheus/fonts
+    Link: https://feathericons.com/
+    License: MIT (Expat)
+
+Notes:
+- the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
+  licenses (2- or 3-clause), which are GPL compatible.
+- icons for browsers, operating systems, browser plugins, brands, search engines, social media websites
+  and flags of countries are nominative use of third-party trademarks when
+  referring to the corresponding product or entity

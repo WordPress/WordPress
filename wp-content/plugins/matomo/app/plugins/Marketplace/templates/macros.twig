@@ -1,0 +1,15 @@
+
+{% macro pluginDeveloper(owner) %}
+    {% if 'piwik' == owner or 'matomo-org' == owner %}<img title="Matomo" alt="Matomo" style="padding-bottom:2px;height:12px;" src="plugins/Morpheus/images/logo-dark.svg"/>{% else %}{{ owner }}{% endif %}
+{% endmacro %}
+
+{% macro featuredIcon(align='') %}
+    <img class="featuredIcon"
+         title="{{ 'Marketplace_FeaturedPlugin'|translate }}"
+         src="plugins/Marketplace/images/rating_important.png"
+         align="{{ align }}" />
+{% endmacro %}
+
+{% macro missingRequirementsPleaseUpdateNotice(plugin) %}
+    <div vue-entry="Marketplace.MissingReqsNotice" plugin="{{ plugin|json_encode }}"></div>
+{% endmacro %}

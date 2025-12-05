@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html id="ng-app" ng-app="piwikApp">
+<head>
+    <title>Debug Matomo Tag Manager</title>
+    <base href="{{ piwikUrl|e('html_attr') }}" >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
+    <meta name="viewport" content="initial-scale=1.0"/>
+    <meta name="robots" content="noindex,nofollow">
+    <style>
+        .nav-wrapper .brand-logo {
+            position: relative;
+            pointer-events: none;
+        }
+        .home h2, .home h3 {
+            margin-top: 0;
+        }
+
+        .tm-icon {
+            display: inline-block;
+            color: #444444;
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+        }
+
+        .tm-icon-checkmark {
+            color: green;
+            position: relative;
+            top: 2px;
+        }
+
+        #mtmCloseDebug {
+            padding-right: 2rem;
+        }
+
+        .tm-icon-close {
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .lbl-onlyfiredTags {
+            color: black;
+        }
+
+        .onlyFiredTags-chk {
+            position: relative !important;
+            opacity: 1 !important;
+            pointer-events: all !important;
+            top: 2px;
+        }
+        .brand-logo {
+            padding-top: unset !important;
+            top: 0.8rem;
+            width: 14rem;
+        }
+    </style>
+    <script>
+        var piwik_translations = {};
+    </script>
+    <script type="text/javascript">
+        window.piwik = window.piwik || {};
+        window.piwik.isPagesComparisonApiDisabled = true; // Disable API.getPagesComparisonsDisabledFor call
+        window.mtmDbgData = {
+            mtmEvents: [],
+            mtmLogs: []
+        };
+        window.mtmEvents = {
+            push: function (event) {
+                var events = window.mtmDbgData.mtmEvents;
+                if (event) {
+                    event.index0 = events.length;
+                    event.index = events.length + 1;
+                }
+                events.push(event);
+            }
+        };
+        window.mtmLogs = {
+            push: function (log) {
+                window.mtmDbgData.mtmLogs.push(log);
+            }
+        };
+    </script>
+</head>
+<body ng-app="app" >
+    <div id="root" vue-entry="TagManager.Debugging">
+        <template v-slot:logo>{% include "@CoreHome/_logo.twig" %}</template>
+    </div>
+    {% include "_jsCssIncludes.twig" %}
+</body>
+</html>

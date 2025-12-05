@@ -1,0 +1,125 @@
+<div class="SegmentEditor" style="display:none;">
+    <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription) }}">
+        <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
+        <div class="dropdown dropdown-body">
+            <div class="segmentFilterContainer">
+                <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
+                <span></span>
+            </div>
+            <ul class="submenu">
+                <li>{{ 'SegmentEditor_SelectSegmentOfVisits'|translate }}
+                    <div class="segmentList">
+                        <ul>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
+            {% if authorizedToCreateSegments %}
+                <a tabindex="4" class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+            {% else %}
+                <hr/>
+                <ul class="submenu">
+                <li>
+                    {% if isUserAnonymous %}
+                        <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
+                        <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
+                    {% endif %}
+                </li>
+                </ul>
+                <br/><br/>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="segment-element borderedControl expanded">
+
+        <div class="segment-content">
+            <div class="segment-top" {% if not isSuperUser %}style="display:none"{% endif %}>
+               <input type="hidden" class="available_segments_select"/>
+               <div class="segment-top-item grid-1">
+                {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <div class="enable_all_users"><strong>
+                        <select class="enable_all_users_select">
+                            <option {% if not isSuperUser %}selected="1"{% endif %} value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
+                            <option {% if isSuperUser %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_VisibleToAllUsers'|translate }}</option>
+                        </select>
+                    </strong></div>
+                </div>
+                <div class="segment-top-item grid-2">
+                {{ 'SegmentEditor_SegmentIsDisplayedForWebsite'|translate }}<div class="visible_to_website"><strong>
+                        <select class="visible_to_website_select">
+                            <option selected="" value="{{ idSite }}">{{ 'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate }}</option>
+                            {% if isAddingSegmentsForAllWebsitesEnabled %}<option value="0">{{ 'SegmentEditor_SegmentDisplayedAllWebsites'|translate }}</option>{% endif %}
+                        </select>
+                    </strong></div>
+                </div>
+                {% if isCreateRealtimeSegmentsEnabled %}
+                   <div class="segment-top-item grid-3">
+                    {{ 'General_And'|translate }}
+                    <div class="auto_archive"><strong>
+                            <select class="auto_archive_select">
+                                {% if createRealTimeSegmentsIsEnabled %}
+                                    <option {% if isBrowserArchivingEnabled %}selected="1"{% endif%} value="0">{{ 'SegmentEditor_AutoArchiveRealTime'|translate }}</option>
+                                {% endif %}
+                                <option {% if not isBrowserArchivingEnabled or not createRealTimeSegmentsIsEnabled %}selected="1"{% endif %} value="1">{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }} </option>
+                            </select>
+                        </strong>
+                    </div>
+                   </div>
+                {% endif %}
+
+            </div>
+            <h3 style="margin: 12px 6px;">{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
+        </div>
+        <div class="segment-footer">
+            <div vue-entry="Feedback.RateFeature" title="&quot;{{ 'SegmentEditor_SegmentEditor'|translate }}&quot;" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
+            <a class="btn-flat delete" href="#">{{ 'General_Delete'|translate }}</a>
+            <a class="btn-flat close" href="#">{{ 'General_Close'|translate }}</a>
+            {% if isVisitorLogEnabled %}
+            <a class="btn-flat testSegment">{{ 'SegmentEditor_Test'|translate }}</a>
+            {% endif %}
+            <button class="btn saveAndApply">{{ 'SegmentEditor_SaveAndApply'|translate|raw }}</button>
+        </div>
+    </div>
+</div>
+<div class="segmentListContainer">
+<div class="ui-confirm" id="segment-delete-confirm">
+    <h2>{{ 'SegmentEditor_AreYouSureDeleteSegment'|translate }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+<div class="ui-confirm segment-definition-change-confirm" data-segment-processed-on-request="{{ segmentProcessedOnRequest|number_format }}" data-hide-message="{{ hideSegmentDefinitionChangeMessage }}">
+    <h2>
+        <span class="process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationProcessedOnRequest'|translate }}
+        </span>
+        <span class="no-process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationNotProcessedOnRequest'|translate }}
+        </span>
+    </h2>
+    <p class="description">
+        <span>
+            <label>
+                <input type="checkbox" id="hideSegmentMessage" name="hideSegmentMessage" />
+                <span>{{ 'SegmentEditor_HideMessageInFuture'|translate }}</span>
+            </label>
+        </span>
+    </p>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+<div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}</h2>
+    {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
+    <p class="description">
+        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}
+        <br/>
+        {{ 'SegmentEditor_DataAvailableAtLaterDate'|translate }}
+        {% if isSuperUser %}
+            <br/> <br/> {{ 'SegmentEditor_YouMayChangeSetting'|translate('browser_archiving_disabled_enforce', segmentSetting) }}
+        {% endif %}
+    </p>
+
+    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>
+</div>

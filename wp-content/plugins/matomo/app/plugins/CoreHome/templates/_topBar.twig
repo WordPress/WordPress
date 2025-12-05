@@ -1,0 +1,65 @@
+{{ postEvent("Template.beforeTopBar", userLogin, topMenu) }}
+<ul class="right hide-on-med-and-down" role="menu">
+    {% macro menuItemLabel(label, icon) %}
+        {% if icon is defined and icon and icon starts with 'icon-' %}
+            <span class="navbar-icon {{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
+        {% else %}
+            {{ label|translate }}
+        {% endif %}
+    {% endmacro %}
+
+    {% macro topMenuItem(label, icon, menu) %}
+        {% if menu._html is defined %}
+            {{ menu._html|raw }}
+        {% else %}
+            {% if menu._badgecount > 0 %}
+            <div class="badge-menu-item-container">
+            {%  endif %}
+            <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
+               {% if menu._attribute is defined %}{{ menu._attribute }}{% endif %}
+               {% if menu._onclick is defined %}onClick="{{ menu._onclick }}"{% endif %}
+               {% if menu._url.module is defined %}
+                  id="topmenu-{{ menu._url.module|lower }}"
+                  href="index.php{{ menu._url|urlRewriteWithParameters }}"
+               {% else %}
+                  href="{{ menu._url }}" rel="noreferrer noopener"
+               {% endif %}
+               target="_self" tabindex="3">
+                 {% if menu._badgecount > 0 %}
+                   <span class="badge-menu-item">
+                     {% if menu._badgecount > 0 and menu._badgecount < 10 %}
+                       {{ menu._badgecount }}
+                     {% elseif menu._badgecount > 9 %}
+                       9+
+                     {% endif %}
+                   </span>
+                 {%  endif %}
+                 {{ _self.menuItemLabel(label, icon) }}
+            </a>
+            {% if menu._badgecount > 0 %}
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endmacro %}
+
+    {% macro isActiveItem(menu, currentModule, currentAction) %}{% if (menu and menu._url and menu._url.module is defined and menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}{% endmacro %}
+
+    {% if topMenuModule is not defined %}
+        {% set topMenuModule = currentModule %}
+        {% set topMenuAction = currentAction %}
+    {% endif %}
+
+    {% apply spaceless %}
+        {% for label,menu in topMenu %}
+            <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}">{{ _self.topMenuItem(label, menu._icon, menu) }}</li>
+        {% endfor %}
+    {% endapply %}
+</ul>
+<ul class="sidenav hide-on-large-only" id="mobile-top-menu" role="menu">
+    {% for label,menu in topMenu %}
+        <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
+            >{{ _self.topMenuItem(label, '', menu) }}</li>
+    {% endfor %}
+</ul>
+<a href="javascript:;" data-target="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse sidenav-trigger" style="display:none;"><span class="icon-menu-hamburger"></span></a>
+<a href="javascript:;" data-target="mobile-top-menu" class="activateTopMenu hide-on-large-only button-collapse sidenav-trigger"><span class="icon-more-verti"></span></a>

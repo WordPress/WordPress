@@ -1,0 +1,21 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    {% if displayfirstWebsiteSetupSuccess is defined %}
+        <div id="feedback" class="alert alert-success">
+            {{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
+        </div>
+    {% endif %}
+
+    {{ trackingHelp|raw }}
+
+    <h3>{{ 'Installation_LargePiwikInstances'|translate }}</h3>
+    <p>
+        {{ 'Installation_JsTagArchivingHelp1'|translate(externallink('https://matomo.org/docs/setup-auto-archiving/'),'</a>')|raw }}
+    </p>
+    <p>
+        {{ 'General_ReadThisToLearnMore'|translate(externallink('https://matomo.org/docs/optimize/'),'</a>')|raw }}
+    </p>
+
+{% endblock %}

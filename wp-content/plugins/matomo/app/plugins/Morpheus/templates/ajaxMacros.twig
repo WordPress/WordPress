@@ -1,0 +1,54 @@
+{% macro errorDiv(id='ajaxError') %}
+    <div id="{{ id }}" style="display:none"></div>
+{% endmacro %}
+
+{% macro loadingDiv(id='ajaxLoadingDiv') %}
+<div id="{{ id }}" style="display:none;">
+    <div class="loadingPiwik">
+        <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />{{ 'General_LoadingData'|translate }}
+    </div>
+    <div class="loadingSegment">
+        {{ 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime'|translate }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro requestErrorDiv(contactEmail, areAdsForProfessionalServicesEnabled = false, currentModule = '', showMoreHelp = false) %}
+    <div id="loadingError">
+        <div class="alert alert-danger">
+            {% if contactEmail is defined and contactEmail %}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ contactEmail|e('url') ~ '">', '</a>')|raw }}
+            {% else %}
+                {{ 'General_ErrorRequest'|translate('', '') }}
+            {% endif %}
+
+            <br /><br />
+            {{ 'General_NeedMoreHelp'|translate }}
+
+            {% if showMoreHelp %}
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/faq/troubleshooting/faq_19489/'|trackmatomolink }}">{{ 'General_Faq'|translate }}</a> –
+            {% endif %}
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://forum.matomo.org/'|trackmatomolink }}">{{ 'Feedback_CommunityHelp'|translate }}</a>
+
+            {%- if areAdsForProfessionalServicesEnabled %}
+                –
+                <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/support-plans'|trackmatomolink(null, null, 'AjaxError')}}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            {%- endif %}.
+        </div>
+    </div>
+    <div id="loadingRateLimitError" style="display: none">
+        <div class="alert alert-danger">
+            {{ 'General_ErrorRateLimit'|translate }}
+
+            <br /><br />
+            {{ 'General_NeedMoreHelp'|translate }}
+
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://forum.matomo.org/'|trackmatomolink }}">{{ 'Feedback_CommunityHelp'|translate }}</a>
+
+            {%- if areAdsForProfessionalServicesEnabled %}
+            –
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/support-plans'|trackmatomolink(null, null, 'AjaxError')}}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            {%- endif %}.
+        </div>
+    </div>
+{% endmacro %}

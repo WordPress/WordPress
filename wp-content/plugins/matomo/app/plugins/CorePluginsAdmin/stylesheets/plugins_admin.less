@@ -1,0 +1,150 @@
+.pluginsManagement {
+    .footer-message {
+       margin-top: 32px;
+        .font-default(13px, 21px);
+    }
+}
+
+table.dataTable tr.active-plugin > td {
+    background-color:@theme-color-background-base !important;
+}
+
+table.dataTable tr.active-plugin:hover > td {
+    background-color:@theme-color-background-base !important;
+}
+
+table.dataTable tr.inactive-plugin > td {
+    background-color:#ddd !important;
+}
+
+table.dataTable tr.inactive-plugin:hover > td {
+    background-color:#ddd !important;
+}
+
+.plugin-desc-text {
+    margin-top:0;
+    margin-bottom:1.5em;
+}
+
+.plugin-donation {
+    margin-top:1em;
+}
+
+.donation-overlay {
+    text-align: center;
+    .donation-links {
+        margin-top: 2em;
+        .donation-link {
+            display: inline-block;
+            margin: 0 1em;
+
+            &.bitcoin {
+                margin: 1em 0!important;
+                display: block!important;
+                a {
+                    display: inline-block;
+                    color: #c7254e;
+                    border-radius: 4px;
+                    font-size: 1.1em;
+                    padding: 5px;
+                    text-decoration: none!important;
+                    background-color: #f9f2f4;
+                }
+                span {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+.plugin-author {
+    float:left;
+}
+
+.plugin-license {
+    float:right;
+}
+
+table.entityTable tr td .plugin-homepage a {
+    text-decoration:none;
+}
+
+table.entityTable tr td .plugin-homepage a:hover {
+    text-decoration:underline;
+}
+
+table.entityTable tr td a.uninstall {
+    color:red;
+    font-weight:bold;
+}
+
+.plugin-version {
+    color: #999;
+}
+
+#plugins {
+
+    .inactive-plugin,
+    .active-plugin {
+        .name {
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+    }
+
+    .inactive-plugin {
+        td {
+            background-color: rgba(230, 230, 230, 0.3);
+        }
+
+        &:hover td {
+            background-color: #f2f2f2;
+        }
+    }
+
+    td.vers {
+        white-space: nowrap;
+    }
+
+    .plugin-desc-missingrequirements {
+        font-weight:bold;
+        a {
+            text-decoration: underline !important;
+            color: black;
+        }
+    }
+
+    .settingsLink {
+        text-align: right;
+        width: 100%;
+        display: inline-block;
+    }
+}
+
+.admin .pluginsFilter {
+    margin-top: 20px;
+
+    .active {
+        font-weight: bold;
+    }
+
+    a .counter {
+        color: #999999;
+        font-weight: normal;
+    }
+
+    .status {
+        display: inline-block;
+        margin-left: 23.5px;
+    }
+}
+
+
+.activateTagManager {
+    .dontShowAgainBtn {
+        background-color: @theme-color-text-lighter;
+    }
+}

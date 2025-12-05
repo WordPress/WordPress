@@ -1,0 +1,14 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+<div
+    vue-entry="PrivacyManager.GdprOverview"
+    after-g-d-p-r-overview-intro-content="{{ afterGDPROverviewIntroContent|default(null)|json_encode }}"
+    delete-logs-enable="{{ (deleteLogsEnable == 1)|default(null)|json_encode }}"
+    delete-reports-enable="{{ (deleteReportsEnable == 1)|default(null)|json_encode }}"
+    raw-data-retention="{{ rawDataRetention|default(null)|json_encode }}"
+    report-retention="{{ reportRetention|default(null)|json_encode }}"
+></div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'layout.twig' %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% set title %}{{ siteName|raw }} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
+
+{% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Matomo{% endblock %}
+
+{% set bodyClass = postEvent('Template.bodyClass', 'dashboard') %}
+
+{% block body %}
+    {{ postEvent("Template.header", "dashboard") }}
+    {{ parent() }}
+    {{ postEvent("Template.footer", "dashboard") }}
+{% endblock %}
+
+{% block root %}
+    {% include "@CoreHome/_warningInvalidHost.twig" %}
+    {% include "@CoreHome/_topScreen.twig" %}
+
+    <div class="top_controls">
+        {% if hideQuickAccess is not defined or not hideQuickAccess %}
+            <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
+        {% endif %}
+
+        {% block topcontrols %}
+        {% endblock %}
+    </div>
+
+    <div class="ui-confirm" id="alert">
+        <h2></h2>
+        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+    </div>
+
+    {{ postEvent("Template.beforeContent", "dashboard", currentModule, currentAction) }}
+
+    <div class="page">
+
+        {% if showMenu is defined and showMenu %}
+            <div id="secondNavBar" class="Menu--dashboard z-depth-1">
+                <div vue-entry="CoreHome.ReportingMenu"></div>
+            </div>
+        {% endif %}
+
+        <div class="pageWrap">
+
+            <a name="main"></a>
+            {% block notification %}
+                {% include "@CoreHome/_notifications.twig" %}
+            {% endblock %}
+
+            <div vue-entry="CoreHome.Comparisons"></div>
+
+            {% block content %}
+            {% endblock %}
+
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+{% if whatisnewShow is defined and whatisnewShow %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const tooltip = '{{ 'CoreAdminHome_WhatIsNewTooltip'|translate }}';
+            window.Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', tooltip.replace(/&#039;/g,"'"), 'what-is-new-popup');
+        });
+    </script>
+{% endif %}
+
+{% endblock %}

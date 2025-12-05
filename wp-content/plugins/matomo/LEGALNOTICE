@@ -1,0 +1,49 @@
+SOFTWARE LICENSE
+
+	The free software license of Matomo is GNU General Public License v3
+	or later.  A copy of GNU GPL v3 should have been included in this
+	software package in LICENSE.
+
+
+TRADEMARK
+
+	Matomo (TM) is an internationally registered trademark.
+
+	The software license does not grant any rights under trademark
+	law for use of the trademark.  Refer to https://matomo.org/trademark/
+	for up-to-date trademark licensing information.
+
+*
+* The software license applies to both the aggregate software and
+* application-specific portions of the software.
+*
+* You may not remove this legal notice or modify the software
+* in such a way that misrepresents the origin of the software.
+*
+
+CREDITS
+
+	The software consists of contributions made by many individuals.
+	Major contributors are listed in https://matomo.org/team/.
+
+	For detailed contribution history, refer to the source, tickets,
+	patches, and Git revision history, available at
+	https://github.com/matomo-org/matomo-for-wordpress/issues
+	https://github.com/matomo-org/matomo-for-wordpress
+
+
+SEPARATELY LICENSED COMPONENTS AND LIBRARIES
+
+See a list of all components/libraries and its licenses in Matomo in `app/LEGALNOTICE`
+
+THIRD-PARTY COMPONENTS AND LIBRARIES
+
+See a list of all components/libraries and its licenses in Matomo in `app/LEGALNOTICE`
+
+THIRD-PARTY CONTENT
+
+	Name:  chart.js
+	Link:  https://www.chartjs.org/
+	License:  The MIT License (MIT) see node_modules/chart.js/LICENSE.md
+
+    For more third party content see the list in `app/LEGALNOTICE`.

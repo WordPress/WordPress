@@ -1,0 +1,20 @@
+.elementor-control-convert_to_container .elementor-button.e-loading {
+  font-size: 0;
+  width: 42px;
+  position: relative;
+  pointer-events: none;
+}
+.elementor-control-convert_to_container .elementor-button.e-loading::before {
+  content: "\e8fb";
+  font-family: "eicons";
+  font-size: 12px;
+  animation: eicon-spin 2s infinite linear;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-inline-start: -6px;
+  margin-block-start: -6px;
+}
+
+/*# sourceMappingURL=editor.css.map */

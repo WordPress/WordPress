@@ -1,0 +1,614 @@
+#titlediv .inside p.description {
+	margin: 8px 2px 0;
+}
+
+#titlediv .inside p.description label {
+	cursor: pointer;
+}
+
+span.shortcode {
+	display: block;
+	margin: 2px 0;
+}
+
+span.shortcode.old {
+	background: #777;
+	color: #fff;
+}
+
+span.shortcode input {
+	font-size: 12px;
+	border: none;
+	box-shadow: none;
+	padding: 4px 8px;
+	margin: 0;
+}
+
+#wpcf7-contact-form-list-table span.shortcode input,
+#wpcf7-contact-form-editor span.shortcode input {
+	background: transparent;
+}
+
+#wpcf7-contact-form-list-table span.shortcode input {
+	color: #444;
+}
+
+#wpcf7-contact-form-editor span.shortcode input {
+	color: #fff;
+	width: 100%;
+}
+
+#submitpost input.copy {
+	margin-bottom: 10px;
+}
+
+#submitpost input.delete {
+	padding: 0;
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	background: inherit;
+	color: #a00;
+}
+
+#submitpost input.delete:hover {
+	color: #dc3232; /* Red */
+}
+
+#submitpost input.delete:focus {
+	outline: thin dotted;
+}
+
+.postbox-container .postbox h3 {
+	border-bottom: 1px solid transparent;
+}
+
+div.config-error, span.config-error, ul.config-error {
+	color: #444;
+	font-style: normal;
+	font-size: 13px;
+}
+
+ul.config-error {
+	margin: 2px 0;
+}
+
+ul.config-error li {
+	list-style: none;
+	padding: 2px 2px;
+	margin: 0;
+}
+
+#misc-publishing-actions .config-error {
+	line-height: 2;
+}
+
+[data-config-field][aria-invalid="true"] {
+	border-color: #dc3232;
+}
+
+#contact-form-editor-tabs .icon-in-circle,
+#contact-form-editor .config-error .icon-in-circle,
+.wp-list-table .config-error .icon-in-circle,
+.icon-in-circle {
+	display: inline-block;
+	vertical-align: baseline;
+	margin: 1px 6px 0;
+	padding: 0 5px;
+	min-width: 7px;
+	height: 17px;
+	border-radius: 11px;
+	background-color: #ca4a1f;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 17px;
+	text-align: center;
+	z-index: 26;
+}
+
+/*
+ * Tabs
+ */
+#contact-form-editor-tabs {
+	border-bottom: 1px solid #aaa;
+	padding: 9px 10px 0;
+	margin: 0;
+}
+
+#contact-form-editor-tabs button {
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #aaa;
+	padding: 6px 10px;
+	margin: 0 4px -1px;
+	color: #333;
+	background-color: #e4e4e4;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 20px;
+}
+
+#contact-form-editor-tabs button[aria-selected="true"] {
+	border-top: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	border-bottom: 1px solid #f5f5f5;
+	color: #000;
+	background-color: #f5f5f5;
+	font-weight: bold;
+}
+
+#contact-form-editor-tabs button:hover {
+	color: #000;
+}
+
+#contact-form-editor .contact-form-editor-panel > div.config-error {
+	margin-bottom: 1.4em;
+}
+
+#contact-form-editor-tabs button[aria-selected="true"] .icon-in-circle {
+	display: none;
+}
+
+#contact-form-editor .contact-form-editor-panel h2 {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 24px;
+	margin: 8px 0;
+	padding: 0;
+}
+
+#contact-form-editor .contact-form-editor-panel {
+	background-color: #f5f5f5;
+	border: 1px solid #aaa;
+	border-top: none;
+	padding: 16px;
+}
+
+#contact-form-editor .form-table th {
+	width: 100px;
+}
+
+#contact-form-editor .contact-form-editor-panel fieldset legend {
+	line-height: 1.5;
+	margin: .6em 0 .4em;
+}
+
+/*
+ * Form Tab
+ */
+#tag-generator-list button {
+	font-size: 12px;
+	height: 26px;
+	line-height: 24px;
+	margin: 2px;
+	padding: 0 8px 1px;
+}
+
+.tag-generator-dialog {
+	padding: 12px;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.04 );
+	height: 720px;
+	width: 720px;
+	overflow: auto;
+}
+
+.tag-generator-dialog::backdrop {
+	background: rgb( 0 0 0 / 50% );
+}
+
+.tag-generator-dialog > .close-button {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+}
+
+form.tag-generator-panel {
+	display: flex;
+	flex-direction: column;
+	height: 720px;
+	width: 720px;
+	max-height: 100%;
+	max-width: 100%;
+	margin-block-end: 0;
+}
+
+form.tag-generator-panel[data-version="2"] {
+	&:invalid .mail-tag-tip {
+		display: none;
+	}
+
+	.description-box {
+		box-sizing: border-box;
+		flex: none;
+		margin-inline: -12px;
+		padding-inline: 12px;
+		border-bottom: 1px solid #dfdfdf;
+	}
+
+	.control-box {
+		box-sizing: border-box;
+		flex: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 12px 0;
+		min-height: 120px;
+		overflow: auto;
+	}
+
+	.control-box > fieldset {
+		margin-block: 8px;
+		margin-inline-start: 10em;
+		line-height: 2.25;
+	}
+
+	.control-box > fieldset > legend {
+		font-weight: bolder;
+		margin-block: 8px;
+		margin-inline-start: -10em;
+		line-height: 1.25;
+	}
+
+	.control-box input[type="text"] {
+		width: 20rem;
+		max-width: 88%;
+	}
+
+	.control-box input[type="number"] {
+		width: 8rem;
+		max-width: 44%;
+	}
+
+	.control-box textarea {
+		height: 12ex;
+		width: 20rem;
+		max-width: 88%;
+	}
+
+	.control-box select {
+		width: 20rem;
+		max-width: 88%;
+	}
+
+	.control-box input:invalid,
+	.control-box textarea:invalid {
+		background-color: #ffe9de;
+	}
+
+	.insert-box {
+		box-sizing: border-box;
+		flex: none;
+		margin-block-end: -12px;
+		margin-inline: -12px;
+		padding-block: 24px 12px;
+		padding-inline: 12px;
+		background-color: #fcfcfc;
+		border-top: 1px solid #dfdfdf;
+	}
+
+	.insert-box .flex-container {
+		display: flex;
+	}
+
+	.insert-box .flex-container > [data-tag-part="tag"] {
+		flex: auto;
+		margin-inline-end: 8px;
+	}
+
+	.insert-box .mail-tag-tip::before {
+		font: 1.2rem dashicons;
+		content: "\f348" / '';
+		color: #646970;
+		padding-inline-end: 4px;
+		vertical-align: top;
+	}
+}
+
+form.tag-generator-panel[data-version="1"] {
+	.control-box {
+		padding: 0;
+		margin: 0;
+		overflow: auto;
+		flex-grow: 1;
+	}
+
+	.control-box > fieldset > legend {
+		border: 1px solid #dfdfdf;
+		border-left: 4px solid #00a0d2;
+		background: #f7fcfe;
+		padding: 4px 12px;
+		margin: 4px 0;
+		line-height: 1.4em;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	table.form-table th {
+		width: 120px;
+		padding: 4px 10px 4px 0;
+		font-size: 13px;
+	}
+
+	table.form-table td {
+		padding: 4px 10px;
+		font-size: 13px;
+	}
+
+	.control-box input.oneline {
+		width: 200px;
+	}
+
+	.control-box input.large-text {
+		width: 400px;
+	}
+
+	.control-box textarea.values {
+		width: 200px;
+		height: 6em;
+	}
+
+	.control-box input[type="number"],
+	.control-box input[type="date"] {
+		width: 88px;
+	}
+
+	.control-box table caption {
+		text-align: left;
+		font-size: 110%;
+		font-weight: bold;
+		color: #777;
+		margin: 10px 0 5px;
+	}
+
+	.control-box table.form-table td label {
+		line-height: 1.1em;
+	}
+
+	.control-box table.form-table td label .description {
+		line-height: 1.4em;
+	}
+
+	.insert-box {
+		margin: 0 -15px -15px;
+		padding: 8px 16px;
+		background-color: #fcfcfc;
+		border-top: 1px solid #dfdfdf;
+		overflow: auto;
+	}
+
+	.insert-box input.tag {
+		width: 510px;
+		float: left;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	.insert-box .submitbox {
+		padding: 0;
+	}
+
+	.insert-box .submitbox input[type="button"] {
+		float: right;
+	}
+
+	.insert-box .description label {
+		cursor: text;
+	}
+}
+
+/*
+ * Mail Tab
+ */
+.contact-form-editor-box-mail span.mailtag {
+	display: inline-block;
+	margin: 0 0 0 4px;
+	padding: 1px 2px;
+	cursor: pointer;
+	color: #000;
+}
+
+.contact-form-editor-box-mail span.mailtag.used {
+	color: #666;
+}
+
+.contact-form-editor-box-mail span.mailtag.unused {
+	font-weight: bold;
+}
+
+/*
+ * Messages Tab
+ */
+#messages-panel p.description {
+	margin: 5px 0 10px;
+}
+
+/*
+ * Tabs for integration modules
+ */
+#sendinblue-panel table tr.inactive ~ tr {
+	display: none;
+}
+
+#sendinblue-panel .dashicons {
+ 	text-decoration: none;
+}
+
+#sendinblue-panel td p {
+ 	margin-top: 12px;
+}
+
+/*
+ * List Table
+ */
+.fixed .column-title {
+	width: 38%;
+}
+
+.fixed .column-shortcode {
+	width: 38%;
+}
+
+/*
+ * Welcome Panel
+ */
+.wpcf7-welcome-panel {
+	position: relative;
+	overflow: auto;
+	margin: 16px 0;
+	padding: 23px 10px 0;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	background: #fff;
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.wpcf7-welcome-panel h3 {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 2.1em;
+	margin: 1em 0 1.2em;
+}
+
+.wpcf7-welcome-panel h3 .dashicons {
+	position: relative;
+	top: -2px;
+	display: inline-block;
+	width: 60px;
+	color: #575757;
+	font-size: 40px;
+}
+
+.wpcf7-welcome-panel p {
+	color: #646970;
+}
+
+.wpcf7-welcome-panel p a {
+	font-weight: bold;
+}
+
+.wpcf7-welcome-panel .welcome-panel-close {
+	position: absolute;
+	z-index: 2;
+	top: 10px;
+	right: 10px;
+	padding: 10px 15px 10px 21px;
+	font-size: 13px;
+	line-height: 1.23076923; /* Chrome rounding, needs to be 16px equivalent */
+	text-decoration: none;
+}
+
+.wpcf7-welcome-panel .welcome-panel-close::before {
+	background: 0 0;
+	color: #787c82;
+	content: "\f153" / '';
+	display: block;
+	font: normal 16px/20px dashicons;
+	speak: never;
+	height: 20px;
+	text-align: center;
+	width: 20px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: absolute;
+	top: 8px;
+	left: 0;
+	transition: all .1s ease-in-out;
+}
+
+.wpcf7-welcome-panel .welcome-panel-content {
+	display: block;
+	margin-left: 13px;
+	max-width: 1500px;
+	min-height: auto;
+}
+
+.wpcf7-welcome-panel .welcome-panel-column-container {
+	clear: both;
+	position: relative;
+}
+
+.wpcf7-welcome-panel .welcome-panel-column {
+	display: block;
+	width: 48%;
+	min-width: 200px;
+	float: left;
+	padding: 0 2% 0 0;
+	margin: 0 0 1em 0;
+}
+
+@media screen and (max-width: 870px) {
+	.wpcf7-welcome-panel .welcome-panel-column {
+		display: block;
+		float: none;
+		width: 100%;
+	}
+}
+
+.wpcf7-welcome-panel .welcome-panel-column p {
+	margin-top: 7px;
+	color: #3c434a;
+}
+
+/*
+ * Integration
+ */
+.card {
+	background: #fff none repeat scroll 0 0;
+	border: 1px solid #e5e5e5;
+	border-left: 4px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin-top: 20px;
+	max-width: 520px;
+	min-width: 255px;
+	padding: 0.7em 2em 1em;
+	position: relative;
+}
+
+.card.active {
+	border-color: #00a0d2;
+}
+
+#constant_contact.card.active {
+	border-color: #dc3232;
+}
+
+.card img.icon {
+	float: left;
+	margin: 8px 8px 8px -8px;
+}
+
+.card h2.title {
+	float: left;
+	max-width: 240px;
+	font-size: 1.3em;
+	font-weight: 600;
+}
+
+.card .infobox {
+	float: right;
+	font-size: 13px;
+	color: #666;
+	margin: 1em;
+	line-height: 1.5;
+	max-width: 240px;
+}
+
+.card .inside .form-table th {
+	padding: 15px 10px 15px 0;
+	width: 160px;
+}
+
+.card .inside .form-table td {
+	padding: 10px 10px;
+}
+
+.card .checkboxes li {
+	margin: 0;
+}

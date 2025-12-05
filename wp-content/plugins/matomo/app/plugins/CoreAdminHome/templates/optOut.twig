@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% endif %}
+    {% if reloadUrl %}
+        <meta http-equiv="refresh" content="0; url={{ reloadUrl }}" />
+    {% endif %}
+    <meta name="robots" content="noindex" />
+
+    {% if stylesheets.external|length > 0 %}
+        {% for style in stylesheets.external %}
+            <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
+        {% endfor %}
+    {% endif %}
+    {% if stylesheets.inline|length > 0 %}
+        <style>
+            {% for style in stylesheets.inline %}
+            {{ style|raw }}
+            {% endfor %}
+        </style>
+    {% endif %}
+</head>
+<body>
+{% if dntFound %}
+    {{ 'CoreAdminHome_OptOutDntFound'|translate }}
+{% elseif reloadUrl %}
+    {# empty #}
+{% else %}
+    {# if only showing confirmation (because we're in a new window), we only display the success message if JS is disabled.
+     # otherwise we try to close the window immediately.
+     #}
+    {% if showConfirmOnly %}
+    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p>
+    <script>
+        {# try to update nonce in iframe, so sending it a second time works #}
+        try {
+            window.opener.document.querySelector('[name="nonce"]').value = '{{ nonce }}';
+            window.opener.document.querySelector('form').action = window.opener.document.querySelector('form').action.replace(/nonce=[0-9a-z]+/, 'nonce={{ nonce }}');
+        } catch (e) {}
+        window.close();
+    </script>
+    <noscript>
+    {% endif %}
+
+        {% if showIntro %}
+        <p id="textOptIn" {% if trackVisits %}style=" display:none"{% endif %}>
+        {{ 'CoreAdminHome_OptOutComplete'|translate }}
+
+        {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+        </p>
+        <p id="textOptOut" {% if not trackVisits %}style="display:none"{% endif %}>
+            {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
+        </p>
+        {%  endif %}
+
+        <p id="textError_cookies" style="display:none; color: red; font-weight: bold;">
+            {{ 'CoreAdminHome_OptOutErrorNoCookies'|translate }}
+        </p>
+        <p id="textError_https" style="display:none; color: red; font-weight: bold;">
+            {{ 'CoreAdminHome_OptOutErrorNotHttps'|translate }}
+        </p>
+        <p id="textError_popupBlocker" style="display:none; color: red; font-weight: bold;">
+            {{ 'CoreAdminHome_OptOutErrorWindowOpen'|translate }}
+        </p>
+
+    {% if showConfirmOnly %}</noscript>{% endif %}
+
+    {% if not showConfirmOnly %}
+    <form method="post" action="?{{ queryParameters|url_encode|raw }}" target="_blank">
+        <input type="hidden" name="nonce" value="{{ nonce }}" />
+        <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
+        <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+        <label for="trackVisits"><strong>
+                <span id="labelOptOut" {% if not trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreNotOptedOut'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
+                </span>
+
+                <span id="labelOptIn" {% if trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
+                </span>
+        </strong></label>
+        <noscript>
+            <button type="submit">{{ 'General_Save'|translate }}</button>
+        </noscript>
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if javascripts.external|length > 0 %}
+    {% for script in javascripts.external %}
+        <script type="text/javascript" src="{{ script|raw }}"></script>
+    {% endfor %}
+{% endif %}
+{% if javascripts.inline|length > 0 %}
+    <script>
+        {% for script in javascripts.inline %}
+        {{ script|raw }}
+        {% endfor %}
+    </script>
+{% endif %}
+</body>
+</html>

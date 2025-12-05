@@ -1,0 +1,112 @@
+.elementor-element, .elementor-lightbox {
+  --swiper-theme-color: #000;
+  --swiper-navigation-size: 44px;
+  --swiper-pagination-bullet-size: 6px;
+  --swiper-pagination-bullet-horizontal-gap: 6px;
+}
+.elementor-element .swiper .swiper-slide figure, .elementor-lightbox .swiper .swiper-slide figure {
+  line-height: 0;
+}
+.elementor-element .swiper .elementor-lightbox-content-source, .elementor-lightbox .swiper .elementor-lightbox-content-source {
+  display: none;
+}
+.elementor-element .swiper .elementor-swiper-button,
+.elementor-element .swiper ~ .elementor-swiper-button, .elementor-lightbox .swiper .elementor-swiper-button,
+.elementor-lightbox .swiper ~ .elementor-swiper-button {
+  position: absolute;
+  display: inline-flex;
+  z-index: 1;
+  cursor: pointer;
+  font-size: 25px;
+  color: rgba(238, 238, 238, 0.9);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.elementor-element .swiper .elementor-swiper-button svg,
+.elementor-element .swiper ~ .elementor-swiper-button svg, .elementor-lightbox .swiper .elementor-swiper-button svg,
+.elementor-lightbox .swiper ~ .elementor-swiper-button svg {
+  fill: rgba(238, 238, 238, 0.9);
+  height: 1em;
+  width: 1em;
+}
+.elementor-element .swiper .elementor-swiper-button-prev,
+.elementor-element .swiper ~ .elementor-swiper-button-prev, .elementor-lightbox .swiper .elementor-swiper-button-prev,
+.elementor-lightbox .swiper ~ .elementor-swiper-button-prev {
+  left: 10px;
+}
+.elementor-element .swiper .elementor-swiper-button-next,
+.elementor-element .swiper ~ .elementor-swiper-button-next, .elementor-lightbox .swiper .elementor-swiper-button-next,
+.elementor-lightbox .swiper ~ .elementor-swiper-button-next {
+  right: 10px;
+}
+.elementor-element .swiper .elementor-swiper-button.swiper-button-disabled,
+.elementor-element .swiper ~ .elementor-swiper-button.swiper-button-disabled, .elementor-lightbox .swiper .elementor-swiper-button.swiper-button-disabled,
+.elementor-lightbox .swiper ~ .elementor-swiper-button.swiper-button-disabled {
+  opacity: 0.3;
+}
+.elementor-element .swiper .swiper-image-stretch .swiper-slide .swiper-slide-image, .elementor-lightbox .swiper .swiper-image-stretch .swiper-slide .swiper-slide-image {
+  width: 100%;
+}
+.elementor-element .swiper .swiper-pagination-fraction,
+.elementor-element .swiper .swiper-pagination-custom,
+.elementor-element .swiper .swiper-horizontal > .swiper-pagination-bullets,
+.elementor-element .swiper .swiper-pagination-bullets.swiper-pagination-horizontal,
+.elementor-element .swiper ~ .swiper-pagination-fraction,
+.elementor-element .swiper ~ .swiper-pagination-custom,
+.elementor-element .swiper ~ .swiper-pagination-bullets.swiper-pagination-horizontal, .elementor-lightbox .swiper .swiper-pagination-fraction,
+.elementor-lightbox .swiper .swiper-pagination-custom,
+.elementor-lightbox .swiper .swiper-horizontal > .swiper-pagination-bullets,
+.elementor-lightbox .swiper .swiper-pagination-bullets.swiper-pagination-horizontal,
+.elementor-lightbox .swiper ~ .swiper-pagination-fraction,
+.elementor-lightbox .swiper ~ .swiper-pagination-custom,
+.elementor-lightbox .swiper ~ .swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: 5px;
+}
+.elementor-element .swiper.swiper-cube .elementor-swiper-button,
+.elementor-element .swiper.swiper-cube ~ .elementor-swiper-button, .elementor-lightbox .swiper.swiper-cube .elementor-swiper-button,
+.elementor-lightbox .swiper.swiper-cube ~ .elementor-swiper-button {
+  transform: translate3d(0, -50%, 1px);
+}
+.elementor-element :where(.swiper-horizontal) ~ .swiper-pagination-bullets, .elementor-lightbox :where(.swiper-horizontal) ~ .swiper-pagination-bullets {
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+}
+.elementor-element :where(.swiper-horizontal) ~ .swiper-pagination-bullets .swiper-pagination-bullet, .elementor-lightbox :where(.swiper-horizontal) ~ .swiper-pagination-bullets .swiper-pagination-bullet {
+  margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
+}
+.elementor-element :where(.swiper-horizontal) ~ .swiper-pagination-progressbar, .elementor-lightbox :where(.swiper-horizontal) ~ .swiper-pagination-progressbar {
+  width: 100%;
+  height: 4px;
+  left: 0;
+  top: 0;
+}
+.elementor-element.elementor-pagination-position-outside .swiper, .elementor-lightbox.elementor-pagination-position-outside .swiper {
+  padding-bottom: 30px;
+}
+.elementor-element.elementor-pagination-position-outside .swiper .elementor-swiper-button,
+.elementor-element.elementor-pagination-position-outside .swiper ~ .elementor-swiper-button, .elementor-lightbox.elementor-pagination-position-outside .swiper .elementor-swiper-button,
+.elementor-lightbox.elementor-pagination-position-outside .swiper ~ .elementor-swiper-button {
+  top: calc(50% - 30px / 2);
+}
+.elementor-element .elementor-swiper, .elementor-lightbox .elementor-swiper {
+  position: relative;
+}
+.elementor-element .elementor-main-swiper, .elementor-lightbox .elementor-main-swiper {
+  position: static;
+}
+.elementor-element.elementor-arrows-position-outside .swiper, .elementor-lightbox.elementor-arrows-position-outside .swiper {
+  width: calc(100% - 60px);
+}
+.elementor-element.elementor-arrows-position-outside .swiper .elementor-swiper-button-prev,
+.elementor-element.elementor-arrows-position-outside .swiper ~ .elementor-swiper-button-prev, .elementor-lightbox.elementor-arrows-position-outside .swiper .elementor-swiper-button-prev,
+.elementor-lightbox.elementor-arrows-position-outside .swiper ~ .elementor-swiper-button-prev {
+  left: 0;
+}
+.elementor-element.elementor-arrows-position-outside .swiper .elementor-swiper-button-next,
+.elementor-element.elementor-arrows-position-outside .swiper ~ .elementor-swiper-button-next, .elementor-lightbox.elementor-arrows-position-outside .swiper .elementor-swiper-button-next,
+.elementor-lightbox.elementor-arrows-position-outside .swiper ~ .elementor-swiper-button-next {
+  right: 0;
+}
+
+/*# sourceMappingURL=e-swiper.css.map */

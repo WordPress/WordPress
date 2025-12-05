@@ -1,0 +1,4 @@
+{% autoescape false %}
+    {{ includeAssets({"type": "css"}) }}
+    {{ includeAssets({"type": "js", "defer": deferjs|default(false) }) }}
+{% endautoescape %}

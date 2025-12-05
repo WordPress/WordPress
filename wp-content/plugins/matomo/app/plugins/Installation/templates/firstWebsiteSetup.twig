@@ -1,0 +1,29 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    <h2>{{ 'Installation_SetupWebsite'|translate }}</h2>
+
+    {% if displayGeneralSetupSuccess is defined %}
+        <div id="feedback" class="alert alert-success">
+            {{ 'Installation_SuperUserSetupSuccess'|translate }}
+        </div>
+    {% endif %}
+
+    <p>{{ 'Installation_SiteSetup'|translate }}</p>
+
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'Installation_SetupWebsiteError'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
+
+    {% if form_data is defined %}
+        {% include "genericForm.twig" %}
+    {% endif %}
+    <div class="clearfix"></div>
+
+    <p><em>{{ 'Installation_SiteSetupFootnote'|translate }}</em></p>
+
+{% endblock %}

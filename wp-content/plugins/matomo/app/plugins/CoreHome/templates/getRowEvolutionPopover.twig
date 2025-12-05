@@ -1,0 +1,39 @@
+{% set seriesColorCount = constant("Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution::SERIES_COLOR_COUNT") %}
+<div class="rowevolution">
+    <div class="popover-title">{{ popoverTitle | raw }}</div>
+    <div class="graph">
+        {{ graph|raw }}
+    </div>
+    <div class="metrics-container">
+        <h2>{{ availableMetricsText|raw }}</h2>
+
+        <div class="alert alert-info">
+            {{ 'RowEvolution_Documentation'|translate }}
+        </div>
+        <table class="metrics" border="0" cellpadding="0" cellspacing="0" data-thing="{{ seriesColorCount }}">
+            {% for i, metric in metrics %}
+                <tr data-i="{{ i }}" {% if metric.hide|default %}style="display:none"{% endif %}>
+                    <td class="sparkline">
+                        {{ metric.sparkline|raw }}
+                    </td>
+                    <td class="text">
+                        <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
+                            {{- metric.label|rawSafeDecoded -}}
+                        </span>
+                        {% if metric.details %}:
+                            <span class="details" title="{{ metric.minmax }}">{{ metric.details|raw }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="compare-container">
+        <h2>{{ 'RowEvolution_CompareRows'|translate }}</h2>
+
+        <div class="alert alert-info">
+            {{ 'RowEvolution_CompareDocumentation'|translate|raw }}
+        </div>
+        <a href="#" class="rowevolution-startmulti">» {{ 'RowEvolution_PickARow'|translate }}</a>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
+<p>{{ 'SitesManager_SiteWithoutDataSPADescription'|translate(externallink('https://matomo.org/guide/tag-manager/'), '</a>', externallink('https://developer.matomo.org/guides/spa-tracking'), '</a>')|raw }}</p>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
+<div
+    vue-entry="TagManager.TrackingSPAPage"
+    show-container-row="{{ showContainerRow|json_encode }}"
+>
+</div>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataSPAFollowStepCompleted'|translate('<strong>','</strong>')|raw }}</p>

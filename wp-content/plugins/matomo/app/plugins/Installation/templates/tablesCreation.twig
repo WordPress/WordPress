@@ -1,0 +1,56 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    <h2>{{ 'Installation_Tables'|translate }}</h2>
+
+    {% if someTablesInstalled is defined %}
+        <div class="alert alert-warning">
+            {{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
+        </div>
+        <p>
+            {{ 'Installation_TablesFound'|translate }}:
+        </p>
+        <p>
+            <em>{{ tablesInstalled }} </em>
+        </p>
+        {% if showReuseExistingTables is defined %}
+            <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>
+            <p class="next-step">
+                <a href="{{ linkTo({'action':'reuseTables'}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a>
+            </p>
+        {% else %}
+            <p class="next-step">
+                <a href="{{ linkTo({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a>
+            </p>
+        {% endif %}
+        <p class="next-step">
+            <a href="{{ linkTo({'deleteTables':1}) }}" id="eraseAllTables">{{ 'Installation_TablesDelete'|translate }} &raquo;</a>
+        </p>
+    {% endif %}
+
+    {% if existingTablesDeleted is defined %}
+        <div class="alert alert-success">
+            {{ 'Installation_TablesDeletedSuccess'|translate }}
+        </div>
+    {% endif %}
+
+    {% if tablesCreated is defined %}
+        <div class="alert alert-success">
+            {{ 'Installation_TablesCreatedSuccess'|translate }}
+        </div>
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("["~tablesInstalled~"]") }} ";
+
+            $("#eraseAllTables").click(function () {
+                if (!confirm(strConfirmEraseTables)) {
+                    return false;
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

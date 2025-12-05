@@ -1,0 +1,14 @@
+{
+  "WordPress": {
+    "TokenAuthMissing": "Missing token_auth in the request.",
+    "ExceptionInvalidToken": "Invalid token_auth in the request.",
+    "UseShortCode": "Use the WordPress short code",
+    "UseShortCodeDesc1": "Use the short code %1$s to embed the opt out into your website.",
+    "UseShortCodeDesc2": "You can use these short code options",
+    "UseShortCodeOptionLanguage": "language - eg de or en. By default the language is detected automatically based on the user's browser",
+    "Example": "Example",
+    "SaveChanges": "Save Changes",
+    "MeasurableSettingsNoAccess": "In order to make changes to these settings, you need to be a Matomo administrator for the currently selected site.",
+    "NoMeasurableSettingsAvailable": "No website specific settings for this plugin are currently available. This usually means there are some global settings that must be set for the plugin in the %1$sMatomo Admin%2$s."
+  }
+}

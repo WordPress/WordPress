@@ -1,0 +1,164 @@
+#e-dashboard-widget-admin-top-bar {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#e-admin-top-bar-root {
+  font-family: var(--e-a-font-family);
+  background: var(--e-a-bg-default);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+  display: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  width: calc(100% - 160px);
+  z-index: 1;
+}
+body.folded #e-admin-top-bar-root {
+  width: calc(100% - 36px);
+}
+#e-admin-top-bar-root .e-admin-top-bar {
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+#e-admin-top-bar-root .page-title-action {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 16px;
+  outline: none;
+  border: none;
+  border-radius: var(--e-a-border-radius);
+  background-color: var(--e-a-btn-bg);
+  color: var(--e-a-btn-color-invert);
+  transition: var(--e-a-transition-hover);
+}
+#e-admin-top-bar-root .page-title-action:hover {
+  background-color: var(--e-a-btn-bg-hover);
+  color: var(--e-a-btn-color-invert);
+}
+#e-admin-top-bar-root .e-admin-top-bar__heading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: 40px;
+}
+#e-admin-top-bar-root .e-admin-top-bar__main-area {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#e-admin-top-bar-root .e-admin-top-bar__main-area button {
+  margin: 0 4px;
+}
+#e-admin-top-bar-root .e-admin-top-bar__secondary-area {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#e-admin-top-bar-root .e-admin-top-bar__heading-title {
+  color: var(--e-a-color-txt);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0 8px;
+  line-height: normal;
+}
+#e-admin-top-bar-root .e-admin-top-bar__main-area-buttons {
+  display: inline-flex;
+  gap: 5px;
+}
+#e-admin-top-bar-root.e-admin-top-bar--active {
+  display: block;
+}
+#e-admin-top-bar-root.e-admin-top-bar--active ~ #wpbody #wpbody-content {
+  margin-block-start: 50px;
+}
+#e-admin-top-bar-root.e-admin-top-bar--active ~ #wpbody .wrap {
+  clear: both;
+  padding-block-start: 10px;
+}
+#e-admin-top-bar-root.e-admin-top-bar--active ~ #wpbody .wrap h1 {
+  display: none;
+}
+#e-admin-top-bar-root:not(.e-admin-top-bar--active) ~ #wpbody .wrap h1, #e-admin-top-bar-root:not(.e-admin-top-bar--active) ~ #wpbody .wrap .page-title-action {
+  display: inline-block;
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0 10px;
+  text-decoration: none;
+  color: var(--e-a-color-txt);
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button.accent {
+  color: var(--e-a-color-accent);
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button.accent:hover .e-admin-top-bar__bar-button-title,
+#e-admin-top-bar-root .e-admin-top-bar__bar-button.accent:hover .e-admin-top-bar__bar-button-icon {
+  color: var(--e-a-color-accent);
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button .crown-icon {
+  font-size: 14px;
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button .e-admin-top-bar__bar-button-icon {
+  margin: 0 4px;
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button:hover .e-admin-top-bar__bar-button-title,
+#e-admin-top-bar-root .e-admin-top-bar__bar-button:hover .e-admin-top-bar__bar-button-icon {
+  color: var(--e-a-color-txt-hover);
+}
+#e-admin-top-bar-root .e-admin-top-bar__bar-button-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 4px;
+  line-height: normal;
+}
+#e-admin-top-bar-root ~ #wpbody .wrap h1, #e-admin-top-bar-root ~ #wpbody .wrap .page-title-action {
+  display: none;
+}
+
+@media screen and (max-width: 960px) {
+  #e-admin-top-bar-root {
+    width: calc(100% - 36px);
+  }
+}
+@media screen and (max-width: 782px) {
+  #e-admin-top-bar-root {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 600px) {
+  #e-admin-top-bar-root {
+    top: 46px;
+  }
+}
+@media (max-width: 768px) {
+  #e-admin-top-bar-root {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #e-admin-top-bar-root .e-admin-top-bar__main-area-buttons {
+    position: absolute;
+    top: calc(100% + 10px);
+  }
+  #e-admin-top-bar-root .e-admin-top-bar__secondary-area .e-admin-top-bar__secondary-area-buttons {
+    display: none;
+  }
+  #e-admin-top-bar-root .e-admin-top-bar__secondary-area > .e-admin-top-bar__bar-button .e-admin-top-bar__bar-button-title {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  #e-admin-top-bar-root .e-admin-top-bar__secondary-area .e-admin-top-bar__secondary-area-buttons {
+    display: flex;
+  }
+}
+/*# sourceMappingURL=admin-top-bar.css.map */

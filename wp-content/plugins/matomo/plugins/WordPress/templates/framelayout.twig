@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="google" content="notranslate">
+
+    {# conditional iframe buster #}
+    <script type="text/javascript">
+      if (top.location.pathname !== {{ adminPhpUrl|json_encode }}) {
+        document.head.remove();
+        window.addEventListener('DOMContentLoaded', function () {
+          document.body.style.display = 'none';
+          document.body.innerHTML = '';
+        });
+      }
+    </script>
+
+    {% include "_jsGlobalVariables.twig" %}
+    {% include "_jsCssIncludes.twig" %}
+</head>
+<body>
+    <div id="root">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

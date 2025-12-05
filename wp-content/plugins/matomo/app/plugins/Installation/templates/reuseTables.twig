@@ -1,0 +1,77 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    {% set helpMessage %}{{- 'CoreUpdater_HelpMessageContent'|translate('[',']',"<br/>")|raw }}{% endset %}
+
+    <h2>{{ 'Installation_ReusingTables'|translate }}</h2>
+
+    <div class="reuseTables">
+
+        {% if coreError %}
+            <div class="alert alert-danger">
+                {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+                <ul>
+                    {% for message in errorMessages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
+            <ul>
+                <li>{{ helpMessage }}</li>
+            </ul>
+            <p>{{ 'CoreUpdater_ErrorDIYHelp'|translate }}</p>
+            <ul>
+                <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
+                <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
+                <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='{{ 'https://matomo.org/faq/how-to-update/faq_179'|trackmatomolink }}' rel='noreferrer noopener' target='_blank'>(see FAQ)</a></li>
+                <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
+                <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
+            </ul>
+        {% else %}
+            {% if warningMessages|length > 0 %}
+                <div class="alert alert-warning">
+                    {{ 'CoreUpdater_WarningMessages'|translate }}
+                    <ul>
+                        {% for message in warningMessages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if errorMessages|length > 0 %}
+                <div class="alert alert-error">
+                    {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
+                    <ul>
+                        {% for message in errorMessages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
+                        {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
+                        <p>
+                            {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if errorMessages|length > 0 or warningMessages|length > 0 %}
+                <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}</p>
+                <ul>
+                    <li>{{ helpMessage }}</li>
+                </ul>
+            {% else %}
+                <div class="alert alert-success">
+                    {{ 'Installation_TablesUpdatedSuccess'|translate(oldVersion, currentVersion) }}
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

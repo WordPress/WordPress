@@ -1,0 +1,50 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    <h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
+
+    {{ 'Installation_CongratulationsHelp'|translate|raw }}
+
+    <h3>{{ 'Installation_WelcomeToCommunity'|translate }}</h3>
+    <p>
+        {{ 'Installation_CollaborativeProject'|translate }}
+    </p>
+    <p>
+        {{ 'Installation_GetInvolved'|translate(externallink('https://matomo.org/get-involved/'),'</a>')|raw }}
+        {{ 'General_HelpTranslatePiwik'|translate(externallink('https://matomo.org/translations/'),"<\/a>")|raw }}
+    </p>
+    <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
+    <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
+
+    {% if areAdsForProfessionalServicesEnabled %}
+        <h3>{{ 'Installation_ProfessionalServicesAdTitle'|translate }}</h3>
+        <p>
+            {{ 'Installation_ProfessionalServicesfessionalServicesAdText'|translate(externallink('https://plugins.matomo.org/premium'),'</a>',externallink('https://matomo.org/support-plans/'))|raw }}
+        </p>
+        <p>
+            {{ 'Installation_ProfessionalServicesfessionalDiscoverHow'|translate(externallink('https://matomo.org/matomo-cloud/'),'</a>')|raw }}
+        </p>
+    {% endif %}
+
+    <h3>Performance Settings</h3>
+    <p>{{ 'Installation_PerformanceSettingsDesc1'|translate(externallink('https://matomo.org/docs/setup-auto-archiving/'), '</a>')|raw }}</p>
+    <p>{{ 'Installation_PerformanceSettingsDesc2'|translate(externallink('https://matomo.org/docs/setup-auto-archiving/'), '</a>')|raw }}</p>
+
+    <h3>{{ 'Installation_DefaultSettings'|translate }}</h3>
+    <p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
+
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'General_Error'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
+
+    <div class="installation-finished">
+        {% if form_data is defined %}
+            {% include "genericForm.twig" %}
+        {% endif %}
+    </div>
+
+{% endblock %}

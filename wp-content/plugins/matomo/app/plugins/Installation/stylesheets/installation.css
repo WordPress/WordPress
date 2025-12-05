@@ -1,0 +1,246 @@
+body {
+    font-size: 14px;
+}
+
+#installation > .container {
+    width: 85% !important;
+}
+
+#installation strong {
+    font-weight: 700;
+}
+
+/* Header */
+.header {
+    padding: 50px 0 22px;
+    margin-bottom: 40px;
+    border-bottom: solid 1px #ccc;
+}
+
+.content .btn {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#installation .form-group .dropdown-content li>a, .dropdown-content li>span {
+    color: #43a047;
+}
+
+#installation .form-group label {
+    color: #757575;
+}
+
+.header .languageSelection {
+    color: #1976D2;
+    font-size: 13px;
+}
+
+.logo {
+    float: left;
+}
+.logo img {
+    max-height: 30px;
+}
+.logo p {
+    font-size: 12px;
+    color: grey;
+}
+.language-selector {
+    float: left;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.installation-progress {
+    float: right;
+    width: 400px;
+}
+.installation-progress h4 {
+    font-size: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.installation-progress h4 small {
+    float: right;
+    color: #43a047;
+}
+.installation-progress .progress {
+    margin-bottom: 0;
+}
+
+.installation-finished .form-group .checkbox {
+    width: 100%;
+}
+
+/* Content */
+h2 {
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+.content p {
+    color: #757575;
+    margin-bottom: 10px;
+}
+p.next-step {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+p.next-step:first-child {
+    margin-top: 0;
+}
+
+/* This rule is duplicated here from systemCheckPage.less */
+.system-check td:first-child {
+    width: 40%;
+}
+
+/* Form classes that we can't change */
+.warning {
+    padding: 20px;
+    border-radius: 2px;
+    margin: 10px;
+    color: #E0645D;
+    border: 1px solid #d2312d;
+}
+.warning img {
+    vertical-align: bottom;
+}
+
+.system-check .icon-ok, .system-check-legend .icon-ok {
+    color: #43a047;
+    margin-right: 10px;
+}
+.system-check .icon-warning, .system-check-legend .icon-warning {
+    color: #DF9D27;
+    margin-right: 10px;
+}
+.system-check .icon-error, .system-check-legend .icon-error {
+    color: #D73F36;
+    margin-right: 10px;
+}
+.system-check .icon-info, .system-check-legend .icon-info {
+    color: #00bcd4;
+    margin-right: 10px;
+}
+
+.system-check-legend {
+    font-size: 13px;
+}
+
+.should-get-hidden-by-css {
+    display: none;
+}
+
+.email-privacy-notice {
+    margin-top: -4rem;
+}
+
+.trackingHelpHeader h2 {
+    display: inline-block;
+}
+.trackingHelpHeader a.btn {
+    float: right;
+    margin-top: -10px;
+}
+
+.copyToClipboardIcon {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display:inline-block;
+    margin-left:4px;
+    float:left;
+}
+
+.copyToClipboardIcon:before {
+    content: "\e905";
+}
+
+.copyToClipboardIconCheck {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display:inline-block;
+    margin-left:4px;
+    float:left;
+}
+
+.copyToClipboardIconCheck:before {
+    content: "\e906";
+    color: #43a047 !important;
+}
+
+.copyToClipboardButton {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+    margin-right: 0.2em;
+    margin-top: 0.2em;
+    border-radius: 100%;
+    width: 3.0em;
+    height: 3.0em;
+    display: inline-block;
+    transition: width 0.7s;
+    overflow: hidden;
+    background: #fefefe;
+    padding-left:4px;
+    padding-right:4px;
+    cursor: pointer;
+}
+
+.copyToClipboardCopiedDiv {
+    font-size:0.8em;
+    display: none;
+    position: absolute;
+    right: 9em;
+    top: 1.6em;
+    margin-right: 1em;
+    padding-top:0.4em;
+    width: 10.2em;
+    height: 2em;
+    border-radius: 5%;
+    background: #fefefe;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.copyToClipboardButton:hover span {
+    overflow: visible;
+}
+
+.copyToClipboardButton:hover {
+    width: 6.3em;
+    border-radius: 10%;
+}
+
+.copyToClipboardButton span {
+    display: inline-block;
+    line-height: 1.3em;
+    margin-left: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+    left: 2em;
+    text-transform: uppercase;
+    padding-top: 0.35em;
+}
+
+.copyToClipboardWrapper {
+    position: relative;
+}

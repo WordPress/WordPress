@@ -1,0 +1,10 @@
+{% extends '@TagManager/tagmanager.twig' %}
+
+{% set title = 'TagManager_InstallCode'|translate %}
+
+{% block content %}
+    <div
+        vue-entry="TagManager.ManageInstallTagCode"
+        id-container="{{ container.idcontainer|json_encode }}"
+    ></div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'admin.twig' %}
+{% set title %}{{ 'Installation_SystemCheck'|translate }}{% endset %}
+
+{% block content %}
+
+<div
+    vue-entry="Installation.SystemCheckPage"
+    error-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR')|json_encode }}"
+    warning-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING')|json_encode }}"
+    informational-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL')|json_encode }}"
+    system-check-info="{{ systemCheckInfo|json_encode }}"
+    mandatory-results="{{ diagnosticReport.getMandatoryDiagnosticResults()|json_encode }}"
+    optional-results="{{ diagnosticReport.getOptionalDiagnosticResults()|json_encode }}"
+    informational-results="{{ diagnosticReport.getInformationalResults()|json_encode }}"
+    is-installation="{{ isInstallation|default(false)|json_encode }}"
+    has-errors="{{ diagnosticReport.hasErrors()|default(null)|json_encode }}"
+    has-warnings="{{ diagnosticReport.hasWarnings()|default(null)|json_encode }}"
+></div>
+
+{% endblock %}

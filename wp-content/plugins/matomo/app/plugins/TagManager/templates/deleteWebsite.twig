@@ -1,0 +1,10 @@
+<p>{{ 'TagManager_DeleteWebsiteExplanationLine1'|translate }}</p>
+<p>{{ 'TagManager_DeleteWebsiteExplanationLine2'|translate }}</p>
+<ol style="list-style-type:decimal !important;padding-left: 1rem;padding-bottom: 0.5rem">
+    {% for container in containers %}
+        <li>
+            <a href="{{ link }}&idContainer={{ container.idcontainer }}" target="_blank" rel="noreferrer noopener">{{ container.name|e('html')|e('html') }}</a>
+        </li>
+    {% endfor %}
+</ol>
+<p>{{ 'TagManager_DeleteWebsiteExplanationLine3'|translate }}</p>

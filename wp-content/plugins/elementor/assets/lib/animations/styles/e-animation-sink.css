@@ -1,0 +1,10 @@
+.elementor-animation-sink {
+	transition-duration: 0.3s;
+	transition-property: transform;
+	transition-timing-function: ease-out;
+}
+.elementor-animation-sink:active,
+.elementor-animation-sink:focus,
+.elementor-animation-sink:hover {
+	transform: translateY(8px);
+}

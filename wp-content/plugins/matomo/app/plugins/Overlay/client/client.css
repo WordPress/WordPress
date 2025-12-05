@@ -1,0 +1,145 @@
+/**
+ * Reset styles
+ */
+
+#PIS_StatusBar,
+#PIS_StatusBar .PIS_Item,
+#PIS_StatusBar .PIS_Loading,
+.PIS_LinkTag,
+.PIS_LinkHighlightBoxTop,
+.PIS_LinkHighlightBoxRight,
+.PIS_LinkHighlightBoxLeft,
+.PIS_LinkHighlightBoxText {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+    vertical-align: baseline;
+    line-height: 1.4em;
+    text-indent: 0;
+    text-decoration: none;
+    text-transform: none;
+    cursor: default;
+    text-align: left;
+    float: none;
+    color: #333;
+}
+
+/**
+ * Link Tags
+ */
+
+.PIS_LinkTag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    width: 36px;
+    height: 21px;
+    text-align: left;
+    background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
+    overflow: hidden;
+    transform-origin: 100% 50%;
+    transition: 0.2s ease-in-out;
+}
+
+.PIS_LinkTag span {
+    position: absolute;
+    width: 31px;
+    height: 14px;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 14px;
+    margin-left: 1px;
+}
+
+.PIS_LinkTag.PIS_Highlighted {
+    z-index: 1000002;
+}
+
+.PIS_LinkTag.PIS_Highlighted span {
+    color: #E87500;
+}
+
+.PIS_LinkTag.PIS_Right {
+    background-position: -36px -21px;
+    transform-origin: 0% 50%;
+}
+
+.PIS_LinkTag.PIS_Right span,
+.PIS_LinkTag.PIS_BottomRight span {
+    margin-left: 5px;
+}
+
+.PIS_LinkTag.PIS_Bottom {
+    background-position: 0 0;
+    transform-origin: 100% 50%;
+}
+
+.PIS_LinkTag.PIS_Bottom span,
+.PIS_LinkTag.PIS_BottomRight span {
+    margin-top: 4px;
+}
+
+.PIS_LinkTag.PIS_BottomRight {
+    background-position: -36px 0;
+    transform-origin: 0% 50%;
+}
+
+/**
+ * Link Highlights
+ */
+
+.PIS_LinkHighlightBoxTop,
+.PIS_LinkHighlightBoxRight,
+.PIS_LinkHighlightBoxText,
+.PIS_LinkHighlightBoxLeft {
+    position: absolute;
+    z-index: 1000001;
+    overflow: hidden;
+    width: 2px;
+    height: 2px;
+    background: #E87500;
+}
+
+.PIS_LinkHighlightBoxText {
+    line-height: 20px;
+    height: 20px;
+    font-size: 11px;
+    color: white;
+    width: auto;
+}
+
+/**
+ * Status bar
+ */
+
+#PIS_StatusBar {
+    padding: 10px 0;
+    position: fixed;
+    z-index: 1000020;
+    bottom: 0;
+    right: 0;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #fbfbfb;
+    border-radius: 6px 0 0;
+}
+
+#PIS_StatusBar .PIS_Item {
+    text-align: right;
+    padding: 3px 5px 0 0;
+    margin: 0 15px 0 20px;
+
+    font-weight: bold;
+}
+
+#PIS_StatusBar .PIS_Loading {
+    background: url(./loading.gif) no-repeat right center;
+    padding-right: 30px;
+}

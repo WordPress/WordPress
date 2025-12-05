@@ -1,0 +1,74 @@
+@-moz-document url-prefix() {
+  // see bug in Firefox 30+
+  // https://github.com/piwik/piwik/issues/5242
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1012640
+  .tagCloud + .dataTableFeatures {
+    clear: left;
+  }
+  .tagCloud .word {
+    float: left;
+  }
+}
+
+
+.tagCloud {
+
+    img {
+        border: 0;
+    }
+
+    .word a {
+        text-decoration: none;
+
+    }
+
+    .word {
+      padding: 5px 15px 10px 8px;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    .valueIsZero {
+        text-decoration: line-through;
+    }
+
+    span,
+    span a {
+        color: @theme-color-link !important;
+    }
+
+    span.size0, span.size0 a {
+        color: #1f497a !important;
+        font-size: 46px;
+    }
+
+    span.size1, span.size1 a {
+        color: #24568f !important;
+        font-size: 40px;
+    }
+
+    span.size2, span.size2 a {
+        color: #2962a3 !important;
+        font-size: 32px;
+    }
+
+    span.size3, span.size3 a {
+        color: #255792 !important;
+        font-size: 28px;
+    }
+
+    span.size4, span.size4 a {
+        color:  #337acc !important;
+        font-size: 19px;
+    }
+
+    span.size5, span.size5 a {
+        color: #5c95d6 !important;
+        font-size: 14px;
+    }
+
+    span.size6, span.size6 a {
+        color: #5c95d6 !important;
+        font-size: 16px;
+    }
+}

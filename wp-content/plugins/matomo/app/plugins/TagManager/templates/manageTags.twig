@@ -1,0 +1,12 @@
+{% extends '@TagManager/tagmanager.twig' %}
+
+{% set title = 'TagManager_Tags'|translate %}
+
+{% block content %}
+    <div
+        vue-entry="TagManager.TagManage"
+        id-container="{{ container.idcontainer|json_encode }}"
+        id-container-version="{{ idcontainerversion|json_encode }}"
+        tags-help-text="{{ tagsHelpText|json_encode }}"
+    ></div>
+{% endblock %}

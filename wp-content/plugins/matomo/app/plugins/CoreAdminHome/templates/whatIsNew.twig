@@ -1,0 +1,67 @@
+<div vue-directive="CoreHome.ContentIntro">
+    <h2>{{ 'CoreAdminHome_WhatIsNewTitle'|translate }}</h2>
+</div>
+<div class="whatisnew">
+
+    <div class="whatisnew-changelist">
+
+    {% for change in changes %}
+
+        <div class="card">
+            <div class="card-content">
+                <span style="float: left; font-size:32px; color:#3450A3; margin-right:10px" class="icon-new_releases"></span>
+                {% if change.plugin_name == "CoreHome" or change.plugin_name == "ProfessionalServices"%}
+                    <h2 class="card-title">{{ change.title }}</h2>
+                {% else %}
+                    <h2 class="card-title">{{ change.plugin_name }} - {{ change.title }}</h2>
+                {% endif %}
+                {{ change.description | raw }}
+                {% if not change.link is empty and not change.link_name is empty %}
+                <p>
+                    <br>
+                    <a class="change-link" href="{{ change.link }}" target="_blank" rel="noopener">{{ change.link_name }}</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+    <button href="javascript:void 0;" class="btn whatisnew-btn whatisnew-remind-me-later" onclick="Piwik_Popover.close()"
+       title="{{ 'CoreAdminHome_WhatIsNewRemindMeLater'|translate|e('html_attr') }}">{{ 'CoreAdminHome_WhatIsNewRemindMeLater'|translate|e('html_attr') }}
+    </button>
+
+    <button href="javascript:void 0;" class="btn whatisnew-btn whatisnew-do-not-show-again" onclick="doNotShowAgain()"
+       title="{{ 'CoreAdminHome_WhatIsNewDoNotShowAgain'|translate|e('html_attr') }}">{{ 'CoreAdminHome_WhatIsNewDoNotShowAgain'|translate|e('html_attr') }}
+    </button>
+
+</div>
+
+ <script>
+     function doNotShowAgain() {
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({
+            module: 'API',
+            method: 'CoreAdminHome.whatIsNewMarkAllChangesReadForCurrentUser',
+            format: 'json'
+        }, 'get');
+        ajaxRequest.withTokenInUrl();
+        ajaxRequest.setFormat('json');
+        ajaxRequest.setCallback(function() {
+            var link = document.querySelector('a[onclick*="CoreAdminHome&action=whatIsNew"] > .badge-menu-item');
+            if (link) {
+                link.style.display = "none";
+            }
+            var icon = document.querySelector('a[onclick*="CoreAdminHome&action=whatIsNew"] > .navbar-icon');
+            if (icon) {
+                icon.classList.remove('icon-notifications_on');
+                icon.classList.add('icon-reporting-actions');
+            }
+            Piwik_Popover.close();
+        });
+        ajaxRequest.useCallbackInCaseOfError()
+        ajaxRequest.send();
+     }
+</script>

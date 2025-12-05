@@ -1,0 +1,9 @@
+.elementor-animation-grow-rotate {
+	transition-duration: 0.3s;
+	transition-property: transform;
+}
+.elementor-animation-grow-rotate:active,
+.elementor-animation-grow-rotate:focus,
+.elementor-animation-grow-rotate:hover {
+	transform: scale(1.1) rotate(4deg);
+}

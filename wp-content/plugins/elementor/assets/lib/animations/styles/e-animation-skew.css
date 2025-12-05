@@ -1,0 +1,9 @@
+.elementor-animation-skew {
+	transition-duration: 0.3s;
+	transition-property: transform;
+}
+.elementor-animation-skew:active,
+.elementor-animation-skew:focus,
+.elementor-animation-skew:hover {
+	transform: skew(-10deg);
+}

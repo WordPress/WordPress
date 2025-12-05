@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "22.7",
+  "name": "yoast/how-to-block",
+  "title": "Yoast How-to",
+  "description": "Create a How-to guide in an SEO-friendly way. You can only use one How-to block per post.",
+  "category": "yoast-structured-data-blocks",
+  "icon": "editor-ol",
+  "keywords": [
+    "How-to",
+    "How to",
+    "Schema",
+    "SEO",
+    "Structured Data"
+  ],
+  "supports": {
+    "multiple": false
+  },
+  "textdomain": "wordpress-seo",
+  "attributes": {
+    "hasDuration": {
+      "type": "boolean"
+    },
+    "days": {
+      "type": "string"
+    },
+    "hours": {
+      "type": "string"
+    },
+    "minutes": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "source": "html",
+      "selector": ".schema-how-to-description"
+    },
+    "jsonDescription": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "array"
+    },
+    "additionalListCssClasses": {
+      "type": "string"
+    },
+    "unorderedList": {
+      "type": "boolean"
+    },
+    "durationText": {
+      "type": "string"
+    },
+    "defaultDurationText": {
+      "type": "string"
+    }
+  },
+  "example": {
+    "attributes": {
+      "steps": [
+        {
+          "id": "how-to-step-example-1",
+          "name": [ ],
+          "text": [ ]
+        },
+        {
+          "id": "how-to-step-example-2",
+          "name": [ ],
+          "text": [ ]
+        }
+      ]
+    }
+  },
+  "editorScript": "yoast-seo-how-to-block",
+  "editorStyle": "yoast-seo-structured-data-blocks"
+}

@@ -1,0 +1,40 @@
+{% set seriesColorCount = constant("Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution::SERIES_COLOR_COUNT") %}
+<div class="rowevolution multirowevolution">
+    <div class="popover-title">{{ 'RowEvolution_MultiRowEvolutionTitle'|translate }}</div>
+    <div class="graph">
+        {{ graph | raw }}
+    </div>
+    <div class="metrics-container">
+        <h2>{{ availableRecordsText|translate }}</h2>
+        <table class="metrics" border="0" cellpadding="0" cellspacing="0">
+            {% for i, metric in metrics %}
+                <tr {% if metric.hide|default %}class="hiddenByDefault" style="display:none"{% endif %}>
+                    <td class="sparkline">
+                        {{ metric.sparkline|raw }}
+                    </td>
+                    <td class="text">
+                        {% import 'macros.twig' as piwik %}
+                        {{ piwik.logoHtml(metric, "") }}
+                        <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
+                            {{- metric.label|raw -}}
+                        </span>
+                        <span class="details" title="{{ metric.minmax }}">{{ metric.details|raw }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="#" class="rowevolution-startmulti">» {{ 'RowEvolution_PickAnotherRow'|translate }}</a>
+    </div>
+    {% if availableMetrics|length > 1 %}
+        <div class="metric-selectbox">
+            <h2>{{ 'RowEvolution_AvailableMetrics'|translate }}</h2>
+            <select name="metric" class="multirowevoltion-metric">
+                {% for metric, metricName in availableMetrics %}
+                    <option value="{{ metric }}"{% if selectedMetric == metric %} selected="selected"{% endif %}>
+                        {{ metricName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,14 @@
+{% set title %}{{ 'API_Glossary'|translate }}{% endset %}
+
+{% set theContent %}
+    <div
+        vue-entry="API.Glossary"
+        glossary-items="{{ glossaryItems|json_encode }}"
+    ></div>
+{% endset %}
+
+{% if isWidget %}
+    {% include '@API/glossaryWidget.twig' %}
+{% else %}
+    {% include '@API/glossaryAdmin.twig' %}
+{% endif %}

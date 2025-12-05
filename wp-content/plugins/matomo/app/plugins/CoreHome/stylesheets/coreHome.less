@@ -1,0 +1,375 @@
+.home {
+    p {
+        padding-bottom: 1em;
+        margin-right: 1em;
+        margin-left: 1em;
+    }
+}
+
+.card h2 {
+    &.card-title,
+    .card-title {
+        padding: 0 !important;
+    }
+}
+
+/* Content */
+#content.home {
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+}
+
+#content.admin {
+    display: inline-block;
+    max-width: 1300px;
+
+    > .row {
+        margin: 0 -0.75rem;
+    }
+}
+
+/* 2 columns reports */
+#leftcolumn {
+    float: left;
+    width: 50%;
+}
+
+#rightcolumn {
+    float: right;
+    width: 45%;
+}
+
+/* not in widget */
+.widget #leftcolumn, .widget #rightcolumn {
+    float: left;
+    padding: 0 10px;
+    width: auto;
+}
+
+.accessibility-skip-to-content {
+    font-size: 14px;
+    position: absolute;
+    left: -10000px;
+    top: 0;
+}
+.accessibility-skip-to-content:focus {
+    display: block;
+    position: absolute;
+    left: 200px;
+}
+
+/* Calendar */
+div.ui-datepicker {
+    font-size: 62.5%;
+}
+
+.ui-datepicker-current-period a, .ui-datepicker-current-period a:link, .ui-datepicker-current-period a:visited {
+    border: 1px solid #2E85FF;
+    color: #2E85FF;
+}
+
+#otherPeriods a {
+    text-decoration: none;
+}
+
+#otherPeriods a:hover {
+    text-decoration: underline;
+}
+
+#currentPeriod {
+    border-bottom: 1px dotted #520202;
+}
+
+.hoverPeriod {
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 1px solid #520202;
+}
+
+#calendarRangeTo {
+    margin-left: 175px;
+}
+
+#calendarRangeFrom {
+    float: left;
+}
+
+#inputCalendarFrom, #inputCalendarTo {
+    margin-left: 10px;
+    width: 95px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 12px;
+    border: 0;
+}
+
+#calendarApply {
+    margin-top: 10px;
+}
+
+#invalidDateRange {
+    display: none;
+}
+
+.reporting-page {
+  .sparklines {
+    max-width: 1250px;
+  }
+}
+
+div .sparkline {
+    float: left;
+    clear: both;
+    padding-bottom: 1px;
+    margin-top: 10px;
+}
+
+.sparkline img {
+    vertical-align: middle;
+    padding-right: 10px;
+    margin-top: 0;
+}
+
+div.pk-emptyGraph {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+/**
+ * Popover
+ * @see popover.js
+ */
+#Piwik_Popover {
+    min-height: 0 !important;
+}
+#Piwik_Popover .alert {
+    margin: 20px;
+}
+.Piwik_Popover_Loading_Name {
+    padding: 50px 0 65px 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    text-align: center;
+    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center 20px;
+}
+
+.Piwik_Popover_Loading_NameWithSubject {
+    padding-bottom: 30px;
+}
+
+.Piwik_Popover_Loading_Subject {
+    padding: 0 70px 55px 70px;
+    color: @theme-color-link !important;
+    text-align: center;
+    font-size: 14px;
+}
+
+.Piwik_Popover_Error {
+    padding: 50px 20px 65px 20px;
+    text-align: center;
+}
+
+.Piwik_Popover_Error_Title {
+    font-size: 16px;
+}
+
+.Piwik_Popover_Error_Title span {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.Piwik_Popover_Error_Message {
+    padding: 20px 0 0 0;
+    font-size: 13px;
+}
+
+a.Piwik_Popover_Error_Back {
+    display: block;
+    margin: 20px 0 0 0;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+#alert.ui-confirm input {
+    display: block;
+    margin: 10px auto 5px !important;
+}
+
+.header_full #updateCheckLinkContainer {
+  margin-top: -2px;
+}
+
+@-moz-document url-prefix() {
+  .header_full #updateCheckLinkContainer {
+    margin-top: -3px;
+  }
+}
+
+/* Used to link within content text, without adding visual clutter */
+.linkContent { color:#333; text-decoration:none}
+.linkContent:hover { text-decoration:underline;}
+
+.ui-confirm h2 {
+  border-bottom: 0 none;
+  margin:0;
+  font-size:18px;
+}
+
+.systemSummary {
+    .icon {
+        width: 16px;
+        display: inline-block;
+        margin-right: 4px;
+    }
+    .icon-user {
+        font-size: 11px;
+    }
+
+    > div {
+        margin-bottom: 2px;
+    }
+}
+
+#shortcuthelp {
+
+    dl {
+        margin: 20px 20px 0 20px;
+        font-size: 15px;
+        overflow: hidden;
+    }
+    dt {
+        clear: both;
+        float: left;
+        width: 60px;
+        text-align: right;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-right: 20px;
+        kbd {
+            display: inline-block;
+            font-weight: bolder;
+            border: 1px solid #000;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            box-sizing: border-box;
+            padding: 0 5px;
+        }
+    }
+
+    dd {
+        float: left;
+        margin-top: 5px;
+    }
+}
+
+.copyToClipboardIcon {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
+}
+
+.copyToClipboardIcon:before {
+    content: "\e905";
+}
+
+.copyToClipboardIconCheck {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
+}
+
+.copyToClipboardIconCheck:before {
+    content: "\e906";
+    color: #43a047 !important;
+}
+
+.copyToClipboardButton {
+    position: relative;
+    float: right;
+    margin-right: 0.2em;
+    border-radius: 100%;
+    min-width: 3.0em;
+    max-width: 3.0em;
+    height: 3.0em;
+    overflow: hidden;
+    background: #fefefe;
+    padding-left: 4px;
+    padding-right: 4px;
+    cursor: pointer;
+    transition: max-width .5s ease-out 2s, border-radius 2s ease-out 2s;
+}
+
+.copyToClipboardButton:focus {
+    background: #fefefe;
+}
+
+.copyToClipboardButton:hover {
+    transition: max-width .5s ease-out 0s, border-radius 0.1s;
+    max-width: 18em;
+    border-radius: 5px;
+}
+
+.copyToClipboardPositionDiv {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+}
+
+.copyToClipboardCopiedDiv {
+    font-size: 0.8em;
+    display: none;
+    position: relative;
+    float:right;
+    top: 0.8em;
+    margin-right: 1em;
+    width: auto;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    background: #fefefe;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.copyToClipboardButton:hover span {
+    overflow: visible;
+}
+
+.copyToClipboardButton span {
+    display: block;
+    float: left;
+    margin-left: 3em;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 1.1em);
+    text-align:left;
+    text-transform: uppercase;
+    margin-top: -1.5em;
+    margin-right: -1.5em;
+}
+
+.copyToClipboardWrapper {
+    position: relative;
+}

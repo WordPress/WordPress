@@ -1,0 +1,34 @@
+#wp-admin-bar-elementor_edit_page > .ab-item::before {
+  content: "\e813";
+  font-family: eicons;
+  inset-block-start: 3px;
+  font-size: 18px;
+}
+#wp-admin-bar-elementor_edit_page .ab-submenu .ab-item {
+  display: flex;
+  width: 200px;
+}
+#wp-admin-bar-elementor_edit_page .elementor-edit-link-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+#wp-admin-bar-elementor_edit_page .elementor-edit-link-type {
+  background: #3f444b;
+  font-size: 11px;
+  line-height: 9px;
+  margin-block-start: 6px;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+#wp-admin-bar-elementor_inspector > .ab-item::before {
+  content: "\f348";
+  inset-block-start: 2px;
+}
+
+#wpadminbar * {
+  font-style: normal;
+}
+/*# sourceMappingURL=admin-bar.css.map */

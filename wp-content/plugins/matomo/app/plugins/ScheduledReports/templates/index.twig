@@ -1,0 +1,74 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'ScheduledReports_PersonalEmailReports'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
+
+{% block content %}
+
+{% set reportParametersScheduledReportsEvent %}{{ postEvent('Template.reportParametersScheduledReports') }}{% endset %}
+
+<div
+  vue-entry="ScheduledReports.ManageScheduledReport"
+  content-title="{{ title|default(null)|json_encode }}"
+  user-login="{{ userLogin|default(null)|json_encode }}"
+  login-module="{{ loginModule|default(null)|json_encode }}"
+  reports="{{ reports|default([])|json_encode }}"
+  site-name="{{ siteName|default(null)|json_encode }}"
+  segment-editor-activated="{{ segmentEditorActivated|default(null)|json_encode }}"
+  saved-segments-by-id="{{ savedSegmentsById|default(null)|json_encode }}"
+  periods="{{ periods|default(null)|json_encode }}"
+  download-output-type="{{ downloadOutputType|default(null)|json_encode }}"
+  language="{{ language|default(null)|json_encode }}"
+  report-formats-by-report-type="{{ reportFormatsByReportType|default(null)|json_encode }}"
+  param-periods="{{ paramPeriods|default(null)|json_encode }}"
+  report-type-options="{{ reportTypeOptions|default(null)|json_encode }}"
+  report-formats-by-report-type-options="{{ reportFormatsByReportTypeOptions|default(null)|json_encode }}"
+  display-formats="{{ displayFormats|default(null)|json_encode }}"
+  reports-by-category-by-report-type="{{ reportsByCategoryByReportType|default({})|json_encode }}"
+  allow-multiple-reports-by-report-type="{{ allowMultipleReportsByReportType|default(null)|json_encode }}"
+  count-websites="{{ countWebsites|default(null)|json_encode }}"
+  report-types="{{ reportTypes|default(null)|json_encode }}"
+>
+    <template v-slot:report-parameters>
+        {{ reportParametersScheduledReportsEvent|raw }}
+    </template>
+</div>
+
+<div class="ui-confirm" id="confirm">
+    <h2>{{ 'ScheduledReports_AreYouSureDeleteReport'|translate }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+
+<script type="text/javascript">
+    var ReportPlugin = {};
+    ReportPlugin.defaultPeriod = '{{ defaultPeriod }}';
+    ReportPlugin.defaultHour = '{{ defaultHour }}';
+    ReportPlugin.defaultReportType = '{{ defaultReportType }}';
+    ReportPlugin.defaultReportFormat = '{{ defaultReportFormat }}';
+    ReportPlugin.reportList = {{ reportsJSON | raw }};
+    ReportPlugin.createReportString = "{{ 'ScheduledReports_CreateReport'|translate }}";
+    ReportPlugin.updateReportString = "{{ 'ScheduledReports_UpdateReport'|translate }}";
+    ReportPlugin.defaultEvolutionPeriodN = {{ defaultEvolutionPeriodN|json_encode|raw }};
+    ReportPlugin.periodTranslations = {{ periodTranslations|json_encode|raw }};
+</script>
+<style type="text/css">
+    .reportCategory {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .entityAddContainer {
+        position:relative;
+    }
+
+    .emailReports .top_controls {
+        padding-bottom: 18px;
+    }
+
+</style>
+{% endblock %}

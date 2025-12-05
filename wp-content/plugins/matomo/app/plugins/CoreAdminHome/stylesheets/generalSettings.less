@@ -1,0 +1,67 @@
+.admin img {
+    vertical-align: middle;;
+}
+
+.admin h2 + .top_bar_sites_selector {
+    margin-top: -62px;
+    margin-right: 0 !important;
+}
+
+// hide PHP is deprecated notification in UI test
+.uiTest [notification-id="DeprecatedPHPVersionCheck"],
+.uiTest [notification-id="PHPVersionTooOldForNewestPiwikCheck"]{
+    display: none !important;
+}
+
+#generalSettingsTOC a {
+    text-transform: none !important;
+}
+
+#content.admin {
+    font-size: 13px;
+    margin-top: 0;
+
+    // Fix the <pre> blocks because of the display: table
+    pre {
+        max-width: 995px;
+    }
+
+    .copyToClipboardWrapper {
+        max-width: 995px;
+    }
+}
+
+.admin #header_message {
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+.access_error {
+    font-size: .7em;
+    padding: 15px;
+}
+
+.admin p, .admin section {
+    margin-top: 10px;
+    line-height: 140%;
+    padding-bottom: 10px;
+}
+
+#CoreAdminHomePluginSettings {
+    h2 {
+        display: none;
+    }
+    h3 {
+        margin: 0;
+        font-size: 24px;
+        padding: 0;
+    }
+
+    .fieldArray {
+        margin-top: 0!important;
+    }
+}
+
+#currentLogo {
+  background: @theme-color-header-background;
+}

@@ -1,0 +1,29 @@
+{%- import _self as local -%}
+{% macro diagnosticInfo(results) -%}
+{% set error = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR') %}
+{% set warning = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING') %}
+{% set informational = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL') %}
+{%- for result in results %}
+
+#### {{ result.label|rawSafeDecoded }}:
+{% for item in result.items -%}
+{%- if item.status == error -%} &#9888; Error: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == warning %} &#9888; Warning: {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% elseif item.status == informational %} {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% else %} &#10004; {{ item.comment|anonymiseSystemInfo|striptags('<br><p><strong><code>') }}{% endif -%}
+{%- endfor %}
+
+{% if result.longErrorMessage -%}
+{{ result.longErrorMessage|striptags('<br><p><strong><code>') }}
+{%- endif -%}
+    {%- endfor -%}
+{%- endmacro -%}
+<details>
+<summary>Click to view System Check</summary>
+
+### Mandatory checks
+{{ local.diagnosticInfo(diagnosticReport.getMandatoryDiagnosticResults()) }}
+
+### Optional checks
+{{ local.diagnosticInfo(diagnosticReport.getOptionalDiagnosticResults()) }}
+
+### Informational results
+{{ local.diagnosticInfo(diagnosticReport.getInformationalResults()) }}
+</details>

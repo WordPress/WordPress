@@ -1,0 +1,84 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'CoreAdminHome_MenuGeneralSettings'|translate }}{% endset %}
+
+{% block content %}
+
+    {% import 'macros.twig' as piwik %}
+    {% import 'ajaxMacros.twig' as ajax %}
+
+    {{ ajax.errorDiv() }}
+    {{ ajax.loadingDiv() }}
+
+    <div class="card generalSettingsTOCCard">
+        <div id="generalSettingsTOC" class="card-action">
+            {{ 'General_GoTo2'|translate }}:
+            {% if isGeneralSettingsAdminEnabled %}
+            <a href="#/archivingSettings">{{ 'CoreAdminHome_ArchivingSettings'|translate  }}</a>
+                {% if not isMultiServerEnvironment %}
+                <a href="#/mailSettings">{{ 'CoreAdminHome_EmailServerSettings'|translate }}</a>
+                {% endif %}
+            {% endif %}
+            {% if customLogoEnabled %}
+            <a href="#/brandingSettings">{{ 'CoreAdminHome_BrandingSettings'|translate }}</a>
+            {% endif %}
+            {% if isDataPurgeSettingsEnabled %}
+            <a href="#/deleteDataSettings">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</a>
+            {% endif %}
+            {{ postEvent('Template.endGeneralSettingsPageTableOfContents') }}
+        </div>
+    </div>
+
+{% if isGeneralSettingsAdminEnabled %}
+    <div
+        vue-entry="CoreAdminHome.ArchivingSettings"
+        enable-browser-trigger-archiving="{{ (enableBrowserTriggerArchiving==1)|json_encode }}"
+        show-segment-archive-trigger-info="{{ (not not showSegmentArchiveTriggerInfo)|json_encode }}"
+        is-general-settings-admin-enabled="{{ (not not isGeneralSettingsAdminEnabled)|json_encode }}"
+        show-warning-cron="{{ (not not showWarningCron)|json_encode }}"
+        today-archive-time-to-live="{{ todayArchiveTimeToLive }}"
+        today-archive-time-to-live-default="{{ todayArchiveTimeToLiveDefault }}"
+    ></div>
+
+    {% if not isMultiServerEnvironment %}
+        <div
+            vue-entry="CoreAdminHome.SmtpSettings"
+            mail="{{ mail|json_encode }}"
+            mail-types="{{ mailTypes|json_encode }}"
+            mail-encryptions="{{ mailEncryptions|json_encode }}"
+        ></div>
+    {% endif %}
+{% endif %}
+
+{% if customLogoEnabled %}
+<div
+    vue-entry="CoreAdminHome.BrandingSettings"
+    file-upload-enabled="{{ fileUploadEnabled|json_encode }}"
+    logos-writeable="{{ logosWriteable|json_encode }}"
+    use-custom-logo="{{ branding.use_custom_logo|json_encode }}"
+    path-user-logo-directory="{{ pathUserLogoDirectory|json_encode }}"
+    path-user-logo="{{ pathUserLogo|json_encode }}"
+    path-user-logo-small="{{ pathUserLogoSmall|json_encode }}"
+    path-user-logo-svg="{{ pathUserLogoSVG|json_encode }}"
+    has-user-logo="{{ hasUserLogo|json_encode }}"
+    path-user-favicon="{{ pathUserFavicon|json_encode }}"
+    has-user-favicon="{{ hasUserFavicon|json_encode }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode }}"
+></div>
+{% endif %}
+
+{% if isDataPurgeSettingsEnabled %}
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate }}"
+         anchor="deleteDataSettings">
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
+        <p>
+            <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
+                {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ 'PrivacyManager_DeleteDataSettings'|translate ~ "'") }}
+            </a>
+        </p>
+    </div>
+{% endif %}
+
+<div vue-entry="CorePluginsAdmin.PluginSettings" mode="admin"></div>
+
+{% endblock %}

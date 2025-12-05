@@ -1,0 +1,18 @@
+{% if settings.source is not empty %}
+	{% set id_attribute = settings._cssid is not empty ? 'id=' ~ settings._cssid | e('html_attr') : '' %}
+	{% set classes = settings.classes | merge( [ base_styles.base ] ) | join(' ') %}
+	{% set data_settings = {
+		'source': settings.source,
+		'autoplay': settings.autoplay,
+		'mute': settings.mute,
+		'controls': settings.player_controls,
+		'cc_load_policy': settings.captions,
+		'loop': settings.loop,
+		'rel': settings.rel,
+		'start': settings.start,
+		'end': settings.end,
+		'privacy': settings.privacy_mode,
+		'lazyload': settings.lazyload,
+	} %}
+	<div data-id="{{ id }}" data-e-type="{{ type }}" {{ id_attribute }} class="{{ classes }}" {{ settings.attributes | raw }} data-settings="{{ data_settings|json_encode|e('html_attr') }}"></div>
+{% endif %}

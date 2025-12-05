@@ -1,0 +1,262 @@
+{% extends 'layout.twig' %}
+
+{% set title %}Matomo UI demo{% endset %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style>
+        .grid-demo .row {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .grid-demo [class^=col-] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+        .demo {
+            margin: 0 0 15px 0;
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 4px 4px 0 0;
+            padding: 25px;
+        }
+        .demo-code {
+            padding: 9px 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            margin: -16px 0 15px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .demo-code pre {
+            color: inherit;
+            font-size: 14px;
+            padding: 0;
+            background-color: transparent;
+            margin: 0;
+        }
+        .demo .div-block {
+            max-width: 400px;
+            margin-right: auto;
+            margin-left: auto;
+            min-height: 20px;
+            padding: 19px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+        }
+        .demo .form-group > h3 {
+            margin-top: 0;
+        }
+        .demo-code + .demo {
+            margin: -16px 0;
+        }
+        .icons h4 {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        .icons .icon {
+            font-family: monospace, monospace;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block root %}
+
+<div class="container">
+
+    <h1>Matomo UI demo</h1>
+    <p>
+        This page is intended to show all the UI components and styles available to use in Matomo.
+    </p>
+
+    <h2>Grid system</h2>
+    <p>
+        Materialize's grid system allows to organize the content in columns, all the while staying
+        responsive for smaller screens.
+    </p>
+    <div class="grid-demo">
+        <div class="row">
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+            <div class="col m1">.col m1</div>
+        </div>
+        <div class="row">
+            <div class="col s8">.col m8</div>
+            <div class="col m4">.col m4</div>
+        </div>
+        <div class="row">
+            <div class="col m4">.col m4</div>
+            <div class="col m4">.col m4</div>
+            <div class="col m4">.col m4</div>
+        </div>
+        <div class="row">
+            <div class="col m6">.col m6</div>
+            <div class="col m6">.col m6</div>
+        </div>
+    </div>
+    <p>
+        Read more about <a href="http://materializecss.com/grid.html">Materialize's grid system</a>.
+    </p>
+
+    <h2>Typography</h2>
+
+    <div class="demo">
+        <h1>h1. heading</h1>
+        <h2>h2. heading</h2>
+        <h3>h3. heading</h3>
+        <h4>h4. heading</h4>
+        <h5>h5. heading</h5>
+        <h6>h6. heading</h6>
+        <p>
+            This is a paragraph, and <a href="#">this is a link</a>.
+        </p>
+        <p>
+            Another paragraph, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+    </div>
+
+    <h3>Alignment classes</h3>
+
+    <div class="demo">
+        <p class="left">Left aligned block.</p>
+        <p class="center">Center aligned block.</p>
+        <p class="right">Right aligned block.</p>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;p class=&quot;left&quot;&gt;Left aligned block.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;Center aligned block.&lt;/p&gt;
+&lt;p class=&quot;right&quot;&gt;Right aligned block.&lt;/p&gt;</pre>
+    </div>
+
+    <div class="demo">
+        <p class="left-align">Left aligned text.</p>
+        <p class="center-align">Center aligned text.</p>
+        <p class="right-align">Right aligned text.</p>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;p class=&quot;left-align&quot;&gt;Left aligned text.&lt;/p&gt;
+&lt;p class=&quot;center-align&quot;&gt;Center aligned text.&lt;/p&gt;
+&lt;p class=&quot;right-align&quot;&gt;Right aligned text.&lt;/p&gt;</pre>
+    </div>
+
+    <h3>Lists</h3>
+
+    <div class="demo">
+        <ul>
+            <li>First item</li>
+            <li>Second item</li>
+        </ul>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;ul&gt;
+  &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</pre>
+    </div>
+
+    <h2>Buttons</h2>
+
+    <h3>Standard buttons</h3>
+
+    <div class="demo">
+        <a class="btn" href="#">Link</a>
+        <input type="button" class="btn" value="Input">
+        <input type="submit" class="btn" value="Submit">
+    </div>
+    <div class="demo-code">
+        <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;Link&lt;/a&gt;
+&lt;input type=&quot;button&quot; class=&quot;btn&quot; value=&quot;Input&quot;&gt;
+&lt;input type=&quot;submit&quot; class=&quot;btn&quot; value=&quot;Submit&quot;&gt;</pre>
+    </div>
+
+    <h3>Large buttons</h3>
+
+    <div class="demo">
+        <button class="btn btn-large">Large button</button>
+        <a class="btn btn-large" href="#">Large link button</a>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;button class=&quot;btn btn-large&quot;&gt;Large button&lt;/button&gt;
+&lt;a class=&quot;btn btn-large&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
+    </div>
+
+    <h3>Block buttons</h3>
+
+    <div class="demo">
+        <div class="div-block">
+            <a class="btn btn-block" href="#">Block button</a>
+            <a class="btn btn-large btn-block" href="#">Large block button</a>
+        </div>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
+&lt;a class=&quot;btn btn-large btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
+    </div>
+
+    <h3>Icon buttons</h3>
+
+    <div class="demo">
+        <a class="btn" href="#"><span class="icon-add">&nbsp;</span>Link with an icon</a>
+        <button class="btn"><span class="icon-play">&nbsp;</span>Button with an icon</button>
+        <button type="submit" class="btn"><span class="icon-heart">&nbsp;</span>Submit with an icon</button>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Link with an icon&lt;/a&gt;
+&lt;button class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-play&quot;&gt;&nbsp;&lt;/span&gt;Button with an icon&lt;/button&gt;
+&lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-heart&quot;&gt;&nbsp;&lt;/span&gt;Submit with an icon&lt;/button&gt;</pre>
+    </div>
+
+    <h3>Outline buttons</h3>
+
+    <div class="demo">
+        <a class="btn btn-outline" href="#">Outline link button</a>
+        <a class="btn btn-outline" href="#"><span class="icon-add">&nbsp;</span>Outline link with an icon</a>
+    </div>
+    <div class="demo-code">
+        <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Link with an icon&lt;/a&gt;
+
+&lt;button class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-play&quot;&gt;&nbsp;&lt;/span&gt;Button with an icon&lt;/button&gt;
+    </div>
+
+    <h3>Flat buttons</h3>
+
+    <div class="demo">
+        <a class="btn-flat" href="#">Flat button</a>
+        <a class="btn-flat" href="#"><span class="icon-add"></span></a>
+        <a class="btn-flat btn-large" href="#">Flat button</a>
+        <a class="btn-flat btn-large" href="#"><span class="icon-add"></span></a>
+    </div>
+    <div class="demo-code">
+              <pre>&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+    </div>
+
+    <h2>Vue Components</h2>
+    <p>The following are components you can use within your own Vue components. Note: they
+        will not work directly in HTML; they MUST be used within a Vue component.</p>
+
+    <div
+        vue-entry="Morpheus.Demo"
+        demo-snippets="{{ snippets|json_encode }}"
+        icons="{{ icons|json_encode }}"
+    ></div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+.wpcf7-not-valid-tip {
+	direction: rtl;
+}
+
+.use-floating-validation-tip .wpcf7-not-valid-tip {
+	right: 1em;
+}
+
+.wpcf7-list-item {
+	margin: 0 1em 0 0;
+}

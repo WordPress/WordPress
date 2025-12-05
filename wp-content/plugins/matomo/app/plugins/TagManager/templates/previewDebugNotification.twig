@@ -1,0 +1,29 @@
+{% if debugSiteUrl %}
+    {% set mtmPreviewIdUrlStart = '<a href="' ~ previewUrl|e('html_attr') ~ '" target="_blank">' %}
+    {% set mtmPreviewIdUrlEnd = '</a>' %}
+{% else %}
+    {% set mtmPreviewIdUrlStart = '' %}
+    {% set mtmPreviewIdUrlEnd = '' %}
+{% endif %}
+
+{{ 'TagManager_PreviewDebugEnabledNotificationLine1'|translate(version) }}
+<a class="title disablePreviewDebug"
+   data-idcontainer="{{ idcontainer|e('html_attr') }}"
+>{{ 'TagManager_DisablePreview'|translate }}</a>
+<br>
+<div class="preview-debug-url-div">
+    <div vue-entry="CoreHome.Alert" severity="danger" id="debug-notification-alert" style="display: none">
+        <strong>{{ 'TagManager_InvalidDebugUrlError'|translate }}!</strong> <span id="debug-notification-alert-message"></span>
+    </div>
+    <input type="url" id="previewDebugUrl" class="browser-default" placeholder="https://example.org"
+           value="{{ debugSiteUrl|e('html_attr')}}">
+    <button type="button" class="btn btn-small"
+            data-idcontainer="{{ idcontainer|e('html_attr') }}"
+            data-debug-site-url="{{ debugSiteUrl|e('html_attr') }}">
+        {{ 'TagManager_PreviewDebugUrlButtonText'|translate }}
+    </button>
+</div>
+<br>
+{{ 'TagManager_PreviewDebugEnabledNotificationLine2'|translate('<strong>','</strong>',mtmPreviewIdUrlStart ~ '?' ~ mtmPreviewId ~ mtmPreviewIdUrlEnd, mtmPreviewIdUrlStart ~ '&' ~ mtmPreviewId ~ mtmPreviewIdUrlEnd, '<br>')|raw }}
+<br>
+{{ 'TagManager_PreviewDebugEnabledNotificationLine3'|translate(externallink('https://matomo.org/faq/tag-manager/why-is-debug-console-not-loading-for-me/'),'</a>')|raw }}

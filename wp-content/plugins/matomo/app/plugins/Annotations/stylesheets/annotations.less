@@ -1,0 +1,244 @@
+.evolution-annotations {
+    position: relative;
+    height: 18px;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 3px;
+
+    .icon-annotation {
+        font-size: 16px;
+        color: #666666;
+    }
+
+    .icon-annotation.starred {
+        color: @theme-color-brand;
+    }
+
+    & > span {
+        position: absolute;
+    }
+}
+
+.annotation-manager {
+    text-align: left;
+    margin-top: 30px;
+
+  .new-annotation-row {
+    height: 145px;
+      .input-field {
+          margin-top: 2px;
+      }
+  }
+
+  .annotation.edit .annotation-edit-mode {
+    min-height: 125px;
+
+      .input-field {
+          margin-top: 2px;
+      }
+  }
+
+  .input-field {
+    margin-bottom: 0;
+    input {
+      height: 1rem;
+      padding-bottom: 4px;
+    }
+  }
+}
+
+span.annotation {
+  display: block;
+  font-size: 20px;
+  color: black;
+  font-style: normal;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.annotations-header {
+    display: inline-block;
+    width: 128px;
+    text-align: left;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 8px;
+    vertical-align: top;
+    color: @theme-color-text-lighter;
+}
+
+.annotation-controls {
+    display: inline-block;
+    margin:0;
+    padding: 50px 0 10px 10px;
+    color: transparent;
+}
+
+.annotation-controls>a {
+    font-size:14px;
+    font-style: normal;
+    color: black;
+    cursor: pointer;
+    padding: 3px 0 6px 0;
+    display: inline-block;
+    margin:0;
+    text-decoration: none;
+}
+
+.annotation-controls>a:hover {
+    text-decoration: none;
+}
+
+.annotation-list {
+    margin-left: 8px;
+}
+
+.annotation-list table {
+    width: 100%;
+
+}
+
+.annotation-list-range {
+    display: block;
+    font-size: 15px;
+    font-style: italic;
+    color: @theme-color-text-lighter;
+    vertical-align: top;
+    margin: 0 0 8px 8px;
+    padding-bottom: 20px;
+}
+
+.empty-annotation-list, .annotation-list .loadingPiwik {
+    display: block;
+
+    font-style: italic;
+    color: @theme-color-text-lighter;
+    margin: 0 0 12px 140px;
+}
+
+.annotation-meta {
+    width: 159px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.annotation-user {
+    font-style: normal;
+    font-size: 13px;
+    color: @theme-color-text-light;
+}
+
+.annotation-user-cell {
+    vertical-align: top;
+    width: 92px;
+}
+
+.annotation-period {
+    display: inline-block;
+    font-style: normal;
+    margin: 0 8px 8px 8px;
+    vertical-align: top;
+}
+
+.annotation-value {
+    margin: 0 12px 12px 8px;
+    vertical-align: top;
+    position: relative;
+    font-size: 14px;
+}
+
+.annotation-enter-edit-mode {
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.annotation-edit, .new-annotation-edit {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 98%;
+}
+
+.annotation-star {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    width: 16px;
+}
+
+.annotation-star-changeable {
+    cursor: pointer;
+}
+
+.delete-annotation {
+    font-size: 15px;
+    color: #666666;
+    text-decoration: none;
+    display: NONE;
+
+    &:hover {
+      color: #cc3300;
+      text-decoration: none;
+    }
+}
+
+.annotation-manager .submit {
+    float: none;
+}
+
+.edit-annotation {
+    font-size: 13px;
+    color: black;
+    font-style: italic;
+    padding: 6px 5px;
+    margin-top: -5px;
+
+    &:hover {
+      text-decoration: none;
+    }
+}
+
+.annotation-period-edit {
+    display: inline-block;
+    background: white;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    border: 1px solid #e4e5e4;
+    padding: 5px 5px 6px 3px;
+    border-radius: 4px;
+
+    &:hover {
+      background: #f1f0eb;
+      border-color: #a9a399;
+    }
+}
+
+.annotation-period-edit>a {
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+}
+
+.annotation-period-edit>.datepicker {
+    position: absolute;
+    margin-top: 6px;
+    margin-left: -5px;
+    z-index: 15;
+    background: white;
+    border: 1px solid #e4e5e4;
+    border-radius: 4px;
+}
+
+a.add-annotation {
+  margin: 0;
+}
+
+td.padding {
+  padding: 1px 5px 6px 5px;
+}
+
+td.wider {
+  width: 80px;
+}

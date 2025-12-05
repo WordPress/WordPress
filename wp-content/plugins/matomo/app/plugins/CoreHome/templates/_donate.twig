@@ -1,0 +1,33 @@
+<div class="piwik-donate-call">
+    <div class="piwik-donate-message">
+        {% if msg is defined %}
+            {{ msg }}
+        {% else %}
+            <p>{{ 'CoreHome_DonateCall1'|translate }}</p>
+            <p><strong>{{ 'CoreHome_DonateCall2'|translate }}</strong></p>
+            <p>{{ 'CoreHome_DonateCall3'|translate('<strong>','</strong>', externallink('https://matomo.org/recommends/premium-plugins/') ~ '<strong>', '</strong></a>')|raw }}</p>
+        {% endif %}
+    </div>
+
+    <span id="piwik-worth">{{ 'CoreHome_SupportUsOn'|translate }}</span>
+
+    <ul class="browser-default">
+        <li><a href="https://www.patreon.com/matomo" target="_blank" rel="noreferrer noopener">Patreon</a></li>
+        <li><a href="https://ko-fi.com/matomo" target="_blank" rel="noreferrer noopener">Ko-fi</a></li>
+        <li><a href="https://liberapay.com/Matomo" target="_blank" rel="noreferrer noopener">Liberapay</a></li>
+        <li><a href="https://opencollective.com/matomo-analytics" target="_blank" rel="noreferrer noopener">Open Collective</a></li>
+        <li><a href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA" target="_blank" rel="noreferrer noopener">PayPal</a></li>
+    </ul>
+
+    <p style="margin-top: 1em;">
+        {{ 'CoreHome_YourDonationWillHelp'|translate }}
+        <br><br>
+        <strong>{{ 'CoreHome_ThanksFromAllOfUs'|translate }}</strong>
+    </p>
+
+    {% if footerMessage is defined %}
+        <div class="form-description">
+            {{ footerMessage }}
+        </div>
+    {% endif %}
+</div>

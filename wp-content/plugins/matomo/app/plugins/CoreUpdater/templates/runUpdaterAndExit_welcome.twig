@@ -1,0 +1,107 @@
+{% extends '@CoreUpdater/layout.twig' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}</h1>
+        <p>{{ 'CoreUpdater_YourDatabaseIsOutOfDate'|translate }}</p>
+        {{ postEvent('Template.topBar')|raw }}
+    </div>
+
+    <div class="content" style="text-align:left;">
+
+        {% set helpMessage %}
+            {{ 'CoreUpdater_HelpMessageContent'|translate(externallink('https://matomo.org/faq/'),'</a>','</li><li>')|raw }}
+        {% endset %}
+
+        {% if coreError %}
+            <div class="alert alert-danger">
+                {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+                {% for message in errorMessages %}
+                    <br/><strong>{{ message|raw }}</strong>
+                {% endfor %}
+            </div>
+            <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
+            <ul>
+                <li>{{ helpMessage|raw }}</li>
+            </ul>
+        {% else %}
+
+            {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0 %}
+                {% if coreToUpdate %}
+                    <p>{{ 'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate(current_piwik_version,new_piwik_version) }}</p>
+                {% endif %}
+
+                {% if pluginNamesToUpdate|length > 0 %}
+                    {% set listOfPlugins=pluginNamesToUpdate|join(', ') %}
+                    <p>{{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate(listOfPlugins) }}</p>
+                {% endif %}
+
+                {% if dimensionsToUpdate|length > 0 %}
+                    {% set listOfDimensions=dimensionsToUpdate|join(', ') %}
+                    <p>{{ 'CoreUpdater_TheFollowingDimensionsWillBeUpgradedX'|translate(listOfDimensions) }}</p>
+                {% endif %}
+
+                <h2>{{ 'CoreUpdater_NoteForLargePiwikInstances'|translate }}</h2>
+                {% if isMajor %}
+                    <div class="alert alert-danger">
+                        {{ 'CoreUpdater_MajorUpdateWarning1'|translate }}
+                        {{ 'CoreUpdater_MajorUpdateWarning2'|translate }}
+                    </div>
+                {% endif %}
+                <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
+                <pre>{{ commandUpgradePiwik }}</pre>
+                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate(externallink('https://matomo.org/faq/how-to/faq_111'), '</a>')|raw }}</p>
+
+                {% if migrations is not empty %}
+                    <p>{{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}</p>
+                    <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
+                    {% for group in migrations %}
+                    <div class="sqlQueries" style="display:none;">
+                        <pre># {% if group.type == 'sql' %}{{ 'CoreUpdater_TheseSqlQueriesWillBeExecuted'|translate }}{% else %}{{ 'CoreUpdater_TheseCommandsWillBeExecuted'|translate }}{% endif %} <br/>{% for migration in group.migrations %}{{ migration }}<br/>{% endfor %}</pre>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
+                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate(externallink('https://matomo.org/support-plans/'), "</a>")|raw }}</p>
+
+                <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
+                <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
+            {% endif %}
+
+            {% if warningMessages|length > 0 %}
+                <div class="alert alert-info">
+                    {{ warningMessages[0] }}
+                    {% if warningMessages|length > 1 %}
+                        <a id="more-results">{{ 'General_Details'|translate }}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
+                <form action="index.php" id="upgradeCorePluginsForm" class="clearfix" data-updating="{{ 'CoreUpdater_Updating'|translate }}...">
+                    <input type="hidden" name="updateCorePlugins" value="1"/>
+                    {% if queryCount == 1 %}
+                        <input type="submit" class="btn right" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                    {% else %}
+                        <input type="submit" class="btn right" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
+                    {% endif %}
+                </form>
+            {% else %}
+                {% if warningMessages|length >= 0 %}
+                    <div class="alert alert-success">
+                        {{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}
+                    </div>
+                {% endif %}
+                <form action="index.php" class="clearfix">
+                    <input type="submit" class="btn right" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                </form>
+            {% endif %}
+        {% endif %}
+
+        {% include "@Installation/_integrityDetails.twig" %}
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% if subHeading is defined and subHeading %}
+<p><strong>{{ subHeading }}</strong></p>
+{% endif %}
+{% for paragraph in paragraphs %}
+<p>{{ paragraph|raw }}</p>
+{% endfor %}

@@ -1,0 +1,49 @@
+# This file is provided from Matomo Analytics, do not edit directly
+# Please report any issue or improvement directly to the Matomo team.
+# Do not allow access to any php file directly unless it is index/matomo.php
+<Files ~ "(\.php)$">
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+        Order allow,deny
+        Deny from all
+	</IfVersion>
+	<IfVersion >= 2.4>
+		Require all denied
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+</IfModule>
+</Files>
+<Files ~ "^((index|piwik|matomo)\.php)$">
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+        Order allow,deny
+        Allow from all
+	</IfVersion>
+	<IfVersion >= 2.4>
+		Require all granted
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+        Order allow,deny
+        Allow from all
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		Require all granted
+	</IfModule>
+</IfModule>
+</Files>
+
+# Serve HTML files as text/html mime type - Note: requires mod_mime apache module!
+<IfModule mod_mime.c>
+   AddHandler text/html .html
+   AddHandler text/html .htm
+</IfModule>

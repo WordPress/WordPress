@@ -1,0 +1,55 @@
+.dataTableRowActions {
+  background: none !important;
+}
+
+table.dataTable .dataTableRowActions {
+  position: absolute;
+  display: none;
+  overflow: hidden;
+  margin-top: -6px;
+  background-color: inherit !important;
+  z-index: 1000; /* Work around FF bug to make sure it displays over ellipsis */
+}
+
+table.dataTable .dataTableRowActions a {
+  display: block;
+  float: left;
+  padding: 6px 4px 6px 0;
+  margin: 0;
+  width: auto!important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .rowActionIcon {
+    font-size: 19px;
+    color: @theme-color-brand !important;
+    opacity: 0.6;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  @media print{
+    display: none;
+  }
+}
+
+table.dataTable .dataTableRowActions a.leftmost {
+  padding-left: 4px;
+}
+
+table.dataTable .dataTableRowActions a.rightmost {
+  padding-right: 8px;
+}
+
+table.dataTable .dataTableRowActions a img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 20px;
+  max-width: 20px;
+  height: 17px;
+  max-height: 17px;
+}

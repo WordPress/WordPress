@@ -1,0 +1,22 @@
+{% if userCanEditGoals %}
+    {% set addNewGoalIntro %}
+        <p>{{ 'Goals_NewGoalIntro'|translate }}</p>
+        <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate(externallink("https://matomo.org/docs/tracking-goals-web-analytics/"),"</a>")|raw }}</p>
+    {% endset %}
+
+    {% include "@Goals/_addEditGoal.twig" %}
+
+    <br/><br/>
+
+{% else %}
+    <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'Goals_AddNewGoal'|translate }}">
+        <p>
+            {{ 'Goals_NoGoalsNeedAccess2'|translate|raw }}
+        </p>
+        <p>
+            {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate(externallink("https://matomo.org/docs/tracking-goals-web-analytics/"),"</a>")|raw }}
+        </p>
+    </div>
+    {{ postEvent("Template.afterGoalCannotAddNewGoal") }}
+
+{% endif %}

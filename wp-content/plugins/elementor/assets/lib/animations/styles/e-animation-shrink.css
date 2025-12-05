@@ -1,0 +1,9 @@
+.elementor-animation-shrink {
+	transition-duration: 0.3s;
+	transition-property: transform;
+}
+.elementor-animation-shrink:active,
+.elementor-animation-shrink:focus,
+.elementor-animation-shrink:hover {
+	transform: scale(0.9);
+}

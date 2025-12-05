@@ -1,0 +1,106 @@
+:root {
+  --color-box-shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+.eps-theme-dark {
+  --color-box-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media screen and (min-width: 480px) {
+  .text-start-sm {
+    text-align: start;
+  }
+}
+@media screen and (min-width: 480px) {
+  .text-center-sm {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 480px) {
+  .text-end-sm {
+    text-align: end;
+  }
+}
+@media screen and (min-width: 768px) {
+  .text-start-md {
+    text-align: start;
+  }
+}
+@media screen and (min-width: 768px) {
+  .text-center-md {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 768px) {
+  .text-end-md {
+    text-align: end;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .text-start-lg {
+    text-align: start;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .text-center-lg {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .text-end-lg {
+    text-align: end;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .text-start-xl {
+    text-align: start;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .text-center-xl {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .text-end-xl {
+    text-align: end;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .text-start-xxl {
+    text-align: start;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .text-center-xxl {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .text-end-xxl {
+    text-align: end;
+  }
+}
+@keyframes eps-animation-pop {
+  from {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=app-base.css.map */

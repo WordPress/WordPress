@@ -1,0 +1,34 @@
+body.e-styleguide-shown {
+  overflow: hidden;
+}
+
+#e-styleguide-preview-dialog.dialog-styleguide-widget .dialog-styleguide-widget-content {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  top: 0 !important;
+  left: 0 !important;
+  overflow: scroll;
+}
+#e-styleguide-preview-dialog.dialog-styleguide-widget .dialog-styleguide-message {
+  min-height: 100vh;
+  padding: 0;
+  overflow-x: hidden;
+  text-align: initial;
+  font-family: Roboto, sans-serif;
+}
+#e-styleguide-preview-dialog.dialog-styleguide-widget .e-styleguide-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#e-styleguide-preview-dialog.dialog-styleguide-widget .e-styleguide-loader .eicon-loading {
+  font-size: 25px;
+  color: var(--e-a-color-txt-muted);
+}
+
+/*# sourceMappingURL=editor.css.map */

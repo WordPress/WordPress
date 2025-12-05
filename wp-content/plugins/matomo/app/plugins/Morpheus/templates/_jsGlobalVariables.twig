@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    var piwik = {};
+    piwik.pluginsToLoadOnDemand = {{ pluginsToLoadOnDemand|json_encode|raw }};
+    piwik.token_auth = "{{ token_auth }}";
+    piwik.piwik_url = "{{ piwikUrl }}";
+    piwik.cacheBuster = "{{ cacheBuster }}";
+    piwik.disableTrackingMatomoAppLinks = {{ disableTrackingMatomoAppLinks }};
+    {% if timezoneOffset is defined %}piwik.timezoneOffset = {{ timezoneOffset }};{% endif %}
+
+    piwik.numbers = {
+        patternNumber: {{ 'Intl_NumberFormatNumber'|translate|json_encode|raw }},
+        patternPercent: {{ 'Intl_NumberFormatPercent'|translate|json_encode|raw }},
+        patternCurrency: {{ 'Intl_NumberFormatCurrency'|translate|json_encode|raw }},
+        symbolPlus: {{ 'Intl_NumberSymbolPlus'|translate|json_encode|raw }},
+        symbolMinus: {{ 'Intl_NumberSymbolMinus'|translate|json_encode|raw }},
+        symbolPercent: {{ 'Intl_NumberSymbolPercent'|translate|json_encode|raw }},
+        symbolGroup: {{ 'Intl_NumberSymbolGroup'|translate|json_encode|raw }},
+        symbolDecimal: {{ 'Intl_NumberSymbolDecimal'|translate|json_encode|raw }},
+        patternsCompactNumber: {
+{% for i in 0..15 %}
+            "{{ 10**i }}000One": {{ ('Intl_NumberFormatNumberCompact' ~ 10**i ~ '000One')|translate|json_encode|raw }},
+            "{{ 10**i }}000Other": {{ ('Intl_NumberFormatNumberCompact' ~ 10**i ~ '000Other')|translate|json_encode|raw }},
+{% endfor %}
+        },
+        patternsCompactCurrency: {
+{%- for i in 0..15 %}
+            "{{ 10**i }}000One": {{ ('Intl_NumberFormatCurrencyCompact' ~ 10**i ~ '000One')|translate|json_encode|raw }},
+            "{{ 10**i }}000Other": {{ ('Intl_NumberFormatCurrencyCompact' ~ 10**i ~ '000Other')|translate|json_encode|raw }},
+{%- endfor %}
+        }
+    };
+
+    piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }};
+
+    {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
+
+    {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
+
+    piwik.requiresPasswordConfirmation = {{ userRequiresPasswordConfirmation ? 'true' : 'false' }};
+
+    {% if siteName is defined %}
+    // NOTE: siteName is currently considered deprecated, use piwik.currentSiteName instead, which will not contain HTML entities
+    piwik.siteName = "{{ siteName|e('js') }}";
+    {% if siteNameDecoded is defined %} // just to be safe
+    piwik.currentSiteName = {{ siteNameDecoded|json_encode|raw }};{% endif %}
+    {% endif %}
+
+    {% if siteMainUrl is defined %}piwik.siteMainUrl = "{{ siteMainUrl|e('js') }}";{% endif %}
+
+    {% if period is defined %}piwik.period = "{{ period }}";{% endif %}
+
+{# piwik.currentDateString should not be used other than by the calendar Javascript
+            (it is not set to the expected value when period=range)
+        Use broadcast.getValueFromUrl('date') instead
+#}
+    piwik.currentDateString = "{{ date|default(endDate|default('')) }}";
+{% if startDate is defined %}
+    piwik.startDateString = "{{ startDate }}";
+    piwik.endDateString = "{{ endDate }}";
+    piwik.minDateYear = {{ minDateYear }};
+    piwik.minDateMonth = parseInt("{{ minDateMonth }}", 10);
+    piwik.minDateDay = parseInt("{{ minDateDay }}", 10);
+    piwik.maxDateYear = {{ maxDateYear }};
+    piwik.maxDateMonth = parseInt("{{ maxDateMonth }}", 10);
+    piwik.maxDateDay = parseInt("{{ maxDateDay }}", 10);
+{% endif %}
+    {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
+
+    piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
+    piwik.userHasSomeAdminAccess = {{ userHasSomeAdminAccess|json_encode|raw }};
+    piwik.userCapabilities = {{ userCapabilities|default([])|json_encode|raw }};
+    piwik.config = {};
+{% if clientSideConfig is defined %}
+    piwik.config = {{ clientSideConfig|json_encode|raw }};
+{% endif %}
+    Object.freeze(piwik.config); // disallow accidental changes
+    piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
+    {{ postEvent("Template.jsGlobalVariables") }}
+</script>
+

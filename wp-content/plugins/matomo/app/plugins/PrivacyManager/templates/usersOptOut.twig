@@ -1,0 +1,15 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+    <div
+        vue-entry="PrivacyManager.UsersOptOut"
+        matomo-url="{{ piwikUrl|json_encode }}"
+        language="{{ language|json_encode }}"
+        language-options="{{ languageOptions|json_encode }}"
+        is-super-user="{{ isSuperUser|json_encode }}"
+        dnt-support="{{ dntSupport|json_encode }}"
+        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode }}"
+    ></div>
+{% endblock %}

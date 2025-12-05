@@ -1,0 +1,10 @@
+ARG_WITH("maxminddb", "Enable MaxMind DB Reader extension support", "no");
+
+if (PHP_MAXMINDDB == "yes") {
+	if (CHECK_HEADER_ADD_INCLUDE("maxminddb.h", "CFLAGS_MAXMINDDB", PHP_MAXMINDDB +  ";" + PHP_PHP_BUILD + "\\include\\maxminddb") &&
+		CHECK_LIB("libmaxminddb.lib", "maxminddb", PHP_MAXMINDDB)) {
+		EXTENSION("maxminddb", "maxminddb.c");
+	} else {
+		WARNING('Could not find maxminddb.h or libmaxminddb.lib; skipping');
+	}
+}

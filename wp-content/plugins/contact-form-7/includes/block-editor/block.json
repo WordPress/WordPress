@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "contact-form-7/contact-form-selector",
+	"title": "Contact Form 7",
+	"category": "widgets",
+	"description": "Insert a contact form you have created with Contact Form 7.",
+	"keywords": [ "form" ],
+	"textdomain": "contact-form-7",
+	"attributes": {
+		"id": {
+			"type": "integer"
+		},
+		"hash": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"htmlId": {
+			"type": "string"
+		},
+		"htmlName": {
+			"type": "string"
+		},
+		"htmlTitle": {
+			"type": "string"
+		},
+		"htmlClass": {
+			"type": "string"
+		},
+		"output": {
+			"enum": [ "form", "raw_form" ],
+			"default": "form"
+		}
+	},
+	"editorScript": [ "file:./index.js", "contact-form-7-block-editor" ]
+}

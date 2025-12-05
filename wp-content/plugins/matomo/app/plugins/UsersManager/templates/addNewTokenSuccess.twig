@@ -1,0 +1,12 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="UsersManager.AddNewTokenSuccess"
+        generated-token="{{ generatedToken|json_encode }}"
+    ></div>
+
+{% endblock %}

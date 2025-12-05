@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Now Supports Variables in Custom JavaScript",
+    "description": "You can now reference existing variables within Custom JavaScript variables. This means less development hassle and more convenience. For instance, you can easily retrieve a custom variable from the currently clicked element using {{ClickElement}}.",
+    "version": "5.0.1",
+    "link_name": "Learn more",
+    "link": "https://matomo.org/faq/tag-manager/how-do-i-use-variables-within-a-custom-javascript-variable/"
+  }
+]

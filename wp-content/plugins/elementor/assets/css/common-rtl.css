@@ -1,0 +1,784 @@
+:root {
+  --direction-multiplier: 1;
+}
+
+html[dir=rtl],
+body.rtl {
+  --direction-multiplier: -1;
+}
+
+.elementor-hidden {
+  display: none;
+}
+
+.elementor-visibility-hidden {
+  visibility: hidden;
+}
+
+.elementor-screen-only,
+.screen-reader-text,
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
+  position: absolute;
+  top: -10000em;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.elementor-clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+  width: 0;
+  height: 0;
+}
+
+.e-logo-wrapper {
+  background: var(--e-a-bg-logo);
+  display: inline-block;
+  padding: 0.75em;
+  border-radius: 50%;
+  line-height: 1;
+}
+.e-logo-wrapper i {
+  color: var(--e-a-color-logo);
+  font-size: 1em;
+}
+
+.dialog-widget-content {
+  background-color: var(--e-a-bg-default);
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.dialog-message {
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.dialog-close-button {
+  cursor: pointer;
+  position: absolute;
+  margin-block-start: 15px;
+  inset-inline-end: 15px;
+  color: var(--e-a-color-txt);
+  font-size: 15px;
+  line-height: 1;
+  transition: var(--e-a-transition-hover);
+}
+.dialog-close-button:hover {
+  color: var(--e-a-color-txt-hover);
+}
+
+.dialog-prevent-scroll {
+  overflow: hidden;
+  max-height: 100vh;
+}
+
+.dialog-type-lightbox {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.elementor-editor-active .elementor-popup-modal {
+  background-color: initial;
+}
+
+.dialog-type-confirm .dialog-widget-content,
+.dialog-type-alert .dialog-widget-content {
+  margin: auto;
+  width: 400px;
+  padding: 20px;
+}
+.dialog-type-confirm .dialog-header,
+.dialog-type-alert .dialog-header {
+  font-size: 15px;
+  font-weight: 500;
+}
+.dialog-type-confirm .dialog-header:after,
+.dialog-type-alert .dialog-header:after {
+  content: "";
+  display: block;
+  border-block-end: var(--e-a-border);
+  padding-block-end: 10px;
+  margin-block-end: 10px;
+  margin-inline-start: -20px;
+  margin-inline-end: -20px;
+}
+.dialog-type-confirm .dialog-message,
+.dialog-type-alert .dialog-message {
+  min-height: 50px;
+}
+.dialog-type-confirm .dialog-buttons-wrapper,
+.dialog-type-alert .dialog-buttons-wrapper {
+  padding-block-start: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 8px 16px;
+  outline: none;
+  border: none;
+  border-radius: var(--e-a-border-radius);
+  background-color: var(--e-a-btn-bg);
+  color: var(--e-a-btn-color-invert);
+  transition: var(--e-a-transition-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:hover {
+  border: none;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:focus {
+  background-color: var(--e-a-btn-bg-hover);
+  color: var(--e-a-btn-color-invert);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:active,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:active {
+  background-color: var(--e-a-btn-bg-active);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:not([disabled]),
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:not([disabled]) {
+  cursor: pointer;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:disabled,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:disabled {
+  background-color: var(--e-a-btn-bg-disabled);
+  color: var(--e-a-btn-color-disabled);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:not(.elementor-button-state) .elementor-state-icon,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:not(.elementor-button-state) .elementor-state-icon {
+  display: none;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel {
+  background: transparent;
+  color: var(--e-a-color-txt);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel:focus {
+  background: var(--e-a-bg-hover);
+  color: var(--e-a-color-txt-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt:disabled, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel:disabled,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt:disabled,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel:disabled {
+  background: transparent;
+  color: var(--e-a-color-txt-disabled);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt-border,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt-border {
+  border: 1px solid var(--e-a-color-txt-muted);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-success, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-success,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-success,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-success {
+  background-color: var(--e-a-btn-bg-success);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-success:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-success:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-success:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-success:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-success:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-success:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-success:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-success:focus {
+  background-color: var(--e-a-btn-bg-success-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-take_over, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-take_over,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok {
+  background-color: var(--e-a-btn-bg-primary);
+  color: var(--e-a-btn-color);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-take_over:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-take_over:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-take_over:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-take_over:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok:focus {
+  background-color: var(--e-a-btn-bg-primary-hover);
+  color: var(--e-a-btn-color);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel {
+  background: transparent;
+  color: var(--e-a-color-primary-bold);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.e-btn-txt:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-take_over:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-primary.dialog-cancel:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-cancel.dialog-take_over:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-btn-txt.dialog-ok:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.dialog-ok.dialog-cancel:focus {
+  background: var(--e-a-bg-primary);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.go-pro, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-accent,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.go-pro,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-accent {
+  background-color: var(--e-a-btn-bg-accent);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.go-pro:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.go-pro:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-accent:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-accent:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.go-pro:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.go-pro:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-accent:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-accent:focus {
+  background-color: var(--e-a-btn-bg-accent-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.go-pro:active, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-accent:active,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.go-pro:active,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-accent:active {
+  background-color: var(--e-a-btn-bg-accent-active);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-info, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-info,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-info,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-info {
+  background-color: var(--e-a-btn-bg-info);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-info:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-info:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-info:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-info:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-info:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-info:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-info:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-info:focus {
+  background-color: var(--e-a-btn-bg-info-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-warning, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-warning,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-warning,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-warning {
+  background-color: var(--e-a-btn-bg-warning);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-warning:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-warning:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-warning:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-warning:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-warning:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-warning:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-warning:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-warning:focus {
+  background-color: var(--e-a-btn-bg-warning-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-danger, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-danger,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-danger,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-danger {
+  background-color: var(--e-a-btn-bg-danger);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-danger.color-white, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-danger.color-white,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-danger.color-white,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-danger.color-white {
+  color: var(--e-a-color-white);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-danger:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.elementor-button-danger:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-danger:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button.e-danger:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-danger:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.elementor-button-danger:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-danger:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button.e-danger:focus {
+  background-color: var(--e-a-btn-bg-danger-hover);
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button i,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button i {
+  margin-inline-end: 5px;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button:visited,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button:visited {
+  color: initial;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button[disabled],
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button[disabled] {
+  background-color: var(--e-a-btn-bg-disabled);
+  cursor: not-allowed;
+}
+.dialog-type-confirm .dialog-buttons-wrapper .dialog-button[disabled]:hover, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button[disabled]:focus, .dialog-type-confirm .dialog-buttons-wrapper .dialog-button[disabled]:visited,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button[disabled]:hover,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button[disabled]:focus,
+.dialog-type-alert .dialog-buttons-wrapper .dialog-button[disabled]:visited {
+  background-color: var(--e-a-btn-bg-disabled);
+}
+
+#elementor-change-exit-preference-dialog .dialog-message a {
+  cursor: pointer;
+}
+#elementor-change-exit-preference-dialog .dialog-message > div {
+  margin-block-end: 10px;
+}
+
+#e-experiments-messages-dialog .dialog-confirm-header {
+  font-weight: 600;
+}
+
+#e-kit-elements-defaults-create-dialog label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-block-start: 20px;
+}
+
+@media (min-width: 1024px) {
+  body.admin-bar .dialog-lightbox-widget {
+    height: calc(100vh - 32px);
+  }
+}
+@media (max-width: 1024px) {
+  body.admin-bar .dialog-type-lightbox {
+    position: sticky;
+    height: 100vh;
+  }
+}
+.elementor-templates-modal .dialog-widget-content {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  background-color: var(--e-a-bg-default);
+  width: 100%;
+}
+@media (max-width: 1439px) {
+  .elementor-templates-modal .dialog-widget-content {
+    max-width: 990px;
+  }
+}
+@media (min-width: 1440px) {
+  .elementor-templates-modal .dialog-widget-content {
+    max-width: 1200px;
+  }
+}
+.elementor-templates-modal .dialog-header {
+  border-block-end: var(--e-a-border);
+  padding: 0;
+  z-index: 1;
+}
+.elementor-templates-modal .dialog-buttons-wrapper {
+  border-block-start: var(--e-a-border);
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.elementor-templates-modal .dialog-message {
+  height: 750px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+.elementor-templates-modal .dialog-content {
+  height: 100%;
+  text-align: center;
+}
+.elementor-templates-modal .dialog-loading {
+  display: none;
+}
+.elementor-templates-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+}
+.elementor-templates-modal__header__logo {
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+.elementor-templates-modal__header__logo-area {
+  text-align: start;
+  padding-inline-start: 15px;
+}
+.elementor-templates-modal__header__logo-area > * {
+  display: flex;
+  align-items: center;
+}
+.elementor-templates-modal__header__logo__icon-wrapper {
+  margin-inline-end: 10px;
+  font-size: 12px;
+}
+.elementor-templates-modal__header__logo__title {
+  color: var(--e-a-color-txt-active);
+  padding-block-start: 2px;
+}
+.elementor-templates-modal__header__items-area {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.elementor-templates-modal__header__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+}
+.elementor-templates-modal__header__item > i {
+  font-size: 20px;
+  transition: var(--e-a-transition-hover);
+  cursor: pointer;
+}
+.elementor-templates-modal__header__item > i:hover {
+  color: var(--e-a-color-txt-hover);
+}
+.elementor-templates-modal__header__close--normal {
+  width: 47px;
+  border-inline-start: var(--e-a-border);
+}
+.elementor-templates-modal__header__close--normal i {
+  font-size: 18px;
+}
+.elementor-templates-modal__header__close--skip {
+  padding: 10px;
+  padding-inline-start: 20px;
+  margin-inline-end: 10px;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 1;
+  border-radius: var(--e-a-border-radius);
+  cursor: pointer;
+}
+.elementor-templates-modal__header__close--skip > i {
+  font-size: inherit;
+  padding-inline-start: 10px;
+  margin-inline-start: 15px;
+  border-inline-start: 1px solid;
+}
+.elementor-templates-modal__header__close--skip > i:not(:hover) {
+  color: var(--e-a-color-white);
+}
+.elementor-templates-modal__sidebar {
+  flex-shrink: 0;
+  width: 25%;
+  border-inline-end: var(--e-a-border);
+}
+.elementor-templates-modal__content {
+  flex-grow: 1;
+}
+
+#elementor-toast {
+  position: absolute;
+  width: 280px;
+  padding: 20px;
+  border-radius: 5px;
+  color: var(--e-a-dark-color-txt);
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+}
+#elementor-toast.dialog-position-window {
+  position: fixed;
+}
+#elementor-toast .dialog-message {
+  font-size: 13px;
+}
+#elementor-toast .dialog-buttons-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+#elementor-toast .dialog-buttons-wrapper:not(:empty) {
+  margin-block-start: 15px;
+}
+#elementor-toast .dialog-button {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 8px 16px;
+  margin-inline-end: 10px;
+  color: var(--e-a-dark-color-txt);
+  border-radius: var(--e-a-border-radius);
+  transition: var(--e-a-transition-hover);
+  cursor: pointer;
+}
+#elementor-toast .dialog-button:hover {
+  background: var(--e-a-bg-hover);
+  color: var(--e-a-color-txt-hover);
+}
+#elementor-toast .dialog-button:last-child {
+  margin-inline-end: 0;
+}
+
+/* Will select next element after last '.elementor-general-section' */
+#wpadminbar #wp-admin-bar-elementor_edit_page .elementor-general-section + .elementor-second-section {
+  border-block-start: 1px solid #464b50;
+  margin-block-start: 6px;
+}
+
+.e-logo-wrapper {
+  background: var(--e-a-bg-logo);
+  display: inline-block;
+  padding: 0.75em;
+  border-radius: 50%;
+  line-height: 1;
+}
+.e-logo-wrapper i {
+  color: var(--e-a-color-logo);
+  font-size: 1em;
+}
+
+#elementor-finder__modal {
+  background: none;
+  z-index: 99999;
+}
+#elementor-finder__modal .dialog-widget-content {
+  width: 650px;
+  max-width: 98%;
+  top: 18vh;
+  left: calc(50% - 650px / 2);
+}
+#elementor-finder__modal .dialog-content {
+  text-align: start;
+}
+#elementor-finder__modal .dialog-message {
+  height: initial;
+  min-height: 0;
+  padding: 0;
+  text-align: start;
+}
+#elementor-finder__search {
+  padding: 15px;
+  display: flex;
+}
+#elementor-finder__search i {
+  font-size: 16px;
+  margin-inline-end: 15px;
+}
+#elementor-finder__search__input {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  font-size: 14px;
+  box-shadow: none;
+}
+#elementor-finder__search__input::-moz-placeholder {
+  font-style: italic;
+  font-weight: 300;
+}
+#elementor-finder__search__input::placeholder {
+  font-style: italic;
+  font-weight: 300;
+}
+#elementor-finder__results {
+  max-height: 50vh;
+  overflow: auto;
+}
+#elementor-finder__no-results {
+  display: none;
+  padding: 20px;
+}
+#elementor-finder__lock-dialog {
+  z-index: 100000;
+}
+
+.elementor-finder__results__category {
+  position: relative;
+}
+.elementor-finder__results__category__title {
+  padding: 5px 25px;
+  font-size: 10px;
+  border-block-end: var(--e-a-border);
+}
+.elementor-finder__results__category--dynamic .elementor-finder__results__category__items {
+  min-height: 26px;
+}
+.elementor-finder__results__category .eicon-loading {
+  display: none;
+  position: absolute;
+  inset-block-start: 30px;
+  inset-inline-end: 10px;
+  color: var(--e-a-color-info);
+  font-size: 14px;
+}
+.elementor-finder__results__item {
+  display: flex;
+}
+.elementor-finder__results__item a {
+  text-decoration: none;
+  color: inherit;
+}
+.elementor-finder__results__item.elementor-active {
+  background-color: var(--e-a-bg-hover);
+}
+.elementor-finder__results__item.elementor-active a {
+  color: inherit;
+}
+.elementor-finder__results__item:not(.elementor-active) .elementor-finder__results__item__actions {
+  display: none;
+}
+.elementor-finder__results__item__link {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  flex-grow: 1;
+}
+.elementor-finder__results__item__icon {
+  width: 60px;
+  text-align: center;
+  font-size: 17px;
+}
+.elementor-finder__results__item__title {
+  font-size: 13px;
+}
+.elementor-finder__results__item__description {
+  margin-inline-start: 5px;
+  font-style: italic;
+}
+.elementor-finder__results__item__badge {
+  text-transform: uppercase;
+  position: absolute;
+  inset-inline-end: 16px;
+  font-size: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.elementor-finder__results__item__actions {
+  display: flex;
+}
+.elementor-finder__results__item__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 35px;
+}
+.elementor-finder__results__item__action:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+.tipsy {
+  font-size: 10px;
+  position: absolute;
+  padding: 5px;
+  z-index: 100000;
+}
+
+.tipsy-inner {
+  background-color: #000;
+  color: #FFF;
+  font-weight: 500;
+  max-width: 200px;
+  padding: 5px 12px;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.tipsy-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  border: 5px dashed #000;
+}
+
+.tipsy-arrow-n {
+  border-bottom-color: #000;
+}
+
+.tipsy-arrow-s {
+  border-top-color: #000;
+}
+
+.tipsy-arrow-e {
+  border-left-color: #000;
+}
+
+.tipsy-arrow-w {
+  border-right-color: #000;
+}
+
+.tipsy-n .tipsy-arrow, .tipsy-nw .tipsy-arrow {
+  border-left-color: transparent;
+  border-right-color: transparent;
+  top: 0;
+  border-bottom-style: solid;
+  border-top: none;
+}
+
+.tipsy-n .tipsy-arrow {
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tipsy-nw .tipsy-arrow {
+  left: 10px;
+}
+
+.tipsy-ne .tipsy-arrow {
+  top: 0;
+  right: 10px;
+  border-bottom-style: solid;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.tipsy-s .tipsy-arrow, .tipsy-se .tipsy-arrow, .tipsy-sw .tipsy-arrow {
+  bottom: 0;
+  border-top-style: solid;
+  border-bottom: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.tipsy-s .tipsy-arrow {
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tipsy-sw .tipsy-arrow {
+  left: 10px;
+}
+
+.tipsy-se .tipsy-arrow {
+  right: 10px;
+}
+
+.tipsy-e .tipsy-arrow, .tipsy-w .tipsy-arrow {
+  top: 50%;
+  margin-top: -5px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.tipsy-e .tipsy-arrow {
+  right: 0;
+  border-left-style: solid;
+  border-right: none;
+}
+
+.tipsy-w .tipsy-arrow {
+  left: 0;
+  border-right-style: solid;
+  border-left: none;
+}
+/*# sourceMappingURL=common-rtl.css.map */

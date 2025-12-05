@@ -1,0 +1,43 @@
+{% apply spaceless %}
+{% set tooltipIndex = column ~ '_tooltip' %}
+{% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
+{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
+    <a rel="noreferrer noopener"
+       target="_blank"
+       href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
+{% endif %}
+
+{% set totals = dataTable.getMetadata('totals') %}
+{% set labelColumn   = columns_to_display|first %}
+{% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
+{% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
+    'label': reportLabel,
+    'labelColumn': labelColumn,
+    'translations': properties.translations
+} %}
+
+{% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}
+{% if column=='label' or column in dimensions %}
+    {% import 'macros.twig' as piwik %}
+
+    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
+    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+        {% if column=='label' %}
+            {% if not row.getIdSubDataTable() and row.getMetadata('url') and not row.getMetadata('logo') %}
+                <span class="icon-outlink"></span>
+            {% else %}
+                {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
+            {% endif %}
+        {% endif %}
+        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
+{% endif %}<span class="value">
+    {%- if row.getColumn(column) or (column=='label' and (row.getColumn(column) is same as("0") or row.getColumn(column) is same as(0))) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{% if row.getMetadata('html_column_' ~ column ~ '_prefix') %}<span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>{% endif -%}{{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}{% if row.getMetadata('html_column_' ~ column ~ '_suffix') %}<span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>{% endif -%}{% endif %}
+    {%- else -%}-
+    {%- endif -%}</span>
+{% if column=='label' %}{%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}</span>{% endif %}
+{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
+    </a>
+{% endif %}
+{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
+
+{% endapply %}

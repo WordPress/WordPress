@@ -1,0 +1,27 @@
+@keyframes elementor-animation-bob {
+	0% {
+		transform: translateY(-8px);
+	}
+	50% {
+		transform: translateY(-4px);
+	}
+	100% {
+		transform: translateY(-8px);
+	}
+}
+@keyframes elementor-animation-bob-float {
+	100% {
+		transform: translateY(-8px);
+	}
+}
+.elementor-animation-bob:active,
+.elementor-animation-bob:focus,
+.elementor-animation-bob:hover {
+	animation-name: elementor-animation-bob-float, elementor-animation-bob;
+	animation-duration: 0.3s, 1.5s;
+	animation-delay: 0s, 0.3s;
+	animation-timing-function: ease-out, ease-in-out;
+	animation-iteration-count: 1, infinite;
+	animation-fill-mode: forwards;
+	animation-direction: normal, alternate;
+}

@@ -1,0 +1,7 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'SitesManager_GlobalWebsitesSettings'|translate }}{% endset %}
+
+{% block content %}
+    <div vue-entry="SitesManager.ManageGlobalSettings" common-sensitive-query-params="{{ commonSensitiveQueryParams|json_encode }}"></div>
+{% endblock %}

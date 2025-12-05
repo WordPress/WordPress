@@ -1,0 +1,16 @@
+{
+  "name": "WordPress",
+  "description": "Matomo WordPress extension",
+  "version": "0.1.0",
+  "theme": false,
+  "authors": [
+    {
+      "name": "Matomo",
+      "email": "hello@matomo.org",
+      "homepage": "https://matomo.org"
+    }
+  ],
+  "homepage": "https://matomo.org",
+  "license": "GPL v3+",
+  "keywords": ["wordpress"]
+}

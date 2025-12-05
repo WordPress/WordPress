@@ -1,0 +1,13 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Login_BruteForceLog'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="Login.BruteForceLog"
+        blocked-ips="{{ blockedIps|json_encode }}"
+        disallowed-ips="{{ disallowedIps|json_encode }}"
+    ></div>
+
+{% endblock %}

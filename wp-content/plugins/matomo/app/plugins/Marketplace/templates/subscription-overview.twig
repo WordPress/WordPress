@@ -1,0 +1,16 @@
+{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
+{% import '@Marketplace/macros.twig' as marketplaceMacro %}
+
+{% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="Marketplace.SubscriptionOverview"
+        login-url="{{ loginUrl|json_encode }}"
+        num-users="{{ numUsers|json_encode }}"
+        has-license-key="{{ hasLicenseKey|default(false)|json_encode }}"
+        subscriptions="{{ subscriptions|json_encode }}"
+    ></div>
+
+{% endblock %}

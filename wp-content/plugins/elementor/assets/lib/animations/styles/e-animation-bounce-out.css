@@ -1,0 +1,9 @@
+.elementor-animation-bounce-out {
+	transition-duration: 0.5s;
+}
+.elementor-animation-bounce-out:active,
+.elementor-animation-bounce-out:focus,
+.elementor-animation-bounce-out:hover {
+	transform: scale(0.8);
+	transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}

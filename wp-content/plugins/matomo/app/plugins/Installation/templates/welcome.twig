@@ -1,0 +1,34 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+    <h2>{{ 'Installation_Welcome'|translate }}</h2>
+
+    {{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps)|raw }}
+
+    <script type="text/javascript">
+        <!--
+        $(function () {
+            // client-side test for broken tracker (e.g., mod_security rule)
+            $('.next-step').hide();
+            $.ajax({
+                url: 'matomo.php',
+                data: 'url=http://example.com',
+                complete: function () {
+                    $('.next-step').show();
+                },
+                error: function (req) {
+                    $('.next-step a').attr('href', $('.next-step a').attr('href') + '&trackerStatus=' + req.status);
+                }
+            });
+        });
+        //-->
+    </script>
+
+    {% if not showNextStep %}
+        <p class="next-step">
+            <a href="{{ url }}">{{ 'General_RefreshPage'|translate }} &raquo;</a>
+        </p>
+    {% endif %}
+
+{% endblock %}

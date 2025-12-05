@@ -1,0 +1,27 @@
+@keyframes elementor-animation-hang {
+	0% {
+		transform: translateY(8px);
+	}
+	50% {
+		transform: translateY(4px);
+	}
+	100% {
+		transform: translateY(8px);
+	}
+}
+@keyframes elementor-animation-hang-sink {
+	100% {
+		transform: translateY(8px);
+	}
+}
+.elementor-animation-hang:active,
+.elementor-animation-hang:focus,
+.elementor-animation-hang:hover {
+	animation-name: elementor-animation-hang-sink, elementor-animation-hang;
+	animation-duration: 0.3s, 1.5s;
+	animation-delay: 0s, 0.3s;
+	animation-timing-function: ease-out, ease-in-out;
+	animation-iteration-count: 1, infinite;
+	animation-fill-mode: forwards;
+	animation-direction: normal, alternate;
+}

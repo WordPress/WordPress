@@ -1,0 +1,5 @@
+<div class="languageSelection wpSitesSelection" menu-title="Sites" vue-entry="CoreHome.MenuItemsDropdown">
+    {% for site in sites %}
+        <a class="item {% if currentId == site.id %}active{% endif %}" href="{{ site.url|e('html_attr') }}"> {{ site.name }} (Site ID: {{ site.id }})</a>
+    {% endfor %}
+</div>

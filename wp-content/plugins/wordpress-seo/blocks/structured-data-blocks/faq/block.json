@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "22.7",
+  "name": "yoast/faq-block",
+  "title": "Yoast FAQ",
+  "description": "List your Frequently Asked Questions in an SEO-friendly way.",
+  "category": "yoast-structured-data-blocks",
+  "icon": "editor-ul",
+  "keywords": [
+    "FAQ",
+    "Frequently Asked Questions",
+    "Schema",
+    "SEO",
+    "Structured Data"
+  ],
+  "textdomain": "wordpress-seo",
+  "attributes": {
+    "questions": {
+      "type": "array"
+    },
+    "additionalListCssClasses": {
+      "type": "string"
+    }
+  },
+  "example": {
+    "attributes": {
+      "steps": [
+        {
+          "id": "faq-question-1",
+          "question": [ ],
+          "answer": [ ]
+        },
+        {
+          "id": "faq-question-2",
+          "question": [ ],
+          "answer": [ ]
+        }
+      ]
+    }
+  },
+  "editorScript": "yoast-seo-faq-block",
+  "editorStyle": "yoast-seo-structured-data-blocks"
+}

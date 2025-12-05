@@ -1,0 +1,79 @@
+.zenMode {
+  nav {
+    display: none;
+  }
+
+  #secondNavBar {
+    display: none;
+  }
+
+  #root #secondNavBar + .pageWrap {
+    width: 100%;
+  }
+
+  .bannerHeader {
+    display: none;
+  }
+}
+
+#content:not(.admin), .widget, .ui-widget {
+
+  /* DATATABLES */
+
+  table.dataTable {
+    th.sortable {
+      border-left: 0;
+      border-bottom: 0;
+    }
+    th.columnSorted {
+      font-weight: normal !important;
+    }
+    tr.subDataTable {
+      font-weight: normal !important;
+    }
+    tr td {
+      padding-top: 10px;
+      padding-bottom: 9px;
+    }
+  }
+
+  .dataTableActions.dataTableVizHtmlTable > .dataTableWrapper {
+    width: 100%;
+  }
+
+  .dataTableActions table.dataTable  {
+    td.column,
+    th.sortable:not(.first) {
+      width: 50px;
+    }
+  }
+
+  .dataTableVizHtmlTable > .dataTableWrapper {
+    width: 100%;
+  }
+
+  .dataTableFooterNavigation {
+    padding: 7px 0 0 0;
+
+    > .row {
+      margin-bottom: 0;
+    }
+  }
+
+  .goalEntry:first-of-type {
+    padding-top: 20px;
+  }
+
+  .goalEntry {
+    border-bottom: 0;
+  }
+
+  .relatedReferrerReports {
+    display: none;
+  }
+
+  .reportsByDimensionView .entityList {
+    margin-left: 13px;
+  }
+
+}

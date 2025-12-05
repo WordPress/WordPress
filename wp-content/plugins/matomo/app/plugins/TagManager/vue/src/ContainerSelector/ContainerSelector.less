@@ -1,0 +1,35 @@
+.tagContainerSelector {
+    a.title {
+        // - (search + margins (14px*3)) - arrow
+        max-width: ~'calc(71vw - 250px - 1em)';
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .custom_select_container {
+         li a {
+            line-height: 18px;
+            height: auto;
+            display: block;
+            text-decoration: none;
+            max-width: 280px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 0 0 5px;
+            color: @theme-color-text;
+            text-transform: uppercase;
+            width: 100%;
+            &:hover {
+                background: @color-silver-l95;
+            }
+        }
+    }
+}
+
+.tagmanager {
+    .siteSelector {
+        a.title {
+            max-width: ~'calc(58vw - 250px - 1em)';
+        }
+    }
+}

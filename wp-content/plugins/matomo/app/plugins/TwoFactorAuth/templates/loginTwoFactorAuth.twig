@@ -1,0 +1,16 @@
+{% extends '@Login/loginLayout.twig' %}
+
+{% set title %}{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }}{% endset %}
+
+{% block loginContent %}
+    <div
+        vue-entry="TwoFactorAuth.LoginTwoFactorAuth"
+        form-data="{{ form_data|json_encode }}"
+        access-error-string="{{ AccessErrorString|default(null)|json_encode }}"
+        form-nonce="{{ nonce|json_encode }}"
+        login-module="{{ loginModule|json_encode }}"
+        piwik-url="{{ piwikUrl|default(null)|json_encode }}"
+        user-login="{{ userLogin|json_encode }}"
+        contact-email="{{ contactEmail|json_encode }}"
+    ></div>
+{% endblock %}

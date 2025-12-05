@@ -1,0 +1,19 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+
+<div
+    vue-entry="Installation.SystemCheck"
+    show-next-step="{{ showNextStep|default(null)|json_encode }}"
+    system-check-legend-url="{{ url|json_encode }}"
+    error-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR')|json_encode }}"
+    warning-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING')|json_encode }}"
+    informational-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL')|json_encode }}"
+    system-check-info="{{ systemCheckInfo|json_encode }}"
+    mandatory-results="{{ diagnosticReport.getMandatoryDiagnosticResults()|json_encode }}"
+    optional-results="{{ diagnosticReport.getOptionalDiagnosticResults()|json_encode }}"
+    informational-results="{{ diagnosticReport.getInformationalResults()|json_encode }}"
+    is-installation="{{ isInstallation|default(null)|json_encode }}"
+></div>
+
+{% endblock %}

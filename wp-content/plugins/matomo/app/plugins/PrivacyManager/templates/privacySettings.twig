@@ -1,0 +1,31 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_AnonymizeData'|translate }}{% endset %}
+
+{% block content %}
+{% import 'macros.twig' as piwik %}
+
+<div
+    vue-entry="PrivacyManager.PrivacySettings"
+    anonymize-ip-enabled="{{ anonymizeIP.enabled|default(null)|json_encode }}"
+    anonymize-user-id="{{ anonymizeIP.anonymizeUserId|default(null)|json_encode }}"
+    mask-length="{{ anonymizeIP.maskLength|default(null)|json_encode }}"
+    use-anonymized-ip-for-visit-enrichment="{{ anonymizeIP.useAnonymizedIpForVisitEnrichment|default(null)|json_encode }}"
+    anonymize-order-id="{{ anonymizeIP.anonymizeOrderId|default(null)|json_encode }}"
+    force-cookieless-tracking="{{ anonymizeIP.forceCookielessTracking|default(null)|json_encode }}"
+    anonymize-referrer="{{ anonymizeIP.anonymizeReferrer|default(null)|json_encode }}"
+    mask-length-options="{{ maskLengthOptions|default(null)|json_encode }}"
+    use-anonymized-ip-for-visit-enrichment-options="{{ useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode }}"
+    tracker-file-name="{{ trackerFileName|default(null)|json_encode }}"
+    tracker-writable="{{ trackerWritable|default(null)|json_encode }}"
+    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode }}"
+    is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode }}"
+    delete-data="{{ deleteData|default(null)|json_encode }}"
+    schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode }}"
+    anonymizations="{{ anonymizations|json_encode }}"
+    is-super-user="{{ isSuperUser|json_encode }}"
+    randomize-config-id="{{ anonymizeIP.randomizeConfigId|json_encode }}"
+    config-randomisation-feature-flag="{{ configRandomisationFeatureFlag|json_encode }}"
+></div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="UsersManager.AddNewToken"
+        no-description="{{ noDescription|json_encode }}"
+        form-nonce="{{ nonce|json_encode }}"
+        force-secure-only="{{ forceSecureOnly|json_encode }}"
+    ></div>
+
+{% endblock %}

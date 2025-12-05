@@ -1,0 +1,22 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Widgets'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
+
+{% block content %}
+
+<div>
+
+<div
+  vue-entry="Widgetize.ExportWidget"
+  title="{{ title|default(null)|json_encode|e('html_attr') }}"
+></div>
+</div>
+
+{% include "@Dashboard/_widgetFactoryTemplate.twig" %}
+
+{% endblock %}

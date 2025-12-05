@@ -1,0 +1,98 @@
+.tagManagerManageList {
+
+  .index {
+    width: 60px;
+  }
+
+  th.action, td.action {
+    width: 160px;
+    a {
+      color: black;
+    }
+  }
+
+  .tags {
+    th.action, td.action {
+      width: 200px;
+    }
+
+    td.action.hasCopyAction {
+      width: 215px;
+    }
+  }
+
+  .preconfiguredVariablesHelp {
+    color: #999;
+    font-size: 17px;
+    cursor: help;
+  }
+
+  .tagSearchFilter, .triggerSearchFilter, .variableSearchFilter, .versionSearchFilter {
+    margin-left: -1rem;
+    margin-top: -1rem;
+
+    input {
+      max-width: 400px;
+    }
+  }
+}
+
+.modal.open .editVersion .versionChanges h3 {
+  margin-top: 32px;
+}
+
+.modal.open .tag-ui-confirm {
+  display: block;
+}
+.tag-ui-confirm {
+  display: none;
+}
+
+.tagManagerTagList {
+  .triggers {
+    min-width: 12rem;
+    .chip {
+      display: inline-block;
+      margin-bottom: 4px;
+      height: unset;
+    }
+  }
+}
+
+.tagManagerTriggerList {
+  td.action.hasCopyAction {
+    width: 170px;
+  }
+}
+
+.tagManagerContainerList {
+  th.action, td.action {
+    width: 240px;
+  }
+
+  td.action.hasCopyAction {
+    width: 265px;
+  }
+}
+.tagManagerVersionList {
+  th.action, td.action {
+    width: 280px;
+  }
+}
+.tagManagerVariableList {
+  .collection .title .variableId {
+    margin-left: 10px;
+    display: inline-block;
+    color: #999;
+  }
+
+  td.action.hasCopyAction {
+    width: 170px;
+  }
+}
+
+.page:after {
+  clear: both;
+  content: '';
+  display: block;
+}

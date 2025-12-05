@@ -1,0 +1,499 @@
+.subscriptionOverview {
+    .icon-error, .errorMessage {
+        color: @color-red-matomo;
+    }
+
+    .icon-ok {
+        color: @color-green-matomo;
+    }
+
+    .icon-warning {
+        color: #fbf7f1;
+    }
+    .subscriptionName,
+    .subscriptionType,
+    .subscriptionStatus {
+        white-space: nowrap;
+    }
+}
+
+.marketplaceIntro {
+    p {
+        margin-top: 0;
+        padding-bottom: 10px;
+    }
+}
+
+.installAllPaidPlugins {
+    margin: 8px 0 0;
+
+    button .matomo-loader {
+        margin-top: 2px;
+        margin-right: 16px;
+        vertical-align: text-top;
+    }
+}
+
+#installAllPaidPluginsAtOnce {
+    ul {
+        margin-top: 24px;
+        font-size: 14px;
+
+        li {
+            list-style-type: disc;
+            list-style-position: inside;
+            margin-top: 8px;
+        }
+    }
+}
+
+.marketplace {
+    max-width: 1300px;
+
+    .enrichedHeadline {
+        min-height: 27px;
+    }
+
+    .marketplaceActions.row,
+    .pluginListContainer.row {
+        margin: 0 -0.75rem;
+    }
+
+    .marketplaceActions.row {
+        margin-top: 20px;
+    }
+
+    .btn.disabled,
+    .btn[disabled] {
+        color: #858585 !important;
+    }
+
+    .marketplaceActions {
+        margin-bottom: 0;
+    }
+
+    .plugin-search {
+        position: relative;
+        margin-right: 20px;
+        .icon-search {
+            position: absolute;
+            bottom: 32px;
+            right: -16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    }
+
+    .card-holder {
+        text-decoration: none;
+        display: block;
+        border-radius: 4px;
+
+        &:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+
+            .card {
+                .card-title-link {
+                    .card-title {
+                        color: #1976d2 !important;
+                    }
+
+                    .card-title-chevron {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0;
+            position: relative;
+            margin-top: 8px;
+            height: 550px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: visible;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #000;
+
+            @media (max-width: 480px) {
+                height: 380px; // as there's no image
+            }
+            @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+                height: 520px;
+            }
+            @media (min-width: 1700px) {
+                height: 580px;
+            }
+            @media (min-width: 1900px) {
+                height: 610px;
+            }
+
+            .cover-image {
+                width: 100%;
+                max-width: 550px;
+                height: auto;
+                margin: 0 auto 16px;
+
+                @media (max-width: 480px) {
+                    display: none;
+                }
+            }
+
+            .card-content {
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+
+                .content-container {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                .card-content-bottom {
+                    position: relative;
+                }
+
+                .card-description {
+                    margin: 0;
+
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 24px; /* 150% */
+                    letter-spacing: 0.08px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 4;
+
+                    @media (max-width: 480px) {
+                        -webkit-line-clamp: 5;
+                    }
+
+                    @media (max-width: 600px) {
+                        -webkit-line-clamp: 2;
+                    }
+
+                    &[data-clamp="2"] {
+                        -webkit-line-clamp: 2;
+
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 4;
+                        }
+                    }
+
+                    &[data-clamp="1"] {
+                        -webkit-line-clamp: 1;
+
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 3;
+                        }
+                    }
+                }
+
+                .card-title-link {
+                    text-decoration: none;
+
+                    &:focus {
+                        .card-title {
+                            color: #1976d2 !important;
+                        }
+                        .card-title-chevron,
+                        .card-focus {
+                            visibility: visible;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .card-title {
+                    margin: 20px 0 16px;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 32px;
+                }
+
+                .card-focus {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    outline: thin dashed;
+                    outline-offset: 1px;
+                    border-radius: 4px;
+                    visibility: hidden;
+                    content: "";
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                }
+
+                .card-title-chevron {
+                    visibility: hidden;
+                }
+
+                .price {
+                    color: #f18332;
+
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 21px; /* 150% */
+                }
+
+                .downloads {
+                    color: #686868;
+
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 24px; /* 150% */
+
+                    margin-bottom: 16px;
+                }
+
+                .owner {
+                    color: #686868;
+                    margin-bottom: 8px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+
+    .matomo-badge {
+        position: absolute;
+        width: 64px;
+        height: 40px;
+
+        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+            width: 48px;
+            height: 32px;
+        }
+    }
+
+    .matomo-badge-bottom {
+        display: block;
+        right: -5px;
+        bottom: -1px;
+
+        @media (max-width: 480px) {
+            display: none;
+        }
+    }
+
+    .matomo-badge-top {
+        display: none;
+
+        @media (max-width: 480px) {
+            display: block;
+            top: 20px;
+            right: 20px;
+        }
+    }
+
+    .cta-container {
+        width: 70%;
+        margin: 0;
+        position: relative;
+
+        @media (max-width: 480px) {
+            width: auto;
+        }
+
+        .btn.btn-block {
+            &:hover,
+            &:focus {
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            &:focus {
+                outline: thin dotted;
+            }
+        }
+
+        .btn.purchaseable {
+            background: #3E7ECF;
+        }
+
+        .alert {
+            a:hover,
+            a:focus {
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+                color: #1976d2 !important;
+            }
+
+            &.alert-no-background {
+                margin: 0;
+                border: 0;
+                background: none;
+                padding: 8px 0 8px 30px;
+                font-size: 14px;
+                line-height: 20px;
+
+                &:before {
+                    left: 0;
+                }
+            }
+        }
+    }
+
+    .footer-message {
+        margin-top: 30px;
+    }
+
+    .modal {
+        background-color: #fff;
+    }
+}
+
+
+#installPluginByUpload {
+    .description {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    .startUpload {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+.manage-license-key {
+    .manage-license-key-intro {
+        margin-bottom: 20px;
+    }
+
+    .manage-license-key-input {
+        width: 50%;
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 24px;
+
+        @media only screen and (max-width: 1024px) {
+            width: 40%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            width: 100%;
+            padding-right: 0;
+        }
+
+        .form-group {
+            margin: 0;
+        }
+
+        .row .col {
+            padding: 0;
+        }
+    }
+
+    .loadingPiwik,
+    #submit_license_key,
+    #remove_license_key {
+        display: inline-block;
+        margin-right: 24px;
+    }
+
+    #remove_license_key {
+        .btn {
+            background-color: @color-red-matomo;
+        }
+    }
+}
+
+#requestTrial,
+#startFreeTrial {
+    max-width: 600px;
+
+    .row {
+        // adjust CoreAdminHome styling for missing ".col .row" nesting
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+    }
+
+    p {
+        // override CoreAdminHome ".admin p"
+        margin-top: 0;
+        padding-bottom: 1em;
+    }
+
+    .trial-start-in-progress {
+        .Piwik_Popover_Loading_Name {
+            padding-bottom: 0;
+        }
+
+        h2 {
+            color: @theme-color-text;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 32px;
+            padding-bottom: 0;
+        }
+    }
+
+    .trial-start-error,
+    .trial-start-no-license {
+        h2 {
+            color: @theme-color-text;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 48px;
+            padding-top: 0;
+        }
+    }
+
+    .trial-start-no-license {
+        .input-field {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .alert {
+            // adjust vertical distance to input field and legal hint
+            margin: -10px 0 20px 0;
+
+            background: none;
+            border: 0;
+            color: @color-red-matomo !important;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 8px 0 8px 30px;
+
+            &:before {
+                left: 0;
+            }
+        }
+
+        .add-existing-license {
+            margin-top: 24px;
+        }
+    }
+
+    .modal-content p {
+        font-size: 16px;
+        line-height: 24px;
+
+        &.trial-start-legal-hint {
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+
+    .modal-text :last-child {
+        padding-bottom: 0;
+    }
+}

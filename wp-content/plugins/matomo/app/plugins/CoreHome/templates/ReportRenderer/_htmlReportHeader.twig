@@ -1,0 +1,37 @@
+{% include "@CoreHome/_htmlEmailHeader.twig" %}
+
+    <h2 style='{{fontStyle}} color:#37474f; line-height:30px; margin:25px 0 15px 0;'>
+        {{'ScheduledReports_EmailHello'|translate}}
+    </h2>
+
+    <p style='{{styleParagraph}}{{fontStyle}}'>
+        {% if isAttachedFile is defined and isAttachedFile %}
+        {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle|escape|preventLinking)|raw }}
+        {% else %}
+        {{ 'ScheduledReports_PleaseFindBelow'|translate(period, reportTitle|escape|preventLinking)|raw }}
+        {% endif %}
+        <br />{{ description|escape|preventLinking }}
+        <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}
+        <br />{{ 'ScheduledReports_SentFromX'|translate(piwikUrl) }}
+    </p>
+
+    {% if displaySegment %}
+        <p style="{{styleParagraph}}{{fontStyle}}">
+            {{ 'ScheduledReports_CustomVisitorSegment'|translate }} {{ segmentName|escape|preventLinking }}
+        </p>
+    {% endif %}
+
+    {% if reportMetadata|length > 1 %}
+        <h2 style="{{fontStyle}}font-weight:normal; font-size: {{ emailStyles.reportTitleTextSize }}pt;">
+            {{ 'ScheduledReports_TableOfContent'|translate }}
+        </h2>
+        <ul>
+            {% for metadata in reportMetadata %}
+                <li style="{{ styleParagraphText }}">
+                    <a href="#{{ metadata.uniqueId }}" style="text-decoration:none; color: {{ emailStyles.reportTextColor }};">
+                        {{ metadata.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}

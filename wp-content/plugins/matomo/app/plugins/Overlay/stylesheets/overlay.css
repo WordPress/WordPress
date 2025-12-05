@@ -1,0 +1,187 @@
+html {
+    width: 100%;
+    height: 100%;
+    /** hide scroll bar in ie7 */
+    *overflow: auto;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body #header {
+    margin-left: -6px;
+}
+
+a#overlayTitle {
+    font-size: 16px;
+    text-decoration: none;
+    color: #4d4d4d;
+    margin-left: 10px;
+}
+a#overlayTitle .icon-help {
+    margin-left: 4px;
+}
+
+#overlayDateRangeSelection {
+    padding: 0 0 0 25px;
+    margin: 20px 10px;
+    position: relative;
+}
+
+#overlayDateRangeSelection .icon-calendar {
+    position: absolute;
+    top: 18px;
+    left: 2px;
+}
+
+#overlayLocation, .overlaySegment {
+    width: 200px;
+    font-size: 12px;
+}
+
+#overlayLocation {
+    margin: 0 0 10px 10px;
+}
+
+.overlaySegment {
+    margin: 0 0 30px 0;
+    word-break: break-all;
+}
+
+#overlayLoading {
+    background: url(../../Morpheus/images/loading-blue.gif) no-repeat center 10px;
+    width: 190px;
+    padding-top: 30px;
+    margin-top: 30px;
+    text-align: center;
+    display: none;
+}
+
+#overlaySidebar {
+    width: 200px;
+    margin-left: 10px;
+}
+
+#overlaySidebar h2 {
+    font-size: 15px;
+    margin: 0 0 8px 0;
+}
+
+.overlayMainMetrics {
+    padding-bottom: 0 !important;
+}
+
+a#overlaySegmentedVisitorLog,
+a#overlayRowEvolution,
+a#overlayTransitions {
+    display: block;
+    color: #255792;
+    font-size: 13px;
+    line-height: 15px;
+    margin: 0 0 0 10px;
+    padding: 8px 10px 3px 0;
+}
+
+a#overlaySegmentedVisitorLog .icon,
+a#overlayRowEvolution .icon,
+a#overlayTransitions .icon {
+    font-size: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+a#overlayRowEvolution {
+    margin-top: 20px;
+}
+
+a#overlaySegmentedVisitorLog:hover,
+a#overlayRowEvolution:hover,
+a#overlayTransitions:hover {
+    color: #E87500;
+}
+
+#overlayMain {
+    margin-left: 220px;
+    position: absolute;
+    top: 0;
+}
+
+#root > nav {
+    width: 240px;
+    overflow: hidden;
+}
+
+#root > nav > .nav-wrapper > * {
+    display: none;
+}
+
+#root > nav > .nav-wrapper > .accessibility-skip-to-content,
+#root > nav > .nav-wrapper > #logo {
+    display: block;
+}
+
+#overlayIframe {
+    border-left: 2px solid #ddd;
+}
+
+.overlayMetric {
+    font-size: 12px;
+    line-height: 14px;
+    padding: 5px 0;
+}
+
+.overlayMetricValue {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.overlayNoData {
+    font-size: 12px;
+    color: #7E7363;
+}
+
+body .ui-tooltip.overlayTooltip {
+    font-size: 11px;
+    padding: 3px 5px 3px 6px;
+}
+
+#overlayErrorNoSiteUrls {
+    width: 190px;
+    margin: 20px 0 20px 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#overlayNoFrame {
+    padding: 20px 0 40px 2px;
+}
+
+#overlayErrorNotLoading {
+    width: 190px;
+    display: none;
+    margin: 20px 0 0 5px;
+    font-size: 14px;
+}
+
+#overlayErrorNotLoading span {
+    color: #E87500;
+    font-weight: bold;
+}
+
+.navbar .navbar-right {
+    display: none;
+}
+
+.top_controls {
+    display: none;
+}
+
+.overlay-sidebar-container {
+    width: 220px;
+    margin-left: -16px;
+    margin-top: 10px;
+}

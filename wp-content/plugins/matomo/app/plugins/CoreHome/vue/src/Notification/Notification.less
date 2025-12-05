@@ -1,0 +1,68 @@
+.system.notification {
+  .alert;
+
+  border: 2px solid;
+  color: #212121 !important;
+
+  a {
+   color: #212121 !important;
+  }
+
+  p:not(:first-child) {
+    margin-top: 1em;
+  }
+
+  .notification-body {
+    min-width: 50px;
+  }
+
+  // We have to use !important because the default button style is crazy
+  .close {
+    position: relative;
+    top: -2px;
+    right: -5px;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    float: right;
+    font-size: 24px !important;
+    font-weight: bold;
+    line-height: 24px !important;
+    color: #212121 !important;
+    cursor: pointer;
+  }
+
+  &:before {
+    margin-top: -3px;
+  }
+
+  &.notification-success {
+    .alert-success;
+  }
+  &.notification-warning {
+    .alert-warning;
+  }
+  &.notification-danger,
+  &.notification-error {
+    .alert-danger;
+  }
+  &.notification-info {
+    .alert-info;
+  }
+
+  &.help-notification.notification-info {
+
+    &:before {
+      content: "\e61f";
+    }
+  }
+}
+
+// toast-slide-up transition
+.toast-slide-up-enter-active {
+  transition: transform .3s ease;
+}
+
+.toast-slide-up-enter-from {
+  transform: translateY(-100%);
+}

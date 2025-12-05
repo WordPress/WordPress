@@ -1,0 +1,190 @@
+:root {
+  --e-is-device-mode: 0;
+}
+
+.e-is-device-mode {
+  --e-is-device-mode: 1;
+}
+
+#elementor-responsive-bar {
+  position: sticky;
+  height: calc(40px * var(--e-is-device-mode));
+  align-self: stretch;
+  flex-shrink: 0;
+  transition: height 0.2s ease-in-out, opacity 0.1s;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  opacity: var(--e-is-device-mode);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.33), 0 0 2px 1px rgba(0, 0, 0, 0.25), 0 0 6px -3px rgba(255, 255, 255, 0.5);
+}
+#elementor-responsive-bar:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(var(--e-preview-scale, 1));
+}
+
+.e-responsive-bar-switcher__option {
+  cursor: pointer;
+  text-align: center;
+  width: 22px;
+  height: 22px;
+  margin: 0 4px;
+  line-height: 22px;
+  border-radius: 3px;
+  font-size: 16px;
+  transition: var(--e-a-transition-hover);
+}
+.e-responsive-bar-switcher__option:hover {
+  color: var(--e-a-color-primary-bold);
+  background-color: #310132;
+}
+.e-responsive-bar-switcher__option[aria-selected=true] {
+  background-color: #3f444b;
+  color: #F9FAFA;
+}
+.e-responsive-bar-switcher__option input {
+  display: none;
+}
+.e-responsive-bar-switcher__option:not(:last-child) {
+  margin-inline-end: 6px;
+}
+.e-responsive-bar__button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: none;
+  border: 0 none;
+  cursor: pointer;
+  color: inherit;
+}
+.e-responsive-bar__button:focus:not(:focus-visible) {
+  outline: none;
+}
+.e-responsive-bar__button:hover {
+  color: #F1F2F3;
+  background-color: #3f444b;
+}
+.e-responsive-bar--pipe {
+  position: relative;
+}
+.e-responsive-bar--pipe::before {
+  content: "";
+  display: block;
+  height: 20px;
+  width: 1px;
+  background-color: #BABFC5;
+  position: absolute;
+  inset-inline-end: -5px;
+  top: calc(50% - 10px);
+}
+.e-responsive-bar__input-size {
+  background-color: transparent;
+  color: #BABFC5;
+  border: 1px solid #BABFC5;
+  padding: 0 3px;
+  width: 60px;
+  font-size: 12px;
+  line-height: 16px;
+  height: 18px;
+  margin: auto 8px auto 4px;
+  text-align: center;
+}
+.e-responsive-bar__input-size-separator {
+  color: #BABFC5;
+}
+.e-responsive-bar__input-size[disabled] {
+  background-color: transparent;
+  color: #818A96;
+  cursor: default;
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+}
+
+#e-responsive-bar {
+  width: 100%;
+  margin-block-start: calc(-40px + 40px * var(--e-is-device-mode));
+  z-index: 1;
+  transition: margin-block-start 0.2s ease-in-out;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  justify-content: space-between;
+  color: #BABFC5;
+  background-color: #1f2124;
+}
+#e-responsive-bar__center, #e-responsive-bar__end, #e-responsive-bar-scale, #e-responsive-bar-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  background-color: #1f2124;
+  padding: 2px 0;
+}
+#e-responsive-bar__end {
+  justify-self: end;
+}
+@media (min-width: 1400px) {
+  #e-responsive-bar {
+    grid-template-columns: 1fr auto 1fr;
+  }
+  #e-responsive-bar::before {
+    content: "";
+  }
+}
+#e-responsive-bar__close-button, #e-responsive-bar__settings-button {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  margin: 7px 5px;
+  font-size: 16px;
+}
+#e-responsive-bar__size-inputs-wrapper {
+  display: flex;
+  align-items: center;
+  margin-inline-end: 8px;
+  color: #BABFC5;
+}
+#e-responsive-bar-switcher {
+  padding: 0 20px;
+}
+#e-responsive-bar-scale {
+  padding: 0 20px;
+}
+#e-responsive-bar-scale__value-wrapper {
+  margin: 0 14px;
+  min-width: 32px;
+  text-align: center;
+}
+#e-responsive-bar-scale__plus, #e-responsive-bar-scale__minus, #e-responsive-bar-scale__reset {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+#e-responsive-bar-scale__plus:hover, #e-responsive-bar-scale__minus:hover, #e-responsive-bar-scale__reset:hover {
+  color: #F1F2F3;
+  background-color: #3f444b;
+}
+#e-responsive-bar-scale__minus:before {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 2px;
+  background-color: #BABFC5;
+  border-radius: 3px;
+}
+#e-responsive-bar-scale__minus:hover:before {
+  background-color: #F1F2F3;
+}
+#e-responsive-bar-scale__reset {
+  margin: 0 8px;
+}
+/*# sourceMappingURL=responsive-bar.css.map */

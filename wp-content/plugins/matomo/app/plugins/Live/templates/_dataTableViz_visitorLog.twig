@@ -1,0 +1,54 @@
+{% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
+
+{% set cycleIndex=0 %}
+{% for visitor in dataTable.getRows() %}
+    {% set visitorRow %}
+        <div class="card row hoverable">
+
+            {% if visitor.getColumn('visitorId') is not empty and not clientSideParameters.hideProfileLink %}
+                <a class="visitor-log-visitor-profile-link visitorLogTooltip" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
+                    <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}
+                        {%- if visitor.getColumn('userId') is not empty %}: {{ visitor.getColumn('userId')|rawSafeDecoded }}{% endif %}</span>
+                </a>
+            {% endif %}
+
+        {% set cycleIndex=cycleIndex+1 %}
+            <div class="col s12 m{% if displayVisitorsInOwnColumn %}3{% else %}4{% endif %}">
+                {{ postEvent('Live.renderVisitorDetails', visitor) }}
+            </div>
+
+            {% if displayVisitorsInOwnColumn %}
+                <div class="col s12 m2 own-visitor-column">
+                    {{ postEvent('Live.renderVisitorIcons', visitor) }}
+                </div>
+            {% endif %}
+
+            <div class="col s12 m{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+                {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
+
+                <strong>
+                    {% set actionCount = visitor.getColumn('actionDetails')|length %}
+                    {% if visitor.truncatedActionsCount is defined %}
+                        {% set actionCount = actionCount + visitor.truncatedActionsCount %}
+                    {% endif %}
+                    {{ actionCount }}
+                    {% if actionCount <= 1 %}
+                        {{ 'General_Action'|translate }}
+                    {% else %}
+                        {{ 'General_Actions'|translate }}
+                    {% endif %}
+                    {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
+                </strong>
+
+                <div class="visitor-log-page-list">
+                    <ol class='visitorLog actionList'>
+                        {% include "@Live/_actionsList.twig" with {'actionGroups': visitor.getColumn('actionGroups'), 'visitInfo': visitor} %}
+                    </ol>
+                </div>
+                {{ postEvent('Live.visitorLogViewAfterActionsInfo', visitor) }}
+            </div>
+        </div>
+    {% endset %}
+
+    {{ visitorRow }}
+{% endfor %}

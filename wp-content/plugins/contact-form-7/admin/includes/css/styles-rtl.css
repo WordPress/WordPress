@@ -1,0 +1,77 @@
+/*
+ * Form Tab
+ */
+.tag-generator-panel {
+	text-align: right;
+}
+
+.tag-generator-dialog > .close-button {
+	right: auto;
+	left: 8px;
+}
+
+form.tag-generator-panel[data-version="1"] {
+	.control-box > fieldset > legend {
+		border: 1px solid #dfdfdf;
+		border-right: 4px solid #00a0d2;
+	}
+
+	.insert-box input.tag {
+		float: right;
+	}
+
+	.insert-box .submitbox input[type="button"] {
+		float: left;
+	}
+}
+
+/*
+ * Mail Tab
+ */
+.contact-form-editor-box-mail span.mailtag {
+	margin: 0 4px 0 0;
+}
+
+/*
+ * Welcome Panel
+ */
+.wpcf7-welcome-panel .welcome-panel-close {
+	left: 10px;
+	right: auto;
+	padding: 10px 21px 10px 15px;
+}
+
+.wpcf7-welcome-panel .welcome-panel-close::before {
+	right: 0;
+	left: auto;
+}
+
+.wpcf7-welcome-panel .welcome-panel-content {
+	margin-right: 13px;
+}
+
+.wpcf7-welcome-panel .welcome-panel-column {
+	float: right;
+ 	padding: 0 0 0 2%;
+}
+
+/*
+ * Integration
+ */
+.card {
+	border-left: 1px solid #e5e5e5;
+	border-right: 4px solid #e5e5e5;
+}
+
+.card img.icon {
+	float: right;
+	margin: 8px -8px 8px 8px;
+}
+
+.card h2.title {
+	float: right;
+}
+
+.card .infobox {
+	float: left;
+}

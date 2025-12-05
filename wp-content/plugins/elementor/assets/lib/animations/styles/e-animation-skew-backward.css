@@ -1,0 +1,10 @@
+.elementor-animation-skew-backward {
+	transition-duration: 0.3s;
+	transition-property: transform;
+	transform-origin: 0 100%;
+}
+.elementor-animation-skew-backward:active,
+.elementor-animation-skew-backward:focus,
+.elementor-animation-skew-backward:hover {
+	transform: skew(10deg);
+}

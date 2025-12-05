@@ -1,0 +1,198 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Plugins\MobileMessaging;
+
+use Piwik\Container\StaticContainer;
+use Piwik\Plugin;
+use Piwik\Piwik;
+/**
+ * The SMSProvider abstract class is used as a base class for SMS provider implementations. To create your own custom
+ * SMSProvider extend this class and implement the methods to send text messages. The class needs to be placed in a
+ * `SMSProvider` directory of your plugin.
+ *
+ * @api
+ */
+abstract class SMSProvider
+{
+    public const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
+    public const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;
+    public const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
+    public const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
+    /**
+     * Get the ID of the SMS Provider. Eg 'Clockwork' or 'FreeMobile'
+     * @return string
+     */
+    public abstract function getId();
+    /**
+     * Get a description about the SMS Provider. For example who the SMS Provider is, instructions how the API Key
+     * needs to be set, and more. You may return HTML here for better formatting.
+     *
+     * @return string
+     */
+    public abstract function getDescription();
+    /**
+     * Verify the SMS API credential.
+     *
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
+     * @return bool true if credentials are valid, false otherwise
+     */
+    public abstract function verifyCredential($credentials);
+    /**
+     * Get the amount of remaining credits.
+     *
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
+     * @return string remaining credits
+     */
+    public abstract function getCreditLeft($credentials);
+    /**
+     * Actually send the given text message. This method should only send the text message, it should not trigger
+     * any notifications etc.
+     *
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
+     * @param string $smsText
+     * @param string $phoneNumber
+     * @param string $from
+     */
+    public abstract function sendSMS($credentials, $smsText, $phoneNumber, $from);
+    /**
+     * Defines the fields that needs to be filled up to provide credentials
+     *
+     * Example:
+     * array (
+     *   array(
+     *     'type' => 'text',
+     *     'name' => 'apiKey',
+     *     'title' => 'Translation_Key_To_Use'
+     *   )
+     * )
+     *
+     * @return array
+     */
+    public function getCredentialFields()
+    {
+        return array(array('type' => 'text', 'name' => 'apiKey', 'title' => 'MobileMessaging_Settings_APIKey'));
+    }
+    /**
+     * Defines whether the SMS Provider is available. If a certain provider should be used only be a limited
+     * range of users you can restrict the provider here. For example there is a Development SMS Provider that is only
+     * available when the development is actually enabled. You could also create a SMS Provider that is only available
+     * to Super Users etc. Usually this method does not have to be implemented by a SMS Provider.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return \true;
+    }
+    /**
+     * @param string $provider The name of the string
+     * @return SMSProvider
+     * @throws \Exception
+     * @ignore
+     */
+    public static function factory($provider)
+    {
+        $providers = self::findAvailableSmsProviders();
+        if (!array_key_exists($provider, $providers)) {
+            throw new \Exception(Piwik::translate('MobileMessaging_Exception_UnknownProvider', array($provider, implode(', ', array_keys($providers)))));
+        }
+        return $providers[$provider];
+    }
+    /**
+     * Returns all available SMS Providers
+     *
+     * @return SMSProvider[]
+     * @ignore
+     */
+    public static function findAvailableSmsProviders()
+    {
+        /** @var SMSProvider[] $smsProviders */
+        $smsProviders = Plugin\Manager::getInstance()->findMultipleComponents('SMSProvider', 'Piwik\\Plugins\\MobileMessaging\\SMSProvider');
+        $providers = array();
+        foreach ($smsProviders as $provider) {
+            /** @var SMSProvider $provider */
+            $provider = StaticContainer::get($provider);
+            if ($provider->isAvailable()) {
+                $providers[$provider->getId()] = $provider;
+            }
+        }
+        return $providers;
+    }
+    /**
+     * Assert whether a given String contains UCS2 characters
+     *
+     * @param string $string
+     * @return bool true if $string contains UCS2 characters
+     * @ignore
+     */
+    public static function containsUCS2Characters($string)
+    {
+        $GSMCharsetAsString = implode(array_keys(\Piwik\Plugins\MobileMessaging\GSMCharset::$GSMCharset));
+        foreach (self::mbStrSplit($string) as $char) {
+            if (mb_strpos($GSMCharsetAsString, $char) === \false) {
+                return \true;
+            }
+        }
+        return \false;
+    }
+    /**
+     * Truncate $string and append $appendedString at the end if $string can not fit the
+     * the $maximumNumberOfConcatenatedSMS.
+     *
+     * @param string $string String to truncate
+     * @param int $maximumNumberOfConcatenatedSMS
+     * @param string $appendedString
+     * @return string original $string or truncated $string appended with $appendedString
+     * @ignore
+     */
+    public static function truncate($string, $maximumNumberOfConcatenatedSMS, $appendedString = 'MobileMessaging_SMS_Content_Too_Long')
+    {
+        $appendedString = Piwik::translate($appendedString);
+        $smsContentContainsUCS2Chars = self::containsUCS2Characters($string);
+        $maxCharsAllowed = self::maxCharsAllowed($maximumNumberOfConcatenatedSMS, $smsContentContainsUCS2Chars);
+        $sizeOfSMSContent = self::sizeOfSMSContent($string, $smsContentContainsUCS2Chars);
+        if ($sizeOfSMSContent <= $maxCharsAllowed) {
+            return $string;
+        }
+        $smsContentContainsUCS2Chars = $smsContentContainsUCS2Chars || self::containsUCS2Characters($appendedString);
+        $maxCharsAllowed = self::maxCharsAllowed($maximumNumberOfConcatenatedSMS, $smsContentContainsUCS2Chars);
+        $sizeOfSMSContent = self::sizeOfSMSContent($string . $appendedString, $smsContentContainsUCS2Chars);
+        $sizeToTruncate = $sizeOfSMSContent - $maxCharsAllowed;
+        $subStrToTruncate = '';
+        $subStrSize = 0;
+        $reversedStringChars = array_reverse(self::mbStrSplit($string));
+        for ($i = 0; $subStrSize < $sizeToTruncate; $i++) {
+            $subStrToTruncate = $reversedStringChars[$i] . $subStrToTruncate;
+            $subStrSize = self::sizeOfSMSContent($subStrToTruncate, $smsContentContainsUCS2Chars);
+        }
+        return preg_replace('/' . preg_quote($subStrToTruncate, '/') . '$/', $appendedString, $string);
+    }
+    private static function mbStrSplit($string)
+    {
+        return preg_split('//u', $string, -1, \PREG_SPLIT_NO_EMPTY);
+    }
+    private static function sizeOfSMSContent($smsContent, $containsUCS2Chars)
+    {
+        if ($containsUCS2Chars) {
+            return mb_strlen($smsContent);
+        }
+        $sizeOfSMSContent = 0;
+        foreach (self::mbStrSplit($smsContent) as $char) {
+            $sizeOfSMSContent += \Piwik\Plugins\MobileMessaging\GSMCharset::$GSMCharset[$char];
+        }
+        return $sizeOfSMSContent;
+    }
+    private static function maxCharsAllowed($maximumNumberOfConcatenatedSMS, $containsUCS2Chars)
+    {
+        $maxCharsInOneUniqueSMS = $containsUCS2Chars ? self::MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS : self::MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS;
+        $maxCharsInOneConcatenatedSMS = $containsUCS2Chars ? self::MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS : self::MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS;
+        $uniqueSMS = $maximumNumberOfConcatenatedSMS == 1;
+        return $uniqueSMS ? $maxCharsInOneUniqueSMS : $maxCharsInOneConcatenatedSMS * $maximumNumberOfConcatenatedSMS;
+    }
+}

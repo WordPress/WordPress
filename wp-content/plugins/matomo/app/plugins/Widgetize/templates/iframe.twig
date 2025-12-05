@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html id="ng-app">
+    <head>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex,nofollow">
+        <meta name="google" content="notranslate">
+        {% include "_jsGlobalVariables.twig" %}
+        {% include "_jsCssIncludes.twig" %}
+    </head>
+    <body class="widgetized">
+        <div class="widget">
+            {{ content|raw }}
+        </div>
+        <div id="pageFooter">
+            {{ postEvent('Template.pageFooter') }}
+        </div>
+    </body>
+</html>

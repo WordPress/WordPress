@@ -1,0 +1,59 @@
+COPYRIGHT
+
+	Matomo - free/libre analytics platform
+
+	The software package is:
+
+		Copyright (C) 2018  Matomo.org
+
+	Individual contributions, components, and libraries are copyright
+	of their respective authors.
+
+
+SOFTWARE LICENSE
+
+	The free software license of Matomo is GNU General Public License v3
+	or later.  A copy of GNU GPL v3 should have been included in this
+	software package in LICENSE.
+
+TRADEMARK
+
+	Matomo (TM) is an internationally registered trademark.
+
+	The software license does not grant any rights under trademark
+	law for use of the trademark.  Refer to https://matomo.org/trademark/
+	for up-to-date trademark licensing information.
+
+*
+* The software license applies to both the aggregate software and
+* application-specific portions of the software.
+*
+* You may not remove this legal notice or modify the software
+* in such a way that misrepresents the origin of the software.
+
+
+SEPARATELY LICENSED COMPONENTS AND LIBRARIES
+
+	The following components/libraries are distributed in this package,
+	and subject to their respective licenses.
+
+	Name: jquery-timepicker
+	Link: https://github.com/jonthornton/jquery-timepicker/
+	Path: libs/jquery-timepicker
+	License: MIT License
+
+	Name: Material design icons ("/images/icons/timer.svg", "/images/icons/fullscreen.svg")
+	Link: https://material.io/icons/
+	License: Apache License Version 2.0
+
+	Name: Font Awesome icons ("/images/icons/pointer.svg", "/images/icons/code.svg")
+	Link: https://github.com/FortAwesome/Font-Awesome/
+	License: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
+
+	Name: IcoMoon - Free icons ("/images/icons/form.svg", "/images/icons/image.svg", "/templates/debug.twig/icon-checkmark")
+	Link: https://icomoon.io/#icons-icomoon
+	License: GPL
+
+	Name: Secure-Filters in CustomHtmlTag.web.js
+	Link: https://github.com/salesforce/secure-filters/blob/master/lib/secure-filters.js
+	License: BSD-3-Clause (https://github.com/salesforce/secure-filters/blob/master/LICENSE.txt)

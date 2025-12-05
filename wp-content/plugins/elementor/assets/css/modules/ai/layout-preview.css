@@ -1,0 +1,131 @@
+[data-id^=e-ai-preview-container] {
+  outline: 2px solid var(--e-p-border-con);
+  outline-offset: -2px;
+}
+
+[data-id^=e-ai-screenshot-container], [data-id^=e-ai-screenshot-container] * {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+}
+
+.e-ai-preview-container--idle {
+  height: 154px;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.4'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M60.834 10.833C62.2147 10.833 63.334 11.9523 63.334 13.333C63.334 14.4381 63.773 15.4979 64.5544 16.2793C65.3358 17.0607 66.3956 17.4997 67.5007 17.4997C68.8814 17.4997 70.0007 18.619 70.0007 19.9997C70.0007 21.3804 68.8814 22.4997 67.5007 22.4997C66.3956 22.4997 65.3358 22.9387 64.5544 23.7201C63.773 24.5015 63.334 25.5613 63.334 26.6663C63.334 28.0471 62.2147 29.1663 60.834 29.1663C59.4533 29.1663 58.334 28.0471 58.334 26.6663C58.334 25.5613 57.895 24.5015 57.1136 23.7201C56.3322 22.9387 55.2724 22.4997 54.1673 22.4997C52.7866 22.4997 51.6673 21.3804 51.6673 19.9997C51.6673 18.619 52.7866 17.4997 54.1673 17.4997C55.2724 17.4997 56.3322 17.0607 57.1136 16.2793C57.895 15.4979 58.334 14.4381 58.334 13.333C58.334 11.9523 59.4533 10.833 60.834 10.833ZM60.834 19.6245C60.7734 19.6888 60.7118 19.7522 60.6491 19.8148C60.5865 19.8774 60.5231 19.9391 60.4588 19.9997C60.5231 20.0603 60.5865 20.1219 60.6491 20.1845C60.7118 20.2472 60.7734 20.3106 60.834 20.3748C60.8946 20.3106 60.9562 20.2472 61.0188 20.1845C61.0815 20.1219 61.1449 20.0603 61.2091 19.9997C61.1449 19.9391 61.0815 19.8774 61.0188 19.8148C60.9562 19.7522 60.8946 19.6888 60.834 19.6245ZM30.834 17.4997C32.2147 17.4997 33.334 18.619 33.334 19.9997C33.334 24.641 35.1777 29.0922 38.4596 32.374C41.7415 35.6559 46.1927 37.4997 50.834 37.4997C52.2147 37.4997 53.334 38.619 53.334 39.9997C53.334 41.3804 52.2147 42.4997 50.834 42.4997C46.1927 42.4997 41.7415 44.3434 38.4596 47.6253C35.1777 50.9072 33.334 55.3584 33.334 59.9997C33.334 61.3804 32.2147 62.4997 30.834 62.4997C29.4533 62.4997 28.334 61.3804 28.334 59.9997C28.334 55.3584 26.4902 50.9072 23.2084 47.6253C19.9265 44.3434 15.4753 42.4997 10.834 42.4997C9.45327 42.4997 8.33398 41.3804 8.33398 39.9997C8.33398 38.619 9.45327 37.4997 10.834 37.4997C15.4753 37.4997 19.9265 35.6559 23.2084 32.374C26.4902 29.0922 28.334 24.641 28.334 19.9997C28.334 18.619 29.4533 17.4997 30.834 17.4997ZM30.834 30.3075C29.778 32.3565 28.4041 34.2494 26.7439 35.9096C25.0837 37.5698 23.1908 38.9437 21.1418 39.9997C23.1908 41.0556 25.0837 42.4296 26.7439 44.0898C28.4041 45.75 29.778 47.6429 30.834 49.6919C31.8899 47.6429 33.2639 45.75 34.9241 44.0898C36.5843 42.4296 38.4772 41.0556 40.5262 39.9997C38.4772 38.9437 36.5843 37.5698 34.9241 35.9096C33.2639 34.2494 31.8899 32.3565 30.834 30.3075ZM60.834 50.833C62.2147 50.833 63.334 51.9523 63.334 53.333C63.334 54.4381 63.773 55.4979 64.5544 56.2793C65.3358 57.0607 66.3956 57.4997 67.5007 57.4997C68.8814 57.4997 70.0007 58.619 70.0007 59.9997C70.0007 61.3804 68.8814 62.4997 67.5007 62.4997C66.3956 62.4997 65.3358 62.9387 64.5544 63.7201C63.773 64.5015 63.334 65.5613 63.334 66.6663C63.334 68.0471 62.2147 69.1663 60.834 69.1663C59.4533 69.1663 58.334 68.0471 58.334 66.6663C58.334 65.5613 57.895 64.5015 57.1136 63.7201C56.3322 62.9387 55.2724 62.4997 54.1673 62.4997C52.7866 62.4997 51.6673 61.3804 51.6673 59.9997C51.6673 58.619 52.7866 57.4997 54.1673 57.4997C55.2724 57.4997 56.3322 57.0607 57.1136 56.2793C57.895 55.4979 58.334 54.4381 58.334 53.333C58.334 51.9523 59.4533 50.833 60.834 50.833ZM60.834 59.6245C60.7734 59.6888 60.7118 59.7522 60.6491 59.8148C60.5865 59.8774 60.5231 59.9391 60.4588 59.9997C60.5231 60.0603 60.5865 60.1219 60.6491 60.1845C60.7118 60.2472 60.7734 60.3106 60.834 60.3748C60.8946 60.3106 60.9562 60.2472 61.0188 60.1845C61.0815 60.1219 61.1449 60.0603 61.2091 59.9997C61.1449 59.9391 61.0815 59.8774 61.0188 59.8148C60.9562 59.7522 60.8946 59.6888 60.834 59.6245Z' fill='%23BABFC5'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 80px auto;
+}
+.e-ai-preview-container--idle > * {
+  display: none !important;
+}
+.e-ai-preview-container--hidden {
+  display: none !important;
+}
+
+.e-ai-layout-button {
+  position: relative;
+}
+.e-ai-layout-button--sparkle {
+  --animation-duration: 1.5s;
+  --opacity: .2;
+  --size: 6px;
+  position: absolute;
+  z-index: 99999;
+  display: block;
+  height: var(--size);
+  aspect-ratio: 1;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3 0.25C3.30335 0.25 3.57682 0.432732 3.69291 0.712987L4.15981 1.84019L5.28701 2.30709C5.56727 2.42318 5.75 2.69665 5.75 3C5.75 3.30335 5.56727 3.57682 5.28701 3.69291L4.15981 4.15981L3.69291 5.28701C3.57682 5.56727 3.30335 5.75 3 5.75C2.69665 5.75 2.42318 5.56727 2.30709 5.28701L1.84019 4.15981L0.712987 3.69291C0.432732 3.57682 0.25 3.30335 0.25 3C0.25 2.69665 0.432732 2.42318 0.712987 2.30709L1.84019 1.84019L2.30709 0.712987C2.42318 0.432732 2.69665 0.25 3 0.25Z' fill='%230c0d0e'/%3E%3C/svg%3E%0A");
+  background-size: cover;
+  opacity: 0;
+}
+.e-ai-layout-button--sparkle:nth-child(1), .e-ai-layout-button--sparkle:nth-child(2), .e-ai-layout-button--sparkle:nth-child(3) {
+  right: 12px;
+  top: 12px;
+}
+.e-ai-layout-button--sparkle:nth-child(4), .e-ai-layout-button--sparkle:nth-child(5), .e-ai-layout-button--sparkle:nth-child(6), .e-ai-layout-button--sparkle:nth-child(7) {
+  right: 12px;
+  top: 22px;
+}
+.e-ai-layout-button--sparkle:nth-child(1) {
+  --opacity: .3;
+  --size: 4px;
+  --animation-name: sparkle-1;
+}
+.e-ai-layout-button--sparkle:nth-child(2) {
+  --opacity: .3;
+  --size: 4px;
+  --animation-delay: .7s;
+  --animation-name: sparkle-2;
+}
+.e-ai-layout-button--sparkle:nth-child(3) {
+  --animation-delay: 3.5s;
+  --animation-name: sparkle-3;
+}
+.e-ai-layout-button--sparkle:nth-child(4) {
+  --animation-delay: .5s;
+  --animation-name: sparkle-4;
+}
+.e-ai-layout-button--sparkle:nth-child(5) {
+  --animation-delay: 1.5s;
+  --animation-name: sparkle-5;
+}
+.e-ai-layout-button--sparkle:nth-child(6) {
+  --animation-delay: 2.5s;
+  --animation-name: sparkle-6;
+}
+.e-ai-layout-button--sparkle:nth-child(7) {
+  --opacity: .3;
+  --animation-delay: .7s;
+  --animation-name: sparkle-7;
+}
+.e-ai-layout-button:hover .e-ai-layout-button--sparkle {
+  --timing: cubic-bezier( 0, 1.18, .96, .75 );
+  animation: var(--animation-name) var(--animation-duration) var(--animation-delay, 0s) var(--timing) infinite both, sparkle-opacity var(--animation-duration) var(--animation-delay, 0s) var(--timing) infinite both;
+}
+
+@keyframes sparkle-opacity {
+  50% {
+    opacity: var(--opacity);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes sparkle-1 {
+  100% {
+    transform: translate(16px, -12px);
+  }
+}
+@keyframes sparkle-2 {
+  100% {
+    transform: translate(16px, 12px);
+  }
+}
+@keyframes sparkle-3 {
+  100% {
+    transform: translate(12px, 8px);
+  }
+}
+@keyframes sparkle-4 {
+  100% {
+    transform: translate(16px, 16px);
+  }
+}
+@keyframes sparkle-5 {
+  100% {
+    transform: translate(12px, 16px);
+  }
+}
+@keyframes sparkle-6 {
+  100% {
+    transform: translate(-8px, -24px);
+  }
+}
+@keyframes sparkle-7 {
+  100% {
+    transform: translate(-20px, 16px);
+  }
+}
+
+/*# sourceMappingURL=layout-preview.css.map */

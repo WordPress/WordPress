@@ -1,0 +1,32 @@
+<div class="annotation-manager"
+     {% if startDate != endDate %}data-date="{{ startDate }},{{ endDate }}" data-period="range"
+     {% else %}data-date="{{ startDate }}" data-period="{{ period }}"
+     {% endif %}>
+
+    <div class="annotations-header">
+        <span class= "annotation">{{ 'Annotations_Annotations'|translate }}</span>
+    </div>
+
+    <div class="annotation-list-range">{{ startDatePretty }}{% if startDate != endDate %} &mdash; {{ endDatePretty }}{% endif %}</div>
+
+    <div class="annotation-list">
+        {% include "@Annotations/_annotationList.twig" %}
+
+        <span class="loadingPiwik" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_Loading'|translate }}</span>
+
+    </div>
+
+    <div class="annotation-controls">
+
+        {% if canUserAddNotes %}
+        <a class="add-annotation">
+          <span class="icon-add"></span>
+          {{ 'Annotations_CreateNewAnnotation'|translate }}
+        </a>
+        {% elseif userLogin == 'anonymous' %}
+            <a href="index.php?module=Login">{{ 'Annotations_LoginToAnnotate'|translate }}</a>
+        {% endif %}
+
+    </div>
+
+</div>

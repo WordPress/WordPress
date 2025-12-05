@@ -1,0 +1,219 @@
+#
+#    S P Y C
+#      a simple php yaml class
+#
+# authors: [vlad andersen (vlad.andersen@gmail.com), chris wanstrath (chris@ozmm.org)]
+# websites: [http://www.yaml.org, http://spyc.sourceforge.net/]
+# license: [MIT License, http://www.opensource.org/licenses/mit-license.php]
+# copyright: (c) 2005-2006 Chris Wanstrath, 2006-2014 Vlad Andersen
+#
+# spyc.yaml - A file containing the YAML that Spyc understands.
+
+---
+
+# Mappings - with proper types
+String: Anyone's name, really.
+Int: 13
+BadHex: f0xf3
+Hex: 0xf3
+True: true
+False: false
+Zero: 0
+Null: NULL
+NotNull: 'null'
+NotTrue: 'y'
+NotBoolTrue: 'true'
+NotInt: '5'
+Float: 5.34
+Negative: -90
+SmallFloat: 0.7
+NewLine: \n
+QuotedNewLine: "\n"
+
+# A sequence
+- PHP Class
+- Basic YAML Loader
+- Very Basic YAML Dumper
+
+# A sequence of a sequence
+-
+  - YAML is so easy to learn.
+  - Your config files will never be the same.
+
+# Sequence of mappings
+-
+  cpu: 1.5ghz
+  ram: 1 gig
+  os : os x 10.4.1
+
+# Mapped sequence
+domains:
+  - yaml.org
+  - php.net
+
+# A sequence like this.
+- program: Adium
+  platform: OS X
+  type: Chat Client
+
+# A folded block as a mapped value
+no time: >
+  There isn't any time
+  for your tricks!
+
+  Do you understand?
+
+# A literal block as a mapped value
+some time: |
+  There is nothing but time
+  for your tricks.
+
+# Crazy combinations
+databases:
+  - name: spartan
+    notes:
+      - Needs to be backed up
+      - Needs to be normalized
+    type: mysql
+
+# You can be a bit tricky
+"if: you'd": like
+
+# Inline sequences
+- [One, Two, Three, Four]
+
+# Nested Inline Sequences
+- [One, [Two, And, Three], Four, Five]
+
+# Nested Nested Inline Sequences
+- [This, [Is, Getting, [Ridiculous, Guys]], Seriously, [Show, Mercy]]
+
+# Inline mappings
+- {name: chris, age: young, brand: lucky strike}
+
+# Nested inline mappings
+- {name: mark, age: older than chris, brand: [marlboro, lucky strike]}
+
+# References -- they're shaky, but functional
+dynamic languages: &DLANGS
+  - Perl
+  - Python
+  - PHP
+  - Ruby
+compiled languages: &CLANGS
+  - C/C++
+  - Java
+all languages:
+  - *DLANGS
+  - *CLANGS
+
+# Added in .2.2: Escaped quotes
+- you know, this shouldn't work.  but it does.
+- 'that''s my value.'
+- 'again, that\'s my value.'
+- "here's to \"quotes\", boss."
+
+# added in .2.3
+- {name: "Foo, Bar's", age: 20}
+
+# Added in .2.4: bug [ 1418193 ] Quote Values in Nested Arrays
+- [a, ['1', "2"], b]
+
+# Add in .5.2: Quoted new line values.
+- "First line\nSecond line\nThird line"
+
+# Added in .2.4: malformed YAML
+all
+  javascripts:     [dom1.js, dom.js]
+
+# Added in .2
+1040: Ooo, a numeric key! # And working comments? Wow! Colons in comments: a menace (0.3).
+
+hash_1: Hash #and a comment
+hash_2: "Hash #and a comment"
+"hash#3": "Hash (#) can appear in key too"
+
+float_test: 1.0
+float_test_with_quotes: '1.0'
+float_inverse_test: 001
+
+a_really_large_number: 115792089237316195423570985008687907853269984665640564039457584007913129639936 # 2^256
+
+int array: [ 1, 2, 3 ]
+
+array on several lines:
+  [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+
+morelesskey: "<value>"
+
+array_of_zero: [0]
+sophisticated_array_of_zero: {rx: {tx: [0]} }
+
+switches:
+  - { row: 0, col: 0, func: {tx: [0, 1]} }
+
+empty_sequence: [ ]
+empty_hash: { }
+
+special_characters: "[{]]{{]]"
+
+asterisks: "*"
+
+empty_key:
+  :
+    key: value
+
+trailing_colon: "foo:"
+
+multiline_items:
+  - type: SomeItem
+    values: [blah, blah, blah,
+      blah]
+    ints: [2, 54, 12,
+      2143]
+
+many_lines: |
+  A quick
+  fox
+
+
+  jumped
+  over
+
+
+
+
+
+  a lazy
+
+
+
+  dog
+
+
+werte:
+  1: nummer 1
+  0: Stunde 0
+
+noindent_records:
+- record1: value1
+- record2: value2
+
+"a:1": [1000]
+"a:2":
+  - 2000
+a:3: [3000]
+
+complex_unquoted_key:
+  a:b:''test': value
+
+array with commas:
+  ["0","1"]
+
+invoice: ["Something", "", '', "Something else"]
+quotes: ['Something', "Nothing", 'Anything', "Thing"]
+
+# [Endloop]
+endloop: |
+  Does this line in the end indeed make Spyc go to an infinite loop?

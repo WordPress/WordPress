@@ -1,0 +1,12 @@
+{% if settings.title is not empty %}
+	{% set id_attribute = settings._cssid is not empty ? 'id=' ~ settings._cssid | e('html_attr') : '' %}
+	<{{ settings.tag | e('html_tag') }} class="{{ settings.classes | merge( [ base_styles.base ] ) | join(' ') }}" {{ id_attribute }} {{ settings.attributes | raw }}>
+	{% if settings.link.href %}
+		<a href="{{ settings.link.href }}" target="{{ settings.link.target }}" class="{{ base_styles['link-base'] }}">
+			{{ settings.title }}
+		</a>
+	{% else %}
+		{{ settings.title }}
+	{% endif %}
+	</{{ settings.tag | e('html_tag') }}>
+{% endif %}

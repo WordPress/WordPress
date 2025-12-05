@@ -1,0 +1,2 @@
+# Copyright (C) 2019 Matomo Analytics
+# This file is distributed under the same license as the Matomo Analytics package.

@@ -1,0 +1,31 @@
+@keyframes elementor-animation-wobble-top {
+	16.65% {
+		transform: skew(-12deg);
+	}
+	33.3% {
+		transform: skew(10deg);
+	}
+	49.95% {
+		transform: skew(-6deg);
+	}
+	66.6% {
+		transform: skew(4deg);
+	}
+	83.25% {
+		transform: skew(-2deg);
+	}
+	100% {
+		transform: skew(0);
+	}
+}
+.elementor-animation-wobble-top {
+	transform-origin: 0 100%;
+}
+.elementor-animation-wobble-top:active,
+.elementor-animation-wobble-top:focus,
+.elementor-animation-wobble-top:hover {
+	animation-name: elementor-animation-wobble-top;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
+}

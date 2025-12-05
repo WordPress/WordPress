@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+
+    <name>maxminddb</name>
+    <channel>pecl.php.net</channel>
+    <summary>Reader for the MaxMind DB file format</summary>
+    <description>This is the PHP extension for reading MaxMind DB files. MaxMind DB is a binary file format that stores data indexed by IP address subnets (IPv4 or IPv6).</description>
+    <lead>
+        <name>Greg Oschwald</name>
+        <user>oschwald</user>
+        <email>goschwald@maxmind.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2024-11-14</date>
+    <version>
+        <release>1.12.0</release>
+        <api>1.12.0</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="https://github.com/maxmind/MaxMind-DB-Reader-php/blob/main/LICENSE">Apache License 2.0</license>
+    <notes>* Improve the error handling when the user tries to open a directory
+  with the pure PHP reader.
+* Improve the typehints on arrays in the PHPDocs.</notes>
+    <contents>
+        <dir name="/">
+            <file role="doc" name="LICENSE"/>
+            <file role="doc" name="CHANGELOG.md"/>
+            <file role="doc" name="README.md"/>
+
+            <dir name="ext">
+                <file role="src" name="config.m4"/>
+                <file role="src" name="config.w32"/>
+
+                <file role="src" name="maxminddb.c"/>
+                <file role="src" name="php_maxminddb.h"/>
+
+                <dir name="tests">
+                    <file role="test" name="001-load.phpt"/>
+                    <file role="test" name="002-final.phpt"/>
+                    <file role="test" name="003-open-basedir.phpt"/>
+                </dir>
+            </dir>
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>7.2.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.10.0</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <providesextension>maxminddb</providesextension>
+    <extsrcrelease />
+</package>

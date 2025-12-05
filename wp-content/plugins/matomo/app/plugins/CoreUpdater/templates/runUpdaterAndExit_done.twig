@@ -1,0 +1,85 @@
+{% extends '@CoreUpdater/layout.twig' %}
+{% set helpMessage %}
+    {{ 'CoreUpdater_HelpMessageContent'|translate(externallink('https://matomo.org/faq/'),'</a>','</li><li>')|raw }}
+{% endset %}
+
+{% block content %}
+
+{% if coreError %}
+    <div class="header">
+        <h1>{{ 'CoreUpdater_UpdateErrorTitle'|translate }}</h1>
+    </div>
+    <div class="content">
+        <div class="alert alert-danger">
+            {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+            {% for message in errorMessages %}
+                <br/><strong>{{ message|striptags }}</strong>
+            {% endfor %}
+        </div>
+        <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
+        <ul>
+            <li>{{ helpMessage }}</li>
+        </ul>
+        <p>{{ 'CoreUpdater_ErrorDIYHelp'|translate }}</p>
+        <ul>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='{{ 'https://matomo.org/faq/how-to-update/faq_179'|trackmatomolink }}' rel='noreferrer noopener' target='_blank'>(see FAQ)</a></li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
+        </ul>
+    </div>
+{% else %}
+
+    {% if errorMessages|length == 0 and warningMessages|length == 0 %}
+        <div class="header">
+            <h1>{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</h1>
+        </div>
+    {% endif %}
+
+    <div class="content">
+
+        {% if warningMessages|length > 0 %}
+            <div class="alert alert-warning">
+                <p>{{ 'CoreUpdater_WarningMessages'|translate }}</p>
+                {% for message in warningMessages %}
+                    <br/><strong>{{ message|striptags }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if errorMessages|length > 0 %}
+            <div class="alert alert-warning">
+                <p>{{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
+                {% for message in errorMessages %}
+                    <br/><strong>{{ message|striptags }}</strong>
+                {% endfor %}
+            </div>
+            {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
+                {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
+                <div class="alert alert-danger">
+                    {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if errorMessages|length > 0 or warningMessages|length > 0 %}
+            <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}</p>
+            <ul>
+                <li>{{ helpMessage }}</li>
+            </ul>
+        {% else %}
+            <div id="donate-form-container">
+                {% include "@CoreHome/_donate.twig" %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        <a href="index.php">{{ 'General_ContinueToPiwik'|translate }}</a>
+    </div>
+
+{% endif %}
+
+{% endblock %}

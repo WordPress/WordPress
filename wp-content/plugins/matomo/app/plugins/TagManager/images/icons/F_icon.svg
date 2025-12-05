@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <!-- 
+    Source: https://commons.wikimedia.org/wiki/File:F_icon.svg (public domain)
+    Facebook is a registered Trademark and this logo may be protected. For more information see https://en.facebookbrand.com/
+    -->
+    <g id="Blue_1_" transform="matrix(0.239796,0,0,0.239795,0,0)">
+        <path d="M248.082,262.307C255.936,262.307 262.305,255.938 262.305,248.082L262.305,18.812C262.305,10.955 255.937,4.588 248.082,4.588L18.812,4.588C10.955,4.588 4.588,10.955 4.588,18.812L4.588,248.082C4.588,255.937 10.954,262.307 18.812,262.307L248.082,262.307Z" style="fill:rgb(60,90,153);fill-rule:nonzero;"/>
+    </g>
+    <g id="f" transform="matrix(0.239796,0,0,0.239795,0,0)">
+        <path d="M182.409,262.307L182.409,162.504L215.908,162.504L220.924,123.609L182.409,123.609L182.409,98.777C182.409,87.516 185.536,79.842 201.684,79.842L222.28,79.833L222.28,45.045C218.718,44.571 206.492,43.512 192.268,43.512C162.573,43.512 142.243,61.638 142.243,94.925L142.243,123.609L108.658,123.609L108.658,162.504L142.243,162.504L142.243,262.307L182.409,262.307Z" style="fill:white;fill-rule:nonzero;"/>
+    </g>
+</svg>

@@ -1,0 +1,657 @@
+#visitsLive {
+    text-align: left;
+    color: @theme-color-text-light;
+
+    .dataTable {
+        margin-bottom: -1px;
+    }
+}
+
+.theWidgetContent > h2:first-child {
+    color: @theme-color-headline-alternative !important;
+
+    .title {
+        color: @theme-color-headline-alternative !important;
+    }
+}
+
+.card {
+    #visitsLive {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+}
+
+#visitsLive .settings {
+    border-bottom: 1px solid @color-silver-l90;
+    background: @theme-color-widget-background none repeat scroll 0 0;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+#visitsLive .datetime, #visitsLive .country, #visitsLive .settings, #visitsLive .returning {
+    padding: 10px 20px;
+
+    .widget & {
+        padding: 10px 11px;
+    }
+}
+
+#visitsLive .datetime {
+    background: @theme-color-background-base;
+    border-top: 1px solid #d3d1c5;
+    margin: 0;
+    line-height: 20px;
+    text-align: left;
+}
+
+#visitsLive .country {
+    background: @theme-color-background-base url(plugins/CoreHome/images/bullet1.png) no-repeat scroll 0 0;
+}
+
+#visitsLive .referrer {
+    display: block;
+    padding-top: 4px;
+    padding-bottom: 1px;
+}
+
+#visitsLive .pagesTitle {
+    display: block;
+    float: left;
+}
+
+#visitsLive .returning {
+    background: #F9FAFA none repeat scroll 0 0;
+}
+
+#visitsLive .visits-live-launch-visitor-profile {
+    color: @theme-color-text;
+    line-height: 200%;
+
+    span {
+        display: block;
+        vertical-align: middle;
+        word-wrap: break-word;
+        white-space: normal;
+
+        &.icon-visitor-profile {
+            display: inline;
+            font-size: 16px;
+            line-height: 16px;
+            vertical-align: middle;
+        }
+    }
+
+    .icon-visitor-profile {
+        font-size: 120%;
+    }
+}
+
+.theWidgetContent .card .card-content #visitsTotal {
+    margin-left: -20px;
+    width: ~"calc(100% + 40px)";
+}
+
+#visitsTotal {
+    overflow-x: auto;
+}
+
+#visitsTotal table.dataTable {
+    td:first-child, th:first-child {
+        padding-left: 14px;
+    }
+}
+
+.visitsLiveFooter img {
+    vertical-align: middle;
+}
+
+.visitsLiveFooter {
+    line-height: 2.5em;
+}
+
+.dataTableVizVisitorLog table img {
+    margin: 0 3px 0 0;
+}
+
+.ui-dialog.ui-widget {
+    .dataTableVizVisitorLog {
+        .dataTableFeatures {
+            border-bottom: 0;
+        }
+    }
+}
+
+.visitsLiveFooter a.rightLink {
+    float: right;
+    padding-right: 20px;
+}
+
+#visitsLive .datetime a {
+    text-decoration: none;
+}
+
+ol.visitorLog {
+    list-style-type: none;
+    margin-left: 8px;
+    padding-left: 8px;
+}
+
+.truncated-text-line {
+    overflow: hidden;
+    overflow: -moz-hidden-unscrollable;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 90%;
+}
+
+ol.actionList > li:not(.pageviewActions) {
+    margin-bottom: 10px;
+    line-height: 20px;
+    position: relative;
+    min-height: 30px;
+
+    &:before {
+        vertical-align: top;
+        background-color: #424242;
+        border: 5px solid #424242;
+        border-radius: 50%;
+        line-height: 0;
+        font-size: 0;
+        content: " ";
+        top: 10px;
+        position: relative;
+        box-shadow: 0 0 0 7px #fff;
+        left: -14px;
+        z-index: 2;
+    }
+
+    &:after {
+        content: " ";
+        border-left: 2px solid #d2d2d2;
+        position: absolute;
+        left: -10px;
+        height: calc(~"100% - 20px");
+        margin-top: 20px;
+        z-index: 1;
+    }
+
+    &:last-of-type:after {
+        border-left: none;
+    }
+
+    &.duplicate {
+        visibility: hidden;
+        line-height: 0;
+        min-height: 0;
+        height: 0;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    &.more {
+        list-style-type: none;
+        font-weight: bold;
+
+        .icon-info {
+            vertical-align: middle;
+        }
+    }
+
+    &.actionsForPageExpander {
+        a {
+            color: @theme-color-text;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &:before {
+            margin-left: -5px;
+            visibility: hidden;
+            margin-top: 2px;
+            float: left;
+            margin-right: 5px;
+            .matomo-icon();
+        }
+
+        &.expanded:before {
+            content: "\f102";
+        }
+
+        &.collapsed:before {
+            content: "\f103";
+        }
+    }
+}
+
+ol.actionList > li.pageviewActions {
+    position: relative;
+    margin-top: -6px;
+
+    &:after {
+        content: " ";
+        border-left: 2px solid #d2d2d2;
+        position: absolute;
+        left: -10px;
+        height: calc(~"100% + 8px");
+        z-index: 1;
+        top: 0;
+        margin-top: -8px;
+    }
+
+    &:last-child:after {
+        height: calc(~"100% - 4px");
+    }
+
+    > ol > li:nth-last-child(2):after {
+        border-left: none;
+    }
+}
+
+// when last action group is just refreshes
+ol.actionList > li:nth-last-child(2).noPageviewActions:not(.refreshesExpanded):after {
+    border-left: none;
+}
+
+ol.actionList > li:not(.pageviewActions).last-action {
+    &:after {
+        border-left: none;
+    }
+}
+
+.pageviewActions.last-action > ol.actionList > li.last-action {
+    margin-bottom: 0;
+}
+
+li.collapsed-contents > div {
+    cursor: pointer;
+}
+
+li.collapsed-content-item {
+    margin-left: 1.5rem;
+}
+
+li.pageviewActions > ol.actionList {
+    margin-left: 1.5rem;
+}
+
+#visitsLive img {
+    vertical-align: middle;
+    height: 16px;
+}
+
+.visitorRank img {
+    vertical-align: text-bottom;
+}
+
+.iconPadding {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.visitorReferrer .visitorRank {
+    display: inline-block;
+}
+
+.visitorRank {
+    border: 1px solid #D8D8D8;
+    color: #474747;
+    border-radius: 3px;
+    padding: 3px 5px;
+}
+
+#visitsLive .visitorRank {
+    padding: 2px;
+    border: none;
+    margin-left: 5px;
+}
+
+#visitsLive .visitorType .visitorRank {
+    margin-left: 0;
+}
+
+.hash {
+    color: #BBB;
+    font-size: 9pt;
+    margin-right: 2px;
+}
+
+.repeat {
+    font-weight: bold;
+    display: block;
+    margin: 5px 5px 5px 0;
+    float: left;
+    background-color: #fff;
+    z-index: 3;
+
+    &.icon-refresh:before {
+        padding-right: 2px;
+    }
+}
+
+.dataTableVizVisitorLog hr {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none #000;
+    border-bottom: 1px solid #ccc;
+    color: #eee;
+    margin: 0 2em 0.5em;
+    padding: 0 0 0.5em;
+}
+
+.simple-realtime-visitor-widget {
+    text-align: center;
+}
+
+.simple-realtime-visitor-counter {
+    background-color: #F1F0EB;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 2em 0 1em 0;
+    padding: 3em;
+}
+
+.simple-realtime-visitor-counter > div {
+    font-size: 4.0em;
+    color: @theme-color-text-light;
+}
+
+.simple-realtime-metric {
+    font-weight: bold;
+    color: #333;
+}
+
+.simple-realtime-elaboration {
+    margin: 1em 2em 1em 2em;
+    color: @theme-color-text-lighter;
+    display: inline-block;
+}
+
+ol.visitorLog p {
+    margin: 0;
+    padding: 0;
+}
+
+.dataTableVizVisitorLog {
+
+    .card.row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .card {
+        padding: 15px 0;
+        font-size: 13px;
+        text-align: left;
+
+        a {
+            color: @theme-color-link;
+            width: inherit;
+        }
+    }
+
+    .actionList > li > div {
+        width: 95%;
+
+        .segmentedVisitorLogPopover & {
+            width: 90%; // space in segmented visitor log isn't enough
+        }
+    }
+
+    .dataTableWrapper {
+        width: 100%;
+    }
+
+    .widget & .card {
+        &:hover .visitor-log-visitor-profile-link {
+            display: inline;
+        }
+    }
+
+    .widget .widgetContent & .card {
+        padding: 10px;
+
+        &:first-child {
+            padding-top:0;
+        }
+    }
+}
+
+.visitor-log-datetime {
+    display: block;
+}
+
+.visitor-log-ip-location img.flag {
+    border: 1px solid lightgray;
+    top: 2px;
+    position: relative;
+}
+
+.visitor-log-page-list {
+    position: relative;
+    margin-top: 7px;
+}
+
+a.visitor-log-visitor-profile-link {
+    z-index: 2;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-style: italic;
+    font-size: 13px;
+    background-color: inherit !important;
+    text-decoration: none;
+
+    .widget & {
+        display: none;
+    }
+
+    span {
+        text-decoration: underline;
+    }
+
+    img {
+        margin-top: -2px;
+        margin-bottom: -3px;
+    }
+
+    @media print {
+        display: none;
+    }
+}
+
+.actionList {
+    > li > div {
+        display: inline-block;
+        width: 90%;
+
+        > * {
+            vertical-align: top;
+        }
+    }
+}
+
+.action-list-action-icon {
+    display: inline;
+    height: 18px;
+    position: absolute;
+    left: -18px;
+    background-color: #fff;
+    z-index: 3;
+    margin-top: 1px;
+    color: #999;
+}
+
+.action-list-url {
+    display: inline-block;
+}
+
+.visitorLogIcons {
+    position: relative;
+    display: block;
+
+    .visitorDetails, .visitorType {
+        display: block;
+        margin-top: 4px;
+    }
+
+    & > span > span > img {
+        margin: auto 5px auto 0;
+    }
+
+    & > span.visitorRank > img {
+        margin: auto 0;
+    }
+}
+
+.visitorLogIconWithDetails .details {
+    display: none;
+}
+
+.visitorLogIconWithDetails > img {
+    margin: auto 5px -2px 0;
+    height: 16px;
+}
+
+.visitorLogIconWithDetails.flag {
+    display: none;
+}
+
+.visitorLogIconWithDetails.flag > img {
+    border: 1px solid lightgray;
+}
+
+.visitorType {
+    img {
+        max-height: 20px;
+        margin: auto 0;
+    }
+}
+
+.conversionCount {
+    color: #fff;
+    background-color: #4b0;
+    min-width: 17px;
+    height: 17px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 15px;
+    border-radius: 5px;
+    margin-left: -17px;
+    position: relative;
+    top: 3px;
+    border: 1px solid #fff;
+    padding: 0 2px;
+
+    #visitsLive & {
+        top: 10px;
+    }
+}
+
+.own-visitor-column {
+    .visitorLogIcons {
+        .visitorDetails {
+            margin-top: 0;
+        }
+
+        .visitorType {
+            margin-top: 8px;
+        }
+    }
+}
+
+.visitorReferrer {
+    clear: both;
+    padding-top: 1em;
+
+    * {
+        vertical-align: middle;
+    }
+}
+
+#visitsLive .visitorReferrer {
+    padding-top: 0;
+}
+
+.segmentedlog {
+    margin: 8px;
+    display: block;
+}
+
+#widgetLivewidget {
+    .visitorLogIcons {
+        &:before {
+            content: " ";
+            display: block;
+        }
+
+        display: inline-block;
+    }
+
+    .visitorLogIconWithDetails.flag {
+        display: inline;
+    }
+
+    .visitorDetails {
+        display: inline-flex;
+    }
+
+    .visitorLogIconWithDetails {
+        margin-right: 5px;
+    }
+
+    .visitorType {
+        display: inline-block;
+        float: left;
+        margin-right: 10px;
+    }
+}
+
+.reporting-page #widgetLivewidget .theWidgetContent .visitsLiveFooter {
+    margin-left: -9px;
+    margin-right: -2px;
+}
+
+.refresh-divider {
+    display: none;
+}
+
+@media only screen and (min-width: 800px) {
+    .card #visitsLive .visitorLogIcons:before {
+        content: none;
+    }
+
+    .card #visitsLive .referrer {
+        float: right;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .own-visitor-column {
+        margin: 10px 0;
+    }
+}
+
+@media print {
+    .col.s12.m3 {
+        width: 20%;
+    }
+
+    .row .col.s12.own-visitor-column {
+        width: 15%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .col.s12.m7.column {
+        width: 65%;
+    }
+}
+

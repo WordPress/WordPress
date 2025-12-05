@@ -1,0 +1,90 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
+
+{% block content %}
+<div vue-entry="DBStats.DBStatsIntro" total-space-used="{{ totalSpaceUsed|json_encode }}"></div>
+
+<div class="row">
+    <div class="col s12 m6">
+        {{ databaseUsageSummary|raw }}
+
+        {{ trackerDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'General_GeneralInformation'|translate }}">
+            <p style="font-size:1.4em;padding-left:21px;line-height:1.8em;">
+                <strong>{{ userCount }}</strong>&nbsp;{% if userCount == 1 %}{{ 'UsersManager_User'|translate }}{% else %}{{ 'UsersManager_MenuUsers'|translate }}{% endif %}
+                <br/>
+                <strong>{{ siteCount }}</strong>&nbsp;{% if siteCount == 1 %}{{ 'General_Website'|translate }}{% else %}{{ 'Referrers_Websites'|translate }}{% endif %}
+            </p>
+        </div>
+        <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate }}">
+            {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
+            <p>
+                {{ 'PrivacyManager_DeleteDataDescription'|translate }}
+                <br/>
+                <a href='{{ linkTo({'module':"PrivacyManager",'action':"privacySettings"}) }}#deleteLogsAnchor'>
+                    {{ 'PrivacyManager_ClickHereSettings'|translate("'"~clickDeleteLogSettings~"'") }}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m6">
+        {{ reportDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div class="ajaxLoad" action="getIndividualReportsSummary">
+            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m6">
+        {{ metricDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div class="ajaxLoad" action="getIndividualMetricsSummary">
+            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m6">
+        {{ adminDataSummary|raw }}
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('.ajaxLoad').each(function () {
+                var self = this;
+                var action = $(this).attr('action');
+
+                // build & execute AJAX request
+                var ajaxRequest = new ajaxHelper();
+                ajaxRequest.addParams({
+                    module: 'DBStats',
+                    action: action,
+                    viewDataTable: 'table',
+                    showtitle: '1'
+                }, 'get');
+                ajaxRequest.setCallback(function (data) {
+                    $('.loadingPiwik', self).remove();
+                    $(self).html(data);
+                    piwikHelper.compileVueEntryComponents(self);
+                });
+                ajaxRequest.setFormat('html');
+                ajaxRequest.send();
+            });
+        });
+    })(jQuery);
+</script>
+{% endblock %}
+

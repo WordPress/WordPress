@@ -1,0 +1,8 @@
+<div
+  vue-entry="ScheduledReports.ReportParameters"
+  report-type="{{ reportType|default(null)|json_encode|e('html_attr') }}"
+  default-display-format="{{ defaultDisplayFormat|default(null)|json_encode|e('html_attr') }}"
+  default-email-me="{{ defaultEmailMe|default(false)|json_encode|e('html_attr') }}"
+  default-evolution-graph="{{ defaultEvolutionGraph|default(false)|json_encode|e('html_attr') }}"
+  current-user-email="{{ currentUserEmail|default(null)|json_encode|e('html_attr') }}"
+></div>

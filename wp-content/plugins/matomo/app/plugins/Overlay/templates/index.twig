@@ -1,0 +1,88 @@
+{% extends 'dashboard.twig' %}
+
+{% block head %}
+    {{ parent() }}
+    <script type="text/javascript" src="plugins/Overlay/javascripts/Piwik_Overlay.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/Overlay/stylesheets/overlay.css" />
+{% endblock %}
+
+{% block content %}
+    <div class="overlay-sidebar-container">
+        <a id="overlayTitle" href="{{ 'https://matomo.org/docs/page-overlay/'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
+            {{ 'Overlay_Overlay'|translate }}
+            <span class="icon-info"></span>
+        </a>
+
+        <div id="overlayDateRangeSelection">
+
+            <span class="icon icon-calendar"></span>
+            <select id="overlayDateRangeSelect" name="overlayDateRangeSelect" disabled>
+                <option value="day;today">{{ 'Intl_Today'|translate }}</option>
+                <option value="day;yesterday">{{ 'Intl_Yesterday'|translate }}</option>
+                <option value="week;today">{{ 'General_CurrentWeek'|translate }}</option>
+                <option value="month;today">{{ 'General_CurrentMonth'|translate }}</option>
+                <option value="year;today">{{ 'General_CurrentYear'|translate }}</option>
+            </select>
+        </div>
+
+        <div id="overlayErrorNoSiteUrls" style="display:none;">
+            {{ 'Overlay_ErrorNoSiteUrls'|translate }}
+        </div>
+
+        <div id="overlayErrorNotLoading">
+            <p>
+                <span>{{ 'Overlay_ErrorNotLoading'|translate }}</span>
+            </p>
+
+            <p>
+                {% if ssl %}
+                    {{ 'Overlay_ErrorNotLoadingDetailsSSL'|translate }}
+                {% else %}
+                    {{ 'Overlay_ErrorNotLoadingDetails'|translate }}
+                {% endif %}
+            </p>
+
+            <p>
+                <a href="{{ 'https://matomo.org/faq/reports/troubleshoot-page-overlay-issues/'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
+                    {{ 'Overlay_ErrorNotLoadingLink'|translate }}
+                </a>
+            </p>
+        </div>
+
+        <div id="overlayLocation">&nbsp;</div>
+
+        <div id="overlayLoading">{{ 'General_Loading'|translate }}</div>
+
+        <div id="overlaySidebar"></div>
+
+        <a id="overlayRowEvolution"><span class="icon icon-evolution"></span>{{ 'General_RowEvolutionRowActionTooltipTitle'|translate }}</a>
+        <a id="overlayTransitions"><span class="icon icon-transition"></span>{{ 'General_TransitionsRowActionTooltipTitle'|translate }}</a>
+        <a id="overlaySegmentedVisitorLog"><span class="icon icon-visitor-profile"></span>{{ 'Live_RowActionTooltipTitle'|translate }}</a>
+
+        {{ postEvent('Template.afterOverlaySidebar') }}
+    </div>
+
+    <div id="overlayMain">
+        <iframe id="overlayIframe" name="overlayIframe" src="" frameborder="0"></iframe>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
+
+            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+            if (piwik.shouldPropagateTokenAuth) {
+                if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                    iframeSrc += '&force_api_session=1';
+                }
+                iframeSrc += '&token_auth=' + piwik.token_auth;
+            }
+
+            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
+
+            window.Piwik_Overlay_Translations = {
+                domain: "{{ 'Overlay_Domain'|translate }}"
+            };
+        });
+    </script>
+{% endblock %}

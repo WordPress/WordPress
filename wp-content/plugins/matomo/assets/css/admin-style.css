@@ -1,0 +1,212 @@
+.matomo-tracking-form tr {
+    padding: 6px 0;
+}
+
+.matomo-tracking-form th {
+    width: 30%;
+    vertical-align: top;
+}
+
+.matomo-tracking-form th label {
+    vertical-align: baseline;
+}
+
+.matomo-systemreport-comment {
+    word-break: break-all;
+}
+
+ul.matomo-list {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+ol.matomo-list {
+    list-style-type: decimal;
+    margin-left: 20px;
+}
+
+.matomo-plugin-list .plugin-card-top {
+    min-height: auto;
+}
+
+.matomo-plugin-list .plugin-card-top .matomo-description {
+    min-height: 80px;
+}
+.matomo-plugin-row-2 {
+    max-width: 1082px;
+}
+.matomo-plugin-row-2 .plugin-card-top .matomo-description {
+    min-height: 50px;
+}
+
+.matomo-plugin-list .plugin-card .desc > p.matomo-description,
+.matomo-plugin-list .plugin-card .desc > p.authors {
+    margin: 1em 0;
+}
+
+.matomo-marketplace-notice .dashicons-video-alt3 {
+    display: inline-block;
+}
+.matomo-blockquote {
+    margin: .5em 10px;
+    border-left: 4px solid #ccc;
+    padding-left: 10px;
+    font-weight: bold;
+}
+.matomo-footer {
+    margin-top: 48px;
+    text-align: center;
+}
+
+.matomo-footer ul {
+    list-style: none;
+    padding: 0 0 0 20px;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.matomo-footer ul li {
+    display: inline-block;
+    margin: 0 20px 10px;
+}
+
+.matomo-header-icon {
+    height: 32px;
+    vertical-align: top;
+}
+
+.matomo-footer ul a {
+    color: #37474f;
+}
+.matomo-systemreport .widefat .warning td {
+    color: orange;
+}
+
+.matomo-systemreport .widefat .error td {
+    color: red;
+}
+
+.matomo-systemreport .widefat .section {
+    font-weight: bold;
+}
+
+.matomo-dashboard-container .postbox-container {
+    min-width: 40%;
+}
+
+.postbox .table .widefat.matomo-table {
+    border: 0;
+}
+
+#matomo_default_tracking_code textarea {
+    width: 100%;
+    height: 280px;
+}
+#matomo_default_tracking_code textarea.no_script {
+    height: 50px;
+}
+
+table.matomo-tracking-form textarea {
+    display: inline-block;
+    width: 95%;
+}
+
+table.matomo-tracking-form th {
+    max-width: 30%;
+}
+
+/* toggle styles */
+.matomo-toggle {
+    position: relative;
+    display: inline-block;
+    width: 2.375em;
+    height: 1.345em;
+}
+.matomo-toggle input {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+.matomo-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 1.345em;
+}
+.matomo-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.03em;
+    width: 1.03em;
+    left: .15835em;
+    bottom: .15835em;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+.matomo-toggle input:checked + .slider {
+    background-color: #2271b1;
+}
+.matomo-toggle input:focus + .slider {
+    box-shadow: 0 0 1px #2271b1;
+}
+.matomo-toggle input:checked + .slider:before {
+    -webkit-transform: translateX(1.03em);
+    -ms-transform: translateX(1.03em);
+    transform: translateX(1.03em);
+}
+
+#toplevel_page_matomo a {
+    position: relative;
+    display: inline-block;
+}
+
+#toplevel_page_matomo .matomo-notification-dot::before {
+    content: " ";
+    position: absolute;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #d63638;
+    border-radius: 50%;
+    right: 4px;
+}
+
+.notice.matomo-whats-new {
+    border-left-color: #9D2235;
+}
+
+.notice.matomo-whats-new .button-primary {
+    background-color: #9D2235;
+    border-color: #9D2235;
+}
+
+.notice.matomo-whats-new h6 {
+    margin: 0;
+    font-style: italic;
+    color: #9D2235;
+    font-size: .8em;
+}
+
+.notice.matomo-whats-new h3 {
+    font-size: 1.6em;
+    margin: 6px 0;
+}
+
+.matomo-plugin-list.matomo-new-plugins .plugin-card {
+    position: relative;
+}
+
+.matomo-plugin-list.matomo-new-plugins .plugin-card .matomo-new-marker {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    font-style: italic;
+    color: #9D2235;
+}

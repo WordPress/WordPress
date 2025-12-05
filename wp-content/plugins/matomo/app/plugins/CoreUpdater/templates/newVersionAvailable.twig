@@ -1,0 +1,50 @@
+{% extends '@CoreUpdater/layout.twig' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ 'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate }}</h1>
+    </div>
+
+    <div class="content">
+
+        {% if can_auto_update %}
+            <p>{{ 'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate(piwik_new_version) }}</p>
+        {% else %}
+            <p>{{ 'Installation_SystemCheckAutoUpdateHelp'|translate }}</p>
+            <p>{{ 'CoreUpdater_YouMustDownloadPackageOrFixPermissions'|translate(piwik_new_version) }}
+                {{ makeWritableCommands|raw }}
+            </p>
+        {% endif %}
+
+        {% if can_auto_update %}
+            <form id="oneclickupdate" action="index.php">
+                <input type="hidden" name="module" value="CoreUpdater"/>
+                <input type="hidden" name="action" value="oneClickUpdate"/>
+                <input type="hidden" name="nonce" value="{{ nonce|e('html_attr') }}"/>
+                <input id="updateAutomatically" type="submit" class="btn" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+                {% endif %}
+                <a class="btn"
+                   href="{{ piwik_latest_version_url }}?cb={{ piwik_new_version }}">{{ 'CoreUpdater_DownloadX'|translate(piwik_new_version) }}</a><br/>
+                {% if can_auto_update %}
+            </form>
+        {% endif %}
+
+        {% if incompatiblePlugins %}
+            <p>{{ 'CoreUpdater_IncompatbilePluginsWillBeDisabledInfo'|translate(piwik_new_version) }}</p>
+
+            <ul>
+                {% for plugin in incompatiblePlugins %}
+                    <li>{{ plugin.pluginName }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        <a href="index.php">&laquo; {{ 'General_BackToPiwik'|translate }}</a>
+    </div>
+
+{% endblock %}
+

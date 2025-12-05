@@ -1,0 +1,18 @@
+{% if settings.text is not empty %}
+    {% set classes = settings.classes | merge( [ base_styles.base ] ) | join(' ') %}
+	{% set id_attribute = settings._cssid is not empty ? 'id=' ~ settings._cssid | e('html_attr') : '' %}
+    {% if settings.link.href %}
+        <a
+            href="{{ settings.link.href | raw }}"
+            target="{{ settings.link.target }}"
+            class="{{ classes }}"
+            {{ id_attribute }} {{ settings.attributes | raw }}
+        >
+            {{ settings.text }}
+        </a>
+    {% else %}
+        <button class="{{ classes }}" {{ id_attribute }} {{ settings.attributes | raw }}>
+            {{ settings.text }}
+        </button>
+    {% endif %}
+{% endif %}

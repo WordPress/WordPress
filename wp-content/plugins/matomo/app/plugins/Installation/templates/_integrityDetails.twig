@@ -1,0 +1,27 @@
+<div id="integrity-results" title="{{ 'Installation_SystemCheckFileIntegrity'|translate }}" style="display:none; font-size: 62.5%;">
+    <table>
+        {% for msg in warningMessages %}
+            <tr>
+                <td>{{ msg|raw }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#integrity-results").dialog({
+            modal: true,
+            autoOpen: false,
+            width: 600,
+            dialogClass: "no-close",
+            buttons: {
+                Ok: function () {
+                    $(this).dialog('close');
+                },
+            }
+        });
+    });
+    $('#more-results').click(function () {
+        $('#integrity-results').dialog('open');
+    });
+</script>

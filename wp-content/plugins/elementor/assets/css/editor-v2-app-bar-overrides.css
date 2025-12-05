@@ -1,0 +1,45 @@
+/**
+ * Here should be only styles that related to the Editor v1, and should be overridden when using the Editor v2.
+ */
+body {
+  --editor-v2-top-bar-height: 48px;
+}
+
+#elementor-editor-wrapper {
+  height: calc(100vh - var(--editor-v2-top-bar-height));
+}
+
+body.elementor-navigator-docked #elementor-navigator {
+  height: calc(100% - var(--editor-v2-top-bar-height));
+  top: var(--editor-v2-top-bar-height);
+}
+
+.elementor-panel #elementor-panel-header-menu-button,
+.elementor-panel #elementor-panel-header-add-button,
+.elementor-panel #elementor-panel-footer {
+  display: none;
+}
+
+.elementor-panel #elementor-panel-header {
+  font-weight: 700;
+  background-color: var(--e-a-bg-default);
+  color: var(--e-a-color-txt-accent);
+  border-block-end: var(--e-a-border);
+  height: 48px;
+}
+
+.elementor-control-type-wysiwyg .mce-fullscreen {
+  inset: var(--editor-v2-top-bar-height) 0 0 0;
+}
+.elementor-control-type-wysiwyg .mce-fullscreen > .mce-container-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.elementor-control-type-wysiwyg .mce-fullscreen > .mce-container-body > .mce-edit-area {
+  flex-grow: 1;
+}
+.elementor-control-type-wysiwyg .mce-fullscreen > .mce-container-body > .mce-edit-area > iframe {
+  height: 100% !important;
+}
+/*# sourceMappingURL=editor-v2-app-bar-overrides.css.map */

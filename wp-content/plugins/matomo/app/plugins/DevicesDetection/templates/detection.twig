@@ -1,0 +1,29 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'DevicesDetection_DeviceDetection'|translate }}{% endset %}
+
+{% block content %}
+
+<div
+    vue-entry="DevicesDetection.DetectionPage"
+    user-agent="{{ userAgent|json_encode|e('html_attr') }}"
+    bot_info="{{ bot_info|default(null)|json_encode|e('html_attr') }}"
+    os_logo="{{ os_logo|default(null)|json_encode|e('html_attr') }}"
+    os_name="{{ os_name|default(null)|json_encode|e('html_attr') }}"
+    os_version="{{ os_version|default(null)|json_encode|e('html_attr') }}"
+    os_family_logo="{{ os_family_logo|default(null)|json_encode|e('html_attr') }}"
+    os_family="{{ os_family|default(null)|json_encode|e('html_attr') }}"
+    browser_logo="{{ browser_logo|default(null)|json_encode|e('html_attr') }}"
+    browser_name="{{ browser_name|default(null)|json_encode|e('html_attr') }}"
+    browser_version="{{ browser_version|default(null)|json_encode|e('html_attr') }}"
+    browser_family="{{ browser_family|default(null)|json_encode|e('html_attr') }}"
+    browser_family_logo="{{ browser_family_logo|default(null)|json_encode|e('html_attr') }}"
+    device_type_logo="{{ device_type_logo|default(null)|json_encode|e('html_attr') }}"
+    device_type="{{ device_type|default(null)|json_encode|e('html_attr') }}"
+    device_brand_logo="{{ device_brand_logo|default(null)|json_encode|e('html_attr') }}"
+    device_brand="{{ device_brand|default(null)|json_encode|e('html_attr') }}"
+    device_model="{{ device_model|default(null)|json_encode|e('html_attr') }}"
+    client-hints-checked="{{ (not not clientHints)|json_encode|e('html_attr') }}"
+></div>
+
+{% endblock %}

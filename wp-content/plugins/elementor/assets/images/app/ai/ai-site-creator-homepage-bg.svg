@@ -1,0 +1,72 @@
+<svg width="402" height="177" viewBox="0 0 402 177" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_14738_2317" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="402" height="177">
+<path d="M0 0H402V177H0V0Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_14738_2317)">
+<g style="mix-blend-mode:multiply" opacity="0.16" clip-path="url(#clip0_14738_2317)">
+<rect width="534.395" height="529.346" transform="translate(-23.498 -169.771)" fill="white"/>
+<g filter="url(#filter0_f_14738_2317)">
+<circle cx="239.062" cy="10.0051" r="120.921" fill="black"/>
+<circle cx="315.487" cy="95.0776" r="142.84" transform="rotate(-165 315.487 95.0776)" fill="black"/>
+<circle cx="157.343" cy="157.343" r="157.343" transform="matrix(0.998118 0.0613208 0.0613208 -0.998118 -3.75 296.006)" fill="black"/>
+<circle cx="111.789" cy="111.789" r="111.789" transform="matrix(0.976166 0.217027 0.217027 -0.976166 185.396 238.602)" fill="black"/>
+<circle cx="295.196" cy="103.485" r="131.612" fill="black"/>
+</g>
+<g style="mix-blend-mode:color-dodge">
+<rect x="-51.2617" y="-169.184" width="582.461" height="547.055" fill="#878787"/>
+</g>
+<g style="mix-blend-mode:color-burn">
+<rect x="-51.2617" y="-169.184" width="582.461" height="547.055" fill="white"/>
+</g>
+<g style="mix-blend-mode:screen">
+<rect width="771.761" height="724.848" transform="translate(-145.91 -258.08)" fill="url(#paint0_linear_14738_2317)"/>
+</g>
+</g>
+<g style="mix-blend-mode:multiply" opacity="0.16" clip-path="url(#clip1_14738_2317)">
+<rect width="582.366" height="576.865" transform="translate(150.463 -161.477)" fill="white"/>
+<g filter="url(#filter1_f_14738_2317)">
+<circle cx="445.473" cy="34.4419" r="131.776" fill="black"/>
+<circle cx="528.759" cy="127.147" r="155.662" transform="rotate(-165 528.759 127.147)" fill="black"/>
+<circle cx="171.467" cy="171.467" r="171.467" transform="matrix(0.998118 0.0613208 0.0613208 -0.998118 180.861 346.111)" fill="black"/>
+<circle cx="121.824" cy="121.824" r="121.824" transform="matrix(0.976166 0.217027 0.217027 -0.976166 386.988 283.553)" fill="black"/>
+<circle cx="506.645" cy="136.309" r="143.427" fill="black"/>
+</g>
+<g style="mix-blend-mode:color-dodge">
+<rect x="129.084" y="-160.836" width="634.747" height="596.163" fill="#878787"/>
+</g>
+<g style="mix-blend-mode:color-burn">
+<rect x="129.084" y="-160.836" width="634.747" height="596.163" fill="white"/>
+</g>
+<g style="mix-blend-mode:screen">
+<rect width="841.04" height="789.916" transform="translate(58.2656 -152.107)" fill="url(#paint1_linear_14738_2317)"/>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_14738_2317" x="-156.981" y="-322.617" width="812.578" height="835.558" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="76.4229" result="effect1_foregroundBlur_14738_2317"/>
+</filter>
+<filter id="filter1_f_14738_2317" x="13.8788" y="-328.043" width="885.522" height="910.564" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="83.2832" result="effect1_foregroundBlur_14738_2317"/>
+</filter>
+<linearGradient id="paint0_linear_14738_2317" x1="290.8" y1="199.757" x2="387.404" y2="454.729" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F0FDFA"/>
+<stop offset="1" stop-color="#87FEE3"/>
+</linearGradient>
+<linearGradient id="paint1_linear_14738_2317" x1="316.905" y1="217.689" x2="456.784" y2="638.657" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EA58F8"/>
+<stop offset="0.35" stop-color="#B28DF2"/>
+<stop offset="1" stop-color="#A0F7FC"/>
+</linearGradient>
+<clipPath id="clip0_14738_2317">
+<rect width="534.395" height="529.346" fill="white" transform="translate(-23.498 -169.771)"/>
+</clipPath>
+<clipPath id="clip1_14738_2317">
+<rect width="582.366" height="576.865" fill="white" transform="translate(150.463 -161.477)"/>
+</clipPath>
+</defs>
+</svg>

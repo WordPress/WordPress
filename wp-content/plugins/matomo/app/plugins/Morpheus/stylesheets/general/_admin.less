@@ -1,0 +1,41 @@
+
+.ui-state-highlight {
+  border-color: @color-silver-l80 !important;
+  background: @color-silver-l95 !important;
+
+  .ui-icon {
+    background-image: url('plugins/Morpheus/images/info.png');
+    background-position: 0 0;
+  }
+}
+
+.sites_autocomplete {
+  vertical-align: middle;
+}
+
+.addRowSite,
+.addrow {
+  cursor: pointer;
+}
+
+.addrow:hover {
+  text-decoration: underline;
+}
+
+.addrow {
+  margin-top: 16px;
+}
+
+.addRowSite {
+  display: inline-block;
+  margin: 5px 0;
+  text-decoration: none !important;
+
+  &::before {
+    content: url(plugins/Morpheus/images/add.png) !important;
+  }
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}

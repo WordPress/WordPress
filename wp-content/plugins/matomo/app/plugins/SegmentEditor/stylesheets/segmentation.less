@@ -1,0 +1,577 @@
+/* ADDITIONAL STYLES */
+.youMustBeLoggedIn {
+    font-size: 8pt;
+    font-style: italic;
+
+}
+
+.searchFound {
+    border: 0 solid red;
+}
+
+.others {
+    border: 0 solid green;
+}
+
+.clear {
+    clear: both;
+}
+
+.segment-row-inputs {
+    margin-bottom: 5px;
+
+    @media screen and (max-width: 749px) {
+        width: 100%;
+        display: block;
+    }
+}
+
+.hovered {
+    border-radius: 4px;
+    border: 2px dashed #a0a0a0 !important;
+    padding: 0;
+}
+
+.metricListBlock {
+    border-radius: 4px;
+    width: 292px;
+    margin-right: 11px;
+    border: 2px dashed #EFEFEB;
+}
+
+.metricListBlock > select {
+    margin: 0 !important;
+    width: 98% !important;
+    margin-left: 2px !important;
+}
+
+.metricMatchBlock {
+    margin-right: 11px;
+}
+
+.metricValueBlock {
+    width: 60%;
+}
+
+div.scrollable {
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.no_results {
+    margin: 0;
+    position: relative;
+
+    a {
+        cursor: default;
+    }
+}
+
+.segment-element {
+    border: 1px solid #a9a399;
+    background-color: #f1f0eb;
+    padding: 6px 4px;
+    border-radius: 3px;
+    position: absolute;
+    left: -1px;
+    top: 37px;
+    z-index: 999;
+    width: 940px;
+
+    @media screen and (max-width: 940px) {
+        width: 95vw;
+        padding: 1em;
+    }
+}
+
+.segment-element .custom_select_search {
+    width: 146px;
+    background: url(plugins/SegmentEditor/images/bg-segment-search.png) 0 10px no-repeat;
+    padding: 10px 0 0 0;
+    margin: 0 0 10px 15px;
+    position: relative;
+    height: 32px;
+}
+
+.segment-element .custom_select_search input[type="text"] {
+    font-size: 11px !important;
+    color: #454545 !important;
+    width: 125px;
+    padding: 0 0 3px 7px !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+
+.segment-element .custom_select_search a {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    right: 5px;
+    top: 14px;
+    background: url(plugins/SegmentEditor/images/reset_search.png);
+}
+
+.segment-element .segment-content {
+    min-height: 300px;
+    padding: 0 0 20px 0;
+}
+
+.segment-element .segment-content h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #505050;
+    margin: 0 0 0 0;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.segment-element .segment-content h3 a {
+    font-size: 11px;
+    text-decoration: none;
+    margin: -1px 0 0 0;
+}
+
+.segment-element input.edit_segment_name[type=text]:not(.browser-default) {
+    width: 200px;
+}
+
+.segment-element .segment-top {
+    font-size: 11px;
+    color: #505050;
+    text-align: left;
+    padding: 3px 7px 0 0;
+
+    > * {
+        vertical-align: top;
+    }
+
+}
+
+.segment-element .segment-top .segment-hidden {
+    display: none;
+}
+
+.segment-element .segment-top .segment-top-item {
+    display: inline;
+    white-space: nowrap;
+
+    @media screen and (max-width: 749px) {
+        display: block;
+    }
+}
+
+.grid-1, .grid-2 {
+    width: 26%;
+}
+
+.grid-3 {
+    width: 46%;
+}
+
+.segment-element .segment-top a {
+    text-decoration: none;
+}
+
+.segment-element .segment-footer {
+    background: #eae8e3;
+    border-top: 1px solid @theme-color-background-tinyContrast;
+    text-align: right;
+    padding: 7px 10px;
+    margin: 0 -4px -6px -4px;
+}
+
+.segment-element .segment-footer a.delete {
+    color: @color-red-matomo !important;
+}
+
+.segment-element .segment-footer a {
+    font-size: 14px;
+    color: @theme-color-link !important;
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+.segment-element .segment-footer button {
+    margin: 0 0 0 15px;
+}
+
+.segmentEditorPanel {
+    display: inline-block;
+    position: relative;
+    background: #f7f7f7;
+    border: 1px solid #e4e5e4;
+    margin-right: 10px;
+    border-radius: 4px;
+
+    .segmentListContainer {
+        line-height: 14px;
+    }
+
+    #root &.editing {
+        background: #fff;
+    }
+}
+
+.top_controls .segmentEditorPanel {
+    position: absolute;
+}
+
+.segmentEditorPanel:hover {
+    background: #f1f0eb;
+    border-color: #a9a399;
+}
+
+.segmentationContainer > span > strong {
+    color: #255792;
+}
+
+.segmentationContainer .submenu {
+    font-size: 13px;
+    min-width: 206px;
+}
+
+.segmentationContainer .submenu ul {
+    color: @theme-color-text-light;
+    float: none;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 20px;
+    list-style: none outside none;
+    margin-right: 0;
+    padding-top: 10px;
+}
+
+
+.segmentationContainer .submenu ul li {
+    padding: 2px 0 2px 0;
+    margin: 3px 0 0 0;
+    cursor: pointer;
+}
+
+.segmentationContainer .submenu ul li:hover,
+.segmentationContainer .submenu ul li:focus,
+.segmentationContainer .submenu ul li:focus-within {
+    color: #255792;
+    background: @color-silver-l95;
+    outline: none;
+
+    > * {
+        outline: none;
+    }
+}
+
+.segmentationContainer ul.submenu {
+    padding-top: 5px;
+    display: none;
+    margin-bottom: 5px;
+}
+
+.segmentationContainer ul.submenu > li {
+    span.editSegment, span.compareSegment {
+        display: block;
+        float: right;
+        text-align: center;
+        margin-right: 4px;
+        font-weight: normal;
+        width: 16px;
+        height: 16px;
+        .opacity(0.5);
+
+        &:hover {
+            .opacity(1);
+        }
+    }
+
+    span.editSegment {
+        background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+        order: 3;
+    }
+
+    span.compareSegment {
+        background: url(plugins/Morpheus/images/compare.svg) no-repeat;
+        background-size: cover;
+        order: 2;
+
+        &.allVisitsCompareSegment {
+            margin-right: 24px;
+        }
+    }
+
+    li.segmentSelected, li.comparedSegment {
+        span.compareSegment {
+            pointer-events: none;
+            opacity: 0.2;
+        }
+    }
+}
+
+html.comparisonsDisabled .segmentationContainer ul.submenu {
+    span.compareSegment {
+        display: none;
+    }
+}
+
+.segmentEditorPanel.expanded .segmentationContainer {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    .dropdown-body {
+        min-width: 240px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .dropdown-body {
+            width: ~'calc(100% - 40px)';
+        }
+    }
+}
+
+.segmentEditorPanel.expanded ul.submenu {
+    display: inline-block;
+    list-style: none;
+    width: 100%;
+}
+
+.segmentFilterContainer {
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+}
+
+.segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
+    font-size: 11px;
+    width: 100%;
+    border: 1px solid #d0d0d0;
+    border-width: 1px;
+    color: #999;
+    padding: 7px 10px 7px 10px;
+}
+
+.segmentEditorPanel.expanded .segmentFilterContainer > span {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    right: 23px;
+    top: 24px;
+    cursor: pointer;
+}
+
+.segmentEditorPanel.expanded .segmentFilterContainer:hover > span {
+    background: url(plugins/SegmentEditor/images/reset_search.png);
+}
+
+.segmentEditorPanel.expanded .filterNoResults {
+    font-style: italic;
+}
+
+.segmentEditorPanel.expanded .add_new_segment {
+    width: 100%;
+    margin: 16px 0 8px 0;
+    height: auto;
+    min-height: 36px;
+}
+
+.segmentationContainer > ul.submenu > li {
+    padding: 5px 0;
+    clear: both;
+    cursor: pointer;
+}
+
+.segmentList {
+    max-height: 300px;
+    margin-top: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+
+    li {
+        display: flex;
+    }
+}
+
+.jspVerticalBar {
+    background: transparent !important;
+}
+
+/* ADDITIONAL STYLES */
+.segment-element .segment-nav div > ul > li ul {
+    margin-left: 0;
+}
+
+.segment-element .segment-nav div > ul > li li a,
+.segment-element .segment-nav div > ul > li li a:hover {
+    padding-right: 18px;
+}
+
+a.metric_category {
+    display: block;
+    width: 100%;
+}
+
+.segment-content > h3 {
+    padding-bottom: 7px;
+}
+
+.ui-widget-segmentation {
+    border: 1px solid #D4D4D4 !important;
+}
+
+.clearfix:after {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    content: ".";
+}
+
+.metricValueBlock input {
+    padding: 8px !important;
+}
+
+.segmentationSelectorContainer {
+    margin: 8px;
+}
+
+.segmentSelected,
+.segmentSelected:hover,
+.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected,
+.segmentEditorPanel .segmentationContainer .submenu li:focus,
+.segmentEditorPanel .segmentationContainer .submenu li:focus-within {
+    font-weight: bold;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    z-index: 1000 !important;
+}
+
+.ui-autocomplete.ui-menu.ui-widget {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    padding: 6px !important;
+}
+
+@media all and (max-width: 749px) {
+    span.segmentationTitle,
+    .segmentEditorPanel.expanded .segmentationContainer {
+        width: auto;
+    }
+
+    .grid-1, .grid-2, .grid-3 {
+        width: 100%;
+    }
+}
+
+.segment-definition-change-confirm .description {
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+    text-align: center;
+
+    > span {
+        display: inline-block;
+    }
+}
+
+.dropdown-body {
+    border-top-width: 0;
+    display: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.segmentEditorPanel.expanded .dropdown-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.segmentEditorPanel.expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.segment-element.anchorRight {
+    right: -1px;
+    left: auto;
+}
+
+.segmentationTitle,
+.segment-element .segment-nav a.dropdown,
+.segname {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.segment-element .segment-nav a.dropdown {
+    max-width: 180px;
+    padding: 0;
+    display: inline-block;
+    background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
+}
+
+.segname {
+    width: ~"calc(100% - 40px)";
+    padding-right: 10px;
+    display: inline-block;
+    order: 1;
+}
+
+@media screen and (min-width: 601px) {
+    .segname  {
+        max-width: 246px;
+    }
+}
+
+.segmentEditorPanel .segmentationTitle {
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 170px;
+}
+
+.segment-clicked {
+    font-weight: bold;
+}
+
+.segmentEditorPanel.expanded a.title {
+    padding-bottom: 10px;
+}
+
+.segment-element .segment-top a.dropdown {
+    padding: 0;
+    background: none !important;
+}
+
+.segment-element .segment-top a.dropdown:after {
+    content: " \25BC";
+    font-size: 0;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-top: 5px solid @theme-color-brand;
+    margin-left: 7px;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
+    font-style: italic;
+
+    li {
+        font-style: normal;
+    }
+}
+
+.enable_all_users, .visible_to_website, .auto_archive {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.auto_archive {
+    a.dropList {
+        display: inline-block;
+        width: calc(100% - 15px);
+    }
+}

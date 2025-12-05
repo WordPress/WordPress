@@ -1,0 +1,44 @@
+
+{% import 'ajaxMacros.twig' as ajax %}
+{{ ajax.errorDiv() }}
+
+<script type="text/javascript">
+    {% if userCanEditGoals %}
+        {% if onlyShowAddNewGoal is not defined %}
+            piwik.goals = {{ goalsJSON|raw }};
+        {% endif %}
+    {% else %}
+        piwik.goals = {{ goalsJSON|raw }};
+    {% endif %}
+
+</script>
+
+<div
+    vue-entry="Goals.ManageGoals"
+    user-can-edit-goals="{{ userCanEditGoals|json_encode }}"
+    only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode }}"
+    ecommerce-enabled="{{ ecommerceEnabled|json_encode }}"
+    {% if userCanEditGoals %}
+        {% if onlyShowAddNewGoal is not defined or not onlyShowAddNewGoal %}
+            goals="{{ goals|json_encode }}"
+            {% if idGoal %}
+                show-goal="{{ idGoal|e('js') }}"
+            {% endif %}
+        {% else %}
+            show-add-goal="true"
+        {% endif %}
+    {% else %}
+        goals="{{ goals|json_encode }}"
+    {% endif %}
+    {% if addNewGoalIntro is defined %}add-new-goal-intro="{{ addNewGoalIntro|json_encode }}"{% endif %}
+    goal-trigger-type-options="{{ goalTriggerTypeOptions|json_encode }}"
+    goal-match-attribute-options="{{ goalMatchAttributeOptions|json_encode }}"
+    event-type-options="{{ eventTypeOptions|json_encode }}"
+    pattern-type-options="{{ patternTypeOptions|json_encode }}"
+    numeric-comparison-type-options="{{ numericComparisonTypeOptions|json_encode }}"
+    allow-multiple-options="{{ allowMultipleOptions|json_encode }}"
+    before-goal-list-actions-body="{{ beforeGoalListActionsBodyEventResult|default(null)|json_encode }}"
+    end-edit-table="{{ endEditTable|default(null)|json_encode }}"
+    before-goal-list-actions-head="{{ beforeGoalListActionsHead|default(null)|json_encode }}"
+>
+</div>

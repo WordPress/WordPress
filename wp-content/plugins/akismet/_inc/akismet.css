@@ -1,0 +1,506 @@
+.wp-admin.jetpack_page_akismet-key-config, .wp-admin.settings_page_akismet-key-config {
+	background-color:#f3f6f8;
+}
+
+#submitted-on {
+    position: relative;
+}
+#the-comment-list .author .akismet-user-comment-count {
+    display: inline;
+}
+#the-comment-list .author a span {
+    text-decoration: none;
+    color: #999;
+}
+#the-comment-list .author a span.akismet-span-link {
+	text-decoration: inherit;
+	color: inherit;
+}
+#the-comment-list .akismet_remove_url {
+    margin-left: 3px;
+    color: #999;
+    padding: 2px 3px 2px 0;
+}
+#the-comment-list .akismet_remove_url:hover {
+    color: #A7301F;
+    font-weight: bold;
+    padding: 2px 2px 2px 0;
+}
+#dashboard_recent_comments .akismet-status {
+    display: none;
+}
+.akismet-status {
+    float: right;
+}
+.akismet-status a {
+    color: #AAA;
+    font-style: italic;
+}
+table.comments td.comment p a {
+    text-decoration: underline;
+}
+table.comments td.comment p a:after {
+    content: attr(href);
+    color: #aaa;
+    display: inline-block; /* Show the URL without the link's underline extending under it. */
+    padding: 0 1ex; /* Because it's inline block, we can't just use spaces in the content: attribute to separate it from the link text. */
+}
+.mshot-arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #5C5C5C;
+    position: absolute;
+    left: -6px;
+    top: 91px;
+}
+.mshot-container {
+    background: #5C5C5C;
+    position: absolute;
+    top: -94px;
+    padding: 7px;
+    width: 450px;
+    height: 338px;
+    z-index: 20000;
+    border-radius: 6px;
+}
+.akismet-mshot {
+    position: absolute;
+    z-index: 100;
+}
+.akismet-mshot .mshot-image {
+    margin: 0;
+    height: 338px;
+    width: 450px;
+}
+.checkforspam {
+    display: inline-block !important;
+}
+
+.checkforspam-spinner {
+    display: inline-block;
+    margin-top: 7px;
+}
+
+.akismet-right {
+	float: right;
+}
+
+.akismet-card .akismet-right {
+	margin: 1em 0;
+}
+
+.akismet-alert-text {
+	color: #dd3d36;
+	font-weight: bold;
+	font-size: 120%;
+	margin-top: .5rem;
+}
+
+.akismet-new-snapshot {
+	margin-top: 1em;
+	text-align: center;
+	background: #fff;
+}
+
+.akismet-new-snapshot h3 {
+    background: #f5f5f5;
+	color: #888;
+	font-size: 11px;
+    margin: 0;
+}
+
+.akismet-new-snapshot ul li {
+    color: #999;
+    font-size: 11px;
+    text-transform: uppercase;
+	box-sizing: border-box;
+}
+
+.akismet-new-snapshot__number {
+	display: block;
+	font-size: 32px;
+	font-weight: lighter;
+	line-height: 1.5em;
+}
+
+.akismet-settings th:first-child {
+	vertical-align: top;
+	padding-top: 15px;
+}
+
+.akismet-settings th.akismet-api-key {
+	vertical-align: middle;
+	padding-top: 0;
+}
+
+.akismet-settings span.akismet-note {
+	float: left;
+	padding-left: 23px;
+	font-size: 75%;
+	margin-top: -10px;
+}
+
+.jetpack_page_akismet-key-config #wpcontent, .settings_page_akismet-key-config #wpcontent {
+	padding-left: 0;
+}
+
+.akismet-masthead {
+	background-color:#fff;
+	text-align:center;
+	box-shadow:0 1px 0 rgba(200,215,225,0.5),0 1px 2px #e9eff3
+}
+
+@media (max-width: 45rem) {
+	.akismet-masthead {
+		padding:0 1.25rem
+	}
+}
+
+.akismet-masthead__inside-container {
+	padding:.375rem 0;
+	margin:0 auto;
+	width:100%;
+	max-width:45rem;
+	text-align: left;
+}
+.akismet-masthead__logo-container {
+	padding:.3125rem 0 0
+}
+.akismet-masthead__logo-link {
+	display:inline-block;
+	outline:none;
+	vertical-align:middle
+}
+.akismet-masthead__logo-link:focus {
+	line-height:0;
+	box-shadow:0 0 0 2px #78dcfa
+}
+.akismet-masthead__logo-link+code {
+	margin:0 10px;
+	padding:5px 9px;
+	border-radius:2px;
+	background:#e6ecf1;
+	color:#647a88
+}
+.akismet-masthead__links {
+	display:flex;
+	flex-flow:row wrap;
+	flex:2 50%;
+	justify-content:flex-end;
+	margin:0
+}
+@media (max-width: 480px) {
+	.akismet-masthead__links {
+		padding-right:.625rem
+	}
+}
+.akismet-masthead__link-li {
+	margin:0;
+	padding:0
+}
+.akismet-masthead__link {
+	font-style:normal;
+	color:#0087be;
+	padding:.625rem;
+	display:inline-block
+}
+.akismet-masthead__link:visited {
+	color:#0087be
+}
+.akismet-masthead__link:active,.akismet-masthead__link:hover {
+	color:#00aadc
+}
+.akismet-masthead__link:hover {
+	text-decoration:underline
+}
+.akismet-masthead__link .dashicons {
+	display:none
+}
+@media (max-width: 480px) {
+	.akismet-masthead__link:hover,.akismet-masthead__link:active {
+		text-decoration:none
+	}
+	.akismet-masthead__link .dashicons {
+		display:block;
+		font-size:1.75rem
+	}
+	.akismet-masthead__link span+span {
+		display:none
+	}
+}
+.akismet-masthead__link-li:last-of-type .akismet-masthead__link {
+	padding-right:0
+}
+
+.akismet-lower {
+	margin: 0 auto;
+	text-align: left;
+	max-width: 45rem;
+	padding: 1.5rem;
+}
+
+.akismet-lower .notice {
+	margin-bottom: 2rem;
+}
+
+.akismet-card {
+	margin-top: 1rem;
+	margin-bottom: 0;
+	position: relative;
+	box-sizing: border-box;
+	background: white;
+}
+
+.akismet-card:after, .akismet-card .inside:after, .akismet-masthead__logo-container:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.akismet-card .inside {
+	padding: 1.5rem;
+	padding-top: 1rem;
+}
+
+.akismet-card .akismet-card-actions {
+	margin-top: 1rem;
+}
+
+.jetpack_page_akismet-key-config .update-nag, .settings_page_akismet-key-config .update-nag {
+    display: none;
+}
+
+.akismet-masthead .akismet-right {
+	line-height: 2.125rem;
+	font-size: 0.9rem;
+}
+
+.akismet-box {
+	box-sizing: border-box;
+	background: white;
+	border: 1px solid rgba(200, 215, 225, 0.5);
+}
+
+.akismet-box h2, .akismet-box h3 {
+	padding: 1.5rem 1.5rem .5rem 1.5rem;
+	margin: 0;
+}
+
+.akismet-box p {
+	padding: 0 1.5rem 1.5rem 1.5rem;
+	margin: 0;
+}
+
+.akismet-jetpack-email {
+	font-style: oblique;
+}
+
+.akismet-jetpack-gravatar {
+	padding: 0 0 0 1.5rem;
+	float: left;
+	margin-right: 1rem;
+	width: 54px;
+	height: 54px;
+}
+
+.akismet-box p:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.akismet-box .akismet-right {
+	padding-right: 1.5rem;
+}
+
+.akismet-boxes .akismet-box {
+	margin-bottom: 0;
+	padding: 0;
+	margin-top: -1px;
+}
+
+.akismet-boxes .akismet-box:last-child {
+	margin-bottom: 1.5rem;
+}
+
+.akismet-boxes .akismet-box:first-child {
+	margin-top: 1.5rem;
+}
+
+.akismet-box-header {
+	max-width: 700px;
+	margin: 0 auto 40px auto;
+	line-height: 1.5;
+}
+
+.akismet-box-header h2 {
+	margin: 1.5rem 10% 0;
+	font-size: 1.375rem;
+	font-weight: 700;
+	color: #000;
+}
+
+.akismet-box .centered {
+	text-align: center;
+}
+
+.akismet-box .akismet-toggles {
+	margin: 3rem 0;
+}
+
+.akismet-box .akismet-ak-connect, .akismet-box .toggle-jp-connect {
+	display: none;
+}
+
+.akismet-button, .akismet-button:hover, .akismet-button:visited {
+	background: white;
+	border-color: #c8d7e1;
+	border-style: solid;
+	border-width: 1px 1px 2px;
+	color: #2e4453;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0;
+	outline: 0;
+	overflow: hidden;
+	font-size: 14px;
+	font-weight: 500;
+	text-overflow: ellipsis;
+	text-decoration: none;
+	vertical-align: top;
+	box-sizing: border-box;
+	line-height: 21px;
+	border-radius: 4px;
+	padding: 7px 14px 9px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.akismet-button:hover {
+	border-color: #a8bece;
+}
+
+.akismet-button:active {
+	border-width: 2px 1px 1px;
+}
+
+.akismet-is-primary, .akismet-is-primary:hover, .akismet-is-primary:visited {
+	background: #00aadc;
+	border-color: #0087be;
+	color: white;
+}
+
+.akismet-is-primary:hover, .akismet-is-primary:focus {
+    border-color: #005082;
+}
+
+.akismet-is-primary:hover {
+	border-color: #005082;
+}
+
+.akismet-section-header {
+	position: relative;
+	margin: 0 auto 0.625rem auto;
+	padding: 1rem;
+	box-sizing: border-box;
+	box-shadow: 0 0 0 1px rgba(200, 215, 225, 0.5), 0 1px 2px #e9eff3;
+	background: #ffffff;
+	width: 100%;
+	padding-top: 0.6875rem;
+	padding-bottom: 0.6875rem;
+	display: flex;
+}
+
+.akismet-section-header__label {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	line-height: 1.75rem;
+	position: relative;
+	font-size: 0.875rem;
+	color: #4f748e;
+}
+
+.akismet-section-header__actions {
+	line-height: 1.75rem;
+}
+
+.akismet-setup-instructions {
+	text-align: center;
+}
+
+.akismet-setup-instructions form {
+	padding-bottom: 1.5rem;
+}
+
+div.error.akismet-usage-limit-alert {
+	padding: 25px 45px 25px 15px;
+	display: flex;
+	align-items: center;
+}
+
+#akismet-plugin-container .akismet-usage-limit-alert {
+	margin: 0 auto 0.625rem auto;
+	box-sizing: border-box;
+	box-shadow: 0 0 0 1px rgba(200, 215, 225, 0.5), 0 1px 2px #e9eff3;
+	border: none;
+	border-left: 4px solid #d63638;
+}
+
+.akismet-usage-limit-alert .akismet-usage-limit-logo {
+	width: 38px;
+	min-width: 38px;
+	height: 38px;
+	border-radius: 20px;
+	margin-right: 18px;
+	background: black;
+	position: relative;
+}
+
+.akismet-usage-limit-alert .akismet-usage-limit-logo img {
+	position: absolute;
+	width: 22px;
+	left: 8px;
+	top: 10px;
+}
+
+.akismet-usage-limit-alert .akismet-usage-limit-text {
+	flex-grow: 1;
+	margin-right: 18px;
+}
+
+.akismet-usage-limit-alert h3 {
+	margin: 0;
+}
+
+.akismet-usage-limit-alert .akismet-usage-limit-cta {
+	border-color: none;
+	text-align: right;
+}
+
+#akismet-plugin-container .akismet-usage-limit-cta a {
+	color: #d63638;
+	background: #fafafa;
+}
+
+@media (max-width: 550px) {
+	div.error.akismet-usage-limit-alert {
+		display: block;
+	}
+
+	.akismet-usage-limit-alert .akismet-usage-limit-logo,
+	.akismet-usage-limit-alert .akismet-usage-limit-text {
+		margin-bottom: 15px;
+	}
+
+	.akismet-usage-limit-alert .akismet-usage-limit-cta {
+		text-align: left;
+	}
+}

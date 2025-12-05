@@ -1,0 +1,5 @@
+{
+  "phabricator.uri": "https://secure.phabricator.com/",
+  "load": ["support/libxhprof"],
+  "unit.engine": "XHProfExtensionUnitTestEngine"
+}

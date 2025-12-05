@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#donate-form-container .piwik-donate-call #piwik-worth,
+#donate-form-container .piwik-donate-call li,
+#donate-form-container .piwik-donate-call ul {
+    display: inline;font-size:14px;
+}
+.topBarElem {
+    font-family: arial, sans-serif !important;
+    font-size: 13px;
+    line-height: 1.33;
+}
+
+.piwik-donate-call {
+    border: none;
+    padding: 0;
+    max-width: none;
+}
+.piwik-donate-call > .piwik-donate-message p {
+    margin-left: 0;
+}
+
+li {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+#oneclickupdate .btn {
+    clear:none;
+    float:left;
+}
+form#oneclickupdate {
+    min-height: 50px;
+}
+
+
+body#simple .languageSelection {
+    color: #4183C4;
+    padding-top: 8px;
+}
+
+p strong {
+    font-weight: 700 !important;
+}
+strong {
+    font-weight: 700 !important;
+}
+
+#logo {
+    display: block;
+}
+
+#logo img {
+    height: 40px;
+}
+
+#more-results {
+    text-decoration: underline;
+    color: #1976d2;
+    cursor: pointer;
+}
+
+.ui-button {
+    background-color: #43a047 !important;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding-left: 0.5em;
+}

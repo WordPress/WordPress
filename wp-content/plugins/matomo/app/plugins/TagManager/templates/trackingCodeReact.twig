@@ -1,0 +1,24 @@
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
+{% if wasDetected %}
+<div class="system notification notification-info">
+    {{ 'SitesManager_ReactDetected'|translate(
+        externallink('https://matomo.org/guide/tag-manager/'),
+        '</a>',
+        externallink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/'),
+        '</a>'
+    )|raw }}
+</div>
+{% endif %}
+
+<p>{{'TagManager_SiteWithoutDataReactIntro'|translate}}</p>
+<br>
+<p>{{'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate}}</p>
+<div
+        vue-entry="TagManager.TrackingSPAPage"
+        show-container-row="{{ showContainerRow|json_encode }}"
+        js-framework="react"
+>
+</div>
+<br>
+<p>{{ 'TagManager_SiteWithoutDataReactFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>

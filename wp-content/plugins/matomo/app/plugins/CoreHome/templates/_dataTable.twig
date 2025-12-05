@@ -1,0 +1,115 @@
+{% if properties.show_visualization_only %}
+    {% include visualizationTemplate %}
+{%- else -%}
+
+{% set isDataTableEmpty = (dataTable is not defined or dataTable is null or dataTableHasNoData|default(false)) %}
+
+{% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
+{% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
+
+{#
+using the show_footer to control the header actions as well since this is going to be refactored with the goal
+of moving the table actions to the top of the report for all reports, at which point the config for the report
+can be renamed to show_header and show_header_icons
+#}
+{% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
+
+{% if showCardAsContentBlock  %}
+<div class="card">
+<div class="card-content">
+    {% if properties.title %}
+        <h2 class="card-title"
+            {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
+            report-generated="{% if reportLastUpdatedMessage is defined %}{{ reportLastUpdatedMessage|raw }}{% endif %}"
+              vue-entry="CoreHome.EnrichedHeadline"
+        >{{ properties.title }}</h2>
+    {% endif %}
+{% elseif showOnlyTitleWithoutCard %}
+    <div>
+    <h2>{{ properties.title }}</h2>
+{% endif %}
+
+{% set showCardTableIsEmpty = not properties.show_as_content_block and isDataTableEmpty and not isWidget %}
+{% if showCardTableIsEmpty %}
+    <div class="card">
+    <div class="card-content">
+{% endif %}
+
+{% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
+{% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
+<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }}{% if isSubtable %} subDataTable{% endif %}{% if isComparing|default(false) %} isComparing{% endif %}{% if isDataTableEmpty %} isDataTableEmpty{% endif %}"
+     data-table-type="{{ properties.datatable_js_type }}"
+     data-report="{{ properties.report_id }}"
+     data-report-metadata="{{ reportMetdadata|json_encode|e('html_attr') }}"
+     data-props="{% if clientSideProperties is empty %}{}{% else %}{{ clientSideProperties|json_encode }}{% endif %}"
+     data-params="{% if clientSideParameters is empty %}{}{% else %}{{ clientSideParameters|json_encode }}{% endif %}">
+
+    {% if properties.description %}
+        <div class="card-description">{{ properties.description }}</div>
+    {% endif %}
+
+    <div class="reportDocumentation" data-content="{{ properties.documentation|default|e('html_attr') }}">
+        {% if properties.onlineGuideUrl|default is not empty %}<a href="{{ properties.onlineGuideUrl|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener" class="onlineGuide">{{ 'CoreHome_ReadMoreOnlineGuide'|translate }}</a>{% endif %}
+        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class="helpDate">{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
+    </div>
+
+    <div class="dataTableWrapper">
+        {% if error is defined %}
+            <div vue-entry="CoreHome.Alert" severity="danger">{{ error.message }}</div>
+        {% else %}
+            {% if showTableActionsInHeader %}
+                <div class="row dataTableHeaderControls">
+                    <div class="col dataTableControls s12">
+                        {% include "@CoreHome/_dataTableActions.twig" with { placement: 'top' } %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
+                <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>
+            {% endif %}
+
+            {% if isDataTableEmpty %}
+                <div class="pk-emptyDataTable">
+                {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
+                    {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
+                {% elseif showPluginArchiveDisabled is defined and showPluginArchiveDisabled%}
+                    {{ 'CoreHome_DataForThisReportHasBeenDisabled'|translate(externallink('https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins'), '</a>')|raw }}
+                {% elseif properties.no_data_message %}
+                    {{ properties.no_data_message|raw }}
+                {% else %}
+                    {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}
+                {% endif %}
+                </div>
+            {% else %}
+                {% include visualizationTemplate %}
+            {% endif %}
+
+            {% if properties.show_footer %}
+                {% include "@CoreHome/_dataTableFooter.twig" %}
+            {% endif %}
+
+            {% include "@CoreHome/_dataTableJS.twig" with { reportId: properties.report_id } %}
+        {% endif %}
+    </div>
+</div>
+
+{% if notifications is not empty and notifications|length %}
+    {% for notificationId, n in notifications %}
+
+        {{ n.message|notification({'id': notificationId, 'type': n.type, 'title': n.title, 'noclear': n.hasNoClear, 'context': n.context, 'raw': n.raw}, false) }}
+
+    {% endfor %}
+{% endif %}
+
+{% if showCardTableIsEmpty %}
+    </div></div>
+{% endif %}
+
+{% if showCardAsContentBlock %}
+    </div></div>
+{% elseif showOnlyTitleWithoutCard %}
+    </div>
+{% endif %}
+
+{%- endif %}

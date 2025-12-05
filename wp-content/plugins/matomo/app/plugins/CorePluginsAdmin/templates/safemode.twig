@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex,nofollow">
+        <meta name="google" content="notranslate">
+        <style type="text/css">
+            html, body {
+                background-color: white;
+            }
+            td {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+            table {
+                border-collapse: collapse;
+                border: 0px;
+            }
+            a {
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <title>A fatal error occurred</title>
+    </head>
+    <body>
+
+        <h1>A fatal error occurred</h1>
+
+        <div style="width: 640px">
+
+        {% if isAllowedToTroubleshootAsSuperUser or not isAnonymousUser %}
+            <p>
+                The following error just broke Matomo{% if showVersion %} (v{{ piwikVersion }}){% endif %}:
+            </p>
+            <pre>{{ lastError.message }}
+{% if lastError.backtrace is defined %}{{ lastError.backtrace }}{% else %}in {{ lastError.file }} line {{ lastError.line }}{% endif %}
+            </pre>
+
+            <hr>
+            <h3>Troubleshooting</h3>
+
+            Follow these steps to solve the issue or report it to the team:
+            <ul>
+                <li>
+                    If you have just updated Matomo to the latest version, please try to restart your web server.
+                    This will clear the PHP opcache which may solve the problem.
+                </li>
+                <li>
+                    If this is the first time you see this error, please try refresh the page.
+                </li>
+                <li>
+                    <strong>If this error continues to happen</strong>, we appreciate if you send the
+                    <a href="mailto:hello@matomo.org?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                    to the Matomo team.
+                </li>
+            </ul>
+            <hr/>
+
+        {% endif %}
+
+        {% if isAllowedToTroubleshootAsSuperUser or isSuperUser %}
+
+            <h3>Further troubleshooting</h3>
+            <p>
+                If this error continues to happen, you may be able to fix this issue by disabling one or more of
+                the Third-Party plugins. If you don't know which plugin is causing this error, we recommend to first disable any plugin not created by "Matomo" and not created by "InnoCraft".
+                You can enable plugin again afterwards in the
+                <a rel="noreferrer noopener" target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a>
+                or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
+                settings at any time.
+
+                {% if pluginCausesIssue %}
+                    Based on the error message, the issue is probably caused by the plugin <strong>{{ pluginCausesIssue }}</strong>.
+                {% endif %}
+            </p>
+            <table>
+                {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and plugin.activated) %}
+                    <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                        <td style="min-width:200px;">
+                            {{ pluginName }}
+                        </td>
+                        <td>
+                            {{ plugin.info.version|default('') }}
+                        </td>
+                        <td>
+                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
+                               target="_blank">deactivate</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            {% set uninstalledPluginsFound = false %}
+            {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
+                {% set uninstalledPluginsFound = true %}
+            {% endfor %}
+
+            {% if uninstalledPluginsFound %}
+
+                <p>
+                    If this error still occurs after disabling all plugins, you might want to consider uninstalling some
+                    plugins. Keep in mind: The plugin will be completely removed from your platform.
+                </p>
+
+                <table>
+                    {% for pluginName, plugin in plugins|filter(plugin => plugin.uninstallable and not plugin.activated) %}
+                        <tr {% if loop.index is divisible by(2) %}style="background-color: #eeeeee"{% endif %}>
+                            <td style="min-width:200px;">
+                                {{ pluginName }}
+                            </td>
+                            <td>
+                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                                   target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+
+        {% elseif isAnonymousUser %}
+
+            <p>Please contact the system administrator, or <a href="?module={{ loginModule }}">login to Matomo</a> to learn more.</p>
+
+        {% else %}
+            <p>
+                If this error continues to happen you may want to send an
+                <a href="mailto:{{ contactEmail|e('url') }}?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                to your system administrator.
+            </p>
+        {% endif %}
+
+
+        {% if not isAllowedToTroubleshootAsSuperUser and not isSuperUser %}
+            <p>If you are Super User, but cannot login because of this error, you can still troubleshoot further. Follow these steps:
+                <br/>1) open the config/config.ini.php file and look for the <code>salt</code> value under <code>[General]</code>.
+                <br/>2) edit this current URL you are viewing and add the following text (replacing <code>salt_value_from_config</code> by the <code>salt</code> value from the config file):
+                <br/><br/><code>index.php?i_am_super_user=salt_value_from_config&....</code>
+            </p>
+        {% endif %}
+
+
+        </div>
+
+    </body>
+</html>

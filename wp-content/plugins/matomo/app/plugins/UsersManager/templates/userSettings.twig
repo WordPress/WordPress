@@ -1,0 +1,26 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'UsersManager_PersonalSettings'|translate }}{% endset %}
+
+{% block content %}
+<div
+    vue-entry="UsersManager.UserSettings"
+    is-users-admin-enabled="{{ isUsersAdminEnabled|json_encode }}"
+    user-login="{{ userLogin|json_encode }}"
+    user-email="{{ userEmail|json_encode }}"
+    current-language-code="{{ currentLanguageCode|json_encode }}"
+    language-options="{{ languageOptions|json_encode }}"
+    current-timeformat="{{ currentTimeformat|json_encode }}"
+    time-formats="{{ timeFormats|json_encode }}"
+    default-report="{{ defaultReport|json_encode }}"
+    default-report-options="{{ defaultReportOptions|json_encode }}"
+    default-report-id-site="{{ defaultReportIdSite|json_encode }}"
+    default-report-site-name="{{ defaultReportSiteName|json_encode }}"
+    default-date="{{ defaultDate|json_encode }}"
+    available-default-dates="{{ availableDefaultDates|json_encode }}"
+    show-newsletter-signup="{{ showNewsletterSignup|default(null)|json_encode }}"
+    ignore-cookie-set="{{ ignoreCookieSet|default(null)|json_encode }}"
+    set-ignore-cookie-nonce="{{ setIgnoreCookieNonce|default(null)|json_encode }}"
+    piwik-host="{{ piwikHost|json_encode }}"
+></div>
+{% endblock %}

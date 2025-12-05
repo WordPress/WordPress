@@ -1,0 +1,18 @@
+.wpcf7 .wpcf7-stripe .wpcf7-form-control-wrap {
+	margin: .6em 0;
+}
+
+.wpcf7 .wpcf7-stripe .wpcf7-form-control {
+	display: block;
+	background: #f6f7f7;
+	padding: 12px 12px;
+	border: 1px solid #787c82;
+}
+
+.wpcf7 .wpcf7-stripe button:disabled {
+	cursor: not-allowed;
+}
+
+.wpcf7 .wpcf7-stripe .hidden {
+	display: none;
+}

@@ -1,0 +1,5 @@
+# Serve HTML files as text/html mime type - Note: requires mod_mime apache module!
+<IfModule mod_mime.c>
+   AddHandler text/html .html
+   AddHandler text/html .htm
+</IfModule>

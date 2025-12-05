@@ -1,0 +1,22 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'UserCountry_Geolocation'|translate }}{% endset %}
+
+{% block content %}
+{% import 'macros.twig' as piwik %}
+
+<div
+    vue-entry="UserCountry.AdminPage"
+    current-provider-id="{{ currentProviderId|json_encode }}"
+    is-there-working-provider="{{ isThereWorkingProvider|default(null)|json_encode }}"
+    set-up-guides="{{ setUpGuides|default(null)|json_encode }}"
+    this-ip="{{ thisIP|default(null)|json_encode }}"
+    location-providers="{{ locationProviders|default(null)|json_encode }}"
+    default-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DefaultProvider::ID")|default(null)|json_encode }}"
+    disabled-provider-id="{{ constant("Piwik\\Plugins\\UserCountry\\LocationProvider\\DisabledProvider::ID")|default(null)|json_encode }}"
+></div>
+
+{{ configurations|raw }}
+
+{% endblock %}
+

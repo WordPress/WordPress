@@ -1,0 +1,138 @@
+/* reset style */
+html,
+ body,
+ div,
+ span,
+ applet,
+ object,
+ iframe,
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6,
+ p,
+ blockquote,
+ pre,
+ a,
+ abbr,
+ acronym,
+ address,
+ big,
+ cite,
+ code,
+ del,
+ dfn,
+ em,
+ font,
+ img,
+ ins,
+ kbd,
+ q,
+ s,
+ samp,
+ small,
+ strike,
+ strong,
+ sub,
+ sup,
+ tt,
+ var,
+ b,
+ u,
+ i,
+ center,
+ dl,
+ dt,
+ dd,
+ ol,
+ ul,
+ li,
+ fieldset,
+ form,
+ label,
+ legend,
+ table,
+ caption,
+ tbody,
+ tfoot,
+ thead,
+ tr,
+ th,
+ td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+abbr {
+  border-bottom: 1px dotted;
+  text-decoration: none;
+}
+
+form {
+  margin: 0;
+}
+
+body {
+  line-height: 1.33;
+  background-color: white;
+  color: #333;
+  font-family: @theme-fontFamily-base;
+  font-size: 1em;
+}
+
+ol,
+ ul {
+  list-style: none;
+}
+
+blockquote,
+ q {
+  quotes: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+  outline: thin dotted;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+  text-decoration: none;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+#root {
+  margin: 0 10px;
+  position: relative;
+}
+
+a {
+ color: @theme-color-link;
+ text-decoration: underline;
+ cursor: pointer;
+
+ &>[class^="icon-"], &>[class*=" icon-"] {
+  // avoids underlining icons in links
+  display: inline-block;
+ }
+}
+
+
+/* Make sure the scroll bar is always displayed so the content does not shift when reloading menu with/without scrollbar */
+html {
+  overflow-y: scroll;
+}

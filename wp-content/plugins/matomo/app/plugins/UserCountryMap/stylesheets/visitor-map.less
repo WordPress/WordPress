@@ -1,0 +1,259 @@
+.UserCountryMap-black {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 900;
+    width: 1000px;
+    height: 1000px;
+    background: #D5D3C8;
+}
+
+.UserCountryMap {
+    .unlocatableCount {
+        font-size: 11px;
+        color: @color-silver-l60;
+    }
+
+    .loadingPiwik {
+        height: 30px;
+        right: 10px !important;
+        left: 10px !important;
+        z-index: 100 !important;
+        display: block;
+        font-size: 12px;
+        color: #000;
+        vertical-align: middle !important;
+        text-align: center;
+        text-shadow: 0 0 5px #fff;
+    }
+
+    .mapWidgetStatus {
+        .pk-emptyDataTable {
+            padding-bottom: 35px;
+        }
+        h2 {
+            padding-top: 0;
+        }
+    }
+
+    .dataTableFeatures {
+        padding-top: 25px;
+        overflow: auto;
+    }
+}
+.tableIcon.inactiveIcon {
+    color: #99a;
+}
+
+.UserCountryMap .UserCountryMap-legend {
+    opacity: 0;
+}
+
+.UserCountryMap:hover .UserCountryMap-legend {
+    opacity: 1;
+}
+
+.UserCountryMap-overlay,
+.UserCountryMap-tooltip {
+    display: block;
+    position: absolute;
+    z-index: 40;
+}
+
+.UserCountryMap-overlay .content,
+.UserCountryMap-tooltip .content {
+    padding: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.UserCountryMap-tooltip .content.unlocated-stats {
+    padding: 0;
+}
+
+.UserCountryMap-title {
+    top: 5px;
+    left: 5px;
+}
+
+.UserCountryMap-legend {
+    right: 5px;
+    font-size: 9px;
+    bottom: 24px;
+}
+
+.UserCountryMap-info {
+    left: 40px;
+    font-size: 11px;
+    bottom: 62px;
+    max-width: 42%;
+}
+
+.UserCountryMap-info-btn {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAAOVBMVEX///8AAAAAAABXV1dSUlKsrKzExMTd3d3V1dXp6end3d3p6enz8/P7+/v39/f///+vqZ6oopWUjH2LPulWAAAAE3RSTlMAESIzM2Z3mZmqqrvd7u7/////UUgTXgAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAYdEVYdENyZWF0aW9uIFRpbWUAMDMuMDEuMjAxM8rVeD8AAABnSURBVBiVhY/LFoAgCEQZ0p4W6f9/bIJ4slV3oTIeBoaICGADIAO8ibEwWn2IcwVovev7znqmCYRon9kEWUFvg3IysXyIXSil3fOvELupC9XUx7pQx/piDV1sVFLwMNF80sw97hj/AXRPCjtYdmhtAAAAAElFTkSuQmCC);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    left: 20px;
+    bottom: 62px;
+    position: absolute;
+    z-index: 700;
+    opacity: 0.9;
+    display: none;
+}
+
+.UserCountryMap .dataTableFooterWrap {
+    margin-left: 0;
+}
+
+/* this should me moved to TableView css sometimes */
+.dataTableFooterIcons .inactiveIcon:hover {
+    background-color: #F2F1ED;
+}
+
+.dataTableFooterIcons .inactiveIcon {
+    cursor: default;
+}
+
+.dataTableFooterIcons .inactiveIcon img {
+    opacity: 0.3;
+    -moz-opacity: 0.3;
+    filter: alpha(opacity=3);
+}
+
+
+.widgetUserCountryMapvisitorMap .widgetTop .button {
+    z-index: 3;
+    position: relative;
+}
+
+.widgetUserCountryMapvisitorMap .widgetName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.widgetUserCountryMapvisitorMap.widgetHover .widgetName {
+    width: 75%;
+    overflow: hidden;
+}
+
+// visitor map colors
+.visitor-map[data-name=no-data-color] {
+    color: #E4E2D7;
+}
+
+.visitor-map[data-name=one-country-color] {
+    color: #CDDAEF;
+}
+
+.visitor-map[data-name=color-range-start-choropleth] {
+    color: #CDDAEF;
+}
+
+.visitor-map[data-name=color-range-start-normal] {
+    color: #385993;
+}
+
+.visitor-map[data-name=color-range-end-choropleth] {
+    color: #385993;
+}
+
+.visitor-map[data-name=color-range-end-normal] {
+    color: #385993;
+}
+
+.visitor-map[data-name=country-highlight-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=country-selected-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=unknown-region-fill-color] {
+    color: @theme-color-background-base;
+}
+
+.visitor-map[data-name=unknown-region-stroke-color] {
+    color: #bbb;
+}
+
+.visitor-map[data-name=region-stroke-color] {
+    color: #3C6FB6;
+}
+
+.visitor-map[data-name=region-selected-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=region-highlight-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=invisible-region-background] {
+    color: @theme-color-background-base;
+}
+
+.visitor-map[data-name=city-label-color] {
+    color: @theme-color-background-base;
+}
+
+.visitor-map[data-name=city-stroke-color] {
+    color: @theme-color-background-base;
+}
+
+.visitor-map[data-name=city-highlight-stroke-color] {
+    color: #000000;
+}
+
+.visitor-map[data-name=city-highlight-fill-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=city-highlight-label-color] {
+    color: #000;
+}
+
+.visitor-map[data-name=city-label-fill-color] {
+    color: @theme-color-background-base;
+}
+
+.visitor-map[data-name=city-selected-color] {
+    color: #f4f45b;
+}
+
+.visitor-map[data-name=city-selected-label-color] {
+    color: #000;
+}
+
+.visitor-map[data-name=region-layer-stroke-color] {
+    color: #aaa;
+}
+
+.visitor-map[data-name=special-metrics-color-scale-1] {
+    color: #385993;
+}
+
+.visitor-map[data-name=special-metrics-color-scale-2] {
+    color: #385993;
+}
+
+.visitor-map[data-name=special-metrics-color-scale-3] {
+    color: #E87500;
+}
+
+.visitor-map[data-name=special-metrics-color-scale-4] {
+    color: #E87500;
+}
+
+.userCountryMapSelectCountry, .userCountryMapSelectMetrics {
+    float: right;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    max-width: 10em;
+    font-size: 10px;
+}
+
+.ui-tooltip.qtip {
+    min-width: 100px;
+}

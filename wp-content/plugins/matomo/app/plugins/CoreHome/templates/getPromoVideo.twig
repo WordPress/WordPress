@@ -1,0 +1,34 @@
+<div id="piwik-promo">
+    <a id="piwik-promo-videos-link" href="{{ promoVideoUrl|e('html_attr') }}" rel="noreferrer noopener" target="_blank">
+        <div id="piwik-promo-video">
+            <div id="piwik-promo-thumbnail">
+                <img src="plugins/CoreHome/images/promo_video_splash.jpg"/>
+            </div>
+        </div>
+
+        <span>{{ 'CoreHome_ViewAllPiwikVideoTutorials'|translate }}</span>
+    </a>
+
+    <div id="piwik-promo-share">
+        <span>{{ 'CoreHome_ShareThis'|translate }}:</span>
+
+        {# facebook #}
+        <a href="https://www.facebook.com/sharer.php?u={{ promoVideoUrl|url_encode }}" rel="noreferrer noopener" target="_blank">
+            <img src="plugins/Morpheus/icons/dist/socials/facebook.com.png" width="16px" height="16px" />
+        </a>
+
+        {# twitter #}
+        <a href="https://twitter.com/share?text={{ shareText|url_encode }}&url={{ promoVideoUrl|url_encode }}" rel="noreferrer noopener" target="_blank">
+            <img src="plugins/Morpheus/icons/dist/socials/twitter.com.png" width="16px" height="16px" />
+        </a>
+
+        {# email #}
+        <a href="mailto:?body={{ shareTextLong|url_encode(true) }}&subject={{ shareText|url_encode(true) }}" target="_blank">
+            <img src="plugins/Morpheus/images/email.png" />
+        </a>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div id="piwik-widget-footer" style="color:#666;">{{ 'CoreHome_CloseWidgetDirections'|translate }}</div>
+</div>

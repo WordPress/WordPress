@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "22.8",
+  "name": "yoast-seo/breadcrumbs",
+  "title": "Yoast Breadcrumbs",
+  "description": "Adds the Yoast SEO breadcrumbs to your template or content.",
+  "category": "yoast-internal-linking-blocks",
+  "icon": "admin-links",
+  "keywords": [
+    "SEO",
+    "breadcrumbs",
+    "internal linking",
+    "site structure"
+  ],
+  "textdomain": "wordpress-seo",
+  "attributes": {
+    "className": {
+      "type": "string"
+    }
+  },
+  "example": {
+    "attributes": {}
+  }
+}

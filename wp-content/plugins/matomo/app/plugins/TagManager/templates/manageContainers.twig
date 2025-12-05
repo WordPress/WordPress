@@ -1,0 +1,27 @@
+{% extends '@TagManager/tagmanager.twig' %}
+
+{% set title = 'TagManager_ManageX'|translate('TagManager_Containers'|translate) %}
+
+{% block topcontrols %}
+
+    <div class="top_bar_sites_selector piwikTopControl">
+        <div
+            vue-entry="CoreHome.SiteSelector"
+            show-selected-site="true"
+            show-all-sites-item="false"
+            class="sites_autocomplete"
+        ></div>
+    </div>
+
+    <div class="piwikTopControl">
+        <div
+            vue-entry="TagManager.ContainerSelector"
+            {% if container is defined and container is not empty %}container-name="{{ container.name|json_encode }}"{% endif %}
+        ></div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div vue-entry="TagManager.ContainerManage" is-super-user="{{ isSuperUser|default(false)|json_encode }}"></div>
+{% endblock %}

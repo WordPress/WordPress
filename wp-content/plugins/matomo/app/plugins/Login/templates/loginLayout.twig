@@ -1,0 +1,55 @@
+{% extends '@Morpheus/layout.twig' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex,nofollow">
+{% endblock %}
+
+{% block head %}
+    {% set deferjs = true %}
+    {{ parent() }}
+{% endblock %}
+
+{% set title %}{{ pageTitle|default('Login_LogIn'|translate) }}{% endset %}
+
+{% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
+
+{% set bodyId = 'loginPage' %}
+
+{% set colClass %}{{ colClassOverride|default('col s12 m6 push-m3 l4 push-l4') }}{% endset %}
+
+{% block body %}
+
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
+
+    {% include "_iframeBuster.twig" %}
+
+    <div id="notificationContainer">
+    </div>
+    <nav>
+        <div class="nav-wrapper">
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': (isCenteredLogo ?? true), 'useLargeLogo': false } %}
+        </div>
+    </nav>
+
+    <section class="loginSection row">
+        <div class="{{ colClass }}">
+
+        {# untrusted host warning #}
+        {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
+            {% include '@CoreHome/_warningInvalidHost.twig' %}
+        {% else %}
+            {% block loginContent %}
+            {% endblock %}
+        {% endif %}
+
+        </div>
+
+        {% if showImageDiv is defined and imageToShow is defined %}
+        <div class="col l4 hide-on-med-and-down onboardingImage">
+            <img class="responsive-img" src="{{ imageToShow }}">
+        </div>
+        {% endif %}
+    </section>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "dashboard.twig" %}
+{% import 'ajaxMacros.twig' as ajax %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+    {{ postEvent("Template.nextToCalendar") }}
+    <div vue-entry="Dashboard.DashboardSettings"></div>
+    {% include "@CoreHome/_headerMessage.twig" %}
+{% endblock %}
+
+{% block content %}
+
+    {% if exampleFeatureEnabled %}
+        <!-- Feature flag example enabled -->
+    {% endif %}
+
+    {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled, currentModule, showMoreFaqInfo) }}
+    {{ ajax.loadingDiv() }}
+
+    <div id="content" class="home">
+        {% if content %}{{ content }}{% endif %}
+        <div vue-entry="CoreHome.ReportingPage"></div>
+    </div>
+    <div class="clear"></div>
+
+{% endblock %}
+

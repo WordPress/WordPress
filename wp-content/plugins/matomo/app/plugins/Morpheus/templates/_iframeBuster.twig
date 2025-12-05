@@ -1,0 +1,10 @@
+{% if (enableFrames is defined and enableFrames == false) %}
+    <script type="text/javascript">
+        if (self !== top) {
+            var theBody = document.getElementsByTagName('body')[0];
+            theBody.style.display = 'none';
+
+            top.location = self.location;
+        }
+    </script>
+{% endif %}

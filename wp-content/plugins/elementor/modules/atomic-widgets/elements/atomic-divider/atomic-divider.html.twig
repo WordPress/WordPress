@@ -1,0 +1,4 @@
+{% set classes = settings.classes | merge( [ base_styles.base ] ) | join(' ') %}
+{% set id_attribute = settings._cssid is not empty ? 'id=' ~ settings._cssid | e('html_attr') : '' %}
+
+<hr class="{{ classes }}" {{ id_attribute }} {{ settings.attributes | raw }} />
