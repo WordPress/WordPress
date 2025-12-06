@@ -52,7 +52,7 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  *
  * @since 2.5.0
  *
- * @param string $body_classes
+ * @param string $body_classes Class attribute values for the body tag.
  */
 function display_header( $body_classes = '' ) {
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -85,7 +85,7 @@ function display_header( $body_classes = '' ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string|null $error
+ * @param string|null $error Error message to display, if any.
  */
 function display_setup_form( $error = null ) {
 	global $wpdb;
