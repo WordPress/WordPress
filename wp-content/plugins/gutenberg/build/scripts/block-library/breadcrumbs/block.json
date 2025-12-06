@@ -1,0 +1,77 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/breadcrumbs",
+	"title": "Breadcrumbs",
+	"__experimental": true,
+	"category": "theme",
+	"description": "Display a breadcrumb trail for hierarchical post types or based on taxonomy terms.",
+	"textdomain": "default",
+	"attributes": {
+		"prefersTaxonomy": {
+			"type": "boolean",
+			"default": false
+		},
+		"separator": {
+			"type": "string",
+			"default": "/"
+		},
+		"showHomeLink": {
+			"type": "boolean",
+			"default": true
+		},
+		"showLastItem": {
+			"type": "boolean",
+			"default": true
+		},
+		"showOnHomePage": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [ "postId", "postType", "templateSlug" ],
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": false,
+				"color": true,
+				"width": true,
+				"style": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"style": "wp-block-breadcrumbs"
+}

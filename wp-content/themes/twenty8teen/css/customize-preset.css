@@ -1,0 +1,32 @@
+/*!
+Theme Name: Twenty8teen
+Customizer styles for Custom Preset Control
+*/
+.customize-control-preset,
+.customize-control-preset .add-content,
+.customize-control-preset .new-content-item {
+	margin-top: 1em;
+}
+
+.customize-control-preset .preset-list-item {
+	margin: 0 1em;
+	list-style-type: circle;
+}
+
+#customize-control-preset .preset-list-section-content {
+	padding: 0.5em;
+}
+
+#customize-control-preset .preset-list-section-title {
+	cursor: pointer;
+}
+
+#customize-control-preset details[open] .preset-list-section-title {
+	font-weight: bold;
+}
+
+#customize-control-preset details[open] {
+	padding: 0 0.5em;
+	border: 1px solid #999;
+	background-color: rgba(180, 180, 200, 0.1);
+}
