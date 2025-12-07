@@ -1,34 +1,19 @@
-name: Deploy WordPress
+name: Monitoring WordPress
 
 on:
-  push:
-    branches:
-      - API_DB-Queries_Unit_Tests
-  pull_request:
-    branches:
-      - API_DB-Queries_Unit_Tests
-
+  schedule:
+    - cron: "*/5 * * * *"  # Every 5 minutes
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: windows-latest  # Windows runner
-
-    env:
-      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      WP_ENV: production
-
+  monitor:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      - name: Deploy to XAMPP htdocs
+      - name: Pass Sentry DSN to server
         run: |
-          robocopy . "C:\xampp\htdocs\WordPress_sqe" /MIR /XD .git vendor
+          echo "SENTRY_DSN is $SENTRY_DSN"
+          # Here you can rsync mu-plugins or config that reads SENTRY_DSN
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
