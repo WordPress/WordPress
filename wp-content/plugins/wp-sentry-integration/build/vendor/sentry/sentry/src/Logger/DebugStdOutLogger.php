@@ -1,0 +1,12 @@
+<?php
+
+declare (strict_types=1);
+namespace Sentry\Logger;
+
+class DebugStdOutLogger extends \Sentry\Logger\DebugLogger
+{
+    public function write(string $message) : void
+    {
+        \file_put_contents('php://stdout', $message);
+    }
+}

@@ -3,10 +3,11 @@ name: Deploy WordPress
 on:
   push:
     branches:
-      - master
+      - API_DB-Queries_Unit_Tests
   pull_request:
     branches:
-      - master
+      - API_DB-Queries_Unit_Tests
+
 
 jobs:
   deploy:

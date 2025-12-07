@@ -1,0 +1,51 @@
+{
+    "name": "jean85/pretty-package-versions",
+    "description": "A library to get pretty versions strings of installed dependencies",
+    "type": "library",
+    "require": {
+        "php": "^7.4|^8.0",
+        "composer-runtime-api": "^2.1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "jean85/composer-provided-replaced-stub-package": "^1.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^7.5|^8.5|^9.6",
+        "rector/rector": "^2.0",
+        "vimeo/psalm": "^4.3 || ^5.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alessandro Lai",
+            "email": "alessandro.lai85@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Jean85/pretty-package-versions/issues"
+    },
+    "keywords": [
+        "package",
+        "versions",
+        "composer",
+        "release"
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Jean85\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    }
+}
