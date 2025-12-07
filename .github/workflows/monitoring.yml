@@ -1,19 +1,24 @@
 name: Monitoring WordPress
 
+# Trigger the workflow on push to the branch or manually
 on:
-  schedule:
-    - cron: "*/5 * * * *"  # Every 5 minutes
+  push:
+    branches:
+      - API_DB-Queries_Unit_Tests
   workflow_dispatch:
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Pass Sentry DSN to server
         run: |
           echo "SENTRY_DSN is $SENTRY_DSN"
-          # Here you can rsync mu-plugins or config that reads SENTRY_DSN
+          # Example: sync mu-plugins or config files that read SENTRY_DSN
+          # rsync -avz ./wp-content/mu-plugins/ user@your-server:/var/www/html/wp-content/mu-plugins/
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
