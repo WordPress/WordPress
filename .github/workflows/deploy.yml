@@ -1,0 +1,33 @@
+name: Deploy WordPress
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: windows-latest  # Windows runner
+
+    env:
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      WP_ENV: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Deploy to XAMPP htdocs
+        run: |
+          robocopy . "C:\xampp\htdocs\WordPress_sqe" /MIR /XD .git vendor
