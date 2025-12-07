@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../packages/latex-to-mathml/src/loader.ts"],
+  "sourcesContent": ["export default function loader() {\n\treturn import( '@wordpress/latex-to-mathml' );\n}\n"],
+  "mappings": ";AAAe,SAAR,SAA0B;AAChC,SAAO,OAAQ,4BAA6B;AAC7C;",
+  "names": []
+}

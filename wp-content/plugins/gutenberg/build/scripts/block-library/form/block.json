@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"__experimental": true,
+	"name": "core/form",
+	"title": "Form",
+	"category": "common",
+	"allowedBlocks": [
+		"core/paragraph",
+		"core/heading",
+		"core/form-input",
+		"core/form-submit-button",
+		"core/form-submission-notification",
+		"core/group",
+		"core/columns"
+	],
+	"description": "A form.",
+	"keywords": [ "container", "wrapper", "row", "section" ],
+	"textdomain": "default",
+	"icon": "feedback",
+	"attributes": {
+		"submissionMethod": {
+			"type": "string",
+			"default": "email"
+		},
+		"method": {
+			"type": "string",
+			"default": "post"
+		},
+		"action": {
+			"type": "string"
+		},
+		"email": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	}
+}

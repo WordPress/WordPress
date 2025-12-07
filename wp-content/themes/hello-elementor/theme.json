@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "800px",
+      "wideSize": "1200px"
+    },
+    "color": {
+      "custom": true,
+      "link": true
+    },
+    "typography": {
+      "customFontSize": true,
+      "lineHeight": true
+    },
+    "spacing": {
+      "defaultSpacingSizes": false,
+      "margin": true,
+      "padding": true,
+      "units": [ "%", "px", "em", "rem", "vh", "vw" ]
+    }
+  }
+}
