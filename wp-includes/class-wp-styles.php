@@ -497,7 +497,7 @@ class WP_Styles extends WP_Dependencies {
 	/**
 	 * Gets a style-specific dependency warning message.
 	 *
-	 * @since 7.0.0
+	 * @since 6.9.1
 	 *
 	 * @param string   $handle                     Style handle with missing dependencies.
 	 * @param string[] $missing_dependency_handles Missing dependency handles.

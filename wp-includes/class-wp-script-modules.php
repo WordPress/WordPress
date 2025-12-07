@@ -76,7 +76,7 @@ class WP_Script_Modules {
 	 * An ID is added to this list when it is discovered to have missing dependencies. At this time, a warning is
 	 * emitted with {@see _doing_it_wrong()}. The ID is then added to this list, so that duplicate warnings don't occur.
 	 *
-	 * @since 7.0.0
+	 * @since 6.9.1
 	 * @var string[]
 	 */
 	private $modules_with_missing_dependencies = array();
@@ -744,7 +744,7 @@ class WP_Script_Modules {
 						$id,
 						implode( ', ', $missing_dependencies )
 					),
-					'7.0.0'
+					'6.9.1'
 				);
 				$this->modules_with_missing_dependencies[] = $id;
 			}

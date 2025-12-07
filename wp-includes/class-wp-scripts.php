@@ -1168,7 +1168,7 @@ JS;
 	/**
 	 * Gets a script-specific dependency warning message.
 	 *
-	 * @since 7.0.0
+	 * @since 6.9.1
 	 *
 	 * @param string   $handle                     Script handle with missing dependencies.
 	 * @param string[] $missing_dependency_handles Missing dependency handles.

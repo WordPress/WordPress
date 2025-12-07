@@ -111,7 +111,7 @@ class WP_Dependencies {
 	 * warning is emitted with {@see _doing_it_wrong()}. The handle is then added to this list, so that duplicate
 	 * warnings don't occur.
 	 *
-	 * @since 7.0.0
+	 * @since 6.9.1
 	 * @var string[]
 	 */
 	private $dependencies_with_missing_dependencies = array();
@@ -223,7 +223,7 @@ class WP_Dependencies {
 					_doing_it_wrong(
 						get_class( $this ) . '::add',
 						$this->get_dependency_warning_message( $handle, $missing_dependencies ),
-						'7.0.0'
+						'6.9.1'
 					);
 					$this->dependencies_with_missing_dependencies[] = $handle;
 				}
@@ -563,7 +563,7 @@ class WP_Dependencies {
 	/**
 	 * Gets a dependency warning message for a handle.
 	 *
-	 * @since 7.0.0
+	 * @since 6.9.1
 	 *
 	 * @param string   $handle                     Handle with missing dependencies.
 	 * @param string[] $missing_dependency_handles Missing dependency handles.
