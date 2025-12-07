@@ -96,7 +96,7 @@ class WP_Styles extends WP_Dependencies {
 	 * List of default directories.
 	 *
 	 * @since 2.8.0
-	 * @var array
+	 * @var string[]|null
 	 */
 	public $default_dirs;
 
@@ -183,7 +183,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( $this->do_concat ) {
-			if ( $this->in_default_dir( $src ) && ! isset( $obj->extra['alt'] ) ) {
+			if ( is_string( $src ) && $this->in_default_dir( $src ) && ! isset( $obj->extra['alt'] ) ) {
 				$this->concat         .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
