@@ -764,7 +764,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 	if ( $create_in_db ) {
 		$post_id = wp_insert_post(
 			array(
-				'post_title'  => __( 'Auto Draft' ),
+				'post_title'  => post_type_supports( $post_type, 'title' ) ? __( 'Auto Draft' ) : '',
 				'post_type'   => $post_type,
 				'post_status' => 'auto-draft',
 			),
