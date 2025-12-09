@@ -217,17 +217,18 @@ if ( ! empty( $messages ) ) {
 				</label>
 			</th>
 			<td>
-			<?php if ( is_subdomain_install() ) { ?>
-				<input name="blog[domain]" type="text" class="regular-text ltr" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required /><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', get_network()->domain ); ?></span>
-				<?php
-			} else {
-				echo get_network()->domain . get_network()->path
-				?>
-				<input name="blog[domain]" type="text" class="regular-text ltr" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required />
-				<?php
-			}
-			echo '<p class="description" id="site-address-desc">' . __( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ) . '</p>';
-			?>
+				<span class="code">
+					<?php if ( is_subdomain_install() ) : ?>
+						<input name="blog[domain]" type="text" class="regular-text code" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required /><!--
+						--><code class="no-break"><?php echo esc_html( '.' . preg_replace( '|^www\.|', '', get_network()->domain ) ); ?></code>
+					<?php else : ?>
+						<code class="no-break"><?php echo esc_html( get_network()->domain . get_network()->path ); ?></code><!--
+						--><input name="blog[domain]" type="text" class="regular-text code" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required />
+					<?php endif; ?>
+				</span>
+				<p class="description" id="site-address-desc">
+					<?php _e( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ); ?>
+				</p>
 			</td>
 		</tr>
 		<tr class="form-field form-required">
