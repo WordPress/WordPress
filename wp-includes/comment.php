@@ -240,9 +240,12 @@ function get_comment( $comment = null, $output = OBJECT ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param WP_Comment $_comment Comment data.
+	 * @param WP_Comment|null $_comment Comment data.
 	 */
 	$_comment = apply_filters( 'get_comment', $_comment );
+	if ( ! ( $_comment instanceof WP_Comment ) ) {
+		return null;
+	}
 
 	if ( OBJECT === $output ) {
 		return $_comment;

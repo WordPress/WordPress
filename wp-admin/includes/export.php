@@ -685,7 +685,12 @@ function export_wp( $args = array() ) {
 	endforeach;
 
 				$_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved <> 'spam'", $post->ID ) );
-				$comments  = array_map( 'get_comment', $_comments );
+				$comments  = array_filter(
+					array_map( 'get_comment', $_comments ),
+					static function ( $comment ) {
+						return $comment instanceof WP_Comment;
+					}
+				);
 				foreach ( $comments as $c ) :
 					?>
 		<wp:comment>
