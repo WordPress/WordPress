@@ -1462,10 +1462,10 @@ switch ( $action ) {
 
 				if ( ! empty( $query['app_name'] ) ) {
 					/* translators: 1: Website name, 2: Application name. */
-					$message = sprintf( 'Please log in to %1$s to authorize %2$s to connect to your account.', get_bloginfo( 'name', 'display' ), '<strong>' . esc_html( $query['app_name'] ) . '</strong>' );
+					$message = sprintf( __( 'Please log in to %1$s to authorize %2$s to connect to your account.' ), get_bloginfo( 'name', 'display' ), '<strong>' . esc_html( $query['app_name'] ) . '</strong>' );
 				} else {
 					/* translators: %s: Website name. */
-					$message = sprintf( 'Please log in to %s to proceed with authorization.', get_bloginfo( 'name', 'display' ) );
+					$message = sprintf( __( 'Please log in to %s to proceed with authorization.' ), get_bloginfo( 'name', 'display' ) );
 				}
 
 				$errors->add( 'authorize_application', $message, 'message' );
