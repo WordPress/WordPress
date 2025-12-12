@@ -187,7 +187,7 @@ function wp_save_post_revision( $post_id ) {
 			$post_has_changed = false;
 
 			foreach ( array_keys( _wp_post_revision_fields( $post ) ) as $field ) {
-				if ( normalize_whitespace( $post->$field ) !== normalize_whitespace( $latest_revision->$field ) ) {
+				if ( normalize_whitespace( maybe_serialize( $post->$field ) ) !== normalize_whitespace( maybe_serialize( $latest_revision->$field ) ) ) {
 					$post_has_changed = true;
 					break;
 				}
