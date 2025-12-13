@@ -1896,14 +1896,14 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 	$uncompressed_size = 0;
 
 	// Determine any children directories needed (From within the archive).
-	foreach ( $archive_files as $file ) {
-		if ( str_starts_with( $file['filename'], '__MACOSX/' ) ) { // Skip the OS X-created __MACOSX directory.
+	foreach ( $archive_files as $archive_file ) {
+		if ( str_starts_with( $archive_file['filename'], '__MACOSX/' ) ) { // Skip the OS X-created __MACOSX directory.
 			continue;
 		}
 
-		$uncompressed_size += $file['size'];
+		$uncompressed_size += $archive_file['size'];
 
-		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname( $file['filename'] ) );
+		$needed_dirs[] = $to . untrailingslashit( $archive_file['folder'] ? $archive_file['filename'] : dirname( $archive_file['filename'] ) );
 	}
 
 	// Enough space to unzip the file and copy its contents, with a 10% buffer.
@@ -1967,22 +1967,22 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 	}
 
 	// Extract the files from the zip.
-	foreach ( $archive_files as $file ) {
-		if ( $file['folder'] ) {
+	foreach ( $archive_files as $archive_file ) {
+		if ( $archive_file['folder'] ) {
 			continue;
 		}
-
-		if ( str_starts_with( $file['filename'], '__MACOSX/' ) ) { // Don't extract the OS X-created __MACOSX directory files.
+	
+		if ( str_starts_with( $archive_file['filename'], '__MACOSX/' ) ) { // Don't extract the OS X-created __MACOSX directory files.
 			continue;
 		}
 
 		// Don't extract invalid files:
-		if ( 0 !== validate_file( $file['filename'] ) ) {
+		if ( 0 !== validate_file( $archive_file['filename'] ) ) {
 			continue;
 		}
 
-		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE ) ) {
-			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $file['filename'] );
+		if ( ! $wp_filesystem->put_contents( $to . $archive_file['filename'], $archive_file['content'], FS_CHMOD_FILE ) ) {
+			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $archive_file['filename'] );
 		}
 	}
 
