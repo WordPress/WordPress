@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/list-item",
+	"title": "List Item",
+	"category": "text",
+	"parent": [ "core/list" ],
+	"allowedBlocks": [ "core/list" ],
+	"description": "An individual item within a list.",
+	"textdomain": "default",
+	"attributes": {
+		"placeholder": {
+			"type": "string"
+		},
+		"content": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "li",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"className": false,
+		"splitting": true,
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"background": true,
+			"__experimentalDefaultControls": {
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"selectors": {
+		"root": ".wp-block-list > li",
+		"border": ".wp-block-list:not(.wp-block-list .wp-block-list) > li"
+	}
+}

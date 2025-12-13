@@ -1,0 +1,1 @@
+.wp-block-post-author-biography{box-sizing:border-box}

@@ -1,0 +1,1 @@
+.wp-block-term-template .term-loading .term-loading-placeholder{background-color:#f0f0f0;border-radius:2px;height:1.5em;margin-bottom:.25em;width:100%}@media not (prefers-reduced-motion){.wp-block-term-template .term-loading .term-loading-placeholder{animation:loadingpulse 1.5s ease-in-out infinite}}@keyframes loadingpulse{0%{opacity:1}50%{opacity:.5}to{opacity:1}}

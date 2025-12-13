@@ -1,0 +1,1 @@
+.wp-block-breadcrumbs{box-sizing:border-box}.wp-block-breadcrumbs ol{flex-wrap:wrap;list-style:none}.wp-block-breadcrumbs li,.wp-block-breadcrumbs ol{align-items:center;display:flex;margin:0;padding:0}.wp-block-breadcrumbs li:not(:last-child):after{content:var(--separator,"/");margin:0 .5em;opacity:.7}.wp-block-breadcrumbs span{color:inherit}

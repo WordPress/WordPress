@@ -1,0 +1,33 @@
+/*!
+Theme Name: Twenty8teen
+Customizer styles for Custom Control
+*/
+.customize-control-checkbox-column {
+	display: inline-block !important;
+	clear: none;
+	width: auto;
+	margin-top: 1em;
+}
+
+.customize-col-header {
+	transform: rotate(-50deg);
+	display: inline-block;
+	font-size: 90%;
+	width: calc(16px + 0.08em);
+	overflow-wrap: normal;
+}
+.rtl .customize-col-header {
+	transform: rotate(45deg);
+}
+
+.customize-checkbox-column-labels {
+	width: auto;
+	display: inline-block;
+	font-size: 90%;
+}
+
+.customize-checkbox-column {
+	display: inline-block;
+	width: 21px;
+	margin-left: 3px;
+}

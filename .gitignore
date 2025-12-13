@@ -1,0 +1,10 @@
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+node_modules/
+
+# WordPress
+wp-config.php
+.htaccess
+
