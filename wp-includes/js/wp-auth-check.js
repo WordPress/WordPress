@@ -159,12 +159,23 @@
 			setShowTimeout();
 		});
 	}).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		if ( 'wp-auth-check' in data ) {
+		if ( ! ( 'wp-auth-check' in data ) ) {
+			return;
+		}
+
+		var showOrHide = function () {
 			if ( ! data['wp-auth-check'] && wrap.hasClass( 'hidden' ) && ! tempHidden ) {
 				show();
 			} else if ( data['wp-auth-check'] && ! wrap.hasClass( 'hidden' ) ) {
 				hide();
 			}
+		};
+
+		// This is necessary due to a race condition where the heartbeat-tick event may fire before DOMContentLoaded.
+		if ( wrap ) {
+			showOrHide();
+		} else {
+			$( showOrHide );
 		}
 	});
 
