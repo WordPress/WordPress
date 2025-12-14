@@ -1999,6 +1999,10 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		$term_ids = wp_get_object_terms( $object_id, $taxonomy, array( 'fields' => 'ids' ) );
+		if ( ! is_array( $term_ids ) ) {
+			// Skip return value in the case of an error or the 'wp_get_object_terms' filter returning an invalid value.
+			continue;
+		}
 		$term_ids = array_map( 'intval', $term_ids );
 		wp_remove_object_terms( $object_id, $term_ids, $taxonomy );
 	}
