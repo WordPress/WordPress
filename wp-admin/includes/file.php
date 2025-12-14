@@ -1971,7 +1971,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		if ( $archive_file['folder'] ) {
 			continue;
 		}
-	
+
 		if ( str_starts_with( $archive_file['filename'], '__MACOSX/' ) ) { // Don't extract the OS X-created __MACOSX directory files.
 			continue;
 		}
