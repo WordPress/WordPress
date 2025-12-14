@@ -3769,8 +3769,8 @@ function wp_read_audio_metadata( $file ) {
  * @link https://github.com/JamesHeinrich/getID3/blob/master/structure.txt
  *
  * @param array $metadata The metadata returned by getID3::analyze().
- * @return int|false A UNIX timestamp for the media's creation date if available
- *                   or a boolean FALSE if a timestamp could not be determined.
+ * @return int|false A Unix timestamp for the media's creation date if available
+ *                   or a boolean false if the timestamp could not be determined.
  */
 function wp_get_media_creation_timestamp( $metadata ) {
 	$creation_date = false;
