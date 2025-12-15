@@ -1095,3 +1095,9 @@ $group-block-background__padding: $font__size_base;
 .wp-block-post-author__avatar img {
 	border-radius: 100%;
 }
+
+/** === Calendar Block === */
+
+.wp-calendar-table {
+	@include font-family( $font__heading );
+}
