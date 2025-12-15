@@ -847,6 +847,7 @@ $_old_files = array(
 	'wp-includes/blocks/post-author/editor-rtl.css',
 	'wp-includes/blocks/post-author/editor-rtl.min.css',
 	'wp-includes/SimplePie/src/Decode',
+	'wp-includes/SimplePie/src/Core.php',
 );
 
 /**
