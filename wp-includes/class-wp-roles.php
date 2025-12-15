@@ -165,7 +165,7 @@ class WP_Roles {
 	 *     ) );
 	 *
 	 * @since 2.0.0
-	 * @since x.y.z Support was added for a numerically indexed array of strings for the capabilities array.
+	 * @since 6.9.0 Support was added for a numerically indexed array of strings for the capabilities array.
 	 *
 	 * @param string                               $role         Role name.
 	 * @param string                               $display_name Role display name.
