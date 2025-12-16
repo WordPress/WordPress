@@ -255,7 +255,7 @@ abstract class WP_Image_Editor {
 			 * The WP_Image_Editor::set_quality() method has priority over the filter.
 			 *
 			 * @since 3.5.0
-			 * @since 6.8.0 Added the size parameter.
+			 * @since 6.8.0 Added the `$size` parameter.
 			 *
 			 * @param int    $quality   Quality level between 1 (low) and 100 (high).
 			 * @param string $mime_type Image mime type.

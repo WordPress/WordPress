@@ -74,7 +74,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	 * Return true if the event was scheduled, false or a WP_Error if not.
 	 *
 	 * @since 5.1.0
-	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
+	 * @since 5.7.0 The `$wp_error` parameter was added, and a WP_Error object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $result   The value to return instead. Default null to continue adding the event.
 	 * @param object             $event    {
@@ -385,7 +385,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	 * rescheduled, false or a WP_Error if not.
 	 *
 	 * @since 5.1.0
-	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
+	 * @since 5.7.0 The `$wp_error` parameter was added, and a WP_Error object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $pre      Value to return instead. Default null to continue adding the event.
 	 * @param object             $event    {
@@ -482,7 +482,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = fa
 	 * unscheduled, false or a WP_Error if not.
 	 *
 	 * @since 5.1.0
-	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
+	 * @since 5.7.0 The `$wp_error` parameter was added, and a WP_Error object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $pre       Value to return instead. Default null to continue unscheduling the event.
 	 * @param int                $timestamp Unix timestamp (UTC) for when to run the event.
@@ -573,7 +573,7 @@ function wp_clear_scheduled_hook( $hook, $args = array(), $wp_error = false ) {
 	 * or a WP_Error if unscheduling one or more events fails.
 	 *
 	 * @since 5.1.0
-	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
+	 * @since 5.7.0 The `$wp_error` parameter was added, and a WP_Error object can now be returned.
 	 *
 	 * @param null|int|false|WP_Error $pre      Value to return instead. Default null to continue unscheduling the event.
 	 * @param string                  $hook     Action hook, the execution of which will be unscheduled.
@@ -664,7 +664,7 @@ function wp_unschedule_hook( $hook, $wp_error = false ) {
 	 * on the value of the `$wp_error` parameter.
 	 *
 	 * @since 5.1.0
-	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
+	 * @since 5.7.0 The `$wp_error` parameter was added, and a WP_Error object can now be returned.
 	 *
 	 * @param null|int|false|WP_Error $pre      Value to return instead. Default null to continue unscheduling the hook.
 	 * @param string                  $hook     Action hook, the execution of which will be unscheduled.
@@ -853,6 +853,7 @@ function wp_next_scheduled( $hook, $args = array() ) {
 	 *     @type int    $interval  Optional. The interval time in seconds for the schedule. Only
 	 *                             present for recurring events.
 	 * }
+	 * @param string $hook       Action hook of the event.
 	 * @param array  $args       Array containing each separate argument to pass to the hook
 	 *                           callback function.
 	 */

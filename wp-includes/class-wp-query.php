@@ -1900,8 +1900,8 @@ class WP_Query {
 		 * Fires after the query variable object is created, but before the actual query is run.
 		 *
 		 * Note: If using conditional tags, use the method versions within the passed instance
-		 * (e.g. $this->is_main_query() instead of is_main_query()). This is because the functions
-		 * like is_main_query() test against the global $wp_query instance, not the passed one.
+		 * (e.g. `$query->is_main_query()` instead of `is_main_query()`). This is because the functions
+		 * like `is_main_query()` test against the global `$wp_query` instance, not the passed one.
 		 *
 		 * @since 2.0.0
 		 *

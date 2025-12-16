@@ -1804,7 +1804,7 @@ function is_wp_error( $thing ) {
 
 	if ( $is_wp_error ) {
 		/**
-		 * Fires when `is_wp_error()` is called and its parameter is an instance of `WP_Error`.
+		 * Fires when `is_wp_error()` is called and its parameter is an instance of WP_Error.
 		 *
 		 * @since 5.6.0
 		 *

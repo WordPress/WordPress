@@ -1618,7 +1618,7 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
 	$sizes = sprintf( '(max-width: %1$dpx) 100vw, %1$dpx', $width );
 
 	/**
-	 * Filters the output of 'wp_calculate_image_sizes()'.
+	 * Filters the output of wp_calculate_image_sizes().
 	 *
 	 * @since 4.4.0
 	 *
@@ -1742,7 +1742,7 @@ function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 
 	}
 
 	/**
-	 * Filters the 'wp_image_src_get_dimensions' value.
+	 * Filters the wp_image_src_get_dimensions() value.
 	 *
 	 * @since 5.7.0
 	 *
@@ -2156,7 +2156,7 @@ function wp_img_tag_add_loading_optimization_attrs( $image, $context ) {
 
 	if ( empty( $decoding_val ) ) {
 		/**
-		 * Filters the `decoding` attribute value to add to an image. Default `async`.
+		 * Filters the `decoding` attribute value to add to an image. Default 'async'.
 		 *
 		 * Returning a falsey value will omit the attribute.
 		 *
@@ -2199,7 +2199,7 @@ function wp_img_tag_add_loading_optimization_attrs( $image, $context ) {
 
 	if ( empty( $loading_val ) && $loading_attrs_enabled ) {
 		/**
-		 * Filters the `loading` attribute value to add to an image. Default `lazy`.
+		 * Filters the `loading` attribute value to add to an image. Default 'lazy'.
 		 *
 		 * Returning `false` or an empty string will not add the attribute.
 		 * Returning `true` will add the default value.
@@ -2383,7 +2383,7 @@ function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
 	$value = isset( $optimization_attrs['loading'] ) ? $optimization_attrs['loading'] : false;
 
 	/**
-	 * Filters the `loading` attribute value to add to an iframe. Default `lazy`.
+	 * Filters the `loading` attribute value to add to an iframe. Default 'lazy'.
 	 *
 	 * Returning `false` or an empty string will not add the attribute.
 	 * Returning `true` will add the default value.

@@ -1841,7 +1841,7 @@ function register_post_type( $post_type, $args = array() ) {
 	 * Fires after a post type is registered.
 	 *
 	 * @since 3.3.0
-	 * @since 4.6.0 Converted the `$post_type` parameter to accept a `WP_Post_Type` object.
+	 * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
 	 *
 	 * @param string       $post_type        Post type.
 	 * @param WP_Post_Type $post_type_object Arguments used to register the post type.
@@ -4792,7 +4792,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	// If a trashed post has the desired slug, change it and let this post have it.
 	if ( 'trash' !== $post_status && $post_name ) {
 		/**
-		 * Filters whether or not to add a `__trashed` suffix to trashed posts that match the name of the updated post.
+		 * Filters whether or not to add a `__trashed` suffix to the name of trashed posts that match the name of the updated post.
 		 *
 		 * @since 5.4.0
 		 *
@@ -6545,7 +6545,7 @@ function get_pages( $args = array() ) {
 	}
 
 	/**
-	 * Filters query arguments passed to WP_Query in get_pages.
+	 * Filters query arguments passed to WP_Query in get_pages().
 	 *
 	 * @since 6.3.0
 	 *

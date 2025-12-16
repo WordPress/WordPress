@@ -3175,7 +3175,9 @@ function check_password_reset_key(
 		 * Filters the return value of check_password_reset_key() when an
 		 * old-style key or an expired key is used.
 		 *
-		 * @since 3.7.0 Previously plain-text keys were stored in the database.
+		 * Prior to 3.7, plain-text keys were stored in the database.
+		 *
+		 * @since 3.7.0
 		 * @since 4.3.0 Previously key hashes were stored without an expiration time.
 		 *
 		 * @param WP_Error $return  A WP_Error object denoting an expired key.

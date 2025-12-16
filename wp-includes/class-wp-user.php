@@ -654,7 +654,7 @@ class WP_User {
 		 * Fires after the user's role has changed.
 		 *
 		 * @since 2.9.0
-		 * @since 3.6.0 Added $old_roles to include an array of the user's previous roles.
+		 * @since 3.6.0 Added `$old_roles` to include an array of the user's previous roles.
 		 *
 		 * @param int      $user_id   The user ID.
 		 * @param string   $role      The new role.

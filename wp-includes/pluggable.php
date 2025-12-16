@@ -655,7 +655,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			$mail_data['phpmailer_exception_code'] = $e->getCode();
 
 			/**
-			 * Fires after a PHPMailer\PHPMailer\Exception is caught.
+			 * Fires after a PHPMailer exception is caught.
 			 *
 			 * @since 4.4.0
 			 *
@@ -1520,7 +1520,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 		}
 
 		/**
-		 * Filters the X-Redirect-By header.
+		 * Filters the value of the `X-Redirect-By` HTTP header.
 		 *
 		 * Allows applications to identify themselves when they're doing a redirect.
 		 *
