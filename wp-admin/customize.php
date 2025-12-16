@@ -147,6 +147,8 @@ if ( is_rtl() ) {
 	$body_class .= ' rtl';
 }
 $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_user_locale() ) ) );
+$admin_color = get_user_option( 'admin_color' );
+$body_class .= ' admin-color-' . sanitize_html_class( is_string( $admin_color ) ? $admin_color : '', 'fresh' );
 
 if ( wp_use_widgets_block_editor() ) {
 	$body_class .= ' wp-embed-responsive';
