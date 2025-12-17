@@ -118,9 +118,15 @@ class WP_Styles extends WP_Dependencies {
 	 */
 	public function __construct() {
 		if (
-			function_exists( 'is_admin' ) && ! is_admin()
-		&&
-			function_exists( 'current_theme_supports' ) && ! current_theme_supports( 'html5', 'style' )
+			(
+				function_exists( 'is_admin' ) &&
+				! is_admin()
+			)
+			&&
+			(
+				function_exists( 'current_theme_supports' ) &&
+				! current_theme_supports( 'html5', 'style' )
+			)
 		) {
 			$this->type_attr = " type='text/css'";
 		}
