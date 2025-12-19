@@ -618,7 +618,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 */
 		do_action_ref_array( 'phpmailer_init', array( &$phpmailer ) );
 
-		$mail_data = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
+		$mail_data = compact( 'to', 'subject', 'message', 'headers', 'attachments', 'embeds' );
 
 		// Send!
 		try {
