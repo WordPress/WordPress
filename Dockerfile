@@ -20,6 +20,12 @@ RUN echo "session.save_handler = redis" >> /usr/local/etc/php/conf.d/redis-sessi
     && echo "session.cookie_secure = 1" >> /usr/local/etc/php/conf.d/redis-session.ini \
     && echo "session.cookie_samesite = \"Lax\"" >> /usr/local/etc/php/conf.d/redis-session.ini
 
+# Install Redis Object Cache plugin (core dependency for stateless architecture)
+RUN curl -L https://downloads.wordpress.org/plugin/redis-cache.2.7.0.zip -o /tmp/redis-cache.zip \
+    && unzip /tmp/redis-cache.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm /tmp/redis-cache.zip \
+    && chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/redis-cache
+
 # Copy pre-installed plugins
 COPY wp-content/plugins/ /usr/src/wordpress/wp-content/plugins/
 
