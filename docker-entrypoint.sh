@@ -27,6 +27,16 @@ done
 
 echo "Database is ready!"
 
+# Wait for Redis to be ready (if Redis host is configured)
+if [ -n "${WP_REDIS_HOST}" ]; then
+    echo "Waiting for Redis connection at ${WP_REDIS_HOST}..."
+    until timeout 2 bash -c "echo > /dev/tcp/${WP_REDIS_HOST}/6379" 2>/dev/null; do
+        echo "Redis not ready, waiting..."
+        sleep 3
+    done
+    echo "Redis is ready!"
+fi
+
 # Check if WordPress is already installed
 if ! wp core is-installed --allow-root --path=/var/www/html 2>/dev/null; then
     echo "WordPress not installed. Starting installation..."
@@ -70,6 +80,29 @@ if ! wp core is-installed --allow-root --path=/var/www/html 2>/dev/null; then
     echo "WordPress configuration complete!"
 else
     echo "WordPress is already installed."
+fi
+
+# Configure Redis Object Cache (if Redis host is configured)
+if [ -n "${WP_REDIS_HOST}" ]; then
+    echo "Configuring Redis Object Cache..."
+
+    # Add Redis configuration to wp-config.php if not already present
+    if ! grep -q "WP_REDIS_HOST" /var/www/html/wp-config.php 2>/dev/null; then
+        # Find the line with "That's all, stop editing!" and insert before it
+        sed -i "/That's all, stop editing/i\\
+\\
+/* Redis Object Cache Configuration */\\
+define('WP_REDIS_HOST', '${WP_REDIS_HOST}');\\
+define('WP_REDIS_PORT', ${WP_REDIS_PORT:-6379});\\
+define('WP_REDIS_DATABASE', ${WP_REDIS_DATABASE:-1});\\
+define('WP_REDIS_PREFIX', '${WP_REDIS_PREFIX:-wp}');\\
+define('WP_CACHE', true);\\
+" /var/www/html/wp-config.php
+
+        echo "Redis configuration added to wp-config.php"
+    else
+        echo "Redis configuration already present in wp-config.php"
+    fi
 fi
 
 # Keep the container running by waiting for Apache

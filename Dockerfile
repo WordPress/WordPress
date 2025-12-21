@@ -1,14 +1,24 @@
 FROM wordpress:6.8.3-php8.3-apache
 
-# Install WP-CLI and required tools
+# Install PHP Redis extension and WP-CLI
 RUN apt-get update && apt-get install -y \
     less \
     mariadb-client \
+    && pecl install redis-6.0.2 \
+    && docker-php-ext-enable redis \
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Configure PHP session handler for Redis
+RUN echo "session.save_handler = redis" >> /usr/local/etc/php/conf.d/redis-session.ini \
+    && echo "session.save_path = \"tcp://redis:6379?database=0\"" >> /usr/local/etc/php/conf.d/redis-session.ini \
+    && echo "session.gc_maxlifetime = 86400" >> /usr/local/etc/php/conf.d/redis-session.ini \
+    && echo "session.cookie_httponly = 1" >> /usr/local/etc/php/conf.d/redis-session.ini \
+    && echo "session.cookie_secure = 1" >> /usr/local/etc/php/conf.d/redis-session.ini \
+    && echo "session.cookie_samesite = \"Lax\"" >> /usr/local/etc/php/conf.d/redis-session.ini
 
 # Copy pre-installed plugins
 COPY wp-content/plugins/ /usr/src/wordpress/wp-content/plugins/

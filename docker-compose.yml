@@ -18,6 +18,21 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: wordpress_redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - wordpress_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
   wordpress:
     build: .
     container_name: wordpress_app
@@ -30,11 +45,25 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DEBUG: 1
+      # Redis configuration
+      WP_REDIS_HOST: redis
+      WP_REDIS_PORT: 6379
+      WP_REDIS_DATABASE: 1
+      WP_REDIS_PREFIX: local
+      WP_CACHE: true
+      # WordPress auto-install
+      WORDPRESS_URL: http://localhost:8080
+      WORDPRESS_TITLE: Local WordPress Development
+      WORDPRESS_ADMIN_USER: admin
+      WORDPRESS_ADMIN_PASSWORD: admin123
+      WORDPRESS_ADMIN_EMAIL: admin@example.com
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content:/var/www/html/wp-content
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - wordpress_network
@@ -61,6 +90,7 @@ services:
 volumes:
   db_data:
   wordpress_data:
+  redis_data:
 
 networks:
   wordpress_network:
