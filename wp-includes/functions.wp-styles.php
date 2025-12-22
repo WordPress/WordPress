@@ -38,7 +38,7 @@ function wp_styles() {
  *
  * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
  *
- * @param string|bool|array $handles Styles to be printed. Default 'false'.
+ * @param string|false|string[] $handles Styles to be printed. Default 'false'.
  * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_styles( $handles = false ) {
@@ -98,7 +98,7 @@ function wp_add_inline_style( $handle, $data ) {
 			),
 			'3.7.0'
 		);
-		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
+		$data = trim( (string) preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
 	return wp_styles()->add_inline_style( $handle, $data );
