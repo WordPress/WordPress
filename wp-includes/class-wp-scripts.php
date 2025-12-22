@@ -1092,7 +1092,7 @@ JS;
 	 *
 	 * @since 6.9.0
 	 * @see self::filter_eligible_strategies()
-	 * @see WP_Script_Modules::get_highest_fetchpriority_with_dependents()
+	 * @see WP_Script_Modules::get_highest_fetchpriority()
 	 *
 	 * @param string                $handle         Script module ID.
 	 * @param array<string, true>   $checked        Optional. An array of already checked script handles, used to avoid recursive loops.

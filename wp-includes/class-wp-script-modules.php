@@ -461,9 +461,9 @@ class WP_Script_Modules {
 			'id'   => $id . '-js-module',
 		);
 
-		$script_module = $this->registered[ $id ];
-		$dependents    = $this->get_recursive_dependents( $id );
-		$fetchpriority = $this->get_highest_fetchpriority( array_merge( array( $id ), $dependents ) );
+		$script_module     = $this->registered[ $id ];
+		$queued_dependents = array_intersect( $this->queue, $this->get_recursive_dependents( $id ) );
+		$fetchpriority     = $this->get_highest_fetchpriority( array_merge( array( $id ), $queued_dependents ) );
 		if ( 'auto' !== $fetchpriority ) {
 			$attributes['fetchpriority'] = $fetchpriority;
 		}
