@@ -1226,9 +1226,9 @@ final class WP_Customize_Manager {
 		$sidebars_widgets = isset( $starter_content['widgets'] ) && ! empty( $this->widgets ) ? $starter_content['widgets'] : array();
 		$attachments      = isset( $starter_content['attachments'] ) && ! empty( $this->nav_menus ) ? $starter_content['attachments'] : array();
 		$posts            = isset( $starter_content['posts'] ) && ! empty( $this->nav_menus ) ? $starter_content['posts'] : array();
-		$options          = isset( $starter_content['options'] ) ? $starter_content['options'] : array();
+		$options          = $starter_content['options'] ?? array();
 		$nav_menus        = isset( $starter_content['nav_menus'] ) && ! empty( $this->nav_menus ) ? $starter_content['nav_menus'] : array();
-		$theme_mods       = isset( $starter_content['theme_mods'] ) ? $starter_content['theme_mods'] : array();
+		$theme_mods       = $starter_content['theme_mods'] ?? array();
 
 		// Widgets.
 		$max_widget_numbers = array();
@@ -1495,7 +1495,7 @@ final class WP_Customize_Manager {
 			$this->set_post_value(
 				$nav_menu_setting_id,
 				array(
-					'name' => isset( $nav_menu['name'] ) ? $nav_menu['name'] : $nav_menu_location,
+					'name' => $nav_menu['name'] ?? $nav_menu_location,
 				)
 			);
 			$this->pending_starter_content_settings_ids[] = $nav_menu_setting_id;
@@ -5239,10 +5239,10 @@ final class WP_Customize_Manager {
 					'label'         => __( 'Logo' ),
 					'section'       => 'title_tagline',
 					'priority'      => 8,
-					'height'        => isset( $custom_logo_args[0]['height'] ) ? $custom_logo_args[0]['height'] : null,
-					'width'         => isset( $custom_logo_args[0]['width'] ) ? $custom_logo_args[0]['width'] : null,
-					'flex_height'   => isset( $custom_logo_args[0]['flex-height'] ) ? $custom_logo_args[0]['flex-height'] : null,
-					'flex_width'    => isset( $custom_logo_args[0]['flex-width'] ) ? $custom_logo_args[0]['flex-width'] : null,
+					'height'        => $custom_logo_args[0]['height'] ?? null,
+					'width'         => $custom_logo_args[0]['width'] ?? null,
+					'flex_height'   => $custom_logo_args[0]['flex-height'] ?? null,
+					'flex_width'    => $custom_logo_args[0]['flex-width'] ?? null,
 					'button_labels' => array(
 						'select'       => __( 'Select logo' ),
 						'change'       => __( 'Change logo' ),

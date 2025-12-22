@@ -460,12 +460,12 @@ class WP_Network_Query {
 		 */
 		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
 
-		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
-		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
-		$where   = isset( $clauses['where'] ) ? $clauses['where'] : '';
-		$orderby = isset( $clauses['orderby'] ) ? $clauses['orderby'] : '';
-		$limits  = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
-		$groupby = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
+		$fields  = $clauses['fields'] ?? '';
+		$join    = $clauses['join'] ?? '';
+		$where   = $clauses['where'] ?? '';
+		$orderby = $clauses['orderby'] ?? '';
+		$limits  = $clauses['limits'] ?? '';
+		$groupby = $clauses['groupby'] ?? '';
 
 		if ( $where ) {
 			$where = 'WHERE ' . $where;
