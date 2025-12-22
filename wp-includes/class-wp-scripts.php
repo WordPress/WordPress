@@ -22,7 +22,8 @@ class WP_Scripts extends WP_Dependencies {
 	 * Full URL with trailing slash.
 	 *
 	 * @since 2.6.0
-	 * @var string
+	 * @see wp_default_scripts()
+	 * @var string|null
 	 */
 	public $base_url;
 
@@ -30,7 +31,8 @@ class WP_Scripts extends WP_Dependencies {
 	 * URL of the content directory.
 	 *
 	 * @since 2.8.0
-	 * @var string
+	 * @see wp_default_scripts()
+	 * @var string|null
 	 */
 	public $content_url;
 
@@ -38,7 +40,8 @@ class WP_Scripts extends WP_Dependencies {
 	 * Default version string for scripts.
 	 *
 	 * @since 2.6.0
-	 * @var string
+	 * @see wp_default_scripts()
+	 * @var string|null
 	 */
 	public $default_version;
 
@@ -118,6 +121,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * List of default directories.
 	 *
 	 * @since 2.8.0
+	 * @see wp_default_scripts()
 	 * @var string[]|null
 	 */
 	public $default_dirs;
@@ -413,9 +417,19 @@ class WP_Scripts extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
-		if ( ! empty( $ver ) ) {
-			$src = add_query_arg( 'ver', $ver, $src );
+		$query_args = array();
+		if ( empty( $obj->ver ) && null !== $obj->ver && is_string( $this->default_version ) ) {
+			$query_args['ver'] = $this->default_version;
+		} elseif ( is_scalar( $obj->ver ) ) {
+			$query_args['ver'] = (string) $obj->ver;
 		}
+		if ( isset( $this->args[ $handle ] ) ) {
+			parse_str( $this->args[ $handle ], $parsed_args );
+			if ( $parsed_args ) {
+				$query_args = array_merge( $query_args, $parsed_args );
+			}
+		}
+		$src = add_query_arg( rawurlencode_deep( $query_args ), $src );
 
 		/** This filter is documented in wp-includes/class-wp-scripts.php */
 		$src = esc_url_raw( apply_filters( 'script_loader_src', $src, $handle ) );
