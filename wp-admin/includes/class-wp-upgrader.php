@@ -292,30 +292,32 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Downloads a package.
+	 * Downloads a package for a WordPress core, plugin, theme, or translation upgrade.
 	 *
 	 * @since 2.8.0
 	 * @since 5.2.0 Added the `$check_signatures` parameter.
 	 * @since 5.5.0 Added the `$hook_extra` parameter.
 	 *
-	 * @param string $package          The URI of the package. If this is the full path to an
-	 *                                 existing local file, it will be returned untouched.
+	 * @param string $package          The URI of the package. May be a remote URL or local file path. If this is the full
+	 *                                 path to an existing local file, it will be returned untouched.
 	 * @param bool   $check_signatures Whether to validate file signatures. Default false.
 	 * @param array  $hook_extra       Extra arguments to pass to the filter hooks. Default empty array.
 	 * @return string|WP_Error The full path to the downloaded package file, or a WP_Error object.
 	 */
 	public function download_package( $package, $check_signatures = false, $hook_extra = array() ) {
 		/**
-		 * Filters whether to return the package.
+		 * Filters whether to download a package for a WordPress core, plugin, theme, or translation upgrade.
+		 *
+		 * Return a non-false value to short-circuit the download and return that value instead.
 		 *
 		 * @since 3.7.0
 		 * @since 5.5.0 Added the `$hook_extra` parameter.
 		 *
-		 * @param bool        $reply      Whether to bail without returning the package.
-		 *                                Default false.
-		 * @param string      $package    The package file name.
-		 * @param WP_Upgrader $upgrader   The WP_Upgrader instance.
-		 * @param array       $hook_extra Extra arguments passed to hooked filters.
+		 * @param false|string|WP_Error $reply      Whether to short-circuit the download, the path to the downloaded package,
+		 *                                          or a WP_Error object. Default false.
+		 * @param string                $package    The package URI. May be a remote URL or local file path.
+		 * @param WP_Upgrader           $upgrader   The WP_Upgrader instance.
+		 * @param array                 $hook_extra Extra arguments passed to hooked filters.
 		 */
 		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this, $hook_extra );
 		if ( false !== $reply ) {
@@ -519,7 +521,6 @@ class WP_Upgrader {
 
 		$args = wp_parse_args( $args, $defaults );
 
-		// These were previously extract()'d.
 		$source            = $args['source'];
 		$destination       = $args['destination'];
 		$clear_destination = $args['clear_destination'];
@@ -592,10 +593,10 @@ class WP_Upgrader {
 		 * @since 2.8.0
 		 * @since 4.4.0 The `$hook_extra` parameter became available.
 		 *
-		 * @param string      $source        File source location.
-		 * @param string      $remote_source Remote file source location.
-		 * @param WP_Upgrader $upgrader      WP_Upgrader instance.
-		 * @param array       $hook_extra    Extra arguments passed to hooked filters.
+		 * @param string|WP_Error $source        File source location or a WP_Error object.
+		 * @param string          $remote_source Remote file source location.
+		 * @param WP_Upgrader     $upgrader      WP_Upgrader instance.
+		 * @param array           $hook_extra    Extra arguments passed to hooked filters.
 		 */
 		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this, $args['hook_extra'] );
 
