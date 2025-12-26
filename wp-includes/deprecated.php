@@ -5897,10 +5897,9 @@ function _wp_theme_json_webfonts_handler() {
 function print_embed_styles() {
 	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_embed_styles' );
 
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
-	$suffix    = SCRIPT_DEBUG ? '' : '.min';
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	?>
-	<style<?php echo $type_attr; ?>>
+	<style>
 		<?php echo file_get_contents( ABSPATH . WPINC . "/css/wp-embed-template$suffix.css" ); ?>
 	</style>
 	<?php
@@ -5922,9 +5921,8 @@ function print_emoji_styles() {
 
 	$printed = true;
 
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 	?>
-	<style<?php echo $type_attr; ?>>
+	<style>
 	img.wp-smiley,
 	img.emoji {
 		display: inline !important;
@@ -5949,9 +5947,8 @@ function print_emoji_styles() {
  */
 function wp_admin_bar_header() {
 	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_admin_bar_header_styles' );
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 	?>
-	<style<?php echo $type_attr; ?> media="print">#wpadminbar { display:none; }</style>
+	<style media="print">#wpadminbar { display:none; }</style>
 	<?php
 }
 
@@ -5963,9 +5960,8 @@ function wp_admin_bar_header() {
  */
 function _admin_bar_bump_cb() {
 	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_admin_bar_bump_styles' );
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 	?>
-	<style<?php echo $type_attr; ?> media="screen">
+	<style media="screen">
 	html { margin-top: 32px !important; }
 	@media screen and ( max-width: 782px ) {
 	  html { margin-top: 46px !important; }

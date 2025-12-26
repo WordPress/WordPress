@@ -2205,12 +2205,11 @@ function _print_scripts() {
 		$zip = 'gzip';
 	}
 
-	$concat    = trim( $wp_scripts->concat, ', ' );
-	$type_attr = current_theme_supports( 'html5', 'script' ) ? '' : " type='text/javascript'";
+	$concat = trim( $wp_scripts->concat, ', ' );
 
 	if ( $concat ) {
 		if ( ! empty( $wp_scripts->print_code ) ) {
-			echo "\n<script{$type_attr}>\n";
+			echo "\n<script>\n";
 			echo "/* <![CDATA[ */\n"; // Not needed in HTML 5.
 			echo $wp_scripts->print_code;
 			echo sprintf( "\n//# sourceURL=%s\n", rawurlencode( 'js-inline-concat-' . $concat ) );
@@ -2226,7 +2225,7 @@ function _print_scripts() {
 		}
 
 		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}" . $concatenated . '&ver=' . $wp_scripts->default_version;
-		echo "<script{$type_attr} src='" . esc_attr( $src ) . "'></script>\n";
+		echo "<script src='" . esc_attr( $src ) . "'></script>\n";
 	}
 
 	if ( ! empty( $wp_scripts->print_html ) ) {
@@ -2398,8 +2397,7 @@ function _print_styles() {
 		$zip = 'gzip';
 	}
 
-	$concat    = trim( $wp_styles->concat, ', ' );
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+	$concat = trim( $wp_styles->concat, ', ' );
 
 	if ( $concat ) {
 		$dir = $wp_styles->text_direction;
@@ -2414,10 +2412,10 @@ function _print_styles() {
 		}
 
 		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}" . $concatenated . '&ver=' . $ver;
-		echo "<link rel='stylesheet' href='" . esc_attr( $href ) . "'{$type_attr} media='all' />\n";
+		echo "<link rel='stylesheet' href='" . esc_attr( $href ) . "' media='all' />\n";
 
 		if ( ! empty( $wp_styles->print_code ) ) {
-			echo "<style{$type_attr}>\n";
+			echo "<style>\n";
 			echo $wp_styles->print_code;
 			echo sprintf( "\n/*# sourceURL=%s */", rawurlencode( $concat_source_url ) );
 			echo "\n</style>\n";
@@ -2905,13 +2903,6 @@ function wp_sanitize_script_attributes( $attributes ) {
  * @return string String containing `<script>` opening and closing tags.
  */
 function wp_get_script_tag( $attributes ) {
-	if ( ! isset( $attributes['type'] ) && ! is_admin() && ! current_theme_supports( 'html5', 'script' ) ) {
-		// Keep the type attribute as the first for legacy reasons (it has always been this way in core).
-		$attributes = array_merge(
-			array( 'type' => 'text/javascript' ),
-			$attributes
-		);
-	}
 	/**
 	 * Filters attributes to be added to a script tag.
 	 *
@@ -2953,15 +2944,6 @@ function wp_print_script_tag( $attributes ) {
  * @return string String containing inline JavaScript code wrapped around `<script>` tag.
  */
 function wp_get_inline_script_tag( $data, $attributes = array() ) {
-	$is_html5 = current_theme_supports( 'html5', 'script' ) || is_admin();
-	if ( ! isset( $attributes['type'] ) && ! $is_html5 ) {
-		// Keep the type attribute as the first for legacy reasons (it has always been this way in core).
-		$attributes = array_merge(
-			array( 'type' => 'text/javascript' ),
-			$attributes
-		);
-	}
-
 	/*
 	 * XHTML extracts the contents of the SCRIPT element and then the XML parser
 	 * decodes character references and other syntax elements. This can lead to
@@ -2987,7 +2969,7 @@ function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	 * @see https://www.w3.org/TR/xhtml1/#h-4.8
 	 */
 	if (
-		! $is_html5 &&
+		! current_theme_supports( 'html5', 'script' ) &&
 		(
 			! isset( $attributes['type'] ) ||
 			'module' === $attributes['type'] ||

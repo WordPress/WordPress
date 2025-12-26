@@ -69,7 +69,7 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 
 		// If we get this far, we have custom styles.
 		?>
-		<style type="text/css" id="twentyfourteen-header-css">
+		<style id="twentyfourteen-header-css">
 		<?php
 		// Has the text been hidden?
 		if ( ! display_header_text() ) :

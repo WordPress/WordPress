@@ -96,7 +96,7 @@ function twentythirteen_header_style() {
 
 	// If we get this far, we have custom styles.
 	?>
-	<style type="text/css" id="twentythirteen-header-css">
+	<style id="twentythirteen-header-css">
 	<?php
 	if ( ! empty( $header_image ) ) :
 		?>

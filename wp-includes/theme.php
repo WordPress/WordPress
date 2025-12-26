@@ -733,12 +733,9 @@ function locale_stylesheet() {
 		return;
 	}
 
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
-
 	printf(
-		'<link rel="stylesheet" href="%s"%s media="screen" />',
-		$stylesheet,
-		$type_attr
+		'<link rel="stylesheet" href="%s" media="screen" />',
+		$stylesheet
 	);
 }
 

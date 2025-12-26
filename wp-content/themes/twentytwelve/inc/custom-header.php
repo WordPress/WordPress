@@ -77,7 +77,7 @@ function twentytwelve_header_style() {
 
 	// If we get this far, we have custom styles.
 	?>
-	<style type="text/css" id="twentytwelve-header-css">
+	<style id="twentytwelve-header-css">
 	<?php
 		// Has the text been hidden?
 	if ( ! display_header_text() ) :

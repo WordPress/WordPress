@@ -3921,7 +3921,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 		?>
 	<title><?php echo $title; ?></title>
-	<style type="text/css">
+	<style>
 		html {
 			background: #f1f1f1;
 		}

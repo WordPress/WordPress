@@ -94,7 +94,7 @@ function graceful_fail( $message ) {
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Error!</title>
-<style type="text/css">
+<style>
 img {
 	border: 0;
 }

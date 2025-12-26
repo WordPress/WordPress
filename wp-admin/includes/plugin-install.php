@@ -606,7 +606,7 @@ function install_plugin_information() {
 		$low          = empty( $api->banners['low'] ) ? $api->banners['high'] : $api->banners['low'];
 		$high         = empty( $api->banners['high'] ) ? $api->banners['low'] : $api->banners['high'];
 		?>
-		<style type="text/css">
+		<style>
 			#plugin-information-title.with-banner {
 				background-image: url( <?php echo esc_url( $low ); ?> );
 			}

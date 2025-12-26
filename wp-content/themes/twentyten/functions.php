@@ -275,7 +275,7 @@ if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 	 */
 	function twentyten_admin_header_style() {
 		?>
-	<style type="text/css" id="twentyten-admin-header-css">
+	<style id="twentyten-admin-header-css">
 	/* Shows the same border as on front end */
 	#headimg {
 	border-bottom: 1px solid #000;

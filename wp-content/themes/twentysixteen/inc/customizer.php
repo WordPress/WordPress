@@ -90,7 +90,7 @@ if ( ! function_exists( 'twentysixteen_header_style' ) ) :
 
 		// If the header text has been hidden.
 		?>
-		<style type="text/css" id="twentysixteen-header-css">
+		<style id="twentysixteen-header-css">
 		.site-branding {
 			margin: 0 auto 0 0;
 		}

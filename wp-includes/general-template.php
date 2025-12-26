@@ -5061,7 +5061,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	}
 
 	$stylesheet_link = sprintf(
-		"<link rel='stylesheet' href='%s' type='text/css' />\n",
+		"<link rel='stylesheet' href='%s' />\n",
 		esc_url( wp_admin_css_uri( $file ) )
 	);
 
@@ -5080,7 +5080,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 
 	if ( function_exists( 'is_rtl' ) && is_rtl() ) {
 		$rtl_stylesheet_link = sprintf(
-			"<link rel='stylesheet' href='%s' type='text/css' />\n",
+			"<link rel='stylesheet' href='%s' />\n",
 			esc_url( wp_admin_css_uri( "$file-rtl" ) )
 		);
 

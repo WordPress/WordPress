@@ -176,7 +176,7 @@ function login_header( $title = null, $message = '', $wp_error = null ) {
 		$classes[] = 'interim-login';
 
 		?>
-		<style type="text/css">html{background-color: transparent;}</style>
+		<style>html{background-color: transparent;}</style>
 		<?php
 
 		if ( 'success' === $interim_login ) {
