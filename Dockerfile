@@ -4,6 +4,7 @@ FROM wordpress:6.8.3-php8.3-apache
 RUN apt-get update && apt-get install -y \
     less \
     mariadb-client \
+    unzip \
     && pecl install redis-6.0.2 \
     && docker-php-ext-enable redis \
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
