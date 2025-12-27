@@ -1,0 +1,97 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/file",
+	"title": "File",
+	"category": "media",
+	"description": "Add a link to a downloadable file.",
+	"keywords": [ "document", "pdf", "download" ],
+	"textdomain": "default",
+	"attributes": {
+		"id": {
+			"type": "number"
+		},
+		"blob": {
+			"type": "string",
+			"role": "local"
+		},
+		"href": {
+			"type": "string",
+			"role": "content"
+		},
+		"fileId": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a:not([download])",
+			"attribute": "id"
+		},
+		"fileName": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "a:not([download])",
+			"role": "content"
+		},
+		"textLinkHref": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a:not([download])",
+			"attribute": "href",
+			"role": "content"
+		},
+		"textLinkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a:not([download])",
+			"attribute": "target"
+		},
+		"showDownloadButton": {
+			"type": "boolean",
+			"default": true
+		},
+		"downloadButtonText": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "a[download]",
+			"role": "content"
+		},
+		"displayPreview": {
+			"type": "boolean"
+		},
+		"previewHeight": {
+			"type": "number",
+			"default": 600
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"link": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
+			}
+		},
+		"interactivity": true
+	},
+	"editorStyle": "wp-block-file-editor",
+	"style": "wp-block-file"
+}

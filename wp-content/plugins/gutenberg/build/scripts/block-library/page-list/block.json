@@ -1,0 +1,84 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/page-list",
+	"title": "Page List",
+	"category": "widgets",
+	"allowedBlocks": [ "core/page-list-item" ],
+	"description": "Display a list of all pages.",
+	"keywords": [ "menu", "navigation" ],
+	"textdomain": "default",
+	"attributes": {
+		"parentPageID": {
+			"type": "integer",
+			"default": 0
+		},
+		"isNested": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [
+		"textColor",
+		"customTextColor",
+		"backgroundColor",
+		"customBackgroundColor",
+		"overlayTextColor",
+		"customOverlayTextColor",
+		"overlayBackgroundColor",
+		"customOverlayBackgroundColor",
+		"fontSize",
+		"customFontSize",
+		"showSubmenuIcon",
+		"style",
+		"openSubmenusOnClick"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true,
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"__experimentalDefaultControls": {
+				"padding": false,
+				"margin": false
+			}
+		},
+		"contentRole": true
+	},
+	"editorStyle": "wp-block-page-list-editor",
+	"style": "wp-block-page-list"
+}
