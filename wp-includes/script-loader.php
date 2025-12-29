@@ -2969,8 +2969,8 @@ function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	 * @see https://www.w3.org/TR/xhtml1/#h-4.8
 	 */
 	if (
-		! current_theme_supports( 'html5', 'script' ) &&
-		(
+		( ! current_theme_supports( 'html5', 'script' ) && ! is_admin() )
+		&& (
 			! isset( $attributes['type'] ) ||
 			'module' === $attributes['type'] ||
 			str_contains( $attributes['type'], 'javascript' ) ||
