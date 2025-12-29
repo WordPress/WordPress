@@ -2210,10 +2210,8 @@ function _print_scripts() {
 	if ( $concat ) {
 		if ( ! empty( $wp_scripts->print_code ) ) {
 			echo "\n<script>\n";
-			echo "/* <![CDATA[ */\n"; // Not needed in HTML 5.
 			echo $wp_scripts->print_code;
 			echo sprintf( "\n//# sourceURL=%s\n", rawurlencode( 'js-inline-concat-' . $concat ) );
-			echo "/* ]]> */\n";
 			echo "</script>\n";
 		}
 
@@ -2871,8 +2869,7 @@ function wp_enqueue_editor_format_library_assets() {
  * @return string String made of sanitized `<script>` tag attributes.
  */
 function wp_sanitize_script_attributes( $attributes ) {
-	$html5_script_support = is_admin() || current_theme_supports( 'html5', 'script' );
-	$attributes_string    = '';
+	$attributes_string = '';
 
 	/*
 	 * If HTML5 script tag is supported, only the attribute name is added
@@ -2881,7 +2878,7 @@ function wp_sanitize_script_attributes( $attributes ) {
 	foreach ( $attributes as $attribute_name => $attribute_value ) {
 		if ( is_bool( $attribute_value ) ) {
 			if ( $attribute_value ) {
-				$attributes_string .= $html5_script_support ? ' ' . esc_attr( $attribute_name ) : sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) );
+				$attributes_string .= ' ' . esc_attr( $attribute_name );
 			}
 		} else {
 			$attributes_string .= sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
@@ -2944,56 +2941,6 @@ function wp_print_script_tag( $attributes ) {
  * @return string String containing inline JavaScript code wrapped around `<script>` tag.
  */
 function wp_get_inline_script_tag( $data, $attributes = array() ) {
-	/*
-	 * XHTML extracts the contents of the SCRIPT element and then the XML parser
-	 * decodes character references and other syntax elements. This can lead to
-	 * misinterpretation of the script contents or invalid XHTML documents.
-	 *
-	 * Wrapping the contents in a CDATA section instructs the XML parser not to
-	 * transform the contents of the SCRIPT element before passing them to the
-	 * JavaScript engine.
-	 *
-	 * Example:
-	 *
-	 *     <script>console.log('&hellip;');</script>
-	 *
-	 *     In an HTML document this would print "&hellip;" to the console,
-	 *     but in an XHTML document it would print "…" to the console.
-	 *
-	 *     <script>console.log('An image is <img> in HTML');</script>
-	 *
-	 *     In an HTML document this would print "An image is <img> in HTML",
-	 *     but it's an invalid XHTML document because it interprets the `<img>`
-	 *     as an empty tag missing its closing `/`.
-	 *
-	 * @see https://www.w3.org/TR/xhtml1/#h-4.8
-	 */
-	if (
-		( ! current_theme_supports( 'html5', 'script' ) && ! is_admin() )
-		&& (
-			! isset( $attributes['type'] ) ||
-			'module' === $attributes['type'] ||
-			str_contains( $attributes['type'], 'javascript' ) ||
-			str_contains( $attributes['type'], 'ecmascript' ) ||
-			str_contains( $attributes['type'], 'jscript' ) ||
-			str_contains( $attributes['type'], 'livescript' )
-		)
-	) {
-		/*
-		 * If the string `]]>` exists within the JavaScript it would break
-		 * out of any wrapping CDATA section added here, so to start, it's
-		 * necessary to escape that sequence which requires splitting the
-		 * content into two CDATA sections wherever it's found.
-		 *
-		 * Note: it's only necessary to escape the closing `]]>` because
-		 * an additional `<![CDATA[` leaves the contents unchanged.
-		 */
-		$data = str_replace( ']]>', ']]]]><![CDATA[>', $data );
-
-		// Wrap the entire escaped script inside a CDATA section.
-		$data = sprintf( "/* <![CDATA[ */\n%s\n/* ]]> */", $data );
-	}
-
 	$data = "\n" . trim( $data, "\n\r " ) . "\n";
 
 	/**
