@@ -2413,10 +2413,12 @@ function _print_styles() {
 		echo "<link rel='stylesheet' href='" . esc_attr( $href ) . "' media='all' />\n";
 
 		if ( ! empty( $wp_styles->print_code ) ) {
-			echo "<style>\n";
-			echo $wp_styles->print_code;
-			echo sprintf( "\n/*# sourceURL=%s */", rawurlencode( $concat_source_url ) );
-			echo "\n</style>\n";
+			$processor = new WP_HTML_Tag_Processor( '<style></style>' );
+			$processor->next_tag();
+			$style_tag_contents = "\n{$wp_styles->print_code}\n"
+				. sprintf( "/*# sourceURL=%s */\n", rawurlencode( $concat_source_url ) );
+			$processor->set_modifiable_text( $style_tag_contents );
+			echo "{$processor->get_updated_html()}\n";
 		}
 	}
 
@@ -3171,7 +3173,10 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
 	add_action(
 		$action_hook_name,
 		static function () use ( $style ) {
-			echo "<style>$style</style>\n";
+			$processor = new WP_HTML_Tag_Processor( '<style></style>' );
+			$processor->next_tag();
+			$processor->set_modifiable_text( $style );
+			echo "{$processor->get_updated_html()}\n";
 		},
 		$priority
 	);
