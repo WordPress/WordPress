@@ -122,7 +122,7 @@ https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version
 
 == Copyright ==
 
-Twenty Twenty-One WordPress Theme, 2020-2025 WordPress.org and contributors.
+Twenty Twenty-One WordPress Theme, 2020-2026 WordPress.org and contributors.
 Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -140,19 +140,19 @@ Twenty Twenty-One is derived from Seedlet, (C) 2020 Automattic, Inc.
 
 Twenty Twenty-One is also based on:
 
-Twenty Nineteen. 2018-2025 WordPress.org
+Twenty Nineteen. 2018-2026 WordPress.org
 Twenty Nineteen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Seventeen. Copyright (C) 2016-2025 WordPress.org
+Twenty Seventeen. Copyright (C) 2016-2026 WordPress.org
 Twenty Seventeen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Sixteen. Copyright (C) 2015-2025 WordPress.org
+Twenty Sixteen. Copyright (C) 2015-2026 WordPress.org
 Twenty Sixteen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Twenty. Copyright (C) 2020-2025 WordPress.org
+Twenty Twenty. Copyright (C) 2020-2026 WordPress.org
 Twenty Twenty is distributed under the terms of the GNU GPL v2 or later.
 
-Underscores https://underscores.me/, Copyright (C) 2012-2025 Automattic, Inc.
+Underscores https://underscores.me/, Copyright (C) 2012-2026 Automattic, Inc.
 Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 Normalizing styles have been helped along thanks to the fine work of

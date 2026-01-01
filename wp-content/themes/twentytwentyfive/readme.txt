@@ -41,7 +41,7 @@ https://wordpress.org/documentation/article/twenty-twenty-five-changelog/#Versio
 
 == Copyright ==
 
-Twenty Twenty-Five WordPress Theme, (C) 2024-2025 WordPress.org and contributors.
+Twenty Twenty-Five WordPress Theme, (C) 2024-2026 WordPress.org and contributors.
 Twenty Twenty-Five is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify

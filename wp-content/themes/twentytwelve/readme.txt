@@ -23,7 +23,7 @@ For more information about Twenty Twelve please go to https://codex.wordpress.or
 
 == Copyright ==
 
-Twenty Twelve WordPress Theme, Copyright 2012-2025 WordPress.org, Automattic Inc., and contributors.
+Twenty Twelve WordPress Theme, Copyright 2012-2026 WordPress.org, Automattic Inc., and contributors.
 Twenty Twelve is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
