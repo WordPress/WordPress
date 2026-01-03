@@ -20,7 +20,7 @@ get_header();
 			<header class="page-header">
 				<h1 class="page-title">
 					<?php _e( 'Search results for: ', 'twentynineteen' ); ?>
-					<span class="page-description"><?php echo get_search_query(); ?></span>
+					<span class="page-description"><?php echo esc_html( get_search_query( false ) ); ?></span>
 				</h1>
 			</header><!-- .page-header -->
 

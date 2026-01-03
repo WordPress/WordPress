@@ -18,7 +18,7 @@ get_header(); ?>
 				<h1 class="page-title">
 				<?php
 				/* translators: %s: Search query. */
-				printf( __( 'Search Results for: %s', 'twentythirteen' ), get_search_query() );
+				printf( __( 'Search Results for: %s', 'twentythirteen' ), esc_html( get_search_query( false ) ) );
 				?>
 				</h1>
 			</header>
