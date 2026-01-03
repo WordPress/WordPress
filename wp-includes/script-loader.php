@@ -88,21 +88,21 @@ function wp_default_packages_vendor( $scripts ) {
 	$suffix = wp_scripts_get_suffix();
 
 	$vendor_scripts = array(
-		'react',
-		'react-dom'         => array( 'react' ),
-		'react-jsx-runtime' => array( 'react' ),
-		'regenerator-runtime',
-		'moment',
-		'lodash',
-		'wp-polyfill-fetch',
-		'wp-polyfill-formdata',
-		'wp-polyfill-node-contains',
-		'wp-polyfill-url',
-		'wp-polyfill-dom-rect',
-		'wp-polyfill-element-closest',
-		'wp-polyfill-object-fit',
-		'wp-polyfill-inert',
-		'wp-polyfill',
+		'react'                       => array(),
+		'react-dom'                   => array( 'react' ),
+		'react-jsx-runtime'           => array( 'react' ),
+		'regenerator-runtime'         => array(),
+		'moment'                      => array(),
+		'lodash'                      => array(),
+		'wp-polyfill-fetch'           => array(),
+		'wp-polyfill-formdata'        => array(),
+		'wp-polyfill-node-contains'   => array(),
+		'wp-polyfill-url'             => array(),
+		'wp-polyfill-dom-rect'        => array(),
+		'wp-polyfill-element-closest' => array(),
+		'wp-polyfill-object-fit'      => array(),
+		'wp-polyfill-inert'           => array(),
+		'wp-polyfill'                 => array(),
 	);
 
 	$vendor_scripts_versions = array(
@@ -124,15 +124,13 @@ function wp_default_packages_vendor( $scripts ) {
 	);
 
 	foreach ( $vendor_scripts as $handle => $dependencies ) {
-		if ( is_string( $dependencies ) ) {
-			$handle       = $dependencies;
-			$dependencies = array();
-		}
-
-		$path    = "/wp-includes/js/dist/vendor/$handle$suffix.js";
-		$version = $vendor_scripts_versions[ $handle ];
-
-		$scripts->add( $handle, $path, $dependencies, $version, 1 );
+		$scripts->add(
+			$handle,
+			"/wp-includes/js/dist/vendor/$handle$suffix.js",
+			$dependencies,
+			$vendor_scripts_versions[ $handle ],
+			1
+		);
 	}
 
 	did_action( 'init' ) && $scripts->add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
