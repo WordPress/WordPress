@@ -31,9 +31,9 @@ get_header();
 		global $wp_query;
 
 		$archive_title = sprintf(
-			'%1$s %2$s',
+			'%1$s &ldquo;%2$s&rdquo;',
 			'<span class="color-accent">' . __( 'Search:', 'twentytwenty' ) . '</span>',
-			'&ldquo;' . get_search_query() . '&rdquo;'
+			esc_html( get_search_query( false ) )
 		);
 
 		if ( $wp_query->found_posts ) {

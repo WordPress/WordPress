@@ -19,7 +19,7 @@ if ( have_posts() ) {
 			printf(
 				/* translators: %s: Search term. */
 				esc_html__( 'Results for "%s"', 'twentytwentyone' ),
-				'<span class="page-description search-term">' . esc_html( get_search_query() ) . '</span>'
+				'<span class="page-description search-term">' . esc_html( get_search_query( false ) ) . '</span>'
 			);
 			?>
 		</h1>
