@@ -429,7 +429,7 @@ function do_shortcode_tag( $m ) {
 		return $return;
 	}
 
-	$content = isset( $m[5] ) ? $m[5] : null;
+	$content = $m[5] ?? null;
 
 	$output = $m[1] . call_user_func( $shortcode_tags[ $tag ], $attr, $content, $tag ) . $m[6];
 
