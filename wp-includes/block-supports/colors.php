@@ -18,7 +18,7 @@
 function wp_register_colors_support( $block_type ) {
 	$color_support = false;
 	if ( $block_type instanceof WP_Block_Type ) {
-		$color_support = isset( $block_type->supports['color'] ) ? $block_type->supports['color'] : false;
+		$color_support = $block_type->supports['color'] ?? false;
 	}
 	$has_text_colors_support       = true === $color_support ||
 		( isset( $color_support['text'] ) && $color_support['text'] ) ||
@@ -26,10 +26,10 @@ function wp_register_colors_support( $block_type ) {
 	$has_background_colors_support = true === $color_support ||
 		( isset( $color_support['background'] ) && $color_support['background'] ) ||
 		( is_array( $color_support ) && ! isset( $color_support['background'] ) );
-	$has_gradients_support         = isset( $color_support['gradients'] ) ? $color_support['gradients'] : false;
-	$has_link_colors_support       = isset( $color_support['link'] ) ? $color_support['link'] : false;
-	$has_button_colors_support     = isset( $color_support['button'] ) ? $color_support['button'] : false;
-	$has_heading_colors_support    = isset( $color_support['heading'] ) ? $color_support['heading'] : false;
+	$has_gradients_support         = $color_support['gradients'] ?? false;
+	$has_link_colors_support       = $color_support['link'] ?? false;
+	$has_button_colors_support     = $color_support['button'] ?? false;
+	$has_heading_colors_support    = $color_support['heading'] ?? false;
 	$has_color_support             = $has_text_colors_support ||
 		$has_background_colors_support ||
 		$has_gradients_support ||
@@ -81,7 +81,7 @@ function wp_register_colors_support( $block_type ) {
  * @return array Colors CSS classes and inline styles.
  */
 function wp_apply_colors_support( $block_type, $block_attributes ) {
-	$color_support = isset( $block_type->supports['color'] ) ? $block_type->supports['color'] : false;
+	$color_support = $block_type->supports['color'] ?? false;
 
 	if (
 		is_array( $color_support ) &&
@@ -96,27 +96,27 @@ function wp_apply_colors_support( $block_type, $block_attributes ) {
 	$has_background_colors_support = true === $color_support ||
 		( isset( $color_support['background'] ) && $color_support['background'] ) ||
 		( is_array( $color_support ) && ! isset( $color_support['background'] ) );
-	$has_gradients_support         = isset( $color_support['gradients'] ) ? $color_support['gradients'] : false;
+	$has_gradients_support         = $color_support['gradients'] ?? false;
 	$color_block_styles            = array();
 
 	// Text colors.
 	if ( $has_text_colors_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'text' ) ) {
 		$preset_text_color          = array_key_exists( 'textColor', $block_attributes ) ? "var:preset|color|{$block_attributes['textColor']}" : null;
-		$custom_text_color          = isset( $block_attributes['style']['color']['text'] ) ? $block_attributes['style']['color']['text'] : null;
+		$custom_text_color          = $block_attributes['style']['color']['text'] ?? null;
 		$color_block_styles['text'] = $preset_text_color ? $preset_text_color : $custom_text_color;
 	}
 
 	// Background colors.
 	if ( $has_background_colors_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'background' ) ) {
 		$preset_background_color          = array_key_exists( 'backgroundColor', $block_attributes ) ? "var:preset|color|{$block_attributes['backgroundColor']}" : null;
-		$custom_background_color          = isset( $block_attributes['style']['color']['background'] ) ? $block_attributes['style']['color']['background'] : null;
+		$custom_background_color          = $block_attributes['style']['color']['background'] ?? null;
 		$color_block_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
 	}
 
 	// Gradients.
 	if ( $has_gradients_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'gradients' ) ) {
 		$preset_gradient_color          = array_key_exists( 'gradient', $block_attributes ) ? "var:preset|gradient|{$block_attributes['gradient']}" : null;
-		$custom_gradient_color          = isset( $block_attributes['style']['color']['gradient'] ) ? $block_attributes['style']['color']['gradient'] : null;
+		$custom_gradient_color          = $block_attributes['style']['color']['gradient'] ?? null;
 		$color_block_styles['gradient'] = $preset_gradient_color ? $preset_gradient_color : $custom_gradient_color;
 	}
 

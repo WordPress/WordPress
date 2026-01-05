@@ -36,7 +36,7 @@ function wp_should_add_elements_class_name( $block, $options ) {
 
 	$element_color_properties = array(
 		'button'  => array(
-			'skip'  => isset( $options['button']['skip'] ) ? $options['button']['skip'] : false,
+			'skip'  => $options['button']['skip'] ?? false,
 			'paths' => array(
 				array( 'button', 'color', 'text' ),
 				array( 'button', 'color', 'background' ),
@@ -44,14 +44,14 @@ function wp_should_add_elements_class_name( $block, $options ) {
 			),
 		),
 		'link'    => array(
-			'skip'  => isset( $options['link']['skip'] ) ? $options['link']['skip'] : false,
+			'skip'  => $options['link']['skip'] ?? false,
 			'paths' => array(
 				array( 'link', 'color', 'text' ),
 				array( 'link', ':hover', 'color', 'text' ),
 			),
 		),
 		'heading' => array(
-			'skip'  => isset( $options['heading']['skip'] ) ? $options['heading']['skip'] : false,
+			'skip'  => $options['heading']['skip'] ?? false,
 			'paths' => array(
 				array( 'heading', 'color', 'text' ),
 				array( 'heading', 'color', 'background' ),
@@ -130,7 +130,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 	}
 
 	$block_type           = WP_Block_Type_Registry::get_instance()->get_registered( $parsed_block['blockName'] );
-	$element_block_styles = isset( $parsed_block['attrs']['style']['elements'] ) ? $parsed_block['attrs']['style']['elements'] : null;
+	$element_block_styles = $parsed_block['attrs']['style']['elements'] ?? null;
 
 	if ( ! $element_block_styles ) {
 		return $parsed_block;
@@ -185,7 +185,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 			continue;
 		}
 
-		$element_style_object = isset( $element_block_styles[ $element_type ] ) ? $element_block_styles[ $element_type ] : null;
+		$element_style_object = $element_block_styles[ $element_type ] ?? null;
 
 		// Process primary element type styles.
 		if ( $element_style_object ) {
@@ -211,9 +211,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 		// Process related elements e.g. h1-h6 for headings.
 		if ( isset( $element_config['elements'] ) ) {
 			foreach ( $element_config['elements'] as $element ) {
-				$element_style_object = isset( $element_block_styles[ $element ] )
-					? $element_block_styles[ $element ]
-					: null;
+				$element_style_object = $element_block_styles[ $element ] ?? null;
 
 				if ( $element_style_object ) {
 					wp_style_engine_get_styles(

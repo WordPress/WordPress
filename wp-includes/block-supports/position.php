@@ -51,8 +51,8 @@ function wp_render_position_support( $block_content, $block ) {
 	}
 
 	$global_settings          = wp_get_global_settings();
-	$theme_has_sticky_support = isset( $global_settings['position']['sticky'] ) ? $global_settings['position']['sticky'] : false;
-	$theme_has_fixed_support  = isset( $global_settings['position']['fixed'] ) ? $global_settings['position']['fixed'] : false;
+	$theme_has_sticky_support = $global_settings['position']['sticky'] ?? false;
+	$theme_has_fixed_support  = $global_settings['position']['fixed'] ?? false;
 
 	// Only allow output for position types that the theme supports.
 	$allowed_position_types = array();
@@ -63,11 +63,11 @@ function wp_render_position_support( $block_content, $block ) {
 		$allowed_position_types[] = 'fixed';
 	}
 
-	$style_attribute = isset( $block['attrs']['style'] ) ? $block['attrs']['style'] : null;
+	$style_attribute = $block['attrs']['style'] ?? null;
 	$class_name      = wp_unique_id( 'wp-container-' );
 	$selector        = ".$class_name";
 	$position_styles = array();
-	$position_type   = isset( $style_attribute['position']['type'] ) ? $style_attribute['position']['type'] : '';
+	$position_type   = $style_attribute['position']['type'] ?? '';
 	$wrapper_classes = array();
 
 	if (
@@ -78,7 +78,7 @@ function wp_render_position_support( $block_content, $block ) {
 		$sides             = array( 'top', 'right', 'bottom', 'left' );
 
 		foreach ( $sides as $side ) {
-			$side_value = isset( $style_attribute['position'][ $side ] ) ? $style_attribute['position'][ $side ] : null;
+			$side_value = $style_attribute['position'][ $side ] ?? null;
 			if ( null !== $side_value ) {
 				/*
 				 * For fixed or sticky top positions,

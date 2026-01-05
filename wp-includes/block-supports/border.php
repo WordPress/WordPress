@@ -102,14 +102,14 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
 		! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'color' )
 	) {
 		$preset_border_color          = array_key_exists( 'borderColor', $block_attributes ) ? "var:preset|color|{$block_attributes['borderColor']}" : null;
-		$custom_border_color          = isset( $block_attributes['style']['border']['color'] ) ? $block_attributes['style']['border']['color'] : null;
+		$custom_border_color          = $block_attributes['style']['border']['color'] ?? null;
 		$border_block_styles['color'] = $preset_border_color ? $preset_border_color : $custom_border_color;
 	}
 
 	// Generates styles for individual border sides.
 	if ( $has_border_color_support || $has_border_width_support ) {
 		foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
-			$border                       = isset( $block_attributes['style']['border'][ $side ] ) ? $block_attributes['style']['border'][ $side ] : null;
+			$border                       = $block_attributes['style']['border'][ $side ] ?? null;
 			$border_side_values           = array(
 				'width' => isset( $border['width'] ) && ! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'width' ) ? $border['width'] : null,
 				'color' => isset( $border['color'] ) && ! wp_should_skip_block_supports_serialization( $block_type, '__experimentalBorder', 'color' ) ? $border['color'] : null,
@@ -153,9 +153,7 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
 function wp_has_border_feature_support( $block_type, $feature, $default_value = false ) {
 	// Check if all border support features have been opted into via `"__experimentalBorder": true`.
 	if ( $block_type instanceof WP_Block_Type ) {
-		$block_type_supports_border = isset( $block_type->supports['__experimentalBorder'] )
-			? $block_type->supports['__experimentalBorder']
-			: $default_value;
+		$block_type_supports_border = $block_type->supports['__experimentalBorder'] ?? $default_value;
 		if ( true === $block_type_supports_border ) {
 			return true;
 		}
