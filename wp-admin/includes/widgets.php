@@ -137,7 +137,7 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	++$i;
 
 	$widget_id = $params[0]['widget_id'];
-	$id        = isset( $params[0]['_temp_id'] ) ? $params[0]['_temp_id'] : $widget_id;
+	$id        = $params[0]['_temp_id'] ?? $widget_id;
 	$hidden    = isset( $params[0]['_hide'] ) ? ' style="display:none;"' : '';
 
 	$params[0]['before_widget'] = "<div id='widget-{$i}_{$id}' class='widget'$hidden>";
@@ -191,23 +191,23 @@ function wp_widget_control( $sidebar_args ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $sidebars_widgets;
 
 	$widget_id  = $sidebar_args['widget_id'];
-	$sidebar_id = isset( $sidebar_args['id'] ) ? $sidebar_args['id'] : false;
+	$sidebar_id = $sidebar_args['id'] ?? false;
 	$key        = $sidebar_id ? array_search( $widget_id, $sidebars_widgets[ $sidebar_id ], true ) : '-1'; // Position of widget in sidebar.
-	$control    = isset( $wp_registered_widget_controls[ $widget_id ] ) ? $wp_registered_widget_controls[ $widget_id ] : array();
+	$control    = $wp_registered_widget_controls[ $widget_id ] ?? array();
 	$widget     = $wp_registered_widgets[ $widget_id ];
 
 	$id_format     = $widget['id'];
-	$widget_number = isset( $control['params'][0]['number'] ) ? $control['params'][0]['number'] : '';
-	$id_base       = isset( $control['id_base'] ) ? $control['id_base'] : $widget_id;
-	$width         = isset( $control['width'] ) ? $control['width'] : '';
-	$height        = isset( $control['height'] ) ? $control['height'] : '';
-	$multi_number  = isset( $sidebar_args['_multi_num'] ) ? $sidebar_args['_multi_num'] : '';
-	$add_new       = isset( $sidebar_args['_add'] ) ? $sidebar_args['_add'] : '';
+	$widget_number = $control['params'][0]['number'] ?? '';
+	$id_base       = $control['id_base'] ?? $widget_id;
+	$width         = $control['width'] ?? '';
+	$height        = $control['height'] ?? '';
+	$multi_number  = $sidebar_args['_multi_num'] ?? '';
+	$add_new       = $sidebar_args['_add'] ?? '';
 
-	$before_form           = isset( $sidebar_args['before_form'] ) ? $sidebar_args['before_form'] : '<form method="post">';
-	$after_form            = isset( $sidebar_args['after_form'] ) ? $sidebar_args['after_form'] : '</form>';
-	$before_widget_content = isset( $sidebar_args['before_widget_content'] ) ? $sidebar_args['before_widget_content'] : '<div class="widget-content">';
-	$after_widget_content  = isset( $sidebar_args['after_widget_content'] ) ? $sidebar_args['after_widget_content'] : '</div>';
+	$before_form           = $sidebar_args['before_form'] ?? '<form method="post">';
+	$after_form            = $sidebar_args['after_form'] ?? '</form>';
+	$before_widget_content = $sidebar_args['before_widget_content'] ?? '<div class="widget-content">';
+	$after_widget_content  = $sidebar_args['after_widget_content'] ?? '</div>';
 
 	$query_arg = array( 'editwidget' => $widget['id'] );
 	if ( $add_new ) {

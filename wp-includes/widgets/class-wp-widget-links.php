@@ -39,14 +39,14 @@ class WP_Widget_Links extends WP_Widget {
 	 * @param array $instance Settings for the current Links widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$show_description = isset( $instance['description'] ) ? $instance['description'] : false;
-		$show_name        = isset( $instance['name'] ) ? $instance['name'] : false;
-		$show_rating      = isset( $instance['rating'] ) ? $instance['rating'] : false;
-		$show_images      = isset( $instance['images'] ) ? $instance['images'] : true;
-		$category         = isset( $instance['category'] ) ? $instance['category'] : false;
-		$orderby          = isset( $instance['orderby'] ) ? $instance['orderby'] : 'name';
+		$show_description = $instance['description'] ?? false;
+		$show_name        = $instance['name'] ?? false;
+		$show_rating      = $instance['rating'] ?? false;
+		$show_images      = $instance['images'] ?? true;
+		$category         = $instance['category'] ?? false;
+		$orderby          = $instance['orderby'] ?? 'name';
 		$order            = 'rating' === $orderby ? 'DESC' : 'ASC';
-		$limit            = isset( $instance['limit'] ) ? $instance['limit'] : -1;
+		$limit            = $instance['limit'] ?? -1;
 
 		$before_widget = preg_replace( '/ id="[^"]*"/', ' id="%id"', $args['before_widget'] );
 

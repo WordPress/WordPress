@@ -190,7 +190,7 @@ function register_sidebars( $number = 1, $args = array() ) {
 				$_args['name'] = sprintf( __( 'Sidebar %d' ), $i );
 			}
 		} else {
-			$_args['name'] = isset( $args['name'] ) ? $args['name'] : __( 'Sidebar' );
+			$_args['name'] = $args['name'] ?? __( 'Sidebar' );
 		}
 
 		/*
@@ -1495,7 +1495,7 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 
 	// Sidebars_widgets settings from when this theme was previously active.
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
-	$old_sidebars_widgets = isset( $old_sidebars_widgets['data'] ) ? $old_sidebars_widgets['data'] : false;
+	$old_sidebars_widgets = $old_sidebars_widgets['data'] ?? false;
 
 	if ( is_array( $old_sidebars_widgets ) ) {
 
@@ -1718,8 +1718,8 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	);
 	$inputs         = wp_parse_args( $inputs, $default_inputs );
 
-	$args['title'] = isset( $args['title'] ) ? $args['title'] : '';
-	$args['url']   = isset( $args['url'] ) ? $args['url'] : '';
+	$args['title'] = $args['title'] ?? '';
+	$args['url']   = $args['url'] ?? '';
 	$args['items'] = isset( $args['items'] ) ? (int) $args['items'] : 0;
 
 	if ( $args['items'] < 1 || 20 < $args['items'] ) {

@@ -143,8 +143,8 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		global $wp_customize;
-		$title    = isset( $instance['title'] ) ? $instance['title'] : '';
-		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
+		$title    = $instance['title'] ?? '';
+		$nav_menu = $instance['nav_menu'] ?? '';
 
 		// Get menus.
 		$menus = wp_get_nav_menus();

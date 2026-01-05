@@ -139,7 +139,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		$simulated_text_widget_instance = array_merge(
 			$instance,
 			array(
-				'text'   => isset( $instance['content'] ) ? $instance['content'] : '',
+				'text'   => $instance['content'] ?? '',
 				'filter' => false, // Because wpautop is not applied.
 				'visual' => false, // Because it wasn't created in TinyMCE.
 			)

@@ -447,7 +447,7 @@ class WP_Widget {
 				$new_instance = stripslashes_deep( $new_instance );
 				$this->_set( $number );
 
-				$old_instance = isset( $all_instances[ $number ] ) ? $all_instances[ $number ] : array();
+				$old_instance = $all_instances[ $number ] ?? array();
 
 				$was_cache_addition_suspended = wp_suspend_cache_addition();
 				if ( $this->is_preview() && ! $was_cache_addition_suspended ) {

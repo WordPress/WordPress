@@ -56,7 +56,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( ! $number ) {
 			$number = 5;
 		}
-		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
+		$show_date = $instance['show_date'] ?? false;
 
 		$r = new WP_Query(
 			/**
