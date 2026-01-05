@@ -287,7 +287,7 @@ if ( ! empty( $registered_sources ) ) {
 
 wp_add_inline_script(
 	'wp-blocks',
-	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( isset( $editor_settings['blockCategories'] ) ? $editor_settings['blockCategories'] : array(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ),
+	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( $editor_settings['blockCategories'] ?? array(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ),
 	'after'
 );
 

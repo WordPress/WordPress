@@ -222,8 +222,7 @@ class WP_Block {
 	 */
 	public function __get( $name ) {
 		if ( 'attributes' === $name ) {
-			$this->attributes = isset( $this->parsed_block['attrs'] ) ?
-				$this->parsed_block['attrs'] :
+			$this->attributes = $this->parsed_block['attrs'] ??
 				array();
 
 			if ( ! is_null( $this->block_type ) ) {
@@ -312,9 +311,7 @@ class WP_Block {
 			 */
 			foreach ( $supported_block_attributes as $attribute_name ) {
 				// Retain any non-pattern override bindings that might be present.
-				$updated_bindings[ $attribute_name ] = isset( $bindings[ $attribute_name ] )
-					? $bindings[ $attribute_name ]
-					: array( 'source' => 'core/pattern-overrides' );
+				$updated_bindings[ $attribute_name ] = $bindings[ $attribute_name ] ?? array( 'source' => 'core/pattern-overrides' );
 			}
 			$bindings = $updated_bindings;
 			/*

@@ -566,30 +566,15 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	// These settings may need to be updated based on data coming from theme.json sources.
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['palette'] ) ) {
 		$colors_by_origin          = $editor_settings['__experimentalFeatures']['color']['palette'];
-		$editor_settings['colors'] = isset( $colors_by_origin['custom'] ) ?
-			$colors_by_origin['custom'] : (
-				isset( $colors_by_origin['theme'] ) ?
-					$colors_by_origin['theme'] :
-					$colors_by_origin['default']
-			);
+		$editor_settings['colors'] = $colors_by_origin['custom'] ?? $colors_by_origin['theme'] ?? $colors_by_origin['default'];
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['gradients'] ) ) {
 		$gradients_by_origin          = $editor_settings['__experimentalFeatures']['color']['gradients'];
-		$editor_settings['gradients'] = isset( $gradients_by_origin['custom'] ) ?
-			$gradients_by_origin['custom'] : (
-				isset( $gradients_by_origin['theme'] ) ?
-					$gradients_by_origin['theme'] :
-					$gradients_by_origin['default']
-			);
+		$editor_settings['gradients'] = $gradients_by_origin['custom'] ?? $gradients_by_origin['theme'] ?? $gradients_by_origin['default'];
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
 		$font_sizes_by_origin         = $editor_settings['__experimentalFeatures']['typography']['fontSizes'];
-		$editor_settings['fontSizes'] = isset( $font_sizes_by_origin['custom'] ) ?
-			$font_sizes_by_origin['custom'] : (
-				isset( $font_sizes_by_origin['theme'] ) ?
-					$font_sizes_by_origin['theme'] :
-					$font_sizes_by_origin['default']
-			);
+		$editor_settings['fontSizes'] = $font_sizes_by_origin['custom'] ?? $font_sizes_by_origin['theme'] ?? $font_sizes_by_origin['default'];
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['custom'] ) ) {
 		$editor_settings['disableCustomColors'] = ! $editor_settings['__experimentalFeatures']['color']['custom'];
@@ -622,12 +607,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 
 	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'] ) ) {
 		$spacing_sizes_by_origin         = $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'];
-		$editor_settings['spacingSizes'] = isset( $spacing_sizes_by_origin['custom'] ) ?
-			$spacing_sizes_by_origin['custom'] : (
-				isset( $spacing_sizes_by_origin['theme'] ) ?
-					$spacing_sizes_by_origin['theme'] :
-					$spacing_sizes_by_origin['default']
-			);
+		$editor_settings['spacingSizes'] = $spacing_sizes_by_origin['custom'] ?? $spacing_sizes_by_origin['theme'] ?? $spacing_sizes_by_origin['default'];
 	}
 
 	$editor_settings['__unstableResolvedAssets']         = _wp_get_iframed_editor_assets();

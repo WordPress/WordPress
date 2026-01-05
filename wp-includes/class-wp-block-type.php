@@ -383,7 +383,7 @@ class WP_Block_Type {
 		if ( count( $this->{$new_name} ) > 1 ) {
 			return $this->{$new_name};
 		}
-		return isset( $this->{$new_name}[0] ) ? $this->{$new_name}[0] : null;
+		return $this->{$new_name}[0] ?? null;
 	}
 
 	/**

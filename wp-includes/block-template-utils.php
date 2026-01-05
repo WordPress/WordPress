@@ -382,10 +382,10 @@ function _get_block_templates_files( $template_type, $query = array() ) {
 	}
 
 	// Prepare metadata from $query.
-	$slugs_to_include = isset( $query['slug__in'] ) ? $query['slug__in'] : array();
-	$slugs_to_skip    = isset( $query['slug__not_in'] ) ? $query['slug__not_in'] : array();
-	$area             = isset( $query['area'] ) ? $query['area'] : null;
-	$post_type        = isset( $query['post_type'] ) ? $query['post_type'] : '';
+	$slugs_to_include = $query['slug__in'] ?? array();
+	$slugs_to_skip    = $query['slug__not_in'] ?? array();
+	$area             = $query['area'] ?? null;
+	$post_type        = $query['post_type'] ?? '';
 
 	$stylesheet = get_stylesheet();
 	$template   = get_template();
@@ -1115,7 +1115,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 		return $templates;
 	}
 
-	$post_type     = isset( $query['post_type'] ) ? $query['post_type'] : '';
+	$post_type     = $query['post_type'] ?? '';
 	$wp_query_args = array(
 		'post_status'         => array( 'auto-draft', 'draft', 'publish' ),
 		'post_type'           => $template_type,
@@ -1702,8 +1702,8 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 		return $changes;
 	}
 
-	$meta  = isset( $changes->meta_input ) ? $changes->meta_input : array();
-	$terms = isset( $changes->tax_input ) ? $changes->tax_input : array();
+	$meta  = $changes->meta_input ?? array();
+	$terms = $changes->tax_input ?? array();
 
 	if ( empty( $changes->ID ) ) {
 		// There's no post object for this template in the database for this template yet.

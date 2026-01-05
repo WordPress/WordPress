@@ -373,10 +373,10 @@ function _resolve_template_for_new_post( $wp_query ) {
 	remove_filter( 'pre_get_posts', '_resolve_template_for_new_post' );
 
 	// Pages.
-	$page_id = isset( $wp_query->query['page_id'] ) ? $wp_query->query['page_id'] : null;
+	$page_id = $wp_query->query['page_id'] ?? null;
 
 	// Posts, including custom post types.
-	$p = isset( $wp_query->query['p'] ) ? $wp_query->query['p'] : null;
+	$p = $wp_query->query['p'] ?? null;
 
 	$post_id = $page_id ? $page_id : $p;
 	$post    = get_post( $post_id );

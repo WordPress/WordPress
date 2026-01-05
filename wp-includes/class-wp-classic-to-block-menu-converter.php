@@ -44,9 +44,7 @@ class WP_Classic_To_Block_Menu_Converter {
 
 		$menu_items_by_parent_id = static::group_by_parent_id( $menu_items );
 
-		$first_menu_item = isset( $menu_items_by_parent_id[0] )
-			? $menu_items_by_parent_id[0]
-			: array();
+		$first_menu_item = $menu_items_by_parent_id[0] ?? array();
 
 		$inner_blocks = static::to_blocks(
 			$first_menu_item,

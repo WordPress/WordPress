@@ -178,7 +178,7 @@ class WP_Block_Metadata_Registry {
 		// Get the block name from the path.
 		$block_name = self::default_identifier_callback( $file_or_folder );
 
-		return isset( $collection['metadata'][ $block_name ] ) ? $collection['metadata'][ $block_name ] : null;
+		return $collection['metadata'][ $block_name ] ?? null;
 	}
 
 	/**

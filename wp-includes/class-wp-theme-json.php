@@ -1204,9 +1204,7 @@ class WP_Theme_JSON {
 
 			// Keep backwards compatibility for support.color.__experimentalDuotone.
 			if ( null === $duotone_selector ) {
-				$duotone_support = isset( $block_type->supports['color']['__experimentalDuotone'] )
-					? $block_type->supports['color']['__experimentalDuotone']
-					: null;
+				$duotone_support = $block_type->supports['color']['__experimentalDuotone'] ?? null;
 
 				if ( $duotone_support ) {
 					$root_selector    = wp_get_block_css_selector( $block_type );
@@ -1520,14 +1518,12 @@ class WP_Theme_JSON {
 	public function get_custom_css() {
 		_deprecated_function( __METHOD__, '6.7.0', 'get_stylesheet' );
 		// Add the global styles root CSS.
-		$stylesheet = isset( $this->theme_json['styles']['css'] ) ? $this->theme_json['styles']['css'] : '';
+		$stylesheet = $this->theme_json['styles']['css'] ?? '';
 
 		// Add the global styles block CSS.
 		if ( isset( $this->theme_json['styles']['blocks'] ) ) {
 			foreach ( $this->theme_json['styles']['blocks'] as $name => $node ) {
-				$custom_block_css = isset( $this->theme_json['styles']['blocks'][ $name ]['css'] )
-					? $this->theme_json['styles']['blocks'][ $name ]['css']
-					: null;
+				$custom_block_css = $this->theme_json['styles']['blocks'][ $name ]['css'] ?? null;
 				if ( $custom_block_css ) {
 					$selector    = static::$blocks_metadata[ $name ]['selector'];
 					$stylesheet .= $this->process_blocks_custom_css( $custom_block_css, $selector );
@@ -1554,8 +1550,8 @@ class WP_Theme_JSON {
 		foreach ( $this->theme_json['customTemplates'] as $item ) {
 			if ( isset( $item['name'] ) ) {
 				$custom_templates[ $item['name'] ] = array(
-					'title'     => isset( $item['title'] ) ? $item['title'] : '',
-					'postTypes' => isset( $item['postTypes'] ) ? $item['postTypes'] : array( 'page' ),
+					'title'     => $item['title'] ?? '',
+					'postTypes' => $item['postTypes'] ?? array( 'page' ),
 				);
 			}
 		}
@@ -1578,8 +1574,8 @@ class WP_Theme_JSON {
 		foreach ( $this->theme_json['templateParts'] as $item ) {
 			if ( isset( $item['name'] ) ) {
 				$template_parts[ $item['name'] ] = array(
-					'title' => isset( $item['title'] ) ? $item['title'] : '',
-					'area'  => isset( $item['area'] ) ? $item['area'] : '',
+					'title' => $item['title'] ?? '',
+					'area'  => $item['area'] ?? '',
 				);
 			}
 		}
@@ -1649,7 +1645,7 @@ class WP_Theme_JSON {
 			}
 		}
 
-		$selector                 = isset( $block_metadata['selector'] ) ? $block_metadata['selector'] : '';
+		$selector                 = $block_metadata['selector'] ?? '';
 		$has_block_gap_support    = isset( $this->theme_json['settings']['spacing']['blockGap'] );
 		$has_fallback_gap_support = ! $has_block_gap_support; // This setting isn't useful yet: it exists as a placeholder for a future explicit fallback gap styles support.
 		$node                     = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
@@ -1666,9 +1662,7 @@ class WP_Theme_JSON {
 			if ( ! $has_block_gap_support ) {
 				$block_gap_value = static::ROOT_BLOCK_SELECTOR === $selector ? '0.5em' : null;
 				if ( ! empty( $block_type ) ) {
-					$block_gap_value = isset( $block_type->supports['spacing']['blockGap']['__experimentalDefault'] )
-						? $block_type->supports['spacing']['blockGap']['__experimentalDefault']
-						: null;
+					$block_gap_value = $block_type->supports['spacing']['blockGap']['__experimentalDefault'] ?? null;
 				}
 			} else {
 				$block_gap_value = static::get_property_value( $node, array( 'spacing', 'blockGap' ) );
@@ -1694,8 +1688,8 @@ class WP_Theme_JSON {
 						continue;
 					}
 
-					$class_name    = isset( $layout_definition['className'] ) ? $layout_definition['className'] : false;
-					$spacing_rules = isset( $layout_definition['spacingStyles'] ) ? $layout_definition['spacingStyles'] : array();
+					$class_name    = $layout_definition['className'] ?? false;
+					$spacing_rules = $layout_definition['spacingStyles'] ?? array();
 
 					if (
 						! empty( $class_name ) &&
@@ -1751,8 +1745,8 @@ class WP_Theme_JSON {
 		) {
 			$valid_display_modes = array( 'block', 'flex', 'grid' );
 			foreach ( $layout_definitions as $layout_definition ) {
-				$class_name       = isset( $layout_definition['className'] ) ? $layout_definition['className'] : false;
-				$base_style_rules = isset( $layout_definition['baseStyles'] ) ? $layout_definition['baseStyles'] : array();
+				$class_name       = $layout_definition['className'] ?? false;
+				$base_style_rules = $layout_definition['baseStyles'] ?? array();
 
 				if (
 					! empty( $class_name ) &&
@@ -2234,7 +2228,7 @@ class WP_Theme_JSON {
 	 */
 	protected static function compute_theme_vars( $settings ) {
 		$declarations  = array();
-		$custom_values = isset( $settings['custom'] ) ? $settings['custom'] : array();
+		$custom_values = $settings['custom'] ?? array();
 		$css_vars      = static::flatten_tree( $custom_values );
 		foreach ( $css_vars as $key => $value ) {
 			$declarations[] = array(
@@ -2844,7 +2838,7 @@ class WP_Theme_JSON {
 		$node                 = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
 		$use_root_padding     = isset( $this->theme_json['settings']['useRootPaddingAwareAlignments'] ) && true === $this->theme_json['settings']['useRootPaddingAwareAlignments'];
 		$selector             = $block_metadata['selector'];
-		$settings             = isset( $this->theme_json['settings'] ) ? $this->theme_json['settings'] : array();
+		$settings             = $this->theme_json['settings'] ?? array();
 		$feature_declarations = static::get_feature_declarations_for_node( $block_metadata, $node );
 		$is_root_selector     = static::ROOT_BLOCK_SELECTOR === $selector;
 
@@ -2925,7 +2919,7 @@ class WP_Theme_JSON {
 			)
 		);
 
-		$pseudo_selector = isset( $pseudo_matches[0] ) ? $pseudo_matches[0] : null;
+		$pseudo_selector = $pseudo_matches[0] ?? null;
 
 		/*
 		 * If the current selector is a pseudo selector that's defined in the allow list for the current
@@ -3068,7 +3062,7 @@ class WP_Theme_JSON {
 	 */
 	public function get_root_layout_rules( $selector, $block_metadata ) {
 		$css              = '';
-		$settings         = isset( $this->theme_json['settings'] ) ? $this->theme_json['settings'] : array();
+		$settings         = $this->theme_json['settings'] ?? array();
 		$use_root_padding = isset( $this->theme_json['settings']['useRootPaddingAwareAlignments'] ) && true === $this->theme_json['settings']['useRootPaddingAwareAlignments'];
 
 		/*
@@ -3076,9 +3070,9 @@ class WP_Theme_JSON {
 		 * as custom properties on the body element so all blocks can use them.
 		 */
 		if ( isset( $settings['layout']['contentSize'] ) || isset( $settings['layout']['wideSize'] ) ) {
-			$content_size = isset( $settings['layout']['contentSize'] ) ? $settings['layout']['contentSize'] : $settings['layout']['wideSize'];
+			$content_size = $settings['layout']['contentSize'] ?? $settings['layout']['wideSize'];
 			$content_size = static::is_safe_css_declaration( 'max-width', $content_size ) ? $content_size : 'initial';
-			$wide_size    = isset( $settings['layout']['wideSize'] ) ? $settings['layout']['wideSize'] : $settings['layout']['contentSize'];
+			$wide_size    = $settings['layout']['wideSize'] ?? $settings['layout']['contentSize'];
 			$wide_size    = static::is_safe_css_declaration( 'max-width', $wide_size ) ? $wide_size : 'initial';
 			$css         .= static::ROOT_CSS_PROPERTIES_SELECTOR . ' { --wp--style--global--content-size: ' . $content_size . ';';
 			$css         .= '--wp--style--global--wide-size: ' . $wide_size . '; }';
@@ -4065,9 +4059,7 @@ class WP_Theme_JSON {
 	public function set_spacing_sizes() {
 		_deprecated_function( __METHOD__, '6.6.0' );
 
-		$spacing_scale = isset( $this->theme_json['settings']['spacing']['spacingScale'] )
-			? $this->theme_json['settings']['spacing']['spacingScale']
-			: array();
+		$spacing_scale = $this->theme_json['settings']['spacing']['spacingScale'] ?? array();
 
 		if ( ! isset( $spacing_scale['steps'] )
 			|| ! is_numeric( $spacing_scale['steps'] )
@@ -4401,9 +4393,7 @@ class WP_Theme_JSON {
 			return $declarations;
 		}
 
-		$settings = isset( $this->theme_json['settings'] )
-			? $this->theme_json['settings']
-			: array();
+		$settings = $this->theme_json['settings'] ?? array();
 
 		foreach ( $metadata['selectors'] as $feature => $feature_selectors ) {
 			/*
@@ -4532,8 +4522,8 @@ class WP_Theme_JSON {
 								$fallback,
 							),
 							array(
-								isset( $values[ $key_in_values ] ) ? $values[ $key_in_values ] : $rule_to_replace,
-								isset( $values[ $fallback ] ) ? $values[ $fallback ] : $fallback,
+								$values[ $key_in_values ] ?? $rule_to_replace,
+								$values[ $fallback ] ?? $fallback,
 							),
 							$resolved_style
 						);

@@ -75,16 +75,16 @@ final class WP_Block_Templates_Registry {
 			$template->theme       = $theme_name;
 			$template->plugin      = $plugin;
 			$template->author      = null;
-			$template->content     = isset( $args['content'] ) ? $args['content'] : '';
+			$template->content     = $args['content'] ?? '';
 			$template->source      = 'plugin';
 			$template->slug        = $slug;
 			$template->type        = 'wp_template';
-			$template->title       = isset( $args['title'] ) ? $args['title'] : $template_name;
-			$template->description = isset( $args['description'] ) ? $args['description'] : '';
+			$template->title       = $args['title'] ?? $template_name;
+			$template->description = $args['description'] ?? '';
 			$template->status      = 'publish';
 			$template->origin      = 'plugin';
 			$template->is_custom   = ! isset( $default_template_types[ $template_name ] );
-			$template->post_types  = isset( $args['post_types'] ) ? $args['post_types'] : array();
+			$template->post_types  = $args['post_types'] ?? array();
 		}
 
 		$this->registered_templates[ $template_name ] = $template;
