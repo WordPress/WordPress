@@ -1,59 +1,51 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
+"use strict";
+var wp;
+(wp ||= {}).warning = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ warning)
-});
+  // packages/warning/build-module/index.js
+  var index_exports = {};
+  __export(index_exports, {
+    default: () => warning
+  });
 
-;// ./node_modules/@wordpress/warning/build-module/utils.js
-const logged = /* @__PURE__ */ new Set();
+  // packages/warning/build-module/utils.js
+  var logged = /* @__PURE__ */ new Set();
 
-
-;// ./node_modules/@wordpress/warning/build-module/index.js
-
-function isDev() {
-  return true === true;
-}
-function warning(message) {
-  if (!isDev()) {
-    return;
+  // packages/warning/build-module/index.js
+  function isDev() {
+    return true;
   }
-  if (logged.has(message)) {
-    return;
+  function warning(message) {
+    if (!isDev()) {
+      return;
+    }
+    if (logged.has(message)) {
+      return;
+    }
+    console.warn(message);
+    try {
+      throw Error(message);
+    } catch (x) {
+    }
+    logged.add(message);
   }
-  console.warn(message);
-  try {
-    throw Error(message);
-  } catch (x) {
-  }
-  logged.add(message);
-}
-
-
-(window.wp = window.wp || {}).warning = __webpack_exports__["default"];
-/******/ })()
-;
+  return __toCommonJS(index_exports);
+})();
+if (typeof wp.warning === 'object' && wp.warning.default) { wp.warning = wp.warning.default; }

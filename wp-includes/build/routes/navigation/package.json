@@ -1,0 +1,9 @@
+{
+	"route": {
+		"path": "/navigation",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

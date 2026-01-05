@@ -50,7 +50,7 @@
 		"layout": {
 			"allowEditing": false
 		},
-		"blockVisibility": false,
+		"visibility": false,
 		"contentRole": true,
 		"allowedBlocks": true,
 		"lock": false

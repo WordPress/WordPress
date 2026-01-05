@@ -1,0 +1,15 @@
+{
+	"name": "@wordpress/post-edit",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/types/$type/edit/$id",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/html-entities": "file:../html-entities",
+		"@wordpress/i18n": "file:../i18n"
+	}
+}

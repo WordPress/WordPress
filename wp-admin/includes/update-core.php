@@ -837,8 +837,6 @@ $_old_files = array(
 	'wp-includes/blocks/post-template/editor.min.css',
 	'wp-includes/blocks/post-template/editor-rtl.css',
 	'wp-includes/blocks/post-template/editor-rtl.min.css',
-	'wp-includes/js/dist/undo-manager.js',
-	'wp-includes/js/dist/undo-manager.min.js',
 	'wp-includes/js/dist/fields.min.js',
 	'wp-includes/js/dist/fields.js',
 	// 6.9

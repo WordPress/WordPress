@@ -1,5 +1,5 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"$schema": "../schemas/json/theme.json",
 	"version": 3,
 	"settings": {
 		"appearanceTools": false,
@@ -306,6 +306,7 @@
 			"letterSpacing": true,
 			"lineHeight": false,
 			"textAlign": true,
+			"textColumns": false,
 			"textDecoration": true,
 			"textTransform": true,
 			"writingMode": false

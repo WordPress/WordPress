@@ -13,13 +13,12 @@
 		}
 	},
 	"supports": {
-		"html": false,
 		"className": false,
 		"customClassName": false,
 		"lock": false,
 		"reusable": false,
 		"renaming": false,
-		"blockVisibility": false
+		"visibility": false
 	},
 	"editorStyle": "wp-block-freeform-editor"
 }

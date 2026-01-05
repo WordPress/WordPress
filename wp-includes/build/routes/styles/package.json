@@ -1,0 +1,19 @@
+{
+	"route": {
+		"path": "/styles",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/compose": "file:../../packages/compose",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/icons": "file:../../packages/icons",
+		"@wordpress/lazy-editor": "file:../../packages/lazy-editor",
+		"@wordpress/route": "file:../../packages/route",
+		"@wordpress/url": "file:../../packages/url"
+	}
+}

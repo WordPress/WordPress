@@ -1,0 +1,26 @@
+{
+	"name": "@wordpress/font-list-route",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/font-list",
+		"page": [
+			"site-editor",
+			"font-library"
+		]
+	},
+	"dependencies": {
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/compose": "file:../../packages/compose",
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/global-styles-engine": "file:../../packages/global-styles-engine",
+		"@wordpress/global-styles-ui": "file:../../packages/global-styles-ui",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/private-apis": "file:../../packages/private-apis",
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "@wordpress/template",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/templates",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"route": {
+		"path": "/navigation/list",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/dataviews": "file:../../packages/dataviews",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/html-entities": "file:../../packages/html-entities",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/icons": "file:../../packages/icons",
+		"@wordpress/notices": "file:../../packages/notices",
+		"@wordpress/route": "file:../../packages/route",
+		"@wordpress/views": "file:../../packages/views"
+	}
+}

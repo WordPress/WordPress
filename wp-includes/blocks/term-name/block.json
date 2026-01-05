@@ -19,6 +19,9 @@
 		"isLink": {
 			"type": "boolean",
 			"default": false
+		},
+		"levelOptions": {
+			"type": "array"
 		}
 	},
 	"supports": {

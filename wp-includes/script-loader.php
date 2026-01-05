@@ -219,46 +219,6 @@ function wp_get_script_polyfill( $scripts, $tests ) {
 }
 
 /**
- * Registers development scripts that integrate with `@wordpress/scripts`.
- *
- * @see https://github.com/WordPress/gutenberg/tree/trunk/packages/scripts#start
- *
- * @since 6.0.0
- *
- * @param WP_Scripts $scripts WP_Scripts object.
- */
-function wp_register_development_scripts( $scripts ) {
-	if (
-		! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG
-		|| empty( $scripts->registered['react'] )
-		|| defined( 'WP_RUN_CORE_TESTS' )
-	) {
-		return;
-	}
-
-	$development_scripts = array(
-		'react-refresh-entry',
-		'react-refresh-runtime',
-	);
-
-	foreach ( $development_scripts as $script_name ) {
-		$assets = include ABSPATH . WPINC . '/assets/script-loader-' . $script_name . '.php';
-		if ( ! is_array( $assets ) ) {
-			return;
-		}
-		$scripts->add(
-			'wp-' . $script_name,
-			'/wp-includes/js/dist/development/' . $script_name . '.js',
-			$assets['dependencies'],
-			$assets['version']
-		);
-	}
-
-	// See https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/TROUBLESHOOTING.md#externalising-react.
-	$scripts->registered['react']->deps[] = 'wp-react-refresh-entry';
-}
-
-/**
  * Registers all the WordPress packages scripts that are in the standardized
  * `js/dist/` location.
  *
@@ -658,7 +618,6 @@ function wp_tinymce_inline_scripts() {
  */
 function wp_default_packages( $scripts ) {
 	wp_default_packages_vendor( $scripts );
-	wp_register_development_scripts( $scripts );
 	wp_register_tinymce_scripts( $scripts );
 	wp_default_packages_scripts( $scripts );
 

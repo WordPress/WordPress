@@ -18,9 +18,6 @@
 			"type": "string",
 			"default": "button"
 		},
-		"textAlign": {
-			"type": "string"
-		},
 		"url": {
 			"type": "string",
 			"source": "attribute",
@@ -88,6 +85,7 @@
 			"__experimentalSkipSerialization": [
 				"fontSize",
 				"lineHeight",
+				"textAlign",
 				"fontFamily",
 				"fontWeight",
 				"fontStyle",
@@ -97,6 +95,7 @@
 			],
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

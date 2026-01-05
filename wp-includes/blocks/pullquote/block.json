@@ -2,9 +2,9 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "core/pullquote",
-	"title": "Pullquote",
+	"title": "Pullquote (deprecated)",
 	"category": "text",
-	"description": "Give special visual emphasis to a quote from your text.",
+	"description": "This block is deprecated. Please use the Quote block instead.",
 	"textdomain": "default",
 	"attributes": {
 		"value": {
@@ -48,6 +48,7 @@
 				"minHeight": false
 			}
 		},
+		"inserter": false,
 		"spacing": {
 			"margin": true,
 			"padding": true

@@ -1,62 +1,45 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   decodeEntities: () => (/* binding */ decodeEntities)
-/* harmony export */ });
-let _decodeTextArea;
-function decodeEntities(html) {
-  if ("string" !== typeof html || -1 === html.indexOf("&")) {
-    return html;
-  }
-  if (void 0 === _decodeTextArea) {
-    if (document.implementation && document.implementation.createHTMLDocument) {
-      _decodeTextArea = document.implementation.createHTMLDocument("").createElement("textarea");
-    } else {
-      _decodeTextArea = document.createElement("textarea");
+"use strict";
+var wp;
+(wp ||= {}).htmlEntities = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
     }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // packages/html-entities/build-module/index.js
+  var index_exports = {};
+  __export(index_exports, {
+    decodeEntities: () => decodeEntities
+  });
+  var _decodeTextArea;
+  function decodeEntities(html) {
+    if ("string" !== typeof html || -1 === html.indexOf("&")) {
+      return html;
+    }
+    if (void 0 === _decodeTextArea) {
+      if (document.implementation && document.implementation.createHTMLDocument) {
+        _decodeTextArea = document.implementation.createHTMLDocument("").createElement("textarea");
+      } else {
+        _decodeTextArea = document.createElement("textarea");
+      }
+    }
+    _decodeTextArea.innerHTML = html;
+    const decoded = _decodeTextArea.textContent ?? "";
+    _decodeTextArea.innerHTML = "";
+    return decoded;
   }
-  _decodeTextArea.innerHTML = html;
-  const decoded = _decodeTextArea.textContent ?? "";
-  _decodeTextArea.innerHTML = "";
-  return decoded;
-}
-
-
-(window.wp = window.wp || {}).htmlEntities = __webpack_exports__;
-/******/ })()
-;
+  return __toCommonJS(index_exports);
+})();
