@@ -321,7 +321,8 @@ figure[class*="wp-block-"] > figcaption {
 	margin-bottom: 1.4736842105em;
 }
 
-.wp-block-quote__citation {
+.wp-block-quote__citation,
+.wp-block-quote cite {
 	color: #1a1a1a;
 	display: block;
 	font-size: 16px;
@@ -330,6 +331,11 @@ figure[class*="wp-block-"] > figcaption {
 }
 
 .wp-block-quote.has-text-color .wp-block-quote__citation {
+	color: inherit;
+}
+
+.has-text-color .wp-block-quote:not(.has-text-color),
+.has-text-color .wp-block-quote:not(.has-text-color) cite {
 	color: inherit;
 }
 
@@ -550,7 +556,7 @@ figure[class*="wp-block-"] > figcaption {
 .wp-block-pullquote[style*="font-size"] cite {
 	font-size: inherit;
 }
-	
+
 .wp-block-pullquote[style*="line-height"] blockquote,
 .wp-block-pullquote[style*="line-height"] blockquote p,
 .wp-block-pullquote[style*="line-height"] cite {
