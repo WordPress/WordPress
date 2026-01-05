@@ -159,7 +159,7 @@ $admin_title = sprintf( $wp_customize->get_document_title_template(), __( 'Loadi
 ?>
 <title><?php echo esc_html( $admin_title ); ?></title>
 
-<script type="text/javascript">
+<script>
 var ajaxurl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?>,
 	pagenow = 'customize';
 </script>

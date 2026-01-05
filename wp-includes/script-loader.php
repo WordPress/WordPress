@@ -3488,7 +3488,7 @@ function wp_enqueue_command_palette_assets() {
  *     'sayHello();' === wp_remove_surrounding_empty_script_tags( $js );
  *
  *     // Otherwise if anything is different it warns in the JS console.
- *     $js = '<script type="text/javascript">console.log( "hi" );</script>';
+ *     $js = '<script type="module">console.log( "hi" );</script>';
  *     'console.error( ... )' === wp_remove_surrounding_empty_script_tags( $js );
  *
  * @since 6.4.0

@@ -1893,11 +1893,9 @@ function _custom_background_cb() {
 		$color = false;
 	}
 
-	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
-
 	if ( ! $background && ! $color ) {
 		if ( is_customize_preview() ) {
-			printf( '<style%s id="custom-background-css"></style>', $type_attr );
+			echo '<style id="custom-background-css"></style>';
 		}
 		return;
 	}
@@ -1951,7 +1949,7 @@ function _custom_background_cb() {
 		$style .= $image . $position . $size . $repeat . $attachment;
 	}
 
-	$processor = new WP_HTML_Tag_Processor( "<style{$type_attr} id=\"custom-background-css\"></style>" );
+	$processor = new WP_HTML_Tag_Processor( '<style id="custom-background-css"></style>' );
 	$processor->next_tag();
 
 	$style_tag_content = 'body.custom-background { ' . trim( $style ) . ' }';
@@ -1972,9 +1970,6 @@ function wp_custom_css_cb() {
 
 	$processor = new WP_HTML_Tag_Processor( '<style></style>' );
 	$processor->next_tag();
-	if ( ! current_theme_supports( 'html5', 'style' ) ) {
-		$processor->set_attribute( 'type', 'text/css' );
-	}
 	$processor->set_attribute( 'id', 'wp-custom-css' );
 	$processor->set_modifiable_text( "\n{$styles}\n" );
 	echo "{$processor->get_updated_html()}\n";
@@ -3006,11 +3001,9 @@ function _custom_logo_header_styles() {
 		$classes = (array) get_theme_support( 'custom-logo', 'header-text' );
 		$classes = array_map( 'sanitize_html_class', $classes );
 		$classes = '.' . implode( ', .', $classes );
-
-		$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 		?>
 		<!-- Custom Logo: hide header text -->
-		<style id="custom-logo-css"<?php echo $type_attr; ?>>
+		<style id="custom-logo-css">
 			<?php echo $classes; ?> {
 				position: absolute;
 				clip-path: inset(50%);

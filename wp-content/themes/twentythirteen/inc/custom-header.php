@@ -154,7 +154,7 @@ function twentythirteen_header_style() {
 function twentythirteen_admin_header_style() {
 	$header_image = get_header_image();
 	?>
-	<style type="text/css" id="twentythirteen-admin-header-css">
+	<style id="twentythirteen-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
 		-webkit-box-sizing: border-box;

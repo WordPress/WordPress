@@ -2460,7 +2460,7 @@ function the_block_editor_meta_boxes() {
 	 * will not be printed again after this point.
 	 */
 	if ( wp_script_is( 'wp-edit-post', 'done' ) ) {
-		printf( "<script type='text/javascript'>\n%s\n</script>\n", trim( $script ) );
+		printf( "<script>\n%s\n</script>\n", trim( $script ) );
 	}
 
 	/*

@@ -7,7 +7,7 @@
 		api = wp.customize;
 
 	if ( ! $style.length ) {
-		$style = $( 'head' ).append( '<style type="text/css" id="twentyfifteen-color-scheme-css" />' )
+		$style = $( 'head' ).append( '<style id="twentyfifteen-color-scheme-css" />' )
 		                    .find( '#twentyfifteen-color-scheme-css' );
 	}
 

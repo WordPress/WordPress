@@ -283,7 +283,7 @@ $referer = wp_get_referer();
 </form>
 
 <?php if ( ! wp_is_mobile() ) : ?>
-<script type="text/javascript">
+<script>
 try{document.post.name.focus();}catch(e){}
 </script>
 	<?php

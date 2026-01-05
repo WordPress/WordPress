@@ -103,7 +103,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 	 */
 	function twentyfourteen_admin_header_style() {
 		?>
-	<style type="text/css" id="twentyfourteen-admin-header-css">
+	<style id="twentyfourteen-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		background-color: #000;
 		border: none;

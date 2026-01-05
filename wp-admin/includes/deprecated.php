@@ -1511,7 +1511,7 @@ function post_form_autocomplete_off() {
  */
 function options_permalink_add_js() {
 	?>
-	<script type="text/javascript">
+	<script>
 		jQuery( function() {
 			jQuery('.permalink-structure input:radio').change(function() {
 				if ( 'custom' == this.value )

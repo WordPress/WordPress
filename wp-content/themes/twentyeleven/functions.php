@@ -369,7 +369,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 	 */
 	function twentyeleven_admin_header_style() {
 		?>
-	<style type="text/css" id="twentyeleven-admin-header-css">
+	<style id="twentyeleven-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
 	}
