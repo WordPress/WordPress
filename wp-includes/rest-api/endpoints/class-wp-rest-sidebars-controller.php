@@ -339,13 +339,13 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 			$registered_sidebar = $wp_registered_sidebars[ $id ];
 
 			$sidebar['status']        = 'active';
-			$sidebar['name']          = isset( $registered_sidebar['name'] ) ? $registered_sidebar['name'] : '';
+			$sidebar['name']          = $registered_sidebar['name'] ?? '';
 			$sidebar['description']   = isset( $registered_sidebar['description'] ) ? wp_sidebar_description( $id ) : '';
-			$sidebar['class']         = isset( $registered_sidebar['class'] ) ? $registered_sidebar['class'] : '';
-			$sidebar['before_widget'] = isset( $registered_sidebar['before_widget'] ) ? $registered_sidebar['before_widget'] : '';
-			$sidebar['after_widget']  = isset( $registered_sidebar['after_widget'] ) ? $registered_sidebar['after_widget'] : '';
-			$sidebar['before_title']  = isset( $registered_sidebar['before_title'] ) ? $registered_sidebar['before_title'] : '';
-			$sidebar['after_title']   = isset( $registered_sidebar['after_title'] ) ? $registered_sidebar['after_title'] : '';
+			$sidebar['class']         = $registered_sidebar['class'] ?? '';
+			$sidebar['before_widget'] = $registered_sidebar['before_widget'] ?? '';
+			$sidebar['after_widget']  = $registered_sidebar['after_widget'] ?? '';
+			$sidebar['before_title']  = $registered_sidebar['before_title'] ?? '';
+			$sidebar['after_title']   = $registered_sidebar['after_title'] ?? '';
 		} else {
 			$sidebar['status']      = 'inactive';
 			$sidebar['name']        = $raw_sidebar['name'];
@@ -361,7 +361,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 		if ( rest_is_field_included( 'widgets', $fields ) ) {
 			$sidebars = wp_get_sidebars_widgets();
 			$widgets  = array_filter(
-				isset( $sidebars[ $sidebar['id'] ] ) ? $sidebars[ $sidebar['id'] ] : array(),
+				$sidebars[ $sidebar['id'] ] ?? array(),
 				static function ( $widget_id ) use ( $wp_registered_widgets ) {
 					return isset( $wp_registered_widgets[ $widget_id ] );
 				}

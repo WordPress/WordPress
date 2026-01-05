@@ -389,7 +389,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			foreach ( $revisioned_meta_keys as $meta_key ) {
 				// get_metadata_raw is used to avoid retrieving the default value.
 				$old_meta = get_metadata_raw( 'post', $post_id, $meta_key, true );
-				$new_meta = isset( $meta[ $meta_key ] ) ? $meta[ $meta_key ] : '';
+				$new_meta = $meta[ $meta_key ] ?? '';
 
 				if ( $new_meta !== $old_meta ) {
 					$autosave_is_different = true;

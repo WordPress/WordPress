@@ -571,7 +571,7 @@ abstract class WP_REST_Controller {
 	 */
 	public function get_fields_for_response( $request ) {
 		$schema     = $this->get_item_schema();
-		$properties = isset( $schema['properties'] ) ? $schema['properties'] : array();
+		$properties = $schema['properties'] ?? array();
 
 		$additional_fields = $this->get_additional_fields();
 

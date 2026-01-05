@@ -573,7 +573,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 
 		if ( rest_is_field_included( 'styles', $fields ) ) {
 			$raw_data       = $theme->get_raw_data();
-			$data['styles'] = isset( $raw_data['styles'] ) ? $raw_data['styles'] : array();
+			$data['styles'] = $raw_data['styles'] ?? array();
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';

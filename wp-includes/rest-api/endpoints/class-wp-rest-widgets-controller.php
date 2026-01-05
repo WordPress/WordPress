@@ -533,7 +533,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			$id            = $request['id'];
 			$parsed_id     = wp_parse_widget_id( $id );
 			$id_base       = $parsed_id['id_base'];
-			$number        = isset( $parsed_id['number'] ) ? $parsed_id['number'] : null;
+			$number        = $parsed_id['number'] ?? null;
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
 			$creating      = false;
 		} elseif ( $request['id_base'] ) {

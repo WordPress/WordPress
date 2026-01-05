@@ -579,7 +579,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 			$changes->post_type   = $this->post_type;
 			$changes->post_status = 'publish';
 			$changes->tax_input   = array(
-				'wp_theme' => isset( $request['theme'] ) ? $request['theme'] : get_stylesheet(),
+				'wp_theme' => $request['theme'] ?? get_stylesheet(),
 			);
 		} elseif ( 'custom' !== $template->source ) {
 			$changes->post_name   = $template->slug;
@@ -914,8 +914,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 				if ( isset( $plugins[ $plugin_basename ] ) && isset( $plugins[ $plugin_basename ]['Name'] ) ) {
 					return $plugins[ $plugin_basename ]['Name'];
 				}
-				return isset( $template_object->plugin ) ?
-					$template_object->plugin :
+				return $template_object->plugin ??
 					$template_object->theme;
 			case 'site':
 				return get_bloginfo( 'name' );

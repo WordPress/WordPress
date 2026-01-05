@@ -333,9 +333,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				$prepared_args['search_columns'] = array( 'ID', 'user_login', 'user_nicename', 'display_name' );
 			}
 			$search_columns         = $request->get_param( 'search_columns' );
-			$valid_columns          = isset( $prepared_args['search_columns'] )
-				? $prepared_args['search_columns']
-				: array( 'ID', 'user_login', 'user_nicename', 'user_email', 'display_name' );
+			$valid_columns          = $prepared_args['search_columns'] ?? array( 'ID', 'user_login', 'user_nicename', 'user_email', 'display_name' );
 			$search_columns_mapping = array(
 				'id'       => 'ID',
 				'username' => 'user_login',
