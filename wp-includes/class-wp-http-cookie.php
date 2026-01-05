@@ -114,7 +114,7 @@ class WP_Http_Cookie {
 		if ( isset( $parsed_url['host'] ) ) {
 			$this->domain = $parsed_url['host'];
 		}
-		$this->path = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '/';
+		$this->path = $parsed_url['path'] ?? '/';
 		if ( ! str_ends_with( $this->path, '/' ) ) {
 			$this->path = dirname( $this->path ) . '/';
 		}
@@ -190,12 +190,12 @@ class WP_Http_Cookie {
 
 		// Get details on the URL we're thinking about sending to.
 		$url         = parse_url( $url );
-		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' === $url['scheme'] ? 443 : 80 );
-		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
+		$url['port'] = $url['port'] ?? ( 'https' === $url['scheme'] ? 443 : 80 );
+		$url['path'] = $url['path'] ?? '/';
 
 		// Values to use for comparison against the URL.
-		$path   = isset( $this->path ) ? $this->path : '/';
-		$port   = isset( $this->port ) ? $this->port : null;
+		$path   = $this->path ?? '/';
+		$port   = $this->port ?? null;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
 		if ( false === stripos( $domain, '.' ) ) {
 			$domain .= '.local';
