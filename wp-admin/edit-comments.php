@@ -337,7 +337,7 @@ if ( isset( $_REQUEST['approved'] )
 		}
 
 		if ( $spammed > 0 ) {
-			$ids = isset( $_REQUEST['ids'] ) ? $_REQUEST['ids'] : 0;
+			$ids = $_REQUEST['ids'] ?? 0;
 
 			$messages[] = sprintf(
 				/* translators: %s: Number of comments. */
@@ -359,7 +359,7 @@ if ( isset( $_REQUEST['approved'] )
 		}
 
 		if ( $trashed > 0 ) {
-			$ids = isset( $_REQUEST['ids'] ) ? $_REQUEST['ids'] : 0;
+			$ids = $_REQUEST['ids'] ?? 0;
 
 			$messages[] = sprintf(
 				/* translators: %s: Number of comments. */
