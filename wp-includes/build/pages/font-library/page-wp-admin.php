@@ -7,13 +7,13 @@
  * This version integrates with the standard WordPress admin interface,
  * keeping the wp-admin sidebar and scripts/styles intact.
  *
- * @package gutenberg
+ * @package wp
  */
 
 // Global storage for font-library routes and menu items
-global $gutenberg_font_library_wp_admin_routes, $gutenberg_font_library_wp_admin_menu_items;
-$gutenberg_font_library_wp_admin_routes = array();
-$gutenberg_font_library_wp_admin_menu_items = array();
+global $wp_font_library_wp_admin_routes, $wp_font_library_wp_admin_menu_items;
+$wp_font_library_wp_admin_routes = array();
+$wp_font_library_wp_admin_menu_items = array();
 
 if ( ! function_exists( 'register_font_library_wp_admin_route' ) ) {
 	/**
@@ -24,7 +24,7 @@ if ( ! function_exists( 'register_font_library_wp_admin_route' ) ) {
 	 * @param string|null $route_module   Script module ID for route lifecycle hooks.
 	 */
 	function register_font_library_wp_admin_route( $path, $content_module = null, $route_module = null ) {
-		global $gutenberg_font_library_wp_admin_routes;
+		global $wp_font_library_wp_admin_routes;
 
 		$route = array( 'path' => $path );
 		if ( ! empty( $content_module ) ) {
@@ -34,7 +34,7 @@ if ( ! function_exists( 'register_font_library_wp_admin_route' ) ) {
 			$route['route_module'] = $route_module;
 		}
 
-		$gutenberg_font_library_wp_admin_routes[] = $route;
+		$wp_font_library_wp_admin_routes[] = $route;
 	}
 }
 
@@ -49,7 +49,7 @@ if ( ! function_exists( 'register_font_library_wp_admin_menu_item' ) ) {
 	 * @param string $parent_id Optional. Parent menu item ID.
 	 */
 	function register_font_library_wp_admin_menu_item( $id, $label, $to, $parent_id = '' ) {
-		global $gutenberg_font_library_wp_admin_menu_items;
+		global $wp_font_library_wp_admin_menu_items;
 
 		$menu_item = array(
 			'id'    => $id,
@@ -61,7 +61,7 @@ if ( ! function_exists( 'register_font_library_wp_admin_menu_item' ) ) {
 			$menu_item['parent'] = $parent_id;
 		}
 
-		$gutenberg_font_library_wp_admin_menu_items[] = $menu_item;
+		$wp_font_library_wp_admin_menu_items[] = $menu_item;
 	}
 }
 
@@ -72,8 +72,8 @@ if ( ! function_exists( 'get_font_library_wp_admin_routes' ) ) {
 	 * @return array Array of route objects.
 	 */
 	function get_font_library_wp_admin_routes() {
-		global $gutenberg_font_library_wp_admin_routes;
-		return $gutenberg_font_library_wp_admin_routes ?? array();
+		global $wp_font_library_wp_admin_routes;
+		return $wp_font_library_wp_admin_routes ?? array();
 	}
 }
 
@@ -84,8 +84,8 @@ if ( ! function_exists( 'get_font_library_wp_admin_menu_items' ) ) {
 	 * @return array Array of menu item objects.
 	 */
 	function get_font_library_wp_admin_menu_items() {
-		global $gutenberg_font_library_wp_admin_menu_items;
-		return $gutenberg_font_library_wp_admin_menu_items ?? array();
+		global $wp_font_library_wp_admin_menu_items;
+		return $wp_font_library_wp_admin_menu_items ?? array();
 	}
 }
 
