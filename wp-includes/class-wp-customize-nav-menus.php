@@ -1251,7 +1251,7 @@ final class WP_Customize_Nav_Menus {
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
-				<ul class="available-menu-items-list" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>" data-type_label="<?php echo esc_attr( isset( $available_item_type['type_label'] ) ? $available_item_type['type_label'] : $available_item_type['type'] ); ?>"></ul>
+				<ul class="available-menu-items-list" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>" data-type_label="<?php echo esc_attr( $available_item_type['type_label'] ?? $available_item_type['type'] ); ?>"></ul>
 			</div>
 		</div>
 		<?php

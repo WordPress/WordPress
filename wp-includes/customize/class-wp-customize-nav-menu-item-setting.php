@@ -252,7 +252,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		// These properties are read-only and are part of the setting for use in the Customizer UI.
 		if ( is_array( $value ) ) {
 			$value_obj               = (object) $value;
-			$value['type_label']     = isset( $type_label ) ? $type_label : $this->get_type_label( $value_obj );
+			$value['type_label']     = $type_label ?? $this->get_type_label( $value_obj );
 			$value['original_title'] = $this->get_original_title( $value_obj );
 		}
 
