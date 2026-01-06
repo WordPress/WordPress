@@ -161,7 +161,7 @@ class WP_Paused_Extensions_Storage {
 
 		$paused_extensions = (array) get_option( $option_name, array() );
 
-		return isset( $paused_extensions[ $this->type ] ) ? $paused_extensions[ $this->type ] : array();
+		return $paused_extensions[ $this->type ] ?? array();
 	}
 
 	/**
