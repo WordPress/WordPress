@@ -629,7 +629,7 @@ switch ( $wp_list_table->current_action() ) {
 					break;
 				case 'add':
 					$message = __( 'New user created.' );
-					$user_id = isset( $_GET['id'] ) ? $_GET['id'] : false;
+					$user_id = $_GET['id'] ?? false;
 					if ( $user_id && current_user_can( 'edit_user', $user_id ) ) {
 						$message .= sprintf(
 							' <a href="%1$s">%2$s</a>',

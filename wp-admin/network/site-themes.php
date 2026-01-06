@@ -29,7 +29,7 @@ $wp_list_table = _get_list_table( 'WP_MS_Themes_List_Table' );
 
 $action = $wp_list_table->current_action();
 
-$s = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+$s = $_REQUEST['s'] ?? '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
 $temp_args              = array( 'enabled', 'disabled', 'error' );

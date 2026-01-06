@@ -47,7 +47,7 @@ if ( ! current_user_can( 'upgrade_network' ) ) {
 echo '<div class="wrap">';
 echo '<h1>' . __( 'Upgrade Network' ) . '</h1>';
 
-$action = isset( $_GET['action'] ) ? $_GET['action'] : 'show';
+$action = $_GET['action'] ?? 'show';
 
 switch ( $action ) {
 	case 'upgrade':

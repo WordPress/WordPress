@@ -150,9 +150,9 @@ class WP_Site_Health {
 				if ( is_string( $test['test'] ) ) {
 					$health_check_js_variables['site_status']['async'][] = array(
 						'test'      => $test['test'],
-						'has_rest'  => ( isset( $test['has_rest'] ) ? $test['has_rest'] : false ),
+						'has_rest'  => $test['has_rest'] ?? false,
 						'completed' => false,
-						'headers'   => isset( $test['headers'] ) ? $test['headers'] : array(),
+						'headers'   => $test['headers'] ?? array(),
 					);
 				}
 			}
@@ -1052,10 +1052,10 @@ class WP_Site_Health {
 		$failures = array();
 
 		foreach ( $modules as $library => $module ) {
-			$extension_name = ( isset( $module['extension'] ) ? $module['extension'] : null );
-			$function_name  = ( isset( $module['function'] ) ? $module['function'] : null );
-			$constant_name  = ( isset( $module['constant'] ) ? $module['constant'] : null );
-			$class_name     = ( isset( $module['class'] ) ? $module['class'] : null );
+			$extension_name = $module['extension'] ?? null;
+			$function_name  = $module['function'] ?? null;
+			$constant_name  = $module['constant'] ?? null;
+			$class_name     = $module['class'] ?? null;
 
 			// If this module is a fallback for another function, check if that other function passed.
 			if ( isset( $module['fallback_for'] ) ) {
@@ -3023,7 +3023,7 @@ class WP_Site_Health {
 						'sig'      => $sig,
 						'args'     => $data['args'],
 						'schedule' => $data['schedule'],
-						'interval' => isset( $data['interval'] ) ? $data['interval'] : null,
+						'interval' => $data['interval'] ?? null,
 					);
 
 				}

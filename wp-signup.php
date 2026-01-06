@@ -976,7 +976,7 @@ if ( 'none' === $active_signup ) {
 	/* translators: %s: Login URL. */
 	printf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
 } else {
-	$stage = isset( $_POST['stage'] ) ? $_POST['stage'] : 'default';
+	$stage = $_POST['stage'] ?? 'default';
 	switch ( $stage ) {
 		case 'validate-user-signup':
 			if ( 'all' === $active_signup
@@ -1000,7 +1000,7 @@ if ( 'none' === $active_signup ) {
 			break;
 		case 'default':
 		default:
-			$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
+			$user_email = $_POST['user_email'] ?? '';
 			/**
 			 * Fires when the site sign-up form is sent.
 			 *

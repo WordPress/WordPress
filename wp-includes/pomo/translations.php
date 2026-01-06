@@ -119,7 +119,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 * @return string|false Header if it exists, false otherwise.
 		 */
 		public function get_header( $header ) {
-			return isset( $this->headers[ $header ] ) ? $this->headers[ $header ] : false;
+			return $this->headers[ $header ] ?? false;
 		}
 
 		/**
@@ -132,7 +132,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 */
 		public function translate_entry( &$entry ) {
 			$key = $entry->key();
-			return isset( $this->entries[ $key ] ) ? $this->entries[ $key ] : false;
+			return $this->entries[ $key ] ?? false;
 		}
 
 		/**

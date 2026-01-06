@@ -577,7 +577,7 @@ function url_to_postid( $url ) {
 	} else {
 		// Chop off /path/to/blog.
 		$home_path = parse_url( home_url( '/' ) );
-		$home_path = isset( $home_path['path'] ) ? $home_path['path'] : '';
+		$home_path = $home_path['path'] ?? '';
 		$url       = preg_replace( sprintf( '#^%s#', preg_quote( $home_path ) ), '', trailingslashit( $url ) );
 	}
 

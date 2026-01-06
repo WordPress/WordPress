@@ -2464,7 +2464,7 @@ function wp_insert_user( $userdata ) {
 
 	$meta['show_admin_bar_front'] = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
 
-	$meta['locale'] = isset( $userdata['locale'] ) ? $userdata['locale'] : '';
+	$meta['locale'] = $userdata['locale'] ?? '';
 
 	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'display_name' );
 	$data      = wp_unslash( $compacted );

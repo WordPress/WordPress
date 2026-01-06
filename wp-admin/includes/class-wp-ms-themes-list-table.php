@@ -48,11 +48,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		parent::__construct(
 			array(
 				'plural' => 'themes',
-				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+				'screen' => $args['screen'] ?? null,
 			)
 		);
 
-		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : 'all';
+		$status = $_REQUEST['theme_status'] ?? 'all';
 		if ( ! in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search', 'broken', 'auto-update-enabled', 'auto-update-disabled' ), true ) ) {
 			$status = 'all';
 		}
@@ -153,7 +153,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$themes[ $filter ][ $key ] = $themes['all'][ $key ];
 
 			$theme_data = array(
-				'update_supported' => isset( $theme->update_supported ) ? $theme->update_supported : true,
+				'update_supported' => $theme->update_supported ?? true,
 			);
 
 			// Extra info if known. array_merge() ensures $theme_data has precedence if keys collide.

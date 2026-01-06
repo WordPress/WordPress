@@ -17,7 +17,7 @@ if ( ! current_user_can( 'read' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
 }
 
-$action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
+$action = $_POST['action'] ?? 'splash';
 
 $blogs = get_blogs_of_user( $current_user->ID );
 
