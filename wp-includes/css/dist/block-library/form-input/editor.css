@@ -1,1 +1,18 @@
-.wp-block-form-input .is-input-hidden{background:repeating-linear-gradient(45deg,#0000,#0000 5px,currentColor 0,currentColor 6px);border:1px dashed;box-sizing:border-box;font-size:.85em;opacity:.3;padding:.5em}.wp-block-form-input .is-input-hidden input[type=text]{background:#0000}.wp-block-form-input.is-selected .is-input-hidden{background:none;opacity:1}.wp-block-form-input.is-selected .is-input-hidden input[type=text]{background:unset}
+.wp-block-form-input .is-input-hidden {
+  font-size: 0.85em;
+  opacity: 0.3;
+  border: 1px dashed;
+  padding: 0.5em;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(45deg, transparent, transparent 5px, currentColor 5px, currentColor 6px);
+}
+.wp-block-form-input .is-input-hidden input[type=text] {
+  background: transparent;
+}
+.wp-block-form-input.is-selected .is-input-hidden {
+  opacity: 1;
+  background: none;
+}
+.wp-block-form-input.is-selected .is-input-hidden input[type=text] {
+  background: unset;
+}

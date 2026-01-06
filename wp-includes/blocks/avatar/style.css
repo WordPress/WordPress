@@ -1,1 +1,10 @@
-.wp-block-avatar{line-height:0}.wp-block-avatar,.wp-block-avatar img{box-sizing:border-box}.wp-block-avatar.aligncenter{text-align:center}
+.wp-block-avatar {
+  box-sizing: border-box;
+  line-height: 0;
+}
+.wp-block-avatar img {
+  box-sizing: border-box;
+}
+.wp-block-avatar.aligncenter {
+  text-align: center;
+}

@@ -1,1 +1,6 @@
-.wp-element-button{cursor:pointer}
+/**
+ * Element styles.
+ */
+.wp-element-button {
+  cursor: pointer;
+}

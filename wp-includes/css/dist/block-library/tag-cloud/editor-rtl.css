@@ -1,1 +1,6 @@
-.wp-block-tag-cloud .wp-block-tag-cloud{border:none;border-radius:inherit;margin:0;padding:0}
+.wp-block-tag-cloud .wp-block-tag-cloud {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+}
