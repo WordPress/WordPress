@@ -619,7 +619,7 @@ class WP_Meta_Query {
 		$clause['alias'] = $alias;
 
 		// Determine the data type.
-		$_meta_type     = isset( $clause['type'] ) ? $clause['type'] : '';
+		$_meta_type     = $clause['type'] ?? '';
 		$meta_type      = $this->get_cast_for_type( $_meta_type );
 		$clause['cast'] = $meta_type;
 

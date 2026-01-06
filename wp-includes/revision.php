@@ -89,8 +89,8 @@ function _wp_post_revision_data( $post = array(), $autosave = false ) {
 	$revision_data['post_status']   = 'inherit';
 	$revision_data['post_type']     = 'revision';
 	$revision_data['post_name']     = $autosave ? "$post[ID]-autosave-v1" : "$post[ID]-revision-v1"; // "1" is the revisioning system version.
-	$revision_data['post_date']     = isset( $post['post_modified'] ) ? $post['post_modified'] : '';
-	$revision_data['post_date_gmt'] = isset( $post['post_modified_gmt'] ) ? $post['post_modified_gmt'] : '';
+	$revision_data['post_date']     = $post['post_modified'] ?? '';
+	$revision_data['post_date_gmt'] = $post['post_modified_gmt'] ?? '';
 
 	return $revision_data;
 }

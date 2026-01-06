@@ -41,7 +41,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			array(
 				'plural'   => 'tags',
 				'singular' => 'tag',
-				'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
+				'screen'   => $args['screen'] ?? null,
 			)
 		);
 

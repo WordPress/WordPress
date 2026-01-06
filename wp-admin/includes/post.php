@@ -429,7 +429,7 @@ function edit_post( $post_data = null ) {
 			}
 		}
 
-		$attachment_data = isset( $post_data['attachments'][ $post_id ] ) ? $post_data['attachments'][ $post_id ] : array();
+		$attachment_data = $post_data['attachments'][ $post_id ] ?? array();
 
 		/** This filter is documented in wp-admin/includes/media.php */
 		$translated = apply_filters( 'attachment_fields_to_save', $translated, $attachment_data );
@@ -1014,7 +1014,7 @@ function add_meta( $post_id ) {
 
 	$metakeyselect = isset( $_POST['metakeyselect'] ) ? wp_unslash( trim( $_POST['metakeyselect'] ) ) : '';
 	$metakeyinput  = isset( $_POST['metakeyinput'] ) ? wp_unslash( trim( $_POST['metakeyinput'] ) ) : '';
-	$metavalue     = isset( $_POST['metavalue'] ) ? $_POST['metavalue'] : '';
+	$metavalue     = $_POST['metavalue'] ?? '';
 	if ( is_string( $metavalue ) ) {
 		$metavalue = trim( $metavalue );
 	}
@@ -2043,7 +2043,7 @@ function wp_autosave_post_revisioned_meta_fields( $new_autosave ) {
 	 * Ignoring sanitization to avoid altering meta. Ignoring the nonce check because
 	 * this is hooked on inner core hooks where a valid nonce was already checked.
 	 */
-	$posted_data = isset( $_POST['data']['wp_autosave'] ) ? $_POST['data']['wp_autosave'] : $_POST;
+	$posted_data = $_POST['data']['wp_autosave'] ?? $_POST;
 
 	$post_type = get_post_type( $new_autosave['post_parent'] );
 

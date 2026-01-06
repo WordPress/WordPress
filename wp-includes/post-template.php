@@ -118,8 +118,8 @@ function the_title_attribute( $args = '' ) {
 function get_the_title( $post = 0 ) {
 	$post = get_post( $post );
 
-	$post_title = isset( $post->post_title ) ? $post->post_title : '';
-	$post_id    = isset( $post->ID ) ? $post->ID : 0;
+	$post_title = $post->post_title ?? '';
+	$post_id    = $post->ID ?? 0;
 
 	if ( ! is_admin() ) {
 		if ( ! empty( $post->post_password ) ) {
@@ -191,7 +191,7 @@ function the_guid( $post = 0 ) {
 	$post = get_post( $post );
 
 	$post_guid = isset( $post->guid ) ? get_the_guid( $post ) : '';
-	$post_id   = isset( $post->ID ) ? $post->ID : 0;
+	$post_id   = $post->ID ?? 0;
 
 	/**
 	 * Filters the escaped Global Unique Identifier (guid) of the post.
@@ -221,8 +221,8 @@ function the_guid( $post = 0 ) {
 function get_the_guid( $post = 0 ) {
 	$post = get_post( $post );
 
-	$post_guid = isset( $post->guid ) ? $post->guid : '';
-	$post_id   = isset( $post->ID ) ? $post->ID : 0;
+	$post_guid = $post->guid ?? '';
+	$post_id   = $post->ID ?? 0;
 
 	/**
 	 * Filters the Global Unique Identifier (guid) of the post.

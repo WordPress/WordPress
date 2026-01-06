@@ -1723,7 +1723,7 @@ function sanitize_term( $term, $taxonomy, $context = 'display' ) {
 
 	$do_object = is_object( $term );
 
-	$term_id = $do_object ? $term->term_id : ( isset( $term['term_id'] ) ? $term['term_id'] : 0 );
+	$term_id = $do_object ? $term->term_id : ( $term['term_id'] ?? 0 );
 
 	foreach ( (array) $fields as $field ) {
 		if ( $do_object ) {
@@ -3280,7 +3280,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$parsed_args['slug'] = $slug;
 
-	$term_group = isset( $parsed_args['term_group'] ) ? $parsed_args['term_group'] : 0;
+	$term_group = $parsed_args['term_group'] ?? 0;
 	if ( $args['alias_of'] ) {
 		$alias = get_term_by( 'slug', $args['alias_of'], $taxonomy );
 		if ( ! empty( $alias->term_group ) ) {
