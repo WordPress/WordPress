@@ -283,7 +283,7 @@ function wp_add_global_styles_for_blocks() {
 
 		if ( $can_use_cached ) {
 			// Use the block name as the key for cached CSS data. Otherwise, use a hash of the metadata.
-			$cache_node_key = isset( $metadata['name'] ) ? $metadata['name'] : md5( wp_json_encode( $metadata ) );
+			$cache_node_key = $metadata['name'] ?? md5( wp_json_encode( $metadata ) );
 
 			if ( isset( $cached['blocks'][ $cache_node_key ] ) ) {
 				$block_css = $cached['blocks'][ $cache_node_key ];

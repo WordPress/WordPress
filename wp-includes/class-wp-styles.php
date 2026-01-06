@@ -203,7 +203,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		$rel   = isset( $obj->extra['alt'] ) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-		$title = isset( $obj->extra['title'] ) ? $obj->extra['title'] : '';
+		$title = $obj->extra['title'] ?? '';
 
 		$tag = sprintf(
 			"<link rel='%s' id='%s-css'%s href='%s' media='%s' />\n",
@@ -230,7 +230,7 @@ class WP_Styles extends WP_Dependencies {
 
 		if ( 'rtl' === $this->text_direction && isset( $obj->extra['rtl'] ) && $obj->extra['rtl'] ) {
 			if ( is_bool( $obj->extra['rtl'] ) || 'replace' === $obj->extra['rtl'] ) {
-				$suffix   = isset( $obj->extra['suffix'] ) ? $obj->extra['suffix'] : '';
+				$suffix   = $obj->extra['suffix'] ?? '';
 				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $src, $ver, "$handle-rtl" ) );
 			} else {
 				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );

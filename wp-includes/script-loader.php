@@ -1984,7 +1984,7 @@ function wp_localize_community_events() {
 
 	$user_id            = get_current_user_id();
 	$saved_location     = get_user_option( 'community-events-location', $user_id );
-	$saved_ip_address   = isset( $saved_location['ip'] ) ? $saved_location['ip'] : false;
+	$saved_ip_address   = $saved_location['ip'] ?? false;
 	$current_ip_address = WP_Community_Events::get_unsafe_client_ip();
 
 	/*

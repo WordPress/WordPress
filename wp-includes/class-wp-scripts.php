@@ -450,7 +450,7 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		// Determine fetchpriority.
-		$original_fetchpriority = isset( $obj->extra['fetchpriority'] ) ? $obj->extra['fetchpriority'] : null;
+		$original_fetchpriority = $obj->extra['fetchpriority'] ?? null;
 		if ( null === $original_fetchpriority || ! $this->is_valid_fetchpriority( $original_fetchpriority ) ) {
 			$original_fetchpriority = 'auto';
 		}
