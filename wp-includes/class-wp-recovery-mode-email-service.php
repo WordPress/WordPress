@@ -340,12 +340,6 @@ When seeking help with this issue, you may be asked for some of the following in
 		$theme      = wp_get_theme();
 		$wp_version = get_bloginfo( 'version' );
 
-		if ( $extension ) {
-			$plugin = $this->get_plugin( $extension );
-		} else {
-			$plugin = null;
-		}
-
 		$debug = array(
 			'wp'    => sprintf(
 				/* translators: %s: Current WordPress version number. */
@@ -360,13 +354,17 @@ When seeking help with this issue, you may be asked for some of the following in
 			),
 		);
 
-		if ( null !== $plugin ) {
-			$debug['plugin'] = sprintf(
-				/* translators: 1: The failing plugins name. 2: The failing plugins version. */
-				__( 'Current plugin: %1$s (version %2$s)' ),
-				$plugin['Name'],
-				$plugin['Version']
-			);
+		if ( $extension ) {
+			$plugin = $this->get_plugin( $extension );
+
+			if ( is_array( $plugin ) ) {
+				$debug['plugin'] = sprintf(
+					/* translators: 1: The failing plugin's name. 2: The failing plugin's version. */
+					__( 'Current plugin: %1$s (version %2$s)' ),
+					$plugin['Name'],
+					$plugin['Version']
+				);
+			}
 		}
 
 		$debug['php'] = sprintf(

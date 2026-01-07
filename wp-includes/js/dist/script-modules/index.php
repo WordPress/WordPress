@@ -13,6 +13,11 @@ return array(
 		'asset' => 'a11y/index.min.asset.php',
 	),
 	array(
+		'id' => '@wordpress/interactivity',
+		'path' => 'interactivity/index',
+		'asset' => 'interactivity/index.min.asset.php',
+	),
+	array(
 		'id' => '@wordpress/interactivity-router',
 		'path' => 'interactivity-router/index',
 		'asset' => 'interactivity-router/index.min.asset.php',
@@ -26,11 +31,6 @@ return array(
 		'id' => '@wordpress/core-abilities',
 		'path' => 'core-abilities/index',
 		'asset' => 'core-abilities/index.min.asset.php',
-	),
-	array(
-		'id' => '@wordpress/interactivity',
-		'path' => 'interactivity/index',
-		'asset' => 'interactivity/index.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/latex-to-mathml',
@@ -48,14 +48,14 @@ return array(
 		'asset' => 'abilities/index.min.asset.php',
 	),
 	array(
-		'id' => '@wordpress/route',
-		'path' => 'route/index',
-		'asset' => 'route/index.min.asset.php',
-	),
-	array(
 		'id' => '@wordpress/edit-site-init',
 		'path' => 'edit-site-init/index',
 		'asset' => 'edit-site-init/index.min.asset.php',
+	),
+	array(
+		'id' => '@wordpress/route',
+		'path' => 'route/index',
+		'asset' => 'route/index.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/lazy-editor',
