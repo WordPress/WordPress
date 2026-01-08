@@ -120,7 +120,7 @@ class WP_Date_Query {
 	 *                                               or an array of years if `$compare` supports it. Default empty.
 	 *             @type int|int[]    $month         Optional. The two-digit month number. Accepts numbers 1-12 or an
 	 *                                               array of valid numbers if `$compare` supports it. Default empty.
-	 *             @type int|int[]    $week          Optional. The week number of the year. Accepts numbers 0-53 or an
+	 *             @type int|int[]    $week          Optional. The week number of the year. Accepts numbers 1-53 or an
 	 *                                               array of valid numbers if `$compare` supports it. Default empty.
 	 *             @type int|int[]    $dayofyear     Optional. The day number of the year. Accepts numbers 1-366 or an
 	 *                                               array of valid numbers if `$compare` supports it.
