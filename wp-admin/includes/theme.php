@@ -732,8 +732,8 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			$customize_action = esc_url( $customize_action );
 		}
 
-		$update_requires_wp  = isset( $updates[ $slug ]['requires'] ) ? $updates[ $slug ]['requires'] : null;
-		$update_requires_php = isset( $updates[ $slug ]['requires_php'] ) ? $updates[ $slug ]['requires_php'] : null;
+		$update_requires_wp  = $updates[ $slug ]['requires'] ?? null;
+		$update_requires_php = $updates[ $slug ]['requires_php'] ?? null;
 
 		$auto_update        = in_array( $slug, $auto_updates, true );
 		$auto_update_action = $auto_update ? 'disable-auto-update' : 'enable-auto-update';

@@ -908,12 +908,12 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	// All tests are on by default. Most can be turned off by $overrides[{test_name}] = false;
-	$test_form = isset( $overrides['test_form'] ) ? $overrides['test_form'] : true;
-	$test_size = isset( $overrides['test_size'] ) ? $overrides['test_size'] : true;
+	$test_form = $overrides['test_form'] ?? true;
+	$test_size = $overrides['test_size'] ?? true;
 
 	// If you override this, you must provide $ext and $type!!
-	$test_type = isset( $overrides['test_type'] ) ? $overrides['test_type'] : true;
-	$mimes     = isset( $overrides['mimes'] ) ? $overrides['mimes'] : null;
+	$test_type = $overrides['test_type'] ?? true;
+	$mimes     = $overrides['mimes'] ?? null;
 
 	// A correct form post will pass this test.
 	if ( $test_form && ( ! isset( $_POST['action'] ) || $_POST['action'] !== $action ) ) {
@@ -2496,12 +2496,12 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 		return $credentials;
 	}
 
-	$hostname        = isset( $credentials['hostname'] ) ? $credentials['hostname'] : '';
-	$username        = isset( $credentials['username'] ) ? $credentials['username'] : '';
-	$public_key      = isset( $credentials['public_key'] ) ? $credentials['public_key'] : '';
-	$private_key     = isset( $credentials['private_key'] ) ? $credentials['private_key'] : '';
-	$port            = isset( $credentials['port'] ) ? $credentials['port'] : '';
-	$connection_type = isset( $credentials['connection_type'] ) ? $credentials['connection_type'] : '';
+	$hostname        = $credentials['hostname'] ?? '';
+	$username        = $credentials['username'] ?? '';
+	$public_key      = $credentials['public_key'] ?? '';
+	$private_key     = $credentials['private_key'] ?? '';
+	$port            = $credentials['port'] ?? '';
+	$connection_type = $credentials['connection_type'] ?? '';
 
 	if ( $error ) {
 		$error_string = __( '<strong>Error:</strong> Could not connect to the server. Please verify the settings are correct.' );

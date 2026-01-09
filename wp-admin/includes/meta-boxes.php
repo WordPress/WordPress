@@ -1265,7 +1265,7 @@ function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 		_deprecated_argument( __FUNCTION__, '2.5.0' ); // Never implemented.
 	}
 
-	$link_rel  = isset( $link->link_rel ) ? $link->link_rel : '';
+	$link_rel  = $link->link_rel ?? '';
 	$link_rels = preg_split( '/\s+/', $link_rel );
 
 	// Mark the specified value as checked if it matches the current link's relationship.
@@ -1454,7 +1454,7 @@ function link_advanced_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><label for="link_notes"><?php _e( 'Notes' ); ?></label></th>
-		<td><textarea name="link_notes" id="link_notes" rows="10"><?php echo ( isset( $link->link_notes ) ? $link->link_notes : '' ); // textarea_escaped ?></textarea></td>
+		<td><textarea name="link_notes" id="link_notes" rows="10"><?php echo $link->link_notes ?? ''; // textarea_escaped ?></textarea></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="link_rating"><?php _e( 'Rating' ); ?></label></th>

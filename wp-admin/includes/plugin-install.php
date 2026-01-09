@@ -796,8 +796,8 @@ function install_plugin_information() {
 	</div>
 	<div id="section-holder">
 	<?php
-	$requires_php = isset( $api->requires_php ) ? $api->requires_php : null;
-	$requires_wp  = isset( $api->requires ) ? $api->requires : null;
+	$requires_php = $api->requires_php ?? null;
+	$requires_wp  = $api->requires ?? null;
 
 	$compatible_php = is_php_version_compatible( $requires_php );
 	$compatible_wp  = is_wp_version_compatible( $requires_wp );

@@ -32,7 +32,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		parent::__construct(
 			array(
 				'ajax'   => true,
-				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+				'screen' => $args['screen'] ?? null,
 			)
 		);
 	}

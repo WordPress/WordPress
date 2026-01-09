@@ -29,7 +29,7 @@ class WP_Links_List_Table extends WP_List_Table {
 		parent::__construct(
 			array(
 				'plural' => 'bookmarks',
-				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+				'screen' => $args['screen'] ?? null,
 			)
 		);
 	}

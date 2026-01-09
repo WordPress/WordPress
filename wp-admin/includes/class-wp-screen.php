@@ -808,7 +808,7 @@ final class WP_Screen {
 			'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
 		);
 
-		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
+		$old_help = self::$_old_compat_help[ $this->id ] ?? '';
 
 		/**
 		 * Filters the legacy contextual help text.
@@ -1257,7 +1257,7 @@ final class WP_Screen {
 		}
 
 		if ( 'edit_comments_per_page' === $option ) {
-			$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
+			$comment_status = $_REQUEST['comment_status'] ?? 'all';
 
 			/** This filter is documented in wp-admin/includes/class-wp-comments-list-table.php */
 			$per_page = apply_filters( 'comments_per_page', $per_page, $comment_status );

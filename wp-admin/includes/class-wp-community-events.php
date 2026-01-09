@@ -122,7 +122,7 @@ class WP_Community_Events {
 		} elseif ( ! isset( $response_body['location'], $response_body['events'] ) ) {
 			$response_error = new WP_Error(
 				'api-invalid-response',
-				isset( $response_body['error'] ) ? $response_body['error'] : __( 'Unknown API error.' )
+				$response_body['error'] ?? __( 'Unknown API error.' )
 			);
 		}
 

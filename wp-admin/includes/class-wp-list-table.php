@@ -1451,11 +1451,11 @@ class WP_List_Table {
 			}
 
 			if ( isset( $sortable[ $column_key ] ) ) {
-				$orderby       = isset( $sortable[ $column_key ][0] ) ? $sortable[ $column_key ][0] : '';
-				$desc_first    = isset( $sortable[ $column_key ][1] ) ? $sortable[ $column_key ][1] : false;
-				$abbr          = isset( $sortable[ $column_key ][2] ) ? $sortable[ $column_key ][2] : '';
-				$orderby_text  = isset( $sortable[ $column_key ][3] ) ? $sortable[ $column_key ][3] : '';
-				$initial_order = isset( $sortable[ $column_key ][4] ) ? $sortable[ $column_key ][4] : '';
+				$orderby       = $sortable[ $column_key ][0] ?? '';
+				$desc_first    = $sortable[ $column_key ][1] ?? false;
+				$abbr          = $sortable[ $column_key ][2] ?? '';
+				$orderby_text  = $sortable[ $column_key ][3] ?? '';
+				$initial_order = $sortable[ $column_key ][4] ?? '';
 
 				/*
 				 * We're in the initial view and there's no $_GET['orderby'] then check if the
@@ -1567,11 +1567,11 @@ class WP_List_Table {
 		foreach ( array_keys( $columns ) as $column_key ) {
 
 			if ( isset( $sortable[ $column_key ] ) ) {
-				$orderby       = isset( $sortable[ $column_key ][0] ) ? $sortable[ $column_key ][0] : '';
-				$desc_first    = isset( $sortable[ $column_key ][1] ) ? $sortable[ $column_key ][1] : false;
-				$abbr          = isset( $sortable[ $column_key ][2] ) ? $sortable[ $column_key ][2] : '';
-				$orderby_text  = isset( $sortable[ $column_key ][3] ) ? $sortable[ $column_key ][3] : '';
-				$initial_order = isset( $sortable[ $column_key ][4] ) ? $sortable[ $column_key ][4] : '';
+				$orderby       = $sortable[ $column_key ][0] ?? '';
+				$desc_first    = $sortable[ $column_key ][1] ?? false;
+				$abbr          = $sortable[ $column_key ][2] ?? '';
+				$orderby_text  = $sortable[ $column_key ][3] ?? '';
+				$initial_order = $sortable[ $column_key ][4] ?? '';
 
 				if ( ! is_string( $orderby_text ) || '' === $orderby_text ) {
 					return;

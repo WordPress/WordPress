@@ -120,7 +120,7 @@ function wp_credits_section_title( $group_data = array() ) {
  * @param string $slug    The current group to display.
  */
 function wp_credits_section_list( $credits = array(), $slug = '' ) {
-	$group_data   = isset( $credits['groups'][ $slug ] ) ? $credits['groups'][ $slug ] : array();
+	$group_data   = $credits['groups'][ $slug ] ?? array();
 	$credits_data = $credits['data'];
 	if ( ! count( $group_data ) ) {
 		return;

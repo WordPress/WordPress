@@ -1808,7 +1808,7 @@ function wp_ajax_closed_postboxes() {
 	$hidden = isset( $_POST['hidden'] ) ? explode( ',', $_POST['hidden'] ) : array();
 	$hidden = array_filter( $hidden );
 
-	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+	$page = $_POST['page'] ?? '';
 
 	if ( sanitize_key( $page ) !== $page ) {
 		wp_die( 0 );
@@ -1839,7 +1839,7 @@ function wp_ajax_closed_postboxes() {
  */
 function wp_ajax_hidden_columns() {
 	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
-	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+	$page = $_POST['page'] ?? '';
 
 	if ( sanitize_key( $page ) !== $page ) {
 		wp_die( 0 );
@@ -1988,13 +1988,13 @@ function wp_ajax_menu_locations_save() {
 function wp_ajax_meta_box_order() {
 	check_ajax_referer( 'meta-box-order' );
 	$order        = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
-	$page_columns = isset( $_POST['page_columns'] ) ? $_POST['page_columns'] : 'auto';
+	$page_columns = $_POST['page_columns'] ?? 'auto';
 
 	if ( 'auto' !== $page_columns ) {
 		$page_columns = (int) $page_columns;
 	}
 
-	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+	$page = $_POST['page'] ?? '';
 
 	if ( sanitize_key( $page ) !== $page ) {
 		wp_die( 0 );
@@ -2052,8 +2052,8 @@ function wp_ajax_get_permalink() {
 function wp_ajax_sample_permalink() {
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0;
-	$title   = isset( $_POST['new_title'] ) ? $_POST['new_title'] : '';
-	$slug    = isset( $_POST['new_slug'] ) ? $_POST['new_slug'] : null;
+	$title   = $_POST['new_title'] ?? '';
+	$slug    = $_POST['new_slug'] ?? null;
 	wp_die( get_sample_permalink_html( $post_id, $title, $slug ) );
 }
 
@@ -2393,7 +2393,7 @@ function wp_ajax_save_widget() {
 	$error        = '<p>' . __( 'An error has occurred. Please reload the page and try again.' ) . '</p>';
 
 	$sidebars = wp_get_sidebars_widgets();
-	$sidebar  = isset( $sidebars[ $sidebar_id ] ) ? $sidebars[ $sidebar_id ] : array();
+	$sidebar  = $sidebars[ $sidebar_id ] ?? array();
 
 	// Delete.
 	if ( isset( $_POST['delete_widget'] ) && $_POST['delete_widget'] ) {
@@ -3353,12 +3353,12 @@ function wp_ajax_send_attachment_to_editor() {
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
 
 	if ( str_starts_with( $post->post_mime_type, 'image' ) ) {
-		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
-		$size  = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
-		$alt   = isset( $attachment['image_alt'] ) ? $attachment['image_alt'] : '';
+		$align = $attachment['align'] ?? 'none';
+		$size  = $attachment['image-size'] ?? 'medium';
+		$alt   = $attachment['image_alt'] ?? '';
 
 		// No whitespace-only captions.
-		$caption = isset( $attachment['post_excerpt'] ) ? $attachment['post_excerpt'] : '';
+		$caption = $attachment['post_excerpt'] ?? '';
 		if ( '' === trim( $caption ) ) {
 			$caption = '';
 		}
@@ -3368,7 +3368,7 @@ function wp_ajax_send_attachment_to_editor() {
 	} elseif ( wp_attachment_is( 'video', $post ) || wp_attachment_is( 'audio', $post ) ) {
 		$html = stripslashes_deep( $_POST['html'] );
 	} else {
-		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
+		$html = $attachment['post_title'] ?? '';
 		$rel  = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized.
 
 		if ( ! empty( $url ) ) {
@@ -3421,7 +3421,7 @@ function wp_ajax_send_link_to_editor() {
 		$link_text = wp_basename( $src );
 	}
 
-	$post = get_post( isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0 );
+	$post = get_post( $_POST['post_id'] ?? 0 );
 
 	// Ping WordPress for an embed.
 	$check_embed = $wp_embed->run_shortcode( '[embed]' . $src . '[/embed]' );
@@ -3647,7 +3647,7 @@ function wp_ajax_query_themes() {
 		}
 	}
 
-	$old_filter = isset( $args['browse'] ) ? $args['browse'] : 'search';
+	$old_filter = $args['browse'] ?? 'search';
 
 	/** This filter is documented in wp-admin/includes/class-wp-theme-install-list-table.php */
 	$args = apply_filters( 'install_themes_table_api_args_' . $old_filter, $args );
