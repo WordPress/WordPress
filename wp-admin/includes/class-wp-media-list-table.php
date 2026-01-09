@@ -47,7 +47,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		parent::__construct(
 			array(
 				'plural' => 'media',
-				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+				'screen' => $args['screen'] ?? null,
 			)
 		);
 	}

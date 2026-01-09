@@ -832,7 +832,7 @@ function media_upload_form_handler() {
 
 	if ( isset( $send_id ) ) {
 		$attachment = wp_unslash( $_POST['attachments'][ $send_id ] );
-		$html       = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
+		$html       = $attachment['post_title'] ?? '';
 
 		if ( ! empty( $attachment['url'] ) ) {
 			$rel = '';
@@ -1558,7 +1558,7 @@ function get_media_items( $post_id, $errors ) {
 			continue;
 		}
 
-		$item = get_media_item( $id, array( 'errors' => isset( $errors[ $id ] ) ? $errors[ $id ] : null ) );
+		$item = get_media_item( $id, array( 'errors' => $errors[ $id ] ?? null ) );
 
 		if ( $item ) {
 			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div class='progress hidden'><div class='bar'></div></div><div id='media-upload-error-$id' class='hidden'></div><div class='filename hidden'></div>$item\n</div>";
@@ -2103,8 +2103,8 @@ function media_upload_form( $errors = null ) {
 
 	$upload_action_url = admin_url( 'async-upload.php' );
 	$post_id           = isset( $_REQUEST['post_id'] ) ? (int) $_REQUEST['post_id'] : 0;
-	$_type             = isset( $type ) ? $type : '';
-	$_tab              = isset( $tab ) ? $tab : '';
+	$_type             = $type ?? '';
+	$_tab              = $tab ?? '';
 
 	$max_upload_size = wp_max_upload_size();
 	if ( ! $max_upload_size ) {
@@ -3656,7 +3656,7 @@ function wp_read_video_metadata( $file ) {
 
 	wp_add_id3_tag_data( $metadata, $data );
 
-	$file_format = isset( $metadata['fileformat'] ) ? $metadata['fileformat'] : null;
+	$file_format = $metadata['fileformat'] ?? null;
 
 	/**
 	 * Filters the array of metadata retrieved from a video.
@@ -3739,7 +3739,7 @@ function wp_read_audio_metadata( $file ) {
 
 	wp_add_id3_tag_data( $metadata, $data );
 
-	$file_format = isset( $metadata['fileformat'] ) ? $metadata['fileformat'] : null;
+	$file_format = $metadata['fileformat'] ?? null;
 
 	/**
 	 * Filters the array of metadata retrieved from an audio file.

@@ -1351,7 +1351,7 @@ endif;
 	 * @return int Attachment ID.
 	 */
 	final public function insert_attachment( $attachment, $cropped ) {
-		$parent_id = isset( $attachment['post_parent'] ) ? $attachment['post_parent'] : null;
+		$parent_id = $attachment['post_parent'] ?? null;
 		unset( $attachment['post_parent'] );
 
 		$attachment_id = wp_insert_attachment( $attachment, $cropped );
@@ -1584,8 +1584,8 @@ endif;
 
 		foreach ( $header_images as &$header_image ) {
 			$header_meta               = get_post_meta( $header_image['attachment_id'] );
-			$header_image['timestamp'] = isset( $header_meta[ $timestamp_key ] ) ? $header_meta[ $timestamp_key ] : '';
-			$header_image['alt_text']  = isset( $header_meta[ $alt_text_key ] ) ? $header_meta[ $alt_text_key ] : '';
+			$header_image['timestamp'] = $header_meta[ $timestamp_key ] ?? '';
+			$header_image['alt_text']  = $header_meta[ $alt_text_key ] ?? '';
 		}
 
 		return $header_images;
