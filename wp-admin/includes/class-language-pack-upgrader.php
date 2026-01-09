@@ -265,7 +265,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$language_updates_results[] = array(
 				'language' => $language_update->language,
 				'type'     => $language_update->type,
-				'slug'     => isset( $language_update->slug ) ? $language_update->slug : 'default',
+				'slug'     => $language_update->slug ?? 'default',
 				'version'  => $language_update->version,
 			);
 		}

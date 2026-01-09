@@ -470,7 +470,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	);
 
 	$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
-	$plugin_slug = isset( $response->slug ) ? $response->slug : $response->id;
+	$plugin_slug = $response->slug ?? $response->id;
 
 	if ( isset( $response->slug ) ) {
 		$details_url = self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug . '&section=changelog' );
@@ -504,7 +504,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 			$active_class = is_plugin_active( $file ) ? ' active' : '';
 		}
 
-		$requires_php   = isset( $response->requires_php ) ? $response->requires_php : null;
+		$requires_php   = $response->requires_php ?? null;
 		$compatible_php = is_php_version_compatible( $requires_php );
 		$notice_type    = $compatible_php ? 'notice-warning' : 'notice-error';
 
@@ -696,8 +696,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 
 	$active = $theme->is_allowed( 'network' ) ? ' active' : '';
 
-	$requires_wp  = isset( $response['requires'] ) ? $response['requires'] : null;
-	$requires_php = isset( $response['requires_php'] ) ? $response['requires_php'] : null;
+	$requires_wp  = $response['requires'] ?? null;
+	$requires_php = $response['requires_php'] ?? null;
 
 	$compatible_wp  = is_wp_version_compatible( $requires_wp );
 	$compatible_php = is_php_version_compatible( $requires_php );

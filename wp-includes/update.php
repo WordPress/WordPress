@@ -101,7 +101,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		'php'                => $php_version,
 		'locale'             => $locale,
 		'mysql'              => $mysql_version,
-		'local_package'      => isset( $wp_local_package ) ? $wp_local_package : '',
+		'local_package'      => $wp_local_package ?? '',
 		'blogs'              => $num_blogs,
 		'users'              => get_user_count(),
 		'multisite_enabled'  => $multisite_enabled,
@@ -579,7 +579,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 			foreach ( $update->translations as $translation ) {
 				if ( isset( $translation['language'], $translation['package'] ) ) {
 					$translation['type'] = 'plugin';
-					$translation['slug'] = isset( $update->slug ) ? $update->slug : $update->id;
+					$translation['slug'] = $update->slug ?? $update->id;
 
 					$updates->translations[] = $translation;
 				}
@@ -856,7 +856,7 @@ function wp_update_themes( $extra_stats = array() ) {
 			foreach ( $update->translations as $translation ) {
 				if ( isset( $translation['language'], $translation['package'] ) ) {
 					$translation['type'] = 'theme';
-					$translation['slug'] = isset( $update->theme ) ? $update->theme : $update->id;
+					$translation['slug'] = $update->theme ?? $update->id;
 
 					$new_update->translations[] = $translation;
 				}
