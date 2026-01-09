@@ -1104,7 +1104,7 @@ function get_theme_mod( $name, $default_value = false ) {
  */
 function set_theme_mod( $name, $value ) {
 	$mods      = get_theme_mods();
-	$old_value = isset( $mods[ $name ] ) ? $mods[ $name ] : false;
+	$old_value = $mods[ $name ] ?? false;
 
 	/**
 	 * Filters the theme modification, or 'theme_mod', value on save.
@@ -3428,7 +3428,7 @@ function get_registered_theme_feature( $feature ) {
 		return null;
 	}
 
-	return isset( $_wp_registered_theme_features[ $feature ] ) ? $_wp_registered_theme_features[ $feature ] : null;
+	return $_wp_registered_theme_features[ $feature ] ?? null;
 }
 
 /**
