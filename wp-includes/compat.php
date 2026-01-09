@@ -296,78 +296,9 @@ if ( ! function_exists( 'utf8_decode' ) ) :
 	endif;
 endif;
 
-// sodium_crypto_box() was introduced in PHP 7.2.
+// sodium_crypto_box() was introduced with Sodium in PHP 7.2, but the extension may not be enabled.
 if ( ! function_exists( 'sodium_crypto_box' ) ) {
 	require ABSPATH . WPINC . '/sodium_compat/autoload.php';
-}
-
-if ( ! function_exists( 'is_countable' ) ) {
-	/**
-	 * Polyfill for is_countable() function added in PHP 7.3.
-	 *
-	 * Verify that the content of a variable is an array or an object
-	 * implementing the Countable interface.
-	 *
-	 * @since 4.9.6
-	 *
-	 * @param mixed $value The value to check.
-	 * @return bool True if `$value` is countable, false otherwise.
-	 */
-	function is_countable( $value ) {
-		return ( is_array( $value )
-			|| $value instanceof Countable
-			|| $value instanceof SimpleXMLElement
-			|| $value instanceof ResourceBundle
-		);
-	}
-}
-
-if ( ! function_exists( 'array_key_first' ) ) {
-	/**
-	 * Polyfill for array_key_first() function added in PHP 7.3.
-	 *
-	 * Get the first key of the given array without affecting
-	 * the internal array pointer.
-	 *
-	 * @since 5.9.0
-	 *
-	 * @param array $array An array.
-	 * @return string|int|null The first key of array if the array
-	 *                         is not empty; `null` otherwise.
-	 */
-	function array_key_first( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
-		if ( empty( $array ) ) {
-			return null;
-		}
-
-		foreach ( $array as $key => $value ) {
-			return $key;
-		}
-	}
-}
-
-if ( ! function_exists( 'array_key_last' ) ) {
-	/**
-	 * Polyfill for `array_key_last()` function added in PHP 7.3.
-	 *
-	 * Get the last key of the given array without affecting the
-	 * internal array pointer.
-	 *
-	 * @since 5.9.0
-	 *
-	 * @param array $array An array.
-	 * @return string|int|null The last key of array if the array
-	 *.                        is not empty; `null` otherwise.
-	 */
-	function array_key_last( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
-		if ( empty( $array ) ) {
-			return null;
-		}
-
-		end( $array );
-
-		return key( $array );
-	}
 }
 
 if ( ! function_exists( 'array_is_list' ) ) {
