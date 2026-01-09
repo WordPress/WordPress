@@ -2438,7 +2438,7 @@ function get_pagenum_link( $pagenum = 1, $escape = true ) {
 	$request = remove_query_arg( 'paged' );
 
 	$home_root = parse_url( home_url() );
-	$home_root = ( isset( $home_root['path'] ) ) ? $home_root['path'] : '';
+	$home_root = $home_root['path'] ?? '';
 	$home_root = preg_quote( $home_root, '|' );
 
 	$request = preg_replace( '|^' . $home_root . '|i', '', $request );

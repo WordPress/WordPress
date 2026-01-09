@@ -52,7 +52,7 @@ $menu_locations = get_nav_menu_locations();
 $num_locations  = count( array_keys( $locations ) );
 
 // Allowed actions: add, update, delete.
-$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
+$action = $_REQUEST['action'] ?? 'edit';
 
 /*
  * If a JSON blob of navigation menu data is found, expand it and inject it

@@ -963,7 +963,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	// Assemble the data that will be used to generate the tag cloud markup.
 	$tags_data = array();
 	foreach ( $tags as $key => $tag ) {
-		$tag_id = isset( $tag->id ) ? $tag->id : $key;
+		$tag_id = $tag->id ?? $key;
 
 		$count      = $counts[ $key ];
 		$real_count = $real_counts[ $key ];

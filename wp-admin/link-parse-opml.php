@@ -55,9 +55,9 @@ function startElement( $parser, $tag_name, $attrs ) { // phpcs:ignore WordPress.
 		// Save the data away.
 		$names[]        = $name;
 		$urls[]         = $url;
-		$targets[]      = isset( $attrs['TARGET'] ) ? $attrs['TARGET'] : '';
-		$feeds[]        = isset( $attrs['XMLURL'] ) ? $attrs['XMLURL'] : '';
-		$descriptions[] = isset( $attrs['DESCRIPTION'] ) ? $attrs['DESCRIPTION'] : '';
+		$targets[]      = $attrs['TARGET'] ?? '';
+		$feeds[]        = $attrs['XMLURL'] ?? '';
+		$descriptions[] = $attrs['DESCRIPTION'] ?? '';
 	} // End if outline.
 }
 

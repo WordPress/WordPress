@@ -4658,7 +4658,7 @@ function paginate_links( $args = '' ) {
 	$url_parts    = explode( '?', $pagenum_link );
 
 	// Get max pages and current page out of the current query, if available.
-	$total   = isset( $wp_query->max_num_pages ) ? $wp_query->max_num_pages : 1;
+	$total   = $wp_query->max_num_pages ?? 1;
 	$current = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1;
 
 	// Append the format placeholder to the base URL.
@@ -4697,7 +4697,7 @@ function paginate_links( $args = '' ) {
 	if ( isset( $url_parts[1] ) ) {
 		// Find the format argument.
 		$format       = explode( '?', str_replace( '%_%', $args['format'], $args['base'] ) );
-		$format_query = isset( $format[1] ) ? $format[1] : '';
+		$format_query = $format[1] ?? '';
 		wp_parse_str( $format_query, $format_args );
 
 		// Find the query args of the requested URL.

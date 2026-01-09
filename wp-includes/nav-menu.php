@@ -319,8 +319,8 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	$_menu = wp_get_nav_menu_object( $menu_id );
 
 	$args = array(
-		'description' => ( isset( $menu_data['description'] ) ? $menu_data['description'] : '' ),
-		'name'        => ( isset( $menu_data['menu-name'] ) ? $menu_data['menu-name'] : '' ),
+		'description' => $menu_data['description'] ?? '',
+		'name'        => $menu_data['menu-name'] ?? '',
 		'parent'      => ( isset( $menu_data['parent'] ) ? (int) $menu_data['parent'] : 0 ),
 		'slug'        => null,
 	);

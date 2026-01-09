@@ -169,7 +169,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 
 	if ( ! $user_id ) {
 		global $authordata;
-		$user_id = isset( $authordata->ID ) ? $authordata->ID : 0;
+		$user_id = $authordata->ID ?? 0;
 	} else {
 		$authordata = get_userdata( $user_id );
 	}
@@ -178,7 +178,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 		$field = 'user_' . $field;
 	}
 
-	$value = isset( $authordata->$field ) ? $authordata->$field : '';
+	$value = $authordata->$field ?? '';
 
 	/**
 	 * Filters the value of the requested user metadata.
@@ -502,7 +502,7 @@ function wp_list_authors( $args = '' ) {
 	}
 
 	foreach ( $authors as $author_id ) {
-		$posts = isset( $post_counts[ $author_id ] ) ? $post_counts[ $author_id ] : 0;
+		$posts = $post_counts[ $author_id ] ?? 0;
 
 		if ( ! $posts && $parsed_args['hide_empty'] ) {
 			continue;
