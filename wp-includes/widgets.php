@@ -925,7 +925,7 @@ function is_active_widget( $callback = false, $widget_id = false, $id_base = fal
 			if ( is_array( $widgets ) ) {
 				foreach ( $widgets as $widget ) {
 					if ( ( $callback && isset( $wp_registered_widgets[ $widget ]['callback'] ) && $wp_registered_widgets[ $widget ]['callback'] === $callback ) || ( $id_base && _get_widget_id_base( $widget ) === $id_base ) ) {
-						if ( ! $widget_id || $widget_id === $wp_registered_widgets[ $widget ]['id'] ) {
+						if ( ! $widget_id || ( isset( $wp_registered_widgets[ $widget ]['id'] ) && $widget_id === $wp_registered_widgets[ $widget ]['id'] ) ) {
 							return $sidebar;
 						}
 					}
