@@ -1585,160 +1585,72 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
 }
 
 /**
- * Builds an attribute list from string containing attributes.
+ * Given a string of HTML attributes and values, parse into a structured attribute list.
  *
- * This function does a lot of work. It parses an attribute list into an array
- * with attribute data, and tries to do the right thing even if it gets weird
- * input. It will add quotes around attribute values that don't have any quotes
- * or apostrophes around them, to make it easier to produce HTML code that will
- * conform to W3C's HTML specification. It will also remove bad URL protocols
- * from attribute values. It also reduces duplicate attributes by using the
- * attribute defined first (`foo='bar' foo='baz'` will result in `foo='bar'`).
+ * This function performs a number of transformations while parsing attribute strings:
+ *  - It normalizes attribute values and surrounds them with double quotes.
+ *  - It normalizes HTML character references inside attribute values.
+ *  - It removes “bad” URL protocols from attribute values.
+ *
+ * Otherwise this reads the attributes as if they were part of an HTML tag. It performs
+ * these transformations to lower the risk of mis-parsing down the line and to perform
+ * URL sanitization in line with the rest of the `kses` subsystem. Importantly, it does
+ * not decode the attribute values, meaning that special HTML syntax characters will
+ * be left with character references in the `value` property.
+ *
+ * Example:
+ *
+ *     $attrs = wp_kses_hair( 'class="is-wide" inert data-lazy=\'&lt;img&#00062\' =/🐮=/' );
+ *     $attrs === array(
+ *         'class'     => array( 'name' => 'class', 'value' => 'is-wide', 'whole' => 'class="is-wide"', 'vless' => 'n' ),
+ *         'inert'     => array( 'name' => 'inert', 'value' => '', 'whole' => 'inert', 'vless' => 'y' ),
+ *         'data-lazy' => array( 'name' => 'data-lazy', 'value' => '&lt;img&gt;', 'whole' => 'data-lazy="&lt;img&gt;"', 'vless' => 'n' ),
+ *         '='         => array( 'name' => '=', 'value' => '', 'whole' => '=', 'vless' => 'y' ),
+ *         '🐮'        => array( 'name' => '🐮', 'value' => '/', 'whole' => '🐮="/"', 'vless' => 'n' ),
+ *     );
  *
  * @since 1.0.0
+ * @since 7.0.0 Reliably parses HTML via the HTML API.
  *
  * @param string   $attr              Attribute list from HTML element to closing HTML element tag.
  * @param string[] $allowed_protocols Array of allowed URL protocols.
- * @return array[] Array of attribute information after parsing.
+ * @return array<string, array{name: string, value: string, whole: string, vless: 'y'|'n'}> Array of attribute information after parsing.
  */
 function wp_kses_hair( $attr, $allowed_protocols ) {
-	$attrarr  = array();
-	$mode     = 0;
-	$attrname = '';
-	$uris     = wp_kses_uri_attributes();
+	$attributes = array();
+	$uris       = wp_kses_uri_attributes();
 
-	// Loop through the whole attribute list.
+	$processor = new WP_HTML_Tag_Processor( "<wp {$attr}>" );
+	$processor->next_token();
 
-	while ( strlen( $attr ) !== 0 ) {
-		$working = 0; // Was the last operation successful?
+	$syntax_characters = array(
+		'&' => '&amp;',
+		'<' => '&lt;',
+		'>' => '&gt;',
+		"'" => '&apos;',
+		'"' => '&quot;',
+	);
 
-		switch ( $mode ) {
-			case 0:
-				if ( preg_match( '/^([_a-zA-Z][-_a-zA-Z0-9:.]*)/', $attr, $match ) ) {
-					$attrname = $match[1];
-					$working  = 1;
-					$mode     = 1;
-					$attr     = preg_replace( '/^[_a-zA-Z][-_a-zA-Z0-9:.]*/', '', $attr );
-				}
-
-				break;
-
-			case 1:
-				if ( preg_match( '/^\s*=\s*/', $attr ) ) { // Equals sign.
-					$working = 1;
-					$mode    = 2;
-					$attr    = preg_replace( '/^\s*=\s*/', '', $attr );
-					break;
-				}
-
-				if ( preg_match( '/^\s+/', $attr ) ) { // Valueless.
-					$working = 1;
-					$mode    = 0;
-
-					if ( false === array_key_exists( $attrname, $attrarr ) ) {
-						$attrarr[ $attrname ] = array(
-							'name'  => $attrname,
-							'value' => '',
-							'whole' => $attrname,
-							'vless' => 'y',
-						);
-					}
-
-					$attr = preg_replace( '/^\s+/', '', $attr );
-				}
-
-				break;
-
-			case 2:
-				if ( preg_match( '%^"([^"]*)"(\s+|/?$)%', $attr, $match ) ) {
-					// "value"
-					$thisval = $match[1];
-					if ( in_array( strtolower( $attrname ), $uris, true ) ) {
-						$thisval = wp_kses_bad_protocol( $thisval, $allowed_protocols );
-					}
-
-					if ( false === array_key_exists( $attrname, $attrarr ) ) {
-						$attrarr[ $attrname ] = array(
-							'name'  => $attrname,
-							'value' => $thisval,
-							'whole' => "$attrname=\"$thisval\"",
-							'vless' => 'n',
-						);
-					}
-
-					$working = 1;
-					$mode    = 0;
-					$attr    = preg_replace( '/^"[^"]*"(\s+|$)/', '', $attr );
-					break;
-				}
-
-				if ( preg_match( "%^'([^']*)'(\s+|/?$)%", $attr, $match ) ) {
-					// 'value'
-					$thisval = $match[1];
-					if ( in_array( strtolower( $attrname ), $uris, true ) ) {
-						$thisval = wp_kses_bad_protocol( $thisval, $allowed_protocols );
-					}
-
-					if ( false === array_key_exists( $attrname, $attrarr ) ) {
-						$attrarr[ $attrname ] = array(
-							'name'  => $attrname,
-							'value' => $thisval,
-							'whole' => "$attrname='$thisval'",
-							'vless' => 'n',
-						);
-					}
-
-					$working = 1;
-					$mode    = 0;
-					$attr    = preg_replace( "/^'[^']*'(\s+|$)/", '', $attr );
-					break;
-				}
-
-				if ( preg_match( "%^([^\s\"']+)(\s+|/?$)%", $attr, $match ) ) {
-					// value
-					$thisval = $match[1];
-					if ( in_array( strtolower( $attrname ), $uris, true ) ) {
-						$thisval = wp_kses_bad_protocol( $thisval, $allowed_protocols );
-					}
-
-					if ( false === array_key_exists( $attrname, $attrarr ) ) {
-						$attrarr[ $attrname ] = array(
-							'name'  => $attrname,
-							'value' => $thisval,
-							'whole' => "$attrname=\"$thisval\"",
-							'vless' => 'n',
-						);
-					}
-
-					// We add quotes to conform to W3C's HTML spec.
-					$working = 1;
-					$mode    = 0;
-					$attr    = preg_replace( "%^[^\s\"']+(\s+|$)%", '', $attr );
-				}
-
-				break;
-		} // End switch.
-
-		if ( 0 === $working ) { // Not well-formed, remove and try again.
-			$attr = wp_kses_html_error( $attr );
-			$mode = 0;
+	foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+		$value   = $processor->get_attribute( $name );
+		$is_bool = true === $value;
+		if ( is_string( $value ) && in_array( $name, $uris, true ) ) {
+			$value = wp_kses_bad_protocol( $value, $allowed_protocols );
 		}
-	} // End while.
 
-	if ( 1 === $mode && false === array_key_exists( $attrname, $attrarr ) ) {
-		/*
-		 * Special case, for when the attribute list ends with a valueless
-		 * attribute like "selected".
-		 */
-		$attrarr[ $attrname ] = array(
-			'name'  => $attrname,
-			'value' => '',
-			'whole' => $attrname,
-			'vless' => 'y',
+		// Reconstruct and normalize the attribute value.
+		$recoded = $is_bool ? '' : strtr( $value, $syntax_characters );
+		$whole   = $is_bool ? $name : "{$name}=\"{$recoded}\"";
+
+		$attributes[ $name ] = array(
+			'name'  => $name,
+			'value' => $recoded,
+			'whole' => $whole,
+			'vless' => $is_bool ? 'y' : 'n',
 		);
 	}
 
-	return $attrarr;
+	return $attributes;
 }
 
 /**
