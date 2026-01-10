@@ -105,14 +105,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$comment_type = $_REQUEST['comment_type'];
 		}
 
-		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
+		$search = $_REQUEST['s'] ?? '';
 
 		$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_key( $_REQUEST['post_type'] ) : '';
 
-		$user_id = ( isset( $_REQUEST['user_id'] ) ) ? $_REQUEST['user_id'] : '';
+		$user_id = $_REQUEST['user_id'] ?? '';
 
-		$orderby = ( isset( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : '';
-		$order   = ( isset( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : '';
+		$orderby = $_REQUEST['orderby'] ?? '';
+		$order   = $_REQUEST['order'] ?? '';
 
 		$comments_per_page = $this->get_per_page( $comment_status );
 
