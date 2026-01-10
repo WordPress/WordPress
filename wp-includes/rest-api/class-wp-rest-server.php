@@ -364,11 +364,7 @@ class WP_REST_Server {
 		}
 
 		if ( empty( $path ) ) {
-			if ( isset( $_SERVER['PATH_INFO'] ) ) {
-				$path = $_SERVER['PATH_INFO'];
-			} else {
-				$path = '/';
-			}
+			$path = $_SERVER['PATH_INFO'] ?? '/';
 		}
 
 		$request = new WP_REST_Request( $_SERVER['REQUEST_METHOD'], $path );

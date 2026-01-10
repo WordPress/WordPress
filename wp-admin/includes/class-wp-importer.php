@@ -311,11 +311,7 @@ function get_cli_args( $param, $required = false ) {
 			$parts = explode( '=', $match[1] );
 			$key   = preg_replace( '/[^a-z0-9]+/', '', $parts[0] );
 
-			if ( isset( $parts[1] ) ) {
-				$out[ $key ] = $parts[1];
-			} else {
-				$out[ $key ] = true;
-			}
+			$out[ $key ] = $parts[1] ?? true;
 
 			$last_arg = $key;
 		} elseif ( (bool) preg_match( '/^-([a-zA-Z0-9]+)/', $args[ $i ], $match ) ) {

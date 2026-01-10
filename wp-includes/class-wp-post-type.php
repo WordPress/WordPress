@@ -655,11 +655,7 @@ final class WP_Post_Type {
 				$args['rewrite']['feeds'] = (bool) $args['has_archive'];
 			}
 			if ( ! isset( $args['rewrite']['ep_mask'] ) ) {
-				if ( isset( $args['permalink_epmask'] ) ) {
-					$args['rewrite']['ep_mask'] = $args['permalink_epmask'];
-				} else {
-					$args['rewrite']['ep_mask'] = EP_PERMALINK;
-				}
+				$args['rewrite']['ep_mask'] = $args['permalink_epmask'] ?? EP_PERMALINK;
 			}
 		}
 

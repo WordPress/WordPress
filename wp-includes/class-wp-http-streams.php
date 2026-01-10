@@ -77,11 +77,7 @@ class WP_Http_Streams {
 		}
 
 		if ( isset( $parsed_args['headers']['Host'] ) || isset( $parsed_args['headers']['host'] ) ) {
-			if ( isset( $parsed_args['headers']['Host'] ) ) {
-				$parsed_url['host'] = $parsed_args['headers']['Host'];
-			} else {
-				$parsed_url['host'] = $parsed_args['headers']['host'];
-			}
+			$parsed_url['host'] = $parsed_args['headers']['Host'] ?? $parsed_args['headers']['host'];
 			unset( $parsed_args['headers']['Host'], $parsed_args['headers']['host'] );
 		}
 

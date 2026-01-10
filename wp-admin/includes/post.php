@@ -122,11 +122,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_data['post_status'] = 'pending';
 	}
 
-	if ( isset( $post_data['ID'] ) ) {
-		$post_id = $post_data['ID'];
-	} else {
-		$post_id = false;
-	}
+	$post_id         = $post_data['ID'] ?? false;
 	$previous_status = $post_id ? get_post_field( 'post_status', $post_id ) : false;
 
 	if ( isset( $post_data['post_status'] ) && 'private' === $post_data['post_status'] && ! current_user_can( $ptype->cap->publish_posts ) ) {

@@ -208,11 +208,7 @@ class WP_Date_Query {
 				continue;
 			}
 
-			if ( isset( $parent_query[ $dkey ] ) ) {
-				$queries[ $dkey ] = $parent_query[ $dkey ];
-			} else {
-				$queries[ $dkey ] = $dvalue;
-			}
+			$queries[ $dkey ] = $parent_query[ $dkey ] ?? $dvalue;
 		}
 
 		// Validate the dates passed in the query.

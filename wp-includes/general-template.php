@@ -1873,11 +1873,7 @@ function get_the_post_type_description() {
 	$post_type_obj = get_post_type_object( $post_type );
 
 	// Check if a description is set.
-	if ( isset( $post_type_obj->description ) ) {
-		$description = $post_type_obj->description;
-	} else {
-		$description = '';
-	}
+	$description = $post_type_obj->description ?? '';
 
 	/**
 	 * Filters the description for a post type archive.

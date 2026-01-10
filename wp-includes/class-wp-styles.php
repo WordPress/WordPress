@@ -178,11 +178,7 @@ class WP_Styles extends WP_Dependencies {
 			}
 		}
 
-		if ( isset( $obj->args ) ) {
-			$media = $obj->args;
-		} else {
-			$media = 'all';
-		}
+		$media = $obj->args ?? 'all';
 
 		// A single item may alias a set of items, by having dependencies, but no source.
 		if ( ! $src ) {

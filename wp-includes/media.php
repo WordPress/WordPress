@@ -6036,11 +6036,7 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 	 * conflicting `decoding` attribute already present.
 	 */
 	if ( 'img' === $tag_name ) {
-		if ( isset( $attr['decoding'] ) ) {
-			$loading_attrs['decoding'] = $attr['decoding'];
-		} else {
-			$loading_attrs['decoding'] = 'async';
-		}
+		$loading_attrs['decoding'] = $attr['decoding'] ?? 'async';
 	}
 
 	// For any resources, width and height must be provided, to avoid layout shifts.
