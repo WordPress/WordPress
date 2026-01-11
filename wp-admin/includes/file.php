@@ -1097,11 +1097,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	 *  $_POST['action'] must be set and its value must equal $overrides['action']
 	 *  or this:
 	 */
-	$action = 'wp_handle_upload';
-	if ( isset( $overrides['action'] ) ) {
-		$action = $overrides['action'];
-	}
-
+	$action = $overrides['action'] ?? 'wp_handle_upload';
 	return _wp_handle_upload( $file, $overrides, $time, $action );
 }
 
@@ -1128,11 +1124,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	 *  $_POST['action'] must be set and its value must equal $overrides['action']
 	 *  or this:
 	 */
-	$action = 'wp_handle_sideload';
-	if ( isset( $overrides['action'] ) ) {
-		$action = $overrides['action'];
-	}
-
+	$action = $overrides['action'] ?? 'wp_handle_sideload';
 	return _wp_handle_upload( $file, $overrides, $time, $action );
 }
 

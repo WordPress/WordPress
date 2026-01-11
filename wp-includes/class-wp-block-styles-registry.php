@@ -170,10 +170,7 @@ final class WP_Block_Styles_Registry {
 	 * @return array[] Array whose keys are block style names and whose values are block style properties.
 	 */
 	public function get_registered_styles_for_block( $block_name ) {
-		if ( isset( $this->registered_block_styles[ $block_name ] ) ) {
-			return $this->registered_block_styles[ $block_name ];
-		}
-		return array();
+		return $this->registered_block_styles[ $block_name ] ?? array();
 	}
 
 	/**

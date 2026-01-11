@@ -477,10 +477,7 @@ class WP_Dependencies {
 		switch ( $status ) {
 			case 'registered':
 			case 'scripts': // Back compat.
-				if ( isset( $this->registered[ $handle ] ) ) {
-					return $this->registered[ $handle ];
-				}
-				return false;
+				return $this->registered[ $handle ] ?? false;
 
 			case 'enqueued':
 			case 'queue': // Back compat.

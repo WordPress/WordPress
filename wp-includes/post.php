@@ -2322,12 +2322,7 @@ function remove_post_type_support( $post_type, $feature ) {
  */
 function get_all_post_type_supports( $post_type ) {
 	global $_wp_post_type_features;
-
-	if ( isset( $_wp_post_type_features[ $post_type ] ) ) {
-		return $_wp_post_type_features[ $post_type ];
-	}
-
-	return array();
+	return $_wp_post_type_features[ $post_type ] ?? array();
 }
 
 /**

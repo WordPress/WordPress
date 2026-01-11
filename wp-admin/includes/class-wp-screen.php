@@ -554,10 +554,7 @@ final class WP_Screen {
 			return null;
 		}
 		if ( $key ) {
-			if ( isset( $this->_options[ $option ][ $key ] ) ) {
-				return $this->_options[ $option ][ $key ];
-			}
-			return null;
+			return $this->_options[ $option ][ $key ] ?? null;
 		}
 		return $this->_options[ $option ];
 	}

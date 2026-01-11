@@ -1860,11 +1860,7 @@ class WP_Query {
 	 * @return mixed Contents of the query variable.
 	 */
 	public function get( $query_var, $default_value = '' ) {
-		if ( isset( $this->query_vars[ $query_var ] ) ) {
-			return $this->query_vars[ $query_var ];
-		}
-
-		return $default_value;
+		return $this->query_vars[ $query_var ] ?? $default_value;
 	}
 
 	/**
@@ -4066,12 +4062,7 @@ class WP_Query {
 	 */
 	public function get_queried_object_id() {
 		$this->get_queried_object();
-
-		if ( isset( $this->queried_object_id ) ) {
-			return $this->queried_object_id;
-		}
-
-		return 0;
+		return $this->queried_object_id ?? 0;
 	}
 
 	/**

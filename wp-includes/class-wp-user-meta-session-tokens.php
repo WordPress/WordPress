@@ -60,12 +60,7 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 */
 	protected function get_session( $verifier ) {
 		$sessions = $this->get_sessions();
-
-		if ( isset( $sessions[ $verifier ] ) ) {
-			return $sessions[ $verifier ];
-		}
-
-		return null;
+		return $sessions[ $verifier ] ?? null;
 	}
 
 	/**

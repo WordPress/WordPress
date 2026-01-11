@@ -384,10 +384,7 @@ function wp_get_block_name_from_theme_json_path( $path ) {
 			}
 		)
 	);
-	if ( isset( $result[0] ) ) {
-		return $result[0];
-	}
-	return '';
+	return $result[0] ?? '';
 }
 
 /**

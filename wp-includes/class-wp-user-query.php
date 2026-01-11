@@ -910,11 +910,7 @@ class WP_User_Query {
 	 * @return mixed
 	 */
 	public function get( $query_var ) {
-		if ( isset( $this->query_vars[ $query_var ] ) ) {
-			return $this->query_vars[ $query_var ];
-		}
-
-		return null;
+		return $this->query_vars[ $query_var ] ?? null;
 	}
 
 	/**

@@ -3042,10 +3042,7 @@ function get_theme_support( $feature, ...$args ) {
 		case 'custom-logo':
 		case 'custom-header':
 		case 'custom-background':
-			if ( isset( $_wp_theme_features[ $feature ][0][ $args[0] ] ) ) {
-				return $_wp_theme_features[ $feature ][0][ $args[0] ];
-			}
-			return false;
+			return $_wp_theme_features[ $feature ][0][ $args[0] ] ?? false;
 
 		default:
 			return $_wp_theme_features[ $feature ];

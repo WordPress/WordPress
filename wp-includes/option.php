@@ -547,10 +547,7 @@ function wp_set_options_autoload( array $options, $autoload ) {
  */
 function wp_set_option_autoload( $option, $autoload ) {
 	$result = wp_set_option_autoload_values( array( $option => $autoload ) );
-	if ( isset( $result[ $option ] ) ) {
-		return $result[ $option ];
-	}
-	return false;
+	return $result[ $option ] ?? false;
 }
 
 /**

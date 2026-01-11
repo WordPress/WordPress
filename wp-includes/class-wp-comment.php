@@ -323,11 +323,7 @@ final class WP_Comment {
 	 * @return WP_Comment|false Returns the comment object if found, otherwise false.
 	 */
 	public function get_child( $child_id ) {
-		if ( isset( $this->children[ $child_id ] ) ) {
-			return $this->children[ $child_id ];
-		}
-
-		return false;
+		return $this->children[ $child_id ] ?? false;
 	}
 
 	/**
