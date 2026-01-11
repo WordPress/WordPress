@@ -1605,6 +1605,9 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'customize-preview', "/wp-includes/css/customize-preview$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-empty-template-alert', "/wp-includes/css/wp-empty-template-alert$suffix.css" );
+	$skip_link_style_path = WPINC . "/css/wp-block-template-skip-link$suffix.css";
+	$styles->add( 'wp-block-template-skip-link', "/$skip_link_style_path" );
+	$styles->add_data( 'wp-block-template-skip-link', 'path', ABSPATH . $skip_link_style_path );
 
 	// External libraries and friends.
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
@@ -1800,6 +1803,7 @@ function wp_default_styles( $styles ) {
 		'media-views',
 		'wp-pointer',
 		'wp-jquery-ui-dialog',
+		'wp-block-template-skip-link',
 		// Package styles.
 		'wp-reset-editor-styles',
 		'wp-editor-classic-layout-styles',

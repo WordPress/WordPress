@@ -99,10 +99,11 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
 }
 
 /**
- * Enqueues the skip-link script & styles.
+ * Enqueues the skip-link styles.
  *
  * @access private
  * @since 6.4.0
+ * @since 7.0.0 A script is no longer printed in favor of being added via {@see _block_template_add_skip_link()}.
  *
  * @global string $_wp_current_template_content
  */
@@ -125,96 +126,7 @@ function wp_enqueue_block_template_skip_link() {
 		return;
 	}
 
-	$skip_link_styles = '
-		.skip-link.screen-reader-text {
-			border: 0;
-			clip-path: inset(50%);
-			height: 1px;
-			margin: -1px;
-			overflow: hidden;
-			padding: 0;
-			position: absolute !important;
-			width: 1px;
-			word-wrap: normal !important;
-		}
-
-		.skip-link.screen-reader-text:focus {
-			background-color: #eee;
-			clip-path: none;
-			color: #444;
-			display: block;
-			font-size: 1em;
-			height: auto;
-			left: 5px;
-			line-height: normal;
-			padding: 15px 23px 14px;
-			text-decoration: none;
-			top: 5px;
-			width: auto;
-			z-index: 100000;
-		}';
-
-	$handle = 'wp-block-template-skip-link';
-
-	/**
-	 * Print the skip-link styles.
-	 */
-	wp_register_style( $handle, false );
-	wp_add_inline_style( $handle, $skip_link_styles );
-	wp_enqueue_style( $handle );
-
-	/**
-	 * Enqueue the skip-link script.
-	 */
-	ob_start();
-	?>
-	<script>
-	( function() {
-		var skipLinkTarget = document.querySelector( 'main' ),
-			sibling,
-			skipLinkTargetID,
-			skipLink;
-
-		// Early exit if a skip-link target can't be located.
-		if ( ! skipLinkTarget ) {
-			return;
-		}
-
-		/*
-		 * Get the site wrapper.
-		 * The skip-link will be injected in the beginning of it.
-		 */
-		sibling = document.querySelector( '.wp-site-blocks' );
-
-		// Early exit if the root element was not found.
-		if ( ! sibling ) {
-			return;
-		}
-
-		// Get the skip-link target's ID, and generate one if it doesn't exist.
-		skipLinkTargetID = skipLinkTarget.id;
-		if ( ! skipLinkTargetID ) {
-			skipLinkTargetID = 'wp--skip-link--target';
-			skipLinkTarget.id = skipLinkTargetID;
-		}
-
-		// Create the skip link.
-		skipLink = document.createElement( 'a' );
-		skipLink.classList.add( 'skip-link', 'screen-reader-text' );
-		skipLink.id = 'wp-skip-link';
-		skipLink.href = '#' + skipLinkTargetID;
-		skipLink.innerText = '<?php /* translators: Hidden accessibility text. Do not use HTML entities (&nbsp;, etc.). */ esc_html_e( 'Skip to content' ); ?>';
-
-		// Inject the skip link.
-		sibling.parentElement.insertBefore( skipLink, sibling );
-	}() );
-	</script>
-	<?php
-	$skip_link_script = wp_remove_surrounding_empty_script_tags( ob_get_clean() );
-	$script_handle    = 'wp-block-template-skip-link';
-	wp_register_script( $script_handle, false, array(), false, array( 'in_footer' => true ) );
-	wp_add_inline_script( $script_handle, $skip_link_script );
-	wp_enqueue_script( $script_handle );
+	wp_enqueue_style( 'wp-block-template-skip-link' );
 }
 
 /**

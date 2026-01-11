@@ -301,7 +301,102 @@ function get_the_block_template_html() {
 
 	// Wrap block template in .wp-site-blocks to allow for specific descendant styles
 	// (e.g. `.wp-site-blocks > *`).
-	return '<div class="wp-site-blocks">' . $content . '</div>';
+	$template_html = '<div class="wp-site-blocks">' . $content . '</div>';
+
+	// Back-compat for plugins that disable functionality by unhooking one of these actions.
+	if (
+		! has_action( 'wp_footer', 'the_block_template_skip_link' ) ||
+		! has_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' )
+	) {
+		return $template_html;
+	}
+
+	return _block_template_add_skip_link( $template_html );
+}
+
+/**
+ * Inserts the block template skip-link into the template HTML.
+ *
+ * When a `MAIN` element exists in the template, this function will ensure
+ * that the element contains an `id` attribute, and it will insert a link to
+ * that `MAIN` element before the first `DIV.wp-site-blocks` element, which
+ * is the wrapper for all blocks in a block template as constructed by
+ * {@see get_the_block_template_html()}.
+ *
+ * Example:
+ *
+ *     // Input.
+ *     <div class="wp-site-blocks">
+ *         <nav>...</nav>
+ *         <main>
+ *             <h2>...
+ *
+ *     // Output.
+ *     <a href="#wp--skip-link--target" id="wp-skip-link" class="...">
+ *     <div class="wp-site-blocks">
+ *         <nav>...</nav>
+ *         <main id="wp--skip-link--target">
+ *             <h2>...
+ *
+ * When the `MAIN` element already contains a non-empty `id` value it will be
+ * used instead of the default skip-link id.
+ *
+ * @access private
+ * @since 7.0.0
+ *
+ * @param string $template_html Block template markup.
+ * @return string Modified markup with skip link when applicable.
+ */
+function _block_template_add_skip_link( string $template_html ): string {
+	// Anonymous subclass of WP_HTML_Tag_Processor to access protected bookmark spans.
+	$processor = new class( $template_html ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Inserts text before the current token.
+		 *
+		 * @param string $text Text to insert.
+		 */
+		public function insert_before( string $text ) {
+			$this->set_bookmark( 'here' );
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $this->bookmarks['here']->start, 0, $text );
+		}
+	};
+
+	// Find and bookmark the first DIV.wp-site-blocks.
+	if (
+		! $processor->next_tag(
+			array(
+				'tag_name'   => 'DIV',
+				'class_name' => 'wp-site-blocks',
+			)
+		)
+	) {
+		return $template_html;
+	}
+	$processor->set_bookmark( 'skip_link_insertion_point' );
+
+	// Ensure the MAIN element has an ID.
+	if ( ! $processor->next_tag( 'MAIN' ) ) {
+		return $template_html;
+	}
+
+	$skip_link_target_id = $processor->get_attribute( 'id' );
+	if ( ! is_string( $skip_link_target_id ) || '' === $skip_link_target_id ) {
+		$skip_link_target_id = 'wp--skip-link--target';
+		$processor->set_attribute( 'id', $skip_link_target_id );
+	}
+
+	// Seek back to the bookmarked insertion point.
+	$processor->seek( 'skip_link_insertion_point' );
+
+	$skip_link = sprintf(
+		'<a class="skip-link screen-reader-text" id="wp-skip-link" href="%s">%s</a>',
+		esc_url( '#' . $skip_link_target_id ),
+		/* translators: Hidden accessibility text. */
+		esc_html__( 'Skip to content' )
+	);
+	$processor->insert_before( $skip_link );
+
+	return $processor->get_updated_html();
 }
 
 /**
