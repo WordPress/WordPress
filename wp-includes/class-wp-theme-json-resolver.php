@@ -480,17 +480,6 @@ class WP_Theme_JSON_Resolver {
 			$theme = wp_get_theme();
 		}
 
-		/*
-		 * Bail early if the theme does not support a theme.json.
-		 *
-		 * Since wp_theme_has_theme_json() only supports the active
-		 * theme, the extra condition for whether $theme is the active theme is
-		 * present here.
-		 */
-		if ( $theme->get_stylesheet() === get_stylesheet() && ! wp_theme_has_theme_json() ) {
-			return array();
-		}
-
 		$user_cpt         = array();
 		$post_type_filter = 'wp_global_styles';
 		$stylesheet       = $theme->get_stylesheet();

@@ -237,7 +237,7 @@ if ( wp_is_block_theme() ) {
 }
 
 // Font Library menu item.
-$submenu['themes.php'][8] = array( __( 'Fonts' ), 'edit_theme_options', 'font-library.php' );
+$submenu['themes.php'][9] = array( __( 'Fonts' ), 'edit_theme_options', 'font-library.php' );
 
 $customize_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
 

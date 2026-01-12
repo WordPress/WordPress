@@ -39,10 +39,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	 * for clearing the cache appropriately.
 	 */
 	$origin = 'custom';
-	if (
-		! wp_theme_has_theme_json() ||
-		( isset( $context['origin'] ) && 'base' === $context['origin'] )
-	) {
+	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
 		$origin = 'theme';
 	}
 
@@ -140,12 +137,12 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
  * @since 5.9.0
  * @since 6.1.0 Added 'base-layout-styles' support.
  * @since 6.6.0 Resolves relative paths in theme.json styles to theme absolute paths.
+ * @since 7.0.0 Deprecated 'base-layout-styles' type; classic themes now receive full styles
+ *              with layout-specific alignment rules skipped via `base_layout_styles` option.
  *
  * @param array $types Optional. Types of styles to load.
  *                     See {@see 'WP_Theme_JSON::get_stylesheet'} for all valid types.
- *                     If empty, it'll load the following:
- *                     - for themes without theme.json: 'variables', 'presets', 'base-layout-styles'.
- *                     - for themes with theme.json: 'variables', 'presets', 'styles'.
+ *                     If empty, will load: 'variables', 'presets', 'styles'.
  * @return string Stylesheet.
  */
 function wp_get_global_stylesheet( $types = array() ) {
@@ -180,13 +177,19 @@ function wp_get_global_stylesheet( $types = array() ) {
 		}
 	}
 
-	$tree                = WP_Theme_JSON_Resolver::resolve_theme_file_uris( WP_Theme_JSON_Resolver::get_merged_data() );
-	$supports_theme_json = wp_theme_has_theme_json();
+	$tree = WP_Theme_JSON_Resolver::resolve_theme_file_uris( WP_Theme_JSON_Resolver::get_merged_data() );
 
-	if ( empty( $types ) && ! $supports_theme_json ) {
-		$types = array( 'variables', 'presets', 'base-layout-styles' );
-	} elseif ( empty( $types ) ) {
+	if ( empty( $types ) ) {
 		$types = array( 'variables', 'styles', 'presets' );
+	}
+
+	/*
+	 * Enable base layout styles only mode for classic themes without theme.json.
+	 * This skips alignment styles that target .wp-site-blocks which is only used by block themes.
+	 */
+	$options = array();
+	if ( ! wp_is_block_theme() && ! wp_theme_has_theme_json() ) {
+		$options['base_layout_styles'] = true;
 	}
 
 	/*
@@ -204,7 +207,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 		 * @see wp_add_global_styles_for_blocks
 		 */
 		$origins          = array( 'default', 'theme', 'custom' );
-		$styles_variables = $tree->get_stylesheet( array( 'variables' ), $origins );
+		$styles_variables = $tree->get_stylesheet( array( 'variables' ), $origins, $options );
 		$types            = array_diff( $types, array( 'variables' ) );
 	}
 
@@ -222,17 +225,8 @@ function wp_get_global_stylesheet( $types = array() ) {
 		 * (i.e. in the render cycle). Here, only the ones in use are rendered.
 		 * @see wp_add_global_styles_for_blocks
 		 */
-		$origins = array( 'default', 'theme', 'custom' );
-		/*
-		 * If the theme doesn't have theme.json but supports both appearance tools and color palette,
-		 * the 'theme' origin should be included so color palette presets are also output.
-		 */
-		if ( ! $supports_theme_json && ( current_theme_supports( 'appearance-tools' ) || current_theme_supports( 'border' ) ) && current_theme_supports( 'editor-color-palette' ) ) {
-			$origins = array( 'default', 'theme' );
-		} elseif ( ! $supports_theme_json ) {
-			$origins = array( 'default' );
-		}
-		$styles_rest = $tree->get_stylesheet( $types, $origins );
+		$origins     = array( 'default', 'theme', 'custom' );
+		$styles_rest = $tree->get_stylesheet( $types, $origins, $options );
 	}
 
 	$stylesheet = $styles_variables . $styles_rest;

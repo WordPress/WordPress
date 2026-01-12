@@ -1326,12 +1326,13 @@ class WP_Theme_JSON {
 	 * @since 6.3.0 Add fallback layout styles for Post Template when block gap support isn't available.
 	 * @since 6.6.0 Added boolean `skip_root_layout_styles` and `include_block_style_variations` options
 	 *              to control styles output as desired.
+	 * @since 7.0.0 Deprecated 'base-layout-styles' type; added `base_layout_styles` option for classic themes.
 	 *
 	 * @param string[] $types   Types of styles to load. Will load all by default. It accepts:
 	 *                          - `variables`: only the CSS Custom Properties for presets & custom ones.
 	 *                          - `styles`: only the styles section in theme.json.
 	 *                          - `presets`: only the classes for the presets.
-	 *                          - `base-layout-styles`: only the base layout styles.
+	 *                          - `base-layout-styles`: only the base layout styles. Deprecated in 7.0.0.
 	 *                          - `custom-css`: only the custom CSS.
 	 * @param string[] $origins A list of origins to include. By default it includes VALID_ORIGINS.
 	 * @param array    $options {
@@ -1340,6 +1341,7 @@ class WP_Theme_JSON {
 	 *     @type string $scope                           Makes sure all style are scoped to a given selector
 	 *     @type string $root_selector                   Overwrites and forces a given selector to be used on the root node
 	 *     @type bool   $skip_root_layout_styles         Omits root layout styles from the generated stylesheet. Default false.
+	 *     @type bool   $base_layout_styles              When true generates only base layout styles without alignment rules. Default false.
 	 *     @type bool   $include_block_style_variations  Includes styles for block style variations in the generated stylesheet. Default false.
 	 * }
 	 * @return string The resulting stylesheet.
@@ -1395,45 +1397,9 @@ class WP_Theme_JSON {
 
 		if ( in_array( 'styles', $types, true ) ) {
 			if ( false !== $root_style_key && empty( $options['skip_root_layout_styles'] ) ) {
-				$stylesheet .= $this->get_root_layout_rules( $style_nodes[ $root_style_key ]['selector'], $style_nodes[ $root_style_key ] );
+				$stylesheet .= $this->get_root_layout_rules( $style_nodes[ $root_style_key ]['selector'], $style_nodes[ $root_style_key ], $options );
 			}
 			$stylesheet .= $this->get_block_classes( $style_nodes );
-		} elseif ( in_array( 'base-layout-styles', $types, true ) ) {
-			$root_selector          = static::ROOT_BLOCK_SELECTOR;
-			$columns_selector       = '.wp-block-columns';
-			$post_template_selector = '.wp-block-post-template';
-			if ( ! empty( $options['scope'] ) ) {
-				$root_selector          = static::scope_selector( $options['scope'], $root_selector );
-				$columns_selector       = static::scope_selector( $options['scope'], $columns_selector );
-				$post_template_selector = static::scope_selector( $options['scope'], $post_template_selector );
-			}
-			if ( ! empty( $options['root_selector'] ) ) {
-				$root_selector = $options['root_selector'];
-			}
-			/*
-			 * Base layout styles are provided as part of `styles`, so only output separately if explicitly requested.
-			 * For backwards compatibility, the Columns block is explicitly included, to support a different default gap value.
-			 */
-			$base_styles_nodes = array(
-				array(
-					'path'     => array( 'styles' ),
-					'selector' => $root_selector,
-				),
-				array(
-					'path'     => array( 'styles', 'blocks', 'core/columns' ),
-					'selector' => $columns_selector,
-					'name'     => 'core/columns',
-				),
-				array(
-					'path'     => array( 'styles', 'blocks', 'core/post-template' ),
-					'selector' => $post_template_selector,
-					'name'     => 'core/post-template',
-				),
-			);
-
-			foreach ( $base_styles_nodes as $base_style_node ) {
-				$stylesheet .= $this->get_layout_styles( $base_style_node, $types );
-			}
 		}
 
 		if ( in_array( 'presets', $types, true ) ) {
@@ -1624,12 +1590,13 @@ class WP_Theme_JSON {
 	 * @since 6.5.1 Only output rules referencing content and wide sizes when values exist.
 	 * @since 6.5.3 Add types parameter to check if only base layout styles are needed.
 	 * @since 6.6.0 Updated layout style specificity to be compatible with overall 0-1-0 specificity in global styles.
+	 * @since 7.0.0 Replaced `$types` parameter with `$options` array; base layout styles controlled via `base_layout_styles` option.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
-	 * @param array $types          Optional. Types of styles to output. If empty, all styles will be output.
+	 * @param array $options        Optional. An array of options for now used for internal purposes only.
 	 * @return string Layout styles for the block.
 	 */
-	protected function get_layout_styles( $block_metadata, $types = array() ) {
+	protected function get_layout_styles( $block_metadata, $options = array() ) {
 		$block_rules = '';
 		$block_type  = null;
 
@@ -1777,8 +1744,9 @@ class WP_Theme_JSON {
 					foreach ( $base_style_rules as $base_style_rule ) {
 						$declarations = array();
 
-						// Skip outputting base styles for flow and constrained layout types if theme doesn't support theme.json. The 'base-layout-styles' type flags this.
-						if ( in_array( 'base-layout-styles', $types, true ) && ( 'default' === $layout_definition['name'] || 'constrained' === $layout_definition['name'] ) ) {
+						// Skip outputting base styles for flow and constrained layout types when base_layout_styles is enabled.
+						// These themes don't use .wp-site-blocks wrapper, so these layout-specific alignment styles aren't needed.
+						if ( ! empty( $options['base_layout_styles'] ) && ( 'default' === $layout_definition['name'] || 'constrained' === $layout_definition['name'] ) ) {
 							continue;
 						}
 
@@ -3055,12 +3023,14 @@ class WP_Theme_JSON {
 	 * @since 6.1.0
 	 * @since 6.6.0 Use `ROOT_CSS_PROPERTIES_SELECTOR` for CSS custom properties and improved consistency of root padding rules.
 	 *              Updated specificity of body margin reset and first/last child selectors.
+	 * @since 7.0.0 Added `$options` parameter to control alignment styles output for classic themes.
 	 *
 	 * @param string $selector The root node selector.
 	 * @param array  $block_metadata The metadata for the root block.
+	 * @param array  $options        Optional. An array of options for now used for internal purposes only.
 	 * @return string The additional root rules CSS.
 	 */
-	public function get_root_layout_rules( $selector, $block_metadata ) {
+	public function get_root_layout_rules( $selector, $block_metadata, $options = array() ) {
 		$css              = '';
 		$settings         = $this->theme_json['settings'] ?? array();
 		$use_root_padding = isset( $this->theme_json['settings']['useRootPaddingAwareAlignments'] ) && true === $this->theme_json['settings']['useRootPaddingAwareAlignments'];
@@ -3101,9 +3071,13 @@ class WP_Theme_JSON {
 			$css .= '.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) > .alignfull { margin-left: 0; margin-right: 0; }';
 		}
 
-		$css .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
-		$css .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
-		$css .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
+		// Skip outputting alignment styles when base_layout_styles is enabled.
+		// These styles target .wp-site-blocks which is only used by block themes.
+		if ( empty( $options['base_layout_styles'] ) ) {
+			$css .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
+			$css .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
+			$css .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
+		}
 
 		// Block gap styles will be output unless explicitly set to `null`. See static::PROTECTED_PROPERTIES.
 		if ( isset( $this->theme_json['settings']['spacing']['blockGap'] ) ) {
@@ -3115,7 +3089,7 @@ class WP_Theme_JSON {
 			// For backwards compatibility, ensure the legacy block gap CSS variable is still available.
 			$css .= static::ROOT_CSS_PROPERTIES_SELECTOR . " { --wp--style--block-gap: $block_gap_value; }";
 		}
-		$css .= $this->get_layout_styles( $block_metadata );
+		$css .= $this->get_layout_styles( $block_metadata, $options );
 
 		return $css;
 	}
