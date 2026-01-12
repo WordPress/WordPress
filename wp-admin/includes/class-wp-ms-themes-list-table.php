@@ -302,15 +302,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$a = $theme_a[ $orderby ];
 		$b = $theme_b[ $orderby ];
 
-		if ( $a === $b ) {
-			return 0;
-		}
-
-		if ( 'DESC' === $order ) {
-			return ( $a < $b ) ? 1 : -1;
-		} else {
-			return ( $a < $b ) ? -1 : 1;
-		}
+		return 'DESC' === $order ?
+			$b <=> $a :
+			$a <=> $b;
 	}
 
 	/**

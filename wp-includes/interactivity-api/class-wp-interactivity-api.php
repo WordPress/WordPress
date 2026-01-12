@@ -904,14 +904,11 @@ final class WP_Interactivity_API {
 				$a_suffix = $a['suffix'] ?? '';
 				$b_suffix = $b['suffix'] ?? '';
 				if ( $a_suffix !== $b_suffix ) {
-					return $a_suffix < $b_suffix ? -1 : 1;
+					return $a_suffix <=> $b_suffix;
 				}
 				$a_id = $a['unique_id'] ?? '';
 				$b_id = $b['unique_id'] ?? '';
-				if ( $a_id === $b_id ) {
-					return 0;
-				}
-				return $a_id > $b_id ? 1 : -1;
+				return $a_id <=> $b_id;
 			}
 		);
 		return $entries;
