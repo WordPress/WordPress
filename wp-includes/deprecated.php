@@ -6479,3 +6479,17 @@ function wp_print_auto_sizes_contain_css_fix() {
 	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
 	<?php
 }
+
+/**
+ * Registers development scripts that integrate with `@wordpress/scripts`.
+ *
+ * @see https://github.com/WordPress/gutenberg/tree/trunk/packages/scripts#start
+ *
+ * @since 6.0.0
+ * @deprecated 7.0.0 Obsolete due to a change in how Gutenberg is included in Core. See #64393.
+ *
+ * @param WP_Scripts $scripts WP_Scripts object.
+ */
+function wp_register_development_scripts( $scripts ) {
+	_deprecated_function( __FUNCTION__, '7.0.0' );
+}
