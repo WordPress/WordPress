@@ -186,7 +186,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		foreach ( $recently_activated as $key => $time ) {
-			if ( $time + WEEK_IN_SECONDS < time() ) {
+			if ( ! is_int( $time ) || $time + WEEK_IN_SECONDS < time() ) {
 				unset( $recently_activated[ $key ] );
 			}
 		}
