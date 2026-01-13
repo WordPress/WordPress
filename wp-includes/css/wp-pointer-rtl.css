@@ -24,6 +24,7 @@
 	background: #fff;
 	border-radius: 50%;
 	color: #2271b1;
+	content: "\f227";
 	content: "\f227" / '';
 	font: normal 20px/1.6 dashicons;
 	position: absolute;
@@ -65,6 +66,7 @@
 .wp-pointer-buttons a.close:before {
 	background: none;
 	color: #787c82;
+	content: "\f153";
 	content: "\f153" / '';
 	display: block !important;
 	font: normal 16px/1 dashicons;
