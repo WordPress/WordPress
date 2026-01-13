@@ -3721,10 +3721,12 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * Not all modifiable text may be set by this method, and not all content
 	 * may be set as modifiable text. In the case that this fails it will return
-	 * `false` indicating as much. For instance, it will not allow inserting the
-	 * string `</script` into a SCRIPT element, because the rules for escaping
-	 * that safely are complicated. Similarly, it will not allow setting content
-	 * into a comment which would prematurely terminate the comment.
+	 * `false` indicating as much. For instance, if the contents of a SCRIPT
+	 * element are neither JavaScript nor JSON, it’s not possible to guarantee
+	 * that escaping strings like `</script>` won’t break the script; in these
+	 * cases, updates will be rejected and it’s up to calling code to perform
+	 * language-specific escaping or workarounds. Similarly, it will not allow
+	 * setting content into a comment which would prematurely terminate the comment.
 	 *
 	 * Example:
 	 *
@@ -3811,37 +3813,41 @@ class WP_HTML_Tag_Processor {
 
 		switch ( $this->get_tag() ) {
 			case 'SCRIPT':
-				/**
-				 * This is over-protective, but ensures the update doesn't break
-				 * the HTML structure of the SCRIPT element.
+				$script_content_type = $this->get_script_content_type();
+
+				switch ( $script_content_type ) {
+					case 'javascript':
+					case 'json':
+						$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
+							$this->text_starts_at,
+							$this->text_length,
+							self::escape_javascript_script_contents( $plaintext_content )
+						);
+						return true;
+				}
+
+				/*
+				 * If the script’s content type isn’t recognized and understandable then it’s
+				 * impossible to guarantee that escaping the content won’t cause runtime breakage.
+				 * For instance, if the script content type were PHP code then escaping with
+				 * `\u0073` would not be met by unescaping; rather, it could result in corrupted
+				 * data or even syntax errors.
 				 *
-				 * More thorough analysis could track the HTML tokenizer states
-				 * and to ensure that the SCRIPT element closes at the expected
-				 * SCRIPT close tag as is done in {@see ::skip_script_data()}.
-				 *
-				 * A SCRIPT element could be closed prematurely by contents
-				 * like `</script>`. A SCRIPT element could be prevented from
-				 * closing by contents like `<!--<script>`.
-				 *
-				 * The following strings are essential for dangerous content,
-				 * although they are insufficient on their own. This trade-off
-				 * prevents dangerous scripts from being sent to the browser.
-				 * It is also unlikely to produce HTML that may confuse more
-				 * basic HTML tooling.
+				 * Because of this, content which could potentially modify the SCRIPT tag’s
+				 * HTML structure is rejected here. It’s the responsibility of calling code to
+				 * perform whatever semantic escaping is necessary to avoid problematic strings.
 				 */
 				if (
-					false !== stripos( $plaintext_content, '</script' ) ||
-					false !== stripos( $plaintext_content, '<script' )
+					false !== stripos( $plaintext_content, '<script' ) ||
+					false !== stripos( $plaintext_content, '</script' )
 				) {
 					return false;
 				}
-
 				$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
 					$this->text_starts_at,
 					$this->text_length,
 					$plaintext_content
 				);
-
 				return true;
 
 			case 'STYLE':
@@ -3889,6 +3895,349 @@ class WP_HTML_Tag_Processor {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the content type of the currently-matched HTML SCRIPT tag, if matched and
+	 * recognized, otherwise returns `null` to indicate an unrecognized content type.
+	 *
+	 * An HTML SCRIPT tag is a normal SCRIPT tag, but there can be SCRIPT elements inside
+	 * SVG and MathML elements as well, and these have different parsing rules than those
+	 * in general HTML. For this reason, no content-type inference is performed on those.
+	 *
+	 * Note! This concept is related but distinct from the MIME type of the script.
+	 * Parsing MUST match the specific algorithm in the HTML specification, which
+	 * relies on exact string comparison in some cases. MIME type decoding may be
+	 * performed on SVG or MathML SCRIPT tags.
+	 *
+	 * Only 'javascript' and 'json' content types are currently recognized.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/scripting.html#prepare-the-script-element
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return 'javascript'|'json'|null Type of script element content if matched and recognized.
+	 */
+	private function get_script_content_type(): ?string {
+		// SVG and MathML SCRIPT elements are not recognized.
+		if ( 'SCRIPT' !== $this->get_tag() || $this->get_namespace() !== 'html' ) {
+			return null;
+		}
+
+		/*
+		 * > If any of the following are true:
+		 * >   - el has a type attribute whose value is the empty string;
+		 * >   - el has no type attribute but it has a language attribute and that attribute's
+		 * >     value is the empty string; or
+		 * >   - el has neither a type attribute nor a language attribute,
+		 * > then let the script block's type string for this script element be "text/javascript".
+		 */
+		$type = $this->get_attribute( 'type' );
+		$lang = $this->get_attribute( 'language' );
+
+		if ( true === $type || '' === $type ) {
+			return 'javascript';
+		}
+
+		if ( null === $type && ( null === $lang || true === $lang || '' === $lang ) ) {
+			return 'javascript';
+		}
+
+		/*
+		 * > Otherwise, if el has a type attribute, then let the script block's type string be
+		 * > the value of that attribute with leading and trailing ASCII whitespace stripped.
+		 * > Otherwise, el has a non-empty language attribute; let the script block's type string
+		 * > be the concatenation of "text/" and the value of el's language attribute.
+		 */
+		$type_string = is_string( $type ) ? trim( $type, " \t\f\r\n" ) : "text/{$lang}";
+
+		// All matches are ASCII case-insensitive; eagerly lower-case for comparison.
+		$type_string = strtolower( $type_string );
+
+		/*
+		 * > If the script block's type string is a JavaScript MIME type essence match, then
+		 * > set el's type to "classic".
+		 *
+		 * > A string is a JavaScript MIME type essence match if it is an ASCII case-insensitive
+		 * > match for one of the JavaScript MIME type essence strings.
+		 *
+		 * > A JavaScript MIME type is any MIME type whose essence is one of the following:
+		 * >
+		 * > - application/ecmascript
+		 * > - application/javascript
+		 * > - application/x-ecmascript
+		 * > - application/x-javascript
+		 * > - text/ecmascript
+		 * > - text/javascript
+		 * > - text/javascript1.0
+		 * > - text/javascript1.1
+		 * > - text/javascript1.2
+		 * > - text/javascript1.3
+		 * > - text/javascript1.4
+		 * > - text/javascript1.5
+		 * > - text/jscript
+		 * > - text/livescript
+		 * > - text/x-ecmascript
+		 * > - text/x-javascript
+		 *
+		 * @see https://mimesniff.spec.whatwg.org/#javascript-mime-type-essence-match
+		 * @see https://mimesniff.spec.whatwg.org/#javascript-mime-type
+		 */
+		switch ( $type_string ) {
+			case 'application/ecmascript':
+			case 'application/javascript':
+			case 'application/x-ecmascript':
+			case 'application/x-javascript':
+			case 'text/ecmascript':
+			case 'text/javascript':
+			case 'text/javascript1.0':
+			case 'text/javascript1.1':
+			case 'text/javascript1.2':
+			case 'text/javascript1.3':
+			case 'text/javascript1.4':
+			case 'text/javascript1.5':
+			case 'text/jscript':
+			case 'text/livescript':
+			case 'text/x-ecmascript':
+			case 'text/x-javascript':
+				return 'javascript';
+
+			/*
+			 * > Otherwise, if the script block's type string is an ASCII case-insensitive match for
+			 * > the string "module", then set el's type to "module".
+			 *
+			 * A module is evaluated as JavaScript.
+			 */
+			case 'module':
+				return 'javascript';
+
+			/*
+			 * > Otherwise, if the script block's type string is an ASCII case-insensitive match for the string "importmap", then set el's type to "importmap".
+			 * > Otherwise, if the script block's type string is an ASCII case-insensitive match for the string "speculationrules", then set el's type to "speculationrules".
+			 *
+			 * These conditions indicate JSON content.
+			 */
+			case 'importmap':
+			case 'speculationrules':
+				return 'json';
+
+			/** @todo Rely on a full MIME parser for determining JSON content. */
+			case 'application/json':
+			case 'text/json':
+				return 'json';
+		}
+
+		/*
+		 * > Otherwise, return. (No script is executed, and el's type is left as null.)
+		 */
+		return null;
+	}
+
+	/**
+	 * Escape JavaScript and JSON script tag contents.
+	 *
+	 * Ensure that the script contents cannot modify the HTML structure or break out
+	 * of its containing SCRIPT element. JavaScript and JSON may both be escaped with
+	 * the same rules, even though there are additional escaping measures available
+	 * to JavaScript source code which aren’t applicable to serialized JSON data.
+	 *
+	 * A simple method safely escapes all content except for a few extremely rare and
+	 * unlikely exceptions: prevent the appearance of `<script` and `</script` within
+	 * the contents by replacing the first letter of the tag name with a Unicode escape.
+	 *
+	 * Example:
+	 *
+	 *     $plaintext = '<script>document.write( "A </script> closes a script." );</script>';
+	 *     $escaped   = '<script>document.write( "A </\u0073cript> closes a script." );</script>';
+	 *
+	 * This works because of how parsing changes after encountering an opening SCRIPT
+	 * tag. The actual parsing comprises a complicated state machine, the result of
+	 * legacy behaviors and diverse browser support. However, without these two strings
+	 * in the script contents, two key things are ensured: `</script>` cannot appear to
+	 * prematurely close the tag, and the problematic double-escaped state becomes
+	 * unreachable. A JavaScript engine or JSON decoder will then decode the Unicode
+	 * escape (`\u0073`) back into its original plaintext value, but only after having
+	 * been safely extracted from the HTML.
+	 *
+	 * While it may seem tempting to replace the `<` character instead, doing so would
+	 * break JavaScript syntax. The `<` character is used in comparison operators and
+	 * other JavaScript syntax; replacing it would break valid JavaScript. Replacing
+	 * only the `s` in `<script` and `</script` avoids modifying JavaScript syntax.
+	 *
+	 * ### Exceptions
+	 *
+	 * This _should_ work everywhere, but there are some extreme exceptions.
+	 *
+	 *  - Comments.
+	 *  - Tagged templates, such as `String.raw()`, which provide access to “raw” strings.
+	 *  - The `source` property of a RegExp object.
+	 *
+	 * Each of these exceptions appear at the source code level, not at the semantic or
+	 * evaluation level. Normal JavaScript will remain semantically equivalent after escaping,
+	 * but any JavaScript which analyzes the raw source code will see potentially-different
+	 * values.
+	 *
+	 * #### Comments
+	 *
+	 * Comments are never unescaped because they aren’t parsed by the JavaScript engine.
+	 * When viewing the source in a browser’s developer tools, the comments will retain
+	 * their escaped text.
+	 *
+	 * Example:
+	 *
+	 *     // A comment: "</script>"
+	 *         …becomes…
+	 *     // A comment: "</\u0073cript>"
+	 *
+	 * #### Tagged templates.
+	 *
+	 * Tagged templates “enable the embedding of arbitrary string content, where escape
+	 * sequences may follow a different syntax.” For example, they can aid representing
+	 * a RegExp pattern or LaTex snippet within a JavaScript string, where the string
+	 * escape characters might get noisy and distracting.
+	 *
+	 * Example:
+	 *
+	 *     console.log( 'A \notin B' );           // Prints a newline because of the "\n".
+	 *     console.log( 'A \\notin B' );          // Prints "A \notin B".
+	 *     console.log( String.raw`A \notin B` ); // Prints "A \notin B".
+	 *
+	 * This means that if `<script` transforms into `<\u0073cript` _inside_ a raw string
+	 * or tagged template literal which relies on its `.raw` property, the output of the
+	 * code will be different after escaping.
+	 *
+	 * Example:
+	 *
+	 *     console.log( String.raw`</script>` );      // Prematurely closes the SCRIPT element.
+	 *     console.log( String.raw`</\u0073cript>` ); // Prints "</\u0073cript".
+	 *
+	 * #### RegExp sources.
+	 *
+	 * The RegExp object exposes its raw source in a similar way to how tagged templates and raw
+	 * strings do. Thankfully, because escape sequences are decoded when compiling the pattern,
+	 * escaped RegExp patterns will match the same way as the plaintext sequences would.
+	 *
+	 * Example:
+	 *
+	 *     true === /<script>/.test( '<script>' );
+	 *     true === /<\u0073cript>/.test( '<script>' );
+	 *
+	 * However, as with raw strings, any code which reads the source will see the escaped value
+	 * instead of the decoded one.
+	 *
+	 * Example:
+	 *
+	 *     console.log( /<script>/.source );      // Prints "<script>".
+	 *     console.log( /<\u0073cript>/.source ); // Prints "<\u0073cript>".
+	 *
+	 * #### Unsupported escaping.
+	 *
+	 * It is not possible to properly represent every possible JavaScript source file
+	 * inside a SCRIPT element. As with CSS stylesheets, SVG images, and MathML, the
+	 * only 100% reliable way to represent all possible inputs is to link to external
+	 * files of the given content-type.
+	 *
+	 * In some cases it’s possible to manually prevent escaping issues. These are not
+	 * automatically handled by this function because doing so would require a full
+	 * JavaScript tokenizer. Consider the following example listing various ways to
+	 * manually escape a closing script tag.
+	 *
+	 * Example:
+	 *
+	 *     console.log( String.raw`</script>` );                // !!UNSAFE!! Will be escaped.
+	 *     console.log( String.raw`</\u0073cript>` );           // "</\u0073cript>"
+	 *     console.log( String.raw`</scr` + String.raw`ipt>` ); // "</script>"
+	 *     console.log( String.raw`</${"script"}>` );           // "</script>"
+	 *     console.log( '</scr' + 'ipt>' );                     // "</script>"
+	 *     console.log( "\x3C/script>" );                       // "</script>"
+	 *     console.log( "<\/script>" );                         // "</script>"
+	 *
+	 * The following graph is a simplified interpretation of how HTML interprets the contents
+	 * of a SCRIPT tag and identifies the closing tag. It is useful to understand what text
+	 * is dangerous inside of a SCRIPT tag and why different approaches to escaping work.
+	 *
+	 *                                 Open script
+	 *                                     │
+	 *                                     ▼
+	 *                  ╔═════════════════════════════════════════╗   <!--(…)>
+	 *                  ║                                         ║   (all dashes)
+	 *                  ║                 script                  ╟────────────────╮
+	 *                  ║                  data                   ║                │
+	 *      ╭───────────╢                                         ║ ◀──────────────╯
+	 *      │           ╚═╤═══════════════════════════════════════╝
+	 *      │             │               ▲                    ▲
+	 *      │             │ <!--          │ -->                ╰─────╮
+	 *      │             ▼               │                          │
+	 *      │           ┌─────────────────┴───────────────────────┐  │
+	 *      │ </script¹ │                 escaped                 │  │
+	 *      │           └─┬─────────────────────────────┬─────────┘  │
+	 *      │             │               ▲             │            │ -->
+	 *      │             │ </script¹     │ </script¹   │ <script¹   │
+	 *      │             ▼               │             ▼            │
+	 *      │           ╔══════════════╗  │           ┌───────────┐  │
+	 *      │           ║ Close script ║  │           │  double   │  │
+	 *      ╰──────────▶║              ║  ╰───────────┤  escaped  ├──╯
+	 *                  ╚══════════════╝              └───────────┘
+	 *
+	 *           ¹ = Case insensitive 'script' followed by one of ' \t\f\r\n/>', known
+	 *               as “tag-name-terminating characters.” This sequence forms the start
+	 *               of what could be a SCRIPT opening or closing tag.
+	 *
+	 * @see https://html.spec.whatwg.org/#restrictions-for-contents-of-script-elements
+	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#specifications
+	 * @see wp_html_api_script_element_escaping_diagram_source()
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $sourcecode Raw contents intended to be serialized into an HTML SCRIPT element.
+	 * @return string Escaped form of input contents which will not lead to premature closing of the containing SCRIPT element.
+	 */
+	private static function escape_javascript_script_contents( string $sourcecode ): string {
+		$at      = 0;
+		$was_at  = 0;
+		$end     = strlen( $sourcecode );
+		$escaped = '';
+
+		/*
+		 * Replace all instances of the ASCII case-insensitive match of "<script"
+		 * and "</script", when followed by whitespace or "/" or ">", by using a
+		 * character replacement for the "s" (or the "S").
+		 */
+		while ( $at < $end ) {
+			$tag_at = strpos( $sourcecode, '<', $at );
+			if ( false === $tag_at ) {
+				break;
+			}
+
+			$tag_name_at       = $tag_at + 1;
+			$has_closing_slash = $tag_name_at < $end && '/' === $sourcecode[ $tag_name_at ];
+			$tag_name_at      += $has_closing_slash ? 1 : 0;
+
+			if ( 0 !== substr_compare( $sourcecode, 'script', $tag_name_at, 6, true ) ) {
+				$at = $tag_at + 1;
+				continue;
+			}
+
+			if ( 1 !== strspn( $sourcecode, " \t\f\r\n/>", $tag_name_at + 6, 1 ) ) {
+				$at = $tag_name_at + 6;
+				continue;
+			}
+
+			$escaped .= substr( $sourcecode, $was_at, $tag_name_at - $was_at );
+			$escaped .= 's' === $sourcecode[ $tag_name_at ] ? '\u0073' : '\u0053';
+			$was_at   = $tag_name_at + 1;
+			$at       = $tag_name_at + 7;
+		}
+
+		if ( '' === $escaped ) {
+			return $sourcecode;
+		}
+
+		if ( $was_at < $end ) {
+			$escaped .= substr( $sourcecode, $was_at );
+		}
+
+		return $escaped;
 	}
 
 	/**
