@@ -193,7 +193,7 @@ class WP_Ability {
 	 * Prepares and validates the properties used to instantiate the ability.
 	 *
 	 * Errors are thrown as exceptions instead of WP_Errors to allow for simpler handling and overloading. They are then
-	 * caught and converted to a WP_Error when by WP_Abilities_Registry::register().
+	 * caught and converted to a WP_Error by WP_Abilities_Registry::register().
 	 *
 	 * @since 6.9.0
 	 *
