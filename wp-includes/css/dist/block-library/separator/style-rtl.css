@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.wp-block-separator {
+  border-top: 2px solid currentColor;
+  border-right: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+:root :where(.wp-block-separator.is-style-dots) {
+  text-align: center;
+  line-height: 1;
+  height: auto;
+}
+:root :where(.wp-block-separator.is-style-dots)::before {
+  content: "···";
+  color: currentColor;
+  font-size: 1.5em;
+  letter-spacing: 2em;
+  padding-left: 2em;
+  font-family: serif;
+}
+
+.wp-block-separator.is-style-dots {
+  background: none !important;
+  border: none !important;
+}

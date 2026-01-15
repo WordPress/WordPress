@@ -1,0 +1,17 @@
+.wp-block-tab {
+  max-width: 100%;
+  flex-basis: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+.wp-block-tab[hidden], .wp-block-tab:empty {
+  display: none !important;
+}
+.wp-block-tab:not(.wp-block):focus {
+  outline: none;
+}
+
+.wp-block-tab.wp-block section.has-background,
+.wp-block-tab:not(.wp-block).has-background {
+  padding: var(--wp--preset--spacing--30);
+}

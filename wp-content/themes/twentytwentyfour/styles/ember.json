@@ -1,0 +1,249 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"title": "Ember",
+	"settings": {
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#D73301",
+						"#F9F8F5"
+					],
+					"slug": "duotone-2",
+					"name": "Orange and white"
+				}
+			],
+			"gradients": [
+				{
+					"slug": "gradient-1",
+					"gradient": "linear-gradient(to bottom, #f6decd 0%, #dbab88 100%)",
+					"name": "Vertical linen to beige"
+				},
+				{
+					"slug": "gradient-2",
+					"gradient": "linear-gradient(to bottom, #A4A4A4 0%, #dbab88 100%)",
+					"name": "Vertical taupe to beige"
+				},
+				{
+					"slug": "gradient-3",
+					"gradient": "linear-gradient(to bottom, #353535 0%, #dbab88 100%)",
+					"name": "Vertical sable to beige"
+				},
+				{
+					"slug": "gradient-4",
+					"gradient": "linear-gradient(to bottom, #111111 0%, #dbab88 100%)",
+					"name": "Vertical ebony to beige"
+				},
+				{
+					"slug": "gradient-5",
+					"gradient": "linear-gradient(to bottom, #353535 0%, #A4A4A4 100%)",
+					"name": "Vertical sable to beige"
+				},
+				{
+					"slug": "gradient-6",
+					"gradient": "linear-gradient(to bottom, #111111 0%, #353535 100%)",
+					"name": "Vertical ebony to sable"
+				},
+				{
+					"slug": "gradient-7",
+					"gradient": "linear-gradient(to bottom, #dbab88 50%, #f6decd 50%)",
+					"name": "Vertical hard beige to linen"
+				},
+				{
+					"slug": "gradient-8",
+					"gradient": "linear-gradient(to bottom, #A4A4A4 50%, #dbab88 50%)",
+					"name": "Vertical hard taupe to beige"
+				},
+				{
+					"slug": "gradient-9",
+					"gradient": "linear-gradient(to bottom, #353535 50%, #dbab88 50%)",
+					"name": "Vertical hard sable to beige"
+				},
+				{
+					"slug": "gradient-10",
+					"gradient": "linear-gradient(to bottom, #111111 50%, #dbab88 50%)",
+					"name": "Vertical hard ebony to beige"
+				},
+				{
+					"slug": "gradient-11",
+					"gradient": "linear-gradient(to bottom, #353535 50%, #A4A4A4 50%)",
+					"name": "Vertical hard sable to taupe"
+				},
+				{
+					"slug": "gradient-12",
+					"gradient": "linear-gradient(to bottom, #111111 50%, #353535 50%)",
+					"name": "Vertical hard ebony to sable"
+				}
+			],
+			"palette": [
+				{
+					"color": "#F9F8F5",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#D73301",
+					"name": "Contrast / 2",
+					"slug": "contrast-2"
+				},
+				{
+					"color": "#000",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#f6decd",
+					"name": "Base / Two",
+					"slug": "base-2"
+				}
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Instrument Sans",
+							"fontStyle": "normal",
+							"fontWeight": "400 700",
+							"src": [
+								"file:./assets/fonts/instrument-sans/InstrumentSans-VariableFont_wdth,wght.woff2"
+							]
+						},
+						{
+							"fontFamily": "Instrument Sans",
+							"fontStyle": "italic",
+							"fontWeight": "400 700",
+							"src": [
+								"file:./assets/fonts/instrument-sans/InstrumentSans-Italic-VariableFont_wdth,wght.woff2"
+							]
+						}
+					],
+					"fontFamily": "\"Instrument Sans\", sans-serif",
+					"name": "Instrument Sans",
+					"slug": "body"
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Jost",
+							"fontStyle": "normal",
+							"fontWeight": "100 900",
+							"src": ["file:./assets/fonts/jost/Jost-VariableFont_wght.woff2"]
+						},
+						{
+							"fontFamily": "Jost",
+							"fontStyle": "italic",
+							"fontWeight": "100 900",
+							"src": [
+								"file:./assets/fonts/jost/Jost-Italic-VariableFont_wght.woff2"
+							]
+						}
+					],
+					"fontFamily": "\"Jost\", sans-serif",
+					"name": "Jost",
+					"slug": "heading"
+				},
+				{
+					"fontFamily": "-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+					"name": "System Sans-serif",
+					"slug": "system-sans-serif"
+				},
+				{
+					"fontFamily": "Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+					"name": "System Serif",
+					"slug": "system-serif"
+				}
+			]
+		}
+	},
+	"styles": {
+		"blocks": {
+			"core/button": {
+				"variations": {
+					"outline": {
+						"spacing": {
+							"padding": {
+								"bottom": "calc(0.9rem - 2px)",
+								"left": "calc(2rem - 2px)",
+								"right": "calc(2rem - 2px)",
+								"top": "calc(0.9rem - 2px)"
+							}
+						},
+						"border": {
+							"width": "2px"
+						}
+					}
+				}
+			},
+			"core/image": {
+				"filter": {
+					"duotone": "var(--wp--preset--duotone--duotone-2)"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--large)",
+					"fontStyle": "normal",
+					"fontWeight": "normal",
+					"lineHeight": "1.2"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--heading)",
+					"fontSize": "var(--wp--preset--font-size--large)",
+					"fontStyle": "normal"
+				},
+				"variations": {
+					"plain": {
+						"typography": {
+							"fontStyle": "normal",
+							"fontWeight": "400"
+						}
+					}
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontWeight": "400"
+				}
+			},
+			"core/navigation": {
+				"typography": {
+					"fontWeight": "400"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"border": {
+					"radius": "100px"
+				},
+				"color": {
+					"background": "var(--wp--preset--color--contrast-2)",
+					"text": "var(--wp--preset--color--base)"
+				},
+				"spacing": {
+					"padding": {
+						"bottom": "0.9rem",
+						"left": "2rem",
+						"right": "2rem",
+						"top": "0.9rem"
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--heading)",
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"fontStyle": "normal"
+				},
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--contrast)"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "@wordpress/template-list",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/templates/list/$activeView",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/block-editor": "file:../../packages/block-editor",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/compose": "file:../../packages/compose",
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/dataviews": "file:../../packages/dataviews",
+		"@wordpress/dom": "file:../../packages/dom",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/fields": "file:../../packages/fields",
+		"@wordpress/html-entities": "file:../../packages/html-entities",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/icons": "file:../../packages/icons",
+		"@wordpress/keycodes": "file:../../packages/keycodes",
+		"@wordpress/lazy-editor": "file:../../packages/lazy-editor",
+		"@wordpress/route": "file:../../packages/route",
+		"@wordpress/notices": "file:../../packages/notices",
+		"@wordpress/private-apis": "file:../../packages/private-apis",
+		"@wordpress/url": "file:../../packages/url",
+		"@wordpress/views": "file:../../packages/views",
+		"change-case": "^4.1.2",
+		"clsx": "^2.1.1",
+		"dequal": "^2.0.3"
+	}
+}

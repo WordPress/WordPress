@@ -1,0 +1,204 @@
+/**
+ * Typography
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+body.admin-color-light {
+  --wp-admin-theme-color: #0085ba;
+  --wp-admin-theme-color--rgb: 0, 133, 186;
+  --wp-admin-theme-color-darker-10: rgb(0, 114.7661290323, 160.5);
+  --wp-admin-theme-color-darker-10--rgb: 0, 114.7661290323, 160.5;
+  --wp-admin-theme-color-darker-20: rgb(0, 96.5322580645, 135);
+  --wp-admin-theme-color-darker-20--rgb: 0, 96.5322580645, 135;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-light {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-modern {
+  --wp-admin-theme-color: #3858e9;
+  --wp-admin-theme-color--rgb: 56, 88, 233;
+  --wp-admin-theme-color-darker-10: rgb(33.0384615385, 68.7307692308, 230.4615384615);
+  --wp-admin-theme-color-darker-10--rgb: 33.0384615385, 68.7307692308, 230.4615384615;
+  --wp-admin-theme-color-darker-20: rgb(23.6923076923, 58.1538461538, 214.3076923077);
+  --wp-admin-theme-color-darker-20--rgb: 23.6923076923, 58.1538461538, 214.3076923077;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-modern {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-blue {
+  --wp-admin-theme-color: #096484;
+  --wp-admin-theme-color--rgb: 9, 100, 132;
+  --wp-admin-theme-color-darker-10: rgb(7.3723404255, 81.914893617, 108.1276595745);
+  --wp-admin-theme-color-darker-10--rgb: 7.3723404255, 81.914893617, 108.1276595745;
+  --wp-admin-theme-color-darker-20: rgb(5.7446808511, 63.829787234, 84.2553191489);
+  --wp-admin-theme-color-darker-20--rgb: 5.7446808511, 63.829787234, 84.2553191489;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-blue {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-coffee {
+  --wp-admin-theme-color: #46403c;
+  --wp-admin-theme-color--rgb: 70, 64, 60;
+  --wp-admin-theme-color-darker-10: rgb(56.2692307692, 51.4461538462, 48.2307692308);
+  --wp-admin-theme-color-darker-10--rgb: 56.2692307692, 51.4461538462, 48.2307692308;
+  --wp-admin-theme-color-darker-20: rgb(42.5384615385, 38.8923076923, 36.4615384615);
+  --wp-admin-theme-color-darker-20--rgb: 42.5384615385, 38.8923076923, 36.4615384615;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-coffee {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-ectoplasm {
+  --wp-admin-theme-color: #523f6d;
+  --wp-admin-theme-color--rgb: 82, 63, 109;
+  --wp-admin-theme-color-darker-10: rgb(69.8430232558, 53.6598837209, 92.8401162791);
+  --wp-admin-theme-color-darker-10--rgb: 69.8430232558, 53.6598837209, 92.8401162791;
+  --wp-admin-theme-color-darker-20: rgb(57.6860465116, 44.3197674419, 76.6802325581);
+  --wp-admin-theme-color-darker-20--rgb: 57.6860465116, 44.3197674419, 76.6802325581;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-ectoplasm {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-midnight {
+  --wp-admin-theme-color: #e14d43;
+  --wp-admin-theme-color--rgb: 225, 77, 67;
+  --wp-admin-theme-color-darker-10: rgb(221.4908256881, 56.1788990826, 45.0091743119);
+  --wp-admin-theme-color-darker-10--rgb: 221.4908256881, 56.1788990826, 45.0091743119;
+  --wp-admin-theme-color-darker-20: rgb(207.8348623853, 44.2201834862, 33.1651376147);
+  --wp-admin-theme-color-darker-20--rgb: 207.8348623853, 44.2201834862, 33.1651376147;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-midnight {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-ocean {
+  --wp-admin-theme-color: #627c83;
+  --wp-admin-theme-color--rgb: 98, 124, 131;
+  --wp-admin-theme-color-darker-10: rgb(87.0873362445, 110.192139738, 116.4126637555);
+  --wp-admin-theme-color-darker-10--rgb: 87.0873362445, 110.192139738, 116.4126637555;
+  --wp-admin-theme-color-darker-20: rgb(76.1746724891, 96.384279476, 101.8253275109);
+  --wp-admin-theme-color-darker-20--rgb: 76.1746724891, 96.384279476, 101.8253275109;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-ocean {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+body.admin-color-sunrise {
+  --wp-admin-theme-color: #dd823b;
+  --wp-admin-theme-color--rgb: 221, 130, 59;
+  --wp-admin-theme-color-darker-10: rgb(216.8782608696, 116.1847826087, 37.6217391304);
+  --wp-admin-theme-color-darker-10--rgb: 216.8782608696, 116.1847826087, 37.6217391304;
+  --wp-admin-theme-color-darker-20: rgb(195.147826087, 104.5434782609, 33.852173913);
+  --wp-admin-theme-color-darker-20--rgb: 195.147826087, 104.5434782609, 33.852173913;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  body.admin-color-sunrise {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}

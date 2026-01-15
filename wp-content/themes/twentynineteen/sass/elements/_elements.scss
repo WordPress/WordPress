@@ -1,0 +1,85 @@
+html {
+	box-sizing: border-box;
+}
+
+::-moz-selection {
+	background-color: $color__background_selection;
+}
+
+::selection {
+	background-color: $color__background_selection;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+a {
+	@include link-transition;
+	color: $color__link;
+}
+
+a:hover,
+a:active {
+	color: $color__link-hover;
+	outline: 0;
+	text-decoration: none;
+}
+
+a:focus {
+	outline: thin;
+	outline-style: dotted;
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	clear: both;
+	margin: $size__spacing-unit 0;
+}
+
+h1:not(.site-title),
+h2 {
+	@include post-section-dash;
+}
+
+hr {
+	background-color: $color__text-light;
+	border: 0;
+	height: 2px;
+}
+
+@import "lists";
+
+img {
+	height: auto;
+	max-width: 100%;
+	position: relative;
+}
+
+figure {
+	margin: 0;
+}
+
+blockquote {
+	border-left: 2px solid $color__link;
+	margin-left: 0;
+	padding: 0 0 0 $size__spacing-unit;
+
+	> p {
+		margin: 0 0 $size__spacing-unit;
+	}
+
+	cite {
+		color: $color__text-light;
+	}
+}
+
+@import "tables";

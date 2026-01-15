@@ -1,0 +1,14 @@
+.wp-block-accordion-item.is-open > .wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon {
+  transform: rotate(45deg);
+}
+.wp-block-accordion-item {
+  /* Add transitions only for users who do not prefer reduced motion */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wp-block-accordion-item {
+    transition: grid-template-rows 0.3s ease-out;
+  }
+  .wp-block-accordion-item > .wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon {
+    transition: transform 0.2s ease-in-out;
+  }
+}

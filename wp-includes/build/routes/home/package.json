@@ -1,0 +1,9 @@
+{
+	"route": {
+		"path": "/",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/i18n": "file:../i18n"
+	}
+}

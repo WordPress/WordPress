@@ -1,0 +1,165 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"title": "Onyx",
+	"settings": {
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#272727",
+						"#f9f9f9"
+					],
+					"slug": "duotone-1",
+					"name": "Dark gray and white"
+				},
+				{
+					"colors": [
+						"#272727",
+						"#5F584F"
+					],
+					"slug": "duotone-2",
+					"name": "Dark gray and walnut"
+				},
+				{
+					"colors": [
+						"#272727",
+						"#973C20"
+					],
+					"slug": "duotone-3",
+					"name": "Dark gray and cinnamon"
+				},
+				{
+					"colors": [
+						"#272727",
+						"#4D5B48"
+					],
+					"slug": "duotone-4",
+					"name": "Dark gray and olive"
+				},
+				{
+					"colors": [
+						"#272727",
+						"#4F5959"
+					],
+					"slug": "duotone-5",
+					"name": "Dark gray and steel"
+				}
+			],
+			"gradients": [
+				{
+					"slug": "gradient-1",
+					"gradient": "linear-gradient(to bottom, #5F584F 0%, #272727 100%)",
+					"name": "Vertical soft driftwood to dark gray"
+				},
+				{
+					"slug": "gradient-2",
+					"gradient": "linear-gradient(to bottom, #6D533C 0%, #272727 100%)",
+					"name": "Vertical soft walnut to dark gray"
+				},
+				{
+					"slug": "gradient-3",
+					"gradient": "linear-gradient(to bottom, #973C20 0%, #272727 100%)",
+					"name": "Vertical soft cinnamon to dark gray"
+				},
+				{
+					"slug": "gradient-4",
+					"gradient": "linear-gradient(to bottom, #4D5B48 0%, #272727 100%)",
+					"name": "Vertical soft olive to dark gray"
+				},
+				{
+					"slug": "gradient-5",
+					"gradient": "linear-gradient(to bottom, #4F5959 0%, #272727 100%)",
+					"name": "Vertical soft steel to dark gray"
+				},
+				{
+					"slug": "gradient-6",
+					"gradient": "linear-gradient(to bottom, #909090 0%, #272727 100%)",
+					"name": "Vertical soft pewter to dark gray"
+				},
+				{
+					"slug": "gradient-7",
+					"gradient": "linear-gradient(to bottom, #5F584F 50%, #272727 50%)",
+					"name": "Vertical hard beige to dark gray"
+				},
+				{
+					"slug": "gradient-8",
+					"gradient": "linear-gradient(to bottom, #6D533C 50%, #272727 50%)",
+					"name": "Vertical hard walnut to dark gray"
+				},
+				{
+					"slug": "gradient-9",
+					"gradient": "linear-gradient(to bottom, #973C20 50%, #272727 50%)",
+					"name": "Vertical hard cinnamon to dark gray"
+				},
+				{
+					"slug": "gradient-10",
+					"gradient": "linear-gradient(to bottom, #4D5B48 50%, #272727 50%)",
+					"name": "Vertical hard olive to dark gray"
+				},
+				{
+					"slug": "gradient-11",
+					"gradient": "linear-gradient(to bottom, #4F5959 50%, #272727 50%)",
+					"name": "Vertical hard steel to dark gray"
+				},
+				{
+					"slug": "gradient-12",
+					"gradient": "linear-gradient(to bottom, #A4A4A4 50%, #272727 50%)",
+					"name": "Vertical hard pewter to dark gray"
+				}
+			],
+			"palette": [
+				{
+					"color": "#272727",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#303030",
+					"name": "Base / Two",
+					"slug": "base-2"
+				},
+				{
+					"color": "#f9f9f9",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#B7B7B7",
+					"name": "Contrast / Two",
+					"slug": "contrast-2"
+				},
+				{
+					"color": "#909090",
+					"name": "Contrast / Three",
+					"slug": "contrast-3"
+				},
+				{
+					"color": "#5F584F",
+					"name": "Accent",
+					"slug": "accent"
+				},
+				{
+					"color": "#6D533C",
+					"name": "Accent / Two",
+					"slug": "accent-2"
+				},
+				{
+					"color": "#973C20",
+					"name": "Accent / Three",
+					"slug": "accent-3"
+				},
+				{
+					"color": "#4D5B48",
+					"name": "Accent / Four",
+					"slug": "accent-4"
+				},
+				{
+					"color": "#4F5959",
+					"name": "Accent / Five",
+					"slug": "accent-5"
+				}
+			]
+		}
+	}
+}

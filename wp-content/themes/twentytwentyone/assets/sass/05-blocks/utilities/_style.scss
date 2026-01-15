@@ -1,0 +1,160 @@
+/* Block Alignments */
+
+/**
+ * These selectors set the default max width for content appearing inside a post or page.
+ */
+.entry-content > *:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator),
+*[class*="inner-container"] > *:not(.entry-content):not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator) {
+	@extend %responsive-aligndefault-width;
+}
+
+/**
+ * .alignleft
+ */
+.alignleft {
+
+	/*rtl:ignore*/
+	text-align: left;
+
+	margin-top: 0;
+}
+
+// Targeting the .entry-content class is necessary to ensure these styles
+// only apply when the block isn't nested.
+.entry-content > .alignleft {
+	max-width: var(--responsive--aligndefault-width);
+	@extend %responsive-alignleft;
+}
+
+@include media(mobile) {
+
+	.alignleft {
+
+		/*rtl:ignore*/
+		float: left;
+
+		/*rtl:ignore*/
+		margin-right: var(--global--spacing-horizontal);
+		margin-bottom: var(--global--spacing-vertical);
+	}
+
+	.entry-content > .alignleft {
+		max-width: calc(50% - var(--responsive--alignleft-margin));
+	}
+}
+
+/**
+ * .aligncenter
+ */
+.aligncenter {
+	clear: both;
+	display: block;
+	float: none;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+/**
+ * .alignright
+ */
+.alignright {
+
+	margin-top: 0;
+	margin-bottom: var(--global--spacing-vertical);
+}
+
+// Targeting the .entry-content class is necessary to ensure these styles
+// only apply when the block isn't nested.
+.entry-content > .alignright {
+	max-width: var(--responsive--aligndefault-width);
+	@extend %responsive-alignright;
+}
+
+@include media(mobile) {
+
+	.alignright {
+
+		/*rtl:ignore*/
+		float: right;
+
+		/*rtl:ignore*/
+		margin-left: var(--global--spacing-horizontal);
+	}
+
+	.entry-content > .alignright {
+		max-width: calc(50% - var(--responsive--alignright-margin));
+	}
+}
+
+// Make sure siblings of floated elements are top-aligned when nested
+[class*="inner-container"] > .alignleft + *,
+[class*="inner-container"] > .alignright + * {
+	margin-top: 0;
+}
+
+/**
+ * .alignwide
+ */
+.alignwide {
+	clear: both;
+	@extend %responsive-alignwide-width;
+}
+
+.alignwide [class*="inner-container"] > .alignwide {
+	@extend %responsive-alignwide-width-nested;
+}
+
+/**
+ * .alignfull
+ */
+.alignfull {
+	clear: both;
+	@extend %responsive-alignfull-width-mobile;
+	@extend %responsive-alignfull-width;
+}
+
+.alignfull [class*="inner-container"] > .alignwide {
+	@extend %responsive-alignwide-width-nested;
+}
+
+// Content alignment
+.has-left-content {
+	justify-content: flex-start;
+}
+
+.has-right-content {
+	justify-content: flex-end;
+}
+
+// Parallax
+.has-parallax {
+	background-attachment: fixed;
+}
+
+// Drop caps
+.has-drop-cap:not(:focus)::first-letter {
+	font-family: var(--heading--font-family);
+	font-weight: var(--heading--font-weight);
+	line-height: 0.66;
+	text-transform: uppercase;
+	font-style: normal;
+	float: left;
+	margin: 0.1em 0.1em 0 0;
+	font-size: calc(1.2 * var(--heading--font-size-h1));
+}
+
+.has-drop-cap:not(:focus)::after {
+	content: "";
+	display: table;
+	clear: both;
+	padding-top: 14px;
+}
+
+.desktop-only {
+	display: none;
+
+	@include media(mobile) {
+		display: block;
+	}
+}

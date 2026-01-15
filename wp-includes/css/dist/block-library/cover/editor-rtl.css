@@ -1,0 +1,131 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-cover.is-placeholder {
+  padding: 0 !important;
+  display: flex;
+  align-items: stretch;
+  min-height: 240px;
+}
+.wp-block-cover.is-placeholder .components-placeholder.is-large {
+  justify-content: flex-start;
+  z-index: 1;
+}
+.wp-block-cover.is-placeholder:focus::after {
+  min-height: auto;
+}
+.wp-block-cover.components-placeholder h2 {
+  color: inherit;
+}
+.wp-block-cover.is-transient {
+  position: relative;
+}
+.wp-block-cover.is-transient::before {
+  background-color: #fff;
+  content: "";
+  height: 100%;
+  opacity: 0.3;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+.wp-block-cover.is-transient .wp-block-cover__inner-container {
+  z-index: 2;
+}
+.wp-block-cover .components-spinner {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  margin: 0;
+}
+.wp-block-cover .wp-block-cover__inner-container {
+  text-align: right;
+  margin-right: 0;
+  margin-left: 0;
+}
+.wp-block-cover .wp-block-cover__placeholder-background-options {
+  width: 100%;
+}
+.wp-block-cover .wp-block-cover__image--placeholder-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+[data-align=left] > .wp-block-cover,
+[data-align=right] > .wp-block-cover {
+  max-width: 420px;
+  width: 100%;
+}
+
+.block-library-cover__reset-button {
+  margin-right: auto;
+}
+
+.block-library-cover__resize-container {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  min-height: 50px;
+}
+
+.components-popover.block-editor-block-popover.block-library-cover__resizable-box-popover .components-popover__content > div,
+.components-popover.block-editor-block-popover.block-library-cover__resizable-box-popover .block-library-cover__resize-container {
+  pointer-events: none;
+  overflow: visible;
+}
+
+.block-editor-block-patterns-list__list-item .has-parallax.wp-block-cover {
+  background-attachment: scroll;
+}
+
+.color-block-support-panel__inner-wrapper > :not(.block-editor-tools-panel-color-gradient-settings__item) {
+  margin-top: 24px;
+}

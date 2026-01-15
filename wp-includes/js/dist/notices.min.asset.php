@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('wp-data'), 'version' => '5bc9d59c0b19edba4928');

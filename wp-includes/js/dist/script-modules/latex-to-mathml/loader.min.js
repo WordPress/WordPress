@@ -1,0 +1,1 @@
+function r(){return import("@wordpress/latex-to-mathml")}export{r as default};

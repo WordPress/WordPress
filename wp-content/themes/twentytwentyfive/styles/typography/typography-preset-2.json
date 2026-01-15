@@ -1,0 +1,150 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"title": "Vollkorn & Fira Code",
+	"slug": "typography-preset-2",
+	"settings": {
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Vollkorn",
+					"slug": "vollkorn",
+					"fontFamily": "Vollkorn, serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "italic",
+							"fontFamily": "Vollkorn"
+						},
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "normal",
+							"fontFamily": "Vollkorn"
+						}
+					]
+				},
+				{
+					"name": "Fira Code",
+					"slug": "fira-code",
+					"fontFamily": "\"Fira Code\", monospace",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/fira-code/FiraCode-VariableFont_wght.woff2"
+							],
+							"fontWeight": "300 700",
+							"fontStyle": "normal",
+							"fontFamily": "\"Fira Code\""
+						}
+					]
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var:preset|font-family|fira-code",
+			"fontSize": "var:preset|font-size|medium",
+			"letterSpacing": "-0.18px",
+			"lineHeight": "1.5"
+		},
+		"blocks": {
+			"core/post-author-name": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontWeight": "400",
+					"letterSpacing": "-0.96px"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn",
+					"fontSize": "var:preset|font-size|x-large",
+					"fontWeight": "400"
+				},
+				"elements": {
+					"cite": {
+						"typography": {
+							"fontFamily": "var:preset|font-family|fira-code",
+							"fontWeight": "300",
+							"letterSpacing": "-0.14px"
+						}
+					}
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|fira-code",
+					"fontWeight": "500",
+					"letterSpacing": "-0.18px"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn",
+					"fontSize": "var:preset|font-size|x-large"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|fira-code",
+					"fontSize": "var:preset|font-size|medium",
+					"fontWeight": "400",
+					"letterSpacing": "-0.36px"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn"
+				}
+			},
+			"h1": {
+				"typography": {
+					"fontSize": "48px",
+					"letterSpacing": "-0.96px;"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "38px",
+					"letterSpacing": "-0.96px"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "32px",
+					"letterSpacing": "-0.64px"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontSize": "28px",
+					"letterSpacing": "-0.56px"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "24px",
+					"letterSpacing": "-0.48px"
+				}
+			}
+		}
+	}
+}

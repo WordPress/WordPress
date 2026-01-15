@@ -1,0 +1,12 @@
+{
+	"name": "@wordpress/pattern",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/patterns",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

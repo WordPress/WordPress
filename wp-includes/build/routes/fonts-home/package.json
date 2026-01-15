@@ -1,0 +1,14 @@
+{
+	"name": "@wordpress/fonts-home-route",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/",
+		"page": [
+			"font-library"
+		]
+	},
+	"dependencies": {
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

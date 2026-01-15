@@ -1,0 +1,12 @@
+{
+	"name": "@wordpress/post",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/types/$type",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/route": "file:../../packages/route"
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"title": "Display",
+	"slug": "text-display",
+	"blockTypes": ["core/heading", "core/paragraph"],
+	"styles": {
+		"typography": {
+			"fontSize": "clamp(2.2rem, 2.2rem + ((1vw - 0.2rem) * 1.333), 3.5rem)",
+			"lineHeight": "1.2"
+		}
+	}
+}

@@ -1,0 +1,26 @@
+.wp-block-navigation-overlay-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.wp-block-navigation-overlay-close:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.wp-block-navigation-overlay-close svg {
+  width: 1.5em;
+  height: 1.5em;
+  fill: currentColor;
+  display: block;
+  flex-shrink: 0;
+}
+.wp-block-navigation-overlay-close .wp-block-navigation-overlay-close__text {
+  display: inline-flex;
+  align-items: center;
+}

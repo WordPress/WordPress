@@ -1,0 +1,210 @@
+.entry-title {
+
+	color: var(--entry-header--color);
+	font-size: var(--entry-header--font-size);
+	letter-spacing: var(--heading--letter-spacing-h2);
+	line-height: var(--heading--line-height-h2);
+	overflow-wrap: break-word;
+
+	a {
+		color: var(--entry-header--color-link);
+		text-underline-offset: 0.15em;
+
+		&:hover {
+			color: var(--entry-header--color-hover);
+		}
+
+		&:focus {
+			color: var(--entry-header--color-focus);
+		}
+
+		&:active {
+			color: var(--entry-header--color-link);
+		}
+	}
+}
+
+.singular .entry-title {
+	font-size: var(--global--font-size-page-title);
+}
+
+h1.entry-title {
+	line-height: var(--heading--line-height-h1);
+	font-weight: var(--heading--font-weight-page-title);
+}
+
+/**
+ * Entry Content
+ */
+
+.entry-content,
+.entry-summary {
+	font-family: var(--entry-content--font-family);
+}
+
+.entry-content {
+
+	p {
+		word-wrap: break-word;
+	}
+
+	// Overwrite iframe embeds that have inline styles.
+	> iframe[style] {
+
+		margin: var(--global--spacing-vertical) 0 !important;
+		max-width: 100% !important;
+	}
+
+	// Classic editor audio embeds.
+	.wp-audio-shortcode {
+		@extend %responsive-aligndefault-width;
+	}
+}
+
+.entry-footer {
+
+	color: var(--global--color-primary);
+	clear: both;
+	float: none;
+	font-size: var(--global--font-size-xs);
+	display: block;
+
+	> span {
+		display: inline-block;
+	}
+
+	a {
+		color: currentColor;
+
+		&:hover,
+		&:focus {
+			color: var(--global--color-primary-hover);
+		}
+
+		&:active {
+			color: currentColor;
+		}
+	}
+}
+
+// Extra specificity to override rules in _vertical-margins.scss
+.site-main > article > .entry-footer {
+	margin-top: var(--global--spacing-vertical);
+	padding-top: var(--global--spacing-unit);
+	padding-bottom: calc(3 * var(--global--spacing-vertical));
+	border-bottom: var(--separator--height) solid var(--separator--border-color);
+}
+
+body:not(.single) .site-main > article:last-of-type .entry-footer {
+	border-bottom: var(--separator--height) solid transparent;
+}
+
+.single .site-main > article > .entry-footer {
+	margin-top: calc(3.4 * var(--global--spacing-vertical));
+	margin-bottom: calc(3.4 * var(--global--spacing-vertical));
+	padding-bottom: 0;
+	padding-top: calc(0.8 * var(--global--spacing-vertical));
+	border-top: 3px solid var(--separator--border-color);
+	border-bottom: var(--separator--height) solid transparent;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: calc(2 * var(--global--spacing-horizontal));
+
+	.post-taxonomies,
+	.full-size-link {
+		justify-content: flex-end;
+		text-align: right;
+	}
+
+	.full-size-link:first-child:last-child {
+		grid-column: span 2;
+	}
+
+	.posted-on,
+	.byline,
+	.cat-links,
+	.tags-links {
+		display: block;
+	}
+
+	@include media(mobile-only) {
+		display: block;
+
+		.full-size-link {
+			display: block;
+		}
+
+		.post-taxonomies,
+		.full-size-link {
+			text-align: left;
+		}
+	}
+}
+
+/**
+ * Post Thumbnails
+ */
+
+.post-thumbnail {
+	@extend %responsive-aligndefault-width;
+	text-align: center;
+
+	.entry-header &,
+	.singular & {
+		@extend %responsive-alignwide-width-nested;
+	}
+
+	.wp-post-image {
+		display: block;
+		width: auto;
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: calc(2 * var(--global--spacing-vertical));
+	}
+}
+
+/**
+ * Author
+ */
+
+.author-bio {
+	position: relative;
+	font-size: var(--global--font-size-xs);
+	max-width: var(--responsive--aligndefault-width);
+
+	.site-main > article > & {
+		margin-top: calc(2 * var(--global--spacing-vertical));
+	}
+
+	// Avatars are optional and can be turned off.
+	&.show-avatars {
+
+		.avatar {
+			display: inline-block;
+			vertical-align: top;
+			border-radius: 50%;
+		}
+
+		.author-bio-content {
+			display: inline-block;
+			padding-left: var(--global--spacing-horizontal);
+			max-width: calc(var(--responsive--aligndefault-width) - 90px);
+		}
+	}
+
+	.author-bio-content {
+
+		.author-title {
+			font-family: var(--entry-author-bio--font-family);
+			font-size: var(--entry-author-bio--font-size);
+			display: inline;
+		}
+
+		.author-description {
+			font-size: var(--global--font-size-xs);
+			margin-top: calc(0.5 * var(--global--spacing-vertical));
+			margin-bottom: calc(0.5 * var(--global--spacing-vertical));
+		}
+	}
+}

@@ -1,0 +1,10 @@
+.wp-block-query-pagination-numbers a {
+  text-decoration: underline;
+}
+.wp-block-query-pagination-numbers .page-numbers {
+  margin-right: 2px;
+}
+.wp-block-query-pagination-numbers .page-numbers:last-child {
+  /*rtl:ignore*/
+  margin-right: 0;
+}

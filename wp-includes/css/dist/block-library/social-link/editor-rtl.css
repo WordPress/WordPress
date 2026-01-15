@@ -1,0 +1,36 @@
+.wp-block-social-links .wp-social-link {
+  line-height: 0;
+}
+
+.wp-block-social-link-anchor {
+  align-items: center;
+  background: none;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: inherit;
+  color: currentColor;
+  height: auto;
+  font-weight: inherit;
+  font-family: inherit;
+  margin: 0;
+  opacity: 1;
+  padding: 0.25em;
+}
+.wp-block-social-link-anchor:hover {
+  transform: none;
+}
+
+:root :where(.wp-block-social-links.is-style-pill-shape .wp-social-link button) {
+  padding-right: 0.6666666667em;
+  padding-left: 0.6666666667em;
+}
+
+:root :where(.wp-block-social-links.is-style-logos-only .wp-social-link button) {
+  padding: 0;
+}
+
+.wp-block-social-link__toolbar_content_text {
+  width: 250px;
+}

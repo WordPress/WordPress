@@ -1,0 +1,10 @@
+.wp-block-columns :where(.wp-block) {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+html :where(.wp-block-column) {
+  margin-top: 0;
+  margin-bottom: 0;
+}

@@ -1,0 +1,2401 @@
+.response-links {
+	display: block;
+	margin-bottom: 1em;
+}
+
+.response-links a {
+	display: block;
+}
+
+.response-links a.comments-edit-item-link {
+	font-weight: 600;
+}
+
+.response-links a.comments-view-item-link {
+	font-size: 12px;
+}
+
+.post-com-count-wrapper strong {
+	font-weight: 400;
+}
+
+.comments-view-item-link {
+	display: inline-block;
+	clear: both;
+}
+
+.column-response .post-com-count-wrapper,
+.column-comments .post-com-count-wrapper {
+	white-space: nowrap;
+	word-wrap: normal;
+}
+
+/* comments bubble common */
+.column-response .post-com-count,
+.column-comments .post-com-count {
+	display: inline-block;
+	vertical-align: top;
+}
+
+/* comments bubble approved */
+.column-response .post-com-count-no-comments,
+.column-response .post-com-count-approved,
+.column-comments .post-com-count-no-comments,
+.column-comments .post-com-count-approved {
+	margin-top: 5px;
+}
+
+.column-response .comment-count-no-comments,
+.column-response .comment-count-approved,
+.column-comments .comment-count-no-comments,
+.column-comments .comment-count-approved {
+	box-sizing: border-box;
+	display: block;
+	padding: 0 8px;
+	min-width: 24px;
+	height: 2em;
+	border-radius: 5px;
+	background-color: #646970;
+	color: #fff;
+	font-size: 11px;
+	line-height: 1.90909090;
+	text-align: center;
+}
+
+.column-response .post-com-count-no-comments:after,
+.column-response .post-com-count-approved:after,
+.column-comments .post-com-count-no-comments:after,
+.column-comments .post-com-count-approved:after {
+	content: "";
+	display: block;
+	margin-left: 8px;
+	width: 0;
+	height: 0;
+	border-top: 5px solid #646970;
+	border-right: 5px solid transparent;
+}
+
+.column-response a.post-com-count-approved:hover .comment-count-approved,
+.column-response a.post-com-count-approved:focus .comment-count-approved,
+.column-comments a.post-com-count-approved:hover .comment-count-approved,
+.column-comments a.post-com-count-approved:focus .comment-count-approved {
+	background: #2271b1;
+}
+
+.column-response a.post-com-count-approved:hover:after,
+.column-response a.post-com-count-approved:focus:after,
+.column-comments a.post-com-count-approved:hover:after,
+.column-comments a.post-com-count-approved:focus:after {
+	border-top-color: #2271b1;
+}
+
+/* @todo: consider to use a single rule for these counters and the admin menu counters. */
+.column-response .post-com-count-pending,
+.column-comments .post-com-count-pending {
+	position: relative;
+	left: -3px;
+	padding: 0 5px;
+	min-width: 7px;
+	height: 17px;
+	border: 2px solid #fff;
+	border-radius: 11px;
+	background: #d63638;
+	color: #fff;
+	font-size: 9px;
+	line-height: 1.88888888;
+	text-align: center;
+}
+
+.column-response .post-com-count-no-pending,
+.column-comments .post-com-count-no-pending {
+	display: none;
+}
+
+/* comments */
+
+.commentlist li {
+	padding: 1em 1em .2em;
+	margin: 0;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.commentlist li li {
+	border-bottom: 0;
+	padding: 0;
+}
+
+.commentlist p {
+	padding: 0;
+	margin: 0 0 .8em;
+}
+
+#submitted-on,
+.submitted-on {
+	color: #50575e;
+}
+
+/* reply to comments */
+#replyrow td {
+	padding: 2px;
+}
+
+#replysubmit {
+	margin: 0;
+	padding: 5px 7px 10px;
+	overflow: hidden;
+}
+
+#replysubmit .reply-submit-buttons {
+	margin-bottom: 0;
+}
+
+#replysubmit .button {
+	margin-right: 5px;
+}
+
+#replysubmit .spinner {
+	float: none;
+	margin: -4px 0 0;
+}
+
+#replyrow.inline-edit-row fieldset.comment-reply {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#replyrow legend {
+	margin: 0;
+	padding: .2em 5px 0;
+	font-size: 13px;
+	line-height: 1.4;
+	font-weight: 600;
+}
+
+#replyrow.inline-edit-row label {
+	display: inline;
+	vertical-align: baseline;
+	line-height: inherit;
+}
+
+#edithead .inside,
+#commentsdiv #edithead .inside {
+	float: left;
+	padding: 3px 0 2px 5px;
+	margin: 0;
+	text-align: center;
+}
+
+#edithead .inside input {
+	width: 180px;
+}
+
+#edithead label {
+	padding: 2px 0;
+}
+
+#replycontainer {
+	padding: 5px;
+}
+
+#replycontent {
+	height: 120px;
+	box-shadow: none;
+}
+
+#replyerror {
+	border-color: #dcdcde;
+	background-color: #f6f7f7;
+}
+
+/* @todo: is this used? */
+.commentlist .avatar {
+	vertical-align: text-top;
+}
+
+#the-comment-list tr.undo,
+#the-comment-list div.undo {
+	background-color: #f6f7f7;
+}
+
+#the-comment-list .unapproved th,
+#the-comment-list .unapproved td {
+	background-color: #fcf9e8;
+}
+
+#the-comment-list .unapproved th.check-column {
+	border-left: 4px solid #d63638;
+}
+
+#the-comment-list .unapproved th.check-column input {
+	margin-left: 4px;
+}
+
+#the-comment-list .approve a {
+	color: #007017;
+}
+
+#the-comment-list .unapprove a {
+	color: #996800;
+}
+
+#the-comment-list th,
+#the-comment-list td {
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+#the-comment-list tr:last-child th,
+#the-comment-list tr:last-child td {
+	box-shadow: none;
+}
+
+#the-comment-list tr.unapproved + tr.approved th,
+#the-comment-list tr.unapproved + tr.approved td {
+	border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* table vim shortcuts */
+.vim-current,
+.vim-current th,
+.vim-current td {
+	background-color: #f0f6fc !important;
+}
+
+th .comment-grey-bubble {
+	width: 16px;
+	/* Make sure the link clickable area fills the entire table header. */
+	position: relative;
+	top: 2px;
+}
+
+th .comment-grey-bubble:before {
+	content: "\f101";
+	content: "\f101" / '';
+	font: normal 20px/.5 dashicons;
+	display: inline-block;
+	padding: 0;
+	top: 4px;
+	left: -4px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #3c434a;
+}
+
+/*------------------------------------------------------------------------------
+  10.0 - List Posts (/Pages/etc)
+------------------------------------------------------------------------------*/
+
+table.fixed {
+	table-layout: fixed;
+}
+
+.fixed .column-rating,
+.fixed .column-visible {
+	width: 8%;
+}
+
+.fixed .column-posts,
+.fixed .column-parent,
+.fixed .column-links,
+.fixed .column-author,
+.fixed .column-format {
+	width: 10%;
+}
+
+.fixed .column-date {
+	width: 14%;
+}
+
+.column-date span[title] {
+	-webkit-text-decoration: dotted underline;
+	text-decoration: dotted underline;
+}
+
+.fixed .column-posts {
+	width: 74px;
+}
+
+.fixed .column-role,
+.fixed .column-posts {
+	hyphens: auto;
+}
+
+.fixed .column-comment .comment-author {
+	display: none;
+}
+
+.fixed .column-response,
+.fixed .column-categories,
+.fixed .column-tags,
+.fixed .column-rel,
+.fixed .column-role {
+	width: 15%;
+}
+
+.fixed .column-slug {
+	width: 25%;
+}
+
+.fixed .column-locations {
+	width: 35%;
+}
+
+.fixed .column-comments {
+	width: 5.5em;
+	text-align: left;
+}
+
+.fixed .column-comments .vers {
+	padding-left: 3px;
+}
+
+td.column-title strong,
+td.plugin-title strong {
+	display: block;
+	margin-bottom: .2em;
+	font-size: 14px;
+}
+
+td.column-title p,
+td.plugin-title p {
+	margin: 6px 0;
+}
+
+/* Media file column */
+table.media .column-title .media-icon {
+	float: left;
+	min-height: 60px;
+	margin: 0 9px 0 0;
+}
+
+table.media .column-title .media-icon img {
+	max-width: 60px;
+	height: auto;
+	vertical-align: top; /* Remove descender white-space. */
+}
+
+table.media .column-title .has-media-icon ~ .row-actions {
+	margin-left: 70px; /* 60px image + margin */
+}
+
+table.media .column-title .filename {
+	margin-bottom: 0.2em;
+}
+
+/* Media Copy to clipboard row action */
+.media .row-actions .copy-to-clipboard-container {
+	display: inline;
+	position: relative;
+}
+
+.media .row-actions .copy-to-clipboard-container .success {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -100%);
+	background: #000;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0;
+	padding: 2px 5px;
+}
+
+/* @todo: pick a consistent list table selector */
+.wp-list-table a {
+	transition: none;
+}
+
+#the-list tr:last-child td,
+#the-list tr:last-child th {
+	border-bottom: none !important;
+	box-shadow: none;
+}
+
+#comments-form .fixed .column-author {
+	width: 20%;
+}
+
+#commentsdiv.postbox .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#commentsdiv .inside .row-actions {
+	line-height: 1.38461538;
+}
+
+#commentsdiv .inside .column-author {
+	width: 25%;
+}
+
+#commentsdiv .column-comment p {
+	margin: 0.6em 0;
+	padding: 0;
+}
+
+#commentsdiv #replyrow td {
+	padding: 0;
+}
+
+#commentsdiv p {
+	padding: 8px 10px;
+	margin: 0;
+}
+
+#commentsdiv .comments-box {
+	border: 0 none;
+}
+
+#commentsdiv .comments-box thead th,
+#commentsdiv .comments-box thead td {
+	background: transparent;
+	padding: 0 7px 4px;
+}
+
+#commentsdiv .comments-box tr:last-child td {
+	border-bottom: 0 none;
+}
+
+#commentsdiv #edithead .inside input {
+	width: 160px;
+}
+
+.sorting-indicators {
+	display: grid;
+}
+
+.sorting-indicator {
+	display: block;
+	width: 10px;
+	height: 4px;
+	margin-top: 4px;
+	margin-left: 7px;
+}
+
+.sorting-indicator:before {
+	font: normal 20px/1 dashicons;
+	display: inline-block;
+	padding: 0;
+	top: -4px;
+	left: -8px;
+	line-height: 0.5;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #a7aaad;
+}
+
+.sorting-indicator.asc:before {
+	content: "\f142";
+	content: "\f142" / '';
+}
+
+.sorting-indicator.desc:before {
+	content: "\f140";
+	content: "\f140" / '';
+}
+
+th.sorted.desc .sorting-indicator.desc:before {
+	color: #1d2327;
+}
+
+th.sorted.asc .sorting-indicator.asc:before {
+	color: #1d2327;
+}
+
+th.sorted.asc a:focus .sorting-indicator.asc:before,
+th.sorted.asc:hover .sorting-indicator.asc:before,
+th.sorted.desc a:focus .sorting-indicator.desc:before,
+th.sorted.desc:hover .sorting-indicator.desc:before {
+	color: #a7aaad;
+}
+
+th.sorted.asc a:focus .sorting-indicator.desc:before,
+th.sorted.asc:hover .sorting-indicator.desc:before,
+th.sorted.desc a:focus .sorting-indicator.asc:before,
+th.sorted.desc:hover .sorting-indicator.asc:before {
+	color: #1d2327;
+}
+
+.wp-list-table .toggle-row {
+	position: absolute;
+	right: 8px;
+	top: 10px;
+	display: none;
+	padding: 0;
+	width: 40px;
+	height: 40px;
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+.wp-list-table .toggle-row:hover {
+	cursor: pointer;
+}
+
+.wp-list-table .toggle-row:focus:before {
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+.wp-list-table .toggle-row:active {
+	box-shadow: none;
+}
+
+.wp-list-table .toggle-row:before {
+	position: absolute;
+	top: -5px;
+	left: 10px;
+	border-radius: 50%;
+	display: block;
+	padding: 1px 2px 1px 0;
+	color: #3c434a; /* same as table headers sort arrows */
+	content: "\f140";
+	content: "\f140" / '';
+	font: normal 20px/1 dashicons;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wp-list-table .is-expanded .toggle-row:before {
+	content: "\f142";
+	content: "\f142" / '';
+}
+
+.check-column {
+	position: relative;
+}
+
+.check-column label {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.check-column input {
+	position: relative;
+	z-index: 1;
+}
+
+.check-column .label-covers-full-cell:hover + input:not(:disabled) {
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.check-column label:hover,
+.check-column input:hover + label {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.locked-indicator {
+	display: none;
+	margin-left: 6px;
+	height: 20px;
+	width: 16px;
+}
+
+.locked-indicator-icon:before {
+	color: #8c8f94;
+	content: "\f160";
+	content: "\f160" / '';
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.locked-info {
+	display: none;
+	margin-top: 4px;
+}
+
+.locked-text {
+	vertical-align: top;
+}
+
+.wp-locked .locked-indicator,
+.wp-locked .locked-info {
+	display: block;
+}
+
+tr.wp-locked .check-column label,
+tr.wp-locked .check-column input[type="checkbox"],
+tr.wp-locked .row-actions .inline,
+tr.wp-locked .row-actions .trash {
+	display: none;
+}
+
+#menu-locations-wrap .widefat {
+	width: 60%;
+}
+
+.widefat th.sortable,
+.widefat th.sorted {
+	padding: 0;
+}
+
+th.sortable a,
+th.sorted a {
+	display: block;
+	overflow: hidden;
+	padding: 8px;
+}
+
+th.sortable a:focus,
+th.sorted a:focus {
+	box-shadow: inset 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+th.sortable a span,
+th.sorted a span {
+	float: left;
+	cursor: pointer;
+}
+
+.tablenav-pages .current-page {
+	margin: 0 2px 0 0;
+	font-size: 13px;
+	text-align: center;
+}
+
+.tablenav .total-pages {
+	margin-right: 2px;
+}
+
+.tablenav #table-paging {
+	margin-left: 2px;
+}
+
+.tablenav {
+	clear: both;
+	height: 30px;
+	margin: 6px 0 4px;
+	padding-top: 5px;
+	vertical-align: middle;
+}
+
+.tablenav.themes {
+	max-width: 98%;
+}
+
+.tablenav .tablenav-pages {
+	float: right;
+	margin: 0 0 9px;
+}
+
+.tablenav .no-pages,
+.tablenav .one-page .pagination-links {
+	display: none;
+}
+
+.tablenav .tablenav-pages .button,
+.tablenav .tablenav-pages .tablenav-pages-navspan {
+	display: inline-block;
+	vertical-align: baseline;
+	min-width: 30px;
+	min-height: 30px;
+	margin: 0;
+	padding: 0 4px;
+	font-size: 16px;
+	line-height: 1.625; /* 26px */
+	text-align: center;
+}
+
+.tablenav .displaying-num {
+	margin-right: 7px;
+}
+
+.tablenav .one-page .displaying-num {
+	display: inline-block;
+	margin: 5px 0;
+}
+
+.tablenav .actions {
+	padding: 0 8px 0 0;
+}
+
+.wp-filter .actions {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.tablenav .delete {
+	margin-right: 20px;
+}
+
+/* This view-switcher is still used on multisite. */
+.tablenav .view-switch {
+	float: right;
+	margin: 0 5px;
+	padding-top: 3px;
+}
+
+.wp-filter .view-switch {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 12px 0;
+	margin: 0 8px 0 2px;
+}
+
+.media-toolbar.wp-filter .view-switch {
+	margin: 0 12px 0 2px;
+}
+
+.view-switch a {
+	float: left;
+	width: 28px;
+	height: 28px;
+	text-align: center;
+	line-height: 1.84615384;
+	text-decoration: none;
+}
+
+.view-switch a:before {
+	color: #c3c4c7;
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.view-switch a:hover:before,
+.view-switch a:focus:before {
+	color: #787c82;
+}
+
+.view-switch a.current:before {
+	color: #2271b1;
+}
+
+.view-switch .view-list:before {
+	content: "\f163";
+	content: "\f163" / '';
+}
+
+.view-switch .view-excerpt:before {
+	content: "\f164";
+	content: "\f164" / '';
+}
+
+.view-switch .view-grid:before {
+	content: "\f509";
+	content: "\f509" / '';
+}
+
+.filter {
+	float: left;
+	margin: -5px 0 0 10px;
+}
+
+.filter .subsubsub {
+	margin-left: -10px;
+	margin-top: 13px;
+}
+.screen-per-page {
+	width: 4em;
+}
+
+#posts-filter .wp-filter {
+	margin-bottom: 0;
+}
+
+#posts-filter fieldset {
+	float: left;
+	margin: 0 1.5ex 1em 0;
+	padding: 0;
+}
+
+#posts-filter fieldset legend {
+	padding: 0 0 .2em 1px;
+}
+
+p.pagenav {
+	margin: 0;
+	display: inline;
+}
+
+.pagenav span {
+	font-weight: 600;
+	margin: 0 6px;
+}
+
+.row-title {
+	font-size: 14px !important;
+	font-weight: 600;
+}
+
+.column-comment .comment-author {
+	margin-bottom: 0.6em;
+}
+
+.column-author img,
+.column-username img,
+.column-comment .comment-author img {
+	float: left;
+	margin-right: 10px;
+	margin-top: 1px;
+}
+
+.row-actions {
+	color: #a7aaad;
+	font-size: 13px;
+	padding: 2px 0 0;
+	position: relative;
+	left: -9999em;
+}
+
+/* ticket #34150 */
+.rtl .row-actions a {
+	display: inline-block;
+}
+
+.row-actions .network_only,
+.row-actions .network_active {
+	color: #000;
+}
+
+.no-js .row-actions,
+tr:hover .row-actions,
+.mobile .row-actions,
+.row-actions.visible,
+.comment-item:hover .row-actions {
+	position: static;
+}
+
+/* deprecated */
+.row-actions-visible {
+	padding: 2px 0 0;
+}
+
+
+/*------------------------------------------------------------------------------
+  10.1 - Inline Editing
+------------------------------------------------------------------------------*/
+
+/*
+.quick-edit* is for Quick Edit
+.bulk-edit* is for Bulk Edit
+.inline-edit* is for everything
+*/
+
+/*	Layout */
+
+#wpbody-content .inline-edit-row fieldset {
+	float: left;
+	margin: 0;
+	padding: 0 12px 0 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#wpbody-content .inline-edit-row td fieldset:last-of-type {
+	padding-right: 0;
+}
+
+tr.inline-edit-row td {
+	padding: 0;
+	/* Prevents the focus style on .inline-edit-wrapper from being cut-off */
+	position: relative;
+}
+
+.inline-edit-wrapper {
+	display: flow-root;
+	padding: 0 12px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.inline-edit-wrapper:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+#wpbody-content .quick-edit-row-post .inline-edit-col-left {
+	width: 40%;
+}
+
+#wpbody-content .quick-edit-row-post .inline-edit-col-right {
+	width: 39%;
+}
+
+#wpbody-content .inline-edit-row-post .inline-edit-col-center {
+	width: 20%;
+}
+
+#wpbody-content .quick-edit-row-page .inline-edit-col-left {
+	width: 50%;
+}
+
+#wpbody-content .quick-edit-row-page .inline-edit-col-right,
+#wpbody-content .bulk-edit-row-post .inline-edit-col-right {
+	width: 50%;
+}
+
+#wpbody-content .bulk-edit-row .inline-edit-col-left {
+	width: 30%;
+}
+
+#wpbody-content .bulk-edit-row-page .inline-edit-col-right {
+	width: 69%;
+}
+
+#wpbody-content .bulk-edit-row .inline-edit-col-bottom {
+	float: right;
+	width: 69%;
+}
+
+#wpbody-content .inline-edit-row-page .inline-edit-col-right {
+	margin-top: 27px;
+}
+
+.inline-edit-row fieldset .inline-edit-group {
+	clear: both;
+	line-height: 2.5;
+}
+
+.inline-edit-row .submit {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	clear: both;
+	margin: 0;
+	padding: 0.5em 0 1em;
+}
+
+.inline-edit-save.submit .button {
+	margin-right: 8px;
+}
+
+.inline-edit-save .spinner {
+	float: none;
+	margin: 0;
+}
+
+.inline-edit-row .notice-error {
+	box-sizing: border-box;
+	min-width: 100%;
+	margin-top: 1em;
+}
+
+.inline-edit-row .notice-error .error {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
+/*	Positioning */
+
+/* Needs higher specificity for the padding */
+#the-list .inline-edit-row .inline-edit-legend {
+	margin: 0;
+	padding: 0.2em 0;
+	line-height: 2.5;
+	font-weight: 600;
+}
+
+.inline-edit-row fieldset span.title,
+.inline-edit-row fieldset span.checkbox-title {
+	margin: 0;
+	padding: 0;
+}
+
+.inline-edit-row fieldset label,
+.inline-edit-row fieldset span.inline-edit-categories-label {
+	display: block;
+	margin: .2em 0;
+	line-height: 2.5;
+}
+
+.inline-edit-row fieldset.inline-edit-date label {
+	display: inline-block;
+	margin: 0;
+	vertical-align: baseline;
+	line-height: 2;
+}
+
+.inline-edit-row fieldset label.inline-edit-tags {
+	margin-top: 0;
+}
+
+.inline-edit-row fieldset label.inline-edit-tags span.title {
+	margin: .2em 0;
+	width: auto;
+}
+
+.inline-edit-row fieldset label span.title,
+.inline-edit-row fieldset.inline-edit-date legend {
+	display: block;
+	float: left;
+	width: 6em;
+	line-height: 2.5;
+}
+
+#posts-filter fieldset.inline-edit-date legend {
+	padding: 0;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap,
+.inline-edit-row fieldset .timestamp-wrap {
+	display: block;
+	margin-left: 6em;
+}
+
+.quick-edit-row-post fieldset.inline-edit-col-right label span.title {
+	width: auto;
+	padding-right: 0.5em;
+}
+
+.inline-edit-row .inline-edit-or {
+	margin: .2em 6px .2em 0;
+	line-height: 2.5;
+}
+
+.inline-edit-row .input-text-wrap input[type=text] {
+	width: 100%;
+}
+
+.inline-edit-row fieldset label input[type=checkbox] {
+	vertical-align: middle;
+}
+
+.inline-edit-row fieldset label textarea {
+	width: 100%;
+	height: 4em;
+	vertical-align: top;
+}
+
+#wpbody-content .bulk-edit-row fieldset .inline-edit-group label {
+	max-width: 50%;
+}
+
+#wpbody-content .quick-edit-row fieldset .inline-edit-group label.alignleft:first-child {
+	margin-right: 0.5em
+}
+
+.inline-edit-col-right .input-text-wrap input.inline-edit-menu-order-input {
+	width: 6em;
+}
+
+/*	Styling */
+.inline-edit-row .inline-edit-legend {
+	text-transform: uppercase;
+}
+
+/*	Specific Elements */
+.inline-edit-row fieldset .inline-edit-date {
+	float: left;
+}
+
+.inline-edit-row fieldset input[name=jj],
+.inline-edit-row fieldset input[name=hh],
+.inline-edit-row fieldset input[name=mn],
+.inline-edit-row fieldset input[name=aa] {
+	vertical-align: middle;
+	text-align: center;
+	padding: 0 4px;
+}
+
+.inline-edit-row fieldset label input.inline-edit-password-input {
+	width: 8em;
+}
+
+#bulk-titles-list,
+#bulk-titles-list li,
+.inline-edit-row fieldset ul.cat-checklist li,
+.inline-edit-row fieldset ul.cat-checklist input {
+	margin: 0;
+	position: relative; /* RTL fix, #WP27629 */
+}
+
+.inline-edit-row fieldset ul.cat-checklist input {
+	margin-top: -1px;
+	margin-left: 3px;
+}
+
+.inline-edit-row fieldset label input.inline-edit-menu-order-input {
+	width: 3em;
+}
+
+.inline-edit-row fieldset label input.inline-edit-slug-input {
+	width: 75%;
+}
+
+.inline-edit-row select[name="post_parent"],
+.inline-edit-row select[name="page_template"] {
+	max-width: 80%;
+}
+
+.quick-edit-row-post fieldset label.inline-edit-status {
+	float: left;
+}
+
+#bulk-titles,
+ul.cat-checklist {
+	height: 14em;
+	border: 1px solid #ddd;
+	margin: 0 0 5px;
+	padding: 0.2em 5px;
+	overflow-y: scroll;
+}
+
+ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
+	content: '';
+	border-top: 2px solid grey;
+	width: 65%;
+	height: 2px;
+	position: absolute;
+	top: calc( 50% + 1px );
+	left: 50%;
+	transform: translate( -50%, -50% );
+}
+
+#bulk-titles .ntdelbutton,
+#bulk-titles .ntdeltitle,
+.inline-edit-row fieldset ul.cat-checklist label {
+	display: inline-block;
+	margin: 0;
+	padding: 3px 0;
+	line-height: 20px;
+	vertical-align: top;
+}
+
+#bulk-titles .ntdelitem {
+	padding-left: 23px;
+}
+
+#bulk-titles .ntdelbutton {
+	width: 26px;
+	height: 26px;
+	margin: 0 0 0 -26px;
+	text-align: center;
+	border-radius: 3px;
+}
+
+#bulk-titles .ntdelbutton:before {
+	display: inline-block;
+	vertical-align: top;
+}
+
+#bulk-titles .ntdelbutton:focus {
+	box-shadow: 0 0 0 2px #3582c4;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	/* Reset inherited offset from Gutenberg */
+	outline-offset: 0;
+}
+
+/*------------------------------------------------------------------------------
+  17.0 - Plugins
+------------------------------------------------------------------------------*/
+
+.plugins tbody th.check-column,
+.plugins tbody {
+	padding: 8px 0 0 2px;
+}
+
+.plugins tbody th.check-column input[type=checkbox] {
+	margin-top: 4px;
+}
+
+.updates-table .plugin-title p {
+	margin-top: 0;
+}
+
+.plugins thead td.check-column,
+.plugins tfoot td.check-column,
+.plugins .inactive th.check-column {
+	padding-left: 6px;
+}
+
+.plugins,
+.plugins th,
+.plugins td {
+	color: #000;
+}
+
+.plugins tr {
+	background: #fff;
+}
+
+.plugins p {
+	margin: 0 4px;
+	padding: 0;
+}
+
+.plugins .desc p {
+	margin: 0 0 8px;
+}
+
+.plugins td.desc {
+	line-height: 1.5;
+}
+
+.plugins .desc ul,
+.plugins .desc ol {
+	margin: 0 0 0 2em;
+}
+
+.plugins .desc ul {
+	list-style-type: disc;
+}
+
+.plugins .row-actions {
+	font-size: 13px;
+	padding: 0;
+}
+
+.plugins .inactive td,
+.plugins .inactive th,
+.plugins .active td,
+.plugins .active th {
+	padding: 10px 9px;
+}
+
+.plugins .active td,
+.plugins .active th {
+	background-color: #f0f6fc;
+}
+
+.plugins .update th,
+.plugins .update td {
+	border-bottom: 0;
+}
+
+.plugins .inactive td,
+.plugins .inactive th,
+.plugins .active td,
+.plugins .active th,
+.plugin-install #the-list td,
+.upgrade .plugins td,
+.upgrade .plugins th {
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.plugins tr.active.plugin-update-tr + tr.inactive th,
+.plugins tr.active.plugin-update-tr + tr.inactive td,
+.plugins tr.active + tr.inactive th,
+.plugins tr.active + tr.inactive td {
+	border-top: 1px solid rgba(0, 0, 0, 0.03);
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02), inset 0 -1px 0 #dcdcde;
+}
+
+.plugins .update td,
+.plugins .update th,
+.upgrade .plugins tr:last-of-type td,
+.upgrade .plugins tr:last-of-type th,
+.plugins tr.active + tr.inactive.update th,
+.plugins tr.active + tr.inactive.update td,
+.plugins .updated td,
+.plugins .updated th,
+.plugins tr.active + tr.inactive.updated th,
+.plugins tr.active + tr.inactive.updated td {
+	box-shadow: none;
+}
+
+.plugins .active th.check-column,
+.plugin-update-tr.active td {
+	border-left: 4px solid #72aee6;
+}
+
+.wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins .theme-title {
+	padding-right: 12px;
+	white-space: nowrap;
+}
+
+
+.plugins .plugin-title .dashicons,
+.plugins .plugin-title img.plugin-icon,
+.plugins .plugin-title img.updates-table-screenshot {
+	float: left;
+	padding: 0 10px 0 0;
+	width: 64px;
+	height: 64px;
+}
+
+.plugins .plugin-title .dashicons:before {
+	padding: 2px;
+	background-color: #f0f0f1;
+	box-shadow: inset 0 0 10px rgba(167, 170, 173, 0.15);
+	font-size: 60px;
+	color: #c3c4c7;
+}
+
+#update-themes-table .plugin-title img.updates-table-screenshot,
+#update-themes-table .plugin-title .dashicons {
+	width: 85px;
+}
+
+.plugins .column-auto-updates {
+	width: 14.2em;
+}
+
+.plugins .inactive .plugin-title strong {
+	font-weight: 400;
+}
+
+.plugins .second,
+.plugins .row-actions {
+	padding: 0 0 5px;
+}
+
+.plugins .row-actions {
+	white-space: normal;
+	min-width: 12em;
+}
+
+.plugins .update .second,
+.plugins .update .row-actions,
+.plugins .updated .second,
+.plugins .updated .row-actions {
+	padding-bottom: 0;
+}
+
+.plugins-php .widefat tfoot th,
+.plugins-php .widefat tfoot td {
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.plugins .plugin-update-tr .plugin-update {
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	overflow: hidden; /* clearfix */
+	padding: 0;
+}
+
+.plugins .plugin-update-tr .notice,
+.plugins .plugin-update-tr div[class="update-message"] { /* back-compat for pre-4.6 */
+	margin: 5px 20px 15px 40px;
+}
+
+.plugins .notice p {
+	margin: 0.5em 0;
+}
+
+.plugins .plugin-description a,
+.plugins .plugin-update a,
+.updates-table .plugin-title a {
+	text-decoration: underline;
+}
+
+.plugins tr.paused th.check-column {
+	border-left: 4px solid #b32d2e;
+}
+
+.plugins tr.paused th,
+.plugins tr.paused td {
+	background-color: #f6f7f7;
+}
+
+.plugins tr.paused .plugin-title,
+.plugins .paused .dashicons-warning {
+	color: #b32d2e;
+}
+
+.plugins .paused .error-display p,
+.plugins .paused .error-display code {
+	font-size: 90%;
+	color: rgba(0, 0, 0, 0.7);
+}
+
+.plugins .resume-link {
+	color: #b32d2e;
+}
+
+.plugin-card .update-now:before {
+	color: #d63638;
+	content: "\f463";
+	content: "\f463" / '';
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	margin: -3px 5px 0 -2px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align: middle;
+}
+
+.plugin-card .updating-message:before {
+	content: "\f463";
+	content: "\f463" / '';
+	animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(359deg);
+	}
+}
+
+.plugin-card .updated-message:before {
+	color: #68de7c;
+	content: "\f147";
+	content: "\f147" / '';
+}
+
+.plugin-install-php #the-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.plugin-install-php .plugin-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.plugin-install-php h2 {
+	clear: both;
+}
+
+.plugin-install-php h3 {
+	margin: 2.5em 0 8px;
+}
+
+.plugin-install-php .wp-filter {
+	margin-bottom: 0;
+}
+
+/* Plugin card table view */
+.plugin-group {
+	overflow: hidden; /* clearfix */
+	margin-top: 1.5em;
+}
+
+.plugin-group h3 {
+	margin-top: 0;
+}
+
+.plugin-card {
+	float: left;
+	margin: 0 8px 16px;
+	width: 48.5%;
+	width: calc( 50% - 8px );
+	background-color: #fff;
+	border: 1px solid #dcdcde;
+	box-sizing: border-box;
+}
+
+.plugin-card:nth-child(odd) {
+	clear: both;
+	margin-left: 0;
+}
+
+.plugin-card:nth-child(even) {
+	margin-right: 0;
+}
+
+@media screen and (min-width: 1600px) and ( max-width: 2299px ) {
+	.plugin-card {
+		width: 30%;
+		width: calc( 33.1% - 8px );
+	}
+
+	.plugin-card:nth-child(odd) {
+		clear: none;
+		margin-left: 8px;
+	}
+
+	.plugin-card:nth-child(even) {
+		margin-right: 8px;
+	}
+
+	.plugin-card:nth-child(3n+1) {
+		clear: both;
+		margin-left: 0;
+	}
+
+	.plugin-card:nth-child(3n) {
+		margin-right: 0;
+	}
+}
+
+@media screen and (min-width: 2300px) {
+	.plugin-card {
+		width: 25%;
+		width: calc( 25% - 12px );
+	}
+
+	.plugin-card:nth-child(odd) {
+		clear: none;
+		margin-left: 8px;
+	}
+
+	.plugin-card:nth-child(even) {
+		margin-right: 8px;
+	}
+
+	.plugin-card:nth-child(4n+1) {
+		clear: both;
+		margin-left: 0;
+	}
+
+	.plugin-card:nth-child(4n) {
+		margin-right: 0;
+	}
+}
+
+.plugin-card-top {
+	position: relative;
+	padding: 20px 20px 10px;
+	min-height: 135px;
+}
+
+div.action-links,
+.plugin-action-buttons {
+	margin: 0; /* Override existing margins */
+}
+
+.plugin-card h3 {
+	margin: 0 12px 12px 0;
+	font-size: 18px;
+	line-height: 1.3;
+}
+
+.plugin-card .desc {
+	margin-inline: 0;
+}
+
+.plugin-card .name, .plugin-card .desc > p {
+	margin-left: 148px;
+}
+
+@media (min-width: 1101px) {
+	.plugin-card .name, .plugin-card .desc > p {
+		margin-right: 128px;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 781px) {
+	.plugin-card .name, .plugin-card .desc > p {
+		margin-right: 128px;
+	}
+}
+
+.plugin-card .column-description {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.plugin-card .column-description > p {
+	margin-top: 0;
+}
+
+.plugin-card .column-description p:empty {
+	display: none;
+}
+
+.plugin-card .notice.plugin-dependencies {
+	margin: auto 20px 20px;
+	padding: 15px;
+}
+
+.plugin-card .plugin-dependencies-explainer-text {
+	margin-block: 0;
+}
+
+.plugin-card .plugin-dependency {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: .5em;
+	column-gap: 1%;
+	row-gap: .5em;
+}
+
+.plugin-card .plugin-dependency:nth-child(2),
+.plugin-card .plugin-dependency:last-child {
+	margin-top: 1em;
+}
+
+.plugin-card .plugin-dependency-name {
+	flex-basis: 74%;
+}
+
+.plugin-card .plugin-dependency .more-details-link {
+	margin-left: auto;
+}
+
+.rtl .plugin-card .plugin-dependency .more-details-link {
+	margin-right: auto;
+}
+
+@media (max-width: 939px) {
+	.plugin-card .plugin-dependency-name {
+		flex-basis: 69%;
+	}
+}
+
+.plugins #the-list .required-by,
+.plugins #the-list .requires {
+	margin-top: 1em;
+}
+
+.plugin-card .action-links {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 120px;
+}
+
+.plugin-action-buttons {
+	clear: right;
+	float: right;
+	margin-bottom: 1em;
+	text-align: right;
+}
+
+.plugin-action-buttons li {
+	margin-bottom: 10px;
+}
+
+.plugin-card-bottom {
+	clear: both;
+	padding: 12px 20px;
+	background-color: #f6f7f7;
+	border-top: 1px solid #dcdcde;
+	overflow: hidden;
+}
+
+.plugin-card-bottom .star-rating {
+	display: inline;
+}
+
+.plugin-card-update-failed .update-now {
+	font-weight: 600;
+}
+
+.plugin-card-update-failed .notice-error {
+	margin: 0;
+	padding-left: 16px;
+	box-shadow: 0 -1px 0 #dcdcde;
+}
+
+.plugin-card-update-failed .plugin-card-bottom {
+	display: none;
+}
+
+.plugin-card .column-rating {
+	line-height: 1.76923076;
+}
+
+.plugin-card .column-rating,
+.plugin-card .column-updated {
+	margin-bottom: 4px;
+}
+
+.plugin-card .column-rating,
+.plugin-card .column-downloaded {
+	float: left;
+	clear: left;
+	max-width: 180px;
+}
+
+.plugin-card .column-updated,
+.plugin-card .column-compatibility {
+	text-align: right;
+	float: right;
+	clear: right;
+	width: 65%;
+	width: calc( 100% - 180px );
+}
+
+.plugin-card .column-compatibility span:before {
+	font: normal 20px/.5 dashicons;
+	display: inline-block;
+	padding: 0;
+	top: 4px;
+	left: -2px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #3c434a;
+}
+
+.plugin-card .column-compatibility .compatibility-incompatible:before {
+	content: "\f158";
+	content: "\f158" / '';
+	color: #d63638;
+}
+
+.plugin-card .column-compatibility .compatibility-compatible:before {
+	content: "\f147";
+	content: "\f147" / '';
+	color: #007017;
+}
+
+.plugin-card .notice {
+	margin: 20px 20px 0;
+}
+
+.plugin-card .plugin-icon {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 128px;
+	height: 128px;
+	margin: 0 20px 20px 0;
+}
+
+.no-plugin-results {
+	color: #646970; /* same as no themes and no media */
+	font-size: 18px;
+	font-style: normal;
+	margin: 0;
+	padding: 100px 0 0;
+	width: 100%;
+	text-align: center;
+}
+
+/* ms */
+/* Background Color for Site Status */
+.wp-list-table .site-deleted,
+.wp-list-table tr.site-deleted,
+.wp-list-table .site-archived,
+.wp-list-table tr.site-archived {
+	background: #fcf0f1;
+}
+.wp-list-table .site-spammed,
+.wp-list-table tr.site-spammed,
+.wp-list-table .site-mature,
+.wp-list-table tr.site-mature {
+	background: #fcf9e8;
+}
+
+.sites.fixed .column-lastupdated,
+.sites.fixed .column-registered {
+	width: 20%;
+}
+
+.sites.fixed .column-users {
+	width: 80px;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+@media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
+	.plugin-card .action-links {
+		position: static;
+		margin-left: 148px;
+		width: auto;
+	}
+
+	.plugin-action-buttons {
+		float: none;
+		margin: 1em 0 0;
+		text-align: left;
+	}
+
+	.plugin-action-buttons li {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.plugin-action-buttons li .button {
+		margin-right: 20px;
+	}
+
+	.plugin-card h3 {
+		margin-right: 24px;
+	}
+
+	.plugin-card .name,
+	.plugin-card .desc {
+		margin-right: 0;
+	}
+
+	.plugin-card .desc p:first-of-type {
+		margin-top: 0;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	/* WP List Table Options & Filters */
+	.tablenav {
+		height: auto;
+	}
+
+	.tablenav.top {
+		margin: 20px 0 5px;
+	}
+
+	.tablenav.bottom {
+		position: relative;
+		margin-top: 15px;
+	}
+
+	.tablenav br {
+		display: none;
+	}
+
+	.tablenav br.clear {
+		display: block;
+	}
+
+	.tablenav.top .actions,
+	.tablenav .view-switch {
+		display: none;
+	}
+
+	.view-switch a {
+		width: 36px;
+		height: 36px;
+		line-height: 2.53846153;
+	}
+
+	/* Pagination */
+	.tablenav.top .displaying-num {
+		display: none;
+	}
+
+	.tablenav.bottom .displaying-num {
+		position: absolute;
+		right: 0;
+		top: 11px;
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.tablenav .tablenav-pages {
+		width: 100%;
+		text-align: center;
+		margin: 0 0 25px;
+	}
+
+	.tablenav.bottom .tablenav-pages {
+		margin-top: 25px;
+	}
+
+	.tablenav.top .tablenav-pages.one-page {
+		display: none;
+	}
+
+	.tablenav.bottom .actions select {
+		margin-bottom: 5px;
+	}
+
+	.tablenav.bottom .actions.alignleft + .actions.alignleft {
+		clear: left;
+		margin-top: 10px;
+	}
+
+	.tablenav.bottom .tablenav-pages.one-page {
+		margin-top: 15px;
+		height: 0;
+	}
+
+	.tablenav-pages .pagination-links {
+		font-size: 16px;
+	}
+
+	.tablenav .tablenav-pages .button,
+	.tablenav .tablenav-pages .tablenav-pages-navspan {
+		min-width: 44px;
+		padding: 12px 8px;
+		font-size: 18px;
+		line-height: 1;
+	}
+
+	.tablenav-pages .pagination-links .current-page {
+		min-width: 44px;
+		padding: 12px 6px;
+		font-size: 16px;
+		line-height: 1.125;
+	}
+
+	/* WP List Table Adjustments: General */
+	.form-wrap > p {
+		display: none;
+	}
+
+	.wp-list-table th.column-primary ~ th,
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column) {
+		display: none;
+	}
+
+	.wp-list-table thead th.column-primary {
+		width: 100%;
+	}
+
+	/* Checkboxes need to show */
+	.wp-list-table tr th.check-column {
+		display: table-cell;
+	}
+
+	.wp-list-table .check-column {
+		width: 2.5em;
+	}
+
+	.wp-list-table .column-primary .toggle-row {
+		display: block;
+	}
+
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {
+		position: relative;
+		clear: both;
+		width: auto !important; /* needs to override some columns that are more specifically targeted */
+	}
+
+	.wp-list-table td.column-primary {
+		padding-right: 50px; /* space for toggle button */
+	}
+
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column) {
+		padding: 3px 8px 3px 35%;
+	}
+
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary)::before {
+		position: absolute;
+		left: 10px; /* match padding of regular table cell */
+		display: block;
+		overflow: hidden;
+		width: 32%; /* leave a little space for a gutter */
+		content: attr(data-colname);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.wp-list-table .is-expanded td:not(.hidden) {
+		display: block !important;
+		overflow: hidden; /* clearfix */
+	}
+
+	/* Special cases */
+	.widefat .num,
+	.column-posts {
+		text-align: left;
+	}
+
+	#comments-form .fixed .column-author,
+	#commentsdiv .fixed .column-author {
+		display: none !important;
+	}
+
+	.fixed .column-comment .comment-author {
+		display: block;
+	}
+
+	/* Comment author hidden via Screen Options */
+	.fixed .column-author.hidden ~ .column-comment .comment-author {
+		display: none;
+	}
+
+	#the-comment-list .is-expanded td {
+		box-shadow: none;
+	}
+
+	#the-comment-list .is-expanded td:last-child {
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	}
+
+	/* Show comment bubble as text instead */
+	.post-com-count .screen-reader-text {
+		position: static;
+		clip-path: none;
+		width: auto;
+		height: auto;
+		margin: 0;
+	}
+
+	.column-response .post-com-count-no-comments:after,
+	.column-response .post-com-count-approved:after,
+	.column-comments .post-com-count-no-comments:after,
+	.column-comments .post-com-count-approved:after {
+		content: none;
+	}
+
+	.column-response .post-com-count [aria-hidden="true"],
+	.column-comments .post-com-count [aria-hidden="true"] {
+		display: none;
+	}
+
+	.column-response .post-com-count-wrapper,
+	.column-comments .post-com-count-wrapper {
+		white-space: normal;
+	}
+
+	.column-response .post-com-count-wrapper > a,
+	.column-comments .post-com-count-wrapper > a {
+		display: block;
+	}
+
+	.column-response .post-com-count-no-comments,
+	.column-response .post-com-count-approved,
+	.column-comments .post-com-count-no-comments,
+	.column-comments .post-com-count-approved {
+		margin-top: 0;
+		margin-right: 0.5em;
+	}
+
+	.column-response .post-com-count-pending,
+	.column-comments .post-com-count-pending {
+		position: static;
+		height: auto;
+		min-width: 0;
+		padding: 0;
+		border: none;
+		border-radius: 0;
+		background: none;
+		color: #b32d2e;
+		font-size: inherit;
+		line-height: inherit;
+		text-align: left;
+	}
+
+	.column-response .post-com-count-pending:hover,
+	.column-comments .post-com-count-pending:hover {
+		color: #d63638;
+	}
+
+	.widefat thead td.check-column,
+	.widefat tfoot td.check-column {
+		padding-top: 10px;
+	}
+
+	.row-actions {
+		margin-right: -8px;
+		padding-top: 4px;
+	}
+
+	/* Make row actions more easy to select on mobile */
+	body:not(.plugins-php) .row-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		color: transparent;
+	}
+
+	.row-actions span {
+		font-size: 0;
+	}
+
+	.row-actions span a,
+	.row-actions span .button-link {
+		display: inline-block;
+		padding: 4px 16px 4px 0;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	.row-actions span.approve:before,
+	.row-actions span.unapprove:before {
+		content: "| ";
+	}
+
+	/* Quick Edit and Bulk Edit */
+	#wpbody-content .quick-edit-row-post .inline-edit-col-left,
+	#wpbody-content .quick-edit-row-post .inline-edit-col-right,
+	#wpbody-content .inline-edit-row-post .inline-edit-col-center,
+	#wpbody-content .quick-edit-row-page .inline-edit-col-left,
+	#wpbody-content .quick-edit-row-page .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row-post .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row .inline-edit-col-left,
+	#wpbody-content .bulk-edit-row-page .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row .inline-edit-col-bottom {
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+
+	#the-list .inline-edit-row .inline-edit-legend,
+	.inline-edit-row span.title {
+		font-size: 16px;
+	}
+
+	.inline-edit-row p.howto {
+		font-size: 14px;
+	}
+
+	#wpbody-content .inline-edit-row-page .inline-edit-col-right {
+		margin-top: 0;
+	}
+
+	#wpbody-content .quick-edit-row fieldset .inline-edit-col label,
+	#wpbody-content .quick-edit-row fieldset .inline-edit-group label,
+	#wpbody-content .bulk-edit-row fieldset .inline-edit-col label,
+	#wpbody-content .bulk-edit-row fieldset .inline-edit-group label {
+		max-width: none;
+		float: none;
+		margin-bottom: 5px;
+	}
+
+	#wpbody .bulk-edit-row fieldset select {
+		display: block;
+		width: 100%;
+		max-width: none;
+		box-sizing: border-box;
+	}
+
+	.inline-edit-row fieldset input[name=jj],
+	.inline-edit-row fieldset input[name=hh],
+	.inline-edit-row fieldset input[name=mn],
+	.inline-edit-row fieldset input[name=aa] {
+		font-size: 16px;
+		line-height: 2;
+		padding: 3px 4px;
+	}
+
+	#bulk-titles .ntdelbutton,
+	#bulk-titles .ntdeltitle,
+	.inline-edit-row fieldset ul.cat-checklist label {
+		padding: 6px 0;
+		font-size: 16px;
+		line-height: 28px;
+	}
+
+	#bulk-titles .ntdelitem {
+		padding-left: 37px;
+	}
+
+	#bulk-titles .ntdelbutton {
+		width: 40px;
+		height: 40px;
+		margin: 0 0 0 -40px;
+		overflow: hidden;
+	}
+
+	#bulk-titles .ntdelbutton:before {
+		font-size: 20px;
+		line-height: 28px;
+	}
+
+	.inline-edit-row fieldset label span.title,
+	.inline-edit-row fieldset.inline-edit-date legend {
+		float: none;
+	}
+
+	.inline-edit-row fieldset .inline-edit-col label.inline-edit-tags {
+		padding: 0;
+	}
+
+	.inline-edit-row fieldset label span.input-text-wrap,
+	.inline-edit-row fieldset .timestamp-wrap {
+		margin-left: 0;
+	}
+
+	.inline-edit-row .inline-edit-or {
+		margin: 0 6px 0 0;
+	}
+
+	#edithead .inside,
+	#commentsdiv #edithead .inside {
+		float: none;
+		text-align: left;
+		padding: 3px 5px;
+	}
+
+	#commentsdiv #edithead .inside input,
+	#edithead .inside input {
+		width: 100%;
+	}
+
+	#edithead label {
+		display: block;
+	}
+
+	/* Updates */
+	#wpbody-content .updates-table .plugin-title {
+		width: auto;
+		white-space: normal;
+	}
+
+	/* Links */
+	.link-manager-php #posts-filter {
+		margin-top: 25px;
+	}
+
+	.link-manager-php .tablenav.bottom {
+		overflow: hidden;
+	}
+
+	/* List tables that don't toggle rows */
+	.comments-box .toggle-row,
+	.wp-list-table.plugins .toggle-row {
+		display: none;
+	}
+
+	/* Plugin/Theme Management */
+	#wpbody-content .wp-list-table.plugins td {
+		display: block;
+		width: auto;
+		padding: 10px 9px; /* reset from other list tables that have a label at this width */
+	}
+
+	#wpbody-content .wp-list-table.plugins .plugin-deleted-tr td,
+	#wpbody-content .wp-list-table.plugins .no-items td {
+		display: table-cell;
+	}
+
+	/* Plugin description hidden via Screen Options */
+	#wpbody-content .wp-list-table.plugins .desc.hidden {
+		display: none;
+	}
+
+	#wpbody-content .wp-list-table.plugins .column-description {
+		padding-top: 2px;
+	}
+
+	#wpbody-content .wp-list-table.plugins .plugin-title,
+	#wpbody-content .wp-list-table.plugins .theme-title {
+		padding-right: 12px;
+		white-space: normal;
+	}
+
+	.wp-list-table.plugins .plugin-title,
+	.wp-list-table.plugins .theme-title {
+		padding-top: 13px;
+		padding-bottom: 4px;
+	}
+
+	.plugins #the-list tr > td:not(:last-child),
+	.plugins #the-list .update th,
+	.plugins #the-list .update td,
+	.wp-list-table.plugins #the-list .theme-title {
+		box-shadow: none;
+		border-top: none;
+	}
+
+	.plugins #the-list tr td {
+		border-top: none;
+	}
+
+	.plugins tbody {
+		padding: 1px 0 0;
+	}
+
+	.plugins tr.active + tr.inactive th.check-column,
+	.plugins tr.active + tr.inactive td.column-description,
+	.plugins .plugin-update-tr:before {
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	}
+
+	.plugins tr.active + tr.inactive th.check-column,
+	.plugins tr.active + tr.inactive td {
+		border-top: none;
+	}
+
+	/* mimic the checkbox th */
+	.plugins .plugin-update-tr:before {
+		content: "";
+		display: table-cell;
+	}
+
+	.plugins #the-list .plugin-update-tr .plugin-update {
+		border-left: none;
+	}
+
+	.plugin-update-tr .update-message {
+		margin-left: 0;
+	}
+
+	.plugins .active.update + .plugin-update-tr:before,
+	.plugins .active.updated + .plugin-update-tr:before {
+		background-color: #f0f6fc;
+		border-left: 4px solid #72aee6;
+	}
+
+	.plugins .plugin-update-tr .update-message {
+		margin-left: 0;
+	}
+
+	.wp-list-table.plugins .plugin-title strong,
+	.wp-list-table.plugins .theme-title strong {
+		font-size: 1.4em;
+		line-height: 1.5;
+	}
+
+	.plugins tbody th.check-column {
+		padding: 8px 0 0 5px;
+	}
+
+	.plugins thead td.check-column,
+	.plugins tfoot td.check-column,
+	.plugins .inactive th.check-column {
+		padding-left: 9px;
+	}
+
+	/* Add New plugins page */
+	table.plugin-install .column-name,
+	table.plugin-install .column-version,
+	table.plugin-install .column-rating,
+	table.plugin-install .column-description {
+		display: block;
+		width: auto;
+	}
+
+	table.plugin-install th.column-name,
+	table.plugin-install th.column-version,
+	table.plugin-install th.column-rating,
+	table.plugin-install th.column-description {
+		display: none;
+	}
+
+	table.plugin-install td.column-name strong {
+		font-size: 1.4em;
+		line-height: 1.6em;
+	}
+
+	table.plugin-install #the-list td {
+		box-shadow: none;
+	}
+
+	table.plugin-install #the-list tr {
+		display: block;
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	}
+
+	.plugin-card {
+		margin-left: 0;
+		margin-right: 0;
+		width: 100%;
+	}
+
+	table.media .column-title .has-media-icon ~ .row-actions {
+		margin-left: 0;
+		clear: both;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.tablenav-pages .current-page {
+		margin: 0;
+	}
+
+	.tablenav.bottom .displaying-num {
+		position: relative;
+		top: 0;
+		display: block;
+		text-align: right;
+		padding-bottom: 0.5em;
+	}
+
+	.tablenav.bottom .tablenav-pages.one-page {
+		height: auto;
+	}
+
+	.tablenav-pages .tablenav-paging-text {
+		float: left;
+		width: 100%;
+		padding-top: 0.5em;
+	}
+}

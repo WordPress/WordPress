@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"title": "Subtitle",
+	"slug": "text-subtitle",
+	"blockTypes": ["core/heading", "core/paragraph"],
+	"styles": {
+		"typography": {
+			"fontSize": "clamp(1.5rem, 1.5rem + ((1vw - 0.2rem) * 0.392), 1.75rem)",
+			"lineHeight": "1.2"
+		}
+	}
+}

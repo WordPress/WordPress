@@ -1,0 +1,100 @@
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block[data-align=center] > .wp-block-video {
+  text-align: center;
+}
+
+.wp-block-video {
+  position: relative;
+}
+.wp-block-video.is-transient video {
+  opacity: 0.3;
+}
+.wp-block-video .components-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -9px;
+}
+
+.block-library-video-tracks-editor {
+  z-index: 159990;
+}
+
+.block-library-video-tracks-editor__track-list-track {
+  padding-left: 12px;
+}
+
+.block-library-video-tracks-editor__single-track-editor-kind-select {
+  max-width: 240px;
+}
+
+.block-library-video-tracks-editor__tracks-informative-message-title,
+.block-library-video-tracks-editor__single-track-editor-edit-track-label {
+  margin-top: 4px;
+  color: #757575;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 499;
+  display: block;
+}
+
+.block-library-video-tracks-editor > .components-popover__content {
+  width: 360px;
+}
+
+.block-library-video-tracks-editor__track-list .components-menu-group__label,
+.block-library-video-tracks-editor__add-tracks-container .components-menu-group__label {
+  padding: 0;
+}
+
+.block-library-video-tracks-editor__tracks-informative-message {
+  padding: 8px;
+}
+.block-library-video-tracks-editor__tracks-informative-message-description {
+  margin-bottom: 0;
+}

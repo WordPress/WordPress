@@ -1,0 +1,16 @@
+$highlight-color: #096484;
+
+@use "../_admin.scss" with (
+	$scheme-name: "blue",
+	$base-color: #52accc,
+	$icon-color: #e5f8ff,
+	$highlight-color: $highlight-color,
+	$notification-color: #e1a948,
+	$button-color: #e1a948,
+
+	$menu-submenu-text: #e2ecf1,
+	$menu-submenu-focus-text: #fff,
+	$menu-submenu-background: #4796b3,
+
+	$dashboard-icon-background: $highlight-color
+);

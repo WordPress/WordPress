@@ -1,0 +1,19 @@
+.editor-styles-wrapper,
+.entry-content {
+  counter-reset: footnotes;
+}
+
+a[data-fn].fn {
+  vertical-align: super;
+  font-size: smaller;
+  counter-increment: footnotes;
+  display: inline-flex;
+  text-decoration: none;
+  text-indent: -9999999px;
+}
+
+a[data-fn].fn::after {
+  content: "[" counter(footnotes) "]";
+  text-indent: 0;
+  float: right;
+}

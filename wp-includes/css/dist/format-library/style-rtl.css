@@ -1,0 +1,85 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.block-editor-format-toolbar__image-popover {
+  z-index: 159990;
+}
+.block-editor-format-toolbar__image-popover .block-editor-format-toolbar__image-container-content {
+  width: 260px;
+  padding: 16px;
+}
+
+.block-editor-format-toolbar__link-container-content {
+  display: flex;
+  align-items: center;
+}
+
+.block-editor-format-toolbar__link-container-value {
+  margin: 7px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 150px;
+  max-width: 500px;
+}
+.block-editor-format-toolbar__link-container-value.has-invalid-link {
+  color: #cc1818;
+}
+
+.format-library__inline-color-popover [role=tabpanel] {
+  padding: 16px;
+  width: 260px;
+}
+
+.block-editor-format-toolbar__language-popover .components-popover__content {
+  width: auto;
+  padding: 1rem;
+}
+
+.block-editor-format-toolbar__math-input {
+  direction: ltr;
+}

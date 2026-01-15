@@ -1,0 +1,65 @@
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-navigation .wp-block-navigation-item__label {
+  overflow-wrap: break-word;
+}
+.wp-block-navigation .wp-block-navigation-item__description {
+  display: none;
+}
+
+.link-ui-tools {
+  outline: 1px solid #f0f0f0;
+  padding: 8px;
+}
+
+.link-ui-block-inserter {
+  padding-top: 8px;
+}
+
+.link-ui-block-inserter__back {
+  margin-right: 8px;
+  text-transform: uppercase;
+}

@@ -1,0 +1,19 @@
+:where(.wp-block-post-excerpt) {
+  box-sizing: border-box;
+  margin-top: var(--wp--style--block-gap);
+  margin-bottom: var(--wp--style--block-gap);
+}
+
+.wp-block-post-excerpt__excerpt {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.wp-block-post-excerpt__more-text {
+  margin-top: var(--wp--style--block-gap);
+  margin-bottom: 0;
+}
+
+.wp-block-post-excerpt__more-link {
+  display: inline-block;
+}

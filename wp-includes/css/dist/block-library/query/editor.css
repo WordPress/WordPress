@@ -1,0 +1,144 @@
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * Colors
+ */
+/**
+ * Typography
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.block-library-query-pattern__selection-modal .block-editor-block-patterns-list {
+  column-count: 2;
+  column-gap: 24px;
+}
+@media (min-width: 1280px) {
+  .block-library-query-pattern__selection-modal .block-editor-block-patterns-list {
+    column-count: 3;
+  }
+}
+.block-library-query-pattern__selection-modal .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item {
+  break-inside: avoid-column;
+}
+.block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+  transform: translateY(-4px);
+  margin-bottom: -4px;
+  z-index: 2;
+}
+
+@media (min-width: 600px) {
+  .wp-block-query__enhanced-pagination-modal {
+    max-width: 480px;
+  }
+}
+
+.block-editor-block-settings-menu__popover.is-expanded {
+  overflow-y: scroll;
+}
+.block-editor-block-settings-menu__popover .block-library-query-pattern__selection-content {
+  height: 100%;
+}
+.block-editor-block-settings-menu__popover .block-editor-block-patterns-list {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 600px) {
+  .block-editor-block-settings-menu__popover .block-editor-block-patterns-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.block-editor-block-settings-menu__popover .block-editor-block-patterns-list {
+  grid-gap: 12px;
+  min-width: 280px;
+}
+@media (min-width: 600px) {
+  .block-editor-block-settings-menu__popover .block-editor-block-patterns-list {
+    min-width: 480px;
+  }
+}
+.block-editor-block-settings-menu__popover .block-editor-block-patterns-list__list-item {
+  margin-bottom: 0;
+}
+
+.wp-block-query > .block-editor-media-placeholder.is-small {
+  min-height: 60px;
+}

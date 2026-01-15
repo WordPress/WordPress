@@ -1,0 +1,419 @@
+/**
+ * Typography
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-image > a,
+.wp-block-image > figure > a {
+  display: inline-block;
+}
+.wp-block-image img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: bottom;
+  box-sizing: border-box;
+}
+@media not (prefers-reduced-motion) {
+  .wp-block-image img.hide {
+    visibility: hidden;
+  }
+  .wp-block-image img.show {
+    animation: show-content-image 0.4s;
+  }
+}
+.wp-block-image[style*=border-radius] > a,
+.wp-block-image[style*=border-radius] img {
+  border-radius: inherit;
+}
+.wp-block-image.has-custom-border img {
+  box-sizing: border-box;
+}
+.wp-block-image.aligncenter {
+  text-align: center;
+}
+.wp-block-image.alignfull > a, .wp-block-image.alignwide > a {
+  width: 100%;
+}
+.wp-block-image.alignfull img, .wp-block-image.alignwide img {
+  height: auto;
+  width: 100%;
+}
+.wp-block-image.alignleft, .wp-block-image.alignright, .wp-block-image.aligncenter,
+.wp-block-image .alignleft,
+.wp-block-image .alignright,
+.wp-block-image .aligncenter {
+  display: table;
+}
+.wp-block-image.alignleft > figcaption, .wp-block-image.alignright > figcaption, .wp-block-image.aligncenter > figcaption,
+.wp-block-image .alignleft > figcaption,
+.wp-block-image .alignright > figcaption,
+.wp-block-image .aligncenter > figcaption {
+  display: table-caption;
+  caption-side: bottom;
+}
+.wp-block-image .alignleft {
+  /*rtl:ignore*/
+  float: left;
+  /*rtl:ignore*/
+  margin-left: 0;
+  /*rtl:ignore*/
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.wp-block-image .alignright {
+  /*rtl:ignore*/
+  float: right;
+  /*rtl:ignore*/
+  margin-right: 0;
+  /*rtl:ignore*/
+  margin-left: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.wp-block-image .aligncenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+.wp-block-image :where(figcaption) {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+.wp-block-image.is-style-circle-mask img {
+  border-radius: 9999px;
+}
+@supports ((-webkit-mask-image: none) or (mask-image: none)) or (-webkit-mask-image: none) {
+  .wp-block-image.is-style-circle-mask img {
+    /* stylelint-disable-next-line function-url-quotes -- We need quotes for the data URL to use the SVG inline. */
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+    mask-mode: alpha;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-position: center;
+            mask-position: center;
+    border-radius: 0;
+  }
+}
+
+:root :where(.wp-block-image.is-style-rounded img, .wp-block-image .is-style-rounded img) {
+  border-radius: 9999px;
+}
+
+.wp-block-image figure {
+  margin: 0;
+}
+
+.wp-lightbox-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.wp-lightbox-container img {
+  cursor: zoom-in;
+}
+.wp-lightbox-container img:hover + button {
+  opacity: 1;
+}
+.wp-lightbox-container button {
+  opacity: 0;
+  border: none;
+  background-color: rgba(90, 90, 90, 0.25);
+  backdrop-filter: blur(16px) saturate(180%);
+  cursor: zoom-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: 100;
+  top: 16px;
+  right: 16px;
+  text-align: center;
+  padding: 0;
+  border-radius: 4px;
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-container button {
+    transition: opacity 0.2s ease;
+  }
+}
+.wp-lightbox-container button:focus-visible {
+  outline: 3px auto rgba(90, 90, 90, 0.25);
+  outline: 3px auto -webkit-focus-ring-color;
+  outline-offset: 3px;
+}
+.wp-lightbox-container button:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+.wp-lightbox-container button:focus {
+  opacity: 1;
+}
+.wp-lightbox-container button:hover, .wp-lightbox-container button:focus, .wp-lightbox-container button:not(:hover):not(:active):not(.has-background) {
+  background-color: rgba(90, 90, 90, 0.25);
+  border: none;
+}
+
+.wp-lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  visibility: hidden;
+  cursor: zoom-out;
+}
+.wp-lightbox-overlay .close-button {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 16px);
+  right: calc(env(safe-area-inset-right) + 16px);
+  padding: 0;
+  cursor: pointer;
+  z-index: 5000000;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wp-lightbox-overlay .close-button:hover, .wp-lightbox-overlay .close-button:focus, .wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background) {
+  background: none;
+  border: none;
+}
+.wp-lightbox-overlay .lightbox-image-container {
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform-origin: top left;
+  transform: translate(-50%, -50%);
+  width: var(--wp--lightbox-container-width);
+  height: var(--wp--lightbox-container-height);
+  z-index: 9999999999;
+}
+.wp-lightbox-overlay .wp-block-image {
+  position: relative;
+  transform-origin: 0 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 3000000;
+  margin: 0;
+}
+.wp-lightbox-overlay .wp-block-image img {
+  min-width: var(--wp--lightbox-image-width);
+  min-height: var(--wp--lightbox-image-height);
+  width: var(--wp--lightbox-image-width);
+  height: var(--wp--lightbox-image-height);
+}
+.wp-lightbox-overlay .wp-block-image figcaption {
+  display: none;
+}
+.wp-lightbox-overlay button {
+  border: none;
+  background: none;
+}
+.wp-lightbox-overlay .scrim {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2000000;
+  background-color: rgb(255, 255, 255);
+  opacity: 0.9;
+}
+.wp-lightbox-overlay.active {
+  visibility: visible;
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-overlay.active {
+    animation: both turn-on-visibility 0.25s;
+  }
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-overlay.active img {
+    animation: both turn-on-visibility 0.35s;
+  }
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-overlay.show-closing-animation:not(.active) {
+    animation: both turn-off-visibility 0.35s;
+  }
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-overlay.show-closing-animation:not(.active) img {
+    animation: both turn-off-visibility 0.25s;
+  }
+}
+@media not (prefers-reduced-motion) {
+  .wp-lightbox-overlay.zoom.active {
+    opacity: 1;
+    visibility: visible;
+    animation: none;
+  }
+  .wp-lightbox-overlay.zoom.active .lightbox-image-container {
+    animation: lightbox-zoom-in 0.4s;
+  }
+  .wp-lightbox-overlay.zoom.active .lightbox-image-container img {
+    animation: none;
+  }
+  .wp-lightbox-overlay.zoom.active .scrim {
+    animation: turn-on-visibility 0.4s forwards;
+  }
+  .wp-lightbox-overlay.zoom.show-closing-animation:not(.active) {
+    animation: none;
+  }
+  .wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container {
+    animation: lightbox-zoom-out 0.4s;
+  }
+  .wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container img {
+    animation: none;
+  }
+  .wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .scrim {
+    animation: turn-off-visibility 0.4s forwards;
+  }
+}
+
+@keyframes show-content-image {
+  0% {
+    visibility: hidden;
+  }
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes turn-on-visibility {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes turn-off-visibility {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  99% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes lightbox-zoom-in {
+  0% {
+    transform: translate(calc((-100vw + var(--wp--lightbox-scrollbar-width)) / 2 + var(--wp--lightbox-initial-left-position)), calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+}
+@keyframes lightbox-zoom-out {
+  0% {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+    transform: translate(calc((-100vw + var(--wp--lightbox-scrollbar-width)) / 2 + var(--wp--lightbox-initial-left-position)), calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));
+  }
+}

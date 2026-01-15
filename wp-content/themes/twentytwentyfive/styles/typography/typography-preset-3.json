@@ -1,0 +1,186 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"title": "Platypi & Ysabeau Office",
+	"slug": "typography-preset-3",
+	"settings": {
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Platypi",
+					"slug": "platypi",
+					"fontFamily": "Platypi",
+					"fontFace": [
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "normal",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-VariableFont_wght.woff2"
+							]
+						},
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "italic",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-Italic-VariableFont_wght.woff2"
+							]
+						}
+					]
+				},
+				{
+					"name": "Ysabeau Office",
+					"slug": "ysabeau-office",
+					"fontFamily": "\"Ysabeau Office\", sans-serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"fontFamily": "\"Ysabeau Office\""
+						},
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"fontFamily": "\"Ysabeau Office\""
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "0.875rem",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "1.125rem",
+						"min": "1rem"
+					},
+					"name": "Medium",
+					"size": "1rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1.125rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "1.8rem",
+						"min": "1.4rem"
+					},
+					"name": "Extra Large",
+					"size": "1.4rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"max": "2.6rem",
+						"min": "2rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var:preset|font-family|ysabeau-office",
+			"letterSpacing": "-0.22px",
+			"lineHeight": "1.5"
+		},
+		"blocks":{
+			"core/code": {
+				"typography": {
+					"letterSpacing": "0px"
+				}
+			},
+			"core/heading": {
+				"typography": {
+					"lineHeight": "1.2"
+				}
+			},
+			"core/list": {
+				"typography": {
+					"lineHeight": "1.3"
+				}
+			},
+			"core/loginout": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontWeight": "400"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|platypi",
+					"letterSpacing": "-0.01em",
+					"lineHeight": "1.1"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|ysabeau-office",
+					"fontSize": "var:preset|font-size|large",
+					"letterSpacing": "1.44px",
+					"textTransform": "uppercase"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|ysabeau-office",
+					"fontWeight": "600",
+					"letterSpacing": "1.44px",
+					"textTransform": "uppercase"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|platypi"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium",
+					"letterSpacing": "normal"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small",
+					"fontWeight": "400",
+					"fontStyle": "initial",
+					"letterSpacing": "initial",
+					"textTransform": "initial"
+				}
+			}
+		}
+	}
+}

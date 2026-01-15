@@ -1,0 +1,302 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"title": "Afternoon",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"color": "#DAE7BD",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#516028",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#C7F642",
+					"name": "Accent 1",
+					"slug": "accent-1"
+				},
+				{
+					"color": "#EBF6D3",
+					"name": "Accent 2",
+					"slug": "accent-2"
+				},
+				{
+					"color": "#303D10",
+					"name": "Accent 3",
+					"slug": "accent-3"
+				},
+				{
+					"color": "#516028",
+					"name": "Accent 4",
+					"slug": "accent-4"
+				},
+				{
+					"color": "#EBF6D3",
+					"name": "Accent 5",
+					"slug": "accent-5"
+				},
+				{
+					"color": "#51602833",
+					"name": "Accent 6",
+					"slug": "accent-6"
+				}
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Platypi",
+					"slug": "platypi",
+					"fontFamily": "Platypi",
+					"fontFace": [
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "normal",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-VariableFont_wght.woff2"
+							]
+						},
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "italic",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-Italic-VariableFont_wght.woff2"
+							]
+						}
+					]
+				},
+				{
+					"name": "Ysabeau Office",
+					"slug": "ysabeau-office",
+					"fontFamily": "\"Ysabeau Office\", sans-serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"fontFamily": "\"Ysabeau Office\""
+						},
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"fontFamily": "\"Ysabeau Office\""
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "0.875rem",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "1.125rem",
+						"min": "1rem"
+					},
+					"name": "Medium",
+					"size": "1rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1.125rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "1.8rem",
+						"min": "1.4rem"
+					},
+					"name": "Extra Large",
+					"size": "1.4rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"max": "2.6rem",
+						"min": "2rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var:preset|font-family|ysabeau-office",
+			"letterSpacing": "-0.22px",
+			"lineHeight": "1.5"
+		},
+		"blocks": {
+			"core/button": {
+				"border": {
+					"radius": "0px"
+				},
+				"spacing": {
+					"padding": {
+						"bottom": "1rem",
+						"left": "1.6rem",
+						"right": "1.6rem",
+						"top": "1rem"
+					}
+				},
+				"variations": {
+					"outline": {
+						"spacing": {
+							"padding": {
+								"bottom": "1rem",
+								"left": "1.6rem",
+								"right": "1.6rem",
+								"top": "1rem"
+							}
+						}
+					}
+				}
+			},
+			"core/code": {
+				"typography": {
+					"letterSpacing": "0px"
+				}
+			},
+			"core/heading": {
+				"typography": {
+					"lineHeight": "1.2"
+				}
+			},
+			"core/list": {
+				"typography": {
+					"lineHeight": "1.3"
+				}
+			},
+			"core/loginout": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontWeight": "400"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|platypi",
+					"letterSpacing": "-0.01em",
+					"lineHeight": "1.1"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|ysabeau-office",
+					"fontSize": "var:preset|font-size|large",
+					"letterSpacing": "1.44px",
+					"textTransform": "uppercase"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|ysabeau-office",
+					"fontWeight": "600",
+					"letterSpacing": "1.44px",
+					"textTransform": "uppercase"
+				},
+				":hover": {
+					"color": {
+						"background": "color-mix(in srgb, var(--wp--preset--color--contrast) 85%, black)"
+					}
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|platypi"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium",
+					"letterSpacing": "normal"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small",
+					"fontWeight": "400",
+					"fontStyle": "initial",
+					"letterSpacing": "initial",
+					"textTransform": "initial"
+				}
+			}
+		},
+		"variations": {
+			"section-2": {
+				"color": {
+					"background": "var:preset|color|accent-3",
+					"text": "var:preset|color|accent-1"
+				},
+				"elements": {
+					"button": {
+						"color": {
+							"background": "var:preset|color|accent-1",
+							"text": "var:preset|color|accent-3"
+						},
+						":hover": {
+							"color": {
+								"background": "color-mix(in srgb, var(--wp--preset--color--accent-1) 85%, transparent)"
+							}
+						}
+					}
+				}
+			},
+			"section-4": {
+				"elements": {
+					"button": {
+						":hover": {
+							"color": {
+								"background": "color-mix(in srgb, var(--wp--preset--color--accent-2) 85%, transparent)"
+							}
+						}
+					}
+				}
+			},
+			"section-5": {
+				"elements": {
+					"button": {
+						":hover": {
+							"color": {
+								"background": "color-mix(in srgb, var(--wp--preset--color--base) 90%, transparent)"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

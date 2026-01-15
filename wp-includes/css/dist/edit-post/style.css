@@ -1,0 +1,718 @@
+/**
+ * Typography
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+:root {
+  --wp-block-synced-color: #7a00df;
+  --wp-block-synced-color--rgb: 122, 0, 223;
+  --wp-bound-block-color: var(--wp-block-synced-color);
+  --wp-editor-canvas-background: #ddd;
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0, 124, 186;
+  --wp-admin-theme-color-darker-10: rgb(0, 107, 160.5);
+  --wp-admin-theme-color-darker-10--rgb: 0, 107, 160.5;
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (min-resolution: 192dpi) {
+  :root {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Typography
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.admin-ui-page {
+  display: flex;
+  height: 100%;
+  background-color: #fff;
+  color: #2f2f2f;
+  position: relative;
+  z-index: 1;
+  flex-flow: column;
+}
+
+.admin-ui-page__header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.admin-ui-page__sidebar-toggle-slot:empty {
+  display: none;
+}
+
+.admin-ui-page__header-subtitle {
+  padding-block-end: 8px;
+  color: #757575;
+  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.admin-ui-page__content {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-ui-page__content.has-padding {
+  padding: 16px 24px;
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon {
+  width: auto;
+  padding: 0 8px;
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon svg {
+  display: none;
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon::after {
+  content: attr(aria-label);
+  font-size: 12px;
+}
+
+.admin-ui-breadcrumbs__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  font-size: 15px;
+  min-height: 32px;
+  font-weight: 500;
+}
+
+.admin-ui-breadcrumbs__list li:not(:last-child)::after {
+  content: "/";
+  margin: 0 8px;
+}
+
+.admin-ui-breadcrumbs__list h1 {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.edit-post-fullscreen-mode-close__view-mode-toggle {
+  top: 0;
+  left: 0;
+  height: 64px;
+  width: 64px;
+  z-index: 100;
+}
+.edit-post-fullscreen-mode-close__view-mode-toggle .components-button {
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-post-fullscreen-mode-close__view-mode-toggle .components-button:hover, .edit-post-fullscreen-mode-close__view-mode-toggle .components-button:active {
+  color: #fff;
+}
+.edit-post-fullscreen-mode-close__view-mode-toggle .components-button:focus {
+  box-shadow: none;
+}
+.edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__view-mode-toggle-icon svg,
+.edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__view-mode-toggle-icon img {
+  background: #1e1e1e;
+  display: block;
+}
+
+.edit-post-fullscreen-mode-close-site-icon__icon {
+  fill: currentColor;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+}
+
+.edit-post-fullscreen-mode-close-site-icon__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #333;
+  aspect-ratio: 1/1;
+}
+
+.edit-post-fullscreen-mode-close.components-button:focus {
+  position: relative;
+}
+.edit-post-fullscreen-mode-close.components-button:focus::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 0 0 calc(1px + var(--wp-admin-border-width-focus)) #fff;
+}
+
+.edit-post-fullscreen-mode-close__back-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(0, 0%, 80%);
+  pointer-events: none;
+}
+.edit-post-fullscreen-mode-close__back-icon svg {
+  fill: currentColor;
+}
+.edit-post-fullscreen-mode-close__back-icon.has-site-icon {
+  background-color: hsla(0, 0%, 100%, 0.6);
+  backdrop-filter: saturate(180%) blur(15px);
+}
+
+/**
+ *  Show icon label overrides.
+ */
+.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon {
+  width: 64px;
+}
+.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon svg {
+  display: block;
+}
+.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon::after {
+  content: none;
+}
+
+.edit-post-meta-boxes-main {
+  filter: drop-shadow(0 -1px rgba(0, 0, 0, 0.133));
+  outline: 1px solid transparent;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-block-start: 32px;
+}
+
+.edit-post-meta-boxes-main__presenter {
+  display: flex;
+  box-shadow: 0 1px #ddd;
+  outline: 1px solid transparent;
+  position: relative;
+  z-index: 10000;
+  inset: 0 0 auto;
+  height: 32px;
+}
+.edit-post-meta-boxes-main__presenter > button {
+  appearance: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+.edit-post-meta-boxes-main__presenter > button[aria-expanded] {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 24px 12px;
+}
+.edit-post-meta-boxes-main__presenter > button[aria-expanded]:is(:hover, :focus-visible) {
+  color: var(--wp-admin-theme-color);
+}
+.edit-post-meta-boxes-main__presenter > button[aria-expanded]:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: var(--wp-admin-border-width-focus);
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline: 2px solid transparent;
+}
+.edit-post-meta-boxes-main__presenter > button[aria-expanded] > svg {
+  fill: currentColor;
+}
+.edit-post-meta-boxes-main__presenter button[role=separator] {
+  cursor: row-resize;
+  width: 64px;
+  margin: auto;
+  position: absolute;
+  inset: 0;
+}
+.edit-post-meta-boxes-main__presenter button[role=separator]::before {
+  content: "";
+  background-color: #ddd;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  position: absolute;
+  inset-block: calc(50% - 4px / 2) auto;
+  transform: translateX(-50%);
+  width: inherit;
+  height: 4px;
+  border-radius: 2px;
+}
+@media not (prefers-reduced-motion) {
+  .edit-post-meta-boxes-main__presenter button[role=separator]::before {
+    transition: width 0.3s ease-out;
+  }
+}
+.edit-post-meta-boxes-main__presenter button[role=separator]:is(:hover, :focus-visible)::before {
+  background-color: var(--wp-admin-theme-color);
+  width: 80px;
+}
+
+@media (pointer: coarse) {
+  .edit-post-meta-boxes-main {
+    padding-block-start: 36px;
+  }
+  .edit-post-meta-boxes-main__presenter {
+    height: 36px;
+  }
+}
+.edit-post-meta-boxes-main .edit-post-meta-boxes-main__liner {
+  overflow: auto;
+}
+.edit-post-meta-boxes-main__liner {
+  isolation: isolate;
+}
+.is-resizing.edit-post-meta-boxes-main .edit-post-meta-boxes-main__liner {
+  display: unset;
+}
+
+.edit-post-layout__metaboxes {
+  clear: both;
+}
+
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor {
+  flex-shrink: 1;
+  flex-basis: 0%;
+}
+
+.has-metaboxes .editor-visual-editor.is-iframed {
+  isolation: isolate;
+}
+
+.components-editor-notices__snackbar {
+  position: fixed;
+  right: 0;
+  bottom: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.edit-post-layout .components-editor-notices__snackbar { /* Set left position when auto-fold is not on the body element. */
+  left: 0;
+}
+@media (min-width: 783px) {
+  .edit-post-layout .components-editor-notices__snackbar {
+    left: 160px;
+  }
+}
+
+.auto-fold .edit-post-layout .components-editor-notices__snackbar { /* Auto fold is when on smaller breakpoints, nav menu auto collapses. */ }
+@media (min-width: 783px) {
+  .auto-fold .edit-post-layout .components-editor-notices__snackbar {
+    left: 36px;
+  }
+}
+@media (min-width: 961px) {
+  .auto-fold .edit-post-layout .components-editor-notices__snackbar {
+    left: 160px;
+  }
+}
+
+/* Sidebar manually collapsed. */
+.folded .edit-post-layout .components-editor-notices__snackbar {
+  left: 0;
+}
+@media (min-width: 783px) {
+  .folded .edit-post-layout .components-editor-notices__snackbar {
+    left: 36px;
+  }
+}
+
+body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
+  left: 0 !important;
+}
+
+.edit-post-meta-boxes-area {
+  position: relative;
+  /**
+   * The wordpress default for most meta-box elements is content-box. Some
+   * elements such as textarea and input are set to border-box in forms.css.
+   * These elements therefore specifically set back to border-box here, while
+   * other elements (such as .button) are unaffected by Gutenberg's style
+   * because of their higher specificity.
+   */
+}
+.edit-post-meta-boxes-area__container,
+.edit-post-meta-boxes-area .inside {
+  box-sizing: content-box;
+}
+.edit-post-meta-boxes-area textarea,
+.edit-post-meta-boxes-area input {
+  box-sizing: border-box;
+}
+.edit-post-meta-boxes-area .postbox-header {
+  border-top: 1px solid #ddd;
+  border-bottom: 0;
+}
+.edit-post-meta-boxes-area {
+  /* Match width and positioning of the meta boxes. Override default styles. */
+}
+.edit-post-meta-boxes-area #poststuff {
+  margin: 0 auto;
+  padding-top: 0;
+  min-width: auto;
+}
+.edit-post-meta-boxes-area {
+  /* Override Default meta box stylings */
+}
+.edit-post-meta-boxes-area #poststuff h3.hndle,
+.edit-post-meta-boxes-area #poststuff .stuffbox > h3,
+.edit-post-meta-boxes-area #poststuff h2.hndle { /* WordPress selectors yolo */
+  box-sizing: border-box;
+  color: inherit;
+  font-weight: 600;
+  outline: none;
+  padding: 0 24px;
+  position: relative;
+  width: 100%;
+}
+.edit-post-meta-boxes-area .postbox {
+  border: 0;
+  color: inherit;
+  margin-bottom: 0;
+}
+.edit-post-meta-boxes-area .postbox > .inside {
+  color: inherit;
+  padding: 0 24px 24px;
+  margin: 0;
+}
+.edit-post-meta-boxes-area .postbox .handlediv {
+  height: 44px;
+  width: 44px;
+}
+.edit-post-meta-boxes-area.is-loading::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  background: transparent;
+  z-index: 1;
+}
+.edit-post-meta-boxes-area .components-spinner {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 5;
+}
+.edit-post-meta-boxes-area .is-hidden {
+  display: none;
+}
+.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox] {
+  border: 1px solid #757575;
+}
+.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox]:checked {
+  background: #fff;
+  border-color: #757575;
+}
+.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox]::before {
+  margin: -3px -4px;
+}
+
+.edit-post-meta-boxes-area__clear {
+  clear: both;
+}
+
+.edit-post-welcome-guide,
+.edit-template-welcome-guide {
+  width: 312px;
+}
+.edit-post-welcome-guide__image,
+.edit-template-welcome-guide__image {
+  background: #00a0d2;
+  margin: 0 0 16px;
+}
+.edit-post-welcome-guide__image > img,
+.edit-template-welcome-guide__image > img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+}
+.edit-post-welcome-guide__heading,
+.edit-template-welcome-guide__heading {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 24px;
+  line-height: 1.4;
+  margin: 16px 0 16px 0;
+  padding: 0 24px;
+}
+.edit-post-welcome-guide__text,
+.edit-template-welcome-guide__text {
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0 0 24px 0;
+  padding: 0 24px;
+}
+.edit-post-welcome-guide__inserter-icon,
+.edit-template-welcome-guide__inserter-icon {
+  margin: 0 4px;
+  vertical-align: text-top;
+}
+.edit-post-welcome-guide .components-button:hover svg,
+.edit-template-welcome-guide .components-button:hover svg {
+  fill: #fff;
+}
+
+.edit-template-welcome-guide .components-button svg {
+  fill: #fff;
+}
+
+body.js.block-editor-page {
+  background: #fff;
+}
+body.js.block-editor-page #wpcontent {
+  padding-left: 0;
+}
+body.js.block-editor-page #wpbody-content {
+  padding-bottom: 0;
+}
+body.js.block-editor-page {
+  /* We hide legacy notices in Gutenberg Based Pages, because they were not designed in a way that scaled well.
+     Plugins can use Gutenberg notices if they need to pass on information to the user when they are editing. */
+}
+body.js.block-editor-page #wpbody-content > div:not(.block-editor):not(#screen-meta) {
+  display: none;
+}
+body.js.block-editor-page #wpfooter {
+  display: none;
+}
+body.js.block-editor-page .a11y-speak-region {
+  left: -1px;
+  top: -1px;
+}
+body.js.block-editor-page ul#adminmenu a.wp-has-current-submenu::after,
+body.js.block-editor-page ul#adminmenu > li.current > a.current::after {
+  border-right-color: #fff;
+}
+body.js.block-editor-page .media-frame select.attachment-filters:last-of-type {
+  width: auto;
+  max-width: 100%;
+}
+
+.block-editor-page #wpwrap {
+  overflow-y: auto;
+}
+@media (min-width: 782px) {
+  .block-editor-page #wpwrap {
+    overflow-y: initial;
+  }
+}
+
+.edit-post-visual-editor.is-iframed {
+  box-sizing: border-box;
+}
+.edit-post-visual-editor.is-iframed *,
+.edit-post-visual-editor.is-iframed *::before,
+.edit-post-visual-editor.is-iframed *::after {
+  box-sizing: inherit;
+}
+
+@media (min-width: 600px) {
+  .block-editor__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: calc(100vh - 46px);
+  }
+}
+@media (min-width: 782px) {
+  .block-editor__container {
+    min-height: calc(100vh - 32px);
+  }
+  body.is-fullscreen-mode .block-editor__container {
+    min-height: 100vh;
+  }
+}
+.block-editor__container img {
+  max-width: 100%;
+  height: auto;
+}

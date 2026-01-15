@@ -1,0 +1,30 @@
+.wp-block-form-submission-notification > * {
+  opacity: 0.25;
+  border: 1px dashed;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(45deg, transparent, transparent 5px, currentColor 5px, currentColor 6px);
+}
+.wp-block-form-submission-notification.is-selected > *, .wp-block-form-submission-notification:has(.is-selected) > * {
+  opacity: 1;
+  background: none;
+}
+.wp-block-form-submission-notification.is-selected::after, .wp-block-form-submission-notification:has(.is-selected)::after {
+  display: none !important;
+}
+.wp-block-form-submission-notification::after {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1em;
+}
+.wp-block-form-submission-notification.form-notification-type-success::after {
+  content: attr(data-message-success);
+}
+.wp-block-form-submission-notification.form-notification-type-error::after {
+  content: attr(data-message-error);
+}

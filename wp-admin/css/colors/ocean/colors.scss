@@ -1,0 +1,12 @@
+$base-color: #738e96;
+
+@use "../_admin.scss" with (
+	$scheme-name: "ocean",
+	$base-color: $base-color,
+	$icon-color: #f2fcff,
+	$highlight-color: #9ebaa0,
+	$notification-color: #aa9d88,
+	$form-checked: $base-color,
+
+	$low-contrast-theme: "true"
+);

@@ -1,0 +1,122 @@
+/**
+ * Colors
+ */
+/**
+ * Typography
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.block-editor-template-part__selection-modal {
+  z-index: 1000001;
+}
+.block-editor-template-part__selection-modal .block-editor-block-patterns-list {
+  column-count: 2;
+  column-gap: 24px;
+}
+@media (min-width: 1280px) {
+  .block-editor-template-part__selection-modal .block-editor-block-patterns-list {
+    column-count: 3;
+  }
+}
+.block-editor-template-part__selection-modal .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item {
+  break-inside: avoid-column;
+}
+
+.block-library-template-part__selection-search {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+  z-index: 2;
+}
+
+.block-editor-block-list__block:not(.remove-outline).wp-block-template-part.is-highlighted::after, .block-editor-block-list__block:not(.remove-outline).wp-block-template-part.is-selected::after,
+.block-editor-block-list__block:not(.remove-outline).is-reusable.is-highlighted::after,
+.block-editor-block-list__block:not(.remove-outline).is-reusable.is-selected::after {
+  outline-color: var(--wp-block-synced-color);
+}
+.block-editor-block-list__block:not(.remove-outline).wp-block-template-part.block-editor-block-list__block:not([contenteditable]):focus::after,
+.block-editor-block-list__block:not(.remove-outline).is-reusable.block-editor-block-list__block:not([contenteditable]):focus::after {
+  outline-color: var(--wp-block-synced-color);
+}
+
+.is-outline-mode .block-editor-block-list__block:not(.remove-outline).wp-block-template-part.has-editable-outline::after {
+  border: none;
+}

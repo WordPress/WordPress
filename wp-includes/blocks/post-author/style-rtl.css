@@ -1,0 +1,25 @@
+.wp-block-post-author {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+.wp-block-post-author__byline {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.5em;
+}
+.wp-block-post-author__avatar {
+  margin-left: 1em;
+}
+.wp-block-post-author__bio {
+  margin-bottom: 0.7em;
+  font-size: 0.7em;
+}
+.wp-block-post-author__content {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.wp-block-post-author__name {
+  margin: 0;
+}

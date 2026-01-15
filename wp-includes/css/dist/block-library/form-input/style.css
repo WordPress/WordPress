@@ -1,0 +1,46 @@
+.wp-block-form-input__label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  margin-bottom: 0.5em;
+}
+.wp-block-form-input__label.is-label-inline {
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+}
+.wp-block-form-input__label.is-label-inline .wp-block-form-input__label-content {
+  margin-bottom: 0.5em;
+}
+.wp-block-form-input__label:has(input[type=checkbox]) {
+  flex-direction: row;
+  width: fit-content;
+}
+.wp-block-form-input__label:has(input[type=checkbox]) .wp-block-form-input__label-content {
+  margin: 0;
+}
+.wp-block-form-input__label:has(.wp-block-form-input__label-content + input[type=checkbox]) {
+  /* stylelint-disable-next-line declaration-property-value-allowed-list -- This style is required for old markup. */
+  flex-direction: row-reverse;
+}
+
+.wp-block-form-input__label-content {
+  width: fit-content;
+}
+
+:where(.wp-block-form-input__input) {
+  padding: 0 0.5em;
+  font-size: 1em;
+  margin-bottom: 0.5em;
+}
+:where(.wp-block-form-input__input)[type=text], :where(.wp-block-form-input__input)[type=password], :where(.wp-block-form-input__input)[type=date], :where(.wp-block-form-input__input)[type=datetime], :where(.wp-block-form-input__input)[type=datetime-local], :where(.wp-block-form-input__input)[type=email], :where(.wp-block-form-input__input)[type=month], :where(.wp-block-form-input__input)[type=number], :where(.wp-block-form-input__input)[type=search], :where(.wp-block-form-input__input)[type=tel], :where(.wp-block-form-input__input)[type=time], :where(.wp-block-form-input__input)[type=url], :where(.wp-block-form-input__input)[type=week] {
+  min-height: 2em;
+  line-height: 2;
+  border-width: 1px;
+  border-style: solid;
+}
+
+textarea.wp-block-form-input__input {
+  min-height: 10em;
+}

@@ -1,0 +1,21 @@
+.wp-block-categories {
+  box-sizing: border-box;
+}
+.wp-block-categories.alignleft {
+  /*rtl:ignore*/
+  margin-right: 2em;
+}
+.wp-block-categories.alignright {
+  /*rtl:ignore*/
+  margin-left: 2em;
+}
+.wp-block-categories {
+  /* Only apply the text align on dropdowns, not lists. */
+}
+.wp-block-categories.wp-block-categories-dropdown.aligncenter {
+  text-align: center;
+}
+.wp-block-categories .wp-block-categories__label {
+  width: 100%;
+  display: block;
+}

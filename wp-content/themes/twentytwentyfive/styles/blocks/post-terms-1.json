@@ -1,0 +1,37 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"title": "Pill shaped",
+	"slug": "post-terms-1",
+	"blockTypes": ["core/post-terms"],
+	"styles": {
+		"elements": {
+			"link": {
+				"border": {
+					"color": "var:preset|color|accent-6",
+					"radius": "20px",
+					"width": "0.8px",
+					"style": "solid"
+				},
+				"spacing": {
+					"padding": {
+						"top": "5px",
+						"right": "10px",
+						"bottom": "5px",
+						"left": "10px"
+					}
+				},
+				"typography": {
+					"fontWeight": "400",
+					"lineHeight": "2.8",
+					"textDecoration": "none"
+				},
+				":hover": {
+					"typography": {
+						"textDecoration": "underline"
+					}
+				}
+			}
+		}
+	}
+}

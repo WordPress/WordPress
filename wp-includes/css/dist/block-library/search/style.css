@@ -1,0 +1,156 @@
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-search__button {
+  margin-left: 10px;
+  word-break: normal;
+}
+.wp-block-search__button.has-icon {
+  line-height: 0;
+}
+.wp-block-search__button svg {
+  min-width: 24px;
+  min-height: 24px;
+  width: 1.25em;
+  height: 1.25em;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+:where(.wp-block-search__button) {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+}
+
+.wp-block-search__inside-wrapper {
+  display: flex;
+  flex: auto;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+
+.wp-block-search__label {
+  width: 100%;
+}
+
+.wp-block-search.wp-block-search__button-only .wp-block-search__button {
+  margin-left: 0;
+  flex-shrink: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+.wp-block-search.wp-block-search__button-only .wp-block-search__inside-wrapper {
+  transition-property: width;
+  min-width: 0 !important;
+}
+.wp-block-search.wp-block-search__button-only .wp-block-search__input {
+  transition-duration: 300ms;
+  flex-basis: 100%;
+}
+.wp-block-search.wp-block-search__button-only.wp-block-search__searchfield-hidden {
+  overflow: hidden;
+}
+.wp-block-search.wp-block-search__button-only.wp-block-search__searchfield-hidden .wp-block-search__inside-wrapper {
+  overflow: hidden;
+}
+.wp-block-search.wp-block-search__button-only.wp-block-search__searchfield-hidden .wp-block-search__input {
+  width: 0 !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+  flex-grow: 0;
+  margin: 0;
+  flex-basis: 0;
+}
+
+:where(.wp-block-search__input) {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  font-style: inherit;
+  padding: 8px;
+  flex-grow: 1;
+  margin-left: 0;
+  margin-right: 0;
+  min-width: 3rem;
+  border: 1px solid #949494;
+  text-decoration: unset !important;
+  appearance: initial;
+}
+
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) {
+  padding: 4px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #949494;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input {
+  border-radius: 0;
+  border: none;
+  padding: 0 4px;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input:focus {
+  outline: none;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) :where(.wp-block-search__button) {
+  padding: 4px 8px;
+}
+
+.wp-block-search.aligncenter .wp-block-search__inside-wrapper {
+  margin: auto;
+}
+
+.wp-block[data-align=right] .wp-block-search.wp-block-search__button-only .wp-block-search__inside-wrapper {
+  float: right;
+}

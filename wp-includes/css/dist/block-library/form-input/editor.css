@@ -1,0 +1,18 @@
+.wp-block-form-input .is-input-hidden {
+  font-size: 0.85em;
+  opacity: 0.3;
+  border: 1px dashed;
+  padding: 0.5em;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(45deg, transparent, transparent 5px, currentColor 5px, currentColor 6px);
+}
+.wp-block-form-input .is-input-hidden input[type=text] {
+  background: transparent;
+}
+.wp-block-form-input.is-selected .is-input-hidden {
+  opacity: 1;
+  background: none;
+}
+.wp-block-form-input.is-selected .is-input-hidden input[type=text] {
+  background: unset;
+}

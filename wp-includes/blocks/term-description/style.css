@@ -1,0 +1,10 @@
+:where(.wp-block-term-description) {
+  box-sizing: border-box;
+  margin-top: var(--wp--style--block-gap);
+  margin-bottom: var(--wp--style--block-gap);
+}
+
+.wp-block-term-description p {
+  margin-top: 0;
+  margin-bottom: 0;
+}

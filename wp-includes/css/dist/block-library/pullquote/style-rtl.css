@@ -1,0 +1,110 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-pullquote {
+  text-align: center;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+  margin: 0 0 1em 0;
+  padding: 4em 0;
+}
+.wp-block-pullquote p,
+.wp-block-pullquote blockquote {
+  color: inherit;
+}
+.wp-block-pullquote blockquote {
+  margin: 0;
+}
+.wp-block-pullquote p {
+  margin-top: 0;
+}
+.wp-block-pullquote p:last-child {
+  margin-bottom: 0;
+}
+.wp-block-pullquote.alignleft, .wp-block-pullquote.alignright {
+  max-width: 420px;
+}
+.wp-block-pullquote cite,
+.wp-block-pullquote footer {
+  position: relative;
+}
+.wp-block-pullquote .has-text-color a {
+  color: inherit;
+}
+
+.wp-block-pullquote.has-text-align-left blockquote {
+  text-align: right;
+}
+
+.wp-block-pullquote.has-text-align-right blockquote {
+  text-align: left;
+}
+
+.wp-block-pullquote.has-text-align-center blockquote {
+  text-align: center;
+}
+
+.wp-block-pullquote.is-style-solid-color {
+  border: none;
+}
+.wp-block-pullquote.is-style-solid-color blockquote {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 60%;
+}
+.wp-block-pullquote.is-style-solid-color blockquote p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 2em;
+}
+.wp-block-pullquote.is-style-solid-color blockquote cite {
+  text-transform: none;
+  font-style: normal;
+}
+
+.wp-block-pullquote :where(cite) {
+  color: inherit;
+  display: block;
+}

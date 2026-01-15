@@ -1,0 +1,7 @@
+.wp-block-comment-author-avatar__placeholder {
+  border: currentColor 1px dashed;
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-dasharray: 3;
+}

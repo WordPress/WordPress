@@ -1,0 +1,164 @@
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block[data-align=center] > .wp-block-site-logo,
+.wp-block-site-logo.aligncenter > div {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-block-site-logo a {
+  pointer-events: none;
+}
+.wp-block-site-logo .custom-logo-link {
+  cursor: inherit;
+}
+.wp-block-site-logo .custom-logo-link:focus {
+  box-shadow: none;
+}
+.wp-block-site-logo img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+.wp-block-site-logo.is-transient {
+  position: relative;
+}
+.wp-block-site-logo.is-transient img {
+  opacity: 0.3;
+}
+.wp-block-site-logo.is-transient .components-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+.wp-block-site-logo.wp-block-site-logo.is-default-size .components-placeholder {
+  height: 60px;
+  width: 60px;
+}
+.wp-block-site-logo.wp-block-site-logo > div,
+.wp-block-site-logo.wp-block-site-logo .components-resizable-box__container {
+  border-radius: inherit;
+}
+.wp-block-site-logo.wp-block-site-logo .components-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: inherit;
+  min-height: 48px;
+  min-width: 48px;
+  height: 100%;
+  width: 100%;
+}
+.wp-block-site-logo.wp-block-site-logo .components-placeholder .components-form-file-upload {
+  display: none;
+}
+.wp-block-site-logo.wp-block-site-logo .components-placeholder .components-drop-zone__content-text {
+  display: none;
+}
+.wp-block-site-logo.wp-block-site-logo .components-placeholder .components-button.components-button {
+  padding: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  background: var(--wp-admin-theme-color);
+  border-color: var(--wp-admin-theme-color);
+  border-style: solid;
+  color: #fff;
+}
+.wp-block-site-logo.wp-block-site-logo .components-placeholder .components-button.components-button > svg {
+  color: inherit;
+}
+
+.block-library-site-logo__inspector-media-replace-container {
+  position: relative;
+}
+.block-library-site-logo__inspector-media-replace-container .components-drop-zone__content-icon {
+  display: none;
+}
+.block-library-site-logo__inspector-media-replace-container button.components-button {
+  color: #1e1e1e;
+  box-shadow: inset 0 0 0 1px #ccc;
+  width: 100%;
+  display: block;
+  height: 40px;
+}
+.block-library-site-logo__inspector-media-replace-container button.components-button:hover {
+  color: var(--wp-admin-theme-color);
+}
+.block-library-site-logo__inspector-media-replace-container button.components-button:focus {
+  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+}
+.block-library-site-logo__inspector-media-replace-container .block-library-site-logo__inspector-media-replace-title {
+  word-break: break-all;
+  white-space: normal;
+  text-align: start;
+  text-align-last: center;
+}
+.block-library-site-logo__inspector-media-replace-container .components-dropdown {
+  display: block;
+}
+.block-library-site-logo__inspector-media-replace-container img {
+  width: 20px;
+  min-width: 20px;
+  aspect-ratio: 1;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  border-radius: 50% !important;
+}
+.block-library-site-logo__inspector-media-replace-container .block-library-site-logo__inspector-readonly-logo-preview {
+  padding: 6px 12px;
+  display: flex;
+  height: 40px;
+}

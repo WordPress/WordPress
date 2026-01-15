@@ -1,0 +1,100 @@
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// package-external:@wordpress/data
+var require_data = __commonJS({
+  "package-external:@wordpress/data"(exports, module) {
+    module.exports = window.wp.data;
+  }
+});
+
+// package-external:@wordpress/core-data
+var require_core_data = __commonJS({
+  "package-external:@wordpress/core-data"(exports, module) {
+    module.exports = window.wp.coreData;
+  }
+});
+
+// package-external:@wordpress/html-entities
+var require_html_entities = __commonJS({
+  "package-external:@wordpress/html-entities"(exports, module) {
+    module.exports = window.wp.htmlEntities;
+  }
+});
+
+// package-external:@wordpress/i18n
+var require_i18n = __commonJS({
+  "package-external:@wordpress/i18n"(exports, module) {
+    module.exports = window.wp.i18n;
+  }
+});
+
+// routes/navigation-edit/route.ts
+var import_data = __toESM(require_data());
+var import_core_data = __toESM(require_core_data());
+var import_html_entities = __toESM(require_html_entities());
+var import_i18n = __toESM(require_i18n());
+var NAVIGATION_POST_TYPE = "wp_navigation";
+var route = {
+  title: async ({
+    params
+  }) => {
+    const navigationId = parseInt(params.id);
+    const navigation = await (0, import_data.resolveSelect)(import_core_data.store).getEntityRecord(
+      "postType",
+      NAVIGATION_POST_TYPE,
+      navigationId
+    );
+    if (navigation?.title?.rendered) {
+      return (0, import_html_entities.decodeEntities)(navigation.title.rendered);
+    }
+    return (0, import_i18n.__)("Navigation");
+  },
+  canvas: async ({
+    params
+  }) => {
+    const postId = parseInt(params.id);
+    return {
+      postType: NAVIGATION_POST_TYPE,
+      postId,
+      isPreview: true,
+      editLink: `/types/wp_navigation/edit/${postId}`
+    };
+  },
+  loader: async ({
+    params
+  }) => {
+    const navigationId = parseInt(params.id);
+    await (0, import_data.resolveSelect)(import_core_data.store).getEntityRecord(
+      "postType",
+      NAVIGATION_POST_TYPE,
+      navigationId
+    );
+  }
+};
+export {
+  route
+};

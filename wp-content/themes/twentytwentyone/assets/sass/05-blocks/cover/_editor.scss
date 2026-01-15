@@ -1,0 +1,76 @@
+.wp-block-cover,
+.wp-block-cover-image {
+
+	&:not(.alignwide):not(.alignfull) {
+		clear: both;
+	}
+
+	background-color: var(--cover--color-background);
+	min-height: var(--cover--height);
+	margin-top: inherit;
+	margin-bottom: inherit;
+
+	[data-align="full"] & {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	@include innerblock-margin-clear(".wp-block-cover__inner-container");
+
+	.wp-block-cover__inner-container,
+	.wp-block-cover-image-text,
+	.wp-block-cover-text,
+	.block-editor-block-list__block {
+		color: currentColor; // uses text color specified with background-color options in /blocks/utilities/_style.scss
+
+		a {
+			color: currentColor;
+		}
+
+		.has-link-color a {
+			color: var(--wp--style--color--link, var(--global--color-primary));
+		}
+	}
+
+	// Default & custom background-color
+	&:not([class*="background-color"]) {
+
+		.wp-block-cover__inner-container,
+		.wp-block-cover-image-text,
+		.wp-block-cover-text,
+		.block-editor-block-list__block {
+			color: var(--cover--color-foreground);
+		}
+	}
+
+	// Treating H2 separately to account for legacy /core styles
+	h2 {
+		font-size: var(--heading--font-size-h2);
+		letter-spacing: var(--heading--letter-spacing-h2);
+		line-height: var(--heading--line-height-h2);
+		padding: 0;
+		text-align: inherit;
+
+		&.has-text-align-left {
+			text-align: left;
+		}
+
+		&.has-text-align-center {
+			text-align: center;
+		}
+
+		&.has-text-align-right {
+			text-align: right;
+		}
+	}
+
+	// Block Styles
+	&.is-style-twentytwentyone-border {
+		border: calc(3 * var(--separator--height)) solid var(--global--color-border);
+	}
+
+	// The background color class is used just for the overlay, and does not need to be applied to the inner container.
+	&[class*="-background-color"][class] .wp-block-cover__inner-container {
+		background-color: unset;
+	}
+}

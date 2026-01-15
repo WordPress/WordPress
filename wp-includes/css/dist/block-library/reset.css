@@ -1,0 +1,148 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Editor Normalization Styles
+ *
+ * These are only output in the editor, but styles here are prefixed .editor-styles-wrapper and affect the theming
+ * of the editor by themes.
+ */
+html :where(.editor-styles-wrapper) {
+  font-family: serif;
+  font-size: initial;
+  line-height: initial;
+  color: initial;
+  background: #fff;
+}
+:where(.editor-styles-wrapper) .wp-align-wrapper {
+  max-width: 840px;
+}
+:where(.editor-styles-wrapper) .wp-align-wrapper > .wp-block, :where(.editor-styles-wrapper) .wp-align-wrapper.wp-align-full {
+  max-width: none;
+}
+:where(.editor-styles-wrapper) .wp-align-wrapper.wp-align-wide {
+  max-width: 840px;
+}
+:where(.editor-styles-wrapper) a {
+  transition: none;
+}
+:where(.editor-styles-wrapper) code,
+:where(.editor-styles-wrapper) kbd {
+  padding: 0;
+  margin: 0;
+  background: inherit;
+  font-size: inherit;
+  font-family: monospace;
+}
+:where(.editor-styles-wrapper) p {
+  font-size: revert;
+  line-height: revert;
+  margin: revert;
+}
+:where(.editor-styles-wrapper) ul,
+:where(.editor-styles-wrapper) ol {
+  margin: revert;
+  padding: revert;
+  list-style-type: revert;
+  box-sizing: border-box;
+}
+:where(.editor-styles-wrapper) ul ul,
+:where(.editor-styles-wrapper) ul ol,
+:where(.editor-styles-wrapper) ol ul,
+:where(.editor-styles-wrapper) ol ol {
+  margin: revert;
+}
+:where(.editor-styles-wrapper) ul li,
+:where(.editor-styles-wrapper) ol li {
+  margin: revert;
+}
+:where(.editor-styles-wrapper) ul ul,
+:where(.editor-styles-wrapper) ol ul {
+  list-style-type: revert;
+}
+:where(.editor-styles-wrapper) h1,
+:where(.editor-styles-wrapper) h2,
+:where(.editor-styles-wrapper) h3,
+:where(.editor-styles-wrapper) h4,
+:where(.editor-styles-wrapper) h5,
+:where(.editor-styles-wrapper) h6 {
+  font-size: revert;
+  margin: revert;
+  color: revert;
+  line-height: revert;
+  font-weight: revert;
+}
+:where(.editor-styles-wrapper) select {
+  font-family: system-ui;
+  -webkit-appearance: revert;
+  color: revert;
+  border: revert;
+  border-radius: revert;
+  background: revert;
+  box-shadow: revert;
+  text-shadow: revert;
+  outline: revert;
+  cursor: revert;
+  transform: revert;
+  font-size: revert;
+  line-height: revert;
+  padding: revert;
+  margin: revert;
+  min-height: revert;
+  max-width: revert;
+  vertical-align: revert;
+  font-weight: revert;
+}
+:where(.editor-styles-wrapper) select:disabled,
+:where(.editor-styles-wrapper) select:focus {
+  color: revert;
+  border-color: revert;
+  background-color: revert;
+  background-image: revert;
+  box-shadow: revert;
+  text-shadow: revert;
+  cursor: revert;
+  transform: revert;
+}

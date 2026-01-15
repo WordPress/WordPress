@@ -1,0 +1,38 @@
+.wp-block-latest-comments {
+	padding-left: 0;
+
+	&:where(:not([class*="-font-size"]):not([style*="font-size"])) .wp-block-latest-comments__comment {
+		font-size: var(--global--font-size-sm);
+	}
+
+	.wp-block-latest-comments__comment {
+		line-height: var(--global--line-height-body);
+
+		/* Vertical margins logic */
+		margin-top: var(--global--spacing-vertical);
+		margin-bottom: var(--global--spacing-vertical);
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.wp-block-latest-comments__comment-meta {
+		font-family: var(--heading--font-family);
+	}
+
+	.wp-block-latest-comments__comment-date {
+		color: inherit;
+		font-size: inherit;
+	}
+
+	.wp-block-latest-comments__comment-excerpt p {
+		font-size: inherit;
+		line-height: var(--global--line-height-body);
+		margin: 0;
+	}
+}

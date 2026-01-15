@@ -1,0 +1,32 @@
+{
+	"name": "twentytwentytwo",
+	"version": "2.1.0",
+	"description": "Default WP Theme",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"WordPress",
+		"Theme"
+	],
+	"bugs": {
+		"url": "https://core.trac.wordpress.org/"
+	},
+	"homepage": "https://wordpress.org/themes/twentytwentytwo/",
+	"engines": {
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
+	},
+	"devDependencies": {
+		"@wordpress/browserslist-config": "^6.34.0",
+		"postcss": "^8.5.6",
+		"postcss-cli": "^11.0.1",
+		"cssnano": "^7.1.2"
+	},
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
+  "scripts": {
+    "build": "postcss style.css --use cssnano -o style.min.css --no-map",
+    "watch": "postcss style.css --use cssnano -o style.min.css --no-map --watch"
+  }
+}

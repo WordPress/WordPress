@@ -1,0 +1,157 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.preference-base-option + .preference-base-option {
+  margin-top: 16px;
+}
+
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * Typography
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+@media (min-width: 600px) {
+  .preferences-modal {
+    width: calc(100% - 32px);
+    height: calc(100% - 128px);
+  }
+}
+@media (min-width: 782px) {
+  .preferences-modal {
+    width: 750px;
+  }
+}
+@media (min-width: 960px) {
+  .preferences-modal {
+    height: 70%;
+  }
+}
+@media (max-width: 781px) {
+  .preferences-modal .components-modal__content {
+    padding: 0;
+  }
+}
+
+.preferences__tabs-tablist {
+  position: absolute !important;
+  top: 88px;
+  left: 16px;
+  width: 160px;
+}
+
+.preferences__tabs-tabpanel {
+  padding-left: 24px;
+  margin-left: 160px;
+}
+
+@media (max-width: 781px) {
+  .preferences__provider {
+    height: 100%;
+  }
+}
+.preferences-modal__section {
+  border: 0;
+  padding: 0;
+  margin: 0 0 2.5rem 0;
+}
+.preferences-modal__section:last-child {
+  margin: 0;
+}
+
+.preferences-modal__section-legend {
+  margin-bottom: 8px;
+}
+
+.preferences-modal__section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.preferences-modal__section-description {
+  margin: -8px 0 8px 0;
+  font-size: 12px;
+  font-style: normal;
+  color: #757575;
+}
+
+.preferences-modal__section:has(.preferences-modal__section-content:empty) {
+  display: none;
+}

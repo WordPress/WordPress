@@ -1,0 +1,68 @@
+.page-title {
+	font-size: var(--global--font-size-page-title);
+}
+
+h1.page-title,
+h2.page-title {
+	font-weight: var(--heading--font-weight-page-title);
+}
+
+h1.page-title {
+	line-height: var(--heading--line-height-h1);
+}
+
+.page-header {
+	border-bottom: 3px solid var(--global--color-border);
+	padding-bottom: calc(2 * var(--global--spacing-vertical));
+}
+
+.archive,
+.search,
+.blog {
+
+	.content-area {
+
+		.format-aside,
+		.format-status,
+		.format-link {
+
+			.entry-content {
+				font-size: var(--global--font-size-lg);
+			}
+		}
+
+	}
+
+	.format-image,
+	.format-gallery,
+	.format-video {
+
+		.entry-content {
+			margin-top: calc(2 * var(--global--spacing-vertical));
+		}
+	}
+
+	.entry-footer {
+
+		.cat-links,
+		.tags-links {
+			display: block;
+		}
+	}
+
+	&.logged-in {
+
+		.entry-footer {
+
+			.posted-on {
+				margin-right: calc(0.5 * var(--global--spacing-unit));
+			}
+		}
+	}
+}
+
+.archive-description {
+	margin-top: var(--global--spacing-vertical);
+	font-size: var(--global--font-size-xl);
+	line-height: var(--global--line-height-heading);
+}

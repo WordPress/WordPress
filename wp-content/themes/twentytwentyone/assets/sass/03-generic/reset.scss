@@ -1,0 +1,75 @@
+/**
+ * Reset specific elements to make them easier to style in other contexts.
+ */
+
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+form,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	padding: 0;
+	margin: 0;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+/**
+ * Apply generic border-box to all elements.
+ * See:
+ * https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+
+html {
+
+	/* Apply border-box across the entire page. */
+	box-sizing: border-box;
+
+	// HTML resets
+	font-family: var(--global--font-secondary);
+	line-height: var(--global--line-height-body);
+}
+
+/**
+ * Relax the definition a bit, to allow components to override it manually.
+ */
+* {
+
+	&,
+	&::before,
+	&::after {
+		box-sizing: inherit;
+	}
+}
+
+// body resets
+body {
+	font-size: var(--global--font-size-base);
+	font-weight: normal;
+	color: var(--global--color-primary);
+	text-align: left;
+	background-color: var(--global--color-background);
+}
+
+
+button {
+	cursor: pointer;
+}

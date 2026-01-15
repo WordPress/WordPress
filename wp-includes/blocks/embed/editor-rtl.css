@@ -1,0 +1,41 @@
+/**
+ * Breakpoints & Media Queries
+ */
+.wp-block-embed {
+  margin-right: 0;
+  margin-left: 0;
+  clear: both;
+}
+.wp-block-embed.is-loading {
+  display: flex;
+  justify-content: center;
+}
+.wp-block-embed .wp-block-embed__placeholder-input {
+  flex: 1 1 auto;
+}
+.wp-block-embed .components-placeholder__error {
+  word-break: break-word;
+}
+
+.wp-block-post-content .wp-block-embed__learn-more a {
+  color: var(--wp-admin-theme-color);
+}
+
+.block-library-embed__interactive-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.wp-block[data-align=left] > .wp-block-embed,
+.wp-block[data-align=right] > .wp-block-embed {
+  max-width: 360px;
+  width: 100%;
+}
+.wp-block[data-align=left] > .wp-block-embed .wp-block-embed__wrapper,
+.wp-block[data-align=right] > .wp-block-embed .wp-block-embed__wrapper {
+  min-width: 280px;
+}

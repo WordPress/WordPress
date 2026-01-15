@@ -1,0 +1,26 @@
+{
+	"name": "@wordpress/pattern-list",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/patterns/list/$type",
+		"page": "site-editor"
+	},
+	"dependencies": {
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/base-styles": "file:../../packages/base-styles",
+		"@wordpress/block-editor": "file:../../packages/block-editor",
+		"@wordpress/blocks": "file:../../packages/blocks",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/dataviews": "file:../../packages/dataviews",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/lazy-editor": "file:../../packages/lazy-editor",
+		"@wordpress/patterns": "file:../../packages/patterns",
+		"@wordpress/route": "file:../../packages/route",
+		"@wordpress/views": "file:../../packages/views"
+	}
+}
