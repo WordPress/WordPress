@@ -877,7 +877,7 @@ switch ( $action ) {
 		login_header(
 			__( 'Lost Password' ),
 			wp_get_admin_notice(
-				__( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.' ),
+				__( 'Please enter your username or email address. You will receive an email with instructions on how to reset your password.' ),
 				array(
 					'type'               => 'info',
 					'additional_classes' => array( 'message' ),
