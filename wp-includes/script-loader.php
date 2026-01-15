@@ -2880,7 +2880,31 @@ function wp_get_script_tag( $attributes ) {
 	 */
 	$attributes = apply_filters( 'wp_script_attributes', $attributes );
 
-	return sprintf( "<script%s></script>\n", wp_sanitize_script_attributes( $attributes ) );
+	$processor = new WP_HTML_Tag_Processor( '<script></script>' );
+	$processor->next_tag();
+	foreach ( $attributes as $name => $value ) {
+		/*
+		 * Lexical variations of an attribute name may represent the
+		 * same attribute in HTML, therefore it’s possible that the
+		 * input array might contain duplicate attributes even though
+		 * it’s keyed on their name. Calling code should rewrite an
+		 * attribute’s value rather than sending a duplicate attribute.
+		 *
+		 * Example:
+		 *
+		 *     array( 'id' => 'main', 'ID' => 'nav' )
+		 *
+		 * In this example, there are two keys both describing the `id`
+		 * attribute. PHP array iteration is in key-insertion order so
+		 * the 'id' value will be set in the SCRIPT tag.
+		 */
+		if ( null !== $processor->get_attribute( $name ) ) {
+			continue;
+		}
+
+		$processor->set_attribute( $name, $value ?? true );
+	}
+	return "{$processor->get_updated_html()}\n";
 }
 
 /**
@@ -2901,13 +2925,27 @@ function wp_print_script_tag( $attributes ) {
  * Constructs an inline script tag.
  *
  * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_inline_script_attributes'} filter.
- * Automatically injects type attribute if needed.
+ *
+ * If the `$data` is unsafe to embed in a `<script>` tag, an empty script tag with the provided
+ * attributes will be returned. JavaScript and JSON contents can be escaped, so this is only likely
+ * to be a problem with unusual content types.
+ *
+ * Example:
+ *
+ *     // The dangerous JavaScript in this example will be safely escaped.
+ *     // A string with the script tag and the desired contents will be returned.
+ *     wp_get_inline_script_tag( 'console.log( "</script>" );' );
+ *
+ *     // This data is unsafe and `text/plain` cannot be escaped.
+ *     // The following will return `""` to indicate failure:
+ *     wp_get_inline_script_tag( '</script>', array( 'type' => 'text/plain' ) );
  *
  * @since 5.7.0
+ * @since 7.0.0 Returns an empty string if the data cannot be safely embedded in a script tag.
  *
  * @param string                     $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
  * @param array<string, string|bool> $attributes Optional. Key-value pairs representing `<script>` tag attributes.
- * @return string String containing inline JavaScript code wrapped around `<script>` tag.
+ * @return string HTML script tag containing the provided $data or the empty string `""` if the data cannot be safely embedded in a script tag.
  */
 function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	$data = "\n" . trim( $data, "\n\r " ) . "\n";
@@ -2924,7 +2962,41 @@ function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	 */
 	$attributes = apply_filters( 'wp_inline_script_attributes', $attributes, $data );
 
-	return sprintf( "<script%s>%s</script>\n", wp_sanitize_script_attributes( $attributes ), $data );
+	$processor = new WP_HTML_Tag_Processor( '<script></script>' );
+	$processor->next_tag();
+	foreach ( $attributes as $name => $value ) {
+		/*
+		 * Lexical variations of an attribute name may represent the
+		 * same attribute in HTML, therefore it’s possible that the
+		 * input array might contain duplicate attributes even though
+		 * it’s keyed on their name. Calling code should rewrite an
+		 * attribute’s value rather than sending a duplicate attribute.
+		 *
+		 * Example:
+		 *
+		 *     array( 'id' => 'main', 'ID' => 'nav' )
+		 *
+		 * In this example, there are two keys both describing the `id`
+		 * attribute. PHP array iteration is in key-insertion order so
+		 * the 'id' value will be set in the SCRIPT tag.
+		 */
+		if ( null !== $processor->get_attribute( $name ) ) {
+			continue;
+		}
+
+		$processor->set_attribute( $name, $value ?? true );
+	}
+
+	if ( ! $processor->set_modifiable_text( $data ) ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			__( 'Unable to set inline script data.' ),
+			'7.0.0'
+		);
+		return '';
+	}
+
+	return "{$processor->get_updated_html()}\n";
 }
 
 /**
