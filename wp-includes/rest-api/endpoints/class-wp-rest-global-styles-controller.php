@@ -275,7 +275,14 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 			}
 			$config['isGlobalStylesUserThemeJSON'] = true;
 			$config['version']                     = WP_Theme_JSON::LATEST_SCHEMA;
-			$changes->post_content                 = wp_json_encode( $config );
+			/**
+			 * JSON encode the data stored in post content.
+			 * Escape characters that are likely to be mangled by HTML filters: "<>&".
+			 *
+			 * This data is later re-encoded by {@see wp_filter_global_styles_post()}.
+			 * The escaping is also applied here as a precaution.
+			 */
+			$changes->post_content = wp_json_encode( $config, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP );
 		}
 
 		// Post title.
@@ -659,22 +666,87 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	/**
 	 * Validate style.css as valid CSS.
 	 *
-	 * Currently just checks for invalid markup.
+	 * Currently just checks that CSS will not break an HTML STYLE tag.
 	 *
 	 * @since 6.2.0
 	 * @since 6.4.0 Changed method visibility to protected.
+	 * @since 7.0.0 Only restricts contents which risk prematurely closing the STYLE element,
+	 *              either through a STYLE end tag or a prefix of one which might become a
+	 *              full end tag when combined with the contents of other styles.
 	 *
 	 * @param string $css CSS to validate.
 	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
 	 */
 	protected function validate_custom_css( $css ) {
-		if ( preg_match( '#</?\w+#', $css ) ) {
-			return new WP_Error(
-				'rest_custom_css_illegal_markup',
-				__( 'Markup is not allowed in CSS.' ),
-				array( 'status' => 400 )
+		$length = strlen( $css );
+		for (
+			$at = strcspn( $css, '<' );
+			$at < $length;
+			$at += strcspn( $css, '<', ++$at )
+		) {
+			$remaining_strlen = $length - $at;
+			/**
+			 * Custom CSS text is expected to render inside an HTML STYLE element.
+			 * A STYLE closing tag must not appear within the CSS text because it
+			 * would close the element prematurely.
+			 *
+			 * The text must also *not* end with a partial closing tag (e.g., `<`,
+			 * `</`, … `</style`) because subsequent styles which are concatenated
+			 * could complete it, forming a valid `</style>` tag.
+			 *
+			 * Example:
+			 *
+			 *     $style_a = 'p { font-weight: bold; </sty';
+			 *     $style_b = 'le> gotcha!';
+			 *     $combined = "{$style_a}{$style_b}";
+			 *
+			 *     $style_a = 'p { font-weight: bold; </style';
+			 *     $style_b = 'p > b { color: red; }';
+			 *     $combined = "{$style_a}\n{$style_b}";
+			 *
+			 * Note how in the second example, both of the style contents are benign
+			 * when analyzed on their own. The first style was likely the result of
+			 * improper truncation, while the second is perfectly sound. It was only
+			 * through concatenation that these two scripts combined to form content
+			 * that would have broken out of the containing STYLE element, thus
+			 * corrupting the page and potentially introducing security issues.
+			 *
+			 * @see https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
+			 */
+			$possible_style_close_tag = 0 === substr_compare(
+				$css,
+				'</style',
+				$at,
+				min( 7, $remaining_strlen ),
+				true
 			);
+			if ( $possible_style_close_tag ) {
+				if ( $remaining_strlen < 8 ) {
+					return new WP_Error(
+						'rest_custom_css_illegal_markup',
+						sprintf(
+							/* translators: %s is the CSS that was provided. */
+							__( 'The CSS must not end in "%s".' ),
+							esc_html( substr( $css, $at ) )
+						),
+						array( 'status' => 400 )
+					);
+				}
+
+				if ( 1 === strspn( $css, " \t\f\r\n/>", $at + 7, 1 ) ) {
+					return new WP_Error(
+						'rest_custom_css_illegal_markup',
+						sprintf(
+							/* translators: %s is the CSS that was provided. */
+							__( 'The CSS must not contain "%s".' ),
+							esc_html( substr( $css, $at, 8 ) )
+						),
+						array( 'status' => 400 )
+					);
+				}
+			}
 		}
+
 		return true;
 	}
 }
