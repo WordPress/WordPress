@@ -224,7 +224,7 @@ function add_screen_option( $option, $args = array() ) {
 function get_current_screen() {
 	global $current_screen;
 
-	if ( ! isset( $current_screen ) ) {
+	if ( ! $current_screen instanceof WP_Screen ) {
 		return null;
 	}
 
