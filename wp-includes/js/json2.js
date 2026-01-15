@@ -1,1 +1,0 @@
-// Deprecated in WordPress 6.9.

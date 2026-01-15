@@ -1,1 +1,0 @@
-<?php return array('dependencies' => array('wp-core-data', 'wp-data', 'wp-element', 'wp-preferences'), 'version' => '5e93e58e917d847323d3');
