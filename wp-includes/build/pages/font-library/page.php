@@ -9,10 +9,10 @@
 
 // Global storage for font-library routes and menu items
 global $wp_font_library_routes, $wp_font_library_menu_items;
-$wp_font_library_routes = array();
+$wp_font_library_routes     = array();
 $wp_font_library_menu_items = array();
 
-if ( ! function_exists( 'register_font_library_route' ) ) {
+if ( ! function_exists( 'wp_register_font_library_route' ) ) {
 	/**
 	 * Register a route for the font-library page.
 	 *
@@ -20,7 +20,7 @@ if ( ! function_exists( 'register_font_library_route' ) ) {
 	 * @param string|null $content_module Script module ID for content (stage/inspector).
 	 * @param string|null $route_module   Script module ID for route lifecycle hooks.
 	 */
-	function register_font_library_route( $path, $content_module = null, $route_module = null ) {
+	function wp_register_font_library_route( $path, $content_module = null, $route_module = null ) {
 		global $wp_font_library_routes;
 
 		$route = array( 'path' => $path );
@@ -35,7 +35,7 @@ if ( ! function_exists( 'register_font_library_route' ) ) {
 	}
 }
 
-if ( ! function_exists( 'register_font_library_menu_item' ) ) {
+if ( ! function_exists( 'wp_register_font_library_menu_item' ) ) {
 	/**
 	 * Register a menu item for the font-library page.
 	 *
@@ -45,7 +45,7 @@ if ( ! function_exists( 'register_font_library_menu_item' ) ) {
 	 * @param string $parent_id   Optional. Parent menu item ID.
 	 * @param string $parent_type Optional. Parent type: 'drilldown' or 'dropdown'.
 	 */
-	function register_font_library_menu_item( $id, $label, $to, $parent_id = '', $parent_type = '' ) {
+	function wp_register_font_library_menu_item( $id, $label, $to, $parent_id = '', $parent_type = '' ) {
 		global $wp_font_library_menu_items;
 
 		$menu_item = array(
@@ -66,36 +66,36 @@ if ( ! function_exists( 'register_font_library_menu_item' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_font_library_routes' ) ) {
+if ( ! function_exists( 'wp_get_font_library_routes' ) ) {
 	/**
 	 * Get all registered routes for the font-library page.
 	 *
 	 * @return array Array of route objects.
 	 */
-	function get_font_library_routes() {
+	function wp_get_font_library_routes() {
 		global $wp_font_library_routes;
 		return $wp_font_library_routes ?? array();
 	}
 }
 
-if ( ! function_exists( 'get_font_library_menu_items' ) ) {
+if ( ! function_exists( 'wp_get_font_library_menu_items' ) ) {
 	/**
 	 * Get all registered menu items for the font-library page.
 	 *
 	 * @return array Array of menu item objects.
 	 */
-	function get_font_library_menu_items() {
+	function wp_get_font_library_menu_items() {
 		global $wp_font_library_menu_items;
 		return $wp_font_library_menu_items ?? array();
 	}
 }
 
-if ( ! function_exists( 'font_library_preload_data' ) ) {
+if ( ! function_exists( 'wp_font_library_preload_data' ) ) {
 	/**
 	 * Preload REST API data for the font-library page.
 	 * Automatically called during page rendering.
 	 */
-	function font_library_preload_data() {
+	function wp_font_library_preload_data() {
 		// Define paths to preload - same for all pages
 		$preload_paths = array(
 			'/?_fields=description,gmt_offset,home,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
@@ -121,12 +121,12 @@ if ( ! function_exists( 'font_library_preload_data' ) ) {
 	}
 }
 
-if ( ! function_exists( 'font_library_render_page' ) ) {
+if ( ! function_exists( 'wp_font_library_render_page' ) ) {
 	/**
 	 * Render the font-library page.
 	 * Call this function from add_menu_page or add_submenu_page.
 	 */
-	function font_library_render_page() {
+	function wp_font_library_render_page() {
 		// Set current screen
 		set_current_screen();
 
@@ -145,11 +145,11 @@ if ( ! function_exists( 'font_library_render_page' ) ) {
 		do_action( 'font-library_init' );
 
 		// Preload REST API data
-		font_library_preload_data();
+		wp_font_library_preload_data();
 
 		// Get all registered routes and menu items
-		$menu_items = get_font_library_menu_items();
-		$routes = get_font_library_routes();
+		$menu_items = wp_get_font_library_menu_items();
+		$routes = wp_get_font_library_routes();
 
 		// Get boot module asset file for dependencies
 		$asset_file = ABSPATH . WPINC . '/js/dist/script-modules/boot/index.min.asset.php';
@@ -303,19 +303,19 @@ if ( ! function_exists( 'font_library_render_page' ) ) {
 	}
 }
 
-if ( ! function_exists( 'font_library_intercept_render' ) ) {
+if ( ! function_exists( 'wp_font_library_intercept_render' ) ) {
 	/**
 	 * Intercept admin_init to render the page early.
 	 * This bypasses the default WordPress admin template.
 	 */
-	function font_library_intercept_render() {
+	function wp_font_library_intercept_render() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['page'] ) && 'font-library' === $_GET['page'] ) {
-			font_library_render_page();
+			wp_font_library_render_page();
 			exit;
 		}
 	}
 }
 
 // Hook the interceptor to admin_init
-add_action( 'admin_init', 'font_library_intercept_render' );
+add_action( 'admin_init', 'wp_font_library_intercept_render' );
