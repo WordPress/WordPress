@@ -429,6 +429,7 @@ require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 require ABSPATH . WPINC . '/class-wp-url-pattern-prefixer.php';
 require ABSPATH . WPINC . '/class-wp-speculation-rules.php';
 require ABSPATH . WPINC . '/speculative-loading.php';
+require ABSPATH . WPINC . '/view-transitions.php';
 
 add_action( 'after_setup_theme', array( wp_script_modules(), 'add_hooks' ) );
 add_action( 'after_setup_theme', array( wp_interactivity(), 'add_hooks' ) );

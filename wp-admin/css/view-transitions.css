@@ -1,0 +1,7 @@
+@view-transition {
+	navigation: auto;
+}
+
+#adminmenu > .menu-top {
+	view-transition-name: attr(id type(<custom-ident>), none);
+}
