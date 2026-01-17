@@ -2652,7 +2652,7 @@ function wp_should_load_block_editor_scripts_and_styles() {
  * This only affects front end and not the block editor screens.
  *
  * @since 5.8.0
- * @see @see wp_should_load_block_assets_on_demand()
+ * @see wp_should_load_block_assets_on_demand()
  * @see wp_enqueue_registered_block_scripts_and_styles()
  * @see register_block_style_handle()
  *
