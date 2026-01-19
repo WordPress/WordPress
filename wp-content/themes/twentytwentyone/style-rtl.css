@@ -2274,11 +2274,13 @@ h6,
 }
 
 .wp-block-image .alignright {
-	margin-right: var(--global--spacing-horizontal);
+	margin-left: var(--global--spacing-horizontal);
+	margin-right: 0;
 }
 
 .wp-block-image .alignleft {
-	margin-left: var(--global--spacing-horizontal);
+	margin-right: var(--global--spacing-horizontal);
+	margin-left: 0;
 }
 
 .wp-block-image a:focus img {
@@ -2318,6 +2320,19 @@ h6,
 	.entry-content > .wp-block-image > .alignright {
 		margin-right: 0;
 		margin-left: 0;
+	}
+
+	.entry-content > .wp-block-image > .alignleft:after,
+	.entry-content > .wp-block-image > .alignright:after {
+		content: "";
+		display: block;
+		height: 1px;
+		width: 1em;
+		float: right;
+	}
+
+	.entry-content > .wp-block-image > .alignright:after {
+		float: left;
 	}
 }
 

@@ -19,3 +19,15 @@
 .wp-block-image.is-style-twentytwentyone-image-frame img {
 	padding: var(--global--spacing-unit);
 }
+
+.wp-block[data-align="left"] > .wp-block-image {
+
+	/*rtl:ignore*/
+	margin-left: 0;
+}
+
+.wp-block[data-align="right"] > .wp-block-image {
+
+	/*rtl:ignore*/
+	margin-right: 0;
+}

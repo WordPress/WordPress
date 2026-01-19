@@ -115,15 +115,19 @@
 	font-size: calc(1.2 * var(--heading--font-size-h1));
 }
 
-@media only screen and (min-width: 482px) {
+@include media(mobile) {
 
 	.wp-block[data-align="left"] > * {
 		max-width: 290px;
+
+		/*rtl:ignore*/
 		margin-right: var(--global--spacing-horizontal);
 	}
 
 	.wp-block[data-align="right"] > * {
 		max-width: 290px;
+
+		/*rtl:ignore*/
 		margin-left: var(--global--spacing-horizontal);
 	}
 }
