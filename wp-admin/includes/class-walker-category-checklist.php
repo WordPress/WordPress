@@ -26,7 +26,7 @@ class Walker_Category_Checklist extends Walker {
 	/**
 	 * Starts the list before the elements are added.
 	 *
-	 * @see Walker:start_lvl()
+	 * @see Walker::start_lvl()
 	 *
 	 * @since 2.5.1
 	 *
