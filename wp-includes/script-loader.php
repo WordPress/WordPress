@@ -166,6 +166,50 @@ function wp_default_packages_vendor( $scripts ) {
 }
 
 /**
+ * Registers development scripts that integrate with `@wordpress/scripts`.
+ *
+ * These scripts enable hot module replacement (HMR) for block development
+ * when using `wp-scripts start --hot`.
+ *
+ * @see https://github.com/WordPress/gutenberg/tree/trunk/packages/scripts#start
+ *
+ * @since 6.0.0
+ *
+ * @param WP_Scripts $scripts WP_Scripts object.
+ */
+function wp_register_development_scripts( $scripts ) {
+	if (
+		! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG
+		|| empty( $scripts->registered['react'] )
+		|| defined( 'WP_RUN_CORE_TESTS' )
+	) {
+		return;
+	}
+
+	// React Refresh runtime - exposes ReactRefreshRuntime global.
+	// No dependencies.
+	$scripts->add(
+		'wp-react-refresh-runtime',
+		'/wp-includes/js/dist/development/react-refresh-runtime.js',
+		array(),
+		'0.14.0'
+	);
+
+	// React Refresh entry - injects runtime into global hook.
+	// Must load before React to set up hooks.
+	$scripts->add(
+		'wp-react-refresh-entry',
+		'/wp-includes/js/dist/development/react-refresh-entry.js',
+		array( 'wp-react-refresh-runtime' ),
+		'0.14.0'
+	);
+
+	// Add entry as a dependency of React so it loads first.
+	// See https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/TROUBLESHOOTING.md#externalising-react.
+	$scripts->registered['react']->deps[] = 'wp-react-refresh-entry';
+}
+
+/**
  * Returns contents of an inline script used in appending polyfill scripts for
  * browsers which fail the provided tests. The provided array is a mapping from
  * a condition to verify feature support to its polyfill script handle.
@@ -618,6 +662,7 @@ function wp_tinymce_inline_scripts() {
  */
 function wp_default_packages( $scripts ) {
 	wp_default_packages_vendor( $scripts );
+	wp_register_development_scripts( $scripts );
 	wp_register_tinymce_scripts( $scripts );
 	wp_default_packages_scripts( $scripts );
 
