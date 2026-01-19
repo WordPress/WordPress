@@ -1623,6 +1623,11 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 	$processor = new WP_HTML_Tag_Processor( "<wp {$attr}>" );
 	$processor->next_token();
 
+	$attribute_names = $processor->get_attribute_names_with_prefix( '' );
+	if ( ! isset( $attribute_names ) ) {
+		return $attributes;
+	}
+
 	$syntax_characters = array(
 		'&' => '&amp;',
 		'<' => '&lt;',
@@ -1631,7 +1636,7 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 		'"' => '&quot;',
 	);
 
-	foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+	foreach ( $attribute_names as $name ) {
 		$value   = $processor->get_attribute( $name );
 		$is_bool = true === $value;
 		if ( is_string( $value ) && in_array( $name, $uris, true ) ) {
