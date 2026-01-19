@@ -142,7 +142,9 @@ else :
 </label></li>
 </ul>
 	<?php
-	if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) === get_option( 'page_on_front' ) ) :
+	if ( 'page' === get_option( 'show_on_front' )
+		&& get_option( 'page_for_posts' ) === get_option( 'page_on_front' )
+	) :
 		wp_admin_notice(
 			__( '<strong>Warning:</strong> these pages should not be the same!' ),
 			array(
@@ -152,7 +154,13 @@ else :
 			)
 		);
 	endif;
-	if ( get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_for_posts' ) || get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_on_front' ) ) :
+
+	$privacy_policy_page = get_option( 'wp_page_for_privacy_policy' );
+
+	if ( $privacy_policy_page
+		&& ( get_option( 'page_for_posts' ) === $privacy_policy_page
+			|| get_option( 'page_on_front' ) === $privacy_policy_page )
+	) :
 		wp_admin_notice(
 			__( '<strong>Warning:</strong> these pages should not be the same as your Privacy Policy page!' ),
 			array(
