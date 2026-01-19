@@ -8,14 +8,14 @@
  */
 
 // Load routes registry
-$routes_file = __DIR__ . '/routes/index.php';
+$routes_file = __DIR__ . '/routes/registry.php';
 if ( ! file_exists( $routes_file ) ) {
 	return;
 }
 
 $routes = require $routes_file;
 
-// Group routes by page
+// Group routes by page and store in globals for page-specific functions
 $routes_by_page = array();
 foreach ( $routes as $route ) {
 	$page_slug = $route['page'];
@@ -25,9 +25,21 @@ foreach ( $routes as $route ) {
 	$routes_by_page[ $page_slug ][] = $route;
 }
 
-// Helper function to register routes for a page
-$register_routes_callback = function ( $page_routes, $page_slug_underscore, $register_function_name ) {
-	return function () use ( $page_routes, $page_slug_underscore, $register_function_name ) {
+// Store routes data in globals for each page
+foreach ( $routes_by_page as $page_slug => $page_routes ) {
+	$page_slug_underscore = str_replace( '-', '_', $page_slug );
+	$global_name = 'wp_' . $page_slug_underscore . '_routes_data';
+	$GLOBALS[ $global_name ] = $page_routes;
+}
+
+if ( ! function_exists( 'wp_register_page_routes' ) ) {
+	/**
+	 * Generic helper function to register routes for a page.
+	 *
+	 * @param array  $page_routes           Array of route data for the page.
+	 * @param string $register_function_name Name of the function to call for registering each route.
+	 */
+	function wp_register_page_routes( $page_routes, $register_function_name ) {
 		foreach ( $page_routes as $route ) {
 			$content_handle = null;
 			$route_handle = null;
@@ -69,22 +81,53 @@ $register_routes_callback = function ( $page_routes, $page_slug_underscore, $reg
 				call_user_func( $register_function_name, $route['path'], $content_handle, $route_handle );
 			}
 		}
-	};
-};
-
-// Register hooks for both full-page and wp-admin modes
-foreach ( $routes_by_page as $page_slug => $page_routes ) {
-	$page_slug_underscore = str_replace( '-', '_', $page_slug );
-
-	// Register all routes for full-page mode (page.php)
-	add_action(
-		"{$page_slug}_init",
-		$register_routes_callback( $page_routes, $page_slug_underscore, "register_{$page_slug_underscore}_route" )
-	);
-
-	// Register all routes for wp-admin mode (page-wp-admin.php)
-	add_action(
-		"{$page_slug}-wp-admin_init",
-		$register_routes_callback( $page_routes, $page_slug_underscore, "register_{$page_slug_underscore}_wp_admin_route" )
-	);
+	}
 }
+
+// Page-specific route registration functions
+// Page-specific route registration functions for site-editor
+if ( ! function_exists( 'wp_register_site_editor_page_routes' ) ) {
+	/**
+	 * Register routes for site-editor page (full-page mode).
+	 */
+	function wp_register_site_editor_page_routes() {
+		global $wp_site_editor_routes_data;
+		wp_register_page_routes( $wp_site_editor_routes_data, 'wp_register_site_editor_route' );
+	}
+}
+add_action( 'site-editor_init', 'wp_register_site_editor_page_routes' );
+
+if ( ! function_exists( 'wp_register_site_editor_wp_admin_page_routes' ) ) {
+	/**
+	 * Register routes for site-editor page (wp-admin mode).
+	 */
+	function wp_register_site_editor_wp_admin_page_routes() {
+		global $wp_site_editor_routes_data;
+		wp_register_page_routes( $wp_site_editor_routes_data, 'wp_register_site_editor_wp_admin_route' );
+	}
+}
+add_action( 'site-editor-wp-admin_init', 'wp_register_site_editor_wp_admin_page_routes' );
+
+// Page-specific route registration functions for font-library
+if ( ! function_exists( 'wp_register_font_library_page_routes' ) ) {
+	/**
+	 * Register routes for font-library page (full-page mode).
+	 */
+	function wp_register_font_library_page_routes() {
+		global $wp_font_library_routes_data;
+		wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_route' );
+	}
+}
+add_action( 'font-library_init', 'wp_register_font_library_page_routes' );
+
+if ( ! function_exists( 'wp_register_font_library_wp_admin_page_routes' ) ) {
+	/**
+	 * Register routes for font-library page (wp-admin mode).
+	 */
+	function wp_register_font_library_wp_admin_page_routes() {
+		global $wp_font_library_routes_data;
+		wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_wp_admin_route' );
+	}
+}
+add_action( 'font-library-wp-admin_init', 'wp_register_font_library_wp_admin_page_routes' );
+
