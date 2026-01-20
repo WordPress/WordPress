@@ -70,7 +70,7 @@ class Twenty_Twenty_One_Dark_Mode {
 			'twentytwentyone-dark-mode-support-toggle',
 			get_template_directory_uri() . '/assets/js/dark-mode-toggler.js',
 			array(),
-			'1.0.0',
+			wp_get_theme()->get( 'Version' ),
 			array( 'in_footer' => true )
 		);
 
@@ -78,7 +78,7 @@ class Twenty_Twenty_One_Dark_Mode {
 			'twentytwentyone-editor-dark-mode-support',
 			get_template_directory_uri() . '/assets/js/editor-dark-mode-support.js',
 			array( 'twentytwentyone-dark-mode-support-toggle' ),
-			'1.0.0',
+			wp_get_theme()->get( 'Version' ),
 			array( 'in_footer' => true )
 		);
 	}
@@ -116,7 +116,7 @@ class Twenty_Twenty_One_Dark_Mode {
 			'twentytwentyone-customize-controls',
 			get_template_directory_uri() . '/assets/js/customize.js',
 			array( 'customize-base', 'customize-controls', 'underscore', 'jquery', 'twentytwentyone-customize-helpers' ),
-			'1.0.0',
+			wp_get_theme()->get( 'Version' ),
 			array( 'in_footer' => true )
 		);
 	}
