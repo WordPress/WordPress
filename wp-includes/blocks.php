@@ -2421,10 +2421,6 @@ function parse_blocks( $content ) {
 	 */
 	$parser_class = apply_filters( 'block_parser_class', 'WP_Block_Parser' );
 
-	if ( ! class_exists( $parser_class ) ) {
-		return array();
-	}
-
 	$parser = new $parser_class();
 	return $parser->parse( $content );
 }
