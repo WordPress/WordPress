@@ -1,2 +1,2 @@
 /*! This file is auto-generated */
-@view-transition{navigation:auto}#adminmenu>.menu-top{view-transition-name:attr(id type(<custom-ident>),none)}
+@media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}#adminmenu>.menu-top{view-transition-name:attr(id type(<custom-ident>),none)}}
