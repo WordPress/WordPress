@@ -1,7 +1,9 @@
-@view-transition {
-	navigation: auto;
-}
+@media (prefers-reduced-motion: no-preference) {
+	@view-transition {
+		navigation: auto;
+	}
 
-#adminmenu > .menu-top {
-	view-transition-name: attr(id type(<custom-ident>), none);
+	#adminmenu > .menu-top {
+		view-transition-name: attr(id type(<custom-ident>), none);
+	}
 }
