@@ -377,15 +377,9 @@ require ABSPATH . WPINC . '/class-wp-block-type-registry.php';
 require ABSPATH . WPINC . '/class-wp-block.php';
 require ABSPATH . WPINC . '/class-wp-block-list.php';
 require ABSPATH . WPINC . '/class-wp-block-metadata-registry.php';
-if ( file_exists( ABSPATH . WPINC . '/class-wp-block-parser-block.php' ) ) {
-	require ABSPATH . WPINC . '/class-wp-block-parser-block.php';
-}
-if ( file_exists( ABSPATH . WPINC . '/class-wp-block-parser-frame.php' ) ) {
-	require ABSPATH . WPINC . '/class-wp-block-parser-frame.php';
-}
-if ( file_exists( ABSPATH . WPINC . '/class-wp-block-parser.php' ) ) {
-	require ABSPATH . WPINC . '/class-wp-block-parser.php';
-}
+require ABSPATH . WPINC . '/class-wp-block-parser-block.php';
+require ABSPATH . WPINC . '/class-wp-block-parser-frame.php';
+require ABSPATH . WPINC . '/class-wp-block-parser.php';
 require ABSPATH . WPINC . '/class-wp-classic-to-block-menu-converter.php';
 require ABSPATH . WPINC . '/class-wp-navigation-fallback.php';
 require ABSPATH . WPINC . '/block-bindings.php';
