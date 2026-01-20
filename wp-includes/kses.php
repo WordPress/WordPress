@@ -1624,7 +1624,7 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 	$processor->next_token();
 
 	$attribute_names = $processor->get_attribute_names_with_prefix( '' );
-	if ( ! isset( $attribute_names ) ) {
+	if ( null === $attribute_names || 0 === count( $attribute_names ) ) {
 		return $attributes;
 	}
 
