@@ -673,7 +673,7 @@
 #available-menu-items .menu-item-handle.item-added .item-title,
 #available-menu-items .menu-item-handle.item-added:hover .item-add,
 #available-menu-items .menu-item-handle.item-added .item-add:focus {
-	color: #8c8f94;
+	color: #646970;
 }
 
 #available-menu-items .menu-item-handle.item-added .item-add:before {
