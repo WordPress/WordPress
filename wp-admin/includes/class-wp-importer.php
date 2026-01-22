@@ -289,9 +289,10 @@ class WP_Importer {
  * Returns value of command line params.
  * Exits when a required param is not set.
  *
- * @param string $param
- * @param bool   $required
- * @return mixed
+ * @param string $param    The parameter name to retrieve.
+ * @param bool   $required Optional. Whether the parameter is required. Default false.
+ * @return string|true|null|never The parameter value or true if found, null otherwise.
+ *                                The function exits when a required parameter is missing.
  */
 function get_cli_args( $param, $required = false ) {
 	$args = $_SERVER['argv'];
