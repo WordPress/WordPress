@@ -1630,7 +1630,7 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'code-editor', "/wp-admin/css/code-editor$suffix.css", array( 'wp-codemirror' ) );
 	$styles->add( 'site-health', "/wp-admin/css/site-health$suffix.css" );
 
-	$styles->add( 'wp-admin', false, array( 'dashicons', 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n' ) );
+	$styles->add( 'wp-admin', false, array( 'dashicons', 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n', 'wp-base-styles' ) );
 
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array( 'dashicons', 'buttons', 'forms', 'l10n' ) );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array( 'dashicons', 'buttons', 'forms', 'l10n' ) );
@@ -1713,6 +1713,7 @@ function wp_default_styles( $styles ) {
 
 	// Only add CONTENT styles here that should be enqueued in the iframe!
 	$wp_edit_blocks_dependencies = array(
+		'wp-base-styles',
 		'wp-components',
 		/*
 		 * This needs to be added before the block library styles,
@@ -1752,6 +1753,7 @@ function wp_default_styles( $styles ) {
 		'block-editor'         => array( 'wp-components', 'wp-preferences' ),
 		'block-library'        => array(),
 		'block-directory'      => array(),
+		'base-styles'          => array(),
 		'components'           => array(),
 		'commands'             => array( 'wp-components' ),
 		'edit-post'            => array(
@@ -1814,6 +1816,11 @@ function wp_default_styles( $styles ) {
 		if ( 'block-library' === $package && wp_should_load_separate_core_block_assets() ) {
 			$path = "/wp-includes/css/dist/$package/common$suffix.css";
 		}
+
+		if ( 'base-styles' === $package ) {
+			$path = "/wp-includes/css/dist/base-styles/admin-schemes$suffix.css";
+		}
+
 		$styles->add( $handle, $path, $dependencies );
 		$styles->add_data( $handle, 'path', ABSPATH . $path );
 	}
