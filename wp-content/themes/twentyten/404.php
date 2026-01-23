@@ -22,9 +22,5 @@ get_header(); ?>
 
 		</div><!-- #content -->
 	</div><!-- #container -->
-	<script>
-		// Focus on search field after it has loaded.
-		document.getElementById('s') && document.getElementById('s').focus();
-	</script>
 
 <?php get_footer(); ?>
