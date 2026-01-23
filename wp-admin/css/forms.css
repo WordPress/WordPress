@@ -209,6 +209,10 @@ input[type="search"]::-webkit-search-decoration {
 	display: none;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+	cursor: pointer;
+}
+
 .wp-admin input[type="file"] {
 	padding: 3px 0;
 	cursor: pointer;
