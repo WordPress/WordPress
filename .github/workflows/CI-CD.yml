@@ -50,7 +50,7 @@ jobs:
         run: |
           aws s3 cp "${{ steps.vars.outputs.tar_name }}" \
             "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.vars.outputs.tar_name }}"
-
+      
       - name: Ensure S3 lifecycle expiry (7 days)
         run: |
           cat > lifecycle.json << 'EOF'
@@ -70,6 +70,11 @@ jobs:
             --bucket "${{ env.S3_BUCKET }}" \
             --lifecycle-configuration file://lifecycle.json
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-artifact
+          path: ${{ steps.vars.outputs.tar_name }}
+          
       - name: Discover app instance IDs (1 or 2)
         id: discover
         run: |
