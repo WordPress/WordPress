@@ -36,7 +36,9 @@ jobs:
 
       - name: Create tar.gz package
         run: |
-          tar -czf "${{ steps.vars.outputs.tar_name }}" .
+          TAR="${{ steps.vars.outputs.tar_name }}"
+          tar -czf "/tmp/${TAR}" .
+          mv "/tmp/${TAR}" "${TAR}"
 
       - name: Configure AWS credentials via OIDC (AssumeRole)
         uses: aws-actions/configure-aws-credentials@v4
