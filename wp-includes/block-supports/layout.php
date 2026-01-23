@@ -233,7 +233,7 @@ function wp_register_layout_support( $block_type ) {
  * @param bool                 $has_block_gap_support         Optional. Whether the theme has support for the block gap. Default false.
  * @param string|string[]|null $gap_value                     Optional. The block gap value to apply. Default null.
  * @param bool                 $should_skip_gap_serialization Optional. Whether to skip applying the user-defined value set in the editor. Default false.
- * @param string               $fallback_gap_value            Optional. The block gap value to apply. Default '0.5em'.
+ * @param string|array         $fallback_gap_value            Optional. The block gap value to apply. If it's an array expected properties are "top" and/or "left". Default '0.5em'.
  * @param array|null           $block_spacing                 Optional. Custom spacing set on the block. Default null.
  * @return string CSS styles on success. Else, empty string.
  */
@@ -427,7 +427,12 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 			foreach ( $gap_sides as $gap_side ) {
 				$process_value = $gap_value;
 				if ( is_array( $gap_value ) ) {
-					$process_value = $gap_value[ $gap_side ] ?? $fallback_gap_value;
+					if ( is_array( $fallback_gap_value ) ) {
+						$fallback_value = $fallback_gap_value[ $gap_side ] ?? reset( $fallback_gap_value );
+					} else {
+						$fallback_value = $fallback_gap_value;
+					}
+					$process_value = $gap_value[ $gap_side ] ?? $fallback_value;
 				}
 				// Get spacing CSS variable from preset value if provided.
 				if ( is_string( $process_value ) && str_contains( $process_value, 'var:preset|spacing|' ) ) {
@@ -490,11 +495,73 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 			}
 		}
 	} elseif ( 'grid' === $layout_type ) {
-		if ( ! empty( $layout['columnCount'] ) ) {
+		/*
+		 * If the gap value is an array, we use the "left" value because it represents the vertical gap, which
+		 * is the relevant one for computation of responsive grid columns.
+		 */
+		if ( is_array( $fallback_gap_value ) ) {
+			$responsive_gap_value = $fallback_gap_value['left'] ?? reset( $fallback_gap_value );
+		} else {
+			$responsive_gap_value = $fallback_gap_value;
+		}
+
+		if ( $has_block_gap_support && isset( $gap_value ) ) {
+			$combined_gap_value = '';
+			$gap_sides          = is_array( $gap_value ) ? array( 'top', 'left' ) : array( 'top' );
+
+			foreach ( $gap_sides as $gap_side ) {
+				$process_value = $gap_value;
+				if ( is_array( $gap_value ) ) {
+					if ( is_array( $fallback_gap_value ) ) {
+						$fallback_value = $fallback_gap_value[ $gap_side ] ?? reset( $fallback_gap_value );
+					} else {
+						$fallback_value = $fallback_gap_value;
+					}
+					$process_value = $gap_value[ $gap_side ] ?? $fallback_value;
+				}
+				// Get spacing CSS variable from preset value if provided.
+				if ( is_string( $process_value ) && str_contains( $process_value, 'var:preset|spacing|' ) ) {
+					$index_to_splice = strrpos( $process_value, '|' ) + 1;
+					$slug            = _wp_to_kebab_case( substr( $process_value, $index_to_splice ) );
+					$process_value   = "var(--wp--preset--spacing--$slug)";
+				}
+				$combined_gap_value .= "$process_value ";
+			}
+			$gap_value            = trim( $combined_gap_value );
+			$responsive_gap_value = $gap_value;
+		}
+
+		// Ensure 0 values have a unit so they work in calc().
+		if ( '0' === $responsive_gap_value || 0 === $responsive_gap_value ) {
+			$responsive_gap_value = '0px';
+		}
+
+		if ( ! empty( $layout['columnCount'] ) && ! empty( $layout['minimumColumnWidth'] ) ) {
+			$max_value       = 'max(min(' . $layout['minimumColumnWidth'] . ', 100%), (100% - (' . $responsive_gap_value . ' * (' . $layout['columnCount'] . ' - 1))) /' . $layout['columnCount'] . ')';
+			$layout_styles[] = array(
+				'selector'     => $selector,
+				'declarations' => array(
+					'grid-template-columns' => 'repeat(auto-fill, minmax(' . $max_value . ', 1fr))',
+					'container-type'        => 'inline-size',
+				),
+			);
+			if ( ! empty( $layout['rowCount'] ) ) {
+				$layout_styles[] = array(
+					'selector'     => $selector,
+					'declarations' => array( 'grid-template-rows' => 'repeat(' . $layout['rowCount'] . ', minmax(1rem, auto))' ),
+				);
+			}
+		} elseif ( ! empty( $layout['columnCount'] ) ) {
 			$layout_styles[] = array(
 				'selector'     => $selector,
 				'declarations' => array( 'grid-template-columns' => 'repeat(' . $layout['columnCount'] . ', minmax(0, 1fr))' ),
 			);
+			if ( ! empty( $layout['rowCount'] ) ) {
+				$layout_styles[] = array(
+					'selector'     => $selector,
+					'declarations' => array( 'grid-template-rows' => 'repeat(' . $layout['rowCount'] . ', minmax(1rem, auto))' ),
+				);
+			}
 		} else {
 			$minimum_column_width = ! empty( $layout['minimumColumnWidth'] ) ? $layout['minimumColumnWidth'] : '12rem';
 
@@ -507,31 +574,11 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 			);
 		}
 
-		if ( $has_block_gap_support && isset( $gap_value ) ) {
-			$combined_gap_value = '';
-			$gap_sides          = is_array( $gap_value ) ? array( 'top', 'left' ) : array( 'top' );
-
-			foreach ( $gap_sides as $gap_side ) {
-				$process_value = $gap_value;
-				if ( is_array( $gap_value ) ) {
-					$process_value = $gap_value[ $gap_side ] ?? $fallback_gap_value;
-				}
-				// Get spacing CSS variable from preset value if provided.
-				if ( is_string( $process_value ) && str_contains( $process_value, 'var:preset|spacing|' ) ) {
-					$index_to_splice = strrpos( $process_value, '|' ) + 1;
-					$slug            = _wp_to_kebab_case( substr( $process_value, $index_to_splice ) );
-					$process_value   = "var(--wp--preset--spacing--$slug)";
-				}
-				$combined_gap_value .= "$process_value ";
-			}
-			$gap_value = trim( $combined_gap_value );
-
-			if ( null !== $gap_value && ! $should_skip_gap_serialization ) {
-				$layout_styles[] = array(
-					'selector'     => $selector,
-					'declarations' => array( 'gap' => $gap_value ),
-				);
-			}
+		if ( $has_block_gap_support && null !== $gap_value && ! $should_skip_gap_serialization ) {
+			$layout_styles[] = array(
+				'selector'     => $selector,
+				'declarations' => array( 'gap' => $gap_value ),
+			);
 		}
 	}
 
@@ -568,6 +615,8 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
  * @return string Filtered block content.
  */
 function wp_render_layout_support_flag( $block_content, $block ) {
+	static $global_styles = null;
+
 	$block_type            = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 	$block_supports_layout = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
 	$child_layout          = $block['attrs']['style']['layout'] ?? null;
@@ -803,6 +852,18 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 
 		$block_gap             = $global_settings['spacing']['blockGap'] ?? null;
 		$has_block_gap_support = isset( $block_gap );
+
+		// Get default blockGap value from global styles for use in layouts like grid.
+		// Check block-specific styles first, then fall back to root styles.
+		$block_name = $block['blockName'] ?? '';
+		if ( null === $global_styles ) {
+			$global_styles = wp_get_global_styles();
+		}
+		$global_block_gap_value = $global_styles['blocks'][ $block_name ]['spacing']['blockGap'] ?? ( $global_styles['spacing']['blockGap'] ?? null );
+
+		if ( null !== $global_block_gap_value ) {
+			$fallback_gap_value = $global_block_gap_value;
+		}
 
 		/*
 		 * Generates a unique ID based on all the data required to obtain the
