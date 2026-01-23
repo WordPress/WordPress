@@ -1,0 +1,124 @@
+name: Build & Deploy WordPress to ASG (OIDC)
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: amir-app
+  S3_PREFIX: builds
+  APP_DIR: /var/www/html/wordpress
+  INSTANCE_TAG_KEY: Role
+  INSTANCE_TAG_VALUE: wp-app
+
+jobs:
+  build_upload_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set build date + tar name
+        id: vars
+        run: |
+          BUILD_DATE=$(date +%F)
+          TAR_NAME="app_${BUILD_DATE}.tar.gz"
+          echo "build_date=$BUILD_DATE" >> $GITHUB_OUTPUT
+          echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create tar.gz package
+        run: |
+          tar -czf "${{ steps.vars.outputs.tar_name }}" .
+
+      - name: Configure AWS credentials via OIDC (AssumeRole)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload artifact to S3
+        run: |
+          aws s3 cp "${{ steps.vars.outputs.tar_name }}" \
+            "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.vars.outputs.tar_name }}"
+
+      - name: Ensure S3 lifecycle expiry (7 days)
+        run: |
+          cat > lifecycle.json << 'EOF'
+          {
+            "Rules": [
+              {
+                "ID": "expire-builds-7-days",
+                "Status": "Enabled",
+                "Filter": { "Prefix": "builds/" },
+                "Expiration": { "Days": 7 }
+              }
+            ]
+          }
+          EOF
+
+          aws s3api put-bucket-lifecycle-configuration \
+            --bucket "${{ env.S3_BUCKET }}" \
+            --lifecycle-configuration file://lifecycle.json
+
+      - name: Discover app instance IDs (1 or 2)
+        id: discover
+        run: |
+          IDS=$(aws ec2 describe-instances \
+            --filters \
+              "Name=tag:${{ env.INSTANCE_TAG_KEY }},Values=${{ env.INSTANCE_TAG_VALUE }}" \
+              "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+
+          if [ -z "$IDS" ]; then
+            echo "No running instances found with tag ${{ env.INSTANCE_TAG_KEY }}=${{ env.INSTANCE_TAG_VALUE }}"
+            exit 1
+          fi
+
+          echo "Found instance IDs: $IDS"
+
+          # Convert space-separated to comma-separated for SSM --instance-ids
+          IDS_CSV=$(echo "$IDS" | tr ' ' ',')
+          echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
+          echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
+
+      - name: Deploy to discovered instances via SSM (download -> extract -> rsync)
+        run: |
+          TAR="${{ steps.vars.outputs.tar_name }}"
+          S3URI="s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${TAR}"
+          TARGETS="${{ steps.discover.outputs.instance_ids_csv }}"
+
+          echo "Deploying to instances: $TARGETS"
+          echo "Artifact: $S3URI"
+
+          CMD_ID=$(aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --instance-ids "$TARGETS" \
+            --comment "Deploy WordPress build from GitHub Actions" \
+            --parameters commands="[
+              \"set -e\",
+              \"sudo mkdir -p /tmp/wp_deploy/extracted\",
+              \"cd /tmp/wp_deploy\",
+              \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
+              \"aws s3 cp ${S3URI} /tmp/wp_deploy/${TAR}\",
+              \"sudo tar -xzf /tmp/wp_deploy/${TAR} -C /tmp/wp_deploy/extracted\",
+              \"sudo mkdir -p ${APP_DIR}\",
+              \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ ${APP_DIR}/\",
+              \"sudo chown -R www-data:www-data ${APP_DIR} || true\",
+              \"sudo systemctl restart nginx || true\",
+              \"sudo systemctl restart php8.1-fpm || true\"
+            ]" \
+            --query "Command.CommandId" --output text)
+
+          echo "SSM CommandId: $CMD_ID"
+
+          # Show per-instance status (works for 1 or 2)
+          aws ssm list-command-invocations --command-id "$CMD_ID" --details
