@@ -2883,37 +2883,6 @@ function wp_enqueue_editor_format_library_assets() {
 }
 
 /**
- * Sanitizes an attributes array into an attributes string to be placed inside a `<script>` tag.
- *
- * Automatically injects type attribute if needed.
- * Used by {@see wp_get_script_tag()} and {@see wp_get_inline_script_tag()}.
- *
- * @since 5.7.0
- *
- * @param array<string, string|bool> $attributes Key-value pairs representing `<script>` tag attributes.
- * @return string String made of sanitized `<script>` tag attributes.
- */
-function wp_sanitize_script_attributes( $attributes ) {
-	$attributes_string = '';
-
-	/*
-	 * If HTML5 script tag is supported, only the attribute name is added
-	 * to $attributes_string for entries with a boolean value, and that are true.
-	 */
-	foreach ( $attributes as $attribute_name => $attribute_value ) {
-		if ( is_bool( $attribute_value ) ) {
-			if ( $attribute_value ) {
-				$attributes_string .= ' ' . esc_attr( $attribute_name );
-			}
-		} else {
-			$attributes_string .= sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
-		}
-	}
-
-	return $attributes_string;
-}
-
-/**
  * Formats `<script>` loader tags.
  *
  * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_script_attributes'} filter.
