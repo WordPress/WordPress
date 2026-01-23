@@ -70,18 +70,22 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return bool
+	 * Checks if the user can edit posts.
+	 *
+	 * @return bool Whether the user can edit posts.
 	 */
 	public function ajax_user_can() {
 		return current_user_can( 'edit_posts' );
 	}
 
 	/**
-	 * @global string $mode           List table view mode.
-	 * @global int    $post_id
-	 * @global string $comment_status
-	 * @global string $comment_type
-	 * @global string $search
+	 * Prepares the comments list items.
+	 *
+	 * @global string $mode           Current list table display mode.
+	 * @global int    $post_id        Current post ID filter.
+	 * @global string $comment_status Comment status filter.
+	 * @global string $comment_type   Comment type filter.
+	 * @global string $search         Search term.
 	 */
 	public function prepare_items() {
 		global $mode, $post_id, $comment_status, $comment_type, $search;
@@ -198,8 +202,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param string $comment_status
-	 * @return int
+	 * Gets the number of comments to display per page.
+	 *
+	 * @param string $comment_status Comment status.
+	 * @return int Comments per page.
 	 */
 	public function get_per_page( $comment_status = 'all' ) {
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
@@ -216,6 +222,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays a message when no comments are found.
+	 *
 	 * @global string $comment_status
 	 */
 	public function no_items() {
@@ -231,9 +239,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global int $post_id
+	 * Returns an array of comment status links.
+	 *
+	 * @global int    $post_id
 	 * @global string $comment_status
 	 * @global string $comment_type
+	 *
+	 * @return array<string, string> Comment status HTML links keyed by view.
 	 */
 	protected function get_views() {
 		global $post_id, $comment_status, $comment_type;
@@ -354,9 +366,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $comment_status
+	 * Gets the available bulk actions for the comments list.
 	 *
-	 * @return array
+	 * @global string $comment_status Current comment status filter.
+	 *
+	 * @return array<string, string> Bulk action labels keyed by action name.
 	 */
 	protected function get_bulk_actions() {
 		global $comment_status;
@@ -395,10 +409,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays extra controls between bulk actions and pagination.
+	 *
 	 * @global string $comment_status
 	 * @global string $comment_type
 	 *
-	 * @param string $which
+	 * @param string $which The location of the extra table nav markup: Either 'top' or 'bottom'.
 	 */
 	protected function extra_tablenav( $which ) {
 		global $comment_status, $comment_type;
@@ -453,7 +469,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return string|false
+	 * Gets the current action selected from the bulk actions dropdown.
+	 *
+	 * @return string|false Current action or false if none.
 	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
@@ -464,6 +482,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Gets the list of columns.
+	 *
 	 * @global int $post_id
 	 *
 	 * @return string[] Array of column titles keyed by their column name.
@@ -547,7 +567,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return array
+	 * Gets a list of sortable columns.
+	 *
+	 * @return array<string, string|array> The sortable columns.
 	 */
 	protected function get_sortable_columns() {
 		return array(
@@ -638,10 +660,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Generates content for a single row of the table.
+	 *
 	 * @global WP_Post    $post    Global post object.
 	 * @global WP_Comment $comment Global comment object.
 	 *
-	 * @param WP_Comment $item
+	 * @param WP_Comment $item The comment object.
 	 */
 	public function single_row( $item ) {
 		global $post, $comment;
@@ -917,6 +941,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the checkbox column.
+	 *
 	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @param WP_Comment $item The comment object.
@@ -941,6 +967,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the comment column.
+	 *
 	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_comment( $comment ) {
@@ -980,6 +1008,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the author column.
+	 *
 	 * @global string $comment_status
 	 *
 	 * @param WP_Comment $comment The comment object.
@@ -1039,6 +1069,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the date column.
+	 *
 	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_date( $comment ) {
@@ -1067,6 +1099,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the response column.
+	 *
 	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_response( $comment ) {
@@ -1113,6 +1147,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs the default column.
+	 *
 	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @param WP_Comment $item        The comment object.
