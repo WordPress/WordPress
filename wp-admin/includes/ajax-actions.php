@@ -455,7 +455,7 @@ function wp_ajax_logged_in() {
  * @access private
  *
  * @param int $comment_id Comment ID.
- * @param int $delta      Change in the number of total comments. Default -1.
+ * @param int $delta      Optional. Change in the number of total comments. Default -1.
  */
 function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	$total    = isset( $_POST['_total'] ) ? (int) $_POST['_total'] : 0;
