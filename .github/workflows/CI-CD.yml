@@ -98,50 +98,40 @@ jobs:
           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      - name: Deploy to discovered instances via SSM (no find, stable)
+      - name: Deploy to discovered instances via SSM (hardcoded paths)
         id: deploy
         run: |
+          # These are expanded ONLY on the GitHub runner (safe)
           TAR="${{ steps.vars.outputs.tar_name }}"
-          S3URI="s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${TAR}"
+          S3URI="s3://amir-app/builds/${TAR}"
           TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
-          APP_DIR="${{ env.APP_DIR }}"
 
-          echo "Deploying $S3URI to: $TARGETS"
+          echo "Deploying ${S3URI} to: ${TARGETS}"
 
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --instance-ids $TARGETS \
+            --instance-ids ${TARGETS} \
             --comment "Deploy WordPress build from GitHub Actions" \
             --parameters "commands=[
               \"set -eux\",
-              \"WORK=/tmp/wp_deploy\",
-              \"EXTRACT=/tmp/wp_deploy/extracted\",
-              \"sudo mkdir -p \\\"$WORK\\\" \\\"$EXTRACT\\\"\",
-              \"sudo rm -rf \\\"$EXTRACT\\\"/*\",
-              \"aws s3 cp \\\"$S3URI\\\" \\\"$WORK/$TAR\\\"\",
-              \"sudo tar --no-same-owner --no-same-permissions -xzf \\\"$WORK/$TAR\\\" -C \\\"$EXTRACT\\\"\",
-              \"sudo mkdir -p \\\"$APP_DIR\\\"\",
-              \"sudo rsync -a --delete \\\"$EXTRACT/\\\" \\\"$APP_DIR/\\\"\",
-              \"sudo chown -R www-data:www-data \\\"$APP_DIR\\\" || true\",
+              \"sudo mkdir -p /tmp/wp_deploy\",
+              \"sudo mkdir -p /tmp/wp_deploy/extracted\",
+              \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
+              \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
+              \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
+              \"sudo mkdir -p /var/www/html/wordpress\",
+              \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
+              \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
               \"sudo systemctl restart php8.1-fpm || true\",
               \"sudo systemctl restart nginx || true\",
-              \"ls -la \\\"$APP_DIR\\\" | head -n 30\",
-              \"test -d \\\"$APP_DIR/wp-admin\\\" && test -d \\\"$APP_DIR/wp-includes\\\"\"
+              \"ls -la /var/www/html/wordpress | head -n 30\",
+              \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
             ]" \
             --query "Command.CommandId" --output text)
 
           echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
           echo "SSM CommandId: $CMD_ID"
 
-      - name: Wait for Deploy command to finish
-        if: always()
-        continue-on-error: true
-        run: |
-          CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
-          echo "Waiting for SSM command: $CMD_ID"
-          for INSTANCE_ID in ${{ steps.discover.outputs.instance_ids_space }}; do
-            aws ssm wait command-executed --command-id "$CMD_ID" --instance-id "$INSTANCE_ID"
-          done
       
       - name: Show SSM Deploy command logs
         if: always()
