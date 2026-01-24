@@ -48,6 +48,7 @@ jobs:
 
       - name: Upload artifact to S3
         run: |
+          tar -tf "${{ steps.vars.outputs.tar_name }}"
           aws s3 cp "${{ steps.vars.outputs.tar_name }}" \
             "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.vars.outputs.tar_name }}"
       
