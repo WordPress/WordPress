@@ -55,14 +55,18 @@ jobs:
 
           # Generate salts offline (no external calls)
           gen_salt() { openssl rand -base64 48 | tr -d '\n'; }
-          AUTH_KEY="$(gen_salt)"
-          SECURE_AUTH_KEY="$(gen_salt)"
-          LOGGED_IN_KEY="$(gen_salt)"
-          NONCE_KEY="$(gen_salt)"
-          AUTH_SALT="$(gen_salt)"
-          SECURE_AUTH_SALT="$(gen_salt)"
-          LOGGED_IN_SALT="$(gen_salt)"
-          NONCE_SALT="$(gen_salt)"
+          
+          # Escape for sed replacement (handles / & and \)
+          esc_sed() { printf '%s' "$1" | sed -e 's/[\/&\\]/\\&/g'; }
+          
+          AUTH_KEY="$(esc_sed "$(gen_salt)")"
+          SECURE_AUTH_KEY="$(esc_sed "$(gen_salt)")"
+          LOGGED_IN_KEY="$(esc_sed "$(gen_salt)")"
+          NONCE_KEY="$(esc_sed "$(gen_salt)")"
+          AUTH_SALT="$(esc_sed "$(gen_salt)")"
+          SECURE_AUTH_SALT="$(esc_sed "$(gen_salt)")"
+          LOGGED_IN_SALT="$(esc_sed "$(gen_salt)")"
+          NONCE_SALT="$(esc_sed "$(gen_salt)")"
           
           # Replace the 8 salt lines safely using sed line-by-line
           sed -i "s/define( 'AUTH_KEY'.*/define( 'AUTH_KEY',         '${AUTH_KEY}' );/" wp-config.php
