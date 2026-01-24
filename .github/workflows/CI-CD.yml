@@ -26,6 +26,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate wp-config.php (from sample) + cat
+        shell: bash
+        env:
+          WP_DB_HOST: ${{ secrets.WP_DB_HOST }}
+          WP_DB_NAME: ${{ secrets.WP_DB_NAME }}
+          WP_DB_USER: ${{ secrets.WP_DB_USER }}
+          WP_DB_PASSWORD: ${{ secrets.WP_DB_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          # Ensure sample exists
+          test -f wp-config-sample.php
+
+          # Create wp-config.php from sample
+          cp wp-config-sample.php wp-config.php
+
+          # Replace DB settings
+          sed -i "s/database_name_here/${WP_DB_NAME}/" wp-config.php
+          sed -i "s/username_here/${WP_DB_USER}/" wp-config.php
+
+          # Escape password for sed
+          DBPASS_ESCAPED=$(printf '%s' "$WP_DB_PASSWORD" | sed -e 's/[\/&]/\\&/g')
+          sed -i "s/password_here/${DBPASS_ESCAPED}/" wp-config.php
+
+          # Replace localhost with your DB host (includes :3306)
+          sed -i "s/localhost/${WP_DB_HOST}/" wp-config.php
+
+          # Generate salts offline (no external calls)
+          gen_salt() { openssl rand -base64 48 | tr -d '\n'; }
+          for i in {1..8}; do
+            SALT="$(gen_salt)"
+            perl -0777 -i -pe "s/put your unique phrase here/$SALT/" wp-config.php
+          done
+
+          echo "==== wp-config.php created (DB_PASSWORD hidden) ===="
+          sed -E "s/(define\(\s*'DB_PASSWORD'\s*,\s*').*?('\s*\);)/\1***\2/" wp-config.php
+
       - name: Set build date + tar name
         id: vars
         run: |
