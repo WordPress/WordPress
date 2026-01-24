@@ -55,10 +55,25 @@ jobs:
 
           # Generate salts offline (no external calls)
           gen_salt() { openssl rand -base64 48 | tr -d '\n'; }
-          for i in {1..8}; do
-            SALT="$(gen_salt)"
-            perl -0777 -i -pe "s/put your unique phrase here/$SALT/" wp-config.php
-          done
+          AUTH_KEY="$(gen_salt)"
+          SECURE_AUTH_KEY="$(gen_salt)"
+          LOGGED_IN_KEY="$(gen_salt)"
+          NONCE_KEY="$(gen_salt)"
+          AUTH_SALT="$(gen_salt)"
+          SECURE_AUTH_SALT="$(gen_salt)"
+          LOGGED_IN_SALT="$(gen_salt)"
+          NONCE_SALT="$(gen_salt)"
+          
+          # Replace the 8 salt lines safely using sed line-by-line
+          sed -i "s/define( 'AUTH_KEY'.*/define( 'AUTH_KEY',         '${AUTH_KEY}' );/" wp-config.php
+          sed -i "s/define( 'SECURE_AUTH_KEY'.*/define( 'SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY}' );/" wp-config.php
+          sed -i "s/define( 'LOGGED_IN_KEY'.*/define( 'LOGGED_IN_KEY',    '${LOGGED_IN_KEY}' );/" wp-config.php
+          sed -i "s/define( 'NONCE_KEY'.*/define( 'NONCE_KEY',        '${NONCE_KEY}' );/" wp-config.php
+          sed -i "s/define( 'AUTH_SALT'.*/define( 'AUTH_SALT',        '${AUTH_SALT}' );/" wp-config.php
+          sed -i "s/define( 'SECURE_AUTH_SALT'.*/define( 'SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}' );/" wp-config.php
+          sed -i "s/define( 'LOGGED_IN_SALT'.*/define( 'LOGGED_IN_SALT', '${LOGGED_IN_SALT}' );/" wp-config.php
+          sed -i "s/define( 'NONCE_SALT'.*/define( 'NONCE_SALT',       '${NONCE_SALT}' );/" wp-config.php
+
 
           echo "==== wp-config.php created (DB_PASSWORD hidden) ===="
           sed -E "s/(define\(\s*'DB_PASSWORD'\s*,\s*').*?('\s*\);)/\1***\2/" wp-config.php
