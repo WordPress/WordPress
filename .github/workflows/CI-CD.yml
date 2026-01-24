@@ -107,34 +107,41 @@ jobs:
           APP_DIR="${{ env.APP_DIR }}"
       
           cat > deploy.sh <<'EOS'
-          set -eux
+           set -euxo pipefail
+          
           WORK=/tmp/wp_deploy
           EXTRACT=/tmp/wp_deploy/extracted
-      
-          sudo mkdir -p "$EXTRACT"
-          sudo rm -rf "$EXTRACT"/*
+          
           sudo mkdir -p "$WORK"
-      
+          sudo rm -rf "$EXTRACT"
+          sudo mkdir -p "$EXTRACT"
+          
           aws s3 cp "__S3URI__" "$WORK/__TAR__"
-          sudo tar -xzf "$WORK/__TAR__" -C "$EXTRACT"
-      
+          
+          echo "== TAR CONTENTS (first 30) =="
+          sudo tar -tzf "$WORK/__TAR__" | head -n 30
+          
+          echo "== EXTRACTING =="
+          sudo tar --no-same-owner --no-same-permissions -xzf "$WORK/__TAR__" -C "$EXTRACT"
+          
           SRC="$EXTRACT"
           if [ ! -d "$SRC/wp-admin" ] || [ ! -d "$SRC/wp-includes" ]; then
             CAND="$(find "$EXTRACT" -maxdepth 4 -type d -name wp-admin | head -n 1 || true)"
-            if [ -n "$CAND" ]; then
-              SRC="$(dirname "$CAND")"
-            fi
+            if [ -n "$CAND" ]; then SRC="$(dirname "$CAND")"; fi
           fi
-      
+          
           echo "Using source directory: $SRC"
+          
           sudo mkdir -p "__APP_DIR__"
           sudo rsync -a --delete "$SRC/" "__APP_DIR__/"
+          
           sudo chown -R www-data:www-data "__APP_DIR__" || true
           sudo systemctl restart php8.1-fpm || true
           sudo systemctl restart nginx || true
-      
+          
           ls -la "__APP_DIR__" | head -n 30
           test -d "__APP_DIR__/wp-admin" && test -d "__APP_DIR__/wp-includes"
+
           EOS
       
           # Replace placeholders safely
