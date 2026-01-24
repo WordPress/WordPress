@@ -104,29 +104,37 @@ jobs:
           S3URI="s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${TAR}"
           TARGETS="${{ steps.discover.outputs.instance_ids_csv }}"
 
-          echo "Deploying to instances: $TARGETS"
-          echo "Artifact: $S3URI"
-
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids "$TARGETS" \
             --comment "Deploy WordPress build from GitHub Actions" \
             --parameters commands="[
               \"set -e\",
-              \"sudo mkdir -p /tmp/wp_deploy/extracted\",
-              \"cd /tmp/wp_deploy\",
-              \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
-              \"aws s3 cp ${S3URI} /tmp/wp_deploy/${TAR}\",
-              \"sudo tar -xzf /tmp/wp_deploy/${TAR} -C /tmp/wp_deploy/extracted\",
-              \"sudo mkdir -p ${APP_DIR}\",
-              \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ ${APP_DIR}/\",
-              \"sudo chown -R www-data:www-data ${APP_DIR} || true\",
+              \"TAR=${TAR}\",
+              \"S3URI=${S3URI}\",
+              \"APP_DIR=${APP_DIR}\",
+              \"WORK=/tmp/wp_deploy\",
+              \"EXTRACT=$WORK/extracted\",
+              \"sudo mkdir -p $EXTRACT\",
+              \"sudo rm -rf $EXTRACT/*\",
+              \"aws s3 cp $S3URI $WORK/$TAR\",
+              \"sudo tar -xzf $WORK/$TAR -C $EXTRACT\",
+              \"# Find the real WordPress root (where wp-admin and wp-includes exist)\",
+              \"SRC=$EXTRACT\",
+              \"if [ ! -d $SRC/wp-admin ] || [ ! -d $SRC/wp-includes ]; then\",
+              \"  CAND=$(find $EXTRACT -maxdepth 2 -type d -name wp-admin | head -n 1 || true)\",
+              \"  if [ -n \\\"$CAND\\\" ]; then SRC=$(dirname \\\"$CAND\\\"); fi\",
+              \"fi\",
+              \"echo Using source directory: $SRC\",
+              \"sudo mkdir -p $APP_DIR\",
+              \"sudo rsync -a --delete $SRC/ $APP_DIR/\",
+              \"sudo chown -R www-data:www-data $APP_DIR || true\",
+              \"sudo systemctl restart php8.1-fpm || true\",
               \"sudo systemctl restart nginx || true\",
-              \"sudo systemctl restart php8.1-fpm || true\"
+              \"ls -la $APP_DIR | head\"
             ]" \
             --query "Command.CommandId" --output text)
 
           echo "SSM CommandId: $CMD_ID"
-
-          # Show per-instance status (works for 1 or 2)
           aws ssm list-command-invocations --command-id "$CMD_ID" --details
+
