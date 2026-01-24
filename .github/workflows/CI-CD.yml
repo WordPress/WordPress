@@ -176,7 +176,21 @@ jobs:
       #       echo "===== $INSTANCE_ID ====="
       #       aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$INSTANCE_ID"
       #     done
-      
+      - name: Show SSM deploy logs
+        if: always()
+        run: |
+          CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
+          INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
+
+          echo "Logs for CommandId: $CMD_ID"
+          for ID in $INSTANCE_IDS; do
+            echo "=============================="
+            echo "Instance: $ID"
+            aws ssm get-command-invocation \
+              --command-id "$CMD_ID" \
+              --instance-id "$ID" \
+              --output json
+          done
       - name: Fail if any instance failed
         run: |
           CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
