@@ -98,43 +98,45 @@ jobs:
           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      - name: Deploy to discovered instances via SSM (download -> extract -> rsync)
+      - name: Deploy to discovered instances via SSM (robust)
         run: |
           TAR="${{ steps.vars.outputs.tar_name }}"
           S3URI="s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${TAR}"
           TARGETS="${{ steps.discover.outputs.instance_ids_csv }}"
+          APP_DIR="${{ env.APP_DIR }}"
+
+          echo "Deploying: $S3URI -> $APP_DIR"
+          echo "Targets: $TARGETS"
 
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids "$TARGETS" \
             --comment "Deploy WordPress build from GitHub Actions" \
-            --parameters commands="[
-              \"set -e\",
-              \"TAR=${TAR}\",
-              \"S3URI=${S3URI}\",
-              \"APP_DIR=${APP_DIR}\",
+            --parameters "commands=[
+              \"set -eux\",
               \"WORK=/tmp/wp_deploy\",
-              \"EXTRACT=$WORK/extracted\",
-              \"sudo mkdir -p $EXTRACT\",
-              \"sudo rm -rf $EXTRACT/*\",
-              \"aws s3 cp $S3URI $WORK/$TAR\",
-              \"sudo tar -xzf $WORK/$TAR -C $EXTRACT\",
-              \"# Find the real WordPress root (where wp-admin and wp-includes exist)\",
-              \"SRC=$EXTRACT\",
-              \"if [ ! -d $SRC/wp-admin ] || [ ! -d $SRC/wp-includes ]; then\",
-              \"  CAND=$(find $EXTRACT -maxdepth 2 -type d -name wp-admin | head -n 1 || true)\",
-              \"  if [ -n \\\"$CAND\\\" ]; then SRC=$(dirname \\\"$CAND\\\"); fi\",
+              \"EXTRACT=/tmp/wp_deploy/extracted\",
+              \"sudo mkdir -p /tmp/wp_deploy/extracted\",
+              \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
+              \"aws s3 cp '${S3URI}' /tmp/wp_deploy/'${TAR}'\",
+              \"sudo tar -xzf /tmp/wp_deploy/'${TAR}' -C /tmp/wp_deploy/extracted\",
+              \"SRC=/tmp/wp_deploy/extracted\",
+              \"if [ ! -d \\\"$SRC/wp-admin\\\" ] || [ ! -d \\\"$SRC/wp-includes\\\" ]; then\",
+              \"  CAND=\\\"$(find /tmp/wp_deploy/extracted -maxdepth 3 -type d -name wp-admin | head -n 1 || true)\\\"\",
+              \"  if [ -n \\\"$CAND\\\" ]; then SRC=\\\"$(dirname \\\"$CAND\\\")\\\"; fi\",
               \"fi\",
               \"echo Using source directory: $SRC\",
-              \"sudo mkdir -p $APP_DIR\",
-              \"sudo rsync -a --delete $SRC/ $APP_DIR/\",
-              \"sudo chown -R www-data:www-data $APP_DIR || true\",
+              \"sudo mkdir -p '${APP_DIR}'\",
+              \"sudo rsync -a --delete \\\"$SRC/\\\" '${APP_DIR}/'\",
+              \"sudo chown -R www-data:www-data '${APP_DIR}' || true\",
               \"sudo systemctl restart php8.1-fpm || true\",
               \"sudo systemctl restart nginx || true\",
-              \"ls -la $APP_DIR | head\"
+              \"ls -la '${APP_DIR}' | head -n 30\",
+              \"test -d '${APP_DIR}/wp-admin' && test -d '${APP_DIR}/wp-includes'\"
             ]" \
             --query "Command.CommandId" --output text)
 
           echo "SSM CommandId: $CMD_ID"
           aws ssm list-command-invocations --command-id "$CMD_ID" --details
+
 
