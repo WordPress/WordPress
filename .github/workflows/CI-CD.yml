@@ -98,7 +98,7 @@ jobs:
           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      - name: Deploy to discovered instances via SSM (bash, no JSON escaping)
+      - name: Deploy to discovered instances via SSM (no find, stable)
         id: deploy
         run: |
           TAR="${{ steps.vars.outputs.tar_name }}"
@@ -108,31 +108,25 @@ jobs:
 
           echo "Deploying $S3URI to: $TARGETS"
 
-          # SendCommand supports multiple instance ids separated by spaces
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids $TARGETS \
             --comment "Deploy WordPress build from GitHub Actions" \
-            --parameters commands="[
-              \"bash -lc 'set -euxo pipefail; \
-                WORK=/tmp/wp_deploy; EXTRACT=/tmp/wp_deploy/extracted; \
-                mkdir -p \\\"$WORK\\\"; rm -rf \\\"$EXTRACT\\\"; mkdir -p \\\"$EXTRACT\\\"; \
-                aws s3 cp \\\"$S3URI\\\" \\\"$WORK/$TAR\\\"; \
-                tar -tzf \\\"$WORK/$TAR\\\" | head -n 30; \
-                tar --no-same-owner --no-same-permissions -xzf \\\"$WORK/$TAR\\\" -C \\\"$EXTRACT\\\"; \
-                SRC=\\\"$EXTRACT\\\"; \
-                if [ ! -d \\\"$SRC/wp-admin\\\" ] || [ ! -d \\\"$SRC/wp-includes\\\" ]; then \
-                  CAND=\\\"$(find \\\"$EXTRACT\\\" -maxdepth 4 -type d -name wp-admin | head -n 1 || true)\\\"; \
-                  if [ -n \\\"$CAND\\\" ]; then SRC=\\\"$(dirname \\\"$CAND\\\")\\\"; fi; \
-                fi; \
-                echo Using source directory: \\\"$SRC\\\"; \
-                mkdir -p \\\"$APP_DIR\\\"; \
-                rsync -a --delete \\\"$SRC/\\\" \\\"$APP_DIR/\\\"; \
-                chown -R www-data:www-data \\\"$APP_DIR\\\" || true; \
-                systemctl restart php8.1-fpm || true; \
-                systemctl restart nginx || true; \
-                ls -la \\\"$APP_DIR\\\" | head -n 30; \
-                test -d \\\"$APP_DIR/wp-admin\\\" && test -d \\\"$APP_DIR/wp-includes\\\"' \"
+            --parameters "commands=[
+              \"set -eux\",
+              \"WORK=/tmp/wp_deploy\",
+              \"EXTRACT=/tmp/wp_deploy/extracted\",
+              \"sudo mkdir -p \\\"$WORK\\\" \\\"$EXTRACT\\\"\",
+              \"sudo rm -rf \\\"$EXTRACT\\\"/*\",
+              \"aws s3 cp \\\"$S3URI\\\" \\\"$WORK/$TAR\\\"\",
+              \"sudo tar --no-same-owner --no-same-permissions -xzf \\\"$WORK/$TAR\\\" -C \\\"$EXTRACT\\\"\",
+              \"sudo mkdir -p \\\"$APP_DIR\\\"\",
+              \"sudo rsync -a --delete \\\"$EXTRACT/\\\" \\\"$APP_DIR/\\\"\",
+              \"sudo chown -R www-data:www-data \\\"$APP_DIR\\\" || true\",
+              \"sudo systemctl restart php8.1-fpm || true\",
+              \"sudo systemctl restart nginx || true\",
+              \"ls -la \\\"$APP_DIR\\\" | head -n 30\",
+              \"test -d \\\"$APP_DIR/wp-admin\\\" && test -d \\\"$APP_DIR/wp-includes\\\"\"
             ]" \
             --query "Command.CommandId" --output text)
 
