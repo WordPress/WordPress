@@ -1,7 +1,12 @@
 <?php
 /**
  * WP_Importer base class
+ *
+ * @package WordPress
+ * @subpackage Importer
+ * @since 3.0.0
  */
+
 #[AllowDynamicProperties]
 class WP_Importer {
 	/**
