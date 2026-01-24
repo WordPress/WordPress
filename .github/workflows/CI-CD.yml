@@ -98,78 +98,46 @@ jobs:
           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      - name: Deploy to discovered instances via SSM (bash script)
+      - name: Deploy to discovered instances via SSM (bash, no JSON escaping)
         id: deploy
         run: |
           TAR="${{ steps.vars.outputs.tar_name }}"
           S3URI="s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${TAR}"
-          TARGETS_CSV="${{ steps.discover.outputs.instance_ids_csv }}"
+          TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
           APP_DIR="${{ env.APP_DIR }}"
-      
-          cat > deploy.sh <<'EOS'
-          #!/usr/bin/env bash
-          set -euxo pipefail
-      
-          WORK=/tmp/wp_deploy
-          EXTRACT=/tmp/wp_deploy/extracted
-      
-          sudo mkdir -p "$WORK"
-          sudo rm -rf "$EXTRACT"
-          sudo mkdir -p "$EXTRACT"
-      
-          aws s3 cp "__S3URI__" "$WORK/__TAR__"
-      
-          echo "== TAR CONTENTS (first 30) =="
-          sudo tar -tzf "$WORK/__TAR__" | head -n 30
-      
-          echo "== EXTRACTING =="
-          sudo tar --no-same-owner --no-same-permissions -xzf "$WORK/__TAR__" -C "$EXTRACT"
-      
-          SRC="$EXTRACT"
-          if [ ! -d "$SRC/wp-admin" ] || [ ! -d "$SRC/wp-includes" ]; then
-            CAND="$(find "$EXTRACT" -maxdepth 4 -type d -name wp-admin | head -n 1 || true)"
-            if [ -n "$CAND" ]; then SRC="$(dirname "$CAND")"; fi
-          fi
-      
-          echo "Using source directory: $SRC"
-      
-          sudo mkdir -p "__APP_DIR__"
-          sudo rsync -a --delete "$SRC/" "__APP_DIR__/"
-      
-          sudo chown -R www-data:www-data "__APP_DIR__" || true
-          sudo systemctl restart php8.1-fpm || true
-          sudo systemctl restart nginx || true
-      
-          ls -la "__APP_DIR__" | head -n 30
-          test -d "__APP_DIR__/wp-admin" && test -d "__APP_DIR__/wp-includes"
-          EOS
-      
-          sed -i "s|__S3URI__|$S3URI|g" deploy.sh
-          sed -i "s|__TAR__|$TAR|g" deploy.sh
-          sed -i "s|__APP_DIR__|$APP_DIR|g" deploy.sh
-      
-          # Encode deploy.sh as JSON string
-          SCRIPT_JSON=$(python3 - <<'PY'
-          import json
-          print(json.dumps(open("deploy.sh").read()))
-          PY
-          )
-      
-          # SSM: write script to file then run with bash
+
+          echo "Deploying $S3URI to: $TARGETS"
+
+          # SendCommand supports multiple instance ids separated by spaces
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --instance-ids "$TARGETS_CSV" \
+            --instance-ids $TARGETS \
             --comment "Deploy WordPress build from GitHub Actions" \
-            --parameters "{\"commands\":[
-              \"cat > /tmp/deploy_wp.sh <<'EOF'\\n\"$SCRIPT_JSON\"\\nEOF\",
-              \"chmod +x /tmp/deploy_wp.sh\",
-              \"/bin/bash /tmp/deploy_wp.sh\"
-            ]}" \
+            --parameters commands="[
+              \"bash -lc 'set -euxo pipefail; \
+                WORK=/tmp/wp_deploy; EXTRACT=/tmp/wp_deploy/extracted; \
+                mkdir -p \\\"$WORK\\\"; rm -rf \\\"$EXTRACT\\\"; mkdir -p \\\"$EXTRACT\\\"; \
+                aws s3 cp \\\"$S3URI\\\" \\\"$WORK/$TAR\\\"; \
+                tar -tzf \\\"$WORK/$TAR\\\" | head -n 30; \
+                tar --no-same-owner --no-same-permissions -xzf \\\"$WORK/$TAR\\\" -C \\\"$EXTRACT\\\"; \
+                SRC=\\\"$EXTRACT\\\"; \
+                if [ ! -d \\\"$SRC/wp-admin\\\" ] || [ ! -d \\\"$SRC/wp-includes\\\" ]; then \
+                  CAND=\\\"$(find \\\"$EXTRACT\\\" -maxdepth 4 -type d -name wp-admin | head -n 1 || true)\\\"; \
+                  if [ -n \\\"$CAND\\\" ]; then SRC=\\\"$(dirname \\\"$CAND\\\")\\\"; fi; \
+                fi; \
+                echo Using source directory: \\\"$SRC\\\"; \
+                mkdir -p \\\"$APP_DIR\\\"; \
+                rsync -a --delete \\\"$SRC/\\\" \\\"$APP_DIR/\\\"; \
+                chown -R www-data:www-data \\\"$APP_DIR\\\" || true; \
+                systemctl restart php8.1-fpm || true; \
+                systemctl restart nginx || true; \
+                ls -la \\\"$APP_DIR\\\" | head -n 30; \
+                test -d \\\"$APP_DIR/wp-admin\\\" && test -d \\\"$APP_DIR/wp-includes\\\"' \"
+            ]" \
             --query "Command.CommandId" --output text)
-      
+
           echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
           echo "SSM CommandId: $CMD_ID"
-
 
       - name: Wait for Deploy command to finish
         if: always()
