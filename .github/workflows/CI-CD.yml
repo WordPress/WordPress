@@ -299,6 +299,7 @@ jobs:
 
       - name: Update wp-config.php with opposite Public IP (separate step)
         id: set_wp_ip
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -308,47 +309,69 @@ jobs:
           TAG_VAL="${{ env.INSTANCE_TAG_VALUE }}"
           APP_DIR="${{ env.APP_DIR }}"
 
-          echo "Updating wp-config.php on: $TARGETS"
+          echo "Updating wp-config.php on: ${TARGETS}"
+
+          read -r -d '' SCRIPT <<'EOF'
+          set -eux
+
+          REGION="__REGION__"
+          TAG_KEY="__TAG_KEY__"
+          TAG_VAL="__TAG_VAL__"
+          APP_DIR="__APP_DIR__"
+          CFG="${APP_DIR}/wp-config.php"
+
+          # IMDSv2 token (fallback to IMDSv1)
+          TOKEN="$(curl -sX PUT 'http://169.254.169.254/latest/api/token' \
+            -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600' || true)"
+
+          if [ -n "${TOKEN}" ]; then
+            HDR=(-H "X-aws-ec2-metadata-token: ${TOKEN}")
+          else
+            HDR=()
+          fi
+
+          SELF_ID="$(curl -s "${HDR[@]}" http://169.254.169.254/latest/meta-data/instance-id)"
+
+          # Opposite instance public IP (assumes 2 instances). If only 1 exists, fallback to self public ip.
+          PEER_IP="$(aws ec2 describe-instances --region "${REGION}" \
+            --filters "Name=tag:${TAG_KEY},Values=${TAG_VAL}" "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[?InstanceId!=\`${SELF_ID}\`].PublicIpAddress" \
+            --output text | awk 'NF{print $1; exit}')"
+
+          echo "SELF_ID=${SELF_ID} PEER_IP=${PEER_IP}"
+
+          if [ -z "${PEER_IP}" ] || [ "${PEER_IP}" = "None" ]; then
+            PEER_IP="$(curl -s "${HDR[@]}" http://169.254.169.254/latest/meta-data/public-ipv4 || true)"
+          fi
+
+          if [ ! -f "${CFG}" ]; then
+            echo "ERROR: wp-config.php not found at ${CFG}" >&2
+            exit 1
+          fi
+
+          # Remove old defines if exist
+          sudo sed -i "/define( 'WP_HOME'/d;/define( 'WP_SITEURL'/d" "${CFG}"
+
+          # Inject before stop-editing line
+          sudo sed -i "/\/\* That's all, stop editing! \*\//i \
+          define( 'WP_HOME', 'http://${PEER_IP}' );\n\
+          define( 'WP_SITEURL', 'http://${PEER_IP}' );\n" "${CFG}"
+
+          # Confirm
+          grep -n "WP_HOME\|WP_SITEURL" "${CFG}" || true
+          EOF
+
+          # Replace placeholders safely on the runner (ONLY these values)
+          SCRIPT="${SCRIPT/__REGION__/$REGION}"
+          SCRIPT="${SCRIPT/__TAG_KEY__/$TAG_KEY}"
+          SCRIPT="${SCRIPT/__TAG_VAL__/$TAG_VAL}"
+          SCRIPT="${SCRIPT/__APP_DIR__/$APP_DIR}"
 
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids ${TARGETS} \
             --comment "Set WP_HOME/WP_SITEURL to opposite instance public IP" \
-            --parameters "commands=[
-              \"set -eux\",
-              \"REGION='${REGION}'\",
-              \"TAG_KEY='${TAG_KEY}'\",
-              \"TAG_VAL='${TAG_VAL}'\",
-              \"APP_DIR='${APP_DIR}'\",
-              \"CFG=\\\"$APP_DIR/wp-config.php\\\"\",
-              
-              \"# IMDSv2 token (fallback to IMDSv1)\",
-              \"TOKEN=$(curl -sX PUT 'http://169.254.169.254/latest/api/token' -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600' || true)\",
-              \"if [ -n \\\"$TOKEN\\\" ]; then HDR=(-H \\\"X-aws-ec2-metadata-token: $TOKEN\\\"); else HDR=(); fi\",
-              \"SELF_ID=$(curl -s \\\"${HDR[@]}\\\" http://169.254.169.254/latest/meta-data/instance-id)\",
-              
-              \"# Get opposite instance Public IP (works best when exactly 2 instances)\",
-              \"PEER_IP=$(aws ec2 describe-instances --region \\\"$REGION\\\" \
-                  --filters \\\"Name=tag:$TAG_KEY,Values=$TAG_VAL\\\" \\\"Name=instance-state-name,Values=running\\\" \
-                  --query 'Reservations[].Instances[?InstanceId!=`'\\\"$SELF_ID\\\"'`].PublicIpAddress' \
-                  --output text | awk 'NF{print $1; exit}')\",
-              
-              \"echo \\\"SELF_ID=$SELF_ID PEER_IP=$PEER_IP\\\"\",
-              
-              \"# If only one instance exists, fallback to self public IP\",
-              \"if [ -z \\\"$PEER_IP\\\" ] || [ \\\"$PEER_IP\\\" = 'None' ]; then \
-                    PEER_IP=$(curl -s \\\"${HDR[@]}\\\" http://169.254.169.254/latest/meta-data/public-ipv4 || true); \
-                fi\",
-              
-              \"if [ ! -f \\\"$CFG\\\" ]; then echo 'ERROR: wp-config.php not found' >&2; exit 1; fi\",
-              
-              \"# Remove old defines if exist, then inject before the stop-editing line\",
-              \"sudo sed -i '/define(\\x27WP_HOME\\x27/d;/define(\\x27WP_SITEURL\\x27/d' \\\"$CFG\\\" \",
-              \"sudo sed -i \\\"/\\/\\* That's all, stop editing! \\*\\//i define( 'WP_HOME', 'http:\\/\\/$PEER_IP' );\\\\ndefine( 'WP_SITEURL', 'http:\\/\\/$PEER_IP' );\\\\n\\\" \\\"$CFG\\\" \",
-              
-              \"# Confirm\",
-              \"grep -n \\\"WP_HOME\\|WP_SITEURL\\\" \\\"$CFG\\\" || true\"
-            ]" \
+            --parameters "commands=$(printf '%s' "$SCRIPT" | jq -Rs 'split("\n")')" \
             --query "Command.CommandId" --output text)
 
           echo "ssm_set_ip_command_id=$CMD_ID" >> $GITHUB_OUTPUT
