@@ -320,7 +320,6 @@ jobs:
           APP_DIR="__APP_DIR__"
           CFG="${APP_DIR}/wp-config.php"
 
-          # IMDSv2 token (fallback to IMDSv1)
           TOKEN="$(curl -sX PUT 'http://169.254.169.254/latest/api/token' \
             -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600' || true)"
 
@@ -332,7 +331,6 @@ jobs:
 
           SELF_ID="$(curl -s "${HDR[@]}" http://169.254.169.254/latest/meta-data/instance-id)"
 
-          # Opposite instance public IP (assumes 2 instances). If only 1 exists, fallback to self public ip.
           PEER_IP="$(aws ec2 describe-instances --region "${REGION}" \
             --filters "Name=tag:${TAG_KEY},Values=${TAG_VAL}" "Name=instance-state-name,Values=running" \
             --query "Reservations[].Instances[?InstanceId!=\`${SELF_ID}\`].PublicIpAddress" \
@@ -344,40 +342,36 @@ jobs:
             PEER_IP="$(curl -s "${HDR[@]}" http://169.254.169.254/latest/meta-data/public-ipv4 || true)"
           fi
 
-          if [ ! -f "${CFG}" ]; then
-            echo "ERROR: wp-config.php not found at ${CFG}" >&2
-            exit 1
-          fi
+          test -f "${CFG}"
 
-          # Remove old defines if exist
           sudo sed -i "/define( 'WP_HOME'/d;/define( 'WP_SITEURL'/d" "${CFG}"
 
-          # Inject before stop-editing line
           sudo sed -i "/\/\* That's all, stop editing! \*\//i \
           define( 'WP_HOME', 'http://${PEER_IP}' );\n\
           define( 'WP_SITEURL', 'http://${PEER_IP}' );\n" "${CFG}"
+          
+                    grep -n "WP_HOME\|WP_SITEURL" "${CFG}" || true
+                    EOF
+                    )
+          
+                    SCRIPT="${SCRIPT/__REGION__/$REGION}"
+                    SCRIPT="${SCRIPT/__TAG_KEY__/$TAG_KEY}"
+                    SCRIPT="${SCRIPT/__TAG_VAL__/$TAG_VAL}"
+                    SCRIPT="${SCRIPT/__APP_DIR__/$APP_DIR}"
 
-          # Confirm
-          grep -n "WP_HOME\|WP_SITEURL" "${CFG}" || true
-          EOF
-          )
+          # ✅ build proper JSON parameters
+          PARAMS_JSON=$(jq -n --arg script "$SCRIPT" '{commands: ($script | split("\n"))}')
 
-          # Replace placeholders on runner
-          SCRIPT="${SCRIPT/__REGION__/$REGION}"
-          SCRIPT="${SCRIPT/__TAG_KEY__/$TAG_KEY}"
-          SCRIPT="${SCRIPT/__TAG_VAL__/$TAG_VAL}"
-          SCRIPT="${SCRIPT/__APP_DIR__/$APP_DIR}"
-
-          # Send as commands array to SSM
           CMD_ID=$(aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids ${TARGETS} \
             --comment "Set WP_HOME/WP_SITEURL to opposite instance public IP" \
-            --parameters "commands=$(printf '%s' "$SCRIPT" | jq -Rs 'split("\n")')" \
+            --parameters "$PARAMS_JSON" \
             --query "Command.CommandId" --output text)
 
           echo "ssm_set_ip_command_id=$CMD_ID" >> $GITHUB_OUTPUT
           echo "SSM CommandId (set ip): $CMD_ID"
+
 
 
       - name: Wait for wp-config update (poll)
