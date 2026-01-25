@@ -154,46 +154,9 @@ jobs:
           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      # - name: Deploy to discovered instances via SSM (hardcoded paths)
-      #   id: deploy
-      #   run: |
-      #     # These are expanded ONLY on the GitHub runner (safe)
-      #     TAR="${{ steps.vars.outputs.tar_name }}"
-      #     S3URI="s3://amir-app/builds/${TAR}"
-      #     TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
-
-      #     echo "Deploying ${S3URI} to: ${TARGETS}"
-
-      #     CMD_ID=$(aws ssm send-command \
-      #       --document-name "AWS-RunShellScript" \
-      #       --instance-ids ${TARGETS} \
-      #       --comment "Deploy WordPress build from GitHub Actions" \
-      #       --parameters "commands=[
-      #         \"set -eux\",
-      #         \"sudo mkdir -p /tmp/wp_deploy\",
-      #         \"sudo mkdir -p /tmp/wp_deploy/extracted\",
-      #         \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
-      #         \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
-      #         \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
-      #         \"sudo mkdir -p /var/www/html/wordpress\",
-      #         \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
-      #         \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
-      #         \"sudo systemctl restart php8.1-fpm || true\",
-      #         \"sudo systemctl restart nginx || true\",
-      #         \"ls -la /var/www/html/wordpress | head -n 30\",
-      #         \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
-      #       ]" \
-      #       --query "Command.CommandId" --output text)
-
-      #     echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
-      #     echo "SSM CommandId: $CMD_ID"
 
       - name: Deploy to instances via SSM (safe with uploads mount)
         id: deploy
-          # TAR="app_2026-01-24.tar.gz"
-          # S3URI="s3://amir-app/builds/${TAR}"
-          # TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
-          # echo "Deploying ${S3URI} to: ${TARGETS}"
         run: |
           TAR="${{ steps.vars.outputs.tar_name }}"
           S3URI="s3://amir-app/builds/${TAR}"
@@ -295,3 +258,85 @@ jobs:
             [ "$STATUS" = "Success" ] || FAIL=1
           done
           exit $FAIL
+
+
+      - name: Update wp-config.php with opposite Public IP (separate step)
+        id: set_wp_ip
+        run: |
+          set -euo pipefail
+
+          TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
+          REGION="${{ env.AWS_REGION }}"
+          TAG_KEY="${{ env.INSTANCE_TAG_KEY }}"
+          TAG_VAL="${{ env.INSTANCE_TAG_VALUE }}"
+          APP_DIR="${{ env.APP_DIR }}"
+
+          echo "Updating wp-config.php on: $TARGETS"
+
+          CMD_ID=$(aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --instance-ids ${TARGETS} \
+            --comment "Set WP_HOME/WP_SITEURL to opposite instance public IP" \
+            --parameters "commands=[
+              \"set -eux\",
+              \"REGION='${REGION}'\",
+              \"TAG_KEY='${TAG_KEY}'\",
+              \"TAG_VAL='${TAG_VAL}'\",
+              \"APP_DIR='${APP_DIR}'\",
+              \"CFG=\\\"$APP_DIR/wp-config.php\\\"\",
+              
+              \"# IMDSv2 token (fallback to IMDSv1)\",
+              \"TOKEN=$(curl -sX PUT 'http://169.254.169.254/latest/api/token' -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600' || true)\",
+              \"if [ -n \\\"$TOKEN\\\" ]; then HDR=(-H \\\"X-aws-ec2-metadata-token: $TOKEN\\\"); else HDR=(); fi\",
+              \"SELF_ID=$(curl -s \\\"${HDR[@]}\\\" http://169.254.169.254/latest/meta-data/instance-id)\",
+              
+              \"# Get opposite instance Public IP (works best when exactly 2 instances)\",
+              \"PEER_IP=$(aws ec2 describe-instances --region \\\"$REGION\\\" \
+                  --filters \\\"Name=tag:$TAG_KEY,Values=$TAG_VAL\\\" \\\"Name=instance-state-name,Values=running\\\" \
+                  --query 'Reservations[].Instances[?InstanceId!=`'\\\"$SELF_ID\\\"'`].PublicIpAddress' \
+                  --output text | awk 'NF{print $1; exit}')\",
+              
+              \"echo \\\"SELF_ID=$SELF_ID PEER_IP=$PEER_IP\\\"\",
+              
+              \"# If only one instance exists, fallback to self public IP\",
+              \"if [ -z \\\"$PEER_IP\\\" ] || [ \\\"$PEER_IP\\\" = 'None' ]; then \
+                    PEER_IP=$(curl -s \\\"${HDR[@]}\\\" http://169.254.169.254/latest/meta-data/public-ipv4 || true); \
+                fi\",
+              
+              \"if [ ! -f \\\"$CFG\\\" ]; then echo 'ERROR: wp-config.php not found' >&2; exit 1; fi\",
+              
+              \"# Remove old defines if exist, then inject before the stop-editing line\",
+              \"sudo sed -i '/define(\\x27WP_HOME\\x27/d;/define(\\x27WP_SITEURL\\x27/d' \\\"$CFG\\\" \",
+              \"sudo sed -i \\\"/\\/\\* That's all, stop editing! \\*\\//i define( 'WP_HOME', 'http:\\/\\/$PEER_IP' );\\\\ndefine( 'WP_SITEURL', 'http:\\/\\/$PEER_IP' );\\\\n\\\" \\\"$CFG\\\" \",
+              
+              \"# Confirm\",
+              \"grep -n \\\"WP_HOME\\|WP_SITEURL\\\" \\\"$CFG\\\" || true\"
+            ]" \
+            --query "Command.CommandId" --output text)
+
+          echo "ssm_set_ip_command_id=$CMD_ID" >> $GITHUB_OUTPUT
+          echo "SSM CommandId (set ip): $CMD_ID"
+
+      - name: Wait for SSM wp-config update to finish
+        if: always()
+        run: |
+          CMD_ID="${{ steps.set_wp_ip.outputs.ssm_set_ip_command_id }}"
+          INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
+
+          echo "Waiting for SSM CommandId: $CMD_ID"
+          for i in $(seq 1 120); do
+            ALL_DONE=1
+            for ID in $INSTANCE_IDS; do
+              STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$ID" --query Status --output text 2>/dev/null || echo "Pending")
+              echo "[$i] $ID => $STATUS"
+              case "$STATUS" in
+                Success|Failed|Cancelled|TimedOut) ;;
+                *) ALL_DONE=0 ;;
+              esac
+            done
+            [ "$ALL_DONE" -eq 1 ] && exit 0
+            sleep 5
+          done
+
+          echo "Timeout waiting for wp-config update."
+          exit 1
