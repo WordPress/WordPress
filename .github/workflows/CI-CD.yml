@@ -89,10 +89,33 @@ jobs:
           TAR_NAME="app_${BUILD_DATE}.tar.gz"
           echo "build_date=$BUILD_DATE" >> $GITHUB_OUTPUT
           echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
-
+      - name: Create WP config IP script
+        run: |
+          cat > set_wp_ip.sh << 'EOF'
+          #!/bin/bash
+      
+          # Check if IP is provided
+          if [ -z "$1" ]; then
+            echo "Usage: $0 <peer-ip>"
+            exit 1
+          fi
+      
+          PEER_IP="$1"
+          FILE="/var/www/html/wordpress/wp-config.php"
+          LINE=92
+      
+          sed -i "${LINE}i\
+          define( 'WP_HOME', 'http://${PEER_IP}' );\n\
+          define( 'WP_SITEURL', 'http://${PEER_IP}' );\
+          " "$FILE"
+      
+          echo "WP_HOME and WP_SITEURL updated with IP: $PEER_IP"
+          EOF
+          
       - name: Create tar.gz package
         run: |
           TAR="${{ steps.vars.outputs.tar_name }}"
+          
           tar -czf "/tmp/${TAR}" .
           mv "/tmp/${TAR}" "${TAR}"
 
