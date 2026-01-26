@@ -357,6 +357,7 @@
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	content: "\f158";
 	content: "\f158" / '';
 }
 
@@ -621,6 +622,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .upload-php .media-modal-close .media-modal-icon:before {
+	content: "\f335";
 	content: "\f335" / '';
 	font-size: 22px;
 }
@@ -693,10 +695,12 @@ border color while dragging a file over the uploader drop area */
 }
 
 .edit-attachment-frame .edit-media-header .left:before {
+	content: "\f345";
 	content: "\f341" / '';
 }
 
 .edit-attachment-frame .edit-media-header .right:before {
+	content: "\f341";
 	content: "\f345" / '';
 }
 
@@ -1012,22 +1016,27 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-crop:before {
+	content: "\f165";
 	content: "\f165" / '';
 }
 
 .imgedit-scale:before {
+	content: "\f211";
 	content: "\f211" / '';
 }
 
 .imgedit-rotate:before {
+	content: "\f167";
 	content: "\f167" / '';
 }
 
 .imgedit-undo:before {
+	content: "\f171";
 	content: "\f171" / '';
 }
 
 .imgedit-redo:before {
+	content: "\f172";
 	content: "\f172" / '';
 }
 

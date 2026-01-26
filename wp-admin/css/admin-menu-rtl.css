@@ -504,6 +504,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #collapse-button .collapse-button-icon:after {
+	content: "\f148";
 	content: "\f148" / '';
 	display: block;
 	position: relative;

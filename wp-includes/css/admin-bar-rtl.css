@@ -325,6 +325,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 1px;
 	left: 10px;
 	padding: 4px 0;
+	content: "\f141";
 	content: "\f139" / '';
 	color: inherit;
 }
@@ -337,6 +338,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item .wp-admin-bar-arrow:before {
 	top: 1px;
 	right: 6px;
+	content: "\f139";
 	content: "\f141" / '';
 }
 
@@ -410,6 +412,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wp-admin-bar-my-account > .ab-item:before {
+	content: "\f110";
 	content: "\f110" / '';
 	top: 2px;
 	float: left;
@@ -504,6 +507,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
+	content: "\f120";
 	content: "\f120" / '';
 	top: 2px;
 }
@@ -534,6 +538,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar .quicklinks li div.blavatar:before {
+	content: "\f120";
 	content: "\f120" / '';
 	display: inline-block;
 }
@@ -544,30 +549,36 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
+	content: "\f541";
 	content: "\f541" / '';
 	top: 2px;
 }
 
 #wpadminbar #wp-admin-bar-site-editor > .ab-item:before {
+	content: "\f100";
 	content: "\f100" / '';
 	top: 2px;
 }
 
 #wpadminbar #wp-admin-bar-customize > .ab-item:before {
+	content: "\f540";
 	content: "\f540" / '';
 	top: 2px;
 }
 
 #wpadminbar #wp-admin-bar-edit > .ab-item:before {
+	content: "\f464";
 	content: "\f464" / '';
 	top: 2px;
 }
 
 #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
+	content: "\f226";
 	content: "\f226" / '';
 }
 
 .wp-admin #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
+	content: "\f102";
 	content: "\f102" / '';
 }
 
@@ -581,6 +592,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-comments .ab-icon:before {
+	content: "\f101";
 	content: "\f101" / '';
 	top: 3px;
 }
@@ -593,6 +605,7 @@ html:lang(he-il) .rtl #wpadminbar * {
  * New Content
  */
 #wpadminbar #wp-admin-bar-new-content .ab-icon:before {
+	content: "\f132";
 	content: "\f132" / '';
 	top: 4px;
 }
@@ -601,6 +614,7 @@ html:lang(he-il) .rtl #wpadminbar * {
  * Updates
  */
 #wpadminbar #wp-admin-bar-updates .ab-icon:before {
+	content: "\f463";
 	content: "\f463" / '';
 	top: 2px;
 }
@@ -638,6 +652,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	right: 5px;
 	z-index: 20;
 	font: normal 20px/1 dashicons !important;
+	content: "\f179";
 	content: "\f179" / '';
 	speak: never;
 	-webkit-font-smoothing: antialiased;
