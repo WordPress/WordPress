@@ -1,320 +1,320 @@
-name: Build & Deploy WordPress to ASG (OIDC)
+# name: Build & Deploy WordPress to ASG (OIDC)
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+# on:
+#   push:
+#     branches: [ "master" ]
+#   pull_request:
+#     branches: [ "master" ]
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-env:
-  AWS_REGION: us-east-1
-  S3_BUCKET: amir-app
-  S3_PREFIX: builds
-  APP_DIR: /var/www/html/wordpress
-  INSTANCE_TAG_KEY: Role
-  INSTANCE_TAG_VALUE: wp-app
+# env:
+#   AWS_REGION: us-east-1
+#   S3_BUCKET: amir-app
+#   S3_PREFIX: builds
+#   APP_DIR: /var/www/html/wordpress
+#   INSTANCE_TAG_KEY: Role
+#   INSTANCE_TAG_VALUE: wp-app
 
-jobs:
-  build_upload_deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   build_upload_deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Generate wp-config.php (from sample) + cat
-        shell: bash
-        env:
-          WP_DB_HOST: ${{ secrets.WP_DB_HOST }}
-          WP_DB_NAME: ${{ secrets.WP_DB_NAME }}
-          WP_DB_USER: ${{ secrets.WP_DB_USER }}
-          WP_DB_PASSWORD: ${{ secrets.WP_DB_PASSWORD }}
-        run: |
-          set -euo pipefail
+#       - name: Generate wp-config.php (from sample) + cat
+#         shell: bash
+#         env:
+#           WP_DB_HOST: ${{ secrets.WP_DB_HOST }}
+#           WP_DB_NAME: ${{ secrets.WP_DB_NAME }}
+#           WP_DB_USER: ${{ secrets.WP_DB_USER }}
+#           WP_DB_PASSWORD: ${{ secrets.WP_DB_PASSWORD }}
+#         run: |
+#           set -euo pipefail
 
-          # Ensure sample exists
-          test -f wp-config-sample.php
+#           # Ensure sample exists
+#           test -f wp-config-sample.php
 
-          # Create wp-config.php from sample
-          cp wp-config-sample.php wp-config.php
+#           # Create wp-config.php from sample
+#           cp wp-config-sample.php wp-config.php
 
-          # Replace DB settings
-          sed -i "s/database_name_here/${WP_DB_NAME}/" wp-config.php
-          sed -i "s/username_here/${WP_DB_USER}/" wp-config.php
+#           # Replace DB settings
+#           sed -i "s/database_name_here/${WP_DB_NAME}/" wp-config.php
+#           sed -i "s/username_here/${WP_DB_USER}/" wp-config.php
 
-          # Escape password for sed
-          DBPASS_ESCAPED=$(printf '%s' "$WP_DB_PASSWORD" | sed -e 's/[\/&]/\\&/g')
-          sed -i "s/password_here/${DBPASS_ESCAPED}/" wp-config.php
+#           # Escape password for sed
+#           DBPASS_ESCAPED=$(printf '%s' "$WP_DB_PASSWORD" | sed -e 's/[\/&]/\\&/g')
+#           sed -i "s/password_here/${DBPASS_ESCAPED}/" wp-config.php
 
-          # Replace localhost with your DB host (includes :3306)
-          sed -i "s/localhost/${WP_DB_HOST}/" wp-config.php
+#           # Replace localhost with your DB host (includes :3306)
+#           sed -i "s/localhost/${WP_DB_HOST}/" wp-config.php
 
-          # Generate salts offline (no external calls)
-          gen_salt() { openssl rand -base64 48 | tr -d '\n'; }
+#           # Generate salts offline (no external calls)
+#           gen_salt() { openssl rand -base64 48 | tr -d '\n'; }
           
-          # Escape for sed replacement (handles / & and \)
-          esc_sed() { printf '%s' "$1" | sed -e 's/[\/&\\]/\\&/g'; }
+#           # Escape for sed replacement (handles / & and \)
+#           esc_sed() { printf '%s' "$1" | sed -e 's/[\/&\\]/\\&/g'; }
           
-          AUTH_KEY="$(esc_sed "$(gen_salt)")"
-          SECURE_AUTH_KEY="$(esc_sed "$(gen_salt)")"
-          LOGGED_IN_KEY="$(esc_sed "$(gen_salt)")"
-          NONCE_KEY="$(esc_sed "$(gen_salt)")"
-          AUTH_SALT="$(esc_sed "$(gen_salt)")"
-          SECURE_AUTH_SALT="$(esc_sed "$(gen_salt)")"
-          LOGGED_IN_SALT="$(esc_sed "$(gen_salt)")"
-          NONCE_SALT="$(esc_sed "$(gen_salt)")"
+#           AUTH_KEY="$(esc_sed "$(gen_salt)")"
+#           SECURE_AUTH_KEY="$(esc_sed "$(gen_salt)")"
+#           LOGGED_IN_KEY="$(esc_sed "$(gen_salt)")"
+#           NONCE_KEY="$(esc_sed "$(gen_salt)")"
+#           AUTH_SALT="$(esc_sed "$(gen_salt)")"
+#           SECURE_AUTH_SALT="$(esc_sed "$(gen_salt)")"
+#           LOGGED_IN_SALT="$(esc_sed "$(gen_salt)")"
+#           NONCE_SALT="$(esc_sed "$(gen_salt)")"
           
-          # Replace the 8 salt lines safely using sed line-by-line
-          sed -i "s/define( 'AUTH_KEY'.*/define( 'AUTH_KEY',         '${AUTH_KEY}' );/" wp-config.php
-          sed -i "s/define( 'SECURE_AUTH_KEY'.*/define( 'SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY}' );/" wp-config.php
-          sed -i "s/define( 'LOGGED_IN_KEY'.*/define( 'LOGGED_IN_KEY',    '${LOGGED_IN_KEY}' );/" wp-config.php
-          sed -i "s/define( 'NONCE_KEY'.*/define( 'NONCE_KEY',        '${NONCE_KEY}' );/" wp-config.php
-          sed -i "s/define( 'AUTH_SALT'.*/define( 'AUTH_SALT',        '${AUTH_SALT}' );/" wp-config.php
-          sed -i "s/define( 'SECURE_AUTH_SALT'.*/define( 'SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}' );/" wp-config.php
-          sed -i "s/define( 'LOGGED_IN_SALT'.*/define( 'LOGGED_IN_SALT', '${LOGGED_IN_SALT}' );/" wp-config.php
-          sed -i "s/define( 'NONCE_SALT'.*/define( 'NONCE_SALT',       '${NONCE_SALT}' );/" wp-config.php
+#           # Replace the 8 salt lines safely using sed line-by-line
+#           sed -i "s/define( 'AUTH_KEY'.*/define( 'AUTH_KEY',         '${AUTH_KEY}' );/" wp-config.php
+#           sed -i "s/define( 'SECURE_AUTH_KEY'.*/define( 'SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY}' );/" wp-config.php
+#           sed -i "s/define( 'LOGGED_IN_KEY'.*/define( 'LOGGED_IN_KEY',    '${LOGGED_IN_KEY}' );/" wp-config.php
+#           sed -i "s/define( 'NONCE_KEY'.*/define( 'NONCE_KEY',        '${NONCE_KEY}' );/" wp-config.php
+#           sed -i "s/define( 'AUTH_SALT'.*/define( 'AUTH_SALT',        '${AUTH_SALT}' );/" wp-config.php
+#           sed -i "s/define( 'SECURE_AUTH_SALT'.*/define( 'SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}' );/" wp-config.php
+#           sed -i "s/define( 'LOGGED_IN_SALT'.*/define( 'LOGGED_IN_SALT', '${LOGGED_IN_SALT}' );/" wp-config.php
+#           sed -i "s/define( 'NONCE_SALT'.*/define( 'NONCE_SALT',       '${NONCE_SALT}' );/" wp-config.php
 
 
-          echo "==== wp-config.php created (DB_PASSWORD hidden) ===="
-          sed -E "s/(define\(\s*'DB_PASSWORD'\s*,\s*').*?('\s*\);)/\1***\2/" wp-config.php
+#           echo "==== wp-config.php created (DB_PASSWORD hidden) ===="
+#           sed -E "s/(define\(\s*'DB_PASSWORD'\s*,\s*').*?('\s*\);)/\1***\2/" wp-config.php
 
-      - name: Set build date + tar name
-        id: vars
-        run: |
-          BUILD_DATE=$(date +%F)
-          TAR_NAME="app_${BUILD_DATE}.tar.gz"
-          echo "build_date=$BUILD_DATE" >> $GITHUB_OUTPUT
-          echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
-      - name: Create WP config IP script
-        run: |
-          cat > set_wp_ip.sh << 'EOF'
-          #!/bin/bash
+#       - name: Set build date + tar name
+#         id: vars
+#         run: |
+#           BUILD_DATE=$(date +%F)
+#           TAR_NAME="app_${BUILD_DATE}.tar.gz"
+#           echo "build_date=$BUILD_DATE" >> $GITHUB_OUTPUT
+#           echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
+#       - name: Create WP config IP script
+#         run: |
+#           cat > set_wp_ip.sh << 'EOF'
+#           #!/bin/bash
       
-          # Check if IP is provided
-          if [ -z "$1" ]; then
-            echo "Usage: $0 <peer-ip>"
-            exit 1
-          fi
+#           # Check if IP is provided
+#           if [ -z "$1" ]; then
+#             echo "Usage: $0 <peer-ip>"
+#             exit 1
+#           fi
       
-          PEER_IP="$1"
-          FILE="/var/www/html/wordpress/wp-config.php"
-          LINE=92
+#           PEER_IP="$1"
+#           FILE="/var/www/html/wordpress/wp-config.php"
+#           LINE=92
       
-          sed -i "${LINE}i\
-          define( 'WP_HOME', 'http://${PEER_IP}' );\n\
-          define( 'WP_SITEURL', 'http://${PEER_IP}' );\
-          " "$FILE"
+#           sed -i "${LINE}i\
+#           define( 'WP_HOME', 'http://${PEER_IP}' );\n\
+#           define( 'WP_SITEURL', 'http://${PEER_IP}' );\
+#           " "$FILE"
       
-          echo "WP_HOME and WP_SITEURL updated with IP: $PEER_IP"
-          EOF
+#           echo "WP_HOME and WP_SITEURL updated with IP: $PEER_IP"
+#           EOF
           
-      - name: Create tar.gz package
-        run: |
-          TAR="${{ steps.vars.outputs.tar_name }}"
+#       - name: Create tar.gz package
+#         run: |
+#           TAR="${{ steps.vars.outputs.tar_name }}"
           
-          tar -czf "/tmp/${TAR}" .
-          mv "/tmp/${TAR}" "${TAR}"
+#           tar -czf "/tmp/${TAR}" .
+#           mv "/tmp/${TAR}" "${TAR}"
 
-      - name: Configure AWS credentials via OIDC (AssumeRole)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
-          aws-region: ${{ env.AWS_REGION }}
+#       - name: Configure AWS credentials via OIDC (AssumeRole)
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
+#           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Upload artifact to S3
-        run: |
-          # tar -tf "${{ steps.vars.outputs.tar_name }}"
-          aws s3 cp "${{ steps.vars.outputs.tar_name }}" \
-            "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.vars.outputs.tar_name }}"
+#       - name: Upload artifact to S3
+#         run: |
+#           # tar -tf "${{ steps.vars.outputs.tar_name }}"
+#           aws s3 cp "${{ steps.vars.outputs.tar_name }}" \
+#             "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.vars.outputs.tar_name }}"
       
-      - name: Ensure S3 lifecycle expiry (7 days)
-        run: |
-          cat > lifecycle.json << 'EOF'
-          {
-            "Rules": [
-              {
-                "ID": "expire-builds-7-days",
-                "Status": "Enabled",
-                "Filter": { "Prefix": "builds/" },
-                "Expiration": { "Days": 7 }
-              }
-            ]
-          }
-          EOF
+#       - name: Ensure S3 lifecycle expiry (7 days)
+#         run: |
+#           cat > lifecycle.json << 'EOF'
+#           {
+#             "Rules": [
+#               {
+#                 "ID": "expire-builds-7-days",
+#                 "Status": "Enabled",
+#                 "Filter": { "Prefix": "builds/" },
+#                 "Expiration": { "Days": 7 }
+#               }
+#             ]
+#           }
+#           EOF
 
-          aws s3api put-bucket-lifecycle-configuration \
-            --bucket "${{ env.S3_BUCKET }}" \
-            --lifecycle-configuration file://lifecycle.json
+#           aws s3api put-bucket-lifecycle-configuration \
+#             --bucket "${{ env.S3_BUCKET }}" \
+#             --lifecycle-configuration file://lifecycle.json
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: app-artifact
-          path: ${{ steps.vars.outputs.tar_name }}
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: app-artifact
+#           path: ${{ steps.vars.outputs.tar_name }}
           
-      - name: Discover app instance IDs (1 or 2)
-        id: discover
-        run: |
-          IDS=$(aws ec2 describe-instances \
-            --filters \
-              "Name=tag:${{ env.INSTANCE_TAG_KEY }},Values=${{ env.INSTANCE_TAG_VALUE }}" \
-              "Name=instance-state-name,Values=running" \
-            --query "Reservations[].Instances[].InstanceId" \
-            --output text)
+#       - name: Discover app instance IDs (1 or 2)
+#         id: discover
+#         run: |
+#           IDS=$(aws ec2 describe-instances \
+#             --filters \
+#               "Name=tag:${{ env.INSTANCE_TAG_KEY }},Values=${{ env.INSTANCE_TAG_VALUE }}" \
+#               "Name=instance-state-name,Values=running" \
+#             --query "Reservations[].Instances[].InstanceId" \
+#             --output text)
 
-          if [ -z "$IDS" ]; then
-            echo "No running instances found with tag ${{ env.INSTANCE_TAG_KEY }}=${{ env.INSTANCE_TAG_VALUE }}"
-            exit 1
-          fi
+#           if [ -z "$IDS" ]; then
+#             echo "No running instances found with tag ${{ env.INSTANCE_TAG_KEY }}=${{ env.INSTANCE_TAG_VALUE }}"
+#             exit 1
+#           fi
 
-          echo "Found instance IDs: $IDS"
+#           echo "Found instance IDs: $IDS"
 
-          # Convert space-separated to comma-separated for SSM --instance-ids
-          IDS_CSV=$(echo "$IDS" | tr ' ' ',')
-          echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
-          echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
+#           # Convert space-separated to comma-separated for SSM --instance-ids
+#           IDS_CSV=$(echo "$IDS" | tr ' ' ',')
+#           echo "instance_ids_csv=$IDS_CSV" >> $GITHUB_OUTPUT
+#           echo "instance_ids_space=$IDS" >> $GITHUB_OUTPUT
 
-      # - name: Deploy to discovered instances via SSM (hardcoded paths)
-      #   id: deploy
-      #   run: |
-      #     # These are expanded ONLY on the GitHub runner (safe)
-      #     TAR="${{ steps.vars.outputs.tar_name }}"
-      #     S3URI="s3://amir-app/builds/${TAR}"
-      #     TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
+#       # - name: Deploy to discovered instances via SSM (hardcoded paths)
+#       #   id: deploy
+#       #   run: |
+#       #     # These are expanded ONLY on the GitHub runner (safe)
+#       #     TAR="${{ steps.vars.outputs.tar_name }}"
+#       #     S3URI="s3://amir-app/builds/${TAR}"
+#       #     TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
 
-      #     echo "Deploying ${S3URI} to: ${TARGETS}"
+#       #     echo "Deploying ${S3URI} to: ${TARGETS}"
 
-      #     CMD_ID=$(aws ssm send-command \
-      #       --document-name "AWS-RunShellScript" \
-      #       --instance-ids ${TARGETS} \
-      #       --comment "Deploy WordPress build from GitHub Actions" \
-      #       --parameters "commands=[
-      #         \"set -eux\",
-      #         \"sudo mkdir -p /tmp/wp_deploy\",
-      #         \"sudo mkdir -p /tmp/wp_deploy/extracted\",
-      #         \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
-      #         \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
-      #         \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
-      #         \"sudo mkdir -p /var/www/html/wordpress\",
-      #         \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
-      #         \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
-      #         \"sudo systemctl restart php8.1-fpm || true\",
-      #         \"sudo systemctl restart nginx || true\",
-      #         \"ls -la /var/www/html/wordpress | head -n 30\",
-      #         \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
-      #       ]" \
-      #       --query "Command.CommandId" --output text)
+#       #     CMD_ID=$(aws ssm send-command \
+#       #       --document-name "AWS-RunShellScript" \
+#       #       --instance-ids ${TARGETS} \
+#       #       --comment "Deploy WordPress build from GitHub Actions" \
+#       #       --parameters "commands=[
+#       #         \"set -eux\",
+#       #         \"sudo mkdir -p /tmp/wp_deploy\",
+#       #         \"sudo mkdir -p /tmp/wp_deploy/extracted\",
+#       #         \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
+#       #         \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
+#       #         \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
+#       #         \"sudo mkdir -p /var/www/html/wordpress\",
+#       #         \"sudo rsync -a --delete /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
+#       #         \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
+#       #         \"sudo systemctl restart php8.1-fpm || true\",
+#       #         \"sudo systemctl restart nginx || true\",
+#       #         \"ls -la /var/www/html/wordpress | head -n 30\",
+#       #         \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
+#       #       ]" \
+#       #       --query "Command.CommandId" --output text)
 
-      #     echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
-      #     echo "SSM CommandId: $CMD_ID"
+#       #     echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
+#       #     echo "SSM CommandId: $CMD_ID"
 
-      - name: Deploy to instances via SSM (safe with uploads mount)
-        id: deploy
-          # TAR="app_2026-01-24.tar.gz"
-          # S3URI="s3://amir-app/builds/${TAR}"
-          # TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
-          # echo "Deploying ${S3URI} to: ${TARGETS}"
-        run: |
-          TAR="${{ steps.vars.outputs.tar_name }}"
-          S3URI="s3://amir-app/builds/${TAR}"
-          TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
+#       - name: Deploy to instances via SSM (safe with uploads mount)
+#         id: deploy
+#           # TAR="app_2026-01-24.tar.gz"
+#           # S3URI="s3://amir-app/builds/${TAR}"
+#           # TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
+#           # echo "Deploying ${S3URI} to: ${TARGETS}"
+#         run: |
+#           TAR="${{ steps.vars.outputs.tar_name }}"
+#           S3URI="s3://amir-app/builds/${TAR}"
+#           TARGETS="${{ steps.discover.outputs.instance_ids_space }}"
 
-          echo "Deploying ${S3URI} to: ${TARGETS}"
+#           echo "Deploying ${S3URI} to: ${TARGETS}"
       
-          CMD_ID=$(aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --instance-ids ${TARGETS} \
-            --comment "Deploy WordPress build from GitHub Actions" \
-            --parameters "commands=[
-              \"set -eux\",
-              \"sudo mkdir -p /tmp/wp_deploy\",
-              \"sudo mkdir -p /tmp/wp_deploy/extracted\",
-              \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
-              \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
-              \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
-              \"sudo mkdir -p /var/www/html/wordpress\",
-              \"sudo rsync -a --delete --exclude 'wp-content/uploads/' /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
-              \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
-              \"sudo systemctl restart php8.1-fpm || true\",
-              \"sudo systemctl restart nginx || true\",
-              \"ls -la /var/www/html/wordpress | head -n 30\",
-              \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
-            ]" \
-            --query "Command.CommandId" --output text)
+#           CMD_ID=$(aws ssm send-command \
+#             --document-name "AWS-RunShellScript" \
+#             --instance-ids ${TARGETS} \
+#             --comment "Deploy WordPress build from GitHub Actions" \
+#             --parameters "commands=[
+#               \"set -eux\",
+#               \"sudo mkdir -p /tmp/wp_deploy\",
+#               \"sudo mkdir -p /tmp/wp_deploy/extracted\",
+#               \"sudo rm -rf /tmp/wp_deploy/extracted/*\",
+#               \"aws s3 cp '${S3URI}' '/tmp/wp_deploy/${TAR}'\",
+#               \"sudo tar --no-same-owner --no-same-permissions -xzf '/tmp/wp_deploy/${TAR}' -C /tmp/wp_deploy/extracted\",
+#               \"sudo mkdir -p /var/www/html/wordpress\",
+#               \"sudo rsync -a --delete --exclude 'wp-content/uploads/' /tmp/wp_deploy/extracted/ /var/www/html/wordpress/\",
+#               \"sudo chown -R www-data:www-data /var/www/html/wordpress || true\",
+#               \"sudo systemctl restart php8.1-fpm || true\",
+#               \"sudo systemctl restart nginx || true\",
+#               \"ls -la /var/www/html/wordpress | head -n 30\",
+#               \"test -d /var/www/html/wordpress/wp-admin && test -d /var/www/html/wordpress/wp-includes\"
+#             ]" \
+#             --query "Command.CommandId" --output text)
 
-          echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
-          echo "SSM CommandId: $CMD_ID"
+#           echo "ssm_command_id=$CMD_ID" >> $GITHUB_OUTPUT
+#           echo "SSM CommandId: $CMD_ID"
 
 
-      - name: Wait for SSM deploy to finish (poll)
-        if: always()
-        run: |
-          CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
-          INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
+#       - name: Wait for SSM deploy to finish (poll)
+#         if: always()
+#         run: |
+#           CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
+#           INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
 
-          echo "Waiting for SSM CommandId: $CMD_ID"
-          echo "Instances: $INSTANCE_IDS"
+#           echo "Waiting for SSM CommandId: $CMD_ID"
+#           echo "Instances: $INSTANCE_IDS"
 
-          # Wait up to 10 minutes (120 tries x 5s)
-          for i in $(seq 1 120); do
-            ALL_DONE=1
-            for ID in $INSTANCE_IDS; do
-              STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$ID" --query Status --output text 2>/dev/null || echo "Pending")
-              echo "[$i] $ID => $STATUS"
+#           # Wait up to 10 minutes (120 tries x 5s)
+#           for i in $(seq 1 120); do
+#             ALL_DONE=1
+#             for ID in $INSTANCE_IDS; do
+#               STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$ID" --query Status --output text 2>/dev/null || echo "Pending")
+#               echo "[$i] $ID => $STATUS"
 
-              case "$STATUS" in
-                Success|Failed|Cancelled|TimedOut)
-                  ;;
-                *)
-                  ALL_DONE=0
-                  ;;
-              esac
-            done
+#               case "$STATUS" in
+#                 Success|Failed|Cancelled|TimedOut)
+#                   ;;
+#                 *)
+#                   ALL_DONE=0
+#                   ;;
+#               esac
+#             done
 
-            if [ "$ALL_DONE" -eq 1 ]; then
-              echo "All instances finished."
-              exit 0
-            fi
+#             if [ "$ALL_DONE" -eq 1 ]; then
+#               echo "All instances finished."
+#               exit 0
+#             fi
 
-            sleep 5
-          done
+#             sleep 5
+#           done
 
-          echo "Timeout waiting for SSM command to finish."
-          exit 1
+#           echo "Timeout waiting for SSM command to finish."
+#           exit 1
       
-      # - name: Show SSM Deploy command logs
-      #   if: always()
-      #   run: |
-      #     CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
-      #     for INSTANCE_ID in ${{ steps.discover.outputs.instance_ids_space }}; do
-      #       echo "===== $INSTANCE_ID ====="
-      #       aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$INSTANCE_ID"
-      #     done
-      - name: Show SSM deploy logs
-        if: always()
-        run: |
-          CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
-          INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
+#       # - name: Show SSM Deploy command logs
+#       #   if: always()
+#       #   run: |
+#       #     CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
+#       #     for INSTANCE_ID in ${{ steps.discover.outputs.instance_ids_space }}; do
+#       #       echo "===== $INSTANCE_ID ====="
+#       #       aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$INSTANCE_ID"
+#       #     done
+#       - name: Show SSM deploy logs
+#         if: always()
+#         run: |
+#           CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
+#           INSTANCE_IDS="${{ steps.discover.outputs.instance_ids_space }}"
 
-          echo "Logs for CommandId: $CMD_ID"
-          for ID in $INSTANCE_IDS; do
-            echo "=============================="
-            echo "Instance: $ID"
-            aws ssm get-command-invocation \
-              --command-id "$CMD_ID" \
-              --instance-id "$ID" \
-              --output json
-          done
-      - name: Fail if any instance failed
-        run: |
-          CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
-          FAIL=0
-          for INSTANCE_ID in ${{ steps.discover.outputs.instance_ids_space }}; do
-            STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query Status --output text)
-            echo "$INSTANCE_ID => $STATUS"
-            [ "$STATUS" = "Success" ] || FAIL=1
-          done
-          exit $FAIL
+#           echo "Logs for CommandId: $CMD_ID"
+#           for ID in $INSTANCE_IDS; do
+#             echo "=============================="
+#             echo "Instance: $ID"
+#             aws ssm get-command-invocation \
+#               --command-id "$CMD_ID" \
+#               --instance-id "$ID" \
+#               --output json
+#           done
+#       - name: Fail if any instance failed
+#         run: |
+#           CMD_ID="${{ steps.deploy.outputs.ssm_command_id }}"
+#           FAIL=0
+#           for INSTANCE_ID in ${{ steps.discover.outputs.instance_ids_space }}; do
+#             STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query Status --output text)
+#             echo "$INSTANCE_ID => $STATUS"
+#             [ "$STATUS" = "Success" ] || FAIL=1
+#           done
+#           exit $FAIL
