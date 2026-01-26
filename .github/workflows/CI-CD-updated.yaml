@@ -39,7 +39,7 @@ jobs:
         run: |
           set -euo pipefail
       
-          TS="$(date -u +%Y%m%d_%H%M%S)"
+          TS="$(date -u +%Y%-m%-d_%H.%M.%S)"
           TAR_NAME="app_${TS}.tar.gz"
       
           # Create tar from git-tracked files only (stable in CI)
