@@ -46,7 +46,7 @@ jobs:
           git ls-files -z | tar --null -T - -czf "$TAR_NAME"
       
           echo "tar_name=$TAR_NAME" >> "$GITHUB_OUTPUT"
-          echo "Uploaded: s3://${{ env.S3_BUCKET }}/${KEY}"
+          echo "Uploaded: s3://${{ env.S3_BUCKET }}/${TAR_NAME}"
 
           
       - name: Upload build artifact to S3
