@@ -1,0 +1,126 @@
+name: Build & Refresh ASG (Golden AMI + S3 build pointer)
+
+on:
+  push:
+    branches: ["master"]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: amir-app
+  S3_PREFIX: builds
+
+  # This parameter stores the "current build key" (e.g. builds/app_2026-01-26_123456.tar.gz)
+  SSM_BUILD_POINTER: /wordpress/current_build_key
+
+  # CHANGE THIS to your real ASG name
+  ASG_NAME: amir-asg
+
+jobs:
+  build_and_refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Create build tar.gz (unique name)
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Unique name prevents overwriting builds made on the same day
+          TS="$(date -u +%Y%m%d_%H%M%S)"
+          TAR_NAME="app_${TS}.tar.gz"
+
+          # Create tarball of the repo content
+          tar -czf "$TAR_NAME" .
+
+          echo "tar_name=$TAR_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artifact to S3
+        id: upload
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAR="${{ steps.build.outputs.tar_name }}"
+          KEY="${{ env.S3_PREFIX }}/${TAR}"
+
+          aws s3 cp "$TAR" "s3://${{ env.S3_BUCKET }}/${KEY}"
+
+          echo "s3_key=$KEY" >> "$GITHUB_OUTPUT"
+          echo "Uploaded: s3://${{ env.S3_BUCKET }}/${KEY}"
+
+      - name: Update SSM build pointer (current build)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          KEY="${{ steps.upload.outputs.s3_key }}"
+
+          aws ssm put-parameter \
+            --name "${{ env.SSM_BUILD_POINTER }}" \
+            --type "String" \
+            --value "$KEY" \
+            --overwrite
+
+          echo "SSM pointer updated: ${{ env.SSM_BUILD_POINTER }} => $KEY"
+
+      - name: Trigger ASG Instance Refresh
+        id: refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Rolling refresh: keeps part of the fleet healthy while replacing instances
+          REFRESH_ID=$(aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+            --strategy Rolling \
+            --preferences MinHealthyPercentage=50,InstanceWarmup=120 \
+            --query "InstanceRefreshId" --output text)
+
+          echo "refresh_id=$REFRESH_ID" >> "$GITHUB_OUTPUT"
+          echo "Started Instance Refresh: $REFRESH_ID"
+
+      - name: Wait for Instance Refresh to finish
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          REFRESH_ID="${{ steps.refresh.outputs.refresh_id }}"
+
+          # up to ~20 minutes (120 * 10s)
+          for i in $(seq 1 120); do
+            STATUS=$(aws autoscaling describe-instance-refreshes \
+              --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+              --instance-refresh-ids "$REFRESH_ID" \
+              --query "InstanceRefreshes[0].Status" --output text)
+
+            echo "[$i] Refresh status: $STATUS"
+
+            case "$STATUS" in
+              Successful) exit 0 ;;
+              Failed|Cancelled)
+                aws autoscaling describe-instance-refreshes \
+                  --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+                  --instance-refresh-ids "$REFRESH_ID"
+                exit 1
+                ;;
+            esac
+
+            sleep 10
+          done
+
+          echo "Timeout waiting for Instance Refresh."
+          exit 1
