@@ -43,11 +43,16 @@ jobs:
           TS="$(date -u +%Y%m%d_%H%M%S)"
           TAR_NAME="app_${TS}.tar.gz"
 
-          # Create tarball of the repo content
-          tar -czf "$TAR_NAME" .
+          # # Create tarball of the repo content
+          tar -czf "/tmp/${TAR_NAME}" .
+          mv "/tmp/${TAR_NAME}" "${TAR_NAME}"
+          
+          # tar -czf "$TAR_NAME" .
 
           echo "tar_name=$TAR_NAME" >> "$GITHUB_OUTPUT"
+          echo "Uploaded: s3://${{ env.S3_BUCKET }}/${KEY}"
 
+          
       - name: Upload build artifact to S3
         id: upload
         shell: bash
