@@ -38,8 +38,8 @@ function media_upload_tabs() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $tabs
- * @return array $tabs with gallery if post has image attachment
+ * @param array $tabs Associative array of default tab names.
+ * @return array $tabs Filtered tabs with gallery if post has image attachment.
  */
 function update_gallery_tab( $tabs ) {
 	global $wpdb;
@@ -71,7 +71,7 @@ function update_gallery_tab( $tabs ) {
  *
  * @since 2.5.0
  *
- * @global string $redir_tab
+ * @global string $redir_tab The name of the tab to redirect to.
  */
 function the_media_upload_tabs() {
 	global $redir_tab;
@@ -527,7 +527,7 @@ function media_handle_sideload( $file_array, $post_id = 0, $desc = null, $post_d
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
- * @global string $body_id
+ * @global string $body_id The ID attribute value for the body element.
  *
  * @param callable $content_func Function that outputs the content.
  * @param mixed    ...$args      Optional additional parameters to pass to the callback function when it's called.
