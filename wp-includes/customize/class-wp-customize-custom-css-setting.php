@@ -153,6 +153,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * @since 4.7.0
 	 * @since 4.9.0 Checking for balanced characters has been moved client-side via linting in code editor.
 	 * @since 5.9.0 Renamed `$css` to `$value` for PHP 8 named parameter support.
+	 * @since 7.0.0 Only restricts contents which risk prematurely closing the STYLE element,
+	 *              either through a STYLE end tag or a prefix of one which might become a
+	 *              full end tag when combined with the contents of other styles.
+	 *
+	 * @see WP_REST_Global_Styles_Controller::validate_custom_css()
 	 *
 	 * @param string $value CSS to validate.
 	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
@@ -163,8 +168,73 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 
 		$validity = new WP_Error();
 
-		if ( preg_match( '#</?\w+#', $css ) ) {
-			$validity->add( 'illegal_markup', __( 'Markup is not allowed in CSS.' ) );
+		$length = strlen( $css );
+		for (
+			$at = strcspn( $css, '<' );
+			$at < $length;
+			$at += strcspn( $css, '<', ++$at )
+		) {
+			$remaining_strlen = $length - $at;
+			/**
+			 * Custom CSS text is expected to render inside an HTML STYLE element.
+			 * A STYLE closing tag must not appear within the CSS text because it
+			 * would close the element prematurely.
+			 *
+			 * The text must also *not* end with a partial closing tag (e.g., `<`,
+			 * `</`, … `</style`) because subsequent styles which are concatenated
+			 * could complete it, forming a valid `</style>` tag.
+			 *
+			 * Example:
+			 *
+			 *     $style_a = 'p { font-weight: bold; </sty';
+			 *     $style_b = 'le> gotcha!';
+			 *     $combined = "{$style_a}{$style_b}";
+			 *
+			 *     $style_a = 'p { font-weight: bold; </style';
+			 *     $style_b = 'p > b { color: red; }';
+			 *     $combined = "{$style_a}\n{$style_b}";
+			 *
+			 * Note how in the second example, both of the style contents are benign
+			 * when analyzed on their own. The first style was likely the result of
+			 * improper truncation, while the second is perfectly sound. It was only
+			 * through concatenation that these two styles combined to form content
+			 * that would have broken out of the containing STYLE element, thus
+			 * corrupting the page and potentially introducing security issues.
+			 *
+			 * @see https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
+			 */
+			$possible_style_close_tag = 0 === substr_compare(
+				$css,
+				'</style',
+				$at,
+				min( 7, $remaining_strlen ),
+				true
+			);
+			if ( $possible_style_close_tag ) {
+				if ( $remaining_strlen < 8 ) {
+					$validity->add(
+						'illegal_markup',
+						sprintf(
+							/* translators: %s is the CSS that was provided. */
+							__( 'The CSS must not end in "%s".' ),
+							esc_html( substr( $css, $at ) )
+						)
+					);
+					break;
+				}
+
+				if ( 1 === strspn( $css, " \t\f\r\n/>", $at + 7, 1 ) ) {
+					$validity->add(
+						'illegal_markup',
+						sprintf(
+							/* translators: %s is the CSS that was provided. */
+							__( 'The CSS must not contain "%s".' ),
+							esc_html( substr( $css, $at, 8 ) )
+						)
+					);
+					break;
+				}
+			}
 		}
 
 		if ( ! $validity->has_errors() ) {

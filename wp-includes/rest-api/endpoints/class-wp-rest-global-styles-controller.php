@@ -674,6 +674,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	 *              either through a STYLE end tag or a prefix of one which might become a
 	 *              full end tag when combined with the contents of other styles.
 	 *
+	 * @see WP_Customize_Custom_CSS_Setting::validate()
+	 *
 	 * @param string $css CSS to validate.
 	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
 	 */
@@ -707,7 +709,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 			 * Note how in the second example, both of the style contents are benign
 			 * when analyzed on their own. The first style was likely the result of
 			 * improper truncation, while the second is perfectly sound. It was only
-			 * through concatenation that these two scripts combined to form content
+			 * through concatenation that these two styles combined to form content
 			 * that would have broken out of the containing STYLE element, thus
 			 * corrupting the page and potentially introducing security issues.
 			 *
