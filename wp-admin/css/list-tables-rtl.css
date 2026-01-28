@@ -269,7 +269,6 @@ th .comment-grey-bubble {
 }
 
 th .comment-grey-bubble:before {
-	content: "\f101";
 	content: "\f101" / '';
 	font: normal 20px/.5 dashicons;
 	display: inline-block;
@@ -490,12 +489,10 @@ table.media .column-title .filename {
 }
 
 .sorting-indicator.asc:before {
-	content: "\f142";
 	content: "\f142" / '';
 }
 
 .sorting-indicator.desc:before {
-	content: "\f140";
 	content: "\f140" / '';
 }
 
@@ -556,7 +553,6 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	display: block;
 	padding: 1px 0 1px 2px;
 	color: #3c434a; /* same as table headers sort arrows */
-	content: "\f140";
 	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
 	line-height: 1;
@@ -565,7 +561,6 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 }
 
 .wp-list-table .is-expanded .toggle-row:before {
-	content: "\f142";
 	content: "\f142" / '';
 }
 
@@ -606,7 +601,6 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 
 .locked-indicator-icon:before {
 	color: #8c8f94;
-	content: "\f160";
 	content: "\f160" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -782,17 +776,14 @@ th.sorted a span {
 }
 
 .view-switch .view-list:before {
-	content: "\f163";
 	content: "\f163" / '';
 }
 
 .view-switch .view-excerpt:before {
-	content: "\f164";
 	content: "\f164" / '';
 }
 
 .view-switch .view-grid:before {
-	content: "\f509";
 	content: "\f509" / '';
 }
 
@@ -1419,7 +1410,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugin-card .update-now:before {
 	color: #d63638;
-	content: "\f463";
 	content: "\f463" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -1430,7 +1420,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 }
 
 .plugin-card .updating-message:before {
-	content: "\f463";
 	content: "\f463" / '';
 	animation: rotation 2s infinite linear;
 }
@@ -1446,7 +1435,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugin-card .updated-message:before {
 	color: #68de7c;
-	content: "\f147";
 	content: "\f147" / '';
 }
 
@@ -1733,13 +1721,11 @@ div.action-links,
 }
 
 .plugin-card .column-compatibility .compatibility-incompatible:before {
-	content: "\f158";
 	content: "\f158" / '';
 	color: #d63638;
 }
 
 .plugin-card .column-compatibility .compatibility-compatible:before {
-	content: "\f147";
 	content: "\f147" / '';
 	color: #007017;
 }

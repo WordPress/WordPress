@@ -234,7 +234,6 @@ body.trashing #publish-settings {
 	display: inline-block;
 }
 #customize-control-trash_changeset .button-link:before {
-	content: "\f182";
 	content: "\f182" / '';
 	font: normal 22px dashicons;
 	text-decoration: none;
@@ -596,7 +595,6 @@ body.trashing #publish-settings {
 
 #customize-theme-controls .accordion-section-title:after,
 #customize-outer-theme-controls .accordion-section-title:after {
-	content: "\f341";
 	content: "\f345" / '';
 	color: #a7aaad;
 	pointer-events: none;
@@ -934,7 +932,6 @@ h3.customize-section-title {
 
 .customize-controls-close:before {
 	font: normal 22px/45px dashicons;
-	content: "\f335";
 	content: "\f335" / '';
 	position: relative;
 	top: -3px;
@@ -944,7 +941,6 @@ h3.customize-section-title {
 .customize-panel-back:before,
 .customize-section-back:before {
 	font: normal 20px/72px dashicons;
-	content: "\f345";
 	content: "\f341" / '';
 	position: relative;
 	right: 9px;
@@ -1031,7 +1027,6 @@ p.customize-section-description {
 
 .customize-section-description a.external-link:after {
 	font: 16px/11px dashicons;
-	content: "\f504";
 	content: "\f504" / '';
 	top: 3px;
 	position: relative;
@@ -1363,7 +1358,6 @@ p.customize-section-description {
 }
 
 .customize-control .dropdown-arrow:after {
-	content: "\f140";
 	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
 	display: block;
@@ -1888,7 +1882,6 @@ p.customize-section-description {
 }
 
 .themes-filter-bar .feature-filter-toggle:before {
-	content: "\f111";
 	content: "\f111" / '';
 	margin: 0 0 0 5px;
 	font: normal 16px/1 dashicons;
@@ -2027,7 +2020,6 @@ p.customize-section-description {
 }
 
 .control-panel-themes .theme-section .customize-themes-section-title.selected:after {
-	content: "\f147";
 	content: "\f147" / '';
 	font: 16px/1 dashicons;
 	box-sizing: border-box;
@@ -2531,7 +2523,6 @@ body.cheatin p {
 .add-new-widget:before,
 .add-new-menu-item:before,
 #available-menu-items .new-content-item .add-content:before {
-	content: "\f132";
 	content: "\f132" / '';
 	display: inline-block;
 	position: relative;
@@ -2611,13 +2602,11 @@ body.cheatin p {
 
 .move-widget-down:before,
 .menus-move-down:before {
-	content: "\f347";
 	content: "\f347" / '';
 }
 
 .move-widget-up:before,
 .menus-move-up:before {
-	content: "\f343";
 	content: "\f343" / '';
 }
 
@@ -2778,7 +2767,6 @@ body.adding-widget .add-new-widget:before,
 
 #available-widgets-filter .clear-results:before,
 #available-menu-items-search .clear-results:before {
-	content: "\f335";
 	content: "\f335" / '';
 	font: normal 20px/1 dashicons;
 	vertical-align: middle;
@@ -2990,7 +2978,6 @@ body.adding-widget .add-new-widget:before,
 	.customize-controls-preview-toggle .preview:before,
 	.customize-controls-preview-toggle .controls:before {
 		font: normal 20px/1 dashicons;
-		content: "\f177";
 		content: "\f177" / '';
 		position: relative;
 		top: 4px;
@@ -2998,7 +2985,6 @@ body.adding-widget .add-new-widget:before,
 	}
 
 	.customize-controls-preview-toggle .controls:before {
-		content: "\f540";
 		content: "\f540" / '';
 	}
 
