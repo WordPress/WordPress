@@ -832,7 +832,6 @@ function fetch_feed( $url ) {
 
 	$feed->get_registry()->register( SimplePie\File::class, 'WP_SimplePie_File', true );
 
-	$feed->set_feed_url( $url );
 	/** This filter is documented in wp-includes/class-wp-feed-cache-transient.php */
 	$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 
@@ -846,6 +845,60 @@ function fetch_feed( $url ) {
 	 */
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 
+	if ( empty( $url ) ) {
+		/*
+		 * @todo: Set $url to empty string once supported by SimplePie.
+		 *
+		 * The early return without proceeding is to work around a PHP 8.5
+		 * deprecation issue resolved in https://github.com/simplepie/simplepie/pull/949
+		 *
+		 * To avoid the duplicate code, this block can be replaced with `$url = '';` once SimplePie
+		 * is upgraded to a version that includes the fix.
+		 */
+		$feed->init();
+		$feed->set_output_encoding( get_bloginfo( 'charset' ) );
+
+		if ( $feed->error() ) {
+			return new WP_Error( 'simplepie-error', $feed->error() );
+		}
+
+		return $feed;
+	} elseif ( is_array( $url ) && count( $url ) === 1 ) {
+		$url = array_shift( $url );
+	} elseif ( is_array( $url ) ) {
+		$feeds            = array();
+		$simplepie_errors = array();
+		foreach ( $url as $feed_url ) {
+			$simplepie_instance = clone $feed;
+			$simplepie_instance->set_feed_url( $feed_url );
+			$simplepie_instance->init();
+			$simplepie_instance->set_output_encoding( get_bloginfo( 'charset' ) );
+
+			if ( $simplepie_instance->error() ) {
+				$simplepie_errors[] = sprintf(
+					/* translators: %1$s is the feed URL, %2$s is the error message. */
+					__( 'Error fetching feed %1$s: %2$s' ),
+					esc_url( $feed_url ),
+					$simplepie_instance->error()
+				);
+				unset( $simplepie_instance );
+				continue;
+			}
+
+			$feeds[] = $simplepie_instance;
+			unset( $simplepie_instance );
+		}
+
+		if ( ! empty( $simplepie_errors ) ) {
+			return new WP_Error( 'simplepie-error', $simplepie_errors );
+		}
+
+		$feed->init();
+		$feed->data['items'] = SimplePie\SimplePie::merge_items( $feeds );
+		return $feed;
+	}
+
+	$feed->set_feed_url( $url );
 	$feed->init();
 	$feed->set_output_encoding( get_bloginfo( 'charset' ) );
 
