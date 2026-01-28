@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} -f WordPress/Dockerfile WordPress
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image
         run: |
