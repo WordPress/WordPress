@@ -493,4 +493,22 @@ class WP_Styles extends WP_Dependencies {
 		$this->concat_version = '';
 		$this->print_html     = '';
 	}
+
+	/**
+	 * Gets a style-specific dependency warning message.
+	 *
+	 * @since 6.9.1
+	 *
+	 * @param string   $handle                     Style handle with missing dependencies.
+	 * @param string[] $missing_dependency_handles Missing dependency handles.
+	 * @return string Formatted, localized warning message.
+	 */
+	protected function get_dependency_warning_message( $handle, $missing_dependency_handles ) {
+		return sprintf(
+			/* translators: 1: Style handle, 2: List of missing dependency handles. */
+			__( 'The style with the handle "%1$s" was enqueued with dependencies that are not registered: %2$s.' ),
+			$handle,
+			implode( wp_get_list_item_separator(), $missing_dependency_handles )
+		);
+	}
 }

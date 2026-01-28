@@ -105,6 +105,18 @@ class WP_Dependencies {
 	private $queued_before_register = array();
 
 	/**
+	 * List of handles for dependencies encountered which themselves have missing dependencies.
+	 *
+	 * A dependency handle is added to this list when it is discovered to have missing dependencies. At this time, a
+	 * warning is emitted with {@see _doing_it_wrong()}. The handle is then added to this list, so that duplicate
+	 * warnings don't occur.
+	 *
+	 * @since 6.9.1
+	 * @var string[]
+	 */
+	private $dependencies_with_missing_dependencies = array();
+
+	/**
 	 * Processes the items and dependencies.
 	 *
 	 * Processes the items passed to it or the queue, and their dependencies.
@@ -199,10 +211,22 @@ class WP_Dependencies {
 				continue;
 			}
 
-			$keep_going = true;
+			$keep_going           = true;
+			$missing_dependencies = array();
+			if ( isset( $this->registered[ $handle ] ) && count( $this->registered[ $handle ]->deps ) > 0 ) {
+				$missing_dependencies = array_diff( $this->registered[ $handle ]->deps, array_keys( $this->registered ) );
+			}
 			if ( ! isset( $this->registered[ $handle ] ) ) {
 				$keep_going = false; // Item doesn't exist.
-			} elseif ( $this->registered[ $handle ]->deps && array_diff( $this->registered[ $handle ]->deps, array_keys( $this->registered ) ) ) {
+			} elseif ( count( $missing_dependencies ) > 0 ) {
+				if ( ! in_array( $handle, $this->dependencies_with_missing_dependencies, true ) ) {
+					_doing_it_wrong(
+						get_class( $this ) . '::add',
+						$this->get_dependency_warning_message( $handle, $missing_dependencies ),
+						'6.9.1'
+					);
+					$this->dependencies_with_missing_dependencies[] = $handle;
+				}
 				$keep_going = false; // Item requires dependencies that don't exist.
 			} elseif ( $this->registered[ $handle ]->deps && ! $this->all_deps( $this->registered[ $handle ]->deps, true, $new_group ) ) {
 				$keep_going = false; // Item requires dependencies that don't exist.
@@ -534,5 +558,23 @@ class WP_Dependencies {
 		 * wp_hash() function.
 		 */
 		return 'W/"' . md5( $etag ) . '"';
+	}
+
+	/**
+	 * Gets a dependency warning message for a handle.
+	 *
+	 * @since 6.9.1
+	 *
+	 * @param string   $handle                     Handle with missing dependencies.
+	 * @param string[] $missing_dependency_handles Missing dependency handles.
+	 * @return string Formatted, localized warning message.
+	 */
+	protected function get_dependency_warning_message( $handle, $missing_dependency_handles ) {
+		return sprintf(
+			/* translators: 1: Handle, 2: List of missing dependency handles. */
+			__( 'The handle "%1$s" was enqueued with dependencies that are not registered: %2$s.' ),
+			$handle,
+			implode( wp_get_list_item_separator(), $missing_dependency_handles )
+		);
 	}
 }
