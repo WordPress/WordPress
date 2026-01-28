@@ -503,36 +503,43 @@ form#tags-filter {
 
 #post-body .misc-pub-post-status:before,
 #post-body .misc-pub-comment-status:before {
+	content: "\f173";
 	content: "\f173" / '';
 }
 
 #post-body #visibility:before {
+	content: "\f177";
 	content: "\f177" / '';
 }
 
 .curtime #timestamp:before {
+	content: "\f145";
 	content: "\f145" / '';
 	position: relative;
 	top: -1px;
 }
 
 #post-body .misc-pub-uploadedby:before {
+	content: "\f110";
 	content: "\f110" / '';
 	position: relative;
 	top: -1px;
 }
 
 #post-body .misc-pub-uploadedto:before {
+	content: "\f318";
 	content: "\f318" / '';
 	position: relative;
 	top: -1px;
 }
 
 #post-body .misc-pub-revisions:before {
+	content: "\f321";
 	content: "\f321" / '';
 }
 
 #post-body .misc-pub-response-to:before {
+	content: "\f101";
 	content: "\f101" / '';
 }
 
@@ -1228,42 +1235,52 @@ label.post-format-icon {
 }
 
 .post-format-icon.post-format-standard::before {
+	content: "\f109";
 	content: "\f109" / '';
 }
 
 .post-format-icon.post-format-image::before {
+	content: "\f128";
 	content: "\f128" / '';
 }
 
 .post-format-icon.post-format-gallery::before {
+	content: "\f161";
 	content: "\f161" / '';
 }
 
 .post-format-icon.post-format-audio::before {
+	content: "\f127";
 	content: "\f127" / '';
 }
 
 .post-format-icon.post-format-video::before {
+	content: "\f126";
 	content: "\f126" / '';
 }
 
 .post-format-icon.post-format-chat::before {
+	content: "\f125";
 	content: "\f125" / '';
 }
 
 .post-format-icon.post-format-status::before {
+	content: "\f130";
 	content: "\f130" / '';
 }
 
 .post-format-icon.post-format-aside::before {
+	content: "\f123";
 	content: "\f123" / '';
 }
 
 .post-format-icon.post-format-quote::before {
+	content: "\f122";
 	content: "\f122" / '';
 }
 
 .post-format-icon.post-format-link::before {
+	content: "\f103";
 	content: "\f103" / '';
 }
 

@@ -560,6 +560,7 @@ code {
 }
 
 .js-update-details-toggle[aria-expanded="true"] .dashicons::before {
+	content: "\f142";
 	content: "\f142" / '';
 }
 
@@ -806,6 +807,7 @@ img.emoji {
 .notice-dismiss:before {
 	background: none;
 	color: #787c82;
+	content: "\f153";
 	content: "\f153" / '';
 	display: block;
 	font: normal 16px/20px dashicons;
@@ -1133,6 +1135,7 @@ th.action-links {
 }
 
 .wp-filter .drawer-toggle:before {
+	content: "\f111";
 	content: "\f111" / '';
 	margin: 0 0 0 5px;
 	color: #646970;
@@ -1525,6 +1528,7 @@ div.error {
 
 #plugin-information-footer .update-now:not(.button-disabled):before {
 	color: #d63638;
+	content: "\f463";
 	content: "\f463" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -1587,6 +1591,7 @@ div.error {
 .button.installing:before,
 .button.activating-message:before {
 	color: #d63638;
+	content: "\f463";
 	content: "\f463" / '';
 }
 
@@ -1623,12 +1628,14 @@ div.error {
 .button.updated-message:before,
 .button.activated-message:before {
 	color: #68de7c;
+	content: "\f147";
 	content: "\f147" / '';
 }
 
 /* Error icon. */
 .update-message.notice-error p:before {
 	color: #d63638;
+	content: "\f534";
 	content: "\f534" / '';
 }
 
@@ -1838,6 +1845,7 @@ p.auto-update-status {
 
 #screen-meta-links .show-settings:after {
 	left: 0;
+	content: "\f140";
 	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
 	display: inline-block;
@@ -1851,6 +1859,7 @@ p.auto-update-status {
 }
 
 #screen-meta-links .screen-meta-active:after {
+	content: "\f142";
 	content: "\f142" / '';
 }
 
@@ -2672,10 +2681,12 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-full:before {
+	content: "\f155";
 	content: "\f155" / '';
 }
 
 .star-rating .star-half:before {
+	content: "\f459";
 	content: "\f459" / '';
 }
 
@@ -2684,6 +2695,7 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-empty:before {
+	content: "\f154";
 	content: "\f154" / '';
 }
 
@@ -3175,6 +3187,7 @@ div.action-links {
 }
 
 .plugin-details-modal #TB_closeWindowButton:after {
+	content: "\f335";
 	content: "\f335" / '';
 	font: normal 32px/29px 'dashicons';
 	-webkit-font-smoothing: antialiased;
@@ -3201,6 +3214,7 @@ img {
 .meta-box-sortables .postbox .order-lower-indicator::before,
 .bulk-action-notice .toggle-indicator::before,
 .privacy-text-box .toggle-indicator::before {
+	content: "\f142";
 	content: "\f142" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -3213,15 +3227,18 @@ img {
 .meta-box-sortables .postbox.closed .handlediv .toggle-indicator::before,
 .bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator::before,
 .privacy-text-box.closed .toggle-indicator::before {
+	content: "\f140";
 	content: "\f140" / '';
 }
 
 .postbox .handle-order-higher .order-higher-indicator::before {
+	content: "\f343";
 	content: "\f343" / '';
 	color: inherit;
 }
 
 .postbox .handle-order-lower .order-lower-indicator::before {
+	content: "\f347";
 	content: "\f347" / '';
 	color: inherit;
 }
@@ -3345,9 +3362,11 @@ img {
 	pointer-events: none;
 }
 [role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
+	content: "\f141";
 	content: "\f139" / '';
 }
 [role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
+	content: "\f140";
 	content: "\f140" / '';
 }
 [role="treeitem"] .folder-label {
@@ -3563,6 +3582,7 @@ img {
 .wp-customizer .control-section .accordion-section-title:after,
 .wp-customizer .accordion-section-title:after,
 .widget-top .widget-action .toggle-indicator:before {
+	content: "\f140";
 	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
 	display: block;
@@ -3611,6 +3631,7 @@ img {
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top .widget-action .toggle-indicator:before,
 .widget.widget-in-question .widget-top .widget-action .toggle-indicator:before {
+	content: "\f142";
 	content: "\f142" / '';
 }
 

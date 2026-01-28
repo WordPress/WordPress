@@ -175,6 +175,7 @@ input[type="radio"]:checked::before {
 
 input[type="checkbox"]:checked::before {
 	/* Use the "Yes" SVG Dashicon */
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E");
 	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E") / '';
 	margin: -0.1875rem -0.25rem 0 0;
 	height: 1.3125rem;
@@ -240,6 +241,7 @@ textarea[readonly] {
 }
 
 .form-table .form-required.form-invalid td:after {
+	content: "\f534";
 	content: "\f534" / '';
 	font: normal 20px/1 dashicons;
 	color: #d63638;
@@ -253,6 +255,7 @@ textarea[readonly] {
 }
 
 .form-table .form-required.user-pass1-wrap.form-invalid .password-input-wrapper:after {
+	content: "\f534";
 	content: "\f534" / '';
 	font: normal 20px/1 dashicons;
 	color: #d63638;
@@ -1120,6 +1123,7 @@ table.form-table td .updated p {
 .pressthis-bookmarklet span:before {
 	color: #787c82;
 	font: normal 20px/1 dashicons;
+	content: "\f157";
 	content: "\f157" / '';
 	position: relative;
 	display: inline-block;
