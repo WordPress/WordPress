@@ -1,8 +1,9 @@
 name: Build & Refresh ASG (Golden AMI + S3 build pointer)
 
 on:
-  push:
-    branches: ["master"]
+    # push:
+    #     branches: ["master"]
+    workflow_dispatch:
 
 permissions:
   id-token: write

@@ -1,0 +1,14 @@
+.git
+.gitignore
+
+Dockerfile
+docker-compose.yaml
+
+# local dirs
+nginx/
+*.log
+*.tar.gz
+
+# don't bake runtime config
+# wp-config.php
+wp-config-sample.php

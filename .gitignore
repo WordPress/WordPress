@@ -1,2 +1,8 @@
 wp-config.php
 wp-content/uploads/
+nginx/*
+nginx
+uploads
+uploads/*
+./.github/workflows/CI-CD-updated.yaml
+docker-compose*

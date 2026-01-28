@@ -1,0 +1,89 @@
+name: Deploy (Update SSM + Refresh ASG)
+
+on:
+  # workflow_run:
+  #   workflows: ["Build and Push Image"]
+  #   types: [completed]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  AWS_ROLE_ARN: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
+  ASG_NAME: amir-asg
+
+  # SSM parameter names
+  SSM_DB_NAME_PARAM: /wordpress/DB_NAME
+  SSM_DB_USER_PARAM: /wordpress/DB_USER
+  SSM_DB_PASSWORD_PARAM: /wordpress/DB_PASSWORD
+  SSM_DB_HOST_PARAM: /wordpress/DB_HOST
+
+  # MySQL credentials
+  DB_NAME: wordpress_db
+  DB_USER: wp_user
+  DB_PASSWORD: admin@obelion
+  DB_HOST: 10.0.22.123:3306
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update SSM parameters (DB credentials)
+        run: |
+          aws ssm put-parameter --name "${{ env.SSM_DB_NAME_PARAM }}" --type SecureString --value "${{ env.DB_NAME }}" --overwrite
+          aws ssm put-parameter --name "${{ env.SSM_DB_USER_PARAM }}" --type SecureString --value "${{ env.DB_USER }}" --overwrite
+          aws ssm put-parameter --name "${{ env.SSM_DB_PASSWORD_PARAM }}" --type SecureString --value "${{ env.DB_PASSWORD }}" --overwrite
+          aws ssm put-parameter --name "${{ env.SSM_DB_HOST_PARAM }}" --type SecureString --value "${{ env.DB_HOST }}" --overwrite
+
+      - name: Refresh Auto Scaling Group
+        id: refresh
+        run: |
+          REFRESH_ID=$(aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+            --strategy Rolling \
+            --preferences MinHealthyPercentage=90,MaxHealthyPercentage=50,InstanceWarmup=30 \
+            --query "InstanceRefreshId" --output text)
+          echo "refresh_id=$REFRESH_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for Instance Refresh to finish
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          REFRESH_ID="${{ steps.refresh.outputs.refresh_id }}"
+
+          # up to ~10 minutes (120 * 5s)
+          for i in $(seq 1 120); do
+            STATUS=$(aws autoscaling describe-instance-refreshes \
+              --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+              --instance-refresh-ids "$REFRESH_ID" \
+              --query "InstanceRefreshes[0].Status" --output text)
+
+            echo "[$i] Refresh status: $STATUS"
+
+            case "$STATUS" in
+              Successful) exit 0 ;;
+              Failed|Cancelled)
+                aws autoscaling describe-instance-refreshes \
+                  --auto-scaling-group-name "${{ env.ASG_NAME }}" \
+                  --instance-refresh-ids "$REFRESH_ID"
+                exit 1
+                ;;
+            esac
+
+            sleep 5
+          done
+
+          echo "Timeout waiting for Instance Refresh."
+          exit 1
