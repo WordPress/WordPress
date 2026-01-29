@@ -1,9 +1,9 @@
 name: Deploy (Update SSM + Refresh ASG)
 
 on:
-  # workflow_run:
-  #   workflows: ["Build and Push Image"]
-  #   types: [completed]
+  workflow_run:
+    workflows: ["Build and Push Image"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -11,9 +11,9 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: us-east-1
-  AWS_ROLE_ARN: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
-  ASG_NAME: amir-asg
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  ASG_NAME: ${{ secrets.ASG_NAME }} 
 
   # SSM parameter names
   SSM_DB_NAME_PARAM: /wordpress/DB_NAME
@@ -22,10 +22,10 @@ env:
   SSM_DB_HOST_PARAM: /wordpress/DB_HOST
 
   # MySQL credentials
-  DB_NAME: wordpress_db
-  DB_USER: wp_user
-  DB_PASSWORD: admin@obelion
-  DB_HOST: 10.0.22.123:3306
+  DB_NAME: ${{ secrets.WP_DB_NAME }}
+  DB_USER: ${{ secrets.WP_DB_USER }}
+  DB_PASSWORD: ${{ secrets.WP_DB_PASSWORD }}
+  DB_HOST: ${{ secrets.WP_DB_HOST }}
 
 jobs:
   deploy:
