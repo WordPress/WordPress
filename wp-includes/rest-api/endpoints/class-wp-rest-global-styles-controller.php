@@ -713,7 +713,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 			 * that would have broken out of the containing STYLE element, thus
 			 * corrupting the page and potentially introducing security issues.
 			 *
-			 * @see https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
+			 * @link https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
 			 */
 			$possible_style_close_tag = 0 === substr_compare(
 				$css,
