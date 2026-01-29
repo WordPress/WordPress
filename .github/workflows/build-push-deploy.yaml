@@ -10,9 +10,10 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: us-east-1
-  AWS_ROLE_ARN: arn:aws:iam::753675398055:role/amir-github-actions-deploy-role
-  IMAGE_NAME: 753675398055.dkr.ecr.us-east-1.amazonaws.com/amir-wordpress-app
+  AWS_REGION: ${{ secrets.AWS_REGION }} #us-east-1
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }} #753675398055.dkr.ecr.us-east-1.amazonaws.com/wordpress-app
+
 
 jobs:
   build-and-push:
