@@ -52,7 +52,7 @@ jobs:
           REFRESH_ID=$(aws autoscaling start-instance-refresh \
             --auto-scaling-group-name "${{ env.ASG_NAME }}" \
             --strategy Rolling \
-            --preferences MinHealthyPercentage=90,MaxHealthyPercentage=50,InstanceWarmup=30 \
+            --preferences MinHealthyPercentage=90,MaxHealthyPercentage=100,InstanceWarmup=30 \
             --query "InstanceRefreshId" --output text)
           echo "refresh_id=$REFRESH_ID" >> "$GITHUB_OUTPUT"
 
