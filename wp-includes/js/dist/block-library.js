@@ -2491,6 +2491,7 @@ function accordion_heading_save_save({ attributes }) {
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(TagName, { ...blockProps, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
     "button",
     {
+      type: "button",
       className: "wp-block-accordion-heading__toggle",
       style: spacingProps.style,
       children: [
@@ -2659,7 +2660,126 @@ const v1 = {
     ) });
   }
 };
-var deprecated_default = [v1];
+const v2 = {
+  attributes: {
+    openByDefault: {
+      type: "boolean",
+      default: false
+    },
+    title: {
+      type: "rich-text",
+      source: "rich-text",
+      selector: ".wp-block-accordion-heading__toggle-title",
+      role: "content"
+    },
+    level: {
+      type: "number"
+    },
+    iconPosition: {
+      type: "string",
+      enum: ["left", "right"],
+      default: "right"
+    },
+    showIcon: {
+      type: "boolean",
+      default: true
+    }
+  },
+  supports: {
+    anchor: true,
+    color: {
+      background: true,
+      gradients: true
+    },
+    align: false,
+    interactivity: true,
+    spacing: {
+      padding: true,
+      __experimentalDefaultControls: {
+        padding: true
+      },
+      __experimentalSkipSerialization: true,
+      __experimentalSelector: ".wp-block-accordion-heading__toggle"
+    },
+    __experimentalBorder: {
+      color: true,
+      radius: true,
+      style: true,
+      width: true,
+      __experimentalDefaultControls: {
+        color: true,
+        radius: true,
+        style: true,
+        width: true
+      }
+    },
+    typography: {
+      __experimentalSkipSerialization: [
+        "textDecoration",
+        "letterSpacing"
+      ],
+      fontSize: true,
+      __experimentalFontFamily: true,
+      __experimentalFontWeight: true,
+      __experimentalFontStyle: true,
+      __experimentalTextTransform: true,
+      __experimentalTextDecoration: true,
+      __experimentalLetterSpacing: true,
+      __experimentalDefaultControls: {
+        fontSize: true,
+        fontFamily: true
+      }
+    },
+    shadow: true,
+    visibility: false,
+    lock: false
+  },
+  save({ attributes }) {
+    const { level, title, iconPosition, showIcon } = attributes;
+    const TagName = "h" + (level || 3);
+    const typographyProps = (0,external_wp_blockEditor_namespaceObject.getTypographyClassesAndStyles)(attributes);
+    const blockProps = external_wp_blockEditor_namespaceObject.useBlockProps.save();
+    const spacingProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetSpacingClassesAndStyles)(attributes);
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(TagName, { ...blockProps, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
+      "button",
+      {
+        className: "wp-block-accordion-heading__toggle",
+        style: spacingProps.style,
+        children: [
+          showIcon && iconPosition === "left" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            "span",
+            {
+              className: "wp-block-accordion-heading__toggle-icon",
+              "aria-hidden": "true",
+              children: "+"
+            }
+          ),
+          /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            external_wp_blockEditor_namespaceObject.RichText.Content,
+            {
+              className: "wp-block-accordion-heading__toggle-title",
+              tagName: "span",
+              value: title,
+              style: {
+                letterSpacing: typographyProps.style.letterSpacing,
+                textDecoration: typographyProps.style.textDecoration
+              }
+            }
+          ),
+          showIcon && iconPosition === "right" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            "span",
+            {
+              className: "wp-block-accordion-heading__toggle-icon",
+              "aria-hidden": "true",
+              children: "+"
+            }
+          )
+        ]
+      }
+    ) });
+  }
+};
+var deprecated_default = [v1, v2];
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/accordion-heading/index.js
@@ -7387,7 +7507,7 @@ function edit_ClassicEdit({
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/block.json
-const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"html":false,"className":false,"customClassName":false,"lock":false,"reusable":false,"renaming":false,"visibility":false},"editorStyle":"wp-block-freeform-editor"}');
+const freeform_block_namespaceObject = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"core/freeform","title":"Classic","category":"text","description":"Use the classic WordPress editor.","textdomain":"default","attributes":{"content":{"type":"string","source":"raw"}},"supports":{"className":false,"customClassName":false,"lock":false,"reusable":false,"renaming":false,"visibility":false},"editorStyle":"wp-block-freeform-editor"}');
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/save.js
 
 
@@ -12382,7 +12502,7 @@ const v3 = {
     ];
   }
 };
-const v2 = {
+const deprecated_v2 = {
   attributes: {
     ...deprecated_blockAttributes,
     title: {
@@ -12513,7 +12633,7 @@ const cover_deprecated_v1 = {
     ];
   }
 };
-var cover_deprecated_deprecated_default = [v14, v13, deprecated_v12, deprecated_v11, deprecated_v10, v9, v8, v7, v6, v5, v4, v3, v2, cover_deprecated_v1];
+var cover_deprecated_deprecated_default = [v14, v13, deprecated_v12, deprecated_v11, deprecated_v10, v9, v8, v7, v6, v5, v4, v3, deprecated_v2, cover_deprecated_v1];
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/cover/constants.js
@@ -16078,7 +16198,7 @@ var embed_variations_variations_default = embed_variations_variations;
 
 
 const { attributes: embed_deprecated_blockAttributes } = embed_block_namespaceObject;
-const deprecated_v2 = {
+const embed_deprecated_v2 = {
   attributes: embed_deprecated_blockAttributes,
   save({ attributes }) {
     const { url, caption, type, providerNameSlug } = attributes;
@@ -16116,7 +16236,7 @@ ${url}
     ] });
   }
 };
-const embed_deprecated_deprecated = [deprecated_v2, embed_deprecated_v1];
+const embed_deprecated_deprecated = [embed_deprecated_v2, embed_deprecated_v1];
 var embed_deprecated_deprecated_default = embed_deprecated_deprecated;
 
 

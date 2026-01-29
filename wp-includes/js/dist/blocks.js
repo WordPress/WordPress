@@ -7141,12 +7141,13 @@ k([names, a11y]);
 const ICON_COLORS = ["#191e23", "#f8f9f9"];
 function isUnmodifiedBlock(block, role) {
   const blockAttributes = getBlockType(block.name)?.attributes ?? {};
-  const attributesToCheck = role ? Object.entries(blockAttributes).filter(([key, definition]) => {
+  const attributesByRole = role ? Object.entries(blockAttributes).filter(([key, definition]) => {
     if (role === "content" && key === "metadata") {
-      return true;
+      return Object.keys(block.attributes[key]?.bindings ?? {}).length > 0;
     }
     return definition.role === role || definition.__experimentalRole === role;
-  }) : Object.entries(blockAttributes);
+  }) : [];
+  const attributesToCheck = !!attributesByRole.length ? attributesByRole : Object.entries(blockAttributes);
   return attributesToCheck.every(([key, definition]) => {
     const value = block.attributes[key];
     if (definition.hasOwnProperty("default")) {
@@ -8072,11 +8073,11 @@ const processBlockType = (name, blockSettings) => ({ select }) => {
     null
   );
   if (settings.apiVersion <= 2) {
-    external_wp_warning_default()(
-      `The block "${name}" is registered with API version 2 or lower. This means that the post editor may work as a non-iframe editor.
-Since all editors are planned to work as iframes in the future, set the \`apiVersion\` field to 3 and test the block inside the iframe editor.
-See: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-api-versions/#version-3-wordpress-6-3`
-    );
+    external_wp_deprecated_default()("Block with API version 2 or lower", {
+      since: "6.9",
+      hint: `The block "${name}" is registered with API version ${settings.apiVersion}. This means that the post editor may work as a non-iframe editor. Since all editors are planned to work as iframes in the future, set the \`apiVersion\` field to 3 and test the block inside the iframe editor.`,
+      link: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-api-versions/block-migration-for-iframe-editor-compatibility/"
+    });
   }
   if (settings.description && typeof settings.description !== "string") {
     external_wp_deprecated_default()("Declaring non-string block descriptions", {

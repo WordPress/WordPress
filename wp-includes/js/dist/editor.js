@@ -4806,7 +4806,7 @@ var rename_post_default = renamePost;
 
 
 function isItemValid(item) {
-  return typeof item.menu_order === "number" && Number.isInteger(item.menu_order) && item.menu_order > 0;
+  return typeof item.menu_order === "number" && Number.isInteger(item.menu_order);
 }
 function ReorderModal({
   items,
@@ -28839,6 +28839,14 @@ function useFloatingThread({
 }) {
   const blockRef = (0,external_wp_element_namespaceObject.useRef)();
   useBlockElementRef(thread.blockClientId, blockRef);
+  const blockMode = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => {
+      return thread.blockClientId ? select(external_wp_blockEditor_namespaceObject.store).getBlockMode(
+        thread.blockClientId
+      ) : null;
+    },
+    [thread.blockClientId]
+  );
   const updateHeight = (0,external_wp_element_namespaceObject.useCallback)(
     (id, newHeight) => {
       setHeights((prev) => {
@@ -28863,7 +28871,7 @@ function useFloatingThread({
     if (blockRef.current) {
       refs.setReference(blockRef.current);
     }
-  }, [blockRef, refs, commentLastUpdated]);
+  }, [blockRef, refs, commentLastUpdated, blockMode]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (refs.floating?.current) {
       setBlockRef(thread.id, blockRef.current);
@@ -29014,17 +29022,24 @@ function Comments({
   const { selectBlock, toggleBlockSpotlight } = unlock(
     (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store)
   );
-  const { blockCommentId, selectedBlockClientId, orderedBlockIds } = (0,external_wp_data_namespaceObject.useSelect)((select) => {
+  const {
+    blockCommentId,
+    selectedBlockClientId,
+    orderedBlockIds,
+    blockMode
+  } = (0,external_wp_data_namespaceObject.useSelect)((select) => {
     const {
       getBlockAttributes,
       getSelectedBlockClientId,
-      getClientIdsWithDescendants
+      getClientIdsWithDescendants,
+      getBlockMode
     } = select(external_wp_blockEditor_namespaceObject.store);
     const clientId = getSelectedBlockClientId();
     return {
       blockCommentId: clientId ? getBlockAttributes(clientId)?.metadata?.noteId : null,
       selectedBlockClientId: clientId,
-      orderedBlockIds: getClientIdsWithDescendants()
+      orderedBlockIds: getClientIdsWithDescendants(),
+      blockMode: clientId ? getBlockMode(clientId) : null
     };
   }, []);
   const relatedBlockElement = comments_useBlockElement(selectedBlockClientId);
@@ -29177,7 +29192,8 @@ function Comments({
     isFloating,
     threads,
     selectedThread,
-    setCanvasMinHeight
+    setCanvasMinHeight,
+    blockMode
   ]);
   const handleThreadNavigation = (event, thread, isSelected) => {
     if (event.defaultPrevented) {

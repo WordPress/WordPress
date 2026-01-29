@@ -43796,7 +43796,13 @@ function DataviewsPatterns() {
             children: (0,external_wp_i18n_namespaceObject.__)("Reset view")
           }
         ),
-        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(PatternsActions, {})
+        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+          PatternsActions,
+          {
+            categoryId,
+            postType
+          }
+        )
       ] }),
       children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
         dataviews_default,

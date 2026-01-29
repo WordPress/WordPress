@@ -1462,6 +1462,9 @@ iframe[name=editor-canvas]{
   margin-bottom:inherit;
 }
 
+.block-editor-panel-color-gradient-settings__dropdown-content{
+  min-height:160px;
+}
 .block-editor-panel-color-gradient-settings__dropdown-content .block-editor-color-gradient-control__panel{
   padding:16px;
   width:260px;

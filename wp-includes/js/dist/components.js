@@ -34094,8 +34094,20 @@ const UnforwardedPopover = (props, forwardedRef) => {
   let onDialogClose;
   if (onClose || onFocusOutside) {
     onDialogClose = (type, event) => {
-      if (type === "focus-outside" && onFocusOutside) {
-        onFocusOutside(event);
+      if (type === "focus-outside") {
+        const blurTarget = event?.target;
+        const referenceElement = refs.reference.current;
+        const floatingElement = refs.floating.current;
+        const isBlurFromThisPopover = referenceElement && "contains" in referenceElement && referenceElement.contains(blurTarget) || floatingElement?.contains(blurTarget);
+        const ownerDocument = floatingElement?.ownerDocument;
+        if (!isBlurFromThisPopover && !("relatedTarget" in event && event.relatedTarget) && ownerDocument?.activeElement === ownerDocument?.body) {
+          return;
+        }
+        if (onFocusOutside) {
+          onFocusOutside(event);
+        } else if (onClose) {
+          onClose();
+        }
       } else if (onClose) {
         onClose();
       }

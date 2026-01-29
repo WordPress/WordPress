@@ -2516,7 +2516,6 @@
       )
     ),
     'supports' => array(
-      'html' => false,
       'className' => false,
       'customClassName' => false,
       'lock' => false,

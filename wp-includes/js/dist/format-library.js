@@ -113,24 +113,12 @@ const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 var format_bold_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M14.7 11.3c1-.6 1.5-1.6 1.5-3 0-2.3-1.3-3.4-4-3.4H7v14h5.8c1.4 0 2.5-.3 3.3-1 .8-.7 1.2-1.7 1.2-2.9.1-1.9-.8-3.1-2.6-3.7zm-5.1-4h2.3c.6 0 1.1.1 1.4.4.3.3.5.7.5 1.2s-.2 1-.5 1.2c-.3.3-.8.4-1.4.4H9.6V7.3zm4.6 9c-.4.3-1 .4-1.7.4H9.6v-3.9h2.9c.7 0 1.3.2 1.7.5.4.3.6.8.6 1.5s-.2 1.2-.6 1.5z" }) });
 
 
-;// external ["wp","privateApis"]
-const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// ./node_modules/@wordpress/format-library/build-module/lock-unlock.js
-
-const { lock, unlock } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-  "@wordpress/format-library"
-);
-
-
 ;// ./node_modules/@wordpress/format-library/build-module/bold/index.js
 
 
 
 
 
-
-const { essentialFormatKey } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const bold_name = "core/bold";
 const title = (0,external_wp_i18n_namespaceObject.__)("Bold");
 const bold = {
@@ -138,7 +126,6 @@ const bold = {
   title,
   tagName: "strong",
   className: null,
-  [essentialFormatKey]: true,
   edit({ isActive, value, onChange, onFocus }) {
     function onToggle() {
       onChange((0,external_wp_richText_namespaceObject.toggleFormat)(value, { type: bold_name, title }));
@@ -458,8 +445,6 @@ var format_italic_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespac
 
 
 
-
-const { essentialFormatKey: italic_essentialFormatKey } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const italic_name = "core/italic";
 const italic_title = (0,external_wp_i18n_namespaceObject.__)("Italic");
 const italic = {
@@ -467,7 +452,6 @@ const italic = {
   title: italic_title,
   tagName: "em",
   className: null,
-  [italic_essentialFormatKey]: true,
   edit({ isActive, value, onChange, onFocus }) {
     function onToggle() {
       onChange((0,external_wp_richText_namespaceObject.toggleFormat)(value, { type: italic_name, title: italic_title }));
@@ -968,8 +952,6 @@ var inline_default = InlineLinkUI;
 
 
 
-
-const { essentialFormatKey: link_essentialFormatKey } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const link_name = "core/link";
 const link_title = (0,external_wp_i18n_namespaceObject.__)("Link");
 function link_Edit({
@@ -1124,7 +1106,6 @@ const link_link = {
     rel: "rel",
     class: "class"
   },
-  [link_essentialFormatKey]: true,
   __unstablePasteRule(value, { html, plainText }) {
     const pastedText = (html || plainText).replace(/<[^>]+>/g, "").trim();
     if (!(0,external_wp_url_namespaceObject.isURL)(pastedText) || !/^https?:/.test(pastedText)) {
@@ -1274,6 +1255,16 @@ var text_color_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceOb
 
 
 var color_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M17.2 10.9c-.5-1-1.2-2.1-2.1-3.2-.6-.9-1.3-1.7-2.1-2.6L12 4l-1 1.1c-.6.9-1.3 1.7-2 2.6-.8 1.2-1.5 2.3-2 3.2-.6 1.2-1 2.2-1 3 0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1c0-.8-.3-1.8-1-3zm-5.1 7.6c-2.5 0-4.6-2.1-4.6-4.6 0-.3.1-1 .8-2.3.5-.9 1.1-1.9 2-3.1.7-.9 1.3-1.7 1.8-2.3.7.8 1.3 1.6 1.8 2.3.8 1.1 1.5 2.2 2 3.1.7 1.3.8 2 .8 2.3 0 2.5-2.1 4.6-4.6 4.6z" }) });
+
+
+;// external ["wp","privateApis"]
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// ./node_modules/@wordpress/format-library/build-module/lock-unlock.js
+
+const { lock, unlock } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/format-library"
+);
 
 
 ;// ./node_modules/@wordpress/format-library/build-module/text-color/inline.js
