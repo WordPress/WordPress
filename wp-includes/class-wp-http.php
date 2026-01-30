@@ -161,7 +161,7 @@ class WP_Http {
 	 *         @type int|false    $code    HTTP response status code.
 	 *         @type string|false $message HTTP response message.
 	 *     }
-	 *     @type WP_HTTP_Cookie[]                                  $cookies       Array of cookies set by the server.
+	 *     @type WP_Http_Cookie[]                                  $cookies       Array of cookies set by the server.
 	 *     @type string|null                                       $filename      Optional. Filename of the response.
 	 *     @type WP_HTTP_Requests_Response|null                    $http_response Response object.
 	 * }
@@ -804,7 +804,7 @@ class WP_Http {
 	 */
 	public static function buildCookieHeader( &$r ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		if ( ! empty( $r['cookies'] ) ) {
-			// Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
+			// Upgrade any name => value cookie pairs to WP_Http_Cookie instances.
 			foreach ( $r['cookies'] as $name => $value ) {
 				if ( ! is_object( $value ) ) {
 					$r['cookies'][ $name ] = new WP_Http_Cookie(
