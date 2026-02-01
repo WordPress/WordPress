@@ -744,6 +744,7 @@ class WP_Theme_JSON {
 		array( 'spacing', 'margin' ),
 		array( 'spacing', 'padding' ),
 		array( 'typography', 'lineHeight' ),
+		array( 'typography', 'textColumns' ),
 	);
 
 	/**
