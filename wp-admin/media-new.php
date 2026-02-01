@@ -40,7 +40,7 @@ if ( $_POST ) {
 }
 
 // Used in the HTML title tag.
-$title       = __( 'Upload New Media' );
+$title       = __( 'Upload Media' );
 $parent_file = 'upload.php';
 
 get_current_screen()->add_help_tab(
