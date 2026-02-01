@@ -668,7 +668,7 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @see https://github.com/WP-API/WP-API/issues/1585
+	 * @link https://github.com/WP-API/WP-API/issues/1585
 	 *
 	 * @todo Remove this in favour of https://core.trac.wordpress.org/ticket/34659
 	 *

@@ -208,7 +208,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * slugs cannot contain slashes.
 	 *
 	 * @since 5.9.0
-	 * @see https://core.trac.wordpress.org/ticket/54507
+	 * @link https://core.trac.wordpress.org/ticket/54507
 	 *
 	 * @param string $id Template ID.
 	 * @return string Sanitized template ID.
