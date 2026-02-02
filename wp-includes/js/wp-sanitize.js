@@ -23,6 +23,10 @@
 		 * @return {string} Stripped text.
 		 */
 		stripTags: function( text ) {
+			if ( null === text || 'undefined' === typeof text ) {
+				return '';
+			}
+
 			const domParser = new DOMParser();
 			const htmlDocument = domParser.parseFromString(
 				text,
