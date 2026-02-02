@@ -233,7 +233,7 @@ final class WP_Theme implements ArrayAccess {
 	 * By default the bucket is not cached, so this value is useless.
 	 *
 	 * @since 3.4.0
-	 * @var bool
+	 * @var int
 	 */
 	private static $cache_expiration = 1800;
 
