@@ -2,6 +2,8 @@
  * @output wp-admin/js/code-editor.js
  */
 
+/* eslint-env es2020 */
+
 if ( 'undefined' === typeof window.wp ) {
 	/**
 	 * @namespace wp
@@ -315,21 +317,25 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				innerMode = wp.CodeMirror.innerMode( codemirror.getMode(), token.state ).mode.name;
 				lineBeforeCursor = codemirror.doc.getLine( codemirror.doc.getCursor().line ).substr( 0, codemirror.doc.getCursor().ch );
 				if ( 'html' === innerMode || 'xml' === innerMode ) {
-					shouldAutocomplete =
+					shouldAutocomplete = (
 						'<' === event.key ||
-						'/' === event.key && 'tag' === token.type ||
-						isAlphaKey && 'tag' === token.type ||
-						isAlphaKey && 'attribute' === token.type ||
-						'=' === token.string && token.state.htmlState && token.state.htmlState.tagName;
+						( '/' === event.key && 'tag' === token.type ) ||
+						( isAlphaKey && 'tag' === token.type ) ||
+						( isAlphaKey && 'attribute' === token.type ) ||
+						( '=' === event.key && (
+							token.state.htmlState?.tagName ||
+							token.state.curState?.htmlState?.tagName
+						) )
+					);
 				} else if ( 'css' === innerMode ) {
 					shouldAutocomplete =
 						isAlphaKey ||
 						':' === event.key ||
-						' ' === event.key && /:\s+$/.test( lineBeforeCursor );
+						( ' ' === event.key && /:\s+$/.test( lineBeforeCursor ) );
 				} else if ( 'javascript' === innerMode ) {
 					shouldAutocomplete = isAlphaKey || '.' === event.key;
 				} else if ( 'clike' === innerMode && 'php' === codemirror.options.mode ) {
-					shouldAutocomplete = 'keyword' === token.type || 'variable' === token.type;
+					shouldAutocomplete = isAlphaKey && ( 'keyword' === token.type || 'variable' === token.type );
 				}
 				if ( shouldAutocomplete ) {
 					codemirror.showHint( { completeSingle: false } );
