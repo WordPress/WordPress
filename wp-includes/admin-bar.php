@@ -253,6 +253,40 @@ function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
 }
 
 /**
+ * Adds the dark mode toggle button.
+ *
+ * @since 6.8.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
+ */
+function wp_admin_bar_dark_mode_toggle( $wp_admin_bar ) {
+	if ( ! is_admin() || ! is_user_logged_in() ) {
+		return;
+	}
+
+	$is_dark_mode = 'true' === get_user_meta( get_current_user_id(), 'wp_dark_mode_enabled', true );
+
+	$wp_admin_bar->add_node(
+		array(
+			'id'     => 'dark-mode-toggle',
+			'parent' => 'top-secondary',
+			'title'  => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' .
+					( $is_dark_mode
+						/* translators: Hidden accessibility text. */
+						? __( 'Switch to light mode' )
+						/* translators: Hidden accessibility text. */
+						: __( 'Switch to dark mode' )
+					) .
+				'</span>',
+			'href'   => '#',
+			'meta'   => array(
+				'class' => $is_dark_mode ? 'dark-mode-active' : '',
+			),
+		)
+	);
+}
+
+/**
  * Adds the "My Account" item.
  *
  * @since 3.3.0

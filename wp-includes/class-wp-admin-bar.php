@@ -648,6 +648,7 @@ class WP_Admin_Bar {
 	public function add_menus() {
 		// User-related, aligned right.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 0 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_dark_mode_toggle', 9990 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_item', 9991 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_recovery_mode_menu', 9992 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 9999 );

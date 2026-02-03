@@ -630,6 +630,26 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 /**
+ * Dark Mode Toggle
+ */
+#wpadminbar #wp-admin-bar-dark-mode-toggle > .ab-item {
+	cursor: pointer;
+}
+
+/* Light mode: show "hidden" icon (click to go dark) */
+#wpadminbar #wp-admin-bar-dark-mode-toggle .ab-icon:before {
+	content: "\f530";
+	content: "\f530" / '';
+	top: 2px;
+}
+
+/* Dark mode active: show "lightbulb" icon (click to go light) */
+#wpadminbar #wp-admin-bar-dark-mode-toggle.dark-mode-active .ab-icon:before {
+	content: "\f339";
+	content: "\f339" / '';
+}
+
+/**
  * Search
  */
 

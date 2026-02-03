@@ -3613,6 +3613,63 @@ function wp_ajax_save_user_color_scheme() {
 }
 
 /**
+ * Handles toggling dark mode for the current user via AJAX.
+ *
+ * @since 6.8.0
+ *
+ * @global array $_wp_admin_css_colors
+ */
+function wp_ajax_toggle_dark_mode() {
+	global $_wp_admin_css_colors;
+
+	check_ajax_referer( 'toggle-dark-mode', 'nonce' );
+
+	$enable_dark = isset( $_POST['enable_dark'] ) && 'true' === $_POST['enable_dark'];
+	$user_id     = get_current_user_id();
+
+	$current_color = get_user_meta( $user_id, 'admin_color', true );
+	if ( empty( $current_color ) ) {
+		$current_color = 'fresh';
+	}
+
+	if ( $enable_dark ) {
+		// Save current (light) color preference before switching to dark.
+		if ( 'modern' !== $current_color ) {
+			update_user_meta( $user_id, 'wp_light_mode_color_scheme', $current_color );
+		}
+
+		// Switch to dark mode (modern scheme).
+		update_user_meta( $user_id, 'admin_color', 'modern' );
+		update_user_meta( $user_id, 'wp_dark_mode_enabled', 'true' );
+
+		$new_color = 'modern';
+	} else {
+		// Restore previous light mode color.
+		$light_color = get_user_meta( $user_id, 'wp_light_mode_color_scheme', true );
+		if ( empty( $light_color ) || ! isset( $_wp_admin_css_colors[ $light_color ] ) ) {
+			$light_color = 'fresh';
+		}
+
+		update_user_meta( $user_id, 'admin_color', $light_color );
+		update_user_meta( $user_id, 'wp_dark_mode_enabled', 'false' );
+
+		$new_color = $light_color;
+	}
+
+	$color_info = isset( $_wp_admin_css_colors[ $new_color ] ) ? $_wp_admin_css_colors[ $new_color ] : null;
+
+	wp_send_json_success(
+		array(
+			'darkModeEnabled' => $enable_dark,
+			'previousScheme'  => 'admin-color-' . $current_color,
+			'currentScheme'   => 'admin-color-' . $new_color,
+			'cssUrl'          => $color_info ? $color_info->url : '',
+			'iconColors'      => $color_info && isset( $color_info->icon_colors ) ? $color_info->icon_colors : array(),
+		)
+	);
+}
+
+/**
  * Handles getting themes from themes_api() via AJAX.
  *
  * @since 3.9.0

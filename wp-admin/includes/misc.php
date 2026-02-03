@@ -1052,6 +1052,29 @@ function admin_color_scheme_picker( $user_id ) {
 }
 
 /**
+ * Enqueues the dark mode toggle script and localizes data.
+ *
+ * @since 6.8.0
+ */
+function wp_enqueue_dark_mode_toggle_script() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	wp_enqueue_script( 'dark-mode-toggle' );
+
+	wp_localize_script(
+		'dark-mode-toggle',
+		'wpDarkModeToggle',
+		array(
+			'nonce'         => wp_create_nonce( 'toggle-dark-mode' ),
+			'darkModeText'  => __( 'Switch to dark mode' ),
+			'lightModeText' => __( 'Switch to light mode' ),
+		)
+	);
+}
+
+/**
  *
  * @since 3.8.0
  *
