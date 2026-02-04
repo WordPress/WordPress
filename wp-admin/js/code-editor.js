@@ -46,7 +46,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @param {Function}   settings.onChangeLintingErrors - Callback for when there are changes to linting errors.
 	 * @param {Function}   settings.onUpdateErrorNotice - Callback to update error notice.
 	 *
-	 * @return {void}
+	 * @return {Function} Update error notice function.
 	 */
 	function configureLinting( editor, settings ) { // eslint-disable-line complexity
 		var currentErrorAnnotations = [], previouslyShownErrorAnnotations = [];
@@ -82,7 +82,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 			}
 
 			/*
-			 * Note that rules must be sent in the "deprecated" lint.options property 
+			 * Note that rules must be sent in the "deprecated" lint.options property
 			 * to prevent linter from complaining about unrecognized options.
 			 * See <https://github.com/codemirror/CodeMirror/pull/4944>.
 			 */
@@ -209,6 +209,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				updateErrorNotice();
 			}
 		});
+
+		return updateErrorNotice;
 	}
 
 	/**
@@ -261,6 +263,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @typedef {object} wp.codeEditor~CodeEditorInstance
 	 * @property {object} settings - The code editor settings.
 	 * @property {CodeMirror} codemirror - The CodeMirror instance.
+	 * @property {Function} updateErrorNotice - Force update the error notice.
 	 */
 
 	/**
@@ -282,7 +285,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @return {CodeEditorInstance} Instance.
 	 */
 	wp.codeEditor.initialize = function initialize( textarea, settings ) {
-		var $textarea, codemirror, instanceSettings, instance;
+		var $textarea, codemirror, instanceSettings, instance, updateErrorNotice;
 		if ( 'string' === typeof textarea ) {
 			$textarea = $( '#' + textarea );
 		} else {
@@ -294,16 +297,33 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 
 		codemirror = wp.CodeMirror.fromTextArea( $textarea[0], instanceSettings.codemirror );
 
-		configureLinting( codemirror, instanceSettings );
+		updateErrorNotice = configureLinting( codemirror, instanceSettings );
 
 		instance = {
 			settings: instanceSettings,
-			codemirror: codemirror
+			codemirror,
+			updateErrorNotice,
 		};
 
 		if ( codemirror.showHint ) {
-			codemirror.on( 'keyup', function( editor, event ) { // eslint-disable-line complexity
-				var shouldAutocomplete, isAlphaKey = /^[a-zA-Z]$/.test( event.key ), lineBeforeCursor, innerMode, token;
+			codemirror.on( 'inputRead', function( editor, change ) {
+				var shouldAutocomplete, isAlphaKey, lineBeforeCursor, innerMode, token, char;
+
+				// Only trigger autocompletion for typed input or IME composition.
+				if ( '+input' !== change.origin && ! change.origin.startsWith( '*compose' ) ) {
+					return;
+				}
+
+				// Only trigger autocompletion for single-character inputs.
+				// The text property is an array of strings, one for each line.
+				// We check that there is only one line and that line has only one character.
+				if ( 1 !== change.text.length || 1 !== change.text[0].length ) {
+					return;
+				}
+
+				char = change.text[0];
+				isAlphaKey = /^[a-zA-Z]$/.test( char );
+
 				if ( codemirror.state.completionActive && isAlphaKey ) {
 					return;
 				}
@@ -318,11 +338,11 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				lineBeforeCursor = codemirror.doc.getLine( codemirror.doc.getCursor().line ).substr( 0, codemirror.doc.getCursor().ch );
 				if ( 'html' === innerMode || 'xml' === innerMode ) {
 					shouldAutocomplete = (
-						'<' === event.key ||
-						( '/' === event.key && 'tag' === token.type ) ||
+						'<' === char ||
+						( '/' === char && 'tag' === token.type ) ||
 						( isAlphaKey && 'tag' === token.type ) ||
 						( isAlphaKey && 'attribute' === token.type ) ||
-						( '=' === event.key && (
+						( '=' === char && (
 							token.state.htmlState?.tagName ||
 							token.state.curState?.htmlState?.tagName
 						) )
@@ -330,17 +350,17 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				} else if ( 'css' === innerMode ) {
 					shouldAutocomplete =
 						isAlphaKey ||
-						':' === event.key ||
-						( ' ' === event.key && /:\s+$/.test( lineBeforeCursor ) );
+						':' === char ||
+						( ' ' === char && /:\s+$/.test( lineBeforeCursor ) );
 				} else if ( 'javascript' === innerMode ) {
-					shouldAutocomplete = isAlphaKey || '.' === event.key;
+					shouldAutocomplete = isAlphaKey || '.' === char;
 				} else if ( 'clike' === innerMode && 'php' === codemirror.options.mode ) {
 					shouldAutocomplete = isAlphaKey && ( 'keyword' === token.type || 'variable' === token.type );
 				}
 				if ( shouldAutocomplete ) {
 					codemirror.showHint( { completeSingle: false } );
 				}
-			});
+			} );
 		}
 
 		// Facilitate tabbing out of the editor.
