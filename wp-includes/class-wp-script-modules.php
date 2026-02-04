@@ -88,31 +88,31 @@ class WP_Script_Modules {
 	 * @since 6.5.0
 	 * @since 6.9.0 Added the $args parameter.
 	 *
-	 * @param string                     $id       The identifier of the script module. Should be unique. It will be used in the
-	 *                                             final import map.
-	 * @param string                     $src      Optional. Full URL of the script module, or path of the script module relative
-	 *                                             to the WordPress root directory. If it is provided and the script module has
-	 *                                             not been registered yet, it will be registered.
-	 * @param array<string|array>        $deps     {
-	 *                                                 Optional. List of dependencies.
+	 * @param string                              $id      The identifier of the script module. Should be unique. It will be used in the
+	 *                                                     final import map.
+	 * @param string                              $src     Optional. Full URL of the script module, or path of the script module relative
+	 *                                                     to the WordPress root directory. If it is provided and the script module has
+	 *                                                     not been registered yet, it will be registered.
+	 * @param array<string|array<string, string>> $deps    {
+	 *                                                         Optional. List of dependencies.
 	 *
-	 *                                                 @type string|array ...$0 {
-	 *                                                     An array of script module identifiers of the dependencies of this script
-	 *                                                     module. The dependencies can be strings or arrays. If they are arrays,
-	 *                                                     they need an `id` key with the script module identifier, and can contain
-	 *                                                     an `import` key with either `static` or `dynamic`. By default,
-	 *                                                     dependencies that don't contain an `import` key are considered static.
+	 *                                                         @type string|array<string, string> ...$0 {
+	 *                                                             An array of script module identifiers of the dependencies of this script
+	 *                                                             module. The dependencies can be strings or arrays. If they are arrays,
+	 *                                                             they need an `id` key with the script module identifier, and can contain
+	 *                                                             an `import` key with either `static` or `dynamic`. By default,
+	 *                                                             dependencies that don't contain an `import` key are considered static.
 	 *
-	 *                                                     @type string $id     The script module identifier.
-	 *                                                     @type string $import Optional. Import type. May be either `static` or
-	 *                                                                          `dynamic`. Defaults to `static`.
-	 *                                                 }
-	 *                                             }
-	 * @param string|false|null          $version  Optional. String specifying the script module version number. Defaults to false.
-	 *                                             It is added to the URL as a query string for cache busting purposes. If $version
-	 *                                             is set to false, the version number is the currently installed WordPress version.
-	 *                                             If $version is set to null, no version is added.
-	 * @param array<string, string|bool> $args     {
+	 *                                                             @type string $id     The script module identifier.
+	 *                                                             @type string $import Optional. Import type. May be either `static` or
+	 *                                                                                  `dynamic`. Defaults to `static`.
+	 *                                                         }
+	 *                                                     }
+	 * @param string|false|null                   $version Optional. String specifying the script module version number. Defaults to false.
+	 *                                                     It is added to the URL as a query string for cache busting purposes. If $version
+	 *                                                     is set to false, the version number is the currently installed WordPress version.
+	 *                                                     If $version is set to null, no version is added.
+	 * @param array<string, string|bool>          $args    {
 	 *     Optional. An array of additional args. Default empty array.
 	 *
 	 *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
@@ -260,31 +260,31 @@ class WP_Script_Modules {
 	 * @since 6.5.0
 	 * @since 6.9.0 Added the $args parameter.
 	 *
-	 * @param string                     $id       The identifier of the script module. Should be unique. It will be used in the
-	 *                                             final import map.
-	 * @param string                     $src      Optional. Full URL of the script module, or path of the script module relative
-	 *                                             to the WordPress root directory. If it is provided and the script module has
-	 *                                             not been registered yet, it will be registered.
-	 * @param array<string|array>        $deps     {
-	 *                                                 Optional. List of dependencies.
+	 * @param string                              $id      The identifier of the script module. Should be unique. It will be used in the
+	 *                                                     final import map.
+	 * @param string                              $src     Optional. Full URL of the script module, or path of the script module relative
+	 *                                                     to the WordPress root directory. If it is provided and the script module has
+	 *                                                     not been registered yet, it will be registered.
+	 * @param array<string|array<string, string>> $deps    {
+	 *                                                         Optional. List of dependencies.
 	 *
-	 *                                                 @type string|array ...$0 {
-	 *                                                     An array of script module identifiers of the dependencies of this script
-	 *                                                     module. The dependencies can be strings or arrays. If they are arrays,
-	 *                                                     they need an `id` key with the script module identifier, and can contain
-	 *                                                     an `import` key with either `static` or `dynamic`. By default,
-	 *                                                     dependencies that don't contain an `import` key are considered static.
+	 *                                                         @type string|array<string, string> ...$0 {
+	 *                                                             An array of script module identifiers of the dependencies of this script
+	 *                                                             module. The dependencies can be strings or arrays. If they are arrays,
+	 *                                                             they need an `id` key with the script module identifier, and can contain
+	 *                                                             an `import` key with either `static` or `dynamic`. By default,
+	 *                                                             dependencies that don't contain an `import` key are considered static.
 	 *
-	 *                                                     @type string $id     The script module identifier.
-	 *                                                     @type string $import Optional. Import type. May be either `static` or
-	 *                                                                          `dynamic`. Defaults to `static`.
-	 *                                                 }
-	 *                                             }
-	 * @param string|false|null          $version  Optional. String specifying the script module version number. Defaults to false.
-	 *                                             It is added to the URL as a query string for cache busting purposes. If $version
-	 *                                             is set to false, the version number is the currently installed WordPress version.
-	 *                                             If $version is set to null, no version is added.
-	 * @param array<string, string|bool> $args     {
+	 *                                                             @type string $id     The script module identifier.
+	 *                                                             @type string $import Optional. Import type. May be either `static` or
+	 *                                                                                  `dynamic`. Defaults to `static`.
+	 *                                                         }
+	 *                                                     }
+	 * @param string|false|null                   $version Optional. String specifying the script module version number. Defaults to false.
+	 *                                                     It is added to the URL as a query string for cache busting purposes. If $version
+	 *                                                     is set to false, the version number is the currently installed WordPress version.
+	 *                                                     If $version is set to null, no version is added.
+	 * @param array<string, string|bool>          $args    {
 	 *     Optional. An array of additional args. Default empty array.
 	 *
 	 *     @type bool                $in_footer     Whether to print the script module in the footer. Only relevant to block themes. Default 'false'. Optional.
@@ -533,13 +533,87 @@ class WP_Script_Modules {
 	 * Returns the import map array.
 	 *
 	 * @since 6.5.0
+	 * @since 7.0.0 Script module dependencies ('module_dependencies') of classic scripts are now included.
+	 *
+	 * @global WP_Scripts $wp_scripts
 	 *
 	 * @return array<string, array<string, string>> Array with an `imports` key mapping to an array of script module
 	 *                                              identifiers and their respective URLs, including the version query.
 	 */
 	private function get_import_map(): array {
+		global $wp_scripts;
+
 		$imports = array();
-		foreach ( array_keys( $this->get_dependencies( $this->queue ) ) as $id ) {
+
+		// Identify script modules that are dependencies of classic scripts.
+		$classic_script_module_dependencies = array();
+		if ( $wp_scripts instanceof WP_Scripts ) {
+			$handles = array_merge(
+				$wp_scripts->queue,
+				$wp_scripts->to_do,
+				$wp_scripts->done
+			);
+
+			$processed = array();
+			while ( ! empty( $handles ) ) {
+				$handle = array_pop( $handles );
+				if ( isset( $processed[ $handle ] ) || ! isset( $wp_scripts->registered[ $handle ] ) ) {
+					continue;
+				}
+				$processed[ $handle ] = true;
+
+				$module_dependencies = $wp_scripts->get_data( $handle, 'module_dependencies' );
+				if ( is_array( $module_dependencies ) ) {
+					$missing_module_dependencies = array();
+					foreach ( $module_dependencies as $module ) {
+						if ( is_string( $module ) ) {
+							$id = $module;
+						} elseif ( is_array( $module ) && isset( $module['id'] ) && is_string( $module['id'] ) ) {
+							$id = $module['id'];
+						} else {
+							// Invalid module dependency was supplied by direct manipulation of the extra data.
+							// Normally, this error scenario would be caught when WP_Scripts::add_data() is called.
+							continue;
+						}
+
+						if ( ! isset( $this->registered[ $id ] ) ) {
+							$missing_module_dependencies[] = $id;
+						} else {
+							$classic_script_module_dependencies[] = $id;
+						}
+					}
+
+					if ( count( $missing_module_dependencies ) > 0 ) {
+						_doing_it_wrong(
+							'WP_Scripts::add_data',
+							sprintf(
+								/* translators: 1: Script handle, 2: 'module_dependencies', 3: List of missing dependency IDs. */
+								__( 'The script with the handle "%1$s" was enqueued with script module dependencies ("%2$s") that are not registered: %3$s.' ),
+								$handle,
+								'module_dependencies',
+								implode( wp_get_list_item_separator(), $missing_module_dependencies )
+							),
+							'7.0.0'
+						);
+					}
+				}
+
+				foreach ( $wp_scripts->registered[ $handle ]->deps as $dep ) {
+					if ( ! isset( $processed[ $dep ] ) ) {
+						$handles[] = $dep;
+					}
+				}
+			}
+		}
+
+		// Note: the script modules in $this->queue are not included in the importmap because they get printed as scripts.
+		$ids = array_unique(
+			array_merge(
+				$classic_script_module_dependencies,
+				array_keys( $this->get_dependencies( array_merge( $this->queue, $classic_script_module_dependencies ) ) )
+			)
+		);
+		foreach ( $ids as $id ) {
 			$src = $this->get_src( $id );
 			if ( '' !== $src ) {
 				$imports[ $id ] = $src;
