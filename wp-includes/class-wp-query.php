@@ -2386,7 +2386,7 @@ class WP_Query {
 		// Author/user stuff.
 
 		if ( ! empty( $query_vars['author'] ) && '0' != $query_vars['author'] ) {
-			$query_vars['author'] = addslashes_gpc( '' . urldecode( $query_vars['author'] ) );
+			$query_vars['author'] = wp_slash( '' . urldecode( $query_vars['author'] ) );
 			$authors              = array_unique( array_map( 'intval', preg_split( '/[,\s]+/', $query_vars['author'] ) ) );
 			sort( $authors );
 			foreach ( $authors as $author ) {
@@ -2505,7 +2505,7 @@ class WP_Query {
 			$orderby_array = array();
 			if ( is_array( $query_vars['orderby'] ) ) {
 				foreach ( $query_vars['orderby'] as $_orderby => $order ) {
-					$orderby = addslashes_gpc( urldecode( $_orderby ) );
+					$orderby = wp_slash( urldecode( $_orderby ) );
 					$parsed  = $this->parse_orderby( $orderby );
 
 					if ( ! $parsed ) {
@@ -2518,7 +2518,7 @@ class WP_Query {
 
 			} else {
 				$query_vars['orderby'] = urldecode( $query_vars['orderby'] );
-				$query_vars['orderby'] = addslashes_gpc( $query_vars['orderby'] );
+				$query_vars['orderby'] = wp_slash( $query_vars['orderby'] );
 
 				foreach ( explode( ' ', $query_vars['orderby'] ) as $i => $orderby ) {
 					$parsed = $this->parse_orderby( $orderby );
