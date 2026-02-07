@@ -158,7 +158,7 @@ $is_iis7 = $is_IIS && (int) substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SERVE
  * @since 3.4.0
  * @since 6.4.0 Added checking for the Sec-CH-UA-Mobile request header.
  *
- * @return bool
+ * @return bool Whether the request is from a mobile device.
  */
 function wp_is_mobile() {
 	if ( isset( $_SERVER['HTTP_SEC_CH_UA_MOBILE'] ) ) {

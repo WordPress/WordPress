@@ -352,7 +352,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool
+	 * @return bool Whether the table has items to display.
 	 */
 	public function has_items() {
 		return ! empty( $this->items );
@@ -490,7 +490,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array
+	 * @return array<string, string> An associative array of views.
 	 */
 	protected function get_views() {
 		return array();
@@ -554,7 +554,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
 	 *
-	 * @return array
+	 * @return array<string, string|array<string, string>> An associative array of bulk actions.
 	 */
 	protected function get_bulk_actions() {
 		return array();
@@ -954,7 +954,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return int
+	 * @return int Current page number.
 	 */
 	public function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
@@ -973,7 +973,7 @@ class WP_List_Table {
 	 *
 	 * @param string $option        User option name.
 	 * @param int    $default_value Optional. The number of items to display. Default 20.
-	 * @return int
+	 * @return int Number of items to display per page.
 	 */
 	protected function get_items_per_page( $option, $default_value = 20 ) {
 		$per_page = (int) get_user_option( $option );
@@ -1179,7 +1179,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @abstract
 	 *
-	 * @return array
+	 * @return array<string, string> An associative array of columns.
 	 */
 	public function get_columns() {
 		die( 'function WP_List_Table::get_columns() must be overridden in a subclass.' );
@@ -1202,7 +1202,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @since 6.3.0 Added 'abbr', 'orderby-text' and 'initially-sorted-column-order'.
 	 *
-	 * @return array
+	 * @return array<string, array<int, string|bool>|string> An associative array of sortable columns.
 	 */
 	protected function get_sortable_columns() {
 		return array();
@@ -1293,7 +1293,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array
+	 * @return array<int, array|string> Column information.
 	 */
 	protected function get_column_info() {
 		// $_column_headers is already set / cached.
@@ -1376,7 +1376,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return int
+	 * @return int The number of visible columns.
 	 */
 	public function get_column_count() {
 		list ( $columns, $hidden ) = $this->get_column_info();

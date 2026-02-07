@@ -988,7 +988,7 @@ final class WP_Screen {
 	 *
 	 * @global array $wp_meta_boxes Global meta box state.
 	 *
-	 * @return bool
+	 * @return bool Whether to show the Screen Options tab for the current screen.
 	 */
 	public function show_screen_options() {
 		global $wp_meta_boxes;

@@ -142,7 +142,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|array> The debug data for the Info screen.
 	 */
 	private static function get_wp_core(): array {
 		// Save few function calls.
@@ -305,7 +305,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|bool|array> The drop-ins debug data.
 	 */
 	private static function get_wp_dropins(): array {
 		// Get a list of all drop-in replacements.
@@ -340,7 +340,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|array> The server-related debug data.
 	 */
 	private static function get_wp_server(): array {
 		// Populate the server debug fields.
@@ -561,7 +561,7 @@ class WP_Debug_Data {
 	 * @since 6.7.0
 	 *
 	 * @throws ImagickException
-	 * @return array
+	 * @return array<string, string|array> The media handling debug data.
 	 */
 	private static function get_wp_media(): array {
 		// Spare few function calls.
@@ -773,7 +773,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|bool|array> The must-use plugins debug data.
 	 */
 	private static function get_wp_mu_plugins(): array {
 		// List must use plugins if there are any.
@@ -904,7 +904,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|bool|array> The active plugins debug data.
 	 */
 	private static function get_wp_plugins_active(): array {
 		return array(
@@ -919,7 +919,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|bool|array> The inactive plugins debug data.
 	 */
 	private static function get_wp_plugins_inactive(): array {
 		return array(
@@ -934,7 +934,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, array<string, array<string, string>>> The raw plugin debug data for active and inactive plugins.
 	 */
 	private static function get_wp_plugins_raw_data(): array {
 		// List all available plugins.
@@ -1057,7 +1057,7 @@ class WP_Debug_Data {
 	 *
 	 * @global array $_wp_theme_features
 	 *
-	 * @return array
+	 * @return array<string, string|array> The active theme debug data.
 	 */
 	private static function get_wp_active_theme(): array {
 		global $_wp_theme_features;
@@ -1201,7 +1201,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|array> The parent theme debug data.
 	 */
 	private static function get_wp_parent_theme(): array {
 		$theme_updates = get_theme_updates();
@@ -1313,7 +1313,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|bool|array> The inactive themes debug data.
 	 */
 	private static function get_wp_themes_inactive(): array {
 		$active_theme  = wp_get_theme();
@@ -1444,7 +1444,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|array> The WordPress constants debug data.
 	 */
 	private static function get_wp_constants(): array {
 		// Check if WP_DEBUG_LOG is set.
@@ -1613,7 +1613,7 @@ class WP_Debug_Data {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array
+	 * @return array<string, string|array> The database debug data.
 	 */
 	private static function get_wp_database(): array {
 		global $wpdb;
@@ -1695,7 +1695,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array
+	 * @return array<string, string|array> The debug data and other information for the Info screen.
 	 */
 	private static function get_wp_filesystem(): array {
 		$upload_dir                     = wp_upload_dir();

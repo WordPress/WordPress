@@ -19,7 +19,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	public $features = array();
 
 	/**
-	 * @return bool
+	 * @return bool Whether the user can install themes.
 	 */
 	public function ajax_user_can() {
 		return current_user_can( 'install_themes' );
@@ -179,7 +179,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * @global array $tabs
 	 * @global string $tab
-	 * @return array
+	 * @return array<string, string> An array of links for the available views.
 	 */
 	protected function get_views() {
 		global $tabs, $tab;

@@ -34,7 +34,7 @@ function get_preferred_from_update_core() {
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
  *                       set $options['available'] to false to skip not-dismissed updates.
- * @return array|false Array of the update objects on success, false on failure.
+ * @return array<object>|false Array of the update objects on success, false on failure.
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge(
@@ -126,7 +126,7 @@ function find_core_auto_update() {
  *
  * @param string $version Version string to query.
  * @param string $locale  Locale to query.
- * @return array|false An array of checksums on success, false on failure.
+ * @return array<string, string>|false An array of checksums on success, false on failure.
  */
 function get_core_checksums( $version, $locale ) {
 	$http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), '', '&' );
@@ -178,7 +178,7 @@ function get_core_checksums( $version, $locale ) {
  * @since 2.7.0
  *
  * @param object $update
- * @return bool
+ * @return bool True if the option was updated, false otherwise.
  */
 function dismiss_core_update( $update ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
@@ -194,7 +194,7 @@ function dismiss_core_update( $update ) {
  *
  * @param string $version
  * @param string $locale
- * @return bool
+ * @return bool True if the option was updated, false otherwise.
  */
 function undismiss_core_update( $version, $locale ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
@@ -242,7 +242,7 @@ function find_core_update( $version, $locale ) {
  * @since 2.3.0
  *
  * @param string $msg
- * @return string
+ * @return string The core update footer message.
  */
 function core_update_footer( $msg = '' ) {
 	if ( ! current_user_can( 'update_core' ) ) {
@@ -297,7 +297,7 @@ function core_update_footer( $msg = '' ) {
  * @since 2.3.0
  *
  * @global string $pagenow The filename of the current screen.
- * @return void|false
+ * @return void|false Void on success, false if the update nag should not be displayed.
  */
 function update_nag() {
 	global $pagenow;
@@ -401,7 +401,7 @@ function update_right_now_message() {
  *
  * @since 2.9.0
  *
- * @return object[]
+ * @return array<string, object> Array of plugin objects with available updates.
  */
 function get_plugin_updates() {
 	$all_plugins     = get_plugins();
@@ -446,7 +446,7 @@ function wp_plugin_update_rows() {
  *
  * @param string $file        Plugin basename.
  * @param array  $plugin_data Plugin information.
- * @return void|false
+ * @return void|false Void on success, false if the plugin update is not available.
  */
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_site_transient( 'update_plugins' );
@@ -624,7 +624,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
  *
  * @since 2.9.0
  *
- * @return WP_Theme[]
+ * @return array<string, WP_Theme> Array of theme objects with available updates.
  */
 function get_theme_updates() {
 	$current = get_site_transient( 'update_themes' );
@@ -671,7 +671,7 @@ function wp_theme_update_rows() {
  *
  * @param string   $theme_key Theme stylesheet.
  * @param WP_Theme $theme     Theme object.
- * @return void|false
+ * @return void|false Void on success, false if the theme update is not available.
  */
 function wp_theme_update_row( $theme_key, $theme ) {
 	$current = get_site_transient( 'update_themes' );
@@ -848,7 +848,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
  *
  * @global int $upgrading
  *
- * @return void|false
+ * @return void|false Void on success, false if the maintenance nag should not be displayed.
  */
 function maintenance_nag() {
 	global $upgrading;

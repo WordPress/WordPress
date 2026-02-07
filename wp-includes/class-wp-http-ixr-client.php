@@ -51,7 +51,7 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
 	 *              to the function signature.
 	 *
-	 * @return bool
+	 * @return bool True if the request succeeded, false otherwise.
 	 */
 	public function query( ...$args ) {
 		$method  = array_shift( $args );
