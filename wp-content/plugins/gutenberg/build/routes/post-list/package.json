@@ -1,0 +1,31 @@
+{
+	"name": "@wordpress/post-list",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/types/$type/list/$slug",
+		"page": "gutenberg-boot"
+	},
+	"dependencies": {
+		"@tanstack/react-router": ">=1.120.5 <1.121.0",
+		"@wordpress/admin-ui": "file:../../packages/admin-ui",
+		"@wordpress/block-editor": "file:../../packages/block-editor",
+		"@wordpress/components": "file:../../packages/components",
+		"@wordpress/compose": "file:../../packages/compose",
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data",
+		"@wordpress/dataviews": "file:../../packages/dataviews",
+		"@wordpress/dom": "file:../../packages/dom",
+		"@wordpress/element": "file:../../packages/element",
+		"@wordpress/editor": "file:../../packages/editor",
+		"@wordpress/fields": "file:../../packages/fields",
+		"@wordpress/i18n": "file:../../packages/i18n",
+		"@wordpress/icons": "file:../../packages/icons",
+		"@wordpress/keycodes": "file:../../packages/keycodes",
+		"@wordpress/notices": "file:../../packages/notices",
+		"@wordpress/private-apis": "file:../../packages/private-apis",
+		"@wordpress/views": "file:../../packages/views",
+		"clsx": "^2.1.1",
+		"dequal": "^2.0.3"
+	}
+}

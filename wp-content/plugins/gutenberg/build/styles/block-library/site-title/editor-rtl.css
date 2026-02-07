@@ -1,0 +1,1 @@
+.wp-block-site-title__placeholder{border:1px dashed;padding:1em 0}

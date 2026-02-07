@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"__experimental": true,
+	"name": "core/form-input",
+	"title": "Input Field",
+	"category": "common",
+	"ancestor": [ "core/form" ],
+	"description": "The basic building block for forms.",
+	"keywords": [ "input", "form" ],
+	"textdomain": "default",
+	"icon": "forms",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "text"
+		},
+		"name": {
+			"type": "string"
+		},
+		"label": {
+			"type": "rich-text",
+			"default": "Label",
+			"selector": ".wp-block-form-input__label-content",
+			"source": "rich-text",
+			"role": "content"
+		},
+		"inlineLabel": {
+			"type": "boolean",
+			"default": false
+		},
+		"required": {
+			"type": "boolean",
+			"default": false,
+			"selector": ".wp-block-form-input__input",
+			"source": "attribute",
+			"attribute": "required"
+		},
+		"placeholder": {
+			"type": "string",
+			"selector": ".wp-block-form-input__input",
+			"source": "attribute",
+			"attribute": "placeholder",
+			"role": "content"
+		},
+		"value": {
+			"type": "string",
+			"default": "",
+			"selector": "input",
+			"source": "attribute",
+			"attribute": "value"
+		},
+		"visibilityPermissions": {
+			"type": "string",
+			"default": "all"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"reusable": false,
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"radius": true
+			}
+		}
+	},
+	"style": [ "wp-block-form-input" ]
+}

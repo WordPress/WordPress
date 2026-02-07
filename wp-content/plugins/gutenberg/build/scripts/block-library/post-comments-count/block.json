@@ -1,0 +1,55 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/post-comments-count",
+	"title": "Comments Count",
+	"category": "theme",
+	"description": "Display a post's comments count.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"usesContext": [ "postId" ],
+	"example": {
+		"viewportWidth": 350
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"style": "wp-block-post-comments-count"
+}

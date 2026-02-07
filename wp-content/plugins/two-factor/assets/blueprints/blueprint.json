@@ -1,0 +1,21 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/wp-admin/profile.php",
+	"preferredVersions": {
+		"php": "7.4",
+		"wp": "latest"
+	},
+	"plugins": [
+		{
+			"resource": "wordpress.org/plugins",
+			"slug": "two-factor"
+		}
+	],
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		}
+	]
+}
