@@ -503,6 +503,13 @@
 	float: right;
 }
 
+.attachment-details .setting + .description .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	margin-top: 0px;
+}
+
 .media-sidebar .setting .value,
 .attachment-details .setting .value,
 .attachment-details .setting + .description {

@@ -140,6 +140,7 @@
 .screen-reader-text + .dashicons-external {
 	margin-top: -1px;
 	margin-right: 2px;
+	text-decoration: none;
 }
 
 .screen-reader-shortcut {

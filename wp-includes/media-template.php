@@ -163,7 +163,7 @@ function wp_print_media_templates() {
 		esc_url( __( 'https://www.w3.org/WAI/tutorials/images/decision-tree/' ) ),
 		'target="_blank"',
 		sprintf(
-			'<span class="screen-reader-text"> %s</span>',
+			'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
 			/* translators: Hidden accessibility text. */
 			__( '(opens in a new tab)' )
 		)
