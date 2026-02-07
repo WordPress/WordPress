@@ -39,6 +39,8 @@ function wp_register_core_ability_categories(): void {
  *
  * @since 6.9.0
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return void
  */
 function wp_register_core_abilities(): void {
