@@ -1087,9 +1087,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .upload-theme .wp-upload-form,
 .upload-plugin .wp-upload-form {
-	background: #f6f7f7;
-	border: 1px solid #c3c4c7;
-	padding: 30px;
+	position: relative;
 	margin: 30px auto;
 	display: inline-flex;
 	justify-content: space-between;
@@ -1098,7 +1096,16 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .upload-theme .wp-upload-form input[type="file"],
 .upload-plugin .wp-upload-form input[type="file"] {
-	margin-left: 10px;
+	background: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    margin: 0;
+    padding: 30px 30px 30px 128px;
+}
+
+.upload-plugin .wp-upload-form input[type=submit], 
+.upload-theme .wp-upload-form input[type=submit] {
+	position: absolute;
+	left: 30px;
 }
 
 .upload-theme .install-help,
@@ -1132,6 +1139,7 @@ p.no-themes-local {
 }
 
 @media only screen and (max-width: 1120px) {
+	.upload-plugin .wp-upload-form,
 	.upload-theme .wp-upload-form {
 		margin: 20px 0;
 		max-width: 100%;
@@ -2016,12 +2024,22 @@ body.full-overlay-active {
 		padding-bottom: 4px;
 	}
 
-	.upload-theme .wp-upload-form,
-	.upload-plugin .wp-upload-form {
-		display: block;
+	.upload-plugin .wp-upload-form,
+	.upload-theme .wp-upload-form {
+		width: 100%;
 	}
 
-	:is(.upload-theme, .upload-plugin) .wp-upload-form input[type="submit"] {
-		margin-top: 10px;
+	.upload-plugin .wp-upload-form input[type=file], 
+	.upload-theme .wp-upload-form input[type=file] {
+		padding: 30px 30px 80px;
+		width: 100%;
+	}
+
+	:is(.upload-theme, .upload-plugin) .wp-upload-form input[type="submit"].button {
+		left: unset;
+		right: 50%;
+		transform: translateX(50%) !important;
+    	top: calc( 1.4em + 42px ); /* Line height of control + gap + top padding. */
+		margin: 10px 0 0;
 	}
 }
