@@ -1,4 +1,4 @@
-// packages/block-library/build-module/accordion/view.js
+// packages/block-library/build-module/accordion/view.mjs
 import { store, getContext, withSyncEvent } from "@wordpress/interactivity";
 var hashHandled = false;
 var { actions } = store(

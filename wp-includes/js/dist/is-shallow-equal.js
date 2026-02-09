@@ -19,15 +19,16 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/is-shallow-equal/build-module/index.js
+  // packages/is-shallow-equal/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     default: () => isShallowEqual,
+    isShallowEqual: () => isShallowEqual,
     isShallowEqualArrays: () => isShallowEqualArrays,
     isShallowEqualObjects: () => isShallowEqualObjects
   });
 
-  // packages/is-shallow-equal/build-module/objects.js
+  // packages/is-shallow-equal/build-module/objects.mjs
   function isShallowEqualObjects(a, b) {
     if (a === b) {
       return true;
@@ -56,7 +57,7 @@ var wp;
     return true;
   }
 
-  // packages/is-shallow-equal/build-module/arrays.js
+  // packages/is-shallow-equal/build-module/arrays.mjs
   function isShallowEqualArrays(a, b) {
     if (a === b) {
       return true;
@@ -72,7 +73,7 @@ var wp;
     return true;
   }
 
-  // packages/is-shallow-equal/build-module/index.js
+  // packages/is-shallow-equal/build-module/index.mjs
   function isShallowEqual(a, b) {
     if (a && b) {
       if (a.constructor === Object && b.constructor === Object) {

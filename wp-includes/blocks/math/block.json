@@ -8,6 +8,7 @@
 	"keywords": [ "equation", "formula", "latex", "mathematics" ],
 	"textdomain": "default",
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"__experimentalBorder": {
 			"color": true,

@@ -8,12 +8,8 @@
 	"description": "Displays a link to reply to a comment.",
 	"textdomain": "default",
 	"usesContext": [ "commentId" ],
-	"attributes": {
-		"textAlign": {
-			"type": "string"
-		}
-	},
 	"supports": {
+		"anchor": true,
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -34,6 +30,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

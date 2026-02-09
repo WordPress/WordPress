@@ -77,7 +77,7 @@ function render_block_core_media_text( $attributes, $content ) {
 
 	// Add the image tag inside the figure tag, and update the image attributes
 	// in order to display the featured image.
-	$media_size_slug = isset( $attributes['mediaSizeSlug'] ) ? $attributes['mediaSizeSlug'] : 'full';
+	$media_size_slug = $attributes['mediaSizeSlug'] ?? 'full';
 	$image_tag       = '<img class="wp-block-media-text__featured_image">';
 	$content         = preg_replace(
 		'/(<figure\s+id="' . preg_quote( $unique_id, '/' ) . '"\s+class="wp-block-media-text__media"\s*>)/',

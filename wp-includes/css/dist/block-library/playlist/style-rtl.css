@@ -1,0 +1,104 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-playlist {
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 2px;
+  padding: 16px;
+}
+.wp-block-playlist .wp-block-playlist__current-item {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacing-6, 24px);
+  align-self: stretch;
+  padding-bottom: 16px;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  margin-bottom: 16px;
+}
+.wp-block-playlist .wp-block-playlist__current-item img {
+  border-radius: 2px;
+}
+.wp-block-playlist .wp-block-playlist__current-item div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__current-item-artist-album {
+  flex-direction: row;
+  font-weight: 400;
+  font-size: 16px;
+}
+.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__item-title {
+  font-weight: 600;
+  word-break: break-all;
+}
+.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__item-album {
+  font-style: italic;
+}
+.wp-block-playlist audio {
+  width: 100%;
+  margin-top: 10px;
+}
+.wp-block-playlist .wp-block-playlist__tracklist {
+  font-size: 14px;
+}
+.wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-is-hidden {
+  display: none;
+}
+.wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-artist-is-hidden .wp-block-playlist-track__artist {
+  display: none;
+}
+.wp-block-playlist ul.wp-block-playlist__tracklist {
+  padding-right: 0;
+  list-style: none;
+}
+.wp-block-playlist ol.wp-block-playlist__tracklist {
+  padding-right: 16px;
+}
+.wp-block-playlist li.block-list-appender.block-list-appender {
+  position: initial;
+  margin-top: 16px;
+}

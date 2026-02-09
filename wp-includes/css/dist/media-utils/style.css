@@ -83,6 +83,58 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
+.media-author-field__avatar {
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: left;
+  display: flex;
+}
+
+.media-author-field__avatar img {
+  width: 16px;
+  height: 16px;
+  object-fit: cover;
+  opacity: 1;
+  border-radius: 100%;
+}
+
+@media not (prefers-reduced-motion) {
+  .media-author-field__avatar.is-loading img, .media-author-field__avatar.is-loaded img {
+    transition: opacity 0.1s linear;
+  }
+}
+.media-author-field__avatar.is-loading img {
+  opacity: 0;
+}
+
+.media-author-field__avatar.is-loaded img {
+  opacity: 1;
+}
+
+.media-author-field__icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.media-author-field__icon svg {
+  margin-left: -4px;
+  fill: currentColor;
+}
+
+.media-author-field__name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .dataviews-media-field__media-thumbnail {
   display: flex;
   align-items: center;
@@ -129,4 +181,71 @@
   .dataviews-media-field__media-thumbnail__filename__truncate {
     display: none !important;
   }
+}
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.media-upload-modal .components-modal__header {
+  padding-bottom: 8px;
+}
+.media-upload-modal .components-modal__frame.is-full-screen .components-modal__content {
+  margin-bottom: 16px;
+}
+.media-upload-modal .components-modal__content {
+  padding: 0;
+}
+.media-upload-modal .dataviews-picker-wrapper > .dataviews__view-actions {
+  padding-top: 8px;
+}
+.media-upload-modal .dataviews-footer {
+  padding-bottom: 8px;
+}
+.media-upload-modal .media-upload-modal__snackbar {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }

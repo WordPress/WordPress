@@ -12062,7 +12062,7 @@ var temml = {
   __defineMacro: defineMacro
 };
 
-// packages/latex-to-mathml/build-module/index.js
+// packages/latex-to-mathml/build-module/index.mjs
 function latexToMathML(latex, { displayMode = true } = {}) {
   const mathML = temml.renderToString(latex, {
     displayMode,

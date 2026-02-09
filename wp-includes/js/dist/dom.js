@@ -39,7 +39,7 @@ var wp;
     }
   });
 
-  // packages/dom/build-module/index.js
+  // packages/dom/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __unstableStripHTML: () => stripHTML,
@@ -76,7 +76,7 @@ var wp;
     wrap: () => wrap
   });
 
-  // packages/dom/build-module/focusable.js
+  // packages/dom/build-module/focusable.mjs
   var focusable_exports = {};
   __export(focusable_exports, {
     find: () => find
@@ -116,6 +116,9 @@ var wp;
       if (!isVisible(element)) {
         return false;
       }
+      if (element.closest("[inert]")) {
+        return false;
+      }
       const { nodeName } = element;
       if ("AREA" === nodeName) {
         return isValidFocusableArea(
@@ -127,7 +130,7 @@ var wp;
     });
   }
 
-  // packages/dom/build-module/tabbable.js
+  // packages/dom/build-module/tabbable.mjs
   var tabbable_exports = {};
   __export(tabbable_exports, {
     find: () => find2,
@@ -199,7 +202,7 @@ var wp;
     );
   }
 
-  // packages/dom/build-module/utils/assert-is-defined.js
+  // packages/dom/build-module/utils/assert-is-defined.mjs
   function assertIsDefined(val, name) {
     if (val === void 0 || val === null) {
       throw new Error(
@@ -208,7 +211,7 @@ var wp;
     }
   }
 
-  // packages/dom/build-module/dom/get-rectangle-from-range.js
+  // packages/dom/build-module/dom/get-rectangle-from-range.mjs
   function getRectangleFromRange(range) {
     if (!range.collapsed) {
       const rects2 = Array.from(range.getClientRects());
@@ -280,7 +283,7 @@ var wp;
     return rect;
   }
 
-  // packages/dom/build-module/dom/compute-caret-rect.js
+  // packages/dom/build-module/dom/compute-caret-rect.mjs
   function computeCaretRect(win) {
     const selection = win.getSelection();
     assertIsDefined(selection, "selection");
@@ -291,7 +294,7 @@ var wp;
     return getRectangleFromRange(range);
   }
 
-  // packages/dom/build-module/dom/document-has-text-selection.js
+  // packages/dom/build-module/dom/document-has-text-selection.mjs
   function documentHasTextSelection(doc) {
     assertIsDefined(doc.defaultView, "doc.defaultView");
     const selection = doc.defaultView.getSelection();
@@ -300,12 +303,12 @@ var wp;
     return !!range && !range.collapsed;
   }
 
-  // packages/dom/build-module/dom/is-html-input-element.js
+  // packages/dom/build-module/dom/is-html-input-element.mjs
   function isHTMLInputElement(node) {
     return node?.nodeName === "INPUT";
   }
 
-  // packages/dom/build-module/dom/is-text-field.js
+  // packages/dom/build-module/dom/is-text-field.mjs
   function isTextField(node) {
     const nonTextInputs = [
       "button",
@@ -325,7 +328,7 @@ var wp;
     node.contentEditable === "true";
   }
 
-  // packages/dom/build-module/dom/input-field-has-uncollapsed-selection.js
+  // packages/dom/build-module/dom/input-field-has-uncollapsed-selection.mjs
   function inputFieldHasUncollapsedSelection(element) {
     if (!isHTMLInputElement(element) && !isTextField(element)) {
       return false;
@@ -347,17 +350,17 @@ var wp;
     }
   }
 
-  // packages/dom/build-module/dom/document-has-uncollapsed-selection.js
+  // packages/dom/build-module/dom/document-has-uncollapsed-selection.mjs
   function documentHasUncollapsedSelection(doc) {
     return documentHasTextSelection(doc) || !!doc.activeElement && inputFieldHasUncollapsedSelection(doc.activeElement);
   }
 
-  // packages/dom/build-module/dom/document-has-selection.js
+  // packages/dom/build-module/dom/document-has-selection.mjs
   function documentHasSelection(doc) {
     return !!doc.activeElement && (isHTMLInputElement(doc.activeElement) || isTextField(doc.activeElement) || documentHasTextSelection(doc));
   }
 
-  // packages/dom/build-module/dom/get-computed-style.js
+  // packages/dom/build-module/dom/get-computed-style.mjs
   function getComputedStyle(element) {
     assertIsDefined(
       element.ownerDocument.defaultView,
@@ -366,7 +369,7 @@ var wp;
     return element.ownerDocument.defaultView.getComputedStyle(element);
   }
 
-  // packages/dom/build-module/dom/get-scroll-container.js
+  // packages/dom/build-module/dom/get-scroll-container.mjs
   function getScrollContainer(node, direction = "vertical") {
     if (!node) {
       return void 0;
@@ -397,7 +400,7 @@ var wp;
     );
   }
 
-  // packages/dom/build-module/dom/get-offset-parent.js
+  // packages/dom/build-module/dom/get-offset-parent.mjs
   function getOffsetParent(node) {
     let closestElement;
     while (closestElement = /** @type {Node} */
@@ -421,17 +424,22 @@ var wp;
     );
   }
 
-  // packages/dom/build-module/dom/is-input-or-text-area.js
+  // packages/dom/build-module/dom/is-input-or-text-area.mjs
   function isInputOrTextArea(element) {
     return element.tagName === "INPUT" || element.tagName === "TEXTAREA";
   }
 
-  // packages/dom/build-module/dom/is-entirely-selected.js
+  // packages/dom/build-module/dom/is-entirely-selected.mjs
+  var ZWNBSP = "\uFEFF";
   function isEntirelySelected(element) {
     if (isInputOrTextArea(element)) {
       return element.selectionStart === 0 && element.value.length === element.selectionEnd;
     }
     if (!element.isContentEditable) {
+      return true;
+    }
+    const text = element.textContent || "";
+    if (text === "" || text === ZWNBSP) {
       return true;
     }
     const { ownerDocument } = element;
@@ -466,7 +474,7 @@ var wp;
     return false;
   }
 
-  // packages/dom/build-module/dom/is-form-element.js
+  // packages/dom/build-module/dom/is-form-element.mjs
   function isFormElement(element) {
     if (!element) {
       return false;
@@ -476,12 +484,12 @@ var wp;
     return checkForInputTextarea || tagName === "BUTTON" || tagName === "SELECT";
   }
 
-  // packages/dom/build-module/dom/is-rtl.js
+  // packages/dom/build-module/dom/is-rtl.mjs
   function isRTL(element) {
     return getComputedStyle(element).direction === "rtl";
   }
 
-  // packages/dom/build-module/dom/get-range-height.js
+  // packages/dom/build-module/dom/get-range-height.mjs
   function getRangeHeight(range) {
     const rects = Array.from(range.getClientRects());
     if (!rects.length) {
@@ -492,7 +500,7 @@ var wp;
     return lowestBottom - highestTop;
   }
 
-  // packages/dom/build-module/dom/is-selection-forward.js
+  // packages/dom/build-module/dom/is-selection-forward.mjs
   function isSelectionForward(selection) {
     const { anchorNode, focusNode, anchorOffset, focusOffset } = selection;
     assertIsDefined(anchorNode, "anchorNode");
@@ -510,7 +518,7 @@ var wp;
     return true;
   }
 
-  // packages/dom/build-module/dom/caret-range-from-point.js
+  // packages/dom/build-module/dom/caret-range-from-point.mjs
   function caretRangeFromPoint(doc, x, y) {
     if (doc.caretRangeFromPoint) {
       return doc.caretRangeFromPoint(x, y);
@@ -528,7 +536,7 @@ var wp;
     return range;
   }
 
-  // packages/dom/build-module/dom/hidden-caret-range-from-point.js
+  // packages/dom/build-module/dom/hidden-caret-range-from-point.mjs
   function hiddenCaretRangeFromPoint(doc, x, y, container) {
     const originalZIndex = container.style.zIndex;
     const originalPosition = container.style.position;
@@ -543,7 +551,7 @@ var wp;
     return range;
   }
 
-  // packages/dom/build-module/dom/scroll-if-no-range.js
+  // packages/dom/build-module/dom/scroll-if-no-range.mjs
   function scrollIfNoRange(container, alignToTop, callback) {
     let range = callback();
     if (!range || !range.startContainer || !container.contains(range.startContainer)) {
@@ -556,7 +564,7 @@ var wp;
     return range;
   }
 
-  // packages/dom/build-module/dom/is-edge.js
+  // packages/dom/build-module/dom/is-edge.mjs
   function isEdge(container, isReverse, onlyVertical = false) {
     if (isInputOrTextArea(container) && typeof container.selectionStart === "number") {
       if (container.selectionStart !== container.selectionEnd) {
@@ -618,13 +626,13 @@ var wp;
     return onlyVertical ? hasVerticalDiff : hasVerticalDiff && hasHorizontalDiff;
   }
 
-  // packages/dom/build-module/dom/is-horizontal-edge.js
+  // packages/dom/build-module/dom/is-horizontal-edge.mjs
   function isHorizontalEdge(container, isReverse) {
     return isEdge(container, isReverse);
   }
 
-  // packages/dom/build-module/dom/is-number-input.js
-  var import_deprecated = __toESM(require_deprecated());
+  // packages/dom/build-module/dom/is-number-input.mjs
+  var import_deprecated = __toESM(require_deprecated(), 1);
   function isNumberInput(node) {
     (0, import_deprecated.default)("wp.dom.isNumberInput", {
       since: "6.1",
@@ -633,12 +641,12 @@ var wp;
     return isHTMLInputElement(node) && node.type === "number" && !isNaN(node.valueAsNumber);
   }
 
-  // packages/dom/build-module/dom/is-vertical-edge.js
+  // packages/dom/build-module/dom/is-vertical-edge.mjs
   function isVerticalEdge(container, isReverse) {
     return isEdge(container, isReverse, true);
   }
 
-  // packages/dom/build-module/dom/place-caret-at-edge.js
+  // packages/dom/build-module/dom/place-caret-at-edge.mjs
   function getRange(container, isReverse, x) {
     const { ownerDocument } = container;
     const isReverseDir = isRTL(container) ? !isReverse : isReverse;
@@ -691,36 +699,36 @@ var wp;
     selection.addRange(range);
   }
 
-  // packages/dom/build-module/dom/place-caret-at-horizontal-edge.js
+  // packages/dom/build-module/dom/place-caret-at-horizontal-edge.mjs
   function placeCaretAtHorizontalEdge(container, isReverse) {
     return placeCaretAtEdge(container, isReverse, void 0);
   }
 
-  // packages/dom/build-module/dom/place-caret-at-vertical-edge.js
+  // packages/dom/build-module/dom/place-caret-at-vertical-edge.mjs
   function placeCaretAtVerticalEdge(container, isReverse, rect) {
     return placeCaretAtEdge(container, isReverse, rect?.left);
   }
 
-  // packages/dom/build-module/dom/insert-after.js
+  // packages/dom/build-module/dom/insert-after.mjs
   function insertAfter(newNode, referenceNode) {
     assertIsDefined(referenceNode.parentNode, "referenceNode.parentNode");
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
-  // packages/dom/build-module/dom/remove.js
+  // packages/dom/build-module/dom/remove.mjs
   function remove(node) {
     assertIsDefined(node.parentNode, "node.parentNode");
     node.parentNode.removeChild(node);
   }
 
-  // packages/dom/build-module/dom/replace.js
+  // packages/dom/build-module/dom/replace.mjs
   function replace(processedNode, newNode) {
     assertIsDefined(processedNode.parentNode, "processedNode.parentNode");
     insertAfter(newNode, processedNode.parentNode);
     remove(processedNode);
   }
 
-  // packages/dom/build-module/dom/unwrap.js
+  // packages/dom/build-module/dom/unwrap.mjs
   function unwrap(node) {
     const parent = node.parentNode;
     assertIsDefined(parent, "node.parentNode");
@@ -730,7 +738,7 @@ var wp;
     parent.removeChild(node);
   }
 
-  // packages/dom/build-module/dom/replace-tag.js
+  // packages/dom/build-module/dom/replace-tag.mjs
   function replaceTag(node, tagName) {
     const newNode = node.ownerDocument.createElement(tagName);
     while (node.firstChild) {
@@ -741,14 +749,14 @@ var wp;
     return newNode;
   }
 
-  // packages/dom/build-module/dom/wrap.js
+  // packages/dom/build-module/dom/wrap.mjs
   function wrap(newNode, referenceNode) {
     assertIsDefined(referenceNode.parentNode, "referenceNode.parentNode");
     referenceNode.parentNode.insertBefore(newNode, referenceNode);
     newNode.appendChild(referenceNode);
   }
 
-  // packages/dom/build-module/dom/safe-html.js
+  // packages/dom/build-module/dom/safe-html.mjs
   function safeHTML(html) {
     const { body } = document.implementation.createHTMLDocument("");
     body.innerHTML = html;
@@ -771,7 +779,7 @@ var wp;
     return body.innerHTML;
   }
 
-  // packages/dom/build-module/dom/strip-html.js
+  // packages/dom/build-module/dom/strip-html.mjs
   function stripHTML(html) {
     html = safeHTML(html);
     const doc = document.implementation.createHTMLDocument("");
@@ -779,7 +787,7 @@ var wp;
     return doc.body.textContent || "";
   }
 
-  // packages/dom/build-module/dom/is-empty.js
+  // packages/dom/build-module/dom/is-empty.mjs
   function isEmpty(element) {
     switch (element.nodeType) {
       case element.TEXT_NODE:
@@ -799,7 +807,7 @@ var wp;
     }
   }
 
-  // packages/dom/build-module/phrasing-content.js
+  // packages/dom/build-module/phrasing-content.mjs
   var textContentSchema = {
     strong: {},
     em: {},
@@ -936,12 +944,12 @@ var wp;
     return textContentSchema.hasOwnProperty(tag) || tag === "span";
   }
 
-  // packages/dom/build-module/dom/is-element.js
+  // packages/dom/build-module/dom/is-element.mjs
   function isElement(node) {
     return !!node && node.nodeType === node.ELEMENT_NODE;
   }
 
-  // packages/dom/build-module/dom/clean-node-list.js
+  // packages/dom/build-module/dom/clean-node-list.mjs
   var noop = () => {
   };
   function cleanNodeList(nodeList, doc, schema, inline) {
@@ -1041,7 +1049,7 @@ var wp;
     );
   }
 
-  // packages/dom/build-module/dom/remove-invalid-html.js
+  // packages/dom/build-module/dom/remove-invalid-html.mjs
   function removeInvalidHTML(HTML, schema, inline) {
     const doc = document.implementation.createHTMLDocument("");
     doc.body.innerHTML = HTML;
@@ -1049,7 +1057,7 @@ var wp;
     return doc.body.innerHTML;
   }
 
-  // packages/dom/build-module/data-transfer.js
+  // packages/dom/build-module/data-transfer.mjs
   function getFilesFromDataTransfer(dataTransfer) {
     const files = Array.from(dataTransfer.files);
     Array.from(dataTransfer.items).forEach((item) => {
@@ -1063,7 +1071,7 @@ var wp;
     return files;
   }
 
-  // packages/dom/build-module/index.js
+  // packages/dom/build-module/index.mjs
   var focus = { focusable: focusable_exports, tabbable: tabbable_exports };
   return __toCommonJS(index_exports);
 })();

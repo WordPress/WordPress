@@ -84,6 +84,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 :root {
   --wp-block-synced-color: #7a00df;
   --wp-block-synced-color--rgb: 122, 0, 223;
@@ -188,6 +192,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .admin-ui-page {
   display: flex;
   height: 100%;
@@ -196,6 +204,7 @@
   position: relative;
   z-index: 1;
   flex-flow: column;
+  text-wrap: pretty;
 }
 
 .admin-ui-page__header {
@@ -361,6 +370,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .interface-complementary-area {
   background: #fff;
   color: #1e1e1e;
@@ -368,11 +381,6 @@
   overflow: auto;
 }
 
-@media (min-width: 600px) {
-  .interface-complementary-area {
-    -webkit-overflow-scrolling: touch;
-  }
-}
 @media (min-width: 782px) {
   .interface-complementary-area {
     width: 280px;
@@ -779,6 +787,10 @@ body.is-fullscreen-mode .interface-interface-skeleton {
  */
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
  */
 @media (min-width: 782px) {
   .font-library-modal.font-library-modal {
@@ -1325,8 +1337,10 @@ button.font-library__upload-area {
   border: #ddd 1px solid;
   border-radius: 2px;
   overflow: auto;
-  background-image: repeating-linear-gradient(45deg, #f5f5f5 25%, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 75%, #f5f5f5 0, #f5f5f5), repeating-linear-gradient(45deg, #f5f5f5 25%, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 75%, #f5f5f5 0, #f5f5f5);
+  /*rtl:begin:ignore*/
+  background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
   background-position: 0 0, 8px 8px;
+  /*rtl:end:ignore*/
   background-size: 16px 16px;
 }
 
@@ -1550,6 +1564,10 @@ button.font-library__upload-area {
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .dataviews-wrapper,
 .dataviews-picker-wrapper {
   height: 100%;
@@ -1676,9 +1694,6 @@ button.font-library__upload-area {
 
 .dataviews-bulk-actions-footer__item-count {
   color: #1e1e1e;
-  font-weight: 499;
-  font-size: 11px;
-  text-transform: uppercase;
 }
 
 .dataviews-bulk-actions-footer__container {
@@ -2029,15 +2044,7 @@ button.font-library__upload-area {
   outline: 2px solid transparent;
 }
 
-.dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-
-.dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-
-.dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection:-ms-input-placeholder {
+.dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 
@@ -2049,10 +2056,6 @@ button.font-library__upload-area {
 .dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection:checked {
   background: var(--wp-admin-theme-color);
   border-color: var(--wp-admin-theme-color);
-}
-
-.dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection:checked::-ms-check {
-  opacity: 0;
 }
 
 .dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection:checked::before, .dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-multi-selection[aria-checked=mixed]::before {
@@ -2172,15 +2175,7 @@ button.font-library__upload-area {
   outline: 2px solid transparent;
 }
 
-.dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-
-.dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-
-.dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input:-ms-input-placeholder {
+.dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 
@@ -2318,15 +2313,6 @@ button.font-library__upload-area {
 }
 .dataviews-action-modal {
   z-index: 1000001;
-}
-
-.dataviews-picker-footer__bulk-selection {
-  align-self: flex-start;
-  height: 32px;
-}
-
-.dataviews-picker-footer__actions {
-  align-self: flex-end;
 }
 
 .dataviews-selection-checkbox {
@@ -2467,7 +2453,7 @@ button.font-library__upload-area {
   position: relative;
 }
 
-.dataviews-view-grid .dataviews-view-grid__card .dataviews-view-grid__title-actions {
+.dataviews-view-grid .dataviews-view-grid__card .dataviews-view-grid__title {
   padding: 8px 0 4px;
 }
 
@@ -2508,6 +2494,10 @@ button.font-library__upload-area {
   position: relative;
 }
 
+.dataviews-view-grid .dataviews-view-grid__media.dataviews-view-grid__media--placeholder {
+  aspect-ratio: 3/1;
+}
+
 .dataviews-view-grid .dataviews-view-grid__media img {
   object-fit: cover;
   width: 100%;
@@ -2524,6 +2514,15 @@ button.font-library__upload-area {
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   pointer-events: none;
+}
+
+.dataviews-view-grid .dataviews-view-grid__media .dataviews-view-grid__media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 4px;
+  box-shadow: none;
+  background: #f0f0f0;
 }
 
 .dataviews-view-grid .dataviews-view-grid__fields {
@@ -2603,6 +2602,7 @@ button.font-library__upload-area {
 
 .dataviews-view-grid__card .dataviews-view-grid__media-actions {
   position: absolute;
+  z-index: 1;
   top: 4px;
   opacity: 0;
   right: 4px;
@@ -2833,6 +2833,7 @@ div.dataviews-view-list {
 .dataviews-view-list .dataviews-view-list__field-wrapper {
   min-height: 52px;
   flex-grow: 1;
+  min-width: 0;
 }
 
 .dataviews-view-list .dataviews-view-list__field {
@@ -2864,6 +2865,62 @@ div.dataviews-view-list {
 
 .dataviews-view-list + .dataviews-pagination {
   justify-content: space-between;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__item-wrapper {
+  padding: 8px 24px;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__title-field {
+  min-height: 16px;
+  line-height: 16px;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__media-wrapper {
+  width: 32px;
+  height: 32px;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__field-wrapper {
+  min-height: 32px;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__fields {
+  gap: 8px;
+  row-gap: 4px;
+}
+
+.dataviews-view-list.has-compact-density div[role=row] .dataviews-view-list__fields .dataviews-view-list__field-value {
+  min-height: 16px;
+  line-height: 16px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__item-wrapper {
+  padding: 24px 24px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__title-field {
+  min-height: 32px;
+  line-height: 32px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__media-wrapper {
+  width: 64px;
+  height: 64px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__field-wrapper {
+  min-height: 64px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__fields {
+  gap: 16px;
+  row-gap: 8px;
+}
+
+.dataviews-view-list.has-comfortable-density div[role=row] .dataviews-view-list__fields .dataviews-view-list__field-value {
+  min-height: 32px;
+  line-height: 24px;
 }
 
 .dataviews-view-list__group-header {
@@ -2973,7 +3030,7 @@ div.dataviews-view-list {
   background-color: color-mix(in srgb, rgb(var(--wp-admin-theme-color--rgb)) 4%, #fff);
 }
 
-.dataviews-view-table.has-bulk-actions tr:focus-within .dataviews-item-actions .components-button:not(.dataviews-all-actions-button), .dataviews-view-table.has-bulk-actions tr:hover .dataviews-item-actions .components-button:not(.dataviews-all-actions-button) {
+.dataviews-view-table tr:focus-within .dataviews-item-actions .components-button:not(.dataviews-all-actions-button), .dataviews-view-table tr.is-hovered .dataviews-item-actions .components-button:not(.dataviews-all-actions-button), .dataviews-view-table tr:hover .dataviews-item-actions .components-button:not(.dataviews-all-actions-button) {
   opacity: 1;
 }
 
@@ -3108,6 +3165,8 @@ div.dataviews-view-list {
 }
 .dataviews-column-primary__media {
   max-width: 60px;
+  min-width: 32px;
+  min-height: 32px;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -3116,8 +3175,8 @@ div.dataviews-view-list {
 }
 
 .dataviews-column-primary__media img {
-  width: 100%;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 }
 
@@ -3206,6 +3265,7 @@ div.dataviews-view-list {
 .dataviews-view-picker-grid .dataviews-view-picker-grid__media {
   width: 100%;
   aspect-ratio: 1/1;
+  min-height: 0;
   background-color: #fff;
   border-radius: 4px;
   position: relative;
@@ -3310,6 +3370,10 @@ div.dataviews-view-list {
 
 .dataviews-view-picker-table {
   background-color: inherit;
+}
+
+.dataviews-view-picker-table .dataviews-view-table__checkbox-column {
+  width: 48px;
 }
 
 .dataviews-view-picker-table tbody:focus-visible[aria-activedescendant] {
@@ -3540,6 +3604,15 @@ div.dataviews-view-list {
   justify-content: space-between;
 }
 
+.dataviews-picker-footer__bulk-selection {
+  align-self: flex-start;
+  height: 32px;
+}
+
+.dataviews-picker-footer__actions {
+  align-self: flex-end;
+}
+
 .dataviews-controls__datetime {
   border: none;
   padding: 0;
@@ -3554,6 +3627,10 @@ div.dataviews-view-list {
 .dataviews-controls__date input[type=date]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
+}
+
+.dataviews-controls__date-range-inputs > * {
+  min-width: 0;
 }
 
 .dataviews-controls__date-preset {
@@ -3643,6 +3720,10 @@ div.dataviews-view-list {
   z-index: 159990;
 }
 
+.dataforms-layouts-panel__summary-button:empty {
+  min-width: 160px;
+}
+
 .dataforms-layouts-regular__field {
   width: 100%;
   min-height: 32px;
@@ -3695,6 +3776,11 @@ div.dataviews-view-list {
   gap: 16px;
 }
 
+.dataforms-layouts-details__summary-content {
+  display: inline-flex;
+  min-height: 24px;
+}
+
 .dataforms-layouts-details__content {
   padding-top: 12px;
 }
@@ -3708,6 +3794,146 @@ div.dataviews-view-list {
   font-weight: 400;
   font-size: 13px;
   line-height: 20px;
+}
+
+/**
+ * Colors
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.media-editor-preview {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 32px;
+  position: relative;
+}
+
+.media-editor-preview__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.media-editor-preview--loading {
+  width: 100%;
+  height: 100%;
+}
+
+.media-editor-preview--image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  width: auto;
+  height: auto;
+  opacity: 0;
+}
+
+@keyframes __wp-base-styles-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media not (prefers-reduced-motion) {
+  .media-editor-preview--image img.loaded {
+    animation: __wp-base-styles-fade-in 0.08s linear 0s;
+    animation-fill-mode: forwards;
+  }
+}
+.media-editor-preview--video video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  width: auto;
+  height: auto;
+}
+
+.media-editor-preview--audio audio {
+  max-width: 100%;
+}
+
+.media-editor-preview--file {
+  text-align: center;
+}
+
+.media-editor-preview__file-info {
+  background: #f0f0f0;
+  padding: 24px;
+  border-radius: 2px;
+}
+
+.media-editor-preview__file-name {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.media-editor-preview__mime-type {
+  color: #757575;
+  font-size: 0.9em;
+  margin-bottom: 16px;
+}
+
+.media-editor-preview__download-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.media-editor-preview--error, .media-editor-preview--empty {
+  color: #757575;
+  text-align: center;
+}
+
+.media-editor-preview__url {
+  font-size: 0.9em;
+  color: #949494;
+  word-break: break-all;
+  margin-top: 8px;
 }
 
 .editor-autocompleters__user .editor-autocompleters__no-avatar::before {
@@ -3879,13 +4105,7 @@ div.dataviews-view-list {
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.editor-collab-sidebar-panel__comment-form textarea::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.editor-collab-sidebar-panel__comment-form textarea::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.editor-collab-sidebar-panel__comment-form textarea:-ms-input-placeholder {
+.editor-collab-sidebar-panel__comment-form textarea::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .editor-collab-sidebar-panel__comment-form textarea {
@@ -4600,6 +4820,9 @@ div.dataviews-view-list {
     margin-inline-end: 8px;
   }
 }
+.editor-revisions-header .editor-header__center {
+  clip-path: none;
+}
 
 /**
  * Buttons on the right side
@@ -5087,6 +5310,11 @@ div.dataviews-view-list {
 .editor-post-featured-image__preview {
   height: auto !important;
   outline: 1px solid rgba(0, 0, 0, 0.1);
+  /*rtl:begin:ignore*/
+  background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
+  background-position: 0 0, 12px 12px;
+  /*rtl:end:ignore*/
+  background-size: 24px 24px;
 }
 .editor-post-featured-image__preview .editor-post-featured-image__preview-image {
   object-fit: cover;
@@ -5445,6 +5673,25 @@ div.dataviews-view-list {
     transform: translateX(0%);
   }
 }
+.editor-revisions-header__slider {
+  width: 100%;
+}
+.editor-revisions-header__slider .components-range-control__tooltip {
+  white-space: nowrap;
+}
+
+.editor-revisions-header__no-revisions {
+  color: #757575;
+  font-size: 13px;
+}
+
+.editor-revisions-canvas__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 .editor-post-saved-state {
   display: flex;
   align-items: center;
@@ -5654,13 +5901,7 @@ textarea.editor-post-text-editor:focus {
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   position: relative;
 }
-textarea.editor-post-text-editor::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-textarea.editor-post-text-editor::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-textarea.editor-post-text-editor:-ms-input-placeholder {
+textarea.editor-post-text-editor::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 
@@ -5922,6 +6163,11 @@ textarea.editor-post-text-editor:-ms-input-placeholder {
 .editor-sidebar *::before,
 .editor-sidebar *::after {
   box-sizing: inherit;
+}
+.editor-sidebar__revisions-block-message {
+  padding: 16px;
+  color: #757575;
+  font-size: 13px;
 }
 
 .editor-site-discussion-dropdown__content .components-popover__content {

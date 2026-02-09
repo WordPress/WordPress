@@ -9,6 +9,7 @@
 	"textdomain": "default",
 	"usesContext": [ "postId" ],
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"html": false,
 		"reusable": false,

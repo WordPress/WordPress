@@ -10,7 +10,6 @@
   text-decoration: none;
 }
 .wp-block-navigation-overlay-close:focus {
-  outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 .wp-block-navigation-overlay-close svg {

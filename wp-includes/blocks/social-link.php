@@ -17,14 +17,14 @@
  * @return string Rendered HTML of the referenced block.
  */
 function render_block_core_social_link( $attributes, $content, $block ) {
-	$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
+	$open_in_new_tab = $block->context['openInNewTab'] ?? false;
 
 	$text = ! empty( $attributes['label'] ) ? trim( $attributes['label'] ) : '';
 
-	$service     = isset( $attributes['service'] ) ? $attributes['service'] : 'Icon';
-	$url         = isset( $attributes['url'] ) ? $attributes['url'] : false;
+	$service     = $attributes['service'] ?? 'Icon';
+	$url         = $attributes['url'] ?? false;
 	$text        = $text ? $text : block_core_social_link_get_name( $service );
-	$rel         = isset( $attributes['rel'] ) ? $attributes['rel'] : '';
+	$rel         = $attributes['rel'] ?? '';
 	$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
 
 	// Don't render a link if there is no URL set.

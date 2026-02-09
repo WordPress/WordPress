@@ -19,7 +19,7 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/style-engine/build-module/index.js
+  // packages/style-engine/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     compileCSS: () => compileCSS,
@@ -85,12 +85,12 @@ var wp;
     return dotCase(input, __assign({ delimiter: "-" }, options));
   }
 
-  // packages/style-engine/build-module/styles/constants.js
+  // packages/style-engine/build-module/styles/constants.mjs
   var VARIABLE_REFERENCE_PREFIX = "var:";
   var VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE = "|";
   var VARIABLE_PATH_SEPARATOR_TOKEN_STYLE = "--";
 
-  // packages/style-engine/build-module/styles/utils.js
+  // packages/style-engine/build-module/styles/utils.mjs
   var getStyleValueByPath = (object, path) => {
     let value = object;
     path.forEach((fieldName) => {
@@ -183,7 +183,7 @@ var wp;
     }
   }
 
-  // packages/style-engine/build-module/styles/border/index.js
+  // packages/style-engine/build-module/styles/border/index.mjs
   function createBorderGenerateFunction(path) {
     return (style, options) => generateRule(style, options, path, camelCaseJoin(path));
   }
@@ -249,7 +249,7 @@ var wp;
     borderLeft
   ];
 
-  // packages/style-engine/build-module/styles/color/background.js
+  // packages/style-engine/build-module/styles/color/background.mjs
   var background = {
     name: "background",
     generate: (style, options) => {
@@ -263,7 +263,7 @@ var wp;
   };
   var background_default = background;
 
-  // packages/style-engine/build-module/styles/color/gradient.js
+  // packages/style-engine/build-module/styles/color/gradient.mjs
   var gradient = {
     name: "gradient",
     generate: (style, options) => {
@@ -277,7 +277,7 @@ var wp;
   };
   var gradient_default = gradient;
 
-  // packages/style-engine/build-module/styles/color/text.js
+  // packages/style-engine/build-module/styles/color/text.mjs
   var text = {
     name: "text",
     generate: (style, options) => {
@@ -286,10 +286,10 @@ var wp;
   };
   var text_default = text;
 
-  // packages/style-engine/build-module/styles/color/index.js
+  // packages/style-engine/build-module/styles/color/index.mjs
   var color_default = [text_default, gradient_default, background_default];
 
-  // packages/style-engine/build-module/styles/dimensions/index.js
+  // packages/style-engine/build-module/styles/dimensions/index.mjs
   var height = {
     name: "height",
     generate: (style, options) => {
@@ -336,7 +336,7 @@ var wp;
   };
   var dimensions_default = [height, minHeight, aspectRatio, width2];
 
-  // packages/style-engine/build-module/styles/background/index.js
+  // packages/style-engine/build-module/styles/background/index.mjs
   var backgroundImage = {
     name: "backgroundImage",
     generate: (style, options) => {
@@ -413,7 +413,7 @@ var wp;
     backgroundAttachment
   ];
 
-  // packages/style-engine/build-module/styles/shadow/index.js
+  // packages/style-engine/build-module/styles/shadow/index.mjs
   var shadow = {
     name: "shadow",
     generate: (style, options) => {
@@ -422,7 +422,7 @@ var wp;
   };
   var shadow_default = [shadow];
 
-  // packages/style-engine/build-module/styles/outline/index.js
+  // packages/style-engine/build-module/styles/outline/index.mjs
   var color2 = {
     name: "color",
     generate: (style, options, path = ["outline", "color"], ruleKey = "outlineColor") => {
@@ -449,7 +449,7 @@ var wp;
   };
   var outline_default = [color2, outlineStyle, offset, width3];
 
-  // packages/style-engine/build-module/styles/spacing/padding.js
+  // packages/style-engine/build-module/styles/spacing/padding.mjs
   var padding = {
     name: "padding",
     generate: (style, options) => {
@@ -461,7 +461,7 @@ var wp;
   };
   var padding_default = padding;
 
-  // packages/style-engine/build-module/styles/spacing/margin.js
+  // packages/style-engine/build-module/styles/spacing/margin.mjs
   var margin = {
     name: "margin",
     generate: (style, options) => {
@@ -473,10 +473,10 @@ var wp;
   };
   var margin_default = margin;
 
-  // packages/style-engine/build-module/styles/spacing/index.js
+  // packages/style-engine/build-module/styles/spacing/index.mjs
   var spacing_default = [margin_default, padding_default];
 
-  // packages/style-engine/build-module/styles/typography/index.js
+  // packages/style-engine/build-module/styles/typography/index.mjs
   var fontSize = {
     name: "fontSize",
     generate: (style, options) => {
@@ -565,6 +565,17 @@ var wp;
       );
     }
   };
+  var textIndent = {
+    name: "textIndent",
+    generate: (style, options) => {
+      return generateRule(
+        style,
+        options,
+        ["typography", "textIndent"],
+        "textIndent"
+      );
+    }
+  };
   var textTransform = {
     name: "textTransform",
     generate: (style, options) => {
@@ -596,11 +607,12 @@ var wp;
     lineHeight,
     textColumns,
     textDecoration,
+    textIndent,
     textTransform,
     writingMode
   ];
 
-  // packages/style-engine/build-module/styles/index.js
+  // packages/style-engine/build-module/styles/index.mjs
   var styleDefinitions = [
     ...border_default,
     ...color_default,
@@ -612,7 +624,7 @@ var wp;
     ...background_default2
   ];
 
-  // packages/style-engine/build-module/index.js
+  // packages/style-engine/build-module/index.mjs
   function compileCSS(style, options = {}) {
     const rules = getCSSRules(style, options);
     if (!options?.selector) {

@@ -55,6 +55,9 @@
 			"default": false
 		}
 	},
+	"providesContext": {
+		"core/accordion-open-by-default": "openByDefault"
+	},
 	"textdomain": "default",
 	"style": "wp-block-accordion-item"
 }

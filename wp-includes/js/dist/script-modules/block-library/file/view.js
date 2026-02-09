@@ -1,7 +1,7 @@
-// packages/block-library/build-module/file/view.js
+// packages/block-library/build-module/file/view.mjs
 import { store } from "@wordpress/interactivity";
 
-// packages/block-library/build-module/file/utils/index.js
+// packages/block-library/build-module/file/utils/index.mjs
 var browserSupportsPdfs = () => {
   if (window.navigator.pdfViewerEnabled) {
     return true;
@@ -30,7 +30,7 @@ var createActiveXObject = (type) => {
   return ax;
 };
 
-// packages/block-library/build-module/file/view.js
+// packages/block-library/build-module/file/view.mjs
 store(
   "core/file",
   {

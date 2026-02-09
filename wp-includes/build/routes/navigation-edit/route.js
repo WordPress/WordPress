@@ -57,8 +57,29 @@ var import_data = __toESM(require_data());
 var import_core_data = __toESM(require_core_data());
 var import_html_entities = __toESM(require_html_entities());
 var import_i18n = __toESM(require_i18n());
+import { notFound } from "@wordpress/route";
 var NAVIGATION_POST_TYPE = "wp_navigation";
 var route = {
+  beforeLoad: async ({
+    params
+  }) => {
+    const navigationId = parseInt(params.id, 10);
+    if (Number.isNaN(navigationId)) {
+      throw notFound();
+    }
+    try {
+      const navigation = await (0, import_data.resolveSelect)(import_core_data.store).getEntityRecord(
+        "postType",
+        NAVIGATION_POST_TYPE,
+        navigationId
+      );
+      if (!navigation) {
+        throw notFound();
+      }
+    } catch {
+      throw notFound();
+    }
+  },
   title: async ({
     params
   }) => {

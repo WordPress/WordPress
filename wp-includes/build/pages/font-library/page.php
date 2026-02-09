@@ -127,6 +127,9 @@ if ( ! function_exists( 'wp_font_library_render_page' ) ) {
 	 * Call this function from add_menu_page or add_submenu_page.
 	 */
 	function wp_font_library_render_page() {
+		// Load build constants
+		$build_constants = require __DIR__ . '/../../constants.php';
+
 		// Set current screen
 		set_current_screen();
 
@@ -143,6 +146,11 @@ if ( ! function_exists( 'wp_font_library_render_page' ) ) {
 
 		// Fire init action for extensions to register routes and menu items
 		do_action( 'font-library_init' );
+
+		// Enqueue command palette assets for boot-based pages
+		if ( function_exists( 'wp_enqueue_command_palette_assets' ) ) {
+			wp_enqueue_command_palette_assets();
+		}
 
 		// Preload REST API data
 		wp_font_library_preload_data();
@@ -166,11 +174,12 @@ if ( ! function_exists( 'wp_font_library_render_page' ) ) {
 			wp_add_inline_script(
 				'font-library-prerequisites',
 				sprintf(
-					'import("@wordpress/boot").then(mod => mod.init({mountId: "%s", menuItems: %s, routes: %s, initModules: %s}));',
+					'import("@wordpress/boot").then(mod => mod.init({mountId: "%s", menuItems: %s, routes: %s, initModules: %s, dashboardLink: "%s"}));',
 					'font-library-app',
 					wp_json_encode( $menu_items, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
 					wp_json_encode( $routes, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
-					wp_json_encode( $init_modules, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
+					wp_json_encode( $init_modules, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+					esc_url( admin_url( '/' ) )
 				)
 			);
 
@@ -213,7 +222,7 @@ if ( ! function_exists( 'wp_font_library_render_page' ) ) {
 			// Dummy script module to ensure dependencies are loaded
 			wp_register_script_module(
 				'font-library',
-				includes_url( 'build' ) . '/pages/font-library/loader.js',
+				$build_constants['build_url'] . 'pages/font-library/loader.js',
 				$boot_dependencies
 			);
 

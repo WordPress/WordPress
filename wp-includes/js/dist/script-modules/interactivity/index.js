@@ -532,7 +532,7 @@ var init_debug_module = __esm({
   }
 });
 
-// packages/interactivity/build-module/index.js
+// packages/interactivity/build-module/index.mjs
 init_preact_module();
 
 // node_modules/@preact/signals/dist/signals.module.js
@@ -692,7 +692,7 @@ function D2(n3, t5) {
 }
 
 // node_modules/@preact/signals-core/dist/signals-core.module.js
-var i3 = Symbol.for("preact-signals");
+var i3 = /* @__PURE__ */ Symbol.for("preact-signals");
 function t3() {
   if (!(s3 > 1)) {
     var i6, t5 = false;
@@ -1193,10 +1193,10 @@ function useSignal(n3) {
   }, []);
 }
 
-// packages/interactivity/build-module/directives.js
+// packages/interactivity/build-module/directives.mjs
 init_preact_module();
 
-// packages/interactivity/build-module/namespaces.js
+// packages/interactivity/build-module/namespaces.mjs
 var namespaceStack = [];
 var getNamespace = () => namespaceStack.slice(-1)[0];
 var setNamespace = (namespace) => {
@@ -1206,7 +1206,7 @@ var resetNamespace = () => {
   namespaceStack.pop();
 };
 
-// packages/interactivity/build-module/scopes.js
+// packages/interactivity/build-module/scopes.mjs
 var scopeStack = [];
 var getScope = () => scopeStack.slice(-1)[0];
 var setScope = (scope) => {
@@ -1259,7 +1259,7 @@ function getServerContext(namespace) {
 }
 getServerContext.subscribe = 0;
 
-// packages/interactivity/build-module/utils.js
+// packages/interactivity/build-module/utils.mjs
 var afterNextFrame = (callback) => {
   return new Promise((resolve2) => {
     const done = () => {
@@ -1278,6 +1278,14 @@ var splitTask = typeof window.scheduler?.yield === "function" ? window.scheduler
   return new Promise((resolve2) => {
     setTimeout(resolve2, 0);
   });
+};
+var onDOMReady = (callback) => {
+  const [navigation] = performance.getEntriesByType("navigation");
+  if (navigation.domContentLoadedEventStart > 0) {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+  }
 };
 function createFlusher(compute, notify) {
   let flush = () => void 0;
@@ -1472,10 +1480,10 @@ function deepClone(source) {
   return source;
 }
 
-// packages/interactivity/build-module/hooks.js
+// packages/interactivity/build-module/hooks.mjs
 init_preact_module();
 
-// packages/interactivity/build-module/proxies/registry.js
+// packages/interactivity/build-module/proxies/registry.mjs
 var objToProxy = /* @__PURE__ */ new WeakMap();
 var proxyToObj = /* @__PURE__ */ new WeakMap();
 var proxyToNs = /* @__PURE__ */ new WeakMap();
@@ -1502,7 +1510,7 @@ var shouldProxy = (candidate) => {
 };
 var getObjectFromProxy = (proxy) => proxyToObj.get(proxy);
 
-// packages/interactivity/build-module/proxies/signals.js
+// packages/interactivity/build-module/proxies/signals.mjs
 var NO_SCOPE = {};
 var PropSignal = class {
   /**
@@ -1632,7 +1640,7 @@ var PropSignal = class {
   }
 };
 
-// packages/interactivity/build-module/proxies/state.js
+// packages/interactivity/build-module/proxies/state.mjs
 var wellKnownSymbols = new Set(
   Object.getOwnPropertyNames(Symbol).map((key) => Symbol[key]).filter((value) => typeof value === "symbol")
 );
@@ -1663,7 +1671,7 @@ var getPropSignal = (proxy, key, initial) => {
 };
 var objToIterable = /* @__PURE__ */ new WeakMap();
 var peeking = false;
-var PENDING_GETTER = Symbol("PENDING_GETTER");
+var PENDING_GETTER = /* @__PURE__ */ Symbol("PENDING_GETTER");
 var stateHandlers = {
   get(target, key, receiver) {
     if (peeking || !target.hasOwnProperty(key) && key in target || typeof key === "symbol" && wellKnownSymbols.has(key)) {
@@ -1810,7 +1818,7 @@ var deepMerge = (target, source, override = true) => r3(
   )
 );
 
-// packages/interactivity/build-module/proxies/store.js
+// packages/interactivity/build-module/proxies/store.mjs
 var storeRoots = /* @__PURE__ */ new WeakSet();
 var storeHandlers = {
   get: (target, key, receiver) => {
@@ -1841,7 +1849,7 @@ var proxifyStore = (namespace, obj, isRoot = true) => {
   return proxy;
 };
 
-// packages/interactivity/build-module/proxies/context.js
+// packages/interactivity/build-module/proxies/context.mjs
 var contextObjectToProxy = /* @__PURE__ */ new WeakMap();
 var contextObjectToFallback = /* @__PURE__ */ new WeakMap();
 var contextProxies = /* @__PURE__ */ new WeakSet();
@@ -1880,7 +1888,7 @@ var proxifyContext = (current, inherited = {}) => {
   return contextObjectToProxy.get(current);
 };
 
-// packages/interactivity/build-module/store.js
+// packages/interactivity/build-module/store.mjs
 var stores = /* @__PURE__ */ new Map();
 var rawStores = /* @__PURE__ */ new Map();
 var storeLocks = /* @__PURE__ */ new Map();
@@ -1950,23 +1958,23 @@ var parseServerData = (dom = document) => {
   }
   return {};
 };
-var populateServerData = (data2) => {
+var populateServerData = (data) => {
   serverStates.clear();
   storeConfigs.clear();
-  if (isPlainObject(data2?.state)) {
-    Object.entries(data2.state).forEach(([namespace, state]) => {
+  if (isPlainObject(data?.state)) {
+    Object.entries(data.state).forEach(([namespace, state]) => {
       const st = store(namespace, {}, { lock: universalUnlock });
       deepMerge(st.state, state, false);
       serverStates.set(namespace, state);
     });
   }
-  if (isPlainObject(data2?.config)) {
-    Object.entries(data2.config).forEach(([namespace, config]) => {
+  if (isPlainObject(data?.config)) {
+    Object.entries(data.config).forEach(([namespace, config]) => {
       storeConfigs.set(namespace, config);
     });
   }
-  if (isPlainObject(data2?.derivedStateClosures)) {
-    Object.entries(data2.derivedStateClosures).forEach(
+  if (isPlainObject(data?.derivedStateClosures)) {
+    Object.entries(data.derivedStateClosures).forEach(
       ([namespace, paths]) => {
         const st = store(
           namespace,
@@ -1992,10 +2000,8 @@ var populateServerData = (data2) => {
     );
   }
 };
-var data = parseServerData();
-populateServerData(data);
 
-// packages/interactivity/build-module/hooks.js
+// packages/interactivity/build-module/hooks.mjs
 function isNonDefaultDirectiveSuffix(entry) {
   return entry.suffix !== null;
 }
@@ -2153,11 +2159,11 @@ l.vnode = (vnode) => {
   }
 };
 
-// packages/interactivity/build-module/directives.js
+// packages/interactivity/build-module/directives.mjs
 var warnUniqueIdWithTwoHyphens = (prefix, suffix, uniqueId) => {
   if (true) {
     warn(
-      `The usage of data-wp-${prefix}--${suffix}${uniqueId ? `--${uniqueId}` : ""} (two hyphens for unique ID) is deprecated and will stop working in WordPress 7.0. Please use data-wp-${prefix}${uniqueId ? `--${suffix}---${uniqueId}` : `---${suffix}`} (three hyphens for unique ID) from now on.`
+      `The usage of data-wp-${prefix}--${suffix}${uniqueId ? `--${uniqueId}` : ""} (two hyphens for unique ID) is deprecated and will stop working in WordPress 7.1. Please use data-wp-${prefix}${uniqueId ? `--${suffix}---${uniqueId}` : `---${suffix}`} (three hyphens for unique ID) from now on.`
     );
   }
 };
@@ -2425,8 +2431,8 @@ var directives_default = () => {
       });
     });
   });
-  directive("init", ({ directives: { init: init2 }, evaluate }) => {
-    init2.forEach((entry) => {
+  directive("init", ({ directives: { init }, evaluate }) => {
+    init.forEach((entry) => {
       if (true) {
         if (entry.suffix) {
           warnUniqueIdWithTwoHyphens("init", entry.suffix);
@@ -2867,10 +2873,10 @@ var directives_default = () => {
   );
 };
 
-// packages/interactivity/build-module/init.js
+// packages/interactivity/build-module/hydration.mjs
 init_preact_module();
 
-// packages/interactivity/build-module/vdom.js
+// packages/interactivity/build-module/vdom.mjs
 init_preact_module();
 var directivePrefix = `data-wp-`;
 var namespaces = [];
@@ -2964,7 +2970,11 @@ function toVdom(root) {
       } else if (attributeName === "ref") {
         continue;
       }
-      props[attributeName] = attributeValue;
+      if (attributeValue === "" && elementNode[attributeName] === true) {
+        props[attributeName] = true;
+      } else {
+        props[attributeName] = attributeValue;
+      }
     }
     if (ignore && !island) {
       return [
@@ -3050,7 +3060,7 @@ function toVdom(root) {
   return vdom;
 }
 
-// packages/interactivity/build-module/init.js
+// packages/interactivity/build-module/hydration.mjs
 var regionRootFragments = /* @__PURE__ */ new WeakMap();
 var getRegionRootFragment = (regions) => {
   const region = Array.isArray(regions) ? regions[0] : regions;
@@ -3066,11 +3076,8 @@ var getRegionRootFragment = (regions) => {
   return regionRootFragments.get(region);
 };
 var initialVdom = /* @__PURE__ */ new WeakMap();
-var init = async () => {
+var hydrateRegions = async () => {
   const nodes = document.querySelectorAll(`[data-wp-interactive]`);
-  await new Promise((resolve2) => {
-    setTimeout(resolve2, 0);
-  });
   for (const node of nodes) {
     if (!hydratedIslands.has(node)) {
       await splitTask();
@@ -3083,7 +3090,7 @@ var init = async () => {
   }
 };
 
-// packages/interactivity/build-module/index.js
+// packages/interactivity/build-module/index.mjs
 if (true) {
   await Promise.resolve().then(() => (init_debug_module(), debug_module_exports));
 }
@@ -3110,8 +3117,9 @@ var privateApis = (lock) => {
   }
   throw new Error("Forbidden access.");
 };
+populateServerData(parseServerData());
 directives_default();
-init();
+onDOMReady(hydrateRegions);
 export {
   getConfig,
   getContext,

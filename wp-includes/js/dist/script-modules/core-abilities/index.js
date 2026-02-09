@@ -38,9 +38,9 @@ var require_url = __commonJS({
   }
 });
 
-// packages/core-abilities/build-module/index.js
-var import_api_fetch = __toESM(require_api_fetch());
-var import_url = __toESM(require_url());
+// packages/core-abilities/build-module/index.mjs
+var import_api_fetch = __toESM(require_api_fetch(), 1);
+var import_url = __toESM(require_url(), 1);
 import { registerAbility, registerAbilityCategory } from "@wordpress/abilities";
 var API_BASE = "/wp-abilities/v1";
 var ABILITIES_ENDPOINT = `${API_BASE}/abilities`;

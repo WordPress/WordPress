@@ -40,6 +40,9 @@ if ( ! function_exists( 'wp_register_page_routes' ) ) {
 	 * @param string $register_function_name Name of the function to call for registering each route.
 	 */
 	function wp_register_page_routes( $page_routes, $register_function_name ) {
+		// Load build constants
+		$build_constants = require __DIR__ . '/constants.php';
+
 		foreach ( $page_routes as $route ) {
 			$content_handle = null;
 			$route_handle = null;
@@ -53,7 +56,7 @@ if ( ! function_exists( 'wp_register_page_routes' ) ) {
 					$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
 					wp_register_script_module(
 						$content_handle,
-						includes_url( 'build' ) . '/routes/' . $route['name'] . '/content' . $extension,
+						$build_constants['build_url'] . 'routes/' . $route['name'] . '/content' . $extension,
 						$content_asset['module_dependencies'] ?? array(),
 						$content_asset['version'] ?? false
 					);
@@ -69,7 +72,7 @@ if ( ! function_exists( 'wp_register_page_routes' ) ) {
 					$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
 					wp_register_script_module(
 						$route_handle,
-						includes_url( 'build' ) . '/routes/' . $route['name'] . '/route' . $extension,
+						$build_constants['build_url'] . 'routes/' . $route['name'] . '/route' . $extension,
 						$route_asset['module_dependencies'] ?? array(),
 						$route_asset['version'] ?? false
 					);
@@ -130,4 +133,27 @@ if ( ! function_exists( 'wp_register_font_library_wp_admin_page_routes' ) ) {
 	}
 }
 add_action( 'font-library-wp-admin_init', 'wp_register_font_library_wp_admin_page_routes' );
+
+// Page-specific route registration functions for site-editor-v2
+if ( ! function_exists( 'wp_register_site_editor_v2_page_routes' ) ) {
+	/**
+	 * Register routes for site-editor-v2 page (full-page mode).
+	 */
+	function wp_register_site_editor_v2_page_routes() {
+		global $wp_site_editor_v2_routes_data;
+		wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_route' );
+	}
+}
+add_action( 'site-editor-v2_init', 'wp_register_site_editor_v2_page_routes' );
+
+if ( ! function_exists( 'wp_register_site_editor_v2_wp_admin_page_routes' ) ) {
+	/**
+	 * Register routes for site-editor-v2 page (wp-admin mode).
+	 */
+	function wp_register_site_editor_v2_wp_admin_page_routes() {
+		global $wp_site_editor_v2_routes_data;
+		wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_wp_admin_route' );
+	}
+}
+add_action( 'site-editor-v2-wp-admin_init', 'wp_register_site_editor_v2_wp_admin_page_routes' );
 

@@ -25,6 +25,7 @@
 	},
 	"usesContext": [ "postType", "postId", "commentId" ],
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"align": true,
 		"alignWide": false,

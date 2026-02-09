@@ -1,0 +1,34 @@
+.wp-block-tabs-menu-item {
+  box-sizing: border-box;
+  display: block;
+  width: max-content;
+  text-decoration: none;
+  cursor: pointer;
+  flex-basis: inherit !important;
+  flex-grow: inherit !important;
+  margin: 0;
+  padding-block: var(--tab-padding-block, var(--wp--preset--spacing--20, 0.5em));
+  padding-inline: var(--tab-padding-inline, var(--wp--preset--spacing--30, 1em));
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+}
+.wp-block-tabs-menu-item:focus {
+  outline: none;
+}
+.wp-block-tabs-menu-item:focus-visible {
+  outline: 2px solid var(--tab-border-color-active, #000);
+  outline-offset: 2px;
+}
+.wp-block-tabs-menu-item:hover {
+  background-color: var(--custom-tab-hover-color, #eaeaea) !important;
+  color: var(--custom-tab-hover-text-color, #000) !important;
+}
+.wp-block-tabs-menu-item[aria-selected=true], .wp-block-tabs-menu-item.is-active {
+  background-color: var(--custom-tab-active-color, #000) !important;
+  color: var(--custom-tab-active-text-color, #fff) !important;
+}

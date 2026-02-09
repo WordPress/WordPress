@@ -20,7 +20,8 @@
 		"html": false,
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"customCSS": false
 	},
 	"editorStyle": "wp-block-html-editor"
 }

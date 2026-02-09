@@ -1203,7 +1203,7 @@ var wp;
     }
   });
 
-  // packages/compose/build-module/index.js
+  // packages/compose/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __experimentalUseDialog: () => use_dialog_default,
@@ -1308,7 +1308,7 @@ var wp;
     return noCase(input, __assign({ delimiter: "", transform: pascalCaseTransform }, options));
   }
 
-  // packages/compose/build-module/utils/create-higher-order-component/index.js
+  // packages/compose/build-module/utils/create-higher-order-component/index.mjs
   function createHigherOrderComponent(mapComponent, modifierName) {
     return (Inner) => {
       const Outer = mapComponent(Inner);
@@ -1322,7 +1322,7 @@ var wp;
     return `${outer}(${inner})`;
   };
 
-  // packages/compose/build-module/utils/debounce/index.js
+  // packages/compose/build-module/utils/debounce/index.mjs
   var debounce = (func, wait, options) => {
     let lastArgs;
     let lastThis;
@@ -1435,7 +1435,7 @@ var wp;
     return debounced;
   };
 
-  // packages/compose/build-module/utils/throttle/index.js
+  // packages/compose/build-module/utils/throttle/index.mjs
   var throttle = (func, wait, options) => {
     let leading = true;
     let trailing = true;
@@ -1450,7 +1450,7 @@ var wp;
     });
   };
 
-  // packages/compose/build-module/utils/observable-map/index.js
+  // packages/compose/build-module/utils/observable-map/index.mjs
   function observableMap() {
     const map = /* @__PURE__ */ new Map();
     const listeners = /* @__PURE__ */ new Map();
@@ -1492,7 +1492,7 @@ var wp;
     };
   }
 
-  // packages/compose/build-module/higher-order/pipe.js
+  // packages/compose/build-module/higher-order/pipe.mjs
   var basePipe = (reverse = false) => (...funcs) => (...args) => {
     const functions = funcs.flat();
     if (reverse) {
@@ -1506,12 +1506,12 @@ var wp;
   var pipe = basePipe();
   var pipe_default = pipe;
 
-  // packages/compose/build-module/higher-order/compose.js
+  // packages/compose/build-module/higher-order/compose.mjs
   var compose = basePipe(true);
   var compose_default = compose;
 
-  // packages/compose/build-module/higher-order/if-condition/index.js
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/if-condition/index.mjs
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   function ifCondition(predicate) {
     return createHigherOrderComponent(
       (WrappedComponent) => (props) => {
@@ -1525,21 +1525,21 @@ var wp;
   }
   var if_condition_default = ifCondition;
 
-  // packages/compose/build-module/higher-order/pure/index.js
-  var import_is_shallow_equal = __toESM(require_is_shallow_equal());
-  var import_element = __toESM(require_element());
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/pure/index.mjs
+  var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
+  var import_element = __toESM(require_element(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var pure = createHigherOrderComponent(function(WrappedComponent) {
     if (WrappedComponent.prototype instanceof import_element.Component) {
       return class extends WrappedComponent {
         shouldComponentUpdate(nextProps, nextState) {
-          return !(0, import_is_shallow_equal.default)(nextProps, this.props) || !(0, import_is_shallow_equal.default)(nextState, this.state);
+          return !(0, import_is_shallow_equal.isShallowEqual)(nextProps, this.props) || !(0, import_is_shallow_equal.isShallowEqual)(nextState, this.state);
         }
       };
     }
     return class extends import_element.Component {
       shouldComponentUpdate(nextProps) {
-        return !(0, import_is_shallow_equal.default)(nextProps, this.props);
+        return !(0, import_is_shallow_equal.isShallowEqual)(nextProps, this.props);
       }
       render() {
         return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(WrappedComponent, { ...this.props });
@@ -1548,11 +1548,11 @@ var wp;
   }, "pure");
   var pure_default = pure;
 
-  // packages/compose/build-module/higher-order/with-global-events/index.js
-  var import_element2 = __toESM(require_element());
-  var import_deprecated = __toESM(require_deprecated());
+  // packages/compose/build-module/higher-order/with-global-events/index.mjs
+  var import_element2 = __toESM(require_element(), 1);
+  var import_deprecated = __toESM(require_deprecated(), 1);
 
-  // packages/compose/build-module/higher-order/with-global-events/listener.js
+  // packages/compose/build-module/higher-order/with-global-events/listener.mjs
   var Listener = class {
     constructor() {
       this.listeners = {};
@@ -1587,8 +1587,8 @@ var wp;
   };
   var listener_default = Listener;
 
-  // packages/compose/build-module/higher-order/with-global-events/index.js
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/with-global-events/index.mjs
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var listener = new listener_default();
   function withGlobalEvents(eventTypesToHandlers) {
     (0, import_deprecated.default)("wp.compose.withGlobalEvents", {
@@ -1643,8 +1643,8 @@ var wp;
     }, "withGlobalEvents");
   }
 
-  // packages/compose/build-module/hooks/use-instance-id/index.js
-  var import_element3 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-instance-id/index.mjs
+  var import_element3 = __toESM(require_element(), 1);
   var instanceMap = /* @__PURE__ */ new WeakMap();
   function createId(object) {
     const instances = instanceMap.get(object) || 0;
@@ -1662,8 +1662,8 @@ var wp;
   }
   var use_instance_id_default = useInstanceId;
 
-  // packages/compose/build-module/higher-order/with-instance-id/index.js
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/with-instance-id/index.mjs
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   var withInstanceId = createHigherOrderComponent(
     (WrappedComponent) => {
       return (props) => {
@@ -1675,9 +1675,9 @@ var wp;
   );
   var with_instance_id_default = withInstanceId;
 
-  // packages/compose/build-module/higher-order/with-safe-timeout/index.js
-  var import_element4 = __toESM(require_element());
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/with-safe-timeout/index.mjs
+  var import_element4 = __toESM(require_element(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var withSafeTimeout = createHigherOrderComponent(
     (OriginalComponent) => {
       return class WrappedComponent extends import_element4.Component {
@@ -1724,10 +1724,10 @@ var wp;
   );
   var with_safe_timeout_default = withSafeTimeout;
 
-  // packages/compose/build-module/higher-order/with-state/index.js
-  var import_element5 = __toESM(require_element());
-  var import_deprecated2 = __toESM(require_deprecated());
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/higher-order/with-state/index.mjs
+  var import_element5 = __toESM(require_element(), 1);
+  var import_deprecated2 = __toESM(require_deprecated(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function withState(initialState = {}) {
     (0, import_deprecated2.default)("wp.compose.withState", {
       since: "5.8",
@@ -1754,11 +1754,11 @@ var wp;
     }, "withState");
   }
 
-  // packages/compose/build-module/hooks/use-constrained-tabbing/index.js
-  var import_dom = __toESM(require_dom());
+  // packages/compose/build-module/hooks/use-constrained-tabbing/index.mjs
+  var import_dom = __toESM(require_dom(), 1);
 
-  // packages/compose/build-module/hooks/use-ref-effect/index.js
-  var import_element6 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-ref-effect/index.mjs
+  var import_element6 = __toESM(require_element(), 1);
   function useRefEffect(callback, dependencies) {
     const cleanupRef = (0, import_element6.useRef)();
     return (0, import_element6.useCallback)((node) => {
@@ -1770,7 +1770,7 @@ var wp;
     }, dependencies);
   }
 
-  // packages/compose/build-module/hooks/use-constrained-tabbing/index.js
+  // packages/compose/build-module/hooks/use-constrained-tabbing/index.mjs
   function useConstrainedTabbing() {
     return useRefEffect((node) => {
       function onKeyDown(event) {
@@ -1810,10 +1810,10 @@ var wp;
   }
   var use_constrained_tabbing_default = useConstrainedTabbing;
 
-  // packages/compose/build-module/hooks/use-copy-on-click/index.js
-  var import_clipboard = __toESM(require_clipboard());
-  var import_element7 = __toESM(require_element());
-  var import_deprecated3 = __toESM(require_deprecated());
+  // packages/compose/build-module/hooks/use-copy-on-click/index.mjs
+  var import_clipboard = __toESM(require_clipboard(), 1);
+  var import_element7 = __toESM(require_element(), 1);
+  var import_deprecated3 = __toESM(require_deprecated(), 1);
   function useCopyOnClick(ref, text, timeout = 4e3) {
     (0, import_deprecated3.default)("wp.compose.useCopyOnClick", {
       since: "5.8",
@@ -1850,9 +1850,9 @@ var wp;
     return hasCopied;
   }
 
-  // packages/compose/build-module/hooks/use-copy-to-clipboard/index.js
-  var import_clipboard2 = __toESM(require_clipboard());
-  var import_element8 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-copy-to-clipboard/index.mjs
+  var import_clipboard2 = __toESM(require_clipboard(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   function useUpdatedRef(value) {
     const ref = (0, import_element8.useRef)(value);
     (0, import_element8.useLayoutEffect)(() => {
@@ -1881,13 +1881,13 @@ var wp;
     }, []);
   }
 
-  // packages/compose/build-module/hooks/use-dialog/index.js
-  var import_element13 = __toESM(require_element());
-  var import_keycodes = __toESM(require_keycodes());
+  // packages/compose/build-module/hooks/use-dialog/index.mjs
+  var import_element13 = __toESM(require_element(), 1);
+  var import_keycodes = __toESM(require_keycodes(), 1);
 
-  // packages/compose/build-module/hooks/use-focus-on-mount/index.js
-  var import_element9 = __toESM(require_element());
-  var import_dom2 = __toESM(require_dom());
+  // packages/compose/build-module/hooks/use-focus-on-mount/index.mjs
+  var import_element9 = __toESM(require_element(), 1);
+  var import_dom2 = __toESM(require_dom(), 1);
   function useFocusOnMount(focusOnMount = "firstElement") {
     const focusOnMountRef = (0, import_element9.useRef)(focusOnMount);
     const setFocus = (target) => {
@@ -1939,8 +1939,8 @@ var wp;
     }, []);
   }
 
-  // packages/compose/build-module/hooks/use-focus-return/index.js
-  var import_element10 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-focus-return/index.mjs
+  var import_element10 = __toESM(require_element(), 1);
   var origin = null;
   function useFocusReturn(onFocusReturn) {
     const ref = (0, import_element10.useRef)(null);
@@ -1976,8 +1976,8 @@ var wp;
   }
   var use_focus_return_default = useFocusReturn;
 
-  // packages/compose/build-module/hooks/use-focus-outside/index.js
-  var import_element11 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-focus-outside/index.mjs
+  var import_element11 = __toESM(require_element(), 1);
   var INPUT_BUTTON_TYPES = ["button", "submit"];
   function isFocusNormalizedButton(eventTarget) {
     if (!(eventTarget instanceof window.HTMLElement)) {
@@ -2049,8 +2049,8 @@ var wp;
     };
   }
 
-  // packages/compose/build-module/hooks/use-merge-refs/index.js
-  var import_element12 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-merge-refs/index.mjs
+  var import_element12 = __toESM(require_element(), 1);
   function assignRef(ref, value) {
     if (typeof ref === "function") {
       ref(value);
@@ -2091,7 +2091,7 @@ var wp;
     }, []);
   }
 
-  // packages/compose/build-module/hooks/use-dialog/index.js
+  // packages/compose/build-module/hooks/use-dialog/index.mjs
   function useDialog(options) {
     const currentOptions = (0, import_element13.useRef)();
     const { constrainTabbing = options.focusOnMount !== false } = options;
@@ -2134,7 +2134,7 @@ var wp;
   }
   var use_dialog_default = useDialog;
 
-  // packages/compose/build-module/hooks/use-disabled/index.js
+  // packages/compose/build-module/hooks/use-disabled/index.mjs
   function useDisabled({
     isDisabled: isDisabledProp = false
   } = {}) {
@@ -2181,8 +2181,8 @@ var wp;
     );
   }
 
-  // packages/compose/build-module/hooks/use-event/index.js
-  var import_element14 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-event/index.mjs
+  var import_element14 = __toESM(require_element(), 1);
   function useEvent(callback) {
     const ref = (0, import_element14.useRef)(() => {
       throw new Error(
@@ -2198,15 +2198,15 @@ var wp;
     );
   }
 
-  // packages/compose/build-module/hooks/use-dragging/index.js
-  var import_element16 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-dragging/index.mjs
+  var import_element16 = __toESM(require_element(), 1);
 
-  // packages/compose/build-module/hooks/use-isomorphic-layout-effect/index.js
-  var import_element15 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-isomorphic-layout-effect/index.mjs
+  var import_element15 = __toESM(require_element(), 1);
   var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_element15.useLayoutEffect : import_element15.useEffect;
   var use_isomorphic_layout_effect_default = useIsomorphicLayoutEffect;
 
-  // packages/compose/build-module/hooks/use-dragging/index.js
+  // packages/compose/build-module/hooks/use-dragging/index.mjs
   function useDragging({ onDragStart, onDragMove, onDragEnd }) {
     const [isDragging, setIsDragging] = (0, import_element16.useState)(false);
     const eventsRef = (0, import_element16.useRef)({
@@ -2254,8 +2254,8 @@ var wp;
     };
   }
 
-  // packages/compose/build-module/hooks/use-keyboard-shortcut/index.js
-  var import_mousetrap = __toESM(require_mousetrap());
+  // packages/compose/build-module/hooks/use-keyboard-shortcut/index.mjs
+  var import_mousetrap = __toESM(require_mousetrap(), 1);
 
   // node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
   (function(Mousetrap3) {
@@ -2288,9 +2288,9 @@ var wp;
     Mousetrap3.init();
   })(typeof Mousetrap !== "undefined" ? Mousetrap : void 0);
 
-  // packages/compose/build-module/hooks/use-keyboard-shortcut/index.js
-  var import_element17 = __toESM(require_element());
-  var import_keycodes2 = __toESM(require_keycodes());
+  // packages/compose/build-module/hooks/use-keyboard-shortcut/index.mjs
+  var import_element17 = __toESM(require_element(), 1);
+  var import_keycodes2 = __toESM(require_keycodes(), 1);
   function useKeyboardShortcut(shortcuts, callback, {
     bindGlobal = false,
     eventName = "keydown",
@@ -2343,8 +2343,8 @@ var wp;
   }
   var use_keyboard_shortcut_default = useKeyboardShortcut;
 
-  // packages/compose/build-module/hooks/use-media-query/index.js
-  var import_element18 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-media-query/index.mjs
+  var import_element18 = __toESM(require_element(), 1);
   var matchMediaCache = /* @__PURE__ */ new Map();
   function getMediaQueryList(query) {
     if (!query) {
@@ -2391,8 +2391,8 @@ var wp;
     );
   }
 
-  // packages/compose/build-module/hooks/use-previous/index.js
-  var import_element19 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-previous/index.mjs
+  var import_element19 = __toESM(require_element(), 1);
   function usePrevious(value) {
     const ref = (0, import_element19.useRef)();
     (0, import_element19.useEffect)(() => {
@@ -2401,13 +2401,13 @@ var wp;
     return ref.current;
   }
 
-  // packages/compose/build-module/hooks/use-reduced-motion/index.js
+  // packages/compose/build-module/hooks/use-reduced-motion/index.mjs
   var useReducedMotion = () => useMediaQuery("(prefers-reduced-motion: reduce)");
   var use_reduced_motion_default = useReducedMotion;
 
-  // packages/compose/build-module/hooks/use-state-with-history/index.js
-  var import_undo_manager = __toESM(require_undo_manager());
-  var import_element20 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-state-with-history/index.mjs
+  var import_undo_manager = __toESM(require_undo_manager(), 1);
+  var import_element20 = __toESM(require_element(), 1);
   function undoRedoReducer(state, action) {
     switch (action.type) {
       case "UNDO": {
@@ -2482,8 +2482,8 @@ var wp;
     };
   }
 
-  // packages/compose/build-module/hooks/use-viewport-match/index.js
-  var import_element21 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-viewport-match/index.mjs
+  var import_element21 = __toESM(require_element(), 1);
   var BREAKPOINTS = {
     xhuge: 1920,
     huge: 1440,
@@ -2522,8 +2522,8 @@ var wp;
   useViewportMatch.__experimentalWidthProvider = ViewportMatchWidthContext.Provider;
   var use_viewport_match_default = useViewportMatch;
 
-  // packages/compose/build-module/hooks/use-resize-observer/use-resize-observer.js
-  var import_element22 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-resize-observer/use-resize-observer.mjs
+  var import_element22 = __toESM(require_element(), 1);
   function useResizeObserver(callback, resizeObserverOptions = {}) {
     const callbackEvent = useEvent(callback);
     const observedElementRef = (0, import_element22.useRef)();
@@ -2544,9 +2544,9 @@ var wp;
     });
   }
 
-  // packages/compose/build-module/hooks/use-resize-observer/legacy/index.js
-  var import_element23 = __toESM(require_element());
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  // packages/compose/build-module/hooks/use-resize-observer/legacy/index.mjs
+  var import_element23 = __toESM(require_element(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   var extractSize = (entry) => {
     let entrySize;
     if (!entry.contentBoxSize) {
@@ -2603,14 +2603,14 @@ var wp;
     return [resizeElement, size];
   }
 
-  // packages/compose/build-module/hooks/use-resize-observer/index.js
+  // packages/compose/build-module/hooks/use-resize-observer/index.mjs
   function useResizeObserver2(callback, options = {}) {
     return callback ? useResizeObserver(callback, options) : useLegacyResizeObserver();
   }
 
-  // packages/compose/build-module/hooks/use-async-list/index.js
-  var import_element24 = __toESM(require_element());
-  var import_priority_queue = __toESM(require_priority_queue());
+  // packages/compose/build-module/hooks/use-async-list/index.mjs
+  var import_element24 = __toESM(require_element(), 1);
+  var import_priority_queue = __toESM(require_priority_queue(), 1);
   function getFirstItemsPresentInState(list, state) {
     const firstItems = [];
     for (let i = 0; i < list.length; i++) {
@@ -2650,7 +2650,7 @@ var wp;
   }
   var use_async_list_default = useAsyncList;
 
-  // packages/compose/build-module/hooks/use-warn-on-change/index.js
+  // packages/compose/build-module/hooks/use-warn-on-change/index.mjs
   function useWarnOnChange(object, prefix = "Change detection") {
     const previousValues = usePrevious(object);
     Object.entries(previousValues ?? []).forEach(([key, value]) => {
@@ -2704,8 +2704,8 @@ var wp;
     return cache.result;
   }
 
-  // packages/compose/build-module/hooks/use-debounce/index.js
-  var import_element25 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-debounce/index.mjs
+  var import_element25 = __toESM(require_element(), 1);
   function useDebounce(fn, wait, options) {
     const debounced = useMemoOne(
       () => debounce(fn, wait ?? 0, options),
@@ -2715,8 +2715,8 @@ var wp;
     return debounced;
   }
 
-  // packages/compose/build-module/hooks/use-debounced-input/index.js
-  var import_element26 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-debounced-input/index.mjs
+  var import_element26 = __toESM(require_element(), 1);
   function useDebouncedInput(defaultValue = "") {
     const [input, setInput] = (0, import_element26.useState)(defaultValue);
     const [debouncedInput, setDebouncedState] = (0, import_element26.useState)(defaultValue);
@@ -2727,8 +2727,8 @@ var wp;
     return [input, setInput, debouncedInput];
   }
 
-  // packages/compose/build-module/hooks/use-throttle/index.js
-  var import_element27 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-throttle/index.mjs
+  var import_element27 = __toESM(require_element(), 1);
   function useThrottle(fn, wait, options) {
     const throttled = useMemoOne(
       () => throttle(fn, wait ?? 0, options),
@@ -2738,7 +2738,7 @@ var wp;
     return throttled;
   }
 
-  // packages/compose/build-module/hooks/use-drop-zone/index.js
+  // packages/compose/build-module/hooks/use-drop-zone/index.mjs
   function useDropZone({
     dropZoneElement,
     isDisabled,
@@ -2860,7 +2860,7 @@ var wp;
     );
   }
 
-  // packages/compose/build-module/hooks/use-focusable-iframe/index.js
+  // packages/compose/build-module/hooks/use-focusable-iframe/index.mjs
   function useFocusableIframe() {
     return useRefEffect((element) => {
       const { ownerDocument } = element;
@@ -2883,10 +2883,10 @@ var wp;
     }, []);
   }
 
-  // packages/compose/build-module/hooks/use-fixed-window-list/index.js
-  var import_element28 = __toESM(require_element());
-  var import_dom3 = __toESM(require_dom());
-  var import_keycodes3 = __toESM(require_keycodes());
+  // packages/compose/build-module/hooks/use-fixed-window-list/index.mjs
+  var import_element28 = __toESM(require_element(), 1);
+  var import_dom3 = __toESM(require_dom(), 1);
+  var import_keycodes3 = __toESM(require_keycodes(), 1);
   var DEFAULT_INIT_WINDOW_SIZE = 30;
   function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
     const initWindowSize = options?.initWindowSize ?? DEFAULT_INIT_WINDOW_SIZE;
@@ -3014,8 +3014,8 @@ var wp;
     return [fixedListWindow, setFixedListWindow];
   }
 
-  // packages/compose/build-module/hooks/use-observable-value/index.js
-  var import_element29 = __toESM(require_element());
+  // packages/compose/build-module/hooks/use-observable-value/index.mjs
+  var import_element29 = __toESM(require_element(), 1);
   function useObservableValue(map, name) {
     const [subscribe, getValue] = (0, import_element29.useMemo)(
       () => [

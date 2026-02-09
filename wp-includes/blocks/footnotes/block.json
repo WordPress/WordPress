@@ -9,6 +9,7 @@
 	"textdomain": "default",
 	"usesContext": [ "postId", "postType" ],
 	"supports": {
+		"anchor": true,
 		"__experimentalBorder": {
 			"radius": true,
 			"color": true,

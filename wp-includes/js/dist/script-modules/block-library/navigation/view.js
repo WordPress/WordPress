@@ -1,4 +1,4 @@
-// packages/block-library/build-module/navigation/view.js
+// packages/block-library/build-module/navigation/view.mjs
 import {
   store,
   getContext,
@@ -14,6 +14,18 @@ var focusableSelectors = [
   "[contenteditable]",
   '[tabindex]:not([tabindex^="-"])'
 ];
+function getFocusableElements(ref) {
+  const focusableElements = ref.querySelectorAll(focusableSelectors);
+  return Array.from(focusableElements).filter((element) => {
+    if (typeof element.checkVisibility === "function") {
+      return element.checkVisibility({
+        checkOpacity: false,
+        checkVisibilityCSS: true
+      });
+    }
+    return element.offsetParent !== null;
+  });
+}
 document.addEventListener("click", () => {
 });
 var { state, actions } = store(
@@ -139,7 +151,7 @@ var { state, actions } = store(
         const ctx = getContext();
         const { ref } = getElement();
         if (state.isMenuOpen) {
-          const focusableElements = ref.querySelectorAll(focusableSelectors);
+          const focusableElements = getFocusableElements(ref);
           ctx.modal = ref;
           ctx.firstFocusableElement = focusableElements[0];
           ctx.lastFocusableElement = focusableElements[focusableElements.length - 1];
@@ -148,7 +160,7 @@ var { state, actions } = store(
       focusFirstElement() {
         const { ref } = getElement();
         if (state.isMenuOpen) {
-          const focusableElements = ref.querySelectorAll(focusableSelectors);
+          const focusableElements = getFocusableElements(ref);
           focusableElements?.[0]?.focus();
         }
       }

@@ -288,7 +288,7 @@ var wp;
         return stringValue === "[object RegExp]" || stringValue === "[object Date]" || isReactElement(value);
       }
       var canUseSymbol = typeof Symbol === "function" && Symbol.for;
-      var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for("react.element") : 60103;
+      var REACT_ELEMENT_TYPE = canUseSymbol ? /* @__PURE__ */ Symbol.for("react.element") : 60103;
       function isReactElement(value) {
         return value.$$typeof === REACT_ELEMENT_TYPE;
       }
@@ -404,7 +404,7 @@ var wp;
     }
   });
 
-  // packages/data/build-module/index.js
+  // packages/data/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     AsyncModeProvider: () => context_default2,
@@ -436,8 +436,8 @@ var wp;
     withSelect: () => with_select_default
   });
 
-  // packages/data/build-module/registry.js
-  var import_deprecated2 = __toESM(require_deprecated());
+  // packages/data/build-module/registry.mjs
+  var import_deprecated2 = __toESM(require_deprecated(), 1);
 
   // node_modules/redux/dist/redux.mjs
   var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
@@ -676,12 +676,12 @@ var wp;
     };
   }
 
-  // packages/data/build-module/redux-store/index.js
-  var import_equivalent_key_map2 = __toESM(require_equivalent_key_map());
-  var import_redux_routine = __toESM(require_redux_routine());
-  var import_compose = __toESM(require_compose());
+  // packages/data/build-module/redux-store/index.mjs
+  var import_equivalent_key_map2 = __toESM(require_equivalent_key_map(), 1);
+  var import_redux_routine = __toESM(require_redux_routine(), 1);
+  var import_compose = __toESM(require_compose(), 1);
 
-  // packages/data/build-module/redux-store/combine-reducers.js
+  // packages/data/build-module/redux-store/combine-reducers.mjs
   function combineReducers(reducers) {
     const keys = Object.keys(reducers);
     return function combinedReducer(state = {}, action) {
@@ -698,7 +698,7 @@ var wp;
     };
   }
 
-  // packages/data/build-module/factory.js
+  // packages/data/build-module/factory.mjs
   function createRegistrySelector(registrySelector) {
     const selectorsByRegistry = /* @__PURE__ */ new WeakMap();
     const wrappedSelector = (...args) => {
@@ -717,7 +717,7 @@ var wp;
     return registryControl;
   }
 
-  // packages/data/build-module/controls.js
+  // packages/data/build-module/controls.mjs
   var SELECT = "@@data/SELECT";
   var RESOLVE_SELECT = "@@data/RESOLVE_SELECT";
   var DISPATCH = "@@data/DISPATCH";
@@ -766,8 +766,8 @@ var wp;
     )
   };
 
-  // packages/data/build-module/lock-unlock.js
-  var import_private_apis = __toESM(require_private_apis());
+  // packages/data/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
   var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
     "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
     "@wordpress/data"
@@ -778,7 +778,7 @@ var wp;
     return !!obj && (typeof obj === "object" || typeof obj === "function") && typeof obj.then === "function";
   }
 
-  // packages/data/build-module/promise-middleware.js
+  // packages/data/build-module/promise-middleware.mjs
   var promiseMiddleware = () => (next) => (action) => {
     if (isPromise(action)) {
       return action.then((resolvedAction) => {
@@ -791,7 +791,7 @@ var wp;
   };
   var promise_middleware_default = promiseMiddleware;
 
-  // packages/data/build-module/resolvers-cache-middleware.js
+  // packages/data/build-module/resolvers-cache-middleware.mjs
   var createResolversCacheMiddleware = (registry, storeName) => () => (next) => (action) => {
     const resolvers = registry.select(storeName).getCachedResolvers();
     const resolverEntries = Object.entries(resolvers);
@@ -817,7 +817,7 @@ var wp;
   };
   var resolvers_cache_middleware_default = createResolversCacheMiddleware;
 
-  // packages/data/build-module/redux-store/thunk-middleware.js
+  // packages/data/build-module/redux-store/thunk-middleware.mjs
   function createThunkMiddleware(args) {
     return () => (next) => (action) => {
       if (typeof action === "function") {
@@ -827,10 +827,10 @@ var wp;
     };
   }
 
-  // packages/data/build-module/redux-store/metadata/reducer.js
-  var import_equivalent_key_map = __toESM(require_equivalent_key_map());
+  // packages/data/build-module/redux-store/metadata/reducer.mjs
+  var import_equivalent_key_map = __toESM(require_equivalent_key_map(), 1);
 
-  // packages/data/build-module/redux-store/metadata/utils.js
+  // packages/data/build-module/redux-store/metadata/utils.mjs
   var onSubKey = (actionProperty) => (reducer) => (state = {}, action) => {
     const key = action[actionProperty];
     if (key === void 0) {
@@ -857,7 +857,7 @@ var wp;
     return idx === len ? args : args.slice(0, idx);
   }
 
-  // packages/data/build-module/redux-store/metadata/reducer.js
+  // packages/data/build-module/redux-store/metadata/reducer.mjs
   var subKeysIsResolved = onSubKey("selectorName")((state = new import_equivalent_key_map.default(), action) => {
     switch (action.type) {
       case "START_RESOLUTION": {
@@ -948,12 +948,13 @@ var wp;
       case "FAIL_RESOLUTIONS":
       case "INVALIDATE_RESOLUTION":
         return subKeysIsResolved(state, action);
+      default:
+        return state;
     }
-    return state;
   };
   var reducer_default = isResolved;
 
-  // packages/data/build-module/redux-store/metadata/selectors.js
+  // packages/data/build-module/redux-store/metadata/selectors.mjs
   var selectors_exports = {};
   __export(selectors_exports, {
     countSelectorsByStatus: () => countSelectorsByStatus,
@@ -967,7 +968,7 @@ var wp;
     hasStartedResolution: () => hasStartedResolution,
     isResolving: () => isResolving
   });
-  var import_deprecated = __toESM(require_deprecated());
+  var import_deprecated = __toESM(require_deprecated(), 1);
 
   // node_modules/rememo/rememo.js
   var LEAF_KEY = {};
@@ -1081,7 +1082,7 @@ var wp;
     );
   }
 
-  // packages/data/build-module/redux-store/metadata/selectors.js
+  // packages/data/build-module/redux-store/metadata/selectors.mjs
   function getResolutionState(state, selectorName, args) {
     const map = state[selectorName];
     if (!map) {
@@ -1162,7 +1163,7 @@ var wp;
     (state) => [state]
   );
 
-  // packages/data/build-module/redux-store/metadata/actions.js
+  // packages/data/build-module/redux-store/metadata/actions.mjs
   var actions_exports = {};
   __export(actions_exports, {
     failResolution: () => failResolution,
@@ -1238,7 +1239,7 @@ var wp;
     };
   }
 
-  // packages/data/build-module/redux-store/index.js
+  // packages/data/build-module/redux-store/index.mjs
   var trimUndefinedValues = (array) => {
     const result = [...array];
     for (let i = result.length - 1; i >= 0; i--) {
@@ -1677,7 +1678,7 @@ var wp;
     return args;
   }
 
-  // packages/data/build-module/store/index.js
+  // packages/data/build-module/store/index.mjs
   var coreDataStore = {
     name: "core/data",
     instantiate(registry) {
@@ -1725,7 +1726,7 @@ var wp;
   };
   var store_default = coreDataStore;
 
-  // packages/data/build-module/utils/emitter.js
+  // packages/data/build-module/utils/emitter.mjs
   function createEmitter() {
     let isPaused = false;
     let isPending = false;
@@ -1764,7 +1765,7 @@ var wp;
     };
   }
 
-  // packages/data/build-module/registry.js
+  // packages/data/build-module/registry.mjs
   function getStoreName(storeNameOrDescriptor) {
     return typeof storeNameOrDescriptor === "string" ? storeNameOrDescriptor : storeNameOrDescriptor.name;
   }
@@ -1986,10 +1987,10 @@ var wp;
     return registryWithPlugins;
   }
 
-  // packages/data/build-module/default-registry.js
+  // packages/data/build-module/default-registry.mjs
   var default_registry_default = createRegistry();
 
-  // packages/data/build-module/plugins/index.js
+  // packages/data/build-module/plugins/index.mjs
   var plugins_exports = {};
   __export(plugins_exports, {
     persistence: () => persistence_default
@@ -2012,10 +2013,10 @@ var wp;
     return true;
   }
 
-  // packages/data/build-module/plugins/persistence/index.js
-  var import_deepmerge = __toESM(require_cjs());
+  // packages/data/build-module/plugins/persistence/index.mjs
+  var import_deepmerge = __toESM(require_cjs(), 1);
 
-  // packages/data/build-module/plugins/persistence/storage/object.js
+  // packages/data/build-module/plugins/persistence/storage/object.mjs
   var objectStorage;
   var storage = {
     getItem(key) {
@@ -2036,7 +2037,7 @@ var wp;
   };
   var object_default = storage;
 
-  // packages/data/build-module/plugins/persistence/storage/default.js
+  // packages/data/build-module/plugins/persistence/storage/default.mjs
   var storage2;
   try {
     storage2 = window.localStorage;
@@ -2047,7 +2048,7 @@ var wp;
   }
   var default_default = storage2;
 
-  // packages/data/build-module/plugins/persistence/index.js
+  // packages/data/build-module/plugins/persistence/index.mjs
   var DEFAULT_STORAGE = default_default;
   var DEFAULT_STORAGE_KEY = "WP_DATA";
   var withLazySameState = (reducer) => (state, action) => {
@@ -2151,46 +2152,46 @@ var wp;
   };
   var persistence_default = persistencePlugin;
 
-  // packages/data/build-module/components/with-select/index.js
-  var import_compose2 = __toESM(require_compose());
+  // packages/data/build-module/components/with-select/index.mjs
+  var import_compose2 = __toESM(require_compose(), 1);
 
-  // packages/data/build-module/components/use-select/index.js
-  var import_priority_queue = __toESM(require_priority_queue());
-  var import_element5 = __toESM(require_element());
-  var import_is_shallow_equal = __toESM(require_is_shallow_equal());
+  // packages/data/build-module/components/use-select/index.mjs
+  var import_priority_queue = __toESM(require_priority_queue(), 1);
+  var import_element5 = __toESM(require_element(), 1);
+  var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
 
-  // packages/data/build-module/components/registry-provider/use-registry.js
-  var import_element2 = __toESM(require_element());
+  // packages/data/build-module/components/registry-provider/use-registry.mjs
+  var import_element2 = __toESM(require_element(), 1);
 
-  // packages/data/build-module/components/registry-provider/context.js
-  var import_element = __toESM(require_element());
+  // packages/data/build-module/components/registry-provider/context.mjs
+  var import_element = __toESM(require_element(), 1);
   var Context = (0, import_element.createContext)(default_registry_default);
   Context.displayName = "RegistryProviderContext";
   var { Consumer, Provider } = Context;
   var RegistryConsumer = Consumer;
   var context_default = Provider;
 
-  // packages/data/build-module/components/registry-provider/use-registry.js
+  // packages/data/build-module/components/registry-provider/use-registry.mjs
   function useRegistry() {
     return (0, import_element2.useContext)(Context);
   }
 
-  // packages/data/build-module/components/async-mode-provider/use-async-mode.js
-  var import_element4 = __toESM(require_element());
+  // packages/data/build-module/components/async-mode-provider/use-async-mode.mjs
+  var import_element4 = __toESM(require_element(), 1);
 
-  // packages/data/build-module/components/async-mode-provider/context.js
-  var import_element3 = __toESM(require_element());
+  // packages/data/build-module/components/async-mode-provider/context.mjs
+  var import_element3 = __toESM(require_element(), 1);
   var Context2 = (0, import_element3.createContext)(false);
   Context2.displayName = "AsyncModeContext";
   var { Consumer: Consumer2, Provider: Provider2 } = Context2;
   var context_default2 = Provider2;
 
-  // packages/data/build-module/components/async-mode-provider/use-async-mode.js
+  // packages/data/build-module/components/async-mode-provider/use-async-mode.mjs
   function useAsyncMode() {
     return (0, import_element4.useContext)(Context2);
   }
 
-  // packages/data/build-module/components/use-select/index.js
+  // packages/data/build-module/components/use-select/index.mjs
   var renderQueue = (0, import_priority_queue.createQueue)();
   function warnOnUnstableReference(a, b) {
     if (!a || !b) {
@@ -2280,7 +2281,7 @@ var wp;
         if (true) {
           if (!didWarnUnstableReference) {
             const secondMapResult = mapSelect(select3, registry);
-            if (!(0, import_is_shallow_equal.default)(mapResult, secondMapResult)) {
+            if (!(0, import_is_shallow_equal.isShallowEqual)(mapResult, secondMapResult)) {
               warnOnUnstableReference(mapResult, secondMapResult);
               didWarnUnstableReference = true;
             }
@@ -2294,7 +2295,7 @@ var wp;
         } else {
           subscriber.updateStores(listeningStores.current);
         }
-        if (!(0, import_is_shallow_equal.default)(lastMapResult, mapResult)) {
+        if (!(0, import_is_shallow_equal.isShallowEqual)(lastMapResult, mapResult)) {
           lastMapResult = mapResult;
         }
         lastMapSelect = mapSelect;
@@ -2345,8 +2346,8 @@ var wp;
     return _useMappingSelect(true, mapSelect, deps);
   }
 
-  // packages/data/build-module/components/with-select/index.js
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  // packages/data/build-module/components/with-select/index.mjs
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var withSelect = (mapSelectToProps) => (0, import_compose2.createHigherOrderComponent)(
     (WrappedComponent) => (0, import_compose2.pure)((ownProps) => {
       const mapSelect = (select3, registry) => mapSelectToProps(select3, ownProps, registry);
@@ -2357,19 +2358,19 @@ var wp;
   );
   var with_select_default = withSelect;
 
-  // packages/data/build-module/components/with-dispatch/index.js
-  var import_compose4 = __toESM(require_compose());
+  // packages/data/build-module/components/with-dispatch/index.mjs
+  var import_compose4 = __toESM(require_compose(), 1);
 
-  // packages/data/build-module/components/use-dispatch/use-dispatch.js
+  // packages/data/build-module/components/use-dispatch/use-dispatch.mjs
   var useDispatch = (storeNameOrDescriptor) => {
     const { dispatch: dispatch3 } = useRegistry();
     return storeNameOrDescriptor === void 0 ? dispatch3 : dispatch3(storeNameOrDescriptor);
   };
   var use_dispatch_default = useDispatch;
 
-  // packages/data/build-module/components/use-dispatch/use-dispatch-with-map.js
-  var import_element6 = __toESM(require_element());
-  var import_compose3 = __toESM(require_compose());
+  // packages/data/build-module/components/use-dispatch/use-dispatch-with-map.mjs
+  var import_element6 = __toESM(require_element(), 1);
+  var import_compose3 = __toESM(require_compose(), 1);
   var useDispatchWithMap = (dispatchMap, deps) => {
     const registry = useRegistry();
     const currentDispatchMapRef = (0, import_element6.useRef)(dispatchMap);
@@ -2400,8 +2401,8 @@ var wp;
   };
   var use_dispatch_with_map_default = useDispatchWithMap;
 
-  // packages/data/build-module/components/with-dispatch/index.js
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+  // packages/data/build-module/components/with-dispatch/index.mjs
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var withDispatch = (mapDispatchToProps) => (0, import_compose4.createHigherOrderComponent)(
     (WrappedComponent) => (ownProps) => {
       const mapDispatch = (dispatch3, registry) => mapDispatchToProps(dispatch3, ownProps, registry);
@@ -2412,29 +2413,31 @@ var wp;
   );
   var with_dispatch_default = withDispatch;
 
-  // packages/data/build-module/components/with-registry/index.js
-  var import_compose5 = __toESM(require_compose());
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  // packages/data/build-module/components/with-registry/index.mjs
+  var import_compose5 = __toESM(require_compose(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var withRegistry = (0, import_compose5.createHigherOrderComponent)(
     (OriginalComponent) => (props) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RegistryConsumer, { children: (registry) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(OriginalComponent, { ...props, registry }) }),
     "withRegistry"
   );
   var with_registry_default = withRegistry;
 
-  // packages/data/build-module/dispatch.js
+  // packages/data/build-module/dispatch.mjs
   function dispatch2(storeNameOrDescriptor) {
     return default_registry_default.dispatch(storeNameOrDescriptor);
   }
 
-  // packages/data/build-module/select.js
+  // packages/data/build-module/select.mjs
   function select2(storeNameOrDescriptor) {
     return default_registry_default.select(storeNameOrDescriptor);
   }
 
-  // packages/data/build-module/index.js
+  // packages/data/build-module/index.mjs
   var defaultRegistry = default_registry_default;
   var combineReducers2 = combineReducers;
-  var resolveSelect2 = (storeNameOrDescriptor) => defaultRegistry.resolveSelect(storeNameOrDescriptor);
+  function resolveSelect2(storeNameOrDescriptor) {
+    return defaultRegistry.resolveSelect(storeNameOrDescriptor);
+  }
   var suspendSelect = (storeNameOrDescriptor) => defaultRegistry.suspendSelect(storeNameOrDescriptor);
   var subscribe = (listener, storeNameOrDescriptor) => defaultRegistry.subscribe(listener, storeNameOrDescriptor);
   var registerGenericStore = defaultRegistry.registerGenericStore;

@@ -47,7 +47,7 @@ function render_block_core_latest_comments( $attributes ) {
 	if ( isset( $attributes['displayExcerpt'] ) ) {
 		$display_content = $attributes['displayExcerpt'] ? 'excerpt' : 'none';
 	} else {
-		$display_content = isset( $attributes['displayContent'] ) ? $attributes['displayContent'] : 'excerpt';
+		$display_content = $attributes['displayContent'] ?? 'excerpt';
 	}
 
 	$comments = get_comments(

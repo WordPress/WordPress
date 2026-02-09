@@ -6,7 +6,7 @@
  * @package wp
  */
 
-require_once __DIR__ . '/pages/site-editor/page.php';
-require_once __DIR__ . '/pages/site-editor/page-wp-admin.php';
+require_once __DIR__ . '/pages/site-editor-v2/page.php';
+require_once __DIR__ . '/pages/site-editor-v2/page-wp-admin.php';
 require_once __DIR__ . '/pages/font-library/page.php';
 require_once __DIR__ . '/pages/font-library/page-wp-admin.php';

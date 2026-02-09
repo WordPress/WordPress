@@ -41,6 +41,7 @@
 		"openSubmenusOnClick"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"lock": false,

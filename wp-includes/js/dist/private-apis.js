@@ -19,13 +19,13 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/private-apis/build-module/index.js
+  // packages/private-apis/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __dangerousOptInToUnstableAPIsOnlyForCoreModules: () => __dangerousOptInToUnstableAPIsOnlyForCoreModules
   });
 
-  // packages/private-apis/build-module/implementation.js
+  // packages/private-apis/build-module/implementation.mjs
   var CORE_MODULES_USING_PRIVATE_APIS = [
     "@wordpress/block-directory",
     "@wordpress/block-editor",
@@ -58,7 +58,8 @@ var wp;
     "@wordpress/lazy-editor",
     "@wordpress/media-utils",
     "@wordpress/upload-media",
-    "@wordpress/global-styles-ui"
+    "@wordpress/global-styles-ui",
+    "@wordpress/ui"
   ];
   var requiredConsent = "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.";
   var __dangerousOptInToUnstableAPIsOnlyForCoreModules = (consent, moduleName) => {
@@ -100,6 +101,6 @@ var wp;
     return lockedData.get(_object[__private]);
   }
   var lockedData = /* @__PURE__ */ new WeakMap();
-  var __private = Symbol("Private API ID");
+  var __private = /* @__PURE__ */ Symbol("Private API ID");
   return __toCommonJS(index_exports);
 })();

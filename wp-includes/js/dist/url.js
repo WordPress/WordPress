@@ -514,7 +514,7 @@ var wp;
     }
   });
 
-  // packages/url/build-module/index.js
+  // packages/url/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     addQueryArgs: () => addQueryArgs,
@@ -547,7 +547,7 @@ var wp;
     safeDecodeURIComponent: () => safeDecodeURIComponent
   });
 
-  // packages/url/build-module/is-url.js
+  // packages/url/build-module/is-url.mjs
   function isURL(url) {
     try {
       new URL(url);
@@ -557,20 +557,20 @@ var wp;
     }
   }
 
-  // packages/url/build-module/is-email.js
+  // packages/url/build-module/is-email.mjs
   var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
   function isEmail(email) {
     return EMAIL_REGEXP.test(email);
   }
 
-  // packages/url/build-module/is-phone-number.js
+  // packages/url/build-module/is-phone-number.mjs
   var PHONE_REGEXP = /^(tel:)?(\+)?\d{6,15}$/;
   function isPhoneNumber(phoneNumber) {
     phoneNumber = phoneNumber.replace(/[-.() ]/g, "");
     return PHONE_REGEXP.test(phoneNumber);
   }
 
-  // packages/url/build-module/get-protocol.js
+  // packages/url/build-module/get-protocol.mjs
   function getProtocol(url) {
     const matches = /^([^\s:]+:)/.exec(url);
     if (matches) {
@@ -578,7 +578,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/is-valid-protocol.js
+  // packages/url/build-module/is-valid-protocol.mjs
   function isValidProtocol(protocol) {
     if (!protocol) {
       return false;
@@ -586,7 +586,7 @@ var wp;
     return /^[a-z\-.\+]+[0-9]*:$/i.test(protocol);
   }
 
-  // packages/url/build-module/get-authority.js
+  // packages/url/build-module/get-authority.mjs
   function getAuthority(url) {
     const matches = /^[^\/\s:]+:(?:\/\/)?\/?([^\/\s#?]+)[\/#?]{0,1}\S*$/.exec(
       url
@@ -596,7 +596,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/is-valid-authority.js
+  // packages/url/build-module/is-valid-authority.mjs
   function isValidAuthority(authority) {
     if (!authority) {
       return false;
@@ -604,7 +604,7 @@ var wp;
     return /^[^\s#?]+$/.test(authority);
   }
 
-  // packages/url/build-module/get-path.js
+  // packages/url/build-module/get-path.mjs
   function getPath(url) {
     const matches = /^[^\/\s:]+:(?:\/\/)?[^\/\s#?]+[\/]([^\s#?]+)[#?]{0,1}\S*$/.exec(url);
     if (matches) {
@@ -612,7 +612,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/is-valid-path.js
+  // packages/url/build-module/is-valid-path.mjs
   function isValidPath(path) {
     if (!path) {
       return false;
@@ -620,7 +620,7 @@ var wp;
     return /^[^\s#?]+$/.test(path);
   }
 
-  // packages/url/build-module/get-query-string.js
+  // packages/url/build-module/get-query-string.mjs
   function getQueryString(url) {
     let query;
     try {
@@ -632,7 +632,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/build-query-string.js
+  // packages/url/build-module/build-query-string.mjs
   function buildQueryString(data) {
     let string = "";
     const stack = Object.entries(data);
@@ -655,7 +655,7 @@ var wp;
     return string.substr(1);
   }
 
-  // packages/url/build-module/is-valid-query-string.js
+  // packages/url/build-module/is-valid-query-string.mjs
   function isValidQueryString(queryString) {
     if (!queryString) {
       return false;
@@ -663,7 +663,7 @@ var wp;
     return /^[^\s#?\/]+$/.test(queryString);
   }
 
-  // packages/url/build-module/get-path-and-query-string.js
+  // packages/url/build-module/get-path-and-query-string.mjs
   function getPathAndQueryString(url) {
     const path = getPath(url);
     const queryString = getQueryString(url);
@@ -677,7 +677,7 @@ var wp;
     return value;
   }
 
-  // packages/url/build-module/get-fragment.js
+  // packages/url/build-module/get-fragment.mjs
   function getFragment(url) {
     const matches = /^\S+?(#[^\s\?]*)/.exec(url);
     if (matches) {
@@ -685,7 +685,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/is-valid-fragment.js
+  // packages/url/build-module/is-valid-fragment.mjs
   function isValidFragment(fragment) {
     if (!fragment) {
       return false;
@@ -693,7 +693,7 @@ var wp;
     return /^#[^\s#?\/]*$/.test(fragment);
   }
 
-  // packages/url/build-module/safe-decode-uri-component.js
+  // packages/url/build-module/safe-decode-uri-component.mjs
   function safeDecodeURIComponent(uriComponent) {
     try {
       return decodeURIComponent(uriComponent);
@@ -702,7 +702,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/get-query-args.js
+  // packages/url/build-module/get-query-args.mjs
   function setPath(object, path, value) {
     const length = path.length;
     const lastIndex = length - 1;
@@ -738,7 +738,7 @@ var wp;
     }, /* @__PURE__ */ Object.create(null));
   }
 
-  // packages/url/build-module/add-query-args.js
+  // packages/url/build-module/add-query-args.mjs
   function addQueryArgs(url = "", args) {
     if (!args || !Object.keys(args).length) {
       return url;
@@ -753,17 +753,17 @@ var wp;
     return baseUrl + "?" + buildQueryString(args) + fragment;
   }
 
-  // packages/url/build-module/get-query-arg.js
+  // packages/url/build-module/get-query-arg.mjs
   function getQueryArg(url, arg) {
     return getQueryArgs(url)[arg];
   }
 
-  // packages/url/build-module/has-query-arg.js
+  // packages/url/build-module/has-query-arg.mjs
   function hasQueryArg(url, arg) {
     return getQueryArg(url, arg) !== void 0;
   }
 
-  // packages/url/build-module/remove-query-args.js
+  // packages/url/build-module/remove-query-args.mjs
   function removeQueryArgs(url, ...args) {
     const fragment = url.replace(/^[^#]*/, "");
     url = url.replace(/#.*/, "");
@@ -779,7 +779,7 @@ var wp;
     return updatedUrl + fragment;
   }
 
-  // packages/url/build-module/prepend-http.js
+  // packages/url/build-module/prepend-http.mjs
   var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
   function prependHTTP(url) {
     if (!url) {
@@ -792,7 +792,7 @@ var wp;
     return url;
   }
 
-  // packages/url/build-module/safe-decode-uri.js
+  // packages/url/build-module/safe-decode-uri.mjs
   function safeDecodeURI(uri) {
     try {
       return decodeURI(uri);
@@ -801,7 +801,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/filter-url-for-display.js
+  // packages/url/build-module/filter-url-for-display.mjs
   function filterURLForDisplay(url, maxLength = null) {
     if (!url) {
       return "";
@@ -829,8 +829,8 @@ var wp;
     return file.slice(0, maxLength - truncatedFile.length - 1) + "\u2026" + truncatedFile;
   }
 
-  // packages/url/build-module/clean-for-slug.js
-  var import_remove_accents = __toESM(require_remove_accents());
+  // packages/url/build-module/clean-for-slug.mjs
+  var import_remove_accents = __toESM(require_remove_accents(), 1);
   function cleanForSlug(string) {
     if (!string) {
       return "";
@@ -838,7 +838,7 @@ var wp;
     return (0, import_remove_accents.default)(string).replace(/(&nbsp;|&ndash;|&mdash;)/g, "-").replace(/[\s\./]+/g, "-").replace(/&\S+?;/g, "").replace(/[^\p{L}\p{N}_-]+/gu, "").toLowerCase().replace(/-+/g, "-").replace(/(^-+)|(-+$)/g, "");
   }
 
-  // packages/url/build-module/get-filename.js
+  // packages/url/build-module/get-filename.mjs
   function getFilename(url) {
     let filename;
     if (!url) {
@@ -853,7 +853,7 @@ var wp;
     }
   }
 
-  // packages/url/build-module/normalize-path.js
+  // packages/url/build-module/normalize-path.mjs
   function normalizePath(path) {
     const split = path.split("?");
     const query = split[1];
@@ -864,7 +864,7 @@ var wp;
     return base + "?" + query.split("&").map((entry) => entry.split("=")).map((pair) => pair.map(decodeURIComponent)).sort((a, b) => a[0].localeCompare(b[0])).map((pair) => pair.map(encodeURIComponent)).map((pair) => pair.join("=")).join("&");
   }
 
-  // packages/url/build-module/prepend-https.js
+  // packages/url/build-module/prepend-https.mjs
   function prependHTTPS(url) {
     if (!url) {
       return url;

@@ -83,6 +83,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .wp-block-gallery:not(.has-nested-images),
 .blocks-gallery-grid:not(.has-nested-images) {
   display: flex;
@@ -313,7 +317,7 @@ figure.wp-block-gallery.has-nested-images {
 .wp-block-gallery.has-nested-images figure.wp-block-image:has(figcaption)::before {
   content: "";
   height: 100%;
-  max-height: 40%;
+  max-height: 3em;
   pointer-events: none;
   backdrop-filter: blur(3px);
   -webkit-mask-image: linear-gradient(0deg, #000 20%, transparent 100%);

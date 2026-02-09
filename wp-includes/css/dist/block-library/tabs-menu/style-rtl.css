@@ -1,0 +1,8 @@
+.wp-block-tabs-menu {
+  display: flex;
+  align-items: flex-end;
+  min-width: fit-content;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #000;
+}

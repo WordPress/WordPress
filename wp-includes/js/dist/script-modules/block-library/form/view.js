@@ -1,4 +1,4 @@
-// packages/block-library/build-module/form/view.js
+// packages/block-library/build-module/form/view.mjs
 var formSettings;
 try {
   formSettings = JSON.parse(

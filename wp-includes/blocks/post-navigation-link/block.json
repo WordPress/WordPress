@@ -37,6 +37,7 @@
 	},
 	"usesContext": [ "postType" ],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {

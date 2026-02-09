@@ -29,6 +29,7 @@
 		"visibility": false,
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"customCSS": false
 	}
 }

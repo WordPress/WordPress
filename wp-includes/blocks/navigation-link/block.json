@@ -63,6 +63,7 @@
 		"style"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"__experimentalSlashInserter": true,

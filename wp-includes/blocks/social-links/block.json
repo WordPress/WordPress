@@ -95,7 +95,8 @@
 				"style": true
 			}
 		},
-		"contentRole": true
+		"contentRole": true,
+		"listView": true
 	},
 	"styles": [
 		{ "name": "default", "label": "Default", "isDefault": true },

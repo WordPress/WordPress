@@ -39,7 +39,7 @@ var wp;
     }
   });
 
-  // packages/i18n/build-module/index.js
+  // packages/i18n/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __: () => __,
@@ -104,7 +104,7 @@ var wp;
     });
   }
 
-  // packages/i18n/build-module/sprintf.js
+  // packages/i18n/build-module/sprintf.mjs
   function sprintf2(format, ...args) {
     return sprintf(format, ...args);
   }
@@ -330,7 +330,7 @@ var wp;
     return index === 0 ? singular : plural;
   };
 
-  // packages/i18n/build-module/create-i18n.js
+  // packages/i18n/build-module/create-i18n.mjs
   var DEFAULT_LOCALE_DATA = {
     "": {
       plural_forms(n) {
@@ -539,8 +539,8 @@ var wp;
     };
   };
 
-  // packages/i18n/build-module/default-i18n.js
-  var import_hooks = __toESM(require_hooks());
+  // packages/i18n/build-module/default-i18n.mjs
+  var import_hooks = __toESM(require_hooks(), 1);
   var i18n = createI18n(void 0, void 0, import_hooks.defaultHooks);
   var default_i18n_default = i18n;
   var getLocaleData = i18n.getLocaleData.bind(i18n);

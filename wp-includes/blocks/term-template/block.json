@@ -9,6 +9,7 @@
 	"textdomain": "default",
 	"usesContext": [ "termQuery" ],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"align": [ "wide", "full" ],

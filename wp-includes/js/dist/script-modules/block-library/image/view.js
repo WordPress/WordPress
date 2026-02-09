@@ -1,4 +1,4 @@
-// packages/block-library/build-module/image/view.js
+// packages/block-library/build-module/image/view.mjs
 import {
   store,
   getContext,
@@ -7,10 +7,10 @@ import {
   withScope
 } from "@wordpress/interactivity";
 
-// packages/block-library/build-module/image/constants.js
+// packages/block-library/build-module/image/constants.mjs
 var IMAGE_PRELOAD_DELAY = 200;
 
-// packages/block-library/build-module/image/view.js
+// packages/block-library/build-module/image/view.mjs
 var isTouching = false;
 var lastTouchTime = 0;
 function getImageSrc({ uploadedSrc }) {

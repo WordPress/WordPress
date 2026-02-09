@@ -55,10 +55,11 @@
 		"customFontSize",
 		"showSubmenuIcon",
 		"maxNestingLevel",
-		"openSubmenusOnClick",
+		"submenuVisibility",
 		"style"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"typography": {

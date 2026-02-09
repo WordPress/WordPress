@@ -1,7 +1,7 @@
-// packages/interactivity-router/build-module/index.js
+// packages/interactivity-router/build-module/index.mjs
 import { store, privateApis, getConfig } from "@wordpress/interactivity";
 
-// packages/interactivity-router/build-module/assets/scs.js
+// packages/interactivity-router/build-module/assets/scs.mjs
 function shortestCommonSupersequence(X, Y, isEqual = (a, b) => a === b) {
   const m = X.length;
   const n = Y.length;
@@ -29,7 +29,7 @@ function shortestCommonSupersequence(X, Y, isEqual = (a, b) => a === b) {
   return dp[m][n];
 }
 
-// packages/interactivity-router/build-module/assets/styles.js
+// packages/interactivity-router/build-module/assets/styles.mjs
 var areNodesEqual = (a, b) => a.isEqualNode(b);
 var normalizeMedia = (element) => {
   element = element.cloneNode(true);
@@ -156,7 +156,7 @@ var applyStyles = (styles) => {
   });
 };
 
-// packages/interactivity-router/build-module/assets/dynamic-importmap/resolver.js
+// packages/interactivity-router/build-module/assets/dynamic-importmap/resolver.mjs
 var backslashRegEx = /\\/g;
 function isURL(url) {
   if (url.indexOf(":") === -1) {
@@ -385,7 +385,7 @@ var init = WebAssembly.compile((E = "AGFzbQEAAAABKwhgAX8Bf2AEf39/fwBgAAF/YAAAYAF
 }));
 var E;
 
-// packages/interactivity-router/build-module/assets/dynamic-importmap/fetch.js
+// packages/interactivity-router/build-module/assets/dynamic-importmap/fetch.mjs
 var fetching = (url, parent) => {
   return ` fetching ${url}${parent ? ` from ${parent}` : ""}`;
 };
@@ -409,7 +409,7 @@ async function fetchModule(url, fetchOpts, parent) {
   return { responseUrl: res.url, source: await res.text() };
 }
 
-// packages/interactivity-router/build-module/assets/dynamic-importmap/loader.js
+// packages/interactivity-router/build-module/assets/dynamic-importmap/loader.mjs
 var initPromise = init;
 var initialImportMapElement = window.document.querySelector(
   "script#wp-importmap[type=importmap]"
@@ -614,7 +614,7 @@ async function topLevelLoad(url, fetchOpts) {
   return importPreloadedModule(load);
 }
 
-// packages/interactivity-router/build-module/assets/dynamic-importmap/index.js
+// packages/interactivity-router/build-module/assets/dynamic-importmap/index.mjs
 var baseUrl2 = document.baseURI;
 var pageBaseUrl2 = baseUrl2;
 Object.defineProperty(self, "wpInteractivityRouterImport", {
@@ -637,7 +637,7 @@ async function preloadWithMap(id, importMapIn) {
   });
 }
 
-// packages/interactivity-router/build-module/assets/script-modules.js
+// packages/interactivity-router/build-module/assets/script-modules.mjs
 var resolvedScriptModules = /* @__PURE__ */ new Set();
 var markScriptModuleAsResolved = (url) => {
   resolvedScriptModules.add(url);
@@ -668,7 +668,7 @@ var preloadScriptModules = (doc) => {
 };
 var importScriptModules = (modules) => Promise.all(modules.map((m) => importPreloadedModule(m)));
 
-// packages/interactivity-router/build-module/index.js
+// packages/interactivity-router/build-module/index.mjs
 var {
   getRegionRootFragment,
   initialVdom,
@@ -678,7 +678,7 @@ var {
   populateServerData,
   batch,
   routerRegions,
-  cloneElement,
+  h: createElement,
   navigationSignal
 } = privateApis(
   "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
@@ -709,13 +709,14 @@ var cloneRouterRegionContent = (vdom) => {
     (level) => level.includes("router-region")
   );
   const priorityLevels = routerRegionLevel !== -1 ? allPriorityLevels.slice(routerRegionLevel + 1) : allPriorityLevels;
-  return priorityLevels.length > 0 ? cloneElement(vdom, {
+  return priorityLevels.length > 0 ? createElement(vdom.type, {
     ...vdom.props,
     priorityLevels
   }) : vdom.props.element;
 };
 var regionsToAttachByParent = /* @__PURE__ */ new WeakMap();
 var rootFragmentsByParent = /* @__PURE__ */ new WeakMap();
+var initialRegionsToAttach = /* @__PURE__ */ new Set();
 var fetchPage = async (url, { html }) => {
   try {
     if (!html) {
@@ -742,7 +743,7 @@ var preparePage = async (url, dom, { vdom } = {}) => {
     } else {
       regions[id] = vdom?.has(region) ? vdom.get(region) : toVdom(region);
     }
-    if (attachTo) {
+    if (attachTo && !initialRegionsToAttach.has(id)) {
       regionsToAttach[id] = attachTo;
     }
   });
@@ -828,6 +829,12 @@ window.addEventListener("popstate", async () => {
     });
   } else {
     window.location.reload();
+  }
+});
+document.querySelectorAll(regionsSelector).forEach((region) => {
+  const { id, attachTo } = parseRegionAttribute(region);
+  if (attachTo) {
+    initialRegionsToAttach.add(id);
   }
 });
 window.document.querySelectorAll("script[type=module][src]").forEach(({ src }) => markScriptModuleAsResolved(src));

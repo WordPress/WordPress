@@ -19,7 +19,7 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/shortcode/build-module/index.js
+  // packages/shortcode/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     attrs: () => attrs,
@@ -99,7 +99,7 @@ var wp;
     return memoized;
   }
 
-  // packages/shortcode/build-module/index.js
+  // packages/shortcode/build-module/index.mjs
   function next(tag, text, index = 0) {
     const re = regexp(tag);
     re.lastIndex = index;
@@ -127,17 +127,21 @@ var wp;
   function replace(tag, text, callback) {
     return text.replace(
       regexp(tag),
-      function(match, left, $3, attrs2, slash, content, closing, right) {
+      // Let us use spread syntax to capture the arguments object.
+      (...args) => {
+        const match = args[0];
+        const left = args[1];
+        const right = args[7];
         if (left === "[" && right === "]") {
           return match;
         }
-        const result = callback(fromMatch(arguments));
+        const result = callback(fromMatch(args));
         return result || result === "" ? left + result + right : match;
       }
     );
   }
   function string(options) {
-    return new shortcode(options).string();
+    return new Shortcode(options).string();
   }
   function regexp(tag) {
     return new RegExp(
@@ -177,17 +181,31 @@ var wp;
     } else {
       type = "single";
     }
-    return new shortcode({
+    return new Shortcode({
       tag: match[2],
       attrs: match[3],
       type,
       content: match[5]
     });
   }
-  var shortcode = Object.assign(
-    function(options) {
-      const { tag, attrs: attributes, type, content } = options || {};
-      Object.assign(this, { tag, type, content });
+  var Shortcode = class {
+    // Instance properties
+    tag;
+    type;
+    content;
+    attrs;
+    // Static methods
+    static next = next;
+    static replace = replace;
+    static string = string;
+    static regexp = regexp;
+    static attrs = attrs;
+    static fromMatch = fromMatch;
+    constructor(options) {
+      const { tag, attrs: attributes, type, content } = options;
+      this.tag = tag;
+      this.type = type;
+      this.content = content;
       this.attrs = {
         named: {},
         numeric: []
@@ -195,59 +213,57 @@ var wp;
       if (!attributes) {
         return;
       }
-      const attributeTypes = ["named", "numeric"];
       if (typeof attributes === "string") {
         this.attrs = attrs(attributes);
-      } else if (attributes.length === attributeTypes.length && attributeTypes.every((t, key) => t === attributes[key])) {
+      } else if ("named" in attributes && "numeric" in attributes && attributes.named !== void 0 && attributes.numeric !== void 0) {
         this.attrs = attributes;
       } else {
         Object.entries(attributes).forEach(([key, value]) => {
-          this.set(key, value);
+          if (value !== void 0) {
+            this.set(key, String(value));
+          }
         });
       }
-    },
-    {
-      next,
-      replace,
-      string,
-      regexp,
-      attrs,
-      fromMatch
     }
-  );
-  Object.assign(shortcode.prototype, {
     /**
      * Get a shortcode attribute.
      *
      * Automatically detects whether `attr` is named or numeric and routes it
      * accordingly.
      *
-     * @param {(number|string)} attr Attribute key.
+     * @param attr Attribute key.
      *
-     * @return {string} Attribute value.
+     * @return Attribute value.
      */
     get(attr) {
-      return this.attrs[typeof attr === "number" ? "numeric" : "named"][attr];
-    },
+      if (typeof attr === "number") {
+        return this.attrs.numeric[attr];
+      }
+      return this.attrs.named[attr];
+    }
     /**
      * Set a shortcode attribute.
      *
      * Automatically detects whether `attr` is named or numeric and routes it
      * accordingly.
      *
-     * @param {(number|string)} attr  Attribute key.
-     * @param {string}          value Attribute value.
+     * @param attr  Attribute key.
+     * @param value Attribute value.
      *
-     * @return {InstanceType< import('./types').shortcode >} Shortcode instance.
+     * @return Shortcode instance.
      */
     set(attr, value) {
-      this.attrs[typeof attr === "number" ? "numeric" : "named"][attr] = value;
+      if (typeof attr === "number") {
+        this.attrs.numeric[attr] = value;
+      } else {
+        this.attrs.named[attr] = value;
+      }
       return this;
-    },
+    }
     /**
      * Transform the shortcode into a string.
      *
-     * @return {string} String representation of the shortcode.
+     * @return String representation of the shortcode.
      */
     string() {
       let text = "[" + this.tag;
@@ -272,8 +288,8 @@ var wp;
       }
       return text + "[/" + this.tag + "]";
     }
-  });
-  var index_default = shortcode;
+  };
+  var index_default = Shortcode;
   return __toCommonJS(index_exports);
 })();
 if (typeof wp.shortcode === 'object' && wp.shortcode.default) { wp.shortcode = wp.shortcode.default; }

@@ -840,10 +840,6 @@ $_old_files = array(
 	'wp-includes/js/dist/fields.min.js',
 	'wp-includes/js/dist/fields.js',
 	// 6.9
-	'wp-includes/blocks/post-author/editor.css',
-	'wp-includes/blocks/post-author/editor.min.css',
-	'wp-includes/blocks/post-author/editor-rtl.css',
-	'wp-includes/blocks/post-author/editor-rtl.min.css',
 	'wp-includes/SimplePie/src/Decode',
 	'wp-includes/SimplePie/src/Core.php',
 );

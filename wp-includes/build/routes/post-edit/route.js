@@ -57,7 +57,31 @@ var import_data = __toESM(require_data());
 var import_core_data = __toESM(require_core_data());
 var import_html_entities = __toESM(require_html_entities());
 var import_i18n = __toESM(require_i18n());
+import { notFound } from "@wordpress/route";
 var route = {
+  beforeLoad: async ({
+    params
+  }) => {
+    const postId = parseInt(params.id, 10);
+    if (Number.isNaN(postId)) {
+      throw notFound();
+    }
+    try {
+      const [postType, post] = await Promise.all([
+        (0, import_data.resolveSelect)(import_core_data.store).getPostType(params.type),
+        (0, import_data.resolveSelect)(import_core_data.store).getEntityRecord(
+          "postType",
+          params.type,
+          postId
+        )
+      ]);
+      if (!postType || !post) {
+        throw notFound();
+      }
+    } catch {
+      throw notFound();
+    }
+  },
   title: async ({
     params
   }) => {

@@ -94,7 +94,7 @@ function render_block_core_image( $attributes, $content, $block ) {
 		$figcaption_span = $processor->block_core_image_extract_empty_figcaption_element();
 	}
 
-	$link_destination  = isset( $attributes['linkDestination'] ) ? $attributes['linkDestination'] : 'none';
+	$link_destination  = $attributes['linkDestination'] ?? 'none';
 	$lightbox_settings = block_core_image_get_lightbox_settings( $block->parsed_block );
 
 	/*

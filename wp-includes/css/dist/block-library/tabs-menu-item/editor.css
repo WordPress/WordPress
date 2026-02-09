@@ -1,0 +1,16 @@
+.wp-block-tabs-menu-item.is-selected {
+  outline: 2px solid var(--wp-admin-theme-color, #007cba);
+  outline-offset: 2px;
+}
+
+.block-editor-block-preview__live-content:has(.wp-block-tabs-menu-item) {
+  flex-basis: inherit !important;
+  flex-grow: inherit !important;
+}
+.block-editor-block-preview__live-content:has(.wp-block-tabs-menu-item) .wp-block-tabs-menu-item {
+  flex-basis: 100% !important;
+}
+.block-editor-block-preview__live-content:has(.wp-block-tabs-menu-item):hover > .wp-block-tabs-menu-item {
+  background-color: var(--custom-tab-hover-color, #eaeaea) !important;
+  color: var(--custom-tab-hover-text-color, #000) !important;
+}

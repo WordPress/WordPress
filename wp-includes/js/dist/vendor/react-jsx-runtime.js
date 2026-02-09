@@ -1,5 +1,3 @@
-/* React JSX Runtime - https://react.dev/ */
-
 "use strict";
 var ReactJSXRuntime = (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -7,10 +5,10 @@ var ReactJSXRuntime = (() => {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
-  // react-global:react
+  // react-external:react
   var require_react = __commonJS({
-    "react-global:react"(exports, module) {
-      module.exports = window.React;
+    "react-external:react"(exports, module) {
+      module.exports = globalThis.React;
     }
   });
 
@@ -22,19 +20,19 @@ var ReactJSXRuntime = (() => {
         (function() {
           "use strict";
           var React = require_react();
-          var REACT_ELEMENT_TYPE = Symbol.for("react.element");
-          var REACT_PORTAL_TYPE = Symbol.for("react.portal");
-          var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-          var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
-          var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-          var REACT_PROVIDER_TYPE = Symbol.for("react.provider");
-          var REACT_CONTEXT_TYPE = Symbol.for("react.context");
-          var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
-          var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
-          var REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list");
-          var REACT_MEMO_TYPE = Symbol.for("react.memo");
-          var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-          var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
+          var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
+          var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
+          var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
+          var REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode");
+          var REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
+          var REACT_PROVIDER_TYPE = /* @__PURE__ */ Symbol.for("react.provider");
+          var REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context");
+          var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
+          var REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense");
+          var REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list");
+          var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
+          var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+          var REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen");
           var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
           var FAUX_ITERATOR_SYMBOL = "@@iterator";
           function getIteratorFn(maybeIterable) {
@@ -80,7 +78,7 @@ var ReactJSXRuntime = (() => {
           var enableDebugTracing = false;
           var REACT_MODULE_REFERENCE;
           {
-            REACT_MODULE_REFERENCE = Symbol.for("react.module.reference");
+            REACT_MODULE_REFERENCE = /* @__PURE__ */ Symbol.for("react.module.reference");
           }
           function isValidElementType(type) {
             if (typeof type === "string" || typeof type === "function") {

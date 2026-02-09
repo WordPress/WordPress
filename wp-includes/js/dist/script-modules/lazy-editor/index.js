@@ -101,16 +101,16 @@ var require_block_editor = __commonJS({
   }
 });
 
-// packages/lazy-editor/build-module/components/editor/index.js
-var import_editor = __toESM(require_editor());
-var import_core_data5 = __toESM(require_core_data());
-var import_data6 = __toESM(require_data());
-var import_components = __toESM(require_components());
-var import_element4 = __toESM(require_element());
+// packages/lazy-editor/build-module/components/editor/index.mjs
+var import_editor = __toESM(require_editor(), 1);
+var import_core_data5 = __toESM(require_core_data(), 1);
+var import_data6 = __toESM(require_data(), 1);
+var import_components = __toESM(require_components(), 1);
+var import_element4 = __toESM(require_element(), 1);
 
-// packages/lazy-editor/build-module/hooks/use-styles-id.js
-var import_core_data = __toESM(require_core_data());
-var import_data = __toESM(require_data());
+// packages/lazy-editor/build-module/hooks/use-styles-id.mjs
+var import_core_data = __toESM(require_core_data(), 1);
+var import_data = __toESM(require_data(), 1);
 function useStylesId({ templateId } = {}) {
   const { globalStylesId, stylesId } = (0, import_data.useSelect)(
     (select2) => {
@@ -130,7 +130,7 @@ function useStylesId({ templateId } = {}) {
   return stylesId || globalStylesId;
 }
 
-// packages/global-styles-engine/build-module/utils/object.js
+// packages/global-styles-engine/build-module/utils/object.mjs
 function setImmutably(object, path, value) {
   path = Array.isArray(path) ? [...path] : [path];
   object = Array.isArray(object) ? [...object] : { ...object };
@@ -152,7 +152,7 @@ var getValueFromObjectPath = (object, path, defaultValue) => {
   return value ?? defaultValue;
 };
 
-// packages/global-styles-engine/build-module/settings/get-setting.js
+// packages/global-styles-engine/build-module/settings/get-setting.mjs
 var VALID_SETTINGS = [
   "appearanceTools",
   "useRootPaddingAwareAlignments",
@@ -216,6 +216,7 @@ var VALID_SETTINGS = [
   "typography.textAlign",
   "typography.textColumns",
   "typography.textDecoration",
+  "typography.textIndent",
   "typography.textTransform",
   "typography.writingMode"
 ];
@@ -240,10 +241,10 @@ function getSetting(globalStyles, path, blockName) {
   return result;
 }
 
-// packages/global-styles-engine/build-module/utils/common.js
-var import_style_engine = __toESM(require_style_engine());
+// packages/global-styles-engine/build-module/utils/common.mjs
+var import_style_engine = __toESM(require_style_engine(), 1);
 
-// packages/global-styles-engine/build-module/utils/fluid.js
+// packages/global-styles-engine/build-module/utils/fluid.mjs
 var DEFAULT_MAXIMUM_VIEWPORT_WIDTH = "1600px";
 var DEFAULT_MINIMUM_VIEWPORT_WIDTH = "320px";
 var DEFAULT_SCALE_FACTOR = 1;
@@ -386,7 +387,7 @@ function roundToPrecision(value, digits = 3) {
   return Math.round(value * base) / base;
 }
 
-// packages/global-styles-engine/build-module/utils/typography.js
+// packages/global-styles-engine/build-module/utils/typography.mjs
 function isFluidTypographyEnabled(typographySettings) {
   const fluidSettings = typographySettings?.fluid;
   return true === fluidSettings || fluidSettings && typeof fluidSettings === "object" && Object.keys(fluidSettings).length > 0;
@@ -429,7 +430,7 @@ function getTypographyFontSizeValue(preset, settings) {
   return defaultSize;
 }
 
-// packages/global-styles-engine/build-module/utils/common.js
+// packages/global-styles-engine/build-module/utils/common.mjs
 var ROOT_BLOCK_SELECTOR = "body";
 var ROOT_CSS_PROPERTIES_SELECTOR = ":root";
 var PRESET_METADATA = [
@@ -609,12 +610,12 @@ function getResolvedValue(ruleValue, tree) {
   return resolvedValue;
 }
 
-// packages/global-styles-engine/build-module/core/render.js
-var import_blocks = __toESM(require_blocks());
-var import_style_engine2 = __toESM(require_style_engine());
-var import_data2 = __toESM(require_data());
+// packages/global-styles-engine/build-module/core/render.mjs
+var import_blocks = __toESM(require_blocks(), 1);
+var import_style_engine2 = __toESM(require_style_engine(), 1);
+var import_data2 = __toESM(require_data(), 1);
 
-// packages/global-styles-engine/build-module/core/selectors.js
+// packages/global-styles-engine/build-module/core/selectors.mjs
 function getBlockSelector(blockType, target = "root", options = {}) {
   if (!target) {
     return null;
@@ -826,7 +827,7 @@ var w = function(r2) {
   return r2 instanceof j ? r2 : new j(r2);
 };
 
-// packages/global-styles-engine/build-module/utils/duotone.js
+// packages/global-styles-engine/build-module/utils/duotone.mjs
 function getValuesFromColors(colors = []) {
   const values = {
     r: [],
@@ -877,12 +878,12 @@ function getDuotoneFilter(id, colors) {
 </svg>`;
 }
 
-// packages/global-styles-engine/build-module/utils/string.js
+// packages/global-styles-engine/build-module/utils/string.mjs
 function kebabCase(str) {
   return str.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/([0-9])([a-zA-Z])/g, "$1-$2").replace(/([a-zA-Z])([0-9])/g, "$1-$2").replace(/[\s_]+/g, "-").toLowerCase();
 }
 
-// packages/global-styles-engine/build-module/utils/spacing.js
+// packages/global-styles-engine/build-module/utils/spacing.mjs
 function getSpacingPresetCssVar(value) {
   if (!value) {
     return;
@@ -894,7 +895,7 @@ function getSpacingPresetCssVar(value) {
   return `var(--wp--preset--spacing--${slug[1]})`;
 }
 
-// packages/global-styles-engine/build-module/utils/gap.js
+// packages/global-styles-engine/build-module/utils/gap.mjs
 function getGapBoxControlValueFromStyle(blockGapValue) {
   if (!blockGapValue) {
     return null;
@@ -915,7 +916,7 @@ function getGapCSSValue(blockGapValue, defaultValue = "0") {
   return row === column ? row : `${row} ${column}`;
 }
 
-// packages/global-styles-engine/build-module/utils/background.js
+// packages/global-styles-engine/build-module/utils/background.mjs
 var BACKGROUND_BLOCK_DEFAULT_VALUES = {
   backgroundSize: "cover",
   backgroundPosition: "50% 50%"
@@ -940,7 +941,7 @@ function setBackgroundStyleDefaults(backgroundStyle) {
   return backgroundStylesWithDefaults;
 }
 
-// packages/global-styles-engine/build-module/utils/layout.js
+// packages/global-styles-engine/build-module/utils/layout.mjs
 var LAYOUT_DEFINITIONS = {
   default: {
     name: "default",
@@ -1113,7 +1114,7 @@ var LAYOUT_DEFINITIONS = {
   }
 };
 
-// packages/global-styles-engine/build-module/core/render.js
+// packages/global-styles-engine/build-module/core/render.mjs
 var ELEMENT_CLASS_NAMES = {
   button: "wp-element-button",
   caption: "wp-element-caption"
@@ -1242,6 +1243,26 @@ function concatFeatureVariationSelectorString(featureSelector, styleVariationSel
   });
   return combinedSelectors.join(", ");
 }
+var updateParagraphTextIndentSelector = (featureDeclarations, settings, blockName) => {
+  if (blockName !== "core/paragraph") {
+    return featureDeclarations;
+  }
+  const blockSettings = settings?.blocks?.["core/paragraph"];
+  const textIndentSetting = blockSettings?.typography?.textIndent ?? settings?.typography?.textIndent ?? "subsequent";
+  if (textIndentSetting !== "all") {
+    return featureDeclarations;
+  }
+  const oldSelector = ".wp-block-paragraph + .wp-block-paragraph";
+  const newSelector = ".wp-block-paragraph";
+  if (oldSelector in featureDeclarations) {
+    const declarations = featureDeclarations[oldSelector];
+    const updated = { ...featureDeclarations };
+    delete updated[oldSelector];
+    updated[newSelector] = declarations;
+    return updated;
+  }
+  return featureDeclarations;
+};
 var getFeatureDeclarations = (selectors, styles) => {
   const declarations = {};
   Object.entries(selectors).forEach(([feature, selector]) => {
@@ -1505,6 +1526,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
     ([blockName, node]) => {
       const blockStyles = pickStyleKeys(node);
       const typedNode = node;
+      const variationNodesToAdd = [];
       if (typedNode?.variations) {
         const variations = {};
         Object.entries(typedNode.variations).forEach(
@@ -1519,7 +1541,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
               typedVariation?.elements ?? {}
             ).forEach(([element, elementStyles]) => {
               if (elementStyles && import_blocks.__EXPERIMENTAL_ELEMENTS[element]) {
-                nodes.push({
+                variationNodesToAdd.push({
                   styles: elementStyles,
                   selector: scopeSelector(
                     variationSelector,
@@ -1552,7 +1574,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
                 if (!variationBlockSelector || typeof blockSelectors === "string") {
                   return;
                 }
-                nodes.push({
+                variationNodesToAdd.push({
                   selector: variationBlockSelector,
                   duotoneSelector: variationDuotoneSelector,
                   featureSelectors: variationFeatureSelectors,
@@ -1568,7 +1590,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
                     variationBlockElementStyles
                   ]) => {
                     if (variationBlockElementStyles && import_blocks.__EXPERIMENTAL_ELEMENTS[variationBlockElement]) {
-                      nodes.push({
+                      variationNodesToAdd.push({
                         styles: variationBlockElementStyles,
                         selector: scopeSelector(
                           variationBlockSelector,
@@ -1592,7 +1614,8 @@ var getNodesWithStyles = (tree, blockSelectors) => {
           selector: blockSelectors[blockName].selector,
           styles: blockStyles,
           featureSelectors: blockSelectors[blockName].featureSelectors,
-          styleVariationSelectors: blockSelectors[blockName].styleVariationSelectors
+          styleVariationSelectors: blockSelectors[blockName].styleVariationSelectors,
+          name: blockName
         });
       }
       Object.entries(typedNode?.elements ?? {}).forEach(
@@ -1610,6 +1633,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
           }
         }
       );
+      nodes.push(...variationNodesToAdd);
     }
   );
   return nodes;
@@ -1716,12 +1740,18 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
         hasLayoutSupport,
         featureSelectors,
         styleVariationSelectors,
-        skipSelectorWrapper
+        skipSelectorWrapper,
+        name
       }) => {
         if (featureSelectors) {
-          const featureDeclarations = getFeatureDeclarations(
+          let featureDeclarations = getFeatureDeclarations(
             featureSelectors,
             styles
+          );
+          featureDeclarations = updateParagraphTextIndentSelector(
+            featureDeclarations,
+            tree.settings,
+            name
           );
           Object.entries(featureDeclarations).forEach(
             ([cssSelector, declarations]) => {
@@ -1779,9 +1809,14 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
               const styleVariations = styles?.variations?.[styleVariationName];
               if (styleVariations) {
                 if (featureSelectors) {
-                  const featureDeclarations = getFeatureDeclarations(
+                  let featureDeclarations = getFeatureDeclarations(
                     featureSelectors,
                     styleVariations
+                  );
+                  featureDeclarations = updateParagraphTextIndentSelector(
+                    featureDeclarations,
+                    tree.settings,
+                    name
                   );
                   Object.entries(
                     featureDeclarations
@@ -1814,6 +1849,16 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
                     styleVariations.css,
                     `:root :where(${styleVariationSelector})`
                   );
+                }
+                if (hasLayoutSupport && styleVariations?.spacing?.blockGap) {
+                  const variationSelectorWithBlock = styleVariationSelector + selector;
+                  ruleset += getLayoutStyles({
+                    style: styleVariations,
+                    selector: variationSelectorWithBlock,
+                    hasBlockGapSupport: true,
+                    hasFallbackGapSupport,
+                    fallbackGapValue
+                  });
                 }
               }
             }
@@ -1959,12 +2004,12 @@ function updateConfigWithSeparator(config) {
   }
   return config;
 }
-function processCSSNesting(css2, blockSelector) {
+function processCSSNesting(css, blockSelector) {
   let processedCSS = "";
-  if (!css2 || css2.trim() === "") {
+  if (!css || css.trim() === "") {
     return processedCSS;
   }
-  const parts = css2.split("&");
+  const parts = css.split("&");
   parts.forEach((part) => {
     if (!part || part.trim() === "") {
       return;
@@ -2056,15 +2101,15 @@ function generateGlobalStyles(config = {}, blockTypes = [], options = {}) {
   return [styles, updatedConfig.settings];
 }
 
-// packages/lazy-editor/build-module/hooks/use-editor-settings.js
-var import_core_data3 = __toESM(require_core_data());
-var import_element2 = __toESM(require_element());
-var import_data4 = __toESM(require_data());
+// packages/lazy-editor/build-module/hooks/use-editor-settings.mjs
+var import_core_data3 = __toESM(require_core_data(), 1);
+var import_element2 = __toESM(require_element(), 1);
+var import_data4 = __toESM(require_data(), 1);
 
-// packages/lazy-editor/build-module/hooks/use-global-styles.js
-var import_core_data2 = __toESM(require_core_data());
-var import_data3 = __toESM(require_data());
-var import_element = __toESM(require_element());
+// packages/lazy-editor/build-module/hooks/use-global-styles.mjs
+var import_core_data2 = __toESM(require_core_data(), 1);
+var import_data3 = __toESM(require_data(), 1);
+var import_element = __toESM(require_element(), 1);
 function useUserGlobalStyles(id) {
   const { userGlobalStyles } = (0, import_data3.useSelect)(
     (select2) => {
@@ -2114,14 +2159,14 @@ function useUserGlobalStyles(id) {
   }, [userGlobalStyles]);
 }
 
-// packages/lazy-editor/build-module/lock-unlock.js
-var import_private_apis = __toESM(require_private_apis());
+// packages/lazy-editor/build-module/lock-unlock.mjs
+var import_private_apis = __toESM(require_private_apis(), 1);
 var { unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
   "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
   "@wordpress/lazy-editor"
 );
 
-// packages/lazy-editor/build-module/hooks/use-editor-settings.js
+// packages/lazy-editor/build-module/hooks/use-editor-settings.mjs
 function useEditorSettings({ stylesId }) {
   const { editorSettings } = (0, import_data4.useSelect)(
     (select2) => ({
@@ -2155,7 +2200,7 @@ function useEditorSettings({ stylesId }) {
   };
 }
 
-// packages/asset-loader/build-module/index.js
+// packages/asset-loader/build-module/index.mjs
 function injectImportMap(scriptModules) {
   if (!scriptModules || Object.keys(scriptModules).length === 0) {
     return;
@@ -2370,10 +2415,10 @@ async function loadAssets(scriptsData, inlineScripts, stylesData, inlineStyles, 
 }
 var index_default = loadAssets;
 
-// packages/lazy-editor/build-module/hooks/use-editor-assets.js
-var import_core_data4 = __toESM(require_core_data());
-var import_element3 = __toESM(require_element());
-var import_data5 = __toESM(require_data());
+// packages/lazy-editor/build-module/hooks/use-editor-assets.mjs
+var import_core_data4 = __toESM(require_core_data(), 1);
+var import_element3 = __toESM(require_element(), 1);
+var import_data5 = __toESM(require_data(), 1);
 var loadAssetsPromise;
 async function loadEditorAssets() {
   const load = async () => {
@@ -2414,8 +2459,8 @@ function useEditorAssets() {
   };
 }
 
-// packages/lazy-editor/build-module/components/editor/index.js
-var import_jsx_runtime = __toESM(require_jsx_runtime());
+// packages/lazy-editor/build-module/components/editor/index.mjs
+var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var { Editor: PrivateEditor, BackButton } = unlock(import_editor.privateApis);
 function Editor({
   postType,
@@ -2489,77 +2534,19 @@ function Editor({
   );
 }
 
-// packages/lazy-editor/build-module/components/preview/index.js
-var import_i18n = __toESM(require_i18n());
-var import_element5 = __toESM(require_element());
-var import_block_editor = __toESM(require_block_editor());
-var import_editor2 = __toESM(require_editor());
-var import_blocks2 = __toESM(require_blocks());
-var import_jsx_runtime2 = __toESM(require_jsx_runtime());
-var css = `/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Typography
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Radius scale.
- */
-/**
- * Elevation scale.
- */
-/**
- * Dimensions.
- */
-/**
- * Mobile specific styles
- */
-/**
- * Editor styles.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-.lazy-editor-block-preview__container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  border-radius: 4px;
+// packages/lazy-editor/build-module/components/preview/index.mjs
+var import_i18n = __toESM(require_i18n(), 1);
+var import_element5 = __toESM(require_element(), 1);
+var import_block_editor = __toESM(require_block_editor(), 1);
+var import_editor2 = __toESM(require_editor(), 1);
+var import_blocks2 = __toESM(require_blocks(), 1);
+var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='0a13bf98a7']")) {
+  const style = document.createElement("style");
+  style.setAttribute("data-wp-hash", "0a13bf98a7");
+  style.appendChild(document.createTextNode(".lazy-editor-block-preview__container{align-items:center;border-radius:4px;display:flex;flex-direction:column;height:100%;justify-content:center}.dataviews-view-grid .lazy-editor-block-preview__container .block-editor-block-preview__container{height:100%}.dataviews-view-table .lazy-editor-block-preview__container{text-wrap:balance;text-wrap:pretty;flex-grow:0;width:96px}"));
+  document.head.appendChild(style);
 }
-.dataviews-view-grid .lazy-editor-block-preview__container .block-editor-block-preview__container {
-  height: 100%;
-}
-.dataviews-view-table .lazy-editor-block-preview__container {
-  width: 96px;
-  flex-grow: 0;
-  text-wrap: balance;
-  text-wrap: pretty;
-}
-/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvc3ZuL2NoZWNrb3V0cy9kZXZlbG9wLnN2bi53b3JkcHJlc3Mub3JnL3RydW5rL2d1dGVuYmVyZy9wYWNrYWdlcy9sYXp5LWVkaXRvci9zcmMvY29tcG9uZW50cy9wcmV2aWV3Iiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9ub2RlX21vZHVsZXMvQHdvcmRwcmVzcy9iYXNlLXN0eWxlcy9fdmFyaWFibGVzLnNjc3MiLCIuLi8uLi8uLi8uLi8uLi9ub2RlX21vZHVsZXMvQHdvcmRwcmVzcy9iYXNlLXN0eWxlcy9fY29sb3JzLnNjc3MiLCJzdHlsZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FDQUE7QUFBQTtBQUFBO0FEVUE7QUFBQTtBQUFBO0FBT0E7QUFBQTtBQUFBO0FBNkJBO0FBQUE7QUFBQTtBQUFBO0FBaUJBO0FBQUE7QUFBQTtBQVdBO0FBQUE7QUFBQTtBQWdCQTtBQUFBO0FBQUE7QUF5QkE7QUFBQTtBQUFBO0FBS0E7QUFBQTtBQUFBO0FBZUE7QUFBQTtBQUFBO0FBbUJBO0FBQUE7QUFBQTtBQVNBO0FBQUE7QUFBQTtBQUFBO0FFaktBO0VBQ0M7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBLGVGNkRlOztBRTFEZDtFQUNDOztBQUlGO0VBQ0M7RUFDQTtFQUNBO0VBQ0EiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFNDU1MgVmFyaWFibGVzLlxuICpcbiAqIFBsZWFzZSB1c2UgdmFyaWFibGVzIGZyb20gdGhpcyBzaGVldCB0byBlbnN1cmUgY29uc2lzdGVuY3kgYWNyb3NzIHRoZSBVSS5cbiAqIERvbid0IGFkZCB0byB0aGlzIHNoZWV0IHVubGVzcyB5b3UncmUgcHJldHR5IHN1cmUgdGhlIHZhbHVlIHdpbGwgYmUgcmV1c2VkIGluIG1hbnkgcGxhY2VzLlxuICogRm9yIGV4YW1wbGUsIGRvbid0IGFkZCBydWxlcyB0byB0aGlzIHNoZWV0IHRoYXQgYWZmZWN0IGJsb2NrIHZpc3VhbHMuIEl0J3MgcHVyZWx5IGZvciBVSS5cbiAqL1xuXG5AdXNlIFwiLi9jb2xvcnNcIjtcblxuLyoqXG4gKiBGb250cyAmIGJhc2ljIHZhcmlhYmxlcy5cbiAqL1xuXG4kZGVmYXVsdC1mb250OiAtYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsXCJTZWdvZSBVSVwiLCBSb2JvdG8sIE94eWdlbi1TYW5zLCBVYnVudHUsIENhbnRhcmVsbCxcIkhlbHZldGljYSBOZXVlXCIsIHNhbnMtc2VyaWY7IC8vIFRvZG86IGRlcHJlY2F0ZSBpbiBmYXZvciBvZiAkZmFtaWx5IHZhcmlhYmxlc1xuJGRlZmF1bHQtbGluZS1oZWlnaHQ6IDEuNDsgLy8gVG9kbzogZGVwcmVjYXRlIGluIGZhdm9yIG9mICRsaW5lLWhlaWdodCB0b2tlbnNcblxuLyoqXG4gKiBUeXBvZ3JhcGh5XG4gKi9cblxuLy8gU2l6ZXNcbiRmb250LXNpemUteC1zbWFsbDogMTFweDtcbiRmb250LXNpemUtc21hbGw6IDEycHg7XG4kZm9udC1zaXplLW1lZGl1bTogMTNweDtcbiRmb250LXNpemUtbGFyZ2U6IDE1cHg7XG4kZm9udC1zaXplLXgtbGFyZ2U6IDIwcHg7XG4kZm9udC1zaXplLTJ4LWxhcmdlOiAzMnB4O1xuXG4vLyBMaW5lIGhlaWdodHNcbiRmb250LWxpbmUtaGVpZ2h0LXgtc21hbGw6IDE2cHg7XG4kZm9udC1saW5lLWhlaWdodC1zbWFsbDogMjBweDtcbiRmb250LWxpbmUtaGVpZ2h0LW1lZGl1bTogMjRweDtcbiRmb250LWxpbmUtaGVpZ2h0LWxhcmdlOiAyOHB4O1xuJGZvbnQtbGluZS1oZWlnaHQteC1sYXJnZTogMzJweDtcbiRmb250LWxpbmUtaGVpZ2h0LTJ4LWxhcmdlOiA0MHB4O1xuXG4vLyBXZWlnaHRzXG4kZm9udC13ZWlnaHQtcmVndWxhcjogNDAwO1xuJGZvbnQtd2VpZ2h0LW1lZGl1bTogNDk5OyAvLyBlbnN1cmVzIGZhbGxiYWNrIHRvIDQwMCAoaW5zdGVhZCBvZiA2MDApXG5cbi8vIEZhbWlsaWVzXG4kZm9udC1mYW1pbHktaGVhZGluZ3M6IC1hcHBsZS1zeXN0ZW0sIFwic3lzdGVtLXVpXCIsIFwiU2Vnb2UgVUlcIiwgUm9ib3RvLCBPeHlnZW4tU2FucywgVWJ1bnR1LCBDYW50YXJlbGwsIFwiSGVsdmV0aWNhIE5ldWVcIiwgc2Fucy1zZXJpZjtcbiRmb250LWZhbWlseS1ib2R5OiAtYXBwbGUtc3lzdGVtLCBcInN5c3RlbS11aVwiLCBcIlNlZ29lIFVJXCIsIFJvYm90bywgT3h5Z2VuLVNhbnMsIFVidW50dSwgQ2FudGFyZWxsLCBcIkhlbHZldGljYSBOZXVlXCIsIHNhbnMtc2VyaWY7XG4kZm9udC1mYW1pbHktbW9ubzogTWVubG8sIENvbnNvbGFzLCBtb25hY28sIG1vbm9zcGFjZTtcblxuLyoqXG4gKiBHcmlkIFN5c3RlbS5cbiAqIGh0dHBzOi8vbWFrZS53b3JkcHJlc3Mub3JnL2Rlc2lnbi8yMDE5LzEwLzMxL3Byb3Bvc2FsLWEtY29uc2lzdGVudC1zcGFjaW5nLXN5c3RlbS1mb3Itd29yZHByZXNzL1xuICovXG5cbiRncmlkLXVuaXQ6IDhweDtcbiRncmlkLXVuaXQtMDU6IDAuNSAqICRncmlkLXVuaXQ7XHQvLyA0cHhcbiRncmlkLXVuaXQtMTA6IDEgKiAkZ3JpZC11bml0O1x0XHQvLyA4cHhcbiRncmlkLXVuaXQtMTU6IDEuNSAqICRncmlkLXVuaXQ7XHQvLyAxMnB4XG4kZ3JpZC11bml0LTIwOiAyICogJGdyaWQtdW5pdDtcdFx0Ly8gMTZweFxuJGdyaWQtdW5pdC0zMDogMyAqICRncmlkLXVuaXQ7XHRcdC8vIDI0cHhcbiRncmlkLXVuaXQtNDA6IDQgKiAkZ3JpZC11bml0O1x0XHQvLyAzMnB4XG4kZ3JpZC11bml0LTUwOiA1ICogJGdyaWQtdW5pdDtcdFx0Ly8gNDBweFxuJGdyaWQtdW5pdC02MDogNiAqICRncmlkLXVuaXQ7XHRcdC8vIDQ4cHhcbiRncmlkLXVuaXQtNzA6IDcgKiAkZ3JpZC11bml0O1x0XHQvLyA1NnB4XG4kZ3JpZC11bml0LTgwOiA4ICogJGdyaWQtdW5pdDtcdFx0Ly8gNjRweFxuXG4vKipcbiAqIFJhZGl1cyBzY2FsZS5cbiAqL1xuXG4kcmFkaXVzLXgtc21hbGw6IDFweDsgICAvLyBBcHBsaWVkIHRvIGVsZW1lbnRzIGxpa2UgYnV0dG9ucyBuZXN0ZWQgd2l0aGluIHByaW1pdGl2ZXMgbGlrZSBpbnB1dHMuXG4kcmFkaXVzLXNtYWxsOiAycHg7ICAgICAvLyBBcHBsaWVkIHRvIG1vc3QgcHJpbWl0aXZlcy5cbiRyYWRpdXMtbWVkaXVtOiA0cHg7ICAgIC8vIEFwcGxpZWQgdG8gY29udGFpbmVycyB3aXRoIHNtYWxsZXIgcGFkZGluZy5cbiRyYWRpdXMtbGFyZ2U6IDhweDsgICAgIC8vIEFwcGxpZWQgdG8gY29udGFpbmVycyB3aXRoIGxhcmdlciBwYWRkaW5nLlxuJHJhZGl1cy1mdWxsOiA5OTk5cHg7ICAgLy8gRm9yIHBpbGxzLlxuJHJhZGl1cy1yb3VuZDogNTAlOyAgICAgLy8gRm9yIGNpcmNsZXMgYW5kIG92YWxzLlxuXG4vKipcbiAqIEVsZXZhdGlvbiBzY2FsZS5cbiAqL1xuXG4vLyBGb3Igc2VjdGlvbnMgYW5kIGNvbnRhaW5lcnMgdGhhdCBncm91cCByZWxhdGVkIGNvbnRlbnQgYW5kIGNvbnRyb2xzLCB3aGljaCBtYXkgb3ZlcmxhcCBvdGhlciBjb250ZW50LiBFeGFtcGxlOiBQcmV2aWV3IEZyYW1lLlxuJGVsZXZhdGlvbi14LXNtYWxsOiAwIDFweCAxcHggcmdiYShjb2xvcnMuJGJsYWNrLCAwLjAzKSwgMCAxcHggMnB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wMiksIDAgM3B4IDNweCByZ2JhKGNvbG9ycy4kYmxhY2ssIDAuMDIpLCAwIDRweCA0cHggcmdiYShjb2xvcnMuJGJsYWNrLCAwLjAxKTtcblxuLy8gRm9yIGNvbXBvbmVudHMgdGhhdCBwcm92aWRlIGNvbnRleHR1YWwgZmVlZGJhY2sgd2l0aG91dCBiZWluZyBpbnRydXNpdmUuIEdlbmVyYWxseSBub24taW50ZXJydXB0aXZlLiBFeGFtcGxlOiBUb29sdGlwcywgU25hY2tiYXIuXG4kZWxldmF0aW9uLXNtYWxsOiAwIDFweCAycHggcmdiYShjb2xvcnMuJGJsYWNrLCAwLjA1KSwgMCAycHggM3B4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wNCksIDAgNnB4IDZweCByZ2JhKGNvbG9ycy4kYmxhY2ssIDAuMDMpLCAwIDhweCA4cHggcmdiYShjb2xvcnMuJGJsYWNrLCAwLjAyKTtcblxuLy8gRm9yIGNvbXBvbmVudHMgdGhhdCBvZmZlciBhZGRpdGlvbmFsIGFjdGlvbnMuIEV4YW1wbGU6IE1lbnVzLCBDb21tYW5kIFBhbGV0dGVcbiRlbGV2YXRpb24tbWVkaXVtOiAwIDJweCAzcHggcmdiYShjb2xvcnMuJGJsYWNrLCAwLjA1KSwgMCA0cHggNXB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wNCksIDAgMTJweCAxMnB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wMyksIDAgMTZweCAxNnB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wMik7XG5cbi8vIEZvciBjb21wb25lbnRzIHRoYXQgY29uZmlybSBkZWNpc2lvbnMgb3IgaGFuZGxlIG5lY2Vzc2FyeSBpbnRlcnJ1cHRpb25zLiBFeGFtcGxlOiBNb2RhbHMuXG4kZWxldmF0aW9uLWxhcmdlOiAwIDVweCAxNXB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wOCksIDAgMTVweCAyN3B4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wNyksIDAgMzBweCAzNnB4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wNCksIDAgNTBweCA0M3B4IHJnYmEoY29sb3JzLiRibGFjaywgMC4wMik7XG5cbi8qKlxuICogRGltZW5zaW9ucy5cbiAqL1xuXG4kaWNvbi1zaXplOiAyNHB4O1xuJGJ1dHRvbi1zaXplOiAzNnB4O1xuJGJ1dHRvbi1zaXplLW5leHQtZGVmYXVsdC00MHB4OiA0MHB4OyAvLyB0cmFuc2l0aW9uYXJ5IHZhcmlhYmxlIGZvciBuZXh0IGRlZmF1bHQgYnV0dG9uIHNpemVcbiRidXR0b24tc2l6ZS1zbWFsbDogMjRweDtcbiRidXR0b24tc2l6ZS1jb21wYWN0OiAzMnB4O1xuJGhlYWRlci1oZWlnaHQ6IDY0cHg7XG4kcGFuZWwtaGVhZGVyLWhlaWdodDogJGdyaWQtdW5pdC02MDtcbiRuYXYtc2lkZWJhci13aWR0aDogMzAwcHg7XG4kYWRtaW4tYmFyLWhlaWdodDogMzJweDtcbiRhZG1pbi1iYXItaGVpZ2h0LWJpZzogNDZweDtcbiRhZG1pbi1zaWRlYmFyLXdpZHRoOiAxNjBweDtcbiRhZG1pbi1zaWRlYmFyLXdpZHRoLWJpZzogMTkwcHg7XG4kYWRtaW4tc2lkZWJhci13aWR0aC1jb2xsYXBzZWQ6IDM2cHg7XG4kbW9kYWwtbWluLXdpZHRoOiAzNTBweDtcbiRtb2RhbC13aWR0aC1zbWFsbDogMzg0cHg7XG4kbW9kYWwtd2lkdGgtbWVkaXVtOiA1MTJweDtcbiRtb2RhbC13aWR0aC1sYXJnZTogODQwcHg7XG4kc3Bpbm5lci1zaXplOiAxNnB4O1xuJGNhbnZhcy1wYWRkaW5nOiAkZ3JpZC11bml0LTIwO1xuJHBhbGV0dGUtbWF4LWhlaWdodDogMzY4cHg7XG5cbi8qKlxuICogTW9iaWxlIHNwZWNpZmljIHN0eWxlc1xuICovXG4kbW9iaWxlLXRleHQtbWluLWZvbnQtc2l6ZTogMTZweDsgLy8gQW55IGZvbnQgc2l6ZSBiZWxvdyAxNnB4IHdpbGwgY2F1c2UgTW9iaWxlIFNhZmFyaSB0byBcInpvb20gaW5cIi5cblxuLyoqXG4gKiBFZGl0b3Igc3R5bGVzLlxuICovXG5cbiRzaWRlYmFyLXdpZHRoOiAyODBweDtcbiRjb250ZW50LXdpZHRoOiA4NDBweDtcbiR3aWRlLWNvbnRlbnQtd2lkdGg6IDExMDBweDtcbiR3aWRnZXQtYXJlYS13aWR0aDogNzAwcHg7XG4kc2Vjb25kYXJ5LXNpZGViYXItd2lkdGg6IDM1MHB4O1xuJGVkaXRvci1mb250LXNpemU6IDE2cHg7XG4kZGVmYXVsdC1ibG9jay1tYXJnaW46IDI4cHg7IC8vIFRoaXMgdmFsdWUgcHJvdmlkZXMgYSBjb25zaXN0ZW50LCBjb250aWd1b3VzIHNwYWNpbmcgYmV0d2VlbiBibG9ja3MuXG4kdGV4dC1lZGl0b3ItZm9udC1zaXplOiAxNXB4O1xuJGVkaXRvci1saW5lLWhlaWdodDogMS44O1xuJGVkaXRvci1odG1sLWZvbnQ6ICRmb250LWZhbWlseS1tb25vO1xuXG4vKipcbiAqIEJsb2NrICYgRWRpdG9yIFVJLlxuICovXG5cbiRibG9jay10b29sYmFyLWhlaWdodDogJGdyaWQtdW5pdC02MDtcbiRib3JkZXItd2lkdGg6IDFweDtcbiRib3JkZXItd2lkdGgtZm9jdXMtZmFsbGJhY2s6IDJweDsgLy8gVGhpcyBleGlzdHMgYXMgYSBmYWxsYmFjaywgYW5kIGlzIGlkZWFsbHkgb3ZlcnJpZGRlbiBieSB2YXIoLS13cC1hZG1pbi1ib3JkZXItd2lkdGgtZm9jdXMpIHVubGVzcyBpbiBzb21lIFNBU1MgbWF0aCBjYXNlcy5cbiRib3JkZXItd2lkdGgtdGFiOiAxLjVweDtcbiRoZWxwdGV4dC1mb250LXNpemU6IDEycHg7XG4kcmFkaW8taW5wdXQtc2l6ZTogMTZweDtcbiRyYWRpby1pbnB1dC1zaXplLXNtOiAyNHB4OyAvLyBXaWR0aCAmIGhlaWdodCBmb3Igc21hbGwgdmlld3BvcnRzLlxuXG4vLyBEZXByZWNhdGVkLCBwbGVhc2UgYXZvaWQgdXNpbmcgdGhlc2UuXG4kYmxvY2stcGFkZGluZzogMTRweDsgLy8gVXNlZCB0byBkZWZpbmUgc3BhY2UgYmV0d2VlbiBibG9jayBmb290cHJpbnQgYW5kIHN1cnJvdW5kaW5nIGJvcmRlcnMuXG4kcmFkaXVzLWJsb2NrLXVpOiAkcmFkaXVzLXNtYWxsO1xuJHNoYWRvdy1wb3BvdmVyOiAkZWxldmF0aW9uLXgtc21hbGw7XG4kc2hhZG93LW1vZGFsOiAkZWxldmF0aW9uLWxhcmdlO1xuJGRlZmF1bHQtZm9udC1zaXplOiAkZm9udC1zaXplLW1lZGl1bTtcblxuLyoqXG4gKiBCbG9jayBwYWRkaW5ncy5cbiAqL1xuXG4vLyBQYWRkaW5nIGZvciBibG9ja3Mgd2l0aCBhIGJhY2tncm91bmQgY29sb3IgKGUuZy4gcGFyYWdyYXBoIG9yIGdyb3VwKS5cbiRibG9jay1iZy1wYWRkaW5nLS12OiAxLjI1ZW07XG4kYmxvY2stYmctcGFkZGluZy0taDogMi4zNzVlbTtcblxuXG4vKipcbiAqIFJlYWN0IE5hdGl2ZSBzcGVjaWZpYy5cbiAqIFRoZXNlIHZhcmlhYmxlcyBkbyBub3QgYXBwZWFyIHRvIGJlIHVzZWQgYW55d2hlcmUgZWxzZS5cbiAqL1xuXG4vLyBEaW1lbnNpb25zLlxuJG1vYmlsZS1oZWFkZXItdG9vbGJhci1oZWlnaHQ6IDQ0cHg7XG4kbW9iaWxlLWhlYWRlci10b29sYmFyLWV4cGFuZGVkLWhlaWdodDogNTJweDtcbiRtb2JpbGUtZmxvYXRpbmctdG9vbGJhci1oZWlnaHQ6IDQ0cHg7XG4kbW9iaWxlLWZsb2F0aW5nLXRvb2xiYXItbWFyZ2luOiA4cHg7XG4kbW9iaWxlLWNvbG9yLXN3YXRjaDogNDhweDtcblxuLy8gQmxvY2sgVUkuXG4kbW9iaWxlLWJsb2NrLXRvb2xiYXItaGVpZ2h0OiA0NHB4O1xuJGRpbW1lZC1vcGFjaXR5OiAxO1xuJGJsb2NrLWVkZ2UtdG8tY29udGVudDogMTZweDtcbiRzb2xpZC1ib3JkZXItc3BhY2U6IDEycHg7XG4kZGFzaGVkLWJvcmRlci1zcGFjZTogNnB4O1xuJGJsb2NrLXNlbGVjdGVkLW1hcmdpbjogM3B4O1xuJGJsb2NrLXNlbGVjdGVkLWJvcmRlci13aWR0aDogMXB4O1xuJGJsb2NrLXNlbGVjdGVkLXBhZGRpbmc6IDA7XG4kYmxvY2stc2VsZWN0ZWQtY2hpbGQtbWFyZ2luOiA1cHg7XG4kYmxvY2stc2VsZWN0ZWQtdG8tY29udGVudDogJGJsb2NrLWVkZ2UtdG8tY29udGVudCAtICRibG9jay1zZWxlY3RlZC1tYXJnaW4gLSAkYmxvY2stc2VsZWN0ZWQtYm9yZGVyLXdpZHRoO1xuIiwiLyoqXG4gKiBDb2xvcnNcbiAqL1xuXG4vLyBXb3JkUHJlc3MgZ3JheXMuXG4kYmxhY2s6ICMwMDA7XHRcdFx0Ly8gVXNlIG9ubHkgd2hlbiB5b3UgdHJ1bHkgbmVlZCBwdXJlIGJsYWNrLiBGb3IgVUksIHVzZSAkZ3JheS05MDAuXG4kZ3JheS05MDA6ICMxZTFlMWU7XG4kZ3JheS04MDA6ICMyZjJmMmY7XG4kZ3JheS03MDA6ICM3NTc1NzU7XHRcdC8vIE1lZXRzIDQuNjoxICg0LjU6MSBpcyBtaW5pbXVtKSB0ZXh0IGNvbnRyYXN0IGFnYWluc3Qgd2hpdGUuXG4kZ3JheS02MDA6ICM5NDk0OTQ7XHRcdC8vIE1lZXRzIDM6MSBVSSBvciBsYXJnZSB0ZXh0IGNvbnRyYXN0IGFnYWluc3Qgd2hpdGUuXG4kZ3JheS00MDA6ICNjY2M7XG4kZ3JheS0zMDA6ICNkZGQ7XHRcdC8vIFVzZWQgZm9yIG1vc3QgYm9yZGVycy5cbiRncmF5LTIwMDogI2UwZTBlMDtcdFx0Ly8gVXNlZCBzcGFyaW5nbHkgZm9yIGxpZ2h0IGJvcmRlcnMuXG4kZ3JheS0xMDA6ICNmMGYwZjA7XHRcdC8vIFVzZWQgZm9yIGxpZ2h0IGdyYXkgYmFja2dyb3VuZHMuXG4kd2hpdGU6ICNmZmY7XG5cbi8vIE9wYWNpdGllcyAmIGFkZGl0aW9uYWwgY29sb3JzLlxuJGRhcmstZ3JheS1wbGFjZWhvbGRlcjogcmdiYSgkZ3JheS05MDAsIDAuNjIpO1xuJG1lZGl1bS1ncmF5LXBsYWNlaG9sZGVyOiByZ2JhKCRncmF5LTkwMCwgMC41NSk7XG4kbGlnaHQtZ3JheS1wbGFjZWhvbGRlcjogcmdiYSgkd2hpdGUsIDAuNjUpO1xuXG4vLyBBbGVydCBjb2xvcnMuXG4kYWxlcnQteWVsbG93OiAjZjBiODQ5O1xuJGFsZXJ0LXJlZDogI2NjMTgxODtcbiRhbGVydC1ncmVlbjogIzRhYjg2NjtcblxuLy8gRGVwcmVjYXRlZCwgcGxlYXNlIGF2b2lkIHVzaW5nIHRoZXNlLlxuJGRhcmstdGhlbWUtZm9jdXM6ICR3aGl0ZTtcdC8vIEZvY3VzIGNvbG9yIHdoZW4gdGhlIHRoZW1lIGlzIGRhcmsuXG4iLCJAdXNlIFwiQHdvcmRwcmVzcy9iYXNlLXN0eWxlcy92YXJpYWJsZXNcIiBhcyAqO1xuXG4ubGF6eS1lZGl0b3ItYmxvY2stcHJldmlld19fY29udGFpbmVyIHtcblx0ZGlzcGxheTogZmxleDtcblx0anVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG5cdGFsaWduLWl0ZW1zOiBjZW50ZXI7XG5cdGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG5cdGhlaWdodDogMTAwJTtcblx0Ym9yZGVyLXJhZGl1czogJHJhZGl1cy1tZWRpdW07XG5cblx0LmRhdGF2aWV3cy12aWV3LWdyaWQgJiB7XG5cdFx0LmJsb2NrLWVkaXRvci1ibG9jay1wcmV2aWV3X19jb250YWluZXIge1xuXHRcdFx0aGVpZ2h0OiAxMDAlO1xuXHRcdH1cblx0fVxuXG5cdC5kYXRhdmlld3Mtdmlldy10YWJsZSAmIHtcblx0XHR3aWR0aDogOTZweDtcblx0XHRmbGV4LWdyb3c6IDA7XG5cdFx0dGV4dC13cmFwOiBiYWxhbmNlOyAvLyBGYWxsYmFjayBmb3IgU2FmYXJpLlxuXHRcdHRleHQtd3JhcDogcHJldHR5O1xuXHR9XG59XG4iXX0= */`;
-document.head.appendChild(document.createElement("style")).appendChild(document.createTextNode(css));
 var { useStyle } = unlock(import_editor2.privateApis);
 function PreviewContent({
   blocks,

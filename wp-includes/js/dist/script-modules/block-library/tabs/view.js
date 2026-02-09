@@ -1,4 +1,4 @@
-// packages/block-library/build-module/tabs/view.js
+// packages/block-library/build-module/tabs/view.mjs
 import {
   store,
   getContext,

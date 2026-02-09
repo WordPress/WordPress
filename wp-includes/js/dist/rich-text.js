@@ -95,7 +95,7 @@ var wp;
     }
   });
 
-  // packages/rich-text/build-module/index.js
+  // packages/rich-text/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     RichTextData: () => RichTextData,
@@ -129,11 +129,11 @@ var wp;
     useAnchorRef: () => useAnchorRef
   });
 
-  // packages/rich-text/build-module/store/index.js
-  var import_data3 = __toESM(require_data());
+  // packages/rich-text/build-module/store/index.mjs
+  var import_data3 = __toESM(require_data(), 1);
 
-  // packages/rich-text/build-module/store/reducer.js
-  var import_data = __toESM(require_data());
+  // packages/rich-text/build-module/store/reducer.mjs
+  var import_data = __toESM(require_data(), 1);
   function formatTypes(state = {}, action) {
     switch (action.type) {
       case "ADD_FORMAT_TYPES":
@@ -159,7 +159,7 @@ var wp;
   }
   var reducer_default = (0, import_data.combineReducers)({ formatTypes });
 
-  // packages/rich-text/build-module/store/selectors.js
+  // packages/rich-text/build-module/store/selectors.mjs
   var selectors_exports = {};
   __export(selectors_exports, {
     getFormatType: () => getFormatType,
@@ -167,7 +167,7 @@ var wp;
     getFormatTypeForClassName: () => getFormatTypeForClassName,
     getFormatTypes: () => getFormatTypes
   });
-  var import_data2 = __toESM(require_data());
+  var import_data2 = __toESM(require_data(), 1);
   var getFormatTypes = (0, import_data2.createSelector)(
     (state) => Object.values(state.formatTypes),
     (state) => [state.formatTypes]
@@ -192,7 +192,7 @@ var wp;
     });
   }
 
-  // packages/rich-text/build-module/store/actions.js
+  // packages/rich-text/build-module/store/actions.mjs
   var actions_exports = {};
   __export(actions_exports, {
     addFormatTypes: () => addFormatTypes,
@@ -211,7 +211,7 @@ var wp;
     };
   }
 
-  // packages/rich-text/build-module/store/index.js
+  // packages/rich-text/build-module/store/index.mjs
   var STORE_NAME = "core/rich-text";
   var store = (0, import_data3.createReduxStore)(STORE_NAME, {
     reducer: reducer_default,
@@ -220,7 +220,7 @@ var wp;
   });
   (0, import_data3.register)(store);
 
-  // packages/rich-text/build-module/is-format-equal.js
+  // packages/rich-text/build-module/is-format-equal.mjs
   function isFormatEqual(format1, format2) {
     if (format1 === format2) {
       return true;
@@ -254,7 +254,7 @@ var wp;
     return true;
   }
 
-  // packages/rich-text/build-module/normalise-formats.js
+  // packages/rich-text/build-module/normalise-formats.mjs
   function normaliseFormats(value) {
     const newFormats = value.formats.slice();
     newFormats.forEach((formatsAtIndex, index) => {
@@ -276,7 +276,7 @@ var wp;
     };
   }
 
-  // packages/rich-text/build-module/apply-format.js
+  // packages/rich-text/build-module/apply-format.mjs
   function replace(array, index, value) {
     array = array.slice();
     array[index] = value;
@@ -344,10 +344,10 @@ var wp;
     });
   }
 
-  // packages/rich-text/build-module/create.js
-  var import_data5 = __toESM(require_data());
+  // packages/rich-text/build-module/create.mjs
+  var import_data5 = __toESM(require_data(), 1);
 
-  // packages/rich-text/build-module/create-element.js
+  // packages/rich-text/build-module/create-element.mjs
   function createElement({ implementation }, html) {
     if (!createElement.body) {
       createElement.body = implementation.createHTMLDocument("").body;
@@ -356,14 +356,14 @@ var wp;
     return createElement.body;
   }
 
-  // packages/rich-text/build-module/special-characters.js
+  // packages/rich-text/build-module/special-characters.mjs
   var OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
   var ZWNBSP = "\uFEFF";
 
-  // packages/rich-text/build-module/to-html-string.js
-  var import_escape_html = __toESM(require_escape_html());
+  // packages/rich-text/build-module/to-html-string.mjs
+  var import_escape_html = __toESM(require_escape_html(), 1);
 
-  // packages/rich-text/build-module/get-active-formats.js
+  // packages/rich-text/build-module/get-active-formats.mjs
   function getActiveFormats(value, EMPTY_ACTIVE_FORMATS3 = []) {
     const { formats, start, end, activeFormats } = value;
     if (start === void 0) {
@@ -407,13 +407,13 @@ var wp;
     return _activeFormats || EMPTY_ACTIVE_FORMATS3;
   }
 
-  // packages/rich-text/build-module/get-format-type.js
-  var import_data4 = __toESM(require_data());
+  // packages/rich-text/build-module/get-format-type.mjs
+  var import_data4 = __toESM(require_data(), 1);
   function getFormatType2(name) {
     return (0, import_data4.select)(store).getFormatType(name);
   }
 
-  // packages/rich-text/build-module/to-tree.js
+  // packages/rich-text/build-module/to-tree.mjs
   function restoreOnAttributes(attributes, isEditableTree) {
     if (isEditableTree) {
       return attributes;
@@ -671,7 +671,7 @@ var wp;
     return tree;
   }
 
-  // packages/rich-text/build-module/to-html-string.js
+  // packages/rich-text/build-module/to-html-string.mjs
   function toHTMLString({ value, preserveWhiteSpace }) {
     const tree = toTree({
       value,
@@ -750,12 +750,12 @@ var wp;
     }).join("");
   }
 
-  // packages/rich-text/build-module/get-text-content.js
+  // packages/rich-text/build-module/get-text-content.mjs
   function getTextContent({ text }) {
     return text.replace(OBJECT_REPLACEMENT_CHARACTER, "");
   }
 
-  // packages/rich-text/build-module/create.js
+  // packages/rich-text/build-module/create.mjs
   function createEmptyValue() {
     return {
       formats: [],
@@ -966,7 +966,7 @@ var wp;
     }
     return { startContainer, startOffset, endContainer, endOffset };
   }
-  function collapseWhiteSpace(element, isRoot = true) {
+  function collapseWhiteSpace(element, isRoot = true, hasPrecedingSpace = false, hasTrailingSpace = false) {
     const clone = element.cloneNode(true);
     clone.normalize();
     Array.from(clone.childNodes).forEach((node, i2, nodes) => {
@@ -978,14 +978,25 @@ var wp;
         if (newNodeValue.indexOf("  ") !== -1) {
           newNodeValue = newNodeValue.replace(/ {2,}/g, " ");
         }
-        if (i2 === 0 && newNodeValue.startsWith(" ")) {
+        if (i2 === 0 && newNodeValue.startsWith(" ") && (isRoot || hasPrecedingSpace)) {
           newNodeValue = newNodeValue.slice(1);
-        } else if (isRoot && i2 === nodes.length - 1 && newNodeValue.endsWith(" ")) {
+        }
+        if (i2 === nodes.length - 1 && newNodeValue.endsWith(" ") && (isRoot || hasTrailingSpace)) {
           newNodeValue = newNodeValue.slice(0, -1);
         }
         node.nodeValue = newNodeValue;
       } else if (node.nodeType === node.ELEMENT_NODE) {
-        node.replaceWith(collapseWhiteSpace(node, false));
+        const { previousSibling, nextSibling } = node;
+        const prevHasSpace = previousSibling?.textContent.endsWith(" ");
+        const nextHasSpace = nextSibling?.textContent.startsWith(" ");
+        node.replaceWith(
+          collapseWhiteSpace(
+            node,
+            false,
+            previousSibling ? prevHasSpace : isRoot || hasPrecedingSpace,
+            nextSibling ? nextHasSpace : isRoot || hasTrailingSpace
+          )
+        );
       }
     });
     return clone;
@@ -1147,7 +1158,7 @@ var wp;
     return accumulator;
   }
 
-  // packages/rich-text/build-module/concat.js
+  // packages/rich-text/build-module/concat.mjs
   function mergePair(a2, b2) {
     a2.formats = a2.formats.concat(b2.formats);
     a2.replacements = a2.replacements.concat(b2.replacements);
@@ -1158,14 +1169,14 @@ var wp;
     return normaliseFormats(values.reduce(mergePair, create()));
   }
 
-  // packages/rich-text/build-module/get-active-format.js
+  // packages/rich-text/build-module/get-active-format.mjs
   function getActiveFormat(value, formatType) {
     return getActiveFormats(value).find(
       ({ type }) => type === formatType
     );
   }
 
-  // packages/rich-text/build-module/get-active-object.js
+  // packages/rich-text/build-module/get-active-object.mjs
   function getActiveObject({ start, end, replacements, text }) {
     if (start + 1 !== end || text[start] !== OBJECT_REPLACEMENT_CHARACTER) {
       return;
@@ -1173,7 +1184,7 @@ var wp;
     return replacements[start];
   }
 
-  // packages/rich-text/build-module/is-collapsed.js
+  // packages/rich-text/build-module/is-collapsed.mjs
   function isCollapsed({
     start,
     end
@@ -1184,12 +1195,12 @@ var wp;
     return start === end;
   }
 
-  // packages/rich-text/build-module/is-empty.js
+  // packages/rich-text/build-module/is-empty.mjs
   function isEmpty({ text }) {
     return text.length === 0;
   }
 
-  // packages/rich-text/build-module/join.js
+  // packages/rich-text/build-module/join.mjs
   function join(values, separator = "") {
     if (typeof separator === "string") {
       separator = create({ text: separator });
@@ -1206,8 +1217,8 @@ var wp;
     );
   }
 
-  // packages/rich-text/build-module/register-format-type.js
-  var import_data6 = __toESM(require_data());
+  // packages/rich-text/build-module/register-format-type.mjs
+  var import_data6 = __toESM(require_data(), 1);
   function registerFormatType(name, settings) {
     settings = {
       name,
@@ -1286,7 +1297,7 @@ var wp;
     return settings;
   }
 
-  // packages/rich-text/build-module/remove-format.js
+  // packages/rich-text/build-module/remove-format.mjs
   function removeFormat(value, formatType, startIndex = value.start, endIndex = value.end) {
     const { formats, activeFormats } = value;
     const newFormats = formats.slice();
@@ -1333,7 +1344,7 @@ var wp;
     }
   }
 
-  // packages/rich-text/build-module/insert.js
+  // packages/rich-text/build-module/insert.mjs
   function insert(value, valueToInsert, startIndex = value.start, endIndex = value.end) {
     const { formats, replacements, text } = value;
     if (typeof valueToInsert === "string") {
@@ -1352,12 +1363,12 @@ var wp;
     });
   }
 
-  // packages/rich-text/build-module/remove.js
+  // packages/rich-text/build-module/remove.mjs
   function remove2(value, startIndex, endIndex) {
     return insert(value, create(), startIndex, endIndex);
   }
 
-  // packages/rich-text/build-module/replace.js
+  // packages/rich-text/build-module/replace.mjs
   function replace2({ formats, replacements, text, start, end }, pattern, replacement) {
     text = text.replace(pattern, (match, ...rest) => {
       const offset = rest[rest.length - 2];
@@ -1391,7 +1402,7 @@ var wp;
     return normaliseFormats({ formats, replacements, text, start, end });
   }
 
-  // packages/rich-text/build-module/insert-object.js
+  // packages/rich-text/build-module/insert-object.mjs
   function insertObject(value, formatToInsert, startIndex, endIndex) {
     const valueToInsert = {
       formats: [,],
@@ -1401,7 +1412,7 @@ var wp;
     return insert(value, valueToInsert, startIndex, endIndex);
   }
 
-  // packages/rich-text/build-module/slice.js
+  // packages/rich-text/build-module/slice.mjs
   function slice(value, startIndex = value.start, endIndex = value.end) {
     const { formats, replacements, text } = value;
     if (startIndex === void 0 || endIndex === void 0) {
@@ -1414,7 +1425,7 @@ var wp;
     };
   }
 
-  // packages/rich-text/build-module/split.js
+  // packages/rich-text/build-module/split.mjs
   function split({ formats, replacements, text, start, end }, string) {
     if (typeof string !== "string") {
       return splitAtSelection(...arguments);
@@ -1465,12 +1476,12 @@ var wp;
     return [before, after];
   }
 
-  // packages/rich-text/build-module/is-range-equal.js
+  // packages/rich-text/build-module/is-range-equal.mjs
   function isRangeEqual(a2, b2) {
     return a2 === b2 || a2 && b2 && a2.startContainer === b2.startContainer && a2.startOffset === b2.startOffset && a2.endContainer === b2.endContainer && a2.endOffset === b2.endOffset;
   }
 
-  // packages/rich-text/build-module/to-dom.js
+  // packages/rich-text/build-module/to-dom.mjs
   var MATHML_NAMESPACE = "http://www.w3.org/1998/Math/MathML";
   function createPathToNode(node, rootNode, path) {
     const parentNode = node.parentNode;
@@ -1685,9 +1696,9 @@ var wp;
     }
   }
 
-  // packages/rich-text/build-module/toggle-format.js
-  var import_a11y = __toESM(require_a11y());
-  var import_i18n = __toESM(require_i18n());
+  // packages/rich-text/build-module/toggle-format.mjs
+  var import_a11y = __toESM(require_a11y(), 1);
+  var import_i18n = __toESM(require_i18n(), 1);
   function toggleFormat(value, format) {
     if (getActiveFormat(value, format.type)) {
       if (format.title) {
@@ -1701,8 +1712,8 @@ var wp;
     return applyFormat(value, format);
   }
 
-  // packages/rich-text/build-module/unregister-format-type.js
-  var import_data7 = __toESM(require_data());
+  // packages/rich-text/build-module/unregister-format-type.mjs
+  var import_data7 = __toESM(require_data(), 1);
   function unregisterFormatType(name) {
     const oldFormat = (0, import_data7.select)(store).getFormatType(name);
     if (!oldFormat) {
@@ -1713,9 +1724,9 @@ var wp;
     return oldFormat;
   }
 
-  // packages/rich-text/build-module/component/use-anchor-ref.js
-  var import_element = __toESM(require_element());
-  var import_deprecated = __toESM(require_deprecated());
+  // packages/rich-text/build-module/component/use-anchor-ref.mjs
+  var import_element = __toESM(require_element(), 1);
+  var import_deprecated = __toESM(require_deprecated(), 1);
   function useAnchorRef({ ref, value, settings = {} }) {
     (0, import_deprecated.default)("`useAnchorRef` hook", {
       since: "6.1",
@@ -1749,10 +1760,10 @@ var wp;
     }, [activeFormat, value.start, value.end, tagName, className]);
   }
 
-  // packages/rich-text/build-module/component/use-anchor.js
-  var import_compose = __toESM(require_compose());
-  var import_element2 = __toESM(require_element());
-  var import_dom = __toESM(require_dom());
+  // packages/rich-text/build-module/component/use-anchor.mjs
+  var import_compose = __toESM(require_compose(), 1);
+  var import_element2 = __toESM(require_element(), 1);
+  var import_dom = __toESM(require_dom(), 1);
   function getFormatElement(range, editableContentElement, tagName, className) {
     let element = range.startContainer;
     if (element.nodeType === element.TEXT_NODE && range.startOffset === element.length && element.nextSibling) {
@@ -1860,13 +1871,13 @@ var wp;
     return anchor;
   }
 
-  // packages/rich-text/build-module/component/index.js
-  var import_element6 = __toESM(require_element());
-  var import_compose3 = __toESM(require_compose());
-  var import_data8 = __toESM(require_data());
+  // packages/rich-text/build-module/component/index.mjs
+  var import_element6 = __toESM(require_element(), 1);
+  var import_compose3 = __toESM(require_compose(), 1);
+  var import_data8 = __toESM(require_data(), 1);
 
-  // packages/rich-text/build-module/component/use-default-style.js
-  var import_element3 = __toESM(require_element());
+  // packages/rich-text/build-module/component/use-default-style.mjs
+  var import_element3 = __toESM(require_element(), 1);
   var whiteSpace = "pre-wrap";
   var minWidth = "1px";
   function useDefaultStyle() {
@@ -2037,8 +2048,8 @@ var wp;
     return r2 instanceof j ? r2 : new j(r2);
   };
 
-  // packages/rich-text/build-module/component/use-boundary-style.js
-  var import_element4 = __toESM(require_element());
+  // packages/rich-text/build-module/component/use-boundary-style.mjs
+  var import_element4 = __toESM(require_element(), 1);
   function useBoundaryStyle({ record }) {
     const ref = (0, import_element4.useRef)();
     const { activeFormats = [], replacements, start } = record.current;
@@ -2073,11 +2084,11 @@ var wp;
     return ref;
   }
 
-  // packages/rich-text/build-module/component/event-listeners/index.js
-  var import_element5 = __toESM(require_element());
-  var import_compose2 = __toESM(require_compose());
+  // packages/rich-text/build-module/component/event-listeners/index.mjs
+  var import_element5 = __toESM(require_element(), 1);
+  var import_compose2 = __toESM(require_compose(), 1);
 
-  // packages/rich-text/build-module/component/event-listeners/copy-handler.js
+  // packages/rich-text/build-module/component/event-listeners/copy-handler.mjs
   var copy_handler_default = (props) => (element) => {
     function onCopy(event) {
       const { record } = props.current;
@@ -2105,7 +2116,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/select-object.js
+  // packages/rich-text/build-module/component/event-listeners/select-object.mjs
   var select_object_default = () => (element) => {
     function onClick(event) {
       const { target } = event;
@@ -2138,8 +2149,8 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/format-boundaries.js
-  var import_keycodes = __toESM(require_keycodes());
+  // packages/rich-text/build-module/component/event-listeners/format-boundaries.mjs
+  var import_keycodes = __toESM(require_keycodes(), 1);
   var EMPTY_ACTIVE_FORMATS = [];
   var format_boundaries_default = (props) => (element) => {
     function onKeyDown(event) {
@@ -2209,8 +2220,8 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/delete.js
-  var import_keycodes2 = __toESM(require_keycodes());
+  // packages/rich-text/build-module/component/event-listeners/delete.mjs
+  var import_keycodes2 = __toESM(require_keycodes(), 1);
   var delete_default = (props) => (element) => {
     function onKeyDown(event) {
       const { keyCode } = event;
@@ -2234,7 +2245,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/update-formats.js
+  // packages/rich-text/build-module/update-formats.mjs
   function updateFormats({ value, start, end, formats }) {
     const min = Math.min(start, end);
     const max = Math.max(start, end);
@@ -2262,7 +2273,7 @@ var wp;
     return value;
   }
 
-  // packages/rich-text/build-module/component/event-listeners/input-and-selection.js
+  // packages/rich-text/build-module/component/event-listeners/input-and-selection.mjs
   var INSERTION_INPUT_TYPES_TO_IGNORE = /* @__PURE__ */ new Set([
     "insertParagraph",
     "insertOrderedList",
@@ -2408,7 +2419,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/selection-change-compat.js
+  // packages/rich-text/build-module/component/event-listeners/selection-change-compat.mjs
   var selection_change_compat_default = () => (element) => {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
@@ -2444,7 +2455,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/prevent-focus-capture.js
+  // packages/rich-text/build-module/component/event-listeners/prevent-focus-capture.mjs
   function preventFocusCapture() {
     return (element) => {
       const { ownerDocument } = element;
@@ -2479,7 +2490,7 @@ var wp;
     };
   }
 
-  // packages/rich-text/build-module/component/event-listeners/index.js
+  // packages/rich-text/build-module/component/event-listeners/index.mjs
   var allEventListeners = [
     copy_handler_default,
     select_object_default,
@@ -2509,7 +2520,7 @@ var wp;
     );
   }
 
-  // packages/rich-text/build-module/component/index.js
+  // packages/rich-text/build-module/component/index.mjs
   function useRichText({
     value = "",
     selectionStart,

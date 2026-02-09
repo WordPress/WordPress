@@ -1,0 +1,4 @@
+.wp-block-tabs-menu .tabs__tab-label--placeholder {
+  opacity: 0.5;
+  font-style: italic;
+}

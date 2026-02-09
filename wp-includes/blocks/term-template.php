@@ -59,7 +59,7 @@ function render_block_core_term_template( $attributes, $content, $block ) {
 			$query_args['include'] = array_unique( array_map( 'intval', $query['include'] ) );
 			$query_args['orderby'] = 'include';
 			$query_args['order']   = 'asc';
-		} elseif ( empty( $query['showNested'] ) ) {
+		} elseif ( is_taxonomy_hierarchical( $query['taxonomy'] ) && empty( $query['showNested'] ) ) {
 			// We set parent only when inheriting from the taxonomy archive context or not
 			// showing nested terms, otherwise nested terms are not displayed.
 			$query_args['parent'] = 0;

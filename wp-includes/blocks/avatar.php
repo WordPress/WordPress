@@ -16,7 +16,7 @@
  * @return string Return the avatar.
  */
 function render_block_core_avatar( $attributes, $content, $block ) {
-	$size               = isset( $attributes['size'] ) ? $attributes['size'] : 96;
+	$size               = $attributes['size'] ?? 96;
 	$wrapper_attributes = get_block_wrapper_attributes();
 	$border_attributes  = get_block_core_avatar_border_attributes( $attributes );
 
@@ -133,9 +133,9 @@ function get_block_core_avatar_border_attributes( $attributes ) {
 	foreach ( $sides as $side ) {
 		$border                 = $attributes['style']['border'][ $side ] ?? null;
 		$border_styles[ $side ] = array(
-			'color' => isset( $border['color'] ) ? $border['color'] : null,
-			'style' => isset( $border['style'] ) ? $border['style'] : null,
-			'width' => isset( $border['width'] ) ? $border['width'] : null,
+			'color' => $border['color'] ?? null,
+			'style' => $border['style'] ?? null,
+			'width' => $border['width'] ?? null,
 		);
 	}
 

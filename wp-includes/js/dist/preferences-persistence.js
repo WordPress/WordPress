@@ -38,17 +38,17 @@ var wp;
     }
   });
 
-  // packages/preferences-persistence/build-module/index.js
+  // packages/preferences-persistence/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __unstableCreatePersistenceLayer: () => __unstableCreatePersistenceLayer,
     create: () => create
   });
 
-  // packages/preferences-persistence/build-module/create/index.js
-  var import_api_fetch = __toESM(require_api_fetch());
+  // packages/preferences-persistence/build-module/create/index.mjs
+  var import_api_fetch = __toESM(require_api_fetch(), 1);
 
-  // packages/preferences-persistence/build-module/create/debounce-async.js
+  // packages/preferences-persistence/build-module/create/debounce-async.mjs
   function debounceAsync(func, delayMS) {
     let timeoutId;
     let activePromise;
@@ -86,7 +86,7 @@ var wp;
     };
   }
 
-  // packages/preferences-persistence/build-module/create/index.js
+  // packages/preferences-persistence/build-module/create/index.mjs
   var EMPTY_OBJECT = {};
   var localStorage = window.localStorage;
   function create({
@@ -151,7 +151,7 @@ var wp;
     };
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-feature-preferences.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-feature-preferences.mjs
   function moveFeaturePreferences(state, sourceStoreName) {
     const preferencesStoreName = "core/preferences";
     const interfaceStoreName = "core/interface";
@@ -208,7 +208,7 @@ var wp;
     };
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-third-party-feature-preferences.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-third-party-feature-preferences.mjs
   function moveThirdPartyFeaturePreferencesToPreferences(state) {
     const interfaceStoreName = "core/interface";
     const preferencesStoreName = "core/preferences";
@@ -253,7 +253,7 @@ var wp;
     }, state);
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-individual-preference.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-individual-preference.mjs
   var identity = (arg) => arg;
   function moveIndividualPreferenceToPreferences(state, { from: sourceStoreName, to: scope }, key, convert = identity) {
     const preferencesStoreName = "core/preferences";
@@ -291,7 +291,7 @@ var wp;
     };
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-interface-enable-items.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-interface-enable-items.mjs
   function moveInterfaceEnableItems(state) {
     const interfaceStoreName = "core/interface";
     const preferencesStoreName = "core/preferences";
@@ -346,7 +346,7 @@ var wp;
     };
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/convert-edit-post-panels.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/convert-edit-post-panels.mjs
   function convertEditPostPanels(preferences) {
     const panels = preferences?.panels ?? {};
     return Object.keys(panels).reduce(
@@ -364,7 +364,7 @@ var wp;
     );
   }
 
-  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/index.js
+  // packages/preferences-persistence/build-module/migrations/legacy-local-storage-data/index.mjs
   function getLegacyData(userId) {
     const key = `WP_DATA_USER_${userId}`;
     const unparsedData = window.localStorage.getItem(key);
@@ -418,7 +418,7 @@ var wp;
     return convertLegacyData(data);
   }
 
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.js
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.mjs
   function convertComplementaryAreas(state) {
     return Object.keys(state).reduce((stateAccumulator, scope) => {
       const scopeData = state[scope];
@@ -433,7 +433,7 @@ var wp;
     }, state);
   }
 
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-editor-settings.js
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/convert-editor-settings.mjs
   function convertEditorSettings(data) {
     let newData = data;
     const settingsToMoveToCore = [
@@ -478,14 +478,14 @@ var wp;
     return newData;
   }
 
-  // packages/preferences-persistence/build-module/migrations/preferences-package-data/index.js
+  // packages/preferences-persistence/build-module/migrations/preferences-package-data/index.mjs
   function convertPreferencesPackageData(data) {
     let newData = convertComplementaryAreas(data);
     newData = convertEditorSettings(newData);
     return newData;
   }
 
-  // packages/preferences-persistence/build-module/index.js
+  // packages/preferences-persistence/build-module/index.mjs
   function __unstableCreatePersistenceLayer(serverData, userId) {
     const localStorageRestoreKey = `WP_PREFERENCES_USER_${userId}`;
     const localData = JSON.parse(

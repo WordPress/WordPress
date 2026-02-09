@@ -6,6 +6,7 @@
 	"category": "design",
 	"description": "Contains the hidden or revealed content beneath the heading.",
 	"parent": [ "core/accordion-item" ],
+	"usesContext": [ "core/accordion-open-by-default" ],
 	"supports": {
 		"html": false,
 		"color": {
@@ -59,14 +60,6 @@
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ],
-			"default": false
-		},
-		"openByDefault": {
-			"type": "boolean",
-			"default": false
-		},
-		"isSelected": {
-			"type": "boolean",
 			"default": false
 		}
 	},

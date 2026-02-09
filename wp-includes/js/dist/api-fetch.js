@@ -46,14 +46,14 @@ var wp;
     }
   });
 
-  // packages/api-fetch/build-module/index.js
+  // packages/api-fetch/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     default: () => index_default
   });
-  var import_i18n3 = __toESM(require_i18n());
+  var import_i18n3 = __toESM(require_i18n(), 1);
 
-  // packages/api-fetch/build-module/middlewares/nonce.js
+  // packages/api-fetch/build-module/middlewares/nonce.mjs
   function createNonceMiddleware(nonce) {
     const middleware = (options, next) => {
       const { headers = {} } = options;
@@ -75,7 +75,7 @@ var wp;
   }
   var nonce_default = createNonceMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/namespace-endpoint.js
+  // packages/api-fetch/build-module/middlewares/namespace-endpoint.mjs
   var namespaceAndEndpointMiddleware = (options, next) => {
     let path = options.path;
     let namespaceTrimmed, endpointTrimmed;
@@ -97,7 +97,7 @@ var wp;
   };
   var namespace_endpoint_default = namespaceAndEndpointMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/root-url.js
+  // packages/api-fetch/build-module/middlewares/root-url.mjs
   var createRootURLMiddleware = (rootURL) => (options, next) => {
     return namespace_endpoint_default(options, (optionsWithPath) => {
       let url = optionsWithPath.url;
@@ -122,8 +122,8 @@ var wp;
   };
   var root_url_default = createRootURLMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/preloading.js
-  var import_url = __toESM(require_url());
+  // packages/api-fetch/build-module/middlewares/preloading.mjs
+  var import_url = __toESM(require_url(), 1);
   function createPreloadingMiddleware(preloadedData) {
     const cache = Object.fromEntries(
       Object.entries(preloadedData).map(([path, data]) => [
@@ -193,8 +193,8 @@ var wp;
   }
   var preloading_default = createPreloadingMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/fetch-all-middleware.js
-  var import_url2 = __toESM(require_url());
+  // packages/api-fetch/build-module/middlewares/fetch-all-middleware.mjs
+  var import_url2 = __toESM(require_url(), 1);
   var modifyQuery = ({ path, url, ...options }, queryArgs) => ({
     ...options,
     url: url && (0, import_url2.addQueryArgs)(url, queryArgs),
@@ -259,7 +259,7 @@ var wp;
   };
   var fetch_all_middleware_default = fetchAllMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/http-v1.js
+  // packages/api-fetch/build-module/middlewares/http-v1.mjs
   var OVERRIDE_METHODS = /* @__PURE__ */ new Set(["PATCH", "PUT", "DELETE"]);
   var DEFAULT_METHOD = "GET";
   var httpV1Middleware = (options, next) => {
@@ -279,8 +279,8 @@ var wp;
   };
   var http_v1_default = httpV1Middleware;
 
-  // packages/api-fetch/build-module/middlewares/user-locale.js
-  var import_url3 = __toESM(require_url());
+  // packages/api-fetch/build-module/middlewares/user-locale.mjs
+  var import_url3 = __toESM(require_url(), 1);
   var userLocaleMiddleware = (options, next) => {
     if (typeof options.url === "string" && !(0, import_url3.hasQueryArg)(options.url, "_locale")) {
       options.url = (0, import_url3.addQueryArgs)(options.url, { _locale: "user" });
@@ -292,11 +292,11 @@ var wp;
   };
   var user_locale_default = userLocaleMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/media-upload.js
-  var import_i18n2 = __toESM(require_i18n());
+  // packages/api-fetch/build-module/middlewares/media-upload.mjs
+  var import_i18n2 = __toESM(require_i18n(), 1);
 
-  // packages/api-fetch/build-module/utils/response.js
-  var import_i18n = __toESM(require_i18n());
+  // packages/api-fetch/build-module/utils/response.mjs
+  var import_i18n = __toESM(require_i18n(), 1);
   async function parseJsonAndNormalizeError(response) {
     try {
       return await response.json();
@@ -323,7 +323,7 @@ var wp;
     throw await parseJsonAndNormalizeError(response);
   }
 
-  // packages/api-fetch/build-module/middlewares/media-upload.js
+  // packages/api-fetch/build-module/middlewares/media-upload.mjs
   function isMediaUploadRequest(options) {
     const isCreateMethod = !!options.method && options.method === "POST";
     const isMediaEndpoint = !!options.path && options.path.indexOf("/wp/v2/media") !== -1 || !!options.url && options.url.indexOf("/wp/v2/media") !== -1;
@@ -380,8 +380,8 @@ var wp;
   };
   var media_upload_default = mediaUploadMiddleware;
 
-  // packages/api-fetch/build-module/middlewares/theme-preview.js
-  var import_url4 = __toESM(require_url());
+  // packages/api-fetch/build-module/middlewares/theme-preview.mjs
+  var import_url4 = __toESM(require_url(), 1);
   var createThemePreviewMiddleware = (themePath) => (options, next) => {
     if (typeof options.url === "string") {
       const wpThemePreview = (0, import_url4.getQueryArg)(
@@ -419,7 +419,7 @@ var wp;
   };
   var theme_preview_default = createThemePreviewMiddleware;
 
-  // packages/api-fetch/build-module/index.js
+  // packages/api-fetch/build-module/index.mjs
   var DEFAULT_HEADERS = {
     // The backend uses the Accept header as a condition for considering an
     // incoming request as a REST request.

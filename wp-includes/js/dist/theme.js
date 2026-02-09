@@ -52,64 +52,45 @@ var wp;
     }
   });
 
-  // packages/theme/build-module/index.js
+  // packages/theme/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     privateApis: () => privateApis
   });
 
-  // packages/theme/build-module/lock-unlock.js
-  var import_private_apis = __toESM(require_private_apis());
+  // packages/theme/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
   var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
     "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
     "@wordpress/theme"
   );
 
-  // packages/theme/build-module/theme-provider.js
-  var import_element3 = __toESM(require_element());
+  // packages/theme/build-module/theme-provider.mjs
+  var import_element3 = __toESM(require_element(), 1);
 
-  // packages/theme/build-module/context.js
-  var import_element = __toESM(require_element());
+  // packages/theme/build-module/context.mjs
+  var import_element = __toESM(require_element(), 1);
   var ThemeContext = (0, import_element.createContext)({
     resolvedSettings: {
       color: {}
     }
   });
 
-  // node_modules/colorjs.io/src/multiply-matrices.js
-  function multiplyMatrices(A, B) {
-    let m = A.length;
-    if (!Array.isArray(A[0])) {
-      A = [A];
-    }
-    if (!Array.isArray(B[0])) {
-      B = B.map((x) => [x]);
-    }
-    let p2 = B[0].length;
-    let B_cols = B[0].map((_, i) => B.map((x) => x[i]));
-    let product = A.map((row) => B_cols.map((col) => {
-      let ret = 0;
-      if (!Array.isArray(row)) {
-        for (let c of col) {
-          ret += row * c;
-        }
-        return ret;
-      }
-      for (let i = 0; i < row.length; i++) {
-        ret += row[i] * (col[i] || 0);
-      }
-      return ret;
-    }));
-    if (m === 1) {
-      product = product[0];
-    }
-    if (p2 === 1) {
-      return product.map((x) => x[0]);
-    }
-    return product;
+  // packages/theme/node_modules/colorjs.io/src/multiply-matrices.js
+  function dot3(a, b2) {
+    return a[0] * b2[0] + a[1] * b2[1] + a[2] * b2[2];
+  }
+  function multiply_v3_m3x3(input, matrix, out = [0, 0, 0]) {
+    const x = dot3(input, matrix[0]);
+    const y = dot3(input, matrix[1]);
+    const z = dot3(input, matrix[2]);
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    return out;
   }
 
-  // node_modules/colorjs.io/src/util.js
+  // packages/theme/node_modules/colorjs.io/src/util.js
   function isString(str) {
     return type(str) === "string";
   }
@@ -117,14 +98,15 @@ var wp;
     let str = Object.prototype.toString.call(o);
     return (str.match(/^\[object\s+(.*?)\]$/)[1] || "").toLowerCase();
   }
-  function serializeNumber(n2, { precision, unit }) {
+  function serializeNumber(n2, { precision = 16, unit }) {
     if (isNone(n2)) {
       return "none";
     }
-    return toPrecision(n2, precision) + (unit ?? "");
+    n2 = +toPrecision(n2, precision);
+    return n2 + (unit ?? "");
   }
   function isNone(n2) {
-    return Number.isNaN(n2) || n2 instanceof Number && n2?.none;
+    return n2 === null;
   }
   function toPrecision(n2, precision) {
     if (n2 === 0) {
@@ -137,67 +119,6 @@ var wp;
     }
     const multiplier = 10 ** (precision - digits);
     return Math.floor(n2 * multiplier + 0.5) / multiplier;
-  }
-  var angleFactor = {
-    deg: 1,
-    grad: 0.9,
-    rad: 180 / Math.PI,
-    turn: 360
-  };
-  function parseFunction(str) {
-    if (!str) {
-      return;
-    }
-    str = str.trim();
-    const isFunctionRegex = /^([a-z]+)\((.+?)\)$/i;
-    const isNumberRegex = /^-?[\d.]+$/;
-    const unitValueRegex = /%|deg|g?rad|turn$/;
-    const singleArgument = /\/?\s*(none|[-\w.]+(?:%|deg|g?rad|turn)?)/g;
-    let parts = str.match(isFunctionRegex);
-    if (parts) {
-      let args = [];
-      parts[2].replace(singleArgument, ($0, rawArg) => {
-        let match = rawArg.match(unitValueRegex);
-        let arg = rawArg;
-        if (match) {
-          let unit = match[0];
-          let unitlessArg = arg.slice(0, -unit.length);
-          if (unit === "%") {
-            arg = new Number(unitlessArg / 100);
-            arg.type = "<percentage>";
-          } else {
-            arg = new Number(unitlessArg * angleFactor[unit]);
-            arg.type = "<angle>";
-            arg.unit = unit;
-          }
-        } else if (isNumberRegex.test(arg)) {
-          arg = new Number(arg);
-          arg.type = "<number>";
-        } else if (arg === "none") {
-          arg = new Number(NaN);
-          arg.none = true;
-        }
-        if ($0.startsWith("/")) {
-          arg = arg instanceof Number ? arg : new Number(arg);
-          arg.alpha = true;
-        }
-        if (typeof arg === "object" && arg instanceof Number) {
-          arg.raw = rawArg;
-        }
-        args.push(arg);
-      });
-      return {
-        name: parts[1].toLowerCase(),
-        rawName: parts[1],
-        rawArgs: parts[2],
-        // An argument could be (as of css-color-4):
-        // a number, percentage, degrees (hue), ident (in color())
-        args
-      };
-    }
-  }
-  function last(arr) {
-    return arr[arr.length - 1];
   }
   function interpolate(start, end, p2) {
     if (isNaN(start)) {
@@ -212,21 +133,10 @@ var wp;
     return (value - start) / (end - start);
   }
   function mapRange(from, to2, value) {
+    if (!from || !to2 || from === to2 || from[0] === to2[0] && from[1] === to2[1] || isNaN(value) || value === null) {
+      return value;
+    }
     return interpolate(to2[0], to2[1], interpolateInv(from[0], from[1], value));
-  }
-  function parseCoordGrammar(coordGrammars) {
-    return coordGrammars.map((coordGrammar2) => {
-      return coordGrammar2.split("|").map((type2) => {
-        type2 = type2.trim();
-        let range = type2.match(/^(<[a-z]+>)\[(-?[.\d]+),\s*(-?[.\d]+)\]?$/);
-        if (range) {
-          let ret = new String(range[1]);
-          ret.range = [+range[2], +range[3]];
-          return ret;
-        }
-        return type2;
-      });
-    });
   }
   function clamp(min, val, max) {
     return Math.max(Math.min(max, val), min);
@@ -251,8 +161,251 @@ var wp;
     }
     return lo;
   }
+  function isInstance(arg, constructor) {
+    if (arg instanceof constructor) {
+      return true;
+    }
+    const targetName = constructor.name;
+    while (arg) {
+      const proto = Object.getPrototypeOf(arg);
+      const constructorName = proto?.constructor?.name;
+      if (constructorName === targetName) {
+        return true;
+      }
+      if (!constructorName || constructorName === "Object") {
+        return false;
+      }
+      arg = proto;
+    }
+    return false;
+  }
 
-  // node_modules/colorjs.io/src/hooks.js
+  // packages/theme/node_modules/colorjs.io/src/Type.js
+  var Type = class {
+    // Class properties - declared here so that type inference works
+    type;
+    coordMeta;
+    coordRange;
+    /** @type {[number, number]} */
+    range;
+    /**
+     * @param {any} type
+     * @param {import("./types.js").CoordMeta} coordMeta
+     */
+    constructor(type2, coordMeta) {
+      if (typeof type2 === "object") {
+        this.coordMeta = type2;
+      }
+      if (coordMeta) {
+        this.coordMeta = coordMeta;
+        this.coordRange = coordMeta.range ?? coordMeta.refRange;
+      }
+      if (typeof type2 === "string") {
+        let params = type2.trim().match(/^(?<type><[a-z]+>)(\[(?<min>-?[.\d]+),\s*(?<max>-?[.\d]+)\])?$/);
+        if (!params) {
+          throw new TypeError(`Cannot parse ${type2} as a type definition.`);
+        }
+        this.type = params.groups.type;
+        let { min, max } = params.groups;
+        if (min || max) {
+          this.range = [+min, +max];
+        }
+      }
+    }
+    /** @returns {[number, number]} */
+    get computedRange() {
+      if (this.range) {
+        return this.range;
+      }
+      if (this.type === "<percentage>") {
+        return this.percentageRange();
+      } else if (this.type === "<angle>") {
+        return [0, 360];
+      }
+      return null;
+    }
+    get unit() {
+      if (this.type === "<percentage>") {
+        return "%";
+      } else if (this.type === "<angle>") {
+        return "deg";
+      }
+      return "";
+    }
+    /**
+     * Map a number to the internal representation
+     * @param {number} number
+     */
+    resolve(number) {
+      if (this.type === "<angle>") {
+        return number;
+      }
+      let fromRange = this.computedRange;
+      let toRange = this.coordRange;
+      if (this.type === "<percentage>") {
+        toRange ??= this.percentageRange();
+      }
+      return mapRange(fromRange, toRange, number);
+    }
+    /**
+     * Serialize a number from the internal representation to a string
+     * @param {number} number
+     * @param {number} [precision]
+     */
+    serialize(number, precision) {
+      let toRange = this.type === "<percentage>" ? this.percentageRange(100) : this.computedRange;
+      let unit = this.unit;
+      number = mapRange(this.coordRange, toRange, number);
+      return serializeNumber(number, { unit, precision });
+    }
+    toString() {
+      let ret = this.type;
+      if (this.range) {
+        let [min = "", max = ""] = this.range;
+        ret += `[${min},${max}]`;
+      }
+      return ret;
+    }
+    /**
+     * Returns a percentage range for values of this type
+     * @param {number} scale
+     * @returns {[number, number]}
+     */
+    percentageRange(scale = 1) {
+      let range;
+      if (this.coordMeta && this.coordMeta.range || this.coordRange && this.coordRange[0] >= 0) {
+        range = [0, 1];
+      } else {
+        range = [-1, 1];
+      }
+      return [range[0] * scale, range[1] * scale];
+    }
+    static get(type2, coordMeta) {
+      if (isInstance(type2, this)) {
+        return type2;
+      }
+      return new this(type2, coordMeta);
+    }
+  };
+
+  // packages/theme/node_modules/colorjs.io/src/Format.js
+  var instance = /* @__PURE__ */ Symbol("instance");
+  var Format = class _Format {
+    // Class properties - declared here so that type inference works
+    type;
+    name;
+    spaceCoords;
+    /** @type {Type[][]} */
+    coords;
+    /** @type {string | undefined} */
+    id;
+    /** @type {boolean | undefined} */
+    alpha;
+    /**
+     * @param {FormatInterface} format
+     * @param {ColorSpace} space
+     */
+    constructor(format, space = format.space) {
+      format[instance] = this;
+      this.type = "function";
+      this.name = "color";
+      Object.assign(this, format);
+      this.space = space;
+      if (this.type === "custom") {
+        return;
+      }
+      this.spaceCoords = Object.values(space.coords);
+      if (!this.coords) {
+        this.coords = this.spaceCoords.map((coordMeta) => {
+          let ret = ["<number>", "<percentage>"];
+          if (coordMeta.type === "angle") {
+            ret.push("<angle>");
+          }
+          return ret;
+        });
+      }
+      this.coords = this.coords.map(
+        /** @param {string | string[] | Type[]} types */
+        (types, i) => {
+          let coordMeta = this.spaceCoords[i];
+          if (typeof types === "string") {
+            types = types.trim().split(/\s*\|\s*/);
+          }
+          return types.map((type2) => Type.get(type2, coordMeta));
+        }
+      );
+    }
+    /**
+     * @param {Coords} coords
+     * @param {number} precision
+     * @param {Type[]} types
+     */
+    serializeCoords(coords, precision, types) {
+      types = coords.map((_, i) => Type.get(types?.[i] ?? this.coords[i][0], this.spaceCoords[i]));
+      return coords.map((c, i) => types[i].serialize(c, precision));
+    }
+    /**
+     * Validates the coordinates of a color against a format's coord grammar and
+     * maps the coordinates to the range or refRange of the coordinates.
+     * @param {Coords} coords
+     * @param {[string, string, string]} types
+     */
+    coerceCoords(coords, types) {
+      return Object.entries(this.space.coords).map(([id, coordMeta], i) => {
+        let arg = coords[i];
+        if (isNone(arg) || isNaN(arg)) {
+          return arg;
+        }
+        let providedType = types[i];
+        let type2 = this.coords[i].find((c) => c.type == providedType);
+        if (!type2) {
+          let coordName = coordMeta.name || id;
+          throw new TypeError(
+            `${providedType ?? /** @type {any} */
+            arg?.raw ?? arg} not allowed for ${coordName} in ${this.name}()`
+          );
+        }
+        arg = type2.resolve(arg);
+        if (type2.range) {
+          types[i] = type2.toString();
+        }
+        return arg;
+      });
+    }
+    /**
+     * @returns {boolean | Required<FormatInterface>["serialize"]}
+     */
+    canSerialize() {
+      return this.type === "function" || /** @type {any} */
+      this.serialize;
+    }
+    /**
+     * @param {string} str
+     * @returns {(import("./types.js").ColorConstructor) | undefined | null}
+     */
+    parse(str) {
+      return null;
+    }
+    /**
+     * @param {Format | FormatInterface} format
+     * @param {RemoveFirstElement<ConstructorParameters<typeof Format>>} args
+     * @returns {Format}
+     */
+    static get(format, ...args) {
+      if (!format || isInstance(format, this)) {
+        return (
+          /** @type {Format} */
+          format
+        );
+      }
+      if (format[instance]) {
+        return format[instance];
+      }
+      return new _Format(format, ...args);
+    }
+  };
+
+  // packages/theme/node_modules/colorjs.io/src/hooks.js
   var Hooks = class {
     add(name, callback, first) {
       if (typeof arguments[0] != "string") {
@@ -278,7 +431,7 @@ var wp;
   var hooks = new Hooks();
   var hooks_default = hooks;
 
-  // node_modules/colorjs.io/src/adapt.js
+  // packages/theme/node_modules/colorjs.io/src/adapt.js
   var WHITES = {
     // for compatibility, the four-digit chromaticity-derived ones everyone else uses
     D50: [0.3457 / 0.3585, 1, (1 - 0.3457 - 0.3585) / 0.3585],
@@ -294,7 +447,9 @@ var wp;
     W1 = getWhite(W1);
     W2 = getWhite(W2);
     if (!W1 || !W2) {
-      throw new TypeError(`Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`);
+      throw new TypeError(
+        `Missing white point to convert ${!W1 ? "from" : ""}${!W1 && !W2 ? "/" : ""}${!W2 ? "to" : ""}`
+      );
     }
     if (W1 === W2) {
       return XYZ;
@@ -318,13 +473,13 @@ var wp;
     }
     hooks_default.run("chromatic-adaptation-end", env);
     if (env.M) {
-      return multiplyMatrices(env.M, env.XYZ);
+      return multiply_v3_m3x3(env.XYZ, env.M);
     } else {
       throw new TypeError("Only Bradford CAT with white points D50 and D65 supported for now.");
     }
   }
 
-  // node_modules/colorjs.io/src/defaults.js
+  // packages/theme/node_modules/colorjs.io/src/defaults.js
   var defaults_default = {
     gamut_mapping: "css",
     precision: 5,
@@ -338,106 +493,85 @@ var wp;
     }
   };
 
-  // node_modules/colorjs.io/src/parse.js
-  var noneTypes = /* @__PURE__ */ new Set(["<number>", "<percentage>", "<angle>"]);
-  function coerceCoords(space, format, name, coords) {
-    let types = Object.entries(space.coords).map(([id, coordMeta], i) => {
-      let coordGrammar2 = format.coordGrammar[i];
-      let arg = coords[i];
-      let providedType = arg?.type;
-      let type2;
-      if (arg.none) {
-        type2 = coordGrammar2.find((c) => noneTypes.has(c));
-      } else {
-        type2 = coordGrammar2.find((c) => c == providedType);
-      }
-      if (!type2) {
-        let coordName = coordMeta.name || id;
-        throw new TypeError(`${providedType ?? arg.raw} not allowed for ${coordName} in ${name}()`);
-      }
-      let fromRange = type2.range;
-      if (providedType === "<percentage>") {
-        fromRange ||= [0, 1];
-      }
-      let toRange = coordMeta.range || coordMeta.refRange;
-      if (fromRange && toRange) {
-        coords[i] = mapRange(fromRange, toRange, coords[i]);
-      }
-      return type2;
-    });
-    return types;
-  }
-  function parse(str, { meta } = {}) {
-    let env = { "str": String(str)?.trim() };
+  // packages/theme/node_modules/colorjs.io/src/parse.js
+  function parse(str, options) {
+    let env = {
+      str: String(str)?.trim(),
+      options
+    };
     hooks_default.run("parse-start", env);
     if (env.color) {
       return env.color;
     }
     env.parsed = parseFunction(env.str);
+    let ret;
+    let meta = env.options ? env.options.parseMeta ?? env.options.meta : null;
     if (env.parsed) {
       let name = env.parsed.name;
+      let format;
+      let space;
+      let coords = env.parsed.args;
+      let types = coords.map((c, i) => env.parsed.argMeta[i]?.type);
       if (name === "color") {
-        let id = env.parsed.args.shift();
+        let id = coords.shift();
+        types.shift();
         let alternateId = id.startsWith("--") ? id.substring(2) : `--${id}`;
         let ids = [id, alternateId];
-        let alpha = env.parsed.rawArgs.indexOf("/") > 0 ? env.parsed.args.pop() : 1;
-        for (let space of ColorSpace.all) {
-          let colorSpec = space.getFormat("color");
-          if (colorSpec) {
-            if (ids.includes(colorSpec.id) || colorSpec.ids?.filter((specId) => ids.includes(specId)).length) {
-              const coords = Object.keys(space.coords).map((_, i) => env.parsed.args[i] || 0);
-              let types;
-              if (colorSpec.coordGrammar) {
-                types = coerceCoords(space, colorSpec, "color", coords);
-              }
-              if (meta) {
-                Object.assign(meta, { formatId: "color", types });
-              }
-              if (colorSpec.id.startsWith("--") && !id.startsWith("--")) {
-                defaults_default.warn(`${space.name} is a non-standard space and not currently supported in the CSS spec. Use prefixed color(${colorSpec.id}) instead of color(${id}).`);
-              }
-              if (id.startsWith("--") && !colorSpec.id.startsWith("--")) {
-                defaults_default.warn(`${space.name} is a standard space and supported in the CSS spec. Use color(${colorSpec.id}) instead of prefixed color(${id}).`);
-              }
-              return { spaceId: space.id, coords, alpha };
+        format = ColorSpace.findFormat({ name, id: ids, type: "function" });
+        if (!format) {
+          let didYouMean;
+          let registryId = id in ColorSpace.registry ? id : alternateId;
+          if (registryId in ColorSpace.registry) {
+            let cssId = ColorSpace.registry[registryId].formats?.color?.id;
+            if (cssId) {
+              let altColor = str.replace("color(" + id, "color(" + cssId);
+              didYouMean = `Did you mean ${altColor}?`;
             }
           }
+          throw new TypeError(
+            `Cannot parse ${env.str}. ` + (didYouMean ?? "Missing a plugin?")
+          );
         }
-        let didYouMean = "";
-        let registryId = id in ColorSpace.registry ? id : alternateId;
-        if (registryId in ColorSpace.registry) {
-          let cssId = ColorSpace.registry[registryId].formats?.color?.id;
-          if (cssId) {
-            didYouMean = `Did you mean color(${cssId})?`;
-          }
+        space = format.space;
+        if (format.id.startsWith("--") && !id.startsWith("--")) {
+          defaults_default.warn(
+            `${space.name} is a non-standard space and not currently supported in the CSS spec. Use prefixed color(${format.id}) instead of color(${id}).`
+          );
         }
-        throw new TypeError(`Cannot parse color(${id}). ` + (didYouMean || "Missing a plugin?"));
+        if (id.startsWith("--") && !format.id.startsWith("--")) {
+          defaults_default.warn(
+            `${space.name} is a standard space and supported in the CSS spec. Use color(${format.id}) instead of prefixed color(${id}).`
+          );
+        }
       } else {
-        for (let space of ColorSpace.all) {
-          let format = space.getFormat(name);
-          if (format && format.type === "function") {
-            let alpha = 1;
-            if (format.lastAlpha || last(env.parsed.args).alpha) {
-              alpha = env.parsed.args.pop();
-            }
-            let coords = env.parsed.args;
-            let types;
-            if (format.coordGrammar) {
-              types = coerceCoords(space, format, name, coords);
-            }
-            if (meta) {
-              Object.assign(meta, { formatId: format.name, types });
-            }
-            return {
-              spaceId: space.id,
-              coords,
-              alpha
-            };
-          }
+        format = ColorSpace.findFormat({ name, type: "function" });
+        space = format.space;
+      }
+      if (meta) {
+        Object.assign(meta, {
+          format,
+          formatId: format.name,
+          types,
+          commas: env.parsed.commas
+        });
+      }
+      let alpha = 1;
+      if (env.parsed.lastAlpha) {
+        alpha = env.parsed.args.pop();
+        if (meta) {
+          meta.alphaType = types.pop();
         }
       }
+      let coordCount = format.coords.length;
+      if (coords.length !== coordCount) {
+        throw new TypeError(
+          `Expected ${coordCount} coordinates for ${space.id} in ${env.str}), got ${coords.length}`
+        );
+      }
+      coords = format.coerceCoords(coords, types);
+      ret = { spaceId: space.id, coords, alpha };
     } else {
-      for (let space of ColorSpace.all) {
+      spaceloop: for (let space of ColorSpace.all) {
         for (let formatId in space.formats) {
           let format = space.formats[formatId];
           if (format.type !== "custom") {
@@ -446,33 +580,116 @@ var wp;
           if (format.test && !format.test(env.str)) {
             continue;
           }
-          let color = format.parse(env.str);
+          let formatObject = space.getFormat(format);
+          let color = formatObject.parse(env.str);
           if (color) {
-            color.alpha ??= 1;
             if (meta) {
-              meta.formatId = formatId;
+              Object.assign(meta, { format: formatObject, formatId });
             }
-            return color;
+            ret = color;
+            break spaceloop;
           }
         }
       }
     }
-    throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
+    if (!ret) {
+      throw new TypeError(`Could not parse ${str} as a color. Missing a plugin?`);
+    }
+    ret.alpha = isNone(ret.alpha) ? ret.alpha : ret.alpha === void 0 ? 1 : clamp(0, ret.alpha, 1);
+    return ret;
+  }
+  var units = {
+    "%": 0.01,
+    deg: 1,
+    grad: 0.9,
+    rad: 180 / Math.PI,
+    turn: 360
+  };
+  var regex = {
+    // Need to list calc(NaN) explicitly as otherwise its ending paren would terminate the function call
+    function: /^([a-z]+)\(((?:calc\(NaN\)|.)+?)\)$/i,
+    number: /^([-+]?(?:[0-9]*\.)?[0-9]+(e[-+]?[0-9]+)?)$/i,
+    unitValue: RegExp(`(${Object.keys(units).join("|")})$`),
+    // NOTE The -+ are not just for prefix, but also for idents, and e+N notation!
+    singleArgument: /\/?\s*(none|NaN|calc\(NaN\)|[-+\w.]+(?:%|deg|g?rad|turn)?)/g
+  };
+  function parseArgument(rawArg) {
+    let meta = {};
+    let unit = rawArg.match(regex.unitValue)?.[0];
+    let value = meta.raw = rawArg;
+    if (unit) {
+      meta.type = unit === "%" ? "<percentage>" : "<angle>";
+      meta.unit = unit;
+      meta.unitless = Number(value.slice(0, -unit.length));
+      value = meta.unitless * units[unit];
+    } else if (regex.number.test(value)) {
+      value = Number(value);
+      meta.type = "<number>";
+    } else if (value === "none") {
+      value = null;
+    } else if (value === "NaN" || value === "calc(NaN)") {
+      value = NaN;
+      meta.type = "<number>";
+    } else {
+      meta.type = "<ident>";
+    }
+    return { value: (
+      /** @type {number} */
+      value
+    ), meta: (
+      /** @type {ArgumentMeta} */
+      meta
+    ) };
+  }
+  function parseFunction(str) {
+    if (!str) {
+      return;
+    }
+    str = str.trim();
+    let parts = str.match(regex.function);
+    if (parts) {
+      let args = [];
+      let argMeta = [];
+      let lastAlpha = false;
+      let name = parts[1].toLowerCase();
+      let separators = parts[2].replace(regex.singleArgument, ($0, rawArg) => {
+        let { value, meta } = parseArgument(rawArg);
+        if (
+          // If there's a slash here, it's modern syntax
+          $0.startsWith("/") || // If there's still elements to process after there's already 3 in `args` (and the we're not dealing with "color()"), it's likely to be a legacy color like "hsl(0, 0%, 0%, 0.5)"
+          name !== "color" && args.length === 3
+        ) {
+          lastAlpha = true;
+        }
+        args.push(value);
+        argMeta.push(meta);
+        return "";
+      });
+      return {
+        name,
+        args,
+        argMeta,
+        lastAlpha,
+        commas: separators.includes(","),
+        rawName: parts[1],
+        rawArgs: parts[2]
+      };
+    }
   }
 
-  // node_modules/colorjs.io/src/getColor.js
-  function getColor(color) {
+  // packages/theme/node_modules/colorjs.io/src/getColor.js
+  function getColor(color, options) {
     if (Array.isArray(color)) {
-      return color.map(getColor);
+      return color.map((c) => getColor(c, options));
     }
     if (!color) {
       throw new TypeError("Empty color reference");
     }
     if (isString(color)) {
-      color = parse(color);
+      color = parse(color, options);
     }
     let space = color.space || color.spaceId;
-    if (!(space instanceof ColorSpace)) {
+    if (typeof space === "string") {
       color.space = ColorSpace.get(space);
     }
     if (color.alpha === void 0) {
@@ -481,7 +698,7 @@ var wp;
     return color;
   }
 
-  // node_modules/colorjs.io/src/space.js
+  // packages/theme/node_modules/colorjs.io/src/ColorSpace.js
   var \u03B5 = 75e-6;
   var ColorSpace = class _ColorSpace {
     constructor(options) {
@@ -546,7 +763,7 @@ var wp;
       return coords.every((c, i) => {
         let meta = coordMeta[i];
         if (meta.type !== "angle" && meta.range) {
-          if (Number.isNaN(c)) {
+          if (isNone(c)) {
             return true;
           }
           let [min, max] = meta.range;
@@ -569,22 +786,25 @@ var wp;
       }
       return false;
     }
+    /**
+     * Lookup a format in this color space
+     * @param {string | object | Format} format - Format id if string. If object, it's converted to a `Format` object and returned.
+     * @returns {Format}
+     */
     getFormat(format) {
-      if (typeof format === "object") {
-        format = processFormat(format, this);
-        return format;
+      if (!format) {
+        return null;
       }
-      let ret;
       if (format === "default") {
-        ret = Object.values(this.formats)[0];
-      } else {
-        ret = this.formats[format];
+        format = Object.values(this.formats)[0];
+      } else if (typeof format === "string") {
+        format = this.formats[format];
       }
-      if (ret) {
-        ret = processFormat(ret, this);
-        return ret;
+      let ret = Format.get(format, this);
+      if (ret !== format && format.name in this.formats) {
+        this.formats[format.name] = ret;
       }
-      return null;
+      return ret;
     }
     /**
      * Check if this color space is the same as another color space reference.
@@ -607,7 +827,7 @@ var wp;
       if (this.equals(space)) {
         return coords;
       }
-      coords = coords.map((c) => Number.isNaN(c) ? 0 : c);
+      coords = coords.map((c) => isNone(c) ? 0 : c);
       let myPath = this.path;
       let otherPath = space.path;
       let connectionSpace, connectionSpaceIndex;
@@ -620,7 +840,9 @@ var wp;
         }
       }
       if (!connectionSpace) {
-        throw new Error(`Cannot convert between color spaces ${this} and ${space}: no connection space was found`);
+        throw new Error(
+          `Cannot convert between color spaces ${this} and ${space}: no connection space was found`
+        );
       }
       for (let i = myPath.length - 1; i > connectionSpaceIndex; i--) {
         coords = myPath[i].toBase(coords);
@@ -677,7 +899,7 @@ var wp;
      * @param {ColorSpace | string} name
      */
     static get(space, ...alternatives) {
-      if (!space || space instanceof _ColorSpace) {
+      if (!space || isInstance(space, this)) {
         return space;
       }
       let argType = type(space);
@@ -692,6 +914,40 @@ var wp;
         return _ColorSpace.get(...alternatives);
       }
       throw new TypeError(`${space} is not a valid color space`);
+    }
+    /**
+     * Look up all color spaces for a format that matches certain criteria
+     * @param {object | string} filters
+     * @param {Array<ColorSpace>} [spaces=ColorSpace.all]
+     * @returns {Format | null}
+     */
+    static findFormat(filters, spaces = _ColorSpace.all) {
+      if (!filters) {
+        return null;
+      }
+      if (typeof filters === "string") {
+        filters = { name: filters };
+      }
+      for (let space of spaces) {
+        for (let [name, format] of Object.entries(space.formats)) {
+          format.name ??= name;
+          format.type ??= "function";
+          let matches = (!filters.name || format.name === filters.name) && (!filters.type || format.type === filters.type);
+          if (filters.id) {
+            let ids = format.ids || [format.id];
+            let filterIds = Array.isArray(filters.id) ? filters.id : [filters.id];
+            matches &&= filterIds.some((id) => ids.includes(id));
+          }
+          if (matches) {
+            let ret = Format.get(format, space);
+            if (ret !== format) {
+              space.formats[format.name] = ret;
+            }
+            return ret;
+          }
+        }
+      }
+      return null;
     }
     /**
      * Get metadata about a coordinate of a color space
@@ -721,7 +977,9 @@ var wp;
         space = workingSpace;
       }
       if (!space) {
-        throw new TypeError(`Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`);
+        throw new TypeError(
+          `Cannot resolve coordinate reference ${ref}: No color space specified and relative references are not allowed here`
+        );
       }
       coordType = type(coord);
       if (coordType === "number" || coordType === "string" && coord >= 0) {
@@ -740,7 +998,9 @@ var wp;
         }
         i++;
       }
-      throw new TypeError(`No "${coord}" coordinate found in ${space.name}. Its coordinates are: ${Object.keys(space.coords).join(", ")}`);
+      throw new TypeError(
+        `No "${coord}" coordinate found in ${space.name}. Its coordinates are: ${Object.keys(space.coords).join(", ")}`
+      );
     }
     static DEFAULT_FORMAT = {
       type: "functions",
@@ -754,45 +1014,24 @@ var wp;
     }
     return ret;
   }
-  function processFormat(format, { coords } = {}) {
-    if (format.coords && !format.coordGrammar) {
-      format.type ||= "function";
-      format.name ||= "color";
-      format.coordGrammar = parseCoordGrammar(format.coords);
-      let coordFormats = Object.entries(coords).map(([id, coordMeta], i) => {
-        let outputType = format.coordGrammar[i][0];
-        let fromRange = coordMeta.range || coordMeta.refRange;
-        let toRange = outputType.range, suffix = "";
-        if (outputType == "<percentage>") {
-          toRange = [0, 100];
-          suffix = "%";
-        } else if (outputType == "<angle>") {
-          suffix = "deg";
-        }
-        return { fromRange, toRange, suffix };
-      });
-      format.serializeCoords = (coords2, precision) => {
-        return coords2.map((c, i) => {
-          let { fromRange, toRange, suffix } = coordFormats[i];
-          if (fromRange && toRange) {
-            c = mapRange(fromRange, toRange, c);
-          }
-          c = serializeNumber(c, { precision, unit: suffix });
-          return c;
-        });
-      };
-    }
-    return format;
-  }
 
-  // node_modules/colorjs.io/src/spaces/xyz-d65.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-d65.js
   var xyz_d65_default = new ColorSpace({
     id: "xyz-d65",
     name: "XYZ D65",
     coords: {
-      x: { name: "X" },
-      y: { name: "Y" },
-      z: { name: "Z" }
+      x: {
+        refRange: [0, 1],
+        name: "X"
+      },
+      y: {
+        refRange: [0, 1],
+        name: "Y"
+      },
+      z: {
+        refRange: [0, 1],
+        name: "Z"
+      }
     },
     white: "D65",
     formats: {
@@ -803,16 +1042,14 @@ var wp;
     aliases: ["xyz"]
   });
 
-  // node_modules/colorjs.io/src/rgbspace.js
+  // packages/theme/node_modules/colorjs.io/src/RGBColorSpace.js
   var RGBColorSpace = class extends ColorSpace {
     /**
      * Creates a new RGB ColorSpace.
      * If coords are not specified, they will use the default RGB coords.
      * Instead of `fromBase()` and `toBase()` functions,
      * you can specify to/from XYZ matrices and have `toBase()` and `fromBase()` automatically generated.
-     * @param {*} options - Same options as {@link ColorSpace} plus:
-     * @param {number[][]} options.toXYZ_M - Matrix to convert to XYZ
-     * @param {number[][]} options.fromXYZ_M - Matrix to convert from XYZ
+     * @param {RGBOptions} options
      */
     constructor(options) {
       if (!options.coords) {
@@ -836,7 +1073,7 @@ var wp;
       }
       if (options.toXYZ_M && options.fromXYZ_M) {
         options.toBase ??= (rgb) => {
-          let xyz = multiplyMatrices(options.toXYZ_M, rgb);
+          let xyz = multiply_v3_m3x3(rgb, options.toXYZ_M);
           if (this.white !== this.base.white) {
             xyz = adapt(this.white, this.base.white, xyz);
           }
@@ -844,7 +1081,7 @@ var wp;
         };
         options.fromBase ??= (xyz) => {
           xyz = adapt(this.base.white, this.white, xyz);
-          return multiplyMatrices(options.fromXYZ_M, xyz);
+          return multiply_v3_m3x3(xyz, options.fromXYZ_M);
         };
       }
       options.referred ??= "display";
@@ -852,34 +1089,47 @@ var wp;
     }
   };
 
-  // node_modules/colorjs.io/src/getAll.js
-  function getAll(color, space) {
+  // packages/theme/node_modules/colorjs.io/src/getAll.js
+  function getAll(color, options) {
     color = getColor(color);
+    let space = ColorSpace.get(options, options?.space);
+    let precision = options?.precision;
+    let coords;
     if (!space || color.space.equals(space)) {
-      return color.coords.slice();
+      coords = color.coords.slice();
+    } else {
+      coords = space.from(color);
     }
-    space = ColorSpace.get(space);
-    return space.from(color);
+    return precision === void 0 ? coords : coords.map((coord) => toPrecision(coord, precision));
   }
 
-  // node_modules/colorjs.io/src/get.js
+  // packages/theme/node_modules/colorjs.io/src/get.js
   function get(color, prop) {
     color = getColor(color);
+    if (prop === "alpha") {
+      return color.alpha ?? 1;
+    }
     let { space, index } = ColorSpace.resolveCoord(prop, color.space);
     let coords = getAll(color, space);
     return coords[index];
   }
 
-  // node_modules/colorjs.io/src/setAll.js
-  function setAll(color, space, coords) {
+  // packages/theme/node_modules/colorjs.io/src/setAll.js
+  function setAll(color, space, coords, alpha) {
     color = getColor(color);
+    if (Array.isArray(space)) {
+      [space, coords, alpha] = [color.space, space, coords];
+    }
     space = ColorSpace.get(space);
-    color.coords = space.to(color.space, coords);
+    color.coords = space === color.space ? coords.slice() : space.to(color.space, coords);
+    if (alpha !== void 0) {
+      color.alpha = alpha;
+    }
     return color;
   }
   setAll.returns = "color";
 
-  // node_modules/colorjs.io/src/set.js
+  // packages/theme/node_modules/colorjs.io/src/set.js
   function set(color, prop, value) {
     color = getColor(color);
     if (arguments.length === 2 && type(arguments[1]) === "object") {
@@ -891,16 +1141,20 @@ var wp;
       if (typeof value === "function") {
         value = value(get(color, prop));
       }
-      let { space, index } = ColorSpace.resolveCoord(prop, color.space);
-      let coords = getAll(color, space);
-      coords[index] = value;
-      setAll(color, space, coords);
+      if (prop === "alpha") {
+        color.alpha = value;
+      } else {
+        let { space, index } = ColorSpace.resolveCoord(prop, color.space);
+        let coords = getAll(color, space);
+        coords[index] = value;
+        setAll(color, space, coords);
+      }
     }
     return color;
   }
   set.returns = "color";
 
-  // node_modules/colorjs.io/src/spaces/xyz-d50.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-d50.js
   var xyz_d50_default = new ColorSpace({
     id: "xyz-d50",
     name: "XYZ D50",
@@ -910,7 +1164,7 @@ var wp;
     toBase: (coords) => adapt("D50", xyz_d65_default.white, coords)
   });
 
-  // node_modules/colorjs.io/src/spaces/lab.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/lab.js
   var \u03B52 = 216 / 24389;
   var \u03B53 = 24 / 116;
   var \u03BA = 24389 / 27;
@@ -935,27 +1189,24 @@ var wp;
     white,
     base: xyz_d50_default,
     // Convert D50-adapted XYX to Lab
-    //  CIE 15.3:2004 section 8.2.1.1
+    // CIE 15.3:2004 section 8.2.1.1
     fromBase(XYZ) {
       let xyz = XYZ.map((value, i) => value / white[i]);
       let f = xyz.map((value) => value > \u03B52 ? Math.cbrt(value) : (\u03BA * value + 16) / 116);
-      return [
-        116 * f[1] - 16,
-        // L
-        500 * (f[0] - f[1]),
-        // a
-        200 * (f[1] - f[2])
-        // b
-      ];
+      let L = 116 * f[1] - 16;
+      let a = 500 * (f[0] - f[1]);
+      let b2 = 200 * (f[1] - f[2]);
+      return [L, a, b2];
     },
     // Convert Lab to D50-adapted XYZ
     // Same result as CIE 15.3:2004 Appendix D although the derivation is different
     // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
     toBase(Lab) {
+      let [L, a, b2] = Lab;
       let f = [];
-      f[1] = (Lab[0] + 16) / 116;
-      f[0] = Lab[1] / 500 + f[1];
-      f[2] = f[1] - Lab[2] / 200;
+      f[1] = (L + 16) / 116;
+      f[0] = a / 500 + f[1];
+      f[2] = f[1] - b2 / 200;
       let xyz = [
         f[0] > \u03B53 ? Math.pow(f[0], 3) : (116 * f[0] - 16) / \u03BA,
         Lab[0] > 8 ? Math.pow((Lab[0] + 16) / 116, 3) : Lab[0] / \u03BA,
@@ -964,18 +1215,25 @@ var wp;
       return xyz.map((value, i) => value * white[i]);
     },
     formats: {
-      "lab": {
-        coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"]
+      lab: {
+        coords: [
+          "<percentage> | <number>",
+          "<number> | <percentage>",
+          "<number> | <percentage>"
+        ]
       }
     }
   });
 
-  // node_modules/colorjs.io/src/angles.js
+  // packages/theme/node_modules/colorjs.io/src/angles.js
   function constrain(angle) {
+    if (typeof angle !== "number") {
+      return angle;
+    }
     return (angle % 360 + 360) % 360;
   }
 
-  // node_modules/colorjs.io/src/spaces/lch.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/lch.js
   var lch_default = new ColorSpace({
     id: "lch",
     name: "LCH",
@@ -996,48 +1254,35 @@ var wp;
     },
     base: lab_default,
     fromBase(Lab) {
+      if (this.\u03B5 === void 0) {
+        let range = Object.values(this.base.coords)[1].refRange;
+        let extent = range[1] - range[0];
+        this.\u03B5 = extent / 1e5;
+      }
       let [L, a, b2] = Lab;
-      let hue;
-      const \u03B56 = 0.02;
-      if (Math.abs(a) < \u03B56 && Math.abs(b2) < \u03B56) {
-        hue = NaN;
-      } else {
-        hue = Math.atan2(b2, a) * 180 / Math.PI;
-      }
-      return [
-        L,
-        // L is still L
-        Math.sqrt(a ** 2 + b2 ** 2),
-        // Chroma
-        constrain(hue)
-        // Hue, in degrees [0 to 360)
-      ];
+      let isAchromatic = Math.abs(a) < this.\u03B5 && Math.abs(b2) < this.\u03B5;
+      let h = isAchromatic ? null : constrain(Math.atan2(b2, a) * 180 / Math.PI);
+      let C = isAchromatic ? 0 : Math.sqrt(a ** 2 + b2 ** 2);
+      return [L, C, h];
     },
-    toBase(LCH) {
-      let [Lightness, Chroma, Hue] = LCH;
-      if (Chroma < 0) {
-        Chroma = 0;
+    toBase(lch) {
+      let [L, C, h] = lch;
+      let a = null, b2 = null;
+      if (!isNone(h)) {
+        C = C < 0 ? 0 : C;
+        a = C * Math.cos(h * Math.PI / 180);
+        b2 = C * Math.sin(h * Math.PI / 180);
       }
-      if (isNaN(Hue)) {
-        Hue = 0;
-      }
-      return [
-        Lightness,
-        // L is still L
-        Chroma * Math.cos(Hue * Math.PI / 180),
-        // a
-        Chroma * Math.sin(Hue * Math.PI / 180)
-        // b
-      ];
+      return [L, a, b2];
     },
     formats: {
-      "lch": {
-        coords: ["<number> | <percentage>", "<number> | <percentage>", "<number> | <angle>"]
+      lch: {
+        coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"]
       }
     }
   });
 
-  // node_modules/colorjs.io/src/deltaE/deltaE2000.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaE2000.js
   var Gfactor = 25 ** 7;
   var \u03C0 = Math.PI;
   var r2d = 180 / \u03C0;
@@ -1126,7 +1371,7 @@ var wp;
     return Math.sqrt(dE);
   }
 
-  // node_modules/colorjs.io/src/spaces/oklab.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/oklab.js
   var XYZtoLMS_M = [
     [0.819022437996703, 0.3619062600528904, -0.1288737815209879],
     [0.0329836539323885, 0.9292868615863434, 0.0361446663506424],
@@ -1166,23 +1411,31 @@ var wp;
     white: "D65",
     base: xyz_d65_default,
     fromBase(XYZ) {
-      let LMS = multiplyMatrices(XYZtoLMS_M, XYZ);
-      let LMSg = LMS.map((val) => Math.cbrt(val));
-      return multiplyMatrices(LMStoLab_M, LMSg);
+      let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M);
+      LMS[0] = Math.cbrt(LMS[0]);
+      LMS[1] = Math.cbrt(LMS[1]);
+      LMS[2] = Math.cbrt(LMS[2]);
+      return multiply_v3_m3x3(LMS, LMStoLab_M, LMS);
     },
     toBase(OKLab) {
-      let LMSg = multiplyMatrices(LabtoLMS_M, OKLab);
-      let LMS = LMSg.map((val) => val ** 3);
-      return multiplyMatrices(LMStoXYZ_M, LMS);
+      let LMSg = multiply_v3_m3x3(OKLab, LabtoLMS_M);
+      LMSg[0] = LMSg[0] ** 3;
+      LMSg[1] = LMSg[1] ** 3;
+      LMSg[2] = LMSg[2] ** 3;
+      return multiply_v3_m3x3(LMSg, LMStoXYZ_M, LMSg);
     },
     formats: {
-      "oklab": {
-        coords: ["<percentage> | <number>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"]
+      oklab: {
+        coords: [
+          "<percentage> | <number>",
+          "<number> | <percentage>",
+          "<number> | <percentage>"
+        ]
       }
     }
   });
 
-  // node_modules/colorjs.io/src/deltaE/deltaEOK.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEOK.js
   function deltaEOK_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [L1, a1, b1] = oklab_default.from(color);
@@ -1193,7 +1446,7 @@ var wp;
     return Math.sqrt(\u0394L ** 2 + \u0394a ** 2 + \u0394b ** 2);
   }
 
-  // node_modules/colorjs.io/src/inGamut.js
+  // packages/theme/node_modules/colorjs.io/src/inGamut.js
   var \u03B54 = 75e-6;
   function inGamut(color, space, { epsilon = \u03B54 } = {}) {
     color = getColor(color);
@@ -1208,35 +1461,40 @@ var wp;
     return space.inGamut(coords, { epsilon });
   }
 
-  // node_modules/colorjs.io/src/clone.js
+  // packages/theme/node_modules/colorjs.io/src/clone.js
   function clone(color) {
     return {
       space: color.space,
-      coords: color.coords.slice(),
+      coords: (
+        /** @type {Coords} */
+        color.coords.slice()
+      ),
       alpha: color.alpha
     };
   }
 
-  // node_modules/colorjs.io/src/distance.js
+  // packages/theme/node_modules/colorjs.io/src/distance.js
   function distance(color1, color2, space = "lab") {
     space = ColorSpace.get(space);
     let coords1 = space.from(color1);
     let coords2 = space.from(color2);
-    return Math.sqrt(coords1.reduce((acc, c13, i) => {
-      let c23 = coords2[i];
-      if (isNaN(c13) || isNaN(c23)) {
-        return acc;
-      }
-      return acc + (c23 - c13) ** 2;
-    }, 0));
+    return Math.sqrt(
+      coords1.reduce((acc, c13, i) => {
+        let c23 = coords2[i];
+        if (isNone(c13) || isNone(c23)) {
+          return acc;
+        }
+        return acc + (c23 - c13) ** 2;
+      }, 0)
+    );
   }
 
-  // node_modules/colorjs.io/src/deltaE/deltaE76.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaE76.js
   function deltaE76(color, sample) {
     return distance(color, sample, "lab");
   }
 
-  // node_modules/colorjs.io/src/deltaE/deltaECMC.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaECMC.js
   var \u03C02 = Math.PI;
   var d2r2 = \u03C02 / 180;
   function deltaECMC_default(color, sample, { l = 2, c = 1 } = {}) {
@@ -1262,7 +1520,7 @@ var wp;
     }
     let SC = 0.0638 * C1 / (1 + 0.0131 * C1) + 0.638;
     let T;
-    if (Number.isNaN(H1)) {
+    if (isNone(H1)) {
       H1 = 0;
     }
     if (H1 >= 164 && H1 <= 345) {
@@ -1279,7 +1537,7 @@ var wp;
     return Math.sqrt(dE);
   }
 
-  // node_modules/colorjs.io/src/spaces/xyz-abs-d65.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/xyz-abs-d65.js
   var Yw = 203;
   var xyz_abs_d65_default = new ColorSpace({
     // Absolute CIE XYZ, with a D65 whitepoint,
@@ -1305,14 +1563,14 @@ var wp;
     },
     base: xyz_d65_default,
     fromBase(XYZ) {
-      return XYZ.map((v) => Math.max(v * Yw, 0));
+      return XYZ.map((v) => v * Yw);
     },
     toBase(AbsXYZ) {
-      return AbsXYZ.map((v) => Math.max(v / Yw, 0));
+      return AbsXYZ.map((v) => v / Yw);
     }
   });
 
-  // node_modules/colorjs.io/src/spaces/jzazbz.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/jzazbz.js
   var b = 1.15;
   var g = 0.66;
   var n = 2610 / 2 ** 14;
@@ -1340,9 +1598,9 @@ var wp;
     [0.199076, 1.096799, -1.295875]
   ];
   var IabtoCone_M = [
-    [1, 0.1386050432715393, 0.05804731615611886],
-    [0.9999999999999999, -0.1386050432715393, -0.05804731615611886],
-    [0.9999999999999998, -0.09601924202631895, -0.8118918960560388]
+    [1, 0.13860504327153927, 0.05804731615611883],
+    [1, -0.1386050432715393, -0.058047316156118904],
+    [1, -0.09601924202631895, -0.811891896056039]
   ];
   var jzazbz_default = new ColorSpace({
     id: "jzazbz",
@@ -1353,10 +1611,10 @@ var wp;
         name: "Jz"
       },
       az: {
-        refRange: [-0.5, 0.5]
+        refRange: [-0.21, 0.21]
       },
       bz: {
-        refRange: [-0.5, 0.5]
+        refRange: [-0.21, 0.21]
       }
     },
     base: xyz_abs_d65_default,
@@ -1364,40 +1622,50 @@ var wp;
       let [Xa, Ya, Za] = XYZ;
       let Xm = b * Xa - (b - 1) * Za;
       let Ym = g * Ya - (g - 1) * Xa;
-      let LMS = multiplyMatrices(XYZtoCone_M, [Xm, Ym, Za]);
-      let PQLMS = LMS.map(function(val) {
-        let num = c1 + c2 * (val / 1e4) ** n;
-        let denom = 1 + c3 * (val / 1e4) ** n;
-        return (num / denom) ** p;
-      });
-      let [Iz, az, bz] = multiplyMatrices(ConetoIab_M, PQLMS);
+      let LMS = multiply_v3_m3x3([Xm, Ym, Za], XYZtoCone_M);
+      let PQLMS = (
+        /** @type {Vector3} } */
+        LMS.map(function(val) {
+          let num = c1 + c2 * spow(val / 1e4, n);
+          let denom = 1 + c3 * spow(val / 1e4, n);
+          return spow(num / denom, p);
+        })
+      );
+      let [Iz, az, bz] = multiply_v3_m3x3(PQLMS, ConetoIab_M);
       let Jz = (1 + d) * Iz / (1 + d * Iz) - d0;
       return [Jz, az, bz];
     },
     toBase(Jzazbz) {
       let [Jz, az, bz] = Jzazbz;
       let Iz = (Jz + d0) / (1 + d - d * (Jz + d0));
-      let PQLMS = multiplyMatrices(IabtoCone_M, [Iz, az, bz]);
-      let LMS = PQLMS.map(function(val) {
-        let num = c1 - val ** pinv;
-        let denom = c3 * val ** pinv - c2;
-        let x = 1e4 * (num / denom) ** ninv;
-        return x;
-      });
-      let [Xm, Ym, Za] = multiplyMatrices(ConetoXYZ_M, LMS);
+      let PQLMS = multiply_v3_m3x3([Iz, az, bz], IabtoCone_M);
+      let LMS = (
+        /** @type {Vector3} } */
+        PQLMS.map(function(val) {
+          let num = c1 - spow(val, pinv);
+          let denom = c3 * spow(val, pinv) - c2;
+          let x = 1e4 * spow(num / denom, ninv);
+          return x;
+        })
+      );
+      let [Xm, Ym, Za] = multiply_v3_m3x3(LMS, ConetoXYZ_M);
       let Xa = (Xm + (b - 1) * Za) / b;
       let Ya = (Ym + (g - 1) * Xa) / g;
       return [Xa, Ya, Za];
     },
     formats: {
       // https://drafts.csswg.org/css-color-hdr/#Jzazbz
-      "color": {
-        coords: ["<number> | <percentage>", "<number> | <percentage>[-1,1]", "<number> | <percentage>[-1,1]"]
+      jzazbz: {
+        coords: [
+          "<percentage> | <number>",
+          "<number> | <percentage>",
+          "<number> | <percentage>"
+        ]
       }
     }
   });
 
-  // node_modules/colorjs.io/src/spaces/jzczhz.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/jzczhz.js
   var jzczhz_default = new ColorSpace({
     id: "jzczhz",
     name: "JzCzHz",
@@ -1407,7 +1675,7 @@ var wp;
         name: "Jz"
       },
       cz: {
-        refRange: [0, 1],
+        refRange: [0, 0.26],
         name: "Chroma"
       },
       hz: {
@@ -1417,49 +1685,29 @@ var wp;
       }
     },
     base: jzazbz_default,
-    fromBase(jzazbz) {
-      let [Jz, az, bz] = jzazbz;
-      let hue;
-      const \u03B56 = 2e-4;
-      if (Math.abs(az) < \u03B56 && Math.abs(bz) < \u03B56) {
-        hue = NaN;
-      } else {
-        hue = Math.atan2(bz, az) * 180 / Math.PI;
+    fromBase: lch_default.fromBase,
+    toBase: lch_default.toBase,
+    formats: {
+      // https://drafts.csswg.org/css-color-hdr/#JzCzhz
+      jzczhz: {
+        coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"]
       }
-      return [
-        Jz,
-        // Jz is still Jz
-        Math.sqrt(az ** 2 + bz ** 2),
-        // Chroma
-        constrain(hue)
-        // Hue, in degrees [0 to 360)
-      ];
-    },
-    toBase(jzczhz) {
-      return [
-        jzczhz[0],
-        // Jz is still Jz
-        jzczhz[1] * Math.cos(jzczhz[2] * Math.PI / 180),
-        // az
-        jzczhz[1] * Math.sin(jzczhz[2] * Math.PI / 180)
-        // bz
-      ];
     }
   });
 
-  // node_modules/colorjs.io/src/deltaE/deltaEJz.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEJz.js
   function deltaEJz_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [Jz1, Cz1, Hz1] = jzczhz_default.from(color);
     let [Jz2, Cz2, Hz2] = jzczhz_default.from(sample);
     let \u0394J = Jz1 - Jz2;
     let \u0394C = Cz1 - Cz2;
-    if (Number.isNaN(Hz1) && Number.isNaN(Hz2)) {
+    if (isNone(Hz1) && isNone(Hz2)) {
       Hz1 = 0;
       Hz2 = 0;
-    } else if (Number.isNaN(Hz1)) {
+    } else if (isNone(Hz1)) {
       Hz1 = Hz2;
-    } else if (Number.isNaN(Hz2)) {
+    } else if (isNone(Hz2)) {
       Hz2 = Hz1;
     }
     let \u0394h = Hz1 - Hz2;
@@ -1467,7 +1715,7 @@ var wp;
     return Math.sqrt(\u0394J ** 2 + \u0394C ** 2 + \u0394H ** 2);
   }
 
-  // node_modules/colorjs.io/src/spaces/ictcp.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/ictcp.js
   var c12 = 3424 / 4096;
   var c22 = 2413 / 128;
   var c32 = 2392 / 128;
@@ -1525,33 +1773,48 @@ var wp;
     },
     base: xyz_abs_d65_default,
     fromBase(XYZ) {
-      let LMS = multiplyMatrices(XYZtoLMS_M2, XYZ);
+      let LMS = multiply_v3_m3x3(XYZ, XYZtoLMS_M2);
       return LMStoICtCp(LMS);
     },
     toBase(ICtCp) {
       let LMS = ICtCptoLMS(ICtCp);
-      return multiplyMatrices(LMStoXYZ_M2, LMS);
+      return multiply_v3_m3x3(LMS, LMStoXYZ_M2);
+    },
+    formats: {
+      ictcp: {
+        coords: [
+          "<percentage> | <number>",
+          "<number> | <percentage>",
+          "<number> | <percentage>"
+        ]
+      }
     }
   });
   function LMStoICtCp(LMS) {
-    let PQLMS = LMS.map(function(val) {
-      let num = c12 + c22 * (val / 1e4) ** m1;
-      let denom = 1 + c32 * (val / 1e4) ** m1;
-      return (num / denom) ** m2;
-    });
-    return multiplyMatrices(LMStoIPT_M, PQLMS);
+    let PQLMS = (
+      /** @type {Vector3} */
+      LMS.map(function(val) {
+        let num = c12 + c22 * (val / 1e4) ** m1;
+        let denom = 1 + c32 * (val / 1e4) ** m1;
+        return (num / denom) ** m2;
+      })
+    );
+    return multiply_v3_m3x3(PQLMS, LMStoIPT_M);
   }
   function ICtCptoLMS(ICtCp) {
-    let PQLMS = multiplyMatrices(IPTtoLMS_M, ICtCp);
-    let LMS = PQLMS.map(function(val) {
-      let num = Math.max(val ** im2 - c12, 0);
-      let denom = c22 - c32 * val ** im2;
-      return 1e4 * (num / denom) ** im1;
-    });
+    let PQLMS = multiply_v3_m3x3(ICtCp, IPTtoLMS_M);
+    let LMS = (
+      /** @type {Vector3} */
+      PQLMS.map(function(val) {
+        let num = Math.max(val ** im2 - c12, 0);
+        let denom = c22 - c32 * val ** im2;
+        return 1e4 * (num / denom) ** im1;
+      })
+    );
     return LMS;
   }
 
-  // node_modules/colorjs.io/src/deltaE/deltaEITP.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEITP.js
   function deltaEITP_default(color, sample) {
     [color, sample] = getColor([color, sample]);
     let [I1, T1, P1] = ictcp_default.from(color);
@@ -1559,7 +1822,19 @@ var wp;
     return 720 * Math.sqrt((I1 - I2) ** 2 + 0.25 * (T1 - T2) ** 2 + (P1 - P2) ** 2);
   }
 
-  // node_modules/colorjs.io/src/spaces/cam16.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEOK2.js
+  function deltaEOK2_default(color, sample) {
+    [color, sample] = getColor([color, sample]);
+    let abscale = 2;
+    let [L1, a1, b1] = oklab_default.from(color);
+    let [L2, a2, b2] = oklab_default.from(sample);
+    let \u0394L = L1 - L2;
+    let \u0394a = abscale * (a1 - a2);
+    let \u0394b = abscale * (b1 - b2);
+    return Math.sqrt(\u0394L ** 2 + \u0394a ** 2 + \u0394b ** 2);
+  }
+
+  // packages/theme/node_modules/colorjs.io/src/spaces/cam16.js
   var white2 = WHITES.D65;
   var adaptedCoef = 0.42;
   var adaptedCoefInv = 1 / adaptedCoef;
@@ -1593,18 +1868,24 @@ var wp;
   var rad2deg = 180 / Math.PI;
   var deg2rad = Math.PI / 180;
   function adapt2(coords, fl) {
-    const temp = coords.map((c) => {
-      const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
-      return 400 * copySign(x, c) / (x + 27.13);
-    });
+    const temp = (
+      /** @type {[number, number, number]} */
+      coords.map((c) => {
+        const x = spow(fl * Math.abs(c) * 0.01, adaptedCoef);
+        return 400 * copySign(x, c) / (x + 27.13);
+      })
+    );
     return temp;
   }
   function unadapt(adapted, fl) {
     const constant = 100 / fl * 27.13 ** adaptedCoefInv;
-    return adapted.map((c) => {
-      const cabs = Math.abs(c);
-      return copySign(constant * spow(cabs / (400 - cabs), adaptedCoefInv), c);
-    });
+    return (
+      /** @type {[number, number, number]} */
+      adapted.map((c) => {
+        const cabs = Math.abs(c);
+        return copySign(constant * spow(cabs / (400 - cabs), adaptedCoefInv), c);
+      })
+    );
   }
   function hueQuadrature(h) {
     let hp = constrain(h);
@@ -1624,26 +1905,27 @@ var wp;
     Hp = Hp % 100;
     const [hi, hii] = hueQuadMap.h.slice(i, i + 2);
     const [ei, eii] = hueQuadMap.e.slice(i, i + 2);
-    return constrain(
-      (Hp * (eii * hi - ei * hii) - 100 * hi * eii) / (Hp * (eii - ei) - 100 * eii)
-    );
+    return constrain((Hp * (eii * hi - ei * hii) - 100 * hi * eii) / (Hp * (eii - ei) - 100 * eii));
   }
   function environment(refWhite, adaptingLuminance, backgroundLuminance, surround, discounting) {
     const env = {};
     env.discounting = discounting;
     env.refWhite = refWhite;
     env.surround = surround;
-    const xyzW = refWhite.map((c) => {
-      return c * 100;
-    });
+    const xyzW = (
+      /** @type {Vector3} */
+      refWhite.map((c) => {
+        return c * 100;
+      })
+    );
     env.la = adaptingLuminance;
     env.yb = backgroundLuminance;
     const yw = xyzW[1];
-    const rgbW = multiplyMatrices(cat16, xyzW);
-    surround = surroundMap[env.surround];
-    const f = surround[0];
-    env.c = surround[1];
-    env.nc = surround[2];
+    const rgbW = multiply_v3_m3x3(xyzW, cat16);
+    let values = surroundMap[env.surround];
+    const f = values[0];
+    env.c = values[1];
+    env.nc = values[2];
     const k = 1 / (5 * env.la + 1);
     const k4 = k ** 4;
     env.fl = k4 * env.la + 0.1 * (1 - k4) * (1 - k4) * Math.cbrt(5 * env.la);
@@ -1652,30 +1934,26 @@ var wp;
     env.z = 1.48 + Math.sqrt(env.n);
     env.nbb = 0.725 * env.n ** -0.2;
     env.ncb = env.nbb;
-    const d2 = discounting ? 1 : Math.max(
-      Math.min(f * (1 - 1 / 3.6 * Math.exp((-env.la - 42) / 92)), 1),
-      0
-    );
-    env.dRgb = rgbW.map((c) => {
+    const d2 = discounting ? 1 : Math.max(Math.min(f * (1 - 1 / 3.6 * Math.exp((-env.la - 42) / 92)), 1), 0);
+    env.dRgb = /** @type {[number, number, number]} */
+    rgbW.map((c) => {
       return interpolate(1, yw / c, d2);
     });
-    env.dRgbInv = env.dRgb.map((c) => {
+    env.dRgbInv = /** @type {[number, number, number]} */
+    env.dRgb.map((c) => {
       return 1 / c;
     });
-    const rgbCW = rgbW.map((c, i) => {
-      return c * env.dRgb[i];
-    });
+    const rgbCW = (
+      /** @type {[number, number, number]} */
+      rgbW.map((c, i) => {
+        return c * env.dRgb[i];
+      })
+    );
     const rgbAW = adapt2(rgbCW, env.fl);
     env.aW = env.nbb * (2 * rgbAW[0] + rgbAW[1] + 0.05 * rgbAW[2]);
     return env;
   }
-  var viewingConditions = environment(
-    white2,
-    64 / Math.PI * 0.2,
-    20,
-    "average",
-    false
-  );
+  var viewingConditions = environment(white2, 64 / Math.PI * 0.2, 20, "average", false);
   function fromCam16(cam16, env) {
     if (!(cam16.J !== void 0 ^ cam16.Q !== void 0)) {
       throw new Error("Conversion requires one and only one: 'J' or 'Q'");
@@ -1711,10 +1989,7 @@ var wp;
     } else if (cam16.s !== void 0) {
       alpha = 4e-4 * cam16.s ** 2 * (env.aW + 4) / env.c;
     }
-    const t = spow(
-      alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73),
-      10 / 9
-    );
+    const t = spow(alpha * Math.pow(1.64 - Math.pow(0.29, env.n), -0.73), 10 / 9);
     const et = 0.25 * (Math.cos(hRad + 2) + 3.8);
     const A = env.aW * spow(Jroot, 2 / env.c / env.z);
     const p1 = 5e4 / 13 * env.nc * env.ncb * et;
@@ -1723,26 +1998,35 @@ var wp;
     const a = r * cosh;
     const b2 = r * sinh;
     const rgb_c = unadapt(
-      multiplyMatrices(m12, [p2, a, b2]).map((c) => {
+      /** @type {Vector3} */
+      multiply_v3_m3x3([p2, a, b2], m12).map((c) => {
         return c * 1 / 1403;
       }),
       env.fl
     );
-    return multiplyMatrices(
-      cat16Inv,
-      rgb_c.map((c, i) => {
-        return c * env.dRgbInv[i];
+    return (
+      /** @type {Vector3} */
+      multiply_v3_m3x3(
+        /** @type {Vector3} */
+        rgb_c.map((c, i) => {
+          return c * env.dRgbInv[i];
+        }),
+        cat16Inv
+      ).map((c) => {
+        return c / 100;
       })
-    ).map((c) => {
-      return c / 100;
-    });
+    );
   }
   function toCam16(xyzd65, env) {
-    const xyz100 = xyzd65.map((c) => {
-      return c * 100;
-    });
+    const xyz100 = (
+      /** @type {Vector3} */
+      xyzd65.map((c) => {
+        return c * 100;
+      })
+    );
     const rgbA = adapt2(
-      multiplyMatrices(cat16, xyz100).map((c, i) => {
+      /** @type {[number, number, number]} */
+      multiply_v3_m3x3(xyz100, cat16).map((c, i) => {
         return c * env.dRgb[i];
       }),
       env.fl
@@ -1751,10 +2035,7 @@ var wp;
     const b2 = (rgbA[0] + rgbA[1] - 2 * rgbA[2]) / 9;
     const hRad = (Math.atan2(b2, a) % tau + tau) % tau;
     const et = 0.25 * (Math.cos(hRad + 2) + 3.8);
-    const t = 5e4 / 13 * env.nc * env.ncb * zdiv(
-      et * Math.sqrt(a ** 2 + b2 ** 2),
-      rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305
-    );
+    const t = 5e4 / 13 * env.nc * env.ncb * zdiv(et * Math.sqrt(a ** 2 + b2 ** 2), rgbA[0] + rgbA[1] + 1.05 * rgbA[2] + 0.305);
     const alpha = spow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, env.n), 0.73);
     const A = env.nbb * (2 * rgbA[0] + rgbA[1] + 0.05 * rgbA[2]);
     const Jroot = spow(A / env.aW, 0.5 * env.c * env.z);
@@ -1788,18 +2069,19 @@ var wp;
     },
     base: xyz_d65_default,
     fromBase(xyz) {
+      if (this.\u03B5 === void 0) {
+        this.\u03B5 = Object.values(this.coords)[1].refRange[1] / 1e5;
+      }
       const cam16 = toCam16(xyz, viewingConditions);
-      return [cam16.J, cam16.M, cam16.h];
+      const isAchromatic = Math.abs(cam16.M) < this.\u03B5;
+      return [cam16.J, isAchromatic ? 0 : cam16.M, isAchromatic ? null : cam16.h];
     },
     toBase(cam16) {
-      return fromCam16(
-        { J: cam16[0], M: cam16[1], h: cam16[2] },
-        viewingConditions
-      );
+      return fromCam16({ J: cam16[0], M: cam16[1], h: cam16[2] }, viewingConditions);
     }
   });
 
-  // node_modules/colorjs.io/src/spaces/hct.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/hct.js
   var white3 = WHITES.D65;
   var \u03B55 = 216 / 24389;
   var \u03BA2 = 24389 / 27;
@@ -1826,17 +2108,17 @@ var wp;
     const threshold = 2e-12;
     const max_attempts = 15;
     let attempt = 0;
-    let last2 = Infinity;
+    let last = Infinity;
     let best = j;
     while (attempt <= max_attempts) {
       xyz = fromCam16({ J: j, C: c, h }, env);
       const delta = Math.abs(xyz[1] - y);
-      if (delta < last2) {
+      if (delta < last) {
         if (delta <= threshold) {
           return xyz;
         }
         best = j;
-        last2 = delta;
+        last = delta;
       }
       j = j - (xyz[1] - y) * j / (2 * xyz[1]);
       attempt += 1;
@@ -1878,7 +2160,15 @@ var wp;
     },
     base: xyz_d65_default,
     fromBase(xyz) {
-      return toHct(xyz, viewingConditions2);
+      if (this.\u03B5 === void 0) {
+        this.\u03B5 = Object.values(this.coords)[1].refRange[1] / 1e5;
+      }
+      let hct = toHct(xyz, viewingConditions2);
+      if (hct[1] < this.\u03B5) {
+        hct[1] = 0;
+        hct[0] = null;
+      }
+      return hct;
     },
     toBase(hct) {
       return fromHct(hct, viewingConditions2);
@@ -1891,7 +2181,7 @@ var wp;
     }
   });
 
-  // node_modules/colorjs.io/src/deltaE/deltaEHCT.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/deltaEHCT.js
   var rad2deg2 = 180 / Math.PI;
   var deg2rad2 = Math.PI / 180;
   var ucsCoeff = [1, 7e-3, 0.0228];
@@ -1912,7 +2202,7 @@ var wp;
     return Math.sqrt((t1 - t2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2);
   }
 
-  // node_modules/colorjs.io/src/deltaE/index.js
+  // packages/theme/node_modules/colorjs.io/src/deltaE/index.js
   var deltaE_default = {
     deltaE76,
     deltaECMC: deltaECMC_default,
@@ -1920,16 +2210,17 @@ var wp;
     deltaEJz: deltaEJz_default,
     deltaEITP: deltaEITP_default,
     deltaEOK: deltaEOK_default,
+    deltaEOK2: deltaEOK2_default,
     deltaEHCT: deltaEHCT_default
   };
 
-  // node_modules/colorjs.io/src/toGamut.js
+  // packages/theme/node_modules/colorjs.io/src/toGamut.js
   function calcEpsilon(jnd) {
     const order = !jnd ? 0 : Math.floor(Math.log10(Math.abs(jnd)));
     return Math.max(parseFloat(`1e${order - 2}`), 1e-6);
   }
   var GMAPPRESET = {
-    "hct": {
+    hct: {
       method: "hct.c",
       jnd: 2,
       deltaEMethod: "hct",
@@ -1947,7 +2238,7 @@ var wp;
     space = void 0,
     deltaEMethod = "",
     jnd = 2,
-    blackWhiteClamp = {}
+    blackWhiteClamp = void 0
   } = {}) {
     color = getColor(color);
     if (isString(arguments[1])) {
@@ -1957,7 +2248,10 @@ var wp;
     }
     space = ColorSpace.get(space);
     if (inGamut(color, space, { epsilon: 0 })) {
-      return color;
+      return (
+        /** @type {PlainColorObject} */
+        color
+      );
     }
     let spaceColor;
     if (method === "css") {
@@ -1976,9 +2270,12 @@ var wp;
             }
           }
         }
+        if (jnd === 0) {
+          jnd = 1e-16;
+        }
         let clipped = toGamut(to(color, space), { method: "clip", space });
         if (de(color, clipped) > jnd) {
-          if (Object.keys(blackWhiteClamp).length === 3) {
+          if (blackWhiteClamp && Object.keys(blackWhiteClamp).length === 3) {
             let channelMeta = ColorSpace.resolveCoord(blackWhiteClamp.channel);
             let channel = get(to(color, channelMeta.space), channelMeta.id);
             if (isNone(channel)) {
@@ -2022,9 +2319,12 @@ var wp;
       } else {
         spaceColor = to(color, space);
       }
-      if (method === "clip" || !inGamut(spaceColor, space, { epsilon: 0 })) {
+      if (method === "clip" || // Dumb coord clipping
+      // finish off smarter gamut mapping with clip to get rid of ε, see #17
+      !inGamut(spaceColor, space, { epsilon: 0 })) {
         let bounds = Object.values(space.coords).map((c) => c.range || []);
-        spaceColor.coords = spaceColor.coords.map((c, i) => {
+        spaceColor.coords = /** @type {[number, number, number]} */
+        spaceColor.coords.map((c, i) => {
           let [min, max] = bounds[i];
           if (min !== void 0) {
             c = Math.max(min, c);
@@ -2040,12 +2340,15 @@ var wp;
       spaceColor = to(spaceColor, color.space);
     }
     color.coords = spaceColor.coords;
-    return color;
+    return (
+      /** @type {PlainColorObject} */
+      color
+    );
   }
   toGamut.returns = "color";
   var COLORS = {
-    WHITE: { space: oklab_default, coords: [1, 0, 0] },
-    BLACK: { space: oklab_default, coords: [0, 0, 0] }
+    WHITE: { space: oklab_default, coords: [1, 0, 0], alpha: 1 },
+    BLACK: { space: oklab_default, coords: [0, 0, 0], alpha: 1 }
   };
   function toGamutCSS(origin, { space } = {}) {
     const JND = 0.02;
@@ -2076,8 +2379,12 @@ var wp;
     }
     function clip(_color) {
       const destColor = to(_color, space);
-      const spaceCoords = Object.values(space.coords);
-      destColor.coords = destColor.coords.map((coord, index) => {
+      const spaceCoords = Object.values(
+        /** @type {ColorSpace} */
+        space.coords
+      );
+      destColor.coords = /** @type {[number, number, number]} */
+      destColor.coords.map((coord, index) => {
         if ("range" in spaceCoords[index]) {
           const [min2, max2] = spaceCoords[index].range;
           return clamp(min2, coord, max2);
@@ -2118,7 +2425,7 @@ var wp;
     return clipped;
   }
 
-  // node_modules/colorjs.io/src/to.js
+  // packages/theme/node_modules/colorjs.io/src/to.js
   function to(color, space, { inGamut: inGamut2 } = {}) {
     color = getColor(color);
     space = ColorSpace.get(space);
@@ -2131,56 +2438,87 @@ var wp;
   }
   to.returns = "color";
 
-  // node_modules/colorjs.io/src/serialize.js
-  function serialize(color, {
-    precision = defaults_default.precision,
-    format = "default",
-    inGamut: inGamut2 = true,
-    ...customOptions
-  } = {}) {
+  // packages/theme/node_modules/colorjs.io/src/serialize.js
+  function serialize(color, options = {}) {
+    let {
+      precision = defaults_default.precision,
+      format,
+      inGamut: inGamut2 = true,
+      coords: coordFormat,
+      alpha: alphaFormat,
+      commas
+    } = options;
     let ret;
-    color = getColor(color);
+    let colorWithMeta = (
+      /** @type {PlainColorObject & ParseOptions} */
+      getColor(color)
+    );
     let formatId = format;
-    format = color.space.getFormat(format) ?? color.space.getFormat("default") ?? ColorSpace.DEFAULT_FORMAT;
-    let coords = color.coords.slice();
+    let parseMeta = colorWithMeta.parseMeta;
+    if (parseMeta && !format) {
+      if (parseMeta.format.canSerialize()) {
+        format = parseMeta.format;
+        formatId = parseMeta.formatId;
+      }
+      coordFormat ??= parseMeta.types;
+      alphaFormat ??= parseMeta.alphaType;
+      commas ??= parseMeta.commas;
+    }
+    if (formatId) {
+      format = colorWithMeta.space.getFormat(format) ?? ColorSpace.findFormat(formatId);
+    }
+    if (!format) {
+      format = colorWithMeta.space.getFormat("default") ?? ColorSpace.DEFAULT_FORMAT;
+      formatId = format.name;
+    }
+    if (format && format.space && format.space !== colorWithMeta.space) {
+      colorWithMeta = to(colorWithMeta, format.space);
+    }
+    let coords = colorWithMeta.coords.slice();
     inGamut2 ||= format.toGamut;
-    if (inGamut2 && !inGamut(color)) {
-      coords = toGamut(clone(color), inGamut2 === true ? void 0 : inGamut2).coords;
+    if (inGamut2 && !inGamut(colorWithMeta)) {
+      coords = toGamut(clone(colorWithMeta), inGamut2 === true ? void 0 : inGamut2).coords;
     }
     if (format.type === "custom") {
-      customOptions.precision = precision;
       if (format.serialize) {
-        ret = format.serialize(coords, color.alpha, customOptions);
+        ret = format.serialize(coords, colorWithMeta.alpha, options);
       } else {
-        throw new TypeError(`format ${formatId} can only be used to parse colors, not for serialization`);
+        throw new TypeError(
+          `format ${formatId} can only be used to parse colors, not for serialization`
+        );
       }
     } else {
       let name = format.name || "color";
-      if (format.serializeCoords) {
-        coords = format.serializeCoords(coords, precision);
-      } else {
-        if (precision !== null) {
-          coords = coords.map((c) => {
-            return serializeNumber(c, { precision });
-          });
-        }
-      }
-      let args = [...coords];
+      let args = format.serializeCoords(coords, precision, coordFormat);
       if (name === "color") {
-        let cssId = format.id || format.ids?.[0] || color.space.id;
+        let cssId = format.id || format.ids?.[0] || colorWithMeta.space.cssId || colorWithMeta.space.id;
         args.unshift(cssId);
       }
-      let alpha = color.alpha;
-      if (precision !== null) {
-        alpha = serializeNumber(alpha, { precision });
+      let alpha = colorWithMeta.alpha;
+      if (alphaFormat !== void 0 && !(typeof alphaFormat === "object")) {
+        alphaFormat = typeof alphaFormat === "string" ? { type: alphaFormat } : { include: alphaFormat };
       }
-      let strAlpha = color.alpha >= 1 || format.noAlpha ? "" : `${format.commas ? "," : " /"} ${alpha}`;
-      ret = `${name}(${args.join(format.commas ? ", " : " ")}${strAlpha})`;
+      let alphaType = alphaFormat?.type ?? "<number>";
+      let serializeAlpha = alphaFormat?.include === true || format.alpha === true || alphaFormat?.include !== false && format.alpha !== false && alpha < 1;
+      let strAlpha = "";
+      commas ??= format.commas;
+      if (serializeAlpha) {
+        if (precision !== null) {
+          let unit;
+          if (alphaType === "<percentage>") {
+            unit = "%";
+            alpha *= 100;
+          }
+          alpha = serializeNumber(alpha, { precision, unit });
+        }
+        strAlpha = `${commas ? "," : " /"} ${alpha}`;
+      }
+      ret = `${name}(${args.join(commas ? ", " : " ")}${strAlpha})`;
     }
     return ret;
   }
 
-  // node_modules/colorjs.io/src/spaces/p3-linear.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/p3-linear.js
   var toXYZ_M = [
     [0.4865709486482162, 0.26566769316909306, 0.1982172852343625],
     [0.2289745640697488, 0.6917385218365064, 0.079286914093745],
@@ -2193,14 +2531,14 @@ var wp;
   ];
   var p3_linear_default = new RGBColorSpace({
     id: "p3-linear",
-    cssId: "--display-p3-linear",
+    cssId: "display-p3-linear",
     name: "Linear P3",
     white: "D65",
     toXYZ_M,
     fromXYZ_M
   });
 
-  // node_modules/colorjs.io/src/spaces/srgb-linear.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/srgb-linear.js
   var toXYZ_M2 = [
     [0.41239079926595934, 0.357584339383878, 0.1804807884018343],
     [0.21263900587151027, 0.715168678767756, 0.07219231536073371],
@@ -2219,159 +2557,159 @@ var wp;
     fromXYZ_M: fromXYZ_M2
   });
 
-  // node_modules/colorjs.io/src/keywords.js
+  // packages/theme/node_modules/colorjs.io/src/keywords.js
   var keywords_default = {
-    "aliceblue": [240 / 255, 248 / 255, 1],
-    "antiquewhite": [250 / 255, 235 / 255, 215 / 255],
-    "aqua": [0, 1, 1],
-    "aquamarine": [127 / 255, 1, 212 / 255],
-    "azure": [240 / 255, 1, 1],
-    "beige": [245 / 255, 245 / 255, 220 / 255],
-    "bisque": [1, 228 / 255, 196 / 255],
-    "black": [0, 0, 0],
-    "blanchedalmond": [1, 235 / 255, 205 / 255],
-    "blue": [0, 0, 1],
-    "blueviolet": [138 / 255, 43 / 255, 226 / 255],
-    "brown": [165 / 255, 42 / 255, 42 / 255],
-    "burlywood": [222 / 255, 184 / 255, 135 / 255],
-    "cadetblue": [95 / 255, 158 / 255, 160 / 255],
-    "chartreuse": [127 / 255, 1, 0],
-    "chocolate": [210 / 255, 105 / 255, 30 / 255],
-    "coral": [1, 127 / 255, 80 / 255],
-    "cornflowerblue": [100 / 255, 149 / 255, 237 / 255],
-    "cornsilk": [1, 248 / 255, 220 / 255],
-    "crimson": [220 / 255, 20 / 255, 60 / 255],
-    "cyan": [0, 1, 1],
-    "darkblue": [0, 0, 139 / 255],
-    "darkcyan": [0, 139 / 255, 139 / 255],
-    "darkgoldenrod": [184 / 255, 134 / 255, 11 / 255],
-    "darkgray": [169 / 255, 169 / 255, 169 / 255],
-    "darkgreen": [0, 100 / 255, 0],
-    "darkgrey": [169 / 255, 169 / 255, 169 / 255],
-    "darkkhaki": [189 / 255, 183 / 255, 107 / 255],
-    "darkmagenta": [139 / 255, 0, 139 / 255],
-    "darkolivegreen": [85 / 255, 107 / 255, 47 / 255],
-    "darkorange": [1, 140 / 255, 0],
-    "darkorchid": [153 / 255, 50 / 255, 204 / 255],
-    "darkred": [139 / 255, 0, 0],
-    "darksalmon": [233 / 255, 150 / 255, 122 / 255],
-    "darkseagreen": [143 / 255, 188 / 255, 143 / 255],
-    "darkslateblue": [72 / 255, 61 / 255, 139 / 255],
-    "darkslategray": [47 / 255, 79 / 255, 79 / 255],
-    "darkslategrey": [47 / 255, 79 / 255, 79 / 255],
-    "darkturquoise": [0, 206 / 255, 209 / 255],
-    "darkviolet": [148 / 255, 0, 211 / 255],
-    "deeppink": [1, 20 / 255, 147 / 255],
-    "deepskyblue": [0, 191 / 255, 1],
-    "dimgray": [105 / 255, 105 / 255, 105 / 255],
-    "dimgrey": [105 / 255, 105 / 255, 105 / 255],
-    "dodgerblue": [30 / 255, 144 / 255, 1],
-    "firebrick": [178 / 255, 34 / 255, 34 / 255],
-    "floralwhite": [1, 250 / 255, 240 / 255],
-    "forestgreen": [34 / 255, 139 / 255, 34 / 255],
-    "fuchsia": [1, 0, 1],
-    "gainsboro": [220 / 255, 220 / 255, 220 / 255],
-    "ghostwhite": [248 / 255, 248 / 255, 1],
-    "gold": [1, 215 / 255, 0],
-    "goldenrod": [218 / 255, 165 / 255, 32 / 255],
-    "gray": [128 / 255, 128 / 255, 128 / 255],
-    "green": [0, 128 / 255, 0],
-    "greenyellow": [173 / 255, 1, 47 / 255],
-    "grey": [128 / 255, 128 / 255, 128 / 255],
-    "honeydew": [240 / 255, 1, 240 / 255],
-    "hotpink": [1, 105 / 255, 180 / 255],
-    "indianred": [205 / 255, 92 / 255, 92 / 255],
-    "indigo": [75 / 255, 0, 130 / 255],
-    "ivory": [1, 1, 240 / 255],
-    "khaki": [240 / 255, 230 / 255, 140 / 255],
-    "lavender": [230 / 255, 230 / 255, 250 / 255],
-    "lavenderblush": [1, 240 / 255, 245 / 255],
-    "lawngreen": [124 / 255, 252 / 255, 0],
-    "lemonchiffon": [1, 250 / 255, 205 / 255],
-    "lightblue": [173 / 255, 216 / 255, 230 / 255],
-    "lightcoral": [240 / 255, 128 / 255, 128 / 255],
-    "lightcyan": [224 / 255, 1, 1],
-    "lightgoldenrodyellow": [250 / 255, 250 / 255, 210 / 255],
-    "lightgray": [211 / 255, 211 / 255, 211 / 255],
-    "lightgreen": [144 / 255, 238 / 255, 144 / 255],
-    "lightgrey": [211 / 255, 211 / 255, 211 / 255],
-    "lightpink": [1, 182 / 255, 193 / 255],
-    "lightsalmon": [1, 160 / 255, 122 / 255],
-    "lightseagreen": [32 / 255, 178 / 255, 170 / 255],
-    "lightskyblue": [135 / 255, 206 / 255, 250 / 255],
-    "lightslategray": [119 / 255, 136 / 255, 153 / 255],
-    "lightslategrey": [119 / 255, 136 / 255, 153 / 255],
-    "lightsteelblue": [176 / 255, 196 / 255, 222 / 255],
-    "lightyellow": [1, 1, 224 / 255],
-    "lime": [0, 1, 0],
-    "limegreen": [50 / 255, 205 / 255, 50 / 255],
-    "linen": [250 / 255, 240 / 255, 230 / 255],
-    "magenta": [1, 0, 1],
-    "maroon": [128 / 255, 0, 0],
-    "mediumaquamarine": [102 / 255, 205 / 255, 170 / 255],
-    "mediumblue": [0, 0, 205 / 255],
-    "mediumorchid": [186 / 255, 85 / 255, 211 / 255],
-    "mediumpurple": [147 / 255, 112 / 255, 219 / 255],
-    "mediumseagreen": [60 / 255, 179 / 255, 113 / 255],
-    "mediumslateblue": [123 / 255, 104 / 255, 238 / 255],
-    "mediumspringgreen": [0, 250 / 255, 154 / 255],
-    "mediumturquoise": [72 / 255, 209 / 255, 204 / 255],
-    "mediumvioletred": [199 / 255, 21 / 255, 133 / 255],
-    "midnightblue": [25 / 255, 25 / 255, 112 / 255],
-    "mintcream": [245 / 255, 1, 250 / 255],
-    "mistyrose": [1, 228 / 255, 225 / 255],
-    "moccasin": [1, 228 / 255, 181 / 255],
-    "navajowhite": [1, 222 / 255, 173 / 255],
-    "navy": [0, 0, 128 / 255],
-    "oldlace": [253 / 255, 245 / 255, 230 / 255],
-    "olive": [128 / 255, 128 / 255, 0],
-    "olivedrab": [107 / 255, 142 / 255, 35 / 255],
-    "orange": [1, 165 / 255, 0],
-    "orangered": [1, 69 / 255, 0],
-    "orchid": [218 / 255, 112 / 255, 214 / 255],
-    "palegoldenrod": [238 / 255, 232 / 255, 170 / 255],
-    "palegreen": [152 / 255, 251 / 255, 152 / 255],
-    "paleturquoise": [175 / 255, 238 / 255, 238 / 255],
-    "palevioletred": [219 / 255, 112 / 255, 147 / 255],
-    "papayawhip": [1, 239 / 255, 213 / 255],
-    "peachpuff": [1, 218 / 255, 185 / 255],
-    "peru": [205 / 255, 133 / 255, 63 / 255],
-    "pink": [1, 192 / 255, 203 / 255],
-    "plum": [221 / 255, 160 / 255, 221 / 255],
-    "powderblue": [176 / 255, 224 / 255, 230 / 255],
-    "purple": [128 / 255, 0, 128 / 255],
-    "rebeccapurple": [102 / 255, 51 / 255, 153 / 255],
-    "red": [1, 0, 0],
-    "rosybrown": [188 / 255, 143 / 255, 143 / 255],
-    "royalblue": [65 / 255, 105 / 255, 225 / 255],
-    "saddlebrown": [139 / 255, 69 / 255, 19 / 255],
-    "salmon": [250 / 255, 128 / 255, 114 / 255],
-    "sandybrown": [244 / 255, 164 / 255, 96 / 255],
-    "seagreen": [46 / 255, 139 / 255, 87 / 255],
-    "seashell": [1, 245 / 255, 238 / 255],
-    "sienna": [160 / 255, 82 / 255, 45 / 255],
-    "silver": [192 / 255, 192 / 255, 192 / 255],
-    "skyblue": [135 / 255, 206 / 255, 235 / 255],
-    "slateblue": [106 / 255, 90 / 255, 205 / 255],
-    "slategray": [112 / 255, 128 / 255, 144 / 255],
-    "slategrey": [112 / 255, 128 / 255, 144 / 255],
-    "snow": [1, 250 / 255, 250 / 255],
-    "springgreen": [0, 1, 127 / 255],
-    "steelblue": [70 / 255, 130 / 255, 180 / 255],
-    "tan": [210 / 255, 180 / 255, 140 / 255],
-    "teal": [0, 128 / 255, 128 / 255],
-    "thistle": [216 / 255, 191 / 255, 216 / 255],
-    "tomato": [1, 99 / 255, 71 / 255],
-    "turquoise": [64 / 255, 224 / 255, 208 / 255],
-    "violet": [238 / 255, 130 / 255, 238 / 255],
-    "wheat": [245 / 255, 222 / 255, 179 / 255],
-    "white": [1, 1, 1],
-    "whitesmoke": [245 / 255, 245 / 255, 245 / 255],
-    "yellow": [1, 1, 0],
-    "yellowgreen": [154 / 255, 205 / 255, 50 / 255]
+    aliceblue: [240 / 255, 248 / 255, 1],
+    antiquewhite: [250 / 255, 235 / 255, 215 / 255],
+    aqua: [0, 1, 1],
+    aquamarine: [127 / 255, 1, 212 / 255],
+    azure: [240 / 255, 1, 1],
+    beige: [245 / 255, 245 / 255, 220 / 255],
+    bisque: [1, 228 / 255, 196 / 255],
+    black: [0, 0, 0],
+    blanchedalmond: [1, 235 / 255, 205 / 255],
+    blue: [0, 0, 1],
+    blueviolet: [138 / 255, 43 / 255, 226 / 255],
+    brown: [165 / 255, 42 / 255, 42 / 255],
+    burlywood: [222 / 255, 184 / 255, 135 / 255],
+    cadetblue: [95 / 255, 158 / 255, 160 / 255],
+    chartreuse: [127 / 255, 1, 0],
+    chocolate: [210 / 255, 105 / 255, 30 / 255],
+    coral: [1, 127 / 255, 80 / 255],
+    cornflowerblue: [100 / 255, 149 / 255, 237 / 255],
+    cornsilk: [1, 248 / 255, 220 / 255],
+    crimson: [220 / 255, 20 / 255, 60 / 255],
+    cyan: [0, 1, 1],
+    darkblue: [0, 0, 139 / 255],
+    darkcyan: [0, 139 / 255, 139 / 255],
+    darkgoldenrod: [184 / 255, 134 / 255, 11 / 255],
+    darkgray: [169 / 255, 169 / 255, 169 / 255],
+    darkgreen: [0, 100 / 255, 0],
+    darkgrey: [169 / 255, 169 / 255, 169 / 255],
+    darkkhaki: [189 / 255, 183 / 255, 107 / 255],
+    darkmagenta: [139 / 255, 0, 139 / 255],
+    darkolivegreen: [85 / 255, 107 / 255, 47 / 255],
+    darkorange: [1, 140 / 255, 0],
+    darkorchid: [153 / 255, 50 / 255, 204 / 255],
+    darkred: [139 / 255, 0, 0],
+    darksalmon: [233 / 255, 150 / 255, 122 / 255],
+    darkseagreen: [143 / 255, 188 / 255, 143 / 255],
+    darkslateblue: [72 / 255, 61 / 255, 139 / 255],
+    darkslategray: [47 / 255, 79 / 255, 79 / 255],
+    darkslategrey: [47 / 255, 79 / 255, 79 / 255],
+    darkturquoise: [0, 206 / 255, 209 / 255],
+    darkviolet: [148 / 255, 0, 211 / 255],
+    deeppink: [1, 20 / 255, 147 / 255],
+    deepskyblue: [0, 191 / 255, 1],
+    dimgray: [105 / 255, 105 / 255, 105 / 255],
+    dimgrey: [105 / 255, 105 / 255, 105 / 255],
+    dodgerblue: [30 / 255, 144 / 255, 1],
+    firebrick: [178 / 255, 34 / 255, 34 / 255],
+    floralwhite: [1, 250 / 255, 240 / 255],
+    forestgreen: [34 / 255, 139 / 255, 34 / 255],
+    fuchsia: [1, 0, 1],
+    gainsboro: [220 / 255, 220 / 255, 220 / 255],
+    ghostwhite: [248 / 255, 248 / 255, 1],
+    gold: [1, 215 / 255, 0],
+    goldenrod: [218 / 255, 165 / 255, 32 / 255],
+    gray: [128 / 255, 128 / 255, 128 / 255],
+    green: [0, 128 / 255, 0],
+    greenyellow: [173 / 255, 1, 47 / 255],
+    grey: [128 / 255, 128 / 255, 128 / 255],
+    honeydew: [240 / 255, 1, 240 / 255],
+    hotpink: [1, 105 / 255, 180 / 255],
+    indianred: [205 / 255, 92 / 255, 92 / 255],
+    indigo: [75 / 255, 0, 130 / 255],
+    ivory: [1, 1, 240 / 255],
+    khaki: [240 / 255, 230 / 255, 140 / 255],
+    lavender: [230 / 255, 230 / 255, 250 / 255],
+    lavenderblush: [1, 240 / 255, 245 / 255],
+    lawngreen: [124 / 255, 252 / 255, 0],
+    lemonchiffon: [1, 250 / 255, 205 / 255],
+    lightblue: [173 / 255, 216 / 255, 230 / 255],
+    lightcoral: [240 / 255, 128 / 255, 128 / 255],
+    lightcyan: [224 / 255, 1, 1],
+    lightgoldenrodyellow: [250 / 255, 250 / 255, 210 / 255],
+    lightgray: [211 / 255, 211 / 255, 211 / 255],
+    lightgreen: [144 / 255, 238 / 255, 144 / 255],
+    lightgrey: [211 / 255, 211 / 255, 211 / 255],
+    lightpink: [1, 182 / 255, 193 / 255],
+    lightsalmon: [1, 160 / 255, 122 / 255],
+    lightseagreen: [32 / 255, 178 / 255, 170 / 255],
+    lightskyblue: [135 / 255, 206 / 255, 250 / 255],
+    lightslategray: [119 / 255, 136 / 255, 153 / 255],
+    lightslategrey: [119 / 255, 136 / 255, 153 / 255],
+    lightsteelblue: [176 / 255, 196 / 255, 222 / 255],
+    lightyellow: [1, 1, 224 / 255],
+    lime: [0, 1, 0],
+    limegreen: [50 / 255, 205 / 255, 50 / 255],
+    linen: [250 / 255, 240 / 255, 230 / 255],
+    magenta: [1, 0, 1],
+    maroon: [128 / 255, 0, 0],
+    mediumaquamarine: [102 / 255, 205 / 255, 170 / 255],
+    mediumblue: [0, 0, 205 / 255],
+    mediumorchid: [186 / 255, 85 / 255, 211 / 255],
+    mediumpurple: [147 / 255, 112 / 255, 219 / 255],
+    mediumseagreen: [60 / 255, 179 / 255, 113 / 255],
+    mediumslateblue: [123 / 255, 104 / 255, 238 / 255],
+    mediumspringgreen: [0, 250 / 255, 154 / 255],
+    mediumturquoise: [72 / 255, 209 / 255, 204 / 255],
+    mediumvioletred: [199 / 255, 21 / 255, 133 / 255],
+    midnightblue: [25 / 255, 25 / 255, 112 / 255],
+    mintcream: [245 / 255, 1, 250 / 255],
+    mistyrose: [1, 228 / 255, 225 / 255],
+    moccasin: [1, 228 / 255, 181 / 255],
+    navajowhite: [1, 222 / 255, 173 / 255],
+    navy: [0, 0, 128 / 255],
+    oldlace: [253 / 255, 245 / 255, 230 / 255],
+    olive: [128 / 255, 128 / 255, 0],
+    olivedrab: [107 / 255, 142 / 255, 35 / 255],
+    orange: [1, 165 / 255, 0],
+    orangered: [1, 69 / 255, 0],
+    orchid: [218 / 255, 112 / 255, 214 / 255],
+    palegoldenrod: [238 / 255, 232 / 255, 170 / 255],
+    palegreen: [152 / 255, 251 / 255, 152 / 255],
+    paleturquoise: [175 / 255, 238 / 255, 238 / 255],
+    palevioletred: [219 / 255, 112 / 255, 147 / 255],
+    papayawhip: [1, 239 / 255, 213 / 255],
+    peachpuff: [1, 218 / 255, 185 / 255],
+    peru: [205 / 255, 133 / 255, 63 / 255],
+    pink: [1, 192 / 255, 203 / 255],
+    plum: [221 / 255, 160 / 255, 221 / 255],
+    powderblue: [176 / 255, 224 / 255, 230 / 255],
+    purple: [128 / 255, 0, 128 / 255],
+    rebeccapurple: [102 / 255, 51 / 255, 153 / 255],
+    red: [1, 0, 0],
+    rosybrown: [188 / 255, 143 / 255, 143 / 255],
+    royalblue: [65 / 255, 105 / 255, 225 / 255],
+    saddlebrown: [139 / 255, 69 / 255, 19 / 255],
+    salmon: [250 / 255, 128 / 255, 114 / 255],
+    sandybrown: [244 / 255, 164 / 255, 96 / 255],
+    seagreen: [46 / 255, 139 / 255, 87 / 255],
+    seashell: [1, 245 / 255, 238 / 255],
+    sienna: [160 / 255, 82 / 255, 45 / 255],
+    silver: [192 / 255, 192 / 255, 192 / 255],
+    skyblue: [135 / 255, 206 / 255, 235 / 255],
+    slateblue: [106 / 255, 90 / 255, 205 / 255],
+    slategray: [112 / 255, 128 / 255, 144 / 255],
+    slategrey: [112 / 255, 128 / 255, 144 / 255],
+    snow: [1, 250 / 255, 250 / 255],
+    springgreen: [0, 1, 127 / 255],
+    steelblue: [70 / 255, 130 / 255, 180 / 255],
+    tan: [210 / 255, 180 / 255, 140 / 255],
+    teal: [0, 128 / 255, 128 / 255],
+    thistle: [216 / 255, 191 / 255, 216 / 255],
+    tomato: [1, 99 / 255, 71 / 255],
+    turquoise: [64 / 255, 224 / 255, 208 / 255],
+    violet: [238 / 255, 130 / 255, 238 / 255],
+    wheat: [245 / 255, 222 / 255, 179 / 255],
+    white: [1, 1, 1],
+    whitesmoke: [245 / 255, 245 / 255, 245 / 255],
+    yellow: [1, 1, 0],
+    yellowgreen: [154 / 255, 205 / 255, 50 / 255]
   };
 
-  // node_modules/colorjs.io/src/spaces/srgb.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/srgb.js
   var coordGrammar = Array(3).fill("<percentage> | <number>[0, 255]");
   var coordGrammarNumber = Array(3).fill("<number>[0, 255]");
   var srgb_default = new RGBColorSpace({
@@ -2399,32 +2737,32 @@ var wp;
       });
     },
     formats: {
-      "rgb": {
+      rgb: {
         coords: coordGrammar
       },
-      "rgb_number": {
+      rgb_number: {
         name: "rgb",
         commas: true,
         coords: coordGrammarNumber,
-        noAlpha: true
+        alpha: false
       },
-      "color": {
+      color: {
         /* use defaults */
       },
-      "rgba": {
+      rgba: {
         coords: coordGrammar,
         commas: true,
-        lastAlpha: true
+        alpha: true
       },
-      "rgba_number": {
+      rgba_number: {
         name: "rgba",
         commas: true,
         coords: coordGrammarNumber
       },
-      "hex": {
+      hex: {
         type: "custom",
         toGamut: true,
-        test: (str) => /^#([a-f0-9]{3,4}){1,2}$/i.test(str),
+        test: (str) => /^#(([a-f0-9]{2}){3,4}|[a-f0-9]{3,4})$/i.test(str),
         parse(str) {
           if (str.length <= 5) {
             str = str.replace(/[a-f0-9]/gi, "$&$&");
@@ -2435,18 +2773,26 @@ var wp;
           });
           return {
             spaceId: "srgb",
-            coords: rgba.slice(0, 3),
-            alpha: rgba.slice(3)[0]
+            coords: (
+              /** @type {Coords} */
+              rgba.slice(0, 3)
+            ),
+            alpha: (
+              /** @type {number} */
+              rgba.slice(3)[0]
+            )
           };
         },
         serialize: (coords, alpha, {
-          collapse = true
+          collapse = true,
           // collapse to 3-4 digit hex when possible?
+          alpha: alphaFormat
         } = {}) => {
-          if (alpha < 1) {
+          if (alphaFormat !== false && alpha < 1 || alphaFormat === true) {
             coords.push(alpha);
           }
-          coords = coords.map((c) => Math.round(c * 255));
+          coords = /** @type {[number, number, number]} */
+          coords.map((c) => Math.round(c * 255));
           let collapsible = collapse && coords.every((c) => c % 17 === 0);
           let hex = coords.map((c) => {
             if (collapsible) {
@@ -2457,7 +2803,7 @@ var wp;
           return "#" + hex;
         }
       },
-      "keyword": {
+      keyword: {
         type: "custom",
         test: (str) => /^[a-z]+$/i.test(str),
         parse(str) {
@@ -2477,7 +2823,7 @@ var wp;
     }
   });
 
-  // node_modules/colorjs.io/src/spaces/p3.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/p3.js
   var p3_default = new RGBColorSpace({
     id: "p3",
     cssId: "display-p3",
@@ -2488,12 +2834,12 @@ var wp;
     toBase: srgb_default.toBase
   });
 
-  // node_modules/colorjs.io/src/luminance.js
+  // packages/theme/node_modules/colorjs.io/src/luminance.js
   function getLuminance(color) {
     return get(color, [xyz_d65_default, "y"]);
   }
 
-  // node_modules/colorjs.io/src/contrast/WCAG21.js
+  // packages/theme/node_modules/colorjs.io/src/contrast/WCAG21.js
   function contrastWCAG21(color1, color2) {
     color1 = getColor(color1);
     color2 = getColor(color2);
@@ -2505,7 +2851,7 @@ var wp;
     return (Y1 + 0.05) / (Y2 + 0.05);
   }
 
-  // node_modules/colorjs.io/src/spaces/hsl.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/hsl.js
   var hsl_default = new ColorSpace({
     id: "hsl",
     name: "HSL",
@@ -2530,7 +2876,7 @@ var wp;
       let max = Math.max(...rgb);
       let min = Math.min(...rgb);
       let [r, g2, b2] = rgb;
-      let [h, s, l] = [NaN, 0, (min + max) / 2];
+      let [h, s, l] = [null, 0, (min + max) / 2];
       let d2 = max - min;
       if (d2 !== 0) {
         s = l === 0 || l === 1 ? 0 : (max - l) / Math.min(l, 1 - l);
@@ -2572,21 +2918,21 @@ var wp;
       return [f(0), f(8), f(4)];
     },
     formats: {
-      "hsl": {
-        coords: ["<number> | <angle>", "<percentage>", "<percentage>"]
+      hsl: {
+        coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"]
       },
-      "hsla": {
-        coords: ["<number> | <angle>", "<percentage>", "<percentage>"],
+      hsla: {
+        coords: ["<number> | <angle>", "<percentage> | <number>", "<percentage> | <number>"],
         commas: true,
-        lastAlpha: true
+        alpha: true
       }
     }
   });
 
-  // node_modules/colorjs.io/src/spaces/oklch.js
+  // packages/theme/node_modules/colorjs.io/src/spaces/oklch.js
   var oklch_default = new ColorSpace({
     id: "oklch",
-    name: "Oklch",
+    name: "OkLCh",
     coords: {
       l: {
         refRange: [0, 1],
@@ -2604,40 +2950,11 @@ var wp;
     },
     white: "D65",
     base: oklab_default,
-    fromBase(oklab) {
-      let [L, a, b2] = oklab;
-      let h;
-      const \u03B56 = 2e-4;
-      if (Math.abs(a) < \u03B56 && Math.abs(b2) < \u03B56) {
-        h = NaN;
-      } else {
-        h = Math.atan2(b2, a) * 180 / Math.PI;
-      }
-      return [
-        L,
-        // OKLab L is still L
-        Math.sqrt(a ** 2 + b2 ** 2),
-        // Chroma
-        constrain(h)
-        // Hue, in degrees [0 to 360)
-      ];
-    },
-    // Convert from polar form
-    toBase(oklch) {
-      let [L, C, h] = oklch;
-      let a, b2;
-      if (isNaN(h)) {
-        a = 0;
-        b2 = 0;
-      } else {
-        a = C * Math.cos(h * Math.PI / 180);
-        b2 = C * Math.sin(h * Math.PI / 180);
-      }
-      return [L, a, b2];
-    },
+    fromBase: lch_default.fromBase,
+    toBase: lch_default.toBase,
     formats: {
-      "oklch": {
-        coords: ["<percentage> | <number>", "<number> | <percentage>[0,1]", "<number> | <angle>"]
+      oklch: {
+        coords: ["<percentage> | <number>", "<number> | <percentage>", "<number> | <angle>"]
       }
     }
   });
@@ -2710,16 +3027,16 @@ var wp;
     return memoized;
   }
 
-  // packages/theme/build-module/use-theme-provider-styles.js
-  var import_element2 = __toESM(require_element());
+  // packages/theme/build-module/use-theme-provider-styles.mjs
+  var import_element2 = __toESM(require_element(), 1);
 
-  // packages/theme/build-module/color-ramps/lib/register-color-spaces.js
+  // packages/theme/build-module/color-ramps/lib/register-color-spaces.mjs
   ColorSpace.register(srgb_default);
   ColorSpace.register(oklch_default);
   ColorSpace.register(p3_default);
   ColorSpace.register(hsl_default);
 
-  // packages/theme/build-module/prebuilt/ts/color-tokens.js
+  // packages/theme/build-module/prebuilt/ts/color-tokens.mjs
   var color_tokens_default = {
     "primary-bgFill1": ["bg-interactive-brand-strong"],
     "primary-fgFill": [
@@ -2727,7 +3044,6 @@ var wp;
       "fg-interactive-brand-strong-active"
     ],
     "primary-bgFill2": ["bg-interactive-brand-strong-active"],
-    "primary-surface2": ["bg-interactive-brand-active"],
     "primary-surface4": ["bg-interactive-brand-weak-active"],
     "primary-fgSurface3": [
       "fg-interactive-brand",
@@ -2789,23 +3105,8 @@ var wp;
     "error-stroke4": ["stroke-interactive-error-active"],
     "error-stroke1": ["stroke-surface-error"],
     "bg-surface2": ["bg-surface-neutral"],
-    "bg-surface6": [
-      "bg-interactive-brand-strong-disabled",
-      "bg-interactive-error-strong-disabled",
-      "bg-interactive-neutral-strong-disabled"
-    ],
-    "bg-surface5": [
-      "bg-interactive-brand-disabled",
-      "bg-interactive-brand-weak-disabled",
-      "bg-interactive-error-disabled",
-      "bg-interactive-error-weak-disabled",
-      "bg-interactive-neutral-disabled",
-      "bg-interactive-neutral-weak-disabled"
-    ],
-    "bg-surface4": [
-      "bg-interactive-neutral-active",
-      "bg-interactive-neutral-weak-active"
-    ],
+    "bg-surface5": ["bg-interactive-neutral-strong-disabled"],
+    "bg-surface4": ["bg-interactive-neutral-weak-active"],
     "bg-surface3": ["bg-surface-neutral-strong"],
     "bg-fgSurface4": [
       "fg-content-neutral",
@@ -2814,15 +3115,11 @@ var wp;
     ],
     "bg-fgSurface3": [
       "fg-content-neutral-weak",
-      "fg-interactive-brand-strong-disabled",
-      "fg-interactive-error-strong-disabled",
-      "fg-interactive-neutral-strong-disabled",
       "fg-interactive-neutral-weak"
     ],
     "bg-fgSurface2": [
-      "fg-interactive-brand-disabled",
-      "fg-interactive-error-disabled",
       "fg-interactive-neutral-disabled",
+      "fg-interactive-neutral-strong-disabled",
       "fg-interactive-neutral-weak-disabled"
     ],
     "bg-stroke3": [
@@ -2836,7 +3133,7 @@ var wp;
       "stroke-interactive-neutral-strong"
     ],
     "bg-stroke2": [
-      "bg-thumb-brand-disabled",
+      "bg-thumb-neutral-disabled",
       "bg-track-neutral",
       "stroke-interactive-neutral-disabled",
       "stroke-surface-neutral"
@@ -2855,9 +3152,10 @@ var wp;
     "caution-fgSurface3": ["fg-content-caution-weak"]
   };
 
-  // packages/theme/build-module/color-ramps/lib/color-utils.js
+  // packages/theme/build-module/color-ramps/lib/color-utils.mjs
   function getColorString(color) {
-    return serialize(to(color, srgb_default), { format: "hex", inGamut: true });
+    const rgbRounded = serialize(to(color, srgb_default));
+    return serialize(rgbRounded, { format: "hex" });
   }
   function getContrast(colorA, colorB) {
     return contrastWCAG21(colorA, colorB);
@@ -2866,7 +3164,7 @@ var wp;
     return to(toGamut(c, { space: srgb_default, method: "css" }), oklch_default);
   }
 
-  // packages/theme/build-module/color-ramps/lib/constants.js
+  // packages/theme/build-module/color-ramps/lib/constants.mjs
   var WHITE = to("white", oklch_default);
   var BLACK = to("black", oklch_default);
   var UNIVERSAL_CONTRAST_TOPUP = 0.02;
@@ -2887,7 +3185,7 @@ var wp;
     error: "#cc1818"
   };
 
-  // packages/theme/build-module/color-ramps/lib/utils.js
+  // packages/theme/build-module/color-ramps/lib/utils.mjs
   function buildDependencyGraph(config) {
     const dependencies = /* @__PURE__ */ new Map();
     const dependents = /* @__PURE__ */ new Map();
@@ -3013,7 +3311,7 @@ var wp;
     return bestC;
   }
 
-  // packages/theme/build-module/color-ramps/lib/taper-chroma.js
+  // packages/theme/build-module/color-ramps/lib/taper-chroma.mjs
   function taperChroma(seed, lTarget, options = {}) {
     const gamut = options.gamut ?? srgb_default;
     const alpha = options.alpha ?? 0.65;
@@ -3025,9 +3323,9 @@ var wp;
     const kDark = options.kDark ?? 0.85;
     const achromaEpsilon = options.achromaEpsilon ?? 5e-3;
     const cSeed = Math.max(0, get(seed, [oklch_default, "c"]));
-    let hSeed = Number(get(seed, [oklch_default, "h"]));
+    let hSeed = get(seed, [oklch_default, "h"]);
     const chromaIsTiny = cSeed < achromaEpsilon;
-    const hueIsInvalid = !Number.isFinite(hSeed);
+    const hueIsInvalid = hSeed === null || !Number.isFinite(hSeed);
     if (chromaIsTiny || hueIsInvalid) {
       if (typeof options.hueFallback === "number") {
         hSeed = normalizeHue(options.hueFallback);
@@ -3125,7 +3423,7 @@ var wp;
     return get(clamped, [oklch_default, "c"]);
   }
 
-  // packages/theme/build-module/color-ramps/lib/find-color-with-constraints.js
+  // packages/theme/build-module/color-ramps/lib/find-color-with-constraints.mjs
   function cdiff(c13, c23) {
     return Math.log(c13 / c23);
   }
@@ -3202,7 +3500,7 @@ var wp;
     };
   }
 
-  // packages/theme/build-module/color-ramps/lib/index.js
+  // packages/theme/build-module/color-ramps/lib/index.mjs
   function calculateRamp({
     seed,
     sortedSteps,
@@ -3318,7 +3616,7 @@ var wp;
   } = {}) {
     let seed;
     try {
-      seed = clampToGamut(parse(seedArg));
+      seed = clampToGamut(seedArg);
     } catch (error) {
       throw new Error(
         `Invalid seed color "${seedArg}": ${error instanceof Error ? error.message : "Unknown error"}`
@@ -3398,7 +3696,7 @@ var wp;
     };
   }
 
-  // packages/theme/build-module/color-ramps/lib/ramp-configs.js
+  // packages/theme/build-module/color-ramps/lib/ramp-configs.mjs
   var lightnessConstraintForegroundHighContrast = (direction) => direction === "lighter" ? 0.9551 : 0.235;
   var lightnessConstraintForegroundMediumContrast = (direction) => direction === "lighter" ? 0.77 : 0.56;
   var lightnessConstraintBgFill = (direction) => direction === "lighter" ? 0.67 : 0.45;
@@ -3685,7 +3983,7 @@ var wp;
     }
   };
 
-  // packages/theme/build-module/color-ramps/index.js
+  // packages/theme/build-module/color-ramps/index.mjs
   function buildBgRamp(seed) {
     if (typeof seed !== "string" || seed.trim() === "") {
       throw new Error("Seed color must be a non-empty string");
@@ -3699,7 +3997,7 @@ var wp;
       pinLightness: {
         stepName: STEP_TO_PIN,
         value: clampAccentScaleReferenceLightness(
-          get(parse(ramp.ramp[STEP_TO_PIN]), [oklch_default, "l"]),
+          get(ramp.ramp[STEP_TO_PIN], [oklch_default, "l"]),
           ramp.direction
         )
       }
@@ -3713,7 +4011,7 @@ var wp;
     return buildRamp(seed, ACCENT_RAMP_CONFIG, bgRampInfo);
   }
 
-  // packages/theme/build-module/use-theme-provider-styles.js
+  // packages/theme/build-module/use-theme-provider-styles.mjs
   var getCachedBgRamp = memize(buildBgRamp, { maxSize: 10 });
   var getCachedAccentRamp = memize(buildAccentRamp, { maxSize: 10 });
   var legacyWpComponentsOverridesCSS = [
@@ -3773,57 +4071,32 @@ var wp;
   ];
   function customRgbFormat(color) {
     const rgb = to(color, srgb_default);
-    return [get(rgb, "srgb.r"), get(rgb, "srgb.g"), get(rgb, "srgb.b")].map((n2) => Math.round(n2 * 255)).join(", ");
+    return rgb.coords.map((n2) => Math.round((n2 ?? 0) * 255)).join(", ");
   }
   function legacyWpAdminThemeOverridesCSS(accent) {
-    const parsedAccent = to(parse(accent), hsl_default);
-    const coords = parsedAccent.coords;
-    const darker10 = to(
-      {
-        space: hsl_default,
-        coords: [
-          coords[0],
-          // h
-          coords[1],
-          // s
-          Math.max(0, Math.min(100, coords[2] - 5))
-          // l (reduced by 5%)
-        ]
-      },
-      srgb_default
+    const parsedAccent = to(accent, hsl_default);
+    const parsedL = parsedAccent.coords[2] ?? 0;
+    const darker10 = set(
+      clone(parsedAccent),
+      [hsl_default, "l"],
+      Math.max(0, parsedL - 5)
+      // L reduced by 5%
     );
-    const darker20 = to(
-      {
-        space: hsl_default,
-        coords: [
-          coords[0],
-          // h
-          coords[1],
-          // s
-          Math.max(0, Math.min(100, coords[2] - 10))
-          // l (reduced by 10%)
-        ]
-      },
-      srgb_default
+    const darker20 = set(
+      clone(parsedAccent),
+      [hsl_default, "l"],
+      Math.max(0, parsedL - 10)
+      // L reduced by 10%
     );
     return [
-      [
-        "--wp-admin-theme-color",
-        serialize(to(parsedAccent, srgb_default), { format: "hex" })
-      ],
+      ["--wp-admin-theme-color", getColorString(parsedAccent)],
       ["--wp-admin-theme-color--rgb", customRgbFormat(parsedAccent)],
-      [
-        "--wp-admin-theme-color-darker-10",
-        serialize(darker10, { format: "hex" })
-      ],
+      ["--wp-admin-theme-color-darker-10", getColorString(darker10)],
       [
         "--wp-admin-theme-color-darker-10--rgb",
         customRgbFormat(darker10)
       ],
-      [
-        "--wp-admin-theme-color-darker-20",
-        serialize(darker20, { format: "hex" })
-      ],
+      ["--wp-admin-theme-color-darker-20", getColorString(darker20)],
       [
         "--wp-admin-theme-color-darker-20--rgb",
         customRgbFormat(darker20)
@@ -3901,16 +4174,15 @@ var wp;
     };
   }
 
-  // packages/theme/build-module/theme-provider.js
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
-  var css = `.style-module__root__26kw6 {
-	display: contents;
-}
-`;
-  document.head.appendChild(document.createElement("style")).appendChild(document.createTextNode(css));
-  var style_default = {
-    "root": "style-module__root__26kw6"
-  };
+  // packages/theme/build-module/theme-provider.mjs
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='662a5161a8']")) {
+    const style = document.createElement("style");
+    style.setAttribute("data-wp-hash", "662a5161a8");
+    style.appendChild(document.createTextNode(".dba930ea7a9438fd__root{display:contents}"));
+    document.head.appendChild(style);
+  }
+  var style_default = { "root": "dba930ea7a9438fd__root" };
   function cssObjectToText(values) {
     return Object.entries(values).map(([key, value]) => `${key}: ${value};`).join("");
   }
@@ -3963,7 +4235,7 @@ var wp;
     ] });
   };
 
-  // packages/theme/build-module/private-apis.js
+  // packages/theme/build-module/private-apis.mjs
   var privateApis = {};
   lock(privateApis, {
     ThemeProvider,

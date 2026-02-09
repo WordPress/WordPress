@@ -23,13 +23,13 @@ function render_block_core_footnotes( $attributes, $content, $block ) {
 	}
 
 	if ( post_password_required( $block->context['postId'] ) ) {
-		return;
+		return '';
 	}
 
 	$footnotes = get_post_meta( $block->context['postId'], 'footnotes', true );
 
 	if ( ! $footnotes ) {
-		return;
+		return '';
 	}
 
 	$footnotes = json_decode( $footnotes, true );
@@ -48,9 +48,9 @@ function render_block_core_footnotes( $attributes, $content, $block ) {
 		$aria_label     = sprintf( __( 'Jump to footnote reference %1$d' ), $footnote_index );
 		$block_content .= sprintf(
 			'<li id="%1$s">%2$s <a href="#%1$s-link" aria-label="%3$s">↩︎</a></li>',
-			$footnote['id'],
-			$footnote['content'],
-			$aria_label
+			esc_attr( $footnote['id'] ),
+			wp_kses_post( $footnote['content'] ),
+			esc_attr( $aria_label )
 		);
 		++$footnote_index;
 	}
@@ -105,6 +105,7 @@ function register_block_core_footnotes_post_meta() {
 		}
 	}
 }
+
 /*
  * Most post types are registered at priority 10, so use priority 20 here in
  * order to catch them.

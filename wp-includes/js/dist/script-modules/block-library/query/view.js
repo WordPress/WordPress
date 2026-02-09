@@ -1,4 +1,4 @@
-// packages/block-library/build-module/query/view.js
+// packages/block-library/build-module/query/view.mjs
 import {
   store,
   getContext,

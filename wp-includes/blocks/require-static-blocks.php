@@ -20,7 +20,6 @@ return array(
 	'missing',
 	'more',
 	'nextpage',
-	'paragraph',
 	'preformatted',
 	'pullquote',
 	'quote',

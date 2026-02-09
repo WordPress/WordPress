@@ -32,6 +32,7 @@
 		"iconBackgroundColorValue"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"interactivity": {

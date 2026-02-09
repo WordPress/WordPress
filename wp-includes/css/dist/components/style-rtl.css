@@ -84,6 +84,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 @media not (prefers-reduced-motion) {
   .components-animate__appear {
     animation: components-animate__appear-animation 0.1s cubic-bezier(0, 0, 0.2, 1) 0s;
@@ -262,7 +266,7 @@
   margin: 0;
   border: 0;
   cursor: pointer;
-  -webkit-appearance: none;
+  appearance: none;
   background: none;
 }
 @media not (prefers-reduced-motion) {
@@ -645,13 +649,11 @@ p + .components-button.is-tertiary {
   padding: 0;
   margin: 0;
   cursor: pointer;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  appearance: none;
   width: 32px;
   height: 32px;
   color: inherit;
@@ -961,13 +963,7 @@ p + .components-button.is-tertiary {
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.components-checkbox-control__input[type=checkbox]::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-checkbox-control__input[type=checkbox]::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-checkbox-control__input[type=checkbox]:-ms-input-placeholder {
+.components-checkbox-control__input[type=checkbox]::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .components-checkbox-control__input[type=checkbox]:focus {
@@ -977,9 +973,6 @@ p + .components-button.is-tertiary {
 .components-checkbox-control__input[type=checkbox]:checked {
   background: var(--wp-admin-theme-color);
   border-color: var(--wp-admin-theme-color);
-}
-.components-checkbox-control__input[type=checkbox]:checked::-ms-check {
-  opacity: 0;
 }
 .components-checkbox-control__input[type=checkbox]:checked::before, .components-checkbox-control__input[type=checkbox][aria-checked=mixed]::before {
   margin: -3px -5px;
@@ -1047,9 +1040,6 @@ p + .components-button.is-tertiary {
 .components-checkbox-control__input[type=checkbox]:checked, .components-checkbox-control__input[type=checkbox]:indeterminate {
   background: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-}
-.components-checkbox-control__input[type=checkbox]:checked::-ms-check, .components-checkbox-control__input[type=checkbox]:indeterminate::-ms-check {
-  opacity: 0;
 }
 .components-checkbox-control__input[type=checkbox]:checked::before {
   content: none;
@@ -1300,13 +1290,7 @@ input.components-combobox-control__input[type=text]:focus {
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
 }
-.components-combobox-control__suggestions-container::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-combobox-control__suggestions-container::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-combobox-control__suggestions-container:-ms-input-placeholder {
+.components-combobox-control__suggestions-container::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .components-combobox-control__suggestions-container {
@@ -1351,10 +1335,10 @@ input.components-combobox-control__input[type=text]:focus {
   position: absolute;
   inset: 1px;
   z-index: -1;
+  border-radius: 3px 3px 0 0;
   background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
   background-position: 0 0, 24px 24px;
   background-size: 48px 48px;
-  border-radius: 3px 3px 0 0;
 }
 
 .components-color-palette__custom-color-text-wrapper {
@@ -1813,13 +1797,7 @@ body.is-dragging-components-draggable {
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
 }
-.components-form-token-field__input-container::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-form-token-field__input-container::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-form-token-field__input-container:-ms-input-placeholder {
+.components-form-token-field__input-container::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .components-form-token-field__input-container {
@@ -2627,8 +2605,6 @@ body.is-dragging-components-draggable {
 }
 body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right {
   transform: scaleX(-1);
-  -ms-filter: fliph;
-  filter: FlipH;
   margin-top: -10px;
 }
 .components-panel__body-toggle.components-button {
@@ -2684,7 +2660,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  -moz-font-smoothing: subpixel-antialiased;
   -webkit-font-smoothing: subpixel-antialiased;
   border-radius: 2px;
   background-color: #fff;
@@ -2774,13 +2749,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.components-placeholder__input[type=url]::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-placeholder__input[type=url]::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-placeholder__input[type=url]:-ms-input-placeholder {
+.components-placeholder__input[type=url]::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .components-placeholder__input[type=url] {
@@ -3556,52 +3525,20 @@ body.lockscroll {
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
 }
-.components-text-control__input::-webkit-input-placeholder,
-.components-text-control__input[type=text]::-webkit-input-placeholder,
-.components-text-control__input[type=tel]::-webkit-input-placeholder,
-.components-text-control__input[type=time]::-webkit-input-placeholder,
-.components-text-control__input[type=url]::-webkit-input-placeholder,
-.components-text-control__input[type=week]::-webkit-input-placeholder,
-.components-text-control__input[type=password]::-webkit-input-placeholder,
-.components-text-control__input[type=color]::-webkit-input-placeholder,
-.components-text-control__input[type=date]::-webkit-input-placeholder,
-.components-text-control__input[type=datetime]::-webkit-input-placeholder,
-.components-text-control__input[type=datetime-local]::-webkit-input-placeholder,
-.components-text-control__input[type=email]::-webkit-input-placeholder,
-.components-text-control__input[type=month]::-webkit-input-placeholder,
-.components-text-control__input[type=number]::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-text-control__input::-moz-placeholder,
-.components-text-control__input[type=text]::-moz-placeholder,
-.components-text-control__input[type=tel]::-moz-placeholder,
-.components-text-control__input[type=time]::-moz-placeholder,
-.components-text-control__input[type=url]::-moz-placeholder,
-.components-text-control__input[type=week]::-moz-placeholder,
-.components-text-control__input[type=password]::-moz-placeholder,
-.components-text-control__input[type=color]::-moz-placeholder,
-.components-text-control__input[type=date]::-moz-placeholder,
-.components-text-control__input[type=datetime]::-moz-placeholder,
-.components-text-control__input[type=datetime-local]::-moz-placeholder,
-.components-text-control__input[type=email]::-moz-placeholder,
-.components-text-control__input[type=month]::-moz-placeholder,
-.components-text-control__input[type=number]::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.components-text-control__input:-ms-input-placeholder,
-.components-text-control__input[type=text]:-ms-input-placeholder,
-.components-text-control__input[type=tel]:-ms-input-placeholder,
-.components-text-control__input[type=time]:-ms-input-placeholder,
-.components-text-control__input[type=url]:-ms-input-placeholder,
-.components-text-control__input[type=week]:-ms-input-placeholder,
-.components-text-control__input[type=password]:-ms-input-placeholder,
-.components-text-control__input[type=color]:-ms-input-placeholder,
-.components-text-control__input[type=date]:-ms-input-placeholder,
-.components-text-control__input[type=datetime]:-ms-input-placeholder,
-.components-text-control__input[type=datetime-local]:-ms-input-placeholder,
-.components-text-control__input[type=email]:-ms-input-placeholder,
-.components-text-control__input[type=month]:-ms-input-placeholder,
-.components-text-control__input[type=number]:-ms-input-placeholder {
+.components-text-control__input::placeholder,
+.components-text-control__input[type=text]::placeholder,
+.components-text-control__input[type=tel]::placeholder,
+.components-text-control__input[type=time]::placeholder,
+.components-text-control__input[type=url]::placeholder,
+.components-text-control__input[type=week]::placeholder,
+.components-text-control__input[type=password]::placeholder,
+.components-text-control__input[type=color]::placeholder,
+.components-text-control__input[type=date]::placeholder,
+.components-text-control__input[type=datetime]::placeholder,
+.components-text-control__input[type=datetime-local]::placeholder,
+.components-text-control__input[type=email]::placeholder,
+.components-text-control__input[type=month]::placeholder,
+.components-text-control__input[type=number]::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 .components-text-control__input,

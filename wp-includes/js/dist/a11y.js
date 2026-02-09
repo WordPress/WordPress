@@ -46,15 +46,15 @@ var wp;
     }
   });
 
-  // packages/a11y/build-module/index.js
+  // packages/a11y/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     setup: () => setup,
     speak: () => speak
   });
-  var import_dom_ready = __toESM(require_dom_ready());
+  var import_dom_ready = __toESM(require_dom_ready(), 1);
 
-  // packages/a11y/build-module/script/add-container.js
+  // packages/a11y/build-module/script/add-container.mjs
   function addContainer(ariaLive = "polite") {
     const container = document.createElement("div");
     container.id = `a11y-speak-${ariaLive}`;
@@ -73,8 +73,8 @@ var wp;
     return container;
   }
 
-  // packages/a11y/build-module/script/add-intro-text.js
-  var import_i18n = __toESM(require_i18n());
+  // packages/a11y/build-module/script/add-intro-text.mjs
+  var import_i18n = __toESM(require_i18n(), 1);
   function addIntroText() {
     const introText = document.createElement("p");
     introText.id = "a11y-speak-intro-text";
@@ -92,7 +92,7 @@ var wp;
     return introText;
   }
 
-  // packages/a11y/build-module/shared/clear.js
+  // packages/a11y/build-module/shared/clear.mjs
   function clear() {
     const regions = document.getElementsByClassName("a11y-speak-region");
     const introText = document.getElementById("a11y-speak-intro-text");
@@ -104,7 +104,7 @@ var wp;
     }
   }
 
-  // packages/a11y/build-module/shared/filter-message.js
+  // packages/a11y/build-module/shared/filter-message.mjs
   var previousMessage = "";
   function filterMessage(message) {
     message = message.replace(/<[^<>]+>/g, " ");
@@ -115,7 +115,7 @@ var wp;
     return message;
   }
 
-  // packages/a11y/build-module/shared/index.js
+  // packages/a11y/build-module/shared/index.mjs
   function speak(message, ariaLive) {
     clear();
     message = filterMessage(message);
@@ -134,7 +134,7 @@ var wp;
     }
   }
 
-  // packages/a11y/build-module/index.js
+  // packages/a11y/build-module/index.mjs
   function setup() {
     const introText = document.getElementById("a11y-speak-intro-text");
     const containerAssertive = document.getElementById(

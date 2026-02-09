@@ -19,10 +19,10 @@
  * @return string Returns the query title based on the queried object.
  */
 function render_block_core_query_title( $attributes, $content, $block ) {
-	$type       = isset( $attributes['type'] ) ? $attributes['type'] : null;
+	$type       = $attributes['type'] ?? null;
 	$is_archive = is_archive();
 	$is_search  = is_search();
-	$post_type  = isset( $block->context['query']['postType'] ) ? $block->context['query']['postType'] : get_post_type();
+	$post_type  = $block->context['query']['postType'] ?? get_post_type();
 
 	if ( ! $type ||
 		( 'archive' === $type && ! $is_archive ) ||
@@ -33,7 +33,7 @@ function render_block_core_query_title( $attributes, $content, $block ) {
 	}
 	$title = '';
 	if ( $is_archive ) {
-		$show_prefix = isset( $attributes['showPrefix'] ) ? $attributes['showPrefix'] : true;
+		$show_prefix = $attributes['showPrefix'] ?? true;
 		if ( ! $show_prefix ) {
 			add_filter( 'get_the_archive_title_prefix', '__return_empty_string', 1 );
 			$title = get_the_archive_title();
@@ -48,7 +48,7 @@ function render_block_core_query_title( $attributes, $content, $block ) {
 		if ( isset( $attributes['showSearchTerm'] ) && $attributes['showSearchTerm'] ) {
 			$title = sprintf(
 				/* translators: %s is the search term. */
-				__( 'Search results for: "%s"' ),
+				__( 'Search results for: &#8220;%s&#8221;' ),
 				get_search_query()
 			);
 		}
@@ -61,12 +61,12 @@ function render_block_core_query_title( $attributes, $content, $block ) {
 		}
 
 		$post_type_name = $post_type_object->labels->singular_name;
-		$show_prefix    = isset( $attributes['showPrefix'] ) ? $attributes['showPrefix'] : true;
+		$show_prefix    = $attributes['showPrefix'] ?? true;
 
 		if ( $show_prefix ) {
 			$title = sprintf(
 				/* translators: %s is the post type name. */
-				__( 'Post Type: "%s"' ),
+				__( 'Post Type: &#8220;%s&#8221;' ),
 				$post_type_name
 			);
 		} else {

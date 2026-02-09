@@ -104,10 +104,10 @@ var require_primitives = __commonJS({
 // routes/navigation-edit/stage.tsx
 import { useParams } from "@wordpress/route";
 
-// packages/admin-ui/build-module/breadcrumbs/index.js
-var import_i18n = __toESM(require_i18n());
-var import_components = __toESM(require_components());
-var import_jsx_runtime = __toESM(require_jsx_runtime());
+// packages/admin-ui/build-module/breadcrumbs/index.mjs
+var import_i18n = __toESM(require_i18n(), 1);
+var import_components = __toESM(require_components(), 1);
+var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 import { Link } from "@wordpress/route";
 var BreadcrumbItem = ({
   item: { label, to }
@@ -151,9 +151,9 @@ function clsx() {
 }
 var clsx_default = clsx;
 
-// packages/admin-ui/build-module/navigable-region/index.js
-var import_element = __toESM(require_element());
-var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+// packages/admin-ui/build-module/navigable-region/index.mjs
+var import_element = __toESM(require_element(), 1);
+var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 var NavigableRegion = (0, import_element.forwardRef)(
   ({ children, className, ariaLabel, as: Tag = "div", ...props }, ref) => {
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
@@ -173,15 +173,15 @@ var NavigableRegion = (0, import_element.forwardRef)(
 NavigableRegion.displayName = "NavigableRegion";
 var navigable_region_default = NavigableRegion;
 
-// packages/admin-ui/build-module/page/header.js
-var import_components3 = __toESM(require_components());
+// packages/admin-ui/build-module/page/header.mjs
+var import_components3 = __toESM(require_components(), 1);
 
-// packages/admin-ui/build-module/page/sidebar-toggle-slot.js
-var import_components2 = __toESM(require_components());
+// packages/admin-ui/build-module/page/sidebar-toggle-slot.mjs
+var import_components2 = __toESM(require_components(), 1);
 var { Fill: SidebarToggleFill, Slot: SidebarToggleSlot } = (0, import_components2.createSlotFill)("SidebarToggle");
 
-// packages/admin-ui/build-module/page/header.js
-var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+// packages/admin-ui/build-module/page/header.mjs
+var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
 function Header({
   breadcrumbs,
   badges,
@@ -218,8 +218,8 @@ function Header({
   ] });
 }
 
-// packages/admin-ui/build-module/page/index.js
-var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+// packages/admin-ui/build-module/page/index.mjs
+var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
 function Page({
   breadcrumbs,
   badges,
@@ -264,10 +264,12 @@ var import_components5 = __toESM(require_components());
 import { useEditorAssets } from "@wordpress/lazy-editor";
 
 // routes/navigation-edit/editor/style.scss
-var css = `.navigation-edit-editor__hidden-blocks {
-  display: none;
-}`;
-document.head.appendChild(document.createElement("style")).appendChild(document.createTextNode(css));
+if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='023c02af3d']")) {
+  const style = document.createElement("style");
+  style.setAttribute("data-wp-hash", "023c02af3d");
+  style.appendChild(document.createTextNode(".navigation-edit-editor__hidden-blocks{display:none}"));
+  document.head.appendChild(style);
+}
 
 // routes/navigation-edit/editor/content.tsx
 var import_block_editor2 = __toESM(require_block_editor());
@@ -283,19 +285,19 @@ var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnl
   "@wordpress/routes"
 );
 
-// packages/icons/build-module/library/chevron-down.js
-var import_primitives = __toESM(require_primitives());
-var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+// packages/icons/build-module/library/chevron-down.mjs
+var import_primitives = __toESM(require_primitives(), 1);
+var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
 var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
 
-// packages/icons/build-module/library/chevron-up.js
-var import_primitives2 = __toESM(require_primitives());
-var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+// packages/icons/build-module/library/chevron-up.mjs
+var import_primitives2 = __toESM(require_primitives(), 1);
+var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
 var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives2.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives2.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
 
-// packages/icons/build-module/library/more-vertical.js
-var import_primitives3 = __toESM(require_primitives());
-var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+// packages/icons/build-module/library/more-vertical.mjs
+var import_primitives3 = __toESM(require_primitives(), 1);
+var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives3.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
 
 // routes/navigation-edit/editor/leaf-more-menu.tsx

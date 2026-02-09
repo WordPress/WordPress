@@ -1,4 +1,4 @@
-// packages/a11y/build-module/shared/clear.js
+// packages/a11y/build-module/shared/clear.mjs
 function clear() {
   const regions = document.getElementsByClassName("a11y-speak-region");
   const introText = document.getElementById("a11y-speak-intro-text");
@@ -10,7 +10,7 @@ function clear() {
   }
 }
 
-// packages/a11y/build-module/shared/filter-message.js
+// packages/a11y/build-module/shared/filter-message.mjs
 var previousMessage = "";
 function filterMessage(message) {
   message = message.replace(/<[^<>]+>/g, " ");
@@ -21,7 +21,7 @@ function filterMessage(message) {
   return message;
 }
 
-// packages/a11y/build-module/shared/index.js
+// packages/a11y/build-module/shared/index.mjs
 function speak(message, ariaLive) {
   clear();
   message = filterMessage(message);
@@ -40,7 +40,7 @@ function speak(message, ariaLive) {
   }
 }
 
-// packages/a11y/build-module/module/index.js
+// packages/a11y/build-module/module/index.mjs
 var setup = () => {
 };
 export {

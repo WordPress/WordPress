@@ -141,6 +141,9 @@ if ( ! function_exists( 'wp_font_library_wp_admin_enqueue_scripts' ) ) {
 			return;
 		}
 
+		// Load build constants
+		$build_constants = require __DIR__ . '/../../constants.php';
+
 		// Fire init action for extensions to register routes and menu items
 		do_action( 'font-library-wp-admin_init' );
 
@@ -206,7 +209,7 @@ if ( ! function_exists( 'wp_font_library_wp_admin_enqueue_scripts' ) ) {
 			// Dummy script module to ensure dependencies are loaded
 			wp_register_script_module(
 				'font-library-wp-admin',
-				includes_url( 'build' ) . '/pages/font-library/loader.js',
+				$build_constants['build_url'] . 'pages/font-library/loader.js',
 				$boot_dependencies
 			);
 

@@ -157,27 +157,27 @@ var wp;
     }
   });
 
-  // packages/block-directory/build-module/index.js
+  // packages/block-directory/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     store: () => store
   });
 
-  // packages/block-directory/build-module/plugins/index.js
-  var import_plugins = __toESM(require_plugins());
-  var import_hooks = __toESM(require_hooks());
+  // packages/block-directory/build-module/plugins/index.mjs
+  var import_plugins = __toESM(require_plugins(), 1);
+  var import_hooks = __toESM(require_hooks(), 1);
 
-  // packages/block-directory/build-module/components/auto-block-uninstaller/index.js
-  var import_blocks2 = __toESM(require_blocks());
-  var import_data4 = __toESM(require_data());
-  var import_element = __toESM(require_element());
-  var import_editor = __toESM(require_editor());
+  // packages/block-directory/build-module/components/auto-block-uninstaller/index.mjs
+  var import_blocks2 = __toESM(require_blocks(), 1);
+  var import_data4 = __toESM(require_data(), 1);
+  var import_element = __toESM(require_element(), 1);
+  var import_editor = __toESM(require_editor(), 1);
 
-  // packages/block-directory/build-module/store/index.js
-  var import_data3 = __toESM(require_data());
+  // packages/block-directory/build-module/store/index.mjs
+  var import_data3 = __toESM(require_data(), 1);
 
-  // packages/block-directory/build-module/store/reducer.js
-  var import_data = __toESM(require_data());
+  // packages/block-directory/build-module/store/reducer.mjs
+  var import_data = __toESM(require_data(), 1);
   var downloadableBlocks = (state = {}, action) => {
     switch (action.type) {
       case "FETCH_DOWNLOADABLE_BLOCKS":
@@ -251,7 +251,7 @@ var wp;
     errorNotices
   });
 
-  // packages/block-directory/build-module/store/selectors.js
+  // packages/block-directory/build-module/store/selectors.mjs
   var selectors_exports = {};
   __export(selectors_exports, {
     getDownloadableBlocks: () => getDownloadableBlocks,
@@ -263,8 +263,8 @@ var wp;
     isInstalling: () => isInstalling,
     isRequestingDownloadableBlocks: () => isRequestingDownloadableBlocks
   });
-  var import_data2 = __toESM(require_data());
-  var import_block_editor = __toESM(require_block_editor());
+  var import_data2 = __toESM(require_data(), 1);
+  var import_block_editor = __toESM(require_block_editor(), 1);
   var EMPTY_ARRAY = [];
   function isRequestingDownloadableBlocks(state, filterValue) {
     return state.downloadableBlocks[filterValue]?.isRequesting ?? false;
@@ -341,7 +341,7 @@ var wp;
     return state.errorNotices[blockId];
   }
 
-  // packages/block-directory/build-module/store/actions.js
+  // packages/block-directory/build-module/store/actions.mjs
   var actions_exports = {};
   __export(actions_exports, {
     addInstalledBlockType: () => addInstalledBlockType,
@@ -354,14 +354,14 @@ var wp;
     setIsInstalling: () => setIsInstalling,
     uninstallBlockType: () => uninstallBlockType
   });
-  var import_blocks = __toESM(require_blocks());
-  var import_i18n = __toESM(require_i18n());
-  var import_api_fetch2 = __toESM(require_api_fetch());
-  var import_notices = __toESM(require_notices());
-  var import_url = __toESM(require_url());
+  var import_blocks = __toESM(require_blocks(), 1);
+  var import_i18n = __toESM(require_i18n(), 1);
+  var import_api_fetch2 = __toESM(require_api_fetch(), 1);
+  var import_notices = __toESM(require_notices(), 1);
+  var import_url = __toESM(require_url(), 1);
 
-  // packages/block-directory/build-module/store/load-assets.js
-  var import_api_fetch = __toESM(require_api_fetch());
+  // packages/block-directory/build-module/store/load-assets.mjs
+  var import_api_fetch = __toESM(require_api_fetch(), 1);
   var loadAsset = (el) => {
     return new Promise((resolve, reject) => {
       const newNode = document.createElement(el.nodeName);
@@ -396,7 +396,7 @@ var wp;
     }
   }
 
-  // packages/block-directory/build-module/store/utils/get-plugin-url.js
+  // packages/block-directory/build-module/store/utils/get-plugin-url.mjs
   function getPluginUrl(block) {
     if (!block) {
       return false;
@@ -408,7 +408,7 @@ var wp;
     return false;
   }
 
-  // packages/block-directory/build-module/store/actions.js
+  // packages/block-directory/build-module/store/actions.mjs
   function fetchDownloadableBlocks(filterValue) {
     return { type: "FETCH_DOWNLOADABLE_BLOCKS", filterValue };
   }
@@ -578,7 +578,7 @@ var wp;
     };
   }
 
-  // packages/block-directory/build-module/store/resolvers.js
+  // packages/block-directory/build-module/store/resolvers.mjs
   var resolvers_exports = {};
   __export(resolvers_exports, {
     getDownloadableBlocks: () => getDownloadableBlocks2
@@ -655,8 +655,8 @@ var wp;
     return pascalCase(input, __assign({ transform: camelCaseTransform }, options));
   }
 
-  // packages/block-directory/build-module/store/resolvers.js
-  var import_api_fetch3 = __toESM(require_api_fetch());
+  // packages/block-directory/build-module/store/resolvers.mjs
+  var import_api_fetch3 = __toESM(require_api_fetch(), 1);
   var getDownloadableBlocks2 = (filterValue) => async ({ dispatch }) => {
     if (!filterValue) {
       return;
@@ -680,7 +680,7 @@ var wp;
     }
   };
 
-  // packages/block-directory/build-module/store/index.js
+  // packages/block-directory/build-module/store/index.mjs
   var STORE_NAME = "core/block-directory";
   var storeConfig = {
     reducer: reducer_default,
@@ -691,7 +691,7 @@ var wp;
   var store = (0, import_data3.createReduxStore)(STORE_NAME, storeConfig);
   (0, import_data3.register)(store);
 
-  // packages/block-directory/build-module/components/auto-block-uninstaller/index.js
+  // packages/block-directory/build-module/components/auto-block-uninstaller/index.mjs
   function AutoBlockUninstaller() {
     const { uninstallBlockType: uninstallBlockType2 } = (0, import_data4.useDispatch)(store);
     const shouldRemoveBlockTypes = (0, import_data4.useSelect)((select) => {
@@ -713,23 +713,23 @@ var wp;
     return null;
   }
 
-  // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.js
-  var import_block_editor3 = __toESM(require_block_editor());
-  var import_compose = __toESM(require_compose());
-  var import_element5 = __toESM(require_element());
+  // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.mjs
+  var import_block_editor3 = __toESM(require_block_editor(), 1);
+  var import_compose = __toESM(require_compose(), 1);
+  var import_element5 = __toESM(require_element(), 1);
 
-  // packages/block-directory/build-module/components/downloadable-blocks-panel/index.js
-  var import_i18n8 = __toESM(require_i18n());
-  var import_components4 = __toESM(require_components());
-  var import_core_data = __toESM(require_core_data());
-  var import_data8 = __toESM(require_data());
-  var import_blocks5 = __toESM(require_blocks());
+  // packages/block-directory/build-module/components/downloadable-blocks-panel/index.mjs
+  var import_i18n8 = __toESM(require_i18n(), 1);
+  var import_components4 = __toESM(require_components(), 1);
+  var import_core_data = __toESM(require_core_data(), 1);
+  var import_data8 = __toESM(require_data(), 1);
+  var import_blocks5 = __toESM(require_blocks(), 1);
 
-  // packages/block-directory/build-module/components/downloadable-blocks-list/index.js
-  var import_i18n5 = __toESM(require_i18n());
-  var import_components2 = __toESM(require_components());
-  var import_blocks4 = __toESM(require_blocks());
-  var import_data7 = __toESM(require_data());
+  // packages/block-directory/build-module/components/downloadable-blocks-list/index.mjs
+  var import_i18n5 = __toESM(require_i18n(), 1);
+  var import_components2 = __toESM(require_components(), 1);
+  var import_blocks4 = __toESM(require_blocks(), 1);
+  var import_data7 = __toESM(require_data(), 1);
 
   // node_modules/clsx/dist/clsx.mjs
   function r(e) {
@@ -747,19 +747,19 @@ var wp;
   }
   var clsx_default = clsx;
 
-  // packages/block-directory/build-module/components/downloadable-block-list-item/index.js
-  var import_i18n4 = __toESM(require_i18n());
-  var import_components = __toESM(require_components());
-  var import_element3 = __toESM(require_element());
-  var import_html_entities = __toESM(require_html_entities());
-  var import_blocks3 = __toESM(require_blocks());
-  var import_data6 = __toESM(require_data());
+  // packages/block-directory/build-module/components/downloadable-block-list-item/index.mjs
+  var import_i18n4 = __toESM(require_i18n(), 1);
+  var import_components = __toESM(require_components(), 1);
+  var import_element3 = __toESM(require_element(), 1);
+  var import_html_entities = __toESM(require_html_entities(), 1);
+  var import_blocks3 = __toESM(require_blocks(), 1);
+  var import_data6 = __toESM(require_data(), 1);
 
-  // packages/block-directory/build-module/components/block-ratings/stars.js
-  var import_i18n2 = __toESM(require_i18n());
+  // packages/block-directory/build-module/components/block-ratings/stars.mjs
+  var import_i18n2 = __toESM(require_i18n(), 1);
 
-  // packages/icons/build-module/icon/index.js
-  var import_element2 = __toESM(require_element());
+  // packages/icons/build-module/icon/index.mjs
+  var import_element2 = __toESM(require_element(), 1);
   var icon_default = (0, import_element2.forwardRef)(
     ({ icon, size = 24, ...props }, ref) => {
       return (0, import_element2.cloneElement)(icon, {
@@ -771,9 +771,9 @@ var wp;
     }
   );
 
-  // packages/icons/build-module/library/star-empty.js
-  var import_primitives = __toESM(require_primitives());
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  // packages/icons/build-module/library/star-empty.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var star_empty_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     import_primitives.Path,
     {
@@ -783,18 +783,18 @@ var wp;
     }
   ) });
 
-  // packages/icons/build-module/library/star-filled.js
-  var import_primitives2 = __toESM(require_primitives());
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+  // packages/icons/build-module/library/star-filled.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var star_filled_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z" }) });
 
-  // packages/icons/build-module/library/star-half.js
-  var import_primitives3 = __toESM(require_primitives());
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  // packages/icons/build-module/library/star-half.mjs
+  var import_primitives3 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var star_half_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z" }) });
 
-  // packages/block-directory/build-module/components/block-ratings/stars.js
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/block-ratings/stars.mjs
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   function Stars({ rating }) {
     const stars = Math.round(rating / 0.5) * 0.5;
     const fullStarCount = Math.floor(rating);
@@ -842,24 +842,24 @@ var wp;
   }
   var stars_default = Stars;
 
-  // packages/block-directory/build-module/components/block-ratings/index.js
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/block-ratings/index.mjs
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var BlockRatings = ({ rating }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "block-directory-block-ratings", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(stars_default, { rating }) });
   var block_ratings_default = BlockRatings;
 
-  // packages/block-directory/build-module/components/downloadable-block-icon/index.js
-  var import_block_editor2 = __toESM(require_block_editor());
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-block-icon/index.mjs
+  var import_block_editor2 = __toESM(require_block_editor(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function DownloadableBlockIcon({ icon }) {
     const className = "block-directory-downloadable-block-icon";
     return icon.match(/\.(jpeg|jpg|gif|png|svg)(?:\?.*)?$/) !== null ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("img", { className, src: icon, alt: "" }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_block_editor2.BlockIcon, { className, icon, showColors: true });
   }
   var downloadable_block_icon_default = DownloadableBlockIcon;
 
-  // packages/block-directory/build-module/components/downloadable-block-notice/index.js
-  var import_i18n3 = __toESM(require_i18n());
-  var import_data5 = __toESM(require_data());
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-block-notice/index.mjs
+  var import_i18n3 = __toESM(require_i18n(), 1);
+  var import_data5 = __toESM(require_data(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   var DownloadableBlockNotice = ({ block }) => {
     const errorNotice = (0, import_data5.useSelect)(
       (select) => select(store).getErrorNoticeForBlock(block.id),
@@ -875,8 +875,8 @@ var wp;
   };
   var downloadable_block_notice_default = DownloadableBlockNotice;
 
-  // packages/block-directory/build-module/components/downloadable-block-list-item/index.js
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-block-list-item/index.mjs
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function getDownloadableBlockLabel({ title, rating, ratingCount }, { hasNotice, isInstalled, isInstalling: isInstalling2 }) {
     const stars = Math.round(rating / 0.5) * 0.5;
     if (!isInstalled && hasNotice) {
@@ -974,8 +974,8 @@ var wp;
   }
   var downloadable_block_list_item_default = DownloadableBlockListItem;
 
-  // packages/block-directory/build-module/components/downloadable-blocks-list/index.js
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-blocks-list/index.mjs
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   var noop = () => {
   };
   function DownloadableBlocksList({ items, onHover = noop, onSelect }) {
@@ -1016,11 +1016,11 @@ var wp;
   }
   var downloadable_blocks_list_default = DownloadableBlocksList;
 
-  // packages/block-directory/build-module/components/downloadable-blocks-panel/inserter-panel.js
-  var import_i18n6 = __toESM(require_i18n());
-  var import_element4 = __toESM(require_element());
-  var import_a11y = __toESM(require_a11y());
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-blocks-panel/inserter-panel.mjs
+  var import_i18n6 = __toESM(require_i18n(), 1);
+  var import_element4 = __toESM(require_element(), 1);
+  var import_a11y = __toESM(require_a11y(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function DownloadableBlocksInserterPanel({
     children,
     downloadableItems,
@@ -1056,10 +1056,10 @@ var wp;
   }
   var inserter_panel_default = DownloadableBlocksInserterPanel;
 
-  // packages/block-directory/build-module/components/downloadable-blocks-panel/no-results.js
-  var import_i18n7 = __toESM(require_i18n());
-  var import_components3 = __toESM(require_components());
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-blocks-panel/no-results.mjs
+  var import_i18n7 = __toESM(require_i18n(), 1);
+  var import_components3 = __toESM(require_components(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function DownloadableBlocksNoResults() {
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "block-editor-inserter__no-results", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { children: (0, import_i18n7.__)("No results found.") }) }),
@@ -1075,8 +1075,8 @@ var wp;
   }
   var no_results_default = DownloadableBlocksNoResults;
 
-  // packages/block-directory/build-module/components/downloadable-blocks-panel/index.js
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/downloadable-blocks-panel/index.mjs
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   var EMPTY_ARRAY2 = [];
   var useDownloadableBlocks = (filterValue) => (0, import_data8.useSelect)(
     (select) => {
@@ -1162,8 +1162,8 @@ var wp;
     );
   }
 
-  // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.js
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.mjs
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   function InserterMenuDownloadableBlocksPanel() {
     const [debouncedFilterValue, setFilterValue] = (0, import_element5.useState)("");
     const debouncedSetFilterValue = (0, import_compose.debounce)(setFilterValue, 400);
@@ -1188,14 +1188,14 @@ var wp;
   }
   var inserter_menu_downloadable_blocks_panel_default = InserterMenuDownloadableBlocksPanel;
 
-  // packages/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.js
-  var import_i18n10 = __toESM(require_i18n());
-  var import_data9 = __toESM(require_data());
-  var import_editor2 = __toESM(require_editor());
+  // packages/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.mjs
+  var import_i18n10 = __toESM(require_i18n(), 1);
+  var import_data9 = __toESM(require_data(), 1);
+  var import_editor2 = __toESM(require_editor(), 1);
 
-  // packages/block-directory/build-module/components/compact-list/index.js
-  var import_i18n9 = __toESM(require_i18n());
-  var import_jsx_runtime14 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/components/compact-list/index.mjs
+  var import_i18n9 = __toESM(require_i18n(), 1);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
   function CompactList({ items }) {
     if (!items.length) {
       return null;
@@ -1213,8 +1213,8 @@ var wp;
     ] }, id)) });
   }
 
-  // packages/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.js
-  var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.mjs
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
   function InstalledBlocksPrePublishPanel() {
     const newBlockTypes = (0, import_data9.useSelect)(
       (select) => select(store).getNewBlockTypes(),
@@ -1248,22 +1248,22 @@ var wp;
     );
   }
 
-  // packages/block-directory/build-module/plugins/get-install-missing/index.js
-  var import_i18n12 = __toESM(require_i18n());
-  var import_components6 = __toESM(require_components());
-  var import_blocks7 = __toESM(require_blocks());
-  var import_element6 = __toESM(require_element());
-  var import_data11 = __toESM(require_data());
-  var import_core_data2 = __toESM(require_core_data());
-  var import_block_editor5 = __toESM(require_block_editor());
+  // packages/block-directory/build-module/plugins/get-install-missing/index.mjs
+  var import_i18n12 = __toESM(require_i18n(), 1);
+  var import_components6 = __toESM(require_components(), 1);
+  var import_blocks7 = __toESM(require_blocks(), 1);
+  var import_element6 = __toESM(require_element(), 1);
+  var import_data11 = __toESM(require_data(), 1);
+  var import_core_data2 = __toESM(require_core_data(), 1);
+  var import_block_editor5 = __toESM(require_block_editor(), 1);
 
-  // packages/block-directory/build-module/plugins/get-install-missing/install-button.js
-  var import_i18n11 = __toESM(require_i18n());
-  var import_components5 = __toESM(require_components());
-  var import_blocks6 = __toESM(require_blocks());
-  var import_data10 = __toESM(require_data());
-  var import_block_editor4 = __toESM(require_block_editor());
-  var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/plugins/get-install-missing/install-button.mjs
+  var import_i18n11 = __toESM(require_i18n(), 1);
+  var import_components5 = __toESM(require_components(), 1);
+  var import_blocks6 = __toESM(require_blocks(), 1);
+  var import_data10 = __toESM(require_data(), 1);
+  var import_block_editor4 = __toESM(require_block_editor(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
   function InstallButton({ attributes, block, clientId }) {
     const isInstallingBlock = (0, import_data10.useSelect)(
       (select) => select(store).isInstalling(block.id),
@@ -1306,8 +1306,8 @@ var wp;
     );
   }
 
-  // packages/block-directory/build-module/plugins/get-install-missing/index.js
-  var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/plugins/get-install-missing/index.mjs
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
   var getInstallMissing = (OriginalComponent) => (props) => {
     const { originalName } = props.attributes;
     const { block, hasPermission } = (0, import_data11.useSelect)(
@@ -1399,8 +1399,8 @@ var wp;
   };
   var get_install_missing_default = getInstallMissing;
 
-  // packages/block-directory/build-module/plugins/index.js
-  var import_jsx_runtime18 = __toESM(require_jsx_runtime());
+  // packages/block-directory/build-module/plugins/index.mjs
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   (0, import_plugins.registerPlugin)("block-directory", {
     // The icon is explicitly set to undefined to prevent PluginPrePublishPanel
     // from rendering the fallback icon pluginIcon.

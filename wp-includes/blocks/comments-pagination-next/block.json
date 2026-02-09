@@ -14,6 +14,7 @@
 	},
 	"usesContext": [ "postId", "comments/paginationArrow" ],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {

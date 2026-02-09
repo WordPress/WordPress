@@ -19,16 +19,16 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/warning/build-module/index.js
+  // packages/warning/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     default: () => warning
   });
 
-  // packages/warning/build-module/utils.js
+  // packages/warning/build-module/utils.mjs
   var logged = /* @__PURE__ */ new Set();
 
-  // packages/warning/build-module/index.js
+  // packages/warning/build-module/index.mjs
   function isDev() {
     return true;
   }

@@ -39,7 +39,7 @@ var wp;
     }
   });
 
-  // packages/keycodes/build-module/index.js
+  // packages/keycodes/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     ALT: () => ALT,
@@ -62,6 +62,7 @@ var wp;
     TAB: () => TAB,
     UP: () => UP,
     ZERO: () => ZERO,
+    ariaKeyShortcut: () => ariaKeyShortcut,
     displayShortcut: () => displayShortcut,
     displayShortcutList: () => displayShortcutList,
     isAppleOS: () => isAppleOS,
@@ -70,9 +71,9 @@ var wp;
     rawShortcut: () => rawShortcut,
     shortcutAriaLabel: () => shortcutAriaLabel
   });
-  var import_i18n = __toESM(require_i18n());
+  var import_i18n = __toESM(require_i18n(), 1);
 
-  // packages/keycodes/build-module/platform.js
+  // packages/keycodes/build-module/platform.mjs
   function isAppleOS(_window) {
     if (!_window) {
       if (typeof window === "undefined") {
@@ -84,7 +85,7 @@ var wp;
     return platform.indexOf("Mac") !== -1 || ["iPad", "iPhone"].includes(platform);
   }
 
-  // packages/keycodes/build-module/index.js
+  // packages/keycodes/build-module/index.mjs
   var BACKSPACE = 8;
   var TAB = 9;
   var ENTER = 13;
@@ -134,6 +135,14 @@ var wp;
       return [...modifier(_isApple), character.toLowerCase()].join(
         "+"
       );
+    };
+  });
+  var ariaKeyShortcut = /* @__PURE__ */ mapValues(modifiers, (modifier) => {
+    return (character, _isApple = isAppleOS) => {
+      return [
+        ...modifier(_isApple).map((key) => key === CTRL ? "Control" : key).map((key) => capitaliseFirstCharacter(key)),
+        capitaliseFirstCharacter(character)
+      ].join("+");
     };
   });
   var displayShortcutList = /* @__PURE__ */ mapValues(

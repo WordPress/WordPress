@@ -8,9 +8,6 @@
 	"keywords": [ "title", "subtitle" ],
 	"textdomain": "default",
 	"attributes": {
-		"textAlign": {
-			"type": "string"
-		},
 		"content": {
 			"type": "rich-text",
 			"source": "rich-text",
@@ -58,6 +55,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,

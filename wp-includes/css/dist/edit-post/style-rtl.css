@@ -83,6 +83,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 :root {
   --wp-block-synced-color: #7a00df;
   --wp-block-synced-color--rgb: 122, 0, 223;
@@ -187,6 +191,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .admin-ui-page {
   display: flex;
   height: 100%;
@@ -195,6 +203,7 @@
   position: relative;
   z-index: 1;
   flex-flow: column;
+  text-wrap: pretty;
 }
 
 .admin-ui-page__header {
@@ -365,17 +374,22 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-block-start: 32px;
 }
 
 .edit-post-meta-boxes-main__presenter {
+  flex-shrink: 0;
   display: flex;
+  justify-content: center;
   box-shadow: 0 1px #ddd;
   outline: 1px solid transparent;
   position: relative;
-  z-index: 10000;
-  inset: 0 0 auto;
+  z-index: 1;
   height: 32px;
+}
+@media (pointer: coarse) {
+  .edit-post-meta-boxes-main__presenter {
+    height: 36px;
+  }
 }
 .edit-post-meta-boxes-main__presenter > button {
   appearance: none;
@@ -383,6 +397,7 @@
   border: none;
   outline: none;
   background-color: transparent;
+  touch-action: none;
 }
 .edit-post-meta-boxes-main__presenter > button[aria-expanded] {
   cursor: pointer;
@@ -405,14 +420,13 @@
 .edit-post-meta-boxes-main__presenter > button[aria-expanded] > svg {
   fill: currentColor;
 }
-.edit-post-meta-boxes-main__presenter button[role=separator] {
+.edit-post-meta-boxes-main__presenter > button[role=separator] {
   cursor: row-resize;
-  width: 64px;
-  margin: auto;
   position: absolute;
-  inset: 0;
+  width: 64px;
+  height: inherit;
 }
-.edit-post-meta-boxes-main__presenter button[role=separator]::before {
+.edit-post-meta-boxes-main__presenter > button[role=separator]::before {
   content: "";
   background-color: #ddd;
   outline: 2px solid transparent;
@@ -425,23 +439,15 @@
   border-radius: 2px;
 }
 @media not (prefers-reduced-motion) {
-  .edit-post-meta-boxes-main__presenter button[role=separator]::before {
+  .edit-post-meta-boxes-main__presenter > button[role=separator]::before {
     transition: width 0.3s ease-out;
   }
 }
-.edit-post-meta-boxes-main__presenter button[role=separator]:is(:hover, :focus-visible)::before {
+.edit-post-meta-boxes-main__presenter > button[role=separator]:is(:hover, :focus)::before {
   background-color: var(--wp-admin-theme-color);
   width: 80px;
 }
 
-@media (pointer: coarse) {
-  .edit-post-meta-boxes-main {
-    padding-block-start: 36px;
-  }
-  .edit-post-meta-boxes-main__presenter {
-    height: 36px;
-  }
-}
 .edit-post-meta-boxes-main .edit-post-meta-boxes-main__liner {
   overflow: auto;
 }

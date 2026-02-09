@@ -101,7 +101,7 @@ var wp;
     }
   });
 
-  // packages/commands/build-module/index.js
+  // packages/commands/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     CommandMenu: () => CommandMenu,
@@ -353,7 +353,6 @@ var wp;
   function isFunction(value) {
     return typeof value === "function";
   }
-  var SYNC_STATE = Symbol("RADIX:SYNC_STATE");
 
   // node_modules/@radix-ui/react-dismissable-layer/dist/index.mjs
   var React11 = __toESM(require_react(), 1);
@@ -456,7 +455,7 @@ var wp;
     SlotClone.displayName = `${ownerName}.SlotClone`;
     return SlotClone;
   }
-  var SLOTTABLE_IDENTIFIER = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER = /* @__PURE__ */ Symbol("radix.slottable");
   function isSlottable(child) {
     return React7.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
   }
@@ -525,7 +524,7 @@ var wp;
       const { asChild, ...primitiveProps } = props;
       const Comp = asChild ? Slot2 : node;
       if (typeof window !== "undefined") {
-        window[Symbol.for("radix-ui")] = true;
+        window[/* @__PURE__ */ Symbol.for("radix-ui")] = true;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
     });
@@ -854,7 +853,7 @@ var wp;
     SlotClone.displayName = `${ownerName}.SlotClone`;
     return SlotClone;
   }
-  var SLOTTABLE_IDENTIFIER2 = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER2 = /* @__PURE__ */ Symbol("radix.slottable");
   function isSlottable2(child) {
     return React13.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER2;
   }
@@ -923,7 +922,7 @@ var wp;
       const { asChild, ...primitiveProps } = props;
       const Comp = asChild ? Slot2 : node;
       if (typeof window !== "undefined") {
-        window[Symbol.for("radix-ui")] = true;
+        window[/* @__PURE__ */ Symbol.for("radix-ui")] = true;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
     });
@@ -1232,7 +1231,7 @@ var wp;
     SlotClone.displayName = `${ownerName}.SlotClone`;
     return SlotClone;
   }
-  var SLOTTABLE_IDENTIFIER3 = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER3 = /* @__PURE__ */ Symbol("radix.slottable");
   function isSlottable3(child) {
     return React18.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER3;
   }
@@ -1301,7 +1300,7 @@ var wp;
       const { asChild, ...primitiveProps } = props;
       const Comp = asChild ? Slot2 : node;
       if (typeof window !== "undefined") {
-        window[Symbol.for("radix-ui")] = true;
+        window[/* @__PURE__ */ Symbol.for("radix-ui")] = true;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
     });
@@ -1544,7 +1543,7 @@ var wp;
     SlotClone.displayName = `${ownerName}.SlotClone`;
     return SlotClone;
   }
-  var SLOTTABLE_IDENTIFIER4 = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER4 = /* @__PURE__ */ Symbol("radix.slottable");
   function isSlottable4(child) {
     return React27.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER4;
   }
@@ -1613,7 +1612,7 @@ var wp;
       const { asChild, ...primitiveProps } = props;
       const Comp = asChild ? Slot2 : node;
       if (typeof window !== "undefined") {
-        window[Symbol.for("radix-ui")] = true;
+        window[/* @__PURE__ */ Symbol.for("radix-ui")] = true;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
     });
@@ -2831,7 +2830,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 
   // node_modules/cmdk/node_modules/@radix-ui/react-slot/dist/index.mjs
   var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  var REACT_LAZY_TYPE = Symbol.for("react.lazy");
+  var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
   var use = React39[" use ".trim().toString()];
   function isPromiseLike(value) {
     return typeof value === "object" && value !== null && "then" in value;
@@ -2886,7 +2885,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     SlotClone.displayName = `${ownerName}.SlotClone`;
     return SlotClone;
   }
-  var SLOTTABLE_IDENTIFIER5 = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER5 = /* @__PURE__ */ Symbol("radix.slottable");
   function isSlottable5(child) {
     return React39.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER5;
   }
@@ -2955,7 +2954,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       const { asChild, ...primitiveProps } = props;
       const Comp = asChild ? Slot2 : node;
       if (typeof window !== "undefined") {
-        window[Symbol.for("radix-ui")] = true;
+        window[/* @__PURE__ */ Symbol.for("radix-ui")] = true;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
     });
@@ -3314,15 +3313,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   }
   var clsx_default = clsx;
 
-  // packages/commands/build-module/components/command-menu.js
-  var import_data4 = __toESM(require_data());
-  var import_element2 = __toESM(require_element());
-  var import_i18n = __toESM(require_i18n());
-  var import_components = __toESM(require_components());
-  var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts());
+  // packages/commands/build-module/components/command-menu.mjs
+  var import_data4 = __toESM(require_data(), 1);
+  var import_element2 = __toESM(require_element(), 1);
+  var import_i18n = __toESM(require_i18n(), 1);
+  var import_components = __toESM(require_components(), 1);
+  var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
 
-  // packages/icons/build-module/icon/index.js
-  var import_element = __toESM(require_element());
+  // packages/icons/build-module/icon/index.mjs
+  var import_element = __toESM(require_element(), 1);
   var icon_default = (0, import_element.forwardRef)(
     ({ icon, size = 24, ...props }, ref) => {
       return (0, import_element.cloneElement)(icon, {
@@ -3334,16 +3333,16 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }
   );
 
-  // packages/icons/build-module/library/search.js
-  var import_primitives = __toESM(require_primitives());
-  var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+  // packages/icons/build-module/library/search.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
   var search_default = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
 
-  // packages/commands/build-module/store/index.js
-  var import_data3 = __toESM(require_data());
+  // packages/commands/build-module/store/index.mjs
+  var import_data3 = __toESM(require_data(), 1);
 
-  // packages/commands/build-module/store/reducer.js
-  var import_data = __toESM(require_data());
+  // packages/commands/build-module/store/reducer.mjs
+  var import_data = __toESM(require_data(), 1);
   function commands(state = {}, action) {
     switch (action.type) {
       case "REGISTER_COMMAND":
@@ -3408,7 +3407,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   });
   var reducer_default = reducer;
 
-  // packages/commands/build-module/store/actions.js
+  // packages/commands/build-module/store/actions.mjs
   var actions_exports = {};
   __export(actions_exports, {
     close: () => close,
@@ -3453,7 +3452,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     };
   }
 
-  // packages/commands/build-module/store/selectors.js
+  // packages/commands/build-module/store/selectors.mjs
   var selectors_exports = {};
   __export(selectors_exports, {
     getCommandLoaders: () => getCommandLoaders,
@@ -3461,7 +3460,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     getContext: () => getContext,
     isOpen: () => isOpen2
   });
-  var import_data2 = __toESM(require_data());
+  var import_data2 = __toESM(require_data(), 1);
   var getCommands = (0, import_data2.createSelector)(
     (state, contextual = false) => Object.values(state.commands).filter((command) => {
       const isContextual = command.context && command.context === state.context;
@@ -3483,7 +3482,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     return state.context;
   }
 
-  // packages/commands/build-module/store/private-actions.js
+  // packages/commands/build-module/store/private-actions.mjs
   var private_actions_exports = {};
   __export(private_actions_exports, {
     setContext: () => setContext
@@ -3495,14 +3494,14 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     };
   }
 
-  // packages/commands/build-module/lock-unlock.js
-  var import_private_apis = __toESM(require_private_apis());
+  // packages/commands/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
   var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
     "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
     "@wordpress/commands"
   );
 
-  // packages/commands/build-module/store/index.js
+  // packages/commands/build-module/store/index.mjs
   var STORE_NAME = "core/commands";
   var store = (0, import_data3.createReduxStore)(STORE_NAME, {
     reducer: reducer_default,
@@ -3512,8 +3511,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   (0, import_data3.register)(store);
   unlock(store).registerPrivateActions(private_actions_exports);
 
-  // packages/commands/build-module/components/command-menu.js
-  var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+  // packages/commands/build-module/components/command-menu.mjs
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
   var { withIgnoreIMEEvents } = unlock(import_components.privateApis);
   var inputLabel = (0, import_i18n.__)("Search commands and settings");
   function CommandMenuLoader({ name, search, hook, setLoader, close: close2 }) {
@@ -3759,9 +3758,9 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     );
   }
 
-  // packages/commands/build-module/hooks/use-command-context.js
-  var import_element3 = __toESM(require_element());
-  var import_data5 = __toESM(require_data());
+  // packages/commands/build-module/hooks/use-command-context.mjs
+  var import_element3 = __toESM(require_element(), 1);
+  var import_data5 = __toESM(require_data(), 1);
   function useCommandContext(context2) {
     const { getContext: getContext2 } = (0, import_data5.useSelect)(store);
     const initialContext = (0, import_element3.useRef)(getContext2());
@@ -3775,15 +3774,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }, [setContext2]);
   }
 
-  // packages/commands/build-module/private-apis.js
+  // packages/commands/build-module/private-apis.mjs
   var privateApis = {};
   lock(privateApis, {
     useCommandContext
   });
 
-  // packages/commands/build-module/hooks/use-command.js
-  var import_element4 = __toESM(require_element());
-  var import_data6 = __toESM(require_data());
+  // packages/commands/build-module/hooks/use-command.mjs
+  var import_element4 = __toESM(require_element(), 1);
+  var import_data6 = __toESM(require_data(), 1);
   function useCommand(command) {
     const { registerCommand: registerCommand2, unregisterCommand: unregisterCommand2 } = (0, import_data6.useDispatch)(store);
     const currentCallbackRef = (0, import_element4.useRef)(command.callback);
@@ -3862,9 +3861,9 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }, [commands2, registerCommand2, unregisterCommand2]);
   }
 
-  // packages/commands/build-module/hooks/use-command-loader.js
-  var import_element5 = __toESM(require_element());
-  var import_data7 = __toESM(require_data());
+  // packages/commands/build-module/hooks/use-command-loader.mjs
+  var import_element5 = __toESM(require_element(), 1);
+  var import_data7 = __toESM(require_data(), 1);
   function useCommandLoader(loader) {
     const { registerCommandLoader: registerCommandLoader2, unregisterCommandLoader: unregisterCommandLoader2 } = (0, import_data7.useDispatch)(store);
     (0, import_element5.useEffect)(() => {

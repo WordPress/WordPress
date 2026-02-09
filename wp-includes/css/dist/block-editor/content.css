@@ -83,6 +83,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 :root {
   --wp-block-synced-color: #7a00df;
   --wp-block-synced-color--rgb: 122, 0, 223;
@@ -203,12 +207,17 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   height: 0;
   border: none !important;
   padding: 0 !important;
+  opacity: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 .block-editor-block-list__layout.is-layout-flex:not(.is-vertical) > .is-block-hidden {
   width: 0;
   height: auto;
   align-self: stretch;
   white-space: nowrap !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 .block-editor-block-list__layout [class^=components-] {
   -webkit-user-select: text;
@@ -492,6 +501,16 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 
 .is-dragging {
   cursor: grabbing;
+}
+
+.is-preview-mode {
+  pointer-events: none;
+}
+.is-preview-mode .block-editor-block-list__block {
+  pointer-events: auto;
+}
+.is-preview-mode .block-editor-block-list__block > *:not(.block-editor-block-list__block) {
+  pointer-events: none;
 }
 
 .is-vertical .block-list-appender {

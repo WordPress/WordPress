@@ -39,12 +39,12 @@ var wp;
     }
   });
 
-  // packages/undo-manager/build-module/index.js
+  // packages/undo-manager/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     createUndoManager: () => createUndoManager
   });
-  var import_is_shallow_equal = __toESM(require_is_shallow_equal());
+  var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
   function mergeHistoryChanges(changes1, changes2) {
     const newChanges = { ...changes1 };
     Object.entries(changes2).forEach(([key, value]) => {
@@ -59,7 +59,7 @@ var wp;
   var addHistoryChangesIntoRecord = (record, changes) => {
     const existingChangesIndex = record?.findIndex(
       ({ id: recordIdentifier }) => {
-        return typeof recordIdentifier === "string" ? recordIdentifier === changes.id : (0, import_is_shallow_equal.default)(recordIdentifier, changes.id);
+        return typeof recordIdentifier === "string" ? recordIdentifier === changes.id : (0, import_is_shallow_equal.isShallowEqual)(recordIdentifier, changes.id);
       }
     );
     const nextRecord = [...record];
@@ -96,7 +96,7 @@ var wp;
     const isRecordEmpty = (record) => {
       const filteredRecord = record.filter(({ changes }) => {
         return Object.values(changes).some(
-          ({ from, to }) => typeof from !== "function" && typeof to !== "function" && !(0, import_is_shallow_equal.default)(from, to)
+          ({ from, to }) => typeof from !== "function" && typeof to !== "function" && !(0, import_is_shallow_equal.isShallowEqual)(from, to)
         );
       });
       return !filteredRecord.length;

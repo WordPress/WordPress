@@ -84,7 +84,7 @@ var wp;
     }
   });
 
-  // packages/element/build-module/index.js
+  // packages/element/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     Children: () => import_react.Children,
@@ -134,8 +134,8 @@ var wp;
     useTransition: () => import_react.useTransition
   });
 
-  // packages/element/build-module/react.js
-  var import_react = __toESM(require_react());
+  // packages/element/build-module/react.mjs
+  var import_react = __toESM(require_react(), 1);
   function concatChildren(...childrenArguments) {
     return childrenArguments.reduce(
       (accumulator, children, i) => {
@@ -169,7 +169,7 @@ var wp;
     });
   }
 
-  // packages/element/build-module/create-interpolate-element.js
+  // packages/element/build-module/create-interpolate-element.mjs
   var indoc;
   var offset;
   var output;
@@ -332,11 +332,11 @@ var wp;
   }
   var create_interpolate_element_default = createInterpolateElement;
 
-  // packages/element/build-module/react-platform.js
-  var import_react_dom = __toESM(require_react_dom());
-  var import_client = __toESM(require_client());
+  // packages/element/build-module/react-platform.mjs
+  var import_react_dom = __toESM(require_react_dom(), 1);
+  var import_client = __toESM(require_client(), 1);
 
-  // packages/element/build-module/utils.js
+  // packages/element/build-module/utils.mjs
   var isEmptyElement = (element) => {
     if (typeof element === "number") {
       return false;
@@ -347,7 +347,7 @@ var wp;
     return !element;
   };
 
-  // packages/element/build-module/platform.js
+  // packages/element/build-module/platform.mjs
   var Platform = {
     /** Platform identifier. Will always be `'web'` in this module. */
     OS: "web",
@@ -441,10 +441,10 @@ var wp;
     return dotCase(input, __assign({ delimiter: "-" }, options));
   }
 
-  // packages/element/build-module/serialize.js
-  var import_escape_html = __toESM(require_escape_html());
+  // packages/element/build-module/serialize.mjs
+  var import_escape_html = __toESM(require_escape_html(), 1);
 
-  // packages/element/build-module/raw-html.js
+  // packages/element/build-module/raw-html.mjs
   function RawHTML({
     children,
     ...props
@@ -461,7 +461,7 @@ var wp;
     });
   }
 
-  // packages/element/build-module/serialize.js
+  // packages/element/build-module/serialize.mjs
   var Context = (0, import_react.createContext)(void 0);
   Context.displayName = "ElementContext";
   var { Provider, Consumer } = Context;

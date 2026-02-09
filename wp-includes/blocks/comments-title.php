@@ -25,9 +25,8 @@ function render_block_core_comments_title( $attributes ) {
 	$show_comments_count = ! empty( $attributes['showCommentsCount'] ) && $attributes['showCommentsCount'];
 	$wrapper_attributes  = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 	$comments_count      = get_comments_number();
-	/* translators: %s: Post title. */
-	$post_title = sprintf( __( '&#8220;%s&#8221;' ), get_the_title() );
-	$tag_name   = 'h2';
+	$post_title          = get_the_title();
+	$tag_name            = 'h2';
 	if ( isset( $attributes['level'] ) ) {
 		$tag_name = 'h' . $attributes['level'];
 	}
@@ -40,13 +39,13 @@ function render_block_core_comments_title( $attributes ) {
 		if ( $show_post_title ) {
 			if ( '1' === $comments_count ) {
 				/* translators: %s: Post title. */
-				$comments_title = sprintf( __( 'One response to %s' ), $post_title );
+				$comments_title = sprintf( __( 'One response to &#8220;%s&#8221;' ), $post_title );
 			} else {
 				$comments_title = sprintf(
 					/* translators: 1: Number of comments, 2: Post title. */
 					_n(
-						'%1$s response to %2$s',
-						'%1$s responses to %2$s',
+						'%1$s response to &#8220;%2$s&#8221;',
+						'%1$s responses to &#8220;%2$s&#8221;',
 						$comments_count
 					),
 					number_format_i18n( $comments_count ),
@@ -65,10 +64,10 @@ function render_block_core_comments_title( $attributes ) {
 	} elseif ( $show_post_title ) {
 		if ( '1' === $comments_count ) {
 			/* translators: %s: Post title. */
-			$comments_title = sprintf( __( 'Response to %s' ), $post_title );
+			$comments_title = sprintf( __( 'Response to &#8220;%s&#8221;' ), $post_title );
 		} else {
 			/* translators: %s: Post title. */
-			$comments_title = sprintf( __( 'Responses to %s' ), $post_title );
+			$comments_title = sprintf( __( 'Responses to &#8220;%s&#8221;' ), $post_title );
 		}
 	} elseif ( '1' === $comments_count ) {
 		$comments_title = __( 'Response' );

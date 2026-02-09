@@ -1,4 +1,4 @@
-// packages/interactivity-router/build-module/full-page.js
+// packages/interactivity-router/build-module/full-page.mjs
 var isValidLink = (ref) => ref && ref instanceof window.HTMLAnchorElement && ref.href && (!ref.target || ref.target === "_self") && ref.origin === window.location.origin && !ref.pathname.startsWith("/wp-admin") && !ref.pathname.startsWith("/wp-login.php") && !ref.getAttribute("href").startsWith("#") && !new URL(ref.href).searchParams.has("_wpnonce");
 var isValidEvent = (event) => event && event.button === 0 && // Left clicks only.
 !event.metaKey && // Open in new tab (Mac).

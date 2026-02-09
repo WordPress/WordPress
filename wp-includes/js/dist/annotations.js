@@ -59,23 +59,23 @@ var wp;
     }
   });
 
-  // packages/annotations/build-module/index.js
+  // packages/annotations/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     store: () => store
   });
 
-  // packages/annotations/build-module/format/index.js
-  var import_rich_text2 = __toESM(require_rich_text());
+  // packages/annotations/build-module/format/index.mjs
+  var import_rich_text2 = __toESM(require_rich_text(), 1);
 
-  // packages/annotations/build-module/format/annotation.js
-  var import_i18n = __toESM(require_i18n());
-  var import_rich_text = __toESM(require_rich_text());
+  // packages/annotations/build-module/format/annotation.mjs
+  var import_i18n = __toESM(require_i18n(), 1);
+  var import_rich_text = __toESM(require_rich_text(), 1);
 
-  // packages/annotations/build-module/store/constants.js
+  // packages/annotations/build-module/store/constants.mjs
   var STORE_NAME = "core/annotations";
 
-  // packages/annotations/build-module/format/annotation.js
+  // packages/annotations/build-module/format/annotation.mjs
   var FORMAT_NAME = "core/annotation";
   var ANNOTATION_ATTRIBUTE_PREFIX = "annotation-text-";
   function applyAnnotations(record, annotations2 = []) {
@@ -191,13 +191,13 @@ var wp;
     }
   };
 
-  // packages/annotations/build-module/format/index.js
+  // packages/annotations/build-module/format/index.mjs
   var { name, ...settings } = annotation;
   (0, import_rich_text2.registerFormatType)(name, settings);
 
-  // packages/annotations/build-module/block/index.js
-  var import_hooks = __toESM(require_hooks());
-  var import_data = __toESM(require_data());
+  // packages/annotations/build-module/block/index.mjs
+  var import_hooks = __toESM(require_hooks(), 1);
+  var import_data = __toESM(require_data(), 1);
   var addAnnotationClassName = (OriginalComponent) => {
     return (0, import_data.withSelect)((select, { clientId, className }) => {
       const annotations2 = select(STORE_NAME).__experimentalGetAnnotationsForBlock(
@@ -216,10 +216,10 @@ var wp;
     addAnnotationClassName
   );
 
-  // packages/annotations/build-module/store/index.js
-  var import_data3 = __toESM(require_data());
+  // packages/annotations/build-module/store/index.mjs
+  var import_data3 = __toESM(require_data(), 1);
 
-  // packages/annotations/build-module/store/reducer.js
+  // packages/annotations/build-module/store/reducer.mjs
   function filterWithReference(collection, predicate) {
     const filteredCollection = collection.filter(predicate);
     return collection.length === filteredCollection.length ? collection : filteredCollection;
@@ -300,7 +300,7 @@ var wp;
   }
   var reducer_default = annotations;
 
-  // packages/annotations/build-module/store/selectors.js
+  // packages/annotations/build-module/store/selectors.mjs
   var selectors_exports = {};
   __export(selectors_exports, {
     __experimentalGetAllAnnotationsForBlock: () => __experimentalGetAllAnnotationsForBlock,
@@ -308,7 +308,7 @@ var wp;
     __experimentalGetAnnotationsForBlock: () => __experimentalGetAnnotationsForBlock,
     __experimentalGetAnnotationsForRichText: () => __experimentalGetAnnotationsForRichText
   });
-  var import_data2 = __toESM(require_data());
+  var import_data2 = __toESM(require_data(), 1);
   var EMPTY_ARRAY = [];
   var __experimentalGetAnnotationsForBlock = (0, import_data2.createSelector)(
     (state, blockClientId) => {
@@ -339,7 +339,7 @@ var wp;
     return Object.values(state).flat();
   }
 
-  // packages/annotations/build-module/store/actions.js
+  // packages/annotations/build-module/store/actions.mjs
   var actions_exports = {};
   __export(actions_exports, {
     __experimentalAddAnnotation: () => __experimentalAddAnnotation,
@@ -396,7 +396,7 @@ var wp;
   }
   var v4_default = v4;
 
-  // packages/annotations/build-module/store/actions.js
+  // packages/annotations/build-module/store/actions.mjs
   function __experimentalAddAnnotation({
     blockClientId,
     richTextIdentifier = null,
@@ -439,7 +439,7 @@ var wp;
     };
   }
 
-  // packages/annotations/build-module/store/index.js
+  // packages/annotations/build-module/store/index.mjs
   var store = (0, import_data3.createReduxStore)(STORE_NAME, {
     reducer: reducer_default,
     selectors: selectors_exports,

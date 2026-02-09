@@ -103,9 +103,9 @@ function render_block_core_post_time_to_read( $attributes, $content, $block ) {
 	}
 
 	$content              = get_the_content();
-	$average_reading_rate = isset( $attributes['averageReadingSpeed'] ) ? $attributes['averageReadingSpeed'] : 189;
+	$average_reading_rate = $attributes['averageReadingSpeed'] ?? 189;
 
-	$display_mode = isset( $attributes['displayMode'] ) ? $attributes['displayMode'] : 'time';
+	$display_mode = $attributes['displayMode'] ?? 'time';
 
 	$word_count_type = wp_get_word_count_type();
 	$total_words     = block_core_post_time_to_read_word_count( $content, $word_count_type );

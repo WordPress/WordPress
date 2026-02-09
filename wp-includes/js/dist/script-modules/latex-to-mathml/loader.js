@@ -1,4 +1,4 @@
-// packages/latex-to-mathml/build-module/loader.js
+// packages/latex-to-mathml/build-module/loader.mjs
 function loader() {
   return import("@wordpress/latex-to-mathml");
 }

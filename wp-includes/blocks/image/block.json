@@ -89,6 +89,9 @@
 		"scale": {
 			"type": "string"
 		},
+		"focalPoint": {
+			"type": "object"
+		},
 		"sizeSlug": {
 			"type": "string"
 		},

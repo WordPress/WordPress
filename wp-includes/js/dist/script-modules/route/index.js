@@ -1573,6 +1573,11 @@ function processRouteTree({
 }
 
 // node_modules/@tanstack/router-core/dist/esm/not-found.js
+function notFound(options = {}) {
+  options.isNotFound = true;
+  if (options.throw) throw options;
+  return options;
+}
 function isNotFound(obj) {
   return !!obj?.isNotFound;
 }
@@ -4800,7 +4805,7 @@ var Route = class extends BaseRoute {
         return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Link, { ref, from: this.fullPath, ...props });
       }
     );
-    this.$$typeof = Symbol.for("react.memo");
+    this.$$typeof = /* @__PURE__ */ Symbol.for("react.memo");
   }
 };
 function createRoute(options) {
@@ -4857,7 +4862,7 @@ var RootRoute = class extends BaseRootRoute {
         return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Link, { ref, from: this.fullPath, ...props });
       }
     );
-    this.$$typeof = Symbol.for("react.memo");
+    this.$$typeof = /* @__PURE__ */ Symbol.for("react.memo");
   }
 };
 function createRootRoute(options) {
@@ -4930,7 +4935,7 @@ var LazyRoute = class {
       return useNavigate({ from: router.routesById[this.options.id].fullPath });
     };
     this.options = opts;
-    this.$$typeof = Symbol.for("react.memo");
+    this.$$typeof = /* @__PURE__ */ Symbol.for("react.memo");
   }
 };
 function createLazyRoute(id) {
@@ -5490,14 +5495,14 @@ function useCanGoBack() {
   return useRouterState({ select: (s) => s.location.state.__TSR_index !== 0 });
 }
 
-// packages/route/build-module/lock-unlock.js
-var import_private_apis = __toESM(require_private_apis());
+// packages/route/build-module/lock-unlock.mjs
+var import_private_apis = __toESM(require_private_apis(), 1);
 var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
   "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
   "@wordpress/route"
 );
 
-// packages/route/build-module/private-apis.js
+// packages/route/build-module/private-apis.mjs
 var privateApis = {};
 lock(privateApis, {
   // Router creation and setup
@@ -5516,20 +5521,23 @@ lock(privateApis, {
   useLocation,
   useMatches,
   useRouter,
+  useRouterState,
   // History utilities
   parseHref
 });
 
-// packages/route/build-module/index.js
+// packages/route/build-module/index.mjs
 function useInvalidate() {
   const router = useRouter();
   return () => router.invalidate();
 }
 export {
   Link,
+  notFound,
   privateApis,
   redirect,
   useInvalidate,
+  useLinkProps,
   useNavigate,
   useParams,
   useSearch

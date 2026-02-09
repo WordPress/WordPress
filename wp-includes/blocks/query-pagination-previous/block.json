@@ -20,6 +20,7 @@
 		"enhancedPagination"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {

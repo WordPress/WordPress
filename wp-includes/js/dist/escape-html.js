@@ -19,7 +19,7 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/escape-html/build-module/index.js
+  // packages/escape-html/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     escapeAmpersand: () => escapeAmpersand,
@@ -31,12 +31,12 @@ var wp;
     isValidAttributeName: () => isValidAttributeName
   });
 
-  // packages/escape-html/build-module/escape-greater.js
+  // packages/escape-html/build-module/escape-greater.mjs
   function __unstableEscapeGreaterThan(value) {
     return value.replace(/>/g, "&gt;");
   }
 
-  // packages/escape-html/build-module/index.js
+  // packages/escape-html/build-module/index.mjs
   var REGEXP_INVALID_ATTRIBUTE_NAME = /[\u007F-\u009F "'>/="\uFDD0-\uFDEF]/;
   function escapeAmpersand(value) {
     return value.replace(/&(?!([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi, "&amp;");
@@ -49,7 +49,7 @@ var wp;
   }
   function escapeAttribute(value) {
     return __unstableEscapeGreaterThan(
-      escapeQuotationMark(escapeAmpersand(value))
+      escapeLessThan(escapeQuotationMark(escapeAmpersand(value)))
     );
   }
   function escapeHTML(value) {

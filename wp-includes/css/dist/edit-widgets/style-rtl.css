@@ -83,6 +83,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 :root {
   --wp-block-synced-color: #7a00df;
   --wp-block-synced-color--rgb: 122, 0, 223;
@@ -187,6 +191,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .admin-ui-page {
   display: flex;
   height: 100%;
@@ -195,6 +203,7 @@
   position: relative;
   z-index: 1;
   flex-flow: column;
+  text-wrap: pretty;
 }
 
 .admin-ui-page__header {
@@ -360,6 +369,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .interface-complementary-area {
   background: #fff;
   color: #1e1e1e;
@@ -367,11 +380,6 @@
   overflow: auto;
 }
 
-@media (min-width: 600px) {
-  .interface-complementary-area {
-    -webkit-overflow-scrolling: touch;
-  }
-}
 @media (min-width: 782px) {
   .interface-complementary-area {
     width: 280px;

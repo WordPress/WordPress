@@ -2,9 +2,9 @@
  * Breakpoints & Media Queries
  */
 .wp-block-media-text {
-  /*!rtl:begin:ignore*/
+  /*rtl:begin:ignore*/
   direction: ltr;
-  /*!rtl:end:ignore*/
+  /*rtl:end:ignore*/
   display: grid;
   grid-template-columns: 50% 1fr;
   grid-template-rows: auto;
@@ -32,35 +32,35 @@
 }
 
 .wp-block-media-text > .wp-block-media-text__media {
-  /*!rtl:begin:ignore*/
+  /*rtl:begin:ignore*/
   grid-column: 1;
   grid-row: 1;
-  /*!rtl:end:ignore*/
+  /*rtl:end:ignore*/
   margin: 0;
 }
 
 .wp-block-media-text > .wp-block-media-text__content {
   direction: ltr;
-  /*!rtl:begin:ignore*/
+  /*rtl:begin:ignore*/
   grid-column: 2;
   grid-row: 1;
-  /*!rtl:end:ignore*/
+  /*rtl:end:ignore*/
   padding: 0 8% 0 8%;
   word-break: break-word;
 }
 
 .wp-block-media-text.has-media-on-the-right > .wp-block-media-text__media {
-  /*!rtl:begin:ignore*/
+  /*rtl:begin:ignore*/
   grid-column: 2;
   grid-row: 1;
-  /*!rtl:end:ignore*/
+  /*rtl:end:ignore*/
 }
 
 .wp-block-media-text.has-media-on-the-right > .wp-block-media-text__content {
-  /*!rtl:begin:ignore*/
+  /*rtl:begin:ignore*/
   grid-column: 1;
   grid-row: 1;
-  /*!rtl:end:ignore*/
+  /*rtl:end:ignore*/
 }
 
 .wp-block-media-text__media a {
@@ -100,6 +100,7 @@
 
 /* Image fill for versions 8 and onwards */
 .wp-block-media-text.is-image-fill-element > .wp-block-media-text__media {
+  position: relative;
   height: 100%;
   min-height: 250px;
 }
@@ -110,6 +111,7 @@
 }
 
 .wp-block-media-text.is-image-fill-element > .wp-block-media-text__media img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;

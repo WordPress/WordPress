@@ -19,13 +19,13 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/wordcount/build-module/index.js
+  // packages/wordcount/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     count: () => count
   });
 
-  // packages/wordcount/build-module/defaultSettings.js
+  // packages/wordcount/build-module/defaultSettings.mjs
   var defaultSettings = {
     HTMLRegExp: /<\/?[a-z][^>]*?>/gi,
     HTMLcommentRegExp: /<!--[\s\S]*?-->/g,
@@ -96,37 +96,37 @@ var wp;
     }
   };
 
-  // packages/wordcount/build-module/stripTags.js
+  // packages/wordcount/build-module/stripTags.mjs
   function stripTags(settings, text) {
     return text.replace(settings.HTMLRegExp, "\n");
   }
 
-  // packages/wordcount/build-module/transposeAstralsToCountableChar.js
+  // packages/wordcount/build-module/transposeAstralsToCountableChar.mjs
   function transposeAstralsToCountableChar(settings, text) {
     return text.replace(settings.astralRegExp, "a");
   }
 
-  // packages/wordcount/build-module/stripHTMLEntities.js
+  // packages/wordcount/build-module/stripHTMLEntities.mjs
   function stripHTMLEntities(settings, text) {
     return text.replace(settings.HTMLEntityRegExp, "");
   }
 
-  // packages/wordcount/build-module/stripConnectors.js
+  // packages/wordcount/build-module/stripConnectors.mjs
   function stripConnectors(settings, text) {
     return text.replace(settings.connectorRegExp, " ");
   }
 
-  // packages/wordcount/build-module/stripRemovables.js
+  // packages/wordcount/build-module/stripRemovables.mjs
   function stripRemovables(settings, text) {
     return text.replace(settings.removeRegExp, "");
   }
 
-  // packages/wordcount/build-module/stripHTMLComments.js
+  // packages/wordcount/build-module/stripHTMLComments.mjs
   function stripHTMLComments(settings, text) {
     return text.replace(settings.HTMLcommentRegExp, "");
   }
 
-  // packages/wordcount/build-module/stripShortcodes.js
+  // packages/wordcount/build-module/stripShortcodes.mjs
   function stripShortcodes(settings, text) {
     if (settings.shortcodesRegExp) {
       return text.replace(settings.shortcodesRegExp, "\n");
@@ -134,17 +134,17 @@ var wp;
     return text;
   }
 
-  // packages/wordcount/build-module/stripSpaces.js
+  // packages/wordcount/build-module/stripSpaces.mjs
   function stripSpaces(settings, text) {
     return text.replace(settings.spaceRegExp, " ");
   }
 
-  // packages/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js
+  // packages/wordcount/build-module/transposeHTMLEntitiesToCountableChars.mjs
   function transposeHTMLEntitiesToCountableChars(settings, text) {
     return text.replace(settings.HTMLEntityRegExp, "a");
   }
 
-  // packages/wordcount/build-module/index.js
+  // packages/wordcount/build-module/index.mjs
   function loadSettings(type = "words", userSettings = {}) {
     const mergedSettings = { ...defaultSettings, ...userSettings };
     const settings = {

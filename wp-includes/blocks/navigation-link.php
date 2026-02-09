@@ -5,6 +5,15 @@
  * @package WordPress
  */
 
+// Path differs between source and build: './shared/' in source, './navigation-link/shared/' in build.
+if ( file_exists( __DIR__ . '/shared/item-should-render.php' ) ) {
+	require_once __DIR__ . '/shared/item-should-render.php';
+	require_once __DIR__ . '/shared/render-submenu-icon.php';
+} else {
+	require_once __DIR__ . '/navigation-link/shared/item-should-render.php';
+	require_once __DIR__ . '/navigation-link/shared/render-submenu-icon.php';
+}
+
 /**
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the navigation markup in the front-end.
@@ -115,17 +124,6 @@ function block_core_navigation_link_build_css_font_sizes( $context ) {
 }
 
 /**
- * Returns the top-level submenu SVG chevron icon.
- *
- * @since 5.9.0
- *
- * @return string
- */
-function block_core_navigation_link_render_submenu_icon() {
-	return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
-}
-
-/**
  * Decodes a url if it's encoded, returning the same url if not.
  *
  * @since 6.2.0
@@ -170,29 +168,9 @@ function block_core_navigation_link_maybe_urldecode( $url ) {
  * @return string Returns the post content with the legacy widget added.
  */
 function render_block_core_navigation_link( $attributes, $content, $block ) {
-	$navigation_link_has_id = isset( $attributes['id'] ) && is_numeric( $attributes['id'] );
-	$is_post_type           = isset( $attributes['kind'] ) && 'post-type' === $attributes['kind'];
-	$is_post_type           = $is_post_type || isset( $attributes['type'] ) && ( 'post' === $attributes['type'] || 'page' === $attributes['type'] );
-
-	// Don't render the block's subtree if it is a draft or if the ID does not exist.
-	if ( $is_post_type && $navigation_link_has_id ) {
-		$post = get_post( $attributes['id'] );
-		/**
-		 * Filter allowed post_status for navigation link block to render.
-		 *
-		 * @since 6.8.0
-		 *
-		 * @param array $post_status
-		 * @param array $attributes
-		 * @param WP_Block $block
-		 */
-		$allowed_post_status = (array) apply_filters(
-			'render_block_core_navigation_link_allowed_post_status',
-			array( 'publish' ),
-			$attributes,
-			$block
-		);
-		if ( ! $post || ! in_array( $post->post_status, $allowed_post_status, true ) ) {
+	// Check if this navigation item should render based on post status.
+	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
+		if ( ! gutenberg_block_core_shared_navigation_item_should_render( $attributes, $block ) ) {
 			return '';
 		}
 	}
@@ -208,8 +186,14 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 	);
 	$style_attribute = $font_sizes['inline_styles'];
 
+	// Render inner blocks first to check if any menu items will actually display.
+	$inner_blocks_html = '';
+	foreach ( $block->inner_blocks as $inner_block ) {
+		$inner_blocks_html .= $inner_block->render();
+	}
+	$has_submenu = ! empty( trim( $inner_blocks_html ) );
+
 	$css_classes = trim( implode( ' ', $classes ) );
-	$has_submenu = count( $block->inner_blocks ) > 0;
 	$kind        = empty( $attributes['kind'] ) ? 'post_type' : str_replace( '-', '_', $attributes['kind'] );
 	$is_active   = ! empty( $attributes['id'] ) && get_queried_object_id() === (int) $attributes['id'] && ! empty( get_queried_object()->$kind );
 
@@ -278,15 +262,10 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 
 	if ( isset( $block->context['showSubmenuIcon'] ) && $block->context['showSubmenuIcon'] && $has_submenu ) {
 		// The submenu icon can be hidden by a CSS rule on the Navigation Block.
-		$html .= '<span class="wp-block-navigation__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
+		$html .= '<span class="wp-block-navigation__submenu-icon">' . block_core_navigation_render_submenu_icon() . '</span>';
 	}
 
 	if ( $has_submenu ) {
-		$inner_blocks_html = '';
-		foreach ( $block->inner_blocks as $inner_block ) {
-			$inner_blocks_html .= $inner_block->render();
-		}
-
 		$html .= sprintf(
 			'<ul class="wp-block-navigation__submenu-container">%s</ul>',
 			$inner_blocks_html
@@ -339,7 +318,7 @@ function build_variation_for_navigation_link( $entity, $kind ) {
 	}
 
 	// Calculate singular name once (used for both title and description)
-	$singular = isset( $entity->labels->singular_name ) ? $entity->labels->singular_name : ucfirst( $entity->name );
+	$singular = $entity->labels->singular_name ?? ucfirst( $entity->name );
 
 	// Set default title if needed
 	if ( $is_default_title || '' === $title ) {

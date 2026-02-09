@@ -18,7 +18,7 @@
  */
 function render_block_core_archives( $attributes ) {
 	$show_post_count = ! empty( $attributes['showPostCounts'] );
-	$type            = isset( $attributes['type'] ) ? $attributes['type'] : 'monthly';
+	$type            = $attributes['type'] ?? 'monthly';
 
 	$class = 'wp-block-archives-list';
 

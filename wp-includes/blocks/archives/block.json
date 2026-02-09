@@ -25,6 +25,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"__experimentalBorder": {
 			"radius": true,
@@ -66,6 +67,5 @@
 		"interactivity": {
 			"clientNavigation": true
 		}
-	},
-	"editorStyle": "wp-block-archives-editor"
+	}
 }

@@ -4,6 +4,12 @@
   flex-grow: 1;
   box-sizing: border-box;
 }
+.wp-block-tab > *:first-child {
+  margin-top: 0;
+}
+.wp-block-tab > *:last-child {
+  margin-bottom: 0;
+}
 .wp-block-tab[hidden], .wp-block-tab:empty {
   display: none !important;
 }
@@ -11,7 +17,7 @@
   outline: none;
 }
 
-.wp-block-tab.wp-block section.has-background,
+.wp-block-tab.wp-block.has-background,
 .wp-block-tab:not(.wp-block).has-background {
   padding: var(--wp--preset--spacing--30);
 }

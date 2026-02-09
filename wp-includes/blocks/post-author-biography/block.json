@@ -6,16 +6,12 @@
 	"category": "theme",
 	"description": "The author biography.",
 	"textdomain": "default",
-	"attributes": {
-		"textAlign": {
-			"type": "string"
-		}
-	},
 	"usesContext": [ "postType", "postId" ],
 	"example": {
 		"viewportWidth": 350
 	},
 	"supports": {
+		"anchor": true,
 		"spacing": {
 			"margin": true,
 			"padding": true
@@ -31,6 +27,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

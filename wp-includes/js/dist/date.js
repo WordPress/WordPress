@@ -1645,7 +1645,7 @@ var wp;
     }
   });
 
-  // packages/date/build-module/index.js
+  // packages/date/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     __experimentalGetSettings: () => __experimentalGetSettings,
@@ -1660,10 +1660,10 @@ var wp;
     isInTheFuture: () => isInTheFuture,
     setSettings: () => setSettings
   });
-  var import_moment = __toESM(require_moment());
-  var import_moment_timezone = __toESM(require_moment_timezone_with_data_1970_2030());
-  var import_moment_timezone_utils = __toESM(require_moment_timezone_utils());
-  var import_deprecated = __toESM(require_deprecated());
+  var import_moment = __toESM(require_moment(), 1);
+  var import_moment_timezone = __toESM(require_moment_timezone_with_data_1970_2030(), 1);
+  var import_moment_timezone_utils = __toESM(require_moment_timezone_utils(), 1);
+  var import_deprecated = __toESM(require_deprecated(), 1);
   var WP_ZONE = "WP";
   var VALID_UTC_OFFSET = /^[+-][0-1][0-9](:?[0-9][0-9])?$/;
   var settings = {
@@ -2004,11 +2004,11 @@ var wp;
   }
   function buildMoment(dateValue, timezone = "") {
     const dateMoment = (0, import_moment.default)(dateValue);
-    if (timezone && !isUTCOffset(timezone)) {
-      return dateMoment.tz(timezone);
-    }
-    if (timezone && isUTCOffset(timezone)) {
-      return dateMoment.utcOffset(timezone);
+    if (timezone !== "") {
+      return isUTCOffset(timezone) ? dateMoment.utcOffset(timezone) : (
+        // A false isUTCOffset() guarantees that timezone is a string.
+        dateMoment.tz(timezone)
+      );
     }
     if (settings.timezone.string) {
       return dateMoment.tz(settings.timezone.string);

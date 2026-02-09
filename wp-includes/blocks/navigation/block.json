@@ -46,9 +46,10 @@
 			"type": "boolean",
 			"default": true
 		},
-		"openSubmenusOnClick": {
-			"type": "boolean",
-			"default": false
+		"submenuVisibility": {
+			"type": "string",
+			"enum": [ "hover", "click", "always" ],
+			"default": "hover"
 		},
 		"overlayMenu": {
 			"type": "string",
@@ -101,11 +102,12 @@
 		"fontSize": "fontSize",
 		"customFontSize": "customFontSize",
 		"showSubmenuIcon": "showSubmenuIcon",
-		"openSubmenusOnClick": "openSubmenusOnClick",
+		"submenuVisibility": "submenuVisibility",
 		"style": "style",
 		"maxNestingLevel": "maxNestingLevel"
 	},
 	"supports": {
+		"anchor": true,
 		"align": [ "wide", "full" ],
 		"ariaLabel": true,
 		"contentRole": true,

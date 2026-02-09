@@ -55,22 +55,53 @@ var require_preferences = __commonJS({
 // routes/post-list/route.ts
 var import_data4 = __toESM(require_data());
 var import_core_data2 = __toESM(require_core_data());
+import { notFound } from "@wordpress/route";
 
-// packages/views/build-module/preference-keys.js
+// packages/views/build-module/use-view.mjs
+var import_element = __toESM(require_element(), 1);
+var import_data = __toESM(require_data(), 1);
+var import_preferences = __toESM(require_preferences(), 1);
+
+// packages/views/build-module/preference-keys.mjs
 function generatePreferenceKey(kind, name, slug) {
   return `dataviews-${kind}-${name}-${slug}`;
 }
 
-// packages/views/build-module/use-view.js
-var import_element = __toESM(require_element());
-var import_data = __toESM(require_data());
-var import_preferences = __toESM(require_preferences());
+// packages/views/build-module/filter-utils.mjs
+function mergeActiveViewOverrides(view, activeViewOverrides, defaultView) {
+  if (!activeViewOverrides) {
+    return view;
+  }
+  let result = view;
+  if (activeViewOverrides.filters && activeViewOverrides.filters.length > 0) {
+    const activeFields = new Set(
+      activeViewOverrides.filters.map((f) => f.field)
+    );
+    const preserved = (view.filters ?? []).filter(
+      (f) => !activeFields.has(f.field)
+    );
+    result = {
+      ...result,
+      filters: [...preserved, ...activeViewOverrides.filters]
+    };
+  }
+  if (activeViewOverrides.sort) {
+    const isDefaultSort = defaultView && view.sort?.field === defaultView.sort?.field && view.sort?.direction === defaultView.sort?.direction;
+    if (isDefaultSort) {
+      result = {
+        ...result,
+        sort: activeViewOverrides.sort
+      };
+    }
+  }
+  return result;
+}
 
-// packages/views/build-module/load-view.js
-var import_data2 = __toESM(require_data());
-var import_preferences2 = __toESM(require_preferences());
+// packages/views/build-module/load-view.mjs
+var import_data2 = __toESM(require_data(), 1);
+var import_preferences2 = __toESM(require_preferences(), 1);
 async function loadView(config) {
-  const { kind, name, slug, defaultView, queryParams } = config;
+  const { kind, name, slug, defaultView, activeViewOverrides, queryParams } = config;
   const preferenceKey = generatePreferenceKey(kind, name, slug);
   const persistedView = (0, import_data2.select)(import_preferences2.store).get(
     "core/views",
@@ -79,11 +110,15 @@ async function loadView(config) {
   const baseView = persistedView ?? defaultView;
   const page = queryParams?.page ?? 1;
   const search = queryParams?.search ?? "";
-  return {
-    ...baseView,
-    page,
-    search
-  };
+  return mergeActiveViewOverrides(
+    {
+      ...baseView,
+      page,
+      search
+    },
+    activeViewOverrides,
+    defaultView
+  );
 }
 
 // routes/post-list/view-utils.ts
@@ -100,101 +135,35 @@ var DEFAULT_VIEW = {
   mediaField: "featured_media",
   descriptionField: "excerpt"
 };
-var DEFAULT_VIEWS = [
-  {
-    slug: "all",
-    label: "All",
-    view: {
-      ...DEFAULT_VIEW
-    }
-  },
-  {
-    slug: "publish",
-    label: "Published",
-    view: {
-      ...DEFAULT_VIEW,
-      filters: [
-        {
-          field: "status",
-          operator: "is",
-          value: "publish"
-        }
-      ]
-    }
-  },
-  {
-    slug: "draft",
-    label: "Draft",
-    view: {
-      ...DEFAULT_VIEW,
-      filters: [
-        {
-          field: "status",
-          operator: "is",
-          value: "draft"
-        }
-      ]
-    }
-  },
-  {
-    slug: "pending",
-    label: "Pending",
-    view: {
-      ...DEFAULT_VIEW,
-      filters: [
-        {
-          field: "status",
-          operator: "is",
-          value: "pending"
-        }
-      ]
-    }
-  },
-  {
-    slug: "private",
-    label: "Private",
-    view: {
-      ...DEFAULT_VIEW,
-      filters: [
-        {
-          field: "status",
-          operator: "is",
-          value: "private"
-        }
-      ]
-    }
-  },
-  {
-    slug: "trash",
-    label: "Trash",
-    view: {
-      ...DEFAULT_VIEW,
-      filters: [
-        {
-          field: "status",
-          operator: "is",
-          value: "trash"
-        }
-      ]
-    }
+function getActiveViewOverridesForTab(slug) {
+  if (slug === "all") {
+    return {};
   }
-];
-function getDefaultView(postType, slug) {
-  const viewConfig = DEFAULT_VIEWS.find((v) => v.slug === slug);
-  const baseView = viewConfig?.view || DEFAULT_VIEW;
   return {
-    ...baseView,
+    filters: [
+      {
+        field: "status",
+        operator: "is",
+        value: slug
+      }
+    ]
+  };
+}
+function getDefaultView(postType) {
+  return {
+    ...DEFAULT_VIEW,
     showLevels: postType?.hierarchical
   };
 }
 async function ensureView(type, slug, search) {
   const postTypeObject = await (0, import_data3.resolveSelect)(import_core_data.store).getPostType(type);
-  const defaultView = getDefaultView(postTypeObject, slug);
+  const defaultView = getDefaultView(postTypeObject);
   return loadView({
     kind: "postType",
     name: type,
-    slug: slug ?? "all",
+    slug: "default-new",
     defaultView,
+    activeViewOverrides: getActiveViewOverridesForTab(slug ?? "all"),
     queryParams: search
   });
 }
@@ -270,6 +239,18 @@ function viewToQuery(view, postType) {
 
 // routes/post-list/route.ts
 var route = {
+  beforeLoad: async ({ params }) => {
+    try {
+      const postType = await (0, import_data4.resolveSelect)(import_core_data2.store).getPostType(
+        params.type
+      );
+      if (!postType) {
+        throw notFound();
+      }
+    } catch {
+      throw notFound();
+    }
+  },
   title: async ({ params }) => {
     const postType = await (0, import_data4.resolveSelect)(import_core_data2.store).getPostType(
       params.type

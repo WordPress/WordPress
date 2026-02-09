@@ -16,6 +16,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"html": false,
 		"color": {

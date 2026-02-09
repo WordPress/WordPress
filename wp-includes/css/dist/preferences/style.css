@@ -87,6 +87,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 @media (min-width: 600px) {
   .preferences-modal {
     width: calc(100% - 32px);

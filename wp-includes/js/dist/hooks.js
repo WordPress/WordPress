@@ -19,7 +19,7 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/hooks/build-module/index.js
+  // packages/hooks/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     actions: () => actions,
@@ -46,7 +46,7 @@ var wp;
     removeFilter: () => removeFilter
   });
 
-  // packages/hooks/build-module/validateNamespace.js
+  // packages/hooks/build-module/validateNamespace.mjs
   function validateNamespace(namespace) {
     if ("string" !== typeof namespace || "" === namespace) {
       console.error("The namespace must be a non-empty string.");
@@ -62,7 +62,7 @@ var wp;
   }
   var validateNamespace_default = validateNamespace;
 
-  // packages/hooks/build-module/validateHookName.js
+  // packages/hooks/build-module/validateHookName.mjs
   function validateHookName(hookName) {
     if ("string" !== typeof hookName || "" === hookName) {
       console.error("The hook name must be a non-empty string.");
@@ -82,7 +82,7 @@ var wp;
   }
   var validateHookName_default = validateHookName;
 
-  // packages/hooks/build-module/createAddHook.js
+  // packages/hooks/build-module/createAddHook.mjs
   function createAddHook(hooks, storeKey) {
     return function addHook(hookName, namespace, callback, priority = 10) {
       const hooksStore = hooks[storeKey];
@@ -140,7 +140,7 @@ var wp;
   }
   var createAddHook_default = createAddHook;
 
-  // packages/hooks/build-module/createRemoveHook.js
+  // packages/hooks/build-module/createRemoveHook.mjs
   function createRemoveHook(hooks, storeKey, removeAll = false) {
     return function removeHook(hookName, namespace) {
       const hooksStore = hooks[storeKey];
@@ -182,7 +182,7 @@ var wp;
   }
   var createRemoveHook_default = createRemoveHook;
 
-  // packages/hooks/build-module/createHasHook.js
+  // packages/hooks/build-module/createHasHook.mjs
   function createHasHook(hooks, storeKey) {
     return function hasHook(hookName, namespace) {
       const hooksStore = hooks[storeKey];
@@ -196,7 +196,7 @@ var wp;
   }
   var createHasHook_default = createHasHook;
 
-  // packages/hooks/build-module/createRunHook.js
+  // packages/hooks/build-module/createRunHook.mjs
   function createRunHook(hooks, storeKey, returnFirstArg, async) {
     return function runHook(hookName, ...args) {
       const hooksStore = hooks[storeKey];
@@ -259,7 +259,7 @@ var wp;
   }
   var createRunHook_default = createRunHook;
 
-  // packages/hooks/build-module/createCurrentHook.js
+  // packages/hooks/build-module/createCurrentHook.mjs
   function createCurrentHook(hooks, storeKey) {
     return function currentHook() {
       const hooksStore = hooks[storeKey];
@@ -269,7 +269,7 @@ var wp;
   }
   var createCurrentHook_default = createCurrentHook;
 
-  // packages/hooks/build-module/createDoingHook.js
+  // packages/hooks/build-module/createDoingHook.mjs
   function createDoingHook(hooks, storeKey) {
     return function doingHook(hookName) {
       const hooksStore = hooks[storeKey];
@@ -283,7 +283,7 @@ var wp;
   }
   var createDoingHook_default = createDoingHook;
 
-  // packages/hooks/build-module/createDidHook.js
+  // packages/hooks/build-module/createDidHook.mjs
   function createDidHook(hooks, storeKey) {
     return function didHook(hookName) {
       const hooksStore = hooks[storeKey];
@@ -295,7 +295,7 @@ var wp;
   }
   var createDidHook_default = createDidHook;
 
-  // packages/hooks/build-module/createHooks.js
+  // packages/hooks/build-module/createHooks.mjs
   var _Hooks = class {
     actions;
     filters;
@@ -347,7 +347,7 @@ var wp;
   }
   var createHooks_default = createHooks;
 
-  // packages/hooks/build-module/index.js
+  // packages/hooks/build-module/index.mjs
   var defaultHooks = createHooks_default();
   var {
     addAction,

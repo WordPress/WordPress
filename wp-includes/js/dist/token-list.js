@@ -19,7 +19,7 @@ var wp;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // packages/token-list/build-module/index.js
+  // packages/token-list/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
     default: () => TokenList

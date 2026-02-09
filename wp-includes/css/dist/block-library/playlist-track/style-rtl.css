@@ -1,0 +1,74 @@
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Typography
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Radius scale.
+ */
+/**
+ * Elevation scale.
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Mobile specific styles
+ */
+/**
+ * Editor styles.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+.wp-block-playlist-track {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  padding: 8px;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  min-width: 100%;
+  padding: 0;
+  font-size: 14px;
+  font-family: inherit;
+  text-align: right;
+  line-height: 1.5;
+  background-color: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 1px;
+  outline-offset: 2px;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button span {
+  margin-left: 8px;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__length {
+  margin-right: auto;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button[aria-current=true] {
+  font-weight: 600;
+}
