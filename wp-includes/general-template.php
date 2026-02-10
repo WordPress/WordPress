@@ -4069,7 +4069,6 @@ function wp_enqueue_code_editor( $args ) {
 				case 'text/x-php':
 					wp_enqueue_script( 'htmlhint' );
 					wp_enqueue_script( 'csslint' );
-					wp_enqueue_script( 'jshint' );
 					if ( ! current_user_can( 'unfiltered_html' ) ) {
 						wp_enqueue_script( 'htmlhint-kses' );
 					}
@@ -4081,7 +4080,6 @@ function wp_enqueue_code_editor( $args ) {
 				case 'application/ld+json':
 				case 'text/typescript':
 				case 'application/typescript':
-					wp_enqueue_script( 'jshint' );
 					wp_enqueue_script( 'jsonlint' );
 					break;
 			}
@@ -4153,30 +4151,39 @@ function wp_get_code_editor_settings( $args ) {
 			'outline-none'              => true,
 		),
 		'jshint'     => array(
-			// The following are copied from <https://github.com/WordPress/wordpress-develop/blob/4.8.1/.jshintrc>.
-			'boss'     => true,
-			'curly'    => true,
-			'eqeqeq'   => true,
-			'eqnull'   => true,
-			'es3'      => true,
-			'expr'     => true,
-			'immed'    => true,
-			'noarg'    => true,
-			'nonbsp'   => true,
-			'onevar'   => true,
-			'quotmark' => 'single',
-			'trailing' => true,
-			'undef'    => true,
-			'unused'   => true,
+			'esversion' => 11,
+			'module'    => str_ends_with( $args['file'] ?? '', '.mjs' ),
 
-			'browser'  => true,
-
-			'globals'  => array(
-				'_'        => false,
-				'Backbone' => false,
-				'jQuery'   => false,
-				'JSON'     => false,
-				'wp'       => false,
+			// The following JSHint *linting rule* options are copied from
+			// <https://github.com/WordPress/wordpress-develop/blob/6.9.0/.jshintrc>.
+			// Parsing-related options such as `esversion` (and, in other contexts, `es5`, `es3`, `module`, `strict`)
+			// are honored by the Espree-based integration, but these linting-rule options are not interpreted by Espree
+			// and are kept only for compatibility/documentation with the original JSHint configuration.
+			'boss'      => true,
+			'curly'     => true,
+			'eqeqeq'    => true,
+			'eqnull'    => true,
+			'expr'      => true,
+			'immed'     => true,
+			'noarg'     => true,
+			'nonbsp'    => true,
+			'quotmark'  => 'single',
+			'undef'     => true,
+			'unused'    => true,
+			'browser'   => true,
+			'globals'   => array(
+				'_'                 => false,
+				'Backbone'          => false,
+				'jQuery'            => false,
+				'JSON'              => false,
+				'wp'                => false,
+				'export'            => false,
+				'module'            => false,
+				'require'           => false,
+				'WorkerGlobalScope' => false,
+				'self'              => false,
+				'OffscreenCanvas'   => false,
+				'Promise'           => false,
 			),
 		),
 		'htmlhint'   => array(
@@ -4233,6 +4240,7 @@ function wp_get_code_editor_settings( $args ) {
 					$type = 'message/http';
 					break;
 				case 'js':
+				case 'mjs':
 					$type = 'text/javascript';
 					break;
 				case 'json':
