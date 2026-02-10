@@ -27,12 +27,9 @@ if ( function_exists( 'register_block_pattern_category' ) ) {
 	add_action( 'init', 'twenty_twenty_one_register_block_pattern_category' );
 }
 
-/**
- * Register Block Patterns.
- */
 if ( function_exists( 'register_block_pattern' ) ) {
 	/**
-	 * Registers Block Pattern.
+	 * Registers Block Patterns.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
