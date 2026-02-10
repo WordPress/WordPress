@@ -19,6 +19,9 @@ if ( ! defined( 'WP_TEMPLATE_PART_AREA_SIDEBAR' ) ) {
 if ( ! defined( 'WP_TEMPLATE_PART_AREA_UNCATEGORIZED' ) ) {
 	define( 'WP_TEMPLATE_PART_AREA_UNCATEGORIZED', 'uncategorized' );
 }
+if ( ! defined( 'WP_TEMPLATE_PART_AREA_NAVIGATION_OVERLAY' ) ) {
+	define( 'WP_TEMPLATE_PART_AREA_NAVIGATION_OVERLAY', 'navigation-overlay' );
+}
 
 /**
  * For backward compatibility reasons,
@@ -95,6 +98,15 @@ function get_allowed_block_template_part_areas() {
 			),
 			'icon'        => 'footer',
 			'area_tag'    => 'footer',
+		),
+		array(
+			'area'        => WP_TEMPLATE_PART_AREA_NAVIGATION_OVERLAY,
+			'label'       => _x( 'Navigation Overlay', 'template part area' ),
+			'description' => __(
+				'The Navigation Overlay template defines a full-screen overlay area that typically contains navigation links and can be toggled on and off.'
+			),
+			'icon'        => 'overlay',
+			'area_tag'    => 'div',
 		),
 	);
 

@@ -79,6 +79,11 @@ function _register_core_block_patterns_and_categories() {
 			'query-grid-posts',
 			'query-large-title-posts',
 			'query-offset-posts',
+			'navigation-overlay',
+			'navigation-overlay-black-bg',
+			'navigation-overlay-accent-bg',
+			'navigation-overlay-centered',
+			'navigation-overlay-centered-with-extras',
 		);
 
 		foreach ( $core_block_patterns as $core_block_pattern ) {
@@ -226,6 +231,13 @@ function _register_core_block_patterns_and_categories() {
 		array(
 			'label'       => _x( 'Headers', 'Block pattern category' ),
 			'description' => __( 'A variety of header designs displaying your site title and navigation.' ),
+		)
+	);
+	register_block_pattern_category(
+		'navigation',
+		array(
+			'label'       => _x( 'Navigation', 'Block pattern category' ),
+			'description' => __( 'A variety of designs displaying site navigation.' ),
 		)
 	);
 }
