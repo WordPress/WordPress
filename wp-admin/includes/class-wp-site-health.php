@@ -2756,6 +2756,52 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Tests if opcode cache is enabled and available.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return array<string, string|array<string, string>> The test result.
+	 */
+	public function get_test_opcode_cache(): array {
+		$opcode_cache_enabled = false;
+		if ( function_exists( 'opcache_get_status' ) ) {
+			$status = @opcache_get_status( false ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Warning emitted in failure case.
+			if ( $status && true === $status['opcache_enabled'] ) {
+				$opcode_cache_enabled = true;
+			}
+		}
+
+		$result = array(
+			'label'       => __( 'Opcode cache is enabled' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Performance' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Opcode cache improves PHP performance by storing precompiled script bytecode in memory, reducing the need for PHP to load and parse scripts on each request.' )
+			),
+			'actions'     => sprintf(
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				esc_url( 'https://www.php.net/manual/en/book.opcache.php' ),
+				__( 'Learn more about OPcache.' ),
+				/* translators: Hidden accessibility text. */
+				__( '(opens in a new tab)' )
+			),
+			'test'        => 'opcode_cache',
+		);
+
+		if ( ! $opcode_cache_enabled ) {
+			$result['status']       = 'recommended';
+			$result['label']        = __( 'Opcode cache is not enabled' );
+			$result['description'] .= '<p>' . __( 'Enabling this cache can significantly improve the performance of your site.' ) . '</p>';
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Returns a set of tests that belong to the site status page.
 	 *
 	 * Each site status test is defined here, they may be `direct` tests, that run on page load, or `async` tests
@@ -2846,6 +2892,10 @@ class WP_Site_Health {
 				'search_engine_visibility'     => array(
 					'label' => __( 'Search Engine Visibility' ),
 					'test'  => 'search_engine_visibility',
+				),
+				'opcode_cache'                 => array(
+					'label' => __( 'Opcode cache' ),
+					'test'  => 'opcode_cache',
 				),
 			),
 			'async'  => array(
@@ -3415,14 +3465,14 @@ class WP_Site_Health {
 			'x-srcache-fetch-status' => $cache_hit_callback,
 
 			// Generic caching proxies (Nginx, Varnish, etc.)
-			'x-cache'           => $cache_hit_callback,
-			'x-cache-status'    => $cache_hit_callback,
-			'x-litespeed-cache' => $cache_hit_callback,
-			'x-proxy-cache'     => $cache_hit_callback,
-			'via'               => '',
+			'x-cache'                => $cache_hit_callback,
+			'x-cache-status'         => $cache_hit_callback,
+			'x-litespeed-cache'      => $cache_hit_callback,
+			'x-proxy-cache'          => $cache_hit_callback,
+			'via'                    => '',
 
 			// Cloudflare
-			'cf-cache-status' => $cache_hit_callback,
+			'cf-cache-status'        => $cache_hit_callback,
 		);
 
 		/**
