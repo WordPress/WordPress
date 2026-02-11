@@ -44,12 +44,30 @@ jQuery( function( $ ) {
 	$( '.health-check-accordion' ).on( 'click', '.health-check-accordion-trigger', function() {
 		var isExpanded = ( 'true' === $( this ).attr( 'aria-expanded' ) );
 
+		if ( $( this ).prop( 'id' ) ) {
+			window.location.hash = $( this ).prop( 'id' );
+		}
+
 		if ( isExpanded ) {
 			$( this ).attr( 'aria-expanded', 'false' );
 			$( '#' + $( this ).attr( 'aria-controls' ) ).attr( 'hidden', true );
 		} else {
 			$( this ).attr( 'aria-expanded', 'true' );
 			$( '#' + $( this ).attr( 'aria-controls' ) ).attr( 'hidden', false );
+		}
+	} );
+
+	/* global setTimeout */
+	wp.domReady( function() {
+		// Get hash from query string and open the related accordion.
+		var hash = window.location.hash;
+
+		if ( hash ) {
+			var requestedPanel = $( hash );
+
+			if ( requestedPanel.is( '.health-check-accordion-trigger' ) ) {
+				requestedPanel.trigger( 'click' );
+			}
 		}
 	} );
 
