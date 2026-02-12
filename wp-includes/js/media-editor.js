@@ -703,15 +703,19 @@
 		 * Update the featured image id when the 'remove' link is clicked.
 		 */
 		init: function() {
-			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
-				event.preventDefault();
-				// Stop propagation to prevent thickbox from activating.
-				event.stopPropagation();
+			$('#postimagediv').on( 'click keyup keydown', '#set-post-thumbnail', function( event ) {
+				if ( ( event.type === 'keyup' && event.key === ' ' ) || ( event.type === 'keydown' && event.key === 'Enter' ) || event.type === 'click' ) {
+					event.preventDefault();
+					// Stop propagation to prevent thickbox from activating.
+					event.stopPropagation();
 
-				wp.media.featuredImage.frame().open();
-			}).on( 'click', '#remove-post-thumbnail', function() {
-				wp.media.featuredImage.remove();
-				return false;
+					wp.media.featuredImage.frame().open();
+				}
+			}).on( 'click keyup keydown', '#remove-post-thumbnail', function( event ) {
+				if ( ( event.type === 'keyup' && event.key === ' ' ) || ( event.type === 'keydown' && event.key === 'Enter' ) || event.type === 'click' ) {
+					wp.media.featuredImage.remove();
+					return false;
+				}
 			});
 		}
 	};
