@@ -64,7 +64,7 @@ function wp_apply_dimensions_support( $block_type, $block_attributes ) {
 	}
 
 	$dimensions_block_styles = array();
-	$supported_features      = array( 'minHeight', 'width' );
+	$supported_features      = array( 'minHeight', 'height', 'width' );
 
 	foreach ( $supported_features as $feature ) {
 		$has_support        = block_has_support( $block_type, array( 'dimensions', $feature ), false );

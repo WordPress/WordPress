@@ -237,7 +237,7 @@ class WP_Theme_JSON {
 	 * @since 6.5.0 Added `aspect-ratio` property.
 	 * @since 6.6.0 Added `background-[image|position|repeat|size]` properties.
 	 * @since 6.7.0 Added `background-attachment` property.
-	 * @since 7.0.0 Added `dimensions.width`.
+	 * @since 7.0.0 Added `dimensions.width` and `dimensions.height`.
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
@@ -302,6 +302,7 @@ class WP_Theme_JSON {
 		'text-transform'                    => array( 'typography', 'textTransform' ),
 		'filter'                            => array( 'filter', 'duotone' ),
 		'box-shadow'                        => array( 'shadow' ),
+		'height'                            => array( 'dimensions', 'height' ),
 		'width'                             => array( 'dimensions', 'width' ),
 		'writing-mode'                      => array( 'typography', 'writingMode' ),
 	);
@@ -398,7 +399,7 @@ class WP_Theme_JSON {
 	 *              'typography.defaultFontSizes', and 'spacing.defaultSpacingSizes'.
 	 * @since 6.9.0 Added support for `border.radiusSizes`.
 	 * @since 7.0.0 Added type markers to the schema for boolean values.
-	 *              Added support for `dimensions.width`.
+	 *              Added support for `dimensions.width` and `dimensions.height`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -437,6 +438,7 @@ class WP_Theme_JSON {
 			'aspectRatio'         => null,
 			'aspectRatios'        => null,
 			'defaultAspectRatios' => null,
+			'height'              => null,
 			'minHeight'           => null,
 			'width'               => null,
 		),
@@ -532,7 +534,7 @@ class WP_Theme_JSON {
 	 * @since 6.3.0 Added support for `typography.textColumns`.
 	 * @since 6.5.0 Added support for `dimensions.aspectRatio`.
 	 * @since 6.6.0 Added `background` sub properties to top-level only.
-	 * @since 7.0.0 Added support for `dimensions.width`.
+	 * @since 7.0.0 Added support for `dimensions.width` and `dimensions.height`.
 	 * @var array
 	 */
 	const VALID_STYLES = array(
@@ -560,6 +562,7 @@ class WP_Theme_JSON {
 		),
 		'dimensions' => array(
 			'aspectRatio' => null,
+			'height'      => null,
 			'minHeight'   => null,
 			'width'       => null,
 		),
@@ -772,7 +775,7 @@ class WP_Theme_JSON {
 	 * @since 6.2.0 Added `dimensions.minHeight` and `position.sticky`.
 	 * @since 6.4.0 Added `background.backgroundImage`.
 	 * @since 6.5.0 Added `background.backgroundSize` and `dimensions.aspectRatio`.
-	 * @since 7.0.0 Added `dimensions.width`.
+	 * @since 7.0.0 Added `dimensions.width` and `dimensions.height`.
 	 * @var array
 	 */
 	const APPEARANCE_TOOLS_OPT_INS = array(
@@ -787,6 +790,7 @@ class WP_Theme_JSON {
 		array( 'color', 'button' ),
 		array( 'color', 'caption' ),
 		array( 'dimensions', 'aspectRatio' ),
+		array( 'dimensions', 'height' ),
 		array( 'dimensions', 'minHeight' ),
 		array( 'dimensions', 'width' ),
 		array( 'position', 'sticky' ),

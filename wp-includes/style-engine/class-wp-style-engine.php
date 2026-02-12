@@ -210,6 +210,12 @@ final class WP_Style_Engine {
 					'has-aspect-ratio' => true,
 				),
 			),
+			'height'      => array(
+				'property_keys' => array(
+					'default' => 'height',
+				),
+				'path'          => array( 'dimensions', 'height' ),
+			),
 			'minHeight'   => array(
 				'property_keys' => array(
 					'default' => 'min-height',
