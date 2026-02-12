@@ -105,7 +105,7 @@ function get_allowed_block_template_part_areas() {
 			'description' => __(
 				'The Navigation Overlay template defines a full-screen overlay area that typically contains navigation links and can be toggled on and off.'
 			),
-			'icon'        => 'overlay',
+			'icon'        => 'navigation-overlay',
 			'area_tag'    => 'div',
 		),
 	);
