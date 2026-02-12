@@ -1839,6 +1839,7 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
  * Replaces patterns in a block tree with their content.
  *
  * @since 6.6.0
+ * @since 7.0.0 Adds metadata to attributes of single-pattern container blocks.
  *
  * @param array $blocks An array blocks.
  *
@@ -1875,7 +1876,39 @@ function resolve_pattern_blocks( $blocks ) {
 				continue;
 			}
 
-			$blocks_to_insert   = parse_blocks( $pattern['content'] );
+			$blocks_to_insert = parse_blocks( trim( $pattern['content'] ) );
+
+			/*
+			 * For single-root patterns, add the pattern name to make this a pattern instance in the editor.
+			 * If the pattern has metadata, merge it with the existing metadata.
+			 */
+			if ( count( $blocks_to_insert ) === 1 ) {
+				$block_metadata                = $blocks_to_insert[0]['attrs']['metadata'] ?? array();
+				$block_metadata['patternName'] = $slug;
+
+				/*
+				 * Merge pattern metadata with existing block metadata.
+				 * Pattern metadata takes precedence, but existing block metadata
+				 * is preserved as a fallback when the pattern doesn't define that field.
+				 * Only the defined fields (name, description, categories) are updated;
+				 * other metadata keys are preserved.
+				 */
+				foreach ( array(
+					'name'        => 'title', // 'title' is the field in the pattern object 'name' is the field in the block metadata.
+					'description' => 'description',
+					'categories'  => 'categories',
+				) as $key => $pattern_key ) {
+					$value = $pattern[ $pattern_key ] ?? $block_metadata[ $key ] ?? null;
+					if ( $value ) {
+						$block_metadata[ $key ] = is_array( $value )
+							? array_map( 'sanitize_text_field', $value )
+							: sanitize_text_field( $value );
+					}
+				}
+
+				$blocks_to_insert[0]['attrs']['metadata'] = $block_metadata;
+			}
+
 			$seen_refs[ $slug ] = true;
 			$prev_inner_content = $inner_content;
 			$inner_content      = null;
