@@ -219,6 +219,12 @@ final class WP_Style_Engine {
 					'spacing' => '--wp--preset--spacing--$slug',
 				),
 			),
+			'width'       => array(
+				'property_keys' => array(
+					'default' => 'width',
+				),
+				'path'          => array( 'dimensions', 'width' ),
+			),
 		),
 		'spacing'    => array(
 			'padding' => array(

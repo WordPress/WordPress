@@ -51,27 +51,32 @@ function wp_register_dimensions_support( $block_type ) {
  * @return array Block dimensions CSS classes and inline styles.
  */
 function wp_apply_dimensions_support( $block_type, $block_attributes ) {
-	if ( wp_should_skip_block_supports_serialization( $block_type, 'dimensions' ) ) {
-		return array();
-	}
-
 	$attributes = array();
 
-	// Width support to be added in near future.
+	if ( wp_should_skip_block_supports_serialization( $block_type, 'dimensions' ) ) {
+		return $attributes;
+	}
 
-	$has_min_height_support = block_has_support( $block_type, array( 'dimensions', 'minHeight' ), false );
-	$block_styles           = $block_attributes['style'] ?? null;
+	$block_styles = $block_attributes['style'] ?? null;
 
 	if ( ! $block_styles ) {
 		return $attributes;
 	}
 
-	$skip_min_height                      = wp_should_skip_block_supports_serialization( $block_type, 'dimensions', 'minHeight' );
-	$dimensions_block_styles              = array();
-	$dimensions_block_styles['minHeight'] = null;
-	if ( $has_min_height_support && ! $skip_min_height ) {
-		$dimensions_block_styles['minHeight'] = $block_styles['dimensions']['minHeight'] ?? null;
+	$dimensions_block_styles = array();
+	$supported_features      = array( 'minHeight', 'width' );
+
+	foreach ( $supported_features as $feature ) {
+		$has_support        = block_has_support( $block_type, array( 'dimensions', $feature ), false );
+		$skip_serialization = wp_should_skip_block_supports_serialization( $block_type, 'dimensions', $feature );
+
+		$dimensions_block_styles[ $feature ] = null;
+
+		if ( $has_support && ! $skip_serialization ) {
+			$dimensions_block_styles[ $feature ] = $block_styles['dimensions'][ $feature ] ?? null;
+		}
 	}
+
 	$styles = wp_style_engine_get_styles( array( 'dimensions' => $dimensions_block_styles ) );
 
 	if ( ! empty( $styles['css'] ) ) {
