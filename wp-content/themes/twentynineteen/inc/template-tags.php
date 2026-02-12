@@ -92,7 +92,7 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 					/* translators: Hidden accessibility text. */
 					__( 'Posted in', 'twentynineteen' ),
 					$categories_list
-				); // WPCS: XSS OK.
+				);
 			}
 
 			$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
@@ -104,7 +104,7 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 					/* translators: Hidden accessibility text. */
 					__( 'Tags:', 'twentynineteen' ),
 					$tags_list
-				); // WPCS: XSS OK.
+				);
 			}
 		}
 
