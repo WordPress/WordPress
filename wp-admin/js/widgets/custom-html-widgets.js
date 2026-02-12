@@ -333,7 +333,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 		 * This ensures that the textarea is visible and the editor can be initialized.
 		 */
 		renderWhenAnimationDone = function() {
-			if ( ! ( wp.customize ? widgetContainer.parent().hasClass( 'expanded' ) : widgetContainer.hasClass( 'open' ) ) ) { // Core merge: The wp.customize condition can be eliminated with this change being in core: https://github.com/xwp/wordpress-develop/pull/247/commits/5322387d
+			if ( ! ( wp.customize ? widgetContainer.parent().hasClass( 'expanded' ) : widgetContainer.hasClass( 'open' ) ) ) { // Core merge: The wp.customize condition can be eliminated with this change being in core: https://core.trac.wordpress.org/changeset/41260
 				setTimeout( renderWhenAnimationDone, animatedCheckDelay );
 			} else {
 				widgetControl.initializeEditor();
