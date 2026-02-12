@@ -64,8 +64,6 @@
 		"build:rtl": "rtlcss style.css style-rtl.css",
 		"build:dark-rtl": "rtlcss assets/css/style-dark-mode.css assets/css/style-dark-mode-rtl.css",
 		"build:print": "sass assets/sass/07-utilities/print.scss:assets/css/print.css --style=expanded --source-map",
-		"build:ie": "postcss style.css -o assets/css/ie.css",
-		"build:ie-editor": "postcss assets/css/style-editor.css -o assets/css/ie-editor.css",
 		"build:stylelint": "stylelint **/*.css --fix --config .stylelintrc-css.json",
 		"build": "run-s \"build:*\"",
 		"watch": "chokidar \"**/*.scss\" -c \"npm run build\" --initial",

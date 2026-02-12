@@ -23,6 +23,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 	 * as indicating support for post thumbnails.
 	 *
 	 * @since Twenty Twenty-One 1.0
+	 * @since Twenty Twenty-One 2.8 Removed editor stylesheet for Internet Explorer.
 	 *
 	 * @return void
 	 */
@@ -123,17 +124,8 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			add_theme_support( 'dark-editor-style' );
 		}
 
-		$editor_stylesheet_path = './assets/css/style-editor.css';
-
-		// Note, the is_IE global variable is defined by WordPress and is used
-		// to detect if the current browser is internet explorer.
-		global $is_IE;
-		if ( $is_IE ) {
-			$editor_stylesheet_path = './assets/css/ie-editor.css';
-		}
-
 		// Enqueue editor styles.
-		add_editor_style( $editor_stylesheet_path );
+		add_editor_style( './assets/css/style-editor.css' );
 
 		// Add custom editor font sizes.
 		add_theme_support(
@@ -390,23 +382,13 @@ add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );
  * Enqueues scripts and styles.
  *
  * @since Twenty Twenty-One 1.0
- *
- * @global bool       $is_IE
- * @global WP_Scripts $wp_scripts
+ * @since Twenty Twenty-One 2.8 Removed Internet Explorer support.
  *
  * @return void
  */
 function twenty_twenty_one_scripts() {
-	// Note, the is_IE global variable is defined by WordPress and is used
-	// to detect if the current browser is internet explorer.
-	global $is_IE, $wp_scripts;
-	if ( $is_IE ) {
-		// If IE 11 or below, use a flattened stylesheet with static values replacing CSS Variables.
-		wp_enqueue_style( 'twenty-twenty-one-style', get_template_directory_uri() . '/assets/css/ie.css', array(), wp_get_theme()->get( 'Version' ) );
-	} else {
-		// If not IE, use the standard stylesheet.
-		wp_enqueue_style( 'twenty-twenty-one-style', get_template_directory_uri() . '/style.css', array(), wp_get_theme()->get( 'Version' ) );
-	}
+	// The standard stylesheet.
+	wp_enqueue_style( 'twenty-twenty-one-style', get_template_directory_uri() . '/style.css', array(), wp_get_theme()->get( 'Version' ) );
 
 	// RTL styles.
 	wp_style_add_data( 'twenty-twenty-one-style', 'rtl', 'replace' );
@@ -419,31 +401,20 @@ function twenty_twenty_one_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	// Register the IE11 polyfill file.
+	// Register the handles for unused IE11 polyfill scripts.
 	wp_register_script(
 		'twenty-twenty-one-ie11-polyfills-asset',
-		get_template_directory_uri() . '/assets/js/polyfills.js',
+		false,
 		array(),
 		wp_get_theme()->get( 'Version' ),
 		array( 'in_footer' => true )
 	);
-
-	// Register the IE11 polyfill loader.
 	wp_register_script(
 		'twenty-twenty-one-ie11-polyfills',
-		null,
+		false,
 		array(),
 		wp_get_theme()->get( 'Version' ),
 		array( 'in_footer' => true )
-	);
-	wp_add_inline_script(
-		'twenty-twenty-one-ie11-polyfills',
-		wp_get_script_polyfill(
-			$wp_scripts,
-			array(
-				'Element.prototype.matches && Element.prototype.closest && window.NodeList && NodeList.prototype.forEach' => 'twenty-twenty-one-ie11-polyfills-asset',
-			)
-		)
 	);
 
 	// Main navigation scripts.
@@ -451,7 +422,7 @@ function twenty_twenty_one_scripts() {
 		wp_enqueue_script(
 			'twenty-twenty-one-primary-navigation-script',
 			get_template_directory_uri() . '/assets/js/primary-navigation.js',
-			array( 'twenty-twenty-one-ie11-polyfills' ),
+			array(),
 			wp_get_theme()->get( 'Version' ),
 			array(
 				'in_footer' => false, // Because involves header.
@@ -464,7 +435,7 @@ function twenty_twenty_one_scripts() {
 	wp_enqueue_script(
 		'twenty-twenty-one-responsive-embeds-script',
 		get_template_directory_uri() . '/assets/js/responsive-embeds.js',
-		array( 'twenty-twenty-one-ie11-polyfills' ),
+		array(),
 		wp_get_theme()->get( 'Version' ),
 		array( 'in_footer' => true )
 	);
@@ -630,6 +601,7 @@ function twentytwentyone_the_html_classes() {
  * Adds "is-IE" class to body if the user is on Internet Explorer.
  *
  * @since Twenty Twenty-One 1.0
+ * @deprecated Twenty Twenty-One 2.8 Removed Internet Explorer support.
  *
  * @return void
  */
@@ -647,7 +619,6 @@ function twentytwentyone_add_ie_class() {
 		echo "<script>$script</script>\n";
 	}
 }
-add_action( 'wp_footer', 'twentytwentyone_add_ie_class' );
 
 if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 	/**
