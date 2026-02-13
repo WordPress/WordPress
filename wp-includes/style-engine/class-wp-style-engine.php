@@ -26,6 +26,7 @@
  * @since 6.5.0 Added support for background.backgroundPosition,
  *              background.backgroundRepeat and dimensions.aspectRatio.
  * @since 6.7.0 Added support for typography.writingMode.
+ * @since 7.0.0 Added support for typography.textIndent.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -314,6 +315,12 @@ final class WP_Style_Engine {
 					'default' => 'text-decoration',
 				),
 				'path'          => array( 'typography', 'textDecoration' ),
+			),
+			'textIndent'     => array(
+				'property_keys' => array(
+					'default' => 'text-indent',
+				),
+				'path'          => array( 'typography', 'textIndent' ),
 			),
 			'textTransform'  => array(
 				'property_keys' => array(

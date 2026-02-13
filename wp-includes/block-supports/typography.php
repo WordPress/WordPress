@@ -11,6 +11,7 @@
  *
  * @since 5.6.0
  * @since 6.3.0 Added support for text-columns.
+ * @since 7.0.0 Added support for text-indent.
  * @access private
  *
  * @param WP_Block_Type $block_type Block Type.
@@ -35,6 +36,7 @@ function wp_register_typography_support( $block_type ) {
 	$has_text_columns_support    = $typography_supports['textColumns'] ?? false;
 	$has_text_decoration_support = $typography_supports['__experimentalTextDecoration'] ?? false;
 	$has_text_transform_support  = $typography_supports['__experimentalTextTransform'] ?? false;
+	$has_text_indent_support     = $typography_supports['textIndent'] ?? false;
 	$has_writing_mode_support    = $typography_supports['__experimentalWritingMode'] ?? false;
 
 	$has_typography_support = $has_font_family_support
@@ -47,6 +49,7 @@ function wp_register_typography_support( $block_type ) {
 		|| $has_text_columns_support
 		|| $has_text_decoration_support
 		|| $has_text_transform_support
+		|| $has_text_indent_support
 		|| $has_writing_mode_support;
 
 	if ( ! $block_type->attributes ) {
@@ -80,6 +83,7 @@ function wp_register_typography_support( $block_type ) {
  * @since 5.6.0
  * @since 6.1.0 Used the style engine to generate CSS and classnames.
  * @since 6.3.0 Added support for text-columns.
+ * @since 7.0.0 Added support for text-indent.
  * @access private
  *
  * @param WP_Block_Type $block_type       Block type.
@@ -110,6 +114,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_text_columns_support    = $typography_supports['textColumns'] ?? false;
 	$has_text_decoration_support = $typography_supports['__experimentalTextDecoration'] ?? false;
 	$has_text_transform_support  = $typography_supports['__experimentalTextTransform'] ?? false;
+	$has_text_indent_support     = $typography_supports['textIndent'] ?? false;
 	$has_writing_mode_support    = $typography_supports['__experimentalWritingMode'] ?? false;
 
 	// Whether to skip individual block support features.
@@ -123,6 +128,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$should_skip_text_decoration = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textDecoration' );
 	$should_skip_text_transform  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' );
 	$should_skip_letter_spacing  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' );
+	$should_skip_text_indent     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textIndent' );
 	$should_skip_writing_mode    = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'writingMode' );
 
 	$typography_block_styles = array();
@@ -220,6 +226,10 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 		isset( $block_attributes['style']['typography']['writingMode'] )
 	) {
 		$typography_block_styles['writingMode'] = $block_attributes['style']['typography']['writingMode'] ?? null;
+	}
+
+	if ( $has_text_indent_support && ! $should_skip_text_indent && isset( $block_attributes['style']['typography']['textIndent'] ) ) {
+		$typography_block_styles['textIndent'] = $block_attributes['style']['typography']['textIndent'] ?? null;
 	}
 
 	$attributes = array();
