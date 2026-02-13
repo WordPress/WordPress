@@ -457,31 +457,20 @@ function twentytwentyone_block_editor_script() {
 add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script' );
 
 /**
- * Fixes skip link focus in IE11.
+ * Adds an HTML comment about the lack of Internet Explorer support.
  *
- * This does not enqueue the script because it is tiny and because it is only for IE11,
- * thus it does not warrant having an entire dedicated blocking script being loaded.
+ * This originally printed a script to fix the skip link focus behavior in IE11.
  *
  * @since Twenty Twenty-One 1.0
  * @deprecated Twenty Twenty-One 1.9 Removed from wp_print_footer_scripts action.
+ * @deprecated Twenty Twenty-One 2.8 Removed Internet Explorer support.
  *
  * @link https://git.io/vWdr2
  */
 function twenty_twenty_one_skip_link_focus_fix() {
-
-	// If SCRIPT_DEBUG is defined and true, print the unminified file.
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-		echo '<script>';
-		include get_template_directory() . '/assets/js/skip-link-focus-fix.js';
-		echo '</script>';
-	} else {
-		// The following is minified via `npx terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
-		?>
-		<script>
-		/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
-		</script>
-		<?php
-	}
+	?>
+	<!-- <?php echo __FUNCTION__; ?>(): Internet Explorer support was removed. -->
+	<?php
 }
 
 /**
