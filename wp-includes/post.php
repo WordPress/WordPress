@@ -359,9 +359,8 @@ function create_initial_post_types() {
 
 	$template_edit_link = 'site-editor.php?' . build_query(
 		array(
-			'postType' => '%s',
-			'postId'   => '%s',
-			'canvas'   => 'edit',
+			'p'      => '/%s/%s',
+			'canvas' => 'edit',
 		)
 	);
 
@@ -531,9 +530,8 @@ function create_initial_post_types() {
 
 	$navigation_post_edit_link = 'site-editor.php?' . build_query(
 		array(
-			'postId'   => '%s',
-			'postType' => 'wp_navigation',
-			'canvas'   => 'edit',
+			'p'      => '/wp_navigation/%s',
+			'canvas' => 'edit',
 		)
 	);
 
