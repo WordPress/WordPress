@@ -2506,7 +2506,9 @@
 		width: 1px;
 		border: 0;
 		margin: -1px;
+		/* Many screen reader and browser combinations announce broken words as they would appear visually. */
 		word-wrap: normal !important;
+		word-break: normal !important;
 	}
 
 	/* Reveal the menu toggle button. */

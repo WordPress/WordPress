@@ -5555,8 +5555,10 @@ h1.page-title {
 	padding: 0;
 	position: absolute !important;
 	width: 1px;
+
+	/* Many screen reader and browser combinations announce broken words as they would appear visually. */
 	word-wrap: normal !important;
-	word-break: normal;
+	word-break: normal !important;
 }
 
 .skip-link:focus {

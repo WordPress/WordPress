@@ -2686,7 +2686,9 @@ body.adding-widget .add-new-widget:before,
 	padding: 0;
 	position: absolute;
 	width: 1px;
+	/* Many screen reader and browser combinations announce broken words as they would appear visually. */
 	word-wrap: normal !important;
+	word-break: normal !important;
 }
 
 #available-widgets .customize-section-title button,
