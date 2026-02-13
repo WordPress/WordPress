@@ -215,6 +215,15 @@ class WP_Theme_JSON {
 			'classes'           => array(),
 			'properties'        => array( 'border-radius' ),
 		),
+		array(
+			'path'              => array( 'dimensions', 'dimensionSizes' ),
+			'prevent_override'  => false,
+			'use_default_names' => false,
+			'value_key'         => 'size',
+			'css_vars'          => '--wp--preset--dimension--$slug',
+			'classes'           => array(),
+			'properties'        => array( 'width', 'height', 'min-height' ),
+		),
 	);
 
 	/**
@@ -438,6 +447,7 @@ class WP_Theme_JSON {
 			'aspectRatio'         => null,
 			'aspectRatios'        => null,
 			'defaultAspectRatios' => null,
+			'dimensionSizes'      => null,
 			'height'              => null,
 			'minHeight'           => null,
 			'width'               => null,
