@@ -49,7 +49,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 * @since 5.9.0 Renamed `$item` to `$data_object` and `$id` to `$current_object_id`
 	 *              to match parent class for PHP 8 named parameter support.
 	 *
-	 * @global int $_wp_nav_menu_max_depth
+	 * @global int $_wp_nav_menu_max_depth The maximum depth of the nav menu.
 	 *
 	 * @param string   $output            Used to append additional content (passed by reference).
 	 * @param WP_Post  $data_object       Menu item data object.

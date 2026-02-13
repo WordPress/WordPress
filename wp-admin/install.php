@@ -342,6 +342,7 @@ if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
 /**
  * @global string    $wp_local_package Locale code of the package.
  * @global WP_Locale $wp_locale        WordPress date and time locale object.
+ * @global wpdb      $wpdb             WordPress database abstraction object.
  */
 $language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
