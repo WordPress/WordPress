@@ -1490,7 +1490,7 @@ function get_available_languages( $dir = null ) {
 
 	$languages = array();
 
-	$path       = is_null( $dir ) ? WP_LANG_DIR : $dir;
+	$path       = $dir ?? WP_LANG_DIR;
 	$lang_files = $wp_textdomain_registry->get_language_files_from_path( $path );
 
 	if ( $lang_files ) {

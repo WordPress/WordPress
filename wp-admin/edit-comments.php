@@ -319,13 +319,13 @@ if ( isset( $_REQUEST['approved'] )
 	|| isset( $_REQUEST['unspammed'] )
 	|| isset( $_REQUEST['same'] )
 ) {
-	$approved  = isset( $_REQUEST['approved'] ) ? (int) $_REQUEST['approved'] : 0;
-	$deleted   = isset( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0;
-	$trashed   = isset( $_REQUEST['trashed'] ) ? (int) $_REQUEST['trashed'] : 0;
-	$untrashed = isset( $_REQUEST['untrashed'] ) ? (int) $_REQUEST['untrashed'] : 0;
-	$spammed   = isset( $_REQUEST['spammed'] ) ? (int) $_REQUEST['spammed'] : 0;
-	$unspammed = isset( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
-	$same      = isset( $_REQUEST['same'] ) ? (int) $_REQUEST['same'] : 0;
+	$approved  = (int) ( $_REQUEST['approved'] ?? 0 );
+	$deleted   = (int) ( $_REQUEST['deleted'] ?? 0 );
+	$trashed   = (int) ( $_REQUEST['trashed'] ?? 0 );
+	$untrashed = (int) ( $_REQUEST['untrashed'] ?? 0 );
+	$spammed   = (int) ( $_REQUEST['spammed'] ?? 0 );
+	$unspammed = (int) ( $_REQUEST['unspammed'] ?? 0 );
+	$same      = (int) ( $_REQUEST['same'] ?? 0 );
 
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 || $same > 0 ) {
 		if ( $approved > 0 ) {

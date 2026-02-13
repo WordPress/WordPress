@@ -110,7 +110,7 @@ function wp_force_plain_post_permalink( $post = null, $sample = null ) {
 		$sample = true;
 	} else {
 		$post   = get_post( $post );
-		$sample = null !== $sample ? $sample : false;
+		$sample = $sample ?? false;
 	}
 
 	if ( ! $post ) {

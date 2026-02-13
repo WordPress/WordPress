@@ -230,7 +230,7 @@ class WP_Customize_Partial {
 			 * Note that the string return takes precedence because the $ob_render may just\
 			 * include PHP warnings or notices.
 			 */
-			$rendered = null !== $return_render ? $return_render : $ob_render;
+			$rendered = $return_render ?? $ob_render;
 		}
 
 		/**

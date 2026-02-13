@@ -453,7 +453,7 @@ final class WP_Interactivity_API {
 		$this->namespace_stack = null;
 		$this->context_stack   = null;
 
-		return null === $result ? $html : $result;
+		return $result ?? $html;
 	}
 
 	/**

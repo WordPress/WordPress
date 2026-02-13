@@ -1720,15 +1720,15 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 
 	$args['title'] = $args['title'] ?? '';
 	$args['url']   = $args['url'] ?? '';
-	$args['items'] = isset( $args['items'] ) ? (int) $args['items'] : 0;
+	$args['items'] = (int) ( $args['items'] ?? 0 );
 
 	if ( $args['items'] < 1 || 20 < $args['items'] ) {
 		$args['items'] = 10;
 	}
 
-	$args['show_summary'] = isset( $args['show_summary'] ) ? (int) $args['show_summary'] : (int) $inputs['show_summary'];
-	$args['show_author']  = isset( $args['show_author'] ) ? (int) $args['show_author'] : (int) $inputs['show_author'];
-	$args['show_date']    = isset( $args['show_date'] ) ? (int) $args['show_date'] : (int) $inputs['show_date'];
+	$args['show_summary'] = (int) ( $args['show_summary'] ?? $inputs['show_summary'] );
+	$args['show_author']  = (int) ( $args['show_author'] ?? $inputs['show_author'] );
+	$args['show_date']    = (int) ( $args['show_date'] ?? $inputs['show_date'] );
 
 	if ( ! empty( $args['error'] ) ) {
 		echo '<p class="widget-error"><strong>' . __( 'RSS Error:' ) . '</strong> ' . esc_html( $args['error'] ) . '</p>';
@@ -1798,10 +1798,10 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		$items = 10;
 	}
 	$url          = sanitize_url( strip_tags( $widget_rss['url'] ) );
-	$title        = isset( $widget_rss['title'] ) ? trim( strip_tags( $widget_rss['title'] ) ) : '';
-	$show_summary = isset( $widget_rss['show_summary'] ) ? (int) $widget_rss['show_summary'] : 0;
-	$show_author  = isset( $widget_rss['show_author'] ) ? (int) $widget_rss['show_author'] : 0;
-	$show_date    = isset( $widget_rss['show_date'] ) ? (int) $widget_rss['show_date'] : 0;
+	$title        = trim( strip_tags( $widget_rss['title'] ?? '' ) );
+	$show_summary = (int) ( $widget_rss['show_summary'] ?? 0 );
+	$show_author  = (int) ( $widget_rss['show_author'] ?? 0 );
+	$show_date    = (int) ( $widget_rss['show_date'] ?? 0 );
 	$error        = false;
 	$link         = '';
 
