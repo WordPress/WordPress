@@ -45,19 +45,6 @@ final class WP_Block_Bindings_Registry {
 	);
 
 	/**
-	 * Supported blocks that can use the block bindings API.
-	 *
-	 * @since 6.5.0
-	 * @var string[]
-	 */
-	private $supported_blocks = array(
-		'core/paragraph',
-		'core/heading',
-		'core/image',
-		'core/button',
-	);
-
-	/**
 	 * Registers a new block bindings source.
 	 *
 	 * This is a low-level method. For most use cases, it is recommended to use
