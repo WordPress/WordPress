@@ -1,4 +1,4 @@
-name: Build and Push Image 
+name: Build and Push Image and update gitops
 
 on:
   workflow_dispatch:
