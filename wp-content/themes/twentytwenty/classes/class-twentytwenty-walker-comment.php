@@ -37,7 +37,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 			$tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
 
 			?>
-			<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
+			<<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
 				<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 					<footer class="comment-meta">
 						<div class="comment-author vcard">
@@ -49,7 +49,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 								if ( empty( $comment_author_url ) ) {
 									echo wp_kses_post( $avatar );
 								} else {
-									printf( '<a href="%s" rel="external nofollow" class="url">', $comment_author_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Escaped in https://developer.wordpress.org/reference/functions/get_comment_author_url/
+									printf( '<a href="%s" rel="external nofollow" class="url">', $comment_author_url );
 									echo wp_kses_post( $avatar );
 								}
 							}
@@ -131,7 +131,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 
 							<?php
 							if ( $comment_reply_link ) {
-								echo $comment_reply_link; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Link is escaped in https://developer.wordpress.org/reference/functions/get_comment_reply_link/
+								echo $comment_reply_link;
 							}
 							if ( $by_post_author ) {
 								echo '<span class="by-post-author">' . __( 'By Post Author', 'twentytwenty' ) . '</span>';
