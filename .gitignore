@@ -6,3 +6,5 @@ uploads
 uploads/*
 ./.github/workflows/CI-CD-updated.yaml
 docker-compose*
+*.tar.gz
+
