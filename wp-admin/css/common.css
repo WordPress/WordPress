@@ -788,7 +788,7 @@ img.emoji {
 }
 
 .stuffbox .hndle {
-	border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+	border-bottom: 1px solid #c3c4c7;
 }
 
 .quicktags {
@@ -807,14 +807,14 @@ img.emoji {
 #bulk-titles .ntdelbutton:before,
 .notice-dismiss:before {
 	background: none;
-	color: #787c82;
+	color: #1e1e1e;
 	content: "\f153";
 	content: "\f153" / '';
 	display: block;
-	font: normal 16px/20px dashicons;
-	height: 20px;
+	font: normal 20px/24px dashicons;
+	height: 24px;
 	text-align: center;
-	width: 20px;
+	width: 24px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -1444,11 +1444,11 @@ th.action-links {
 div.updated,
 div.error {
 	background: #fff;
-	border: 1px solid #c3c4c7;
-	border-left-width: 4px;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	border: none;
+	border-left: 4px solid #c3c4c7;
+	box-shadow: none;
 	margin: 5px 15px 2px;
-	padding: 1px 12px;
+	padding: 8px 12px;
 }
 
 div[class="update-message"] { /* back-compat for pre-4.6 */
@@ -1461,15 +1461,31 @@ div.updated p,
 div.error p,
 .form-table td .notice p {
 	margin: 0.5em 0;
-	padding: 2px;
+	padding: 0;
+	font-size: 13px;
+	line-height: 1.54;
+	color: #1e1e1e;
 }
 
-.error a {
+.notice a,
+.error a,
+.updated a {
+	color: var(--wp-admin-theme-color-darker-10);
 	text-decoration: underline;
 }
 
-.updated a {
-	padding-bottom: 2px;
+.notice a:hover,
+.error a:hover,
+.updated a:hover {
+	color: var(--wp-admin-theme-color-darker-20);
+}
+
+.notice a:focus,
+.error a:focus,
+.updated a:focus {
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+	outline: 2px solid transparent;
+	border-radius: 2px;
 }
 
 .notice-alt {
@@ -1487,66 +1503,82 @@ div.error p,
 }
 
 .wp-core-ui .notice.is-dismissible {
-	padding-right: 38px;
+	padding-right: 48px;
 	position: relative;
 }
 
 .notice-dismiss {
 	position: absolute;
-	top: 0;
-	right: 1px;
+	top: 12px;
+	right: 12px;
 	border: none;
 	margin: 0;
-	padding: 9px;
+	padding: 0;
 	background: none;
-	color: #787c82;
+	color: #1e1e1e;
 	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 2px;
 }
 
 .notice-dismiss:hover:before,
-.notice-dismiss:active:before,
-.notice-dismiss:focus:before {
-	color: #d63638;
+.notice-dismiss:active:before {
+	color: #1e1e1e;
+	opacity: 0.7;
 }
 
 .notice-dismiss:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
 
-.notice-success,
-div.updated {
-	border-left-color: #00a32a;
+.notice-dismiss:focus:before {
+	color: #1e1e1e;
 }
 
-.notice-success.notice-alt {
-	background-color: #edfaef;
+.notice-success,
+div.updated {
+	border-left-color: #4ab866;
+	background-color: #eff9f1;
+}
+
+.notice-success.notice-alt,
+div.updated.notice-alt {
+	background-color: #eff9f1;
 }
 
 .notice-warning {
-	border-left-color: #dba617;
+	border-left-color: #f0b849;
+	background-color: #fef8ee;
 }
 
 .notice-warning.notice-alt {
-	background-color: #fcf9e8;
+	background-color: #fef8ee;
 }
 
 .notice-error,
 div.error {
-	border-left-color: #d63638;
+	border-left-color: #cc1818;
+	background-color: #fcf0f0;
 }
 
-.notice-error.notice-alt {
-	background-color: #fcf0f1;
+.notice-error.notice-alt,
+div.error.notice-alt {
+	background-color: #fcf0f0;
 }
 
 .notice-info {
-	border-left-color: #72aee6;
+	border-left-color: #3858e9;
+	background-color: transparent;
 }
 
 .notice-info.notice-alt {
-	background-color: #f0f6fc;
+	background-color: transparent;
 }
 
 #plugin-information-footer .update-now:not(.button-disabled):before {
@@ -2182,7 +2214,7 @@ html.wp-toolbar {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+	border-bottom: 1px solid #c3c4c7;
 }
 
 .postbox-header .hndle {
@@ -2195,7 +2227,6 @@ html.wp-toolbar {
 
 .postbox-header .handle-actions {
 	flex-shrink: 0;
-	padding-inline-end: 6px;
 }
 
 /* Post box order and toggle buttons. */
@@ -2232,10 +2263,8 @@ html.wp-toolbar {
 }
 
 .sortable-placeholder {
-	border: 2px solid var(--wp-admin-theme-color);
-	border-radius: 8px;
+	border: 1px dashed #c3c4c7;
 	margin-bottom: 20px;
-	background: rgb(var(--wp-admin-theme-color--rgb), 0.04);
 }
 
 .postbox,
@@ -2243,13 +2272,10 @@ html.wp-toolbar {
 	margin-bottom: 20px;
 	padding: 0;
 	line-height: 1;
-	background: #ffffff;
-	border: 1px solid rgb(0, 0, 0, 0.1);
-	border-radius: 0;
 }
 
-.postbox.closed .postbox-header {
-	border-bottom: none;
+.postbox.closed {
+	border-bottom: 0;
 }
 
 /* user-select is not a part of the CSS standard - may change behavior in the future */
@@ -2260,7 +2286,7 @@ html.wp-toolbar {
 }
 
 .postbox .inside {
-	padding: 16px;
+	padding: 0 12px 12px;
 	line-height: 1.4;
 	font-size: 13px;
 }
@@ -2273,7 +2299,7 @@ html.wp-toolbar {
 }
 
 .postbox .inside {
-	margin: 0;
+	margin: 11px 0;
 	position: relative;
 }
 
@@ -2454,7 +2480,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 .metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
 .metabox-holder h2.hndle {
 	font-size: 14px;
-	padding: 16px;
+	padding: 8px 12px;
 	margin: 0;
 	line-height: 1.4;
 }
