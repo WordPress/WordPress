@@ -556,7 +556,7 @@ $locations_screen = ( isset( $_GET['action'] ) && 'locations' === $_GET['action'
 $page_count = wp_count_posts( 'page' );
 
 /*
- * If we have one theme location, and zero menus, we take them right
+ * If we have one registered menu location, and zero menus, we take them right
  * into editing their first menu.
  */
 if ( 1 === count( get_registered_nav_menus() ) && ! $add_new_screen
@@ -603,8 +603,8 @@ $nav_menus_l10n = array(
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 
 /*
- * Redirect to add screen if there are no menus and this users has either zero,
- * or more than 1 theme locations.
+ * Redirect to add screen if there are no menus and this user has either zero
+ * or more than one registered menu location.
  */
 if ( 0 === $menu_count && ! $add_new_screen && ! $one_theme_location_no_menus ) {
 	wp_redirect( admin_url( 'nav-menus.php?action=edit&menu=0' ) );
@@ -731,7 +731,7 @@ if ( ! $locations_screen ) : // Main tab.
 	$menu_management  = '<p>' . __( 'The menu management box at the top of the screen is used to control which menu is opened in the editor below.' ) . '</p>';
 	$menu_management .= '<ul><li>' . __( 'To edit an existing menu, <strong>choose a menu from the dropdown and click Select</strong>' ) . '</li>';
 	$menu_management .= '<li>' . __( 'If you have not yet created any menus, <strong>click the &#8217;create a new menu&#8217; link</strong> to get started' ) . '</li></ul>';
-	$menu_management .= '<p>' . __( 'You can assign theme locations to individual menus by <strong>selecting the desired settings</strong> at the bottom of the menu editor. To assign menus to all theme locations at once, <strong>visit the Manage Locations tab</strong> at the top of the screen.' ) . '</p>';
+	$menu_management .= '<p>' . __( 'You can assign individual menus to the theme&#8217;s menu locations by <strong>selecting the desired settings</strong> at the bottom of the menu editor. To assign menus to all theme menu locations at once, <strong>visit the Manage Locations tab</strong> at the top of the screen.' ) . '</p>';
 
 	get_current_screen()->add_help_tab(
 		array(
@@ -757,9 +757,9 @@ if ( ! $locations_screen ) : // Main tab.
 	);
 else : // Locations tab.
 	$locations_overview  = '<p>' . __( 'This screen is used for globally assigning menus to locations defined by your theme.' ) . '</p>';
-	$locations_overview .= '<ul><li>' . __( 'To assign menus to one or more theme locations, <strong>select a menu from each location&#8217;s dropdown</strong>. When you are finished, <strong>click Save Changes</strong>' ) . '</li>';
-	$locations_overview .= '<li>' . __( 'To edit a menu currently assigned to a theme location, <strong>click the adjacent &#8217;Edit&#8217; link</strong>' ) . '</li>';
-	$locations_overview .= '<li>' . __( 'To add a new menu instead of assigning an existing one, <strong>click the &#8217;Use new menu&#8217; link</strong>. Your new menu will be automatically assigned to that theme location' ) . '</li></ul>';
+	$locations_overview .= '<ul><li>' . __( 'To assign menus to one or more theme menu locations, <strong>select a menu from each location&#8217;s dropdown</strong>. When you are finished, <strong>click Save Changes</strong>' ) . '</li>';
+	$locations_overview .= '<li>' . __( 'To edit a menu currently assigned to a theme menu location, <strong>click the adjacent &#8217;Edit&#8217; link</strong>' ) . '</li>';
+	$locations_overview .= '<li>' . __( 'To add a new menu instead of assigning an existing one, <strong>click the &#8217;Use new menu&#8217; link</strong>. Your new menu will be automatically assigned to that location in the theme.' ) . '</li></ul>';
 
 	get_current_screen()->add_help_tab(
 		array(
@@ -853,7 +853,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<table class="widefat fixed" id="menu-locations-table">
 				<thead>
 				<tr>
-					<th scope="col" class="manage-column column-locations"><?php _e( 'Theme Location' ); ?></th>
+					<th scope="col" class="manage-column column-locations"><?php _e( 'Menu Location' ); ?></th>
 					<th scope="col" class="manage-column column-menus"><?php _e( 'Assigned Menu' ); ?></th>
 				</tr>
 				</thead>
@@ -1197,7 +1197,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								<?php if ( current_theme_supports( 'menus' ) ) : ?>
 
 									<fieldset class="menu-settings-group menu-theme-locations">
-										<legend class="menu-settings-group-name howto"><?php _e( 'Display location' ); ?></legend>
+										<legend class="menu-settings-group-name howto"><?php _e( 'Menu location' ); ?></legend>
 										<?php
 										foreach ( $locations as $location => $description ) :
 											$checked = false;
