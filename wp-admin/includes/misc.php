@@ -1004,14 +1004,14 @@ function admin_color_scheme_picker( $user_id ) {
 
 	ksort( $_wp_admin_css_colors );
 
-	if ( isset( $_wp_admin_css_colors['fresh'] ) ) {
-		// Set Default ('fresh') and Light should go first.
+	if ( isset( $_wp_admin_css_colors['modern'] ) ) {
+		// Set Modern (new default), Classic ('fresh'), and Light first.
 		$_wp_admin_css_colors = array_filter(
 			array_merge(
 				array(
+					'modern' => '',
 					'fresh'  => '',
 					'light'  => '',
-					'modern' => '',
 				),
 				$_wp_admin_css_colors
 			)
@@ -1021,7 +1021,7 @@ function admin_color_scheme_picker( $user_id ) {
 	$current_color = get_user_option( 'admin_color', $user_id );
 
 	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) ) {
-		$current_color = 'fresh';
+		$current_color = 'modern';
 	}
 	?>
 	<fieldset id="color-picker" class="scheme-list">
@@ -1067,13 +1067,13 @@ function wp_color_scheme_settings() {
 
 	// It's possible to have a color scheme set that is no longer registered.
 	if ( empty( $_wp_admin_css_colors[ $color_scheme ] ) ) {
-		$color_scheme = 'fresh';
+		$color_scheme = 'modern';
 	}
 
 	if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
 		$icon_colors = $_wp_admin_css_colors[ $color_scheme ]->icon_colors;
-	} elseif ( ! empty( $_wp_admin_css_colors['fresh']->icon_colors ) ) {
-		$icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
+	} elseif ( ! empty( $_wp_admin_css_colors['modern']->icon_colors ) ) {
+		$icon_colors = $_wp_admin_css_colors['modern']->icon_colors;
 	} else {
 		// Fall back to the default set of icon colors if the default scheme is missing.
 		$icon_colors = array(
