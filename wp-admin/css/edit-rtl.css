@@ -6,6 +6,7 @@
 
 #poststuff #post-body {
 	padding: 0;
+	margin: 0 -4px;
 }
 
 #poststuff .postbox-container {
@@ -168,11 +169,14 @@ body.post-type-wp_navigation .inline-edit-status {
 
 /* Post Screen */
 
+.metabox-holder .postbox-container .meta-box-sortables {
+	padding: 4px;
+}
+
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
 .is-dragging-metaboxes .metabox-holder .postbox-container .meta-box-sortables {
-	outline: 3px dashed #646970;
-	/* Prevent margin on the child from collapsing with margin on the parent. */
-	display: flow-root;
+	border-radius: 8px;
+	background: rgb(var(--wp-admin-theme-color--rgb), 0.04);
 	/*
 	 * This min-height is meant to limit jumpiness while dragging. It's equivalent
 	 * to the minimum height of the sortable-placeholder which is given by the height
@@ -1777,7 +1781,8 @@ table.links-table {
 	}
 
 	.is-dragging-metaboxes.post-type-attachment #post-body .meta-box-sortables {
-		outline: none;
+		border: none;
+		background: transparent;
 		min-height: 0;
 		margin-bottom: 0;
 	}

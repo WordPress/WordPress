@@ -40,7 +40,15 @@
 
 #dashboard-widgets-wrap {
 	overflow: hidden;
-	margin: 0 -8px;
+	margin: 0 -4px;
+}
+
+#dashboard-widgets .postbox {
+	border-radius: 8px;
+}
+
+#dashboard-widgets .postbox-header .hndle {
+	padding: 12px 16px;
 }
 
 #dashboard-widgets .postbox .inside {
@@ -50,20 +58,32 @@
 #dashboard-widgets .meta-box-sortables {
 	display: flow-root; /* avoid margin collapsing between parent and first/last child elements */
 	/* Required min-height to make the jQuery UI Sortable drop zone work. */
-	min-height: 100px;
-	margin: 0 8px 20px;
+	min-height: 0;
+	margin-right: 8px;
+	padding: 4px;
+}
+
+#dashboard-widgets .meta-box-sortables:not(:empty) {
+	margin-bottom: 16px;
 }
 
 #dashboard-widgets .postbox-container .empty-container {
-	outline: 3px dashed #c3c4c7;
+	outline: 2px dashed rgb(0, 0, 0, 0.15);
+	outline-offset: -2px;
+	border-radius: 8px;
 	height: 250px;
 }
 
-/* Only highlight drop zones when dragging and only in the 2 columns layout. */
+/* Only highlight drop zones when dragging. */
 .is-dragging-metaboxes #dashboard-widgets .meta-box-sortables {
-	outline: 3px dashed #646970;
-	/* Prevent margin on the child from collapsing with margin on the parent. */
-	display: flow-root;
+	border-radius: 8px;
+	background: rgb(var(--wp-admin-theme-color--rgb), 0.04);
+	min-height: 100px;
+}
+
+.is-dragging-metaboxes #dashboard-widgets .postbox-container .empty-container {
+	outline: 2px dashed rgb(0, 0, 0, 0.15);
+	background: rgb(0, 0, 0, 0.01);
 }
 
 #dashboard-widgets .postbox-container .empty-container:after {
@@ -121,6 +141,8 @@
 	overflow: auto;
 	margin: 16px 0;
 	background-color: #151515;
+	border: 1px solid rgb(0, 0, 0, 0.1);
+	border-radius: 8px;
 	font-size: 14px;
 	line-height: 1.3;
 	clear: both;
@@ -259,11 +281,11 @@
 	clear: both;
 	display: grid;
 	z-index: 1;
-	padding: 48px;
+	padding: 24px;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 32px;
 	align-self: flex-end;
-	background: #fff;
+	background: #ffffff;
 }
 
 [class*="welcome-panel-icon"] {
@@ -704,7 +726,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_right_now .main {
-	padding: 0 12px 11px;
+	padding: 16px 16px 11px;
 }
 
 #dashboard_right_now .main p {
@@ -892,7 +914,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_activity .inside {
 	margin: 0;
-	padding-bottom: 0;
+	padding: 0 12px;
 }
 
 #dashboard_activity .no-activity {
@@ -1294,10 +1316,11 @@ a.rsswidget {
 
 	#dashboard-widgets #postbox-container-3 .empty-container,
 	#dashboard-widgets #postbox-container-4 .empty-container {
-		outline: none;
+		border: none;
 		height: 0;
 		min-height: 0;
 		margin-bottom: 0;
+		display: none;
 	}
 
 	#dashboard-widgets #postbox-container-3 .empty-container:after,
@@ -1310,7 +1333,7 @@ a.rsswidget {
 	}
 
 	#wpbody #dashboard-widgets .metabox-holder.columns-1 .postbox-container .empty-container {
-		outline: none;
+		border: none;
 		height: 0;
 		min-height: 0;
 		margin-bottom: 0;
@@ -1348,10 +1371,11 @@ a.rsswidget {
 	}
 
 	#dashboard-widgets #postbox-container-4 .empty-container {
-		outline: none;
+		border: none;
 		height: 0;
 		min-height: 0;
 		margin-bottom: 0;
+		display: none;
 	}
 
 	#dashboard-widgets #postbox-container-4 .empty-container:after {

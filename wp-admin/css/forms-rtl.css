@@ -1095,12 +1095,12 @@ table.form-table td .updated p {
 .card {
 	position: relative;
 	margin-top: 20px;
-	padding: 0.7em 2em 1em;
+	padding: 16px 24px;
 	min-width: 255px;
 	max-width: 520px;
-	border: 1px solid #c3c4c7;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	background: #fff;
+	border: 1px solid rgb(0, 0, 0, 0.1);
+	border-radius: 8px;
+	background: #ffffff;
 	box-sizing: border-box;
 }
 

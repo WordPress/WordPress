@@ -1490,9 +1490,11 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	margin: 0 8px 16px;
 	width: 48.5%;
 	width: calc( 50% - 8px );
-	background-color: #fff;
-	border: 1px solid #dcdcde;
+	background-color: #ffffff;
+	border: 1px solid rgb(0, 0, 0, 0.1);
+	border-radius: 8px;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .plugin-card:nth-child(odd) {
@@ -1556,7 +1558,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugin-card-top {
 	position: relative;
-	padding: 20px 20px 10px;
+	padding: 16px;
 	min-height: 135px;
 }
 
@@ -1671,9 +1673,9 @@ div.action-links,
 
 .plugin-card-bottom {
 	clear: both;
-	padding: 12px 20px;
+	padding: 16px;
 	background-color: #f6f7f7;
-	border-top: 1px solid #dcdcde;
+	border-top: 1px solid rgb(0, 0, 0, 0.1);
 	overflow: hidden;
 }
 

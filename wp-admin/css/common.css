@@ -788,7 +788,7 @@ img.emoji {
 }
 
 .stuffbox .hndle {
-	border-bottom: 1px solid #c3c4c7;
+	border-bottom: 1px solid rgb(0, 0, 0, 0.1);
 }
 
 .quicktags {
@@ -2182,7 +2182,7 @@ html.wp-toolbar {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid #c3c4c7;
+	border-bottom: 1px solid rgb(0, 0, 0, 0.1);
 }
 
 .postbox-header .hndle {
@@ -2195,6 +2195,7 @@ html.wp-toolbar {
 
 .postbox-header .handle-actions {
 	flex-shrink: 0;
+	padding-inline-end: 6px;
 }
 
 /* Post box order and toggle buttons. */
@@ -2231,8 +2232,10 @@ html.wp-toolbar {
 }
 
 .sortable-placeholder {
-	border: 1px dashed #c3c4c7;
+	border: 2px solid var(--wp-admin-theme-color);
+	border-radius: 8px;
 	margin-bottom: 20px;
+	background: rgb(var(--wp-admin-theme-color--rgb), 0.04);
 }
 
 .postbox,
@@ -2240,10 +2243,13 @@ html.wp-toolbar {
 	margin-bottom: 20px;
 	padding: 0;
 	line-height: 1;
+	background: #ffffff;
+	border: 1px solid rgb(0, 0, 0, 0.1);
+	border-radius: 0;
 }
 
-.postbox.closed {
-	border-bottom: 0;
+.postbox.closed .postbox-header {
+	border-bottom: none;
 }
 
 /* user-select is not a part of the CSS standard - may change behavior in the future */
@@ -2254,7 +2260,7 @@ html.wp-toolbar {
 }
 
 .postbox .inside {
-	padding: 0 12px 12px;
+	padding: 16px;
 	line-height: 1.4;
 	font-size: 13px;
 }
@@ -2267,7 +2273,7 @@ html.wp-toolbar {
 }
 
 .postbox .inside {
-	margin: 11px 0;
+	margin: 0;
 	position: relative;
 }
 
@@ -2448,7 +2454,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 .metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
 .metabox-holder h2.hndle {
 	font-size: 14px;
-	padding: 8px 12px;
+	padding: 16px;
 	margin: 0;
 	line-height: 1.4;
 }
