@@ -1,0 +1,212 @@
+// ==========================================================================
+// WordPress Design System Tokens
+// ==========================================================================
+//
+// These tokens are derived from the WordPress Design System in Figma:
+// https://www.figma.com/design/804HN2REV2iap2ytjRQ055/WordPress-Design-System
+//
+// IMPORTANT: Do NOT expose these as CSS custom properties.
+// Use these Sass variables to compile to static CSS values.
+// The only CSS custom properties available are those in wp-base-styles:
+// - --wp-admin-theme-color
+// - --wp-admin-theme-color--rgb
+// - --wp-admin-theme-color-darker-10
+// - --wp-admin-theme-color-darker-20
+// - --wp-admin-border-width-focus
+//
+// ==========================================================================
+
+
+// --------------------------------------------------------------------------
+// Grid Units (Spacing)
+// --------------------------------------------------------------------------
+// Based on 4px base unit. Use for padding, margin, and gap values.
+
+$grid-unit-05: 4px;   // Scales/grid unit 05
+$grid-unit-10: 8px;   // Scales/grid unit 10
+$grid-unit-15: 12px;  // Scales/grid unit 15
+$grid-unit-20: 16px;  // Scales/grid unit 20
+$grid-unit-30: 24px;  // Scales/grid unit 30
+$grid-unit-40: 32px;  // Scales/grid unit 40
+$grid-unit-50: 40px;  // Scales/grid unit 50
+$grid-unit-60: 48px;  // Scales/grid unit 60
+$grid-unit-70: 56px;  // Scales/grid unit 70
+
+
+// --------------------------------------------------------------------------
+// Border Radius
+// --------------------------------------------------------------------------
+
+$radius-xs: 1px;      // radius-xs
+$radius-s: 2px;       // radius-s - Buttons, inputs
+$radius-m: 4px;       // radius-m - Focus rings
+$radius-l: 8px;       // radius-l - Cards, dashboard widgets
+$radius-30: 12px;     // Radius 30
+$radius-full: 9999px; // radius-full - Pills, avatars, circles
+
+
+// --------------------------------------------------------------------------
+// Gray Scale
+// --------------------------------------------------------------------------
+// Neutral colors for backgrounds, borders, and text.
+
+$gray-100: #f0f0f0;   // Scales/Grays/gray-100 - Page background, disabled inputs
+$gray-200: #e0e0e0;   // Scales/Grays/gray-200
+$gray-300: #dddddd;   // Scales/Grays/gray-300
+$gray-400: #cccccc;   // Scales/Grays/gray-400 - Disabled borders
+$gray-600: #949494;   // Scales/Grays/gray-600 - Input borders, disabled text
+$gray-700: #757575;   // Scales/Grays/gray-700
+$gray-800: #2f2f2f;   // Scales/Grays/gray-800
+$gray-900: #1e1e1e;   // Scales/Grays/gray-900 - Primary text
+
+$white: #ffffff;      // Scales/Black & White/white
+
+
+// --------------------------------------------------------------------------
+// Theme Colors (Static reference values)
+// --------------------------------------------------------------------------
+// For actual theme color usage, use var(--wp-admin-theme-color) instead.
+// These are provided for reference and for contexts where CSS vars aren't available.
+
+$theme-reference: #3858e9;           // Scales/Theme/theme (modern scheme)
+$theme-darker-10-reference: #2145e6; // Scales/Theme/theme-darker-10
+$theme-darker-20-reference: #183ad6; // Scales/Theme/theme-darker-20
+$theme-alpha-04: rgba(56, 88, 233, 0.04); // Scales/Theme/theme-alpha-04 (4% opacity)
+$theme-alpha-08: rgba(56, 88, 233, 0.08); // Scales/Theme/theme-alpha-08 (8% opacity)
+
+$brand-9: #4465db;    // Scales/brand-9 - Focus ring color (static, not theme-dependent)
+
+
+// --------------------------------------------------------------------------
+// Semantic Colors
+// --------------------------------------------------------------------------
+// Use these for notices, alerts, and status indicators.
+// These are intentionally NOT theme-dependent for consistency.
+
+$alert-yellow: #f0b849;    // Scales/Yellow/alert-yellow - Warnings
+$alert-green: #4ab866;     // Scales/Green/alert-green - Success
+$alert-red: #cc1818;       // Scales/Red/alert-red - Errors
+$alert-blue: #3858e9;      // Info notices (matches modern theme)
+
+// Background tints for notices
+$alert-yellow-bg: #fef8ee; // Warning notice background
+$alert-green-bg: #eff9f1;  // Success notice background
+$alert-red-bg: #fcf0f0;    // Error notice background
+
+$synced-color: #7a00df;    // Scales/Purple/--wp-block-synced-color
+
+
+// --------------------------------------------------------------------------
+// Text Colors
+// --------------------------------------------------------------------------
+
+$text-primary: $gray-900;     // Primary text color
+$text-secondary: $gray-700;   // Secondary text
+$text-tertiary: #5d5d5d;      // Alias/text/text-tertiary - Placeholder, hints
+$text-disabled: $gray-600;    // Disabled text
+
+
+// --------------------------------------------------------------------------
+// Component Tokens
+// --------------------------------------------------------------------------
+
+// Inputs
+$input-bg: $white;                    // Alias/bg/bg-input
+$input-border-color: $gray-600;       // Default input border
+$input-border-color-disabled: $gray-400;
+$input-bg-disabled: $gray-100;
+$input-border-width-default: 1px;     // Input/Default
+$input-border-width-focus: 1.5px;     // Input/Focus
+$field-spacing-horizontal: 8px;       // Alias/field-spacing-horizontal
+
+// Checkboxes and Radios
+$checkbox-size: 16px;                 // Alias/checkbox
+$radio-size: 16px;                    // Alias/radio
+
+// Toggles
+$toggle-width: 32px;                  // Alias/toggle-width
+$toggle-height: 16px;                 // Alias/toggle-height
+
+// Buttons
+// Note: Gutenberg is transitioning to 40px as the default button size.
+// The "compact" size (32px) is available for space-constrained contexts.
+$button-height-default: 40px;         // Default button height (next-default-40px)
+$button-height-compact: 32px;         // Compact button height
+$button-height-small: 24px;           // Small button height
+
+// Cards and Surfaces
+$card-bg: $white;
+$card-border-color: rgba(0, 0, 0, 0.1);
+$card-border-width: 1px;
+$card-border-radius: $radius-l;           // 8px for dashboard widgets
+$card-border-radius-metabox: 0;           // 0 for post editor metaboxes
+$card-divider-color: rgba(0, 0, 0, 0.1);
+
+// Card Padding Sizes
+$card-padding-xs: $grid-unit-10;          // 8px - xSmall cards
+$card-padding-sm: $grid-unit-20;          // 16px - Small cards (metaboxes, dashboard widgets)
+$card-padding-md-h: $grid-unit-30;        // 24px - Medium cards horizontal
+$card-padding-md-v: $grid-unit-20;        // 16px - Medium cards vertical
+$card-padding-lg-h: $grid-unit-40;        // 32px - Large cards horizontal
+$card-padding-lg-v: $grid-unit-30;        // 24px - Large cards vertical
+
+// Page Layout
+$page-padding-large: 48px;            // Alias/page-large
+$page-padding-small: 24px;            // Alias/page-small
+
+
+// --------------------------------------------------------------------------
+// Typography Scale
+// --------------------------------------------------------------------------
+
+// Font Sizes
+$font-size-xs: 11px;    // xs - Small labels, button small
+$font-size-s: 12px;     // s - Body small
+$font-size-m: 13px;     // m - Base body text, buttons
+$font-size-l: 15px;     // l - Body large, heading large
+$font-size-xl: 20px;    // xl - Heading XL
+
+// Line Heights
+$line-height-xs: 16px;  // xs
+$line-height-s: 20px;   // s - Most UI elements
+$line-height-m: 24px;   // m - Body large
+
+// Font Weights
+$font-weight-regular: 400;  // Regular - Body text
+$font-weight-medium: 500;   // Medium - Headings, buttons
+
+
+// --------------------------------------------------------------------------
+// Elevation (Box Shadows)
+// --------------------------------------------------------------------------
+
+$elevation-xs:
+  0 4px 4px rgba(0, 0, 0, 0.01),
+  0 3px 3px rgba(0, 0, 0, 0.02),
+  0 1px 2px rgba(0, 0, 0, 0.02),
+  0 1px 1px rgba(0, 0, 0, 0.03);
+
+$elevation-s:
+  0 8px 8px rgba(0, 0, 0, 0.02),
+  0 1px 2px rgba(0, 0, 0, 0.05);
+
+$elevation-m:
+  0 16px 16px rgba(0, 0, 0, 0.02),
+  0 4px 5px rgba(0, 0, 0, 0.03),
+  0 2px 3px rgba(0, 0, 0, 0.05);
+
+$elevation-l:
+  0 50px 43px rgba(0, 0, 0, 0.02),
+  0 30px 36px rgba(0, 0, 0, 0.04),
+  0 15px 27px rgba(0, 0, 0, 0.07),
+  0 5px 15px rgba(0, 0, 0, 0.08);
+
+
+// --------------------------------------------------------------------------
+// Layout
+// --------------------------------------------------------------------------
+
+$modal-width-small: 384px;    // Layout/Modal small
+$modal-width-medium: 512px;   // Layout/Modal medium
+$modal-width-large: 840px;    // Layout/Modal large
+

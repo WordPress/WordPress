@@ -428,7 +428,6 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 /* Button Secondary Actions */
 .list-controls {
 	float: left;
-	margin-top: 5px;
 }
 
 .add-to-menu {
@@ -867,10 +866,15 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 #nav-menus-frame,
-.button-controls,
 #menu-item-url-wrap,
 #menu-item-name-wrap {
 	display: block;
+}
+
+.button-controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /* =Media Queries

@@ -326,8 +326,9 @@ form#tags-filter {
 }
 
 #post-body .tagsdiv #newtag {
-	margin-left: 5px;
-	width: 16em;
+	margin-left: 0;
+	flex: 1;
+	min-width: 0;
 }
 
 #side-sortables input#post_password {
@@ -335,7 +336,8 @@ form#tags-filter {
 }
 
 #side-sortables .tagsdiv #newtag {
-	width: 68%;
+	flex: 1;
+	min-width: 0;
 }
 
 #post-status-info {
@@ -1424,6 +1426,9 @@ p.description code,
 
 #poststuff .tagsdiv .ajaxtag {
 	margin-top: 1em;
+	display: flex;
+	gap: 8px;
+	align-items: center;
 }
 
 #poststuff .tagsdiv .howto {
@@ -1435,7 +1440,8 @@ p.description code,
 }
 
 .tagsdiv .newtag {
-	width: 180px;
+	flex: 1;
+	min-width: 0;
 }
 
 .tagsdiv .the-tags {
@@ -1928,9 +1934,10 @@ table.links-table {
 
 	/* Tags Metabox */
 	.tagsdiv .newtag {
-		width: 100%;
+		flex: 1;
+		min-width: 0;
 		height: auto;
-		margin-bottom: 15px;
+		margin-bottom: 0;
 	}
 
 	.tagchecklist {

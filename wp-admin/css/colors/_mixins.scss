@@ -1,39 +1,132 @@
 @use 'sass:color';
+@use 'tokens';
 
 /*
- * Button mixin- creates a button effect with correct
- * highlights/shadows, based on a base color.
+ * Button mixin - creates a primary button effect.
+ * Uses CSS custom properties for theme color support across color schemes.
  */
-@mixin button( $button-color, $button-text-color: #fff ) {
-	background: $button-color;
-	border-color: $button-color;
+@mixin button( $button-text-color: #fff ) {
+	background: var(--wp-admin-theme-color);
+	border-color: transparent;
+	border-radius: tokens.$radius-s;
 	color: $button-text-color;
 
-	&:hover,
-	&:focus {
-		background: color.adjust($button-color, $lightness: 3%);
-		border-color: color.adjust($button-color, $lightness: -3%);
+	&:hover {
+		background: var(--wp-admin-theme-color-darker-10);
+		border-color: transparent;
 		color: $button-text-color;
 	}
 
 	&:focus {
+		background: var(--wp-admin-theme-color);
+		border-color: transparent;
+		color: $button-text-color;
+		/* Gutenberg-style focus ring: outer theme color + inset white for contrast */
 		box-shadow:
-			0 0 0 1px #fff,
-			0 0 0 3px $button-color;
+			0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color),
+			inset 0 0 0 1px tokens.$white;
+		/* Visible in Windows High Contrast mode */
+		outline: 1px solid transparent;
 	}
 
 	&:active {
-		background: color.adjust($button-color, $lightness: -5%);
-		border-color: color.adjust($button-color, $lightness: -5%);
+		background: var(--wp-admin-theme-color-darker-20);
+		border-color: transparent;
 		color: $button-text-color;
+	}
+
+	&:disabled,
+	&.disabled {
+		background: tokens.$gray-100;
+		border-color: transparent;
+		color: tokens.$gray-600;
+		cursor: not-allowed;
 	}
 
 	&.active,
 	&.active:focus,
 	&.active:hover {
-		background: $button-color;
+		background: var(--wp-admin-theme-color-darker-10);
 		color: $button-text-color;
-		border-color: color.adjust($button-color, $lightness: -15%);
-		box-shadow: inset 0 2px 5px -3px color.adjust($button-color, $lightness: -50%);
+		border-color: transparent;
+		box-shadow: none;
+	}
+}
+
+/*
+ * Secondary button mixin - outlined style with theme color.
+ * Matches Gutenberg's .is-secondary button variant.
+ */
+@mixin button-secondary() {
+	background: transparent;
+	border: 1px solid var(--wp-admin-theme-color);
+	border-radius: tokens.$radius-s;
+	color: var(--wp-admin-theme-color);
+
+	&:hover {
+		background: rgba(var(--wp-admin-theme-color--rgb), 0.04);
+		border-color: var(--wp-admin-theme-color-darker-20);
+		color: var(--wp-admin-theme-color-darker-20);
+	}
+
+	&:focus {
+		background: transparent;
+		border-color: var(--wp-admin-theme-color);
+		color: var(--wp-admin-theme-color);
+		box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
+		outline: 1px solid transparent;
+	}
+
+	&:active {
+		background: rgba(var(--wp-admin-theme-color--rgb), 0.08);
+		border-color: var(--wp-admin-theme-color-darker-20);
+		color: var(--wp-admin-theme-color-darker-20);
+		box-shadow: none;
+	}
+
+	&:disabled,
+	&.disabled {
+		background: transparent;
+		border-color: tokens.$gray-300;
+		color: tokens.$gray-600;
+		cursor: not-allowed;
+	}
+}
+
+/*
+ * Tertiary button mixin - transparent background, gray text.
+ */
+@mixin button-tertiary() {
+	background: transparent;
+	border: 1px solid tokens.$gray-600;
+	border-radius: tokens.$radius-s;
+	color: tokens.$gray-900;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.05);
+		border-color: tokens.$gray-700;
+		color: tokens.$gray-900;
+	}
+
+	&:focus {
+		background: transparent;
+		border-color: var(--wp-admin-theme-color);
+		color: tokens.$gray-900;
+		box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
+		outline: 1px solid transparent;
+	}
+
+	&:active {
+		background: rgba(0, 0, 0, 0.1);
+		border-color: tokens.$gray-700;
+		color: tokens.$gray-900;
+	}
+
+	&:disabled,
+	&.disabled {
+		background: transparent;
+		border-color: tokens.$gray-400;
+		color: tokens.$gray-600;
+		cursor: not-allowed;
 	}
 }

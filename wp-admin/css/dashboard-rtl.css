@@ -808,7 +808,7 @@ body #dashboard-widgets .postbox form .submit {
 	min-height: 90px;
 	max-height: 1300px;
 	margin: 0 0 8px;
-	padding: 6px 7px;
+	padding: 8px 12px;
 	resize: none;
 }
 
@@ -1239,10 +1239,6 @@ a.rsswidget {
 
 #dashboard_php_nag p {
 	margin: 12px 0;
-}
-
-#dashboard_php_nag .button .dashicons-external {
-	line-height: 25px;
 }
 
 .bigger-bolder-text {

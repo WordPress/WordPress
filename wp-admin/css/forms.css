@@ -16,7 +16,7 @@ input {
 
 textarea {
 	overflow: auto;
-	padding: 2px 6px;
+	padding: 8px 12px;
 	/* inherits font size 14px */
 	line-height: 1.42857143; /* 20px */
 	resize: vertical;
@@ -28,7 +28,7 @@ select {
 }
 
 textarea.code {
-	padding: 4px 6px 1px;
+	padding: 8px 12px;
 }
 
 input[type="text"],
@@ -48,10 +48,10 @@ input[type="week"],
 select,
 textarea {
 	box-shadow: 0 0 0 transparent;
-	border-radius: 4px;
-	border: 1px solid #8c8f94;
+	border-radius: 2px;
+	border: 1px solid #949494;
 	background-color: #fff;
-	color: #2c3338;
+	color: #1e1e1e;
 }
 
 input[type="text"],
@@ -67,11 +67,17 @@ input[type="tel"],
 input[type="time"],
 input[type="url"],
 input[type="week"] {
-	padding: 0 8px;
+	padding: 0 12px;
 	/* inherits font size 14px */
-	line-height: 2; /* 28px */
-	/* Only necessary for IE11 */
-	min-height: 30px;
+	line-height: 2.71428571; /* 38px for 40px min-height */
+	min-height: 40px;
+}
+
+select {
+	padding: 0 24px 0 12px;
+	/* inherits font size 14px */
+	line-height: 2.71428571; /* 38px for 40px min-height */
+	min-height: 40px;
 }
 
 ::-webkit-datetime-edit {
@@ -93,12 +99,19 @@ input[type="tel"]:focus,
 input[type="time"]:focus,
 input[type="url"]:focus,
 input[type="week"]:focus,
-input[type="checkbox"]:focus,
-input[type="radio"]:focus,
 select:focus,
 textarea:focus {
-	border-color: #2271b1;
-	box-shadow: 0 0 0 1px #2271b1;
+	border-color: var(--wp-admin-theme-color);
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+/* Checkbox and radio use outset focus style */
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	border-color: #1e1e1e;
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -111,10 +124,10 @@ input[type="url"] {
 
 input[type="checkbox"],
 input[type="radio"] {
-	border: 1px solid #8c8f94;
-	border-radius: 4px;
+	border: 1px solid #1e1e1e;
+	border-radius: 2px;
 	background: #fff;
-	color: #50575e;
+	color: #1e1e1e;
 	clear: none;
 	cursor: pointer;
 	display: inline-block;
@@ -128,12 +141,12 @@ input[type="radio"] {
 	width: 1rem;
 	min-width: 1rem;
 	-webkit-appearance: none;
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: none;
 	transition: .05s border-color ease-in-out;
 }
 
 input[type="radio"]:checked + label:before {
-	color: #8c8f94;
+	color: #949494;
 }
 
 .wp-core-ui input[type="reset"]:hover,
@@ -174,11 +187,21 @@ input[type="radio"]:checked::before {
 
 input[type="checkbox"]:checked::before {
 	/* Use the "Yes" SVG Dashicon */
-	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E");
-	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E") / '';
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E");
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E") / '';
 	margin: -0.1875rem 0 0 -0.25rem;
 	height: 1.3125rem;
 	width: 1.3125rem;
+}
+
+input[type="checkbox"]:checked {
+	background: var(--wp-admin-theme-color);
+	border-color: var(--wp-admin-theme-color);
+}
+
+input[type="radio"]:checked {
+	background: var(--wp-admin-theme-color);
+	border-color: var(--wp-admin-theme-color);
 }
 
 input[type="radio"]:checked::before {
@@ -187,7 +210,7 @@ input[type="radio"]:checked::before {
 	width: 0.5rem; /* 8px */
 	height: 0.5rem; /* 8px */
 	margin: 0.1875rem; /* 3px */
-	background-color: #3582c4;
+	background-color: #fff;
 	/* 16px not sure if still necessary, comes from the MP6 redesign in r26072 */
 	line-height: 1.14285714;
 }
@@ -222,15 +245,15 @@ input.readonly,
 input[readonly],
 textarea.readonly,
 textarea[readonly] {
-	background-color: #f0f0f1;
+	background-color: #f0f0f0;
 }
 
 ::-webkit-input-placeholder {
-	color: #646970;
+	color: #757575;
 }
 
 ::-moz-placeholder {
-	color: #646970;
+	color: #757575;
 }
 
 .form-invalid .form-required,
@@ -276,10 +299,10 @@ select:disabled,
 select.disabled,
 textarea:disabled,
 textarea.disabled {
-	background: rgba(255, 255, 255, 0.5);
-	border-color: rgba(220, 220, 222, 0.75);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
-	color: rgba(44, 51, 56, 0.5);
+	background: #f0f0f0;
+	border-color: #cccccc;
+	box-shadow: none;
+	color: #949494;
 }
 
 input[type="file"]:disabled,
@@ -314,34 +337,35 @@ input[type="radio"].disabled:checked:before {
 /* Select styles are based on the default button in buttons.css */
 .wp-core-ui select {
 	font-size: 14px;
-	line-height: 2; /* 28px */
-	color: #2c3338;
-	border-color: #8c8f94;
+	line-height: 2.71428571; /* 38px for 40px min-height */
+	color: #1e1e1e;
+	border-color: #949494;
 	box-shadow: none;
-	border-radius: 3px;
-	padding: 0 24px 0 8px;
-	min-height: 30px;
+	border-radius: 2px;
+	padding: 0 24px 0 12px;
+	min-height: 40px;
 	max-width: 25rem;
 	-webkit-appearance: none;
 	/* The SVG is arrow-down-alt2 from Dashicons. */
-	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E') no-repeat right 8px top 55%;
 	background-size: 16px 16px;
 	cursor: pointer;
 	vertical-align: middle;
 }
 
 .wp-core-ui select:hover {
-	color: #2271b1;
+	color: #1e1e1e;
+	border-color: #1e1e1e;
 }
 
 .wp-core-ui select:focus {
-	border-color: #2271b1;
-	color: #0a4b78;
-	box-shadow: 0 0 0 1px #2271b1;
+	border-color: var(--wp-admin-theme-color);
+	color: #1e1e1e;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
 }
 
 .wp-core-ui select:active {
-	border-color: #8c8f94;
+	border-color: #949494;
 	box-shadow: none;
 }
 
@@ -376,7 +400,7 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-core-ui select:hover::-ms-value {
-	color: #2271b1;
+	color: #1e1e1e;
 }
 
 .wp-core-ui select:focus::-ms-value {
@@ -471,7 +495,7 @@ textarea.large-text {
 
 input.small-text {
 	width: 50px;
-	padding: 0 6px;
+	padding: 0 8px;
 }
 
 label input.small-text {
@@ -480,7 +504,7 @@ label input.small-text {
 
 input[type="number"].small-text {
 	width: 65px;
-	padding-right: 0;
+	padding-right: 4px;
 }
 
 input.tiny-text {
@@ -496,6 +520,9 @@ input[type="number"].tiny-text {
 #doaction2,
 #post-query-submit {
 	margin: 0 8px 0 0;
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
+	padding: 0 12px;
 }
 
 /* @since 5.7.0 secondary bulk action controls require JS. */
@@ -512,20 +539,28 @@ input[type="number"].tiny-text {
 	float: left;
 	margin-right: 6px;
 	max-width: 12.5rem;
+	min-height: 32px;
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
+	padding: 0 24px 0 8px;
+}
+
+.tablenav .actions .button {
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
+	padding: 0 12px;
 }
 
 #timezone_string option {
 	margin-left: 1em;
 }
 
-.wp-hide-pw > .dashicons,
-.wp-cancel-pw > .dashicons {
-	position: relative;
-	top: 3px;
+.wp-core-ui .button.wp-hide-pw > .dashicons,
+.wp-core-ui .button.wp-cancel-pw > .dashicons {
 	width: 1.25rem;
 	height: 1.25rem;
-	top: 0.25rem;
 	font-size: 20px;
+	line-height: 1;
+	vertical-align: middle;
 }
 
 .wp-cancel-pw .dashicons-no {
@@ -558,11 +593,6 @@ fieldset label,
 
 .wp-pwd button {
 	height: min-content;
-}
-
-.wp-pwd button.pwd-toggle .dashicons {
-	position: relative;
-	top: 0.25rem;
 }
 
 .wp-pwd {
@@ -603,9 +633,9 @@ fieldset label,
 
 .mailserver-pass-wrap .button.wp-hide-pw:focus {
 	background: transparent;
-	border-color: #3582c4;
-	border-radius: 4px;
-	box-shadow: 0 0 0 1px #3582c4;
+	border-color: var(--wp-admin-theme-color);
+	border-radius: 2px;
+	box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -621,9 +651,10 @@ fieldset label,
 }
 
 #pass-strength-result {
-	background-color: #f0f0f1;
-	border: 1px solid #dcdcde;
-	color: #1d2327;
+	background-color: #f0f0f0;
+	border: 1px solid #cccccc;
+	border-radius: 2px;
+	color: #1e1e1e;
 	margin: -1px 1px 5px;
 	padding: 3px 5px;
 	text-align: center;
@@ -682,7 +713,7 @@ fieldset label,
 
 #pass1:focus,
 #pass1-text:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -699,7 +730,7 @@ fieldset label,
 .wp-pwd [type="password"] {
 	margin-bottom: 0;
 	/* Same height as the buttons */
-	min-height: 30px;
+	min-height: 40px;
 }
 
 /* Hide the Edge "reveal password" native button */
@@ -734,7 +765,7 @@ fieldset label,
 .profile-php .wp-pwd .caps-warning {
 	padding: 3px 5px;
 	top: -4px;
-	border-radius: 4px;
+	border-radius: 2px;
 }
 
 .wp-pwd .caps-icon {
@@ -761,14 +792,30 @@ p.search-box {
 	margin: 11px 0;
 }
 
+p.search-box input[type="search"],
+p.search-box input[type="text"] {
+	min-height: 32px;
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
+	padding: 0 8px;
+}
+
+p.search-box .button {
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
+	padding: 0 12px;
+}
+
 .network-admin.themes-php p.search-box {
 	clear: left;
 }
 
-.tablenav .search-plugins input[name="s"],
-.tagsdiv .newtag {
+.tablenav .search-plugins input[name="s"] {
 	float: left;
 	margin: 0 4px 0 0;
+}
+
+.tagsdiv .newtag {
+	margin: 0;
 }
 
 .js.plugins-php .search-box .wp-filter-search {
@@ -819,7 +866,7 @@ ul#add-to-blog-users {
 /* Colors for the tags autocomplete. */
 .wp-tags-autocomplete .ui-state-focus,
 .wp-tags-autocomplete [aria-selected="true"] {
-	background-color: #2271b1;
+	background-color: var(--wp-admin-theme-color);
 	color: #fff;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -1175,6 +1222,8 @@ table.form-table td .updated p {
 .options-general-php input.small-text {
 	width: 56px;
 	margin: -2px 0;
+	min-height: 24px;
+	line-height: 1.71428571; /* 24px for 14px font size */
 }
 
 .options-general-php .spinner {
@@ -1366,7 +1415,7 @@ table.form-table td .updated p {
 }
 
 .request-filesystem-credentials-dialog .ftp-password em {
-	color: #8c8f94;
+	color: #757575;
 }
 
 .request-filesystem-credentials-dialog label {
@@ -1531,9 +1580,9 @@ table.form-table td .updated p {
 	input[type="url"],
 	input[type="week"] {
 		-webkit-appearance: none;
-		padding: 3px 10px;
-		/* Only necessary for IE11 */
+		padding: 0 12px;
 		min-height: 40px;
+		line-height: 2.5; /* 40px for 16px font */
 	}
 
 	::-webkit-datetime-edit {
@@ -1585,8 +1634,8 @@ table.form-table td .updated p {
 	.wp-admin .form-table select {
 		min-height: 40px;
 		font-size: 16px;
-		line-height: 1.625; /* 26px */
-		padding: 5px 24px 5px 8px;
+		line-height: 2.5; /* 40px for 16px font */
+		padding: 0 24px 0 12px;
 	}
 
 	.wp-admin .button-cancel {

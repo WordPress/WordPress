@@ -669,6 +669,9 @@ th.sorted a span {
 	margin: 0 0 0 2px;
 	font-size: 13px;
 	text-align: center;
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
+	padding: 0 8px;
 }
 
 .tablenav .total-pages {
@@ -681,9 +684,8 @@ th.sorted a span {
 
 .tablenav {
 	clear: both;
-	height: 30px;
+	height: 32px;
 	margin: 6px 0 4px;
-	padding-top: 5px;
 	vertical-align: middle;
 }
 
@@ -705,12 +707,12 @@ th.sorted a span {
 .tablenav .tablenav-pages .tablenav-pages-navspan {
 	display: inline-block;
 	vertical-align: baseline;
-	min-width: 30px;
-	min-height: 30px;
+	min-width: 32px;
+	min-height: 32px;
 	margin: 0;
 	padding: 0 4px;
 	font-size: 16px;
-	line-height: 1.625; /* 26px */
+	line-height: 1.875; /* 30px for 32px height */
 	text-align: center;
 }
 
@@ -1422,11 +1424,11 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	content: "\f463";
 	content: "\f463" / '';
 	display: inline-block;
-	font: normal 20px/1 dashicons;
-	margin: -3px -2px 0 5px;
+	font: normal 20px/1.9 dashicons; /* line-height 1.9 = 38px to match button */
+	margin: 0 -2px 0 5px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .plugin-card .updating-message:before {

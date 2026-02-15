@@ -70,7 +70,7 @@ body {
 
 #customize-save-button-wrapper {
 	float: right;
-	margin-top: 9px;
+	margin-top: 3px; /* Vertically center 40px button in 45px header */
 }
 
 body:not(.ready) #customize-save-button-wrapper .save {
@@ -185,7 +185,7 @@ body.trashing #publish-settings {
 }
 
 #customize-header-actions .spinner {
-	margin-top: 13px;
+	margin-top: 13px; /* Vertically center 20px spinner in 45px header */
 	margin-right: 4px;
 }
 
@@ -272,7 +272,8 @@ body.trashing #publish-settings {
 .preview-link-wrapper .customize-copy-preview-link.preview-control-element.button {
 	margin: 0;
 	position: absolute;
-	bottom: 9px;
+	top: 50%;
+	transform: translateY(-50%);
 	right: 0;
 }
 
@@ -283,10 +284,10 @@ body.trashing #publish-settings {
 .customize-copy-preview-link:before,
 .customize-copy-preview-link:after {
 	content: "";
-	height: 28px;
+	height: 32px;
 	position: absolute;
 	background: #fff;
-	top: -1px;
+	top: 0;
 }
 
 .customize-copy-preview-link:before {
@@ -1136,6 +1137,12 @@ p.customize-section-description {
 	position: static;
 }
 
+#available-menu-items .new-content-item-wrapper > label,
+.customize-control-dropdown-pages .new-content-item-wrapper > label {
+	margin-bottom: 4px;
+	display: block;
+}
+
 #available-menu-items .accordion-section-content .new-content-item,
 .customize-control-dropdown-pages .new-content-item {
 	display: flex;
@@ -1158,12 +1165,23 @@ p.customize-section-description {
 #available-menu-items .new-content-item .create-item-input,
 .customize-control-dropdown-pages .new-content-item .create-item-input {
 	flex-grow: 10;
+	width: 100%;
+}
+
+#available-menu-items .new-content-item .create-item-input {
+	min-height: 32px;
+	line-height: 2.15384615; /* 28px for 32px min-height with 13px font */
 }
 
 #available-menu-items .new-content-item .add-content,
 .customize-control-dropdown-pages .new-content-item .add-content {
-	margin: 2px 0 2px 6px;
+	margin: 0 0 0 6px;
 	flex-grow: 1;
+}
+
+#available-menu-items .new-content-item .add-content {
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px min-height with 13px font */
 }
 
 .customize-control-dropdown-pages .new-content-item .create-item-input.invalid {
@@ -1448,17 +1466,16 @@ p.customize-section-description {
 
 .customize-control .attachment-media-view .upload-button {
 	width: 100%;
-	padding: 9px 0;
+	text-align: center;
 }
 
 .customize-control .attachment-media-view .upload-button.control-focus {
 	width: auto;
-	padding: 0 10px;
 }
 
 .customize-control.customize-control-header .actions .upload-button.button.new {
 	width: 100%;
-	padding: 9px 0;
+	text-align: center;
 }
 
 .customize-control .attachment-media-view .thumbnail,
@@ -1596,7 +1613,7 @@ p.customize-section-description {
 }
 
 .customize-control-header button.random .dice {
-	margin-top: 4px;
+	margin-top: 0;
 }
 
 .customize-control-header .placeholder:hover .dice,
@@ -1796,7 +1813,7 @@ p.customize-section-description {
 	position: absolute;
 	right: 10px;
 	top: 50%;
-	margin-top: -14px;
+	margin-top: -20px; /* Half of 40px button height for vertical centering */
 	font-weight: 400;
 }
 
@@ -2199,12 +2216,13 @@ p.customize-section-description {
 }
 
 .themes-filter-bar .wp-filter-search {
-	line-height: 1.8;
-	padding: 6px 10px 6px 30px;
+	line-height: 2.14285714; /* 30px for 32px compact input */
+	padding: 0 10px 0 30px;
 	max-width: 100%;
 	width: 40%;
 	min-width: 300px;
 	height: 32px;
+	min-height: 32px; /* Override global 40px min-height for compact bar */
 	margin: 1px 0;
 	top: 0;
 	left: 0;
@@ -2676,6 +2694,11 @@ body.adding-widget .add-new-widget:before,
 	border-right: 1px solid #dcdcde;
 }
 
+#available-widgets .accordion-section-title,
+#available-menu-items .accordion-section-title {
+	z-index: 2;
+}
+
 #available-widgets .customize-section-title,
 #available-menu-items .customize-section-title {
 	border: 0;
@@ -2727,7 +2750,7 @@ body.adding-widget .add-new-widget:before,
 #available-widgets-filter input,
 #available-menu-items-search input {
 	width: 100%;
-	min-height: 32px;
+	min-height: 40px;
 	margin: 1px 0;
 	padding: 0 30px;
 }
@@ -2741,7 +2764,7 @@ body.adding-widget .add-new-widget:before,
 #available-widgets-filter .search-icon {
 	display: block;
 	position: absolute;
-	bottom: 15px; /* 13 container padding +1 input margin +1 input border */
+	bottom: 19px; /* 13 container padding +1 input margin +1 input border +4 centering in 40px input */
 	left: 16px;
 	width: 30px;
 	height: 30px;
@@ -2753,7 +2776,7 @@ body.adding-widget .add-new-widget:before,
 #available-widgets-filter .clear-results,
 #available-menu-items-search .accordion-section-title .clear-results {
 	position: absolute;
-	top: 36px; /* 13 container padding +1 input margin +1 input border */
+	top: 40px; /* 13 container padding +1 input margin +1 input border +4 centering in 40px input */
 	right: 16px;
 	width: 30px;
 	height: 30px;
@@ -2922,10 +2945,6 @@ body.adding-widget .add-new-widget:before,
 		bottom: 16px;
 	}
 
-	.preview-link-wrapper .customize-copy-preview-link.preview-control-element.button {
-		bottom: 10px;
-	}
-
 	.media-widget-control .media-widget-buttons .button.edit-media,
 	.media-widget-control .media-widget-buttons .button.change-media,
 	.media-widget-control .media-widget-buttons .button.select-media {
@@ -3021,7 +3040,7 @@ body.adding-widget .add-new-widget:before,
 	}
 
 	.customize-control .attachment-media-view .upload-button {
-		padding: 5px 0;
+		text-align: center;
 	}
 
 	#customize-control-changeset_status .customize-inside-control-row {
@@ -3091,7 +3110,7 @@ body.adding-widget .add-new-widget:before,
 	}
 
 	#available-menu-items-search .clear-results {
-		top: 36px;
+		top: 40px;
 		right: 16px;
 	}
 

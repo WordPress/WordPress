@@ -634,14 +634,14 @@ code {
 	top: -3px;
 	margin-left: 4px;
 	border: 1px solid #2271b1;
-	border-radius: 3px;
-	background: #f6f7f7;
+	border-radius: 2px;
+	background: transparent;
 	font-size: 13px;
-	font-weight: 400;
-	line-height: 2.15384615;
+	font-weight: 500;
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height */
 	color: #2271b1; /* use the standard color used for buttons */
-	padding: 0 10px;
-	min-height: 30px;
+	padding: 0 12px;
 	-webkit-appearance: none;
 
 }
@@ -652,7 +652,6 @@ code {
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover {
-	background: #f0f0f1;
 	border-color: #0a4b78;
 	color: #0a4b78;
 }
@@ -933,10 +932,12 @@ a#remove-post-thumbnail:hover,
 	clear: both;
 	border-top: 1px solid #dcdcde;
 	background: #f6f7f7;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 #delete-action {
-	float: left;
 	line-height: 2.30769231; /* 30px */
 }
 
@@ -953,7 +954,7 @@ a#remove-post-thumbnail:hover,
 
 #publishing-action {
 	text-align: right;
-	float: right;
+	margin-left: auto;
 	line-height: 1.9;
 }
 
@@ -1111,8 +1112,28 @@ th.action-links {
 	margin: 0;
 }
 
-/* Use flexbox only on the plugins install page. The `filter-links` and search form children will become flex items. */
-.plugin-install-php .wp-filter {
+.wp-filter .search-form input[type="search"] {
+	min-height: 32px;
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
+	padding: 0 8px;
+}
+
+.wp-filter .search-form select,
+.wp-filter .filter-items select {
+	min-height: 32px;
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
+	padding: 0 24px 0 8px;
+}
+
+.wp-filter .button {
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
+	padding: 0 12px;
+}
+
+/* Use flexbox only on the plugins install page and upload page. The `filter-links` and search form children will become flex items. */
+.plugin-install-php .wp-filter,
+.upload-php .wp-filter {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -1718,7 +1739,9 @@ p.auto-update-status {
 .button.installing:before,
 .button.activated-message:before,
 .button.activating-message:before {
-	margin: 3px 5px 0 -2px;
+	margin: 0 5px 0 -2px;
+	line-height: 1.9; /* 38px (20px * 1.9) - matches button */
+	vertical-align: top;
 }
 
 #plugin-information-footer .button {
@@ -1736,11 +1759,13 @@ p.auto-update-status {
 #plugin-information-footer .button.updated-message:before,
 #plugin-information-footer .button.activated-message:before,
 #plugin-information-footer .button.activating-message:before {
-	margin: 9px 5px 0 -2px;
+	margin: 0 5px 0 -2px;
+	line-height: 1.9; /* 38px (20px * 1.9) - matches button */
+	vertical-align: top;
 }
 
 #plugin-information-footer .button.update-now.updating-message:before {
-	margin: -3px 5px 0 -2px;
+	margin: 0 5px 0 -2px;
 }
 
 .button-primary.updating-message:before,
@@ -1818,12 +1843,13 @@ p.auto-update-status {
 	border: 1px solid #c3c4c7;
 	border-top: none;
 	height: auto;
+	min-height: 32px; /* Compact size for header buttons */
 	margin-bottom: 0;
-	padding: 3px 6px 3px 16px;
+	padding: 0 6px 0 16px;
 	background: #fff;
 	border-radius: 0 0 4px 4px;
 	color: #646970;
-	line-height: 1.7;
+	line-height: 2.30769231; /* 30px - matches compact button */
 	box-shadow: 0 0 0 transparent;
 	transition: box-shadow 0.1s linear;
 }
@@ -1849,12 +1875,10 @@ p.auto-update-status {
 	right: 0;
 	content: "\f140";
 	content: "\f140" / '';
-	font: normal 20px/1 dashicons;
+	font: normal 20px/1.5 dashicons; /* line-height 1.5 = 30px to match compact button */
 	display: inline-block;
 	padding: 0 5px 0 0;
-	bottom: 2px;
-	position: relative;
-	vertical-align: bottom;
+	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;

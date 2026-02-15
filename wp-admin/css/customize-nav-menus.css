@@ -688,7 +688,7 @@
 
 #available-menu-items-search .spinner {
 	position: absolute;
-	bottom: 20px; /* 13 container padding +1 input margin +6 ( ( 32 input height - 20 spinner height ) / 2 ) */
+	bottom: 24px; /* 13 container padding +1 input margin +10 ( ( 40 input height - 20 spinner height ) / 2 ) */
 	right: 21px;
 	margin: 0 !important;
 }
@@ -697,7 +697,7 @@
 #available-menu-items #available-menu-items-search .accordion-section-content {
 	position: absolute;
 	left: 0;
-	top: 75px; /* below title div / search input */
+	top: 83px; /* below title div / search input (75 + 8 for 40px input) */
 	bottom: 0; /* 100% height that still triggers lazy load */
 	max-height: none;
 	width: 100%;
@@ -860,6 +860,10 @@ li.assigned-to-menu-location .add-new-menu-item {
 }
 
 .customize-control-nav_menu .customize-control-nav_menu-buttons {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	gap: 8px;
 	margin-top: 12px;
 }
 
@@ -882,12 +886,12 @@ li.assigned-to-menu-location .add-new-menu-item {
 
 @media screen and (max-width: 782px) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
-		top: 63px;
+		top: 71px; /* 63 + 8 for 40px input */
 	}
 }
 
 @media screen and (max-width: 640px) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
-		top: 146px;
+		top: 154px; /* 146 + 8 for 40px input */
 	}
 }
