@@ -2157,8 +2157,8 @@ function comment_form_title( $no_reply_text = false, $reply_text = false, $link_
  *
  * @access private
  *
- * @param int|WP_Post $post The post the comment is being displayed for.
- *                          Defaults to the current global post.
+ * @param int|WP_Post|null $post The post the comment is being displayed for.
+ *                               Defaults to the current global post.
  * @return int Comment's reply to ID.
  */
 function _get_comment_reply_id( $post = null ) {

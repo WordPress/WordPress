@@ -1487,7 +1487,7 @@ function the_terms( $post_id, $taxonomy, $before = '', $sep = ', ', $after = '' 
  *
  * @param string|int|array $category Optional. The category name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
- * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
+ * @param int|WP_Post|null $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given categories
  *              (or any category, if no category specified). False otherwise.
  */
@@ -1514,7 +1514,7 @@ function has_category( $category = '', $post = null ) {
  *
  * @param string|int|array $tag  Optional. The tag name/term_id/slug,
  *                               or an array of them to check for. Default empty.
- * @param int|WP_Post      $post Optional. Post to check. Defaults to the current post.
+ * @param int|WP_Post|null $post Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given tags
  *              (or any tag, if no tag specified). False otherwise.
  */
@@ -1535,7 +1535,7 @@ function has_tag( $tag = '', $post = null ) {
  * @param string|int|array $term     Optional. The term name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
  * @param string           $taxonomy Optional. Taxonomy name. Default empty.
- * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
+ * @param int|WP_Post|null $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given terms
  *              (or any term, if no term specified). False otherwise.
  */
