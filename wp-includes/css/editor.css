@@ -87,7 +87,7 @@
 
 .mce-window-head .mce-close:focus .mce-i-remove,
 div.mce-tab:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -113,8 +113,8 @@ div.mce-tab:focus {
 .mce-textbox.mce-focus,
 .mce-checkbox:focus i.mce-i-checkbox,
 #wp-link .query-results:focus {
-	border-color: #4f94d4;
-	box-shadow: 0 0 0 2px #2271b1;
+	border-color: var(--wp-admin-theme-color-darker-10, #2145e6);
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -413,7 +413,7 @@ div.mce-path {
 .qt-dfw:focus {
 	background: #f6f7f7;
 	color: #1d2327;
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -538,7 +538,7 @@ div.mce-path {
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover,
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -638,7 +638,7 @@ div.mce-menubar {
 
 .mce-menubar .mce-menubtn:focus {
 	color: #043959;
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -1166,7 +1166,7 @@ i.mce-i-wp_code:before {
 }
 
 .wp-switch-editor:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	color: #1d2327;
@@ -1469,11 +1469,11 @@ i.mce-i-wp_code:before {
 
 #wp-link-close:hover,
 #wp-link-close:focus {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 }
 
 #wp-link-close:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;

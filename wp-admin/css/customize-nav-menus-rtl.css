@@ -879,7 +879,7 @@ li.assigned-to-menu-location .add-new-menu-item {
 .menu-delete:focus,
 .menu-item-bar .item-delete:focus:before,
 #available-menu-items .item-add:focus:before {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }

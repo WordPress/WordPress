@@ -280,7 +280,8 @@ a:focus .media-icon img,
 a:focus .plugin-icon,
 .wp-person a:focus .gravatar {
 	color: #043959;
-	box-shadow: 0 0 0 2px #2271b1;
+	border-radius: 2px;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -826,7 +827,7 @@ img.emoji {
 .tagchecklist .ntdelbutton .remove-tag-icon:before {
 	margin-left: 2px;
 	border-radius: 50%;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	/* vertically center the icon cross browsers */
 	line-height: 1.28;
 }
@@ -843,7 +844,7 @@ img.emoji {
 }
 
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -2511,7 +2512,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 
 .accordion-section-title button.accordion-trigger:focus,
 .nav-menus-php .metabox-holder .accordion-section-title button.accordion-trigger:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	outline: 2px solid transparent;
 }
 
@@ -3333,7 +3334,7 @@ img {
 .postbox .handle-order-higher:focus,
 .postbox .handle-order-lower:focus,
 .postbox .handlediv:focus {
-	box-shadow: inset 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
 	border-radius: 50%;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -3680,7 +3681,7 @@ img {
 }
 
 .widget-top .widget-action:focus .toggle-indicator:before {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }

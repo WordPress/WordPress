@@ -1654,7 +1654,7 @@ p.customize-section-description {
 }
 
 .customize-control-header .choice:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -2819,7 +2819,8 @@ body.adding-widget .add-new-widget:before,
 
 #available-widgets-filter .clear-results:focus,
 #available-menu-items-search .clear-results:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	border-radius: 2px;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }

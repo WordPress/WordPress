@@ -538,7 +538,7 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 }
 
 .wp-list-table .toggle-row:focus:before {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -653,7 +653,8 @@ th.sorted a {
 
 th.sortable a:focus,
 th.sorted a:focus {
-	box-shadow: inset 0 0 0 2px #2271b1;
+	border-radius: 2px;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }

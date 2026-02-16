@@ -342,11 +342,11 @@
 
 #find-posts-close:hover,
 #find-posts-close:focus {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 }
 
 #find-posts-close:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
@@ -525,7 +525,7 @@ border color while dragging a file over the uploader drop area */
 .media-frame.mode-grid .attachment:focus,
 .media-frame.mode-grid .selected.attachment:focus,
 .media-frame.mode-grid .attachment.details:focus {
-	box-shadow: inset 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -6px;
@@ -540,7 +540,7 @@ border color while dragging a file over the uploader drop area */
 .media-frame.mode-grid .attachment.details {
 	box-shadow:
 		inset 0 0 0 3px #f0f0f1,
-		inset 0 0 0 7px #4f94d4;
+		inset 0 0 0 7px var(--wp-admin-theme-color, #3858e9);
 }
 
 .media-frame.mode-grid.mode-select .attachment .thumbnail {
