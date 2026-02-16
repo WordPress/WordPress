@@ -104,6 +104,7 @@ function wpmu_activate_stylesheet() {
 		.wp-activate-container { width: 90%; margin: 0 auto; }
 		.wp-activate-container form { margin-top: 2em; }
 		#submit, #key { width: 100%; font-size: 24px; box-sizing: border-box; }
+		#key { direction: ltr; }
 		#language { margin-top: 0.5em; }
 		.wp-activate-container .error { background: #f66; color: #333; }
 		span.h3 { padding: 0 8px; font-size: 1.3em; font-weight: 600; }

@@ -118,6 +118,8 @@ input[type="radio"]:focus {
 }
 
 /* rtl:ignore */
+.ltr,
+input[type="password"],
 input[type="email"],
 input[type="url"] {
 	direction: ltr;

@@ -593,6 +593,8 @@ function wp_login_form( $args = array() ) {
 	 */
 	$login_form_bottom = apply_filters( 'login_form_bottom', '', $args );
 
+	$direction_style = is_rtl() ? ' style="direction: ltr;"' : '';
+
 	$form =
 		sprintf(
 			'<form name="%1$s" id="%1$s" action="%2$s" method="post">',
@@ -603,21 +605,23 @@ function wp_login_form( $args = array() ) {
 		sprintf(
 			'<p class="login-username">
 				<label for="%1$s">%2$s</label>
-				<input type="text" name="log" id="%1$s" autocomplete="username" class="input" value="%3$s" size="20"%4$s />
+				<input type="text" name="log" id="%1$s" autocomplete="username" class="input" value="%3$s" size="20"%4$s%5$s />
 			</p>',
 			esc_attr( $args['id_username'] ),
 			esc_html( $args['label_username'] ),
 			esc_attr( $args['value_username'] ),
-			( $args['required_username'] ? ' required="required"' : '' )
+			( $args['required_username'] ? ' required="required"' : '' ),
+			$direction_style
 		) .
 		sprintf(
 			'<p class="login-password">
 				<label for="%1$s">%2$s</label>
-				<input type="password" name="pwd" id="%1$s" autocomplete="current-password" spellcheck="false" class="input" value="" size="20"%3$s />
+				<input type="password" name="pwd" id="%1$s" autocomplete="current-password" spellcheck="false" class="input" value="" size="20"%3$s%4$s />
 			</p>',
 			esc_attr( $args['id_password'] ),
 			esc_html( $args['label_password'] ),
-			( $args['required_password'] ? ' required="required"' : '' )
+			( $args['required_password'] ? ' required="required"' : '' ),
+			$direction_style
 		) .
 		$login_form_middle .
 		( $args['remember'] ?

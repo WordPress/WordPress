@@ -90,6 +90,7 @@ p {
 	margin-bottom: 15px;
 }
 
+/* rtl:ignore */
 .login .button.wp-hide-pw {
 	background: transparent;
 	border: 1px solid transparent;
@@ -103,7 +104,7 @@ p {
 	margin: 0;
 	padding: 5px 9px;
 	position: absolute;
-	left: 0;
+	right: 0;
 	top: 0;
 }
 
@@ -355,8 +356,9 @@ p {
 	font-family: Consolas, Monaco, monospace;
 }
 
+/* rtl:ignore */
 .js.login input.password-input {
-	padding-left: 2.5rem;
+	padding-right: 2.5rem;
 }
 
 .login form .input,

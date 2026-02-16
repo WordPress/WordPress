@@ -175,7 +175,7 @@ if ( ! empty( $messages ) ) {
 			?>
 		<tr class="form-field">
 			<th scope="row"><?php _e( 'Site Address (URL)' ); ?></th>
-			<td><?php echo esc_url( $parsed_scheme . '://' . $details->domain . $details->path ); ?></td>
+			<td><code><?php echo esc_url( $parsed_scheme . '://' . $details->domain . $details->path ); ?></code></td>
 		</tr>
 			<?php
 			// For any other site, the scheme, domain, and path can all be changed.
@@ -183,7 +183,7 @@ if ( ! empty( $messages ) ) {
 			?>
 		<tr class="form-field form-required">
 			<th scope="row"><label for="url"><?php _e( 'Site Address (URL)' ); ?></label></th>
-			<td><input name="blog[url]" type="text" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
+			<td><input name="blog[url]" type="url" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
 		</tr>
 		<?php endif; ?>
 

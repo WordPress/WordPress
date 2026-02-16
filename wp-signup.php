@@ -74,6 +74,8 @@ function wpmu_signup_stylesheet() {
 			.mu_register #user_email,
 			.mu_register #blogname,
 			.mu_register #user_name { width: 100%; font-size: 24px; margin: 5px 0; box-sizing: border-box; }
+		.mu_register input[type="email"],
+			.mu_register #user_name { direction: ltr; }
 		.mu_register #site-language { display: block; }
 		.mu_register .prefix_address,
 			.mu_register .suffix_address { font-size: 18px; display: inline-block; direction: ltr; }

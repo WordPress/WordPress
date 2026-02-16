@@ -493,7 +493,7 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 
 		<div class="inside">
 		<label for="author-email"><?php _e( 'Email' ); ?></label>
-		<input type="text" name="newcomment_author_email" size="50" value="" id="author-email" />
+		<input type="text" name="newcomment_author_email" size="50" class="code" value="" id="author-email" />
 		</div>
 
 		<div class="inside">

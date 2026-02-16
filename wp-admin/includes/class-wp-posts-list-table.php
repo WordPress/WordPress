@@ -1781,7 +1781,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					<div class="inline-edit-group wp-clearfix">
 						<label class="alignleft">
 							<span class="title"><?php _e( 'Password' ); ?></span>
-							<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
+							<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input ltr" value="" /></span>
 						</label>
 
 						<span class="alignleft inline-edit-or">
