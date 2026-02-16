@@ -1290,7 +1290,7 @@ CSS;
 		echo <<<HTML
 			<div
 				class="wp-interactivity-router-loading-bar"
-				data-wp-interactive="core/router"
+				data-wp-interactive="core/router/private"
 				data-wp-class--start-animation="state.navigation.hasStarted"
 				data-wp-class--finish-animation="state.navigation.hasFinished"
 			></div>
