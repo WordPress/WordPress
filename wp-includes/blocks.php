@@ -2660,6 +2660,7 @@ function wp_migrate_old_typography_shape( $metadata ) {
  * @since 5.8.0
  * @since 6.1.0 Added `query_loop_block_query_vars` filter and `parents` support in query.
  * @since 6.7.0 Added support for the `format` property in query.
+ * @since 7.0.0 Updated `taxQuery` structure.
  *
  * @param WP_Block $block Block instance.
  * @param int      $page  Current query's page.
@@ -2741,18 +2742,60 @@ function build_query_vars_from_query_block( $block, $page ) {
 			}
 			$query['tax_query'] = array_merge( $query['tax_query'], $tax_query_back_compat );
 		}
-		if ( ! empty( $block->context['query']['taxQuery'] ) ) {
-			$tax_query = array();
-			foreach ( $block->context['query']['taxQuery'] as $taxonomy => $terms ) {
-				if ( is_taxonomy_viewable( $taxonomy ) && ! empty( $terms ) ) {
-					$tax_query[] = array(
-						'taxonomy'         => $taxonomy,
-						'terms'            => array_filter( array_map( 'intval', $terms ) ),
-						'include_children' => false,
-					);
+
+		if ( ! empty( $block->context['query']['taxQuery'] ) && is_array( $block->context['query']['taxQuery'] ) ) {
+			$tax_query_input = $block->context['query']['taxQuery'];
+			$tax_query       = array();
+			// If there are keys other than include/exclude, it's the old
+			// format e.g. "taxQuery":{"category":[4]}
+			if ( ! empty( array_diff( array_keys( $tax_query_input ), array( 'include', 'exclude' ) ) ) ) {
+				foreach ( $block->context['query']['taxQuery'] as $taxonomy => $terms ) {
+					if ( is_taxonomy_viewable( $taxonomy ) && ! empty( $terms ) ) {
+						$tax_query[] = array(
+							'taxonomy'         => $taxonomy,
+							'terms'            => array_filter( array_map( 'intval', $terms ) ),
+							'include_children' => false,
+						);
+					}
 				}
+			} else {
+				// This is the new format e.g. "taxQuery":{"include":{"category":[4]},"exclude":{"post_tag":[5]}}
+
+				// Helper function to build tax_query conditions from taxonomy terms.
+				$build_conditions = static function ( $terms, string $operator = 'IN' ): array {
+					$terms      = (array) $terms;
+					$conditions = array();
+					foreach ( $terms as $taxonomy => $tax_terms ) {
+						if ( ! empty( $tax_terms ) && is_taxonomy_viewable( $taxonomy ) ) {
+							$conditions[] = array(
+								'taxonomy'         => $taxonomy,
+								'terms'            => array_filter( array_map( 'intval', $tax_terms ) ),
+								'operator'         => $operator,
+								'include_children' => false,
+							);
+						}
+					}
+					return $conditions;
+				};
+
+				// Separate exclude from include terms.
+				$exclude_terms = isset( $tax_query_input['exclude'] ) && is_array( $tax_query_input['exclude'] )
+					? $tax_query_input['exclude']
+					: array();
+				$include_terms = isset( $tax_query_input['include'] ) && is_array( $tax_query_input['include'] )
+					? $tax_query_input['include']
+					: array();
+
+				$tax_query = array_merge(
+					$build_conditions( $include_terms ),
+					$build_conditions( $exclude_terms, 'NOT IN' )
+				);
 			}
-			$query['tax_query'] = array_merge( $query['tax_query'], $tax_query );
+
+			if ( ! empty( $tax_query ) ) {
+				// Merge with any existing `tax_query` conditions.
+				$query['tax_query'] = array_merge( $query['tax_query'], $tax_query );
+			}
 		}
 		if ( ! empty( $block->context['query']['format'] ) && is_array( $block->context['query']['format'] ) ) {
 			$formats = $block->context['query']['format'];
