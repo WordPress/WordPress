@@ -335,7 +335,7 @@ function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
 
 	// Include file if function doesn't exist.
 	if ( ! function_exists( 'twenty_twenty_one_generate_css' ) ) {
-		require_once get_theme_file_path( 'inc/custom-css.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+		require_once get_theme_file_path( 'inc/custom-css.php' );
 	}
 
 	// Return the specified styles.
@@ -405,7 +405,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 
 	if ( $blocks_content ) {
 		/** This filter is documented in wp-includes/post-template.php */
-		echo apply_filters( 'the_content', $blocks_content ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters( 'the_content', $blocks_content );
 		return true;
 	}
 

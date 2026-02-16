@@ -36,7 +36,7 @@ function twenty_twenty_one_generate_css( $selector, $style, $value, $prefix = ''
 		 * Using wp_strip_all_tags() here is sufficient escaping to avoid
 		 * malicious attempts to close </style> and open a <script>.
 		 */
-		echo wp_strip_all_tags( $css ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo wp_strip_all_tags( $css );
 	}
 	return $css;
 }

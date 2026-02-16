@@ -36,7 +36,7 @@ $header_class = $show_title ? 'site-title' : 'screen-reader-text';
 
 	<?php if ( $description && true === get_theme_mod( 'display_title_and_tagline', true ) ) : ?>
 		<p class="site-description">
-			<?php echo $description; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<?php echo $description; ?>
 		</p>
 	<?php endif; ?>
 </div><!-- .site-branding -->
