@@ -394,6 +394,7 @@ require ABSPATH . WPINC . '/block-patterns.php';
 require ABSPATH . WPINC . '/class-wp-block-supports.php';
 require ABSPATH . WPINC . '/block-supports/utils.php';
 require ABSPATH . WPINC . '/block-supports/align.php';
+require ABSPATH . WPINC . '/block-supports/auto-register.php';
 require ABSPATH . WPINC . '/block-supports/custom-classname.php';
 require ABSPATH . WPINC . '/block-supports/generated-classname.php';
 require ABSPATH . WPINC . '/block-supports/settings.php';
