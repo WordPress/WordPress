@@ -42,10 +42,10 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global int    $cat_id
-	 * @global string $s
-	 * @global string $orderby
-	 * @global string $order
+	 * @global int    $cat_id  Link category ID.
+	 * @global string $s       Search string.
+	 * @global string $orderby The field to order the links by.
+	 * @global string $order   The direction to order the links.
 	 */
 	public function prepare_items() {
 		global $cat_id, $s, $orderby, $order;
@@ -77,12 +77,15 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays the message for no items.
 	 */
 	public function no_items() {
 		_e( 'No links found.' );
 	}
 
 	/**
+	 * Gets the list of bulk actions.
+	 *
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
@@ -93,8 +96,8 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global int $cat_id
-	 * @param string $which
+	 * @global int $cat_id Link category ID.
+	 * @param string $which The location: 'top' or 'bottom'.
 	 */
 	protected function extra_tablenav( $which ) {
 		global $cat_id;
@@ -142,6 +145,8 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Gets the list of sortable columns.
+	 *
 	 * @return array
 	 */
 	protected function get_sortable_columns() {
@@ -224,7 +229,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @global int $cat_id
+	 * @global int $cat_id Link category ID.
 	 *
 	 * @param object $link The current link object.
 	 */

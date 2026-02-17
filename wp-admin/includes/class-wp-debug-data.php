@@ -1132,7 +1132,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @global array $_wp_theme_features
+	 * @global array<string, bool|array> $_wp_theme_features The theme features for the active theme.
 	 *
 	 * @return array<string, string|array> The active theme debug data.
 	 */
