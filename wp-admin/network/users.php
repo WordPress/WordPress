@@ -86,16 +86,27 @@ if ( isset( $_GET['action'] ) ) {
 											/* translators: %s: User login. */
 											__( 'Warning! User cannot be modified. The user %s is a network administrator.' ),
 											esc_html( $user->user_login )
-										)
+										),
+										403
 									);
 								}
 
 								$userfunction = 'all_spam';
-								$blogs        = get_blogs_of_user( $user_id, true );
 
-								foreach ( (array) $blogs as $details ) {
-									if ( ! is_main_site( $details->userblog_id ) ) { // Main site is not a spam!
-										update_blog_status( $details->userblog_id, 'spam', '1' );
+								/**
+								 * Filters whether to propagate the blog status when a user is marked as spam.
+								 *
+								 * @since 7.0.0
+								 *
+								 * @param bool $propagate Whether to propagate the blog status. Default false.
+								 * @param int  $user_id   User ID.
+								 */
+								if ( apply_filters( 'propagate_network_user_spam_to_blogs', false, $user_id ) ) {
+									foreach ( get_blogs_of_user( $user_id, true ) as $details ) {
+										// Assuming the main site is not a spam.
+										if ( ! is_main_site( $details->userblog_id ) ) {
+											update_blog_status( $details->userblog_id, 'spam', '1' );
+										}
 									}
 								}
 
@@ -108,11 +119,28 @@ if ( isset( $_GET['action'] ) ) {
 							case 'notspam':
 								$user = get_userdata( $user_id );
 
+								if ( is_super_admin( $user->ID ) ) {
+									wp_die(
+										sprintf(
+											/* translators: %s: User login. */
+											__( 'Warning! User cannot be modified. The user %s is a network administrator.' ),
+											esc_html( $user->user_login )
+										),
+										403
+									);
+								}
+
 								$userfunction = 'all_notspam';
 								$blogs        = get_blogs_of_user( $user_id, true );
 
-								foreach ( (array) $blogs as $details ) {
-									update_blog_status( $details->userblog_id, 'spam', '0' );
+								/** This filter is documented in wp-admin/network/users.php */
+								if ( apply_filters( 'propagate_network_user_spam_to_blogs', false, $user_id ) ) {
+									foreach ( get_blogs_of_user( $user_id, true ) as $details ) {
+										if ( ! is_main_site( $details->userblog_id ) && get_current_network_id() === $details->site_id ) {
+											// Assuming main site is never a spam and part of the current network.
+											update_blog_status( $details->userblog_id, 'spam', '0' );
+										}
+									}
 								}
 
 								$user_data         = $user->to_array();
