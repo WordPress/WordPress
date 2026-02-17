@@ -1200,27 +1200,43 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 										<legend class="menu-settings-group-name howto"><?php _e( 'Menu location' ); ?></legend>
 										<?php
 										foreach ( $locations as $location => $description ) :
-											$checked = false;
+											$checked               = false;
+											$theme_location_set_id = '';
 
 											if ( isset( $menu_locations[ $location ] )
 												&& 0 !== $nav_menu_selected_id
 												&& $menu_locations[ $location ] === $nav_menu_selected_id
 											) {
-													$checked = true;
+												$checked = true;
+											}
+
+											if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] !== $nav_menu_selected_id ) {
+												$theme_location_set_id = "theme-location-set-$location";
 											}
 											?>
 											<div class="menu-settings-input checkbox-input">
-												<input type="checkbox"<?php checked( $checked ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-												<label for="locations-<?php echo esc_attr( $location ); ?>"><?php echo $description; ?></label>
-												<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] !== $nav_menu_selected_id ) : ?>
-													<span class="theme-location-set">
-													<?php
+												<input type="checkbox"<?php checked( $checked ); ?>
+													name="menu-locations[<?php echo esc_attr( $location ); ?>]"
+													id="locations-<?php echo esc_attr( $location ); ?>"
+													value="<?php echo esc_attr( $nav_menu_selected_id ); ?>"
+													<?php if ( '' !== $theme_location_set_id ) : ?>
+														aria-describedby="<?php echo esc_attr( $theme_location_set_id ); ?>"
+													<?php endif; ?>
+												/>
+												<label for="locations-<?php echo esc_attr( $location ); ?>">
+													<?php echo esc_html( $description ); ?>
+												</label>
+												<?php if ( '' !== $theme_location_set_id ) : ?>
+													<span class="theme-location-set" id="<?php echo esc_attr( $theme_location_set_id ); ?>">
+														<?php
 														printf(
-															/* translators: %s: Menu name. */
+															/* translators: %s: Menu name, or a message indicating that the menu was not found. */
 															_x( '(Currently set to: %s)', 'menu location' ),
-															wp_get_nav_menu_object( $menu_locations[ $location ] )->name
+															is_nav_menu( $menu_locations[ $location ] )
+																? esc_html( wp_get_nav_menu_object( $menu_locations[ $location ] )->name )
+																: __( 'an unknown menu' )
 														);
-													?>
+														?>
 													</span>
 												<?php endif; ?>
 											</div>
