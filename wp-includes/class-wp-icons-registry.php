@@ -38,8 +38,7 @@ class WP_Icons_Registry {
 	 *
 	 * These icons are defined in @wordpress/packages (Gutenberg repository) as
 	 * SVG files and as entries in a single manifest file. On init, the
-	 * registry is loaded with those icons in the manifest which are marked
-	 * `public`.
+	 * registry is loaded with those icons listed in the manifest.
 	 */
 	private function __construct() {
 		$icons_directory = __DIR__ . '/icons/';
@@ -75,10 +74,6 @@ class WP_Icons_Registry {
 					'7.0.0'
 				);
 				return;
-			}
-
-			if ( ! ( $icon_data['public'] ?? false ) ) {
-				continue;
 			}
 
 			$this->register(
