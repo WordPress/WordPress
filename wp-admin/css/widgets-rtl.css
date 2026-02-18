@@ -583,6 +583,12 @@ div#widgets-right .closed .widgets-sortables {
 	padding: 0 15px;
 }
 
+.widget-control-actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .editwidget .widget-control-actions {
 	margin-top: 20px;
 }
@@ -725,7 +731,7 @@ div#widgets-right .widget-top:hover,
 }
 
 .widgets-chooser .widgets-chooser-selected .widgets-chooser-button {
-	background: #2271b1;
+	background: var(--wp-admin-theme-color, #3858e9);
 	color: #fff;
 }
 

@@ -303,7 +303,6 @@ function wp_widget_control( $sidebar_args ) {
 			<?php submit_button( __( 'Save' ), 'primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . esc_attr( $id_format ) . '-savewidget' ) ); ?>
 			<span class="spinner"></span>
 		</div>
-		<br class="clear" />
 	</div>
 	<?php echo $after_form; ?>
 	</div>

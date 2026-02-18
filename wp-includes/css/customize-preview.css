@@ -44,7 +44,7 @@
 	line-height: 1 !important;
 	font-size: 18px;
 	z-index: 5;
-	background: #3582c4 !important;
+	background: #3858e9;
 	border-radius: 50%;
 	border: 2px solid #fff;
 	box-shadow: 0 2px 1px rgba(60, 67, 74, 0.15);
@@ -76,11 +76,11 @@
 }
 
 .customize-partial-edit-shortcut button:hover {
-	background: #4f94d4 !important; /* matches primary buttons */
+	background: #2145e6 !important; /* matches primary buttons */
 }
 
 .customize-partial-edit-shortcut button:focus {
-	box-shadow: 0 0 0 2px #4f94d4;
+	box-shadow: 0 0 0 1.5px #3858e9;
 }
 
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {

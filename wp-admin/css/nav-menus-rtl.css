@@ -222,7 +222,6 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 
 .menu-settings-group {
 	margin: 0 0 10px;
-	overflow: hidden;
 	padding-right: 20%;
 }
 

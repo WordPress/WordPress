@@ -343,7 +343,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	</div>
 
 	<div class="widget-control-actions">
-		<div class="alignleft">
+		<div class="left-actions">
 			<?php if ( ! isset( $_GET['addnew'] ) ) : ?>
 				<input type="submit" name="removewidget" id="removewidget" class="button-link button-link-delete widget-control-remove" value="<?php esc_attr_e( 'Delete' ); ?>" />
 				<span class="widget-control-close-wrapper">
@@ -353,14 +353,13 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 				<a href="widgets.php" class="button-link widget-control-close"><?php _e( 'Cancel' ); ?></a>
 			<?php endif; ?>
 		</div>
-		<div class="alignright">
+		<div class="right-actions">
 			<?php submit_button( __( 'Save Widget' ), 'primary alignright', 'savewidget', false ); ?>
 			<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr( $widget_id ); ?>" />
 			<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr( $id_base ); ?>" />
 			<input type="hidden" name="multi_number" class="multi_number" value="<?php echo esc_attr( $multi_number ); ?>" />
 			<?php wp_nonce_field( "save-delete-widget-$widget_id" ); ?>
 		</div>
-		<br class="clear" />
 	</div>
 
 	</form>
