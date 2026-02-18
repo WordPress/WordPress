@@ -13,9 +13,6 @@
 .wp-block-tab[hidden], .wp-block-tab:empty {
   display: none !important;
 }
-.wp-block-tab:not(.wp-block):focus {
-  outline: none;
-}
 
 .wp-block-tab.wp-block.has-background,
 .wp-block-tab:not(.wp-block).has-background {

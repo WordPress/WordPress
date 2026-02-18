@@ -1746,6 +1746,27 @@ h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]) {
   rotate: 180deg;
 }
 
+/**
+ * Editor and frontend styles for the Icon Block.
+ */
+/* Icon Block styles. */
+.wp-block-icon {
+  line-height: 0;
+}
+.wp-block-icon.aligncenter {
+  display: flex;
+  justify-content: center;
+}
+.wp-block-icon svg {
+  box-sizing: border-box;
+  fill: currentColor;
+}
+
+:where(.wp-block-icon) svg {
+  width: 100%;
+  height: 100%;
+}
+
 .wp-block-image > a,
 .wp-block-image > figure > a {
   display: inline-block;
@@ -1913,22 +1934,82 @@ h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]) {
   visibility: hidden;
   cursor: zoom-out;
 }
-.wp-lightbox-overlay .close-button {
+.wp-lightbox-overlay .wp-lightbox-close-button {
+  font-family: inherit;
   position: absolute;
   top: calc(env(safe-area-inset-top) + 16px);
   right: calc(env(safe-area-inset-right) + 16px);
-  padding: 0;
+  padding: 0 4px;
   cursor: pointer;
   z-index: 5000000;
   min-width: 40px;
   min-height: 40px;
   display: flex;
+  gap: 8px;
   align-items: center;
   justify-content: center;
+  line-height: 1;
 }
-.wp-lightbox-overlay .close-button:hover, .wp-lightbox-overlay .close-button:focus, .wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background) {
+.wp-lightbox-overlay .wp-lightbox-close-button:hover, .wp-lightbox-overlay .wp-lightbox-close-button:focus, .wp-lightbox-overlay .wp-lightbox-close-button:not(:hover):not(:active):not(.has-background) {
   background: none;
   border: none;
+}
+.wp-lightbox-overlay .wp-lightbox-close-button:has(.wp-lightbox-close-text:not([hidden])) .wp-lightbox-close-icon svg {
+  height: 1em;
+  width: 1em;
+}
+.wp-lightbox-overlay .wp-lightbox-close-icon svg {
+  display: block;
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-prev,
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next {
+  position: absolute;
+  padding: 0 8px;
+  z-index: 2000002;
+  font-family: inherit;
+  min-width: 40px;
+  min-height: 40px;
+  gap: 4px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  bottom: 16px;
+  line-height: 1;
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-prev[hidden],
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next[hidden] {
+  display: none;
+}
+@media (min-width: 960px) {
+  .wp-lightbox-overlay .wp-lightbox-navigation-button-prev,
+  .wp-lightbox-overlay .wp-lightbox-navigation-button-next {
+    bottom: 50%;
+    transform: translateY(-50%);
+  }
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-prev:hover, .wp-lightbox-overlay .wp-lightbox-navigation-button-prev:focus, .wp-lightbox-overlay .wp-lightbox-navigation-button-prev:not(:hover):not(:active):not(.has-background),
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next:hover,
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next:focus,
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next:not(:hover):not(:active):not(.has-background) {
+  background: none;
+  border: none;
+  padding: 0 8px;
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-prev:has(.wp-lightbox-navigation-text:not([hidden])) .wp-lightbox-navigation-icon svg,
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next:has(.wp-lightbox-navigation-text:not([hidden])) .wp-lightbox-navigation-icon svg {
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-prev {
+  left: calc(env(safe-area-inset-left) + 16px);
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-button-next {
+  right: calc(env(safe-area-inset-right) + 16px);
+}
+.wp-lightbox-overlay .wp-lightbox-navigation-icon svg {
+  vertical-align: middle;
 }
 .wp-lightbox-overlay .lightbox-image-container {
   position: absolute;
@@ -1939,7 +2020,7 @@ h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]) {
   transform: translate(-50%, -50%);
   width: var(--wp--lightbox-container-width);
   height: var(--wp--lightbox-container-height);
-  z-index: 9999999999;
+  z-index: 2000001;
 }
 .wp-lightbox-overlay .wp-block-image {
   position: relative;
@@ -3100,47 +3181,34 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   rotate: 180deg;
 }
 
-.wp-block-playlist {
-  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-  border-radius: 2px;
-  padding: 16px;
-}
 .wp-block-playlist .wp-block-playlist__current-item {
   display: flex;
   align-items: center;
-  gap: var(--Spacing-6, 24px);
+  gap: var(--wp--preset--spacing--40, 1.5em);
   align-self: stretch;
-  padding-bottom: 16px;
-  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-  margin-bottom: 16px;
-}
-.wp-block-playlist .wp-block-playlist__current-item img {
-  border-radius: 2px;
+  padding-bottom: var(--wp--preset--spacing--30, 1em);
+  margin-bottom: var(--wp--preset--spacing--30, 1em);
 }
 .wp-block-playlist .wp-block-playlist__current-item div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--wp--preset--spacing--20, 0.5em);
 }
 .wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__current-item-artist-album {
   flex-direction: row;
-  font-weight: 400;
-  font-size: 16px;
 }
 .wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__item-title {
-  font-weight: 600;
   word-break: break-all;
-}
-.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__item-album {
-  font-style: italic;
 }
 .wp-block-playlist audio {
   width: 100%;
-  margin-top: 10px;
+  margin-top: var(--wp--preset--spacing--20, 0.625em);
 }
 .wp-block-playlist .wp-block-playlist__tracklist {
-  font-size: 14px;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
 }
 .wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-is-hidden {
   display: none;
@@ -3148,46 +3216,61 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-artist-is-hidden .wp-block-playlist-track__artist {
   display: none;
 }
-.wp-block-playlist ul.wp-block-playlist__tracklist {
-  padding-left: 0;
-  list-style: none;
-}
-.wp-block-playlist ol.wp-block-playlist__tracklist {
-  padding-left: 16px;
+.wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-show-numbers {
+  counter-reset: playlist-track;
 }
 .wp-block-playlist li.block-list-appender.block-list-appender {
   position: initial;
-  margin-top: 16px;
+  margin-top: var(--wp--preset--spacing--30, 1em);
 }
 
-.wp-block-playlist-track {
-  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-  padding: 8px;
+.wp-block-playlist-track:has([aria-current=true]) {
+  background-color: color-mix(in srgb, currentColor 10%, transparent);
+}
+.wp-block-playlist-track:hover {
+  background-color: color-mix(in srgb, currentColor 15%, transparent);
+}
+.wp-block-playlist__tracklist-show-numbers .wp-block-playlist-track {
+  counter-increment: playlist-track;
 }
 .wp-block-playlist-track .wp-block-playlist-track__button {
   display: flex;
-  flex-wrap: wrap;
-  height: auto;
-  min-width: 100%;
-  padding: 0;
-  font-size: 14px;
+  align-items: center;
+  width: 100%;
+  padding: var(--wp--preset--spacing--20, 0.5em);
+  font-size: inherit;
   font-family: inherit;
   text-align: left;
-  line-height: 1.5;
   background-color: transparent;
   color: inherit;
   border: 0;
-  border-radius: 1px;
   outline-offset: 2px;
+  cursor: pointer;
 }
-.wp-block-playlist-track .wp-block-playlist-track__button span {
-  margin-right: 8px;
+.wp-block-playlist__tracklist-show-numbers .wp-block-playlist-track .wp-block-playlist-track__button::before {
+  content: counter(playlist-track);
+  width: 2ch;
+  margin-right: var(--wp--preset--spacing--20, 0.5em);
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__content {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__title {
+  display: block;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__artist {
+  display: block;
+  font-size: 0.85em;
+  opacity: 0.7;
+  margin-top: 0.125em;
 }
 .wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__length {
   margin-left: auto;
-}
-.wp-block-playlist-track .wp-block-playlist-track__button[aria-current=true] {
-  font-weight: 600;
+  font-size: 0.85em;
+  opacity: 0.7;
 }
 
 .wp-block-post-author {
@@ -4352,9 +4435,6 @@ ul.wp-block-rss.is-grid li {
 .wp-block-tab[hidden], .wp-block-tab:empty {
   display: none !important;
 }
-.wp-block-tab:not(.wp-block):focus {
-  outline: none;
-}
 
 .wp-block-tab.wp-block.has-background,
 .wp-block-tab:not(.wp-block).has-background {
@@ -4521,12 +4601,17 @@ ul.wp-block-rss.is-grid li {
 
 .wp-block-tabs-menu-item {
   box-sizing: border-box;
+  color: inherit;
   display: block;
   width: max-content;
   text-decoration: none;
   cursor: pointer;
   flex-basis: inherit !important;
   flex-grow: inherit !important;
+  border: none;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
   margin: 0;
   padding-block: var(--tab-padding-block, var(--wp--preset--spacing--20, 0.5em));
   padding-inline: var(--tab-padding-inline, var(--wp--preset--spacing--30, 1em));
@@ -4827,6 +4912,10 @@ a[data-fn].fn::after {
  * See: https://github.com/WordPress/gutenberg/pull/33743
  */
 html :where(.has-border-color) {
+  border-style: solid;
+}
+
+html :where([style*=border-color]) {
   border-style: solid;
 }
 

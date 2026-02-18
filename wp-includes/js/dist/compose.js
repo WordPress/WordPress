@@ -1760,7 +1760,7 @@ var wp;
   // packages/compose/build-module/hooks/use-ref-effect/index.mjs
   var import_element6 = __toESM(require_element(), 1);
   function useRefEffect(callback, dependencies) {
-    const cleanupRef = (0, import_element6.useRef)();
+    const cleanupRef = (0, import_element6.useRef)(void 0);
     return (0, import_element6.useCallback)((node) => {
       if (node) {
         cleanupRef.current = callback(node);
@@ -1819,7 +1819,7 @@ var wp;
       since: "5.8",
       alternative: "wp.compose.useCopyToClipboard"
     });
-    const clipboardRef = (0, import_element7.useRef)();
+    const clipboardRef = (0, import_element7.useRef)(void 0);
     const [hasCopied, setHasCopied] = (0, import_element7.useState)(false);
     (0, import_element7.useEffect)(() => {
       let timeoutId;
@@ -1898,7 +1898,7 @@ var wp;
         preventScroll: true
       });
     };
-    const timerIdRef = (0, import_element9.useRef)();
+    const timerIdRef = (0, import_element9.useRef)(void 0);
     (0, import_element9.useEffect)(() => {
       focusOnMountRef.current = focusOnMount;
     }, [focusOnMount]);
@@ -2000,7 +2000,7 @@ var wp;
       currentOnFocusOutsideRef.current = onFocusOutside;
     }, [onFocusOutside]);
     const preventBlurCheckRef = (0, import_element11.useRef)(false);
-    const blurCheckTimeoutIdRef = (0, import_element11.useRef)();
+    const blurCheckTimeoutIdRef = (0, import_element11.useRef)(void 0);
     const cancelBlurCheck = (0, import_element11.useCallback)(() => {
       clearTimeout(blurCheckTimeoutIdRef.current);
     }, []);
@@ -2059,7 +2059,7 @@ var wp;
     }
   }
   function useMergeRefs(refs) {
-    const element = (0, import_element12.useRef)();
+    const element = (0, import_element12.useRef)(null);
     const isAttachedRef = (0, import_element12.useRef)(false);
     const didElementChangeRef = (0, import_element12.useRef)(false);
     const previousRefsRef = (0, import_element12.useRef)([]);
@@ -2093,7 +2093,7 @@ var wp;
 
   // packages/compose/build-module/hooks/use-dialog/index.mjs
   function useDialog(options) {
-    const currentOptions = (0, import_element13.useRef)();
+    const currentOptions = (0, import_element13.useRef)(void 0);
     const { constrainTabbing = options.focusOnMount !== false } = options;
     (0, import_element13.useEffect)(() => {
       currentOptions.current = options;
@@ -2394,7 +2394,7 @@ var wp;
   // packages/compose/build-module/hooks/use-previous/index.mjs
   var import_element19 = __toESM(require_element(), 1);
   function usePrevious(value) {
-    const ref = (0, import_element19.useRef)();
+    const ref = (0, import_element19.useRef)(void 0);
     (0, import_element19.useEffect)(() => {
       ref.current = value;
     }, [value]);
@@ -2526,8 +2526,8 @@ var wp;
   var import_element22 = __toESM(require_element(), 1);
   function useResizeObserver(callback, resizeObserverOptions = {}) {
     const callbackEvent = useEvent(callback);
-    const observedElementRef = (0, import_element22.useRef)();
-    const resizeObserverRef = (0, import_element22.useRef)();
+    const observedElementRef = (0, import_element22.useRef)(null);
+    const resizeObserverRef = (0, import_element22.useRef)(void 0);
     return useEvent((element) => {
       if (element === observedElementRef.current) {
         return;
@@ -2537,7 +2537,7 @@ var wp;
       if (observedElementRef.current) {
         resizeObserver.unobserve(observedElementRef.current);
       }
-      observedElementRef.current = element;
+      observedElementRef.current = element ?? null;
       if (element) {
         resizeObserver.observe(element, resizeObserverOptions);
       }

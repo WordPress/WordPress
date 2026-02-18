@@ -11,6 +11,7 @@
 		"core/page-list",
 		"core/spacer",
 		"core/home-link",
+		"core/icon",
 		"core/site-title",
 		"core/site-logo",
 		"core/navigation-submenu",
@@ -103,6 +104,7 @@
 		"customFontSize": "customFontSize",
 		"showSubmenuIcon": "showSubmenuIcon",
 		"submenuVisibility": "submenuVisibility",
+		"openSubmenusOnClick": "openSubmenusOnClick",
 		"style": "style",
 		"maxNestingLevel": "maxNestingLevel"
 	},

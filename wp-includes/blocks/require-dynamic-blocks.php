@@ -37,6 +37,7 @@ require_once ABSPATH . WPINC . '/blocks/loginout.php';
 require_once ABSPATH . WPINC . '/blocks/media-text.php';
 require_once ABSPATH . WPINC . '/blocks/navigation.php';
 require_once ABSPATH . WPINC . '/blocks/navigation-link.php';
+require_once ABSPATH . WPINC . '/blocks/navigation-overlay-close.php';
 require_once ABSPATH . WPINC . '/blocks/navigation-submenu.php';
 require_once ABSPATH . WPINC . '/blocks/page-list.php';
 require_once ABSPATH . WPINC . '/blocks/page-list-item.php';

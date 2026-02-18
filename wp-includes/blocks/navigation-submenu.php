@@ -12,25 +12,38 @@
  * This function centralizes the migration logic from the boolean
  * openSubmenusOnClick to the new submenuVisibility enum.
  *
+ * Backward compatibility handling:
+ * - Legacy blocks (saved before migration, never opened in editor):
+ *   Have openSubmenusOnClick in database. Parent Navigation block passes it via context.
+ *   We prioritize openSubmenusOnClick to preserve the original behavior.
+ *
+ * - Migrated blocks (opened in editor after migration):
+ *   JavaScript deprecation removes openSubmenusOnClick and sets submenuVisibility.
+ *   We use submenuVisibility since openSubmenusOnClick is null.
+ *
+ * - New blocks (created after migration):
+ *   Only have submenuVisibility, openSubmenusOnClick is null.
+ *   We use submenuVisibility.
+ *
  * @since 6.9.0
  *
- * @param array $attributes Block attributes containing submenuVisibility and/or openSubmenusOnClick.
+ * @param array $context Block context from parent Navigation block.
  * @return string The visibility mode: 'hover', 'click', or 'always'.
  */
-function block_core_navigation_submenu_get_submenu_visibility( $attributes ) {
-	$submenu_visibility     = isset( $attributes['submenuVisibility'] ) ? $attributes['submenuVisibility'] : null;
-	$open_submenus_on_click = isset( $attributes['openSubmenusOnClick'] ) ? $attributes['openSubmenusOnClick'] : null;
+function block_core_navigation_submenu_get_submenu_visibility( $context ) {
+	$deprecated_open_submenus_on_click = $context['openSubmenusOnClick'] ?? null;
 
-	// If new attribute is set, use it.
-	if ( null !== $submenu_visibility ) {
-		return $submenu_visibility;
+	// For backward compatibility, prioritize the legacy attribute if present. If it has been loaded and saved in the editor, then
+	// the deprecated attribute will be replaced by submenuVisibility.
+	if ( null !== $deprecated_open_submenus_on_click ) {
+		// Convert boolean to string: true -> 'click', false -> 'hover'.
+		return ! empty( $deprecated_open_submenus_on_click ) ? 'click' : 'hover';
 	}
 
-	// Fall back to old attribute for backward compatibility.
-	// openSubmenusOnClick: true  -> 'click'
-	// openSubmenusOnClick: false -> 'hover'
-	// openSubmenusOnClick: null  -> 'hover' (default)
-	return ! empty( $open_submenus_on_click ) ? 'click' : 'hover';
+	$submenu_visibility = $context['submenuVisibility'] ?? null;
+
+	// Use submenuVisibility for migrated/new blocks.
+	return $submenu_visibility ?? 'hover';
 }
 
 // Path differs between source and build: '../navigation-link/shared/' in source, './navigation-link/shared/' in build.

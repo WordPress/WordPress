@@ -953,57 +953,16 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 
 .edit-widgets-notices__snackbar {
   position: fixed;
-  right: 0;
-  bottom: 20px;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.edit-widgets-notices__snackbar { /* Set left position when auto-fold is not on the body element. */
-  left: 0;
-}
-@media (min-width: 783px) {
-  .edit-widgets-notices__snackbar {
-    left: 160px;
-  }
-}
-
-.auto-fold .edit-widgets-notices__snackbar { /* Auto fold is when on smaller breakpoints, nav menu auto collapses. */ }
-@media (min-width: 783px) {
-  .auto-fold .edit-widgets-notices__snackbar {
-    left: 36px;
-  }
-}
-@media (min-width: 961px) {
-  .auto-fold .edit-widgets-notices__snackbar {
-    left: 160px;
-  }
-}
-
-/* Sidebar manually collapsed. */
-.folded .edit-widgets-notices__snackbar {
-  left: 0;
-}
-@media (min-width: 783px) {
-  .folded .edit-widgets-notices__snackbar {
-    left: 36px;
-  }
-}
-
-body.is-fullscreen-mode .edit-widgets-notices__snackbar {
-  left: 0 !important;
-}
-
-.edit-widgets-notices__dismissible .components-notice,
-.edit-widgets-notices__pinned .components-notice {
+  bottom: 24px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100vw - 32px);
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 0 12px;
-  min-height: 64px;
-}
-.edit-widgets-notices__dismissible .components-notice .components-notice__dismiss,
-.edit-widgets-notices__pinned .components-notice .components-notice__dismiss {
-  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .edit-widgets-layout__inserter-panel {

@@ -445,10 +445,7 @@ var wp;
   var import_escape_html = __toESM(require_escape_html(), 1);
 
   // packages/element/build-module/raw-html.mjs
-  function RawHTML({
-    children,
-    ...props
-  }) {
+  function RawHTML({ children, ...props }) {
     let rawHtml = "";
     import_react.Children.toArray(children).forEach((child) => {
       if (typeof child === "string" && child.trim() !== "") {

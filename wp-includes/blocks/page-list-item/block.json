@@ -38,7 +38,8 @@
 		"customFontSize",
 		"showSubmenuIcon",
 		"style",
-		"openSubmenusOnClick"
+		"openSubmenusOnClick",
+		"submenuVisibility"
 	],
 	"supports": {
 		"anchor": true,

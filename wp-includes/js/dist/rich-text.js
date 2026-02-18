@@ -60,17 +60,17 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
+    }
+  });
+
   // package-external:@wordpress/element
   var require_element = __commonJS({
     "package-external:@wordpress/element"(exports, module) {
       module.exports = window.wp.element;
-    }
-  });
-
-  // package-external:@wordpress/deprecated
-  var require_deprecated = __commonJS({
-    "package-external:@wordpress/deprecated"(exports, module) {
-      module.exports = window.wp.deprecated;
     }
   });
 
@@ -81,10 +81,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/dom
-  var require_dom = __commonJS({
-    "package-external:@wordpress/dom"(exports, module) {
-      module.exports = window.wp.dom;
+  // package-external:@wordpress/deprecated
+  var require_deprecated = __commonJS({
+    "package-external:@wordpress/deprecated"(exports, module) {
+      module.exports = window.wp.deprecated;
     }
   });
 
@@ -95,6 +95,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/dom
+  var require_dom = __commonJS({
+    "package-external:@wordpress/dom"(exports, module) {
+      module.exports = window.wp.dom;
+    }
+  });
+
   // packages/rich-text/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
@@ -102,7 +109,7 @@ var wp;
     __experimentalRichText: () => __experimentalRichText,
     __unstableCreateElement: () => createElement,
     __unstableToDom: () => toDom,
-    __unstableUseRichText: () => useRichText,
+    __unstableUseRichText: () => __unstableUseRichText,
     applyFormat: () => applyFormat,
     concat: () => concat,
     create: () => create,
@@ -115,6 +122,7 @@ var wp;
     isCollapsed: () => isCollapsed,
     isEmpty: () => isEmpty,
     join: () => join,
+    privateApis: () => privateApis,
     registerFormatType: () => registerFormatType,
     remove: () => remove2,
     removeFormat: () => removeFormat,
@@ -1724,169 +1732,28 @@ var wp;
     return oldFormat;
   }
 
-  // packages/rich-text/build-module/component/use-anchor-ref.mjs
-  var import_element = __toESM(require_element(), 1);
+  // packages/rich-text/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
+  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+    "@wordpress/rich-text"
+  );
+
+  // packages/rich-text/build-module/hook/index.mjs
+  var import_element5 = __toESM(require_element(), 1);
+  var import_compose2 = __toESM(require_compose(), 1);
+  var import_data9 = __toESM(require_data(), 1);
   var import_deprecated = __toESM(require_deprecated(), 1);
-  function useAnchorRef({ ref, value, settings = {} }) {
-    (0, import_deprecated.default)("`useAnchorRef` hook", {
-      since: "6.1",
-      alternative: "`useAnchor` hook"
-    });
-    const { tagName, className, name } = settings;
-    const activeFormat = name ? getActiveFormat(value, name) : void 0;
-    return (0, import_element.useMemo)(() => {
-      if (!ref.current) {
-        return;
-      }
-      const {
-        ownerDocument: { defaultView }
-      } = ref.current;
-      const selection = defaultView.getSelection();
-      if (!selection.rangeCount) {
-        return;
-      }
-      const range = selection.getRangeAt(0);
-      if (!activeFormat) {
-        return range;
-      }
-      let element = range.startContainer;
-      element = element.nextElementSibling || element;
-      while (element.nodeType !== element.ELEMENT_NODE) {
-        element = element.parentNode;
-      }
-      return element.closest(
-        tagName + (className ? "." + className : "")
-      );
-    }, [activeFormat, value.start, value.end, tagName, className]);
-  }
 
-  // packages/rich-text/build-module/component/use-anchor.mjs
-  var import_compose = __toESM(require_compose(), 1);
-  var import_element2 = __toESM(require_element(), 1);
-  var import_dom = __toESM(require_dom(), 1);
-  function getFormatElement(range, editableContentElement, tagName, className) {
-    let element = range.startContainer;
-    if (element.nodeType === element.TEXT_NODE && range.startOffset === element.length && element.nextSibling) {
-      element = element.nextSibling;
-      while (element.firstChild) {
-        element = element.firstChild;
-      }
-    }
-    if (element.nodeType !== element.ELEMENT_NODE) {
-      element = element.parentElement;
-    }
-    if (!element) {
-      return;
-    }
-    if (element === editableContentElement) {
-      return;
-    }
-    if (!editableContentElement.contains(element)) {
-      return;
-    }
-    const selector = tagName + (className ? "." + className : "");
-    while (element !== editableContentElement) {
-      if (element.matches(selector)) {
-        return element;
-      }
-      element = element.parentElement;
-    }
-  }
-  function createVirtualAnchorElement(range, editableContentElement) {
-    return {
-      contextElement: editableContentElement,
-      getBoundingClientRect() {
-        return editableContentElement.contains(range.startContainer) ? (0, import_dom.getRectangleFromRange)(range) : editableContentElement.getBoundingClientRect();
-      }
-    };
-  }
-  function getAnchor(editableContentElement, tagName, className) {
-    if (!editableContentElement) {
-      return;
-    }
-    const { ownerDocument } = editableContentElement;
-    const { defaultView } = ownerDocument;
-    const selection = defaultView.getSelection();
-    if (!selection) {
-      return;
-    }
-    if (!selection.rangeCount) {
-      return;
-    }
-    const range = selection.getRangeAt(0);
-    if (!range || !range.startContainer) {
-      return;
-    }
-    const formatElement = getFormatElement(
-      range,
-      editableContentElement,
-      tagName,
-      className
-    );
-    if (formatElement) {
-      return formatElement;
-    }
-    return createVirtualAnchorElement(range, editableContentElement);
-  }
-  function useAnchor({ editableContentElement, settings = {} }) {
-    const { tagName, className, isActive } = settings;
-    const [anchor, setAnchor] = (0, import_element2.useState)(
-      () => getAnchor(editableContentElement, tagName, className)
-    );
-    const wasActive = (0, import_compose.usePrevious)(isActive);
-    (0, import_element2.useLayoutEffect)(() => {
-      if (!editableContentElement) {
-        return;
-      }
-      function callback() {
-        setAnchor(
-          getAnchor(editableContentElement, tagName, className)
-        );
-      }
-      function attach() {
-        ownerDocument.addEventListener("selectionchange", callback);
-      }
-      function detach() {
-        ownerDocument.removeEventListener("selectionchange", callback);
-      }
-      const { ownerDocument } = editableContentElement;
-      if (editableContentElement === ownerDocument.activeElement || // When a link is created, we need to attach the popover to the newly created anchor.
-      !wasActive && isActive || // Sometimes we're _removing_ an active anchor, such as the inline color popover.
-      // When we add the color, it switches from a virtual anchor to a `<mark>` element.
-      // When we _remove_ the color, it switches from a `<mark>` element to a virtual anchor.
-      wasActive && !isActive) {
-        setAnchor(
-          getAnchor(editableContentElement, tagName, className)
-        );
-        attach();
-      }
-      editableContentElement.addEventListener("focusin", attach);
-      editableContentElement.addEventListener("focusout", detach);
-      return () => {
-        detach();
-        editableContentElement.removeEventListener("focusin", attach);
-        editableContentElement.removeEventListener("focusout", detach);
-      };
-    }, [editableContentElement, tagName, className, isActive, wasActive]);
-    return anchor;
-  }
-
-  // packages/rich-text/build-module/component/index.mjs
-  var import_element6 = __toESM(require_element(), 1);
-  var import_compose3 = __toESM(require_compose(), 1);
-  var import_data8 = __toESM(require_data(), 1);
-
-  // packages/rich-text/build-module/component/use-default-style.mjs
-  var import_element3 = __toESM(require_element(), 1);
+  // packages/rich-text/build-module/hook/use-default-style.mjs
+  var import_element = __toESM(require_element(), 1);
   var whiteSpace = "pre-wrap";
-  var minWidth = "1px";
   function useDefaultStyle() {
-    return (0, import_element3.useCallback)((element) => {
+    return (0, import_element.useCallback)((element) => {
       if (!element) {
         return;
       }
       element.style.whiteSpace = whiteSpace;
-      element.style.minWidth = minWidth;
     }, []);
   }
 
@@ -2048,13 +1915,13 @@ var wp;
     return r2 instanceof j ? r2 : new j(r2);
   };
 
-  // packages/rich-text/build-module/component/use-boundary-style.mjs
-  var import_element4 = __toESM(require_element(), 1);
+  // packages/rich-text/build-module/hook/use-boundary-style.mjs
+  var import_element2 = __toESM(require_element(), 1);
   function useBoundaryStyle({ record }) {
-    const ref = (0, import_element4.useRef)();
+    const ref = (0, import_element2.useRef)();
     const { activeFormats = [], replacements, start } = record.current;
     const activeReplacement = replacements[start];
-    (0, import_element4.useEffect)(() => {
+    (0, import_element2.useEffect)(() => {
       if ((!activeFormats || !activeFormats.length) && !activeReplacement) {
         return;
       }
@@ -2084,11 +1951,11 @@ var wp;
     return ref;
   }
 
-  // packages/rich-text/build-module/component/event-listeners/index.mjs
-  var import_element5 = __toESM(require_element(), 1);
-  var import_compose2 = __toESM(require_compose(), 1);
+  // packages/rich-text/build-module/hook/event-listeners/index.mjs
+  var import_element3 = __toESM(require_element(), 1);
+  var import_compose = __toESM(require_compose(), 1);
 
-  // packages/rich-text/build-module/component/event-listeners/copy-handler.mjs
+  // packages/rich-text/build-module/hook/event-listeners/copy-handler.mjs
   var copy_handler_default = (props) => (element) => {
     function onCopy(event) {
       const { record } = props.current;
@@ -2116,7 +1983,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/select-object.mjs
+  // packages/rich-text/build-module/hook/event-listeners/select-object.mjs
   var select_object_default = () => (element) => {
     function onClick(event) {
       const { target } = event;
@@ -2149,7 +2016,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/format-boundaries.mjs
+  // packages/rich-text/build-module/hook/event-listeners/format-boundaries.mjs
   var import_keycodes = __toESM(require_keycodes(), 1);
   var EMPTY_ACTIVE_FORMATS = [];
   var format_boundaries_default = (props) => (element) => {
@@ -2220,7 +2087,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/delete.mjs
+  // packages/rich-text/build-module/hook/event-listeners/delete.mjs
   var import_keycodes2 = __toESM(require_keycodes(), 1);
   var delete_default = (props) => (element) => {
     function onKeyDown(event) {
@@ -2273,7 +2140,7 @@ var wp;
     return value;
   }
 
-  // packages/rich-text/build-module/component/event-listeners/input-and-selection.mjs
+  // packages/rich-text/build-module/hook/event-listeners/input-and-selection.mjs
   var INSERTION_INPUT_TYPES_TO_IGNORE = /* @__PURE__ */ new Set([
     "insertParagraph",
     "insertOrderedList",
@@ -2314,11 +2181,12 @@ var wp;
       }
       const currentValue = createRecord();
       const { start, activeFormats: oldActiveFormats = [] } = record.current;
+      const clearFormats = !isCollapsed(record.current) && currentValue.start <= start;
       const change = updateFormats({
         value: currentValue,
         start,
         end: currentValue.start,
-        formats: oldActiveFormats
+        formats: clearFormats ? [] : oldActiveFormats
       });
       handleChange(change);
     }
@@ -2419,7 +2287,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/selection-change-compat.mjs
+  // packages/rich-text/build-module/hook/event-listeners/selection-change-compat.mjs
   var selection_change_compat_default = () => (element) => {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
@@ -2455,7 +2323,7 @@ var wp;
     };
   };
 
-  // packages/rich-text/build-module/component/event-listeners/prevent-focus-capture.mjs
+  // packages/rich-text/build-module/hook/event-listeners/prevent-focus-capture.mjs
   function preventFocusCapture() {
     return (element) => {
       const { ownerDocument } = element;
@@ -2490,7 +2358,7 @@ var wp;
     };
   }
 
-  // packages/rich-text/build-module/component/event-listeners/index.mjs
+  // packages/rich-text/build-module/hook/event-listeners/index.mjs
   var allEventListeners = [
     copy_handler_default,
     select_object_default,
@@ -2501,15 +2369,15 @@ var wp;
     preventFocusCapture
   ];
   function useEventListeners(props) {
-    const propsRef = (0, import_element5.useRef)(props);
-    (0, import_element5.useInsertionEffect)(() => {
+    const propsRef = (0, import_element3.useRef)(props);
+    (0, import_element3.useInsertionEffect)(() => {
       propsRef.current = props;
     });
-    const refEffects = (0, import_element5.useMemo)(
+    const refEffects = (0, import_element3.useMemo)(
       () => allEventListeners.map((refEffect) => refEffect(propsRef)),
       [propsRef]
     );
-    return (0, import_compose2.useRefEffect)(
+    return (0, import_compose.useRefEffect)(
       (element) => {
         const cleanups = refEffects.map((effect) => effect(element));
         return () => {
@@ -2520,8 +2388,131 @@ var wp;
     );
   }
 
-  // packages/rich-text/build-module/component/index.mjs
-  function useRichText({
+  // packages/rich-text/build-module/hook/use-format-types.mjs
+  var import_element4 = __toESM(require_element(), 1);
+  var import_data8 = __toESM(require_data(), 1);
+  function formatTypesSelector(select5) {
+    return select5(store).getFormatTypes();
+  }
+  var interactiveContentTags = /* @__PURE__ */ new Set([
+    "a",
+    "audio",
+    "button",
+    "details",
+    "embed",
+    "iframe",
+    "input",
+    "label",
+    "select",
+    "textarea",
+    "video"
+  ]);
+  function prefixSelectKeys(selected, prefix) {
+    if (typeof selected !== "object") {
+      return { [prefix]: selected };
+    }
+    return Object.fromEntries(
+      Object.entries(selected).map(([key, value]) => [
+        `${prefix}.${key}`,
+        value
+      ])
+    );
+  }
+  function getPrefixedSelectKeys(selected, prefix) {
+    if (selected[prefix]) {
+      return selected[prefix];
+    }
+    return Object.keys(selected).filter((key) => key.startsWith(prefix + ".")).reduce((accumulator, key) => {
+      accumulator[key.slice(prefix.length + 1)] = selected[key];
+      return accumulator;
+    }, {});
+  }
+  function useFormatTypes({
+    allowedFormats,
+    withoutInteractiveFormatting,
+    __unstableFormatTypeHandlerContext
+  }) {
+    const allFormatTypes = (0, import_data8.useSelect)(formatTypesSelector, []);
+    const formatTypes2 = (0, import_element4.useMemo)(() => {
+      return allFormatTypes.filter(({ name, interactive, tagName }) => {
+        if (allowedFormats && !allowedFormats.includes(name)) {
+          return false;
+        }
+        if (withoutInteractiveFormatting && (interactive || interactiveContentTags.has(tagName))) {
+          return false;
+        }
+        return true;
+      });
+    }, [allFormatTypes, allowedFormats, withoutInteractiveFormatting]);
+    const keyedSelected = (0, import_data8.useSelect)(
+      (select5) => formatTypes2.reduce((accumulator, type) => {
+        if (!type.__experimentalGetPropsForEditableTreePreparation || !__unstableFormatTypeHandlerContext) {
+          return accumulator;
+        }
+        return {
+          ...accumulator,
+          ...prefixSelectKeys(
+            type.__experimentalGetPropsForEditableTreePreparation(
+              select5,
+              __unstableFormatTypeHandlerContext
+            ),
+            type.name
+          )
+        };
+      }, {}),
+      [formatTypes2, __unstableFormatTypeHandlerContext]
+    );
+    const dispatch3 = (0, import_data8.useDispatch)();
+    const prepareHandlers = [];
+    const valueHandlers = [];
+    const changeHandlers = [];
+    const dependencies = [];
+    for (const key in keyedSelected) {
+      dependencies.push(keyedSelected[key]);
+    }
+    formatTypes2.forEach((type) => {
+      if (type.__experimentalCreatePrepareEditableTree && __unstableFormatTypeHandlerContext) {
+        const handler = type.__experimentalCreatePrepareEditableTree(
+          getPrefixedSelectKeys(keyedSelected, type.name),
+          __unstableFormatTypeHandlerContext
+        );
+        if (type.__experimentalCreateOnChangeEditableValue) {
+          valueHandlers.push(handler);
+        } else {
+          prepareHandlers.push(handler);
+        }
+      }
+      if (type.__experimentalCreateOnChangeEditableValue && __unstableFormatTypeHandlerContext) {
+        let dispatchers = {};
+        if (type.__experimentalGetPropsForEditableTreeChangeHandler) {
+          dispatchers = type.__experimentalGetPropsForEditableTreeChangeHandler(
+            dispatch3,
+            __unstableFormatTypeHandlerContext
+          );
+        }
+        const selected = getPrefixedSelectKeys(keyedSelected, type.name);
+        changeHandlers.push(
+          type.__experimentalCreateOnChangeEditableValue(
+            {
+              ...typeof selected === "object" ? selected : {},
+              ...dispatchers
+            },
+            __unstableFormatTypeHandlerContext
+          )
+        );
+      }
+    });
+    return {
+      formatTypes: formatTypes2,
+      prepareHandlers,
+      valueHandlers,
+      changeHandlers,
+      dependencies
+    };
+  }
+
+  // packages/rich-text/build-module/hook/index.mjs
+  function useRichTextBase({
     value = "",
     selectionStart,
     selectionEnd,
@@ -2536,9 +2527,9 @@ var wp;
     __unstableBeforeSerialize,
     __unstableAddInvisibleFormats
   }) {
-    const registry = (0, import_data8.useRegistry)();
-    const [, forceRender] = (0, import_element6.useReducer)(() => ({}));
-    const ref = (0, import_element6.useRef)();
+    const registry = (0, import_data9.useRegistry)();
+    const [, forceRender] = (0, import_element5.useReducer)(() => ({}));
+    const ref = (0, import_element5.useRef)();
     function createRecord() {
       const {
         ownerDocument: { defaultView }
@@ -2560,8 +2551,8 @@ var wp;
         placeholder
       });
     }
-    const _valueRef = (0, import_element6.useRef)(value);
-    const recordRef = (0, import_element6.useRef)();
+    const _valueRef = (0, import_element5.useRef)(value);
+    const recordRef = (0, import_element5.useRef)();
     function setRecordFromProps() {
       const activeFormats = recordRef.current?.activeFormats;
       _valueRef.current = value;
@@ -2587,7 +2578,7 @@ var wp;
       recordRef.current.start = selectionStart;
       recordRef.current.end = selectionEnd;
     }
-    const hadSelectionUpdateRef = (0, import_element6.useRef)(false);
+    const hadSelectionUpdateRef = (0, import_element5.useRef)(false);
     if (!recordRef.current) {
       hadSelectionUpdateRef.current = isSelected;
       setRecordFromProps();
@@ -2637,14 +2628,14 @@ var wp;
       const skipSelection = contentLengthChanged && !hasFocus;
       applyRecord(recordRef.current, { domOnly: skipSelection });
     }
-    const didMountRef = (0, import_element6.useRef)(false);
-    (0, import_element6.useLayoutEffect)(() => {
+    const didMountRef = (0, import_element5.useRef)(false);
+    (0, import_element5.useLayoutEffect)(() => {
       if (didMountRef.current && value !== _valueRef.current) {
         applyFromProps();
         forceRender();
       }
     }, [value]);
-    (0, import_element6.useLayoutEffect)(() => {
+    (0, import_element5.useLayoutEffect)(() => {
       if (!hadSelectionUpdateRef.current) {
         return;
       }
@@ -2654,7 +2645,7 @@ var wp;
       applyRecord(recordRef.current);
       hadSelectionUpdateRef.current = false;
     }, [hadSelectionUpdateRef.current]);
-    const mergedRefs = (0, import_compose3.useMergeRefs)([
+    const mergedRefs = (0, import_compose2.useMergeRefs)([
       ref,
       useDefaultStyle(),
       useBoundaryStyle({ record: recordRef }),
@@ -2667,7 +2658,7 @@ var wp;
         onSelectionChange,
         forceRender
       }),
-      (0, import_compose3.useRefEffect)(() => {
+      (0, import_compose2.useRefEffect)(() => {
         applyFromProps();
         didMountRef.current = true;
       }, [placeholder, ...__unstableDependencies])
@@ -2684,6 +2675,226 @@ var wp;
       ref: mergedRefs
     };
   }
+  function useRichText({
+    allowedFormats,
+    withoutInteractiveFormatting,
+    onChange,
+    __unstableDependencies = [],
+    __unstableFormatTypeHandlerContext,
+    ...props
+  }) {
+    const {
+      formatTypes: formatTypes2,
+      prepareHandlers,
+      valueHandlers,
+      changeHandlers,
+      dependencies
+    } = useFormatTypes({
+      allowedFormats,
+      withoutInteractiveFormatting,
+      __unstableFormatTypeHandlerContext
+    });
+    function addEditorOnlyFormats(record) {
+      return valueHandlers.reduce(
+        (accumulator, fn) => fn(accumulator, record.text),
+        record.formats
+      );
+    }
+    function removeEditorOnlyFormats(record) {
+      formatTypes2.forEach((formatType) => {
+        if (formatType.__experimentalCreatePrepareEditableTree) {
+          record = removeFormat(
+            record,
+            formatType.name,
+            0,
+            record.text.length
+          );
+        }
+      });
+      return record.formats;
+    }
+    function addInvisibleFormats(record) {
+      return prepareHandlers.reduce(
+        (accumulator, fn) => fn(accumulator, record.text),
+        record.formats
+      );
+    }
+    const result = useRichTextBase({
+      ...props,
+      onChange(value, { __unstableFormats, __unstableText }) {
+        onChange(value, { __unstableFormats, __unstableText });
+        Object.values(changeHandlers).forEach((changeHandler) => {
+          changeHandler(__unstableFormats, __unstableText);
+        });
+      },
+      __unstableDependencies: [...dependencies, ...__unstableDependencies],
+      __unstableAfterParse: addEditorOnlyFormats,
+      __unstableBeforeSerialize: removeEditorOnlyFormats,
+      __unstableAddInvisibleFormats: addInvisibleFormats
+    });
+    return { ...result, formatTypes: formatTypes2 };
+  }
+  function __unstableUseRichText(props) {
+    (0, import_deprecated.default)("`__unstableUseRichText` hook", {
+      since: "7.0"
+    });
+    return useRichTextBase(props);
+  }
+
+  // packages/rich-text/build-module/private-apis.mjs
+  var privateApis = {};
+  lock(privateApis, {
+    useRichText
+  });
+
+  // packages/rich-text/build-module/hook/use-anchor-ref.mjs
+  var import_element6 = __toESM(require_element(), 1);
+  var import_deprecated2 = __toESM(require_deprecated(), 1);
+  function useAnchorRef({ ref, value, settings = {} }) {
+    (0, import_deprecated2.default)("`useAnchorRef` hook", {
+      since: "6.1",
+      alternative: "`useAnchor` hook"
+    });
+    const { tagName, className, name } = settings;
+    const activeFormat = name ? getActiveFormat(value, name) : void 0;
+    return (0, import_element6.useMemo)(() => {
+      if (!ref.current) {
+        return;
+      }
+      const {
+        ownerDocument: { defaultView }
+      } = ref.current;
+      const selection = defaultView.getSelection();
+      if (!selection.rangeCount) {
+        return;
+      }
+      const range = selection.getRangeAt(0);
+      if (!activeFormat) {
+        return range;
+      }
+      let element = range.startContainer;
+      element = element.nextElementSibling || element;
+      while (element.nodeType !== element.ELEMENT_NODE) {
+        element = element.parentNode;
+      }
+      return element.closest(
+        tagName + (className ? "." + className : "")
+      );
+    }, [activeFormat, value.start, value.end, tagName, className]);
+  }
+
+  // packages/rich-text/build-module/hook/use-anchor.mjs
+  var import_compose3 = __toESM(require_compose(), 1);
+  var import_element7 = __toESM(require_element(), 1);
+  var import_dom = __toESM(require_dom(), 1);
+  function getFormatElement(range, editableContentElement, tagName, className) {
+    let element = range.startContainer;
+    if (element.nodeType === element.TEXT_NODE && range.startOffset === element.length && element.nextSibling) {
+      element = element.nextSibling;
+      while (element.firstChild) {
+        element = element.firstChild;
+      }
+    }
+    if (element.nodeType !== element.ELEMENT_NODE) {
+      element = element.parentElement;
+    }
+    if (!element) {
+      return;
+    }
+    if (element === editableContentElement) {
+      return;
+    }
+    if (!editableContentElement.contains(element)) {
+      return;
+    }
+    const selector = tagName + (className ? "." + className : "");
+    while (element !== editableContentElement) {
+      if (element.matches(selector)) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+  }
+  function createVirtualAnchorElement(range, editableContentElement) {
+    return {
+      contextElement: editableContentElement,
+      getBoundingClientRect() {
+        return editableContentElement.contains(range.startContainer) ? (0, import_dom.getRectangleFromRange)(range) : editableContentElement.getBoundingClientRect();
+      }
+    };
+  }
+  function getAnchor(editableContentElement, tagName, className) {
+    if (!editableContentElement) {
+      return;
+    }
+    const { ownerDocument } = editableContentElement;
+    const { defaultView } = ownerDocument;
+    const selection = defaultView.getSelection();
+    if (!selection) {
+      return;
+    }
+    if (!selection.rangeCount) {
+      return;
+    }
+    const range = selection.getRangeAt(0);
+    if (!range || !range.startContainer) {
+      return;
+    }
+    const formatElement = getFormatElement(
+      range,
+      editableContentElement,
+      tagName,
+      className
+    );
+    if (formatElement) {
+      return formatElement;
+    }
+    return createVirtualAnchorElement(range, editableContentElement);
+  }
+  function useAnchor({ editableContentElement, settings = {} }) {
+    const { tagName, className, isActive } = settings;
+    const [anchor, setAnchor] = (0, import_element7.useState)(
+      () => getAnchor(editableContentElement, tagName, className)
+    );
+    const wasActive = (0, import_compose3.usePrevious)(isActive);
+    (0, import_element7.useLayoutEffect)(() => {
+      if (!editableContentElement) {
+        return;
+      }
+      function callback() {
+        setAnchor(
+          getAnchor(editableContentElement, tagName, className)
+        );
+      }
+      function attach() {
+        ownerDocument.addEventListener("selectionchange", callback);
+      }
+      function detach() {
+        ownerDocument.removeEventListener("selectionchange", callback);
+      }
+      const { ownerDocument } = editableContentElement;
+      if (editableContentElement === ownerDocument.activeElement || // When a link is created, we need to attach the popover to the newly created anchor.
+      !wasActive && isActive || // Sometimes we're _removing_ an active anchor, such as the inline color popover.
+      // When we add the color, it switches from a virtual anchor to a `<mark>` element.
+      // When we _remove_ the color, it switches from a `<mark>` element to a virtual anchor.
+      wasActive && !isActive) {
+        setAnchor(
+          getAnchor(editableContentElement, tagName, className)
+        );
+        attach();
+      }
+      editableContentElement.addEventListener("focusin", attach);
+      editableContentElement.addEventListener("focusout", detach);
+      return () => {
+        detach();
+        editableContentElement.removeEventListener("focusin", attach);
+        editableContentElement.removeEventListener("focusout", detach);
+      };
+    }, [editableContentElement, tagName, className, isActive, wasActive]);
+    return anchor;
+  }
+
+  // packages/rich-text/build-module/index.mjs
   function __experimentalRichText() {
   }
   return __toCommonJS(index_exports);

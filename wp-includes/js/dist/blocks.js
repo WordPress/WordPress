@@ -10123,6 +10123,8 @@ ${p3}`
     mode = "AUTO",
     tagName
   }) {
+    log("Received HTML (pasteHandler):\n\n", HTML);
+    log("Received plain text (pasteHandler):\n\n", plainText);
     HTML = HTML.replace(/<meta[^>]+>/g, "");
     HTML = HTML.replace(
       /^\s*<html[^>]*>\s*<body[^>]*>(?:\s*<!--\s*StartFragment\s*-->)?/i,
@@ -10338,7 +10340,12 @@ ${p3}`
   var fieldsKey = /* @__PURE__ */ Symbol("fields");
   var formKey = /* @__PURE__ */ Symbol("form");
   var privateApis = {};
-  lock(privateApis, { isContentBlock, fieldsKey, formKey });
+  lock(privateApis, {
+    isContentBlock,
+    fieldsKey,
+    formKey,
+    parseRawBlock
+  });
 
   // packages/blocks/build-module/deprecated.mjs
   var import_deprecated11 = __toESM(require_deprecated(), 1);

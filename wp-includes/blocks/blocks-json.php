@@ -64,7 +64,8 @@
           'fontSize' => true
         )
       ),
-      'contentRole' => true
+      'contentRole' => true,
+      'listView' => true
     ),
     'attributes' => array(
       'iconPosition' => array(
@@ -2626,6 +2627,9 @@
     'name' => 'core/gallery',
     'title' => 'Gallery',
     'category' => 'media',
+    'usesContext' => array(
+      'galleryId'
+    ),
     'allowedBlocks' => array(
       'core/image'
     ),
@@ -2691,6 +2695,15 @@
           
         )
       ),
+      'navigationButtonType' => array(
+        'type' => 'string',
+        'default' => 'icon',
+        'enum' => array(
+          'icon',
+          'text',
+          'both'
+        )
+      ),
       'shortCodeTransforms' => array(
         'type' => 'array',
         'items' => array(
@@ -2745,7 +2758,8 @@
     'providesContext' => array(
       'allowResize' => 'allowResize',
       'imageCrop' => 'imageCrop',
-      'fixedHeight' => 'fixedHeight'
+      'fixedHeight' => 'fixedHeight',
+      'navigationButtonType' => 'navigationButtonType'
     ),
     'supports' => array(
       'anchor' => true,
@@ -2799,7 +2813,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'listView' => true
     ),
     'editorStyle' => 'wp-block-gallery-editor',
     'style' => 'wp-block-gallery'
@@ -3093,9 +3108,11 @@
       'allowResize',
       'imageCrop',
       'fixedHeight',
+      'navigationButtonType',
       'postId',
       'postType',
-      'queryId'
+      'queryId',
+      'galleryId'
     ),
     'description' => 'Insert an image to make a visual statement.',
     'keywords' => array(
@@ -4023,6 +4040,7 @@
       'core/page-list',
       'core/spacer',
       'core/home-link',
+      'core/icon',
       'core/site-title',
       'core/site-logo',
       'core/navigation-submenu',
@@ -4131,6 +4149,7 @@
       'customFontSize' => 'customFontSize',
       'showSubmenuIcon' => 'showSubmenuIcon',
       'submenuVisibility' => 'submenuVisibility',
+      'openSubmenusOnClick' => 'openSubmenusOnClick',
       'style' => 'style',
       'maxNestingLevel' => 'maxNestingLevel'
     ),
@@ -4280,6 +4299,64 @@
     'editorStyle' => 'wp-block-navigation-link-editor',
     'style' => 'wp-block-navigation-link'
   ),
+  'navigation-overlay-close' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/navigation-overlay-close',
+    'title' => 'Navigation Overlay Close',
+    'category' => 'design',
+    'description' => 'A customizable button to close overlays.',
+    'keywords' => array(
+      'close',
+      'overlay',
+      'navigation',
+      'menu'
+    ),
+    'textdomain' => 'default',
+    'attributes' => array(
+      'displayMode' => array(
+        'type' => 'string',
+        'enum' => array(
+          'icon',
+          'text',
+          'both'
+        ),
+        'default' => 'icon'
+      ),
+      'text' => array(
+        'type' => 'string'
+      )
+    ),
+    'supports' => array(
+      'color' => array(
+        'gradients' => false,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true
+        )
+      ),
+      'spacing' => array(
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'padding' => true
+        )
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      )
+    ),
+    'style' => 'wp-block-navigation-overlay-close'
+  ),
   'navigation-submenu' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -4339,6 +4416,7 @@
       'customFontSize',
       'showSubmenuIcon',
       'maxNestingLevel',
+      'openSubmenusOnClick',
       'submenuVisibility',
       'style'
     ),
@@ -4432,7 +4510,8 @@
       'customFontSize',
       'showSubmenuIcon',
       'style',
-      'openSubmenusOnClick'
+      'openSubmenusOnClick',
+      'submenuVisibility'
     ),
     'supports' => array(
       'anchor' => true,
@@ -4530,7 +4609,8 @@
       'customFontSize',
       'showSubmenuIcon',
       'style',
-      'openSubmenusOnClick'
+      'openSubmenusOnClick',
+      'submenuVisibility'
     ),
     'supports' => array(
       'anchor' => true,
@@ -4907,11 +4987,6 @@
     'category' => 'theme',
     'description' => 'Display a post\'s comments count.',
     'textdomain' => 'default',
-    'attributes' => array(
-      'textAlign' => array(
-        'type' => 'string'
-      )
-    ),
     'usesContext' => array(
       'postId'
     ),
@@ -4935,6 +5010,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -4965,11 +5041,6 @@
     'category' => 'theme',
     'description' => 'Display a post\'s comments form.',
     'textdomain' => 'default',
-    'attributes' => array(
-      'textAlign' => array(
-        'type' => 'string'
-      )
-    ),
     'usesContext' => array(
       'postId',
       'postType'
@@ -4993,6 +5064,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontStyle' => true,
         '__experimentalFontWeight' => true,
         '__experimentalLetterSpacing' => true,
@@ -5022,7 +5094,11 @@
     ),
     'example' => array(
       'attributes' => array(
-        'textAlign' => 'center'
+        'style' => array(
+          'typography' => array(
+            'textAlign' => 'center'
+          )
+        )
       )
     )
   ),
@@ -5037,11 +5113,6 @@
     'usesContext' => array(
       'postType',
       'postId'
-    ),
-    'attributes' => array(
-      'textAlign' => array(
-        'type' => 'string'
-      )
     ),
     'example' => array(
       'viewportWidth' => 350
@@ -5064,6 +5135,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -5313,6 +5385,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textColumns' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -5615,9 +5688,6 @@
       'term' => array(
         'type' => 'string'
       ),
-      'textAlign' => array(
-        'type' => 'string'
-      ),
       'separator' => array(
         'type' => 'string',
         'default' => ', '
@@ -5659,6 +5729,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -5700,9 +5771,6 @@
       'postType'
     ),
     'attributes' => array(
-      'textAlign' => array(
-        'type' => 'string'
-      ),
       'displayAsRange' => array(
         'type' => 'boolean',
         'default' => true
@@ -5737,6 +5805,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -7885,11 +7954,6 @@
       'termId',
       'taxonomy'
     ),
-    'attributes' => array(
-      'textAlign' => array(
-        'type' => 'string'
-      )
-    ),
     'supports' => array(
       'anchor' => true,
       'align' => array(
@@ -7911,6 +7975,7 @@
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
+        'textAlign' => true,
         '__experimentalFontFamily' => true,
         '__experimentalFontWeight' => true,
         '__experimentalFontStyle' => true,
@@ -8190,12 +8255,16 @@
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
     'name' => 'core/verse',
-    'title' => 'Verse',
+    'title' => 'Poetry',
     'category' => 'text',
     'description' => 'Insert poetry. Use special spacing formats. Or quote song lyrics.',
     'keywords' => array(
       'poetry',
-      'poem'
+      'poem',
+      'verse',
+      'stanza',
+      'song',
+      'lyrics'
     ),
     'textdomain' => 'default',
     'attributes' => array(

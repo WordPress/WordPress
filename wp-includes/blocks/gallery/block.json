@@ -4,6 +4,7 @@
 	"name": "core/gallery",
 	"title": "Gallery",
 	"category": "media",
+	"usesContext": [ "galleryId" ],
 	"allowedBlocks": [ "core/image" ],
 	"description": "Display multiple images in a rich gallery.",
 	"keywords": [ "images", "photos" ],
@@ -60,6 +61,11 @@
 			},
 			"default": []
 		},
+		"navigationButtonType": {
+			"type": "string",
+			"default": "icon",
+			"enum": [ "icon", "text", "both" ]
+		},
 		"shortCodeTransforms": {
 			"type": "array",
 			"items": {
@@ -112,7 +118,8 @@
 	"providesContext": {
 		"allowResize": "allowResize",
 		"imageCrop": "imageCrop",
-		"fixedHeight": "fixedHeight"
+		"fixedHeight": "fixedHeight",
+		"navigationButtonType": "navigationButtonType"
 	},
 	"supports": {
 		"anchor": true,
@@ -155,7 +162,8 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"listView": true
 	},
 	"editorStyle": "wp-block-gallery-editor",
 	"style": "wp-block-gallery"

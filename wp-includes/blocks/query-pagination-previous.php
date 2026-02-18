@@ -18,11 +18,11 @@
  */
 function render_block_core_query_pagination_previous( $attributes, $content, $block ) {
 	$page_key            = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-	$enhanced_pagination = isset( $block->context['enhancedPagination'] ) && $block->context['enhancedPagination'];
-	$max_page            = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
+	$enhanced_pagination = (bool) ( $block->context['enhancedPagination'] ?? false );
+	$max_page            = (int) ( $block->context['query']['pages'] ?? 0 );
 	$page                = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 	$wrapper_attributes  = get_block_wrapper_attributes();
-	$show_label          = isset( $block->context['showLabel'] ) ? (bool) $block->context['showLabel'] : true;
+	$show_label          = (bool) ( $block->context['showLabel'] ?? true );
 	$default_label       = __( 'Previous Page' );
 	$label_text          = isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ? esc_html( $attributes['label'] ) : $default_label;
 	$label               = $show_label ? $label_text : '';

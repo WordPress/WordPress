@@ -39,9 +39,25 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/components
+  var require_components = __commonJS({
+    "package-external:@wordpress/components"(exports, module) {
+      module.exports = window.wp.components;
+    }
+  });
+
+  // vendor-external:react/jsx-runtime
+  var require_jsx_runtime = __commonJS({
+    "vendor-external:react/jsx-runtime"(exports, module) {
+      module.exports = window.ReactJSXRuntime;
+    }
+  });
+
   // packages/notices/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
+    InlineNotices: () => InlineNotices,
+    SnackbarNotices: () => SnackbarNotices,
     store: () => store
   });
 
@@ -187,5 +203,99 @@ var wp;
     selectors: selectors_exports
   });
   (0, import_data.register)(store);
+
+  // node_modules/clsx/dist/clsx.mjs
+  function r(e) {
+    var t, f, n = "";
+    if ("string" == typeof e || "number" == typeof e) n += e;
+    else if ("object" == typeof e) if (Array.isArray(e)) {
+      var o = e.length;
+      for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+    } else for (f in e) e[f] && (n && (n += " "), n += f);
+    return n;
+  }
+  function clsx() {
+    for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+    return n;
+  }
+  var clsx_default = clsx;
+
+  // packages/notices/build-module/components/inline-notices/index.mjs
+  var import_components = __toESM(require_components(), 1);
+  var import_data2 = __toESM(require_data(), 1);
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='fa538c333d']")) {
+    const style = document.createElement("style");
+    style.setAttribute("data-wp-hash", "fa538c333d");
+    style.appendChild(document.createTextNode(".components-notices__dismissible,.components-notices__pinned{color:#1e1e1e}.components-notices__dismissible .components-notice,.components-notices__pinned .components-notice{border-bottom:1px solid #0003;box-sizing:border-box;min-height:64px;padding:0 12px}.components-notices__dismissible .components-notice .components-notice__dismiss,.components-notices__pinned .components-notice .components-notice__dismiss{margin-top:12px}"));
+    document.head.appendChild(style);
+  }
+  function InlineNotices({
+    children,
+    pinnedNoticesClassName,
+    dismissibleNoticesClassName,
+    context
+  }) {
+    const notices2 = (0, import_data2.useSelect)(
+      (select) => select(store).getNotices(context),
+      [context]
+    );
+    const { removeNotice: removeNotice2 } = (0, import_data2.useDispatch)(store);
+    const dismissibleNotices = notices2.filter(
+      ({ isDismissible, type }) => isDismissible && type === "default"
+    );
+    const nonDismissibleNotices = notices2.filter(
+      ({ isDismissible, type }) => !isDismissible && type === "default"
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        import_components.NoticeList,
+        {
+          notices: nonDismissibleNotices,
+          className: clsx_default(
+            "components-notices__pinned",
+            pinnedNoticesClassName
+          )
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        import_components.NoticeList,
+        {
+          notices: dismissibleNotices,
+          className: clsx_default(
+            "components-notices__dismissible",
+            dismissibleNoticesClassName
+          ),
+          onRemove: (id) => removeNotice2(id, context),
+          children
+        }
+      )
+    ] });
+  }
+
+  // packages/notices/build-module/components/snackbar-notices/index.mjs
+  var import_components2 = __toESM(require_components(), 1);
+  var import_data3 = __toESM(require_data(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var MAX_VISIBLE_NOTICES = -3;
+  function SnackbarNotices({
+    className,
+    context
+  }) {
+    const notices2 = (0, import_data3.useSelect)(
+      (select) => select(store).getNotices(context),
+      [context]
+    );
+    const { removeNotice: removeNotice2 } = (0, import_data3.useDispatch)(store);
+    const snackbarNotices = notices2.filter(({ type }) => type === "snackbar").slice(MAX_VISIBLE_NOTICES);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+      import_components2.SnackbarList,
+      {
+        notices: snackbarNotices,
+        className: clsx_default("components-notices__snackbar", className),
+        onRemove: (id) => removeNotice2(id, context)
+      }
+    );
+  }
   return __toCommonJS(index_exports);
 })();

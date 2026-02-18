@@ -1,0 +1,1 @@
+function r(){return import("@wordpress/vips/worker")}export{r as default};

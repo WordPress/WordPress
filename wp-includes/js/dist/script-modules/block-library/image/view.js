@@ -3,6 +3,7 @@ import {
   store,
   getContext,
   getElement,
+  getConfig,
   withSyncEvent,
   withScope
 } from "@wordpress/interactivity";
@@ -13,6 +14,15 @@ var IMAGE_PRELOAD_DELAY = 200;
 // packages/block-library/build-module/image/view.mjs
 var isTouching = false;
 var lastTouchTime = 0;
+var touchStartEvent = {
+  startX: 0,
+  startY: 0,
+  startTime: 0
+};
+var focusableSelectors = [
+  ".wp-lightbox-close-button",
+  ".wp-lightbox-navigation-button"
+];
 function getImageSrc({ uploadedSrc }) {
   return uploadedSrc || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 }
@@ -23,14 +33,53 @@ var { state, actions, callbacks } = store(
   "core/image",
   {
     state: {
-      currentImageId: null,
+      selectedImageId: null,
+      selectedGalleryId: null,
       preloadTimers: /* @__PURE__ */ new Map(),
       preloadedImageIds: /* @__PURE__ */ new Set(),
-      get currentImage() {
-        return state.metadata[state.currentImageId];
+      get galleryImages() {
+        if (!state.selectedGalleryId) {
+          return [state.selectedImageId];
+        }
+        return Object.entries(state.metadata).filter(
+          ([, value]) => value.galleryId === state.selectedGalleryId
+        ).sort(([, a], [, b]) => {
+          const orderA = a.order ?? 0;
+          const orderB = b.order ?? 0;
+          return orderA - orderB;
+        }).map(([key]) => key);
+      },
+      get selectedImageIndex() {
+        return state.galleryImages.findIndex(
+          (id) => id === state.selectedImageId
+        );
+      },
+      get selectedImage() {
+        return state.metadata[state.selectedImageId];
+      },
+      get hasNavigationIcon() {
+        const { navigationButtonType } = state.selectedImage;
+        return navigationButtonType === "icon" || navigationButtonType === "both";
+      },
+      get hasNavigationText() {
+        const { navigationButtonType } = state.selectedImage;
+        return navigationButtonType === "text" || navigationButtonType === "both";
+      },
+      get thisImage() {
+        const { imageId } = getContext();
+        return state.metadata[imageId];
+      },
+      get hasNavigation() {
+        return state.galleryImages.length > 1;
+      },
+      get hasNextImage() {
+        return state.selectedImageIndex + 1 < state.galleryImages.length;
+      },
+      get hasPreviousImage() {
+        return state.selectedImageIndex - 1 >= 0;
       },
       get overlayOpened() {
-        return state.currentImageId !== null;
+        return state.selectedImageId !== null;
       },
       get roleAttribute() {
         return state.overlayOpened ? "dialog" : null;
@@ -38,39 +87,43 @@ var { state, actions, callbacks } = store(
       get ariaModal() {
         return state.overlayOpened ? "true" : null;
       },
+      get ariaLabel() {
+        return state.selectedImage.customAriaLabel || getConfig().defaultAriaLabel;
+      },
+      get closeButtonAriaLabel() {
+        return state.hasNavigationText ? void 0 : getConfig().closeButtonText;
+      },
+      get prevButtonAriaLabel() {
+        return state.hasNavigationText ? void 0 : getConfig().prevButtonText;
+      },
+      get nextButtonAriaLabel() {
+        return state.hasNavigationText ? void 0 : getConfig().nextButtonText;
+      },
       get enlargedSrc() {
-        return getImageSrc(state.currentImage);
+        return getImageSrc(state.selectedImage);
       },
       get enlargedSrcset() {
-        return getImageSrcset(state.currentImage);
+        return getImageSrcset(state.selectedImage);
       },
       get figureStyles() {
-        return state.overlayOpened && `${state.currentImage.figureStyles?.replace(
+        return state.overlayOpened && `${state.selectedImage.figureStyles?.replace(
           /margin[^;]*;?/g,
           ""
         )};`;
       },
       get imgStyles() {
-        return state.overlayOpened && `${state.currentImage.imgStyles?.replace(
+        return state.overlayOpened && `${state.selectedImage.imgStyles?.replace(
           /;$/,
           ""
         )}; object-fit:cover;`;
       },
-      get imageButtonRight() {
-        const { imageId } = getContext();
-        return state.metadata[imageId].imageButtonRight;
-      },
-      get imageButtonTop() {
-        const { imageId } = getContext();
-        return state.metadata[imageId].imageButtonTop;
-      },
       get isContentHidden() {
         const ctx = getContext();
-        return state.overlayEnabled && state.currentImageId === ctx.imageId;
+        return state.overlayEnabled && state.selectedImageId === ctx.imageId;
       },
       get isContentVisible() {
         const ctx = getContext();
-        return !state.overlayEnabled && state.currentImageId === ctx.imageId;
+        return !state.overlayEnabled && state.selectedImageId === ctx.imageId;
       }
     },
     actions: {
@@ -81,30 +134,57 @@ var { state, actions, callbacks } = store(
         }
         state.scrollTopReset = document.documentElement.scrollTop;
         state.scrollLeftReset = document.documentElement.scrollLeft;
+        state.selectedImageId = imageId;
+        const { galleryId } = getContext("core/gallery") || {};
+        state.selectedGalleryId = galleryId || null;
         state.overlayEnabled = true;
-        state.currentImageId = imageId;
         callbacks.setOverlayStyles();
       },
       hideLightbox() {
         if (state.overlayEnabled) {
           state.overlayEnabled = false;
           setTimeout(function() {
-            state.currentImage.buttonRef.focus({
+            state.selectedImage.buttonRef.focus({
               preventScroll: true
             });
-            state.currentImageId = null;
+            state.selectedImageId = null;
+            state.selectedGalleryId = null;
           }, 450);
         }
       },
+      showPreviousImage: withSyncEvent((event) => {
+        event.stopPropagation();
+        const nextIndex = state.hasPreviousImage ? state.selectedImageIndex - 1 : state.galleryImages.length - 1;
+        state.selectedImageId = state.galleryImages[nextIndex];
+        callbacks.setOverlayStyles();
+      }),
+      showNextImage: withSyncEvent((event) => {
+        event.stopPropagation();
+        const nextIndex = state.hasNextImage ? state.selectedImageIndex + 1 : 0;
+        state.selectedImageId = state.galleryImages[nextIndex];
+        callbacks.setOverlayStyles();
+      }),
       handleKeydown: withSyncEvent((event) => {
         if (state.overlayEnabled) {
-          if (event.key === "Tab") {
-            event.preventDefault();
-            const { ref } = getElement();
-            ref.querySelector("button").focus();
-          }
           if (event.key === "Escape") {
             actions.hideLightbox();
+          } else if (event.key === "ArrowLeft") {
+            actions.showPreviousImage(event);
+          } else if (event.key === "ArrowRight") {
+            actions.showNextImage(event);
+          } else if (event.key === "Tab") {
+            const focusableElements = Array.from(
+              document.querySelectorAll(focusableSelectors)
+            );
+            const firstFocusableElement = focusableElements[0];
+            const lastFocusableElement = focusableElements[focusableElements.length - 1];
+            if (event.shiftKey && event.target === firstFocusableElement) {
+              event.preventDefault();
+              lastFocusableElement.focus();
+            } else if (!event.shiftKey && event.target === lastFocusableElement) {
+              event.preventDefault();
+              firstFocusableElement.focus();
+            }
           }
         }
       }),
@@ -113,13 +193,42 @@ var { state, actions, callbacks } = store(
           event.preventDefault();
         }
       }),
-      handleTouchStart() {
+      handleTouchStart(event) {
         isTouching = true;
+        const t = event.touches && event.touches[0];
+        if (t) {
+          touchStartEvent.startX = t.clientX;
+          touchStartEvent.startY = t.clientY;
+          touchStartEvent.startTime = Date.now();
+        }
       },
-      handleTouchEnd() {
-        lastTouchTime = Date.now();
+      handleTouchEnd: withSyncEvent((event) => {
+        const touchEndEvent = event.changedTouches && event.changedTouches[0] || event.touches && event.touches[0];
+        const now = Date.now();
+        if (touchEndEvent && state.overlayEnabled) {
+          const deltaX = touchEndEvent.clientX - touchStartEvent.startX;
+          const deltaY = touchEndEvent.clientY - touchStartEvent.startY;
+          const absDeltaX = Math.abs(deltaX);
+          const absDeltaY = Math.abs(deltaY);
+          const elapsedMs = now - touchStartEvent.startTime;
+          const isHorizontalSwipe = (
+            // Swipe distance is greater than 50px
+            absDeltaX > 50 && // Horizontal movement is much larger than the vertical movement
+            absDeltaX > absDeltaY * 1.5 && // Fast action of less than 800ms
+            elapsedMs < 800
+          );
+          if (isHorizontalSwipe) {
+            event.preventDefault();
+            if (deltaX < 0) {
+              actions.showNextImage(event);
+            } else {
+              actions.showPreviousImage(event);
+            }
+          }
+        }
+        lastTouchTime = now;
         isTouching = false;
-      },
+      }),
       handleScroll() {
         if (state.overlayOpened) {
           if (!isTouching && Date.now() - lastTouchTime > 450) {
@@ -178,11 +287,11 @@ var { state, actions, callbacks } = store(
           naturalHeight,
           offsetWidth: originalWidth,
           offsetHeight: originalHeight
-        } = state.currentImage.imageRef;
-        let { x: screenPosX, y: screenPosY } = state.currentImage.imageRef.getBoundingClientRect();
+        } = state.selectedImage.imageRef;
+        let { x: screenPosX, y: screenPosY } = state.selectedImage.imageRef.getBoundingClientRect();
         const naturalRatio = naturalWidth / naturalHeight;
         let originalRatio = originalWidth / originalHeight;
-        if (state.currentImage.scaleAttr === "contain") {
+        if (state.selectedImage.scaleAttr === "contain") {
           if (naturalRatio > originalRatio) {
             const heightWithoutSpace = originalWidth / naturalRatio;
             screenPosY += (originalHeight - heightWithoutSpace) / 2;
@@ -195,10 +304,10 @@ var { state, actions, callbacks } = store(
         }
         originalRatio = originalWidth / originalHeight;
         let imgMaxWidth = parseFloat(
-          state.currentImage.targetWidth !== "none" ? state.currentImage.targetWidth : naturalWidth
+          state.selectedImage.targetWidth && state.selectedImage.targetWidth !== "none" ? state.selectedImage.targetWidth : naturalWidth
         );
         let imgMaxHeight = parseFloat(
-          state.currentImage.targetHeight !== "none" ? state.currentImage.targetHeight : naturalHeight
+          state.selectedImage.targetHeight && state.selectedImage.targetHeight !== "none" ? state.selectedImage.targetHeight : naturalHeight
         );
         let imgRatio = imgMaxWidth / imgMaxHeight;
         let containerMaxWidth = imgMaxWidth;
@@ -239,12 +348,15 @@ var { state, actions, callbacks } = store(
           containerHeight = originalHeight;
         }
         let horizontalPadding = 0;
-        if (window.innerWidth > 480) {
+        let verticalPadding = 160;
+        if (480 < window.innerWidth) {
           horizontalPadding = 80;
-        } else if (window.innerWidth > 1920) {
-          horizontalPadding = 160;
+          verticalPadding = 160;
         }
-        const verticalPadding = 80;
+        if (960 < window.innerWidth) {
+          horizontalPadding = state.hasNavigation ? 320 : 80;
+          verticalPadding = 80;
+        }
         const targetMaxWidth = Math.min(
           window.innerWidth - horizontalPadding,
           containerWidth
@@ -306,29 +418,38 @@ var { state, actions, callbacks } = store(
         }
         const buttonOffsetTop = figureHeight - offsetHeight;
         const buttonOffsetRight = figureWidth - offsetWidth;
-        let imageButtonTop = buttonOffsetTop + 16;
-        let imageButtonRight = buttonOffsetRight + 16;
+        let buttonTop = buttonOffsetTop + 16;
+        let buttonRight = buttonOffsetRight + 16;
         if (state.metadata[imageId].scaleAttr === "contain") {
           const naturalRatio = naturalWidth / naturalHeight;
           const offsetRatio = offsetWidth / offsetHeight;
           if (naturalRatio >= offsetRatio) {
             const referenceHeight = offsetWidth / naturalRatio;
-            imageButtonTop = (offsetHeight - referenceHeight) / 2 + buttonOffsetTop + 16;
-            imageButtonRight = buttonOffsetRight + 16;
+            buttonTop = (offsetHeight - referenceHeight) / 2 + buttonOffsetTop + 16;
+            buttonRight = buttonOffsetRight + 16;
           } else {
             const referenceWidth = offsetHeight * naturalRatio;
-            imageButtonTop = buttonOffsetTop + 16;
-            imageButtonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 16;
+            buttonTop = buttonOffsetTop + 16;
+            buttonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 16;
           }
         }
-        state.metadata[imageId].imageButtonTop = imageButtonTop;
-        state.metadata[imageId].imageButtonRight = imageButtonRight;
+        state.metadata[imageId].buttonTop = buttonTop;
+        state.metadata[imageId].buttonRight = buttonRight;
       },
       setOverlayFocus() {
         if (state.overlayEnabled) {
           const { ref } = getElement();
           ref.focus();
         }
+      },
+      setInertElements() {
+        document.querySelectorAll("body > :not(.wp-lightbox-overlay)").forEach((el) => {
+          if (state.overlayEnabled) {
+            el.setAttribute("inert", "");
+          } else {
+            el.removeAttribute("inert");
+          }
+        });
       },
       initTriggerButton() {
         const { imageId } = getContext();

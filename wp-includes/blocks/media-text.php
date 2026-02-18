@@ -29,8 +29,8 @@ function render_block_core_media_text( $attributes, $content ) {
 		return $content;
 	}
 
-	$has_media_on_right = isset( $attributes['mediaPosition'] ) && 'right' === $attributes['mediaPosition'];
-	$image_fill         = isset( $attributes['imageFill'] ) && $attributes['imageFill'];
+	$has_media_on_right = 'right' === ( $attributes['mediaPosition'] ?? null );
+	$image_fill         = (bool) ( $attributes['imageFill'] ?? false );
 	$focal_point        = isset( $attributes['focalPoint'] ) ? round( $attributes['focalPoint']['x'] * 100 ) . '% ' . round( $attributes['focalPoint']['y'] * 100 ) . '%' : '50% 50%';
 	$unique_id          = 'wp-block-media-text__media-' . wp_unique_id();
 

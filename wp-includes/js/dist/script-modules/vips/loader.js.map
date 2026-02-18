@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../packages/vips/src/loader.ts"],
+  "sourcesContent": ["/**\n * Loader for the @wordpress/vips/worker module.\n *\n * This tiny module exists so that WordPress can discover @wordpress/vips/worker\n * as a dynamic module dependency and include it in the import map. Without this,\n * the dynamic import() call in @wordpress/upload-media's IIFE bundle cannot\n * resolve the module URL at runtime.\n *\n * The loader is enqueued on block editor pages via wp_enqueue_script_module()\n * in lib/client-assets.php. The heavy vips/worker module (~3.8MB of inlined WASM)\n * is only fetched when image processing is actually triggered.\n *\n * @see packages/upload-media/src/store/utils/vips.ts \u2014 the consumer\n * @see packages/latex-to-mathml/src/loader.ts \u2014 the reference pattern\n */\nexport default function loader() {\n\treturn import( '@wordpress/vips/worker' );\n}\n"],
+  "mappings": ";AAee,SAAR,SAA0B;AAChC,SAAO,OAAQ,wBAAyB;AACzC;",
+  "names": []
+}

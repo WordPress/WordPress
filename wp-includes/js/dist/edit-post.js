@@ -600,12 +600,12 @@ var wp;
   // packages/icons/build-module/library/chevron-down.mjs
   var import_primitives2 = __toESM(require_primitives(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
+  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
 
   // packages/icons/build-module/library/chevron-up.mjs
   var import_primitives3 = __toESM(require_primitives(), 1);
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
+  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
 
   // packages/icons/build-module/library/fullscreen.mjs
   var import_primitives4 = __toESM(require_primitives(), 1);
@@ -624,7 +624,7 @@ var wp;
   var import_block_library = __toESM(require_block_library(), 1);
   var import_url5 = __toESM(require_url(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
-  var import_core_data6 = __toESM(require_core_data(), 1);
+  var import_core_data7 = __toESM(require_core_data(), 1);
   var import_components9 = __toESM(require_components(), 1);
   var import_compose3 = __toESM(require_compose(), 1);
 
@@ -2161,6 +2161,7 @@ var wp;
       name: "core/toggle-fullscreen-mode",
       label: isFullscreen ? (0, import_i18n13.__)("Exit fullscreen") : (0, import_i18n13.__)("Enter fullscreen"),
       icon: fullscreen_default,
+      category: "command",
       callback: ({ close }) => {
         toggle("core/edit-post", "fullscreenMode");
         close();
@@ -2191,17 +2192,22 @@ var wp;
   var isGutenbergPlugin = false ? true : false;
   function useShouldIframe() {
     return (0, import_data22.useSelect)((select3) => {
-      const { getEditorSettings, getCurrentPostType, getDeviceType } = select3(import_editor15.store);
+      const { getCurrentPostType, getDeviceType } = select3(import_editor15.store);
+      const { getClientIdsWithDescendants, getBlockName } = select3(import_block_editor.store);
+      const { getBlockType } = select3(import_blocks2.store);
       return (
-        // If the theme is block based and the Gutenberg plugin is active,
-        // we ALWAYS use the iframe for consistency across the post and site
-        // editor.
-        isGutenbergPlugin && getEditorSettings().__unstableIsBlockBasedTheme || // We also still want to iframe all the special
+        // If the Gutenberg plugin is active, we ALWAYS use the iframe for
+        // consistency across the post and site editor. We plan on enforcing
+        // the iframe in the future, so Gutenberg both serves as way for us
+        // to warn plugin developers and for plugin developers to test their
+        // blocks easily. Before GB v22.5, we only enforced it for
+        // block-based themes (classic themes used the same rules as core).
+        isGutenbergPlugin || // We also still want to iframe all the special
         // editor features and modes such as device previews, zoom out, and
         // template/pattern editing.
-        getDeviceType() !== "Desktop" || ["wp_template", "wp_block"].includes(getCurrentPostType()) || unlock(select3(import_block_editor.store)).isZoomOut() || // Finally, still iframe the editor if all blocks are v3 (which means
-        // they are marked as iframe-compatible).
-        select3(import_blocks2.store).getBlockTypes().every((type) => type.apiVersion >= 3)
+        getDeviceType() !== "Desktop" || ["wp_template", "wp_block"].includes(getCurrentPostType()) || unlock(select3(import_block_editor.store)).isZoomOut() || // Finally, still iframe the editor if all present blocks are v3
+        // (which means they are marked as iframe-compatible).
+        [...new Set(getClientIdsWithDescendants().map(getBlockName))].map(getBlockType).filter(Boolean).every((blockType) => blockType.apiVersion >= 3)
       );
     }, []);
   }
@@ -2210,17 +2216,17 @@ var wp;
   var import_element10 = __toESM(require_element(), 1);
   var import_data23 = __toESM(require_data(), 1);
   var import_editor16 = __toESM(require_editor(), 1);
-  var { useGenerateBlockPath } = unlock(import_editor16.privateApis);
+  var import_core_data6 = __toESM(require_core_data(), 1);
   function useNavigateToEntityRecord(initialPostId, initialPostType, defaultRenderingMode) {
-    const generateBlockPath = useGenerateBlockPath();
+    const registry = (0, import_data23.useRegistry)();
     const [postHistory, dispatch2] = (0, import_element10.useReducer)(
-      (historyState, { type, post: post2, previousRenderingMode: previousRenderingMode2, selectedBlockPath: selectedBlockPath2 }) => {
+      (historyState, { type, post: post2, previousRenderingMode: previousRenderingMode2, selectedBlockClientId }) => {
         if (type === "push") {
           const updatedHistory = [...historyState];
           const currentIndex = updatedHistory.length - 1;
           updatedHistory[currentIndex] = {
             ...updatedHistory[currentIndex],
-            selectedBlockPath: selectedBlockPath2
+            selectedBlockClientId
           };
           return [...updatedHistory, { post: post2, previousRenderingMode: previousRenderingMode2 }];
         }
@@ -2237,42 +2243,70 @@ var wp;
         }
       ]
     );
-    const { post, previousRenderingMode, selectedBlockPath } = postHistory[postHistory.length - 1];
+    const { post, previousRenderingMode } = postHistory[postHistory.length - 1];
     const { getRenderingMode } = (0, import_data23.useSelect)(import_editor16.store);
     const { setRenderingMode } = (0, import_data23.useDispatch)(import_editor16.store);
+    const { editEntityRecord } = (0, import_data23.useDispatch)(import_core_data6.store);
     const onNavigateToEntityRecord = (0, import_element10.useCallback)(
       (params) => {
-        const blockPath = params.selectedBlockClientId ? generateBlockPath(params.selectedBlockClientId) : null;
+        const entityEdits = registry.select(import_core_data6.store).getEntityRecordEdits("postType", post.postType, post.postId);
+        const externalClientId = entityEdits?.selection?.selectionStart?.clientId ?? null;
         dispatch2({
           type: "push",
           post: { postId: params.postId, postType: params.postType },
           // Save the current rendering mode so we can restore it when navigating back.
           previousRenderingMode: getRenderingMode(),
-          selectedBlockPath: blockPath
+          selectedBlockClientId: externalClientId
         });
         setRenderingMode(defaultRenderingMode);
       },
       [
+        registry,
+        post.postType,
+        post.postId,
         getRenderingMode,
         setRenderingMode,
-        defaultRenderingMode,
-        generateBlockPath
+        defaultRenderingMode
       ]
     );
     const onNavigateToPreviousEntityRecord = (0, import_element10.useCallback)(() => {
+      if (postHistory.length > 1) {
+        const previousItem = postHistory[postHistory.length - 2];
+        if (previousItem.selectedBlockClientId) {
+          editEntityRecord(
+            "postType",
+            previousItem.post.postType,
+            previousItem.post.postId,
+            {
+              selection: {
+                selectionStart: {
+                  clientId: previousItem.selectedBlockClientId
+                },
+                selectionEnd: {
+                  clientId: previousItem.selectedBlockClientId
+                }
+              }
+            },
+            { undoIgnore: true }
+          );
+        }
+      }
       dispatch2({
         type: "pop"
       });
       if (previousRenderingMode) {
         setRenderingMode(previousRenderingMode);
       }
-    }, [setRenderingMode, previousRenderingMode]);
+    }, [
+      setRenderingMode,
+      previousRenderingMode,
+      postHistory,
+      editEntityRecord
+    ]);
     return {
       currentPost: post,
       onNavigateToEntityRecord,
-      onNavigateToPreviousEntityRecord: postHistory.length > 1 ? onNavigateToPreviousEntityRecord : void 0,
-      // Return the selected block path from the current history item
-      previousSelectedBlockPath: selectedBlockPath
+      onNavigateToPreviousEntityRecord: postHistory.length > 1 ? onNavigateToPreviousEntityRecord : void 0
     };
   }
 
@@ -2533,8 +2567,7 @@ var wp;
     const {
       currentPost: { postId: currentPostId, postType: currentPostType },
       onNavigateToEntityRecord,
-      onNavigateToPreviousEntityRecord,
-      previousSelectedBlockPath
+      onNavigateToPreviousEntityRecord
     } = useNavigateToEntityRecord(
       initialPostId,
       initialPostType,
@@ -2558,7 +2591,7 @@ var wp;
         const { get } = select3(import_preferences10.store);
         const { isFeatureActive: isFeatureActive2, hasMetaBoxes: hasMetaBoxes2 } = select3(store);
         const { canUser, getPostType, getTemplateId } = unlock(
-          select3(import_core_data6.store)
+          select3(import_core_data7.store)
         );
         const supportsTemplateMode = settings.supportsTemplateMode;
         const isViewable = getPostType(currentPostType)?.viewable ?? false;
@@ -2709,14 +2742,8 @@ var wp;
               disableIframe: !shouldIframe,
               autoFocus: !isWelcomeGuideVisible,
               onActionPerformed,
-              initialSelection: previousSelectedBlockPath,
               extraSidebarPanels: showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(MetaBoxes, { location: "side" }),
-              extraContent: !isDistractionFree && showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
-                MetaBoxesMain,
-                {
-                  isLegacy: !shouldIframe || isDevicePreview
-                }
-              ),
+              extraContent: !isDistractionFree && showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(MetaBoxesMain, { isLegacy: isDevicePreview }),
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_editor18.PostLockedModal, {}),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(EditorInitialization, {}),
@@ -2732,7 +2759,7 @@ var wp;
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_plugins.PluginArea, { onError: onPluginAreaError }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(more_menu_default, {}),
                 backButton,
-                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_editor18.EditorSnackbars, {})
+                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_notices3.SnackbarNotices, { className: "edit-post-layout__snackbar" })
               ]
             }
           )

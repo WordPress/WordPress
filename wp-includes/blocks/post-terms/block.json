@@ -10,9 +10,6 @@
 		"term": {
 			"type": "string"
 		},
-		"textAlign": {
-			"type": "string"
-		},
 		"separator": {
 			"type": "string",
 			"default": ", "
@@ -51,6 +48,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

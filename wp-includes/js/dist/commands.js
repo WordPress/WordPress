@@ -3333,10 +3333,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }
   );
 
-  // packages/icons/build-module/library/search.mjs
+  // packages/icons/build-module/library/arrow-right.mjs
   var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
-  var search_default = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
+  var arrow_right_default = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primitives.Path, { d: "m14.5 6.5-1 1 3.7 3.7H4v1.6h13.2l-3.7 3.7 1 1 5.6-5.5z" }) });
+
+  // packages/icons/build-module/library/search.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+  var search_default = /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_primitives2.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
 
   // packages/commands/build-module/store/index.mjs
   var import_data3 = __toESM(require_data(), 1);
@@ -3353,6 +3358,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
             label: action.label,
             searchLabel: action.searchLabel,
             context: action.context,
+            category: action.category,
             callback: action.callback,
             icon: action.icon,
             keywords: action.keywords
@@ -3373,6 +3379,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           [action.name]: {
             name: action.name,
             context: action.context,
+            category: action.category,
             hook: action.hook
           }
         };
@@ -3417,10 +3424,21 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     unregisterCommand: () => unregisterCommand,
     unregisterCommandLoader: () => unregisterCommandLoader
   });
+  var REGISTERABLE_CATEGORIES = /* @__PURE__ */ new Set([
+    "command",
+    "view",
+    "edit",
+    "action"
+  ]);
   function registerCommand(config) {
+    let { category } = config;
+    if (!category || !REGISTERABLE_CATEGORIES.has(category)) {
+      category = "action";
+    }
     return {
       type: "REGISTER_COMMAND",
-      ...config
+      ...config,
+      category
     };
   }
   function unregisterCommand(name) {
@@ -3430,9 +3448,14 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     };
   }
   function registerCommandLoader(config) {
+    let { category } = config;
+    if (!category || !REGISTERABLE_CATEGORIES.has(category)) {
+      category = "action";
+    }
     return {
       type: "REGISTER_COMMAND_LOADER",
-      ...config
+      ...config,
+      category
     };
   }
   function unregisterCommandLoader(name) {
@@ -3512,10 +3535,30 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   unlock(store).registerPrivateActions(private_actions_exports);
 
   // packages/commands/build-module/components/command-menu.mjs
-  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   var { withIgnoreIMEEvents } = unlock(import_components.privateApis);
   var inputLabel = (0, import_i18n.__)("Search commands and settings");
-  function CommandMenuLoader({ name, search, hook, setLoader, close: close2 }) {
+  var CATEGORY_ICONS = {
+    view: arrow_right_default
+  };
+  var CATEGORY_LABELS = {
+    command: (0, import_i18n.__)("Command"),
+    view: (0, import_i18n.__)("View"),
+    edit: (0, import_i18n.__)("Edit"),
+    action: (0, import_i18n.__)("Action"),
+    workflow: (0, import_i18n.__)("Workflow")
+  };
+  function isValidIcon(icon) {
+    return !!icon && (typeof icon === "string" || (0, import_element2.isValidElement)(icon) || typeof icon === "function" || icon instanceof import_element2.Component);
+  }
+  function CommandMenuLoader({
+    name,
+    search,
+    hook,
+    setLoader,
+    close: close2,
+    category
+  }) {
     const { isLoading, commands: commands2 = [] } = hook({ search }) ?? {};
     (0, import_element2.useEffect)(() => {
       setLoader(name, isLoading);
@@ -3523,37 +3566,53 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     if (!commands2.length) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_jsx_runtime17.Fragment, { children: commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
-      _e.Item,
-      {
-        value: command.searchLabel ?? command.label,
-        keywords: command.keywords,
-        onSelect: () => command.callback({ close: close2 }),
-        id: command.name,
-        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
-          import_components.__experimentalHStack,
-          {
-            alignment: "left",
-            className: clsx_default("commands-command-menu__item", {
-              "has-icon": command.icon
-            }),
-            children: [
-              command.icon && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default, { icon: command.icon }),
-              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
-                import_components.TextHighlight,
-                {
-                  text: command.label,
-                  highlight: search
-                }
-              ) })
-            ]
-          }
-        )
-      },
-      command.name
-    )) });
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_jsx_runtime18.Fragment, { children: commands2.map((command) => {
+      const commandCategory = command.category ?? category;
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        _e.Item,
+        {
+          value: command.searchLabel ?? command.label,
+          keywords: command.keywords,
+          onSelect: () => command.callback({ close: close2 }),
+          id: command.name,
+          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+            import_components.__experimentalHStack,
+            {
+              alignment: "left",
+              className: clsx_default("commands-command-menu__item", {
+                "has-icon": CATEGORY_ICONS[commandCategory] || command.icon
+              }),
+              children: [
+                CATEGORY_ICONS[commandCategory] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  icon_default,
+                  {
+                    icon: CATEGORY_ICONS[commandCategory]
+                  }
+                ),
+                !CATEGORY_ICONS[commandCategory] && isValidIcon(command.icon) && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: command.icon }),
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-label", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  import_components.TextHighlight,
+                  {
+                    text: command.label,
+                    highlight: search
+                  }
+                ) }),
+                CATEGORY_LABELS[commandCategory] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-category", children: CATEGORY_LABELS[commandCategory] })
+              ]
+            }
+          )
+        },
+        command.name
+      );
+    }) });
   }
-  function CommandMenuLoaderWrapper({ hook, search, setLoader, close: close2 }) {
+  function CommandMenuLoaderWrapper({
+    hook,
+    search,
+    setLoader,
+    close: close2,
+    category
+  }) {
     const currentLoaderRef = (0, import_element2.useRef)(hook);
     const [key, setKey] = (0, import_element2.useState)(0);
     (0, import_element2.useEffect)(() => {
@@ -3562,13 +3621,14 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         setKey((prevKey) => prevKey + 1);
       }
     }, [hook]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       CommandMenuLoader,
       {
         hook: currentLoaderRef.current,
         search,
         setLoader,
-        close: close2
+        close: close2,
+        category
       },
       key
     );
@@ -3587,43 +3647,45 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     if (!commands2.length && !loaders.length) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(_e.Group, { children: [
-      commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.Group, { children: [
+      commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
         _e.Item,
         {
           value: command.searchLabel ?? command.label,
           keywords: command.keywords,
           onSelect: () => command.callback({ close: close2 }),
           id: command.name,
-          children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
             import_components.__experimentalHStack,
             {
               alignment: "left",
               className: clsx_default("commands-command-menu__item", {
-                "has-icon": command.icon
+                "has-icon": CATEGORY_ICONS[command.category] || command.icon
               }),
               children: [
-                command.icon && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default, { icon: command.icon }),
-                /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+                CATEGORY_ICONS[command.category] ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: CATEGORY_ICONS[command.category] }) : command.icon && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: command.icon }),
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
                   import_components.TextHighlight,
                   {
                     text: command.label,
                     highlight: search
                   }
-                ) })
+                ) }),
+                CATEGORY_LABELS[command.category] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-category", children: CATEGORY_LABELS[command.category] })
               ]
             }
           )
         },
         command.name
       )),
-      loaders.map((loader) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      loaders.map((loader) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
         CommandMenuLoaderWrapper,
         {
           hook: loader.hook,
           search,
           setLoader,
-          close: close2
+          close: close2,
+          category: loader.category
         },
         loader.name
       ))
@@ -3643,7 +3705,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         commandMenuInput.current.focus();
       }
     }, [isOpen3]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       _e.Input,
       {
         ref: commandMenuInput,
@@ -3676,7 +3738,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }, [registerShortcut]);
     (0, import_keyboard_shortcuts.useShortcut)(
       "core/commands",
-      /** @type {import('react').KeyboardEventHandler} */
+      /** @type {React.KeyboardEventHandler} */
       withIgnoreIMEEvents((event) => {
         if (event.defaultPrevented) {
           return;
@@ -3707,7 +3769,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       return false;
     }
     const isLoading = Object.values(loaders).some(Boolean);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       import_components.Modal,
       {
         className: "commands-command-menu",
@@ -3715,16 +3777,16 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         onRequestClose: closeAndReset,
         __experimentalHideHeader: true,
         contentLabel: (0, import_i18n.__)("Command palette"),
-        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "commands-command-menu__container", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(_e, { label: inputLabel, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "commands-command-menu__header", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "commands-command-menu__container", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e, { label: inputLabel, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "commands-command-menu__header", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
               icon_default,
               {
                 className: "commands-command-menu__header-search-icon",
                 icon: search_default
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
               CommandInput,
               {
                 search,
@@ -3733,9 +3795,9 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(_e.List, { label: (0, import_i18n.__)("Command suggestions"), children: [
-            search && !isLoading && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(_e.Empty, { children: (0, import_i18n.__)("No results found.") }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.List, { label: (0, import_i18n.__)("Command suggestions"), children: [
+            search && !isLoading && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(_e.Empty, { children: (0, import_i18n.__)("No results found.") }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
               CommandMenuGroup,
               {
                 search,
@@ -3744,7 +3806,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
                 isContextual: true
               }
             ),
-            search && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+            search && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
               CommandMenuGroup,
               {
                 search,
@@ -3796,6 +3858,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       registerCommand2({
         name: command.name,
         context: command.context,
+        category: command.category,
         label: command.label,
         searchLabel: command.searchLabel,
         icon: command.icon,
@@ -3811,6 +3874,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       command.searchLabel,
       command.icon,
       command.context,
+      command.category,
       command.keywords,
       command.disabled,
       registerCommand2,
@@ -3841,6 +3905,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         registerCommand2({
           name: command.name,
           context: command.context,
+          category: command.category,
           label: command.label,
           searchLabel: command.searchLabel,
           icon: command.icon,
@@ -3873,7 +3938,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       registerCommandLoader2({
         name: loader.name,
         hook: loader.hook,
-        context: loader.context
+        context: loader.context,
+        category: loader.category
       });
       return () => {
         unregisterCommandLoader2(loader.name);
@@ -3882,6 +3948,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       loader.name,
       loader.hook,
       loader.context,
+      loader.category,
       loader.disabled,
       registerCommandLoader2,
       unregisterCommandLoader2

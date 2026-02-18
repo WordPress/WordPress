@@ -147,7 +147,7 @@ var wp;
   // packages/icons/build-module/library/navigation.mjs
   var import_primitives4 = __toESM(require_primitives(), 1);
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var navigation_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "M12 4c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5s6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5zM9 16l4.5-3L15 8.4l-4.5 3L9 16z" }) });
+  var navigation_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "M12 4c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5s6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5zM9 16l4.5-3L15 8.4l-4.5 3L9 16z" }) });
 
   // packages/icons/build-module/library/page.mjs
   var import_primitives5 = __toESM(require_primitives(), 1);
@@ -165,14 +165,7 @@ var wp;
   // packages/icons/build-module/library/styles.mjs
   var import_primitives7 = __toESM(require_primitives(), 1);
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  var styles_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-    import_primitives7.Path,
-    {
-      fillRule: "evenodd",
-      clipRule: "evenodd",
-      d: "M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 0 1-6.5 6.5v-13a6.5 6.5 0 0 1 6.5 6.5Z"
-    }
-  ) });
+  var styles_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 0 1-6.5 6.5v-13a6.5 6.5 0 0 1 6.5 6.5Z" }) });
 
   // packages/icons/build-module/library/symbol-filled.mjs
   var import_primitives8 = __toESM(require_primitives(), 1);
@@ -204,6 +197,7 @@ var wp;
           name: "core/view-site",
           label: (0, import_i18n.__)("View site"),
           icon: external_default,
+          category: "view",
           callback: ({ close }) => {
             close();
             window.open(homeUrl, "_blank");
@@ -228,6 +222,7 @@ var wp;
           name: menuCommand.name,
           label,
           searchLabel: label,
+          category: "view",
           callback: ({ close }) => {
             document.location = menuCommand.url;
             close();
@@ -377,7 +372,8 @@ var wp;
           name: postType + "-" + record.id,
           searchLabel: record.title?.rendered + " " + record.id,
           label: record.title?.rendered ? (0, import_html_entities.decodeEntities)(record.title?.rendered) : (0, import_i18n2.__)("(no title)"),
-          icon: icons[postType]
+          icon: icons[postType],
+          category: "edit"
         };
         if (!canCreateTemplate || postType === "post" || postType === "page" && !isBlockBasedTheme) {
           return {
@@ -463,6 +459,7 @@ var wp;
             searchLabel: record.title?.rendered + " " + record.id,
             label: record.title?.rendered ? record.title?.rendered : (0, import_i18n2.__)("(no title)"),
             icon: icons[templateType],
+            category: "edit",
             callback: ({ close }) => {
               if (isSiteEditor) {
                 history.navigate(
@@ -487,6 +484,7 @@ var wp;
           name: "core/edit-site/open-template-parts",
           label: (0, import_i18n2.__)("Go to: Template parts"),
           icon: symbol_filled_default,
+          category: "view",
           callback: ({ close }) => {
             if (isSiteEditor) {
               history.navigate(
@@ -538,6 +536,7 @@ var wp;
           name: "core/edit-site/open-styles",
           label: (0, import_i18n2.__)("Go to: Styles"),
           icon: styles_default,
+          category: "view",
           callback: ({ close }) => {
             if (isSiteEditor) {
               history.navigate("/styles");
@@ -556,6 +555,7 @@ var wp;
           name: "core/edit-site/open-navigation",
           label: (0, import_i18n2.__)("Go to: Navigation"),
           icon: navigation_default,
+          category: "view",
           callback: ({ close }) => {
             if (isSiteEditor) {
               history.navigate("/navigation");
@@ -574,6 +574,7 @@ var wp;
           name: "core/edit-site/open-templates",
           label: (0, import_i18n2.__)("Go to: Templates"),
           icon: layout_default,
+          category: "view",
           callback: ({ close }) => {
             if (isSiteEditor) {
               history.navigate(mapRoute("/template"));
@@ -594,6 +595,7 @@ var wp;
           name: "core/edit-site/open-patterns",
           label: (0, import_i18n2.__)("Go to: Patterns"),
           icon: symbol_default,
+          category: "view",
           callback: ({ close }) => {
             if (canCreateTemplate) {
               if (isSiteEditor) {
@@ -646,6 +648,7 @@ var wp;
           name: "core/open-styles-css",
           label: (0, import_i18n2.__)("Open custom CSS"),
           icon: brush_default,
+          category: "view",
           callback: ({ close }) => {
             close();
             if (isSiteEditor) {

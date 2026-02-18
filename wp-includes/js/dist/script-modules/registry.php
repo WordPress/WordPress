@@ -13,6 +13,11 @@ return array(
 		'asset' => 'a11y/index.min.asset.php',
 	),
 	array(
+		'id' => '@wordpress/interactivity',
+		'path' => 'interactivity/index',
+		'asset' => 'interactivity/index.min.asset.php',
+	),
+	array(
 		'id' => '@wordpress/interactivity-router',
 		'path' => 'interactivity-router/index',
 		'asset' => 'interactivity-router/index.min.asset.php',
@@ -23,14 +28,14 @@ return array(
 		'asset' => 'interactivity-router/full-page.min.asset.php',
 	),
 	array(
-		'id' => '@wordpress/interactivity',
-		'path' => 'interactivity/index',
-		'asset' => 'interactivity/index.min.asset.php',
-	),
-	array(
 		'id' => '@wordpress/abilities',
 		'path' => 'abilities/index',
 		'asset' => 'abilities/index.min.asset.php',
+	),
+	array(
+		'id' => '@wordpress/route',
+		'path' => 'route/index',
+		'asset' => 'route/index.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/latex-to-mathml',
@@ -46,11 +51,6 @@ return array(
 		'id' => '@wordpress/core-abilities',
 		'path' => 'core-abilities/index',
 		'asset' => 'core-abilities/index.min.asset.php',
-	),
-	array(
-		'id' => '@wordpress/route',
-		'path' => 'route/index',
-		'asset' => 'route/index.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/edit-site-init',
@@ -71,6 +71,21 @@ return array(
 		'id' => '@wordpress/boot',
 		'path' => 'boot/index',
 		'asset' => 'boot/index.min.asset.php',
+	),
+	array(
+		'id' => '@wordpress/vips/worker',
+		'path' => 'vips/worker',
+		'asset' => 'vips/worker.min.asset.php',
+	),
+	array(
+		'id' => '@wordpress/vips/loader',
+		'path' => 'vips/loader',
+		'asset' => 'vips/loader.min.asset.php',
+	),
+	array(
+		'id' => '@wordpress/block-editor/utils/fit-text-frontend',
+		'path' => 'block-editor/utils/fit-text-frontend',
+		'asset' => 'block-editor/utils/fit-text-frontend.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/block-library/accordion/view',
@@ -116,11 +131,6 @@ return array(
 		'id' => '@wordpress/block-library/tabs/view',
 		'path' => 'block-library/tabs/view',
 		'asset' => 'block-library/tabs/view.min.asset.php',
-	),
-	array(
-		'id' => '@wordpress/block-editor/utils/fit-text-frontend',
-		'path' => 'block-editor/utils/fit-text-frontend',
-		'asset' => 'block-editor/utils/fit-text-frontend.min.asset.php',
 	),
 	array(
 		'id' => '@wordpress/boot',

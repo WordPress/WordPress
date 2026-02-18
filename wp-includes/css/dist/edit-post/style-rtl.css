@@ -465,53 +465,22 @@
 .has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor {
   flex-shrink: 1;
   flex-basis: 0%;
-}
-
-.has-metaboxes .editor-visual-editor.is-iframed {
+  overflow: hidden;
   isolation: isolate;
 }
 
-.components-editor-notices__snackbar {
+.edit-post-layout__snackbar {
   position: fixed;
-  left: 0;
   bottom: 24px;
-  padding-right: 24px;
-  padding-left: 24px;
-}
-
-.edit-post-layout .components-editor-notices__snackbar { /* Set left position when auto-fold is not on the body element. */
-  right: 0;
-}
-@media (min-width: 783px) {
-  .edit-post-layout .components-editor-notices__snackbar {
-    right: 160px;
-  }
-}
-
-.auto-fold .edit-post-layout .components-editor-notices__snackbar { /* Auto fold is when on smaller breakpoints, nav menu auto collapses. */ }
-@media (min-width: 783px) {
-  .auto-fold .edit-post-layout .components-editor-notices__snackbar {
-    right: 36px;
-  }
-}
-@media (min-width: 961px) {
-  .auto-fold .edit-post-layout .components-editor-notices__snackbar {
-    right: 160px;
-  }
-}
-
-/* Sidebar manually collapsed. */
-.folded .edit-post-layout .components-editor-notices__snackbar {
-  right: 0;
-}
-@media (min-width: 783px) {
-  .folded .edit-post-layout .components-editor-notices__snackbar {
-    right: 36px;
-  }
-}
-
-body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
-  right: 0 !important;
+  right: 50%;
+  left: auto;
+  transform: translateX(50%);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .edit-post-meta-boxes-area {

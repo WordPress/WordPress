@@ -122,6 +122,7 @@
 .commands-command-menu .components-modal__content {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .commands-command-menu__overlay {
@@ -132,6 +133,7 @@
 .commands-command-menu__header {
   display: flex;
   align-items: center;
+  gap: 8px;
   padding: 0 16px;
 }
 .commands-command-menu__header .components-button {
@@ -162,7 +164,7 @@
   color: #1e1e1e;
   margin: 0;
   font-size: 15px;
-  line-height: 28px;
+  line-height: 24px;
   border-radius: 0;
 }
 .commands-command-menu__container [cmdk-input]::placeholder {
@@ -198,6 +200,7 @@
   min-height: 40px;
   padding: 4px;
   padding-right: 40px;
+  padding-left: 16px;
 }
 .commands-command-menu__container [cmdk-item] > .has-icon {
   padding-right: 8px;
@@ -205,6 +208,14 @@
 .commands-command-menu__container [cmdk-root] > [cmdk-list] {
   max-height: 368px;
   overflow: auto;
+  scroll-padding-top: 8px;
+  scroll-padding-bottom: 8px;
+}
+.commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-group-items]:not(:empty)), .commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-empty]) {
+  border-top: 1px solid #ddd;
+}
+.commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-group-items]:not(:empty)) {
+  padding-top: 8px;
 }
 .commands-command-menu__container [cmdk-root] > [cmdk-list] [cmdk-list-sizer] > [cmdk-group]:last-child [cmdk-group-items]:not(:empty) {
   padding-bottom: 8px;
@@ -227,12 +238,26 @@
   position: relative;
 }
 
-.commands-command-menu__item span {
+.commands-command-menu__item-label {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
+  min-width: 0;
+}
+
+.commands-command-menu__item-category {
+  flex: 0 0 auto;
+  margin-right: auto;
+  padding-right: 24px;
+  color: #757575;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+}
+[aria-selected=true] .commands-command-menu__item-category, [cmdk-item]:active .commands-command-menu__item-category {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .commands-command-menu__item mark {

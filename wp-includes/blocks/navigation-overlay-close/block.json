@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/navigation-overlay-close",
+	"title": "Navigation Overlay Close",
+	"category": "design",
+	"description": "A customizable button to close overlays.",
+	"keywords": [ "close", "overlay", "navigation", "menu" ],
+	"textdomain": "default",
+	"attributes": {
+		"displayMode": {
+			"type": "string",
+			"enum": [ "icon", "text", "both" ],
+			"default": "icon"
+		},
+		"text": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"color": {
+			"gradients": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"style": "wp-block-navigation-overlay-close"
+}

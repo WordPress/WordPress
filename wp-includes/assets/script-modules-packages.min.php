@@ -10,7 +10,7 @@
       'wp-data',
       'wp-i18n'
     ),
-    'version' => '84b615d3da8fc36f7bba'
+    'version' => 'f3475bc77a30dcc5b38d'
   ),
   'block-editor/utils/fit-text-frontend.min.js' => array(
     'dependencies' => array(
@@ -64,7 +64,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '3aa348554e724dae4f1f'
+    'version' => '25ee935fd6c67371d0f3'
   ),
   'block-library/navigation/view.min.js' => array(
     'dependencies' => array(
@@ -128,7 +128,7 @@
         'import' => 'static'
       )
     ),
-    'version' => 'c08655def5ed243c4d65'
+    'version' => '1f60dd5e3fa56c6b2e2e'
   ),
   'boot/index.min.js' => array(
     'dependencies' => array(
@@ -144,6 +144,7 @@
       'wp-i18n',
       'wp-keyboard-shortcuts',
       'wp-keycodes',
+      'wp-notices',
       'wp-primitives',
       'wp-private-apis',
       'wp-theme',
@@ -163,7 +164,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '298c13003fdd868b9917'
+    'version' => '83912eb465db8aeb2e2c'
   ),
   'core-abilities/index.min.js' => array(
     'dependencies' => array(
@@ -191,13 +192,13 @@
         'import' => 'static'
       )
     ),
-    'version' => '4e68db4d9b7e04149623'
+    'version' => 'c636e2e534fd52f7c77c'
   ),
   'interactivity/index.min.js' => array(
     'dependencies' => array(
       
     ),
-    'version' => '1bdeb1de58ef5e7f2d9a'
+    'version' => '4d9d9330d767da3813cc'
   ),
   'interactivity-router/full-page.min.js' => array(
     'dependencies' => array(
@@ -225,7 +226,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '41d77cc6c9cf22c6d225'
+    'version' => '493dd3de12e3112b3130'
   ),
   'latex-to-mathml/index.min.js' => array(
     'dependencies' => array(
@@ -270,6 +271,24 @@
     ),
     'version' => 'c5843b6c5e84b352f43b'
   ),
+  'vips/loader.min.js' => array(
+    'dependencies' => array(
+      
+    ),
+    'module_dependencies' => array(
+      array(
+        'id' => '@wordpress/vips/worker',
+        'import' => 'dynamic'
+      )
+    ),
+    'version' => '07c9acb45d3e5d81829a'
+  ),
+  'vips/worker.min.js' => array(
+    'dependencies' => array(
+      
+    ),
+    'version' => 'da766814e900f6d5bb31'
+  ),
   'workflow/index.min.js' => array(
     'dependencies' => array(
       'react',
@@ -289,6 +308,6 @@
         'import' => 'static'
       )
     ),
-    'version' => 'd96403e53e0b760be381'
+    'version' => 'fda3289cb87793410db1'
   )
 );

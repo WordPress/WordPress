@@ -254,6 +254,10 @@ html :where(.has-border-color) {
   border-style: solid;
 }
 
+html :where([style*=border-color]) {
+  border-style: solid;
+}
+
 html :where([style*=border-top-color]) {
   border-top-style: solid;
 }

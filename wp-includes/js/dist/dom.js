@@ -470,6 +470,9 @@ var wp;
         return true;
       }
       candidate = candidate[propName];
+      while (candidate && candidate.nodeType === candidate.TEXT_NODE && candidate.nodeValue === "") {
+        candidate = candidate[propName === "lastChild" ? "previousSibling" : "nextSibling"];
+      }
     } while (candidate);
     return false;
   }

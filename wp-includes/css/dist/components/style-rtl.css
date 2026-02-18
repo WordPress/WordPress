@@ -167,6 +167,186 @@
   outline: 2px solid transparent;
 }
 
+.components-avatar {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  overflow: clip;
+  flex-shrink: 0;
+  background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) #fff, 0 1px 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02), 0 3px 3px rgba(0, 0, 0, 0.02), 0 4px 4px rgba(0, 0, 0, 0.01);
+}
+
+.components-avatar__image {
+  box-sizing: border-box;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 0;
+  background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  overflow: clip;
+  flex-shrink: 0;
+  font-size: 0;
+  color: #fff;
+}
+.is-small > .components-avatar__image {
+  width: 24px;
+  height: 24px;
+}
+.has-src > .components-avatar__image {
+  background-image: var(--components-avatar-url);
+  background-size: cover;
+  background-position: center;
+}
+.has-avatar-border-color > .components-avatar__image {
+  border: var(--wp-admin-border-width-focus) solid var(--components-avatar-outline-color);
+  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) #fff;
+  background-clip: padding-box;
+}
+
+.components-avatar:not(.has-src) > .components-avatar__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 499;
+  border: 0;
+  box-shadow: none;
+  background-clip: border-box;
+}
+
+.components-avatar:not(.has-src).has-avatar-border-color > .components-avatar__image {
+  background-color: var(--components-avatar-outline-color);
+}
+
+.components-avatar__name {
+  font-size: 13px;
+  line-height: 20px;
+  color: #fff;
+  min-width: 0;
+  padding-bottom: 2px;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.15s cubic-bezier(0.15, 0, 0.15, 1);
+}
+
+.components-avatar.has-badge {
+  display: inline-grid;
+  grid-template-columns: min-content 0fr;
+  column-gap: 0;
+  padding-inline-end: 0;
+  transition: grid-template-columns 0.3s cubic-bezier(0.15, 0, 0.15, 1), column-gap 0.3s cubic-bezier(0.15, 0, 0.15, 1), padding-inline-end 0.3s cubic-bezier(0.15, 0, 0.15, 1);
+}
+.components-avatar.has-badge:hover {
+  grid-template-columns: min-content 1fr;
+  column-gap: 4px;
+  padding-inline-end: 8px;
+  transition-timing-function: cubic-bezier(0.85, 0, 0.85, 1);
+}
+.components-avatar.has-badge:hover .components-avatar__name {
+  opacity: 1;
+  transition-timing-function: cubic-bezier(0.85, 0, 0.85, 1);
+}
+
+.components-avatar.has-badge.has-avatar-border-color {
+  background-color: var(--components-avatar-outline-color);
+}
+
+.components-avatar.has-status.has-src > .components-avatar__image {
+  background-image: none;
+}
+.components-avatar.has-status.has-src > .components-avatar__image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--components-avatar-url);
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: luminosity;
+  opacity: 0.3;
+}
+
+.components-avatar.has-status:not(.has-src) > .components-avatar__image {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.components-avatar.has-status.has-avatar-border-color > .components-avatar__image {
+  background-color: var(--components-avatar-outline-color);
+}
+
+.components-avatar__status-indicator {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  color: #fff;
+  fill: #fff;
+}
+.components-avatar__status-indicator svg {
+  width: 75%;
+  height: 75%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .components-avatar.has-badge,
+  .components-avatar__name {
+    transition: none;
+  }
+}
+.components-avatar-group {
+  display: flex;
+  align-items: center;
+}
+.components-avatar-group > .components-avatar + .components-avatar {
+  margin-inline-start: -8px;
+}
+.components-avatar-group > .components-avatar {
+  position: relative;
+}
+.components-avatar-group > .components-avatar:nth-child(1) {
+  z-index: 10;
+}
+.components-avatar-group > .components-avatar:nth-child(2) {
+  z-index: 9;
+}
+.components-avatar-group > .components-avatar:nth-child(3) {
+  z-index: 8;
+}
+.components-avatar-group > .components-avatar:nth-child(4) {
+  z-index: 7;
+}
+.components-avatar-group > .components-avatar:nth-child(5) {
+  z-index: 6;
+}
+.components-avatar-group > .components-avatar:nth-child(6) {
+  z-index: 5;
+}
+.components-avatar-group > .components-avatar:nth-child(7) {
+  z-index: 4;
+}
+.components-avatar-group > .components-avatar:nth-child(8) {
+  z-index: 3;
+}
+.components-avatar-group > .components-avatar:nth-child(9) {
+  z-index: 2;
+}
+.components-avatar-group > .components-avatar:nth-child(10) {
+  z-index: 1;
+}
+
+.components-avatar-group__overflow {
+  margin-inline-start: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #1e1e1e;
+  white-space: nowrap;
+}
+
 .components-badge {
   box-sizing: border-box;
 }
@@ -290,6 +470,8 @@
 }
 .components-button:focus:not(:active) {
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+}
+.components-button:focus {
   outline: 3px solid transparent;
 }
 .components-button {
@@ -537,6 +719,8 @@ p + .components-button.is-tertiary {
 }
 .components-button.is-pressed:focus:not(:active) {
   box-shadow: inset 0 0 0 1px var(--wp-components-color-background, #fff), 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+}
+.components-button.is-pressed:focus {
   outline: 2px solid transparent;
 }
 .components-button svg {
@@ -580,7 +764,7 @@ p + .components-button.is-tertiary {
   position: relative;
 }
 .components-calendar__day:has(.components-calendar__day-button:disabled) {
-  color: var(--wp-components-color-gray-600, #949494);
+  color: var(--wp-components-color-gray-400, #ccc);
 }
 .components-calendar__day:has(.components-calendar__day-button:hover:not(:disabled)), .components-calendar__day:has(.components-calendar__day-button:focus-visible) {
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));

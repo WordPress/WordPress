@@ -104,9 +104,6 @@ add_action( 'init', 'register_block_core_post_excerpt' );
  * Returns 101 (one more than the max block setting of 100) to ensure
  * wp_trim_words can detect when trimming is needed and add the ellipsis.
  *
- * For REST API requests, the filter is added on 'rest_api_init'
- * because REST_REQUEST is not defined until 'parse_request'.
- *
  * @since 7.0.0
  *
  * @return int The excerpt length.
@@ -118,9 +115,3 @@ function block_core_post_excerpt_excerpt_length() {
 if ( is_admin() ) {
 	add_filter( 'excerpt_length', 'block_core_post_excerpt_excerpt_length', PHP_INT_MAX );
 }
-add_action(
-	'rest_api_init',
-	static function () {
-		add_filter( 'excerpt_length', 'block_core_post_excerpt_excerpt_length', PHP_INT_MAX );
-	}
-);

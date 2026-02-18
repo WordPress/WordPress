@@ -74,13 +74,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
-    }
-  });
-
   // package-external:@wordpress/components
   var require_components = __commonJS({
     "package-external:@wordpress/components"(exports, module) {
@@ -123,6 +116,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
+    }
+  });
+
   // packages/format-library/build-module/index.mjs
   var import_rich_text18 = __toESM(require_rich_text(), 1);
 
@@ -147,17 +147,17 @@ var wp;
   // packages/icons/build-module/library/button.mjs
   var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var button_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M8 12.5h8V11H8v1.5Z M19 6.5H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2ZM5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8Z" }) });
+  var button_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M8 12.5h8V11H8v1.5Z M19 6.5H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2ZM5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8Z" }) });
 
   // packages/icons/build-module/library/code.mjs
   var import_primitives2 = __toESM(require_primitives(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var code_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M20.8 10.7l-4.3-4.3-1.1 1.1 4.3 4.3c.1.1.1.3 0 .4l-4.3 4.3 1.1 1.1 4.3-4.3c.7-.8.7-1.9 0-2.6zM4.2 11.8l4.3-4.3-1-1-4.3 4.3c-.7.7-.7 1.8 0 2.5l4.3 4.3 1.1-1.1-4.3-4.3c-.2-.1-.2-.3-.1-.4z" }) });
+  var code_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M20.8 10.7l-4.3-4.3-1.1 1.1 4.3 4.3c.1.1.1.3 0 .4l-4.3 4.3 1.1 1.1 4.3-4.3c.7-.8.7-1.9 0-2.6zM4.2 11.8l4.3-4.3-1-1-4.3 4.3c-.7.7-.7 1.8 0 2.5l4.3 4.3 1.1-1.1-4.3-4.3c-.2-.1-.2-.3-.1-.4z" }) });
 
   // packages/icons/build-module/library/color.mjs
   var import_primitives3 = __toESM(require_primitives(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var color_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M17.2 10.9c-.5-1-1.2-2.1-2.1-3.2-.6-.9-1.3-1.7-2.1-2.6L12 4l-1 1.1c-.6.9-1.3 1.7-2 2.6-.8 1.2-1.5 2.3-2 3.2-.6 1.2-1 2.2-1 3 0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1c0-.8-.3-1.8-1-3zm-5.1 7.6c-2.5 0-4.6-2.1-4.6-4.6 0-.3.1-1 .8-2.3.5-.9 1.1-1.9 2-3.1.7-.9 1.3-1.7 1.8-2.3.7.8 1.3 1.6 1.8 2.3.8 1.1 1.5 2.2 2 3.1.7 1.3.8 2 .8 2.3 0 2.5-2.1 4.6-4.6 4.6z" }) });
+  var color_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M17.2 10.9c-.5-1-1.2-2.1-2.1-3.2-.6-.9-1.3-1.7-2.1-2.6L12 4l-1 1.1c-.6.9-1.3 1.7-2 2.6-.8 1.2-1.5 2.3-2 3.2-.6 1.2-1 2.2-1 3 0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1c0-.8-.3-1.8-1-3zm-5.1 7.6c-2.5 0-4.6-2.1-4.6-4.6 0-.3.1-1 .8-2.3.5-.9 1.1-1.9 2-3.1.7-.9 1.3-1.7 1.8-2.3.7.8 1.3 1.6 1.8 2.3.8 1.1 1.5 2.2 2 3.1.7 1.3.8 2 .8 2.3 0 2.5-2.1 4.6-4.6 4.6z" }) });
 
   // packages/icons/build-module/library/format-bold.mjs
   var import_primitives4 = __toESM(require_primitives(), 1);
@@ -209,16 +209,8 @@ var wp;
   var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   var text_color_default = /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives13.Path, { d: "M12.9 6h-2l-4 11h1.9l1.1-3h4.2l1.1 3h1.9L12.9 6zm-2.5 6.5l1.5-4.9 1.7 4.9h-3.2z" }) });
 
-  // packages/format-library/build-module/lock-unlock.mjs
-  var import_private_apis = __toESM(require_private_apis(), 1);
-  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-    "@wordpress/format-library"
-  );
-
   // packages/format-library/build-module/bold/index.mjs
   var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  var { essentialFormatKey } = unlock(import_block_editor.privateApis);
   var name = "core/bold";
   var title = (0, import_i18n.__)("Bold");
   var bold = {
@@ -226,7 +218,6 @@ var wp;
     title,
     tagName: "strong",
     className: null,
-    [essentialFormatKey]: true,
     edit({ isActive, value, onChange, onFocus, isVisible = true }) {
       function onToggle() {
         onChange((0, import_rich_text.toggleFormat)(value, { type: name, title }));
@@ -523,7 +514,6 @@ var wp;
   var import_rich_text4 = __toESM(require_rich_text(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-  var { essentialFormatKey: essentialFormatKey2 } = unlock(import_block_editor4.privateApis);
   var name4 = "core/italic";
   var title4 = (0, import_i18n4.__)("Italic");
   var italic = {
@@ -531,7 +521,6 @@ var wp;
     title: title4,
     tagName: "em",
     className: null,
-    [essentialFormatKey2]: true,
     edit({ isActive, value, onChange, onFocus, isVisible = true }) {
       function onToggle() {
         onChange((0, import_rich_text4.toggleFormat)(value, { type: name4, title: title4 }));
@@ -666,8 +655,8 @@ var wp;
   }
   function getFormatBoundary(value, format, startIndex = value.start, endIndex = value.end) {
     const EMPTY_BOUNDARIES = {
-      start: null,
-      end: null
+      start: void 0,
+      end: void 0
     };
     const { formats } = value;
     let targetFormat;
@@ -704,7 +693,7 @@ var wp;
     startIndex = startIndex < 0 ? 0 : startIndex;
     return {
       start: startIndex,
-      end: endIndex
+      end: endIndex + 1
     };
   }
   function walkToBoundary(formats, initialIndex, targetFormatRef, formatIndex, direction) {
@@ -865,7 +854,7 @@ var wp;
         ...linkValue,
         ...nextValue
       };
-      const newUrl = (0, import_url2.prependHTTP)(nextValue.url);
+      const newUrl = (0, import_url2.prependHTTPS)(nextValue.url);
       const linkFormat = createLinkFormat({
         url: newUrl,
         type: nextValue.type,
@@ -893,7 +882,15 @@ var wp;
         });
         return;
       } else if (newText === richTextText) {
-        newValue = (0, import_rich_text5.applyFormat)(value, linkFormat);
+        const boundary = getFormatBoundary(value, {
+          type: "core/link"
+        });
+        newValue = (0, import_rich_text5.applyFormat)(
+          value,
+          linkFormat,
+          boundary.start,
+          boundary.end
+        );
       } else {
         newValue = (0, import_rich_text5.create)({ text: newText });
         newValue = (0, import_rich_text5.applyFormat)(newValue, linkFormat, 0, newText.length);
@@ -1001,7 +998,7 @@ var wp;
         type: "core/link"
       });
       textStart = boundary.start;
-      textEnd = boundary.end + 1;
+      textEnd = boundary.end;
     }
     return (0, import_rich_text5.slice)(value, textStart, textEnd);
   }
@@ -1009,7 +1006,6 @@ var wp;
 
   // packages/format-library/build-module/link/index.mjs
   var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
-  var { essentialFormatKey: essentialFormatKey3 } = unlock(import_block_editor6.privateApis);
   var name5 = "core/link";
   var title5 = (0, import_i18n7.__)("Link");
   function Edit2({
@@ -1165,7 +1161,6 @@ var wp;
       rel: "rel",
       class: "class"
     },
-    [essentialFormatKey3]: true,
     __unstablePasteRule(value, { html, plainText }) {
       const pastedText = (html || plainText).replace(/<[^>]+>/g, "").trim();
       if (!(0, import_url3.isURL)(pastedText) || !/^https?:/.test(pastedText)) {
@@ -1294,6 +1289,15 @@ var wp;
   var import_block_editor9 = __toESM(require_block_editor(), 1);
   var import_components4 = __toESM(require_components(), 1);
   var import_i18n10 = __toESM(require_i18n(), 1);
+
+  // packages/format-library/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
+  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+    "@wordpress/format-library"
+  );
+
+  // packages/format-library/build-module/text-color/inline.mjs
   var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
   var { Tabs } = unlock(import_components4.privateApis);
   var TABS = [
@@ -1678,10 +1682,14 @@ var wp;
   var title13 = (0, import_i18n16.__)("Language");
   var language = {
     name: name13,
+    title: title13,
     tagName: "bdo",
     className: null,
-    edit: Edit3,
-    title: title13
+    attributes: {
+      lang: "lang",
+      dir: "dir"
+    },
+    edit: Edit3
   };
   function Edit3({ isActive, value, onChange, contentRef }) {
     const [isPopoverVisible, setIsPopoverVisible] = (0, import_element8.useState)(false);

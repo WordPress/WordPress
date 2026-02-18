@@ -7127,7 +7127,7 @@ var import_data = __toESM(require_data(), 1);
 
 // packages/abilities/build-module/store/constants.mjs
 var STORE_NAME = "core/abilities";
-var ABILITY_NAME_PATTERN = /^[a-z0-9-]+\/[a-z0-9-]+$/;
+var ABILITY_NAME_PATTERN = /^[a-z0-9-]+(?:\/[a-z0-9-]+){1,3}$/;
 var CATEGORY_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 var REGISTER_ABILITY = "REGISTER_ABILITY";
 var UNREGISTER_ABILITY = "UNREGISTER_ABILITY";
@@ -7241,7 +7241,7 @@ function registerAbility(ability) {
     }
     if (!ABILITY_NAME_PATTERN.test(ability.name)) {
       throw new Error(
-        'Ability name must be a string containing a namespace prefix, i.e. "my-plugin/my-ability". It can only contain lowercase alphanumeric characters, dashes and the forward slash.'
+        'Ability name must be a string containing a namespace prefix with 2-4 segments, e.g. "my-plugin/my-ability" or "core/posts/find". It can only contain lowercase alphanumeric characters, dashes and the forward slash.'
       );
     }
     if (!ability.label) {

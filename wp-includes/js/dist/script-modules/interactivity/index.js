@@ -2393,8 +2393,8 @@ var directives_default = () => {
     },
     { priority: 5 }
   );
-  directive("watch", ({ directives: { watch }, evaluate }) => {
-    watch.forEach((entry) => {
+  directive("watch", ({ directives: { watch: watch2 }, evaluate }) => {
+    watch2.forEach((entry) => {
       if (true) {
         if (entry.suffix) {
           warnUniqueIdWithTwoHyphens("watch", entry.suffix);
@@ -3094,6 +3094,7 @@ var hydrateRegions = async () => {
 if (true) {
   await Promise.resolve().then(() => (init_debug_module(), debug_module_exports));
 }
+var watch = E2;
 var requiredConsent = "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress.";
 var privateApis = (lock) => {
   if (lock === requiredConsent) {
@@ -3112,7 +3113,8 @@ var privateApis = (lock) => {
       batch: r3,
       routerRegions,
       deepReadOnly,
-      navigationSignal
+      navigationSignal,
+      warn
     };
   }
   throw new Error("Forbidden access.");
@@ -3137,6 +3139,7 @@ export {
   A2 as useRef,
   h2 as useState,
   useWatch,
+  watch,
   withScope,
   withSyncEvent
 };

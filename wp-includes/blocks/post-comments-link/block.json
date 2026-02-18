@@ -7,11 +7,6 @@
 	"description": "Displays the link to the current post comments.",
 	"textdomain": "default",
 	"usesContext": [ "postType", "postId" ],
-	"attributes": {
-		"textAlign": {
-			"type": "string"
-		}
-	},
 	"example": {
 		"viewportWidth": 350
 	},
@@ -33,6 +28,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

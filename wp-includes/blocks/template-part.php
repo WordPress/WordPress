@@ -195,7 +195,7 @@ function build_template_part_block_area_variations( $instance_variations ) {
 	$defined_areas = get_allowed_block_template_part_areas();
 
 	foreach ( $defined_areas as $area ) {
-		if ( 'uncategorized' !== $area['area'] ) {
+		if ( 'uncategorized' !== $area['area'] && 'navigation-overlay' !== $area['area'] ) {
 			$has_instance_for_area = false;
 			foreach ( $instance_variations as $variation ) {
 				if ( $variation['attributes']['area'] === $area['area'] ) {
@@ -250,6 +250,13 @@ function build_template_part_block_instance_variations() {
 	$icon_by_area  = array_combine( array_column( $defined_areas, 'area' ), array_column( $defined_areas, 'icon' ) );
 
 	foreach ( $template_parts as $template_part ) {
+		// Navigation overlay template parts should not appear in the
+		// general inserter. They are managed through the Navigation
+		// block's overlay template part selector.
+		$scope = ( 'navigation-overlay' === $template_part->area )
+			? array()
+			: array( 'inserter' );
+
 		$variations[] = array(
 			'name'        => 'instance_' . sanitize_title( $template_part->slug ),
 			'title'       => $template_part->title,
@@ -263,7 +270,7 @@ function build_template_part_block_instance_variations() {
 				'theme' => $template_part->theme,
 				'area'  => $template_part->area,
 			),
-			'scope'       => array( 'inserter' ),
+			'scope'       => $scope,
 			'icon'        => $icon_by_area[ $template_part->area ] ?? null,
 			'example'     => array(
 				'attributes' => array(
