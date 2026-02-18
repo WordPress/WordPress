@@ -80,7 +80,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 	<title><?php _e( 'WordPress &rsaquo; Update' ); ?></title>
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
-<body class="wp-core-ui">
+<body class="wp-core-ui admin-color-modern">
 <p id="logo"><?php _e( 'WordPress' ); ?></p>
 
 <?php if ( (int) get_option( 'db_version' ) === $wp_db_version || ! is_blog_installed() ) : ?>

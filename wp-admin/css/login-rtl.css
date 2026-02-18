@@ -16,7 +16,7 @@ body {
 }
 
 a {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color-darker-10);
 	transition-property: border, background, color;
 	transition-duration: .05s;
 	transition-timing-function: ease-in-out;
@@ -28,7 +28,7 @@ a {
 
 a:hover,
 a:active {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20);
 }
 
 a:focus {
@@ -45,22 +45,32 @@ p {
 .login .message,
 .login .notice,
 .login .success {
-	border-right: 4px solid #72aee6;
-	padding: 12px;
+	border-right: 4px solid #3858e9;
+	padding: 8px 12px;
+	margin-top: 0;
 	margin-right: 0;
 	margin-bottom: 20px;
-	background-color: #fff;
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	background-color: transparent;
 	word-wrap: break-word;
 }
 
+.login .message p,
+.login .notice p,
+.login .success p {
+	font-size: 13px;
+	line-height: 1.54;
+	margin: 0.5em 0;
+}
+
 .login .success {
-	border-right-color: #00a32a;
+	border-right-color: #4ab866;
+	background-color: #eff9f1;
 }
 
 /* Match border color from common.css */
 .login .notice-error {
-	border-right-color: #d63638;
+	border-right-color: #cc1818;
+	background-color: #fcf0f0;
 }
 
 .login .login-error-list {
@@ -114,8 +124,8 @@ p {
 
 .login .button.wp-hide-pw:focus {
 	background: transparent;
-	border-color: #3582c4;
-	box-shadow: 0 0 0 1px #3582c4;
+	border-color: var(--wp-admin-theme-color);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -359,12 +369,6 @@ p {
 /* rtl:ignore */
 .js.login input.password-input {
 	padding-right: 2.5rem;
-}
-
-.login form .input,
-.login input[type="text"],
-.login form input[type="checkbox"] {
-	background: #fff;
 }
 
 .js.login-action-resetpass input[type="text"],

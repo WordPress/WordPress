@@ -20,7 +20,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	<title><?php _e( 'WordPress &rsaquo; Database Repair' ); ?></title>
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
-<body class="wp-core-ui">
+<body class="wp-core-ui admin-color-modern">
 <p id="logo"><?php _e( 'WordPress' ); ?></p>
 
 <?php

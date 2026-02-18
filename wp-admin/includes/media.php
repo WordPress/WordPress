@@ -611,7 +611,7 @@ function wp_iframe( $content_func, ...$args ) {
 
 	?>
 	</head>
-	<body<?php echo $body_id_attr; ?> class="wp-core-ui no-js">
+	<body<?php echo $body_id_attr; ?> class="wp-core-ui no-js <?php echo 'admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'modern' ); ?>">
 	<script>
 	document.body.className = document.body.className.replace('no-js', 'js');
 	</script>

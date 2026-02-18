@@ -166,7 +166,7 @@ function login_header( $title = null, $message = '', $wp_error = null ) {
 	 */
 	$login_header_text = apply_filters( 'login_headertext', $login_header_text );
 
-	$classes = array( 'login-action-' . $action, 'wp-core-ui' );
+	$classes = array( 'login-action-' . $action, 'wp-core-ui', 'admin-color-modern' );
 
 	if ( is_rtl() ) {
 		$classes[] = 'rtl';
