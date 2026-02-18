@@ -708,7 +708,7 @@ class WP_Customize_Setting {
 			 */
 			do_action( "customize_update_{$this->type}", $value, $this );
 
-			return has_action( "customize_update_{$this->type}" );
+			return (bool) has_action( "customize_update_{$this->type}" );
 		}
 	}
 

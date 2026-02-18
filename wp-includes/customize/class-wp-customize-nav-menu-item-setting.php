@@ -759,17 +759,18 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * To delete a menu, the client can send false as the value.
 	 *
 	 * @since 4.3.0
+	 * @since 7.0.0 Return type updated from null|void to bool for compatibility with base class.
 	 *
 	 * @see wp_update_nav_menu_item()
 	 *
 	 * @param array|false $value The menu item array to update. If false, then the menu item will be deleted
 	 *                           entirely. See WP_Customize_Nav_Menu_Item_Setting::$default for what the value
 	 *                           should consist of.
-	 * @return null|void
+	 * @return bool Whether updated.
 	 */
 	protected function update( $value ) {
 		if ( $this->is_updated ) {
-			return;
+			return ( 'error' !== $this->update_status );
 		}
 
 		$this->is_updated = true;
@@ -806,19 +807,19 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				if ( ! $nav_menu_setting || ! ( $nav_menu_setting instanceof WP_Customize_Nav_Menu_Setting ) ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_nav_menu_setting' );
-					return;
+					return false;
 				}
 
 				if ( false === $nav_menu_setting->save() ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'nav_menu_setting_failure' );
-					return;
+					return false;
 				}
 
 				if ( (int) $value['nav_menu_term_id'] !== $nav_menu_setting->previous_term_id ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_previous_term_id' );
-					return;
+					return false;
 				}
 
 				$value['nav_menu_term_id'] = $nav_menu_setting->term_id;
@@ -832,19 +833,19 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				if ( ! $parent_nav_menu_item_setting || ! ( $parent_nav_menu_item_setting instanceof WP_Customize_Nav_Menu_Item_Setting ) ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_nav_menu_item_setting' );
-					return;
+					return false;
 				}
 
 				if ( false === $parent_nav_menu_item_setting->save() ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'nav_menu_item_setting_failure' );
-					return;
+					return false;
 				}
 
 				if ( (int) $value['menu_item_parent'] !== $parent_nav_menu_item_setting->previous_post_id ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'unexpected_previous_post_id' );
-					return;
+					return false;
 				}
 
 				$value['menu_item_parent'] = $parent_nav_menu_item_setting->post_id;
@@ -886,6 +887,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				}
 			}
 		}
+
+		return ( 'error' !== $this->update_status );
 	}
 
 	/**
