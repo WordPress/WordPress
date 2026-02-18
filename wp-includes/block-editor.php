@@ -658,6 +658,8 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$editor_settings = apply_filters_deprecated( 'block_editor_settings', array( $editor_settings, $post ), '5.8.0', 'block_editor_settings_all' );
 	}
 
+	$editor_settings['canEditCSS'] = current_user_can( 'edit_css' );
+
 	return $editor_settings;
 }
 

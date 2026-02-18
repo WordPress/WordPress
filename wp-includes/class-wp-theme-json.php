@@ -1520,12 +1520,13 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.2.0
 	 * @since 6.6.0 Enforced 0-1-0 specificity for block custom CSS selectors.
+	 * @since 7.0.0 Made public for use in custom-css block support.
 	 *
 	 * @param string $css      The CSS to process.
 	 * @param string $selector The selector to nest.
 	 * @return string The processed CSS.
 	 */
-	protected function process_blocks_custom_css( $css, $selector ) {
+	public static function process_blocks_custom_css( $css, $selector ) {
 		$processed_css = '';
 
 		if ( empty( $css ) ) {
