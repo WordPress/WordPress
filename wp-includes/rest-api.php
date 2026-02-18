@@ -424,6 +424,10 @@ function create_initial_rest_routes() {
 	$abilities_run_controller->register_routes();
 	$abilities_list_controller = new WP_REST_Abilities_V1_List_Controller();
 	$abilities_list_controller->register_routes();
+
+	// Icons.
+	$icons_controller = new WP_REST_Icons_Controller();
+	$icons_controller->register_routes();
 }
 
 /**
