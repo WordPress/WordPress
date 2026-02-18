@@ -1767,7 +1767,7 @@ function sanitize_term( $term, $taxonomy, $context = 'display' ) {
  * @param string $taxonomy Taxonomy name.
  * @param string $context  Context in which to sanitize the term field.
  *                         Accepts 'raw', 'edit', 'db', 'display', 'rss',
- *                         'attribute', or 'js'. Default 'display'.
+ *                         'attribute', or 'js'.
  * @return mixed Sanitized field.
  */
 function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
