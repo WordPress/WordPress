@@ -866,6 +866,14 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @return string|array|false String or array (for Tags header) on success, false on failure.
+	 *
+	 * @phpstan-return (
+	 *     $header is 'Tags'
+	 *         ? string[]|false
+	 *         : ( $header is 'Name'|'ThemeURI'|'Description'|'Author'|'AuthorURI'|'Version'|'Template'|'Status'|'TextDomain'|'DomainPath'|'RequiresWP'|'RequiresPHP'|'UpdateURI'
+	 *             ? string|false
+	 *             : false )
+	 * )
 	 */
 	public function get( $header ) {
 		if ( ! isset( $this->headers[ $header ] ) ) {

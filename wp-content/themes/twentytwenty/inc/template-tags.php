@@ -29,7 +29,7 @@
  *
  * @param array $args    Arguments for displaying the site logo either as an image or text.
  * @param bool  $display Display or return the HTML.
- * @return string Compiled HTML based on our arguments.
+ * @return string|void Compiled HTML based on our arguments.
  */
 function twentytwenty_site_logo( $args = array(), $display = true ) {
 	$logo       = get_custom_logo();
@@ -107,7 +107,7 @@ function twentytwenty_site_logo( $args = array(), $display = true ) {
  * @since Twenty Twenty 1.0
  *
  * @param bool $display Display or return the HTML.
- * @return string The HTML to display.
+ * @return string|void The HTML to display.
  */
 function twentytwenty_site_description( $display = true ) {
 	$description = get_bloginfo( 'description' );
@@ -249,7 +249,7 @@ add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
  *
  * @param int    $post_id  The ID of the post.
  * @param string $location The location where the meta is shown.
- * @return string Post meta HTML.
+ * @return string|void Post meta HTML.
  */
 function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' ) {
 

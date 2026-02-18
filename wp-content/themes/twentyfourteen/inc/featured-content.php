@@ -212,7 +212,7 @@ class Featured_Content {
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Query $query WP_Query object.
-	 * @return WP_Query Possibly-modified WP_Query.
+	 * @return void
 	 */
 	public static function pre_get_posts( $query ) {
 

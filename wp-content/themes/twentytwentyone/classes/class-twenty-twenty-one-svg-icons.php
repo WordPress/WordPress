@@ -181,18 +181,17 @@ class Twenty_Twenty_One_SVG_Icons {
 		 *
 		 * @since Twenty Twenty-One 1.0
 		 *
-		 * @param array $arr Array of icons.
+		 * @param array<string, string> $arr Array of icons.
 		 */
 		$arr = apply_filters( "twenty_twenty_one_svg_icons_{$group}", $arr );
 
 		$svg = '';
-		if ( array_key_exists( $icon, $arr ) ) {
+		if ( isset( $arr[ $icon ] ) && is_string( $arr[ $icon ] ) ) {
 			$repl = sprintf( '<svg class="svg-icon" width="%d" height="%d" aria-hidden="true" role="img" focusable="false" ', $size, $size );
 
-			$svg = preg_replace( '/^<svg /', $repl, trim( $arr[ $icon ] ) ); // Add extra attributes to SVG code.
+			$svg = (string) preg_replace( '/^<svg /', $repl, trim( $arr[ $icon ] ) ); // Add extra attributes to SVG code.
 		}
 
-		// @phpstan-ignore-next-line.
 		return $svg;
 	}
 

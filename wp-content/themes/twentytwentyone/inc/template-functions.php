@@ -339,12 +339,12 @@ function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
 	}
 
 	// Return the specified styles.
-	return twenty_twenty_one_generate_css( // @phpstan-ignore-line.
+	return twenty_twenty_one_generate_css(
 		implode( ',', $elements[ $type ] ),
 		'font-family',
 		implode( ',', $font_family[ $locale ] ),
-		null,
-		null,
+		'',
+		'',
 		false
 	);
 }
