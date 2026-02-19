@@ -50,7 +50,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return bool
+	 * Checks if the current user has permissions to manage sites.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool Whether the user can manage sites.
 	 */
 	public function ajax_user_can() {
 		return current_user_can( 'manage_sites' );
@@ -62,7 +66,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @global string $mode List table view mode.
-	 * @global string $s
+	 * @global string $s    Search string.
 	 * @global wpdb   $wpdb WordPress database abstraction object.
 	 */
 	public function prepare_items() {
@@ -206,6 +210,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays a message when no sites are found.
+	 *
+	 * @since 3.1.0
 	 */
 	public function no_items() {
 		_e( 'No sites found.' );
@@ -286,7 +293,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return array
+	 * Gets an associative array of bulk actions for this table.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return array<string, string> An associative array of bulk actions.
 	 */
 	protected function get_bulk_actions() {
 		$actions = array();
@@ -300,6 +311,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays the pagination.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @global string $mode List table view mode.
 	 *
 	 * @param string $which The location of the pagination nav markup: Either 'top' or 'bottom'.
@@ -359,6 +374,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Gets an array of column titles keyed by their column name.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @return string[] Array of column titles keyed by their column name.
 	 */
 	public function get_columns() {
@@ -386,7 +405,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return array
+	 * Gets an array of sortable columns.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return array<string, mixed> An array of sortable columns.
 	 */
 	protected function get_sortable_columns() {
 
@@ -640,7 +663,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param array $site
+	 * @param array<string, mixed> $site An array of site data.
 	 */
 	protected function site_states( $site ) {
 		$site_states = array();
