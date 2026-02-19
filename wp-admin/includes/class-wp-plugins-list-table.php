@@ -46,11 +46,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			)
 		);
 
-		$allowed_statuses = array( 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse', 'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled' );
-
 		$status = 'all';
-		if ( isset( $_REQUEST['plugin_status'] ) && in_array( $_REQUEST['plugin_status'], $allowed_statuses, true ) ) {
-			$status = $_REQUEST['plugin_status'];
+		if ( isset( $_REQUEST['plugin_status'] ) ) {
+			$status = sanitize_key( $_REQUEST['plugin_status'] );
 		}
 
 		if ( isset( $_REQUEST['s'] ) ) {
@@ -582,6 +580,25 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						'Auto-updates Disabled <span class="count">(%s)</span>',
 						'Auto-updates Disabled <span class="count">(%s)</span>',
 						$count
+					);
+					break;
+				default:
+					/**
+					 * Filters the status text of default switch case in the plugins list table.
+					 *
+					 * @since 7.0.0
+					 *
+					 * @param string $text  Plugins list status text. Default empty string.
+					 * @param int    $count Count of the number of plugins.
+					 * @param string $type  The status slug being filtered.
+					 */
+					$text = apply_filters( 'plugins_list_status_text', '', $count, $type );
+					if ( empty( $text ) || ! is_string( $text ) ) {
+						$text = $type;
+					}
+					$text = esc_html( $text ) . ' ' . sprintf(
+						'<span class="count">(%s)</span>',
+						number_format_i18n( $count )
 					);
 					break;
 			}
