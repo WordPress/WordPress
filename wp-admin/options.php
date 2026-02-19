@@ -153,6 +153,7 @@ $allowed_options            = array(
 		'default_email_category',
 		'default_link_category',
 		'default_post_format',
+		'enable_real_time_collaboration',
 	),
 );
 $allowed_options['misc']    = array();

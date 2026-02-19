@@ -657,6 +657,41 @@ function create_initial_post_types() {
 		)
 	);
 
+	if ( get_option( 'enable_real_time_collaboration' ) ) {
+		register_post_type(
+			'wp_sync_storage',
+			array(
+				'labels'             => array(
+					'name'          => __( 'Sync Updates' ),
+					'singular_name' => __( 'Sync Update' ),
+				),
+				'public'             => false,
+				'_builtin'           => true, /* internal use only. don't use this when registering your own post type. */
+				'hierarchical'       => false,
+				'capabilities'       => array(
+					'read'                   => 'do_not_allow',
+					'read_private_posts'     => 'do_not_allow',
+					'create_posts'           => 'do_not_allow',
+					'publish_posts'          => 'do_not_allow',
+					'edit_posts'             => 'do_not_allow',
+					'edit_others_posts'      => 'do_not_allow',
+					'edit_published_posts'   => 'do_not_allow',
+					'delete_posts'           => 'do_not_allow',
+					'delete_others_posts'    => 'do_not_allow',
+					'delete_published_posts' => 'do_not_allow',
+				),
+				'map_meta_cap'       => false,
+				'publicly_queryable' => false,
+				'query_var'          => false,
+				'rewrite'            => false,
+				'show_in_menu'       => false,
+				'show_in_rest'       => false,
+				'show_ui'            => false,
+				'supports'           => array( 'custom-fields' ),
+			)
+		);
+	}
+
 	register_post_status(
 		'publish',
 		array(
@@ -8611,6 +8646,7 @@ function use_block_editor_for_post_type( $post_type ) {
  * Registers any additional post meta fields.
  *
  * @since 6.3.0 Adds `wp_pattern_sync_status` meta field to the wp_block post type so an unsynced option can be added.
+ * @since 7.0.0 Adds `_crdt_document` meta field to post types so that CRDT documents can be persisted.
  *
  * @link https://github.com/WordPress/gutenberg/pull/51144
  */
@@ -8630,4 +8666,30 @@ function wp_create_initial_post_meta() {
 			),
 		)
 	);
+
+	if ( get_option( 'enable_real_time_collaboration' ) ) {
+		register_meta(
+			'post',
+			'_crdt_document',
+			array(
+				'auth_callback'     => static function ( bool $_allowed, string $_meta_key, int $object_id, int $user_id ): bool {
+					return user_can( $user_id, 'edit_post', $object_id );
+				},
+				/*
+				 * Revisions must be disabled because we always want to preserve
+				 * the latest persisted CRDT document, even when a revision is restored.
+				 * This ensures that we can continue to apply updates to a shared document
+				 * and peers can simply merge the restored revision like any other incoming
+				 * update.
+				 *
+				 * If we want to persist CRDT documents alongside revisions in the
+				 * future, we should do so in a separate meta key.
+				 */
+				'revisions_enabled' => false,
+				'show_in_rest'      => true,
+				'single'            => true,
+				'type'              => 'string',
+			)
+		);
+	}
 }
