@@ -2892,7 +2892,7 @@ function register_initial_settings() {
 			'type'              => 'boolean',
 			'description'       => __( 'Enable Real-Time Collaboration' ),
 			'sanitize_callback' => 'rest_sanitize_boolean',
-			'default'           => true,
+			'default'           => false,
 			'show_in_rest'      => true,
 		)
 	);
