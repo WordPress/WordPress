@@ -1368,6 +1368,34 @@ class WP_REST_Server {
 			'routes'          => $this->get_data_for_routes( $this->get_routes(), $request['context'] ),
 		);
 
+		// Add media processing settings for users who can upload files.
+		if ( wp_is_client_side_media_processing_enabled() && current_user_can( 'upload_files' ) ) {
+			// Image sizes keyed by name for client-side media processing.
+			$available['image_sizes'] = array();
+			foreach ( wp_get_registered_image_subsizes() as $name => $size ) {
+				$available['image_sizes'][ $name ] = $size;
+			}
+
+			/** This filter is documented in wp-admin/includes/image.php */
+			$available['image_size_threshold'] = (int) apply_filters( 'big_image_size_threshold', 2560, array( 0, 0 ), '', 0 );
+
+			// Image output formats.
+			$input_formats  = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/heic' );
+			$output_formats = array();
+			foreach ( $input_formats as $mime_type ) {
+				/** This filter is documented in wp-includes/class-wp-image-editor.php */
+				$output_formats = apply_filters( 'image_editor_output_format', $output_formats, '', $mime_type );
+			}
+			$available['image_output_formats'] = (object) $output_formats;
+
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			$available['jpeg_interlaced'] = (bool) apply_filters( 'image_save_progressive', false, 'image/jpeg' );
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			$available['png_interlaced']  = (bool) apply_filters( 'image_save_progressive', false, 'image/png' );
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			$available['gif_interlaced']  = (bool) apply_filters( 'image_save_progressive', false, 'image/gif' );
+		}
+
 		$response = new WP_REST_Response( $available );
 
 		$fields = $request['_fields'] ?? '';

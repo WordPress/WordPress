@@ -47004,7 +47004,7 @@ If there's a particular need for this, please submit a feature request at https:
       showListViewByDefault: false,
       enableChoosePatternModal: true
     });
-    if (window.__experimentalMediaProcessing) {
+    if (window.__clientSideMediaProcessing) {
       (0, import_data84.dispatch)(import_preferences13.store).setDefaults("core/media", {
         requireApproval: true,
         optimizeOnUpload: true

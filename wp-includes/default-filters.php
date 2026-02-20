@@ -675,6 +675,13 @@ add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings'
 add_action( 'plugins_loaded', '_wp_add_additional_image_sizes', 0 );
 add_filter( 'plupload_default_settings', 'wp_show_heic_upload_error' );
 
+// Client-side media processing.
+add_action( 'admin_init', 'wp_set_client_side_media_processing_flag' );
+// Cross-origin isolation for client-side media processing.
+add_action( 'load-post.php', 'wp_set_up_cross_origin_isolation' );
+add_action( 'load-post-new.php', 'wp_set_up_cross_origin_isolation' );
+add_action( 'load-site-editor.php', 'wp_set_up_cross_origin_isolation' );
+add_action( 'load-widgets.php', 'wp_set_up_cross_origin_isolation' );
 // Nav menu.
 add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
 add_filter( 'nav_menu_css_class', 'wp_nav_menu_remove_menu_item_has_children_class', 10, 4 );

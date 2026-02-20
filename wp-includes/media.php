@@ -6359,3 +6359,205 @@ function wp_get_image_editor_output_format( $filename, $mime_type ) {
 	 */
 	return apply_filters( 'image_editor_output_format', $output_format, $filename, $mime_type );
 }
+
+/**
+ * Checks whether client-side media processing is enabled.
+ *
+ * Client-side media processing uses the browser's capabilities to handle
+ * tasks like image resizing and compression before uploading to the server.
+ *
+ * @since 7.0.0
+ *
+ * @return bool Whether client-side media processing is enabled.
+ */
+function wp_is_client_side_media_processing_enabled(): bool {
+	/**
+	 * Filters whether client-side media processing is enabled.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param bool $enabled Whether client-side media processing is enabled. Default true.
+	 */
+	return (bool) apply_filters( 'wp_client_side_media_processing_enabled', true );
+}
+
+/**
+ * Sets a global JS variable to indicate that client-side media processing is enabled.
+ *
+ * @since 7.0.0
+ */
+function wp_set_client_side_media_processing_flag(): void {
+	if ( ! wp_is_client_side_media_processing_enabled() ) {
+		return;
+	}
+
+	wp_add_inline_script( 'wp-block-editor', 'window.__clientSideMediaProcessing = true', 'before' );
+
+	/*
+	 * Register the @wordpress/vips/worker script module as a dynamic dependency
+	 * of the wp-upload-media classic script. This ensures it is included in the
+	 * import map so that the dynamic import() in upload-media.js can resolve it.
+	 */
+	wp_scripts()->add_data(
+		'wp-upload-media',
+		'module_dependencies',
+		array( '@wordpress/vips/worker' )
+	);
+}
+
+/**
+ * Enables cross-origin isolation in the block editor.
+ *
+ * Required for enabling SharedArrayBuffer for WebAssembly-based
+ * media processing in the editor.
+ *
+ * @since 7.0.0
+ *
+ * @link https://web.dev/coop-coep/
+ */
+function wp_set_up_cross_origin_isolation(): void {
+	if ( ! wp_is_client_side_media_processing_enabled() ) {
+		return;
+	}
+
+	$screen = get_current_screen();
+
+	if ( ! $screen ) {
+		return;
+	}
+
+	if ( ! $screen->is_block_editor() && 'site-editor' !== $screen->id && ! ( 'widgets' === $screen->id && wp_use_widgets_block_editor() ) ) {
+		return;
+	}
+
+	// Cross-origin isolation is not needed if users can't upload files anyway.
+	if ( ! current_user_can( 'upload_files' ) ) {
+		return;
+	}
+
+	wp_start_cross_origin_isolation_output_buffer();
+}
+
+/**
+ * Starts an output buffer to send cross-origin isolation headers.
+ *
+ * Sends headers and uses an output buffer to add crossorigin="anonymous"
+ * attributes where needed.
+ *
+ * @since 7.0.0
+ *
+ * @link https://web.dev/coop-coep/
+ *
+ * @global bool $is_safari
+ */
+function wp_start_cross_origin_isolation_output_buffer(): void {
+	global $is_safari;
+
+	$coep = $is_safari ? 'require-corp' : 'credentialless';
+
+	ob_start(
+		static function ( string $output ) use ( $coep ): string {
+			header( 'Cross-Origin-Opener-Policy: same-origin' );
+			header( "Cross-Origin-Embedder-Policy: $coep" );
+
+			return wp_add_crossorigin_attributes( $output );
+		}
+	);
+}
+
+/**
+ * Adds crossorigin="anonymous" to relevant tags in the given HTML string.
+ *
+ * @since 7.0.0
+ *
+ * @param string $html HTML input.
+ * @return string Modified HTML.
+ */
+function wp_add_crossorigin_attributes( string $html ): string {
+	$site_url = site_url();
+
+	$processor = new WP_HTML_Tag_Processor( $html );
+
+	// See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin.
+	$cross_origin_tag_attributes = array(
+		'AUDIO'  => array( 'src' => false ),
+		'IMG'    => array(
+			'src'    => false,
+			'srcset' => true,
+		),
+		'LINK'   => array(
+			'href'        => false,
+			'imagesrcset' => true,
+		),
+		'SCRIPT' => array( 'src' => false ),
+		'VIDEO'  => array(
+			'src'    => false,
+			'poster' => false,
+		),
+		'SOURCE' => array( 'src' => false ),
+	);
+
+	while ( $processor->next_tag() ) {
+		$tag = $processor->get_tag();
+
+		if ( ! isset( $cross_origin_tag_attributes[ $tag ] ) ) {
+			continue;
+		}
+
+		if ( 'AUDIO' === $tag || 'VIDEO' === $tag ) {
+			$processor->set_bookmark( 'audio-video-parent' );
+		}
+
+		$processor->set_bookmark( 'resume' );
+
+		$sought = false;
+
+		$crossorigin = $processor->get_attribute( 'crossorigin' );
+
+		$is_cross_origin = false;
+
+		foreach ( $cross_origin_tag_attributes[ $tag ] as $attr => $is_srcset ) {
+			if ( $is_srcset ) {
+				$srcset = $processor->get_attribute( $attr );
+				if ( is_string( $srcset ) ) {
+					foreach ( explode( ',', $srcset ) as $candidate ) {
+						$candidate_url = strtok( trim( $candidate ), ' ' );
+						if ( is_string( $candidate_url ) && '' !== $candidate_url && ! str_starts_with( $candidate_url, $site_url ) && ! str_starts_with( $candidate_url, '/' ) ) {
+							$is_cross_origin = true;
+							break;
+						}
+					}
+				}
+			} else {
+				$url = $processor->get_attribute( $attr );
+				if ( is_string( $url ) && ! str_starts_with( $url, $site_url ) && ! str_starts_with( $url, '/' ) ) {
+					$is_cross_origin = true;
+				}
+			}
+
+			if ( $is_cross_origin ) {
+				break;
+			}
+		}
+
+		if ( $is_cross_origin && ! is_string( $crossorigin ) ) {
+			if ( 'SOURCE' === $tag ) {
+				$sought = $processor->seek( 'audio-video-parent' );
+
+				if ( $sought ) {
+					$processor->set_attribute( 'crossorigin', 'anonymous' );
+				}
+			} else {
+				$processor->set_attribute( 'crossorigin', 'anonymous' );
+			}
+
+			if ( $sought ) {
+				$processor->seek( 'resume' );
+				$processor->release_bookmark( 'audio-video-parent' );
+			}
+		}
+	}
+
+	return $processor->get_updated_html();
+}
+

@@ -1387,7 +1387,7 @@ var wp;
     const validFiles = [];
     const filesSet = [];
     const setAndUpdateFiles = (index, value) => {
-      if (!window.__experimentalMediaProcessing) {
+      if (!window.__clientSideMediaProcessing) {
         if (filesSet[index]?.url) {
           (0, import_blob.revokeBlobURL)(filesSet[index].url);
         }
@@ -1417,7 +1417,7 @@ var wp;
         continue;
       }
       validFiles.push(mediaFile);
-      if (!window.__experimentalMediaProcessing) {
+      if (!window.__clientSideMediaProcessing) {
         filesSet.push({ url: (0, import_blob.createBlobURL)(mediaFile) });
         onFileChange?.(filesSet);
       }

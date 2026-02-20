@@ -310,6 +310,10 @@ function wp_default_packages_scripts( $scripts ) {
 
 		$scripts->add( $handle, $path, $dependencies, $package_data['version'], 1 );
 
+		if ( ! empty( $package_data['module_dependencies'] ) ) {
+			$scripts->add_data( $handle, 'module_dependencies', $package_data['module_dependencies'] );
+		}
+
 		if ( in_array( 'wp-i18n', $dependencies, true ) ) {
 			$scripts->set_translations( $handle );
 		}

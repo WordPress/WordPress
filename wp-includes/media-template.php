@@ -156,6 +156,12 @@ function wp_underscore_video_template() {
 function wp_print_media_templates() {
 	$class = 'media-modal wp-core-ui';
 
+	$is_cross_origin_isolation_enabled = wp_is_client_side_media_processing_enabled();
+
+	if ( $is_cross_origin_isolation_enabled ) {
+		ob_start();
+	}
+
 	$alt_text_description = sprintf(
 		/* translators: 1: Link to tutorial, 2: Additional link attributes, 3: Accessibility text. */
 		__( '<a href="%1$s" %2$s>Learn how to describe the purpose of the image%3$s</a>. Leave empty if the image is purely decorative.' ),
@@ -1582,4 +1588,42 @@ function wp_print_media_templates() {
 	 * @since 3.5.0
 	 */
 	do_action( 'print_media_templates' );
+
+	if ( $is_cross_origin_isolation_enabled ) {
+		$html = (string) ob_get_clean();
+
+		/*
+		 * The media templates are inside <script type="text/html"> tags,
+		 * whose content is treated as raw text by the HTML Tag Processor.
+		 * Extract each script block's content, process it separately,
+		 * then reassemble the full output.
+		 */
+		$script_processor = new WP_HTML_Tag_Processor( $html );
+		while ( $script_processor->next_tag( 'SCRIPT' ) ) {
+			if ( 'text/html' !== $script_processor->get_attribute( 'type' ) ) {
+				continue;
+			}
+			/*
+			 * Unlike wp_add_crossorigin_attributes(), this does not check whether
+			 * URLs are actually cross-origin. Media templates use Underscore.js
+			 * template expressions (e.g. {{ data.url }}) as placeholder URLs,
+			 * so actual URLs are not available at parse time.
+			 * The crossorigin attribute is added unconditionally to all relevant
+			 * media tags to ensure cross-origin isolation works regardless of
+			 * the final URL value at render time.
+			 */
+			$template_processor = new WP_HTML_Tag_Processor( $script_processor->get_modifiable_text() );
+			while ( $template_processor->next_tag() ) {
+				if (
+					in_array( $template_processor->get_tag(), array( 'AUDIO', 'IMG', 'VIDEO' ), true )
+					&& ! is_string( $template_processor->get_attribute( 'crossorigin' ) )
+				) {
+					$template_processor->set_attribute( 'crossorigin', 'anonymous' );
+				}
+			}
+			$script_processor->set_modifiable_text( $template_processor->get_updated_html() );
+		}
+
+		echo $script_processor->get_updated_html();
+	}
 }

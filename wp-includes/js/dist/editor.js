@@ -12970,12 +12970,18 @@ var wp;
     const currentPost = getCurrentPost2();
     const currentPostId = typeof currentPost?.id === "number" ? currentPost.id : currentPost?.wp_id;
     const setSaveLock = () => {
+      if (window.__clientSideMediaProcessing) {
+        return;
+      }
       lockPostSaving2(lockKey);
       lockPostAutosaving2(lockKey);
       imageIsUploading = true;
     };
     const postData = currentPostId ? { post: currentPostId } : {};
     const clearSaveLock = () => {
+      if (window.__clientSideMediaProcessing) {
+        return;
+      }
       unlockPostSaving2(lockKey);
       unlockPostAutosaving2(lockKey);
       imageIsUploading = false;
@@ -12984,7 +12990,7 @@ var wp;
       allowedTypes,
       filesList,
       onFileChange: (file) => {
-        if (!window.__experimentalMediaProcessing) {
+        if (!window.__clientSideMediaProcessing) {
           if (!imageIsUploading) {
             setSaveLock();
           } else {
@@ -13011,7 +13017,7 @@ var wp;
       },
       maxUploadFileSize,
       onError: ({ message: message2 }) => {
-        if (!window.__experimentalMediaProcessing) {
+        if (!window.__clientSideMediaProcessing) {
           clearSaveLock();
         }
         onError(message2);
@@ -17593,15 +17599,15 @@ var wp;
   var import_upload_media = __toESM(require_upload_media(), 1);
   var LOCK_NAME = "upload-in-progress";
   function useUploadSaveLock() {
-    const isExperimentEnabled = window.__experimentalMediaProcessing;
+    const isClientSideMediaProcessingEnabled = window.__clientSideMediaProcessing;
     const isUploading = (0, import_data43.useSelect)(
       (select6) => {
-        if (!isExperimentEnabled) {
+        if (!isClientSideMediaProcessingEnabled) {
           return false;
         }
         return select6(import_upload_media.store).isUploading();
       },
-      [isExperimentEnabled]
+      [isClientSideMediaProcessingEnabled]
     );
     const {
       lockPostSaving: lockPostSaving2,
@@ -17610,7 +17616,7 @@ var wp;
       unlockPostAutosaving: unlockPostAutosaving2
     } = (0, import_data43.useDispatch)(store);
     (0, import_element37.useEffect)(() => {
-      if (!isExperimentEnabled) {
+      if (!isClientSideMediaProcessingEnabled) {
         return;
       }
       if (isUploading) {
@@ -17625,7 +17631,7 @@ var wp;
         unlockPostAutosaving2(LOCK_NAME);
       };
     }, [
-      isExperimentEnabled,
+      isClientSideMediaProcessingEnabled,
       isUploading,
       lockPostSaving2,
       unlockPostSaving2,
@@ -65507,7 +65513,7 @@ var wp;
             )
           ] })
         },
-        window.__experimentalMediaProcessing && {
+        window.__clientSideMediaProcessing && {
           name: "media",
           tabLabel: (0, import_i18n274.__)("Media"),
           content: /* @__PURE__ */ (0, import_jsx_runtime423.jsx)(import_jsx_runtime423.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime423.jsxs)(

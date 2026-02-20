@@ -2882,7 +2882,7 @@ var wp;
       enableChoosePatternModal: true,
       isPublishSidebarEnabled: true
     });
-    if (window.__experimentalMediaProcessing) {
+    if (window.__clientSideMediaProcessing) {
       (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core/media", {
         requireApproval: true,
         optimizeOnUpload: true

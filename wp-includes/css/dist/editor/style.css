@@ -3100,11 +3100,11 @@ div.dataviews-view-list {
 }
 
 .dataviews-view-table thead th:has(.dataviews-view-table-header-button):first-child {
-  padding-left: 40px;
+  padding-left: 16px;
 }
 
 .dataviews-view-table thead th:has(.dataviews-view-table-header-button):last-child {
-  padding-right: 40px;
+  padding-right: 16px;
 }
 
 .dataviews-view-table tbody td {

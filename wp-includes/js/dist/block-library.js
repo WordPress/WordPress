@@ -31695,7 +31695,7 @@ ${js}
     const src = isExternal ? url : void 0;
     const isSideloading = (0, import_data48.useSelect)(
       (select9) => {
-        if (!window.__experimentalMediaProcessing || !id) {
+        if (!window.__clientSideMediaProcessing || !id) {
           return false;
         }
         return select9(import_upload_media.store).isUploadingById(id);

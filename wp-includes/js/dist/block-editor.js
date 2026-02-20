@@ -24036,7 +24036,7 @@ var wp;
     if (isClientSideMediaEnabledCache !== null) {
       return isClientSideMediaEnabledCache;
     }
-    if (!window.__experimentalMediaProcessing) {
+    if (!window.__clientSideMediaProcessing) {
       isClientSideMediaEnabledCache = false;
       return false;
     }
