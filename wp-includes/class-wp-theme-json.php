@@ -3542,7 +3542,7 @@ class WP_Theme_JSON {
 	 * @param array      $theme_json The theme.json like structure to inspect.
 	 * @param array      $path       Path to inspect.
 	 * @param bool|array $override   Data to compute whether to override the preset.
-	 * @return bool
+	 * @return bool|null True if the preset should override the defaults, false if not. Null if the override parameter is invalid.
 	 */
 	protected static function should_override_preset( $theme_json, $path, $override ) {
 		_deprecated_function( __METHOD__, '6.0.0', 'get_metadata_boolean' );
@@ -3577,6 +3577,8 @@ class WP_Theme_JSON {
 
 			return true;
 		}
+
+		return null;
 	}
 
 	/**

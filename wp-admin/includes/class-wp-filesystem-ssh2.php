@@ -670,9 +670,11 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *                      Default 0.
 	 * @param int    $atime Optional. Access time to set for file.
 	 *                      Default 0.
+	 * @return false Always returns false because not implemented.
 	 */
 	public function touch( $file, $time = 0, $atime = 0 ) {
 		// Not implemented.
+		return false;
 	}
 
 	/**

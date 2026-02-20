@@ -13,6 +13,8 @@
  * Holds, sanitizes, processes, and prints CSS declarations for the style engine.
  *
  * @since 6.1.0
+ *
+ * @phpstan-consistent-constructor
  */
 #[AllowDynamicProperties]
 class WP_Style_Engine_CSS_Rules_Store {

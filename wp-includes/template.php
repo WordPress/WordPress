@@ -796,7 +796,7 @@ function load_template( $_template_file, $load_once = true, $args = array() ) {
 	}
 
 	if ( isset( $s ) ) {
-		$s = esc_attr( $s );
+		$s = esc_attr( $s ); // @phpstan-ignore variable.undefined (It's extracted from query vars.)
 	}
 
 	/**
@@ -976,7 +976,7 @@ function wp_finalize_template_enhancement_output_buffer( string $output, int $ph
 			}
 
 			// Display a caught exception as an error since it prevents any of the output buffer filters from applying.
-			if ( $did_just_catch ) { // @phpstan-ignore if.alwaysFalse (The variable is set in the catch block below.)
+			if ( $did_just_catch ) {
 				$level = E_USER_ERROR;
 			}
 

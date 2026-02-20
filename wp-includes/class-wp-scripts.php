@@ -1186,7 +1186,7 @@ JS;
 				}
 			}
 		}
-		$stored_results[ $handle ] = $priorities[ $highest_priority_index ]; // @phpstan-ignore parameterByRef.type (We know the index is valid and that this will be a string.)
+		$stored_results[ $handle ] = $priorities[ $highest_priority_index ];
 		return $priorities[ $highest_priority_index ];
 	}
 

@@ -4116,7 +4116,7 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
  *              false otherwise.
  */
 function is_gd_image( $image ) {
-	if ( $image instanceof GdImage
+	if ( $image instanceof GdImage // @phpstan-ignore class.notFound (Only available with PHP8+.)
 		|| is_resource( $image ) && 'gd' === get_resource_type( $image )
 	) {
 		return true;
