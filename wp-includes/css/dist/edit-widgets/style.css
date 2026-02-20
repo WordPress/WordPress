@@ -954,15 +954,16 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 .edit-widgets-notices__snackbar {
   position: fixed;
   bottom: 24px;
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
-  width: max-content;
-  max-width: calc(100vw - 32px);
+  left: 0;
+  right: 0;
+  padding-inline: 16px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  pointer-events: none;
+}
+.edit-widgets-notices__snackbar .components-snackbar {
+  margin-inline: auto;
 }
 
 .edit-widgets-layout__inserter-panel {

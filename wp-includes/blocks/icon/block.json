@@ -1,0 +1,79 @@
+{
+	"apiVersion": 3,
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"name": "core/icon",
+	"title": "Icon",
+	"category": "media",
+	"description": "Insert an SVG icon.",
+	"keywords": [ "icon", "svg" ],
+	"textdomain": "default",
+	"attributes": {
+		"icon": {
+			"type": "string",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"ariaLabel": {
+			"__experimentalSkipSerialization": true
+		},
+		"align": [ "left", "center", "right" ],
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": true
+		},
+		"interactivity": {
+			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"color": false,
+				"radius": false,
+				"style": false,
+				"width": false
+			}
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"__experimentalSkipSerialization": [ "padding" ],
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"dimensions": {
+			"width": true,
+			"__experimentalSkipSerialization": [ "width" ],
+			"__experimentalDefaultControls": {
+				"width": true
+			}
+		}
+	},
+	"selectors": {
+		"root": ".wp-block-icon",
+		"color": {
+			"root": ".wp-block-icon svg"
+		},
+		"border": {
+			"root": ".wp-block-icon svg"
+		},
+		"spacing": {
+			"padding": ".wp-block-icon svg"
+		},
+		"dimensions": {
+			"root": ".wp-block-icon svg",
+			"width": ".wp-block-icon svg"
+		}
+	},
+	"style": "wp-block-icon",
+	"editorStyle": "wp-block-icon-editor"
+}

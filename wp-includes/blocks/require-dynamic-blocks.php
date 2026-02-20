@@ -29,6 +29,7 @@ require_once ABSPATH . WPINC . '/blocks/footnotes.php';
 require_once ABSPATH . WPINC . '/blocks/gallery.php';
 require_once ABSPATH . WPINC . '/blocks/heading.php';
 require_once ABSPATH . WPINC . '/blocks/home-link.php';
+require_once ABSPATH . WPINC . '/blocks/icon.php';
 require_once ABSPATH . WPINC . '/blocks/image.php';
 require_once ABSPATH . WPINC . '/blocks/latest-comments.php';
 require_once ABSPATH . WPINC . '/blocks/latest-posts.php';

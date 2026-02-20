@@ -164,7 +164,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '83912eb465db8aeb2e2c'
+    'version' => 'a4eccb5dc74e84f9614c'
   ),
   'core-abilities/index.js' => array(
     'dependencies' => array(
@@ -308,6 +308,6 @@
         'import' => 'static'
       )
     ),
-    'version' => 'fda3289cb87793410db1'
+    'version' => '2a87975a8bb2154aa3b1'
   )
 );

@@ -3098,6 +3098,96 @@
     ),
     'editorStyle' => 'wp-block-html-editor'
   ),
+  'icon' => array(
+    'apiVersion' => 3,
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'name' => 'core/icon',
+    'title' => 'Icon',
+    'category' => 'media',
+    'description' => 'Insert an SVG icon.',
+    'keywords' => array(
+      'icon',
+      'svg'
+    ),
+    'textdomain' => 'default',
+    'attributes' => array(
+      'icon' => array(
+        'type' => 'string',
+        'role' => 'content'
+      )
+    ),
+    'supports' => array(
+      'anchor' => true,
+      'ariaLabel' => array(
+        '__experimentalSkipSerialization' => true
+      ),
+      'align' => array(
+        'left',
+        'center',
+        'right'
+      ),
+      'html' => false,
+      'color' => array(
+        'background' => true,
+        'text' => true,
+        '__experimentalSkipSerialization' => true
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'color' => true,
+        'radius' => true,
+        'style' => true,
+        'width' => true,
+        '__experimentalSkipSerialization' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => false,
+          'radius' => false,
+          'style' => false,
+          'width' => false
+        )
+      ),
+      'spacing' => array(
+        'padding' => true,
+        'margin' => true,
+        '__experimentalSkipSerialization' => array(
+          'padding'
+        ),
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
+      ),
+      'dimensions' => array(
+        'width' => true,
+        '__experimentalSkipSerialization' => array(
+          'width'
+        ),
+        '__experimentalDefaultControls' => array(
+          'width' => true
+        )
+      )
+    ),
+    'selectors' => array(
+      'root' => '.wp-block-icon',
+      'color' => array(
+        'root' => '.wp-block-icon svg'
+      ),
+      'border' => array(
+        'root' => '.wp-block-icon svg'
+      ),
+      'spacing' => array(
+        'padding' => '.wp-block-icon svg'
+      ),
+      'dimensions' => array(
+        'root' => '.wp-block-icon svg',
+        'width' => '.wp-block-icon svg'
+      )
+    ),
+    'style' => 'wp-block-icon',
+    'editorStyle' => 'wp-block-icon-editor'
+  ),
   'image' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -6153,8 +6243,7 @@
       ),
       'html' => false,
       'layout' => true,
-      'interactivity' => true,
-      'contentRole' => true
+      'interactivity' => true
     ),
     'editorStyle' => 'wp-block-query-editor'
   ),

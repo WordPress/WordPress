@@ -289,13 +289,14 @@
 .media-upload-modal .media-upload-modal__snackbar {
   position: fixed;
   bottom: 24px;
-  right: 50%;
-  left: auto;
-  transform: translateX(50%);
-  width: max-content;
-  max-width: calc(100vw - 32px);
+  right: 0;
+  left: 0;
+  padding-inline: 16px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  pointer-events: none;
+}
+.media-upload-modal .media-upload-modal__snackbar .components-snackbar {
+  margin-inline: auto;
 }
