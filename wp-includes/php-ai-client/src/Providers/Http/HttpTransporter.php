@@ -260,7 +260,6 @@ class HttpTransporter implements HttpTransporterInterface
         return new Response(
             $psr7Response->getStatusCode(),
             $psr7Response->getHeaders(),
-            // @phpstan-ignore-line
             $body === '' ? null : $body
         );
     }

@@ -27,8 +27,6 @@ class RequestAuthenticationMethod extends AbstractEnum
      * @since 0.4.0
      *
      * @return class-string<RequestAuthenticationInterface&WithArrayTransformationInterface> The implementation class.
-     *
-     * @phpstan-ignore missingType.generics
      */
     public function getImplementationClass(): string
     {
