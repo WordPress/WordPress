@@ -3468,22 +3468,21 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Returns a list of headers and its verification callback to verify if page cache is enabled or not.
-	 *
-	 * Note: key is header name and value could be callable function to verify header value.
-	 * Empty value mean existence of header detect page cache is enabled.
+	 * Returns a mapping from response headers to an optional callback to verify if page cache is enabled or not.
 	 *
 	 * @since 6.1.0
 	 *
-	 * @return array List of client caching headers and their (optional) verification callbacks.
+	 * @return array<string, ?callable> Mapping of page caching headers and their (optional) verification callbacks.
+	 *                                  A null value means a simple existence check is used for the header.
 	 */
-	public function get_page_cache_headers() {
+	public function get_page_cache_headers(): array {
 
 		$cache_hit_callback = static function ( $header_value ) {
-			return str_contains( strtolower( $header_value ), 'hit' );
+			return 1 === preg_match( '/(^| |,)HIT(,| |$)/i', $header_value );
 		};
 
 		$cache_headers = array(
+			// Standard HTTP caching headers.
 			'cache-control'          => static function ( $header_value ) {
 				return (bool) preg_match( '/max-age=[1-9]/', $header_value );
 			},
@@ -3493,36 +3492,107 @@ class WP_Site_Health {
 			'age'                    => static function ( $header_value ) {
 				return is_numeric( $header_value ) && $header_value > 0;
 			},
-			'last-modified'          => '',
-			'etag'                   => '',
+			'last-modified'          => null,
+			'etag'                   => null,
+			'via'                    => null,
+
+			/**
+			 * Custom caching headers.
+			 *
+			 * These do not seem to be actually used by any caching layers. There were first introduced in a Site Health
+			 * test in the AMP plugin. They were copied into the Performance Lab plugin's Site Health test before they
+			 * were merged into core.
+			 *
+			 * @link https://github.com/ampproject/amp-wp/pull/6849
+			 * @link https://github.com/WordPress/performance/pull/263
+			 * @link https://core.trac.wordpress.org/changeset/54043
+			 */
 			'x-cache-enabled'        => static function ( $header_value ) {
-				return 'true' === strtolower( $header_value );
+				return ( 'true' === strtolower( $header_value ) );
 			},
 			'x-cache-disabled'       => static function ( $header_value ) {
 				return ( 'on' !== strtolower( $header_value ) );
 			},
-			'x-srcache-store-status' => $cache_hit_callback,
+
+			/**
+			 * CloudFlare.
+			 *
+			 * @link https://developers.cloudflare.com/cache/concepts/cache-responses/
+			 */
+			'cf-cache-status'        => $cache_hit_callback,
+
+			/**
+			 * Fastly.
+			 *
+			 * @link https://www.fastly.com/documentation/reference/http/http-headers/X-Cache/
+			 */
+			'x-cache'                => $cache_hit_callback,
+
+			/**
+			 * LightSpeed.
+			 *
+			 * @link https://docs.litespeedtech.com/lscache/devguide/controls/#x-litespeed-cache
+			 */
+			'x-litespeed-cache'      => $cache_hit_callback,
+
+			/**
+			 * OpenResty srcache-nginx-module.
+			 *
+			 * The `x-srcache-store-status` header indicates if the response was stored in the cache.
+			 * Valid values include `STORE` and `BYPASS`.
+			 *
+			 * The `x-srcache-fetch-status` header indicates if the response was fetched from the cache.
+			 * Valid values include `HIT`, `MISS`, and `BYPASS`.
+			 *
+			 * @link https://github.com/openresty/srcache-nginx-module
+			 */
+			'x-srcache-store-status' => static function ( $header_value ) {
+				return 'store' === strtolower( $header_value );
+			},
 			'x-srcache-fetch-status' => $cache_hit_callback,
 
-			// Generic caching proxies (Nginx, Varnish, etc.)
-			'x-cache'                => $cache_hit_callback,
+			/**
+			 * Nginx.
+			 *
+			 * @link https://blog.nginx.org/blog/nginx-caching-guide
+			 * @link https://www.inmotionhosting.com/support/website/nginx-cache-management/
+			 */
 			'x-cache-status'         => $cache_hit_callback,
-			'x-litespeed-cache'      => $cache_hit_callback,
 			'x-proxy-cache'          => $cache_hit_callback,
-			'via'                    => '',
 
-			// Cloudflare
-			'cf-cache-status'        => $cache_hit_callback,
+			/**
+			 * Varnish Cache.
+			 *
+			 * A header with a single number indicates it was not cached. If there are two numbers (or more), then this
+			 * indicates the response was cached.
+			 *
+			 * @link https://vinyl-cache.org/docs/2.1/faq/http.html
+			 * @link https://www.fastly.com/documentation/reference/http/http-headers/X-Varnish/
+			 * @link https://www.linuxjournal.com/content/speed-your-web-site-varnish
+			 */
+			'x-varnish'              => static function ( $header_value ) {
+				return 1 === preg_match( '/^\d+ \d+/', $header_value );
+			},
 		);
 
 		/**
 		 * Filters the list of cache headers supported by core.
 		 *
+		 * This list indicates how each of the specified headers will be checked to indicate if a page cache is enabled
+		 * or not. WordPress checks for each of the headers in the returned array. If the callback is provided, it will
+		 * be passed the value for the corresponding header and return a boolean value indicating if the header suggests
+		 * that a cache is active. If the value is `null` for the header, then WordPress will assume that a cache is
+		 * active if the header is present, regardless of its value.
+		 *
 		 * @since 6.1.0
 		 *
-		 * @param array $cache_headers Array of supported cache headers.
+		 * @param array<string, ?callable> $cache_headers Mapping from cache-related HTTP headers to whether they
+		 *                                                indicate if a page cache is enabled for the site. `null`
+		 *                                                indicates caching in the presence of the header; a callback is
+		 *                                                provided the header’s value and should return `true` if it
+		 *                                                implies that a cache is active.
 		 */
-		return apply_filters( 'site_status_page_cache_supported_cache_headers', $cache_headers );
+		return (array) apply_filters( 'site_status_page_cache_supported_cache_headers', $cache_headers );
 	}
 
 	/**
