@@ -286,6 +286,14 @@ require ABSPATH . WPINC . '/class-wp-http-encoding.php';
 require ABSPATH . WPINC . '/class-wp-http-response.php';
 require ABSPATH . WPINC . '/class-wp-http-requests-response.php';
 require ABSPATH . WPINC . '/class-wp-http-requests-hooks.php';
+require ABSPATH . WPINC . '/php-ai-client/autoload.php';
+require ABSPATH . WPINC . '/ai-client/adapters/class-wp-ai-client-http-client.php';
+require ABSPATH . WPINC . '/ai-client/adapters/class-wp-ai-client-cache.php';
+require ABSPATH . WPINC . '/ai-client/adapters/class-wp-ai-client-discovery-strategy.php';
+require ABSPATH . WPINC . '/ai-client/adapters/class-wp-ai-client-event-dispatcher.php';
+require ABSPATH . WPINC . '/ai-client/class-wp-ai-client-ability-function-resolver.php';
+require ABSPATH . WPINC . '/ai-client/class-wp-ai-client-prompt-builder.php';
+require ABSPATH . WPINC . '/ai-client.php';
 require ABSPATH . WPINC . '/class-wp-icons-registry.php';
 require ABSPATH . WPINC . '/widgets.php';
 require ABSPATH . WPINC . '/class-wp-widget.php';
@@ -464,6 +472,11 @@ $GLOBALS['wp_embed'] = new WP_Embed();
  */
 $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();
 $GLOBALS['wp_textdomain_registry']->init();
+
+// WordPress AI Client initialization.
+WP_AI_Client_Discovery_Strategy::init();
+WordPress\AiClient\AiClient::setCache( new WP_AI_Client_Cache() );
+WordPress\AiClient\AiClient::setEventDispatcher( new WP_AI_Client_Event_Dispatcher() );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
