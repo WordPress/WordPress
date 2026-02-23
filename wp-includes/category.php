@@ -144,7 +144,7 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
 	);
 
 	if ( empty( $categories ) ) {
-		return;
+		return null;
 	}
 
 	foreach ( $categories as $category ) {
