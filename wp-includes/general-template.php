@@ -4655,8 +4655,8 @@ function language_attributes( $doctype = 'html' ) {
  *     @type string $before_page_number A string to appear before the page number. Default empty.
  *     @type string $after_page_number  A string to append after the page number. Default empty.
  * }
- * @return string|string[]|void String of page links or array of page links, depending on 'type' argument.
- *                              Void if total number of pages is less than 2.
+ * @return string|string[]|null String of page links or array of page links, depending on 'type' argument.
+ *                              Null if total number of pages is less than 2.
  */
 function paginate_links( $args = '' ) {
 	global $wp_query, $wp_rewrite;
@@ -4722,7 +4722,7 @@ function paginate_links( $args = '' ) {
 	// Who knows what else people pass in $args.
 	$total = (int) $args['total'];
 	if ( $total < 2 ) {
-		return;
+		return null;
 	}
 	$current  = (int) $args['current'];
 	$end_size = (int) $args['end_size']; // Out of bounds? Make it the default.
