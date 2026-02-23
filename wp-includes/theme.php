@@ -3095,7 +3095,7 @@ function _remove_theme_support( $feature ) {
 				return false;
 			}
 			add_theme_support( 'custom-header', array( 'uploads' => false ) );
-			return; // Do not continue - custom-header-uploads no longer exists.
+			return true; // Do not continue - custom-header-uploads no longer exists.
 	}
 
 	if ( ! isset( $_wp_theme_features[ $feature ] ) ) {
