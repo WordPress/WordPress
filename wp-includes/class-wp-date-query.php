@@ -90,9 +90,9 @@ class WP_Date_Query {
 	 *                 or array of 'year', 'month', 'day' values.
 	 *
 	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
-	 *                 @type string $month Optional when passing array.The month of the year.
+	 *                 @type string $month Optional when passing array. The month of the year.
 	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-12.
-	 *                 @type string $day   Optional when passing array.The day of the month.
+	 *                 @type string $day   Optional when passing array. The day of the month.
 	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-31.
 	 *             }
 	 *             @type string|array $after {
@@ -102,7 +102,7 @@ class WP_Date_Query {
 	 *                 @type string $year  The four-digit year. Accepts any four-digit year. Default empty.
 	 *                 @type string $month Optional when passing array. The month of the year. Accepts numbers 1-12.
 	 *                                     Default (string:empty)|(array:12).
-	 *                 @type string $day   Optional when passing array.The day of the month. Accepts numbers 1-31.
+	 *                 @type string $day   Optional when passing array. The day of the month. Accepts numbers 1-31.
 	 *                                     Default (string:empty)|(array:last day of month).
 	 *             }
 	 *             @type string       $column        Optional. Used to add a clause comparing a column other than
@@ -111,8 +111,8 @@ class WP_Date_Query {
 	 *                                               the {@see 'date_query_valid_columns'} filter for the list
 	 *                                               of accepted values. Default is the value of top-level `$column`.
 	 *             @type string       $compare       Optional. The comparison operator. Accepts '=', '!=', '>', '>=',
-	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. 'IN',
-	 *                                               'NOT IN', 'BETWEEN', and 'NOT BETWEEN'. Comparisons support
+	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
+	 *                                               Comparisons support
 	 *                                               arrays in some time-related parameters. Default '='.
 	 *             @type bool         $inclusive     Optional. Include results from dates specified in 'before' or
 	 *                                               'after'. Default false.
