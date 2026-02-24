@@ -111,9 +111,8 @@ class WP_Date_Query {
 	 *                                               the {@see 'date_query_valid_columns'} filter for the list
 	 *                                               of accepted values. Default is the value of top-level `$column`.
 	 *             @type string       $compare       Optional. The comparison operator. Accepts '=', '!=', '>', '>=',
-	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
-	 *                                               Comparisons support
-	 *                                               arrays in some time-related parameters. Default '='.
+	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. Comparisons
+	 *                                               support arrays in some time-related parameters. Default '='.
 	 *             @type bool         $inclusive     Optional. Include results from dates specified in 'before' or
 	 *                                               'after'. Default false.
 	 *             @type int|int[]    $year          Optional. The four-digit year number. Accepts any four-digit year
