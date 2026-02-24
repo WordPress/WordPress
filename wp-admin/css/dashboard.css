@@ -219,10 +219,12 @@
 }
 
 .welcome-panel .welcome-panel-close {
+	display: flex;
+	align-items: center;
 	position: absolute;
 	top: 10px;
 	right: 10px;
-	padding: 10px 15px 10px 24px;
+	padding: 10px 15px;
 	font-size: 13px;
 	line-height: 1.23076923; /* Chrome rounding, needs to be 16px equivalent */
 	text-decoration: none;
@@ -230,9 +232,6 @@
 }
 
 .welcome-panel .welcome-panel-close:before {
-	position: absolute;
-	top: 8px;
-	left: 0;
 	transition: all .1s ease-in-out;
 	content: '\f335';
 	font-size: 24px;
