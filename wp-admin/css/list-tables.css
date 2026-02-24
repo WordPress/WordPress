@@ -1424,7 +1424,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	content: "\f463";
 	content: "\f463" / '';
 	display: inline-block;
-	font: normal 20px/1.9 dashicons; /* line-height 1.9 = 38px to match button */
+	font: normal 16px/1.875 dashicons; /* line-height 1.875 = 30px to match button */
 	margin: 0 5px 0 -2px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1565,6 +1565,13 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 div.action-links,
 .plugin-action-buttons {
 	margin: 0; /* Override existing margins */
+}
+
+/* Use compact size for space-constrained plugin cards */
+.plugin-action-buttons li .button {
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px min-height */
+	padding: 0 12px;
 }
 
 .plugin-card h3 {
