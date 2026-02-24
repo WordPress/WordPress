@@ -274,8 +274,9 @@ body.trashing #publish-settings {
 	margin: 0;
 	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translateY(-50%) !important;
 	left: 0;
+	background: #fff !important;
 }
 
 .preview-link-wrapper {
@@ -285,7 +286,7 @@ body.trashing #publish-settings {
 .customize-copy-preview-link:before,
 .customize-copy-preview-link:after {
 	content: "";
-	height: 32px;
+	height: 40px;
 	position: absolute;
 	background: #fff;
 	top: 0;
