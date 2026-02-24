@@ -4816,7 +4816,7 @@ class WP_Query {
 	 * @global int     $numpages
 	 *
 	 * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
-	 * @return true True when finished.
+	 * @return bool True on success, false on failure.
 	 */
 	public function setup_postdata( $post ) {
 		global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
@@ -4826,12 +4826,12 @@ class WP_Query {
 		}
 
 		if ( ! $post ) {
-			return;
+			return false;
 		}
 
 		$elements = $this->generate_postdata( $post );
 		if ( false === $elements ) {
-			return;
+			return false;
 		}
 
 		$id           = $elements['id'];
