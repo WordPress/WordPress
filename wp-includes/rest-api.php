@@ -430,7 +430,7 @@ function create_initial_rest_routes() {
 	$icons_controller->register_routes();
 
 	// Collaboration.
-	if ( get_option( 'enable_real_time_collaboration' ) ) {
+	if ( get_option( 'wp_enable_real_time_collaboration' ) ) {
 		$sync_storage = new WP_Sync_Post_Meta_Storage();
 		$sync_server  = new WP_HTTP_Polling_Sync_Server( $sync_storage );
 		$sync_server->register_routes();

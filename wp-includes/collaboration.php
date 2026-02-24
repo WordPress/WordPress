@@ -14,7 +14,7 @@
  * @access private
  */
 function wp_collaboration_inject_setting() {
-	if ( get_option( 'enable_real_time_collaboration' ) ) {
+	if ( get_option( 'wp_enable_real_time_collaboration' ) ) {
 		wp_add_inline_script(
 			'wp-core-data',
 			'window._wpCollaborationEnabled = true;',
