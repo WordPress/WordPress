@@ -103,7 +103,7 @@ function get_allowed_block_template_part_areas() {
 			'area'        => WP_TEMPLATE_PART_AREA_NAVIGATION_OVERLAY,
 			'label'       => _x( 'Navigation Overlay', 'template part area' ),
 			'description' => __(
-				'The Navigation Overlay template defines a full-screen overlay area that typically contains navigation links and can be toggled on and off.'
+				'The Navigation Overlay template defines an overlay area that typically contains navigation links and can be toggled open and closed.'
 			),
 			'icon'        => 'navigation-overlay',
 			'area_tag'    => 'div',
