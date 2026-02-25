@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(sed \"s/.*WPINC.*''//\")",
+      "Bash(sed \"s/''.*//\")",
+      "Bash(sed \"s/.*ABSPATH//\")",
+      "Bash(done)",
+      "mcp__claude_ai_Gamma__get_themes",
+      "mcp__claude_ai_Gamma__generate",
+      "Bash(pip install:*)",
+      "Bash(python3:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(php.exe:*)",
+      "Bash(winget search:*)",
+      "Bash(winget install:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(php:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(gh pr:*)",
+      "Bash(echo gh not found:*)"
+    ]
+  }
+}

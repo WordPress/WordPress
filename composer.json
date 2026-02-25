@@ -1,0 +1,14 @@
+{
+    "name": "wordpress/wordpress-tests",
+    "description": "Test suite for WordPress formatting.php",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6 || ^10.0"
+    },
+    "autoload": {
+        "files": []
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:formatting": "phpunit --testsuite formatting"
+    }
+}
