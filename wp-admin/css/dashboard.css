@@ -720,14 +720,6 @@ body #dashboard-widgets .postbox form .submit {
 	margin-bottom: 10px;
 }
 
-#dashboard_right_now .inside {
-	padding: 0;
-}
-
-#dashboard_right_now .main {
-	padding: 16px 16px 11px;
-}
-
 #dashboard_right_now .main p {
 	margin: 0;
 }
