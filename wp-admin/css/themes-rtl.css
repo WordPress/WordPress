@@ -115,12 +115,22 @@ body.js .theme-browser.search-loading {
 }
 
 /* Use compact size for space-constrained theme cards */
+.theme-browser .theme .theme-actions .button.updated-message,
+.theme-browser .theme .theme-actions .button.updating-message,
 .theme-browser .theme .theme-actions .button {
 	float: none;
 	margin-right: 3px;
 	min-height: 32px;
 	line-height: 2.30769231; /* 30px for 32px min-height */
 	padding: 0 12px;
+}
+
+.theme-browser .theme .theme-actions .button.updated-message::before,
+.theme-browser .theme .theme-actions .button.updating-message::before {
+	line-height: 1;
+	vertical-align: text-bottom;
+	position: relative;
+	top: 2px;
 }
 
 /* Secondary buttons need white background for visibility on semi-transparent overlay */
