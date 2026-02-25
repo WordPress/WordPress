@@ -894,7 +894,7 @@ function get_users( $args = array() ) {
  *                                 'display_name', 'post_count', 'ID', 'meta_value', 'user_login'. Default 'name'.
  *     @type string $order         Sorting direction for $orderby. Accepts 'ASC', 'DESC'. Default 'ASC'.
  *     @type int    $number        Maximum users to return or display. Default empty (all users).
- *     @type bool   $exclude_admin Whether to exclude the 'admin' account, if it exists. Default false.
+ *     @type bool   $exclude_admin Whether to exclude the 'admin' account, if it exists. Default true.
  *     @type bool   $show_fullname Whether to show the user's full name. Default false.
  *     @type string $feed          If not empty, show a link to the user's feed and use this text as the alt
  *                                 parameter of the link. Default empty.
