@@ -1575,11 +1575,11 @@ div.error.notice-alt {
 
 .notice-info {
 	border-left-color: #3858e9;
-	background-color: transparent;
+	background-color: #fff;
 }
 
 .notice-info.notice-alt {
-	background-color: transparent;
+	background-color: #fff;
 }
 
 #plugin-information-footer .update-now:not(.button-disabled):before {
