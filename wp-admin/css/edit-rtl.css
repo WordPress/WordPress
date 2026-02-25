@@ -77,10 +77,16 @@
 	pointer-events: none;
 }
 
+#titlewrap .skiplink {
+	background: #fff;
+	line-height: 2.30769231; /* 30px for 32px min-height */
+	min-height: 32px;
+	left: 4px;
+}
+
 #titlewrap .skiplink:focus {
 	clip: inherit;
 	clip-path: inherit;
-	left: 4px;
 	top: 4px;
 	width: auto;
 }
@@ -1061,10 +1067,6 @@ form#tags-filter {
 
 	#edit-slug-box {
 		padding: 0;
-	}
-
-	#titlewrap .skiplink:focus {
-		top: 5px;
 	}
 }
 
