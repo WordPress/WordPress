@@ -67,6 +67,10 @@ p {
 	background-color: #eff9f1;
 }
 
+.login .notice {
+	background-color: #fff;
+}
+
 /* Match border color from common.css */
 .login .notice-error {
 	border-right-color: #cc1818;
