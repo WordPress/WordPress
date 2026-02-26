@@ -885,7 +885,7 @@ hr.wp-block-separator.is-style-dots::before {
 	font-size: 16px;
 	font-weight: 500;
 	margin-top: 12px;
-	text-transform: none;
+	text-transform: inherit;
 }
 
 .editor-styles-wrapper .wp-block-pullquote.has-text-color cite,
