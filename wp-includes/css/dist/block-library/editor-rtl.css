@@ -1814,6 +1814,16 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   color: #cc1818;
 }
 
+.navigation-link-to__action-button {
+  grid-column: auto;
+}
+.navigation-link-to__action-button:nth-last-child(1 of .navigation-link-to__action-button):nth-child(odd of .navigation-link-to__action-button) {
+  grid-column: 1/-1;
+}
+.navigation-link-to__action-button.navigation-link-to__action-button.navigation-link-to__action-button {
+  justify-content: center;
+}
+
 .wp-block-navigation-submenu {
   display: block;
 }

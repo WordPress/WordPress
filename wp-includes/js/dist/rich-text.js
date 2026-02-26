@@ -2819,7 +2819,10 @@ var wp;
     return {
       contextElement: editableContentElement,
       getBoundingClientRect() {
-        return editableContentElement.contains(range.startContainer) ? (0, import_dom.getRectangleFromRange)(range) : editableContentElement.getBoundingClientRect();
+        if (editableContentElement.contains(range.startContainer)) {
+          return (0, import_dom.getRectangleFromRange)(range) ?? range.getBoundingClientRect();
+        }
+        return editableContentElement.getBoundingClientRect();
       }
     };
   }

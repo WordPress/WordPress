@@ -4026,47 +4026,47 @@ var wp;
     ],
     [
       "--wp-components-color-accent-inverted",
-      "var(--wpds-color-fg-interactive-brand-strong)"
+      "var(--wpds-color-fg-interactive-brand-strong, #fff)"
     ],
     [
       "--wp-components-color-background",
-      "var(--wpds-color-bg-surface-neutral-strong)"
+      "var(--wpds-color-bg-surface-neutral-strong, #ffffff)"
     ],
     [
       "--wp-components-color-foreground",
-      "var(--wpds-color-fg-content-neutral)"
+      "var(--wpds-color-fg-content-neutral, #1e1e1e)"
     ],
     [
       "--wp-components-color-foreground-inverted",
-      "var(--wpds-color-bg-surface-neutral)"
+      "var(--wpds-color-bg-surface-neutral, #f8f8f8)"
     ],
     [
       "--wp-components-color-gray-100",
-      "var(--wpds-color-bg-surface-neutral)"
+      "var(--wpds-color-bg-surface-neutral, #f8f8f8)"
     ],
     [
       "--wp-components-color-gray-200",
-      "var(--wpds-color-stroke-surface-neutral)"
+      "var(--wpds-color-stroke-surface-neutral, #d8d8d8)"
     ],
     [
       "--wp-components-color-gray-300",
-      "var(--wpds-color-stroke-surface-neutral)"
+      "var(--wpds-color-stroke-surface-neutral, #d8d8d8)"
     ],
     [
       "--wp-components-color-gray-400",
-      "var(--wpds-color-stroke-interactive-neutral)"
+      "var(--wpds-color-stroke-interactive-neutral, #8a8a8a)"
     ],
     [
       "--wp-components-color-gray-600",
-      "var(--wpds-color-stroke-interactive-neutral)"
+      "var(--wpds-color-stroke-interactive-neutral, #8a8a8a)"
     ],
     [
       "--wp-components-color-gray-700",
-      "var(--wpds-color-fg-content-neutral-weak)"
+      "var(--wpds-color-fg-content-neutral-weak, #6d6d6d)"
     ],
     [
       "--wp-components-color-gray-800",
-      "var(--wpds-color-fg-content-neutral)"
+      "var(--wpds-color-fg-content-neutral, #1e1e1e)"
     ]
   ];
   function customRgbFormat(color) {

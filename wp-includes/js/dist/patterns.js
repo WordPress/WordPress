@@ -1011,7 +1011,7 @@ var wp;
               });
             }
           },
-          children: (0, import_i18n7.__)("Disconnect pattern")
+          children: isSyncedPattern ? (0, import_i18n7.__)("Disconnect pattern") : (0, import_i18n7.__)("Detach pattern")
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { href: managePatternsUrl, children: (0, import_i18n7.__)("Manage patterns") })

@@ -88,6 +88,29 @@ if ( ! function_exists( 'wp_register_page_routes' ) ) {
 }
 
 // Page-specific route registration functions
+// Page-specific route registration functions for connectors
+if ( ! function_exists( 'wp_register_connectors_page_routes' ) ) {
+	/**
+	 * Register routes for connectors page (full-page mode).
+	 */
+	function wp_register_connectors_page_routes() {
+		global $wp_connectors_routes_data;
+		wp_register_page_routes( $wp_connectors_routes_data, 'wp_register_connectors_route' );
+	}
+}
+add_action( 'connectors_init', 'wp_register_connectors_page_routes' );
+
+if ( ! function_exists( 'wp_register_connectors_wp_admin_page_routes' ) ) {
+	/**
+	 * Register routes for connectors page (wp-admin mode).
+	 */
+	function wp_register_connectors_wp_admin_page_routes() {
+		global $wp_connectors_routes_data;
+		wp_register_page_routes( $wp_connectors_routes_data, 'wp_register_connectors_wp_admin_route' );
+	}
+}
+add_action( 'connectors-wp-admin_init', 'wp_register_connectors_wp_admin_page_routes' );
+
 // Page-specific route registration functions for site-editor
 if ( ! function_exists( 'wp_register_site_editor_page_routes' ) ) {
 	/**

@@ -1240,9 +1240,7 @@ var wp;
     Delta,
     CRDT_DOC_META_PERSISTENCE_KEY,
     CRDT_RECORD_MAP_KEY,
-    LOCAL_EDITOR_ORIGIN,
-    LOCAL_SYNC_MANAGER_ORIGIN,
-    WORDPRESS_META_KEY_FOR_CRDT_DOC_PERSISTENCE
+    LOCAL_EDITOR_ORIGIN
   } = unlock(import_sync2.privateApis);
   var syncManager;
   function getSyncManager() {
@@ -1796,31 +1794,23 @@ var wp;
             }
             Object.entries(value).forEach(
               ([attributeName, attributeValue]) => {
-                if ((0, import_es62.default)(
-                  currentAttributes?.get(attributeName),
-                  attributeValue
-                )) {
-                  return;
-                }
-                const currentAttribute = currentAttributes.get(attributeName);
-                const isRichText = isRichTextAttribute(
+                const currentAttribute = currentAttributes?.get(attributeName);
+                const isExpectedType = isExpectedAttributeType(
                   block.name,
-                  attributeName
+                  attributeName,
+                  currentAttribute
                 );
-                if (isRichText && "string" === typeof attributeValue && currentAttributes.has(attributeName) && currentAttribute instanceof import_sync8.Y.Text) {
-                  mergeRichTextUpdate(
-                    currentAttribute,
-                    attributeValue,
-                    cursorPosition
-                  );
-                } else {
-                  currentAttributes.set(
+                const isAttributeChanged = !isExpectedType || !(0, import_es62.default)(
+                  currentAttribute,
+                  attributeValue
+                );
+                if (isAttributeChanged) {
+                  updateYBlockAttribute(
+                    block.name,
                     attributeName,
-                    createNewYAttributeValue(
-                      block.name,
-                      attributeName,
-                      attributeValue
-                    )
+                    attributeValue,
+                    currentAttributes,
+                    cursorPosition
                   );
                 }
               }
@@ -1886,26 +1876,53 @@ var wp;
     }
     return true;
   }
-  var cachedRichTextAttributes;
-  function isRichTextAttribute(blockName, attributeName) {
-    if (!cachedRichTextAttributes) {
-      cachedRichTextAttributes = /* @__PURE__ */ new Map();
+  function updateYBlockAttribute(blockName, attributeName, attributeValue, currentAttributes, cursorPosition) {
+    const isRichText = isRichTextAttribute(blockName, attributeName);
+    const currentAttribute = currentAttributes.get(attributeName);
+    if (isRichText && "string" === typeof attributeValue && currentAttributes.has(attributeName) && currentAttribute instanceof import_sync8.Y.Text) {
+      mergeRichTextUpdate(currentAttribute, attributeValue, cursorPosition);
+    } else {
+      currentAttributes.set(
+        attributeName,
+        createNewYAttributeValue(blockName, attributeName, attributeValue)
+      );
+    }
+  }
+  var cachedBlockAttributeTypes;
+  function getBlockAttributeType(blockName, attributeName) {
+    if (!cachedBlockAttributeTypes) {
+      cachedBlockAttributeTypes = /* @__PURE__ */ new Map();
       for (const blockType of (0, import_blocks.getBlockTypes)()) {
-        const richTextAttributeMap = /* @__PURE__ */ new Map();
+        const blockAttributeTypeMap = /* @__PURE__ */ new Map();
         for (const [name, definition] of Object.entries(
           blockType.attributes ?? {}
         )) {
-          if ("rich-text" === definition.type) {
-            richTextAttributeMap.set(name, true);
+          if (definition.type) {
+            blockAttributeTypeMap.set(name, definition.type);
           }
         }
-        cachedRichTextAttributes.set(
+        cachedBlockAttributeTypes.set(
           blockType.name,
-          richTextAttributeMap
+          blockAttributeTypeMap
         );
       }
     }
-    return cachedRichTextAttributes.get(blockName)?.has(attributeName) ?? false;
+    return cachedBlockAttributeTypes.get(blockName)?.get(attributeName);
+  }
+  function isExpectedAttributeType(blockName, attributeName, attributeValue) {
+    const expectedAttributeType = getBlockAttributeType(
+      blockName,
+      attributeName
+    );
+    if (expectedAttributeType === "rich-text") {
+      return attributeValue instanceof import_sync8.Y.Text;
+    } else if (expectedAttributeType === "string") {
+      return typeof attributeValue === "string";
+    }
+    return true;
+  }
+  function isRichTextAttribute(blockName, attributeName) {
+    return "rich-text" === getBlockAttributeType(blockName, attributeName);
   }
   var localDoc;
   function mergeRichTextUpdate(blockYText, updatedValue, cursorPosition = null) {
@@ -2039,29 +2056,35 @@ var wp;
     }
     return null;
   }
+  function convertYFullSelectionToWPSelection(yFullSelection, ydoc) {
+    const { start, end } = yFullSelection;
+    const startBlock = findBlockByClientIdInDoc(start.clientId, ydoc);
+    const endBlock = findBlockByClientIdInDoc(end.clientId, ydoc);
+    if (!startBlock || !endBlock) {
+      return null;
+    }
+    const startBlockSelection = convertYSelectionToBlockSelection(
+      start,
+      ydoc
+    );
+    const endBlockSelection = convertYSelectionToBlockSelection(end, ydoc);
+    if (startBlockSelection === null || endBlockSelection === null) {
+      return null;
+    }
+    return {
+      selectionStart: startBlockSelection,
+      selectionEnd: endBlockSelection
+    };
+  }
   function findSelectionFromHistory(ydoc, selectionHistory) {
     for (const positionToTry of selectionHistory) {
-      const { start, end } = positionToTry;
-      const startBlock = findBlockByClientIdInDoc(start.clientId, ydoc);
-      const endBlock = findBlockByClientIdInDoc(end.clientId, ydoc);
-      if (!startBlock || !endBlock) {
-        continue;
-      }
-      const startBlockSelection = convertYSelectionToBlockSelection(
-        start,
+      const result = convertYFullSelectionToWPSelection(
+        positionToTry,
         ydoc
       );
-      const endBlockSelection = convertYSelectionToBlockSelection(
-        end,
-        ydoc
-      );
-      if (startBlockSelection === null || endBlockSelection === null) {
-        continue;
+      if (result !== null) {
+        return result;
       }
-      return {
-        selectionStart: startBlockSelection,
-        selectionEnd: endBlockSelection
-      };
     }
     return null;
   }
@@ -2100,8 +2123,29 @@ var wp;
       resetSelection(selectionEnd, selectionEnd, 0);
     }
   }
+  function getShiftedSelection(ydoc, selectionHistory) {
+    if (selectionHistory.length === 0) {
+      return null;
+    }
+    const { start, end } = selectionHistory[0];
+    if (start.type === YSelectionType.BlockSelection || end.type === YSelectionType.BlockSelection) {
+      return null;
+    }
+    const selectionStart = convertYSelectionToBlockSelection(start, ydoc);
+    const selectionEnd = convertYSelectionToBlockSelection(end, ydoc);
+    if (!selectionStart || !selectionEnd) {
+      return null;
+    }
+    const startShifted = selectionStart.offset !== start.offset;
+    const endShifted = selectionEnd.offset !== end.offset;
+    if (!startShifted && !endShifted) {
+      return null;
+    }
+    return { selectionStart, selectionEnd };
+  }
 
   // packages/core-data/build-module/utils/crdt.mjs
+  var POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE = "_crdt_document";
   var allowedPostProperties = /* @__PURE__ */ new Set([
     "author",
     "blocks",
@@ -2122,7 +2166,7 @@ var wp;
     "title"
   ]);
   var disallowedPostMetaKeys = /* @__PURE__ */ new Set([
-    WORDPRESS_META_KEY_FOR_CRDT_DOC_PERSISTENCE
+    POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE
   ]);
   function defaultApplyChangesToCRDTDoc(ydoc, changes) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
@@ -2292,6 +2336,14 @@ var wp;
       changes.meta = {
         ...editedRecord.meta,
         ...allowedMetaChanges
+      };
+    }
+    const selectionHistory = getSelectionHistory(ydoc);
+    const shiftedSelection = getShiftedSelection(ydoc, selectionHistory);
+    if (shiftedSelection) {
+      changes.selection = {
+        ...shiftedSelection,
+        initialPosition: 0
       };
     }
     return changes;
@@ -2575,11 +2627,16 @@ var wp;
     if (persistedRecord) {
       const objectType = `postType/${name}`;
       const objectId = persistedRecord.id;
-      const meta = getSyncManager()?.createMeta(objectType, objectId);
-      newEdits.meta = {
-        ...edits.meta,
-        ...meta
-      };
+      const serializedDoc = getSyncManager()?.createPersistedCRDTDoc(
+        objectType,
+        objectId
+      );
+      if (serializedDoc) {
+        newEdits.meta = {
+          ...edits.meta,
+          [POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE]: serializedDoc
+        };
+      }
     }
     return newEdits;
   };
@@ -2643,12 +2700,14 @@ var wp;
          */
         getChangesFromCRDTDoc: (crdtDoc, editedRecord) => getPostChangesFromCRDTDoc(crdtDoc, editedRecord, postType),
         /**
-         * Sync features supported by the entity.
+         * Extract changes from a CRDT document that can be used to update the
+         * local editor state.
          *
-         * @type {Record< string, boolean >}
+         * @param {import('@wordpress/sync').ObjectData} record
+         * @return {Partial< import('@wordpress/sync').ObjectData >} Changes to record
          */
-        supports: {
-          crdtPersistence: true
+        getPersistedCRDTDoc: (record) => {
+          return record?.meta[POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE] || null;
         }
       };
       return entity2;
@@ -5406,9 +5465,20 @@ var wp;
                 query
               );
             },
-            // Save the current entity record's unsaved edits.
+            // Save the current entity record, whether or not it has unsaved
+            // edits. This is used to trigger a persisted CRDT document.
             saveRecord: () => {
-              dispatch3.saveEditedEntityRecord(kind, name, key);
+              resolveSelect2.getEditedEntityRecord(kind, name, key).then((editedRecord) => {
+                const { status } = editedRecord;
+                if ("auto-draft" === status) {
+                  return;
+                }
+                dispatch3.saveEntityRecord(
+                  kind,
+                  name,
+                  editedRecord
+                );
+              });
             },
             addUndoMeta: (ydoc, meta) => {
               const selectionHistory = getSelectionHistory(ydoc);
@@ -5961,7 +6031,7 @@ var wp;
           meta
         );
         if (!query?._fields && !query.context) {
-          const key = entityConfig.key || DEFAULT_ENTITY_KEY;
+          const key = entityConfig.revisionKey || DEFAULT_ENTITY_KEY;
           const resolutionsArgs = records.filter((record) => record[key]).map((record) => [
             kind,
             name,
