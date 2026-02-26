@@ -2569,6 +2569,10 @@
 		min-height: 40px;
 	}
 
+	.wp-core-ui .media-frame:not(.hide-menu) .button.media-frame-menu-toggle .dashicons {
+		line-height: 1;
+	}
+
 	.wp-core-ui .button.media-frame-menu-toggle:hover,
 	.wp-core-ui .button.media-frame-menu-toggle:active {
 		background: transparent;
