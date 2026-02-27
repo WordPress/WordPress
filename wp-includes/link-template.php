@@ -1131,7 +1131,7 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
  * @param string           $after   Optional. Display after edit link. Default empty.
  * @param int|WP_Term|null $term    Optional. Term ID or object. If null, the queried object will be inspected. Default null.
  * @param bool             $display Optional. Whether or not to echo the return. Default true.
- * @return string|void HTML content.
+ * @return string|null HTML content.
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $display = true ) {
 	if ( is_null( $term ) ) {
@@ -1141,12 +1141,12 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $d
 	}
 
 	if ( ! $term ) {
-		return;
+		return null;
 	}
 
 	$tax = get_taxonomy( $term->taxonomy );
 	if ( ! current_user_can( 'edit_term', $term->term_id ) ) {
-		return;
+		return null;
 	}
 
 	if ( empty( $link ) ) {
@@ -1552,7 +1552,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $cs
  * @param int|WP_Post $post         Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $deprecated   Not used.
  * @param bool        $force_delete Optional. Whether to bypass Trash and force deletion. Default false.
- * @return string|void The delete post link URL for the given post.
+ * @return string|null The delete post link URL for the given post.
  */
 function get_delete_post_link( $post = 0, $deprecated = '', $force_delete = false ) {
 	if ( ! empty( $deprecated ) ) {
@@ -1562,17 +1562,17 @@ function get_delete_post_link( $post = 0, $deprecated = '', $force_delete = fals
 	$post = get_post( $post );
 
 	if ( ! $post ) {
-		return;
+		return null;
 	}
 
 	$post_type_object = get_post_type_object( $post->post_type );
 
 	if ( ! $post_type_object ) {
-		return;
+		return null;
 	}
 
 	if ( ! current_user_can( 'delete_post', $post->ID ) ) {
-		return;
+		return null;
 	}
 
 	$action = ( $force_delete || ! EMPTY_TRASH_DAYS ) ? 'delete' : 'trash';
@@ -1600,14 +1600,14 @@ function get_delete_post_link( $post = 0, $deprecated = '', $force_delete = fals
  * @param int|WP_Comment $comment_id Optional. Comment ID or WP_Comment object.
  * @param string         $context    Optional. Context in which the URL should be used. Either 'display',
  *                                   to include HTML entities, or 'url'. Default 'display'.
- * @return string|void The edit comment link URL for the given comment, or void if the comment id does not exist or
+ * @return string|null The edit comment link URL for the given comment, or null if the comment does not exist or
  *                     the current user is not allowed to edit it.
  */
 function get_edit_comment_link( $comment_id = 0, $context = 'display' ) {
 	$comment = get_comment( $comment_id );
 
 	if ( ! is_object( $comment ) || ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
-		return;
+		return null;
 	}
 
 	if ( 'display' === $context ) {
@@ -1674,13 +1674,13 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
  * @since 2.7.0
  *
  * @param int|stdClass $link Optional. Bookmark ID. Default is the ID of the current bookmark.
- * @return string|void The edit bookmark link URL.
+ * @return string|null The edit bookmark link URL.
  */
 function get_edit_bookmark_link( $link = 0 ) {
 	$link = get_bookmark( $link );
 
 	if ( ! current_user_can( 'manage_links' ) ) {
-		return;
+		return null;
 	}
 
 	$location = admin_url( 'link.php?action=edit&amp;link_id=' ) . $link->link_id;
@@ -2057,7 +2057,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
  * @param bool         $previous       Optional. Whether to display link to previous or next post.
  *                                     Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
- * @return string|void The adjacent post relational link URL.
+ * @return string|null The adjacent post relational link URL.
  */
 function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	$post = get_post();
@@ -2068,7 +2068,7 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
 	}
 
 	if ( empty( $post ) ) {
-		return;
+		return null;
 	}
 
 	$post_title = the_title_attribute(
@@ -2515,7 +2515,7 @@ function get_pagenum_link( $pagenum = 1, $escape = true ) {
  * @global int $paged
  *
  * @param int $max_page Optional. Max pages. Default 0.
- * @return string|void The link URL for next posts page.
+ * @return string|null The link URL for next posts page.
  */
 function get_next_posts_page_link( $max_page = 0 ) {
 	global $paged;
@@ -2540,7 +2540,7 @@ function get_next_posts_page_link( $max_page = 0 ) {
  *
  * @param int  $max_page Optional. Max pages. Default 0.
  * @param bool $display  Optional. Whether to echo the link. Default true.
- * @return string|void The link URL for next posts page if `$display = false`.
+ * @return string|null The link URL for next posts page if `$display = false`.
  */
 function next_posts( $max_page = 0, $display = true ) {
 	$link   = get_next_posts_page_link( $max_page );
@@ -2563,7 +2563,7 @@ function next_posts( $max_page = 0, $display = true ) {
  *
  * @param string $label    Content for link text.
  * @param int    $max_page Optional. Max pages. Default 0.
- * @return string|void HTML-formatted next posts page link.
+ * @return string|null HTML-formatted next posts page link.
  */
 function get_next_posts_link( $label = null, $max_page = 0 ) {
 	global $paged, $wp_query;
@@ -2624,7 +2624,7 @@ function next_posts_link( $label = null, $max_page = 0 ) {
  *
  * @global int $paged
  *
- * @return string|void The link for the previous posts page.
+ * @return string|null The link for the previous posts page.
  */
 function get_previous_posts_page_link() {
 	global $paged;
@@ -2646,7 +2646,7 @@ function get_previous_posts_page_link() {
  * @since 0.71
  *
  * @param bool $display Optional. Whether to echo the link. Default true.
- * @return string|void The previous posts page link if `$display = false`.
+ * @return string|null The previous posts page link if `$display = false`.
  */
 function previous_posts( $display = true ) {
 	$output = esc_url( get_previous_posts_page_link() );
@@ -2666,7 +2666,7 @@ function previous_posts( $display = true ) {
  * @global int $paged
  *
  * @param string $label Optional. Previous page link text.
- * @return string|void HTML-formatted previous page link.
+ * @return string|null HTML-formatted previous page link.
  */
 function get_previous_posts_link( $label = null ) {
 	global $paged;
@@ -3124,13 +3124,13 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
  * @param string   $label    Optional. Label for link text. Default empty.
  * @param int      $max_page Optional. Max page. Default 0.
  * @param int|null $page     Optional. Page number. Default null.
- * @return string|void HTML-formatted link for the next page of comments.
+ * @return string|null HTML-formatted link for the next page of comments.
  */
 function get_next_comments_link( $label = '', $max_page = 0, $page = null ) {
 	global $wp_query;
 
 	if ( ! is_singular() ) {
-		return;
+		return null;
 	}
 
 	if ( is_null( $page ) ) {
@@ -3152,7 +3152,7 @@ function get_next_comments_link( $label = '', $max_page = 0, $page = null ) {
 	}
 
 	if ( $next_page > $max_page ) {
-		return;
+		return null;
 	}
 
 	if ( empty( $label ) ) {
@@ -3196,11 +3196,11 @@ function next_comments_link( $label = '', $max_page = 0 ) {
  *
  * @param string   $label Optional. Label for comments link text. Default empty.
  * @param int|null $page  Optional. Page number. Default null.
- * @return string|void HTML-formatted link for the previous page of comments.
+ * @return string|null HTML-formatted link for the previous page of comments.
  */
 function get_previous_comments_link( $label = '', $page = null ) {
 	if ( ! is_singular() ) {
-		return;
+		return null;
 	}
 
 	if ( is_null( $page ) ) {
@@ -3208,7 +3208,7 @@ function get_previous_comments_link( $label = '', $page = null ) {
 	}
 
 	if ( (int) $page <= 1 ) {
-		return;
+		return null;
 	}
 
 	$previous_page = (int) $page - 1;
