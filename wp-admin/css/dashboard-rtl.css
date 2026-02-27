@@ -41,7 +41,7 @@
 
 #dashboard-widgets-wrap {
 	overflow: hidden;
-	margin: 0 -4px;
+	margin: 0 -8px;
 }
 
 #dashboard-widgets .postbox {
@@ -60,8 +60,8 @@
 	display: flow-root; /* avoid margin collapsing between parent and first/last child elements */
 	/* Required min-height to make the jQuery UI Sortable drop zone work. */
 	min-height: 0;
-	margin-left: 8px;
-	padding: 4px;
+	margin: 0 8px 20px;
+	padding: 0;
 }
 
 #dashboard-widgets .meta-box-sortables:not(:empty) {
