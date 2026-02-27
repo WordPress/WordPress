@@ -176,7 +176,7 @@ final class WP_Customize_Widgets {
 	 * @since 4.2.0
 	 *
 	 * @param string $setting_id Setting ID.
-	 * @return string|void Setting type.
+	 * @return string|null Setting type.
 	 */
 	protected function get_setting_type( $setting_id ) {
 		static $cache = array();
@@ -1454,7 +1454,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @param array  $value   Widget instance to sanitize.
 	 * @param string $id_base Optional. Base of the ID of the widget being sanitized. Default null.
-	 * @return array|void Sanitized widget instance.
+	 * @return array|null Sanitized widget instance.
 	 */
 	public function sanitize_widget_instance( $value, $id_base = null ) {
 		global $wp_widget_factory;
@@ -1483,21 +1483,21 @@ final class WP_Customize_Widgets {
 			empty( $value['instance_hash_key'] ) ||
 			empty( $value['encoded_serialized_instance'] )
 		) {
-			return;
+			return null;
 		}
 
 		$decoded = base64_decode( $value['encoded_serialized_instance'], true );
 		if ( false === $decoded ) {
-			return;
+			return null;
 		}
 
 		if ( ! hash_equals( $this->get_instance_hash_key( $decoded ), $value['instance_hash_key'] ) ) {
-			return;
+			return null;
 		}
 
 		$instance = unserialize( $decoded );
 		if ( false === $instance ) {
-			return;
+			return null;
 		}
 
 		return $instance;

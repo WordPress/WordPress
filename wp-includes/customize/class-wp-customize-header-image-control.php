@@ -193,7 +193,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @return string|void
+	 * @return string|null
 	 */
 	public function get_current_image_src() {
 		$src = $this->value();

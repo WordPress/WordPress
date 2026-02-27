@@ -856,7 +856,7 @@ class WP_Customize_Setting {
 	 * @param array $root
 	 * @param array $keys
 	 * @param bool  $create Default false.
-	 * @return array|void Keys are 'root', 'node', and 'key'.
+	 * @return array|null Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {
 		if ( $create && empty( $root ) ) {
@@ -864,7 +864,7 @@ class WP_Customize_Setting {
 		}
 
 		if ( ! isset( $root ) || empty( $keys ) ) {
-			return;
+			return null;
 		}
 
 		$last = array_pop( $keys );
@@ -876,7 +876,7 @@ class WP_Customize_Setting {
 			}
 
 			if ( ! is_array( $node ) || ! isset( $node[ $key ] ) ) {
-				return;
+				return null;
 			}
 
 			$node = &$node[ $key ];
@@ -893,7 +893,7 @@ class WP_Customize_Setting {
 		}
 
 		if ( ! isset( $node[ $last ] ) ) {
-			return;
+			return null;
 		}
 
 		return array(
