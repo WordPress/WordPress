@@ -499,9 +499,7 @@
 }
 
 .community-events .spinner {
-	float: none;
-	margin: 5px 2px 0;
-	vertical-align: top;
+	margin: 0 2px 0;
 }
 
 .community-events-errors[aria-hidden="true"],
@@ -520,13 +518,15 @@
 
 .community-events-form {
 	margin: 15px 0 5px;
+	display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .community-events-form .regular-text {
 	width: 40%;
-	height: 29px;
 	margin: 0;
-	vertical-align: top;
 }
 
 .community-events li.event-none {
@@ -538,10 +538,7 @@
 }
 
 .community-events-form label {
-	display: inline-block;
-	vertical-align: top;
 	line-height: 2.15384615;
-	height: 28px;
 }
 
 .community-events .activity-block > p {
@@ -553,17 +550,8 @@
 	vertical-align: middle;
 }
 
-#community-events-submit {
-	margin-left: 3px;
-	margin-right: 3px;
-}
-
 /* Needs higher specificity than #dashboard-widgets .button-link */
 #dashboard-widgets .community-events-cancel.button-link {
-	vertical-align: top;
-	/* Same properties as the submit button for cross-browsers alignment. */
-	line-height: 2;
-	height: 28px;
 	text-decoration: underline;
 }
 
@@ -1454,14 +1442,8 @@ a.rsswidget {
 		vertical-align: baseline;
 	}
 
-	.community-events-form .regular-text {
-		height: 32px;
-	}
-
 	#community-events-submit {
 		margin-bottom: 0;
-		/* Override .wp-core-ui .button */
-		vertical-align: top;
 	}
 
 	.community-events-form label,
@@ -1469,13 +1451,8 @@ a.rsswidget {
 		/* Same properties as the submit button for cross-browsers alignment. */
 		font-size: 14px;
 		line-height: normal;
-		height: auto;
 		padding: 6px 0;
 		border: 1px solid transparent;
-	}
-
-	.community-events .spinner {
-		margin-top: 7px;
 	}
 }
 
