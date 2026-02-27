@@ -148,9 +148,11 @@ final class Fsockopen implements Transport {
 			// Ref: https://wiki.php.net/rfc/deprecate_functions_with_overloaded_signatures#stream_context_set_option
 			if (function_exists('stream_context_set_options')) {
 				// PHP 8.3+.
+				// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.stream_context_set_optionsFound
 				stream_context_set_options($context, ['ssl' => $context_options]);
 			} else {
 				// PHP < 8.3.
+				// phpcs:ignore PHPCompatibility.FunctionUse.OptionalToRequiredFunctionParameters
 				stream_context_set_option($context, ['ssl' => $context_options]);
 			}
 		} else {

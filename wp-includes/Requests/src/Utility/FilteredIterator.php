@@ -28,13 +28,13 @@ final class FilteredIterator extends ArrayIterator {
 	/**
 	 * Create a new iterator
 	 *
-	 * @param array    $data     The array or object to be iterated on.
+	 * @param array    $data     The array to be iterated on.
 	 * @param callable $callback Callback to be called on each value
 	 *
 	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
 	 */
 	public function __construct($data, $callback) {
-		if (InputValidator::is_iterable($data) === false) {
+		if (is_object($data) === true || InputValidator::is_iterable($data) === false) {
 			throw InvalidArgument::create(1, '$data', 'iterable', gettype($data));
 		}
 

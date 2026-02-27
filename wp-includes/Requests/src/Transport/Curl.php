@@ -126,6 +126,7 @@ final class Curl implements Transport {
 	 */
 	public function __destruct() {
 		if (is_resource($this->handle)) {
+			// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.curl_closeDeprecated,Generic.PHP.DeprecatedFunctions.Deprecated
 			curl_close($this->handle);
 		}
 	}
@@ -306,7 +307,10 @@ final class Curl implements Transport {
 				}
 
 				curl_multi_remove_handle($multihandle, $done['handle']);
-				curl_close($done['handle']);
+				if (is_resource($done['handle'])) {
+					// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.curl_closeDeprecated,Generic.PHP.DeprecatedFunctions.Deprecated
+					curl_close($done['handle']);
+				}
 
 				if (!is_string($responses[$key])) {
 					$options['hooks']->dispatch('multiple.request.complete', [&$responses[$key], $key]);

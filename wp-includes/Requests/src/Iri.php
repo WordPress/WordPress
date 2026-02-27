@@ -214,7 +214,7 @@ class Iri {
 			$return = null;
 		}
 
-		if ($return === null && isset($this->normalization[$this->scheme][$name])) {
+		if ($return === null && isset($this->scheme, $this->normalization[$this->scheme][$name])) {
 			return $this->normalization[$this->scheme][$name];
 		}
 		else {
@@ -669,26 +669,28 @@ class Iri {
 	}
 
 	protected function scheme_normalization() {
-		if (isset($this->normalization[$this->scheme]['iuserinfo']) && $this->iuserinfo === $this->normalization[$this->scheme]['iuserinfo']) {
-			$this->iuserinfo = null;
-		}
-		if (isset($this->normalization[$this->scheme]['ihost']) && $this->ihost === $this->normalization[$this->scheme]['ihost']) {
-			$this->ihost = null;
-		}
-		if (isset($this->normalization[$this->scheme]['port']) && $this->port === $this->normalization[$this->scheme]['port']) {
-			$this->port = null;
-		}
-		if (isset($this->normalization[$this->scheme]['ipath']) && $this->ipath === $this->normalization[$this->scheme]['ipath']) {
-			$this->ipath = '';
+		if (isset($this->scheme, $this->normalization[$this->scheme])) {
+			if (isset($this->normalization[$this->scheme]['iuserinfo']) && $this->iuserinfo === $this->normalization[$this->scheme]['iuserinfo']) {
+				$this->iuserinfo = null;
+			}
+			if (isset($this->normalization[$this->scheme]['ihost']) && $this->ihost === $this->normalization[$this->scheme]['ihost']) {
+				$this->ihost = null;
+			}
+			if (isset($this->normalization[$this->scheme]['port']) && $this->port === $this->normalization[$this->scheme]['port']) {
+				$this->port = null;
+			}
+			if (isset($this->normalization[$this->scheme]['ipath']) && $this->ipath === $this->normalization[$this->scheme]['ipath']) {
+				$this->ipath = '';
+			}
+			if (isset($this->normalization[$this->scheme]['iquery']) && $this->iquery === $this->normalization[$this->scheme]['iquery']) {
+				$this->iquery = null;
+			}
+			if (isset($this->normalization[$this->scheme]['ifragment']) && $this->ifragment === $this->normalization[$this->scheme]['ifragment']) {
+				$this->ifragment = null;
+			}
 		}
 		if (isset($this->ihost) && empty($this->ipath)) {
 			$this->ipath = '/';
-		}
-		if (isset($this->normalization[$this->scheme]['iquery']) && $this->iquery === $this->normalization[$this->scheme]['iquery']) {
-			$this->iquery = null;
-		}
-		if (isset($this->normalization[$this->scheme]['ifragment']) && $this->ifragment === $this->normalization[$this->scheme]['ifragment']) {
-			$this->ifragment = null;
 		}
 	}
 

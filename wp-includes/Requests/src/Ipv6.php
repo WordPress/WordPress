@@ -161,7 +161,7 @@ final class Ipv6 {
 		list($ipv6, $ipv4) = self::split_v6_v4($ip);
 		$ipv6              = explode(':', $ipv6);
 		$ipv4              = explode('.', $ipv4);
-		if (count($ipv6) === 8 && count($ipv4) === 1 || count($ipv6) === 6 && count($ipv4) === 4) {
+		if ((count($ipv6) === 8 && count($ipv4) === 1) || (count($ipv6) === 6 && count($ipv4) === 4)) {
 			foreach ($ipv6 as $ipv6_part) {
 				// The section can't be empty
 				if ($ipv6_part === '') {
