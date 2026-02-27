@@ -535,53 +535,7 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 	$GLOBALS['blog_id']      = $new_blog_id;
 
-	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $new_blog_id );
-	} else {
-		global $wp_object_cache;
-
-		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) ) {
-			$global_groups = $wp_object_cache->global_groups;
-		} else {
-			$global_groups = false;
-		}
-
-		wp_cache_init();
-
-		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-			if ( is_array( $global_groups ) ) {
-				wp_cache_add_global_groups( $global_groups );
-			} else {
-				wp_cache_add_global_groups(
-					array(
-						'blog-details',
-						'blog-id-cache',
-						'blog-lookup',
-						'blog_meta',
-						'global-posts',
-						'image_editor',
-						'networks',
-						'network-queries',
-						'sites',
-						'site-details',
-						'site-options',
-						'site-queries',
-						'site-transient',
-						'theme_files',
-						'rss',
-						'users',
-						'user-queries',
-						'user_meta',
-						'useremail',
-						'userlogins',
-						'userslugs',
-					)
-				);
-			}
-
-			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins', 'theme_json' ) );
-		}
-	}
+	wp_cache_switch_to_blog( $new_blog_id );
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'switch' );
@@ -630,53 +584,7 @@ function restore_current_blog() {
 	$GLOBALS['blog_id']      = $new_blog_id;
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 
-	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $new_blog_id );
-	} else {
-		global $wp_object_cache;
-
-		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) ) {
-			$global_groups = $wp_object_cache->global_groups;
-		} else {
-			$global_groups = false;
-		}
-
-		wp_cache_init();
-
-		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-			if ( is_array( $global_groups ) ) {
-				wp_cache_add_global_groups( $global_groups );
-			} else {
-				wp_cache_add_global_groups(
-					array(
-						'blog-details',
-						'blog-id-cache',
-						'blog-lookup',
-						'blog_meta',
-						'global-posts',
-						'image_editor',
-						'networks',
-						'network-queries',
-						'sites',
-						'site-details',
-						'site-options',
-						'site-queries',
-						'site-transient',
-						'theme_files',
-						'rss',
-						'users',
-						'user-queries',
-						'user_meta',
-						'useremail',
-						'userlogins',
-						'userslugs',
-					)
-				);
-			}
-
-			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins', 'theme_json' ) );
-		}
-	}
+	wp_cache_switch_to_blog( $new_blog_id );
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $new_blog_id, $prev_blog_id, 'restore' );
@@ -685,6 +593,77 @@ function restore_current_blog() {
 	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 
 	return true;
+}
+
+/**
+ * Fallback logic for switching cache context when an object cache drop-in lacks
+ * a switch_to_blog() method.
+ *
+ * Reinitializes the cache and restores global/non-persistent groups.
+ *
+ * Used by the wp_cache_switch_to_blog() compatibility function, abstracted only
+ * to allow for unit testing outside of the drop-in plugin inclusion circus.
+ *
+ * @since 7.0.0
+ *
+ * @global WP_Object_Cache $wp_object_cache Object cache global instance.
+ */
+function wp_cache_switch_to_blog_fallback() {
+	global $wp_object_cache;
+
+	$global_groups         = false;
+	$non_persistent_groups = false;
+
+	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) ) {
+		$global_groups         = array_keys( $wp_object_cache->global_groups );
+		$all_groups            = array_fill_keys( array_keys( $wp_object_cache->cache ), true );
+		$non_persistent_groups = array_keys( array_diff_key( $all_groups, $wp_object_cache->global_groups ) );
+	}
+
+	wp_cache_init();
+
+	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
+		if ( ! is_array( $global_groups ) || empty( $global_groups ) ) {
+			$global_groups = array(
+				'blog-details',
+				'blog-id-cache',
+				'blog-lookup',
+				'blog_meta',
+				'global-posts',
+				'image_editor',
+				'networks',
+				'network-queries',
+				'sites',
+				'site-details',
+				'site-options',
+				'site-queries',
+				'site-transient',
+				'theme_files',
+				'translation_files',
+				'rss',
+				'users',
+				'user-queries',
+				'user_meta',
+				'useremail',
+				'userlogins',
+				'userslugs',
+			);
+		}
+
+		wp_cache_add_global_groups( $global_groups );
+	}
+
+	if ( function_exists( 'wp_cache_add_non_persistent_groups' ) ) {
+		if ( ! is_array( $non_persistent_groups ) || empty( $non_persistent_groups ) ) {
+			$non_persistent_groups = array(
+				'counts',
+				'plugins',
+				'theme_json',
+			);
+		}
+
+		wp_cache_add_non_persistent_groups( $non_persistent_groups );
+	}
 }
 
 /**
