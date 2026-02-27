@@ -3878,6 +3878,17 @@ class WP_HTML_Tag_Processor {
 				);
 
 				/*
+				 * HTML ignores a single leading newline in this context. If a leading newline
+				 * is intended, preserve it by adding an extra newline.
+				 */
+				if (
+					'TEXTAREA' === $this->get_tag() &&
+					1 === strspn( $plaintext_content, "\n\r", 0, 1 )
+				) {
+					$plaintext_content = "\n{$plaintext_content}";
+				}
+
+				/*
 				 * These don't _need_ to be escaped, but since they are decoded it's
 				 * safe to leave them escaped and this can prevent other code from
 				 * naively detecting tags within the contents.
