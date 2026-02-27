@@ -566,16 +566,35 @@ jQuery( function($) {
 		}
 
 		// @todo Move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.js.
-		$('a', '#' + taxonomy + '-tabs').on( 'click', function( e ) {
-			e.preventDefault();
+		$('a', '#' + taxonomy + '-tabs').on( 'click keyup keydown', function( event ) {
 			var t = $(this).attr('href');
-			$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
-			$('#' + taxonomy + '-tabs').siblings('.tabs-panel').hide();
-			$(t).show();
-			if ( '#' + taxonomy + '-all' == t ) {
-				deleteUserSetting( settingName );
-			} else {
-				setUserSetting( settingName, 'pop' );
+			if ( event.type === 'keydown' && event.key === ' ' ) {
+				event.preventDefault();
+			}
+			if ( ( event.type === 'keyup' && event.key === ' ' ) || ( event.type === 'keydown' && event.key === 'Enter' ) || event.type === 'click' ) {
+				event.preventDefault();
+				$('#' + taxonomy + '-tabs a').removeAttr( 'aria-selected' ).attr( 'tabindex', '-1' );
+				$(this).attr( 'aria-selected', 'true' ).removeAttr( 'tabindex' );
+				$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
+				$('#' + taxonomy + '-tabs').siblings('.tabs-panel').hide();
+				$(t).show();
+				if ( '#' + taxonomy + '-all' == t ) {
+					deleteUserSetting( settingName );
+				} else {
+					setUserSetting( settingName, 'pop' );
+				}
+			}
+			if ( event.type === 'keyup' && ( event.key === 'ArrowRight' || event.key === 'ArrowLeft' ) ) {
+				$(this).attr( 'tabindex', '-1' );
+				let next = $(this).parent('li').next();
+				let prev = $(this).parent('li').prev();
+				if ( next.length > 0 ) {
+					next.find('a').removeAttr( 'tabindex');
+					next.find('a').trigger( 'focus' );
+				} else {
+					prev.find('a').removeAttr( 'tabindex');
+					prev.find('a').trigger( 'focus' );
+				}
 			}
 		});
 
