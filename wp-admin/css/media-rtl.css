@@ -556,6 +556,10 @@ border color while dragging a file over the uploader drop area */
 	height: auto;
 }
 
+.media-frame.mode-grid .media-toolbar label {
+	display: block;
+}
+
 .media-frame.mode-grid .media-toolbar select {
 	margin: 0 0 0 10px;
 	min-height: 32px;
@@ -573,11 +577,12 @@ border color while dragging a file over the uploader drop area */
 	min-height: 32px;
 	line-height: 2.30769231; /* 30px for 32px height with 13px font */
 	padding: 0 12px;
+	align-self: end;
 }
 
 .media-frame.mode-grid.mode-edit .media-toolbar-secondary > .select-mode-toggle-button {
 	margin: 0 0 0 8px;
-	vertical-align: middle;
+	height: 100%;
 }
 
 .media-frame.mode-grid .attachments-browser .bulk-select {
