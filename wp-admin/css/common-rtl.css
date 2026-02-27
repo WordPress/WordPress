@@ -2246,7 +2246,7 @@ html.wp-toolbar {
 
 .postbox .handle-order-higher,
 .postbox .handle-order-lower {
-	color: #787c82;
+	color: #646970;
 	width: 1.62rem;
 }
 
@@ -3660,7 +3660,7 @@ img {
 .postbox .handlediv.button-link,
 .item-edit,
 .toggle-indicator {
-	color: #787c82;
+	color: #646970;
 }
 
 .widget-action {
