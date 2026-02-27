@@ -182,7 +182,7 @@
 button.reset.remove-site-icon {
 	color: var(--site-icon-removal);
 	text-decoration: none;
-	border-color: transparent;
+	border-color: currentColor;
 	box-shadow: none;
 	background: transparent;
 }

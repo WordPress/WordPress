@@ -202,7 +202,7 @@ $tagline_description = sprintf(
 		<button
 			id="js-remove-site-icon"
 			type="button"
-			<?php echo has_site_icon() ? 'class="button button-secondary reset remove-site-icon"' : 'class="button button-secondary reset hidden"'; ?>
+			<?php echo has_site_icon() ? 'class="button button-secondary reset remove-site-icon"' : 'class="button button-secondary reset remove-site-icon hidden"'; ?>
 		>
 			<?php _e( 'Remove Site Icon' ); ?>
 		</button>
