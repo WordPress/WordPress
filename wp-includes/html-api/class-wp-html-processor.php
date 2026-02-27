@@ -149,10 +149,11 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * so this class constant from the Tag Processor is overwritten.
 	 *
 	 * @since 6.4.0
+	 * @since 7.0.0 Increased from 100 to 10,000
 	 *
 	 * @var int
 	 */
-	const MAX_BOOKMARKS = 100;
+	const MAX_BOOKMARKS = 10_000;
 
 	/**
 	 * Holds the working state of the parser, including the stack of
