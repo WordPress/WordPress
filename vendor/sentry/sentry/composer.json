@@ -1,0 +1,80 @@
+{
+    "name": "sentry/sentry",
+    "type": "library",
+    "description": "PHP SDK for Sentry (http://sentry.io)",
+    "keywords": [
+        "sentry",
+        "log",
+        "logging",
+        "error-monitoring",
+        "error-handler",
+        "crash-reporting",
+        "crash-reports",
+        "profiling",
+        "tracing"
+    ],
+    "homepage": "http://sentry.io",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sentry",
+            "email": "accounts@sentry.io"
+        }
+    ],
+    "require": {
+        "php": "^7.2|^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-curl": "*",
+        "guzzlehttp/psr7": "^1.8.4|^2.1.1",
+        "jean85/pretty-package-versions": "^1.5|^2.0.4",
+        "psr/log": "^1.0|^2.0|^3.0",
+        "symfony/options-resolver": "^4.4.30|^5.0.11|^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "guzzlehttp/promises": "^2.0.3",
+        "guzzlehttp/psr7": "^1.8.4|^2.1.1",
+        "monolog/monolog": "^1.6|^2.0|^3.0",
+        "phpbench/phpbench": "^1.0",
+        "phpstan/phpstan": "^1.3",
+        "phpunit/phpunit": "^8.5|^9.6",
+        "vimeo/psalm": "^4.17"
+    },
+    "suggest": {
+        "monolog/monolog": "Allow sending log messages to Sentry by using the included Monolog handler."
+    },
+    "conflict": {
+        "raven/raven": "*"
+    },
+    "autoload": {
+        "files": [
+            "src/functions.php"
+        ],
+        "psr-4": {
+            "Sentry\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sentry\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@phpstan",
+            "@psalm",
+            "@tests"
+        ],
+        "tests": "vendor/bin/phpunit --verbose",
+        "cs-check": "vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+        "cs-fix": "vendor/bin/php-cs-fixer fix --verbose --diff",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "psalm": "vendor/bin/psalm"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
+}

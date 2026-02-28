@@ -1,0 +1,12 @@
+{
+	"name": "@wordpress/post",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/types/$type",
+		"page": "gutenberg-boot"
+	},
+	"dependencies": {
+		"@tanstack/react-router": ">=1.120.5 <1.121.0"
+	}
+}

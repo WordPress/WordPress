@@ -1,0 +1,1173 @@
+/*!
+Theme Name: Twenty8teen
+*/
+
+figure {
+	margin: 1em 0;
+	/* Extra wide images within figure tags don't overflow the content area. */
+}
+
+hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+pre,
+code,
+kbd,
+samp {
+	font-family: monospace, monospace;
+	font-size: 0.9em;
+}
+
+/* Forms
+	 ========================================================================== */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-size: 100%;
+	line-height: 1.15;
+	margin: 0;
+	max-width: 100%;
+}
+
+button,
+select {
+	text-transform: none;
+}
+
+fieldset {
+	padding: 0.35em 0.75em 0.625em;
+}
+
+legend {
+	box-sizing: border-box;
+	display: table;
+	max-width: 100%;
+	padding: 0;
+	white-space: normal;
+}
+
+progress {
+	vertical-align: baseline; /* Chrome, Firefox, and Opera */
+}
+
+details {
+	display: block;
+}
+
+summary {
+	display: list-item;
+}
+
+details > summary:first-of-type {
+	cursor: zoom-in;
+}
+details[open] > summary:first-of-type {
+	cursor: zoom-out;
+}
+
+::view-transition {
+	pointer-events: none; /* the full page is interactive even while the view transition is running */
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Defaults
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+html {
+	--body_textcolor: #5e4422;
+	--background_color: #fef8ee;
+	--accent_color: #d2b48c;
+	--link_color: #1666f0;
+	--card_backcolor: rgba(255, 255, 255, 0.3);
+	--font_size_adjust: 1;
+	--body_font_family: sans-serif;
+	--titles_font_family: serif;
+	--titles_shadow: 1px 1px 0 #333, -1px -1px 0 #ddd, 3px 1px 4px #505050;
+	view-transition-name: none;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Typography
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+html:not(.wp-toolbar), :is(div, body).editor-styles-wrapper, div.block-editor-writing-flow {
+	font-size: initial;
+}
+
+.body-font,
+html:not(.wp-toolbar) body, :is(div, body).editor-styles-wrapper, div.block-editor-writing-flow, div.wp-block-post-content,
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(button, input, select, optgroup, textarea) {
+	font-family: var(--body_font_family, sans-serif);
+}
+
+.titles-font,
+.editor-post-title__block .editor-post-title__input,
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(h1, h2, h3, h4, h5, h6) {
+	font-family: var(--titles_font_family, serif);
+}
+
+.wp-caption-text {
+	font-size: 85%;
+}
+
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h1 { font-size: calc( var(--font_size_adjust) * 2.884em ); }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h2 { font-size: calc( var(--font_size_adjust) * 2.333em ); }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h3 { font-size: calc( var(--font_size_adjust) * 1.888em ); }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h4 { font-size: calc( var(--font_size_adjust) * 1.527em ); }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h5 { font-size: calc( var(--font_size_adjust) * 1.236em ); letter-spacing: 0.06em }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) h6 { font-size: calc( var(--font_size_adjust) * 1em ); letter-spacing: 0.1em }
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(h1, h2, h3, h4, h5, h6) {
+	margin-top: 0.6em; margin-bottom: 0.3em;
+	font-weight: normal;
+	color: inherit;
+}
+
+code {
+	line-height: 1.3;
+	text-transform: none;
+	font-variant: normal;
+}
+
+em em, em i, i em, i i, cite em, cite i {
+	text-transform: uppercase;
+}
+
+.is-style-large, .has-large-font-size {
+	font-size: large;
+}
+
+.has-small-font-size {
+	font-size: small;
+}
+
+.has-drop-cap::first-letter {
+  font-size: 250%;
+  line-height: 1;
+}
+
+.has-text-align-left {
+	text-align: left;
+}
+.has-text-align-center {
+	text-align: center;
+}
+.has-text-align-right {
+	text-align: right;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Elements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* nodeInserted trick is from http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/ 	*/
+@keyframes nodeInserted {
+	to { outline-color: rgba(0,0,0,0); }
+}
+.wp-block-post-content, .editor-styles-wrapper .block-editor-writing-flow {
+    animation-delay: 0.055s;
+    animation-duration: 0.001s;
+    animation-name: nodeInserted;
+}
+
+html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content {
+	box-sizing: border-box;
+}
+
+html:not(.wp-toolbar) *, div.block-editor-writing-flow *, div.wp-block-post-content *,
+html:not(.wp-toolbar) *::before, div.block-editor-writing-flow *::before, div.wp-block-post-content *::before,
+html:not(.wp-toolbar) *::after, div.block-editor-writing-flow *::after, div.wp-block-post-content *::after {
+	/* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+	box-sizing: inherit;
+}
+
+html:not(.wp-toolbar), div.editor-styles-wrapper,
+.editor-post-title__block .editor-post-title__input {
+	background-color: var(--background_color, #fef8ee);
+	color: var(--body_textcolor, #5e4422);
+	z-index: 0;
+}
+
+.mce-content-body, .editor-writing-flow, body.editor-styles-wrapper {
+	background-color: transparent;
+	color: inherit;
+}
+
+blockquote {
+	box-shadow: -3px 0, -4px 0 white;
+	padding-left: 1em;
+	border-radius: 0.5em;
+}
+.rtl blockquote {
+	box-shadow: 1px 0 white, 4px 0;
+	padding-left: 0;
+	padding-right: 1em;
+}
+.wp-block-pullquote {
+  margin: 0 auto;
+  max-width: 61%;
+	border-radius: 0.5em;
+}
+
+pre {
+	max-width: 100%;
+	overflow: auto;
+	padding: 0.6em;
+}
+
+figure {
+	break-inside: avoid;
+}
+
+hr {
+	color: var(--accent_color, inherit);
+	height: 1px;
+	border-width: 0;
+	background-image: linear-gradient(to right, var(--accent_color, currentColor) 60%, transparent);
+}
+.rtl hr {
+	background-image: linear-gradient(to left, var(--accent_color, currentColor) 60%, transparent);
+}
+
+html:not(.wp-toolbar) code, div.block-editor-writing-flow code, div.wp-block-post-content code {
+	background-color: inherit;
+	color: inherit;
+	background-image: linear-gradient(transparent 50%, rgba(100, 180, 110, 0.07) 50%);
+	background-size: 1px 2.6em;  /* this should match line-height */
+	display: inline-block;
+}
+.rtl code {
+	direction: ltr;
+}
+
+kbd {
+	border: outset 3px;
+	border-radius: 4px;
+	border-color: rgba(255, 255, 255, 0.6) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(200, 200, 200, 0.15);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.18);
+	border-top-width: 2px;
+	border-left-width: 2px;
+	padding: 0.3em;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: 0.6em;
+}
+
+ul, ol {
+	padding-left: 1.5em;
+}
+.rtl ul, .rtl ol {
+	padding-left: 0;
+	padding-right: 1.5em;
+}
+
+img {
+	height: auto; /* Make sure images are scaled correctly. */
+	max-width: 100%; /* Adhere to container width. */
+	overflow-wrap: break-word; /* modern synonym for word-wrap, for broken images */
+	font-size: 80%; /* for broken images */
+}
+
+/* Make sure embeds and iframes fit their containers. */
+embed,
+iframe,
+object,
+video,
+audio,
+figure {
+	max-width: 100%;
+}
+
+embed,
+video,
+img {
+	object-fit: contain;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+	word-wrap: break-word; /* old IE */
+	overflow-wrap: break-word; /* modern synonym for word-wrap */
+	word-break: keep-all; /* affects some Asian languages */
+	margin-bottom: 1em;
+}
+
+thead tr,
+tr:nth-child(even) {
+	background-image: linear-gradient(rgba(220,220,220, 0.24), rgba(120,120,120, 0.04));
+}
+
+th,
+td {
+	padding: 2px 0.6ex;
+}
+
+td:hover {
+	box-shadow: 0 -3px 4px rgba(0,0,0, 0.1) inset;
+}
+
+details[open],
+dialog[open] {
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Forms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(button,
+ input[type="button"],
+ input[type="reset"],
+ input[type="submit"],
+ select) {
+	border-radius: 7px;
+	padding: 0.3em 0.5em;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.28);
+	color: inherit;
+	background-color: inherit;  /* usually transparent, so backgrounds _will_ show through */
+	background-image: linear-gradient(to bottom, rgba(255,255,255, 0.2) 65%, rgba(0, 0, 0, 0.05));
+	box-shadow: inset 0 1px 0.3em rgba(255,255,255,0.3), inset 0 -1px 0.4em var(--link_color);
+}
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) select {
+	background-color: transparent;  /* variable nesting */
+}
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) option {
+	background-color: var(--background_color);
+	background-image: linear-gradient(to bottom, rgba(255,255,255, 0.2) 80%, rgba(0, 0, 0, 0.05));
+}
+
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea) {
+	font-family: monospace;  /* fixes problem with inputs too wide */
+	max-width: 95%;
+	border-radius: 4px;
+	padding: 3px;
+	color: inherit;
+	background-color: inherit;  /* usually transparent, so backgrounds _will_ show through */
+	background-image: linear-gradient(to top, rgba(255,255,255, 0.18) 85%, rgba(0, 0, 0, 0.05));
+}
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) textarea {
+	background-image: linear-gradient(to top, rgba(255,255,255, 0.18) 95%, rgba(0, 0, 0, 0.05));
+}
+
+.rtl input[type="url"],
+.rtl input[type="email"],
+.rtl input[type="tel"],
+.rtl [href^="tel:"] {
+	direction: ltr;
+}
+
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) input[type="range"] {
+  background-color: rgba(128, 128, 128, 0.08);
+}
+
+.wp-block-button:not(.aligncenter) {
+  display: inline-block;
+}
+.wp-block-button > :first-child {
+	box-shadow: var(--box_shadow);
+}
+
+.is-style-squared {
+	border-radius: 0;
+}
+
+.is-style-outline > :first-child {
+	border-style: outset;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Links
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a,
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a:visited {
+	color: var(--link_color, #1666f0);
+	text-decoration-skip: objects ink edges;
+	overflow-wrap: break-word; /* modern synonym for word-wrap */
+}
+
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a:visited {
+	text-decoration-color: var(--body_textcolor); /* Modern browsers will only style colors. */
+}
+
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a:hover,
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a:focus,
+:is(.mce-content-body, div.block-editor-writing-flow, div.wp-block-post-content) a:active {
+	color: red;
+	background-image: radial-gradient(circle, rgba(245, 245,160,0.9) 30%, transparent);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Alignments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.alignleft {
+	float: left;
+	margin: 0.5em 1.2em 0.5em 0;
+}
+
+.alignright {
+	float: right;
+	margin: 0.5em 0 0.5em 1.2em;
+}
+
+.alignleft.alignright {
+	float: none;
+	margin: 0.5em 0.6em;
+}
+
+.aligncenter {
+	clear: both;
+	display: table;
+	margin: 0.5em auto;
+}
+
+.wp-caption.aligncenter {
+	display: block;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Clearings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-block-group::after,
+.mce-content-body::after, div.block-editor-writing-flow::after, 
+div.wp-block-post-content::after {
+	content: "";
+	display: table;
+	table-layout: fixed;
+}
+
+.clear,
+.wp-block-group::after,
+.mce-content-body::after, div.block-editor-writing-flow::after, 
+div.wp-block-post-content::after {
+	clear: both;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Content
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-block, .wp-block[data-align='full'] {
+	max-width: 1800px;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Posts and pages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+:is(html:not(.wp-toolbar), div.block-editor-writing-flow, div.wp-block-post-content) :is(h1, h2, h3, h4, h5, h6) {
+	text-shadow: var(--titles_shadow);
+}
+
+html:not(.wp-toolbar) body, div.block-editor-writing-flow, div.wp-block-post-content {
+	position:relative;
+}
+
+h1, h2 {
+	hyphens: auto;
+	word-break: keep-all; /* affects some Asian languages */
+}
+@supports not (hyphens: auto) {
+	h1, h2 {
+		overflow-wrap: break-word; /* modern synonym for word-wrap */
+	}
+}
+
+.has-background:not(:empty) {
+	padding: 4px;
+}
+
+.wp-block-separator.is-style-wide {
+	height: 0.4ex;
+}
+.wp-block-separator.is-style-dots {
+	line-height: 1ex;
+}
+.wp-block-separator.is-style-dots:before {
+	font-size: 200%;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Widgets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-block-calendar td {
+	text-align: center;
+	padding: 2px 0.38ex; /* prevent overflow */
+}
+.wp-block-calendar {
+	max-width: 30em;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Media
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-post-image {
+	background-color: transparent;
+}
+
+.image-behind {
+	position: absolute;
+	z-index: -2;
+	opacity: 0.9;
+}
+.aligncenter.image-behind {
+	left: 50%;
+	transform: translateX(-50%);
+}
+.alignleft.image-behind {
+	left: 0;
+}
+.alignright.image-behind {
+	right: 0;
+	left: unset;
+}
+
+.wp-smiley {
+	border: none;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}
+
+.iframe-wrapper {
+	clear: both;
+	width: 100%;  /* % of parent width. */
+	height: 0;
+	padding-bottom: 56.25%;  /* Also % of parent width, default to 16x9 ratio. */
+	position: relative;
+}
+.iframe-wrapper iframe {
+	position: absolute;  /* Overlay on wrapper. */
+	top: 0; left: 0;
+	width: 100%; height: 100%;  /* Scale with parent. */
+}
+
+.is-cropped img {
+  object-fit: none;
+}
+
+.is-style-circle-mask img {
+	border-radius: 50%;
+}
+
+.wp-block-cover-text, wp-block-cover__inner-container {
+  font-size: 200%;
+  padding: 1em 0.5em;
+  text-shadow: 1px 1px 0 #333, -1px -1px 0 #ddd, 3px 1px 4px #505050;
+	z-index: 1;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Captions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-caption {
+	max-width: 100%;
+}
+
+.wp-caption img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wp-caption .wp-caption-text {
+	margin: 0.6em 0;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Galleries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.wp-block-gallery {
+	padding: 0;
+}
+
+.wp-block-columns {
+  display: flex;
+}
+.wp-block-columns p:empty {
+  display: none;
+}
+
+.gallery-item, .blocks-gallery-item,
+.wp-block-column {
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+}
+
+.gallery-item, .blocks-gallery-item {
+	text-align: center;
+	padding-left: 5px;
+}
+.wp-block-column {
+	padding-right: 0.6em;
+}
+.rtl .wp-block-column {
+	padding-right: 0;
+	padding-left: 0.6em;
+}
+
+* { /* define these once, to affect inheritance and use multiple places */
+	--width-half: calc(50% - 0.3ch); 
+	--width-third: calc(33.3% - 0.33ch); 
+	--width-quarter: calc(25% - 0.38ch); 
+}
+
+.gallery-columns-2 .gallery-item,
+.columns-2 .blocks-gallery-item,
+.has-2-columns > .wp-block-column {
+	max-width: var(--width-half);
+}
+
+.gallery-columns-3 .gallery-item,
+.columns-3 .blocks-gallery-item,
+.has-3-columns > .wp-block-column {
+	max-width: var(--width-third);
+}
+
+.gallery-columns-4 .gallery-item,
+.columns-4 .blocks-gallery-item,
+.has-4-columns > .wp-block-column {
+	max-width: var(--width-quarter);
+}
+
+.gallery-columns-5 .gallery-item,
+.columns-5 .blocks-gallery-item,
+.has-5-columns > .wp-block-column {
+	max-width: 19.4%;
+}
+
+.gallery-columns-6 .gallery-item,
+.columns-6 .blocks-gallery-item,
+.has-6-columns > .wp-block-column {
+	max-width: 16%;
+}
+
+.gallery-columns-7 .gallery-item,
+.columns-7 .blocks-gallery-item {
+	max-width: 13.5%;
+}
+
+.gallery-columns-8 .gallery-item,
+.columns-8 .blocks-gallery-item {
+	max-width: 11.9%;
+}
+
+.gallery-columns-9 .gallery-item,
+.columns-9 .blocks-gallery-item {
+	max-width: 10.6%;
+}
+
+@media (max-width: 45.5em)  {	 /* equivalent to 728px */
+	.gallery-columns-5 .gallery-item,
+	.gallery-columns-6 .gallery-item,
+	.gallery-columns-7 .gallery-item,
+	.gallery-columns-8 .gallery-item,
+	.gallery-columns-9 .gallery-item,
+	.columns-5 .blocks-gallery-item,
+	.columns-6 .blocks-gallery-item,
+	.columns-7 .blocks-gallery-item,
+	.columns-8 .blocks-gallery-item,
+	.columns-9 .blocks-gallery-item,
+	.has-5-columns > .wp-block-column,
+	.has-6-columns > .wp-block-column {
+		max-width: var(--width-quarter);
+	}
+}
+
+@media (max-width: 34em)  {	 /* equivalent to 544px */
+	.gallery-columns-5 .gallery-item,
+	.gallery-columns-6 .gallery-item,
+	.gallery-columns-7 .gallery-item,
+	.gallery-columns-8 .gallery-item,
+	.gallery-columns-9 .gallery-item,
+	.columns-5 .blocks-gallery-item,
+	.columns-6 .blocks-gallery-item,
+	.columns-7 .blocks-gallery-item,
+	.columns-8 .blocks-gallery-item,
+	.columns-9 .blocks-gallery-item,
+	.has-5-columns > .wp-block-column,
+	.has-6-columns > .wp-block-column {
+		max-width: var(--width-third);
+	}
+}
+
+.gallery-caption,
+.blocks-gallery-item figcaption {
+	display: block;
+	hyphens: auto;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## User choice styles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.width-full {
+	width: 100%;
+}
+
+.width-3quarters {
+	width: 74.5%;
+}
+
+.width-2thirds {
+	width: 66%;
+}
+
+.width-half {
+	width: var(--width-half);
+}
+
+.width-third {
+	width: var(--width-third);
+}
+
+.width-quarter {
+	width: var(--width-quarter);
+	hyphens: auto;
+}
+
+.width-3quarters:not(.aligncenter),
+.width-2thirds:not(.aligncenter),
+.width-half:not(.aligncenter),
+.width-third:not(.aligncenter),
+.width-quarter:not(.aligncenter) {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.font-smaller {
+	font-size: 90%;
+}
+.font-larger {
+	font-size: 110%;
+}
+.font-smaller.font-larger {
+	font-size: 100%;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+.lowercase {
+	text-transform: lowercase;
+}
+.uppercase {
+	text-transform: uppercase;
+}
+.uppercase.lowercase {
+	text-transform: capitalize;
+	font-variant: small-caps;
+}
+
+.small-caps {
+	font-variant: small-caps;
+}
+
+.letter-spacing-1 {
+	letter-spacing: 1px;
+}
+
+.side-padding {
+	padding-right: 3%;
+	padding-left: 3%;
+}
+
+.border-top {
+	border-top: 1px solid;
+}
+.border-right {
+	border-right: 1px solid;
+}
+.border-bottom {
+	border-bottom: 1px solid;
+}
+.border-left {
+	border-left: 1px solid;
+}
+
+.border-accent {
+	border-color: var(--accent_color);
+}
+
+/*
+ * Rules for showing items as cards. This adjusts the max-width according to
+ * the quantity of items and window max-width.
+ * The idea for quantity queries comes from
+ * https://alistapart.com/article/quantity-queries-for-css
+ * The trick for min and max width breakpoint comes from
+ * https://medium.freecodecamp.org/the-fab-four-technique-to-create-responsive-emails-without-media-queries-baf11fdfa848
+ */
+html {
+ --cards_shadow: 0 0 15px -9px rgba(0, 0, 0, 0.4);
+ --active_shadow:	0 0 15px -6px rgba(0, 0, 0, 0.4), 0.5em 6px -3px rgba(0, 0, 0, 0.5);
+}
+
+.cards {
+	box-shadow: var(--cards_shadow);
+	background-color: var(--card_backcolor, white);
+
+	display: inline-block;
+	vertical-align: top;
+	width: 98%;
+	word-spacing: normal;
+	font-size: 92%;
+	overflow-wrap: break-word; /* modern synonym for word-wrap */
+	word-break: keep-all; /* affects some Asian languages */
+	text-overflow: ellipsis;
+	margin: 1em 0.2%;
+	box-sizing: border-box;
+	transition: width 0.6s ease 0s;
+	--width-half: calc(49.6% - 0.3ch); 
+	--width-third: calc(32.8% - 0.34ch); 
+	--width-quarter: calc(24.6% - 0.38ch); 
+}
+
+.cards:not(.block-editor-writing-flow), .cards:not(.wp-block-post-content),
+.cards:not(article) {
+	padding: 4px;
+}
+
+.cards h1, .cards h2, .cards h3, .cards h4, .cards h5, .cards h6 {
+	hyphens: auto;
+	word-break: keep-all; /* affects some Asian languages */
+}
+@supports not (hyphens: auto) {
+	.cards h1, .cards h2, .cards h3, .cards h4, .cards h5, .cards h6 {
+		overflow-wrap: break-word; /* modern synonym for word-wrap */
+	}
+}
+.cards a {
+	overflow-wrap: break-word; /* modern synonym for word-wrap */
+	word-break: keep-all; /* affects some Asian languages */
+}
+.cards .wp-post-image {
+	object-fit: cover;  /* modern browsers only, old ones can look squished */
+	max-height: 200px;
+	max-height: calc( var(--card_imgheight, 200px) * var(--card_scale, 1) );
+}
+
+/*************** small ****************/
+@media (min-width: 26.5em) and (max-width: 38em)  {	 /* equivalent to 424px to 608px */
+/* two items */
+	.cards:first-of-type:nth-last-of-type(n+3), 		/* at least 3 */
+	.cards:first-of-type:nth-last-of-type(n+3) ~ .cards { max-width: var(--width-half); }
+	.cards .wp-post-image { --card_scale: 0.6; }
+}
+
+/*************** medium ****************/
+@media (min-width: 38em) and (max-width: 50.75em)  {	 /* equivalent to 608px to 812px */
+	/* three items */
+	.cards { max-width: var(--width-third); }
+	/* two items */
+	.cards:nth-last-of-type(n+2):nth-last-of-type(-n+4):first-of-type, 	 /* between 2 and 4 */
+	.cards:nth-last-of-type(n+2):nth-last-of-type(-n+4):first-of-type ~ .cards { max-width: var(--width-half); }
+	.cards .wp-post-image { --card_scale: 0.75; }
+}
+
+/*************** big ****************/
+@media (min-width: 50.75em) and (max-width: 63.75em) {	 /* equivalent to 812px to 1020px */
+	/* three items */
+	.cards:first-of-type:nth-last-of-type(3n),		/* multiple of 3 */
+	.cards:first-of-type:nth-last-of-type(3n) ~ .cards,
+	.cards:first-of-type:nth-last-of-type(3n-1),	/* one less than multiple of 3 */
+	.cards:first-of-type:nth-last-of-type(3n-1) ~ .cards { max-width: var(--width-third); }
+	/* two items */
+	.cards:first-of-type:nth-last-of-type(2),			/* 2 */
+	.cards:first-of-type:nth-last-of-type(2) ~ .cards { max-width: var(--width-half); }
+	/* four items */
+	.cards:first-of-type:nth-last-of-type(4n),		/* multiple of 4 */
+	.cards:first-of-type:nth-last-of-type(4n) ~ .cards,
+	.cards:first-of-type:nth-last-of-type(n+7), 	/* at least 7 */
+	.cards:first-of-type:nth-last-of-type(n+7) ~ .cards { max-width: var(--width-third);
+		min-width: var(--width-quarter); width: calc((51em - 100%) * 999);
+	}
+	.cards .wp-post-image { --card_scale: 0.9; }
+}
+
+/**************** biggest  *************/
+@media (min-width: 63.75em) {	 /* equivalent to 1020px */
+	/* two items */
+	.cards:first-of-type:nth-last-of-type(2),			 /* 2 */
+	.cards:first-of-type:nth-last-of-type(2) ~ .cards { max-width: var(--width-half); }
+	/* three items */
+	.cards:first-of-type:nth-last-of-type(3n),		 /* multiple of 3 */
+	.cards:first-of-type:nth-last-of-type(3n) ~ .cards { max-width: var(--width-third); }
+	/* five items */
+	.cards:first-of-type:nth-last-of-type(5n-1),	 /* one less than multiple of 5 4,9,14,19,24,29,34,39*/
+	.cards:first-of-type:nth-last-of-type(5n-1) ~ .cards,
+	.cards:first-of-type:nth-last-of-type(5n+8),	 /* 8 more than multiple of 5 8,13,18,23,28,33,38*/
+	.cards:first-of-type:nth-last-of-type(5n+8) ~ .cards { max-width: var(--width-quarter);
+		min-width: 19%; width: calc((62em - 100%) * 999);
+	}
+	/* four items */
+	.cards:first-of-type:nth-last-of-type(4n+7),	 /* 7 more than multiple of 4 7,11,15,19,23,27,31*/
+	.cards:first-of-type:nth-last-of-type(4n+7) ~ .cards,
+	.cards:first-of-type:nth-last-of-type(4n),		 /* multiple of 4 */
+	.cards:first-of-type:nth-last-of-type(4n) ~ .cards { max-width: var(--width-quarter); }
+	/* five items */
+	.cards:first-of-type:nth-last-of-type(5n),		 /* multiple of 5 */
+	.cards:first-of-type:nth-last-of-type(5n) ~ .cards { max-width: var(--width-third);
+		min-width: 19%; width: calc((62em - 100%) * 999);
+	}
+}
+
+/* one item */
+.cards.block-editor-writing-flow, .cards.wp-block-post-content,
+.cards:only-of-type { max-width: 98%; padding:1%; font-size: initial; }
+.cards:only-of-type .wp-post-image { max-height: none; }
+
+.cards:hover,
+.active-shadow:hover {
+	box-shadow: 0 0 15px -6px rgba(0, 0, 0, 0.4);
+	box-shadow: var(--active_shadow);
+}
+/* * * * * * * * * * * * * */
+
+html {
+	--box_shadow: 2px 1px 4px rgba(0, 0, 0, 0.18);
+	--slab_shadow: inset 3px 8px 7px  rgba(252, 252, 245, 0.5),
+		inset -3px -6px 8px  rgba(0, 0, 0, 0.3), 1px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.box {
+	border: 2px solid;
+	border-color: rgba(255, 255, 255, 0.6) transparent rgba(0, 0, 0, 0.15) rgba(200, 200, 200, 0.13);
+	box-shadow: var(--box_shadow);
+}
+.box.border-top    { border-top-color: currentColor; }
+.box.border-right  { border-right-color: currentColor; }
+.box.border-bottom { border-bottom-color: currentColor; }
+.box.border-left   { border-left-color: currentColor; }
+.box.border-accent.border-top    { border-top-color: var(--accent_color); }
+.box.border-accent.border-right  { border-right-color: var(--accent_color); }
+.box.border-accent.border-bottom { border-bottom-color: var(--accent_color); }
+.box.border-accent.border-left   { border-left-color: var(--accent_color); }
+
+.slab {
+	box-shadow: var(--slab_shadow);
+}
+.slab.cards:hover,
+.slab.active-shadow:hover {
+	box-shadow: var(--slab_shadow), var(--active_shadow);
+}
+
+html {
+	--round_radius: 1.618ex;
+}
+.round {
+	border-radius: var(--round_radius, 1.618ex);
+}
+.round > :first-child,
+.round > :first-child > :first-child,
+.round > :first-child > :first-child > :first-child,
+.round > :first-child:empty + :nth-child(2),
+.round > :first-child:empty + :nth-child(2) > :first-child {
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+}
+.round > :last-child,
+.round > :last-child > :last-child,
+.round > :last-child > :last-child > :last-child {
+	border-bottom-left-radius: inherit;
+	border-bottom-right-radius: inherit;
+}
+
+html {
+	--semi_accent_shadow: inset 0 0 7em -3em var(--accent_color);
+	--semi_accent_bg: linear-gradient(to bottom, transparent -250%, var(--accent_color) 650%);
+}
+.semi-accent {
+	box-shadow: var(--semi_accent_shadow);
+}
+.semi-accent.cards {
+	box-shadow: var(--semi_accent_shadow), var(--cards_shadow);
+}
+.semi-accent.box {
+	box-shadow: var(--semi_accent_shadow), var(--box_shadow);
+}
+.semi-accent.slab {
+	box-shadow: var(--semi_accent_shadow), var(--slab_shadow);
+}
+.semi-accent.cards:hover,
+.semi-accent.active-shadow:hover {
+	box-shadow: var(--semi_accent_shadow), var(--active_shadow);
+}
+.semi-accent.slab.cards:hover,
+.semi-accent.slab.active-shadow:hover {
+	box-shadow: var(--semi_accent_shadow), var(--slab_shadow), var(--active_shadow);
+}
+
+.semi-black {
+	background-color: rgba(0,0,0, 0.3);
+}
+.semi-white {
+	background-color: rgba(255,255,255, 0.3);
+}
+html {
+	--semi_whiteblack_bg: linear-gradient(rgba(255,255,255, 0.2) 0%, rgba(255,255,255, 0.1) 100%),
+		linear-gradient(rgba(0,0,0, 0.1) 0%, rgba(0,0,0, 0.2) 100%);
+}
+.semi-white.semi-black {
+	background-image: var(--semi_whiteblack_bg);
+	background-color: transparent;
+}
+
+.swap-color {
+	position: relative;
+	color: var(--background_color);
+	--link_color: var(--accent_color);
+}
+.swap-color::before {
+	position: absolute;
+	content: "";
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	border-radius: inherit;
+	top: 0;
+	left: 0;
+	background-color: var(--body_textcolor);
+}
+.swap-color option {
+	background-color: var(--body_textcolor);
+}
+
+.swap-color .semi-accent, .swap-color.semi-accent, .semi-accent .swap-color {
+	--link_color: currentColor;
+}
+
+html {
+	--frostedglass_bg: linear-gradient(to top, rgba(170, 200, 180, 0.8) 0%, rgba(190, 220, 200, 0.5) 100%);
+	--frostedglass_shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), 2px 2px 1px rgba(0, 0, 0, 0.1) inset, -2px -2px 2px rgba(255, 255, 255, 0.4) inset;
+}
+.frostedglass {
+	border-color: rgba(50, 120, 100, 0.7) rgba(50, 120, 100, 0.3) rgba(50, 120, 100, 0.8);
+	border-style: solid;
+	border-width: 1px 1px 2px;
+	box-shadow: var(--frostedglass_shadow);
+	text-shadow: 3px 3px 2px rgba(50, 120, 100, 0.5);
+	background-image: var(--frostedglass_bg);
+}
+.frostedglass.semi-white.semi-black {
+	background-image: var(--frostedglass_bg),
+		var(--semi_whiteblack_bg);
+}
+.frostedglass.box {
+	box-shadow: var(--box_shadow), var(--frostedglass_shadow);
+}
+.frostedglass.slab {
+	box-shadow: var(--slab_shadow), var(--frostedglass_shadow);
+}
+.frostedglass.semi-accent {
+	box-shadow: var(--semi_accent_shadow), var(--frostedglass_shadow);
+}
+.frostedglass.semi-accent.slab {
+	box-shadow: var(--semi_accent_shadow), var(--slab_shadow), var(--frostedglass_shadow);
+}
+
+html {
+	--glass_bg: linear-gradient(to top, rgba(50, 120, 100, 0.2) 0%,rgba(70, 140, 120, 0.1) 100%);
+	--glass_shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), 2px 2px 1px rgba(0, 0, 0, 0.2) inset, -2px -2px 2px rgba(255, 255, 255, 0.6) inset;
+}
+.glass {
+	border-color: rgba(50, 120, 100, 0.7) rgba(50, 120, 100, 0.3) rgba(50, 120, 100, 0.8);
+	border-style: solid;
+	border-width: 1px 1px 2px;
+	box-shadow: var(--glass_shadow);
+	text-shadow: 3px 3px 1px rgba(50, 120, 100, 0.6);
+	background-image: var(--glass_bg);
+}
+.glass.box {
+	box-shadow: var(--box_shadow), var(--glass_shadow);
+}
+.glass.slab {
+	box-shadow: var(--slab_shadow), var(--glass_shadow);
+}
+.glass.semi-accent {
+	box-shadow: var(--semi_accent_shadow), var(--glass_shadow);
+}
+.glass.semi-accent.slab {
+	box-shadow: var(--semi_accent_shadow), var(--slab_shadow), var(--glass_shadow);
+}
+
+html {
+	--rays_bg: repeating-conic-gradient(hsla(52,100%,90%, 0.16) 0deg,
+		hsla(52,100%,95%, 0.005) 7deg, hsla(52,100%,90%, 0.15) 11deg);
+}
+.rays {
+	background-image: var(--rays_bg);
+	background-size: 250% 280%;
+	background-repeat: no-repeat;
+	background-position: 80% 100%;
+}
+.rays.semi-white.semi-black {
+	background-image: var(--rays_bg),
+		var(--semi_whiteblack_bg);
+}
+.rays.glass {
+	background-image: var(--rays_bg),
+		var(--glass_bg);
+	background-size: 250% 280%, auto auto;
+	background-repeat: no-repeat, repeat;
+}
+.rays.frostedglass {
+	background-image: var(--rays_bg),
+		var(--frostedglass_bg);
+}
+
+.news-columns {
+	columns: 4 20em;
+	column-gap: 1.6em;
+	orphans: 2;
+}
+.news-columns:not(p) {
+	margin-bottom: 1em;
+}
+
+/*--------- used for image options -------*/
+.border-outset {
+	border: 2px outset var(--accent_color);
+}
+
+.scale-up, .skew {
+	transition: transform 0.2s ease;
+}
+.scale-up:hover {
+	transform: scale(1.05);
+}
+.skew:hover {
+	transform: skewX(-6deg);
+}
+.scale-up.skew:hover {
+	transform: scale(1.05) skewX(-6deg);
+}
+
+.shadow {
+	box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+.sepia {
+	filter: sepia(80%);
+}

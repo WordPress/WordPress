@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/more",
+	"title": "More",
+	"category": "design",
+	"description": "Content before this block will be shown in the excerpt on your archives page.",
+	"keywords": [ "read more" ],
+	"textdomain": "default",
+	"attributes": {
+		"customText": {
+			"type": "string",
+			"default": "",
+			"role": "content"
+		},
+		"noTeaser": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"className": false,
+		"html": false,
+		"multiple": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"editorStyle": "wp-block-more-editor"
+}

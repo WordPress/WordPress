@@ -1,0 +1,141 @@
+#customize-theme-controls .customize-pane-parent {
+  padding-bottom: 20px;
+}
+#customize-controls .control-section>h3.accordion-section-title {
+  display: flex;
+  align-items: center;
+  padding: 5px 26px !important;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 13px;
+  border-left: none;
+  border-bottom: none;
+  background-color: rgba(0,0,0,0);
+}
+#customize-theme-controls .control-panel-content:not(.control-panel-nav_menus) .control-section:nth-child(2){
+  border-top: none;
+}
+#customize-controls .control-section>h3.accordion-section-title:after {
+  font-size: 12px;
+  top: calc(50% - 6px);
+  right: 23px;
+  color: inherit;
+}
+li#accordion-section-upgrade_premium .accordion-section-title:after {
+  content: none !important;
+  color: #ffffff !important;
+}
+li#accordion-section-upgrade_premium .accordion-section-title,
+li#accordion-section-upgrade_premium .accordion-section-title:hover {
+ color: #2271b1 !important;
+  border: 1px solid #2271b1 !important;
+  vertical-align: top;
+  font-size: 14px !important;
+  background: rgba(0,0,0,0) !important;  
+  margin: 20px !important;
+  padding: 5px 26px !important;
+  display: inline-table !important;
+}
+li#accordion-section-upgrade_premium {
+  text-align: center;
+}
+#accordion-panel-twenty_minutes_panel_area .accordion-section-title{
+  border-top:1px solid #ddd;
+}
+#accordion-section-twenty_minutes_site_layoutsec, li#accordion-section-sidebar-widgets-sidebar-1, li#accordion-section-woocommerce_store_notice{
+  border-top: none !important;
+}
+
+/*customizer css*/
+#customize-controls .description.customize-section-description{
+    display: list-item;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding: 7px 15px;
+    background: #FFF;
+    border-left: 4px solid #0073aa;
+}
+#customize-controls .description.customize-section-description .sec-title , #customize-controls .customize-category-select-control{
+    display: block;
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* Upsale */
+#customize-controls .pro_info ul {
+  margin: 0;
+  padding: 0;
+}
+
+#customize-controls .pro_info ul li {
+  margin-bottom: 10px;
+}
+
+#customize-controls .pro_info ul li a, #customize-controls .up-to-pro {
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  display: block;
+  text-decoration: none;
+  color: #ffffff;
+  border-radius: 3px;
+    font-size: 12px;
+  letter-spacing: 1px;
+  overflow: hidden;
+  -webkit-transition: .3s;
+  transition: .3s;
+  background: #009efa;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #13ad3c, #001b00);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #13ad3c, #001b00);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  z-index: 2;
+}
+#customize-controls .pro_info ul li a:hover, #customize-controls .pro_info ul li a:focus,
+#customize-controls .up-to-pro:hover, #customize-controls .up-to-pro:focus {
+  transform: translateY(-3px);
+  color: #fff;
+  box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.15);
+}
+#customize-controls .up-to-pro {
+  padding: 9px 58px;
+  text-transform: capitalize;
+}
+#customize-controls .pro_info ul li a i{
+  font-size: 15px;
+  margin-top: 1px;
+  margin-right: 7px;
+  float: right;
+}
+/*custizer pro btn*/
+#customize-controls .pro_info .upgrade-to-pro, #customize-controls .up-to-pro, #customize-controls li#accordion-section-upgrade_premium h3.accordion-section-title{
+  background-image: linear-gradient(to right, #4734c0 , #8472f7) !important;
+  color: #fff !important;
+}
+#customize-controls li#accordion-section-upgrade_premium h3.accordion-section-title button, #customize-controls li#accordion-section-upgrade_premium h3.accordion-section-title button:hover{
+  background: transparent !important;
+  color: #fff !important;
+}
+#customize-controls .pro_info .pro-btn{
+  background-image: linear-gradient(to right, #34c082, #85f772) !important;
+}
+.customizer-upgraded-features {
+    background-image: linear-gradient(to right, #4734c0 , #8472f7);
+    padding: 10px;
+    color: #fff !important;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 2em;
+}
+.customizer-upgraded-features a {
+    text-decoration: none;
+    color: #ffbf00 ; 
+    font-weight: 700;
+    font-size: 14px;
+    font-style:italic;
+}
+.accordion-section-title button.accordion-trigger:focus{
+  box-shadow: none;
+}

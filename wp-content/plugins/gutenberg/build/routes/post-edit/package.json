@@ -1,0 +1,13 @@
+{
+	"name": "@wordpress/post-edit",
+	"version": "1.0.0",
+	"private": true,
+	"route": {
+		"path": "/types/$type/edit/$id",
+		"page": "gutenberg-boot"
+	},
+	"dependencies": {
+		"@wordpress/core-data": "file:../../packages/core-data",
+		"@wordpress/data": "file:../../packages/data"
+	}
+}

@@ -1,0 +1,88 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/list",
+	"title": "List",
+	"category": "text",
+	"allowedBlocks": [ "core/list-item" ],
+	"description": "An organized collection of items displayed in a specific order.",
+	"keywords": [ "bullet list", "ordered list", "numbered list" ],
+	"textdomain": "default",
+	"attributes": {
+		"ordered": {
+			"type": "boolean",
+			"default": false,
+			"role": "content"
+		},
+		"values": {
+			"type": "string",
+			"source": "html",
+			"selector": "ol,ul",
+			"multiline": "li",
+			"default": "",
+			"role": "content"
+		},
+		"type": {
+			"type": "string"
+		},
+		"start": {
+			"type": "number"
+		},
+		"reversed": {
+			"type": "boolean"
+		},
+		"placeholder": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"__unstablePasteTextInline": true,
+		"__experimentalOnMerge": true,
+		"__experimentalSlashInserter": true,
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"selectors": {
+		"border": ".wp-block-list:not(.wp-block-list .wp-block-list)"
+	},
+	"editorStyle": "wp-block-list-editor",
+	"style": "wp-block-list"
+}
