@@ -3439,7 +3439,7 @@ function translate_smiley( $matches ) {
 	}
 
 	$smiley = trim( reset( $matches ) );
-	$img    = $wpsmiliestrans[ $smiley ];
+	$img    = isset($wpsmiliestrans[ $smiley ]) ? $wpsmiliestrans[ $smiley ] : '';
 
 	$matches    = array();
 	$ext        = preg_match( '/\.([^.]+)$/', $img, $matches ) ? strtolower( $matches[1] ) : false;
