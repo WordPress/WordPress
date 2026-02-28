@@ -1798,6 +1798,8 @@ function wp_doing_cron() {
  *
  * @param mixed $thing The variable to check.
  * @return bool Whether the variable is an instance of WP_Error.
+ *
+ * @phpstan-assert-if-true WP_Error $thing
  */
 function is_wp_error( $thing ) {
 	$is_wp_error = ( $thing instanceof WP_Error );
