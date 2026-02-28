@@ -441,7 +441,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 * @param array           $args    Array of arguments for WP_Query.
 		 * @param WP_REST_Request $request The REST API request.
 		 */
-		$args       = apply_filters( "rest_{$this->post_type}_query", $args, $request );
+		$args = apply_filters( "rest_{$this->post_type}_query", $args, $request );
+		if ( ! is_array( $args ) ) {
+			$args = array();
+		}
 		$query_args = $this->prepare_items_query( $args, $request );
 
 		$posts_query  = new WP_Query();
@@ -1211,6 +1214,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 */
 	protected function prepare_items_query( $prepared_args = array(), $request = null ) {
 		$query_args = array();
+		if ( ! is_array( $prepared_args ) ) {
+			$prepared_args = array();
+		}
 
 		foreach ( $prepared_args as $key => $value ) {
 			/**
