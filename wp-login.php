@@ -184,7 +184,7 @@ function login_header( $title = null, $message = '', $wp_error = null ) {
 		}
 	}
 
-	$classes[] = ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+	$classes[] = 'locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
 	/**
 	 * Filters the login page body classes.
