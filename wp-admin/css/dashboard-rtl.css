@@ -73,6 +73,7 @@
 	outline-offset: -2px;
 	border-radius: 8px;
 	height: 250px;
+	margin: 4px;
 }
 
 /* Only highlight drop zones when dragging. */
