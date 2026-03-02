@@ -614,9 +614,9 @@ body.trashing #publish-settings {
 #customize-controls .control-section .accordion-section-title button:hover,
 #customize-controls .control-section.open .accordion-section-title,
 #customize-controls .control-section .accordion-section-title button:focus {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	background: #f6f7f7;
-	border-right-color: #2271b1;
+	border-right-color: var(--wp-admin-theme-color, #3858e9);
 }
 
 #accordion-section-themes + .control-section {
