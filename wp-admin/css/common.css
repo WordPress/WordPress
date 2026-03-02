@@ -812,10 +812,10 @@ img.emoji {
 	content: "\f153";
 	content: "\f153" / '';
 	display: block;
-	font: normal 20px/24px dashicons;
-	height: 24px;
+	font: normal 20px/1 dashicons;
+	height: 1em;
 	text-align: center;
-	width: 24px;
+	width: 1em;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
