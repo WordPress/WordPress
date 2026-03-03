@@ -165,7 +165,18 @@ class WP_AI_Client_Prompt_Builder {
 	 *                                                                                                    conversations. Default null.
 	 */
 	public function __construct( ProviderRegistry $registry, $prompt = null ) {
-		$this->builder = new PromptBuilder( $registry, $prompt );
+		try {
+			$this->builder = new PromptBuilder( $registry, $prompt );
+		} catch ( Exception $e ) {
+			$this->builder = new PromptBuilder( $registry );
+			$this->error   = new WP_Error(
+				'prompt_builder_error',
+				$e->getMessage(),
+				array(
+					'exception_class' => get_class( $e ),
+				)
+			);
+		}
 
 		/**
 		 * Filters the default request timeout in seconds for AI Client HTTP requests.
