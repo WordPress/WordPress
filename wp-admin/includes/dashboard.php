@@ -326,7 +326,7 @@ function wp_dashboard_right_now() {
 					),
 					admin_url( 'edit.php' )
 				);
-				printf( '<li class="%1$s-count"><a href="%1$s">%2$s</a></li>', esc_url( $url ), esc_html( $text ) );
+				printf( '<li class="%1$s-count"><a href="%2$s">%3$s</a></li>', $post_type, esc_url( $url ), esc_html( $text ) );
 			} else {
 				printf( '<li class="%1$s-count"><span>%2$s</span></li>', $post_type, $text );
 			}
