@@ -16,6 +16,10 @@ use WordPress\AiClient\Tools\DTO\FunctionResponse;
 /**
  * Resolves and executes WordPress Abilities API function calls from AI models.
  *
+ * This class must be instantiated with the specific abilities that the AI model
+ * is allowed to execute, ensuring that only explicitly specified abilities can
+ * be called. This prevents the model from executing arbitrary abilities.
+ *
  * @since 7.0.0
  */
 class WP_AI_Client_Ability_Function_Resolver {
@@ -29,6 +33,35 @@ class WP_AI_Client_Ability_Function_Resolver {
 	private const ABILITY_PREFIX = 'wpab__';
 
 	/**
+	 * Map of allowed ability names for this instance.
+	 *
+	 * Keys are ability name strings, values are `true` for O(1) lookup.
+	 *
+	 * @since 7.0.0
+	 * @var array<string, true>
+	 */
+	private array $allowed_abilities;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param WP_Ability|string ...$abilities The abilities that this resolver is allowed to execute.
+	 */
+	public function __construct( ...$abilities ) {
+		$this->allowed_abilities = array();
+
+		foreach ( $abilities as $ability ) {
+			if ( $ability instanceof WP_Ability ) {
+				$this->allowed_abilities[ $ability->get_name() ] = true;
+			} elseif ( is_string( $ability ) ) {
+				$this->allowed_abilities[ $ability ] = true;
+			}
+		}
+	}
+
+	/**
 	 * Checks if a function call is an ability call.
 	 *
 	 * @since 7.0.0
@@ -36,7 +69,7 @@ class WP_AI_Client_Ability_Function_Resolver {
 	 * @param FunctionCall $call The function call to check.
 	 * @return bool True if the function call is an ability call, false otherwise.
 	 */
-	public static function is_ability_call( FunctionCall $call ): bool {
+	public function is_ability_call( FunctionCall $call ): bool {
 		$name = $call->getName();
 		if ( null === $name ) {
 			return false;
@@ -48,16 +81,20 @@ class WP_AI_Client_Ability_Function_Resolver {
 	/**
 	 * Executes a WordPress ability from a function call.
 	 *
+	 * Only abilities that were specified in the constructor are allowed to be
+	 * executed. If the ability is not in the allowed list, an error response
+	 * with code `ability_not_allowed` is returned.
+	 *
 	 * @since 7.0.0
 	 *
 	 * @param FunctionCall $call The function call to execute.
 	 * @return FunctionResponse The response from executing the ability.
 	 */
-	public static function execute_ability( FunctionCall $call ): FunctionResponse {
+	public function execute_ability( FunctionCall $call ): FunctionResponse {
 		$function_name = $call->getName() ?? 'unknown';
 		$function_id   = $call->getId() ?? 'unknown';
 
-		if ( ! self::is_ability_call( $call ) ) {
+		if ( ! $this->is_ability_call( $call ) ) {
 			return new FunctionResponse(
 				$function_id,
 				$function_name,
@@ -69,7 +106,20 @@ class WP_AI_Client_Ability_Function_Resolver {
 		}
 
 		$ability_name = self::function_name_to_ability_name( $function_name );
-		$ability      = wp_get_ability( $ability_name );
+
+		if ( ! isset( $this->allowed_abilities[ $ability_name ] ) ) {
+			return new FunctionResponse(
+				$function_id,
+				$function_name,
+				array(
+					/* translators: %s: ability name */
+					'error' => sprintf( __( 'Ability "%s" was not specified in the allowed abilities list.' ), $ability_name ),
+					'code'  => 'ability_not_allowed',
+				)
+			);
+		}
+
+		$ability = wp_get_ability( $ability_name );
 
 		if ( ! $ability instanceof WP_Ability ) {
 			return new FunctionResponse(
@@ -113,15 +163,17 @@ class WP_AI_Client_Ability_Function_Resolver {
 	 * @param Message $message The message to check.
 	 * @return bool True if the message contains ability calls, false otherwise.
 	 */
-	public static function has_ability_calls( Message $message ): bool {
-		return null !== array_find(
-			$message->getParts(),
-			static function ( MessagePart $part ): bool {
-				return $part->getType()->isFunctionCall()
-					&& $part->getFunctionCall() instanceof FunctionCall
-					&& self::is_ability_call( $part->getFunctionCall() );
+	public function has_ability_calls( Message $message ): bool {
+		foreach ( $message->getParts() as $part ) {
+			if ( $part->getType()->isFunctionCall() ) {
+				$function_call = $part->getFunctionCall();
+				if ( $function_call instanceof FunctionCall && $this->is_ability_call( $function_call ) ) {
+					return true;
+				}
 			}
-		);
+		}
+
+		return false;
 	}
 
 	/**
@@ -132,14 +184,14 @@ class WP_AI_Client_Ability_Function_Resolver {
 	 * @param Message $message The message containing function calls.
 	 * @return Message A new message with function responses.
 	 */
-	public static function execute_abilities( Message $message ): Message {
+	public function execute_abilities( Message $message ): Message {
 		$response_parts = array();
 
 		foreach ( $message->getParts() as $part ) {
 			if ( $part->getType()->isFunctionCall() ) {
 				$function_call = $part->getFunctionCall();
 				if ( $function_call instanceof FunctionCall ) {
-					$function_response = self::execute_ability( $function_call );
+					$function_response = $this->execute_ability( $function_call );
 					$response_parts[]  = new MessagePart( $function_response );
 				}
 			}
