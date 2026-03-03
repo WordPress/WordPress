@@ -141,8 +141,6 @@
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
-	background-color: #c3c4c7;
-	border: 1px solid rgb(0, 0, 0, 0.1);
 	border-radius: 8px;
 	font-size: 14px;
 	line-height: 1.3;
@@ -266,6 +264,10 @@
 	justify-content: space-between;
 }
 
+.welcome-panel-header-wrap {
+	background-color: #151515;
+}
+
 .welcome-panel-header {
 	box-sizing: border-box;
 	margin-left: auto;
@@ -286,6 +288,9 @@
 	gap: 32px;
 	align-self: flex-end;
 	background: #ffffff;
+	border: 1px solid #c3c4c7;
+	border-top: 0;
+	border-radius: 0 0 8px 8px;
 }
 
 [class*="welcome-panel-icon"] {
@@ -1424,6 +1429,7 @@ a.rsswidget {
 	}
 
 	.welcome-panel .welcome-panel-close::before {
+		position: absolute;
 		top: 5px;
 		left: -35px;
 	}
