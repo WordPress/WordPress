@@ -3817,7 +3817,14 @@ class WP_HTML_Tag_Processor {
 			return true;
 		}
 
-		if ( self::STATE_MATCHED_TAG !== $this->parser_state ) {
+		/*
+		 * The rest of this function handles modifiable text for special "atomic" HTML elements.
+		 * Only tags in the HTML namespace should be processed.
+		 */
+		if (
+			self::STATE_MATCHED_TAG !== $this->parser_state ||
+			'html' !== $this->get_namespace()
+		) {
 			return false;
 		}
 
