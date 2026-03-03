@@ -1391,9 +1391,9 @@ class WP_REST_Server {
 			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
 			$available['jpeg_interlaced'] = (bool) apply_filters( 'image_save_progressive', false, 'image/jpeg' );
 			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
-			$available['png_interlaced']  = (bool) apply_filters( 'image_save_progressive', false, 'image/png' );
+			$available['png_interlaced'] = (bool) apply_filters( 'image_save_progressive', false, 'image/png' );
 			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
-			$available['gif_interlaced']  = (bool) apply_filters( 'image_save_progressive', false, 'image/gif' );
+			$available['gif_interlaced'] = (bool) apply_filters( 'image_save_progressive', false, 'image/gif' );
 		}
 
 		$response = new WP_REST_Response( $available );

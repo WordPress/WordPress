@@ -493,7 +493,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				'<a href="%s">',
 				get_edit_post_link( $post->ID ),
 			);
-			$link_end = '</a>';
+			$link_end   = '</a>';
 		}
 
 		$class = $thumb ? ' class="has-media-icon"' : '';

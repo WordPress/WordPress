@@ -334,7 +334,7 @@ function get_the_author_posts_link() {
 
 	$author = get_the_author();
 	/* translators: %s: Author's display name. */
-	$title  = sprintf( __( 'Posts by %s' ), $author );
+	$title = sprintf( __( 'Posts by %s' ), $author );
 
 	$link = sprintf(
 		'<a href="%1$s" rel="author">%2$s</a>',
