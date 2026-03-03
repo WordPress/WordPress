@@ -1035,6 +1035,13 @@ if ( ! function_exists( 'wp_parse_auth_cookie' ) ) :
 			if ( empty( $_COOKIE[ $cookie_name ] ) ) {
 				return false;
 			}
+			
+			// Ensure logged_in cookie exists when admin cookies are present
+			// REST nonce relies on the logged_in cookie.
+			if ( $cookie_name !== LOGGED_IN_COOKIE && empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+				return false;
+			}
+			
 			$cookie = $_COOKIE[ $cookie_name ];
 		}
 
@@ -1310,6 +1317,7 @@ if ( ! function_exists( 'auth_redirect' ) ) :
 		$scheme = apply_filters( 'auth_redirect_scheme', '' );
 
 		$user_id = wp_validate_auth_cookie( '', $scheme );
+
 		if ( $user_id ) {
 			/**
 			 * Fires before the authentication redirect.
