@@ -85,7 +85,7 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 			'value'     => $update,
 		);
 
-		return (bool) add_post_meta( $post_id, self::SYNC_UPDATE_META_KEY, $envelope, false );
+		return (bool) add_post_meta( $post_id, wp_slash( self::SYNC_UPDATE_META_KEY ), wp_slash( $envelope ), false );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 		}
 
 		// update_post_meta returns false if the value is the same as the existing value.
-		update_post_meta( $post_id, self::AWARENESS_META_KEY, $awareness );
+		update_post_meta( $post_id, wp_slash( self::AWARENESS_META_KEY ), wp_slash( $awareness ) );
 		return true;
 	}
 
@@ -305,7 +305,7 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 		$all_updates = $this->get_all_updates( $room );
 
 		// Remove all updates for the room and re-store only those that are newer than the cursor.
-		if ( ! delete_post_meta( $post_id, self::SYNC_UPDATE_META_KEY ) ) {
+		if ( ! delete_post_meta( $post_id, wp_slash( self::SYNC_UPDATE_META_KEY ) ) ) {
 			return false;
 		}
 
