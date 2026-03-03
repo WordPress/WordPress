@@ -1135,7 +1135,7 @@ function get_extended( $post ) {
  *
  * @global WP_Post $post Global post object.
  *
- * @param int|WP_Post|null $post   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey values
+ * @param int|object|null  $post   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey values
  *                                 return the current global post inside the loop. A numerically valid post ID that
  *                                 points to a non-existent post returns `null`. Defaults to global $post.
  * @param string           $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
@@ -1159,8 +1159,10 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 			$_post = new WP_Post( $_post );
 		} elseif ( 'raw' === $post->filter ) {
 			$_post = new WP_Post( $post );
-		} else {
+		} elseif ( isset( $post->ID ) ) {
 			$_post = WP_Post::get_instance( $post->ID );
+		} else {
+			$_post = null;
 		}
 	} else {
 		$_post = WP_Post::get_instance( $post );

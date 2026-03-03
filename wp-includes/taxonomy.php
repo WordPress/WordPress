@@ -1723,7 +1723,7 @@ function sanitize_term( $term, $taxonomy, $context = 'display' ) {
 
 	$do_object = is_object( $term );
 
-	$term_id = $do_object ? $term->term_id : ( $term['term_id'] ?? 0 );
+	$term_id = $do_object ? ( $term->term_id ?? 0 ) : ( $term['term_id'] ?? 0 );
 
 	foreach ( (array) $fields as $field ) {
 		if ( $do_object ) {
