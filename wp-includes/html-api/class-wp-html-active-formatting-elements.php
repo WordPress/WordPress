@@ -29,6 +29,7 @@
  * @since 6.4.0
  *
  * @access private
+ * @ignore
  *
  * @see https://html.spec.whatwg.org/#list-of-active-formatting-elements
  * @see WP_HTML_Processor

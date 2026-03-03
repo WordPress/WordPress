@@ -583,6 +583,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @throws WP_HTML_Unsupported_Exception Halts execution of the parser.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @param string $message Explains support is missing in order to parse the current node.
 	 * @return never
@@ -791,8 +792,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * calls the {@see WP_HTML_Tag_Processor::base_class_next_token()} method.
 	 *
 	 * @since 6.7.2 Added for internal support.
-	 *
-	 * @access private
+	 * @ignore
 	 *
 	 * @return bool
 	 */
@@ -881,6 +881,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * while processing HTML, rather than a token found in the HTML text itself.
 	 *
 	 * @since 6.6.0
+	 * @ignore
 	 *
 	 * @return bool Whether the current token is virtual.
 	 */
@@ -1488,6 +1489,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -1559,6 +1561,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -1656,6 +1659,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -1753,6 +1757,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -1975,6 +1980,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -2078,6 +2084,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -2222,6 +2229,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.4.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3247,6 +3255,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3503,6 +3512,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0 Stub implementation.
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3522,6 +3532,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3606,6 +3617,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3713,6 +3725,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3816,6 +3829,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3926,6 +3940,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4030,6 +4045,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4205,6 +4221,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4269,6 +4286,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4398,6 +4416,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4487,6 +4506,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4606,6 +4626,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4691,6 +4712,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4754,6 +4776,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -4822,6 +4845,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -5143,6 +5167,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 * @since 6.5.0 Renamed from bookmark_tag() to bookmark_token().
+	 * @ignore
 	 *
 	 * @throws Exception When unable to allocate requested bookmark.
 	 *
@@ -5796,6 +5821,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Closes a P element.
 	 *
 	 * @since 6.4.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -5811,6 +5837,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 * @since 6.7.0 Full spec support.
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/#generate-implied-end-tags
 	 *
@@ -5848,6 +5875,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 * @since 6.7.0 Full spec support.
+	 * @ignore
 	 *
 	 * @see WP_HTML_Processor::generate_implied_end_tags
 	 * @see https://html.spec.whatwg.org/#generate-implied-end-tags
@@ -5890,6 +5918,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @see https://html.spec.whatwg.org/#adjusted-current-node
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @return WP_HTML_Token|null The adjusted current node.
 	 */
@@ -5909,6 +5938,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * > been explicitly closed.
 	 *
 	 * @since 6.4.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -5951,6 +5981,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Runs the reset the insertion mode appropriately algorithm.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately
 	 */
@@ -6143,6 +6174,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Runs the adoption agency algorithm.
 	 *
 	 * @since 6.4.0
+	 * @ignore
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -6260,6 +6292,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @see https://html.spec.whatwg.org/multipage/parsing.html#close-the-cell
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 */
 	private function close_cell(): void {
 		$this->generate_implied_end_tags();
@@ -6278,6 +6311,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Inserts an HTML element on the stack of open elements.
 	 *
 	 * @since 6.4.0
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/#insert-a-foreign-element
 	 *
@@ -6291,6 +6325,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Inserts a foreign element on to the stack of open elements.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/#insert-a-foreign-element
 	 *
@@ -6330,6 +6365,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Inserts a virtual element on the stack of open elements.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @throws Exception When unable to allocate a bookmark for the next token in the input HTML document.
 	 *
@@ -6357,6 +6393,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Indicates if the current token is a MathML integration point.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/#mathml-text-integration-point
 	 *
@@ -6393,6 +6430,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * no other accounting is overlooked.
 	 *
 	 * @since 6.7.0
+	 * @ignore
 	 *
 	 * @see https://html.spec.whatwg.org/#html-integration-point
 	 *
