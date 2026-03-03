@@ -84,7 +84,7 @@ are styled in the Privacy section of edit.css */
 		stroke: #c3c4c7;
 	}
 	50% {
-		stroke: #72aee6;
+		stroke: var(--wp-admin-theme-color);
 	}
 	100% {
 		stroke: #c3c4c7;
