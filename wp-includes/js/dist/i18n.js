@@ -1,7 +1,7 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 9756:
+/***/ 69756:
 /***/ (function(module) {
 
 /**
@@ -169,7 +169,7 @@ module.exports = memize;
 
 /***/ }),
 
-/***/ 124:
+/***/ 30124:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -501,10 +501,10 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
+var memize = __webpack_require__(69756);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(124);
+var sprintf = __webpack_require__(30124);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
 /**

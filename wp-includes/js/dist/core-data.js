@@ -1,7 +1,7 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 2167:
+/***/ 12167:
 /***/ (function(module) {
 
 "use strict";
@@ -316,7 +316,7 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 9756:
+/***/ 69756:
 /***/ (function(module) {
 
 /**
@@ -3679,7 +3679,7 @@ function isShallowEqual( a, b, fromIndex ) {
 }
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(2167);
+var equivalent_key_map = __webpack_require__(12167);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/selectors.js
 /**
@@ -5730,7 +5730,7 @@ function useEntityBlockEditor(kind, name) {
 }
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
+var memize = __webpack_require__(69756);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/memoize.js
 /**

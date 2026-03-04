@@ -1,7 +1,7 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 9756:
+/***/ 69756:
 /***/ (function(module) {
 
 /**
@@ -169,7 +169,7 @@ module.exports = memize;
 
 /***/ }),
 
-/***/ 7308:
+/***/ 27308:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.1 - 02-11-2019 */
@@ -10666,7 +10666,7 @@ function query(selector, matchers) {
   };
 }
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
+var memize = __webpack_require__(69756);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/matchers.js
 /**
@@ -12751,7 +12751,7 @@ function divNormaliser(node) {
 }
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(7308);
+var showdown = __webpack_require__(27308);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js
 /**
@@ -13380,21 +13380,15 @@ function synchronizeBlocksWithTemplate() {
 
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-
-    return target;
-  };
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
+
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/block-content-provider/index.js

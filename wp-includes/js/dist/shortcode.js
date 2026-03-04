@@ -1,7 +1,7 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 9756:
+/***/ 69756:
 /***/ (function(module) {
 
 /**
@@ -241,7 +241,7 @@ __webpack_require__.d(__webpack_exports__, {
 ;// CONCATENATED MODULE: external "lodash"
 var external_lodash_namespaceObject = window["lodash"];
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
+var memize = __webpack_require__(69756);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/shortcode/build-module/index.js
 /**
