@@ -253,9 +253,13 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme.active .theme-actions {
-	background: rgba(44, 51, 56, 0.7);
+	background: transparent;
 	border-left: none;
 	opacity: 1;
+}
+
+.theme-browser .theme.active .theme-actions .button-primary {
+	border-color: #fff;
 }
 
 .theme-id-container {
@@ -269,6 +273,9 @@ body.js .theme-browser.search-loading {
 	transform: translateY(-50%);
 	right: 0;
 	padding: 9px 12px;
+}
+
+.theme-browser .theme:not(.active) .theme-actions {
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
