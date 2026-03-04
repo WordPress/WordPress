@@ -70,6 +70,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$valid_image_sizes[] = 'original';
 			// Used for PDF thumbnails.
 			$valid_image_sizes[] = 'full';
+			// Client-side big image threshold: sideload the scaled version.
+			$valid_image_sizes[] = 'scaled';
 
 			register_rest_route(
 				$this->namespace,
@@ -2053,6 +2055,48 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		if ( 'original' === $image_size ) {
 			$metadata['original_image'] = wp_basename( $path );
+		} elseif ( 'scaled' === $image_size ) {
+			// The current attached file is the original; record it as original_image.
+			$current_file = get_attached_file( $attachment_id, true );
+
+			if ( ! $current_file ) {
+				return new WP_Error(
+					'rest_sideload_no_attached_file',
+					__( 'Unable to retrieve the attached file for this attachment.' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			$metadata['original_image'] = wp_basename( $current_file );
+
+			// Validate the scaled image before updating the attached file.
+			$size     = wp_getimagesize( $path );
+			$filesize = wp_filesize( $path );
+
+			if ( ! $size || ! $filesize ) {
+				return new WP_Error(
+					'rest_sideload_invalid_image',
+					__( 'Unable to read the scaled image file.' ),
+					array( 'status' => 500 )
+				);
+			}
+
+			// Update the attached file to point to the scaled version.
+			if (
+				get_attached_file( $attachment_id, true ) !== $path &&
+				! update_attached_file( $attachment_id, $path )
+			) {
+				return new WP_Error(
+					'rest_sideload_update_attached_file_failed',
+					__( 'Unable to update the attached file for this attachment.' ),
+					array( 'status' => 500 )
+				);
+			}
+
+			$metadata['width']    = $size[0];
+			$metadata['height']   = $size[1];
+			$metadata['filesize'] = $filesize;
+			$metadata['file']     = _wp_relative_upload_path( $path );
 		} else {
 			$metadata['sizes'] = $metadata['sizes'] ?? array();
 
@@ -2110,7 +2154,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @return string Filtered file name.
 	 */
 	private static function filter_wp_unique_filename( $filename, $dir, $number, $attachment_filename ) {
-		if ( empty( $number ) || ! $attachment_filename ) {
+		if ( ! is_int( $number ) || ! $attachment_filename ) {
 			return $filename;
 		}
 
@@ -2123,8 +2167,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		$matches = array();
-		if ( preg_match( '/(.*)(-\d+x\d+)-' . $number . '$/', $name, $matches ) ) {
-			$filename_without_suffix = $matches[1] . $matches[2] . ".$ext";
+		if ( preg_match( '/(.*)-(\d+x\d+|scaled)-' . $number . '$/', $name, $matches ) ) {
+			$filename_without_suffix = $matches[1] . '-' . $matches[2] . ".$ext";
 			if ( $matches[1] === $orig_name && ! file_exists( "$dir/$filename_without_suffix" ) ) {
 				return $filename_without_suffix;
 			}
