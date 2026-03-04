@@ -563,9 +563,6 @@ function populate_options( array $options = array() ) {
 
 		// 6.9.0
 		'wp_notes_notify'                   => 1,
-
-		// 7.0.0
-		'wp_enable_real_time_collaboration' => 0,
 	);
 
 	// 3.3.0
