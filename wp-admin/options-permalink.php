@@ -406,7 +406,7 @@ printf(
 </table>
 
 <h2 class="title"><?php _e( 'Optional' ); ?></h2>
-<p>
+<p class="permalink-structure-optional-description">
 <?php
 printf(
 	/* translators: %s: Placeholder that must come at the start of the URL. */
@@ -424,10 +424,18 @@ printf(
 			</label>
 		</th>
 		<td>
-			<?php echo $blog_prefix; ?>
+		<?php if ( '' === $blog_prefix ) : ?>
 			<input name="category_base" id="category_base" type="text"
 				value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code"
 			/>
+		<?php else : ?>
+			<span class="code permalink-structure-has-blog-prefix">
+				<code class="no-break"><?php echo $blog_prefix; ?></code>
+				<input name="category_base" id="category_base" type="text"
+					value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code"
+				/>
+			</span>
+		<?php endif; ?>
 		</td>
 	</tr>
 	<tr>
@@ -435,10 +443,18 @@ printf(
 			<label for="tag_base"><?php _e( 'Tag base' ); ?></label>
 		</th>
 		<td>
-			<?php echo $blog_prefix; ?>
+		<?php if ( '' === $blog_prefix ) : ?>
 			<input name="tag_base" id="tag_base" type="text"
 				value="<?php echo esc_attr( $tag_base ); ?>" class="regular-text code"
 			/>
+		<?php else : ?>
+			<span class="code permalink-structure-has-blog-prefix">
+				<code class="no-break"><?php echo $blog_prefix; ?></code>
+				<input name="tag_base" id="tag_base" type="text"
+					value="<?php echo esc_attr( $tag_base ); ?>" class="regular-text code"
+				/>
+			</span>
+		<?php endif; ?>
 		</td>
 	</tr>
 	<?php do_settings_fields( 'permalink', 'optional' ); ?>
