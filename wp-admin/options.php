@@ -423,6 +423,12 @@ foreach ( (array) $options as $option ) :
 			$value    = 'SERIALIZED DATA';
 			$disabled = true;
 		}
+	} elseif ( str_starts_with( $option->option_name, 'connectors_' )
+		&& str_ends_with( $option->option_name, '_api_key' )
+	) {
+		// Mask connector API keys and prevent updates from this screen.
+		$value    = _wp_connectors_mask_api_key( $option->option_value );
+		$disabled = true;
 	} else {
 		$value               = $option->option_value;
 		$options_to_update[] = $option->option_name;
