@@ -1094,7 +1094,7 @@ th.action-links {
 .filter-links li > a:focus,
 .show-filters .filter-links a.current:hover,
 .show-filters .filter-links a.current:focus {
-	color: #135e96;
+	color: var(--wp-admin-theme-color);
 }
 
 .wp-filter .search-form {
@@ -1174,7 +1174,7 @@ th.action-links {
 .wp-filter .button.drawer-toggle:focus,
 .wp-filter .drawer-toggle:focus:before {
 	background-color: transparent;
-	color: #135e96;
+	color: var(--wp-admin-theme-color);
 }
 
 .wp-filter .button.drawer-toggle:hover,
@@ -1234,7 +1234,7 @@ th.action-links {
 
 .show-filters .wp-filter .drawer-toggle:hover,
 .show-filters .wp-filter .drawer-toggle:focus {
-	background: #2271b1;
+	background: var(--wp-admin-theme-color);
 }
 
 .show-filters .wp-filter .drawer-toggle:before {
