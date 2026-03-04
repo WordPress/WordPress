@@ -10,28 +10,6 @@
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 
-/**
- * Registers the Connectors menu item under Settings.
- *
- * @since 7.0.0
- * @access private
- */
-function _wp_connectors_add_settings_menu_item(): void {
-	if ( ! class_exists( '\WordPress\AiClient\AiClient' ) || ! function_exists( 'wp_connectors_wp_admin_render_page' ) ) {
-		return;
-	}
-
-	add_submenu_page(
-		'options-general.php',
-		__( 'Connectors' ),
-		__( 'Connectors' ),
-		'manage_options',
-		'connectors-wp-admin',
-		'wp_connectors_wp_admin_render_page',
-		1
-	);
-}
-add_action( 'admin_menu', '_wp_connectors_add_settings_menu_item' );
 
 /**
  * Masks an API key, showing only the last 4 characters.
@@ -415,4 +393,4 @@ function _wp_connectors_get_connector_script_module_data( array $data ): array {
 	$data['connectors'] = $connectors;
 	return $data;
 }
-add_filter( 'script_module_data_connectors-wp-admin', '_wp_connectors_get_connector_script_module_data' );
+add_filter( 'script_module_data_options-connectors-wp-admin', '_wp_connectors_get_connector_script_module_data' );
