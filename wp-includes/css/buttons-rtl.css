@@ -209,8 +209,8 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-secondary:disabled,
 .wp-core-ui .button-secondary.disabled,
 .wp-core-ui .button-disabled {
-	color: #949494 !important;
-	border-color: #dddddd !important;
+	color: #8a8a8a !important;
+	border-color: #d8d8d8 !important;
 	background: transparent !important;
 	box-shadow: none !important;
 	cursor: default;
@@ -313,9 +313,9 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:disabled,
 .wp-core-ui .button-primary-disabled,
 .wp-core-ui .button-primary.disabled {
-	color: #949494 !important;
-	background: #f0f0f0 !important;
-	border-color: #f0f0f0 !important;
+	color: #8a8a8a !important;
+	background: #e2e2e2 !important;
+	border-color: #e2e2e2 !important;
 	box-shadow: none !important;
 	text-shadow: none !important;
 	cursor: default;
