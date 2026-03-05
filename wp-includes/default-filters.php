@@ -485,8 +485,9 @@ add_action( 'wp_head', 'wp_post_preview_js', 1 );
 // Timezone.
 add_filter( 'pre_option_gmt_offset', 'wp_timezone_override_offset' );
 
-// If the upgrade hasn't run yet, assume link manager is used.
-add_filter( 'default_option_link_manager_enabled', '__return_true' );
+// If the upgrade hasn't run yet, set some default options.
+add_filter( 'default_option_link_manager_enabled', '__return_true' ); // Assume link manager is used.
+add_filter( 'default_option_wp_enable_real_time_collaboration', '__return_true' ); // Enable real-time collaboration.
 
 // This option no longer exists; tell plugins we always support auto-embedding.
 add_filter( 'pre_option_embed_autourls', '__return_true' );
