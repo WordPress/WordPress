@@ -4500,10 +4500,10 @@ var wp;
   var import_jsx_runtime121 = __toESM(require_jsx_runtime(), 1);
   var remove_submenu_default = /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(import_primitives120.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime121.jsx)(import_primitives120.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "m13.955 20.748 8-17.5-.91-.416L19.597 6H13.5v1.5h5.411l-1.6 3.5H13.5v1.5h3.126l-1.6 3.5H13.5l.028 1.5h.812l-1.295 2.832.91.416ZM17.675 16l-.686 1.5h4.539L21.5 16h-3.825Zm2.286-5-.686 1.5H21.5V11h-1.54ZM2 12c0 3.58 2.42 5.5 6 5.5h.5V19l3-2.5-3-2.5v2H8c-2.48 0-4.5-1.52-4.5-4S5.52 7.5 8 7.5h3.5V6H8c-3.58 0-6 2.42-6 6Z" }) });
 
-  // packages/icons/build-module/library/resize-corner-n-e.mjs
+  // packages/icons/build-module/library/resize-corner-ne.mjs
   var import_primitives121 = __toESM(require_primitives(), 1);
   var import_jsx_runtime122 = __toESM(require_jsx_runtime(), 1);
-  var resize_corner_n_e_default = /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(import_primitives121.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(import_primitives121.Path, { d: "M7 18h4.5v1.5h-7v-7H6V17L17 6h-4.5V4.5h7v7H18V7L7 18Z" }) });
+  var resize_corner_ne_default = /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(import_primitives121.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime122.jsx)(import_primitives121.Path, { d: "M7 18h4.5v1.5h-7v-7H6V17L17 6h-4.5V4.5h7v7H18V7L7 18Z" }) });
 
   // packages/icons/build-module/library/row.mjs
   var import_primitives122 = __toESM(require_primitives(), 1);
@@ -28915,7 +28915,8 @@ ${js}
       interactivity: {
         clientNavigation: true
       },
-      customCSS: false
+      customCSS: false,
+      visibility: false
     },
     editorStyle: "wp-block-html-editor"
   };
@@ -29348,19 +29349,10 @@ ${js}
       }
     },
     selectors: {
-      root: ".wp-block-icon",
-      color: {
-        root: ".wp-block-icon svg"
-      },
-      border: {
-        root: ".wp-block-icon svg"
-      },
+      root: ".wp-block-icon svg",
+      css: ".wp-block-icon",
       spacing: {
-        padding: ".wp-block-icon svg"
-      },
-      dimensions: {
-        root: ".wp-block-icon svg",
-        width: ".wp-block-icon svg"
+        margin: ".wp-block-icon"
       }
     },
     style: "wp-block-icon",
@@ -31452,7 +31444,7 @@ ${js}
         type: "snackbar"
       });
     };
-    const featuredImageControl = /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(import_block_editor112.BlockSettingsMenuControls, { children: ({ selectedClientIds }) => selectedClientIds.length === 1 && !isDescendentOfQueryLoop && postId && id && clientId === selectedClientIds[0] && /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(import_components56.MenuItem, { onClick: setPostFeatureImage, children: (0, import_i18n93.__)("Set as featured image") }) });
+    const featuredImageControl = !isDescendentOfQueryLoop && postId && id ? /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(import_block_editor112.BlockSettingsMenuControls, { children: ({ canEdit, selectedClientIds }) => canEdit && selectedClientIds.length === 1 && clientId === selectedClientIds[0] && /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(import_components56.MenuItem, { onClick: setPostFeatureImage, children: (0, import_i18n93.__)("Set as featured image") }) }) : null;
     return /* @__PURE__ */ (0, import_jsx_runtime278.jsxs)(import_jsx_runtime278.Fragment, { children: [
       editMediaButton,
       mediaReplaceFlow,
@@ -41243,7 +41235,7 @@ ${js}
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-  function computeDisplayUrl({ linkUrl, siteUrl } = {}) {
+  function computeDisplayUrl({ linkUrl, homeUrl } = {}) {
     if (!linkUrl) {
       return { displayUrl: "", isExternal: false };
     }
@@ -41254,8 +41246,8 @@ ${js}
     }
     try {
       const parsedUrl = new URL(linkUrl);
-      const siteDomain = siteUrl || window.location.origin;
-      if (parsedUrl.origin === siteDomain) {
+      const siteHost = new URL(homeUrl).host;
+      if (parsedUrl.host === siteHost) {
         let path = parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
         if (path.endsWith("/") && path.length > 1) {
           path = path.slice(0, -1);
@@ -41332,18 +41324,17 @@ ${js}
     hasBinding,
     isEntityAvailable
   }) {
-    const siteUrl = (0, import_data80.useSelect)((select9) => {
-      const siteEntity = select9(import_core_data44.store).getEntityRecord(
+    const homeUrl = (0, import_data80.useSelect)((select9) => {
+      return select9(import_core_data44.store).getEntityRecord(
         "root",
-        "site"
-      );
-      return siteEntity?.url;
+        "__unstableBase"
+      )?.home;
     }, []);
     const title = entityRecord?.title?.rendered || entityRecord?.title || entityRecord?.name;
     const { richData } = useRemoteUrlData(title ? null : url);
     const { displayUrl, isExternal } = computeDisplayUrl({
       linkUrl: url,
-      siteUrl
+      homeUrl
     });
     const image = (0, import_data80.useSelect)(
       (select9) => {
@@ -61095,7 +61086,8 @@ ${js}
       className: false,
       customClassName: false,
       html: false,
-      customCSS: false
+      customCSS: false,
+      visibility: false
     },
     editorStyle: "wp-block-shortcode-editor"
   };
@@ -64247,7 +64239,7 @@ ${js}
   // packages/block-library/build-module/spacer/index.mjs
   var { name: name104 } = block_default103;
   var settings103 = {
-    icon: resize_corner_n_e_default,
+    icon: resize_corner_ne_default,
     transforms: transforms_default34,
     edit: edit_default34,
     save: save47,

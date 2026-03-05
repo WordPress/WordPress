@@ -144,7 +144,7 @@ function ConnectorItem({
   children
 }) {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalItem, { className, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 4, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalHStack, { alignment: "center", spacing: 4, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalHStack, { alignment: "center", spacing: 4, wrap: true, children: [
       icon,
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.FlexBlock, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 0, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalText, { weight: 600, size: 15, children: name }),
@@ -167,20 +167,30 @@ function DefaultConnectorSettings({
   const [isSaving, setIsSaving] = (0, import_element.useState)(false);
   const [saveError, setSaveError] = (0, import_element.useState)(null);
   const helpLinkLabel = helpLabel || helpUrl?.replace(/^https?:\/\//, "");
-  const helpLink = helpUrl ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-    (0, import_i18n.__)("Get your API key at"),
-    " ",
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.ExternalLink, { href: helpUrl, children: helpLinkLabel })
-  ] }) : void 0;
+  const helpLink = helpUrl ? (0, import_element.createInterpolateElement)(
+    (0, import_i18n.sprintf)(
+      /* translators: %s: Link to provider settings. */
+      (0, import_i18n.__)("Get your API key at %s"),
+      "<a></a>"
+    ),
+    {
+      a: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.ExternalLink, { href: helpUrl, children: helpLinkLabel })
+    }
+  ) : void 0;
   const getHelp = () => {
     if (readOnly) {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        (0, import_i18n.__)(
-          "Your API key is stored securely. You can reset it at"
+      return helpUrl ? (0, import_element.createInterpolateElement)(
+        (0, import_i18n.sprintf)(
+          /* translators: %s: Link to provider settings. */
+          (0, import_i18n.__)(
+            "Your API key is stored securely. You can reset it at %s"
+          ),
+          "<a></a>"
         ),
-        " ",
-        helpUrl ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.ExternalLink, { href: helpUrl, children: helpLinkLabel }) : void 0
-      ] });
+        {
+          a: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.ExternalLink, { href: helpUrl, children: helpLinkLabel })
+        }
+      ) : (0, import_i18n.__)("Your API key is stored securely.");
     }
     if (saveError) {
       return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#cc1818" }, children: saveError });

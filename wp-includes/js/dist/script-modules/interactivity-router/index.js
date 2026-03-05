@@ -663,7 +663,7 @@ var importScriptModules = (modules) => Promise.all(modules.map((m) => importPrel
 // packages/interactivity-router/build-module/index.mjs
 var {
   getRegionRootFragment,
-  initialVdom,
+  initialVdomPromise,
   toVdom,
   render,
   parseServerData,
@@ -672,6 +672,7 @@ var {
   routerRegions,
   h: createElement,
   navigationSignal,
+  sessionId,
   warn
 } = privateApis(
   "I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress."
@@ -831,14 +832,17 @@ document.querySelectorAll(regionsSelector).forEach((region) => {
   }
 });
 window.document.querySelectorAll("script[type=module][src]").forEach(({ src }) => markScriptModuleAsResolved(src));
-pages.set(
-  getPagePath(window.location.href),
-  Promise.resolve(
-    preparePage(getPagePath(window.location.href), document, {
-      vdom: initialVdom
-    })
-  )
-);
+(async () => {
+  const initialVdomMap = await initialVdomPromise;
+  pages.set(
+    getPagePath(window.location.href),
+    Promise.resolve(
+      preparePage(getPagePath(window.location.href), document, {
+        vdom: initialVdomMap
+      })
+    )
+  );
+})();
 var navigatingTo = "";
 var hasLoadedNavigationTextsData = false;
 var navigationTexts = {
@@ -934,7 +938,7 @@ var { state, actions } = store("core/router", {
           }
           renderPage(page);
         });
-        window.history[options.replace ? "replaceState" : "pushState"]({}, "", href);
+        window.history[options.replace ? "replaceState" : "pushState"]({ wpInteractivityId: sessionId }, "", href);
         if (screenReaderAnnouncement) {
           a11ySpeak("loaded");
         }

@@ -17,7 +17,8 @@
 		"className": false,
 		"customClassName": false,
 		"html": false,
-		"customCSS": false
+		"customCSS": false,
+		"visibility": false
 	},
 	"editorStyle": "wp-block-shortcode-editor"
 }

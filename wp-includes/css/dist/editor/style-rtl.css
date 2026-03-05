@@ -3173,6 +3173,7 @@ div.dataviews-view-list {
 
 .dataviews-view-table tbody .dataviews-view-table__cell-content-wrapper.dataviews-view-table__cell-align-end {
   justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
 }
 
 .dataviews-view-table tbody .dataviews-view-table__cell-content-wrapper.dataviews-view-table__cell-align-center {
@@ -3834,6 +3835,7 @@ div.dataviews-view-list {
   line-height: 20px;
   hyphens: auto;
   color: #757575;
+  text-transform: capitalize;
 }
 
 .dataforms-layouts-panel__field-label .components-base-control__label {
@@ -6025,16 +6027,12 @@ div.dataviews-view-list {
   margin-left: 8px;
 }
 
-.editor-sync-connection-modal__container {
-  align-items: center;
-  display: flex;
-  margin: auto;
-  max-width: 30rem;
+.editor-sync-connection-modal p {
+  margin: 0;
 }
 
-.editor-sync-connection-modal__description {
-  font-size: 1.3rem;
-  text-align: center;
+.editor-sync-connection-modal__retry-countdown {
+  color: #757575;
 }
 
 .editor-post-template__swap-template-modal {

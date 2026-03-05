@@ -3170,6 +3170,15 @@ var wp;
 
   // packages/dataviews/build-module/components/dataviews-layouts/table/index.mjs
   var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+  function getEffectiveAlign(explicitAlign, fieldType) {
+    if (explicitAlign) {
+      return explicitAlign;
+    }
+    if (fieldType === "integer" || fieldType === "number") {
+      return "end";
+    }
+    return void 0;
+  }
   function TableColumnField({
     item,
     fields,
@@ -3275,6 +3284,8 @@ var wp;
           ) }),
           columns.map((column) => {
             const { width, maxWidth, minWidth, align } = view.layout?.styles?.[column] ?? {};
+            const field = fields.find((f2) => f2.id === column);
+            const effectiveAlign = getEffectiveAlign(align, field?.type);
             return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
               "td",
               {
@@ -3289,7 +3300,7 @@ var wp;
                     fields,
                     item,
                     column,
-                    align
+                    align: effectiveAlign
                   }
                 )
               },
@@ -3499,6 +3510,13 @@ var wp;
               ) }),
               columns.map((column, index) => {
                 const { width, maxWidth, minWidth, align } = view.layout?.styles?.[column] ?? {};
+                const field = fields.find(
+                  (f2) => f2.id === column
+                );
+                const effectiveAlign = getEffectiveAlign(
+                  align,
+                  field?.type
+                );
                 const canInsertOrMove = view.layout?.enableMoving ?? true;
                 return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                   "th",
@@ -3507,7 +3525,7 @@ var wp;
                       width,
                       maxWidth,
                       minWidth,
-                      textAlign: align
+                      textAlign: effectiveAlign
                     },
                     "aria-sort": view.sort?.direction && view.sort?.field === column ? sortValues[view.sort.direction] : void 0,
                     scope: "col",
@@ -13303,11 +13321,10 @@ If there's a particular need for this, please submit a feature request at https:
       },
       [onChangeView, setIsShowingFilter]
     );
-    const visibleFilters = filters.filter((filter) => filter.isVisible);
-    const hasVisibleFilters = !!visibleFilters.length;
     if (filters.length === 0) {
       return null;
     }
+    const hasVisibleFilters = filters.some((filter) => filter.isVisible);
     const addFilterButtonProps = {
       label: (0, import_i18n33.__)("Add filter"),
       "aria-expanded": false,
@@ -13324,6 +13341,9 @@ If there's a particular need for this, please submit a feature request at https:
         setIsShowingFilter(!isShowingFilter);
       }
     };
+    const hasPrimaryOrLockedFilters = filters.some(
+      (filter) => filter.isPrimary || filter.isLocked
+    );
     const buttonComponent = /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(
       import_components24.Button,
       {
@@ -13331,6 +13351,8 @@ If there's a particular need for this, please submit a feature request at https:
         className: "dataviews-filters__visibility-toggle",
         size: "compact",
         icon: funnel_default,
+        disabled: hasPrimaryOrLockedFilters,
+        accessibleWhenDisabled: true,
         ...hasVisibleFilters ? toggleFiltersButtonProps : addFilterButtonProps
       }
     );

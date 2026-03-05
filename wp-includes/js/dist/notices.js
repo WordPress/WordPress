@@ -224,9 +224,9 @@ var wp;
   var import_components = __toESM(require_components(), 1);
   var import_data2 = __toESM(require_data(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='fa538c333d']")) {
+  if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='51ef33823e']")) {
     const style = document.createElement("style");
-    style.setAttribute("data-wp-hash", "fa538c333d");
+    style.setAttribute("data-wp-hash", "51ef33823e");
     style.appendChild(document.createTextNode(".components-notices__dismissible,.components-notices__pinned{color:#1e1e1e}.components-notices__dismissible .components-notice,.components-notices__pinned .components-notice{border-bottom:1px solid #0003;box-sizing:border-box;min-height:64px;padding:0 12px}.components-notices__dismissible .components-notice .components-notice__dismiss,.components-notices__pinned .components-notice .components-notice__dismiss{margin-top:12px}"));
     document.head.appendChild(style);
   }

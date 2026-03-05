@@ -1972,6 +1972,7 @@ div.dataviews-view-list {
 
 .dataviews-view-table tbody .dataviews-view-table__cell-content-wrapper.dataviews-view-table__cell-align-end {
   justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
 }
 
 .dataviews-view-table tbody .dataviews-view-table__cell-content-wrapper.dataviews-view-table__cell-align-center {
@@ -2633,6 +2634,7 @@ div.dataviews-view-list {
   line-height: 20px;
   hyphens: auto;
   color: #757575;
+  text-transform: capitalize;
 }
 
 .dataforms-layouts-panel__field-label .components-base-control__label {

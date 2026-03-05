@@ -75,11 +75,26 @@ function generatePreferenceKey(kind, name, slug) {
 }
 
 // packages/views/build-module/filter-utils.mjs
+var SCALAR_VALUES = [
+  "titleField",
+  "mediaField",
+  "descriptionField",
+  "showTitle",
+  "showMedia",
+  "showDescription",
+  "showLevels",
+  "infiniteScrollEnabled"
+];
 function mergeActiveViewOverrides(view, activeViewOverrides, defaultView) {
   if (!activeViewOverrides) {
     return view;
   }
   let result = view;
+  for (const key of SCALAR_VALUES) {
+    if (key in activeViewOverrides) {
+      result = { ...result, [key]: activeViewOverrides[key] };
+    }
+  }
   if (activeViewOverrides.filters && activeViewOverrides.filters.length > 0) {
     const activeFields = new Set(
       activeViewOverrides.filters.map((f) => f.field)
@@ -100,6 +115,21 @@ function mergeActiveViewOverrides(view, activeViewOverrides, defaultView) {
         sort: activeViewOverrides.sort
       };
     }
+  }
+  if (activeViewOverrides.layout) {
+    result = {
+      ...result,
+      layout: {
+        ...result.layout,
+        ...activeViewOverrides.layout
+      }
+    };
+  }
+  if (activeViewOverrides.groupBy) {
+    result = {
+      ...result,
+      groupBy: activeViewOverrides.groupBy
+    };
   }
   return result;
 }

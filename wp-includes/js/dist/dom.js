@@ -543,14 +543,17 @@ var wp;
   function hiddenCaretRangeFromPoint(doc, x, y, container) {
     const originalZIndex = container.style.zIndex;
     const originalPosition = container.style.position;
+    const originalBorderRadius = container.style.borderRadius;
     const { position = "static" } = getComputedStyle(container);
     if (position === "static") {
       container.style.position = "relative";
     }
     container.style.zIndex = "10000";
+    container.style.borderRadius = "0";
     const range = caretRangeFromPoint(doc, x, y);
     container.style.zIndex = originalZIndex;
     container.style.position = originalPosition;
+    container.style.borderRadius = originalBorderRadius;
     return range;
   }
 

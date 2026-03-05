@@ -9357,6 +9357,7 @@ var wp;
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
   var POLLING_INTERVAL_IN_MS = 1e3;
   var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = 250;
+  var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
   var MAX_ERROR_BACKOFF_IN_MS = 30 * 1e3;
   var POLLING_MANAGER_ORIGIN = "polling-manager";
   var roomStates = /* @__PURE__ */ new Map();
@@ -9463,9 +9464,16 @@ var wp;
       }
     }
   }
+  var areListenersRegistered = false;
+  var hasCollaborators = false;
+  var isActiveBrowser = "visible" === document.visibilityState;
   var isPolling = false;
+  var isUnloadPending = false;
   var pollInterval = POLLING_INTERVAL_IN_MS;
-  var pageHideListenerRegistered = false;
+  var pollingTimeoutId = null;
+  function handleBeforeUnload() {
+    isUnloadPending = true;
+  }
   function handlePageHide() {
     const rooms = Array.from(roomStates.entries()).map(
       ([room, state]) => ({
@@ -9478,13 +9486,26 @@ var wp;
     );
     postSyncUpdateNonBlocking({ rooms });
   }
+  function handleVisibilityChange() {
+    const wasActive = isActiveBrowser;
+    isActiveBrowser = document.visibilityState === "visible";
+    if (isActiveBrowser && !wasActive) {
+      if (pollingTimeoutId) {
+        clearTimeout(pollingTimeoutId);
+        pollingTimeoutId = null;
+        poll();
+      }
+    }
+  }
   function poll() {
     isPolling = true;
+    pollingTimeoutId = null;
     async function start() {
       if (0 === roomStates.size) {
         isPolling = false;
         return;
       }
+      isUnloadPending = false;
       roomStates.forEach((state) => {
         state.onStatusChange({ status: "connecting" });
       });
@@ -9501,7 +9522,6 @@ var wp;
       };
       try {
         const { rooms } = await postSyncUpdate(payload);
-        pollInterval = POLLING_INTERVAL_IN_MS;
         roomStates.forEach((state) => {
           state.onStatusChange({ status: "connected" });
         });
@@ -9513,7 +9533,7 @@ var wp;
           roomState.endCursor = room.end_cursor;
           roomState.processAwarenessUpdate(room.awareness);
           if (Object.keys(room.awareness).length > 1) {
-            pollInterval = POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS;
+            hasCollaborators = true;
             roomState.updateQueue.resume();
           }
           const responseUpdates = room.updates.map((update) => roomState.processDocUpdate(update)).filter(
@@ -9535,6 +9555,13 @@ var wp;
             );
           }
         });
+        if (isActiveBrowser && hasCollaborators) {
+          pollInterval = POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS;
+        } else if (isActiveBrowser) {
+          pollInterval = POLLING_INTERVAL_IN_MS;
+        } else {
+          pollInterval = POLLING_INTERVAL_BACKGROUND_TAB_IN_MS;
+        }
       } catch (error) {
         pollInterval = Math.min(
           pollInterval * 2,
@@ -9554,11 +9581,16 @@ var wp;
             }
           );
         }
-        roomStates.forEach((state) => {
-          state.onStatusChange({ status: "disconnected" });
-        });
+        if (!isUnloadPending) {
+          roomStates.forEach((state) => {
+            state.onStatusChange({
+              status: "disconnected",
+              retryInMs: pollInterval
+            });
+          });
+        }
       }
-      setTimeout(poll, pollInterval);
+      pollingTimeoutId = setTimeout(poll, pollInterval);
     }
     void start();
   }
@@ -9606,9 +9638,11 @@ var wp;
     doc2.on("update", onDocUpdate);
     awareness.on("change", onAwarenessUpdate);
     roomStates.set(room, roomState);
-    if (!pageHideListenerRegistered) {
+    if (!areListenersRegistered) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
       window.addEventListener("pagehide", handlePageHide);
-      pageHideListenerRegistered = true;
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      areListenersRegistered = true;
     }
     if (!isPolling) {
       poll();
@@ -9630,13 +9664,27 @@ var wp;
       state.unregister();
       roomStates.delete(room);
     }
-    if (roomStates.size === 0 && pageHideListenerRegistered) {
+    if (0 === roomStates.size && areListenersRegistered) {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("pagehide", handlePageHide);
-      pageHideListenerRegistered = false;
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+      areListenersRegistered = false;
+    }
+  }
+  function retryNow() {
+    pollInterval = POLLING_INTERVAL_IN_MS * 2;
+    if (pollingTimeoutId) {
+      clearTimeout(pollingTimeoutId);
+      pollingTimeoutId = null;
+      poll();
     }
   }
   var pollingManager = {
     registerRoom,
+    retryNow,
     unregisterRoom
   };
 
@@ -9682,13 +9730,14 @@ var wp;
       this.emitStatus({ status: "disconnected" });
     }
     /**
-     * Emit connection status.
+     * Emit connection status, passing the full object through so that
+     * additional fields (e.g. `retryInMs`) are preserved for consumers.
      *
-     * @param status        The connection status
-     * @param status.error  Optional error information when status is 'disconnected'
-     * @param status.status The connection status ('connected', 'connecting', 'disconnected')
+     * @param connectionStatus The connection status object
      */
-    emitStatus = ({ error, status }) => {
+    emitStatus = (connectionStatus) => {
+      const { status } = connectionStatus;
+      const error = status === "disconnected" ? connectionStatus.error : void 0;
       if (this.status === status && !error) {
         return;
       }
@@ -9697,7 +9746,7 @@ var wp;
       }
       this.log("Status change", { status, error });
       this.status = status;
-      this.emit("status", [{ error, status }]);
+      this.emit("status", [connectionStatus]);
     };
     /**
      * Log debug messages if debugging is enabled.
@@ -10058,10 +10107,11 @@ var wp;
     const metaMap = new Map(
       Object.entries(documentMeta)
     );
-    const ydoc = new Doc({ meta: metaMap });
+    return new Doc({ meta: metaMap });
+  }
+  function initializeYjsDoc(ydoc) {
     const stateMap = ydoc.getMap(CRDT_STATE_MAP_KEY);
     stateMap.set(CRDT_STATE_MAP_VERSION_KEY, CRDT_DOC_VERSION);
-    return ydoc;
   }
   function markEntityAsSaved(ydoc) {
     const recordMeta = ydoc.getMap(CRDT_STATE_MAP_KEY);
@@ -10203,6 +10253,7 @@ var wp;
       );
       recordMap.observeDeep(onRecordUpdate);
       stateMap.observe(onStateMapUpdate);
+      initializeYjsDoc(ydoc);
       internal.applyPersistedCrdtDoc(objectType, objectId, record);
     }
     async function loadCollection(syncConfig, objectType, handlers) {
@@ -10267,6 +10318,7 @@ var wp;
         })
       );
       stateMap.observe(onStateMapUpdate);
+      initializeYjsDoc(ydoc);
     }
     function unloadEntity(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
@@ -10378,12 +10430,13 @@ var wp;
       });
       handlers.editRecord(changes);
     }
-    function createPersistedCRDTDoc(objectType, objectId) {
+    async function createPersistedCRDTDoc(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
       const entityState = entityStates.get(entityId);
       if (!entityState?.ydoc) {
         return null;
       }
+      await new Promise((resolve) => setTimeout(resolve, 0));
       return serializeCrdtDoc(entityState.ydoc);
     }
     const internal = {
@@ -10818,6 +10871,12 @@ var wp;
     return JSON.parse(JSON.stringify(value));
   }
   var NULL_CHARACTER = String.fromCharCode(0);
+  function normalizeChangeCounts(changes) {
+    return changes.map((change) => ({
+      ...change,
+      count: change.value.length
+    }));
+  }
   var getEmbedTypeAndData = (a, b) => {
     if (typeof a !== "object" || a === null) {
       throw new Error(`cannot retain a ${typeof a}`);
@@ -11079,7 +11138,9 @@ var wp;
         return new _Delta();
       }
       const strings = this.deltasToStrings(other);
-      const diffResult = diffChars(strings[0], strings[1]);
+      const diffResult = normalizeChangeCounts(
+        diffChars(strings[0], strings[1])
+      );
       const thisIter = new Iterator(this.ops);
       const otherIter = new Iterator(other.ops);
       const retDelta = this.convertChangesToDelta(
@@ -11249,7 +11310,9 @@ var wp;
         return this.diff(other);
       }
       const strings = this.deltasToStrings(other);
-      let diffs = diffChars(strings[0], strings[1]);
+      let diffs = normalizeChangeCounts(
+        diffChars(strings[0], strings[1])
+      );
       let lastDiffPosition = 0;
       const adjustedDiffs = [];
       for (let i = 0; i < diffs.length; i++) {
@@ -11477,7 +11540,8 @@ var wp;
     Delta: Delta_default,
     CRDT_DOC_META_PERSISTENCE_KEY,
     CRDT_RECORD_MAP_KEY,
-    LOCAL_EDITOR_ORIGIN
+    LOCAL_EDITOR_ORIGIN,
+    retrySyncConnection: () => pollingManager.retryNow()
   });
 
   // packages/sync/build-module/index.mjs

@@ -2541,9 +2541,9 @@ var import_block_editor = __toESM(require_block_editor(), 1);
 var import_editor2 = __toESM(require_editor(), 1);
 var import_blocks2 = __toESM(require_blocks(), 1);
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='0a13bf98a7']")) {
+if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='5619aa31a1']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "0a13bf98a7");
+  style.setAttribute("data-wp-hash", "5619aa31a1");
   style.appendChild(document.createTextNode(".lazy-editor-block-preview__container{align-items:center;border-radius:4px;display:flex;flex-direction:column;height:100%;justify-content:center}.dataviews-view-grid .lazy-editor-block-preview__container .block-editor-block-preview__container{height:100%}.dataviews-view-table .lazy-editor-block-preview__container{text-wrap:balance;text-wrap:pretty;flex-grow:0;width:96px}"));
   document.head.appendChild(style);
 }

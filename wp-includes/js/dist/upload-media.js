@@ -587,7 +587,7 @@ var wp;
     }
     return hasTransparency(await response.arrayBuffer());
   }
-  async function vipsResizeImage(id, file, resize, smartCrop, addSuffix, signal, scaledSuffix) {
+  async function vipsResizeImage(id, file, resize, smartCrop, addSuffix, signal, scaledSuffix, quality) {
     if (signal?.aborted) {
       throw new Error("Operation aborted");
     }
@@ -597,7 +597,8 @@ var wp;
       await file.arrayBuffer(),
       file.type,
       resize,
-      smartCrop
+      smartCrop,
+      quality
     );
     let fileName = file.name;
     const wasResized = originalWidth > width || originalHeight > height;
@@ -1557,40 +1558,45 @@ var wp;
         }
         const { bigImageSizeThreshold } = settings;
         if (bigImageSizeThreshold && attachment.id) {
-          const sourceForScaled = attachment.filename ? renameFile(item.sourceFile, attachment.filename) : item.sourceFile;
-          const scaledOperations = [
-            [
-              OperationType.ResizeCrop,
-              {
-                resize: {
-                  width: bigImageSizeThreshold,
-                  height: bigImageSizeThreshold
-                },
-                isThresholdResize: true
-              }
-            ]
-          ];
-          if (thumbnailTranscodeOperation) {
-            scaledOperations.push(thumbnailTranscodeOperation);
+          const bitmap = await createImageBitmap(item.sourceFile);
+          const needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
+          bitmap.close();
+          if (needsScaling) {
+            const sourceForScaled = attachment.filename ? renameFile(item.sourceFile, attachment.filename) : item.sourceFile;
+            const scaledOperations = [
+              [
+                OperationType.ResizeCrop,
+                {
+                  resize: {
+                    width: bigImageSizeThreshold,
+                    height: bigImageSizeThreshold
+                  },
+                  isThresholdResize: true
+                }
+              ]
+            ];
+            if (thumbnailTranscodeOperation) {
+              scaledOperations.push(thumbnailTranscodeOperation);
+            }
+            scaledOperations.push(OperationType.Upload);
+            dispatch.addSideloadItem({
+              file: sourceForScaled,
+              onChange: ([updatedAttachment]) => {
+                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
+                  return;
+                }
+                item.onChange?.([updatedAttachment]);
+              },
+              batchId,
+              parentId: item.id,
+              additionalData: {
+                post: attachment.id,
+                image_size: "scaled",
+                convert_format: false
+              },
+              operations: scaledOperations
+            });
           }
-          scaledOperations.push(OperationType.Upload);
-          dispatch.addSideloadItem({
-            file: sourceForScaled,
-            onChange: ([updatedAttachment]) => {
-              if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
-                return;
-              }
-              item.onChange?.([updatedAttachment]);
-            },
-            batchId,
-            parentId: item.id,
-            additionalData: {
-              post: attachment.id,
-              image_size: "scaled",
-              convert_format: false
-            },
-            operations: scaledOperations
-          });
         }
       }
       dispatch.finishOperation(id, {});

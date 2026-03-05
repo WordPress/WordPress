@@ -10,14 +10,7 @@ return array(
 	array(
 		'name'        => 'connectors-home',
 		'path'        => '/',
-		'page'        => 'connectors',
-		'has_route'   => true,
-		'has_content' => true,
-	),
-	array(
-		'name'        => 'font-list',
-		'path'        => '/font-list',
-		'page'        => 'site-editor',
+		'page'        => 'options-connectors',
 		'has_route'   => true,
 		'has_content' => true,
 	),

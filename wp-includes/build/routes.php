@@ -32,151 +32,120 @@ foreach ( $routes_by_page as $page_slug => $page_routes ) {
 	$GLOBALS[ $global_name ] = $page_routes;
 }
 
-if ( ! function_exists( 'wp_register_page_routes' ) ) {
-	/**
-	 * Generic helper function to register routes for a page.
-	 *
-	 * @param array  $page_routes           Array of route data for the page.
-	 * @param string $register_function_name Name of the function to call for registering each route.
-	 */
-	function wp_register_page_routes( $page_routes, $register_function_name ) {
-		// Load build constants
-		$build_constants = require __DIR__ . '/constants.php';
+/**
+ * Generic helper function to register routes for a page.
+ *
+ * @param array  $page_routes           Array of route data for the page.
+ * @param string $register_function_name Name of the function to call for registering each route.
+ */
+function wp_register_page_routes( $page_routes, $register_function_name ) {
+	// Load build constants
+	$build_constants = require __DIR__ . '/constants.php';
 
-		foreach ( $page_routes as $route ) {
-			$content_handle = null;
-			$route_handle = null;
+	foreach ( $page_routes as $route ) {
+		$content_handle = null;
+		$route_handle = null;
 
-			// Register content module if exists
-			if ( $route['has_content'] ) {
-				$content_asset_path = __DIR__ . "/routes/{$route['name']}/content.min.asset.php";
-				if ( file_exists( $content_asset_path ) ) {
-					$content_asset = require $content_asset_path;
-					$content_handle = 'wp/routes/' . $route['name'] . '/content';
-					$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
-					wp_register_script_module(
-						$content_handle,
-						$build_constants['build_url'] . 'routes/' . $route['name'] . '/content' . $extension,
-						$content_asset['module_dependencies'] ?? array(),
-						$content_asset['version'] ?? false
-					);
-				}
+		// Register content module if exists
+		if ( $route['has_content'] ) {
+			$content_asset_path = __DIR__ . "/routes/{$route['name']}/content.min.asset.php";
+			if ( file_exists( $content_asset_path ) ) {
+				$content_asset = require $content_asset_path;
+				$content_handle = 'wp/routes/' . $route['name'] . '/content';
+				$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+				// Deregister first to override any previously registered version
+				// (e.g., Core's default modules when running as a plugin).
+				wp_deregister_script_module( $content_handle );
+				wp_register_script_module(
+					$content_handle,
+					$build_constants['build_url'] . 'routes/' . $route['name'] . '/content' . $extension,
+					$content_asset['module_dependencies'] ?? array(),
+					$content_asset['version'] ?? false
+				);
 			}
+		}
 
-			// Register route module if exists
-			if ( $route['has_route'] ) {
-				$route_asset_path = __DIR__ . "/routes/{$route['name']}/route.min.asset.php";
-				if ( file_exists( $route_asset_path ) ) {
-					$route_asset = require $route_asset_path;
-					$route_handle = 'wp/routes/' . $route['name'] . '/route';
-					$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
-					wp_register_script_module(
-						$route_handle,
-						$build_constants['build_url'] . 'routes/' . $route['name'] . '/route' . $extension,
-						$route_asset['module_dependencies'] ?? array(),
-						$route_asset['version'] ?? false
-					);
-				}
+		// Register route module if exists
+		if ( $route['has_route'] ) {
+			$route_asset_path = __DIR__ . "/routes/{$route['name']}/route.min.asset.php";
+			if ( file_exists( $route_asset_path ) ) {
+				$route_asset = require $route_asset_path;
+				$route_handle = 'wp/routes/' . $route['name'] . '/route';
+				$extension = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+				// Deregister first to override any previously registered version
+				// (e.g., Core's default modules when running as a plugin).
+				wp_deregister_script_module( $route_handle );
+				wp_register_script_module(
+					$route_handle,
+					$build_constants['build_url'] . 'routes/' . $route['name'] . '/route' . $extension,
+					$route_asset['module_dependencies'] ?? array(),
+					$route_asset['version'] ?? false
+				);
 			}
+		}
 
-			// Register route with page
-			if ( function_exists( $register_function_name ) ) {
-				call_user_func( $register_function_name, $route['path'], $content_handle, $route_handle );
-			}
+		// Register route with page
+		if ( function_exists( $register_function_name ) ) {
+			call_user_func( $register_function_name, $route['path'], $content_handle, $route_handle );
 		}
 	}
 }
 
 // Page-specific route registration functions
-// Page-specific route registration functions for connectors
-if ( ! function_exists( 'wp_register_connectors_page_routes' ) ) {
-	/**
-	 * Register routes for connectors page (full-page mode).
-	 */
-	function wp_register_connectors_page_routes() {
-		global $wp_connectors_routes_data;
-		wp_register_page_routes( $wp_connectors_routes_data, 'wp_register_connectors_route' );
-	}
+// Page-specific route registration functions for options-connectors
+/**
+ * Register routes for options-connectors page (full-page mode).
+ */
+function wp_register_options_connectors_page_routes() {
+	global $wp_options_connectors_routes_data;
+	wp_register_page_routes( $wp_options_connectors_routes_data, 'wp_register_options_connectors_route' );
 }
-add_action( 'connectors_init', 'wp_register_connectors_page_routes' );
+add_action( 'options-connectors_init', 'wp_register_options_connectors_page_routes' );
 
-if ( ! function_exists( 'wp_register_connectors_wp_admin_page_routes' ) ) {
-	/**
-	 * Register routes for connectors page (wp-admin mode).
-	 */
-	function wp_register_connectors_wp_admin_page_routes() {
-		global $wp_connectors_routes_data;
-		wp_register_page_routes( $wp_connectors_routes_data, 'wp_register_connectors_wp_admin_route' );
-	}
+/**
+ * Register routes for options-connectors page (wp-admin mode).
+ */
+function wp_register_options_connectors_wp_admin_page_routes() {
+	global $wp_options_connectors_routes_data;
+	wp_register_page_routes( $wp_options_connectors_routes_data, 'wp_register_options_connectors_wp_admin_route' );
 }
-add_action( 'connectors-wp-admin_init', 'wp_register_connectors_wp_admin_page_routes' );
-
-// Page-specific route registration functions for site-editor
-if ( ! function_exists( 'wp_register_site_editor_page_routes' ) ) {
-	/**
-	 * Register routes for site-editor page (full-page mode).
-	 */
-	function wp_register_site_editor_page_routes() {
-		global $wp_site_editor_routes_data;
-		wp_register_page_routes( $wp_site_editor_routes_data, 'wp_register_site_editor_route' );
-	}
-}
-add_action( 'site-editor_init', 'wp_register_site_editor_page_routes' );
-
-if ( ! function_exists( 'wp_register_site_editor_wp_admin_page_routes' ) ) {
-	/**
-	 * Register routes for site-editor page (wp-admin mode).
-	 */
-	function wp_register_site_editor_wp_admin_page_routes() {
-		global $wp_site_editor_routes_data;
-		wp_register_page_routes( $wp_site_editor_routes_data, 'wp_register_site_editor_wp_admin_route' );
-	}
-}
-add_action( 'site-editor-wp-admin_init', 'wp_register_site_editor_wp_admin_page_routes' );
+add_action( 'options-connectors-wp-admin_init', 'wp_register_options_connectors_wp_admin_page_routes' );
 
 // Page-specific route registration functions for font-library
-if ( ! function_exists( 'wp_register_font_library_page_routes' ) ) {
-	/**
-	 * Register routes for font-library page (full-page mode).
-	 */
-	function wp_register_font_library_page_routes() {
-		global $wp_font_library_routes_data;
-		wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_route' );
-	}
+/**
+ * Register routes for font-library page (full-page mode).
+ */
+function wp_register_font_library_page_routes() {
+	global $wp_font_library_routes_data;
+	wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_route' );
 }
 add_action( 'font-library_init', 'wp_register_font_library_page_routes' );
 
-if ( ! function_exists( 'wp_register_font_library_wp_admin_page_routes' ) ) {
-	/**
-	 * Register routes for font-library page (wp-admin mode).
-	 */
-	function wp_register_font_library_wp_admin_page_routes() {
-		global $wp_font_library_routes_data;
-		wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_wp_admin_route' );
-	}
+/**
+ * Register routes for font-library page (wp-admin mode).
+ */
+function wp_register_font_library_wp_admin_page_routes() {
+	global $wp_font_library_routes_data;
+	wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_wp_admin_route' );
 }
 add_action( 'font-library-wp-admin_init', 'wp_register_font_library_wp_admin_page_routes' );
 
 // Page-specific route registration functions for site-editor-v2
-if ( ! function_exists( 'wp_register_site_editor_v2_page_routes' ) ) {
-	/**
-	 * Register routes for site-editor-v2 page (full-page mode).
-	 */
-	function wp_register_site_editor_v2_page_routes() {
-		global $wp_site_editor_v2_routes_data;
-		wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_route' );
-	}
+/**
+ * Register routes for site-editor-v2 page (full-page mode).
+ */
+function wp_register_site_editor_v2_page_routes() {
+	global $wp_site_editor_v2_routes_data;
+	wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_route' );
 }
 add_action( 'site-editor-v2_init', 'wp_register_site_editor_v2_page_routes' );
 
-if ( ! function_exists( 'wp_register_site_editor_v2_wp_admin_page_routes' ) ) {
-	/**
-	 * Register routes for site-editor-v2 page (wp-admin mode).
-	 */
-	function wp_register_site_editor_v2_wp_admin_page_routes() {
-		global $wp_site_editor_v2_routes_data;
-		wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_wp_admin_route' );
-	}
+/**
+ * Register routes for site-editor-v2 page (wp-admin mode).
+ */
+function wp_register_site_editor_v2_wp_admin_page_routes() {
+	global $wp_site_editor_v2_routes_data;
+	wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_wp_admin_route' );
 }
 add_action( 'site-editor-v2-wp-admin_init', 'wp_register_site_editor_v2_wp_admin_page_routes' );
 

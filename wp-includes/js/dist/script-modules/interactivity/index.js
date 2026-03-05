@@ -1465,6 +1465,7 @@ function deepReadOnly(obj, options) {
   return readOnlyMap.get(obj);
 }
 var navigationSignal = d3(0);
+var sessionId = Math.random().toString(36).slice(2);
 function deepClone(source) {
   if (isPlainObject(source)) {
     return Object.fromEntries(
@@ -3076,6 +3077,10 @@ var getRegionRootFragment = (regions) => {
   return regionRootFragments.get(region);
 };
 var initialVdom = /* @__PURE__ */ new WeakMap();
+var resolveInitialVdom;
+var initialVdomPromise = new Promise((resolve2) => {
+  resolveInitialVdom = resolve2;
+});
 var hydrateRegions = async () => {
   const nodes = document.querySelectorAll(`[data-wp-interactive]`);
   for (const node of nodes) {
@@ -3088,6 +3093,7 @@ var hydrateRegions = async () => {
       D(vdom, fragment);
     }
   }
+  resolveInitialVdom(initialVdom);
 };
 
 // packages/interactivity/build-module/index.mjs
@@ -3100,7 +3106,7 @@ var privateApis = (lock) => {
   if (lock === requiredConsent) {
     return {
       getRegionRootFragment,
-      initialVdom,
+      initialVdomPromise,
       toVdom,
       directive,
       getNamespace,
@@ -3114,6 +3120,7 @@ var privateApis = (lock) => {
       routerRegions,
       deepReadOnly,
       navigationSignal,
+      sessionId,
       warn
     };
   }
@@ -3122,6 +3129,15 @@ var privateApis = (lock) => {
 populateServerData(parseServerData());
 directives_default();
 onDOMReady(hydrateRegions);
+window.history.replaceState(
+  { ...window.history.state, wpInteractivityId: sessionId },
+  ""
+);
+window.addEventListener("popstate", (event) => {
+  if (event.state?.wpInteractivityId !== sessionId) {
+    window.location.reload();
+  }
+});
 export {
   getConfig,
   getContext,

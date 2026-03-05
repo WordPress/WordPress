@@ -2003,6 +2003,7 @@ body.is-dragging-components-draggable {
   flex: 1;
   font-family: inherit;
   font-size: 16px;
+  line-height: 1;
   width: 100%;
   max-width: 100%;
   margin-right: 4px;

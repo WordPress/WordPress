@@ -21,7 +21,8 @@
 		"interactivity": {
 			"clientNavigation": true
 		},
-		"customCSS": false
+		"customCSS": false,
+		"visibility": false
 	},
 	"editorStyle": "wp-block-html-editor"
 }

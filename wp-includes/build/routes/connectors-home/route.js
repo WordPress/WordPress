@@ -24,6 +24,20 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
+// package-external:@wordpress/core-data
+var require_core_data = __commonJS({
+  "package-external:@wordpress/core-data"(exports, module) {
+    module.exports = window.wp.coreData;
+  }
+});
+
+// package-external:@wordpress/data
+var require_data = __commonJS({
+  "package-external:@wordpress/data"(exports, module) {
+    module.exports = window.wp.data;
+  }
+});
+
 // package-external:@wordpress/i18n
 var require_i18n = __commonJS({
   "package-external:@wordpress/i18n"(exports, module) {
@@ -32,9 +46,17 @@ var require_i18n = __commonJS({
 });
 
 // routes/connectors-home/route.ts
+var import_core_data = __toESM(require_core_data());
+var import_data = __toESM(require_data());
 var import_i18n = __toESM(require_i18n());
 var route = {
-  title: () => (0, import_i18n.__)("Connectors")
+  title: () => (0, import_i18n.__)("Connectors"),
+  loader: async () => {
+    await (0, import_data.resolveSelect)(import_core_data.store).canUser("create", {
+      kind: "root",
+      name: "plugin"
+    });
+  }
 };
 export {
   route

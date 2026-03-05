@@ -624,7 +624,7 @@ var wp;
   var import_block_library = __toESM(require_block_library(), 1);
   var import_url5 = __toESM(require_url(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
-  var import_core_data7 = __toESM(require_core_data(), 1);
+  var import_core_data8 = __toESM(require_core_data(), 1);
   var import_components9 = __toESM(require_components(), 1);
   var import_compose3 = __toESM(require_compose(), 1);
 
@@ -2313,18 +2313,31 @@ var wp;
   // packages/edit-post/build-module/components/meta-boxes/use-meta-box-initialization.mjs
   var import_data24 = __toESM(require_data(), 1);
   var import_editor17 = __toESM(require_editor(), 1);
+  var import_core_data7 = __toESM(require_core_data(), 1);
   var import_element11 = __toESM(require_element(), 1);
   var useMetaBoxInitialization = (enabled) => {
-    const isEnabledAndEditorReady = (0, import_data24.useSelect)(
-      (select3) => enabled && select3(import_editor17.store).__unstableIsEditorReady(),
+    const { isEnabledAndEditorReady, isCollaborationEnabled } = (0, import_data24.useSelect)(
+      (select3) => ({
+        isEnabledAndEditorReady: enabled && select3(import_editor17.store).__unstableIsEditorReady(),
+        isCollaborationEnabled: select3(import_editor17.store).isCollaborationEnabledForCurrentPost()
+      }),
       [enabled]
     );
+    const { setCollaborationSupported } = unlock((0, import_data24.useDispatch)(import_core_data7.store));
     const { initializeMetaBoxes: initializeMetaBoxes2 } = (0, import_data24.useDispatch)(store);
     (0, import_element11.useEffect)(() => {
       if (isEnabledAndEditorReady) {
         initializeMetaBoxes2();
+        if (isCollaborationEnabled) {
+          setCollaborationSupported(false);
+        }
       }
-    }, [isEnabledAndEditorReady, initializeMetaBoxes2]);
+    }, [
+      isEnabledAndEditorReady,
+      initializeMetaBoxes2,
+      isCollaborationEnabled,
+      setCollaborationSupported
+    ]);
   };
 
   // packages/edit-post/build-module/components/layout/index.mjs
@@ -2591,7 +2604,7 @@ var wp;
         const { get } = select3(import_preferences10.store);
         const { isFeatureActive: isFeatureActive2, hasMetaBoxes: hasMetaBoxes2 } = select3(store);
         const { canUser, getPostType, getTemplateId } = unlock(
-          select3(import_core_data7.store)
+          select3(import_core_data8.store)
         );
         const supportsTemplateMode = settings.supportsTemplateMode;
         const isViewable = getPostType(currentPostType)?.viewable ?? false;

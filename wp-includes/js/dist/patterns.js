@@ -950,10 +950,11 @@ var wp;
       isVisible,
       managePatternsUrl,
       isSyncedPattern,
-      isUnsyncedPattern
+      isUnsyncedPattern,
+      canEdit
     } = (0, import_data9.useSelect)(
       (select) => {
-        const { canRemoveBlock, getBlock } = select(import_block_editor4.store);
+        const { canRemoveBlock, getBlock, canEditBlock } = select(import_block_editor4.store);
         const { canUser } = select(import_core_data7.store);
         const block = getBlock(clientId);
         const _isUnsyncedPattern = !!block?.attributes?.metadata?.patternName;
@@ -964,6 +965,7 @@ var wp;
         });
         return {
           attributes: block.attributes,
+          canEdit: canEditBlock(clientId),
           // For unsynced patterns, detaching is simply removing the `patternName` attribute.
           // For synced patterns, the `core:block` block is replaced with its inner blocks,
           // so checking whether `canRemoveBlock` is possible is required.
@@ -990,7 +992,7 @@ var wp;
     const { convertSyncedPatternToStatic: convertSyncedPatternToStatic2 } = unlock(
       (0, import_data9.useDispatch)(store)
     );
-    if (!isVisible) {
+    if (!isVisible || !canEdit) {
       return null;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
