@@ -423,7 +423,10 @@ class WP_HTTP_Polling_Sync_Server {
 
 					return $this->add_update( $room, $client_id, $type, $data );
 				}
-				break;
+
+				// Reaching this point means there's a newer compaction, so we can
+				// silently ignore this one.
+				return true;
 
 			case self::UPDATE_TYPE_SYNC_STEP1:
 			case self::UPDATE_TYPE_SYNC_STEP2:
