@@ -1908,6 +1908,11 @@ p.customize-section-description {
 	bottom: 0;
 }
 
+.themes-filter-bar .feature-filter-toggle {
+	min-height: 32px;
+	line-height: 2.30769231;
+}
+
 .themes-filter-bar .feature-filter-toggle:before {
 	content: "\f111";
 	content: "\f111" / '';
