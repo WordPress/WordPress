@@ -6393,6 +6393,12 @@ function wp_set_client_side_media_processing_flag(): void {
 
 	wp_add_inline_script( 'wp-block-editor', 'window.__clientSideMediaProcessing = true', 'before' );
 
+	$chromium_version = wp_get_chromium_major_version();
+
+	if ( null !== $chromium_version && $chromium_version >= 137 ) {
+		wp_add_inline_script( 'wp-block-editor', 'window.__documentIsolationPolicy = true;', 'before' );
+	}
+
 	/*
 	 * Register the @wordpress/vips/worker script module as a dynamic dependency
 	 * of the wp-upload-media classic script. This ensures it is included in the
@@ -6406,14 +6412,32 @@ function wp_set_client_side_media_processing_flag(): void {
 }
 
 /**
- * Enables cross-origin isolation in the block editor.
+ * Returns the major Chrome/Chromium version from the current request's User-Agent.
  *
- * Required for enabling SharedArrayBuffer for WebAssembly-based
- * media processing in the editor.
+ * Matches all Chromium-based browsers (Chrome, Edge, Opera, Brave).
  *
  * @since 7.0.0
  *
- * @link https://web.dev/coop-coep/
+ * @return int|null The major Chrome version, or null if not a Chromium browser.
+ */
+function wp_get_chromium_major_version(): ?int {
+	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+		return null;
+	}
+	if ( preg_match( '#Chrome/(\d+)#', $_SERVER['HTTP_USER_AGENT'], $matches ) ) {
+		return (int) $matches[1];
+	}
+	return null;
+}
+
+/**
+ * Enables cross-origin isolation in the block editor.
+ *
+ * Required for enabling SharedArrayBuffer for WebAssembly-based
+ * media processing in the editor. Uses Document-Isolation-Policy
+ * on supported browsers (Chromium 137+).
+ *
+ * @since 7.0.0
  */
 function wp_set_up_cross_origin_isolation(): void {
 	if ( ! wp_is_client_side_media_processing_enabled() ) {
@@ -6439,26 +6463,22 @@ function wp_set_up_cross_origin_isolation(): void {
 }
 
 /**
- * Starts an output buffer to send cross-origin isolation headers.
+ * Sends the Document-Isolation-Policy header for cross-origin isolation.
  *
- * Sends headers and uses an output buffer to add crossorigin="anonymous"
- * attributes where needed.
+ * Uses an output buffer to add crossorigin="anonymous" where needed.
  *
  * @since 7.0.0
- *
- * @link https://web.dev/coop-coep/
- *
- * @global bool $is_safari
  */
 function wp_start_cross_origin_isolation_output_buffer(): void {
-	global $is_safari;
+	$chromium_version = wp_get_chromium_major_version();
 
-	$coep = $is_safari ? 'require-corp' : 'credentialless';
+	if ( null === $chromium_version || $chromium_version < 137 ) {
+		return;
+	}
 
 	ob_start(
-		static function ( string $output ) use ( $coep ): string {
-			header( 'Cross-Origin-Opener-Policy: same-origin' );
-			header( "Cross-Origin-Embedder-Policy: $coep" );
+		static function ( string $output ): string {
+			header( 'Document-Isolation-Policy: isolate-and-credentialless' );
 
 			return wp_add_crossorigin_attributes( $output );
 		}
