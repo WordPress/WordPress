@@ -1732,13 +1732,6 @@ var wp;
       };
       return cachedResult;
     }
-    if (typeof window !== "undefined" && window.HTMLIFrameElement && !("credentialless" in window.HTMLIFrameElement.prototype)) {
-      cachedResult = {
-        supported: false,
-        reason: "Browser does not support credentialless iframes. Cross-origin isolation would break third-party embeds"
-      };
-      return cachedResult;
-    }
     if (typeof navigator !== "undefined" && "deviceMemory" in navigator && navigator.deviceMemory <= 2) {
       cachedResult = {
         supported: false,

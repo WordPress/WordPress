@@ -100,7 +100,7 @@
       'wp-url',
       'wp-warning'
     ),
-    'version' => '5140a363580d1c7cd43c'
+    'version' => '7d8ba03c46a31976363c'
   ),
   'block-library.min.js' => array(
     'dependencies' => array(
@@ -860,7 +860,7 @@
         'import' => 'dynamic'
       )
     ),
-    'version' => '7e012a6701be0a6ad8f3'
+    'version' => '2dac6787d62a1c93f85e'
   ),
   'url.min.js' => array(
     'dependencies' => array(
