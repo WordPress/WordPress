@@ -534,6 +534,15 @@
 .community-events-form .regular-text {
 	width: 40%;
 	margin: 0;
+	min-height: 32px;
+	line-height: 2.14285714;
+	padding: 0 8px;
+}
+
+#dashboard-widgets .community-events-form .button {
+	min-height: 32px;
+	line-height: 2.30769231;
+	padding: 0 12px;
 }
 
 .community-events li.event-none {
@@ -545,7 +554,7 @@
 }
 
 .community-events-form label {
-	line-height: 2.15384615;
+	line-height: 2.14285714;
 }
 
 .community-events .activity-block > p {
