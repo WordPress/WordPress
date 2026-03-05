@@ -813,7 +813,7 @@ function wp_exif_date2ts( $str ) {
  * created_timestamp, focal_length, shutter_speed, and title.
  *
  * The IPTC metadata that is retrieved is APP13, credit, byline, created date
- * and time, caption, copyright, and title. Also includes FNumber, Model,
+ * and time, caption, copyright, alt, and title. Also includes FNumber, Model,
  * DateTimeDigitized, FocalLength, ISOSpeedRatings, and ExposureTime.
  *
  * @todo Try other exif libraries if available.
@@ -854,6 +854,7 @@ function wp_read_image_metadata( $file ) {
 		'title'             => '',
 		'orientation'       => 0,
 		'keywords'          => array(),
+		'alt'               => '',
 	);
 
 	$iptc = array();
@@ -925,6 +926,8 @@ function wp_read_image_metadata( $file ) {
 			}
 		}
 	}
+
+	$meta['alt'] = wp_get_image_alttext( $file );
 
 	$exif = array();
 
@@ -1072,6 +1075,72 @@ function wp_read_image_metadata( $file ) {
 	 * @param array  $exif       EXIF data.
 	 */
 	return apply_filters( 'wp_read_image_metadata', $meta, $file, $image_type, $iptc, $exif );
+}
+
+/**
+ * Gets the alt text from image meta data.
+ *
+ * @since 7.0.0
+ *
+ * @param string $file File path to the image.
+ * @return string Embedded alternative text.
+ */
+function wp_get_image_alttext( $file ) {
+	$alt_text     = '';
+	$img_contents = file_get_contents( $file );
+	// Find the start and end positions of the XMP metadata.
+	$xmp_start = strpos( $img_contents, '<x:xmpmeta' );
+	$xmp_end   = strpos( $img_contents, '</x:xmpmeta>' );
+
+	if ( ! $xmp_start || ! $xmp_end ) {
+		// No XMP metadata found.
+		return $alt_text;
+	}
+
+	// Extract the XMP metadata from the JPEG contents
+	$xmp_data = substr( $img_contents, $xmp_start, $xmp_end - $xmp_start + 12 );
+
+	// Parse the XMP metadata using DOMDocument.
+	$doc = new DOMDocument();
+	if ( false === $doc->loadXML( $xmp_data ) ) {
+		// Invalid XML in metadata.
+		return $alt_text;
+	}
+
+	// Instantiate an XPath object, used to extract portions of the XMP.
+	$xpath = new DOMXPath( $doc );
+
+	// Register the relevant XML namespaces.
+	$xpath->registerNamespace( 'x', 'adobe:ns:meta/' );
+	$xpath->registerNamespace( 'rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' );
+	$xpath->registerNamespace( 'Iptc4xmpCore', 'http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/' );
+
+	$node_list = $xpath->query( '/x:xmpmeta/rdf:RDF/rdf:Description/Iptc4xmpCore:AltTextAccessibility' );
+	if ( $node_list && $node_list->count() ) {
+
+		$node = $node_list->item( 0 );
+
+		// Get the site's locale.
+		$locale = get_locale();
+
+		// Get the alt text accessibility alternative most appropriate for the site language.
+		// There are 3 possibilities:
+		//
+		// 1. there is an rdf:li with an exact match on the site locale.
+		// 2. there is an rdf:li with a partial match on the site locale (e.g., site locale is en_US and rdf:li has @xml:lang="en").
+		// 3. there is an rdf:li with an "x-default" lang.
+		//
+		// Evaluate in that order, stopping when we have a match.
+		$alt_text = $xpath->evaluate( "string( rdf:Alt/rdf:li[ @xml:lang = '{$locale}' ] )", $node );
+		if ( ! $alt_text ) {
+			$alt_text = $xpath->evaluate( 'string( rdf:Alt/rdf:li[ @xml:lang = "' . substr( $locale, 0, 2 ) . '" ] )', $node );
+			if ( ! $alt_text ) {
+				$alt_text = $xpath->evaluate( 'string( rdf:Alt/rdf:li[ @xml:lang = "x-default" ] )', $node );
+			}
+		}
+	}
+
+	return $alt_text;
 }
 
 /**
