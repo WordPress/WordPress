@@ -181,10 +181,25 @@ class WP_HTTP_Polling_Sync_Server {
 			);
 		}
 
-		$rooms = $request['rooms'];
+		$rooms      = $request['rooms'];
+		$wp_user_id = get_current_user_id();
 
 		foreach ( $rooms as $room ) {
-			$room         = $room['room'];
+			$client_id = $room['client_id'];
+			$room      = $room['room'];
+
+			// Check that the client_id is not already owned by another user.
+			$existing_awareness = $this->storage->get_awareness_state( $room );
+			foreach ( $existing_awareness as $entry ) {
+				if ( $client_id === $entry['client_id'] && $wp_user_id !== $entry['wp_user_id'] ) {
+					return new WP_Error(
+						'rest_cannot_edit',
+						__( 'Client ID is already in use by another user.' ),
+						array( 'status' => rest_authorization_required_code() )
+					);
+				}
+			}
+
 			$type_parts   = explode( '/', $room, 2 );
 			$object_parts = explode( ':', $type_parts[1] ?? '', 2 );
 
@@ -346,6 +361,7 @@ class WP_HTTP_Polling_Sync_Server {
 				'client_id'  => $client_id,
 				'state'      => $awareness_update,
 				'updated_at' => $current_time,
+				'wp_user_id' => get_current_user_id(),
 			);
 		}
 
