@@ -20,7 +20,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 if ( ! class_exists( '\WordPress\AiClient\AiClient' ) || ! function_exists( 'wp_options_connectors_wp_admin_render_page' ) ) {
 	wp_die(
-		'<h1>' . __( 'Connectors is not available.' ) . '</h1>' .
+		'<h1>' . __( 'Connectors are not available.' ) . '</h1>' .
 		'<p>' . __( 'The Connectors page requires build files. Please run <code>npm install</code> to build the necessary files.' ) . '</p>',
 		503
 	);
