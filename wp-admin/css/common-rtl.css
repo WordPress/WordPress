@@ -1184,7 +1184,7 @@ th.action-links {
 }
 
 .wp-filter .button.drawer-toggle:focus {
-	border-color: #4f94d4;
+	border-color: var(--wp-admin-theme-color);
 }
 
 .wp-filter .button.drawer-toggle:active {
