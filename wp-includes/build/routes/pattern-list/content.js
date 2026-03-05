@@ -13743,14 +13743,11 @@ function parseDateTime(dateTimeString) {
 // packages/dataviews/build-module/components/dataform-controls/datetime.mjs
 var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
 var { DateCalendar, ValidatedInputControl } = unlock(import_components31.privateApis);
-var formatDateTime = (date) => {
-  if (!date) {
+var formatDateTime = (value) => {
+  if (!value) {
     return "";
   }
-  if (typeof date === "string") {
-    return date;
-  }
-  return format(date, "yyyy-MM-dd'T'HH:mm");
+  return (0, import_date3.dateI18n)("Y-m-d\\TH:i", (0, import_date3.getDate)(value));
 };
 function CalendarDateTimeControl({
   data,
@@ -13785,17 +13782,14 @@ function CalendarDateTimeControl({
     (newDate) => {
       let dateTimeValue;
       if (newDate) {
-        let finalDateTime = newDate;
+        const wpDate = (0, import_date3.dateI18n)("Y-m-d", newDate);
+        let wpTime;
         if (value) {
-          const currentDateTime = parseDateTime(value);
-          if (currentDateTime) {
-            finalDateTime = new Date(newDate);
-            finalDateTime.setHours(currentDateTime.getHours());
-            finalDateTime.setMinutes(
-              currentDateTime.getMinutes()
-            );
-          }
+          wpTime = (0, import_date3.dateI18n)("H:i", (0, import_date3.getDate)(value));
+        } else {
+          wpTime = (0, import_date3.dateI18n)("H:i", newDate);
         }
+        const finalDateTime = (0, import_date3.getDate)(`${wpDate}T${wpTime}`);
         dateTimeValue = finalDateTime.toISOString();
         onChangeCallback(dateTimeValue);
         if (validationTimeoutRef.current) {
@@ -13821,7 +13815,7 @@ function CalendarDateTimeControl({
   const handleManualDateTimeChange = (0, import_element42.useCallback)(
     (newValue) => {
       if (newValue) {
-        const dateTime = new Date(newValue);
+        const dateTime = (0, import_date3.getDate)(newValue);
         onChangeCallback(dateTime.toISOString());
         const parsedDate = parseDateTime(dateTime.toISOString());
         if (parsedDate) {
@@ -13874,9 +13868,7 @@ function CalendarDateTimeControl({
             type: "datetime-local",
             label: (0, import_i18n33.__)("Date time"),
             hideLabelFromVision: true,
-            value: value ? formatDateTime(
-              parseDateTime(value) || void 0
-            ) : "",
+            value: formatDateTime(value),
             onChange: handleManualDateTimeChange
           }
         )
