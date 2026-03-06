@@ -2179,12 +2179,21 @@ function path_join( $base, $path ) {
  * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
  * @since 4.5.0 Allows for Windows network shares.
  * @since 4.9.7 Allows for PHP file wrappers.
+ * @since 7.0.0 Uses a static cache to store normalized paths.
  *
  * @param string $path Path to normalize.
  * @return string Normalized path.
  */
-function wp_normalize_path( $path ) {
-	$wrapper = '';
+function wp_normalize_path( $path ): string {
+	$path = (string) $path;
+
+	static $cache = array();
+	if ( isset( $cache[ $path ] ) ) {
+		return $cache[ $path ];
+	}
+
+	$original_path = $path;
+	$wrapper       = '';
 
 	if ( wp_is_stream( $path ) ) {
 		list( $wrapper, $path ) = explode( '://', $path, 2 );
@@ -2196,14 +2205,15 @@ function wp_normalize_path( $path ) {
 	$path = str_replace( '\\', '/', $path );
 
 	// Replace multiple slashes down to a singular, allowing for network shares having two slashes.
-	$path = preg_replace( '|(?<=.)/+|', '/', $path );
+	$path = (string) preg_replace( '|(?<=.)/+|', '/', $path );
 
 	// Windows paths should uppercase the drive letter.
 	if ( ':' === substr( $path, 1, 1 ) ) {
 		$path = ucfirst( $path );
 	}
 
-	return $wrapper . $path;
+	$cache[ $original_path ] = $wrapper . $path;
+	return $cache[ $original_path ];
 }
 
 /**
