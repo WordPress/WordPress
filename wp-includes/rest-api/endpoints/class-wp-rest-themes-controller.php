@@ -197,18 +197,22 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 		$themes = array();
 
-		$active_themes = wp_get_themes();
 		$current_theme = wp_get_theme();
 		$status        = $request['status'];
 
-		foreach ( $active_themes as $theme ) {
-			$theme_status = ( $this->is_same_theme( $theme, $current_theme ) ) ? 'active' : 'inactive';
-			if ( is_array( $status ) && ! in_array( $theme_status, $status, true ) ) {
-				continue;
-			}
-
-			$prepared = $this->prepare_item_for_response( $theme, $request );
+		if ( array( 'active' ) === $status ) {
+			$prepared = $this->prepare_item_for_response( $current_theme, $request );
 			$themes[] = $this->prepare_response_for_collection( $prepared );
+		} else {
+			foreach ( wp_get_themes() as $theme ) {
+				$theme_status = ( $this->is_same_theme( $theme, $current_theme ) ) ? 'active' : 'inactive';
+				if ( is_array( $status ) && ! in_array( $theme_status, $status, true ) ) {
+					continue;
+				}
+
+				$prepared = $this->prepare_item_for_response( $theme, $request );
+				$themes[] = $this->prepare_response_for_collection( $prepared );
+			}
 		}
 
 		$response = rest_ensure_response( $themes );
