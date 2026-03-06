@@ -597,10 +597,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 3px;
 }
 
-#wpadminbar #wp-admin-bar-comments .count-0 {
-	opacity: .5;
-}
-
 /**
  * New Content
  */
