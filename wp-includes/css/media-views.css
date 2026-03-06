@@ -1012,6 +1012,11 @@
 	font-weight: 600;
 }
 
+/* Do not show the aria-label overlay on thumbnails in the gallery selection strip. */
+.wp-core-ui .media-selection .attachment::after {
+	content: none;
+}
+
 .wp-core-ui .attachment:focus,
 .wp-core-ui .selected.attachment:focus,
 .wp-core-ui .attachment.details:focus {
