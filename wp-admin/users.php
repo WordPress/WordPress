@@ -683,7 +683,7 @@ switch ( $wp_list_table->current_action() ) {
 					break;
 				case 'err_admin_role':
 					$messages[] = wp_get_admin_notice(
-						__( 'The current user&#8217;s role must have user editing capabilities.' ),
+						__( 'You cannot change your own role to one that does not allow managing other users. Your role was not changed.' ),
 						array(
 							'id'                 => 'message',
 							'additional_classes' => array( 'error' ),
