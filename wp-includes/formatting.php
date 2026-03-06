@@ -1566,6 +1566,7 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  * | U+00F6   | ö     | oe          | Latin small letter o with diaeresis     |
  * | U+00DC   | Ü     | Ue          | Latin capital letter U with diaeresis   |
  * | U+00FC   | ü     | ue          | Latin small letter u with diaeresis     |
+ * | U+1E9E   | ẞ     | SS          | Latin capital letter sharp s            |
  * | U+00DF   | ß     | ss          | Latin small letter sharp s              |
  *
  * Danish (`da_DK`) locale:
@@ -1599,6 +1600,7 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  * @since 5.7.0 Added locale support for `de_AT`.
  * @since 6.0.0 Added the `$locale` parameter.
  * @since 6.1.0 Added Unicode NFC encoding normalization support.
+ * @since 7.0.0 Added capital Eszett (U+1E9E) support for German locales.
  *
  * @param string $text   Text that might have accent characters.
  * @param string $locale Optional. The locale to use for accent removal. Some character
@@ -1972,6 +1974,7 @@ function remove_accents( $text, $locale = '' ) {
 			$chars['ö'] = 'oe';
 			$chars['Ü'] = 'Ue';
 			$chars['ü'] = 'ue';
+			$chars['ẞ'] = 'SS';
 			$chars['ß'] = 'ss';
 		} elseif ( 'da_DK' === $locale ) {
 			$chars['Æ'] = 'Ae';
