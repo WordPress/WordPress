@@ -385,7 +385,7 @@ if (
 
 // Login actions.
 add_action( 'login_head', 'wp_robots', 1 );
-add_filter( 'login_head', 'wp_resource_hints', 8 );
+add_action( 'login_head', 'wp_resource_hints', 8 );
 add_action( 'login_head', 'wp_print_head_scripts', 9 );
 add_action( 'login_head', 'print_admin_styles', 9 );
 add_action( 'login_head', 'wp_site_icon', 99 );
