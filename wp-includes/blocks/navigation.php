@@ -1146,8 +1146,8 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 		$open_on_hover       = 'hover' === $computed_visibility;
 
 		if ( $open_on_hover ) {
-			$tags->set_attribute( 'data-wp-on--mouseenter', 'actions.openMenuOnHover' );
-			$tags->set_attribute( 'data-wp-on--mouseleave', 'actions.closeMenuOnHover' );
+			$tags->set_attribute( 'data-wp-on--pointerenter', 'actions.openMenuOnHover' );
+			$tags->set_attribute( 'data-wp-on--pointerleave', 'actions.closeMenuOnHover' );
 		}
 
 		// Add directives to the toggle submenu button.

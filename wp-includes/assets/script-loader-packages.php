@@ -266,7 +266,7 @@
       'wp-url',
       'wp-warning'
     ),
-    'version' => '94b1c2f6db3c8822c7cb'
+    'version' => 'f45e47fb68691ad2950f'
   ),
   'customize-widgets.js' => array(
     'dependencies' => array(
@@ -667,7 +667,7 @@
       'wp-private-apis',
       'wp-url'
     ),
-    'version' => '6a1e1df3db4f7198a518'
+    'version' => '4b640c092eb654d2bd78'
   ),
   'plugins.js' => array(
     'dependencies' => array(
@@ -821,7 +821,7 @@
       'wp-hooks',
       'wp-private-apis'
     ),
-    'version' => '44b4d0543749363ed20d'
+    'version' => 'a5e466ecaa7d3773e376'
   ),
   'theme.js' => array(
     'dependencies' => array(

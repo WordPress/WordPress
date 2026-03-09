@@ -76,7 +76,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '243a659f91c3dc9841c7'
+    'version' => '96a846e1d7b789c39ab9'
   ),
   'block-library/playlist/view.min.js' => array(
     'dependencies' => array(
@@ -175,7 +175,7 @@
       'wp-i18n',
       'wp-private-apis'
     ),
-    'version' => 'fb1bf5511eb12e411ec6'
+    'version' => 'bd74f3db1cc1555ee90d'
   ),
   'core-abilities/index.min.js' => array(
     'dependencies' => array(

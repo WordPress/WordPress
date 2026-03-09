@@ -224,7 +224,6 @@ function DefaultConnectorSettings({
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           import_components.TextControl,
           {
-            __nextHasNoMarginBottom: true,
             __next40pxDefaultSize: true,
             label: (0, import_i18n.__)("API Key"),
             value: apiKey,
@@ -234,7 +233,7 @@ function DefaultConnectorSettings({
                 setApiKey(value);
               }
             },
-            placeholder: "YOUR_API_KEY",
+            placeholder: (0, import_i18n.__)("Enter your API key"),
             disabled: readOnly || isSaving,
             help: getHelp()
           }

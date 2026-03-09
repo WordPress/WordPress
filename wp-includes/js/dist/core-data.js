@@ -1316,6 +1316,7 @@ var wp;
     CRDT_DOC_META_PERSISTENCE_KEY,
     CRDT_RECORD_MAP_KEY,
     LOCAL_EDITOR_ORIGIN,
+    LOCAL_UNDO_IGNORED_ORIGIN,
     retrySyncConnection
   } = unlock(import_sync3.privateApis);
   var syncManager;
@@ -4742,11 +4743,12 @@ var wp;
       const objectType = `${kind}/${name}`;
       const objectId = recordId;
       const isNewUndoLevel = options.undoIgnore ? false : !options.isCached;
+      const origin = options.undoIgnore ? LOCAL_UNDO_IGNORED_ORIGIN : LOCAL_EDITOR_ORIGIN;
       getSyncManager()?.update(
         objectType,
         objectId,
         editsWithMerges,
-        LOCAL_EDITOR_ORIGIN,
+        origin,
         { isNewUndoLevel }
       );
     }
@@ -4983,7 +4985,7 @@ var wp;
               `${kind}/${name}`,
               recordId,
               updatedRecord,
-              LOCAL_EDITOR_ORIGIN,
+              LOCAL_UNDO_IGNORED_ORIGIN,
               { isSave: true }
             );
           }

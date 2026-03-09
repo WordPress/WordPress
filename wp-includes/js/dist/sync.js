@@ -9167,6 +9167,7 @@ var wp;
   var CRDT_STATE_MAP_VERSION_KEY = "version";
   var LOCAL_EDITOR_ORIGIN = "gutenberg";
   var LOCAL_SYNC_MANAGER_ORIGIN = "syncManager";
+  var LOCAL_UNDO_IGNORED_ORIGIN = "gutenberg-undo-ignored";
 
   // packages/sync/build-module/lock-unlock.mjs
   var import_private_apis = __toESM(require_private_apis(), 1);
@@ -11541,6 +11542,7 @@ var wp;
     CRDT_DOC_META_PERSISTENCE_KEY,
     CRDT_RECORD_MAP_KEY,
     LOCAL_EDITOR_ORIGIN,
+    LOCAL_UNDO_IGNORED_ORIGIN,
     retrySyncConnection: () => pollingManager.retryNow()
   });
 
