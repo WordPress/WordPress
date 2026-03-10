@@ -47176,7 +47176,7 @@ If there's a particular need for this, please submit a feature request at https:
     (0, import_data84.dispatch)(import_blocks15.store).setFreeformFallbackBlockName("core/html");
     (0, import_widgets.registerLegacyWidgetBlock)({ inserter: false });
     (0, import_widgets.registerWidgetGroupBlock)({ inserter: false });
-    if (false) {
+    if (true) {
       (0, import_block_library3.__experimentalRegisterExperimentalCoreBlocks)({
         enableFSEBlocks: true
       });

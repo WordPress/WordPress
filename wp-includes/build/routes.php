@@ -130,22 +130,3 @@ function wp_register_font_library_wp_admin_page_routes() {
 }
 add_action( 'font-library-wp-admin_init', 'wp_register_font_library_wp_admin_page_routes' );
 
-// Page-specific route registration functions for site-editor-v2
-/**
- * Register routes for site-editor-v2 page (full-page mode).
- */
-function wp_register_site_editor_v2_page_routes() {
-	global $wp_site_editor_v2_routes_data;
-	wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_route' );
-}
-add_action( 'site-editor-v2_init', 'wp_register_site_editor_v2_page_routes' );
-
-/**
- * Register routes for site-editor-v2 page (wp-admin mode).
- */
-function wp_register_site_editor_v2_wp_admin_page_routes() {
-	global $wp_site_editor_v2_routes_data;
-	wp_register_page_routes( $wp_site_editor_v2_routes_data, 'wp_register_site_editor_v2_wp_admin_route' );
-}
-add_action( 'site-editor-v2-wp-admin_init', 'wp_register_site_editor_v2_wp_admin_page_routes' );
-

@@ -73,7 +73,7 @@ class WP_Block_Parser_Frame {
 		$this->block              = $block;
 		$this->token_start        = $token_start;
 		$this->token_length       = $token_length;
-		$this->prev_offset        = isset( $prev_offset ) ? $prev_offset : $token_start + $token_length;
+		$this->prev_offset        = $prev_offset ?? $token_start + $token_length;
 		$this->leading_html_start = $leading_html_start;
 	}
 }

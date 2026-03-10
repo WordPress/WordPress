@@ -36503,7 +36503,7 @@ var wp;
     let canDuplicate = !["wp_block", "wp_template_part"].includes(
       postTypeConfig.slug
     ) && canCreate && duplicate_post_default;
-    if (true) {
+    if (false) {
       if ("wp_template" !== postTypeConfig.slug) {
         canDuplicate = void 0;
       }
@@ -43385,7 +43385,7 @@ var wp;
       }
     );
   }
-  var post_locked_modal_default = false ? (0, import_components144.withFilters)("editor.PostLockedModal")(PostLockedModal) : PostLockedModal;
+  var post_locked_modal_default = true ? (0, import_components144.withFilters)("editor.PostLockedModal")(PostLockedModal) : PostLockedModal;
 
   // packages/editor/build-module/components/post-pending-status/index.mjs
   var import_i18n161 = __toESM(require_i18n(), 1);
@@ -66348,7 +66348,7 @@ var wp;
     const { registerEntityAction: _registerEntityAction } = unlock(
       (0, import_data247.dispatch)(store)
     );
-    if (false) {
+    if (true) {
       _registerEntityAction(kind, name2, config2);
     }
   }
@@ -66356,7 +66356,7 @@ var wp;
     const { unregisterEntityAction: _unregisterEntityAction } = unlock(
       (0, import_data247.dispatch)(store)
     );
-    if (false) {
+    if (true) {
       _unregisterEntityAction(kind, name2, actionId);
     }
   }
@@ -66364,7 +66364,7 @@ var wp;
     const { registerEntityField: _registerEntityField } = unlock(
       (0, import_data247.dispatch)(store)
     );
-    if (false) {
+    if (true) {
       _registerEntityField(kind, name2, config2);
     }
   }
@@ -66372,7 +66372,7 @@ var wp;
     const { unregisterEntityField: _unregisterEntityField } = unlock(
       (0, import_data247.dispatch)(store)
     );
-    if (false) {
+    if (true) {
       _unregisterEntityField(kind, name2, fieldId);
     }
   }

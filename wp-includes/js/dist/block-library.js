@@ -73599,7 +73599,7 @@ ${js}
     (0, import_blocks129.setUnregisteredTypeHandlerName)(name52);
     (0, import_blocks129.setGroupingBlockName)(name39);
   };
-  var __experimentalRegisterExperimentalCoreBlocks = false ? ({ enableFSEBlocks } = {}) => {
+  var __experimentalRegisterExperimentalCoreBlocks = true ? ({ enableFSEBlocks } = {}) => {
     const enabledExperiments = [enableFSEBlocks ? "fse" : null];
     getAllBlocks().filter(
       ({ metadata }) => isBlockMetadataExperimental(metadata)
