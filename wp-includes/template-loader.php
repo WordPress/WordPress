@@ -111,8 +111,9 @@ if ( wp_using_themes() ) {
 	 *
 	 * @param string $template The path of the template to include.
 	 */
-	$template = apply_filters( 'template_include', $template );
-	$template = is_string( $template ) ? realpath( $template ) : null;
+	$template   = apply_filters( 'template_include', $template );
+	$is_stringy = is_string( $template ) || ( is_object( $template ) && method_exists( $template, '__toString' ) );
+	$template   = $is_stringy ? realpath( (string) $template ) : null;
 	if (
 		is_string( $template ) &&
 		( str_ends_with( $template, '.php' ) || str_ends_with( $template, '.html' ) ) &&
