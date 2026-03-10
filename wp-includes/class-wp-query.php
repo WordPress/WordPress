@@ -3469,21 +3469,21 @@ class WP_Query {
 		}
 
 		if ( ! empty( $this->posts ) && $this->is_comment_feed && $this->is_singular ) {
-			/** This filter is documented in wp-includes/query.php */
+			/** This filter is documented in wp-includes/class-wp-query.php */
 			$cjoin = apply_filters_ref_array( 'comment_feed_join', array( '', &$this ) );
 
-			/** This filter is documented in wp-includes/query.php */
+			/** This filter is documented in wp-includes/class-wp-query.php */
 			$cwhere = apply_filters_ref_array( 'comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'", &$this ) );
 
-			/** This filter is documented in wp-includes/query.php */
+			/** This filter is documented in wp-includes/class-wp-query.php */
 			$cgroupby = apply_filters_ref_array( 'comment_feed_groupby', array( '', &$this ) );
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
 
-			/** This filter is documented in wp-includes/query.php */
+			/** This filter is documented in wp-includes/class-wp-query.php */
 			$corderby = apply_filters_ref_array( 'comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
 
-			/** This filter is documented in wp-includes/query.php */
+			/** This filter is documented in wp-includes/class-wp-query.php */
 			$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option( 'posts_per_rss' ), &$this ) );
 
 			$comments_request = "SELECT {$wpdb->comments}.comment_ID FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits";

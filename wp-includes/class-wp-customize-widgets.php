@@ -338,7 +338,7 @@ final class WP_Customize_Widgets {
 		/** This action is documented in wp-admin/includes/ajax-actions.php */
 		do_action( 'widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
-		/** This action is documented in wp-admin/widgets.php */
+		/** This action is documented in wp-admin/widgets-form.php */
 		do_action( 'sidebar_admin_setup' );
 	}
 
@@ -1722,7 +1722,7 @@ final class WP_Customize_Widgets {
 		/** This action is documented in wp-admin/includes/ajax-actions.php */
 		do_action( 'widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
-		/** This action is documented in wp-admin/widgets.php */
+		/** This action is documented in wp-admin/widgets-form.php */
 		do_action( 'sidebar_admin_setup' );
 
 		$widget_id = $this->get_post_value( 'widget-id' );

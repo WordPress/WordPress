@@ -2382,7 +2382,7 @@ function wp_ajax_save_widget() {
 	 */
 	do_action( 'widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
-	/** This action is documented in wp-admin/widgets.php */
+	/** This action is documented in wp-admin/widgets-form.php */
 	do_action( 'sidebar_admin_setup' );
 
 	$id_base      = wp_unslash( $_POST['id_base'] );
@@ -2410,7 +2410,7 @@ function wp_ajax_save_widget() {
 			'delete_widget'      => '1',
 		);
 
-		/** This action is documented in wp-admin/widgets.php */
+		/** This action is documented in wp-admin/widgets-form.php */
 		do_action( 'delete_widget', $widget_id, $sidebar_id, $id_base );
 
 	} elseif ( $settings && preg_match( '/__i__|%i%/', key( $settings ) ) ) {
@@ -2486,7 +2486,7 @@ function wp_ajax_delete_inactive_widgets() {
 	do_action( 'load-widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	/** This action is documented in wp-admin/includes/ajax-actions.php */
 	do_action( 'widgets.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-	/** This action is documented in wp-admin/widgets.php */
+	/** This action is documented in wp-admin/widgets-form.php */
 	do_action( 'sidebar_admin_setup' );
 
 	$sidebars_widgets = wp_get_sidebars_widgets();

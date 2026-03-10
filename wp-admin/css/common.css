@@ -809,8 +809,8 @@ img.emoji {
 .notice-dismiss:before {
 	background: none;
 	color: #1e1e1e;
-	content: "\f153";
-	content: "\f153" / '';
+	content: "\f335";
+	content: "\f335" / '';
 	display: block;
 	font: normal 20px/1 dashicons;
 	height: 1em;
@@ -2263,8 +2263,9 @@ html.wp-toolbar {
 	color: #a7aaad;
 }
 
-.sortable-placeholder {
+.sortable-placeholder:not(.empty-container .sortable-placeholder) {
 	border: 1px dashed #c3c4c7;
+	border-radius: 8px;
 	margin-bottom: 20px;
 }
 

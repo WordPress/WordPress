@@ -83,7 +83,6 @@
 }
 
 .is-dragging-metaboxes #dashboard-widgets .postbox-container .empty-container {
-	outline: 2px dashed rgb(0, 0, 0, 0.15);
 	background: rgb(0, 0, 0, 0.01);
 }
 

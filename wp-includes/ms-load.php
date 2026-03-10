@@ -383,7 +383,7 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 
 	// No network has been found, bail.
 	if ( empty( $current_site ) ) {
-		/** This action is documented in wp-includes/ms-settings.php */
+		/** This action is documented in wp-includes/ms-load.php */
 		do_action( 'ms_network_not_found', $domain, $path );
 
 		return false;
