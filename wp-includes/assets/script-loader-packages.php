@@ -821,7 +821,7 @@
       'wp-hooks',
       'wp-private-apis'
     ),
-    'version' => 'a5e466ecaa7d3773e376'
+    'version' => '520093735c1b81307ab4'
   ),
   'theme.js' => array(
     'dependencies' => array(

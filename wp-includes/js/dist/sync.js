@@ -9369,7 +9369,7 @@ var wp;
       )
     ).map((u) => base64ToUint8Array(u.data));
     return createSyncUpdate(
-      mergeUpdates(mergeable),
+      mergeUpdatesV2(mergeable),
       SyncUpdateType.COMPACTION
     );
   }
@@ -9461,7 +9461,7 @@ var wp;
       }
       case SyncUpdateType.COMPACTION:
       case SyncUpdateType.UPDATE: {
-        applyUpdate(doc2, data, POLLING_MANAGER_ORIGIN);
+        applyUpdateV2(doc2, data, POLLING_MANAGER_ORIGIN);
       }
     }
   }
@@ -9617,14 +9617,14 @@ var wp;
       updateQueue.add(createSyncUpdate(update, SyncUpdateType.UPDATE));
     }
     function unregister() {
-      doc2.off("update", onDocUpdate);
+      doc2.off("updateV2", onDocUpdate);
       awareness.off("change", onAwarenessUpdate);
       updateQueue.clear();
     }
     const roomState = {
       clientId: doc2.clientID,
       createCompactionUpdate: () => createSyncUpdate(
-        encodeStateAsUpdate(doc2),
+        encodeStateAsUpdateV2(doc2),
         SyncUpdateType.COMPACTION
       ),
       endCursor: 0,
@@ -9636,7 +9636,7 @@ var wp;
       unregister,
       updateQueue
     };
-    doc2.on("update", onDocUpdate);
+    doc2.on("updateV2", onDocUpdate);
     awareness.on("change", onAwarenessUpdate);
     roomStates.set(room, roomState);
     if (!areListenersRegistered) {
