@@ -1895,6 +1895,11 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 			continue;
 		}
 
+		// Don't extract invalid files:
+		if ( 0 !== validate_file( $archive_file['filename'] ) ) {
+			continue;
+		}
+
 		$uncompressed_size += $archive_file['size'];
 
 		$needed_dirs[] = $to . untrailingslashit( $archive_file['folder'] ? $archive_file['filename'] : dirname( $archive_file['filename'] ) );
