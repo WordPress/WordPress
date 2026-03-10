@@ -36,10 +36,11 @@ window.wp = window.wp || {};
 			};
 
 		return function ( data ) {
-			if ( ! document.getElementById( 'tmpl-' + id ) ) {
+			var el = document.querySelector( 'script#tmpl-' + id );
+			if ( ! el ) {
 				throw new Error( 'Template not found: ' + '#tmpl-' + id );
 			}
-			compiled = compiled || _.template( $( '#tmpl-' + id ).html(),  options );
+			compiled = compiled || _.template( $( el ).html(), options );
 			return compiled( data );
 		};
 	});
