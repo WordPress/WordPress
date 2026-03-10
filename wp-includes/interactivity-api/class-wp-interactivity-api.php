@@ -818,6 +818,20 @@ final class WP_Interactivity_API {
 					return;
 				}
 
+				// Skip if the bound attribute is an event handler.
+				if ( str_starts_with( $bound_attribute, 'on' ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: The directive, e.g. data-wp-on--click. */
+							__( 'Binding event handler attributes is not supported. Please use "%s" instead.' ),
+							esc_attr( 'data-wp-on--' . substr( $bound_attribute, 2 ) )
+						),
+						'x.y.z'
+					);
+					continue;
+				}
+
 				$attribute_value = $p->get_attribute( $attribute_name );
 				$result          = $this->evaluate( $attribute_value );
 
