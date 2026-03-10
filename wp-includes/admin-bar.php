@@ -935,6 +935,44 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 }
 
 /**
+ * Adds the command palette trigger button.
+ *
+ * Displays a button in the admin bar that shows the keyboard shortcut
+ * for opening the command palette.
+ *
+ * @since 7.0.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
+ */
+function wp_admin_bar_command_palette_menu( WP_Admin_Bar $wp_admin_bar ): void {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$is_apple_os    = (bool) preg_match( '/Macintosh|Mac OS X|Mac_PowerPC/i', $_SERVER['HTTP_USER_AGENT'] ?? '' );
+	$shortcut_label = $is_apple_os
+		? _x( '⌘K', 'keyboard shortcut to open the command palette' )
+		: _x( 'Ctrl+K', 'keyboard shortcut to open the command palette' );
+	$title          = sprintf(
+		'<span class="ab-label"><kbd>%s</kbd><span class="screen-reader-text"> %s</span></span>',
+		$shortcut_label,
+		/* translators: Hidden accessibility text. */
+		__( 'Open command palette' ),
+	);
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => 'command-palette',
+			'title' => $title,
+			'href'  => '#',
+			'meta'  => array(
+				'class'   => 'hide-if-no-js',
+				'onclick' => 'wp.data.dispatch( "core/commands" ).open(); return false;',
+			),
+		)
+	);
+}
+
+/**
  * Adds "Add New" menu.
  *
  * @since 3.1.0
