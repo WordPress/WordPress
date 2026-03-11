@@ -174,7 +174,9 @@ final class WP_Block_Patterns_Registry {
 			$patterns = &$this->registered_patterns;
 		}
 
-		$pattern_path = realpath( $patterns[ $pattern_name ]['filePath'] ?? '' );
+		$file_path    = $patterns[ $pattern_name ]['filePath'] ?? '';
+		$is_stringy   = is_string( $file_path ) || ( is_object( $file_path ) && method_exists( $file_path, '__toString' ) );
+		$pattern_path = $is_stringy ? realpath( (string) $file_path ) : null;
 		if (
 			! isset( $patterns[ $pattern_name ]['content'] ) &&
 			is_string( $pattern_path ) &&
