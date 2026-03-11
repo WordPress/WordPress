@@ -6411,14 +6411,18 @@ function wp_get_image_editor_output_format( $filename, $mime_type ) {
  * @return bool Whether client-side media processing is enabled.
  */
 function wp_is_client_side_media_processing_enabled(): bool {
+	// This is due to SharedArrayBuffer requiring a secure context.
+	$host    = strtolower( (string) strtok( $_SERVER['HTTP_HOST'] ?? '', ':' ) );
+	$enabled = ( is_ssl() || 'localhost' === $host || str_ends_with( $host, '.localhost' ) );
+
 	/**
 	 * Filters whether client-side media processing is enabled.
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param bool $enabled Whether client-side media processing is enabled. Default true.
+	 * @param bool $enabled Whether client-side media processing is enabled. Default true if the page is served in a secure context.
 	 */
-	return (bool) apply_filters( 'wp_client_side_media_processing_enabled', true );
+	return (bool) apply_filters( 'wp_client_side_media_processing_enabled', $enabled );
 }
 
 /**
@@ -6431,7 +6435,7 @@ function wp_set_client_side_media_processing_flag(): void {
 		return;
 	}
 
-	wp_add_inline_script( 'wp-block-editor', 'window.__clientSideMediaProcessing = true', 'before' );
+	wp_add_inline_script( 'wp-block-editor', 'window.__clientSideMediaProcessing = true;', 'before' );
 
 	$chromium_version = wp_get_chromium_major_version();
 
@@ -6477,6 +6481,10 @@ function wp_get_chromium_major_version(): ?int {
  * media processing in the editor. Uses Document-Isolation-Policy
  * on supported browsers (Chromium 137+).
  *
+ * Skips setup when a third-party page builder overrides the block
+ * editor via a custom `action` query parameter, as DIP would block
+ * same-origin iframe access that these editors rely on.
+ *
  * @since 7.0.0
  */
 function wp_set_up_cross_origin_isolation(): void {
@@ -6491,6 +6499,15 @@ function wp_set_up_cross_origin_isolation(): void {
 	}
 
 	if ( ! $screen->is_block_editor() && 'site-editor' !== $screen->id && ! ( 'widgets' === $screen->id && wp_use_widgets_block_editor() ) ) {
+		return;
+	}
+
+	/*
+	 * Skip when a third-party page builder overrides the block editor.
+	 * DIP isolates the document into its own agent cluster,
+	 * which blocks same-origin iframe access that these editors rely on.
+	 */
+	if ( isset( $_GET['action'] ) && 'edit' !== $_GET['action'] ) {
 		return;
 	}
 
