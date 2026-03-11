@@ -1380,6 +1380,12 @@ th.action-links {
 	}
 }
 
+@media only screen and (max-width: 1250px) {
+	.wp-filter:has(.plugin-install-search) .search-form {
+		margin: 11px 0;
+	}
+}
+
 @media only screen and (max-width: 1120px) {
 	.filter-drawer {
 		border-bottom: 1px solid #f0f0f1;
