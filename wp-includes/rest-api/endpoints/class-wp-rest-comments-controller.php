@@ -560,6 +560,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 		}
 
+		if ( $is_note && ! empty( $request['post'] ) && ! current_user_can( 'edit_post', (int) $request['post'] ) ) {
+			return new WP_Error(
+				'rest_cannot_create_note',
+				__( 'Sorry, you are not allowed to create notes for this post.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
 		$edit_cap = $is_note ? array( 'edit_post', (int) $request['post'] ) : array( 'moderate_comments' );
 		if ( isset( $request['status'] ) && ! current_user_can( ...$edit_cap ) ) {
 			return new WP_Error(
