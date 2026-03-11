@@ -539,6 +539,9 @@ add_action( 'parse_request', 'rest_api_loaded' );
 add_action( 'wp_abilities_api_categories_init', 'wp_register_core_ability_categories' );
 add_action( 'wp_abilities_api_init', 'wp_register_core_abilities' );
 
+// Connectors API.
+add_action( 'init', '_wp_connectors_init' );
+
 // Sitemaps actions.
 add_action( 'init', 'wp_sitemaps_get_server' );
 
