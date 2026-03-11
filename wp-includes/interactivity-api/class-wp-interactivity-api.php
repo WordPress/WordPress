@@ -827,7 +827,7 @@ final class WP_Interactivity_API {
 							__( 'Binding event handler attributes is not supported. Please use "%s" instead.' ),
 							esc_attr( 'data-wp-on--' . substr( $bound_attribute, 2 ) )
 						),
-						'x.y.z'
+						'6.9.2'
 					);
 					continue;
 				}
