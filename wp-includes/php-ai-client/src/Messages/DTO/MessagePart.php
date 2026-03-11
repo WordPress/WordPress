@@ -26,6 +26,7 @@ use WordPress\AiClient\Tools\DTO\FunctionResponse;
  * @phpstan-type MessagePartArrayShape array{
  *     channel: string,
  *     type: string,
+ *     thoughtSignature?: string,
  *     text?: string,
  *     file?: FileArrayShape,
  *     functionCall?: FunctionCallArrayShape,
@@ -38,6 +39,7 @@ class MessagePart extends AbstractDataTransferObject
 {
     public const KEY_CHANNEL = 'channel';
     public const KEY_TYPE = 'type';
+    public const KEY_THOUGHT_SIGNATURE = 'thoughtSignature';
     public const KEY_TEXT = 'text';
     public const KEY_FILE = 'file';
     public const KEY_FUNCTION_CALL = 'functionCall';
@@ -50,6 +52,10 @@ class MessagePart extends AbstractDataTransferObject
      * @var MessagePartTypeEnum The type of this message part.
      */
     private MessagePartTypeEnum $type;
+    /**
+     * @var string|null Thought signature for extended thinking.
+     */
+    private ?string $thoughtSignature = null;
     /**
      * @var string|null Text content (when type is TEXT).
      */
@@ -73,11 +79,13 @@ class MessagePart extends AbstractDataTransferObject
      *
      * @param mixed $content The content of this message part.
      * @param MessagePartChannelEnum|null $channel The channel this part belongs to. Defaults to CONTENT.
+     * @param string|null $thoughtSignature Optional thought signature for extended thinking.
      * @throws InvalidArgumentException If an unsupported content type is provided.
      */
-    public function __construct($content, ?MessagePartChannelEnum $channel = null)
+    public function __construct($content, ?MessagePartChannelEnum $channel = null, ?string $thoughtSignature = null)
     {
         $this->channel = $channel ?? MessagePartChannelEnum::content();
+        $this->thoughtSignature = $thoughtSignature;
         if (is_string($content)) {
             $this->type = MessagePartTypeEnum::text();
             $this->text = $content;
@@ -116,6 +124,17 @@ class MessagePart extends AbstractDataTransferObject
     public function getType(): MessagePartTypeEnum
     {
         return $this->type;
+    }
+    /**
+     * Gets the thought signature.
+     *
+     * @since 1.3.0
+     *
+     * @return string|null The thought signature or null if not set.
+     */
+    public function getThoughtSignature(): ?string
+    {
+        return $this->thoughtSignature;
     }
     /**
      * Gets the text content.
@@ -169,7 +188,8 @@ class MessagePart extends AbstractDataTransferObject
     public static function getJsonSchema(): array
     {
         $channelSchema = ['type' => 'string', 'enum' => MessagePartChannelEnum::getValues(), 'description' => 'The channel this message part belongs to.'];
-        return ['oneOf' => [['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::text()->value], self::KEY_TEXT => ['type' => 'string', 'description' => 'Text content.']], 'required' => [self::KEY_TYPE, self::KEY_TEXT], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::file()->value], self::KEY_FILE => File::getJsonSchema()], 'required' => [self::KEY_TYPE, self::KEY_FILE], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::functionCall()->value], self::KEY_FUNCTION_CALL => FunctionCall::getJsonSchema()], 'required' => [self::KEY_TYPE, self::KEY_FUNCTION_CALL], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::functionResponse()->value], self::KEY_FUNCTION_RESPONSE => FunctionResponse::getJsonSchema()], 'required' => [self::KEY_TYPE, self::KEY_FUNCTION_RESPONSE], 'additionalProperties' => \false]]];
+        $thoughtSignatureSchema = ['type' => 'string', 'description' => 'Thought signature for extended thinking.'];
+        return ['oneOf' => [['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::text()->value], self::KEY_TEXT => ['type' => 'string', 'description' => 'Text content.'], self::KEY_THOUGHT_SIGNATURE => $thoughtSignatureSchema], 'required' => [self::KEY_TYPE, self::KEY_TEXT], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::file()->value], self::KEY_FILE => File::getJsonSchema(), self::KEY_THOUGHT_SIGNATURE => $thoughtSignatureSchema], 'required' => [self::KEY_TYPE, self::KEY_FILE], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::functionCall()->value], self::KEY_FUNCTION_CALL => FunctionCall::getJsonSchema(), self::KEY_THOUGHT_SIGNATURE => $thoughtSignatureSchema], 'required' => [self::KEY_TYPE, self::KEY_FUNCTION_CALL], 'additionalProperties' => \false], ['type' => 'object', 'properties' => [self::KEY_CHANNEL => $channelSchema, self::KEY_TYPE => ['type' => 'string', 'const' => MessagePartTypeEnum::functionResponse()->value], self::KEY_FUNCTION_RESPONSE => FunctionResponse::getJsonSchema(), self::KEY_THOUGHT_SIGNATURE => $thoughtSignatureSchema], 'required' => [self::KEY_TYPE, self::KEY_FUNCTION_RESPONSE], 'additionalProperties' => \false]]];
     }
     /**
      * {@inheritDoc}
@@ -192,6 +212,9 @@ class MessagePart extends AbstractDataTransferObject
         } else {
             throw new RuntimeException('MessagePart requires one of: text, file, functionCall, or functionResponse. ' . 'This should not be a possible condition.');
         }
+        if ($this->thoughtSignature !== null) {
+            $data[self::KEY_THOUGHT_SIGNATURE] = $this->thoughtSignature;
+        }
         return $data;
     }
     /**
@@ -206,15 +229,16 @@ class MessagePart extends AbstractDataTransferObject
         } else {
             $channel = null;
         }
+        $thoughtSignature = $array[self::KEY_THOUGHT_SIGNATURE] ?? null;
         // Check which properties are set to determine how to construct the MessagePart
         if (isset($array[self::KEY_TEXT])) {
-            return new self($array[self::KEY_TEXT], $channel);
+            return new self($array[self::KEY_TEXT], $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FILE])) {
-            return new self(File::fromArray($array[self::KEY_FILE]), $channel);
+            return new self(File::fromArray($array[self::KEY_FILE]), $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FUNCTION_CALL])) {
-            return new self(FunctionCall::fromArray($array[self::KEY_FUNCTION_CALL]), $channel);
+            return new self(FunctionCall::fromArray($array[self::KEY_FUNCTION_CALL]), $channel, $thoughtSignature);
         } elseif (isset($array[self::KEY_FUNCTION_RESPONSE])) {
-            return new self(FunctionResponse::fromArray($array[self::KEY_FUNCTION_RESPONSE]), $channel);
+            return new self(FunctionResponse::fromArray($array[self::KEY_FUNCTION_RESPONSE]), $channel, $thoughtSignature);
         } else {
             throw new InvalidArgumentException('MessagePart requires one of: text, file, functionCall, or functionResponse.');
         }

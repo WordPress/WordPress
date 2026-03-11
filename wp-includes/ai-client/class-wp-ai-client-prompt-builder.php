@@ -10,6 +10,7 @@
 use WordPress\AiClient\Builders\PromptBuilder;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
+use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
 use WordPress\AiClient\Messages\DTO\Message;
 use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
@@ -66,6 +67,9 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * @method self as_output_schema(array<string, mixed> $schema) Sets the output schema.
  * @method self as_output_modalities(ModalityEnum ...$modalities) Sets the output modalities.
  * @method self as_output_file_type(FileTypeEnum $fileType) Sets the output file type.
+ * @method self as_output_media_orientation(MediaOrientationEnum $orientation) Sets the output media orientation.
+ * @method self as_output_media_aspect_ratio(string $aspectRatio) Sets the output media aspect ratio.
+ * @method self as_output_speech_voice(string $voice) Sets the output speech voice.
  * @method self as_json_response(?array<string, mixed> $schema = null) Configures the prompt for JSON response output.
  * @method bool|WP_Error is_supported(?CapabilityEnum $capability = null) Checks if the prompt is supported for the given capability.
  * @method bool is_supported_for_text_generation() Checks if the prompt is supported for text generation.
@@ -80,6 +84,7 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * @method GenerativeAiResult|WP_Error generate_image_result() Generates an image result from the prompt.
  * @method GenerativeAiResult|WP_Error generate_speech_result() Generates a speech result from the prompt.
  * @method GenerativeAiResult|WP_Error convert_text_to_speech_result() Converts text to speech and returns the result.
+ * @method GenerativeAiResult|WP_Error generate_video_result() Generates a video result from the prompt.
  * @method string|WP_Error generate_text() Generates text from the prompt.
  * @method list<string>|WP_Error generate_texts(?int $candidateCount = null) Generates multiple text candidates from the prompt.
  * @method File|WP_Error generate_image() Generates an image from the prompt.
@@ -88,6 +93,8 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * @method list<File>|WP_Error convert_text_to_speeches(?int $candidateCount = null) Converts text to multiple speech outputs.
  * @method File|WP_Error generate_speech() Generates speech from the prompt.
  * @method list<File>|WP_Error generate_speeches(?int $candidateCount = null) Generates multiple speech outputs from the prompt.
+ * @method File|WP_Error generate_video() Generates a video from the prompt.
+ * @method list<File>|WP_Error generate_videos(?int $candidateCount = null) Generates multiple videos from the prompt.
  */
 class WP_AI_Client_Prompt_Builder {
 
@@ -121,6 +128,7 @@ class WP_AI_Client_Prompt_Builder {
 		'generate_image_result'         => true,
 		'generate_speech_result'        => true,
 		'convert_text_to_speech_result' => true,
+		'generate_video_result'         => true,
 		'generate_text'                 => true,
 		'generate_texts'                => true,
 		'generate_image'                => true,
@@ -129,6 +137,8 @@ class WP_AI_Client_Prompt_Builder {
 		'convert_text_to_speeches'      => true,
 		'generate_speech'               => true,
 		'generate_speeches'             => true,
+		'generate_video'                => true,
+		'generate_videos'               => true,
 	);
 
 	/**

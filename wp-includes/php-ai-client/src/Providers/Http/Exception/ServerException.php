@@ -30,7 +30,7 @@ class ServerException extends RuntimeException
     public static function fromServerErrorResponse(Response $response): self
     {
         $statusCode = $response->getStatusCode();
-        $statusTexts = [500 => 'Internal Server Error', 502 => 'Bad Gateway', 503 => 'Service Unavailable', 504 => 'Gateway Timeout', 507 => 'Insufficient Storage'];
+        $statusTexts = [500 => 'Internal Server Error', 502 => 'Bad Gateway', 503 => 'Service Unavailable', 504 => 'Gateway Timeout', 507 => 'Insufficient Storage', 529 => 'Overloaded'];
         if (isset($statusTexts[$statusCode])) {
             $errorMessage = sprintf('%s (%d)', $statusTexts[$statusCode], $statusCode);
         } else {

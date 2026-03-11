@@ -10,6 +10,7 @@ use WordPress\AiClient\Events\AfterGenerateResultEvent;
 use WordPress\AiClient\Events\BeforeGenerateResultEvent;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
+use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
 use WordPress\AiClient\Messages\DTO\Message;
 use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\DTO\UserMessage;
@@ -26,6 +27,7 @@ use WordPress\AiClient\Providers\Models\ImageGeneration\Contracts\ImageGeneratio
 use WordPress\AiClient\Providers\Models\SpeechGeneration\Contracts\SpeechGenerationModelInterface;
 use WordPress\AiClient\Providers\Models\TextGeneration\Contracts\TextGenerationModelInterface;
 use WordPress\AiClient\Providers\Models\TextToSpeechConversion\Contracts\TextToSpeechConversionModelInterface;
+use WordPress\AiClient\Providers\Models\VideoGeneration\Contracts\VideoGenerationModelInterface;
 use WordPress\AiClient\Providers\ProviderRegistry;
 use WordPress\AiClient\Results\DTO\GenerativeAiResult;
 use WordPress\AiClient\Tools\DTO\FunctionDeclaration;
@@ -398,7 +400,7 @@ class PromptBuilder
      */
     public function usingStopSequences(string ...$stopSequences): self
     {
-        $this->modelConfig->setCustomOption('stopSequences', $stopSequences);
+        $this->modelConfig->setStopSequences($stopSequences);
         return $this;
     }
     /**
@@ -553,6 +555,48 @@ class PromptBuilder
         return $this;
     }
     /**
+     * Sets the output media orientation.
+     *
+     * @since 1.3.0
+     *
+     * @param MediaOrientationEnum $orientation The output media orientation.
+     * @return self
+     */
+    public function asOutputMediaOrientation(MediaOrientationEnum $orientation): self
+    {
+        $this->modelConfig->setOutputMediaOrientation($orientation);
+        return $this;
+    }
+    /**
+     * Sets the output media aspect ratio.
+     *
+     * If set, this supersedes the output media orientation, as it is a more
+     * specific configuration.
+     *
+     * @since 1.3.0
+     *
+     * @param string $aspectRatio The aspect ratio (e.g. "16:9", "3:2").
+     * @return self
+     */
+    public function asOutputMediaAspectRatio(string $aspectRatio): self
+    {
+        $this->modelConfig->setOutputMediaAspectRatio($aspectRatio);
+        return $this;
+    }
+    /**
+     * Sets the output speech voice.
+     *
+     * @since 1.3.0
+     *
+     * @param string $voice The output speech voice.
+     * @return self
+     */
+    public function asOutputSpeechVoice(string $voice): self
+    {
+        $this->modelConfig->setOutputSpeechVoice($voice);
+        return $this;
+    }
+    /**
      * Configures the prompt for JSON response output.
      *
      * @since 0.1.0
@@ -626,6 +670,9 @@ class PromptBuilder
         }
         if ($model instanceof SpeechGenerationModelInterface) {
             return CapabilityEnum::speechGeneration();
+        }
+        if ($model instanceof VideoGenerationModelInterface) {
+            return CapabilityEnum::videoGeneration();
         }
         // No supported interface found
         return null;
@@ -825,9 +872,11 @@ class PromptBuilder
             }
             return $model->generateSpeechResult($messages);
         }
-        // Video generation is not yet implemented
         if ($capability->isVideoGeneration()) {
-            throw new RuntimeException('Output modality "video" is not yet supported.');
+            if (!$model instanceof VideoGenerationModelInterface) {
+                throw new RuntimeException(sprintf('Model "%s" does not support video generation.', $model->metadata()->getId()));
+            }
+            return $model->generateVideoResult($messages);
         }
         // TODO: Add support for other capabilities when interfaces are available
         throw new RuntimeException(sprintf('Capability "%s" is not yet supported for generation.', $capability->value));
@@ -895,6 +944,22 @@ class PromptBuilder
         $this->includeOutputModalities(ModalityEnum::audio());
         // Generate and return the result with text-to-speech conversion capability
         return $this->generateResult(CapabilityEnum::textToSpeechConversion());
+    }
+    /**
+     * Generates a video result from the prompt.
+     *
+     * @since 1.3.0
+     *
+     * @return GenerativeAiResult The generated result containing video candidates.
+     * @throws InvalidArgumentException If the prompt or model validation fails.
+     * @throws RuntimeException If the model doesn't support video generation.
+     */
+    public function generateVideoResult(): GenerativeAiResult
+    {
+        // Include video in output modalities
+        $this->includeOutputModalities(ModalityEnum::video());
+        // Generate and return the result with video generation capability
+        return $this->generateResult(CapabilityEnum::videoGeneration());
     }
     /**
      * Generates text from the prompt.
@@ -1014,6 +1079,36 @@ class PromptBuilder
             $this->usingCandidateCount($candidateCount);
         }
         return $this->generateSpeechResult()->toFiles();
+    }
+    /**
+     * Generates a video from the prompt.
+     *
+     * @since 1.3.0
+     *
+     * @return File The generated video file.
+     * @throws InvalidArgumentException If the prompt or model validation fails.
+     * @throws RuntimeException If no video is generated.
+     */
+    public function generateVideo(): File
+    {
+        return $this->generateVideoResult()->toFile();
+    }
+    /**
+     * Generates multiple videos from the prompt.
+     *
+     * @since 1.3.0
+     *
+     * @param int|null $candidateCount The number of videos to generate.
+     * @return list<File> The generated video files.
+     * @throws InvalidArgumentException If the prompt or model validation fails.
+     * @throws RuntimeException If no videos are generated.
+     */
+    public function generateVideos(?int $candidateCount = null): array
+    {
+        if ($candidateCount !== null) {
+            $this->usingCandidateCount($candidateCount);
+        }
+        return $this->generateVideoResult()->toFiles();
     }
     /**
      * Appends a MessagePart to the messages array.

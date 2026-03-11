@@ -84,7 +84,7 @@ class AiClient
     /**
      * @var string The version of the AI Client.
      */
-    public const VERSION = '1.2.1';
+    public const VERSION = '1.3.0';
     /**
      * @var ProviderRegistry|null The default provider registry instance.
      */
@@ -313,6 +313,26 @@ class AiClient
     {
         self::validateModelOrConfigParameter($modelOrConfig);
         return self::getConfiguredPromptBuilder($prompt, $modelOrConfig, $registry)->generateSpeechResult();
+    }
+    /**
+     * Generates a video using the traditional API approach.
+     *
+     * @since 1.3.0
+     *
+     * @param Prompt $prompt The prompt content.
+     * @param ModelInterface|ModelConfig|null $modelOrConfig Optional specific model to use,
+     *                                                        or model configuration for auto-discovery,
+     *                                                        or null for defaults.
+     * @param ProviderRegistry|null $registry Optional custom registry. If null, uses default.
+     * @return GenerativeAiResult The generation result.
+     *
+     * @throws \InvalidArgumentException If the prompt format is invalid.
+     * @throws \RuntimeException If no suitable model is found.
+     */
+    public static function generateVideoResult($prompt, $modelOrConfig = null, ?ProviderRegistry $registry = null): GenerativeAiResult
+    {
+        self::validateModelOrConfigParameter($modelOrConfig);
+        return self::getConfiguredPromptBuilder($prompt, $modelOrConfig, $registry)->generateVideoResult();
     }
     /**
      * Creates a new message builder for fluent API usage.
