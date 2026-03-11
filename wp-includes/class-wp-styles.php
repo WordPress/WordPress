@@ -407,19 +407,32 @@ class WP_Styles extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
-		$query_args = array();
+		$ver_to_add = '';
 		if ( empty( $ver ) && null !== $ver && is_string( $this->default_version ) ) {
-			$query_args['ver'] = $this->default_version;
+			$ver_to_add = $this->default_version;
 		} elseif ( is_scalar( $ver ) ) {
-			$query_args['ver'] = (string) $ver;
+			$ver_to_add = (string) $ver;
 		}
-		if ( isset( $this->args[ $handle ] ) ) {
-			parse_str( $this->args[ $handle ], $parsed_args );
-			if ( $parsed_args ) {
-				$query_args = array_merge( $query_args, $parsed_args );
+
+		$added_args = (string) ( $this->args[ $handle ] ?? '' );
+
+		if ( '' !== $ver_to_add || '' !== $added_args ) {
+			$fragment = strstr( $src, '#' );
+			if ( false !== $fragment ) {
+				$src = substr( $src, 0, -strlen( $fragment ) );
+			}
+
+			if ( '' !== $ver_to_add ) {
+				$src .= ( str_contains( $src, '?' ) ? '&' : '?' ) . 'ver=' . rawurlencode( $ver_to_add );
+			}
+			if ( '' !== $added_args ) {
+				$src .= ( str_contains( $src, '?' ) ? '&' : '?' ) . $added_args;
+			}
+
+			if ( false !== $fragment ) {
+				$src .= $fragment;
 			}
 		}
-		$src = add_query_arg( rawurlencode_deep( $query_args ), $src );
 
 		/**
 		 * Filters an enqueued style's fully-qualified URL.
