@@ -1958,7 +1958,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		}
 	}
 
-	/** This filter is documented in src/wp-admin/includes/file.php */
+	/** This filter is documented in wp-admin/includes/file.php */
 	$pre = apply_filters( 'pre_unzip_file', null, $file, $to, $needed_dirs, $required_space );
 
 	if ( null !== $pre ) {
@@ -1985,7 +1985,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		}
 	}
 
-	/** This action is documented in src/wp-admin/includes/file.php */
+	/** This filter is documented in wp-admin/includes/file.php */
 	$result = apply_filters( 'unzip_file', true, $file, $to, $needed_dirs, $required_space );
 
 	unset( $needed_dirs );

@@ -4790,7 +4790,7 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 		return $image;
 	}
 
-	/** This filter is documented in wp-admin/includes/media.php */
+	/** This filter is documented in wp-includes/media.php */
 	$value = apply_filters( 'wp_img_tag_add_loading_attr', $value, $image, $context );
 
 	if ( $value ) {

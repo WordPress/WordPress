@@ -897,7 +897,7 @@ final class WP_Customize_Widgets {
 			wp_enqueue_script( 'wp-customize-widgets' );
 			wp_enqueue_style( 'wp-customize-widgets' );
 
-			/** This action is documented in edit-form-blocks.php */
+			/** This action is documented in wp-admin/edit-form-blocks.php */
 			do_action( 'enqueue_block_editor_assets' );
 		}
 	}

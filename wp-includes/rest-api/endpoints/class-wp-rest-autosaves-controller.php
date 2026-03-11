@@ -436,7 +436,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			$new_autosave['ID']          = $old_autosave->ID;
 			$new_autosave['post_author'] = $user_id;
 
-			/** This filter is documented in wp-admin/post.php */
+			/** This action is documented in wp-admin/includes/post.php */
 			do_action( 'wp_creating_autosave', $new_autosave );
 
 			// wp_update_post() expects escaped array.
