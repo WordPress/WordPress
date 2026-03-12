@@ -2263,7 +2263,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 	 * @since 4.6.0 The `$notify` parameter accepts 'user' for sending notification only to the user created.
 	 *
 	 * @param int    $user_id    User ID.
-	 * @param null   $deprecated Not used (argument deprecated).
+	 * @param mixed  $deprecated Not used.
 	 * @param string $notify     Optional. Type of notification that should happen. Accepts 'admin' or an empty
 	 *                           string (admin only), 'user', or 'both' (admin and user). Default empty.
 	 */

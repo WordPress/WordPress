@@ -546,9 +546,9 @@ class WP_Widget {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param WP_Widget $widget   The widget instance (passed by reference).
-			 * @param null      $return   Return null if new fields are added.
-			 * @param array     $instance An array of the widget's settings.
+			 * @param WP_Widget   $widget   The widget instance (passed by reference).
+			 * @param null|string $return   Default 'noform'. Return null if new fields are added.
+			 * @param array       $instance An array of the widget's settings.
 			 */
 			do_action_ref_array( 'in_widget_form', array( &$this, &$return, $instance ) );
 		}
