@@ -639,35 +639,46 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			$data['slug'] = $post->post_name;
 		}
 
-		if ( in_array( 'guid', $fields, true ) ) {
-			$data['guid'] = array(
-				/** This filter is documented in wp-includes/post-template.php */
-				'rendered' => apply_filters( 'get_the_guid', $post->guid, $post->ID ),
-				'raw'      => $post->guid,
-			);
+		if ( rest_is_field_included( 'guid', $fields ) ) {
+			$data['guid'] = array();
+		}
+		if ( rest_is_field_included( 'guid.rendered', $fields ) ) {
+			/** This filter is documented in wp-includes/post-template.php */
+			$data['guid']['rendered'] = apply_filters( 'get_the_guid', $post->guid, $post->ID );
+		}
+		if ( rest_is_field_included( 'guid.raw', $fields ) ) {
+			$data['guid']['raw'] = $post->guid;
 		}
 
-		if ( in_array( 'title', $fields, true ) ) {
-			$data['title'] = array(
-				'raw'      => $post->post_title,
-				'rendered' => get_the_title( $post->ID ),
-			);
+		if ( rest_is_field_included( 'title', $fields ) ) {
+			$data['title'] = array();
+		}
+		if ( rest_is_field_included( 'title.raw', $fields ) ) {
+			$data['title']['raw'] = $post->post_title;
+		}
+		if ( rest_is_field_included( 'title.rendered', $fields ) ) {
+			$data['title']['rendered'] = get_the_title( $post->ID );
 		}
 
-		if ( in_array( 'content', $fields, true ) ) {
-
-			$data['content'] = array(
-				'raw'      => $post->post_content,
-				/** This filter is documented in wp-includes/post-template.php */
-				'rendered' => apply_filters( 'the_content', $post->post_content ),
-			);
+		if ( rest_is_field_included( 'content', $fields ) ) {
+			$data['content'] = array();
+		}
+		if ( rest_is_field_included( 'content.raw', $fields ) ) {
+			$data['content']['raw'] = $post->post_content;
+		}
+		if ( rest_is_field_included( 'content.rendered', $fields ) ) {
+			/** This filter is documented in wp-includes/post-template.php */
+			$data['content']['rendered'] = apply_filters( 'the_content', $post->post_content );
 		}
 
-		if ( in_array( 'excerpt', $fields, true ) ) {
-			$data['excerpt'] = array(
-				'raw'      => $post->post_excerpt,
-				'rendered' => $this->prepare_excerpt_response( $post->post_excerpt, $post ),
-			);
+		if ( rest_is_field_included( 'excerpt', $fields ) ) {
+			$data['excerpt'] = array();
+		}
+		if ( rest_is_field_included( 'excerpt.raw', $fields ) ) {
+			$data['excerpt']['raw'] = $post->post_excerpt;
+		}
+		if ( rest_is_field_included( 'excerpt.rendered', $fields ) ) {
+			$data['excerpt']['rendered'] = $this->prepare_excerpt_response( $post->post_excerpt, $post );
 		}
 
 		if ( rest_is_field_included( 'meta', $fields ) ) {
