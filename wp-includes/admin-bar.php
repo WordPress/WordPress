@@ -945,7 +945,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
 function wp_admin_bar_command_palette_menu( WP_Admin_Bar $wp_admin_bar ): void {
-	if ( ! is_admin() ) {
+	if ( ! is_admin() || ! wp_script_is( 'wp-core-commands', 'enqueued' ) ) {
 		return;
 	}
 
@@ -954,7 +954,7 @@ function wp_admin_bar_command_palette_menu( WP_Admin_Bar $wp_admin_bar ): void {
 		? _x( '⌘K', 'keyboard shortcut to open the command palette' )
 		: _x( 'Ctrl+K', 'keyboard shortcut to open the command palette' );
 	$title          = sprintf(
-		'<span class="ab-label"><kbd>%s</kbd><span class="screen-reader-text"> %s</span></span>',
+		'<span class="ab-icon" aria-hidden="true"></span><span class="ab-label"><kbd>%s</kbd><span class="screen-reader-text"> %s</span></span>',
 		$shortcut_label,
 		/* translators: Hidden accessibility text. */
 		__( 'Open command palette' ),
