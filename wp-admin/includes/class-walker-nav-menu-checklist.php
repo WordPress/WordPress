@@ -111,12 +111,12 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-object" name="menu-item[' . $possible_object_id . '][menu-item-object]" value="' . esc_attr( $item->object ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-parent-id" name="menu-item[' . $possible_object_id . '][menu-item-parent-id]" value="' . esc_attr( $item->menu_item_parent ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-type" name="menu-item[' . $possible_object_id . '][menu-item-type]" value="' . esc_attr( $item->type ) . '" />';
-		$output .= '<input type="hidden" class="menu-item-title" name="menu-item[' . $possible_object_id . '][menu-item-title]" value="' . esc_attr( $item->title ) . '" />';
+		$output .= '<input type="hidden" class="menu-item-title" name="menu-item[' . $possible_object_id . '][menu-item-title]" value="' . htmlspecialchars( $item->title, ENT_QUOTES ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-url" name="menu-item[' . $possible_object_id . '][menu-item-url]" value="' . esc_attr( $item->url ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-target" name="menu-item[' . $possible_object_id . '][menu-item-target]" value="' . esc_attr( $item->target ) . '" />';
-		$output .= '<input type="hidden" class="menu-item-attr-title" name="menu-item[' . $possible_object_id . '][menu-item-attr-title]" value="' . esc_attr( $item->attr_title ) . '" />';
-		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="' . esc_attr( implode( ' ', $item->classes ) ) . '" />';
-		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="' . esc_attr( $item->xfn ) . '" />';
+		$output .= '<input type="hidden" class="menu-item-attr-title" name="menu-item[' . $possible_object_id . '][menu-item-attr-title]" value="' . htmlspecialchars( $item->attr_title, ENT_QUOTES ) . '" />';
+		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="' . htmlspecialchars( implode( ' ', $item->classes ), ENT_QUOTES ) . '" />';
+		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="' . htmlspecialchars( $item->xfn, ENT_QUOTES ) . '" />';
 	}
 
 } // Walker_Nav_Menu_Checklist
