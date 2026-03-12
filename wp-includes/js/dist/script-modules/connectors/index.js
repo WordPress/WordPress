@@ -111,9 +111,10 @@ function reducer(state = DEFAULT_STATE, action) {
   }
 }
 var selectors = {
-  getConnectors(state) {
-    return Object.values(state.connectors);
-  },
+  getConnectors: (0, import_data.createSelector)(
+    (state) => Object.values(state.connectors),
+    (state) => [state.connectors]
+  ),
   getConnector(state, slug) {
     return state.connectors[slug];
   }
@@ -161,7 +162,8 @@ function DefaultConnectorSettings({
   initialValue = "",
   helpUrl,
   helpLabel,
-  readOnly = false
+  readOnly = false,
+  keySource
 }) {
   const [apiKey, setApiKey] = (0, import_element.useState)(initialValue);
   const [isSaving, setIsSaving] = (0, import_element.useState)(false);
@@ -177,7 +179,18 @@ function DefaultConnectorSettings({
       a: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.ExternalLink, { href: helpUrl, children: helpLinkLabel })
     }
   ) : void 0;
+  const isExternallyConfigured = keySource === "env" || keySource === "constant";
   const getHelp = () => {
+    if (isExternallyConfigured) {
+      if (keySource === "env") {
+        return (0, import_i18n.__)(
+          "This API key is configured using an environment variable."
+        );
+      }
+      if (keySource === "constant") {
+        return (0, import_i18n.__)("This API key is configured as a constant.");
+      }
+    }
     if (readOnly) {
       return helpUrl ? (0, import_element.createInterpolateElement)(
         (0, import_i18n.sprintf)(
@@ -238,7 +251,7 @@ function DefaultConnectorSettings({
             help: getHelp()
           }
         ),
-        readOnly ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Button, { variant: "link", isDestructive: true, onClick: onRemove, children: (0, import_i18n.__)("Remove and replace") }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalHStack, { justify: "flex-start", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        readOnly ? onRemove && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Button, { variant: "link", isDestructive: true, onClick: onRemove, children: (0, import_i18n.__)("Remove and replace") }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalHStack, { justify: "flex-start", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           import_components.Button,
           {
             __next40pxDefaultSize: true,

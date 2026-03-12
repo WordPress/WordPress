@@ -7245,16 +7245,25 @@ var wp;
     const saveAttributes = getCommentAttributes(blockType, block.attributes);
     return getCommentDelimitedContent(blockName, saveAttributes, saveContent);
   }
-  function __unstableSerializeAndClean(blocks) {
-    if (blocks.length === 1 && isUnmodifiedDefaultBlock(blocks[0])) {
-      blocks = [];
-    }
-    let content = serialize(blocks);
-    if (blocks.length === 1 && blocks[0].name === getFreeformContentHandlerName() && blocks[0].name === "core/freeform") {
-      content = (0, import_autop.removep)(content);
-    }
-    return content;
-  }
+  var __unstableSerializeAndClean = /* @__PURE__ */ (() => {
+    const cache = /* @__PURE__ */ new WeakMap();
+    return (blocks) => {
+      const cached = cache.get(blocks);
+      if (cached !== void 0) {
+        return cached;
+      }
+      let effectiveBlocks = blocks;
+      if (effectiveBlocks.length === 1 && isUnmodifiedDefaultBlock(effectiveBlocks[0])) {
+        effectiveBlocks = [];
+      }
+      let content = serialize(effectiveBlocks);
+      if (effectiveBlocks.length === 1 && effectiveBlocks[0].name === getFreeformContentHandlerName() && effectiveBlocks[0].name === "core/freeform") {
+        content = (0, import_autop.removep)(content);
+      }
+      cache.set(blocks, content);
+      return content;
+    };
+  })();
   function serialize(blocks, options) {
     const blocksArray = Array.isArray(blocks) ? blocks : [blocks];
     return blocksArray.map((block) => serializeBlock(block, options)).join("\n\n");

@@ -175,7 +175,7 @@
       'wp-i18n',
       'wp-private-apis'
     ),
-    'version' => 'bd74f3db1cc1555ee90d'
+    'version' => '0db9a26c7920b6ab9f4a'
   ),
   'core-abilities/index.min.js' => array(
     'dependencies' => array(
@@ -298,7 +298,7 @@
     'dependencies' => array(
       
     ),
-    'version' => 'a742676bcc8809271cc6'
+    'version' => '61b86a5f5540ba666280'
   ),
   'workflow/index.min.js' => array(
     'dependencies' => array(

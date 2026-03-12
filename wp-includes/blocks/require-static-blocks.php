@@ -10,7 +10,6 @@ return array(
 	'code',
 	'column',
 	'columns',
-	'details',
 	'embed',
 	'freeform',
 	'group',

@@ -417,6 +417,7 @@ var wp;
   var index_exports = {};
   __export(index_exports, {
     EntityProvider: () => EntityProvider,
+    SelectionDirection: () => SelectionDirection,
     SelectionType: () => SelectionType,
     __experimentalFetchLinkSuggestions: () => fetchLinkSuggestions,
     __experimentalFetchUrlData: () => experimental_fetch_url_data_default,
@@ -1375,7 +1376,8 @@ var wp;
     SelectionType2["WholeBlock"] = "whole-block";
     return SelectionType2;
   })(SelectionType || {});
-  function getSelectionState(selectionStart, selectionEnd, yDoc) {
+  function getSelectionState(selectionStart, selectionEnd, yDoc, options) {
+    const { selectionDirection } = options ?? {};
     const ymap = getRootMap(yDoc, CRDT_RECORD_MAP_KEY);
     const yBlocks = ymap.get("blocks");
     const isSelectionEmpty = Object.keys(selectionStart).length === 0;
@@ -1420,7 +1422,8 @@ var wp;
       return {
         type: "selection-in-one-block",
         cursorStartPosition: cursorStartPosition2,
-        cursorEndPosition: cursorEndPosition2
+        cursorEndPosition: cursorEndPosition2,
+        selectionDirection
       };
     }
     const cursorStartPosition = getCursorPosition(selectionStart, yBlocks);
@@ -1431,7 +1434,8 @@ var wp;
     return {
       type: "selection-in-multiple-blocks",
       cursorStartPosition,
-      cursorEndPosition
+      cursorEndPosition,
+      selectionDirection
     };
   }
   function getCursorPosition(selection, blocks) {
@@ -1529,7 +1533,7 @@ var wp;
         ) && areCursorPositionsEqual(
           selection1.cursorEndPosition,
           selection2.cursorEndPosition
-        );
+        ) && selection1.selectionDirection === selection2.selectionDirection;
       case "selection-in-multiple-blocks":
         return areCursorPositionsEqual(
           selection1.cursorStartPosition,
@@ -1537,7 +1541,7 @@ var wp;
         ) && areCursorPositionsEqual(
           selection1.cursorEndPosition,
           selection2.cursorEndPosition
-        );
+        ) && selection1.selectionDirection === selection2.selectionDirection;
       case "whole-block":
         return import_sync6.Y.compareRelativePositions(
           selection1.blockPosition,
@@ -1555,6 +1559,13 @@ var wp;
     const isAbsoluteOffsetEqual = cursorPosition1.absoluteOffset === cursorPosition2.absoluteOffset;
     return isRelativePositionEqual && isAbsoluteOffsetEqual;
   }
+
+  // packages/core-data/build-module/types.mjs
+  var SelectionDirection = /* @__PURE__ */ ((SelectionDirection2) => {
+    SelectionDirection2["Forward"] = "f";
+    SelectionDirection2["Backward"] = "b";
+    return SelectionDirection2;
+  })(SelectionDirection || {});
 
   // packages/core-data/build-module/awareness/post-editor-awareness.mjs
   var PostEditorAwareness = class extends BaseAwarenessState {
@@ -1584,11 +1595,18 @@ var wp;
       let selectionStart = getSelectionStart();
       let selectionEnd = getSelectionEnd();
       let localCursorTimeout = null;
+      let selectionBeforeDebounce = null;
       (0, import_data5.subscribe)(() => {
         const newSelectionStart = getSelectionStart();
         const newSelectionEnd = getSelectionEnd();
         if (newSelectionStart === selectionStart && newSelectionEnd === selectionEnd) {
           return;
+        }
+        if (!selectionBeforeDebounce) {
+          selectionBeforeDebounce = {
+            start: selectionStart,
+            end: selectionEnd
+          };
         }
         selectionStart = newSelectionStart;
         selectionEnd = newSelectionEnd;
@@ -1602,10 +1620,21 @@ var wp;
           clearTimeout(localCursorTimeout);
         }
         localCursorTimeout = setTimeout(() => {
+          const selectionStateOptions = {};
+          if (selectionBeforeDebounce) {
+            selectionStateOptions.selectionDirection = detectSelectionDirection(
+              selectionBeforeDebounce.start,
+              selectionBeforeDebounce.end,
+              selectionStart,
+              selectionEnd
+            );
+            selectionBeforeDebounce = null;
+          }
           const selectionState = getSelectionState(
             selectionStart,
             selectionEnd,
-            this.doc
+            this.doc,
+            selectionStateOptions
           );
           this.setThrottledLocalStateField(
             "editorState",
@@ -1760,6 +1789,17 @@ var wp;
       };
     }
   };
+  function detectSelectionDirection(prevStart, prevEnd, newStart, newEnd) {
+    const startMoved = !areBlockSelectionsEqual(prevStart, newStart);
+    const endMoved = !areBlockSelectionsEqual(prevEnd, newEnd);
+    if (startMoved && !endMoved) {
+      return SelectionDirection.Backward;
+    }
+    return SelectionDirection.Forward;
+  }
+  function areBlockSelectionsEqual(a, b) {
+    return a.clientId === b.clientId && a.attributeKey === b.attributeKey && a.offset === b.offset;
+  }
 
   // packages/core-data/build-module/utils/crdt.mjs
   var import_es63 = __toESM(require_es6(), 1);
@@ -1820,9 +1860,13 @@ var wp;
   var import_rich_text = __toESM(require_rich_text(), 1);
   var import_sync9 = __toESM(require_sync(), 1);
   var serializableBlocksCache = /* @__PURE__ */ new WeakMap();
-  function makeBlockAttributesSerializable(attributes) {
+  function makeBlockAttributesSerializable(blockName, attributes) {
     const newAttributes = { ...attributes };
     for (const [key, value] of Object.entries(attributes)) {
+      if (isLocalAttribute(blockName, key)) {
+        delete newAttributes[key];
+        continue;
+      }
       if (value instanceof import_rich_text.RichTextData) {
         newAttributes[key] = value.valueOf();
       }
@@ -1836,7 +1880,7 @@ var wp;
       return {
         ...rest,
         name,
-        attributes: makeBlockAttributesSerializable(attributes),
+        attributes: makeBlockAttributesSerializable(name, attributes),
         innerBlocks: makeBlocksSerializable(innerBlocks)
       };
     });
@@ -1918,10 +1962,7 @@ var wp;
         makeBlocksSerializable(incomingBlocks)
       );
     }
-    const allBlocks = serializableBlocksCache.get(incomingBlocks) ?? [];
-    const blocksToSync = allBlocks.filter(
-      (block) => shouldBlockBeSynced(block)
-    );
+    const blocksToSync = serializableBlocksCache.get(incomingBlocks) ?? [];
     const numOfCommonEntries = Math.min(
       blocksToSync.length ?? 0,
       yblocks.length
@@ -2034,14 +2075,6 @@ var wp;
       knownClientIds.add(clientId);
     }
   }
-  function shouldBlockBeSynced(block) {
-    if ("core/gallery" === block.name) {
-      return !block.innerBlocks.some(
-        (innerBlock) => innerBlock.attributes && innerBlock.attributes.blob
-      );
-    }
-    return true;
-  }
   function updateYBlockAttribute(blockName, attributeName, attributeValue, currentAttributes, cursorPosition) {
     const isRichText = isRichTextAttribute(blockName, attributeName);
     const currentAttribute = currentAttributes.get(attributeName);
@@ -2059,17 +2092,16 @@ var wp;
     if (!cachedBlockAttributeTypes) {
       cachedBlockAttributeTypes = /* @__PURE__ */ new Map();
       for (const blockType of (0, import_blocks.getBlockTypes)()) {
-        const blockAttributeTypeMap = /* @__PURE__ */ new Map();
-        for (const [name, definition] of Object.entries(
-          blockType.attributes ?? {}
-        )) {
-          if (definition.type) {
-            blockAttributeTypeMap.set(name, definition.type);
-          }
-        }
         cachedBlockAttributeTypes.set(
           blockType.name,
-          blockAttributeTypeMap
+          new Map(
+            Object.entries(blockType.attributes ?? {}).map(
+              ([name, definition]) => {
+                const { role, type } = definition;
+                return [name, { role, type }];
+              }
+            )
+          )
         );
       }
     }
@@ -2079,16 +2111,20 @@ var wp;
     const expectedAttributeType = getBlockAttributeType(
       blockName,
       attributeName
-    );
+    )?.type;
     if (expectedAttributeType === "rich-text") {
       return attributeValue instanceof import_sync9.Y.Text;
-    } else if (expectedAttributeType === "string") {
+    }
+    if (expectedAttributeType === "string") {
       return typeof attributeValue === "string";
     }
     return true;
   }
+  function isLocalAttribute(blockName, attributeName) {
+    return "local" === getBlockAttributeType(blockName, attributeName)?.role;
+  }
   function isRichTextAttribute(blockName, attributeName) {
-    return "rich-text" === getBlockAttributeType(blockName, attributeName);
+    return "rich-text" === getBlockAttributeType(blockName, attributeName)?.type;
   }
   var localDoc;
   function mergeRichTextUpdate(blockYText, updatedValue, cursorPosition = null) {
@@ -7167,7 +7203,8 @@ var wp;
             id,
             {
               per_page: -1,
-              context: "edit"
+              context: "edit",
+              _fields: "id,date,author,meta,title.raw,excerpt.raw,content.raw"
             }
           );
           const entityConfig = select5(STORE_NAME).getEntityConfig(
@@ -7209,6 +7246,7 @@ var wp;
   }
 
   // packages/core-data/build-module/hooks/use-post-editor-awareness-state.mjs
+  var import_compose3 = __toESM(require_compose(), 1);
   var import_element8 = __toESM(require_element(), 1);
   var defaultResolvedSelection = {
     textIndex: null,
@@ -7303,6 +7341,82 @@ var wp;
     }, [postId, postType]);
     return lastSave;
   }
+  function useOnCollaboratorJoin(postId, postType, callback) {
+    const { activeCollaborators } = usePostEditorAwarenessState(
+      postId,
+      postType
+    );
+    const prevCollaborators = (0, import_compose3.usePrevious)(activeCollaborators);
+    (0, import_element8.useEffect)(() => {
+      if (!prevCollaborators || prevCollaborators.length === 0) {
+        return;
+      }
+      const prevMap = new Map(
+        prevCollaborators.map((collaborator) => [
+          collaborator.clientId,
+          collaborator
+        ])
+      );
+      const me = activeCollaborators.find(
+        (collaborator) => collaborator.isMe
+      );
+      for (const collaborator of activeCollaborators) {
+        if (!prevMap.has(collaborator.clientId) && !collaborator.isMe) {
+          callback(collaborator, me);
+        }
+      }
+    }, [activeCollaborators, prevCollaborators, callback]);
+  }
+  function useOnCollaboratorLeave(postId, postType, callback) {
+    const { activeCollaborators } = usePostEditorAwarenessState(
+      postId,
+      postType
+    );
+    const prevCollaborators = (0, import_compose3.usePrevious)(activeCollaborators);
+    (0, import_element8.useEffect)(() => {
+      if (!prevCollaborators || prevCollaborators.length === 0) {
+        return;
+      }
+      const newMap = new Map(
+        activeCollaborators.map((collaborator) => [
+          collaborator.clientId,
+          collaborator
+        ])
+      );
+      for (const prevCollab of prevCollaborators) {
+        if (prevCollab.isMe || !prevCollab.isConnected) {
+          continue;
+        }
+        const newCollab = newMap.get(prevCollab.clientId);
+        if (!newCollab?.isConnected) {
+          callback(prevCollab);
+        }
+      }
+    }, [activeCollaborators, prevCollaborators, callback]);
+  }
+  function useOnPostSave(postId, postType, callback) {
+    const { activeCollaborators } = usePostEditorAwarenessState(
+      postId,
+      postType
+    );
+    const lastPostSave = useLastPostSave(postId, postType);
+    const prevPostSave = (0, import_compose3.usePrevious)(lastPostSave);
+    (0, import_element8.useEffect)(() => {
+      if (!lastPostSave) {
+        return;
+      }
+      if (prevPostSave && lastPostSave.savedAt === prevPostSave.savedAt) {
+        return;
+      }
+      const saver = activeCollaborators.find(
+        (collaborator) => collaborator.clientId === lastPostSave.savedByClientId && !collaborator.isMe
+      );
+      if (!saver) {
+        return;
+      }
+      callback(lastPostSave, saver, prevPostSave ?? null);
+    }, [lastPostSave, prevPostSave, activeCollaborators, callback]);
+  }
 
   // packages/core-data/build-module/private-apis.mjs
   var privateApis = {};
@@ -7312,7 +7426,9 @@ var wp;
     retrySyncConnection,
     useActiveCollaborators,
     useResolvedSelection,
-    useLastPostSave
+    useOnCollaboratorJoin,
+    useOnCollaboratorLeave,
+    useOnPostSave
   });
 
   // packages/core-data/build-module/index.mjs

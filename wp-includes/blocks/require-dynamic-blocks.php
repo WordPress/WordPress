@@ -24,6 +24,7 @@ require_once ABSPATH . WPINC . '/blocks/comments-pagination-numbers.php';
 require_once ABSPATH . WPINC . '/blocks/comments-pagination-previous.php';
 require_once ABSPATH . WPINC . '/blocks/comments-title.php';
 require_once ABSPATH . WPINC . '/blocks/cover.php';
+require_once ABSPATH . WPINC . '/blocks/details.php';
 require_once ABSPATH . WPINC . '/blocks/file.php';
 require_once ABSPATH . WPINC . '/blocks/footnotes.php';
 require_once ABSPATH . WPINC . '/blocks/gallery.php';

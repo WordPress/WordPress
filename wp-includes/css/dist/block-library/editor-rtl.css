@@ -818,20 +818,21 @@ html :where(.wp-block-column) {
   right: 0;
 }
 
-.block-library-html__modal {
-  height: 100%;
+@media (min-width: 600px) {
+  .block-library-html__modal:not(.is-full-screen) {
+    height: 9999rem;
+  }
 }
 .block-library-html__modal .components-modal__children-container {
   height: 100%;
 }
 
 .block-library-html__modal-tabs {
-  overflow-y: auto;
+  flex: 1;
 }
 
 .block-library-html__modal-content {
   flex: 1;
-  min-height: 0;
 }
 
 .block-library-html__modal-tab {
@@ -871,9 +872,12 @@ html :where(.wp-block-column) {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  flex: 1;
   min-height: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.block-library-html__preview iframe {
+  height: 100%;
 }
 
 .wp-block-icon__inserter {

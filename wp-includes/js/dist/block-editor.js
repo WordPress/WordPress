@@ -9477,10 +9477,11 @@ var wp;
     const unsyncedPatternClientIds = isIsolatedEditor || disableContentOnlyForUnsyncedPatterns ? [] : Array.from(state.blocks.attributes.keys()).filter(
       (clientId) => state.blocks.attributes.get(clientId)?.metadata?.patternName
     );
+    const disableContentOnlyForTemplateParts = state.settings?.disableContentOnlyForTemplateParts;
     const contentOnlyParents = [
       ...contentOnlyTemplateLockedClientIds,
       ...unsyncedPatternClientIds,
-      ...isIsolatedEditor ? [] : templatePartClientIds
+      ...isIsolatedEditor || disableContentOnlyForTemplateParts ? [] : templatePartClientIds
     ];
     traverseBlockTree(state, treeClientId, (block) => {
       const { clientId, name: blockName } = block;
@@ -9819,7 +9820,7 @@ var wp;
           break;
         }
         case "UPDATE_SETTINGS": {
-          if (state?.settings?.[sectionRootClientIdKey] !== nextState?.settings?.[sectionRootClientIdKey] || !!state?.settings?.disableContentOnlyForUnsyncedPatterns !== !!nextState?.settings?.disableContentOnlyForUnsyncedPatterns || !!state?.settings?.[isIsolatedEditorKey] !== !!nextState?.settings?.[isIsolatedEditorKey]) {
+          if (state?.settings?.[sectionRootClientIdKey] !== nextState?.settings?.[sectionRootClientIdKey] || !!state?.settings?.disableContentOnlyForUnsyncedPatterns !== !!nextState?.settings?.disableContentOnlyForUnsyncedPatterns || !!state?.settings?.[isIsolatedEditorKey] !== !!nextState?.settings?.[isIsolatedEditorKey] || !!state?.settings?.disableContentOnlyForTemplateParts !== !!nextState?.settings?.disableContentOnlyForTemplateParts) {
             return {
               ...nextState,
               derivedBlockEditingModes: getDerivedBlockEditingModesForTree(nextState)
@@ -11103,7 +11104,8 @@ var wp;
     const isTemplatePart9 = blockName === "core/template-part";
     const isIsolatedEditor = state.settings?.[isIsolatedEditorKey];
     const disableContentOnlyForUnsyncedPatterns = state.settings?.disableContentOnlyForUnsyncedPatterns;
-    if ((!disableContentOnlyForUnsyncedPatterns && attributes?.metadata?.patternName || isTemplatePart9) && !isIsolatedEditor) {
+    const disableContentOnlyForTemplateParts = state.settings?.disableContentOnlyForTemplateParts;
+    if ((!disableContentOnlyForUnsyncedPatterns && attributes?.metadata?.patternName || isTemplatePart9 && !disableContentOnlyForTemplateParts) && !isIsolatedEditor) {
       return true;
     }
     const hasContentOnlyTemplateLock = getTemplateLock(state, clientId) === "contentOnly";
@@ -12215,15 +12217,16 @@ var wp;
     if (isWithinSection && getBlockName(state, sectionClientId) === "core/block") {
       return false;
     }
-    if ((isParentSectionBlock || blockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
+    if (isWithinSection && (isParentSectionBlock || blockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
       state,
       blockName,
       rootClientId
     )) {
-      if (blockName === (0, import_blocks6.getDefaultBlockName)()) {
+      const defaultBlockName = (0, import_blocks6.getDefaultBlockName)();
+      if (blockName === defaultBlockName) {
         const existingBlocks = getBlockOrder(state, rootClientId);
         const hasDefaultBlock = existingBlocks.some(
-          (clientId) => getBlockName(state, clientId) === (0, import_blocks6.getDefaultBlockName)()
+          (clientId) => getBlockName(state, clientId) === defaultBlockName
         );
         if (!hasDefaultBlock) {
           return false;
@@ -12330,15 +12333,16 @@ var wp;
     }
     const rootBlockEditingMode = getBlockEditingMode(state, rootClientId);
     const blockName = getBlockName(state, clientId);
-    if ((isParentSectionBlock || rootBlockEditingMode === "contentOnly" || blockName === (0, import_blocks6.getDefaultBlockName)()) && !isContainerInsertableToInContentOnlyMode(
+    const defaultBlockName = (0, import_blocks6.getDefaultBlockName)();
+    if (isWithinSection && (isParentSectionBlock || blockName === defaultBlockName || rootBlockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
       state,
       getBlockName(state, clientId),
       rootClientId
     )) {
-      if (blockName === (0, import_blocks6.getDefaultBlockName)()) {
+      if (blockName === defaultBlockName) {
         const existingBlocks = getBlockOrder(state, rootClientId);
         const defaultBlocks = existingBlocks.filter(
-          (id) => getBlockName(state, id) === (0, import_blocks6.getDefaultBlockName)()
+          (id) => getBlockName(state, id) === defaultBlockName
         );
         if (defaultBlocks.length > 1) {
           return true;
@@ -12377,7 +12381,7 @@ var wp;
     }
     const isParentSectionBlock = !!isSectionBlock(state, rootClientId);
     const rootBlockEditingMode = getBlockEditingMode(state, rootClientId);
-    if ((isParentSectionBlock || rootBlockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
+    if (isBlockWithinSection && (isParentSectionBlock || rootBlockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
       state,
       getBlockName(state, clientId),
       rootClientId
