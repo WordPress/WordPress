@@ -226,6 +226,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
+	 * @see WP_REST_Posts_Controller::get_items()
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
@@ -297,7 +299,17 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 				$args['update_post_meta_cache'] = false;
 			}
 
-			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+			/**
+			 * Filters WP_Query arguments when querying revisions via the REST API.
+			 *
+			 * Serves the same purpose as the {@see 'rest_{$this->post_type}_query'} filter in
+			 * WP_REST_Posts_Controller, but for the standalone WP_REST_Revisions_Controller.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @param array           $args    Array of arguments for WP_Query.
+			 * @param WP_REST_Request $request The REST API request.
+			 */
 			$args = apply_filters( 'rest_revision_query', $args, $request );
 			if ( ! is_array( $args ) ) {
 				$args = array();
