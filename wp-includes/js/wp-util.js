@@ -36,7 +36,11 @@ window.wp = window.wp || {};
 			};
 
 		return function ( data ) {
-			compiled = compiled || _.template( $( '#tmpl-' + id ).html(),  options );
+			var el = document.querySelector( 'script#tmpl-' + id );
+			if ( ! el ) {
+				throw new Error( 'Template not found: ' + '#tmpl-' + id );
+			}
+			compiled = compiled || _.template( $( el ).html(), options );
 			return compiled( data );
 		};
 	});
