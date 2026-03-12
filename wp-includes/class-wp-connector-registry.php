@@ -16,17 +16,17 @@
  * @access private
  *
  * @phpstan-type Connector array{
- *     name: string,
- *     description: string,
- *     logo_url?: string|null,
- *     type: string,
+ *     name: non-empty-string,
+ *     description: non-empty-string,
+ *     logo_url?: non-empty-string,
+ *     type: 'ai_provider',
  *     authentication: array{
- *         method: string,
- *         credentials_url?: string|null,
- *         setting_name?: string
+ *         method: 'api_key'|'none',
+ *         credentials_url?: non-empty-string,
+ *         setting_name?: non-empty-string
  *     },
  *     plugin?: array{
- *         slug: string
+ *         slug: non-empty-string
  *     }
  * }
  */
@@ -62,15 +62,15 @@ final class WP_Connector_Registry {
 	 *
 	 *     @type string $name           Required. The connector's display name.
 	 *     @type string $description    Optional. The connector's description. Default empty string.
-	 *     @type string|null $logo_url  Optional. URL to the connector's logo image. Default null.
+	 *     @type string $logo_url       Optional. URL to the connector's logo image.
 	 *     @type string $type           Required. The connector type. Currently, only 'ai_provider' is supported.
 	 *     @type array  $authentication {
 	 *         Required. Authentication configuration.
 	 *
-	 *         @type string      $method          Required. The authentication method: 'api_key' or 'none'.
-	 *         @type string|null $credentials_url Optional. URL where users can obtain API credentials.
+	 *         @type string $method          Required. The authentication method: 'api_key' or 'none'.
+	 *         @type string $credentials_url Optional. URL where users can obtain API credentials.
 	 *     }
-	 *     @type array  $plugin {
+	 *     @type array  $plugin         {
 	 *         Optional. Plugin data for install/activate UI.
 	 *
 	 *         @type string $slug The WordPress.org plugin slug.
@@ -158,8 +158,10 @@ final class WP_Connector_Registry {
 		}
 
 		if ( 'api_key' === $args['authentication']['method'] ) {
-			$connector['authentication']['credentials_url'] = $args['authentication']['credentials_url'] ?? null;
-			$connector['authentication']['setting_name']    = "connectors_ai_{$id}_api_key";
+			if ( ! empty( $args['authentication']['credentials_url'] ) && is_string( $args['authentication']['credentials_url'] ) ) {
+				$connector['authentication']['credentials_url'] = $args['authentication']['credentials_url'];
+			}
+			$connector['authentication']['setting_name'] = "connectors_ai_{$id}_api_key";
 		}
 
 		if ( ! empty( $args['plugin'] ) && is_array( $args['plugin'] ) ) {
@@ -206,7 +208,8 @@ final class WP_Connector_Registry {
 	 *
 	 * @see wp_get_connectors()
 	 *
-	 * @return array<string, array> The array of registered connectors keyed by connector ID.
+	 * @return array Connector settings keyed by connector ID.
+	 *
 	 * @phpstan-return array<string, Connector>
 	 */
 	public function get_all_registered(): array {

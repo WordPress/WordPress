@@ -37,7 +37,41 @@ function wp_is_connector_registered( string $id ): bool {
  * @see WP_Connector_Registry::get_registered()
  *
  * @param string $id The connector identifier.
- * @return array|null The registered connector data, or null if not registered.
+ * @return array|null {
+ *     Connector data, or null if not registered.
+ *
+ *     @type string $name           The connector's display name.
+ *     @type string $description    The connector's description.
+ *     @type string $logo_url       Optional. URL to the connector's logo image.
+ *     @type string $type           The connector type. Currently, only 'ai_provider' is supported.
+ *     @type array  $authentication {
+ *         Authentication configuration. When method is 'api_key', includes
+ *         credentials_url and setting_name. When 'none', only method is present.
+ *
+ *         @type string $method          The authentication method: 'api_key' or 'none'.
+ *         @type string $credentials_url Optional. URL where users can obtain API credentials.
+ *         @type string $setting_name    Optional. The setting name for the API key.
+ *     }
+ *     @type array  $plugin         {
+ *         Optional. Plugin data for install/activate UI.
+ *
+ *         @type string $slug The WordPress.org plugin slug.
+ *     }
+ * }
+ * @phpstan-return ?array{
+ *     name: non-empty-string,
+ *     description: non-empty-string,
+ *     logo_url?: non-empty-string,
+ *     type: 'ai_provider',
+ *     authentication: array{
+ *         method: 'api_key'|'none',
+ *         credentials_url?: non-empty-string,
+ *         setting_name?: non-empty-string
+ *     },
+ *     plugin?: array{
+ *         slug: non-empty-string
+ *     }
+ * }
  */
 function wp_get_connector( string $id ): ?array {
 	$registry = WP_Connector_Registry::get_instance();
@@ -55,7 +89,45 @@ function wp_get_connector( string $id ): ?array {
  *
  * @see WP_Connector_Registry::get_all_registered()
  *
- * @return array[] An array of registered connectors keyed by connector ID.
+ * @return array {
+ *     Connector settings keyed by connector ID.
+ *
+ *     @type array ...$0 {
+ *         Data for a single connector.
+ *
+ *         @type string      $name           The connector's display name.
+ *         @type string      $description    The connector's description.
+ *         @type string      $logo_url       Optional. URL to the connector's logo image.
+ *         @type string      $type           The connector type. Currently, only 'ai_provider' is supported.
+ *         @type array       $authentication {
+ *             Authentication configuration. When method is 'api_key', includes
+ *             credentials_url and setting_name. When 'none', only method is present.
+ *
+ *             @type string $method          The authentication method: 'api_key' or 'none'.
+ *             @type string $credentials_url Optional. URL where users can obtain API credentials.
+ *             @type string $setting_name    Optional. The setting name for the API key.
+ *         }
+ *         @type array       $plugin         {
+ *             Optional. Plugin data for install/activate UI.
+ *
+ *             @type string $slug The WordPress.org plugin slug.
+ *         }
+ *     }
+ * }
+ * @phpstan-return array<string, array{
+ *     name: non-empty-string,
+ *     description: non-empty-string,
+ *     logo_url?: non-empty-string,
+ *     type: 'ai_provider',
+ *     authentication: array{
+ *         method: 'api_key'|'none',
+ *         credentials_url?: non-empty-string,
+ *         setting_name?: non-empty-string
+ *     },
+ *     plugin?: array{
+ *         slug: non-empty-string
+ *     }
+ * }>
  */
 function wp_get_connectors(): array {
 	$registry = WP_Connector_Registry::get_instance();
@@ -325,41 +397,6 @@ function _wp_connectors_get_real_api_key( string $option_name, callable $mask_ca
 }
 
 /**
- * Gets the registered connector settings.
- *
- * @since 7.0.0
- * @access private
- *
- * @return array {
- *     Connector settings keyed by connector ID.
- *
- *     @type array ...$0 {
- *         Data for a single connector.
- *
- *         @type string $name           The connector's display name.
- *         @type string $description    The connector's description.
- *         @type string $type           The connector type. Currently, only 'ai_provider' is supported.
- *         @type array  $plugin         Optional. Plugin data for install/activate UI.
- *             @type string $slug       The WordPress.org plugin slug.
- *         }
- *         @type array  $authentication {
- *             Authentication configuration. When method is 'api_key', includes
- *             credentials_url and setting_name. When 'none', only method is present.
- *
- *             @type string      $method          The authentication method: 'api_key' or 'none'.
- *             @type string|null $credentials_url Optional. URL where users can obtain API credentials.
- *             @type string      $setting_name    Optional. The setting name for the API key.
- *         }
- *     }
- * }
- */
-function _wp_connectors_get_connector_settings(): array {
-	$connectors = wp_get_connectors();
-	ksort( $connectors );
-	return $connectors;
-}
-
-/**
  * Validates connector API keys in the REST response when explicitly requested.
  *
  * Runs on `rest_post_dispatch` for `/wp/v2/settings` requests that include connector
@@ -396,7 +433,7 @@ function _wp_connectors_validate_keys_in_rest( WP_REST_Response $response, WP_RE
 		return $response;
 	}
 
-	foreach ( _wp_connectors_get_connector_settings() as $connector_id => $connector_data ) {
+	foreach ( wp_get_connectors() as $connector_id => $connector_data ) {
 		$auth = $connector_data['authentication'];
 		if ( 'ai_provider' !== $connector_data['type'] || 'api_key' !== $auth['method'] || empty( $auth['setting_name'] ) ) {
 			continue;
@@ -431,7 +468,7 @@ add_filter( 'rest_post_dispatch', '_wp_connectors_validate_keys_in_rest', 10, 3 
 function _wp_register_default_connector_settings(): void {
 	$ai_registry = AiClient::defaultRegistry();
 
-	foreach ( _wp_connectors_get_connector_settings() as $connector_id => $connector_data ) {
+	foreach ( wp_get_connectors() as $connector_id => $connector_data ) {
 		$auth = $connector_data['authentication'];
 		if ( 'ai_provider' !== $connector_data['type'] || 'api_key' !== $auth['method'] || empty( $auth['setting_name'] ) ) {
 			continue;
@@ -485,7 +522,7 @@ add_action( 'init', '_wp_register_default_connector_settings', 20 );
 function _wp_connectors_pass_default_keys_to_ai_client(): void {
 	try {
 		$ai_registry = AiClient::defaultRegistry();
-		foreach ( _wp_connectors_get_connector_settings() as $connector_id => $connector_data ) {
+		foreach ( wp_get_connectors() as $connector_id => $connector_data ) {
 			if ( 'ai_provider' !== $connector_data['type'] ) {
 				continue;
 			}
@@ -521,12 +558,12 @@ add_action( 'init', '_wp_connectors_pass_default_keys_to_ai_client', 20 );
  * @since 7.0.0
  * @access private
  *
- * @param array $data Existing script module data.
- * @return array Script module data with connectors added.
+ * @param array<string, mixed> $data Existing script module data.
+ * @return array<string, mixed> Script module data with connectors added.
  */
 function _wp_connectors_get_connector_script_module_data( array $data ): array {
 	$connectors = array();
-	foreach ( _wp_connectors_get_connector_settings() as $connector_id => $connector_data ) {
+	foreach ( wp_get_connectors() as $connector_id => $connector_data ) {
 		$auth     = $connector_data['authentication'];
 		$auth_out = array( 'method' => $auth['method'] );
 
@@ -548,6 +585,7 @@ function _wp_connectors_get_connector_script_module_data( array $data ): array {
 
 		$connectors[ $connector_id ] = $connector_out;
 	}
+	ksort( $connectors );
 	$data['connectors'] = $connectors;
 	return $data;
 }
