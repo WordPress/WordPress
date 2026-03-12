@@ -2291,4 +2291,13 @@ class WP_HTML_Tag_Processor {
 
 		return true;
 	}
+
+	/**
+	 * Wakeup magic method.
+	 *
+	 * @since 6.9.2
+	 */
+	public function __wakeup() {
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+	}
 }
