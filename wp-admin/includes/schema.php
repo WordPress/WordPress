@@ -1033,7 +1033,6 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	}
 
 	// Check for network collision.
-	$network_exists = false;
 	if ( is_multisite() ) {
 		if ( get_network( $network_id ) ) {
 			$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
