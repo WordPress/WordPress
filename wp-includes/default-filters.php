@@ -607,7 +607,7 @@ add_action( 'admin_enqueue_scripts', 'wp_enqueue_view_transitions_admin_css' );
 add_action( 'enqueue_block_assets', 'wp_enqueue_classic_theme_styles' );
 add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
-add_action( 'init', 'wp_load_classic_theme_block_styles_on_demand', 8 ); // Must happen before register_core_block_style_handles() at priority 9.
+add_action( 'wp_default_styles', 'wp_load_classic_theme_block_styles_on_demand', 0 ); // Must happen before wp_default_styles() and register_core_block_style_handles().
 /*
  * `wp_enqueue_registered_block_scripts_and_styles` is bound to both
  * `enqueue_block_editor_assets` and `enqueue_block_assets` hooks
