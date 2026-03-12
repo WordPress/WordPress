@@ -1842,8 +1842,8 @@ function wp_kses_normalize_entities( $string, $context = 'html' ) {
 	} else {
 		$string = preg_replace_callback( '/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_named_entities', $string );
 	}
-	$string = preg_replace_callback( '/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string );
-	$string = preg_replace_callback( '/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string );
+	$string = preg_replace_callback( '/&amp;#(0*[1-9][0-9]{0,6});/', 'wp_kses_normalize_entities2', $string );
+	$string = preg_replace_callback( '/&amp;#[Xx](0*[1-9A-Fa-f][0-9A-Fa-f]{0,5});/', 'wp_kses_normalize_entities3', $string );
 
 	return $string;
 }
