@@ -395,17 +395,22 @@ if ( isset( $plugin_page ) ) {
 	 */
 	if ( 'page' === $typenow ) {
 		if ( 'post-new.php' === $pagenow ) {
+			/** This action is documented in wp-admin/admin.php */
 			do_action( 'load-page-new.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} elseif ( 'post.php' === $pagenow ) {
+			/** This action is documented in wp-admin/admin.php */
 			do_action( 'load-page.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 	} elseif ( 'edit-tags.php' === $pagenow ) {
 		if ( 'category' === $taxnow ) {
+			/** This action is documented in wp-admin/admin.php */
 			do_action( 'load-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} elseif ( 'link_category' === $taxnow ) {
+			/** This action is documented in wp-admin/admin.php */
 			do_action( 'load-edit-link-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 	} elseif ( 'term.php' === $pagenow ) {
+		/** This action is documented in wp-admin/admin.php */
 		do_action( 'load-edit-tags.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 }

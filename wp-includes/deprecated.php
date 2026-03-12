@@ -150,6 +150,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 
 	$string = '<a href="'.get_permalink($post->ID).'">'.$previous;
 	if ( 'yes' == $title )
+		/** This filter is documented in wp-includes/post-template.php */
 		$string .= apply_filters('the_title', $post->post_title, $post->ID);
 	$string .= '</a>';
 	$format = str_replace('%', $string, $format);
@@ -185,6 +186,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 
 	$string = '<a href="'.get_permalink($post->ID).'">'.$next;
 	if ( 'yes' == $title )
+		/** This filter is documented in wp-includes/post-template.php */
 		$string .= apply_filters('the_title', $post->post_title, $post->ID);
 	$string .= '</a>';
 	$format = str_replace('%', $string, $format);
@@ -1060,6 +1062,7 @@ function get_links_list($order = 'name') {
 			// Handle each category.
 
 			// Display the category name.
+			/** This filter is documented in wp-includes/bookmark-template.php */
 			echo '  <li id="linkcat-' . $cat->term_id . '" class="linkcat"><h2>' . apply_filters('link_category', $cat->name ) . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params.
 			get_links($cat->term_id, '<li>', "</li>", "\n", true, 'name', false);
@@ -2702,6 +2705,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
 
 	$title = str_replace('%title', $post->post_title, $title);
 	$title = str_replace('%date', $date, $title);
+	/** This filter is documented in wp-includes/post-template.php */
 	$title = apply_filters('the_title', $title, $post->ID);
 
 	$link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
@@ -2779,6 +2783,7 @@ function get_parent_post_rel_link( $title = '%title' ) {
 
 	$title = str_replace('%title', $post->post_title, $title);
 	$title = str_replace('%date', $date, $title);
+	/** This filter is documented in wp-includes/post-template.php */
 	$title = apply_filters('the_title', $title, $post->ID);
 
 	$link = "<link rel='up' title='";

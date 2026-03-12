@@ -338,6 +338,7 @@ function _wp_get_iframed_editor_assets() {
 	 * front-end assets for the content.
 	 */
 	add_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
+	/** This action is documented in wp-includes/script-loader.php */
 	do_action( 'enqueue_block_assets' );
 	remove_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
 
