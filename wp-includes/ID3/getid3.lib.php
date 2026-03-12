@@ -535,6 +535,9 @@ class getid3_lib
 		return ($returnkey ? $minkey : $minvalue);
 	}
 
+	/**
+	 * Converts an XML string to an array, using SimpleXML if available
+	 */
 	public static function XML2array($XMLstring) {
 		if (function_exists('simplexml_load_string') && function_exists('libxml_disable_entity_loader')) {
 			// http://websec.io/2012/08/27/Preventing-XEE-in-PHP.html
