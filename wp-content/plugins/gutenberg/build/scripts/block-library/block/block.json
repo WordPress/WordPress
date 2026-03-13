@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/block",
+	"title": "Pattern",
+	"category": "reusable",
+	"description": "Reuse this design across your site.",
+	"keywords": [ "reusable" ],
+	"textdomain": "default",
+	"attributes": {
+		"ref": {
+			"type": "number"
+		},
+		"content": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"providesContext": {
+		"pattern/overrides": "content"
+	},
+	"supports": {
+		"customClassName": false,
+		"html": false,
+		"inserter": false,
+		"renaming": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
+	}
+}

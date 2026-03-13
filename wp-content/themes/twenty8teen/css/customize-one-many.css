@@ -1,0 +1,17 @@
+/*!
+Theme Name: Twenty8teen
+Customizer styles for Custom Control
+*/
+.customize-repeat-one-many {
+	margin-bottom: 1em;
+}
+
+.customize-repeat-one-many .repeat-one-one {
+	margin-bottom: 1ex;
+}
+
+.customize-repeat-one-many .one-key,
+.customize-repeat-one-many .one-value {
+	display: inline-block;
+	width: 46% !important;
+}
