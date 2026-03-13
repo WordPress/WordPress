@@ -740,7 +740,6 @@ function get_oembed_response_data_rich( $data, $post, $width, $height ) {
 
 	if ( $thumbnail_id ) {
 
-		//list( $thumbnail_url, $thumbnail_width, $thumbnail_height ) = wp_get_attachment_image_src( $thumbnail_id, array( $width, 0 ) );  // php version error 
 		$thumbnail = wp_get_attachment_image_src( $thumbnail_id, array( $width, 0 ) );
 
 		if ( is_array( $thumbnail ) ) {
