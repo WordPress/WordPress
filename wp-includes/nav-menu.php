@@ -433,7 +433,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			}
 		}
 
-		if ( $args['menu-item-title'] == $original_title )
+		if ( wp_unslash( $args['menu-item-title'] ) === $original_title ) {
 			$args['menu-item-title'] = '';
 
 		// hack to get wp to create a post object when too many properties are empty

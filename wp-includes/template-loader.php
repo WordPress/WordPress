@@ -70,8 +70,16 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	 *
 	 * @param string $template The path of the template to include.
 	 */
-	if ( $template = apply_filters( 'template_include', $template ) ) {
-		include( $template );
+	$template   = apply_filters( 'template_include', $template );
+	$is_stringy = is_string( $template ) || ( is_object( $template ) && method_exists( $template, '__toString' ) );
+	$template   = $is_stringy ? realpath( (string) $template ) : null;
+	if (
+		is_string( $template ) &&
+		( str_ends_with( $template, '.php' ) || str_ends_with( $template, '.html' ) ) &&
+		is_file( $template ) &&
+		is_readable( $template )
+	) {
+		include $template;
 	} elseif ( current_user_can( 'switch_themes' ) ) {
 		$theme = wp_get_theme();
 		if ( $theme->errors() ) {
