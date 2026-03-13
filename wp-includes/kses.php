@@ -543,7 +543,7 @@ function wp_kses_one_attr( $string, $element ) {
 	$allowed_html = wp_kses_allowed_html( 'post' );
 	$allowed_protocols = wp_allowed_protocols();
 	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
-	
+
 	// Preserve leading and trailing whitespace.
 	$matches = array();
 	preg_match('/^\s*/', $string, $matches);
@@ -555,7 +555,7 @@ function wp_kses_one_attr( $string, $element ) {
 	} else {
 		$string = substr( $string, strlen( $lead ), -strlen( $trail ) );
 	}
-	
+
 	// Parse attribute name and value from input.
 	$split = preg_split( '/\s*=\s*/', $string, 2 );
 	$name = $split[0];
@@ -592,7 +592,7 @@ function wp_kses_one_attr( $string, $element ) {
 		$value = '';
 		$vless = 'y';
 	}
-	
+
 	// Sanitize attribute by name.
 	wp_kses_attr_check( $name, $value, $string, $vless, $element, $allowed_html );
 
@@ -1147,7 +1147,7 @@ function wp_kses_attr_parse( $element ) {
 	} else {
 		$xhtml_slash = '';
 	}
-	
+
 	// Split it
 	$attrarr = wp_kses_hair_parse( $attr );
 	if ( false === $attrarr ) {
@@ -1157,7 +1157,7 @@ function wp_kses_attr_parse( $element ) {
 	// Make sure all input is returned by adding front and back matter.
 	array_unshift( $attrarr, $begin . $slash . $elname );
 	array_push( $attrarr, $xhtml_slash . $end );
-	
+
 	return $attrarr;
 }
 
@@ -1472,10 +1472,9 @@ function wp_kses_normalize_entities($string) {
 	// Disarm all entities by converting & to &amp;
 	$string = str_replace('&', '&amp;', $string);
 
-	// Change back the allowed entities in our entity whitelist
-	$string = preg_replace_callback('/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_named_entities', $string);
-	$string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string);
-	$string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string);
+	$string = preg_replace_callback( '/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_named_entities', $string );
+	$string = preg_replace_callback( '/&amp;#(0*+[1-9][0-9]{0,6});/', 'wp_kses_normalize_entities2', $string );
+	$string = preg_replace_callback( '/&amp;#[Xx](0*+[1-9A-Fa-f][0-9A-Fa-f]{0,5});/', 'wp_kses_normalize_entities3', $string );
 
 	return $string;
 }
