@@ -1937,11 +1937,11 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 					break;
 			}
 
-			/* translators: %s: Comment URL. */
 			if ( 'note' === $comment->comment_type ) {
 				$notify_message .= get_edit_post_link( $comment->comment_post_ID, 'url' ) . "\r\n";
 			} else {
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
+				/* translators: %s: Comment URL. */
 				$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
 			}
 
