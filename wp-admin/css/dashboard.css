@@ -570,7 +570,7 @@
 }
 
 .community-events ul {
-	background-color: #f6f7f7;
+	background-color: rgba(var(--wp-admin-theme-color--rgb),.08);
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
@@ -582,15 +582,15 @@
 	color: #2c3338;
 }
 .community-events li:first-child {
-	border-top: 1px solid #f0f0f1;
+	border-top: 1px solid #e9e9ed;
 }
 
 .community-events li ~ li {
-	border-top: 1px solid #f0f0f1;
+	border-top: 1px solid #e9e9ed;
 }
 
 .community-events .activity-block.last {
-	border-bottom: 1px solid #f0f0f1;
+	border-bottom: 1px solid #e9e9ed;
 	padding-top: 0;
 	margin-top: -1px;
 }
