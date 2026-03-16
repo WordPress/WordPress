@@ -1,6 +1,107 @@
 <?php
 /**
- * Connectors API.
+ * Connectors API: core functions for registering and managing connectors.
+ *
+ * The Connectors API provides a unified framework for registering and managing
+ * external service integrations within WordPress. A "connector" represents a
+ * connection to an external service — currently focused on AI providers — with
+ * standardized metadata, authentication configuration, and plugin association.
+ *
+ * ## Overview
+ *
+ * The Connectors API enables developers to:
+ *
+ *  - Register AI provider connectors with standardized interfaces.
+ *  - Define authentication methods and credential sources.
+ *  - Associate connectors with WordPress.org plugins for install/activate UI.
+ *  - Expose connector settings through the REST API with automatic key masking.
+ *
+ * ## AI Provider Plugins
+ *
+ * AI provider plugins that register with the WP AI Client's `ProviderRegistry`
+ * get automatic connector integration — no explicit connector registration is
+ * needed. The system discovers providers from the WP AI Client registry and
+ * creates connectors with the correct name, description, logo, authentication
+ * method, and setting name derived from the provider's configuration.
+ *
+ * The authentication method (`api_key` or `none`) is determined by the provider's
+ * metadata in the WP AI Client. For `api_key` providers, a `setting_name` is
+ * automatically generated following the same naming convention used for environment
+ * variables and PHP constants (e.g., provider `openai` maps to `OPENAI_API_KEY`
+ * for env/constant lookup).
+ *
+ * @see WordPress\AiClient\Providers\ProviderRegistry
+ *
+ * ## Admin UI Integration
+ *
+ * Registered `ai_provider` connectors appear on the Settings → Connectors
+ * admin screen. The screen renders each connector as a card using the
+ * registry data:
+ *
+ *  - `name`, `description`, and `logo_url` are displayed on the card.
+ *  - `plugin.slug` enables install/activate controls — the screen checks
+ *    whether the plugin is installed and active, and shows the appropriate
+ *    action button.
+ *  - `authentication.credentials_url` is rendered as a link directing users
+ *    to the provider's site to obtain API credentials.
+ *  - For `api_key` connectors, the screen shows the current key source
+ *    (environment variable, PHP constant, or database) and connection status.
+ *
+ * On the backend, `api_key` connectors also receive automatic settings
+ * registration via the Settings API (`show_in_rest`), API key masking in
+ * REST API responses, and key validation against the provider on update.
+ *
+ * Connectors with other authentication methods or types are registered in the PHP
+ * registry and exposed via the script module data, but require a client-side
+ * JavaScript registration for custom frontend UI. Support for additional
+ * authentication methods and connector types is planned for future releases.
+ *
+ * ## Custom Connectors
+ *
+ * The `wp_connectors_init` action hook allows plugins to override metadata on
+ * existing connectors. AI provider connectors are auto-discovered from the WP
+ * AI Client registry and should not be manually registered here.
+ *
+ * Example — overriding the description of an auto-discovered connector:
+ *
+ *     add_action( 'wp_connectors_init', function ( WP_Connector_Registry $registry ) {
+ *         if ( $registry->is_registered( 'openai' ) ) {
+ *             $connector = $registry->unregister( 'openai' );
+ *             $connector['description'] = __( 'Custom description for OpenAI.', 'my-plugin' );
+ *             $registry->register( 'openai', $connector );
+ *         }
+ *     } );
+ *
+ * Non-AI-provider connector types are not yet fully supported. The PHP registry
+ * accepts any connector type, but only `ai_provider` connectors with `api_key`
+ * authentication receive automatic admin UI. Support for additional connector
+ * types with dedicated frontend integration is planned for future releases.
+ * When available, this action will be the primary hook for registering those
+ * new connector types.
+ *
+ * ## Initialization Lifecycle
+ *
+ * During `init`, the system:
+ *
+ *  1. Creates the `WP_Connector_Registry` singleton.
+ *  2. Registers built-in connectors (Anthropic, Google, OpenAI) with hardcoded defaults.
+ *  3. Auto-discovers providers from the WP AI Client registry and merges their
+ *     metadata (name, description, logo, authentication) on top of defaults,
+ *     with registry values taking precedence.
+ *  4. Fires the `wp_connectors_init` action so plugins can override metadata
+ *     on existing connectors or register additional connectors.
+ *  5. Registers settings and passes stored API keys to the WP AI Client.
+ *
+ * ## Authentication
+ *
+ * Connectors support two authentication methods:
+ *
+ *  - `api_key`: Requires an API key, which can be provided via environment variable,
+ *    PHP constant, or the database (checked in that order).
+ *  - `none`: No authentication required.
+ *
+ * API keys stored in the database are automatically masked in REST API responses
+ * and validated against the provider on update.
  *
  * @package WordPress
  * @subpackage Connectors
@@ -13,9 +114,17 @@ use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 /**
  * Checks if a connector is registered.
  *
+ * Example:
+ *
+ *     if ( wp_is_connector_registered( 'openai' ) ) {
+ *         // The OpenAI connector is available.
+ *     }
+ *
  * @since 7.0.0
  *
  * @see WP_Connector_Registry::is_registered()
+ * @see wp_get_connector()
+ * @see wp_get_connectors()
  *
  * @param string $id The connector identifier.
  * @return bool True if the connector is registered, false otherwise.
@@ -32,9 +141,18 @@ function wp_is_connector_registered( string $id ): bool {
 /**
  * Retrieves a registered connector.
  *
+ * Example:
+ *
+ *     $connector = wp_get_connector( 'openai' );
+ *     if ( $connector ) {
+ *         echo $connector['name']; // 'OpenAI'
+ *     }
+ *
  * @since 7.0.0
  *
  * @see WP_Connector_Registry::get_registered()
+ * @see wp_is_connector_registered()
+ * @see wp_get_connectors()
  *
  * @param string $id The connector identifier.
  * @return array|null {
@@ -85,9 +203,18 @@ function wp_get_connector( string $id ): ?array {
 /**
  * Retrieves all registered connectors.
  *
+ * Example:
+ *
+ *     $connectors = wp_get_connectors();
+ *     foreach ( $connectors as $id => $connector ) {
+ *         printf( '%s: %s', $connector['name'], $connector['description'] );
+ *     }
+ *
  * @since 7.0.0
  *
  * @see WP_Connector_Registry::get_all_registered()
+ * @see wp_is_connector_registered()
+ * @see wp_get_connector()
  *
  * @return array {
  *     Connector settings keyed by connector ID.
@@ -183,8 +310,21 @@ function _wp_connectors_resolve_ai_provider_logo_url( string $path ): ?string {
 /**
  * Initializes the connector registry with default connectors and fires the registration action.
  *
- * Creates the registry instance, registers built-in connectors (which cannot be unhooked),
- * and then fires the `wp_connectors_init` action for plugins to register their own connectors.
+ * This function orchestrates the full connector initialization sequence:
+ *
+ *  1. Creates the `WP_Connector_Registry` singleton instance.
+ *  2. Defines built-in connectors (Anthropic, Google, OpenAI) with hardcoded defaults
+ *     including name, description, type, plugin slug, and authentication configuration.
+ *  3. Merges metadata from the WP AI Client provider registry on top of defaults.
+ *     Registry values (from provider plugins) take precedence over hardcoded fallbacks
+ *     for name, description, logo URL, and authentication method.
+ *  4. Registers all connectors (built-in and AI Client-discovered) on the registry.
+ *  5. Fires the `wp_connectors_init` action for plugins to override metadata
+ *     on existing connectors or register additional connectors.
+ *
+ * Built-in connectors are registered before the action fires and cannot be unhooked.
+ * Plugins should use the `wp_connectors_init` action to override metadata or
+ * register new connectors via `$registry->register()`.
  *
  * @since 7.0.0
  * @access private
@@ -294,24 +434,26 @@ function _wp_connectors_init(): void {
 	/**
 	 * Fires when the connector registry is ready for plugins to register connectors.
 	 *
-	 * Default connectors have already been registered at this point and cannot be
-	 * unhooked. Use `$registry->register()` within this action to add new connectors.
+	 * Built-in connectors and any AI providers auto-discovered from the WP AI Client
+	 * registry have already been registered at this point and cannot be unhooked.
 	 *
-	 * Example usage:
+	 * AI provider plugins that register with the WP AI Client do not need to use
+	 * this action — their connectors are created automatically. This action is
+	 * primarily for registering non-AI-provider connectors or overriding metadata
+	 * on existing connectors.
+	 *
+	 * Use `$registry->register()` within this action to add new connectors.
+	 * To override an existing connector, unregister it first, then re-register
+	 * with updated data.
+	 *
+	 * Example — overriding metadata on an auto-discovered connector:
 	 *
 	 *     add_action( 'wp_connectors_init', function ( WP_Connector_Registry $registry ) {
-	 *         $registry->register(
-	 *             'my_custom_ai',
-	 *             array(
-	 *                 'name'           => __( 'My Custom AI', 'my-plugin' ),
-	 *                 'description'    => __( 'Custom AI provider integration.', 'my-plugin' ),
-	 *                 'type'           => 'ai_provider',
-	 *                 'authentication' => array(
-	 *                     'method'          => 'api_key',
-	 *                     'credentials_url' => 'https://example.com/api-keys',
-	 *                 ),
-	 *             )
-	 *         );
+	 *         if ( $registry->is_registered( 'openai' ) ) {
+	 *             $connector = $registry->unregister( 'openai' );
+	 *             $connector['description'] = __( 'Custom description for OpenAI.', 'my-plugin' );
+	 *             $registry->register( 'openai', $connector );
+	 *         }
 	 *     } );
 	 *
 	 * @since 7.0.0
@@ -486,6 +628,11 @@ add_filter( 'rest_post_dispatch', '_wp_connectors_rest_settings_dispatch', 10, 3
 /**
  * Registers default connector settings.
  *
+ * Only registers settings for `ai_provider` connectors with `api_key`
+ * authentication whose provider is present in the WP AI Client registry.
+ * Each setting is registered with `show_in_rest` enabled, making it
+ * accessible through the `/wp/v2/settings` REST endpoint.
+ *
  * @since 7.0.0
  * @access private
  */
@@ -573,13 +720,27 @@ function _wp_connectors_pass_default_keys_to_ai_client(): void {
 add_action( 'init', '_wp_connectors_pass_default_keys_to_ai_client', 20 );
 
 /**
- * Exposes connector settings to the connectors-wp-admin script module.
+ * Provides connector data to the Settings → Connectors admin screen.
+ *
+ * This function is the bridge between the PHP connector registry and the
+ * frontend admin UI. It transforms each registered connector into the data
+ * structure consumed by the `options-connectors-wp-admin` script module,
+ * enriching registry data with runtime state:
+ *
+ *  - Plugin install/activate status (via `get_plugins()` and `is_plugin_active()`).
+ *  - API key source detection (`env`, `constant`, `database`, or `none`).
+ *  - Connection status for `api_key` connectors (via the WP AI Client registry).
+ *
+ * Hooked to the `script_module_data_options-connectors-wp-admin` filter.
  *
  * @since 7.0.0
  * @access private
  *
+ * @see _wp_connectors_get_api_key_source()
+ *
  * @param array<string, mixed> $data Existing script module data.
- * @return array<string, mixed> Script module data with connectors added.
+ * @return array<string, mixed> Script module data with a `connectors` key added,
+ *                              keyed by connector ID and sorted alphabetically.
  */
 function _wp_connectors_get_connector_script_module_data( array $data ): array {
 	$registry = AiClient::defaultRegistry();
