@@ -2649,7 +2649,13 @@ function get_previous_posts_page_link() {
  * @return string|null The previous posts page link if `$display = false`.
  */
 function previous_posts( $display = true ) {
-	$output = esc_url( get_previous_posts_page_link() );
+	$link = get_previous_posts_page_link();
+
+    if ( ! $link ) {
+        $output = '';
+    } else {
+        $output = esc_url( $link );
+    }
 
 	if ( $display ) {
 		echo $output;
