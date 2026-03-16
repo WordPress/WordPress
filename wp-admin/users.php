@@ -143,13 +143,18 @@ switch ( $wp_list_table->current_action() ) {
 				wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
 			}
 
-			// The new role of the current user must also have the promote_users cap or be a multisite super admin.
-			if ( $id === $current_user->ID
-				&& ! $wp_roles->role_objects[ $role ]->has_cap( 'promote_users' )
-				&& ! ( is_multisite() && current_user_can( 'manage_network_users' ) )
-			) {
-					$update = 'err_admin_role';
+			// The new role of the current user must also have the promote_users cap, be a multisite super admin and must not be empty.
+			if ( $id === $current_user->ID ) {
+				if ( '' === $role ) {
+					wp_die( __( 'Sorry, you cannot remove your own role.' ), 403 );
+				}
+
+				if ( $wp_roles->role_objects[ $role ]->has_cap( 'promote_users' ) || ( is_multisite() && current_user_can( 'manage_network_users' ) ) ) {
 					continue;
+				}
+
+				$update = 'err_admin_role';
+				continue;
 			}
 
 			// If the user doesn't already belong to the blog, bail.

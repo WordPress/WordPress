@@ -11,7 +11,7 @@
  *
  * @since 2.0.0
  *
- * @return int|WP_Error Value 0 or WP_Error on failure. The link ID on success.
+ * @return int The link ID on success. The value 0 on failure.
  */
 function add_link() {
 	return edit_link();
@@ -23,7 +23,7 @@ function add_link() {
  * @since 2.0.0
  *
  * @param int $link_id Optional. ID of the link to edit. Default 0.
- * @return int|WP_Error Value 0 or WP_Error on failure. The link ID on success.
+ * @return int The link ID on success. The value 0 on failure.
  */
 function edit_link( $link_id = 0 ) {
 	if ( ! current_user_can( 'manage_links' ) ) {
@@ -169,7 +169,7 @@ function get_link_to_edit( $link ) {
  *                                    If empty, uses default link category.
  * }
  * @param bool  $wp_error Optional. Whether to return a WP_Error object on failure. Default false.
- * @return int|WP_Error Value 0 or WP_Error on failure. The link ID on success.
+ * @return int|WP_Error The link ID on success. The value 0 or WP_Error on failure.
  */
 function wp_insert_link( $linkdata, $wp_error = false ) {
 	global $wpdb;
@@ -295,7 +295,7 @@ function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
  * @since 2.0.0
  *
  * @param array $linkdata Link data to update. See wp_insert_link() for accepted arguments.
- * @return int|WP_Error Value 0 or WP_Error on failure. The updated link ID on success.
+ * @return int The updated link ID on success. The value 0 on failure.
  */
 function wp_update_link( $linkdata ) {
 	$link_id = (int) $linkdata['link_id'];

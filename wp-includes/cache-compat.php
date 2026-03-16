@@ -327,11 +327,11 @@ if ( ! function_exists( 'wp_cache_switch_to_blog' ) ) :
 	 *
 	 * @param int $blog_id Site ID.
 	 */
-	function wp_cache_switch_to_blog( $blog_id ) {
+	function wp_cache_switch_to_blog( $blog_id ): void {
 		global $wp_object_cache;
 
 		// Attempt to use the drop-in object cache method if it exists.
-		if ( method_exists( $wp_object_cache, 'switch_to_blog' ) ) {
+		if ( is_object( $wp_object_cache ) && method_exists( $wp_object_cache, 'switch_to_blog' ) ) {
 			$wp_object_cache->switch_to_blog( $blog_id );
 			return;
 		}
@@ -340,6 +340,6 @@ if ( ! function_exists( 'wp_cache_switch_to_blog' ) ) :
 		 * Perform a fallback blog switch, which will reinitialize the caches
 		 * for the new blog ID.
 		 */
-		wp_cache_switch_to_blog_fallback( $blog_id );
+		wp_cache_switch_to_blog_fallback();
 	}
 endif;

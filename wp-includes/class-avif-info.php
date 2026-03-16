@@ -9,7 +9,7 @@
  * Media Patent License 1.0 was not distributed with this source code in the
  * PATENTS file, you can obtain it at www.aomedia.org/license/patent.
  *
- * Note: this class is from libavifinfo - https://aomedia.googlesource.com/libavifinfo/+/refs/heads/main/avifinfo.php at f509487.
+ * Note: this class is from libavifinfo - https://aomedia.googlesource.com/libavifinfo/+/refs/heads/main/avifinfo.php at 2b924de.
  * It is used as a fallback to parse AVIF files when the server doesn't support AVIF,
  * primarily to identify the width and height of the image.
  *
@@ -109,7 +109,7 @@ class Features {
   public $primary_item_id;
   public $primary_item_features = array( // Deduced from the data below.
     'width'        => UNDEFINED, // In number of pixels.
-    'height'       => UNDEFINED, // Ignores mirror and rotation.
+    'height'       => UNDEFINED, // Ignores crop and rotation.
     'bit_depth'    => UNDEFINED, // Likely 8, 10 or 12 bits per channel per pixel.
     'num_channels' => UNDEFINED  // Likely 1, 2, 3 or 4 channels:
                                           //   (1 monochrome or 3 colors) + (0 or 1 alpha)
@@ -256,6 +256,10 @@ class Box {
       // Read the 32 least-significant bits.
       $this->size = read_big_endian( substr( $data, 4, 4 ), 4 );
     } else if ( $this->size == 0 ) {
+      // ISO/IEC 14496-12 4.2.2:
+      //   if size is 0, then this box shall be in a top-level box
+      //   (i.e. not contained in another box)
+      // Unfortunately the presence of a parent box is unknown here.
       $this->size = $num_remaining_bytes;
     }
     if ( $this->size < $header_size ) {
@@ -264,6 +268,9 @@ class Box {
     if ( $this->size > $num_remaining_bytes ) {
       return INVALID;
     }
+
+    // 16 bytes of usertype should be read here if the box type is 'uuid'.
+    // 'uuid' boxes are skipped so usertype is part of the skipped body.
 
     $has_fullbox_header = $this->type == 'meta' || $this->type == 'pitm' ||
                           $this->type == 'ipma' || $this->type == 'ispe' ||
@@ -302,7 +309,7 @@ class Box {
                      ( $this->type == 'auxC' && $this->version <= 0 );
       // Instead of considering this file as invalid, skip unparsable boxes.
       if ( !$is_parsable ) {
-        $this->type = 'unknownversion';
+        $this->type = 'skip'; // FreeSpaceBox. To be ignored by readers.
       }
     }
     // print_r( $this ); // Uncomment to print all boxes.
@@ -483,7 +490,7 @@ class Parser {
   /**
    * Parses an "iprp" box.
    *
-   * The "ipco" box contain the properties which are linked to items by the "ipma" box.
+   * The "ipco" box contains the properties which are linked to items by the "ipma" box.
    *
    * @param stream  $handle              The resource the box will be parsed from.
    * @param int     $num_remaining_bytes The number of bytes that should be available from the resource.
@@ -596,7 +603,7 @@ class Parser {
    * @return Status                      FOUND on success or an error on failure.
    */
   private function parse_iref( $num_remaining_bytes ) {
-    do {
+    while ( $num_remaining_bytes > 0 ) {
       $box    = new Box();
       $status = $box->parse( $this->handle, $this->num_parsed_boxes, $num_remaining_bytes );
       if ( $status != FOUND ) {
@@ -656,7 +663,7 @@ class Parser {
         }
       }
       $num_remaining_bytes -= $box->size;
-    } while ( $num_remaining_bytes > 0 );
+    }
     return NOT_FOUND;
   }
 

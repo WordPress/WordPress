@@ -708,6 +708,7 @@ add_action( 'activate_header', '_wp_admin_bar_init' );
 add_action( 'wp_body_open', 'wp_admin_bar_render', 0 );
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 ); // Back-compat for themes not using `wp_body_open`.
 add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
+add_action( 'admin_bar_init', 'wp_admin_bar_add_color_scheme_to_front_end', 0 );
 
 // Former admin filters that can also be hooked on the front end.
 add_action( 'media_buttons', 'media_buttons' );
