@@ -971,6 +971,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 			'blockName'    => $hooked_block_type,
 			'attrs'        => array(),
 			'innerBlocks'  => array(),
+			'innerHTML'    => '',
 			'innerContent' => array(),
 		);
 

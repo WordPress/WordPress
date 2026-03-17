@@ -181,6 +181,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 		$block = array(
 			'blockName'    => $request['name'],
 			'attrs'        => $attributes,
+			'innerBlocks'  => array(),
 			'innerHTML'    => '',
 			'innerContent' => array(),
 		);
