@@ -105,7 +105,7 @@ p {
 	border: 1px solid transparent;
 	box-shadow: none;
 	font-size: 14px;
-	line-height: 2;
+	line-height: normal;
 	width: 2.5rem;
 	height: 2.5rem;
 	min-width: 40px;
