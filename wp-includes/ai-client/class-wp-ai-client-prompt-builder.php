@@ -8,6 +8,8 @@
  */
 
 use WordPress\AiClient\Builders\PromptBuilder;
+use WordPress\AiClient\Common\Exception\InvalidArgumentException;
+use WordPress\AiClient\Common\Exception\TokenLimitReachedException;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
@@ -15,6 +17,9 @@ use WordPress\AiClient\Messages\DTO\Message;
 use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
 use WordPress\AiClient\Providers\Http\DTO\RequestOptions;
+use WordPress\AiClient\Providers\Http\Exception\ClientException;
+use WordPress\AiClient\Providers\Http\Exception\NetworkException;
+use WordPress\AiClient\Providers\Http\Exception\ServerException;
 use WordPress\AiClient\Providers\Models\Contracts\ModelInterface;
 use WordPress\AiClient\Providers\Models\DTO\ModelConfig;
 use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
@@ -179,13 +184,7 @@ class WP_AI_Client_Prompt_Builder {
 			$this->builder = new PromptBuilder( $registry, $prompt );
 		} catch ( Exception $e ) {
 			$this->builder = new PromptBuilder( $registry );
-			$this->error   = new WP_Error(
-				'prompt_builder_error',
-				$e->getMessage(),
-				array(
-					'exception_class' => get_class( $e ),
-				)
-			);
+			$this->error   = $this->exception_to_wp_error( $e );
 		}
 
 		/**
@@ -311,7 +310,7 @@ class WP_AI_Client_Prompt_Builder {
 					'prompt_prevented',
 					__( 'Prompt execution was prevented by a filter.' ),
 					array(
-						'exception_class' => 'WP_AI_Client_Prompt_Prevented',
+						'status' => 503,
 					)
 				);
 
@@ -333,19 +332,58 @@ class WP_AI_Client_Prompt_Builder {
 
 			return $result;
 		} catch ( Exception $e ) {
-			$this->error = new WP_Error(
-				'prompt_builder_error',
-				$e->getMessage(),
-				array(
-					'exception_class' => get_class( $e ),
-				)
-			);
+			$this->error = $this->exception_to_wp_error( $e );
 
 			if ( self::is_generating_method( $name ) ) {
 				return $this->error;
 			}
 			return $this;
 		}
+	}
+
+	/**
+	 * Converts an exception into a WP_Error with a structured error code and message.
+	 *
+	 * This method maps different exception types to specific WP_Error codes and HTTP status codes.
+	 * The presence of the status codes means these WP_Error objects can be easily used in REST API responses
+	 * or other contexts where HTTP semantics are relevant.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param Exception $e The exception to convert.
+	 * @return WP_Error The resulting WP_Error object.
+	 */
+	private function exception_to_wp_error( Exception $e ): WP_Error {
+		if ( $e instanceof NetworkException ) {
+			$error_code  = 'prompt_network_error';
+			$status_code = 503;
+		} elseif ( $e instanceof ClientException ) {
+			// `ClientException` uses HTTP status codes as exception codes, so we can rely on them.
+			$error_code  = 'prompt_client_error';
+			$status_code = $e->getCode() ? $e->getCode() : 400;
+		} elseif ( $e instanceof ServerException ) {
+			// `ServerException` uses HTTP status codes as exception codes, so we can rely on them.
+			$error_code  = 'prompt_upstream_server_error';
+			$status_code = $e->getCode() ? $e->getCode() : 500;
+		} elseif ( $e instanceof TokenLimitReachedException ) {
+			$error_code  = 'prompt_token_limit_reached';
+			$status_code = 400;
+		} elseif ( $e instanceof InvalidArgumentException ) {
+			$error_code  = 'prompt_invalid_argument';
+			$status_code = 400;
+		} else {
+			$error_code  = 'prompt_builder_error';
+			$status_code = 500;
+		}
+
+		return new WP_Error(
+			$error_code,
+			$e->getMessage(),
+			array(
+				'status'          => $status_code,
+				'exception_class' => get_class( $e ),
+			)
+		);
 	}
 
 	/**
