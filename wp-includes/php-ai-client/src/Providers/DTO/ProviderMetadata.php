@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace WordPress\AiClient\Providers\DTO;
 
 use WordPress\AiClient\Common\AbstractDataTransferObject;
+use WordPress\AiClient\Common\Exception\InvalidArgumentException;
 use WordPress\AiClient\Providers\Enums\ProviderTypeEnum;
 use WordPress\AiClient\Providers\Http\Enums\RequestAuthenticationMethod;
 /**
@@ -79,9 +80,17 @@ class ProviderMetadata extends AbstractDataTransferObject
      * @param RequestAuthenticationMethod|null $authenticationMethod The authentication method.
      * @param string|null $description The provider's description.
      * @param string|null $logoPath The full path to the provider's logo image file.
+     * @throws InvalidArgumentException If the provider ID contains invalid characters.
      */
     public function __construct(string $id, string $name, ProviderTypeEnum $type, ?string $credentialsUrl = null, ?RequestAuthenticationMethod $authenticationMethod = null, ?string $description = null, ?string $logoPath = null)
     {
+        if (!preg_match('/^[a-z0-9\-_]+$/', $id)) {
+            throw new InvalidArgumentException(sprintf(
+                // phpcs:ignore Generic.Files.LineLength.TooLong
+                'Invalid provider ID "%s". Only lowercase alphanumeric characters, hyphens, and underscores are allowed.',
+                $id
+            ));
+        }
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;

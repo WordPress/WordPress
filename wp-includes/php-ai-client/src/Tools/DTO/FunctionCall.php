@@ -93,7 +93,7 @@ class FunctionCall extends AbstractDataTransferObject
      */
     public static function getJsonSchema(): array
     {
-        return ['type' => 'object', 'properties' => [self::KEY_ID => ['type' => 'string', 'description' => 'Unique identifier for this function call.'], self::KEY_NAME => ['type' => 'string', 'description' => 'The name of the function to call.'], self::KEY_ARGS => ['type' => ['string', 'number', 'boolean', 'object', 'array', 'null'], 'description' => 'The arguments to pass to the function.']], 'oneOf' => [['required' => [self::KEY_ID]], ['required' => [self::KEY_NAME]]]];
+        return ['type' => 'object', 'properties' => [self::KEY_ID => ['type' => 'string', 'description' => 'Unique identifier for this function call.'], self::KEY_NAME => ['type' => 'string', 'description' => 'The name of the function to call.'], self::KEY_ARGS => ['type' => ['string', 'number', 'boolean', 'object', 'array', 'null'], 'description' => 'The arguments to pass to the function.']], 'anyOf' => [['required' => [self::KEY_ID]], ['required' => [self::KEY_NAME]]]];
     }
     /**
      * {@inheritDoc}

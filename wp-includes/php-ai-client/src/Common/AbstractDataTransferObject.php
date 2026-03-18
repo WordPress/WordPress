@@ -112,11 +112,13 @@ abstract class AbstractDataTransferObject implements WithArrayTransformationInte
                     $data[$index] = $this->convertEmptyArraysToObjects($item, $schema['items']);
                 }
             }
-            // Handle oneOf schemas - just use the first one
-            if (isset($schema['oneOf']) && is_array($schema['oneOf'])) {
-                foreach ($schema['oneOf'] as $possibleSchema) {
-                    if (is_array($possibleSchema)) {
-                        return $this->convertEmptyArraysToObjects($data, $possibleSchema);
+            // Handle oneOf/anyOf schemas - just use the first one
+            foreach (['oneOf', 'anyOf'] as $keyword) {
+                if (isset($schema[$keyword]) && is_array($schema[$keyword])) {
+                    foreach ($schema[$keyword] as $possibleSchema) {
+                        if (is_array($possibleSchema)) {
+                            return $this->convertEmptyArraysToObjects($data, $possibleSchema);
+                        }
                     }
                 }
             }
