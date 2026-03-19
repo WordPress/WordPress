@@ -79,48 +79,9 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 			return false;
 		}
 
-		// Create an envelope and stamp each update to enable cursor-based filtering.
-		$envelope = array(
-			'timestamp' => $this->get_time_marker(),
-			'value'     => $update,
-		);
+		$meta_id = add_post_meta( $post_id, self::SYNC_UPDATE_META_KEY, $update, false );
 
-		return (bool) add_post_meta( $post_id, wp_slash( self::SYNC_UPDATE_META_KEY ), wp_slash( $envelope ), false );
-	}
-
-	/**
-	 * Retrieves all sync updates for a given room.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param string $room Room identifier.
-	 * @return array<int, array{ timestamp: int, value: mixed }> Sync updates.
-	 */
-	private function get_all_updates( string $room ): array {
-		$this->room_cursors[ $room ] = $this->get_time_marker() - 100; // Small buffer to ensure consistency.
-
-		$post_id = $this->get_storage_post_id( $room );
-		if ( null === $post_id ) {
-			return array();
-		}
-
-		$updates = get_post_meta( $post_id, self::SYNC_UPDATE_META_KEY, false );
-
-		if ( ! is_array( $updates ) ) {
-			$updates = array();
-		}
-
-		// Filter out any updates that don't have the expected structure.
-		$updates = array_filter(
-			$updates,
-			static function ( $update ): bool {
-				return is_array( $update ) && isset( $update['timestamp'], $update['value'] ) && is_int( $update['timestamp'] );
-			}
-		);
-
-		$this->room_update_counts[ $room ] = count( $updates );
-
-		return $updates;
+		return (bool) $meta_id;
 	}
 
 	/**
@@ -170,8 +131,7 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 	 * Gets the current cursor for a given room.
 	 *
 	 * The cursor is set during get_updates_after_cursor() and represents the
-	 * point in time just before the updates were retrieved, with a small buffer
-	 * to ensure consistency.
+	 * highest meta_id seen for the room's sync updates.
 	 *
 	 * @since 7.0.0
 	 *
@@ -236,17 +196,6 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 	}
 
 	/**
-	 * Gets the current time in milliseconds as a comparable time marker.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @return int Current time in milliseconds.
-	 */
-	private function get_time_marker(): int {
-		return (int) floor( microtime( true ) * 1000 );
-	}
-
-	/**
 	 * Gets the number of updates stored for a given room.
 	 *
 	 * @since 7.0.0
@@ -259,32 +208,63 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 	}
 
 	/**
-	 * Retrieves sync updates from a room for a given client and cursor. Updates
-	 * from the specified client should be excluded.
+	 * Retrieves sync updates from a room after the given cursor.
 	 *
 	 * @since 7.0.0
 	 *
 	 * @param string $room   Room identifier.
-	 * @param int    $cursor Return updates after this cursor.
+	 * @param int    $cursor Return updates after this cursor (meta_id).
 	 * @return array<int, mixed> Sync updates.
 	 */
 	public function get_updates_after_cursor( string $room, int $cursor ): array {
-		$all_updates = $this->get_all_updates( $room );
-		$updates     = array();
+		global $wpdb;
 
-		foreach ( $all_updates as $update ) {
-			if ( $update['timestamp'] > $cursor ) {
-				$updates[] = $update;
-			}
+		$post_id = $this->get_storage_post_id( $room );
+		if ( null === $post_id ) {
+			$this->room_cursors[ $room ]       = 0;
+			$this->room_update_counts[ $room ] = 0;
+			return array();
 		}
 
-		// Sort by timestamp to ensure order.
-		usort(
-			$updates,
-			fn ( $a, $b ) => $a['timestamp'] <=> $b['timestamp']
+		// Capture the current room state first so the returned cursor is race-safe.
+		$stats = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT COUNT(*) AS total_updates, COALESCE( MAX(meta_id), 0 ) AS max_meta_id FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s",
+				$post_id,
+				self::SYNC_UPDATE_META_KEY
+			)
 		);
 
-		return wp_list_pluck( $updates, 'value' );
+		$total_updates = $stats ? (int) $stats->total_updates : 0;
+		$max_meta_id   = $stats ? (int) $stats->max_meta_id : 0;
+
+		$this->room_update_counts[ $room ] = $total_updates;
+		$this->room_cursors[ $room ]       = $max_meta_id;
+
+		if ( $max_meta_id <= $cursor ) {
+			return array();
+		}
+
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_value FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s AND meta_id > %d AND meta_id <= %d ORDER BY meta_id ASC",
+				$post_id,
+				self::SYNC_UPDATE_META_KEY,
+				$cursor,
+				$max_meta_id
+			)
+		);
+
+		if ( ! $rows ) {
+			return array();
+		}
+
+		$updates = array();
+		foreach ( $rows as $row ) {
+			$updates[] = maybe_unserialize( $row->meta_value );
+		}
+
+		return $updates;
 	}
 
 	/**
@@ -293,30 +273,30 @@ class WP_Sync_Post_Meta_Storage implements WP_Sync_Storage {
 	 * @since 7.0.0
 	 *
 	 * @param string $room   Room identifier.
-	 * @param int    $cursor Remove updates with markers < this cursor.
+	 * @param int    $cursor Remove updates with meta_id < this cursor.
 	 * @return bool True on success, false on failure.
 	 */
 	public function remove_updates_before_cursor( string $room, int $cursor ): bool {
+		global $wpdb;
+
 		$post_id = $this->get_storage_post_id( $room );
 		if ( null === $post_id ) {
 			return false;
 		}
 
-		$all_updates = $this->get_all_updates( $room );
+		$deleted_rows = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s AND meta_id < %d",
+				$post_id,
+				self::SYNC_UPDATE_META_KEY,
+				$cursor
+			)
+		);
 
-		// Remove all updates for the room and re-store only those that are newer than the cursor.
-		if ( ! delete_post_meta( $post_id, wp_slash( self::SYNC_UPDATE_META_KEY ) ) ) {
+		if ( false === $deleted_rows ) {
 			return false;
 		}
 
-		// Re-store envelopes directly to avoid double-wrapping by add_update().
-		$add_result = true;
-		foreach ( $all_updates as $envelope ) {
-			if ( $add_result && $envelope['timestamp'] >= $cursor ) {
-				$add_result = (bool) add_post_meta( $post_id, self::SYNC_UPDATE_META_KEY, $envelope, false );
-			}
-		}
-
-		return $add_result;
+		return true;
 	}
 }
