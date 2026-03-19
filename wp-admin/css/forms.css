@@ -1057,7 +1057,8 @@ table.form-table td .updated p {
 
 .application-password-display input.code {
 	margin-bottom: 6px;
-	width: 20em;
+	width: 100%;
+	max-width: 20em;
 }
 
 .auth-app-card.card {
