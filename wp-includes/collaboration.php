@@ -18,7 +18,7 @@
 function wp_collaboration_inject_setting() {
 	global $pagenow;
 
-	if ( ! get_option( 'wp_enable_real_time_collaboration' ) ) {
+	if ( ! (bool) get_option( 'wp_collaboration_enabled' ) ) {
 		return;
 	}
 
