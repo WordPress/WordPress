@@ -2163,16 +2163,4 @@ final class WP_Theme implements ArrayAccess {
 	private static function _name_sort_i18n( $a, $b ) {
 		return strnatcasecmp( $a->name_translated, $b->name_translated );
 	}
-
-	private static function _check_headers_property_has_correct_type( $headers ) {
-		if ( ! is_array( $headers ) ) {
-			return false;
-		}
-		foreach ( $headers as $key => $value ) {
-			if ( ! is_string( $key ) || ! is_string( $value ) ) {
-				return false;
-			}
-		}
-		return true;
-	}
 }
