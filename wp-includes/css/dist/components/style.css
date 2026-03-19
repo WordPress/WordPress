@@ -2078,7 +2078,7 @@ body.is-dragging-components-draggable {
   outline-style: solid;
   outline-width: calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
   outline-offset: calc(2 * -1 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
-  box-shadow: inset 0 0 0 calc(var(--wp-admin-border-width-focus, 2px) + 1px) #fff, 0 0 0 1px #fff, 0 1px 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02), 0 3px 3px rgba(0, 0, 0, 0.02), 0 4px 4px rgba(0, 0, 0, 0.01);
+  box-shadow: inset 0 0 0 calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1) + 0.5px) rgba(255, 255, 255, 0.7);
   z-index: 1000000;
 }
 
@@ -2094,7 +2094,7 @@ body.is-dragging-components-draggable {
   outline-style: solid;
   outline-width: calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
   outline-offset: calc(2 * -1 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
-  box-shadow: inset 0 0 0 calc(var(--wp-admin-border-width-focus, 2px) + 1px) #fff, 0 0 0 1px #fff, 0 1px 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02), 0 3px 3px rgba(0, 0, 0, 0.02), 0 4px 4px rgba(0, 0, 0, 0.01);
+  box-shadow: inset 0 0 0 calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1) + 0.5px) rgba(255, 255, 255, 0.7);
   z-index: 1000000;
 }
 .is-focusing-regions.is-distraction-free .interface-interface-skeleton__header .edit-post-header,
@@ -2106,7 +2106,7 @@ body.is-dragging-components-draggable {
   outline-style: solid;
   outline-width: calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
   outline-offset: calc(2 * -1 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
-  box-shadow: inset 0 0 0 calc(var(--wp-admin-border-width-focus, 2px) + 1px) #fff, 0 0 0 1px #fff, 0 1px 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02), 0 3px 3px rgba(0, 0, 0, 0.02), 0 4px 4px rgba(0, 0, 0, 0.01);
+  box-shadow: inset 0 0 0 calc(2 * var(--wp-admin-border-width-focus) / var(--wp-block-editor-iframe-zoom-out-scale, 1) + 0.5px) rgba(255, 255, 255, 0.7);
 }
 
 .components-menu-group + .components-menu-group {

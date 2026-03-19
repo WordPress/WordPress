@@ -2403,7 +2403,7 @@ var directives_default = () => {
       }
       useWatch(() => {
         let start;
-        if (true) {
+        if (false) {
           if (true) {
             start = performance.now();
           }
@@ -2412,7 +2412,7 @@ var directives_default = () => {
         if (typeof result === "function") {
           result = result();
         }
-        if (true) {
+        if (false) {
           if (true) {
             performance.measure(
               `interactivity api watch ${entry.namespace}`,
@@ -2441,7 +2441,7 @@ var directives_default = () => {
       }
       useInit(() => {
         let start;
-        if (true) {
+        if (false) {
           if (true) {
             start = performance.now();
           }
@@ -2450,7 +2450,7 @@ var directives_default = () => {
         if (typeof result === "function") {
           result = result();
         }
-        if (true) {
+        if (false) {
           if (true) {
             performance.measure(
               `interactivity api init ${entry.namespace}`,
@@ -2496,7 +2496,7 @@ var directives_default = () => {
         }
         entries.forEach((entry) => {
           let start;
-          if (true) {
+          if (false) {
             if (true) {
               start = performance.now();
             }
@@ -2508,7 +2508,7 @@ var directives_default = () => {
             }
             result(event);
           }
-          if (true) {
+          if (false) {
             if (true) {
               performance.measure(
                 `interactivity api on ${entry.namespace}`,
@@ -3134,7 +3134,7 @@ window.history.replaceState(
   ""
 );
 window.addEventListener("popstate", (event) => {
-  if (event.state?.wpInteractivityId !== sessionId) {
+  if (event.state !== null && event.state?.wpInteractivityId !== sessionId) {
     window.location.reload();
   }
 });

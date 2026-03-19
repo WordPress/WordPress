@@ -364,17 +364,17 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
-    }
-  });
-
   // package-external:@wordpress/rich-text
   var require_rich_text = __commonJS({
     "package-external:@wordpress/rich-text"(exports, module) {
       module.exports = window.wp.richText;
+    }
+  });
+
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
     }
   });
 
@@ -1295,10 +1295,9 @@ var wp;
     return null;
   }
 
-  // packages/core-data/build-module/utils/crdt-user-selections.mjs
-  var import_data4 = __toESM(require_data(), 1);
-  var import_sync6 = __toESM(require_sync(), 1);
-  var import_block_editor2 = __toESM(require_block_editor(), 1);
+  // packages/core-data/build-module/utils/crdt-utils.mjs
+  var import_sync4 = __toESM(require_sync(), 1);
+  var import_rich_text = __toESM(require_rich_text(), 1);
 
   // packages/core-data/build-module/sync.mjs
   var import_sync3 = __toESM(require_sync(), 1);
@@ -1312,6 +1311,7 @@ var wp;
 
   // packages/core-data/build-module/sync.mjs
   var {
+    ConnectionErrorCode,
     createSyncManager,
     Delta,
     CRDT_DOC_META_PERSISTENCE_KEY,
@@ -1330,7 +1330,6 @@ var wp;
   }
 
   // packages/core-data/build-module/utils/crdt-utils.mjs
-  var import_sync4 = __toESM(require_sync(), 1);
   function getRootMap(doc, key) {
     return doc.getMap(key);
   }
@@ -1347,6 +1346,53 @@ var wp;
       return null;
     }
     return findBlockByClientIdInBlocks(blockId, blocks);
+  }
+  var MARKER_START = 57344;
+  function pickMarker(text) {
+    const tryCount = 16;
+    for (let code = MARKER_START; code < MARKER_START + tryCount; code++) {
+      const candidate = String.fromCharCode(code);
+      if (!text.includes(candidate)) {
+        return candidate;
+      }
+    }
+    return null;
+  }
+  function htmlIndexToRichTextOffset(html, htmlIndex) {
+    if (!html.includes("<") && !html.includes("&")) {
+      return htmlIndex;
+    }
+    const marker = pickMarker(html);
+    if (!marker) {
+      return htmlIndex;
+    }
+    const withMarker = html.slice(0, htmlIndex) + marker + html.slice(htmlIndex);
+    const value = (0, import_rich_text.create)({ html: withMarker });
+    const markerPos = value.text.indexOf(marker);
+    return markerPos === -1 ? htmlIndex : markerPos;
+  }
+  function richTextOffsetToHtmlIndex(html, richTextOffset) {
+    if (!html.includes("<") && !html.includes("&")) {
+      return richTextOffset;
+    }
+    const marker = pickMarker(html);
+    if (!marker) {
+      return richTextOffset;
+    }
+    const value = (0, import_rich_text.create)({ html });
+    const markerValue = (0, import_rich_text.create)({ text: marker });
+    if (value.formats[richTextOffset]) {
+      markerValue.formats[0] = value.formats[richTextOffset];
+    }
+    const withMarker = (0, import_rich_text.insert)(
+      value,
+      markerValue,
+      richTextOffset,
+      richTextOffset
+    );
+    const htmlWithMarker = (0, import_rich_text.toHTMLString)({ value: withMarker });
+    const markerIndex = htmlWithMarker.indexOf(marker);
+    return markerIndex === -1 ? richTextOffset : markerIndex;
   }
   function findBlockByClientIdInBlocks(blockId, blocks) {
     for (const block of blocks) {
@@ -1368,6 +1414,9 @@ var wp;
   }
 
   // packages/core-data/build-module/utils/crdt-user-selections.mjs
+  var import_data4 = __toESM(require_data(), 1);
+  var import_sync6 = __toESM(require_sync(), 1);
+  var import_block_editor2 = __toESM(require_block_editor(), 1);
   var SelectionType = /* @__PURE__ */ ((SelectionType2) => {
     SelectionType2["None"] = "none";
     SelectionType2["Cursor"] = "cursor";
@@ -1451,7 +1500,7 @@ var wp;
     }
     const relativePosition = import_sync6.Y.createRelativePositionFromTypeIndex(
       currentYText,
-      selection.offset
+      richTextOffsetToHtmlIndex(currentYText.toString(), selection.offset)
     );
     return {
       relativePosition,
@@ -1677,6 +1726,9 @@ var wp;
       if (!state1 || !state2) {
         return state1 === state2;
       }
+      if (!state1.selection || !state2.selection) {
+        return state1.selection === state2.selection;
+      }
       return areSelectionsStatesEqual(state1.selection, state2.selection);
     }
     /**
@@ -1693,11 +1745,11 @@ var wp;
      * clientIds (e.g. in "Show Template" mode where blocks are cloned).
      *
      * @param selection - The selection state.
-     * @return The text index and block client ID, or nulls if not resolvable.
+     * @return The rich-text offset and block client ID, or nulls if not resolvable.
      */
     convertSelectionStateToAbsolute(selection) {
       if (selection.type === SelectionType.None) {
-        return { textIndex: null, localClientId: null };
+        return { richTextOffset: null, localClientId: null };
       }
       if (selection.type === SelectionType.WholeBlock) {
         const absolutePos = import_sync8.Y.createAbsolutePositionFromRelativePosition(
@@ -1713,7 +1765,7 @@ var wp;
             localClientId2 = path2 ? resolveBlockClientIdByPath(path2) : null;
           }
         }
-        return { textIndex: null, localClientId: localClientId2 };
+        return { richTextOffset: null, localClientId: localClientId2 };
       }
       const cursorPos = "cursorPosition" in selection ? selection.cursorPosition : selection.cursorStartPosition;
       const absolutePosition = import_sync8.Y.createAbsolutePositionFromRelativePosition(
@@ -1721,12 +1773,18 @@ var wp;
         this.doc
       );
       if (!absolutePosition) {
-        return { textIndex: null, localClientId: null };
+        return { richTextOffset: null, localClientId: null };
       }
       const yType = absolutePosition.type.parent?.parent;
       const path = yType instanceof import_sync8.Y.Map ? getBlockPathInYdoc(yType) : null;
       const localClientId = path ? resolveBlockClientIdByPath(path) : null;
-      return { textIndex: absolutePosition.index, localClientId };
+      return {
+        richTextOffset: htmlIndexToRichTextOffset(
+          absolutePosition.type.toString(),
+          absolutePosition.index
+        ),
+        localClientId
+      };
     }
     /**
      * Type guard to check if a struct is a Y.Item (not Y.GC)
@@ -1857,9 +1915,49 @@ var wp;
   // packages/core-data/build-module/utils/crdt-blocks.mjs
   var import_es62 = __toESM(require_es6(), 1);
   var import_blocks = __toESM(require_blocks(), 1);
-  var import_rich_text = __toESM(require_rich_text(), 1);
+  var import_rich_text3 = __toESM(require_rich_text(), 1);
   var import_sync9 = __toESM(require_sync(), 1);
+
+  // packages/core-data/build-module/utils/crdt-text.mjs
+  var import_rich_text2 = __toESM(require_rich_text(), 1);
+  var RICH_TEXT_CACHE_MAX_SIZE = 500;
+  function createRichTextDataCache(maxSize) {
+    const cache3 = /* @__PURE__ */ new Map();
+    return function(value) {
+      const cached = cache3.get(value);
+      if (cached) {
+        return cached;
+      }
+      const result = import_rich_text2.RichTextData.fromHTMLString(value);
+      if (cache3.size >= maxSize) {
+        cache3.delete(cache3.keys().next().value);
+      }
+      cache3.set(value, result);
+      return result;
+    };
+  }
+  var getCachedRichTextData = createRichTextDataCache(
+    RICH_TEXT_CACHE_MAX_SIZE
+  );
+
+  // packages/core-data/build-module/utils/crdt-blocks.mjs
   var serializableBlocksCache = /* @__PURE__ */ new WeakMap();
+  function serializeAttributeValue(value) {
+    if (value instanceof import_rich_text3.RichTextData) {
+      return value.valueOf();
+    }
+    if (Array.isArray(value)) {
+      return value.map(serializeAttributeValue);
+    }
+    if (value && typeof value === "object") {
+      const result = {};
+      for (const [k, v] of Object.entries(value)) {
+        result[k] = serializeAttributeValue(v);
+      }
+      return result;
+    }
+    return value;
+  }
   function makeBlockAttributesSerializable(blockName, attributes) {
     const newAttributes = { ...attributes };
     for (const [key, value] of Object.entries(attributes)) {
@@ -1867,9 +1965,7 @@ var wp;
         delete newAttributes[key];
         continue;
       }
-      if (value instanceof import_rich_text.RichTextData) {
-        newAttributes[key] = value.valueOf();
-      }
+      newAttributes[key] = serializeAttributeValue(value);
     }
     return newAttributes;
   }
@@ -1882,6 +1978,50 @@ var wp;
         name,
         attributes: makeBlockAttributesSerializable(name, attributes),
         innerBlocks: makeBlocksSerializable(innerBlocks)
+      };
+    });
+  }
+  function deserializeAttributeValue(schema, value) {
+    if (schema?.type === "rich-text" && typeof value === "string") {
+      return getCachedRichTextData(value);
+    }
+    if (Array.isArray(value)) {
+      return value.map(
+        (item) => deserializeAttributeValue(schema, item)
+      );
+    }
+    if (value && typeof value === "object") {
+      const result = {};
+      for (const [key, innerValue] of Object.entries(
+        value
+      )) {
+        result[key] = deserializeAttributeValue(
+          schema?.query?.[key],
+          innerValue
+        );
+      }
+      return result;
+    }
+    return value;
+  }
+  function deserializeBlockAttributes(blocks) {
+    return blocks.map((block) => {
+      const { name, innerBlocks, attributes, ...rest } = block;
+      const newAttributes = { ...attributes };
+      for (const [key, value] of Object.entries(attributes)) {
+        const schema = getBlockAttributeType(name, key);
+        if (schema) {
+          newAttributes[key] = deserializeAttributeValue(
+            schema,
+            value
+          );
+        }
+      }
+      return {
+        ...rest,
+        name,
+        attributes: newAttributes,
+        innerBlocks: deserializeBlockAttributes(innerBlocks ?? [])
       };
     });
   }
@@ -2097,8 +2237,8 @@ var wp;
           new Map(
             Object.entries(blockType.attributes ?? {}).map(
               ([name, definition]) => {
-                const { role, type } = definition;
-                return [name, { role, type }];
+                const { role, type, query } = definition;
+                return [name, { role, type, query }];
               }
             )
           )
@@ -2208,7 +2348,7 @@ var wp;
     const offset = selection.offset ?? 0;
     const relativePosition = import_sync11.Y.createRelativePositionFromTypeIndex(
       changedYText,
-      offset
+      richTextOffsetToHtmlIndex(changedYText.toString(), offset)
     );
     return {
       type: "RelativeSelection",
@@ -2246,7 +2386,10 @@ var wp;
         return {
           clientId,
           attributeKey,
-          offset: absolutePosition.index
+          offset: htmlIndexToRichTextOffset(
+            absolutePosition.type.toString(),
+            absolutePosition.index
+          )
         };
       }
     } else if (ySelection.type === YSelectionType.BlockSelection) {
@@ -2348,25 +2491,6 @@ var wp;
 
   // packages/core-data/build-module/utils/crdt.mjs
   var POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE = "_crdt_document";
-  var allowedPostProperties = /* @__PURE__ */ new Set([
-    "author",
-    "blocks",
-    "content",
-    "categories",
-    "comment_status",
-    "date",
-    "excerpt",
-    "featured_media",
-    "format",
-    "meta",
-    "ping_status",
-    "slug",
-    "status",
-    "sticky",
-    "tags",
-    "template",
-    "title"
-  ]);
   var disallowedPostMetaKeys = /* @__PURE__ */ new Set([
     POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE
   ]);
@@ -2385,10 +2509,10 @@ var wp;
       }
     });
   }
-  function applyPostChangesToCRDTDoc(ydoc, changes, _postType) {
+  function applyPostChangesToCRDTDoc(ydoc, changes, syncedProperties) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
     Object.keys(changes).forEach((key) => {
-      if (!allowedPostProperties.has(key)) {
+      if (!syncedProperties.has(key)) {
         return;
       }
       const newValue = changes[key];
@@ -2475,12 +2599,12 @@ var wp;
   function defaultGetChangesFromCRDTDoc(crdtDoc) {
     return getRootMap(crdtDoc, CRDT_RECORD_MAP_KEY).toJSON();
   }
-  function getPostChangesFromCRDTDoc(ydoc, editedRecord, _postType) {
+  function getPostChangesFromCRDTDoc(ydoc, editedRecord, syncedProperties) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
     let allowedMetaChanges = {};
     const changes = Object.fromEntries(
       Object.entries(ymap.toJSON()).filter(([key, newValue]) => {
-        if (!allowedPostProperties.has(key)) {
+        if (!syncedProperties.has(key)) {
           return false;
         }
         const currentValue = editedRecord[key];
@@ -2532,6 +2656,11 @@ var wp;
         }
       })
     );
+    if (changes.blocks) {
+      changes.blocks = deserializeBlockAttributes(
+        changes.blocks
+      );
+    }
     if ("object" === typeof changes.meta) {
       changes.meta = {
         ...editedRecord.meta,
@@ -2841,14 +2970,35 @@ var wp;
     return newEdits;
   };
   async function loadPostTypeEntities() {
-    const postTypes = await (0, import_api_fetch.default)({
-      path: "/wp/v2/types?context=view"
-    });
+    const postTypesPromise = (0, import_api_fetch.default)({ path: "/wp/v2/types?context=view" });
+    const taxonomiesPromise = window._wpCollaborationEnabled ? (0, import_api_fetch.default)({ path: "/wp/v2/taxonomies?context=view" }) : Promise.resolve({});
+    const [postTypes, taxonomies] = await Promise.all([
+      postTypesPromise,
+      taxonomiesPromise
+    ]);
     return Object.entries(postTypes ?? {}).map(([name, postType]) => {
       const isTemplate = ["wp_template", "wp_template_part"].includes(
         name
       );
       const namespace = postType?.rest_namespace ?? "wp/v2";
+      const syncedProperties = /* @__PURE__ */ new Set([
+        "author",
+        "blocks",
+        "content",
+        "comment_status",
+        "date",
+        "excerpt",
+        "featured_media",
+        "format",
+        "meta",
+        "ping_status",
+        "slug",
+        "status",
+        "sticky",
+        "template",
+        "title",
+        ...postType.taxonomies?.map((taxonomy) => taxonomies?.[taxonomy]?.rest_base)?.filter(Boolean) ?? []
+      ]);
       const entity2 = {
         kind: "postType",
         baseURL: `/${namespace}/${postType.rest_base}`,
@@ -2877,7 +3027,7 @@ var wp;
          * @param {Partial< import('@wordpress/sync').ObjectData >} changes
          * @return {void}
          */
-        applyChangesToCRDTDoc: (crdtDoc, changes) => applyPostChangesToCRDTDoc(crdtDoc, changes, postType),
+        applyChangesToCRDTDoc: (crdtDoc, changes) => applyPostChangesToCRDTDoc(crdtDoc, changes, syncedProperties),
         /**
          * Create the awareness instance for the entity's CRDT document.
          *
@@ -2898,7 +3048,11 @@ var wp;
          * @param {import('@wordpress/sync').ObjectData} editedRecord
          * @return {Partial< import('@wordpress/sync').ObjectData >} Changes to record
          */
-        getChangesFromCRDTDoc: (crdtDoc, editedRecord) => getPostChangesFromCRDTDoc(crdtDoc, editedRecord, postType),
+        getChangesFromCRDTDoc: (crdtDoc, editedRecord) => getPostChangesFromCRDTDoc(
+          crdtDoc,
+          editedRecord,
+          syncedProperties
+        ),
         /**
          * Extract changes from a CRDT document that can be used to update the
          * local editor state.
@@ -2907,7 +3061,7 @@ var wp;
          * @return {Partial< import('@wordpress/sync').ObjectData >} Changes to record
          */
         getPersistedCRDTDoc: (record) => {
-          return record?.meta[POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE] || null;
+          return record?.meta?.[POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE] || null;
         }
       };
       return entity2;
@@ -3544,6 +3698,11 @@ var wp;
     switch (action.type) {
       case "SET_COLLABORATION_SUPPORTED":
         return action.supported;
+      case "SET_SYNC_CONNECTION_STATUS":
+        if (ConnectionErrorCode.DOCUMENT_SIZE_LIMIT_EXCEEDED === action.status?.error?.code) {
+          return false;
+        }
+        return state;
     }
     return state;
   }
@@ -5682,12 +5841,16 @@ var wp;
                 query
               );
             },
-            // Save the current entity record, whether or not it has unsaved
-            // edits. This is used to trigger a persisted CRDT document.
-            saveRecord: () => {
+            // Persist the CRDT document.
+            //
+            // TODO: Currently, persisted CRDT documents are stored in post meta.
+            // This effectively means that only post entities support CRDT
+            // persistence. As we add support for syncing additional entity,
+            // we'll need to revisit where persisted CRDT documents are stored.
+            persistCRDTDoc: () => {
               resolveSelect2.getEditedEntityRecord(kind, name, key).then((editedRecord) => {
-                const { status } = editedRecord;
-                if ("auto-draft" === status) {
+                const { meta, status } = editedRecord;
+                if ("auto-draft" === status || !meta) {
                   return;
                 }
                 dispatch3.saveEntityRecord(
@@ -6897,14 +7060,14 @@ var wp;
       (resolve) => {
         const hasId = isEntity ? !!resource.id : !!id;
         const { canUser: canUser3 } = resolve(store);
-        const create2 = canUser3(
+        const create3 = canUser3(
           "create",
           isEntity ? { kind: resource.kind, name: resource.name } : resource
         );
         if (!hasId) {
           const read2 = canUser3("read", resource);
-          const isResolving2 = create2.isResolving || read2.isResolving;
-          const hasResolved2 = create2.hasResolved && read2.hasResolved;
+          const isResolving2 = create3.isResolving || read2.isResolving;
+          const hasResolved2 = create3.hasResolved && read2.hasResolved;
           let status2 = Status.Idle;
           if (isResolving2) {
             status2 = Status.Resolving;
@@ -6915,15 +7078,15 @@ var wp;
             status: status2,
             isResolving: isResolving2,
             hasResolved: hasResolved2,
-            canCreate: create2.hasResolved && create2.data,
+            canCreate: create3.hasResolved && create3.data,
             canRead: read2.hasResolved && read2.data
           };
         }
         const read = canUser3("read", resource, id);
         const update = canUser3("update", resource, id);
         const _delete = canUser3("delete", resource, id);
-        const isResolving = read.isResolving || create2.isResolving || update.isResolving || _delete.isResolving;
-        const hasResolved = read.hasResolved && create2.hasResolved && update.hasResolved && _delete.hasResolved;
+        const isResolving = read.isResolving || create3.isResolving || update.isResolving || _delete.isResolving;
+        const hasResolved = read.hasResolved && create3.hasResolved && update.hasResolved && _delete.hasResolved;
         let status = Status.Idle;
         if (isResolving) {
           status = Status.Resolving;
@@ -6935,7 +7098,7 @@ var wp;
           isResolving,
           hasResolved,
           canRead: hasResolved && read.data,
-          canCreate: hasResolved && create2.data,
+          canCreate: hasResolved && create3.data,
           canUpdate: hasResolved && update.data,
           canDelete: hasResolved && _delete.data
         };
@@ -6965,7 +7128,7 @@ var wp;
   }
 
   // packages/core-data/build-module/footnotes/index.mjs
-  var import_rich_text2 = __toESM(require_rich_text(), 1);
+  var import_rich_text4 = __toESM(require_rich_text(), 1);
 
   // packages/core-data/build-module/footnotes/get-rich-text-values-cached.mjs
   var import_block_editor5 = __toESM(require_block_editor(), 1);
@@ -7038,16 +7201,16 @@ var wp;
           attributes[key] = value.map(updateAttributes);
           continue;
         }
-        if (typeof value !== "string" && !(value instanceof import_rich_text2.RichTextData)) {
+        if (typeof value !== "string" && !(value instanceof import_rich_text4.RichTextData)) {
           continue;
         }
-        const richTextValue = typeof value === "string" ? import_rich_text2.RichTextData.fromHTMLString(value) : new import_rich_text2.RichTextData(value);
+        const richTextValue = typeof value === "string" ? import_rich_text4.RichTextData.fromHTMLString(value) : new import_rich_text4.RichTextData(value);
         let hasFootnotes = false;
         richTextValue.replacements.forEach((replacement) => {
           if (replacement.type === "core/footnote") {
             const id = replacement.attributes["data-fn"];
             const index = newOrder.indexOf(id);
-            const countValue = (0, import_rich_text2.create)({
+            const countValue = (0, import_rich_text4.create)({
               html: replacement.innerHTML
             });
             countValue.text = String(index + 1);
@@ -7059,7 +7222,7 @@ var wp;
               { length: countValue.text.length },
               () => countValue.replacements[0]
             );
-            replacement.innerHTML = (0, import_rich_text2.toHTMLString)({
+            replacement.innerHTML = (0, import_rich_text4.toHTMLString)({
               value: countValue
             });
             hasFootnotes = true;
@@ -7249,7 +7412,7 @@ var wp;
   var import_compose3 = __toESM(require_compose(), 1);
   var import_element8 = __toESM(require_element(), 1);
   var defaultResolvedSelection = {
-    textIndex: null,
+    richTextOffset: null,
     localClientId: null
   };
   var defaultState = {

@@ -2407,7 +2407,6 @@ var wp;
     "core/freeform",
     "core/template-part"
   ];
-  var ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
   function initialize(editorName, blockEditorSettings) {
     (0, import_data17.dispatch)(import_preferences4.store).setDefaults("core/customize-widgets", {
       fixedToolbar: false,
@@ -2419,7 +2418,7 @@ var wp;
     });
     (0, import_block_library2.registerCoreBlocks)(coreBlocks);
     (0, import_widgets5.registerLegacyWidgetBlock)();
-    if (true) {
+    if (false) {
       (0, import_block_library2.__experimentalRegisterExperimentalCoreBlocks)({
         enableFSEBlocks: ENABLE_EXPERIMENTAL_FSE_BLOCKS
       });

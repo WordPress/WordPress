@@ -107,15 +107,83 @@
   }
 }
 
-/**
- * Colors
- */
+.admin-ui-page {
+  display: flex;
+  height: 100%;
+  background-color: var(--wpds-color-bg-surface-neutral-strong, #ffffff);
+  color: var(--wpds-color-fg-content-neutral, #1e1e1e);
+  position: relative;
+  z-index: 1;
+  flex-flow: column;
+  text-wrap: pretty;
+}
+
+.admin-ui-page__header {
+  padding: var(--wpds-dimension-padding-lg, 16px) var(--wpds-dimension-padding-2xl, 24px);
+  border-bottom: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
+  background: var(--wpds-color-bg-surface-neutral-strong, #ffffff);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.admin-ui-page__header-title {
+  font-family: var(--wpds-font-family-heading, -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif);
+  font-size: var(--wpds-font-size-xl, 20px);
+  font-weight: var(--wpds-font-weight-medium, 499);
+  line-height: var(--wpds-font-line-height-xl, 32px);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-ui-page__sidebar-toggle-slot:empty {
+  display: none;
+}
+
+.admin-ui-page__header-subtitle {
+  padding-block-end: var(--wpds-dimension-padding-xs, 4px);
+  color: var(--wpds-color-fg-content-neutral-weak, #6d6d6d);
+  font-size: var(--wpds-font-size-md, 13px);
+  line-height: var(--wpds-font-line-height-md, 24px);
+  margin: 0;
+}
+
+.admin-ui-page__content {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-ui-page__content.has-padding {
+  padding: var(--wpds-dimension-padding-lg, 16px) var(--wpds-dimension-padding-2xl, 24px);
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon {
+  width: auto;
+  padding: 0 var(--wpds-dimension-padding-xs, 4px);
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon svg {
+  display: none;
+}
+
+.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon::after {
+  content: attr(aria-label);
+  font-size: var(--wpds-font-size-sm, 12px);
+}
+
 /**
  * SCSS Variables.
  *
  * Please use variables from this sheet to ensure consistency across the UI.
  * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
  * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
  */
 /**
  * Fonts & basic variables.
@@ -152,109 +220,6 @@
  * React Native specific.
  * These variables do not appear to be used anywhere else.
  */
-/**
- * Typography
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Breakpoint mixins
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-/**
- * Creates a checkerboard pattern background to indicate transparency.
- * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
- */
-.admin-ui-page {
-  display: flex;
-  height: 100%;
-  background-color: #fff;
-  color: #2f2f2f;
-  position: relative;
-  z-index: 1;
-  flex-flow: column;
-  text-wrap: pretty;
-}
-
-.admin-ui-page__header {
-  padding: 16px 24px;
-  border-bottom: 1px solid #f0f0f0;
-  background: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.admin-ui-page__sidebar-toggle-slot:empty {
-  display: none;
-}
-
-.admin-ui-page__header-subtitle {
-  padding-block-end: 8px;
-  color: #757575;
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 20px;
-  margin: 0;
-}
-
-.admin-ui-page__content {
-  flex-grow: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-ui-page__content.has-padding {
-  padding: 16px 24px;
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon {
-  width: auto;
-  padding: 0 8px;
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon svg {
-  display: none;
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon::after {
-  content: attr(aria-label);
-  font-size: 12px;
-}
-
 .admin-ui-breadcrumbs__list {
   list-style: none;
   padding: 0;
@@ -6111,6 +6076,20 @@ div.dataviews-view-list {
   outline-offset: -2px;
 }
 
+.editor-revision-fields-diff__value {
+  word-break: break-word;
+}
+
+.editor-revision-fields-diff__added {
+  background-color: color-mix(in srgb, currentColor 5%, #00a32a 15%);
+  text-decoration: none;
+}
+
+.editor-revision-fields-diff__removed {
+  text-decoration: line-through;
+  color: #d63638;
+}
+
 .editor-post-saved-state {
   display: flex;
   align-items: center;
@@ -6225,15 +6204,15 @@ div.dataviews-view-list {
   margin-left: 8px;
 }
 
-.editor-sync-connection-modal {
+.editor-sync-connection-error-modal {
   z-index: 1000001;
 }
 
-.editor-sync-connection-modal p {
+.editor-sync-connection-error-modal p {
   margin: 0;
 }
 
-.editor-sync-connection-modal__retry-countdown {
+.editor-sync-connection-error-modal__retry-countdown {
   color: #757575;
 }
 

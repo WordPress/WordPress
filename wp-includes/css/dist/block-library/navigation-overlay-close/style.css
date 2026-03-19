@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5em;
-  padding: 0.5em;
+  padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -13,8 +13,8 @@
   outline-offset: 2px;
 }
 .wp-block-navigation-overlay-close svg {
-  width: 1.5em;
-  height: 1.5em;
+  width: 24px;
+  height: 24px;
   fill: currentColor;
   display: block;
   flex-shrink: 0;

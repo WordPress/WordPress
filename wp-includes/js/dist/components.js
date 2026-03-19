@@ -40063,6 +40063,11 @@ This message will only show in development mode. It won't appear in production. 
       return nextState;
     };
   }
+  var getDaysInMonth2 = (year, month) => (
+    // Take advantage of JavaScript's built-in date wrapping logic, where day 0
+    // of the next month is interpreted as the last day of the preceding month.
+    new Date(year, month + 1, 0).getDate()
+  );
   function setInConfiguredTimezone(date, updates) {
     const values = {
       year: Number((0, import_date2.date)("Y", date)),
@@ -40073,6 +40078,8 @@ This message will only show in development mode. It won't appear in production. 
       seconds: Number((0, import_date2.date)("s", date)),
       ...updates
     };
+    const daysInMonth = getDaysInMonth2(values.year, values.month);
+    values.date = Math.min(values.date, daysInMonth);
     const year = String(values.year).padStart(4, "0");
     const month = String(values.month + 1).padStart(2, "0");
     const day = String(values.date).padStart(2, "0");
@@ -40641,7 +40648,7 @@ This message will only show in development mode. It won't appear in production. 
       value: day,
       step: 1,
       min: 1,
-      max: 31,
+      max: getDaysInMonth2(Number(year), Number(month) - 1),
       required: true,
       spinControls: "none",
       isPressEnterToChange: true,
@@ -53148,7 +53155,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // node_modules/react-day-picker/node_modules/date-fns/getDaysInMonth.js
-  function getDaysInMonth2(date, options2) {
+  function getDaysInMonth3(date, options2) {
     const _date = toDate2(date, options2?.in);
     const year = _date.getFullYear();
     const monthIndex = _date.getMonth();
@@ -53206,7 +53213,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const midMonth = constructFrom2(options2?.in || date, 0);
     midMonth.setFullYear(year, month, 15);
     midMonth.setHours(0, 0, 0, 0);
-    const daysInMonth = getDaysInMonth2(midMonth);
+    const daysInMonth = getDaysInMonth3(midMonth);
     _date.setMonth(month, Math.min(day, daysInMonth));
     return _date;
   }

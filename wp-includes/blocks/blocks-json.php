@@ -4542,7 +4542,6 @@
     ),
     'textdomain' => 'default',
     'supports' => array(
-      'anchor' => true,
       'customClassName' => false,
       'className' => false,
       'html' => false,

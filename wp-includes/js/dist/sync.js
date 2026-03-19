@@ -413,7 +413,7 @@ var wp;
   var abs = Math.abs;
   var min = (a, b) => a < b ? a : b;
   var max = (a, b) => a > b ? a : b;
-  var isNaN = Number.isNaN;
+  var isNaN2 = Number.isNaN;
   var isNegativeZero = (n) => n !== 0 ? n < 0 : 1 / n < 0;
 
   // node_modules/lib0/binary.js
@@ -463,8 +463,8 @@ var wp;
   var MIN_SAFE_INTEGER = Number.MIN_SAFE_INTEGER;
   var LOWEST_INT32 = 1 << 31;
   var isInteger = Number.isInteger || ((num) => typeof num === "number" && isFinite(num) && floor(num) === num);
-  var isNaN2 = Number.isNaN;
-  var parseInt = Number.parseInt;
+  var isNaN3 = Number.isNaN;
+  var parseInt2 = Number.parseInt;
 
   // node_modules/lib0/string.js
   var fromCharCode = String.fromCharCode;
@@ -9169,6 +9169,23 @@ var wp;
   var LOCAL_SYNC_MANAGER_ORIGIN = "syncManager";
   var LOCAL_UNDO_IGNORED_ORIGIN = "gutenberg-undo-ignored";
 
+  // packages/sync/build-module/errors.mjs
+  var ConnectionErrorCode = /* @__PURE__ */ ((ConnectionErrorCode2) => {
+    ConnectionErrorCode2["AUTHENTICATION_FAILED"] = "authentication-failed";
+    ConnectionErrorCode2["CONNECTION_EXPIRED"] = "connection-expired";
+    ConnectionErrorCode2["CONNECTION_LIMIT_EXCEEDED"] = "connection-limit-exceeded";
+    ConnectionErrorCode2["DOCUMENT_SIZE_LIMIT_EXCEEDED"] = "document-size-limit-exceeded";
+    ConnectionErrorCode2["UNKNOWN_ERROR"] = "unknown-error";
+    return ConnectionErrorCode2;
+  })(ConnectionErrorCode || {});
+  var ConnectionError = class extends Error {
+    constructor(code = "unknown-error", message) {
+      super(message);
+      this.code = code;
+      this.name = "ConnectionError";
+    }
+  };
+
   // packages/sync/build-module/lock-unlock.mjs
   var import_private_apis = __toESM(require_private_apis(), 1);
   var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
@@ -9200,7 +9217,10 @@ var wp;
   }
 
   // packages/sync/build-module/providers/index.mjs
-  var import_hooks = __toESM(require_hooks(), 1);
+  var import_hooks3 = __toESM(require_hooks(), 1);
+
+  // packages/sync/build-module/providers/http-polling/polling-manager.mjs
+  var import_hooks2 = __toESM(require_hooks(), 1);
 
   // packages/sync/node_modules/y-protocols/sync.js
   var messageYjsSyncStep1 = 0;
@@ -9245,6 +9265,23 @@ var wp;
     }
     return messageType;
   };
+
+  // packages/sync/build-module/providers/http-polling/config.mjs
+  var import_hooks = __toESM(require_hooks(), 1);
+  var DEFAULT_CLIENT_LIMIT_PER_ROOM = 3;
+  var MAX_ERROR_BACKOFF_IN_MS = 30 * 1e3;
+  var MAX_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
+  var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
+    "sync.pollingManager.pollingInterval",
+    1e3
+    // 1 second or 1000 milliseconds
+  );
+  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = (0, import_hooks.applyFilters)(
+    "sync.pollingManager.pollingIntervalWithCollaborators",
+    250
+    // 250 milliseconds
+  );
+  var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
 
   // packages/sync/build-module/providers/http-polling/types.mjs
   var SyncUpdateType = /* @__PURE__ */ ((SyncUpdateType2) => {
@@ -9354,12 +9391,12 @@ var wp;
     }).catch(() => {
     });
   }
+  function intValueOrDefault(value, defaultValue) {
+    const intValue = parseInt(String(value), 10);
+    return isNaN(intValue) ? defaultValue : intValue;
+  }
 
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
-  var POLLING_INTERVAL_IN_MS = 1e3;
-  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = 250;
-  var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
-  var MAX_ERROR_BACKOFF_IN_MS = 30 * 1e3;
   var POLLING_MANAGER_ORIGIN = "polling-manager";
   var roomStates = /* @__PURE__ */ new Map();
   function createDeprecatedCompactionUpdate(updates) {
@@ -9400,7 +9437,9 @@ var wp;
     const added = /* @__PURE__ */ new Set();
     const updated = /* @__PURE__ */ new Set();
     const removed = new Set(
-      currentStates.keys().filter((clientId) => !state[clientId])
+      Array.from(currentStates.keys()).filter(
+        (clientId) => !state[clientId]
+      )
     );
     Object.entries(state).forEach(([clientIdString, awarenessState]) => {
       const clientId = Number(clientIdString);
@@ -9464,6 +9503,31 @@ var wp;
         applyUpdateV2(doc2, data, POLLING_MANAGER_ORIGIN);
       }
     }
+  }
+  function checkConnectionLimit(awareness, roomState) {
+    if (!roomState.enforceConnectionLimit) {
+      return false;
+    }
+    roomState.enforceConnectionLimit = false;
+    const maxClientsPerRoom = (0, import_hooks2.applyFilters)(
+      "sync.pollingProvider.maxClientsPerRoom",
+      DEFAULT_CLIENT_LIMIT_PER_ROOM,
+      roomState.room
+    );
+    const clientCount = Object.keys(awareness).length;
+    const validatedLimit = intValueOrDefault(
+      maxClientsPerRoom,
+      DEFAULT_CLIENT_LIMIT_PER_ROOM
+    );
+    if (clientCount > validatedLimit) {
+      roomState.log("Connection limit exceeded", {
+        clientCount,
+        maxClientsPerRoom: validatedLimit,
+        room: roomState.room
+      });
+      return true;
+    }
+    return false;
   }
   var areListenersRegistered = false;
   var hasCollaborators = false;
@@ -9532,6 +9596,17 @@ var wp;
           }
           const roomState = roomStates.get(room.room);
           roomState.endCursor = room.end_cursor;
+          if (checkConnectionLimit(room.awareness, roomState)) {
+            roomState.onStatusChange({
+              status: "disconnected",
+              error: new ConnectionError(
+                ConnectionErrorCode.CONNECTION_LIMIT_EXCEEDED,
+                "Connection limit exceeded"
+              )
+            });
+            unregisterRoom(room.room);
+            return;
+          }
           roomState.processAwarenessUpdate(room.awareness);
           if (Object.keys(room.awareness).length > 1) {
             hasCollaborators = true;
@@ -9586,7 +9661,8 @@ var wp;
           roomStates.forEach((state) => {
             state.onStatusChange({
               status: "disconnected",
-              retryInMs: pollInterval
+              canManuallyRetry: true,
+              willAutoRetryInMs: pollInterval
             });
           });
         }
@@ -9607,12 +9683,31 @@ var wp;
       return;
     }
     const updateQueue = createUpdateQueue([createSyncStep1Update(doc2)]);
+    const enforceConnectionLimit = 0 === roomStates.size;
     function onAwarenessUpdate() {
       roomState.localAwarenessState = awareness.getLocalState() ?? {};
     }
     function onDocUpdate(update, origin2) {
       if (POLLING_MANAGER_ORIGIN === origin2) {
         return;
+      }
+      if (update.byteLength > MAX_UPDATE_SIZE_IN_BYTES) {
+        const state = roomStates.get(room);
+        if (!state) {
+          return;
+        }
+        state.log("Document size limit exceeded", {
+          maxUpdateSizeInBytes: MAX_UPDATE_SIZE_IN_BYTES,
+          updateSizeInBytes: update.byteLength
+        });
+        state.onStatusChange({
+          status: "disconnected",
+          error: new ConnectionError(
+            ConnectionErrorCode.DOCUMENT_SIZE_LIMIT_EXCEEDED,
+            "Document size limit exceeded"
+          )
+        });
+        unregisterRoom(room);
       }
       updateQueue.add(createSyncUpdate(update, SyncUpdateType.UPDATE));
     }
@@ -9628,11 +9723,13 @@ var wp;
         SyncUpdateType.COMPACTION
       ),
       endCursor: 0,
+      enforceConnectionLimit,
       localAwarenessState: awareness.getLocalState() ?? {},
       log,
       onStatusChange,
       processAwarenessUpdate: (state) => processAwarenessUpdate(state, awareness),
       processDocUpdate: (update) => processDocUpdate(update, doc2, onSync),
+      room,
       unregister,
       updateQueue
     };
@@ -9732,7 +9829,7 @@ var wp;
     }
     /**
      * Emit connection status, passing the full object through so that
-     * additional fields (e.g. `retryInMs`) are preserved for consumers.
+     * additional fields (e.g. `willAutoRetryInMs`) are preserved for consumers.
      *
      * @param connectionStatus The connection status object
      */
@@ -9813,7 +9910,7 @@ var wp;
     if (!window._wpCollaborationEnabled) {
       return [];
     }
-    const filteredProviderCreators = (0, import_hooks.applyFilters)(
+    const filteredProviderCreators = (0, import_hooks3.applyFilters)(
       "sync.providers",
       getDefaultProviderCreators()
     );
@@ -10180,9 +10277,9 @@ var wp;
         editRecord: debugWrap(handlers.editRecord),
         getEditedRecord: debugWrap(handlers.getEditedRecord),
         onStatusChange: debugWrap(handlers.onStatusChange),
+        persistCRDTDoc: debugWrap(handlers.persistCRDTDoc),
         refetchRecord: debugWrap(handlers.refetchRecord),
-        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta),
-        saveRecord: debugWrap(handlers.saveRecord)
+        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta)
       };
       const ydoc = createYjsDoc({ objectType });
       const recordMap = ydoc.getMap(CRDT_RECORD_MAP_KEY);
@@ -10357,7 +10454,7 @@ var wp;
         log("applyPersistedCrdtDoc", "no persisted doc", entityId);
         targetDoc.transact(() => {
           applyChangesToCRDTDoc(targetDoc, record);
-          handlers.saveRecord();
+          handlers.persistCRDTDoc();
         }, LOCAL_SYNC_MANAGER_ORIGIN);
         return;
       }
@@ -10381,7 +10478,7 @@ var wp;
       );
       targetDoc.transact(() => {
         applyChangesToCRDTDoc(targetDoc, changes);
-        handlers.saveRecord();
+        handlers.persistCRDTDoc();
       }, LOCAL_SYNC_MANAGER_ORIGIN);
     }
     function updateCRDTDoc(objectType, objectId, changes, origin2, options = {}) {
@@ -11537,6 +11634,7 @@ var wp;
   // packages/sync/build-module/private-apis.mjs
   var privateApis = {};
   lock(privateApis, {
+    ConnectionErrorCode,
     createSyncManager,
     Delta: Delta_default,
     CRDT_DOC_META_PERSISTENCE_KEY,

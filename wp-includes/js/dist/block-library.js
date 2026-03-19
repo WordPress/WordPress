@@ -28547,8 +28547,6 @@ ${js}
     const [editedHtml, setEditedHtml] = (0, import_element38.useState)(html);
     const [editedCss, setEditedCss] = (0, import_element38.useState)(css);
     const [editedJs, setEditedJs] = (0, import_element38.useState)(js);
-    const [isDirty, setIsDirty] = (0, import_element38.useState)(false);
-    const [showUnsavedWarning, setShowUnsavedWarning] = (0, import_element38.useState)(false);
     const [isFullscreen, setIsFullscreen] = (0, import_element38.useState)(false);
     const isMobileViewport = (0, import_compose20.useViewportMatch)("small", "<");
     const { canUserUseUnfilteredHTML } = (0, import_data44.useSelect)((select9) => {
@@ -28561,18 +28559,6 @@ ${js}
     if (!isOpen) {
       return null;
     }
-    const handleHtmlChange = (value) => {
-      setEditedHtml(value);
-      setIsDirty(true);
-    };
-    const handleCssChange = (value) => {
-      setEditedCss(value);
-      setIsDirty(true);
-    };
-    const handleJsChange = (value) => {
-      setEditedJs(value);
-      setIsDirty(true);
-    };
     const handleUpdate = () => {
       setAttributes({
         content: serializeContent({
@@ -28581,25 +28567,6 @@ ${js}
           js: canUserUseUnfilteredHTML ? editedJs : ""
         })
       });
-      setIsDirty(false);
-    };
-    const handleCancel = () => {
-      setIsDirty(false);
-      onRequestClose();
-    };
-    const handleRequestClose = () => {
-      if (isDirty) {
-        setShowUnsavedWarning(true);
-      } else {
-        onRequestClose();
-      }
-    };
-    const handleDiscardChanges = () => {
-      setShowUnsavedWarning(false);
-      onRequestClose();
-    };
-    const handleContinueEditing = () => {
-      setShowUnsavedWarning(false);
     };
     const handleUpdateAndClose = () => {
       handleUpdate();
@@ -28608,211 +28575,166 @@ ${js}
     const toggleFullscreen = () => {
       setIsFullscreen((prevState) => !prevState);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(import_jsx_runtime269.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-        import_components48.Modal,
-        {
-          title: (0, import_i18n86.__)("Edit HTML"),
-          onRequestClose: handleRequestClose,
-          className: "block-library-html__modal",
-          size: "large",
-          isDismissible: false,
-          shouldCloseOnClickOutside: !isDirty,
-          shouldCloseOnEsc: !isDirty,
-          isFullScreen: isFullscreen,
-          __experimentalHideHeader: true,
-          children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs, { orientation: "horizontal", defaultTabId: "html", children: /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(import_components48.__experimentalVStack, { expanded: true, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
-              import_components48.__experimentalHStack,
-              {
-                justify: "space-between",
-                className: "block-library-html__modal-header",
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(Tabs.TabList, { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "html", children: "HTML" }),
-                    canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "css", children: "CSS" }),
-                    canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "js", children: (0, import_i18n86.__)("JavaScript") })
-                  ] }) }),
-                  !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                    import_components48.Button,
-                    {
-                      __next40pxDefaultSize: true,
-                      icon: isFullscreen ? square_default : fullscreen_default,
-                      label: (0, import_i18n86.__)(
-                        "Enable/disable fullscreen"
-                      ),
-                      onClick: toggleFullscreen,
-                      variant: "tertiary"
-                    }
-                  ) })
-                ]
-              }
-            ),
-            hasRestrictedContent && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-              import_components48.Notice,
-              {
-                status: "warning",
-                isDismissible: false,
-                className: "block-library-html__modal-notice",
-                children: (0, import_i18n86.__)(
-                  "This block contains CSS or JavaScript that will be removed when you save because you do not have permission to use unfiltered HTML."
-                )
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
-              import_components48.Flex,
-              {
-                direction: isMobileViewport ? "column" : "row",
-                className: "block-library-html__modal-tabs",
-                align: "stretch",
-                gap: 8,
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)("div", { className: "block-library-html__modal-content", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                      Tabs.TabPanel,
-                      {
-                        tabId: "html",
-                        focusable: false,
-                        className: "block-library-html__modal-tab",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                          import_block_editor107.PlainText,
-                          {
-                            value: editedHtml,
-                            onChange: handleHtmlChange,
-                            placeholder: (0, import_i18n86.__)("Write HTML\u2026"),
-                            "aria-label": (0, import_i18n86.__)("HTML"),
-                            className: "block-library-html__modal-editor"
-                          }
-                        )
-                      }
+    return /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(import_jsx_runtime269.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+      import_components48.Modal,
+      {
+        title: (0, import_i18n86.__)("Edit HTML"),
+        onRequestClose,
+        className: "block-library-html__modal",
+        size: "large",
+        isDismissible: false,
+        shouldCloseOnClickOutside: false,
+        isFullScreen: isFullscreen,
+        __experimentalHideHeader: true,
+        children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs, { orientation: "horizontal", defaultTabId: "html", children: /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(import_components48.__experimentalVStack, { expanded: true, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
+            import_components48.__experimentalHStack,
+            {
+              justify: "space-between",
+              className: "block-library-html__modal-header",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(Tabs.TabList, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "html", children: "HTML" }),
+                  canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "css", children: "CSS" }),
+                  canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(Tabs.Tab, { tabId: "js", children: (0, import_i18n86.__)("JavaScript") })
+                ] }) }),
+                !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                  import_components48.Button,
+                  {
+                    __next40pxDefaultSize: true,
+                    icon: isFullscreen ? square_default : fullscreen_default,
+                    label: (0, import_i18n86.__)(
+                      "Enable/disable fullscreen"
                     ),
-                    canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                      Tabs.TabPanel,
-                      {
-                        tabId: "css",
-                        focusable: false,
-                        className: "block-library-html__modal-tab",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                          import_block_editor107.PlainText,
-                          {
-                            value: editedCss,
-                            onChange: handleCssChange,
-                            placeholder: (0, import_i18n86.__)("Write CSS\u2026"),
-                            "aria-label": (0, import_i18n86.__)("CSS"),
-                            className: "block-library-html__modal-editor"
-                          }
-                        )
-                      }
-                    ),
-                    canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                      Tabs.TabPanel,
-                      {
-                        tabId: "js",
-                        focusable: false,
-                        className: "block-library-html__modal-tab",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                          import_block_editor107.PlainText,
-                          {
-                            value: editedJs,
-                            onChange: handleJsChange,
-                            placeholder: (0, import_i18n86.__)(
-                              "Write JavaScript\u2026"
-                            ),
-                            "aria-label": (0, import_i18n86.__)("JavaScript"),
-                            className: "block-library-html__modal-editor"
-                          }
-                        )
-                      }
-                    )
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { className: "block-library-html__preview", children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                    HTMLEditPreview,
-                    {
-                      content: serializeContent({
-                        html: editedHtml,
-                        css: editedCss,
-                        js: editedJs
-                      })
-                    }
-                  ) })
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
-              import_components48.__experimentalHStack,
-              {
-                alignment: "center",
-                justify: "flex-end",
-                spacing: 4,
-                className: "block-library-html__modal-footer",
-                children: [
+                    onClick: toggleFullscreen,
+                    variant: "tertiary"
+                  }
+                ) })
+              ]
+            }
+          ),
+          hasRestrictedContent && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+            import_components48.Notice,
+            {
+              status: "warning",
+              isDismissible: false,
+              className: "block-library-html__modal-notice",
+              children: (0, import_i18n86.__)(
+                "This block contains CSS or JavaScript that will be removed when you save because you do not have permission to use unfiltered HTML."
+              )
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
+            import_components48.Flex,
+            {
+              direction: isMobileViewport ? "column" : "row",
+              className: "block-library-html__modal-tabs",
+              align: "stretch",
+              gap: 8,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)("div", { className: "block-library-html__modal-content", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                    import_components48.Button,
+                    Tabs.TabPanel,
                     {
-                      __next40pxDefaultSize: true,
-                      variant: "tertiary",
-                      onClick: handleCancel,
-                      children: (0, import_i18n86.__)("Cancel")
+                      tabId: "html",
+                      focusable: false,
+                      className: "block-library-html__modal-tab",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                        import_block_editor107.PlainText,
+                        {
+                          value: editedHtml,
+                          onChange: setEditedHtml,
+                          placeholder: (0, import_i18n86.__)("Write HTML\u2026"),
+                          "aria-label": (0, import_i18n86.__)("HTML"),
+                          className: "block-library-html__modal-editor"
+                        }
+                      )
                     }
                   ),
-                  /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                    import_components48.Button,
+                  canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                    Tabs.TabPanel,
                     {
-                      __next40pxDefaultSize: true,
-                      variant: "primary",
-                      onClick: handleUpdateAndClose,
-                      children: (0, import_i18n86.__)("Update")
+                      tabId: "css",
+                      focusable: false,
+                      className: "block-library-html__modal-tab",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                        import_block_editor107.PlainText,
+                        {
+                          value: editedCss,
+                          onChange: setEditedCss,
+                          placeholder: (0, import_i18n86.__)("Write CSS\u2026"),
+                          "aria-label": (0, import_i18n86.__)("CSS"),
+                          className: "block-library-html__modal-editor"
+                        }
+                      )
+                    }
+                  ),
+                  canUserUseUnfilteredHTML && /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                    Tabs.TabPanel,
+                    {
+                      tabId: "js",
+                      focusable: false,
+                      className: "block-library-html__modal-tab",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                        import_block_editor107.PlainText,
+                        {
+                          value: editedJs,
+                          onChange: setEditedJs,
+                          placeholder: (0, import_i18n86.__)(
+                            "Write JavaScript\u2026"
+                          ),
+                          "aria-label": (0, import_i18n86.__)("JavaScript"),
+                          className: "block-library-html__modal-editor"
+                        }
+                      )
                     }
                   )
-                ]
-              }
-            )
-          ] }) })
-        }
-      ),
-      showUnsavedWarning && /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
-        import_components48.Modal,
-        {
-          title: (0, import_i18n86.__)("Unsaved changes"),
-          onRequestClose: handleContinueEditing,
-          size: "medium",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("p", { children: (0, import_i18n86.__)(
-              "You have unsaved changes. What would you like to do?"
-            ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(import_components48.Flex, { direction: "row", justify: "flex-end", gap: 2, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                import_components48.Button,
-                {
-                  __next40pxDefaultSize: true,
-                  variant: "secondary",
-                  onClick: handleDiscardChanges,
-                  children: (0, import_i18n86.__)("Discard unsaved changes")
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                import_components48.Button,
-                {
-                  __next40pxDefaultSize: true,
-                  variant: "secondary",
-                  onClick: handleContinueEditing,
-                  children: (0, import_i18n86.__)("Continue editing")
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
-                import_components48.Button,
-                {
-                  __next40pxDefaultSize: true,
-                  variant: "primary",
-                  onClick: handleUpdateAndClose,
-                  children: (0, import_i18n86.__)("Update and close")
-                }
-              )
-            ] })
-          ]
-        }
-      )
-    ] });
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime269.jsx)("div", { className: "block-library-html__preview", children: /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                  HTMLEditPreview,
+                  {
+                    content: serializeContent({
+                      html: editedHtml,
+                      css: editedCss,
+                      js: editedJs
+                    })
+                  }
+                ) })
+              ]
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime269.jsxs)(
+            import_components48.__experimentalHStack,
+            {
+              alignment: "center",
+              justify: "flex-end",
+              spacing: 4,
+              className: "block-library-html__modal-footer",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                  import_components48.Button,
+                  {
+                    __next40pxDefaultSize: true,
+                    variant: "tertiary",
+                    onClick: onRequestClose,
+                    children: (0, import_i18n86.__)("Cancel")
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime269.jsx)(
+                  import_components48.Button,
+                  {
+                    __next40pxDefaultSize: true,
+                    variant: "primary",
+                    onClick: handleUpdateAndClose,
+                    children: (0, import_i18n86.__)("Update")
+                  }
+                )
+              ]
+            }
+          )
+        ] }) })
+      }
+    ) });
   }
 
   // packages/block-library/build-module/html/edit.mjs
@@ -44881,7 +44803,6 @@ ${js}
     parent: ["core/post-content"],
     textdomain: "default",
     supports: {
-      anchor: true,
       customClassName: false,
       className: false,
       html: false,
@@ -73594,7 +73515,7 @@ ${js}
     (0, import_blocks129.setUnregisteredTypeHandlerName)(name52);
     (0, import_blocks129.setGroupingBlockName)(name39);
   };
-  var __experimentalRegisterExperimentalCoreBlocks = true ? ({ enableFSEBlocks } = {}) => {
+  var __experimentalRegisterExperimentalCoreBlocks = false ? ({ enableFSEBlocks } = {}) => {
     const enabledExperiments = [enableFSEBlocks ? "fse" : null];
     getAllBlocks().filter(
       ({ metadata }) => isBlockMetadataExperimental(metadata)

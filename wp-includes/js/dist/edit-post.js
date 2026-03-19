@@ -108,6 +108,27 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/primitives
+  var require_primitives = __commonJS({
+    "package-external:@wordpress/primitives"(exports, module) {
+      module.exports = window.wp.primitives;
+    }
+  });
+
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
+    }
+  });
+
+  // package-external:@wordpress/compose
+  var require_compose = __commonJS({
+    "package-external:@wordpress/compose"(exports, module) {
+      module.exports = window.wp.compose;
+    }
+  });
+
   // package-external:@wordpress/block-editor
   var require_block_editor = __commonJS({
     "package-external:@wordpress/block-editor"(exports, module) {
@@ -126,13 +147,6 @@ var wp;
   var require_plugins = __commonJS({
     "package-external:@wordpress/plugins"(exports, module) {
       module.exports = window.wp.plugins;
-    }
-  });
-
-  // package-external:@wordpress/primitives
-  var require_primitives = __commonJS({
-    "package-external:@wordpress/primitives"(exports, module) {
-      module.exports = window.wp.primitives;
     }
   });
 
@@ -168,20 +182,6 @@ var wp;
   var require_core_data = __commonJS({
     "package-external:@wordpress/core-data"(exports, module) {
       module.exports = window.wp.coreData;
-    }
-  });
-
-  // package-external:@wordpress/compose
-  var require_compose = __commonJS({
-    "package-external:@wordpress/compose"(exports, module) {
-      module.exports = window.wp.compose;
-    }
-  });
-
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
     }
   });
 
@@ -277,6 +277,31 @@ var wp;
   );
   NavigableRegion.displayName = "NavigableRegion";
   var navigable_region_default = NavigableRegion;
+
+  // packages/icons/build-module/library/arrow-up-left.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var arrow_up_left_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M14 6H6v8h1.5V8.5L17 18l1-1-9.5-9.5H14V6Z" }) });
+
+  // packages/icons/build-module/library/chevron-down.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
+
+  // packages/icons/build-module/library/chevron-up.mjs
+  var import_primitives3 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
+
+  // packages/icons/build-module/library/fullscreen.mjs
+  var import_primitives4 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var fullscreen_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z" }) });
+
+  // packages/icons/build-module/library/wordpress.mjs
+  var import_primitives5 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
 
   // packages/edit-post/build-module/components/layout/index.mjs
   var import_editor18 = __toESM(require_editor(), 1);
@@ -591,33 +616,6 @@ var wp;
   var import_plugins = __toESM(require_plugins(), 1);
   var import_i18n14 = __toESM(require_i18n(), 1);
   var import_element12 = __toESM(require_element(), 1);
-
-  // packages/icons/build-module/library/arrow-up-left.mjs
-  var import_primitives = __toESM(require_primitives(), 1);
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var arrow_up_left_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M14 6H6v8h1.5V8.5L17 18l1-1-9.5-9.5H14V6Z" }) });
-
-  // packages/icons/build-module/library/chevron-down.mjs
-  var import_primitives2 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
-
-  // packages/icons/build-module/library/chevron-up.mjs
-  var import_primitives3 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
-
-  // packages/icons/build-module/library/fullscreen.mjs
-  var import_primitives4 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var fullscreen_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z" }) });
-
-  // packages/icons/build-module/library/wordpress.mjs
-  var import_primitives5 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
-
-  // packages/edit-post/build-module/components/layout/index.mjs
   var import_notices3 = __toESM(require_notices(), 1);
   var import_preferences10 = __toESM(require_preferences(), 1);
   var import_commands2 = __toESM(require_commands(), 1);
@@ -2189,7 +2187,7 @@ var wp;
   var import_data22 = __toESM(require_data(), 1);
   var import_blocks2 = __toESM(require_blocks(), 1);
   var import_block_editor = __toESM(require_block_editor(), 1);
-  var isGutenbergPlugin = true ? true : false;
+  var isGutenbergPlugin = false ? true : false;
   function useShouldIframe() {
     return (0, import_data22.useSelect)((select3) => {
       const { getCurrentPostType, getDeviceType } = select3(import_editor15.store);
@@ -2894,7 +2892,8 @@ var wp;
       showListViewByDefault: false,
       enableChoosePatternModal: true,
       isPublishSidebarEnabled: true,
-      showCollaborationCursor: false
+      showCollaborationCursor: false,
+      showCollaborationNotifications: true
     });
     if (window.__clientSideMediaProcessing) {
       (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core/media", {
@@ -2910,7 +2909,7 @@ var wp;
     registerCoreBlockBindingsSources();
     (0, import_widgets.registerLegacyWidgetBlock)({ inserter: false });
     (0, import_widgets.registerWidgetGroupBlock)({ inserter: false });
-    if (true) {
+    if (false) {
       (0, import_block_library2.__experimentalRegisterExperimentalCoreBlocks)({
         enableFSEBlocks: settings.__unstableEnableFullSiteEditingBlocks
       });

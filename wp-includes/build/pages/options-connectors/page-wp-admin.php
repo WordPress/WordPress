@@ -231,7 +231,7 @@ function wp_options_connectors_wp_admin_render_page() {
 
 		/* Reset wp-admin padding */
 		#wpcontent {
-			padding-left: 0;
+			padding-inline-start: 0;
 		}
 		#wpbody-content {
 			padding-bottom: 0;
@@ -247,14 +247,14 @@ function wp_options_connectors_wp_admin_render_page() {
 
 		/* Accessibility regions */
 		.a11y-speak-region {
-			left: -1px;
+			inset-inline-start: -1px;
 			top: -1px;
 		}
 
 		/* Admin menu indicators */
 		ul#adminmenu a.wp-has-current-submenu::after,
 		ul#adminmenu > li.current > a.current::after {
-			border-right-color: #fff;
+			border-inline-end-color: #fff;
 		}
 
 		/* Media frame fix */

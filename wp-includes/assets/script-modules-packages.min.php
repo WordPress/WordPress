@@ -132,6 +132,8 @@
   ),
   'boot/index.min.js' => array(
     'dependencies' => array(
+      'react',
+      'react-dom',
       'react-jsx-runtime',
       'wp-commands',
       'wp-components',
@@ -164,7 +166,7 @@
         'import' => 'static'
       )
     ),
-    'version' => '77514d54b76613289de5'
+    'version' => '105defe2f1526f8a43e8'
   ),
   'connectors/index.min.js' => array(
     'dependencies' => array(
@@ -175,7 +177,7 @@
       'wp-i18n',
       'wp-private-apis'
     ),
-    'version' => '0db9a26c7920b6ab9f4a'
+    'version' => 'c9991cd0656dfe1c46e9'
   ),
   'core-abilities/index.min.js' => array(
     'dependencies' => array(
@@ -209,7 +211,7 @@
     'dependencies' => array(
       
     ),
-    'version' => 'f5a180d17cd8a38658aa'
+    'version' => '4d2a3a72c7410d548881'
   ),
   'interactivity-router/full-page.min.js' => array(
     'dependencies' => array(
@@ -298,7 +300,7 @@
     'dependencies' => array(
       
     ),
-    'version' => '61b86a5f5540ba666280'
+    'version' => 'aff5e5c5b28ae6b73aaa'
   ),
   'workflow/index.min.js' => array(
     'dependencies' => array(
