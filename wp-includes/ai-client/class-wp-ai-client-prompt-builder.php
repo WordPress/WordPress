@@ -46,6 +46,8 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  *
  * @since 7.0.0
  *
+ * @phpstan-import-type Prompt from PromptBuilder
+ *
  * @method self with_text(string $text) Adds text to the current message.
  * @method self with_file($file, ?string $mimeType = null) Adds a file to the current message.
  * @method self with_function_response(FunctionResponse $functionResponse) Adds a function response to the current message.
@@ -170,14 +172,14 @@ class WP_AI_Client_Prompt_Builder {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param ProviderRegistry                                                                 $registry The provider registry for finding suitable models.
-	 * @param string|MessagePart|Message|array|list<string|MessagePart|array>|list<Message>|null $prompt   Optional. Initial prompt content.
-	 *                                                                                                    A string for simple text prompts,
-	 *                                                                                                    a MessagePart or Message object for
-	 *                                                                                                    structured content, an array for a
-	 *                                                                                                    message array shape, or a list of
-	 *                                                                                                    parts or messages for multi-turn
-	 *                                                                                                    conversations. Default null.
+	 * @param ProviderRegistry $registry The provider registry for finding suitable models.
+	 * @param Prompt           $prompt   Optional. Initial prompt content.
+	 *                                   A string for simple text prompts,
+	 *                                   a MessagePart or Message object for
+	 *                                   structured content, an array for a
+	 *                                   message array shape, or a list of
+	 *                                   parts or messages for multi-turn
+	 *                                   conversations. Default null.
 	 */
 	public function __construct( ProviderRegistry $registry, $prompt = null ) {
 		try {
@@ -289,15 +291,20 @@ class WP_AI_Client_Prompt_Builder {
 
 		// Check if the prompt should be prevented for is_supported* and generate_*/convert_text_to_speech* methods.
 		if ( self::is_support_check_method( $name ) || self::is_generating_method( $name ) ) {
-			/**
-			 * Filters whether to prevent the prompt from being executed.
-			 *
-			 * @since 7.0.0
-			 *
-			 * @param bool                        $prevent Whether to prevent the prompt. Default false.
-			 * @param WP_AI_Client_Prompt_Builder $builder A clone of the prompt builder instance (read-only).
-			 */
-			$prevent = (bool) apply_filters( 'wp_ai_client_prevent_prompt', false, clone $this );
+			// If AI is not supported, then there's no need to apply the filter as the prompt will be prevented anyway.
+			$is_ai_disabled = ! wp_supports_ai();
+			$prevent        = $is_ai_disabled;
+			if ( ! $prevent ) {
+				/**
+				 * Filters whether to prevent the prompt from being executed.
+				 *
+				 * @since 7.0.0
+				 *
+				 * @param bool                        $prevent Whether to prevent the prompt. Default false.
+				 * @param WP_AI_Client_Prompt_Builder $builder A clone of the prompt builder instance (read-only).
+				 */
+				$prevent = (bool) apply_filters( 'wp_ai_client_prevent_prompt', false, clone $this );
+			}
 
 			if ( $prevent ) {
 				// For is_supported* methods, return false.
@@ -305,10 +312,14 @@ class WP_AI_Client_Prompt_Builder {
 					return false;
 				}
 
+				$error_message = $is_ai_disabled
+					? __( 'AI features are not supported in this environment.' )
+					: __( 'Prompt execution was prevented by a filter.' );
+
 				// For generate_* and convert_text_to_speech* methods, create a WP_Error.
 				$this->error = new WP_Error(
 					'prompt_prevented',
-					__( 'Prompt execution was prevented by a filter.' ),
+					$error_message,
 					array(
 						'status' => 503,
 					)
@@ -423,7 +434,8 @@ class WP_AI_Client_Prompt_Builder {
 	protected function get_builder_callable( string $name ): callable {
 		$camel_case_name = $this->snake_to_camel_case( $name );
 
-		if ( ! is_callable( array( $this->builder, $camel_case_name ) ) ) {
+		$method = array( $this->builder, $camel_case_name );
+		if ( ! is_callable( $method ) ) {
 			throw new BadMethodCallException(
 				sprintf(
 					/* translators: 1: Method name. 2: Class name. */
@@ -434,7 +446,7 @@ class WP_AI_Client_Prompt_Builder {
 			);
 		}
 
-		return array( $this->builder, $camel_case_name );
+		return $method;
 	}
 
 	/**
