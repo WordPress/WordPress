@@ -67,9 +67,11 @@ final class WP_Connector_Registry {
 	 *
 	 * Validates the provided arguments and stores the connector in the registry.
 	 * For connectors with `api_key` authentication, a `setting_name` is automatically
-	 * generated using the pattern `connectors_ai_{$id}_api_key` (e.g., connector ID
-	 * `openai` produces `connectors_ai_openai_api_key`). This setting name is used
-	 * for the Settings API registration and REST API exposure.
+	 * generated using the pattern `connectors_ai_{$id}_api_key`, with hyphens in the ID
+	 * normalized to underscores (e.g., connector ID `openai` produces
+	 * `connectors_ai_openai_api_key`, and `azure-openai` produces
+	 * `connectors_ai_azure_openai_api_key`). This setting name is used for the Settings
+	 * API registration and REST API exposure.
 	 *
 	 * Registering a connector with an ID that is already registered will trigger a
 	 * `_doing_it_wrong()` notice and return `null`. To override an existing connector,
@@ -80,7 +82,7 @@ final class WP_Connector_Registry {
 	 * @see WP_Connector_Registry::unregister()
 	 *
 	 * @param string $id   The unique connector identifier. Must match the pattern
-	 *                     `/^[a-z0-9_]+$/` (lowercase alphanumeric and underscores only).
+	 *                     `/^[a-z0-9_-]+$/` (lowercase alphanumeric, hyphens, and underscores only).
 	 * @param array  $args {
 	 *     An associative array of arguments for the connector.
 	 *
@@ -106,11 +108,11 @@ final class WP_Connector_Registry {
 	 * @phpstan-return Connector|null
 	 */
 	public function register( string $id, array $args ): ?array {
-		if ( ! preg_match( '/^[a-z0-9_]+$/', $id ) ) {
+		if ( ! preg_match( '/^[a-z0-9_-]+$/', $id ) ) {
 			_doing_it_wrong(
 				__METHOD__,
 				__(
-					'Connector ID must contain only lowercase alphanumeric characters and underscores.'
+					'Connector ID must contain only lowercase alphanumeric characters, hyphens, and underscores.'
 				),
 				'7.0.0'
 			);
@@ -185,7 +187,7 @@ final class WP_Connector_Registry {
 			if ( ! empty( $args['authentication']['credentials_url'] ) && is_string( $args['authentication']['credentials_url'] ) ) {
 				$connector['authentication']['credentials_url'] = $args['authentication']['credentials_url'];
 			}
-			$connector['authentication']['setting_name'] = "connectors_ai_{$id}_api_key";
+			$connector['authentication']['setting_name'] = 'connectors_ai_' . str_replace( '-', '_', $id ) . '_api_key';
 		}
 
 		if ( ! empty( $args['plugin'] ) && is_array( $args['plugin'] ) ) {
