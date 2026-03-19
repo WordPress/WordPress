@@ -179,30 +179,50 @@ function get_block_wrapper_attributes( $extra_attributes = array() ) {
 		return '';
 	}
 
-	// This is hardcoded on purpose.
-	// We only support a fixed list of attributes.
-	$attributes_to_merge = array( 'style', 'class', 'id', 'aria-label' );
-	$attributes          = array();
-	foreach ( $attributes_to_merge as $attribute_name ) {
-		if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
+	// Attribute values are concatenated or overridden depending on the attribute type.
+	// This is hardcoded on purpose, as we only support a fixed list of attributes.
+	$attribute_merge_callbacks = array(
+		'style'      => static function ( $new_attribute, $extra_attribute ) {
+			$styles = array_filter(
+				array(
+					rtrim( trim( $new_attribute ), ';' ),
+					rtrim( trim( $extra_attribute ), ';' ),
+				)
+			);
+			return safecss_filter_attr( implode( ';', array_filter( $styles ) ) );
+		},
+		'class'      => static function ( $new_attribute, $extra_attribute ) {
+			$classes = array_merge(
+				(array) preg_split( '/\s+/', $extra_attribute, -1, PREG_SPLIT_NO_EMPTY ),
+				(array) preg_split( '/\s+/', $new_attribute, -1, PREG_SPLIT_NO_EMPTY )
+			);
+			$classes = array_unique( array_filter( $classes ) );
+			return implode( ' ', $classes );
+		},
+		'id'         => static function ( $new_attribute, $extra_attribute ) {
+			return '' !== $extra_attribute ? $extra_attribute : $new_attribute;
+		},
+		'aria-label' => static function ( $new_attribute, $extra_attribute ) {
+			return '' !== $extra_attribute ? $extra_attribute : $new_attribute;
+		},
+	);
+
+	$attributes = array();
+	foreach ( $attribute_merge_callbacks as $attribute_name => $merge_callback ) {
+		$new_attribute   = $new_attributes[ $attribute_name ] ?? '';
+		$extra_attribute = $extra_attributes[ $attribute_name ] ?? '';
+		$new_attribute   = is_string( $new_attribute ) ? $new_attribute : '';
+		$extra_attribute = is_string( $extra_attribute ) ? $extra_attribute : '';
+
+		if ( '' === $new_attribute && '' === $extra_attribute ) {
 			continue;
 		}
 
-		if ( empty( $new_attributes[ $attribute_name ] ) ) {
-			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
-			continue;
-		}
-
-		if ( empty( $extra_attributes[ $attribute_name ] ) ) {
-			$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
-			continue;
-		}
-
-		$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
+		$attributes[ $attribute_name ] = $merge_callback( $new_attribute, $extra_attribute );
 	}
 
 	foreach ( $extra_attributes as $attribute_name => $value ) {
-		if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
+		if ( ! isset( $attribute_merge_callbacks[ $attribute_name ] ) ) {
 			$attributes[ $attribute_name ] = $value;
 		}
 	}
