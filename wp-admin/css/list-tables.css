@@ -635,6 +635,10 @@ tr.wp-locked .row-actions .trash {
 	display: none;
 }
 
+.wp-collaborative-editing .locked-info {
+	display: block;
+}
+
 #menu-locations-wrap .widefat {
 	width: 60%;
 }

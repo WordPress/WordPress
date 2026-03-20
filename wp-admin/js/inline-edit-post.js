@@ -613,18 +613,20 @@ $( function() {
 		wp.heartbeat.interval( 10 );
 	}
 }).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
-	var locked = data['wp-check-locked-posts'] || {};
+	var locked = data['wp-check-locked-posts'] || {},
+		isRtc = window._wpCollaborationEnabled,
+		lockedClass = isRtc ? 'wp-collaborative-editing' : 'wp-locked';
 
 	$('#the-list tr').each( function(i, el) {
 		var key = el.id, row = $(el), lock_data, avatar;
 
 		if ( locked.hasOwnProperty( key ) ) {
-			if ( ! row.hasClass('wp-locked') ) {
+			if ( ! row.hasClass( lockedClass ) ) {
 				lock_data = locked[key];
 				row.find('.column-title .locked-text').text( lock_data.text );
 				row.find('.check-column checkbox').prop('checked', false);
 
-				if ( lock_data.avatar_src ) {
+				if ( ! isRtc && lock_data.avatar_src ) {
 					avatar = $( '<img />', {
 						'class': 'avatar avatar-18 photo',
 						width: 18,
@@ -635,10 +637,10 @@ $( function() {
 					} );
 					row.find('.column-title .locked-avatar').empty().append( avatar );
 				}
-				row.addClass('wp-locked');
+				row.addClass( lockedClass );
 			}
-		} else if ( row.hasClass('wp-locked') ) {
-			row.removeClass( 'wp-locked' ).find( '.locked-info span' ).empty();
+		} else if ( row.hasClass( lockedClass ) ) {
+			row.removeClass( lockedClass ).find( '.locked-info span' ).empty();
 		}
 	});
 }).on( 'heartbeat-send.wp-check-locked-posts', function( e, data ) {

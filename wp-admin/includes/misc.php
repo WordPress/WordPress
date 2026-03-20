@@ -1133,7 +1133,8 @@ function _customizer_mobile_viewport_meta( $viewport_meta ) {
  * @return array The Heartbeat response.
  */
 function wp_check_locked_posts( $response, $data, $screen_id ) {
-	$checked = array();
+	$checked        = array();
+	$is_rtc_enabled = (bool) get_option( 'wp_collaboration_enabled' );
 
 	if ( array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
 		foreach ( $data['wp-check-locked-posts'] as $key ) {
@@ -1149,15 +1150,23 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 				$user = get_userdata( $user_id );
 
 				if ( $user && current_user_can( 'edit_post', $post_id ) ) {
-					$send = array(
-						'name' => $user->display_name,
-						/* translators: %s: User's display name. */
-						'text' => sprintf( __( '%s is currently editing' ), $user->display_name ),
-					);
+					if ( $is_rtc_enabled ) {
+						$send = array(
+							/* translators: Collaboration status message for a singular post in the post list. Can be any type of post. */
+							'text'          => _x( 'Currently being edited', 'post list' ),
+							'collaborative' => true,
+						);
+					} else {
+						$send = array(
+							'name' => $user->display_name,
+							/* translators: %s: User's display name. */
+							'text' => sprintf( __( '%s is currently editing' ), $user->display_name ),
+						);
 
-					if ( get_option( 'show_avatars' ) ) {
-						$send['avatar_src']    = get_avatar_url( $user->ID, array( 'size' => 18 ) );
-						$send['avatar_src_2x'] = get_avatar_url( $user->ID, array( 'size' => 36 ) );
+						if ( get_option( 'show_avatars' ) ) {
+							$send['avatar_src']    = get_avatar_url( $user->ID, array( 'size' => 18 ) );
+							$send['avatar_src_2x'] = get_avatar_url( $user->ID, array( 'size' => 36 ) );
+						}
 					}
 
 					$checked[ $key ] = $send;
