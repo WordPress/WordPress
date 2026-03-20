@@ -149,11 +149,11 @@ function wp_default_script_modules() {
 	/*
 	 * Expects multidimensional array like:
 	 *
-	 *     'interactivity/index.min.js' => array('dependencies' => array(…), 'version' => '…'),
-	 *     'interactivity-router/index.min.js' => array('dependencies' => array(…), 'version' => '…'),
-	 *     'block-library/navigation/view.min.js' => …
+	 *     'interactivity/index.js' => array('dependencies' => array(…), 'version' => '…'),
+	 *     'interactivity-router/index.js' => array('dependencies' => array(…), 'version' => '…'),
+	 *     'block-library/navigation/view.js' => …
 	 */
-	$assets_file = ABSPATH . WPINC . "/assets/script-modules-packages{$suffix}.php";
+	$assets_file = ABSPATH . WPINC . '/assets/script-modules-packages.php';
 	$assets      = file_exists( $assets_file ) ? include $assets_file : array();
 
 	foreach ( $assets as $file_name => $script_module_data ) {
@@ -192,8 +192,10 @@ function wp_default_script_modules() {
 
 		// VIPS files are always minified — the non-minified versions are not
 		// shipped because they are ~10MB of inlined WASM with no debugging value.
-		if ( str_starts_with( $file_name, 'vips/' ) && ! str_contains( $file_name, '.min.' ) ) {
+		if ( str_starts_with( $file_name, 'vips/' ) ) {
 			$file_name = str_replace( '.js', '.min.js', $file_name );
+		} elseif ( '' !== $suffix ) {
+			$file_name = str_replace( '.js', $suffix . '.js', $file_name );
 		}
 
 		$path        = includes_url( "js/dist/script-modules/{$file_name}" );
