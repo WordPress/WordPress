@@ -190,11 +190,7 @@ function wp_default_script_modules() {
 			wp_interactivity()->add_client_navigation_support_to_script_module( $script_module_id );
 		}
 
-		// VIPS files are always minified — the non-minified versions are not
-		// shipped because they are ~10MB of inlined WASM with no debugging value.
-		if ( str_starts_with( $file_name, 'vips/' ) ) {
-			$file_name = str_replace( '.js', '.min.js', $file_name );
-		} elseif ( '' !== $suffix ) {
+		if ( '' !== $suffix ) {
 			$file_name = str_replace( '.js', $suffix . '.js', $file_name );
 		}
 
