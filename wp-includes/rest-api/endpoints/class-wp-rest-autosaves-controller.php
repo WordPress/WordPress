@@ -254,7 +254,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		 *   the saved post. This diff is then applied to the in-memory CRDT
 		 *   document, which can lead to duplicate inserts or deletions.
 		 */
-		$is_collaboration_enabled = (bool) get_option( 'wp_collaboration_enabled' );
+		$is_collaboration_enabled = wp_is_collaboration_enabled();
 
 		if ( $is_draft && (int) $post->post_author === $user_id && ! $post_lock && ! $is_collaboration_enabled ) {
 			/*

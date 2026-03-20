@@ -657,7 +657,7 @@ function create_initial_post_types() {
 		)
 	);
 
-	if ( (bool) get_option( 'wp_collaboration_enabled' ) ) {
+	if ( wp_is_collaboration_enabled() ) {
 		register_post_type(
 			'wp_sync_storage',
 			array(
@@ -8672,7 +8672,7 @@ function wp_create_initial_post_meta() {
 		)
 	);
 
-	if ( (bool) get_option( 'wp_collaboration_enabled' ) ) {
+	if ( wp_is_collaboration_enabled() ) {
 		register_meta(
 			'post',
 			'_crdt_document',

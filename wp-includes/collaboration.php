@@ -7,6 +7,25 @@
  */
 
 /**
+ * Determines whether real-time collaboration is enabled.
+ *
+ * If the WP_ALLOW_COLLABORATION constant is false,
+ * collaboration is always disabled regardless of the database option.
+ * Otherwise, falls back to the 'wp_collaboration_enabled' option.
+ *
+ * @since 7.0.0
+ *
+ * @return bool Whether real-time collaboration is enabled.
+ */
+function wp_is_collaboration_enabled() {
+	if ( ! defined( 'WP_ALLOW_COLLABORATION' ) || ! WP_ALLOW_COLLABORATION ) {
+		return false;
+	}
+
+	return (bool) get_option( 'wp_collaboration_enabled' );
+}
+
+/**
  * Injects the real-time collaboration setting into a global variable.
  *
  * @since 7.0.0
@@ -18,7 +37,7 @@
 function wp_collaboration_inject_setting() {
 	global $pagenow;
 
-	if ( ! (bool) get_option( 'wp_collaboration_enabled' ) ) {
+	if ( ! wp_is_collaboration_enabled() ) {
 		return;
 	}
 
