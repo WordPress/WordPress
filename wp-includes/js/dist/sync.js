@@ -9273,13 +9273,13 @@ var wp;
   var MAX_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
   var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
     "sync.pollingManager.pollingInterval",
-    1e3
-    // 1 second or 1000 milliseconds
+    4e3
+    // 4 seconds
   );
   var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = (0, import_hooks.applyFilters)(
     "sync.pollingManager.pollingIntervalWithCollaborators",
-    250
-    // 250 milliseconds
+    1e3
+    // 1 second
   );
   var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
 
@@ -9505,10 +9505,10 @@ var wp;
     }
   }
   function checkConnectionLimit(awareness, roomState) {
-    if (!roomState.enforceConnectionLimit) {
+    if (!roomState.isPrimaryRoom || hasCheckedConnectionLimit) {
       return false;
     }
-    roomState.enforceConnectionLimit = false;
+    hasCheckedConnectionLimit = true;
     const maxClientsPerRoom = (0, import_hooks2.applyFilters)(
       "sync.pollingProvider.maxClientsPerRoom",
       DEFAULT_CLIENT_LIMIT_PER_ROOM,
@@ -9530,6 +9530,7 @@ var wp;
     return false;
   }
   var areListenersRegistered = false;
+  var hasCheckedConnectionLimit = false;
   var hasCollaborators = false;
   var isActiveBrowser = "visible" === document.visibilityState;
   var isPolling = false;
@@ -9590,6 +9591,7 @@ var wp;
         roomStates.forEach((state) => {
           state.onStatusChange({ status: "connected" });
         });
+        hasCollaborators = false;
         rooms.forEach((room) => {
           if (!roomStates.has(room.room)) {
             return;
@@ -9608,7 +9610,7 @@ var wp;
             return;
           }
           roomState.processAwarenessUpdate(room.awareness);
-          if (Object.keys(room.awareness).length > 1) {
+          if (roomState.isPrimaryRoom && Object.keys(room.awareness).length > 1) {
             hasCollaborators = true;
             roomState.updateQueue.resume();
           }
@@ -9683,7 +9685,7 @@ var wp;
       return;
     }
     const updateQueue = createUpdateQueue([createSyncStep1Update(doc2)]);
-    const enforceConnectionLimit = 0 === roomStates.size;
+    const isPrimaryRoom = 0 === roomStates.size;
     function onAwarenessUpdate() {
       roomState.localAwarenessState = awareness.getLocalState() ?? {};
     }
@@ -9723,7 +9725,7 @@ var wp;
         SyncUpdateType.COMPACTION
       ),
       endCursor: 0,
-      enforceConnectionLimit,
+      isPrimaryRoom,
       localAwarenessState: awareness.getLocalState() ?? {},
       log,
       onStatusChange,
@@ -9770,6 +9772,7 @@ var wp;
         handleVisibilityChange
       );
       areListenersRegistered = false;
+      hasCheckedConnectionLimit = false;
     }
   }
   function retryNow() {

@@ -8226,17 +8226,12 @@ var wp;
   };
   var withBlockReset = (reducer3) => (state, action) => {
     if (action.type === "RESET_BLOCKS") {
+      const newState = reducer3(void 0, {
+        type: "INSERT_BLOCKS",
+        rootClientId: "",
+        blocks: action.blocks
+      });
       const preservedControlledInnerBlocks = state?.controlledInnerBlocks ?? {};
-      const newState = {
-        ...state,
-        byClientId: new Map(
-          getFlattenedBlocksWithoutAttributes(action.blocks)
-        ),
-        attributes: new Map(getFlattenedBlockAttributes(action.blocks)),
-        order: mapBlockOrder(action.blocks),
-        parents: new Map(mapBlockParents(action.blocks)),
-        controlledInnerBlocks: preservedControlledInnerBlocks
-      };
       if (state?.order) {
         for (const clientId of Object.keys(
           preservedControlledInnerBlocks
@@ -8247,23 +8242,24 @@ var wp;
           if (!newState.byClientId.has(clientId)) {
             continue;
           }
+          newState.controlledInnerBlocks[clientId] = true;
           const oldOrder = state.order.get(clientId);
           if (!oldOrder?.length) {
             continue;
           }
           newState.order.set(clientId, oldOrder);
           const preserveBlock = (blockId, parentId) => {
-            const blockData = state.byClientId?.get(blockId);
+            const blockData = state.byClientId.get(blockId);
             if (!blockData) {
               return;
             }
             newState.byClientId.set(blockId, blockData);
             newState.attributes.set(
               blockId,
-              state.attributes?.get(blockId)
+              state.attributes.get(blockId)
             );
             newState.parents.set(blockId, parentId);
-            const childOrder = state.order?.get(blockId) || [];
+            const childOrder = state.order.get(blockId) || [];
             newState.order.set(blockId, childOrder);
             childOrder.forEach(
               (childId) => preserveBlock(childId, blockId)
@@ -8272,35 +8268,32 @@ var wp;
           oldOrder.forEach((id) => preserveBlock(id, clientId));
         }
       }
-      newState.tree = new Map(state?.tree);
-      updateBlockTreeForBlocks(newState, action.blocks);
       for (const clientId of Object.keys(
-        preservedControlledInnerBlocks
+        newState.controlledInnerBlocks
       )) {
-        if (!preservedControlledInnerBlocks[clientId]) {
-          continue;
-        }
-        if (!newState.byClientId.has(clientId)) {
-          continue;
-        }
         const controlledOrder = newState.order.get(clientId);
         if (!controlledOrder?.length) {
           continue;
         }
         const innerBlocks = controlledOrder.map(
-          (id) => newState.tree.get(id)
+          (id) => state.tree.get(id)
         );
         const existingEntry = newState.tree.get(clientId);
         if (existingEntry) {
           existingEntry.innerBlocks = innerBlocks;
         }
         newState.tree.set("controlled||" + clientId, { innerBlocks });
+        const preserveTreeEntry = (blockId) => {
+          const treeEntry = state.tree.get(blockId);
+          if (!treeEntry) {
+            return;
+          }
+          newState.tree.set(blockId, treeEntry);
+          const childOrder = newState.order.get(blockId) || [];
+          childOrder.forEach(preserveTreeEntry);
+        };
+        controlledOrder.forEach(preserveTreeEntry);
       }
-      newState.tree.set("", {
-        innerBlocks: action.blocks.map(
-          (subBlock) => newState.tree.get(subBlock.clientId)
-        )
-      });
       return newState;
     }
     return reducer3(state, action);
@@ -9226,6 +9219,22 @@ var wp;
   function editedContentOnlySection(state, action) {
     if (action.type === "EDIT_CONTENT_ONLY_SECTION") {
       return action.clientId;
+    }
+    if (!state) {
+      return state;
+    }
+    switch (action.type) {
+      case "REMOVE_BLOCKS":
+      case "REPLACE_BLOCKS":
+        if (action.clientIds.includes(state)) {
+          return void 0;
+        }
+        break;
+      case "RESET_BLOCKS":
+        if (!getFlattenedClientIds(action.blocks)[state]) {
+          return void 0;
+        }
+        break;
     }
     return state;
   }
@@ -72003,6 +72012,10 @@ var wp;
   var CUSTOM_CSS_INSTANCE_REFERENCE = {};
   var EMPTY_STYLE = {};
   function CustomCSSControl({ blockName, setAttributes, style }) {
+    const blockEditingMode = useBlockEditingMode();
+    if (blockEditingMode !== "default") {
+      return null;
+    }
     const blockType = (0, import_blocks117.getBlockType)(blockName);
     function onChange(newStyle) {
       const css = newStyle?.css?.trim() ? newStyle.css : void 0;

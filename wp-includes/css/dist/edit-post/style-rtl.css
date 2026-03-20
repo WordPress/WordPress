@@ -526,16 +526,6 @@
 .edit-post-meta-boxes-area .is-hidden {
   display: none;
 }
-.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox] {
-  border: 1px solid #757575;
-}
-.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox]:checked {
-  background: #fff;
-  border-color: #757575;
-}
-.edit-post-meta-boxes-area .metabox-location-side .postbox input[type=checkbox]::before {
-  margin: -3px -4px;
-}
 
 .edit-post-meta-boxes-area__clear {
   clear: both;

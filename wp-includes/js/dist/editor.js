@@ -53562,8 +53562,8 @@ var wp;
   var import_jsx_runtime337 = __toESM(require_jsx_runtime(), 1);
   var { BlockCanvasCover: BlockCanvasCover2 } = unlock(import_block_editor79.privateApis);
   var { retrySyncConnection } = unlock(import_core_data115.privateApis);
-  var INITIAL_DISCONNECTED_DEBOUNCE_MS = 5e3;
-  var DISCONNECTED_DEBOUNCE_MS = 2e3;
+  var INITIAL_DISCONNECTED_DEBOUNCE_MS = 2e4;
+  var DISCONNECTED_DEBOUNCE_MS = 8e3;
   function DefaultSyncConnectionErrorModal(props) {
     const {
       description,
