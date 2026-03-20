@@ -112,7 +112,7 @@ unset( $post_formats['standard'] );
 <tr>
 <th scope="row"><?php _e( 'Collaboration' ); ?></th>
 <td>
-	<?php if ( ! defined( 'WP_ALLOW_COLLABORATION' ) || true === WP_ALLOW_COLLABORATION ) : ?>
+	<?php if ( defined( 'WP_ALLOW_COLLABORATION' ) && false === WP_ALLOW_COLLABORATION ) : ?>
 		<div class="notice notice-warning inline">
 			<p><?php _e( '<strong>Note:</strong> Real-time collaboration has been disabled.' ); ?></p>
 		</div>
