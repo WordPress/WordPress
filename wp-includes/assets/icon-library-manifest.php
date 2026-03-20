@@ -7,354 +7,354 @@ if ( ! defined( 'ABSPATH' ) ) {
 return array(
 	'arrow-down-left'     => array(
 		'label'    => _x( 'Arrow Down Left', 'icon label' ),
-		'filePath' => 'library/arrow-down-left.svg',
+		'filePath' => 'arrow-down-left.svg',
 	),
 	'arrow-down-right'    => array(
 		'label'    => _x( 'Arrow Down Right', 'icon label' ),
-		'filePath' => 'library/arrow-down-right.svg',
+		'filePath' => 'arrow-down-right.svg',
 	),
 	'arrow-down'          => array(
 		'label'    => _x( 'Arrow Down', 'icon label' ),
-		'filePath' => 'library/arrow-down.svg',
+		'filePath' => 'arrow-down.svg',
 	),
 	'arrow-left'          => array(
 		'label'    => _x( 'Arrow Left', 'icon label' ),
-		'filePath' => 'library/arrow-left.svg',
+		'filePath' => 'arrow-left.svg',
 	),
 	'arrow-right'         => array(
 		'label'    => _x( 'Arrow Right', 'icon label' ),
-		'filePath' => 'library/arrow-right.svg',
+		'filePath' => 'arrow-right.svg',
 	),
 	'arrow-up-left'       => array(
 		'label'    => _x( 'Arrow Up Left', 'icon label' ),
-		'filePath' => 'library/arrow-up-left.svg',
+		'filePath' => 'arrow-up-left.svg',
 	),
 	'arrow-up-right'      => array(
 		'label'    => _x( 'Arrow Up Right', 'icon label' ),
-		'filePath' => 'library/arrow-up-right.svg',
+		'filePath' => 'arrow-up-right.svg',
 	),
 	'arrow-up'            => array(
 		'label'    => _x( 'Arrow Up', 'icon label' ),
-		'filePath' => 'library/arrow-up.svg',
+		'filePath' => 'arrow-up.svg',
 	),
 	'at-symbol'           => array(
 		'label'    => _x( 'At Symbol (@)', 'icon label' ),
-		'filePath' => 'library/at-symbol.svg',
+		'filePath' => 'at-symbol.svg',
 	),
 	'audio'               => array(
 		'label'    => _x( 'Audio', 'icon label' ),
-		'filePath' => 'library/audio.svg',
+		'filePath' => 'audio.svg',
 	),
 	'bell'                => array(
 		'label'    => _x( 'Bell', 'icon label' ),
-		'filePath' => 'library/bell.svg',
+		'filePath' => 'bell.svg',
 	),
 	'block-default'       => array(
 		'label'    => _x( 'Block Default', 'icon label' ),
-		'filePath' => 'library/block-default.svg',
+		'filePath' => 'block-default.svg',
 	),
 	'block-meta'          => array(
 		'label'    => _x( 'Block Meta', 'icon label' ),
-		'filePath' => 'library/block-meta.svg',
+		'filePath' => 'block-meta.svg',
 	),
 	'block-table'         => array(
 		'label'    => _x( 'Block Table', 'icon label' ),
-		'filePath' => 'library/block-table.svg',
+		'filePath' => 'block-table.svg',
 	),
 	'calendar'            => array(
 		'label'    => _x( 'Calendar', 'icon label' ),
-		'filePath' => 'library/calendar.svg',
+		'filePath' => 'calendar.svg',
 	),
 	'capture-photo'       => array(
 		'label'    => _x( 'Capture Photo', 'icon label' ),
-		'filePath' => 'library/capture-photo.svg',
+		'filePath' => 'capture-photo.svg',
 	),
 	'capture-video'       => array(
 		'label'    => _x( 'Capture Video', 'icon label' ),
-		'filePath' => 'library/capture-video.svg',
+		'filePath' => 'capture-video.svg',
 	),
 	'cart'                => array(
 		'label'    => _x( 'Cart', 'icon label' ),
-		'filePath' => 'library/cart.svg',
+		'filePath' => 'cart.svg',
 	),
 	'category'            => array(
 		'label'    => _x( 'Category', 'icon label' ),
-		'filePath' => 'library/category.svg',
+		'filePath' => 'category.svg',
 	),
 	'caution'             => array(
 		'label'    => _x( 'Caution', 'icon label' ),
-		'filePath' => 'library/caution.svg',
+		'filePath' => 'caution.svg',
 	),
 	'chart-bar'           => array(
 		'label'    => _x( 'Chart Bar', 'icon label' ),
-		'filePath' => 'library/chart-bar.svg',
+		'filePath' => 'chart-bar.svg',
 	),
 	'check'               => array(
 		'label'    => _x( 'Check', 'icon label' ),
-		'filePath' => 'library/check.svg',
+		'filePath' => 'check.svg',
 	),
 	'chevron-down'        => array(
 		'label'    => _x( 'Chevron Down', 'icon label' ),
-		'filePath' => 'library/chevron-down.svg',
+		'filePath' => 'chevron-down.svg',
 	),
 	'chevron-down-small'  => array(
 		'label'    => _x( 'Chevron Down Small', 'icon label' ),
-		'filePath' => 'library/chevron-down-small.svg',
+		'filePath' => 'chevron-down-small.svg',
 	),
 	'chevron-left'        => array(
 		'label'    => _x( 'Chevron Left', 'icon label' ),
-		'filePath' => 'library/chevron-left.svg',
+		'filePath' => 'chevron-left.svg',
 	),
 	'chevron-left-small'  => array(
 		'label'    => _x( 'Chevron Left Small', 'icon label' ),
-		'filePath' => 'library/chevron-left-small.svg',
+		'filePath' => 'chevron-left-small.svg',
 	),
 	'chevron-right'       => array(
 		'label'    => _x( 'Chevron Right', 'icon label' ),
-		'filePath' => 'library/chevron-right.svg',
+		'filePath' => 'chevron-right.svg',
 	),
 	'chevron-right-small' => array(
 		'label'    => _x( 'Chevron Right Small', 'icon label' ),
-		'filePath' => 'library/chevron-right-small.svg',
+		'filePath' => 'chevron-right-small.svg',
 	),
 	'chevron-up'          => array(
 		'label'    => _x( 'Chevron Up', 'icon label' ),
-		'filePath' => 'library/chevron-up.svg',
+		'filePath' => 'chevron-up.svg',
 	),
 	'chevron-up-down'     => array(
 		'label'    => _x( 'Chevron Up Down', 'icon label' ),
-		'filePath' => 'library/chevron-up-down.svg',
+		'filePath' => 'chevron-up-down.svg',
 	),
 	'chevron-up-small'    => array(
 		'label'    => _x( 'Chevron Up Small', 'icon label' ),
-		'filePath' => 'library/chevron-up-small.svg',
+		'filePath' => 'chevron-up-small.svg',
 	),
 	'comment'             => array(
 		'label'    => _x( 'Comment', 'icon label' ),
-		'filePath' => 'library/comment.svg',
+		'filePath' => 'comment.svg',
 	),
 	'cover'               => array(
 		'label'    => _x( 'Cover', 'icon label' ),
-		'filePath' => 'library/cover.svg',
+		'filePath' => 'cover.svg',
 	),
 	'create'              => array(
 		'label'    => _x( 'Create', 'icon label' ),
-		'filePath' => 'library/create.svg',
+		'filePath' => 'create.svg',
 	),
 	'desktop'             => array(
 		'label'    => _x( 'Desktop', 'icon label' ),
-		'filePath' => 'library/desktop.svg',
+		'filePath' => 'desktop.svg',
 	),
 	'download'            => array(
 		'label'    => _x( 'Download', 'icon label' ),
-		'filePath' => 'library/download.svg',
+		'filePath' => 'download.svg',
 	),
 	'drawer-left'         => array(
 		'label'    => _x( 'Drawer Left', 'icon label' ),
-		'filePath' => 'library/drawer-left.svg',
+		'filePath' => 'drawer-left.svg',
 	),
 	'drawer-right'        => array(
 		'label'    => _x( 'Drawer Right', 'icon label' ),
-		'filePath' => 'library/drawer-right.svg',
+		'filePath' => 'drawer-right.svg',
 	),
 	'envelope'            => array(
 		'label'    => _x( 'Envelope', 'icon label' ),
-		'filePath' => 'library/envelope.svg',
+		'filePath' => 'envelope.svg',
 	),
 	'error'               => array(
 		'label'    => _x( 'Error', 'icon label' ),
-		'filePath' => 'library/error.svg',
+		'filePath' => 'error.svg',
 	),
 	'external'            => array(
 		'label'    => _x( 'External', 'icon label' ),
-		'filePath' => 'library/external.svg',
+		'filePath' => 'external.svg',
 	),
 	'file'                => array(
 		'label'    => _x( 'File', 'icon label' ),
-		'filePath' => 'library/file.svg',
+		'filePath' => 'file.svg',
 	),
 	'gallery'             => array(
 		'label'    => _x( 'Gallery', 'icon label' ),
-		'filePath' => 'library/gallery.svg',
+		'filePath' => 'gallery.svg',
 	),
 	'group'               => array(
 		'label'    => _x( 'Group', 'icon label' ),
-		'filePath' => 'library/group.svg',
+		'filePath' => 'group.svg',
 	),
 	'heading'             => array(
 		'label'    => _x( 'Heading', 'icon label' ),
-		'filePath' => 'library/heading.svg',
+		'filePath' => 'heading.svg',
 	),
 	'help'                => array(
 		'label'    => _x( 'Help', 'icon label' ),
-		'filePath' => 'library/help.svg',
+		'filePath' => 'help.svg',
 	),
 	'home'                => array(
 		'label'    => _x( 'Home', 'icon label' ),
-		'filePath' => 'library/home.svg',
+		'filePath' => 'home.svg',
 	),
 	'image'               => array(
 		'label'    => _x( 'Image', 'icon label' ),
-		'filePath' => 'library/image.svg',
+		'filePath' => 'image.svg',
 	),
 	'info'                => array(
 		'label'    => _x( 'Info', 'icon label' ),
-		'filePath' => 'library/info.svg',
+		'filePath' => 'info.svg',
 	),
 	'key'                 => array(
 		'label'    => _x( 'Key', 'icon label' ),
-		'filePath' => 'library/key.svg',
+		'filePath' => 'key.svg',
 	),
 	'language'            => array(
 		'label'    => _x( 'Language', 'icon label' ),
-		'filePath' => 'library/language.svg',
+		'filePath' => 'language.svg',
 	),
 	'map-marker'          => array(
 		'label'    => _x( 'Map Marker', 'icon label' ),
-		'filePath' => 'library/map-marker.svg',
+		'filePath' => 'map-marker.svg',
 	),
 	'menu'                => array(
 		'label'    => _x( 'Menu', 'icon label' ),
-		'filePath' => 'library/menu.svg',
+		'filePath' => 'menu.svg',
 	),
 	'mobile'              => array(
 		'label'    => _x( 'Mobile', 'icon label' ),
-		'filePath' => 'library/mobile.svg',
+		'filePath' => 'mobile.svg',
 	),
 	'more-horizontal'     => array(
 		'label'    => _x( 'More Horizontal', 'icon label' ),
-		'filePath' => 'library/more-horizontal.svg',
+		'filePath' => 'more-horizontal.svg',
 	),
 	'more-vertical'       => array(
 		'label'    => _x( 'More Vertical', 'icon label' ),
-		'filePath' => 'library/more-vertical.svg',
+		'filePath' => 'more-vertical.svg',
 	),
 	'next'                => array(
 		'label'    => _x( 'Next', 'icon label' ),
-		'filePath' => 'library/next.svg',
+		'filePath' => 'next.svg',
 	),
 	'paragraph'           => array(
 		'label'    => _x( 'Paragraph', 'icon label' ),
-		'filePath' => 'library/paragraph.svg',
+		'filePath' => 'paragraph.svg',
 	),
 	'payment'             => array(
 		'label'    => _x( 'Payment', 'icon label' ),
-		'filePath' => 'library/payment.svg',
+		'filePath' => 'payment.svg',
 	),
 	'pencil'              => array(
 		'label'    => _x( 'Pencil', 'icon label' ),
-		'filePath' => 'library/pencil.svg',
+		'filePath' => 'pencil.svg',
 	),
 	'people'              => array(
 		'label'    => _x( 'People', 'icon label' ),
-		'filePath' => 'library/people.svg',
+		'filePath' => 'people.svg',
 	),
 	'plus'                => array(
 		'label'    => _x( 'Plus', 'icon label' ),
-		'filePath' => 'library/plus.svg',
+		'filePath' => 'plus.svg',
 	),
 	'plus-circle'         => array(
 		'label'    => _x( 'Plus Circle', 'icon label' ),
-		'filePath' => 'library/plus-circle.svg',
+		'filePath' => 'plus-circle.svg',
 	),
 	'previous'            => array(
 		'label'    => _x( 'Previous', 'icon label' ),
-		'filePath' => 'library/previous.svg',
+		'filePath' => 'previous.svg',
 	),
 	'published'           => array(
 		'label'    => _x( 'Published', 'icon label' ),
-		'filePath' => 'library/published.svg',
+		'filePath' => 'published.svg',
 	),
 	'quote'               => array(
 		'label'    => _x( 'Quote', 'icon label' ),
-		'filePath' => 'library/quote.svg',
+		'filePath' => 'quote.svg',
 	),
 	'receipt'             => array(
 		'label'    => _x( 'Receipt', 'icon label' ),
-		'filePath' => 'library/receipt.svg',
+		'filePath' => 'receipt.svg',
 	),
 	'rss'                 => array(
 		'label'    => _x( 'RSS', 'icon label' ),
-		'filePath' => 'library/rss.svg',
+		'filePath' => 'rss.svg',
 	),
 	'scheduled'           => array(
 		'label'    => _x( 'Scheduled', 'icon label' ),
-		'filePath' => 'library/scheduled.svg',
+		'filePath' => 'scheduled.svg',
 	),
 	'search'              => array(
 		'label'    => _x( 'Search', 'icon label' ),
-		'filePath' => 'library/search.svg',
+		'filePath' => 'search.svg',
 	),
 	'settings'            => array(
 		'label'    => _x( 'Settings', 'icon label' ),
-		'filePath' => 'library/settings.svg',
+		'filePath' => 'settings.svg',
 	),
 	'shadow'              => array(
 		'label'    => _x( 'Shadow', 'icon label' ),
-		'filePath' => 'library/shadow.svg',
+		'filePath' => 'shadow.svg',
 	),
 	'share'               => array(
 		'label'    => _x( 'Share', 'icon label' ),
-		'filePath' => 'library/share.svg',
+		'filePath' => 'share.svg',
 	),
 	'shield'              => array(
 		'label'    => _x( 'Shield', 'icon label' ),
-		'filePath' => 'library/shield.svg',
+		'filePath' => 'shield.svg',
 	),
 	'shuffle'             => array(
 		'label'    => _x( 'Shuffle', 'icon label' ),
-		'filePath' => 'library/shuffle.svg',
+		'filePath' => 'shuffle.svg',
 	),
 	'star-empty'          => array(
 		'label'    => _x( 'Star Empty', 'icon label' ),
-		'filePath' => 'library/star-empty.svg',
+		'filePath' => 'star-empty.svg',
 	),
 	'star-filled'         => array(
 		'label'    => _x( 'Star Filled', 'icon label' ),
-		'filePath' => 'library/star-filled.svg',
+		'filePath' => 'star-filled.svg',
 	),
 	'star-half'           => array(
 		'label'    => _x( 'Star Half', 'icon label' ),
-		'filePath' => 'library/star-half.svg',
+		'filePath' => 'star-half.svg',
 	),
 	'store'               => array(
 		'label'    => _x( 'Store', 'icon label' ),
-		'filePath' => 'library/store.svg',
+		'filePath' => 'store.svg',
 	),
 	'styles'              => array(
 		'label'    => _x( 'Styles', 'icon label' ),
-		'filePath' => 'library/styles.svg',
+		'filePath' => 'styles.svg',
 	),
 	'symbol'              => array(
 		'label'    => _x( 'Symbol', 'icon label' ),
-		'filePath' => 'library/symbol.svg',
+		'filePath' => 'symbol.svg',
 	),
 	'symbol-filled'       => array(
 		'label'    => _x( 'Symbol Filled', 'icon label' ),
-		'filePath' => 'library/symbol-filled.svg',
+		'filePath' => 'symbol-filled.svg',
 	),
 	'table'               => array(
 		'label'    => _x( 'Table', 'icon label' ),
-		'filePath' => 'library/table.svg',
+		'filePath' => 'table.svg',
 	),
 	'tablet'              => array(
 		'label'    => _x( 'Tablet', 'icon label' ),
-		'filePath' => 'library/tablet.svg',
+		'filePath' => 'tablet.svg',
 	),
 	'tag'                 => array(
 		'label'    => _x( 'Tag', 'icon label' ),
-		'filePath' => 'library/tag.svg',
+		'filePath' => 'tag.svg',
 	),
 	'tip'                 => array(
 		'label'    => _x( 'Tip', 'icon label' ),
-		'filePath' => 'library/tip.svg',
+		'filePath' => 'tip.svg',
 	),
 	'upload'              => array(
 		'label'    => _x( 'Upload', 'icon label' ),
-		'filePath' => 'library/upload.svg',
+		'filePath' => 'upload.svg',
 	),
 	'verse'               => array(
 		'label'    => _x( 'Verse', 'icon label' ),
-		'filePath' => 'library/verse.svg',
+		'filePath' => 'verse.svg',
 	),
 );

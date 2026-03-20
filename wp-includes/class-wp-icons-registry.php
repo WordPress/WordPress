@@ -41,9 +41,8 @@ class WP_Icons_Registry {
 	 * registry is loaded with those icons listed in the manifest.
 	 */
 	protected function __construct() {
-		$icons_directory = __DIR__ . '/icons/';
-		$icons_directory = trailingslashit( $icons_directory );
-		$manifest_path   = $icons_directory . 'manifest.php';
+		$icons_directory = __DIR__ . '/images/icon-library/';
+		$manifest_path   = __DIR__ . '/assets/icon-library-manifest.php';
 
 		if ( ! is_readable( $manifest_path ) ) {
 			wp_trigger_error(

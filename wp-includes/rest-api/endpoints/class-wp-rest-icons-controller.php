@@ -11,8 +11,8 @@
 /**
  * Controller which provides a REST endpoint for the editor to read registered
  * icons. For the time being, only core icons are available, which are defined
- * in a single manifest file (wp-includes/icons/manifest.php). Icons are
- * comprised of their SVG source, a name and a translatable label.
+ * in a single manifest file (wp-includes/assets/icon-library-manifest.php).
+ * Icons are comprised of their SVG source, a name and a translatable label.
  *
  * @since 7.0.0
  *
