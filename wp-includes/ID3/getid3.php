@@ -387,7 +387,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.24-202509040923';
+	const VERSION           = '1.9.25-202603080933';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -1950,6 +1950,12 @@ class getID3
 		// Set playtime string
 		if (!empty($this->info['playtime_seconds']) && empty($this->info['playtime_string'])) {
 			$this->info['playtime_string'] = getid3_lib::PlaytimeString($this->info['playtime_seconds']);
+		}
+
+		// Look up codec name if fourcc is set but codec is not
+		if (!empty($this->info['video']['fourcc']) && !isset($this->info['video']['codec'])) {
+			$this->include_module('audio-video.riff');
+			$this->info['video']['codec'] = getid3_riff::fourccLookup($this->info['video']['fourcc']);
 		}
 	}
 

@@ -19,6 +19,11 @@ if (!defined('GETID3_LIBXML_OPTIONS') && defined('LIBXML_VERSION')) {
 	}
 }
 
+// Available since PHP 7.0 (2015-Dec-03 https://www.php.net/ChangeLog-7.php)
+if (!defined('PHP_INT_MIN')) {
+	define('PHP_INT_MIN', ~PHP_INT_MAX);
+}
+
 class getid3_lib
 {
 	/**
@@ -74,7 +79,7 @@ class getid3_lib
 	/**
 	 * @param int|null $variable
 	 * @param-out int  $variable
-     * @param int      $increment
+	 * @param int      $increment
 	 *
 	 * @return bool
 	 */
@@ -113,21 +118,8 @@ class getid3_lib
 	 * @return bool
 	 */
 	public static function intValueSupported($num) {
-		// check if integers are 64-bit
-		static $hasINT64 = null;
-		if ($hasINT64 === null) { // 10x faster than is_null()
-			/** @var int|float|object $bigInt */
-			$bigInt = pow(2, 31);
-			$hasINT64 = is_int($bigInt); // 32-bit int are limited to (2^31)-1
-			if (!$hasINT64 && !defined('PHP_INT_MIN')) {
-				define('PHP_INT_MIN', ~PHP_INT_MAX);
-			}
-		}
-		// if integers are 64-bit - no other check required
-		if ($hasINT64 || (($num <= PHP_INT_MAX) && ($num >= PHP_INT_MIN))) {
-			return true;
-		}
-		return false;
+		// really should be <= and >= but trying "(int)9.2233720368548E+18" results in PHP warning "The float 9.2233720368548E+18 is not representable as an int, cast occurred"
+		return (($num < PHP_INT_MAX) && ($num > PHP_INT_MIN));
 	}
 
 	/**

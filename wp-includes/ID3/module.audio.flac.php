@@ -168,10 +168,10 @@ class getid3_flac extends getid3_handler
 				$info['flac']['compressed_audio_bytes'] = $info['avdataend'] - $info['avdataoffset'];
 			}
 			$info['flac']['uncompressed_audio_bytes'] = $info['flac']['STREAMINFO']['samples_stream'] * $info['flac']['STREAMINFO']['channels'] * ($info['flac']['STREAMINFO']['bits_per_sample'] / 8);
-			if ($info['flac']['uncompressed_audio_bytes'] == 0) {
+			if ($info['flac']['uncompressed_audio_bytes'] == 0 && $info['flac']['STREAMINFO']['samples_stream'] > 0) {
 				return $this->error('Corrupt FLAC file: uncompressed_audio_bytes == zero');
 			}
-			if (!empty($info['flac']['compressed_audio_bytes'])) {
+			if (!empty($info['flac']['compressed_audio_bytes']) && $info['flac']['STREAMINFO']['samples_stream'] > 0) {
 				$info['flac']['compression_ratio'] = $info['flac']['compressed_audio_bytes'] / $info['flac']['uncompressed_audio_bytes'];
 			}
 		}
