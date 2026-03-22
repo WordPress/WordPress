@@ -334,7 +334,7 @@ function iis7_save_url_rewrite_rules() {
  *
  * @since 1.5.0
  *
- * @param string $file
+ * @param string $file Path to the recently edited file.
  */
 function update_recently_edited( $file ) {
 	$oldfiles = (array) get_option( 'recently_edited' );
@@ -563,8 +563,8 @@ function wp_print_plugin_file_tree( $tree, $label = '', $level = 2, $size = 1, $
  *
  * @since 2.1.0
  *
- * @param string $old_value
- * @param string $value
+ * @param string $old_value The old value of the option. Unused.
+ * @param string $value     The new value of the option. Unused.
  */
 function update_home_siteurl( $old_value, $value ) {
 	if ( wp_installing() ) {
@@ -608,7 +608,7 @@ function wp_reset_vars( $vars ) {
  *
  * @since 2.1.0
  *
- * @param string|WP_Error $message
+ * @param string|WP_Error $message The message to display, or a WP_Error object.
  */
 function show_message( $message ) {
 	if ( is_wp_error( $message ) ) {
@@ -625,9 +625,11 @@ function show_message( $message ) {
 }
 
 /**
+ * Parses the PHP content and finds function calls to be used for documentation linking.
+ *
  * @since 2.8.0
  *
- * @param string $content
+ * @param string $content The PHP content to parse.
  * @return string[] Array of function names.
  */
 function wp_doc_link_parse( $content ) {
@@ -978,8 +980,8 @@ function iis7_add_rewrite_rule( $filename, $rewrite_rule ) {
  *
  * @since 2.8.0
  *
- * @param DOMDocument $doc
- * @param string      $filename
+ * @param DOMDocument $doc      The DOMDocument object to save.
+ * @param string      $filename The file path to save the XML document to.
  */
 function saveDomDocument( $doc, $filename ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	$config = $doc->saveXML();
@@ -1055,6 +1057,7 @@ function admin_color_scheme_picker( $user_id ) {
 }
 
 /**
+ * Outputs the JavaScript for the admin color scheme settings.
  *
  * @since 3.8.0
  *
