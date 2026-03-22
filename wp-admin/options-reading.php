@@ -90,12 +90,12 @@ else :
 <td id="front-static-pages"><fieldset>
 	<legend class="screen-reader-text"><span><?php echo $your_homepage_displays_title; ?></span></legend>
 	<p><label>
-		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
+		<input name="show_on_front" type="radio" value="posts" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
 		<?php _e( 'Your latest posts' ); ?>
 	</label>
 	</p>
 	<p><label>
-		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
+		<input name="show_on_front" type="radio" value="page" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
 		<?php
 		printf(
 			/* translators: %s: URL to Pages screen. */

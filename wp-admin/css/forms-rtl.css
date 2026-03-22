@@ -172,10 +172,11 @@ td > input[type="checkbox"],
 }
 
 input[type="radio"] {
+	display: inline-flex;
 	border-radius: 50%;
 	margin-left: 0.25rem;
-	/* 10px not sure if still necessary, comes from the MP6 redesign in r26072 */
-	line-height: 0.71428571;
+	align-items: center;
+	justify-content: center;
 }
 
 input[type="checkbox"]:checked::before,
@@ -212,10 +213,10 @@ input[type="radio"]:checked::before {
 	border-radius: 50%;
 	width: 0.5rem; /* 8px */
 	height: 0.5rem; /* 8px */
-	margin: 0.1875rem; /* 3px */
+	margin: auto;
 	background-color: #fff;
-	/* 16px not sure if still necessary, comes from the MP6 redesign in r26072 */
-	line-height: 1.14285714;
+	/* Only visible in Windows High Contrast mode */
+	outline: 4px solid transparent;
 }
 
 @-moz-document url-prefix() {
@@ -956,13 +957,6 @@ ul#add-to-blog-users {
 .form-table td fieldset p,
 .form-table td fieldset li {
 	line-height: 1.4;
-}
-
-.form-table input.tog,
-.form-table input[type="radio"] {
-	margin-top: -4px;
-	margin-left: 4px;
-	float: none;
 }
 
 .form-table .pre {
