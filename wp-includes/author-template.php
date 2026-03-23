@@ -489,8 +489,7 @@ function wp_list_authors( $args = '' ) {
 	 */
 	$query_args = apply_filters( 'wp_list_authors_args', $query_args, $parsed_args );
 
-	$authors     = get_users( $query_args );
-	$post_counts = array();
+	$authors = get_users( $query_args );
 
 	/**
 	 * Filters whether to short-circuit performing the query for author post counts.
