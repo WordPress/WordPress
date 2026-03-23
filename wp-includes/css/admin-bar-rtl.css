@@ -698,13 +698,10 @@ html:lang(he-il) .rtl #wpadminbar * {
 /**
  * Command Palette
  */
-#wpadminbar #wp-admin-bar-command-palette .ab-icon {
-	display: none; /* Icon displayed only on mobile */
-}
-
 #wpadminbar #wp-admin-bar-command-palette .ab-icon:before {
 	content: "\f179";
 	content: "\f179" / '';
+	top: 3px;
 }
 
 #wpadminbar #wp-admin-bar-command-palette kbd {
@@ -957,10 +954,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-comments .ab-icon,
 	#wpadminbar #wp-admin-bar-command-palette .ab-icon {
 		margin: 0;
-	}
-
-	#wpadminbar #wp-admin-bar-command-palette .ab-icon {
-		display: block; /* Icon is only shown on mobile, while the keyboard shortcut is hidden */
 	}
 
 	#wpadminbar #wp-admin-bar-comments .ab-icon:before,
