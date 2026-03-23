@@ -52,7 +52,7 @@ class WP_Ability {
 
 	/**
 	 * The name of the ability, with its namespace.
-	 * Examples: `my-plugin/my-ability`, `my-plugin/resource/find`.
+	 * Example: `my-plugin/my-ability`.
 	 *
 	 * @since 6.9.0
 	 * @var string
@@ -340,7 +340,7 @@ class WP_Ability {
 
 	/**
 	 * Retrieves the name of the ability, with its namespace.
-	 * Examples: `my-plugin/my-ability`, `my-plugin/resource/find`.
+	 * Example: `my-plugin/my-ability`.
 	 *
 	 * @since 6.9.0
 	 *
