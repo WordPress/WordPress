@@ -1,4 +1,0 @@
-.wp-block-accordion-panel[inert], .wp-block-accordion-panel[aria-hidden=true] {
-  display: none;
-  margin-block-start: 0;
-}
