@@ -46,12 +46,12 @@
 
 .media-frame a {
 	border-bottom: none;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .media-frame a:hover,
 .media-frame a:active {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 }
 
 .media-frame a:focus {
