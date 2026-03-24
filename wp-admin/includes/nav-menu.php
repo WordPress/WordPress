@@ -363,7 +363,7 @@ function wp_nav_menu_item_link_meta_box() {
 	<div class="customlinkdiv" id="customlinkdiv">
 		<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 		<p id="menu-item-url-wrap" class="wp-clearfix">
-			<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
+			<label for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
 			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]"
 				type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
 				class="code menu-item-textbox form-required" placeholder="https://"
@@ -372,14 +372,14 @@ function wp_nav_menu_item_link_meta_box() {
 		</p>
 
 		<p id="menu-item-name-wrap" class="wp-clearfix">
-			<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+			<label for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
 			<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]"
 				type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
 				class="regular-text menu-item-textbox"
 			/>
 		</p>
 
-		<p class="button-controls wp-clearfix">
+		<p class="button-controls button-controls-customlinkdiv">
 			<span class="add-to-menu">
 				<input id="submit-customlinkdiv" name="add-custom-menu-item"
 					type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
@@ -820,7 +820,7 @@ function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls wp-clearfix" data-items-type="<?php echo esc_attr( "posttype-{$post_type_name}" ); ?>">
+		<p class="button-controls" data-items-type="<?php echo esc_attr( "posttype-{$post_type_name}" ); ?>">
 			<span class="list-controls hide-if-no-js">
 				<input type="checkbox"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
 					id="<?php echo esc_attr( $tab_name ); ?>" class="select-all"
@@ -1115,7 +1115,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $data_object, $box ) {
 			</ul>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls wp-clearfix" data-items-type="<?php echo esc_attr( "taxonomy-{$taxonomy_name}" ); ?>">
+		<p class="button-controls" data-items-type="<?php echo esc_attr( "taxonomy-{$taxonomy_name}" ); ?>">
 			<span class="list-controls hide-if-no-js">
 				<input type="checkbox"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
 					id="<?php echo esc_attr( $tab_name ); ?>" class="select-all"

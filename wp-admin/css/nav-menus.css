@@ -375,15 +375,9 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 }
 
 /* Add Menu Item Boxes */
-.postbox .howto input,
-.customlinkdiv .menu-item-textbox,
-.customlinkdiv .error-message {
+.postbox .howto input {
 	width: 180px;
 	float: right;
-}
-
-.customlinkdiv .error-message {
-	clear: right;
 }
 
 .accordion-container .outer-border {
@@ -477,7 +471,10 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 	width: 180px;
 }
 
-.customlinkdiv label,
+.customlinkdiv .menu-item-textbox {
+	width: 100%;
+}
+
 .nav-menus-php .howto span {
 	float: left;
 	margin-top: 6px;
@@ -874,6 +871,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.button-controls-customlinkdiv {
+	justify-content: flex-end;
 }
 
 /* =Media Queries
