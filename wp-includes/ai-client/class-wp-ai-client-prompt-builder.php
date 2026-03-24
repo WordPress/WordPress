@@ -7,6 +7,7 @@
  * @since 7.0.0
  */
 
+use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Builders\PromptBuilder;
 use WordPress\AiClient\Common\Exception\InvalidArgumentException;
 use WordPress\AiClient\Common\Exception\TokenLimitReachedException;
@@ -183,9 +184,9 @@ class WP_AI_Client_Prompt_Builder {
 	 */
 	public function __construct( ProviderRegistry $registry, $prompt = null ) {
 		try {
-			$this->builder = new PromptBuilder( $registry, $prompt );
+			$this->builder = new PromptBuilder( $registry, $prompt, AiClient::getEventDispatcher() );
 		} catch ( Exception $e ) {
-			$this->builder = new PromptBuilder( $registry );
+			$this->builder = new PromptBuilder( $registry, null, AiClient::getEventDispatcher() );
 			$this->error   = $this->exception_to_wp_error( $e );
 		}
 
