@@ -291,9 +291,6 @@
 .components-button:focus:not(:active) {
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
-.components-button:focus {
-  outline: 3px solid transparent;
-}
 .components-button {
   /**
    * Primary button style.
@@ -463,6 +460,9 @@ p + .components-button.is-tertiary {
 }
 .components-button.is-link:disabled, .components-button.is-link[aria-disabled=true] {
   color: #949494;
+}
+.components-button:focus {
+  outline: 3px solid transparent;
 }
 .components-button:not(:disabled, [aria-disabled=true]):active {
   color: var(--wp-components-color-foreground, #1e1e1e);

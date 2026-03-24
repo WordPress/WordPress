@@ -80,6 +80,13 @@ var require_core_data = __commonJS({
   }
 });
 
+// package-external:@wordpress/url
+var require_url = __commonJS({
+  "package-external:@wordpress/url"(exports, module) {
+    module.exports = window.wp.url;
+  }
+});
+
 // node_modules/clsx/dist/clsx.mjs
 function r(e) {
   var t, f, n = "";
@@ -662,10 +669,10 @@ import {
 } from "@wordpress/connectors";
 
 // routes/connectors-home/style.scss
-if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='eb296b7e99']")) {
+if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='1b00f16b8d']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "eb296b7e99");
-  style.appendChild(document.createTextNode(".connectors-page{box-sizing:border-box;margin:0 auto;max-width:680px;padding:24px;width:100%}.connectors-page .components-item{background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden;padding:20px;scroll-margin-top:120px}.connectors-page .connector-settings__error{color:#cc1818}.connectors-page .connector-settings .components-text-control__input{font-family:monospace;scroll-margin-top:120px}.connectors-page--empty{align-items:center;display:flex;flex-direction:column;flex-grow:1;gap:32px;justify-content:center;text-align:center}.connectors-page .ai-plugin-callout{background:linear-gradient(90deg,#fff9,#fff9),linear-gradient(90deg,#89dcdc,#c7eb5c 46.15%,#a920c1);border-radius:8px;overflow:hidden;padding:24px;padding-inline-end:220px;position:relative}[dir=rtl] .connectors-page .ai-plugin-callout{background:linear-gradient(270deg,#fff9,#fff9),linear-gradient(270deg,#89dcdc,#c7eb5c 46.15%,#a920c1)}.connectors-page .ai-plugin-callout__content{display:flex;flex-direction:column;gap:12px;padding-top:2px}.connectors-page .ai-plugin-callout__content p{font-size:13px;line-height:20px;margin:0}.connectors-page .ai-plugin-callout__actions{align-items:center;display:flex;gap:12px}.connectors-page .ai-plugin-callout__decoration{height:248px;inset-inline-end:8px;position:absolute;top:-15px;width:248px}.connectors-page>p{color:#949494;text-align:center}@media (max-width:680px){.connectors-page .ai-plugin-callout{padding:12px;padding-inline-end:84px}.connectors-page .ai-plugin-callout__decoration{height:134px;inset-inline-end:4px;top:-8px;width:134px}}@media (max-width:480px){.connectors-page{padding:8px}.connectors-page .components-item{padding:12px}.connectors-page .components-item>.components-v-stack>.components-h-stack:first-child svg{height:32px;width:32px}.connectors-page .components-item>.components-v-stack>.components-h-stack:first-child>.components-h-stack:last-child{align-items:flex-end;flex-direction:column}}"));
+  style.setAttribute("data-wp-hash", "1b00f16b8d");
+  style.appendChild(document.createTextNode(".connectors-page{box-sizing:border-box;margin:0 auto;max-width:680px;padding:24px;width:100%}.connectors-page .components-item{background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden;padding:20px;scroll-margin-top:120px}.connectors-page .connector-settings__error{color:#cc1818}.connectors-page .connector-settings .components-text-control__input{font-family:monospace;scroll-margin-top:120px}.connectors-page--empty{align-items:center;display:flex;flex-direction:column;flex-grow:1;gap:32px;justify-content:center;text-align:center}.connectors-page .ai-plugin-callout{background:linear-gradient(90deg,#fff9,#fff9),linear-gradient(90deg,#89dcdc,#c7eb5c 46.15%,#a920c1);border-radius:8px;overflow:hidden;padding:24px;padding-inline-end:220px;position:relative}[dir=rtl] .connectors-page .ai-plugin-callout{background:linear-gradient(270deg,#fff9,#fff9),linear-gradient(270deg,#89dcdc,#c7eb5c 46.15%,#a920c1)}.connectors-page .ai-plugin-callout__content{align-items:flex-start;display:flex;flex-direction:column;gap:12px;padding-top:2px}.connectors-page .ai-plugin-callout__content p{font-size:13px;line-height:20px;margin:0}.connectors-page .ai-plugin-callout__decoration{height:248px;inset-inline-end:8px;position:absolute;top:-15px;width:248px}.connectors-page>p{color:#949494;text-align:center}@media (max-width:680px){.connectors-page .ai-plugin-callout{padding:12px;padding-inline-end:84px}.connectors-page .ai-plugin-callout__decoration{height:134px;inset-inline-end:4px;top:-8px;width:134px}}@media (max-width:480px){.connectors-page{padding:8px}.connectors-page .components-item{padding:12px}.connectors-page .components-item>.components-v-stack>.components-h-stack:first-child svg{height:32px;width:32px}.connectors-page .components-item>.components-v-stack>.components-h-stack:first-child>.components-h-stack:last-child{align-items:flex-end;flex-direction:column}}"));
   document.head.appendChild(style);
 }
 
@@ -675,6 +682,7 @@ var import_core_data2 = __toESM(require_core_data());
 var import_data2 = __toESM(require_data());
 var import_element6 = __toESM(require_element());
 var import_i18n3 = __toESM(require_i18n());
+var import_url = __toESM(require_url());
 import { speak as speak2 } from "@wordpress/a11y";
 
 // routes/connectors-home/default-connectors.tsx
@@ -1144,17 +1152,16 @@ var ConnectedBadge = () => /* @__PURE__ */ React.createElement(
 );
 var UnavailableActionBadge = () => /* @__PURE__ */ React.createElement(Badge, null, (0, import_i18n2.__)("Not available"));
 function ApiKeyConnector({
-  label,
+  name,
   description,
-  pluginSlug,
-  settingName,
-  helpUrl,
-  icon,
-  isInstalled,
-  isActivated,
-  keySource: initialKeySource,
-  initialIsConnected
+  logo,
+  authentication,
+  plugin
 }) {
+  const auth = authentication?.method === "api_key" ? authentication : void 0;
+  const settingName = auth?.settingName ?? "";
+  const helpUrl = auth?.credentialsUrl ?? void 0;
+  const pluginSlug = plugin?.slug;
   let helpLabel;
   try {
     if (helpUrl) {
@@ -1179,11 +1186,11 @@ function ApiKeyConnector({
   } = useConnectorPlugin({
     pluginSlug,
     settingName,
-    connectorName: label,
-    isInstalled,
-    isActivated,
-    keySource: initialKeySource,
-    initialIsConnected
+    connectorName: name,
+    isInstalled: plugin?.isInstalled,
+    isActivated: plugin?.isActivated,
+    keySource: auth?.keySource,
+    initialIsConnected: auth?.isConnected
   });
   const isExternallyConfigured = keySource === "env" || keySource === "constant";
   const showUnavailableBadge = pluginStatus === "not-installed" && canInstallPlugins === false || pluginStatus === "inactive" && canActivatePlugins === false;
@@ -1206,8 +1213,8 @@ function ApiKeyConnector({
     ConnectorItem,
     {
       className: pluginSlug ? `connector-item--${pluginSlug}` : void 0,
-      icon,
-      name: label,
+      logo,
+      name,
       description,
       actionArea: /* @__PURE__ */ React.createElement(import_components2.__experimentalHStack, { spacing: 3, expanded: false }, isConnected && /* @__PURE__ */ React.createElement(ConnectedBadge, null), showUnavailableBadge && /* @__PURE__ */ React.createElement(UnavailableActionBadge, null), showActionButton && /* @__PURE__ */ React.createElement(
         import_components2.Button,
@@ -1250,33 +1257,21 @@ function ApiKeyConnector({
 }
 function registerDefaultConnectors() {
   const connectors = getConnectorData();
-  const sanitize = (s) => s.replace(/[^a-z0-9-]/gi, "-");
+  const sanitize = (s) => s.replace(/[^a-z0-9-_]/gi, "-");
   for (const [connectorId, data] of Object.entries(connectors)) {
     const { authentication } = data;
-    if (data.type !== "ai_provider" || authentication.method !== "api_key") {
-      continue;
-    }
-    const connectorName = `${sanitize(data.type)}/${sanitize(
-      connectorId
-    )}`;
-    registerConnector(connectorName, {
-      label: data.name,
+    const connectorName = sanitize(connectorId);
+    const args = {
+      name: data.name,
       description: data.description,
-      icon: getConnectorLogo(connectorId, data.logoUrl),
-      render: (props) => /* @__PURE__ */ React.createElement(
-        ApiKeyConnector,
-        {
-          ...props,
-          pluginSlug: data.plugin?.slug,
-          settingName: authentication.settingName,
-          helpUrl: authentication.credentialsUrl ?? void 0,
-          isInstalled: data.plugin?.isInstalled,
-          isActivated: data.plugin?.isActivated,
-          keySource: authentication.keySource,
-          initialIsConnected: authentication.isConnected
-        }
-      )
-    });
+      logo: getConnectorLogo(connectorId, data.logoUrl),
+      authentication,
+      plugin: data.plugin
+    };
+    if (data.type === "ai_provider" && authentication.method === "api_key") {
+      args.render = ApiKeyConnector;
+    }
+    registerConnector(connectorName, args);
   }
 }
 
@@ -1453,38 +1448,39 @@ function AiPluginCallout() {
   const getMessage = () => {
     if (isJustConnected) {
       return (0, import_i18n3.__)(
-        "The <strong>AI plugin</strong> is ready to use. You can use it to generate featured images, alt text, titles, excerpts and more."
+        "The <strong>AI plugin</strong> is ready to use. You can use it to generate featured images, alt text, titles, excerpts and more. <a>Learn more</a>"
       );
     }
     if (isActiveNoProvider) {
       return (0, import_i18n3.__)(
-        "The <strong>AI plugin</strong> is installed. Connect a provider below to generate featured images, alt text, titles, excerpts, and more."
+        "The <strong>AI plugin</strong> is installed. Connect a provider below to generate featured images, alt text, titles, excerpts, and more. <a>Learn more</a>"
       );
     }
     return (0, import_i18n3.__)(
-      "The <strong>AI plugin</strong> can use your connectors to generate featured images, alt text, titles, excerpts and more."
+      "The <strong>AI plugin</strong> can use your connectors to generate featured images, alt text, titles, excerpts and more. <a>Learn more</a>"
     );
   };
   const getPrimaryButtonProps = () => {
     if (pluginStatus === "not-installed") {
       return {
-        label: isBusy ? (0, import_i18n3.__)("Installing\u2026") : (0, import_i18n3.__)("Install AI Experiments"),
+        label: isBusy ? (0, import_i18n3.__)("Installing\u2026") : (0, import_i18n3.__)("Install the AI plugin"),
         disabled: isBusy,
         onClick: isBusy ? void 0 : installPlugin
       };
     }
     return {
-      label: isBusy ? (0, import_i18n3.__)("Activating\u2026") : (0, import_i18n3.__)("Activate AI Experiments"),
+      label: isBusy ? (0, import_i18n3.__)("Activating\u2026") : (0, import_i18n3.__)("Activate the AI plugin"),
       disabled: isBusy,
       onClick: isBusy ? void 0 : activatePlugin
     };
   };
   return /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout" }, /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout__content" }, /* @__PURE__ */ React.createElement("p", null, (0, import_element6.createInterpolateElement)(getMessage(), {
-    strong: /* @__PURE__ */ React.createElement("strong", null)
-  })), /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout__actions" }, showInstallActivate ? /* @__PURE__ */ React.createElement(
+    strong: /* @__PURE__ */ React.createElement("strong", null),
+    // @ts-ignore children are injected by createInterpolateElement at runtime.
+    a: /* @__PURE__ */ React.createElement(import_components3.ExternalLink, { href: AI_PLUGIN_URL })
+  })), showInstallActivate ? /* @__PURE__ */ React.createElement(
     import_components3.Button,
     {
-      ref: actionButtonRef,
       variant: "primary",
       size: "compact",
       isBusy,
@@ -1493,17 +1489,18 @@ function AiPluginCallout() {
       onClick: getPrimaryButtonProps().onClick
     },
     getPrimaryButtonProps().label
-  ) : justActivated && /* @__PURE__ */ React.createElement(
+  ) : /* @__PURE__ */ React.createElement(
     import_components3.Button,
     {
       ref: actionButtonRef,
       variant: "secondary",
       size: "compact",
-      disabled: true,
-      accessibleWhenDisabled: true
+      href: (0, import_url.addQueryArgs)("options-general.php", {
+        page: AI_PLUGIN_SLUG
+      })
     },
-    (0, import_i18n3.__)("AI Experiments enabled")
-  ), /* @__PURE__ */ React.createElement(import_components3.ExternalLink, { href: AI_PLUGIN_URL }, (0, import_i18n3.__)("Learn more")))), /* @__PURE__ */ React.createElement(WpLogoDecoration, null));
+    (0, import_i18n3.__)("Control features in the AI plugin")
+  )), /* @__PURE__ */ React.createElement(WpLogoDecoration, null));
 }
 
 // routes/lock-unlock.ts
@@ -1527,7 +1524,10 @@ function ConnectorsPage() {
     }),
     []
   );
-  const isEmpty = connectors.length === 0;
+  const renderableConnectors = connectors.filter(
+    (connector) => connector.render
+  );
+  const isEmpty = renderableConnectors.length === 0;
   return /* @__PURE__ */ React.createElement(
     page_default,
     {
@@ -1560,9 +1560,11 @@ function ConnectorsPage() {
             {
               key: connector.slug,
               slug: connector.slug,
-              label: connector.label,
+              name: connector.name,
               description: connector.description,
-              icon: connector.icon
+              logo: connector.logo,
+              authentication: connector.authentication,
+              plugin: connector.plugin
             }
           );
         }

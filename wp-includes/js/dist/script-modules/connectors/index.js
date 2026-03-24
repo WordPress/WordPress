@@ -158,7 +158,7 @@ var import_i18n = __toESM(require_i18n(), 1);
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 function ConnectorItem({
   className,
-  icon,
+  logo,
   name,
   description,
   actionArea,
@@ -167,7 +167,7 @@ function ConnectorItem({
   const headingId = (0, import_element.useId)();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalItem, { className, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 4, role: "group", "aria-labelledby": headingId, children: [
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalHStack, { alignment: "center", spacing: 4, wrap: true, children: [
-      icon,
+      logo,
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.FlexBlock, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 0, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           import_components.__experimentalText,
