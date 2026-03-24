@@ -3427,8 +3427,15 @@ function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::C
 function rest_convert_error_to_response( $error ) {
 	$status = array_reduce(
 		$error->get_all_error_data(),
-		static function ( $status, $error_data ) {
-			return $error_data['status'] ?? $status;
+		/**
+		 * @param int   $status     Status.
+		 * @param mixed $error_data Error data.
+		 */
+		static function ( int $status, $error_data ): int {
+			if ( is_array( $error_data ) && isset( $error_data['status'] ) && is_numeric( $error_data['status'] ) ) {
+				$status = (int) $error_data['status'];
+			}
+			return $status;
 		},
 		500
 	);
