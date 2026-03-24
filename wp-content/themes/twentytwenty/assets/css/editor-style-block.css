@@ -716,7 +716,7 @@ hr.wp-block-separator.is-style-dots::before {
 }
 
 
-/* Block: Code, Verse and Preformatted ------- */
+/* Block: Code, Poetry (Verse) and Preformatted ------- */
 
 .editor-styles-wrapper .wp-block-code {
 	color: inherit;
@@ -924,7 +924,7 @@ hr.wp-block-separator.is-style-dots::before {
 }
 
 
-/* Block: Verse ------------------------------ */
+/* Block: Poetry (Verse) ------------------------------ */
 
 .editor-styles-wrapper .wp-block-verse pre,
 .editor-styles-wrapper pre.wp-block-verse {
