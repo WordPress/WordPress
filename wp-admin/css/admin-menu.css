@@ -112,6 +112,7 @@
 .folded #adminmenu .wp-submenu-head:hover {
 	box-shadow: inset 4px 0 0 0 currentColor;
 	transition: box-shadow .1s linear;
+	border-radius: 0;
 }
 
 #adminmenu li.menu-top {
