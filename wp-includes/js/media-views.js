@@ -2916,7 +2916,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		return {
 			'tabIndex':     0,
 			'role':         'checkbox',
-			'aria-label':   this.model.get( 'title' ),
+			'aria-label':   this.model.get( 'title' ) || wp.i18n.__( 'uploading...' ),
 			'aria-checked': false,
 			'data-id':      this.model.get( 'id' )
 		};
