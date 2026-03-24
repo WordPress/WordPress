@@ -191,15 +191,17 @@ TABLE OF CONTENTS:
 /* pressed state e.g. a selected setting */
 .wp-core-ui .button.active,
 .wp-core-ui .button.active:hover {
-	background-color: rgba(var(--wp-admin-theme-color--rgb), 0.04);
-	color: var(--wp-admin-theme-color);
+	background-color: rgba(var(--wp-admin-theme-color--rgb), 0.08);
+	color: var(--wp-admin-theme-color-darker-20);
 	border-color: var(--wp-admin-theme-color);
-	box-shadow: none;
+	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20);
 }
 
 .wp-core-ui .button.active:focus {
-	border-color: var(--wp-admin-theme-color);
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
+	background-color: rgba(var(--wp-admin-theme-color--rgb), 0.08);
+	color: var(--wp-admin-theme-color-darker-20);
+	border-color: var(--wp-admin-theme-color-darker-20);
+	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20), 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
 }
 
 .wp-core-ui .button[disabled],
@@ -362,17 +364,13 @@ TABLE OF CONTENTS:
 
 /* pressed state e.g. a selected setting */
 .wp-core-ui .button-group > .button.active {
-	background-color: #dcdcde;
-	color: #135e96;
-	border-color: #0a4b78;
-	box-shadow: inset 0 2px 5px -3px #0a4b78;
+	border-color: var(--wp-admin-theme-color);
+	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20);
 }
 
 .wp-core-ui .button-group > .button.active:focus {
-	border-color: #3582c4;
-	box-shadow:
-		inset 0 2px 5px -3px #0a4b78,
-		0 0 0 1px #3582c4;
+	border-color: var(--wp-admin-theme-color);
+	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20), 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
 }
 
 /* ----------------------------------------------------------------------------
