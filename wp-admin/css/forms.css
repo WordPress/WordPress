@@ -538,16 +538,34 @@ input[type="number"].tiny-text {
 	display: none;
 }
 
-.tablenav .actions select {
+.wp-core-ui .tablenav input[type="text"],
+.wp-core-ui .tablenav input[type="password"],
+.wp-core-ui .tablenav input[type="date"],
+.wp-core-ui .tablenav input[type="datetime"],
+.wp-core-ui .tablenav input[type="datetime-local"],
+.wp-core-ui .tablenav input[type="email"],
+.wp-core-ui .tablenav input[type="month"],
+.wp-core-ui .tablenav input[type="number"],
+.wp-core-ui .tablenav input[type="search"],
+.wp-core-ui .tablenav input[type="tel"],
+.wp-core-ui .tablenav input[type="time"],
+.wp-core-ui .tablenav input[type="url"],
+.wp-core-ui .tablenav input[type="week"],
+.wp-core-ui .tablenav select {
+	padding: 0 12px;
+	/* inherits font size 14px */
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
+	min-height: 32px;
+}
+
+.wp-core-ui .tablenav select {
 	float: left;
 	margin-right: 6px;
 	max-width: 12.5rem;
-	min-height: 32px;
-	line-height: 2.14285714; /* 30px for 32px height with 14px font */
 	padding: 0 24px 0 8px;
 }
 
-.tablenav .actions .button {
+.wp-core-ui .tablenav .button {
 	min-height: 32px;
 	line-height: 2.30769231; /* 30px for 32px height with 13px font */
 	padding: 0 12px;
