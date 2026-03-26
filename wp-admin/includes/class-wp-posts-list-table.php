@@ -1491,24 +1491,44 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$title            = _draft_or_post_title();
 
 		if ( $can_edit_post && 'trash' !== $post->post_status ) {
-			$is_rtc_locked = get_option( 'wp_collaboration_enabled' ) && wp_check_post_lock( $post->ID );
+			$is_rtc_enabled = (bool) get_option( 'wp_collaboration_enabled' );
 
-			$actions['edit'] = sprintf(
-				'<a href="%s" aria-label="%s">%s</a>',
-				get_edit_post_link( $post->ID ),
-				esc_attr(
-					sprintf(
-						$is_rtc_locked
-							/* translators: %s: Post title. */
-							? __( 'Join editing &#8220;%s&#8221;', 'post list' )
-							/* translators: %s: Post title. */
-							: __( 'Edit &#8220;%s&#8221;' ),
-						$title
-					)
-				),
-				/* translators: Action link text for a singular post in the post list. Can be any type of post. */
-				$is_rtc_locked ? _x( 'Join', 'post list' ) : __( 'Edit' )
-			);
+			/*
+			 * When RTC is enabled, both "Edit" and "Join" labels are rendered.
+			 * The visible label is toggled by CSS based on the row's
+			 * `wp-collaborative-editing` class, which is added or removed by
+			 * inline-edit-post.js in response to heartbeat ticks.
+			 */
+			if ( $is_rtc_enabled ) {
+				$actions['edit'] = sprintf(
+					'<a href="%1$s">'
+					. '<span class="edit-action-text">'
+					. '<span aria-hidden="true">%2$s</span>'
+					. '<span class="screen-reader-text">%3$s</span>'
+					. '</span>'
+					. '<span class="join-action-text">'
+					. '<span aria-hidden="true">%4$s</span>'
+					. '<span class="screen-reader-text">%5$s</span>'
+					. '</span>'
+					. '</a>',
+					get_edit_post_link( $post->ID ),
+					__( 'Edit' ),
+					/* translators: %s: Post title. */
+					sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ),
+					/* translators: Action link text for a singular post in the post list. Can be any type of post. */
+					_x( 'Join', 'post list' ),
+					/* translators: %s: Post title. */
+					sprintf( __( 'Join editing &#8220;%s&#8221;', 'post list' ), $title )
+				);
+			} else {
+				$actions['edit'] = sprintf(
+					'<a href="%s" aria-label="%s">%s</a>',
+					get_edit_post_link( $post->ID ),
+					/* translators: %s: Post title. */
+					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ),
+					__( 'Edit' )
+				);
+			}
 
 			/**
 			 * Filters whether Quick Edit should be enabled for the given post type.

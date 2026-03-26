@@ -639,6 +639,18 @@ tr.wp-locked .row-actions .trash {
 	display: block;
 }
 
+.join-action-text {
+	display: none;
+}
+
+.wp-collaborative-editing .edit-action-text {
+	display: none;
+}
+
+.wp-collaborative-editing .join-action-text {
+	display: inline;
+}
+
 #menu-locations-wrap .widefat {
 	width: 60%;
 }
