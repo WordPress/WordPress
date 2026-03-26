@@ -10768,6 +10768,54 @@ var wp;
     return characterDiff.diff(oldStr, newStr, options);
   }
 
+  // packages/sync/node_modules/diff/libesm/diff/line.js
+  var LineDiff = class extends Diff {
+    constructor() {
+      super(...arguments);
+      this.tokenize = tokenize;
+    }
+    equals(left, right, options) {
+      if (options.ignoreWhitespace) {
+        if (!options.newlineIsToken || !left.includes("\n")) {
+          left = left.trim();
+        }
+        if (!options.newlineIsToken || !right.includes("\n")) {
+          right = right.trim();
+        }
+      } else if (options.ignoreNewlineAtEof && !options.newlineIsToken) {
+        if (left.endsWith("\n")) {
+          left = left.slice(0, -1);
+        }
+        if (right.endsWith("\n")) {
+          right = right.slice(0, -1);
+        }
+      }
+      return super.equals(left, right, options);
+    }
+  };
+  var lineDiff = new LineDiff();
+  function diffLines(oldStr, newStr, options) {
+    return lineDiff.diff(oldStr, newStr, options);
+  }
+  function tokenize(value, options) {
+    if (options.stripTrailingCr) {
+      value = value.replace(/\r\n/g, "\n");
+    }
+    const retLines = [], linesAndNewlines = value.split(/(\n|\r\n)/);
+    if (!linesAndNewlines[linesAndNewlines.length - 1]) {
+      linesAndNewlines.pop();
+    }
+    for (let i = 0; i < linesAndNewlines.length; i++) {
+      const line = linesAndNewlines[i];
+      if (i % 2 && !options.newlineIsToken) {
+        retLines[retLines.length - 1] += line;
+      } else {
+        retLines.push(line);
+      }
+    }
+    return retLines;
+  }
+
   // packages/sync/build-module/quill-delta/Delta.mjs
   var import_es62 = __toESM(require_es6(), 1);
 
@@ -10972,6 +11020,7 @@ var wp;
     return JSON.parse(JSON.stringify(value));
   }
   var NULL_CHARACTER = String.fromCharCode(0);
+  var STRING_TOO_LARGE_THRESHOLD = 1e4;
   function normalizeChangeCounts(changes) {
     return changes.map((change) => ({
       ...change,
@@ -11407,10 +11456,25 @@ var wp;
     diffWithCursor(other, cursorAfterChange) {
       if (this.ops === other.ops) {
         return new _Delta();
+      }
+      const strings = this.deltasToStrings(other);
+      const maxStringLength = Math.max(
+        ...strings.map((str) => str.length)
+      );
+      if (maxStringLength > STRING_TOO_LARGE_THRESHOLD) {
+        const diffResult = normalizeChangeCounts(
+          diffLines(strings[0], strings[1])
+        );
+        const thisIterLarge = new Iterator(this.ops);
+        const otherIterLarge = new Iterator(other.ops);
+        return this.convertChangesToDelta(
+          diffResult,
+          thisIterLarge,
+          otherIterLarge
+        ).chop();
       } else if (cursorAfterChange === null) {
         return this.diff(other);
       }
-      const strings = this.deltasToStrings(other);
       let diffs = normalizeChangeCounts(
         diffChars(strings[0], strings[1])
       );
