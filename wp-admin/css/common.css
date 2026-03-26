@@ -709,13 +709,13 @@ ul.striped > :nth-child(odd),
 
 .bar {
 	background-color: #f0f0f1;
-	border-right-color: #4f94d4;
+	border-right-color: var(--wp-admin-theme-color);
 }
 
 /* Helper classes for plugins to leverage the active WordPress color scheme */
 
 .highlight {
-	background-color: #f0f6fc;
+	background-color: rgba(var(--wp-admin-theme-color--rgb), 0.08);
 	color: #3c434a;
 }
 
@@ -2029,7 +2029,7 @@ p.auto-update-status {
 	border: 1px solid #c3c4c7;
 	border-top: none;
 	border-bottom: none;
-	background: #f0f6fc;
+	background: rgba(var(--wp-admin-theme-color--rgb), 0.08);
 }
 
 #contextual-help-wrap.no-sidebar #contextual-help-back {
@@ -2073,9 +2073,20 @@ p.auto-update-status {
 .contextual-help-tabs .active {
 	padding: 0;
 	margin: 0 -1px 0 0;
-	border-left: 2px solid #72aee6;
-	background: #f0f6fc;
+	border-left: 2px solid var(--wp-admin-theme-color);
+	background: color-mix(in srgb, var(--wp-admin-theme-color) 8%, white);
 	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.contextual-help-tabs .active::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: -1px;
+	width: 2px;
+	height: 100%;
+	background: inherit;
+	z-index: 2;
 }
 
 .contextual-help-tabs .active a {
