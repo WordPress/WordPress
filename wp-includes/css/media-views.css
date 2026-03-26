@@ -144,9 +144,9 @@
 .media-frame input[type="url"]:focus,
 .media-frame textarea:focus,
 .media-frame select:focus {
-	border-color: var(--wp-admin-theme-color);
+	border-color: var(--wp-admin-theme-color, #3858e9);
 	/* Expand border by 0.5px for total 1.5px effect */
-	box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
+	box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color, #3858e9);
 	outline: 2px solid transparent;
 }
 
