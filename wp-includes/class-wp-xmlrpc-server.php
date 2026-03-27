@@ -296,7 +296,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password
 	) {
 		if ( ! $this->is_enabled ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
+			$this->error = new IXR_Error( 405, __( 'XML-RPC services are disabled on this site.' ) );
 			return false;
 		}
 

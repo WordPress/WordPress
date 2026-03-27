@@ -775,9 +775,7 @@ final class WP_Customize_Widgets {
 
 		if ( 1 === $registered_sidebar_count ) {
 			$no_areas_shown_message = html_entity_decode(
-				sprintf(
-					__( 'Your theme has 1 widget area, but this particular page does not display it.' )
-				),
+				__( 'Your theme has 1 widget area, but this particular page does not display it.' ),
 				ENT_QUOTES,
 				get_bloginfo( 'charset' )
 			);
