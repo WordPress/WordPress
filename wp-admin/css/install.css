@@ -340,7 +340,7 @@ body.language-chooser {
 
 .language-chooser select option:hover,
 .language-chooser select option:focus {
-	color: #0a4b78;
+	color: var(--wp-admin-theme-color-darker-20);
 }
 
 .language-chooser .step {
