@@ -687,6 +687,7 @@ function create_initial_post_types() {
 				'show_in_menu'       => false,
 				'show_in_rest'       => false,
 				'show_ui'            => false,
+				'can_export'         => false,
 				'supports'           => array( 'custom-fields' ),
 			)
 		);
