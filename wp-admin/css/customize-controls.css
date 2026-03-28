@@ -2184,7 +2184,6 @@ p.customize-section-description {
 }
 
 .themes-filter-bar .wp-filter-search {
-	line-height: 2.14285714; /* 30px for 32px compact input */
 	padding: 0 10px 0 30px;
 	max-width: 100%;
 	width: 40%;

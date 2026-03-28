@@ -568,7 +568,6 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid .media-toolbar input[type="search"] {
 	min-height: 32px;
-	line-height: 2.14285714; /* 30px for 32px height with 14px font */
 	padding: 0 8px;
 }
 
