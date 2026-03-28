@@ -687,7 +687,6 @@ th.sorted a span {
 	font-size: 13px;
 	text-align: center;
 	min-height: 32px;
-	line-height: 2.30769231; /* 30px for 32px height with 13px font */
 	padding: 0 8px;
 }
 
@@ -1100,7 +1099,6 @@ tr.inline-edit-row td {
 
 .inline-edit-row select,
 .inline-edit-row input:where(:not([type=checkbox],[type=radio],[type=submit],[type=button])) {
-	line-height: 2.14285714;
 	min-height: 32px;
 	padding: 0 8px 0 8px;
 }
