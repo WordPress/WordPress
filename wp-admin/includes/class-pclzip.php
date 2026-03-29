@@ -296,7 +296,7 @@
       $v_size--;
 
       // ----- Look for first arg
-      if ((is_integer($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
+      if ((is_int($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
 
         // ----- Parse the options
         $v_result = $this->privParseOptions($v_arg_list, $v_size, $v_options,
@@ -479,7 +479,7 @@
       $v_size--;
 
       // ----- Look for first arg
-      if ((is_integer($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
+      if ((is_int($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
 
         // ----- Parse the options
         $v_result = $this->privParseOptions($v_arg_list, $v_size, $v_options,
@@ -732,7 +732,7 @@
       $v_arg_list = func_get_args();
 
       // ----- Look for first arg
-      if ((is_integer($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
+      if ((is_int($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
 
         // ----- Parse the options
         $v_result = $this->privParseOptions($v_arg_list, $v_size, $v_options,
@@ -893,7 +893,7 @@
       $v_size--;
 
       // ----- Look for first arg
-      if ((is_integer($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
+      if ((is_int($v_arg_list[0])) && ($v_arg_list[0] > 77000)) {
 
         // ----- Parse the options
         $v_result = $this->privParseOptions($v_arg_list, $v_size, $v_options,
@@ -1479,7 +1479,7 @@
 
           // ----- Check the value
           $v_value = $p_options_list[$i+1];
-          if ((!is_integer($v_value)) || ($v_value<0)) {
+          if ((!is_int($v_value)) || ($v_value<0)) {
             PclZip::privErrorLog(PCLZIP_ERR_INVALID_OPTION_VALUE, "Integer expected for option '".PclZipUtilOptionText($p_options_list[$i])."'");
             return PclZip::errorCode();
           }
@@ -1646,7 +1646,7 @@
               // ----- Parse items
               $v_work_list = explode(",", $p_options_list[$i+1]);
           }
-          else if (is_integer($p_options_list[$i+1])) {
+          else if (is_int($p_options_list[$i+1])) {
               $v_work_list[0] = $p_options_list[$i+1].'-'.$p_options_list[$i+1];
           }
           else if (is_array($p_options_list[$i+1])) {
@@ -1944,7 +1944,7 @@
         break;
 
         case PCLZIP_ATT_FILE_MTIME :
-          if (!is_integer($v_value)) {
+          if (!is_int($v_value)) {
             PclZip::privErrorLog(PCLZIP_ERR_INVALID_ATTRIBUTE_VALUE, "Invalid type ".gettype($v_value).". Integer expected for attribute '".PclZipUtilOptionText($v_key)."'");
             return PclZip::errorCode();
           }

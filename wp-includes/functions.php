@@ -5105,7 +5105,7 @@ function _wp_array_get( $input_array, $path, $default_value = null ) {
 		}
 
 		if ( is_string( $path_element )
-			|| is_integer( $path_element )
+			|| is_int( $path_element )
 			|| null === $path_element
 		) {
 			/*
@@ -5182,7 +5182,7 @@ function _wp_array_set( &$input_array, $path, $value = null ) {
 
 	foreach ( $path as $path_element ) {
 		if (
-			! is_string( $path_element ) && ! is_integer( $path_element ) &&
+			! is_string( $path_element ) && ! is_int( $path_element ) &&
 			! is_null( $path_element )
 		) {
 			return;
