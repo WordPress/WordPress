@@ -269,6 +269,7 @@ function _cleanup_image_add_caption( $matches ) {
  * @since 2.5.0
  *
  * @param string $html
+ * @return never
  */
 function media_send_to_editor( $html ) {
 	?>
@@ -753,7 +754,7 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
  *
  * @since 2.5.0
  *
- * @return null|array|void Array of error messages keyed by attachment ID, null or void on success.
+ * @return null|array Array of error messages keyed by attachment ID, null on success, or exit.
  */
 function media_upload_form_handler() {
 	check_admin_referer( 'media-form' );
@@ -874,7 +875,7 @@ function media_upload_form_handler() {
 		 */
 		$html = apply_filters( 'media_send_to_editor', $html, $send_id, $attachment );
 
-		return media_send_to_editor( $html );
+		media_send_to_editor( $html );
 	}
 
 	return $errors;
@@ -976,7 +977,7 @@ function wp_media_upload_handler() {
 			$html = apply_filters( 'image_send_to_editor_url', $html, sanitize_url( $src ), $alt, $align );
 		}
 
-		return media_send_to_editor( $html );
+		media_send_to_editor( $html );
 	}
 
 	if ( isset( $_POST['save'] ) ) {

@@ -1648,7 +1648,7 @@ function wp_dashboard_primary_output( $widget_id, $feeds ) {
  *
  * @since 3.0.0
  *
- * @return true|void True if not multisite, user can't upload files, or the space check option is disabled.
+ * @return true|null True if not multisite, user can't upload files, or the space check option is disabled.
  */
 function wp_dashboard_quota() {
 	if ( ! is_multisite() || ! current_user_can( 'upload_files' )
@@ -1709,6 +1709,7 @@ function wp_dashboard_quota() {
 	</ul>
 	</div>
 	<?php
+	return null;
 }
 
 /**

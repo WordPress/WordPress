@@ -135,8 +135,14 @@ class WP_Importer {
 	}
 
 	/**
-	 * @param int $blog_id
-	 * @return int|void
+	 * Sets the blog to import to.
+	 *
+	 * Accepts a numeric blog ID or a URL string. When given a URL,
+	 * the blog is looked up by domain and path. On multisite, switches
+	 * to the resolved blog. Exits with an error if the blog cannot be found.
+	 *
+	 * @param int|string $blog_id Blog ID or URL.
+	 * @return int Blog ID on success. Exits on failure.
 	 */
 	public function set_blog( $blog_id ) {
 		if ( is_numeric( $blog_id ) ) {
@@ -177,7 +183,7 @@ class WP_Importer {
 
 	/**
 	 * @param int $user_id
-	 * @return int|void
+	 * @return int
 	 */
 	public function set_user( $user_id ) {
 		if ( is_numeric( $user_id ) ) {
