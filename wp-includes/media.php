@@ -972,12 +972,15 @@ function wp_get_registered_image_subsizes() {
  *     @type int    $2 Image height in pixels.
  *     @type bool   $3 Whether the image is a resized image.
  * }
+ * @phpstan-return array{ 0: string, 1: int, 2: int, 3: bool }|false
  */
 function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon = false ) {
 	// Get a thumbnail or intermediate image if there is one.
 	$image = image_downsize( $attachment_id, $size );
 	if ( ! $image ) {
-		$src = false;
+		$src    = false;
+		$width  = 0;
+		$height = 0;
 
 		if ( $icon ) {
 			$src = wp_mime_type_icon( $attachment_id, '.svg' );
@@ -988,7 +991,11 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 
 				$src_file = $icon_dir . '/' . wp_basename( $src );
 
-				list( $width, $height ) = wp_getimagesize( $src_file );
+				$image_size = wp_getimagesize( $src_file );
+				if ( is_array( $image_size ) ) {
+					$width  = $image_size[0];
+					$height = $image_size[1];
+				}
 
 				$ext = strtolower( substr( $src_file, -4 ) );
 
@@ -997,7 +1004,11 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 					$width  = 48;
 					$height = 64;
 				} else {
-					list( $width, $height ) = wp_getimagesize( $src_file );
+					$image_size = wp_getimagesize( $src_file );
+					if ( is_array( $image_size ) ) {
+						$width  = $image_size[0];
+						$height = $image_size[1];
+					}
 				}
 			}
 		}
@@ -1024,7 +1035,16 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 	 *                                    an array of width and height values in pixels (in that order).
 	 * @param bool         $icon          Whether the image should be treated as an icon.
 	 */
-	return apply_filters( 'wp_get_attachment_image_src', $image, $attachment_id, $size, $icon );
+	$source = apply_filters( 'wp_get_attachment_image_src', $image, $attachment_id, $size, $icon );
+	if ( is_array( $source ) && isset( $source[0] ) && is_string( $source[0] ) ) {
+		return array(
+			$source[0],
+			(int) ( $source[1] ?? 0 ),
+			(int) ( $source[2] ?? 0 ),
+			(bool) ( $source[3] ?? false ),
+		);
+	}
+	return false;
 }
 
 /**
@@ -3230,10 +3250,23 @@ function wp_playlist_shortcode( $attr ) {
 		if ( $atts['images'] ) {
 			$thumb_id = get_post_thumbnail_id( $attachment->ID );
 			if ( ! empty( $thumb_id ) ) {
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $thumb_id, 'full' );
-				$track['image']               = compact( 'src', 'width', 'height' );
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $thumb_id, 'thumbnail' );
-				$track['thumb']               = compact( 'src', 'width', 'height' );
+				$image_src_full = wp_get_attachment_image_src( $thumb_id, 'full' );
+				if ( is_array( $image_src_full ) ) {
+					$track['image'] = array(
+						'src'    => $image_src_full[0],
+						'width'  => $image_src_full[1],
+						'height' => $image_src_full[2],
+					);
+				}
+
+				$image_src_thumb = wp_get_attachment_image_src( $thumb_id, 'thumbnail' );
+				if ( is_array( $image_src_thumb ) ) {
+					$track['thumb'] = array(
+						'src'    => $image_src_thumb[0],
+						'width'  => $image_src_thumb[1],
+						'height' => $image_src_thumb[2],
+					);
+				}
 			} else {
 				$src            = wp_mime_type_icon( $attachment->ID, '.svg' );
 				$width          = 48;
@@ -4711,10 +4744,23 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 		$id = get_post_thumbnail_id( $attachment->ID );
 		if ( ! empty( $id ) ) {
-			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
-			$response['image']            = compact( 'src', 'width', 'height' );
-			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
-			$response['thumb']            = compact( 'src', 'width', 'height' );
+			$response_image_full = wp_get_attachment_image_src( $id, 'full' );
+			if ( is_array( $response_image_full ) ) {
+				$response['image'] = array(
+					'src'    => $response_image_full[0],
+					'width'  => $response_image_full[1],
+					'height' => $response_image_full[2],
+				);
+			}
+
+			$response_image_thumb = wp_get_attachment_image_src( $id, 'thumbnail' );
+			if ( is_array( $response_image_thumb ) ) {
+				$response['thumb'] = array(
+					'src'    => $response_image_thumb[0],
+					'width'  => $response_image_thumb[1],
+					'height' => $response_image_thumb[2],
+				);
+			}
 		} else {
 			$src               = wp_mime_type_icon( $attachment->ID, '.svg' );
 			$width             = 48;
@@ -5724,6 +5770,7 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  * @param string $filename   The file path.
  * @param array  $image_info Optional. Extended image information (passed by reference).
  * @return array|false Array of image information or false on failure.
+ * @phpstan-return array{ 0: int, 1: int, 2: int, 3: string, mime: string, bits?: int, channels?: int }|false
  */
 function wp_getimagesize( $filename, ?array &$image_info = null ) {
 	// Don't silence errors when in debug mode, unless running unit tests.
