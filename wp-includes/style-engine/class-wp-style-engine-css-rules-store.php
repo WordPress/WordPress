@@ -51,11 +51,11 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * @since 6.1.0
 	 *
 	 * @param string $store_name The name of the store.
-	 * @return WP_Style_Engine_CSS_Rules_Store|void
+	 * @return WP_Style_Engine_CSS_Rules_Store|null
 	 */
 	public static function get_store( $store_name = 'default' ) {
 		if ( ! is_string( $store_name ) || empty( $store_name ) ) {
-			return;
+			return null;
 		}
 		if ( ! isset( static::$stores[ $store_name ] ) ) {
 			static::$stores[ $store_name ] = new static();
@@ -128,8 +128,8 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * @param string $selector The CSS selector.
 	 * @param string $rules_group A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
 	 *                            such as `@media (min-width: 80rem)` or `@layer module`.
-	 * @return WP_Style_Engine_CSS_Rule|void Returns a WP_Style_Engine_CSS_Rule object,
-	 *                                       or void if the selector is empty.
+	 * @return WP_Style_Engine_CSS_Rule|null Returns a WP_Style_Engine_CSS_Rule object,
+	 *                                       or null if the selector is empty.
 	 */
 	public function add_rule( $selector, $rules_group = '' ) {
 		$selector    = $selector ? trim( $selector ) : '';
@@ -137,7 +137,7 @@ class WP_Style_Engine_CSS_Rules_Store {
 
 		// Bail early if there is no selector.
 		if ( empty( $selector ) ) {
-			return;
+			return null;
 		}
 
 		if ( ! empty( $rules_group ) ) {

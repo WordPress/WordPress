@@ -353,7 +353,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 1.5.2
 	 *
 	 * @param string|array $data Escape single string or array of strings.
-	 * @return string|void Returns with string is passed, alters by-reference
+	 * @return string|null Returns with string if passed, alters by-reference
 	 *                     when array is passed.
 	 */
 	public function escape( &$data ) {
@@ -368,6 +368,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$v = wp_slash( $v );
 			}
 		}
+		return null;
 	}
 
 	/**

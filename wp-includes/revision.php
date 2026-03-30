@@ -125,34 +125,34 @@ function wp_save_post_revision_on_insert( $post_id, $post, $update ) {
  * @since 2.6.0
  *
  * @param int $post_id The ID of the post to save as a revision.
- * @return int|WP_Error|void Void or 0 if error, new revision ID, if success.
+ * @return int|WP_Error|null Null or 0 if error, new revision ID, if success.
  */
 function wp_save_post_revision( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-		return;
+		return null;
 	}
 
 	// Prevent saving post revisions if revisions should be saved on wp_after_insert_post.
 	if ( doing_action( 'post_updated' ) && has_action( 'wp_after_insert_post', 'wp_save_post_revision_on_insert' ) ) {
-		return;
+		return null;
 	}
 
 	$post = get_post( $post_id );
 
 	if ( ! $post ) {
-		return;
+		return null;
 	}
 
 	if ( ! post_type_supports( $post->post_type, 'revisions' ) ) {
-		return;
+		return null;
 	}
 
 	if ( 'auto-draft' === $post->post_status ) {
-		return;
+		return null;
 	}
 
 	if ( ! wp_revisions_enabled( $post ) ) {
-		return;
+		return null;
 	}
 
 	/*
@@ -209,7 +209,7 @@ function wp_save_post_revision( $post_id ) {
 
 			// Don't save revision if post unchanged.
 			if ( ! $post_has_changed ) {
-				return;
+				return null;
 			}
 		}
 	}

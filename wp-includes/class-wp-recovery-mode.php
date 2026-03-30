@@ -161,9 +161,9 @@ class WP_Recovery_Mode {
 	 * @since 5.2.0
 	 *
 	 * @param array $error Error details from `error_get_last()`.
-	 * @return true|WP_Error|void True if the error was handled and headers have already been sent.
-	 *                            Or the request will exit to try and catch multiple errors at once.
-	 *                            WP_Error if an error occurred preventing it from being handled.
+	 * @return true|WP_Error True if the error was handled and headers have already been sent.
+	 *                       Or the request will exit to try and catch multiple errors at once.
+	 *                       WP_Error if an error occurred preventing it from being handled.
 	 */
 	public function handle_error( array $error ) {
 
@@ -455,6 +455,8 @@ class WP_Recovery_Mode {
 	 * next request again. Otherwise it will create a redirect loop.
 	 *
 	 * @since 5.2.0
+	 *
+	 * @return never
 	 */
 	protected function redirect_protected() {
 		// Pluggable is usually loaded after plugins, so we manually include it here for redirection functionality.

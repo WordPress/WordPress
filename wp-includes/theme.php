@@ -1620,7 +1620,7 @@ function register_default_headers( $headers ) {
  * @global array $_wp_default_headers
  *
  * @param string|array $header The header string id (key of array) to remove, or an array thereof.
- * @return bool|void A single header returns true on success, false on failure.
+ * @return bool|null A single header returns true on success, false on failure.
  *                   There is currently no return value for multiple headers.
  */
 function unregister_default_headers( $header ) {
@@ -1628,6 +1628,7 @@ function unregister_default_headers( $header ) {
 
 	if ( is_array( $header ) ) {
 		array_map( 'unregister_default_headers', $header );
+		return null;
 	} elseif ( isset( $_wp_default_headers[ $header ] ) ) {
 		unset( $_wp_default_headers[ $header ] );
 		return true;
@@ -3062,7 +3063,7 @@ function get_theme_support( $feature, ...$args ) {
  *
  * @param string $feature The feature being removed. See add_theme_support() for the list
  *                        of possible values.
- * @return bool|void Whether feature was removed.
+ * @return bool Whether feature was removed.
  */
 function remove_theme_support( $feature ) {
 	// Do not remove internal registrations that are not used directly by themes.

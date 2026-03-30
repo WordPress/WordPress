@@ -1130,11 +1130,11 @@ function get_role( $role ) {
  * @param string                               $display_name Display name for role.
  * @param array<string,bool>|array<int,string> $capabilities Capabilities to be added to the role.
  *                                                           Default empty array.
- * @return WP_Role|void WP_Role object, if the role is added.
+ * @return WP_Role|null WP_Role object, if the role is added.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
 	if ( empty( $role ) ) {
-		return;
+		return null;
 	}
 
 	return wp_roles()->add_role( $role, $display_name, $capabilities );

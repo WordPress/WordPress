@@ -3422,7 +3422,7 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%;'.
  * }
  * @param string $content Shortcode content.
- * @return string|void HTML content to display audio.
+ * @return string|null HTML content to display audio.
  */
 function wp_audio_shortcode( $attr, $content = '' ) {
 	$post_id = get_post() ? get_the_ID() : 0;
@@ -3492,14 +3492,14 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		$audios = get_attached_media( 'audio', $post_id );
 
 		if ( empty( $audios ) ) {
-			return;
+			return null;
 		}
 
 		$audio       = reset( $audios );
 		$atts['src'] = wp_get_attachment_url( $audio->ID );
 
 		if ( empty( $atts['src'] ) ) {
-			return;
+			return null;
 		}
 
 		array_unshift( $default_types, 'src' );
@@ -3647,7 +3647,7 @@ function wp_get_video_extensions() {
  *                            Default 'wp-video-shortcode'.
  * }
  * @param string $content Shortcode content.
- * @return string|void HTML content to display video.
+ * @return string|null HTML content to display video.
  */
 function wp_video_shortcode( $attr, $content = '' ) {
 	global $content_width;
@@ -3750,13 +3750,13 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	if ( ! $primary ) {
 		$videos = get_attached_media( 'video', $post_id );
 		if ( empty( $videos ) ) {
-			return;
+			return null;
 		}
 
 		$video       = reset( $videos );
 		$atts['src'] = wp_get_attachment_url( $video->ID );
 		if ( empty( $atts['src'] ) ) {
-			return;
+			return null;
 		}
 
 		array_unshift( $default_types, 'src' );
@@ -4497,8 +4497,8 @@ function wp_plupload_default_settings() {
  * @since 3.5.0
  *
  * @param int|WP_Post $attachment Attachment ID or object.
- * @return array|void {
- *     Array of attachment details, or void if the parameter does not correspond to an attachment.
+ * @return array|null {
+ *     Array of attachment details, or null if the parameter does not correspond to an attachment.
  *
  *     @type string $alt                   Alt text of the attachment.
  *     @type string $author                ID of the attachment author, as a string.
@@ -4542,11 +4542,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	$attachment = get_post( $attachment );
 
 	if ( ! $attachment ) {
-		return;
+		return null;
 	}
 
 	if ( 'attachment' !== $attachment->post_type ) {
-		return;
+		return null;
 	}
 
 	$meta = wp_get_attachment_metadata( $attachment->ID );

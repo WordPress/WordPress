@@ -171,11 +171,11 @@ class WP_Roles {
 	 * @param string                               $display_name Role display name.
 	 * @param array<string,bool>|array<int,string> $capabilities Capabilities to be added to the role.
 	 *                                                           Default empty array.
-	 * @return WP_Role|void WP_Role object, if the role is added.
+	 * @return WP_Role|null WP_Role object, if the role is added.
 	 */
 	public function add_role( $role, $display_name, $capabilities = array() ) {
 		if ( empty( $role ) || isset( $this->roles[ $role ] ) ) {
-			return;
+			return null;
 		}
 
 		if ( wp_is_numeric_array( $capabilities ) ) {
