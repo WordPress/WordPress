@@ -1453,11 +1453,11 @@ class wpdb {
 	 *                             individual arguments.
 	 * @param mixed       ...$args Further variables to substitute into the query's placeholders
 	 *                             if being called with individual arguments.
-	 * @return string|void Sanitized query string, if there is a query to prepare.
+	 * @return string|null Sanitized query string, if there is a query to prepare.
 	 */
 	public function prepare( $query, ...$args ) {
 		if ( is_null( $query ) ) {
-			return;
+			return null;
 		}
 
 		/*
@@ -1666,7 +1666,7 @@ class wpdb {
 				'6.2.0'
 			);
 
-			return;
+			return null;
 		}
 
 		$args_count = count( $args );
@@ -1684,7 +1684,7 @@ class wpdb {
 					'4.9.0'
 				);
 
-				return;
+				return null;
 			} else {
 				/*
 				 * If we don't have the right number of placeholders,
@@ -1794,7 +1794,7 @@ class wpdb {
 	 * @global array $EZSQL_ERROR Stores error information of query and error string.
 	 *
 	 * @param string $str The error to display.
-	 * @return void|false Void if the showing of errors is enabled, false if disabled.
+	 * @return null|false Null if the showing of errors is enabled, false if disabled.
 	 */
 	public function print_error( $str = '' ) {
 		global $EZSQL_ERROR;
@@ -1855,6 +1855,8 @@ class wpdb {
 				$query
 			);
 		}
+
+		return null;
 	}
 
 	/**
@@ -2117,7 +2119,7 @@ class wpdb {
 	 * @since 3.9.0
 	 *
 	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
-	 * @return bool|void True if the connection is up.
+	 * @return bool Whether the connection is up. Exits if down and $allow_bail is true.
 	 */
 	public function check_connection( $allow_bail = true ) {
 		// Check if the connection is alive.
@@ -3056,7 +3058,7 @@ class wpdb {
 	 *                            correspond to an stdClass object, an associative array, or a numeric array,
 	 *                            respectively. Default OBJECT.
 	 * @param int         $y      Optional. Row to return. Indexed from 0. Default 0.
-	 * @return array|object|null|void Database query result in format specified by $output or null on failure.
+	 * @return array|object|null Database query result in format specified by $output or null on failure.
 	 */
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
@@ -3087,6 +3089,7 @@ class wpdb {
 		} else {
 			$this->print_error( ' $db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N' );
 		}
+		return null;
 	}
 
 	/**
@@ -3902,6 +3905,8 @@ class wpdb {
 				return $this->col_info[ $col_offset ]->{$info_type};
 			}
 		}
+
+		return null;
 	}
 
 	/**
@@ -3937,7 +3942,7 @@ class wpdb {
 	 * @param string $message    The error message.
 	 * @param string $error_code Optional. A computer-readable string to identify the error.
 	 *                           Default '500'.
-	 * @return void|false Void if the showing of errors is enabled, false if disabled.
+	 * @return false False if the showing of errors is disabled.
 	 */
 	public function bail( $message, $error_code = '500' ) {
 		if ( $this->show_errors ) {
@@ -3995,7 +4000,7 @@ class wpdb {
 	 * @since 2.5.0
 	 *
 	 * @global string $required_mysql_version The minimum required MySQL version string.
-	 * @return void|WP_Error
+	 * @return WP_Error|null
 	 */
 	public function check_database_version() {
 		global $required_mysql_version;
@@ -4006,6 +4011,8 @@ class wpdb {
 			/* translators: 1: WordPress version number, 2: Minimum required MySQL version number. */
 			return new WP_Error( 'database_version', sprintf( __( '<strong>Error:</strong> WordPress %1$s requires MySQL %2$s or higher' ), $wp_version, $required_mysql_version ) );
 		}
+
+		return null;
 	}
 
 	/**

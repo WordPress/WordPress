@@ -3776,7 +3776,7 @@ function wp_nonce_ays( $action ) {
  * }
  * @return never|void Returns void if `$args['exit']` is false, otherwise exits.
  *
- * @phpstan-return ( $args['exit'] is false ? void : never )
+ * @phpstan-return ( $args is array{exit: false} ? void : never )
  */
 function wp_die( $message = '', $title = '', $args = array() ) {
 	global $wp_query;
@@ -5511,6 +5511,8 @@ function wp_ob_end_flush_all() {
  * @since 2.3.2
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @return never
  */
 function dead_db() {
 	global $wpdb;
