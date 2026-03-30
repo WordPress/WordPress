@@ -31,11 +31,13 @@
  *     name: non-empty-string,
  *     description: non-empty-string,
  *     logo_url?: non-empty-string,
- *     type: 'ai_provider',
+ *     type: non-empty-string,
  *     authentication: array{
  *         method: 'api_key'|'none',
  *         credentials_url?: non-empty-string,
- *         setting_name?: non-empty-string
+ *         setting_name?: non-empty-string,
+ *         constant_name?: non-empty-string,
+ *         env_var_name?: non-empty-string
  *     },
  *     plugin?: array{
  *         slug: non-empty-string
@@ -66,12 +68,12 @@ final class WP_Connector_Registry {
 	 * Registers a new connector.
 	 *
 	 * Validates the provided arguments and stores the connector in the registry.
-	 * For connectors with `api_key` authentication, a `setting_name` is automatically
-	 * generated using the pattern `connectors_ai_{$id}_api_key`, with hyphens in the ID
-	 * normalized to underscores (e.g., connector ID `openai` produces
-	 * `connectors_ai_openai_api_key`, and `azure-openai` produces
-	 * `connectors_ai_azure_openai_api_key`). This setting name is used for the Settings
-	 * API registration and REST API exposure.
+	 * For connectors with `api_key` authentication, a `setting_name` can be provided
+	 * explicitly. If omitted, one is automatically generated using the pattern
+	 * `connectors_{$type}_{$id}_api_key`, with hyphens in the type and ID normalized
+	 * to underscores (e.g., connector type `spam_filtering` with ID `akismet` produces
+	 * `connectors_spam_filtering_akismet_api_key`). This setting name is used for the
+	 * Settings API registration and REST API exposure.
 	 *
 	 * Registering a connector with an ID that is already registered will trigger a
 	 * `_doing_it_wrong()` notice and return `null`. To override an existing connector,
@@ -89,12 +91,20 @@ final class WP_Connector_Registry {
 	 *     @type string $name           Required. The connector's display name.
 	 *     @type string $description    Optional. The connector's description. Default empty string.
 	 *     @type string $logo_url       Optional. URL to the connector's logo image.
-	 *     @type string $type           Required. The connector type. Currently, only 'ai_provider' is supported.
+	 *     @type string $type           Required. The connector type, e.g. 'ai_provider'.
 	 *     @type array  $authentication {
 	 *         Required. Authentication configuration.
 	 *
 	 *         @type string $method          Required. The authentication method: 'api_key' or 'none'.
 	 *         @type string $credentials_url Optional. URL where users can obtain API credentials.
+	 *         @type string $setting_name    Optional. The setting name for the API key.
+	 *                                       When omitted, auto-generated as
+	 *                                       `connectors_{$type}_{$id}_api_key`.
+	 *                                       Must be a non-empty string when provided.
+	 *         @type string $constant_name   Optional. PHP constant name for the API key
+	 *                                       (e.g. 'ANTHROPIC_API_KEY'). Only checked when provided.
+	 *         @type string $env_var_name    Optional. Environment variable name for the API key
+	 *                                       (e.g. 'ANTHROPIC_API_KEY'). Only checked when provided.
 	 *     }
 	 *     @type array  $plugin         {
 	 *         Optional. Plugin data for install/activate UI.
@@ -192,10 +202,43 @@ final class WP_Connector_Registry {
 			if ( ! empty( $args['authentication']['credentials_url'] ) && is_string( $args['authentication']['credentials_url'] ) ) {
 				$connector['authentication']['credentials_url'] = $args['authentication']['credentials_url'];
 			}
-			if ( ! empty( $args['authentication']['setting_name'] ) && is_string( $args['authentication']['setting_name'] ) ) {
+			if ( isset( $args['authentication']['setting_name'] ) ) {
+				if ( ! is_string( $args['authentication']['setting_name'] ) || '' === $args['authentication']['setting_name'] ) {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: Connector ID. */
+						sprintf( __( 'Connector "%s" authentication setting_name must be a non-empty string.' ), esc_html( $id ) ),
+						'7.0.0'
+					);
+					return null;
+				}
 				$connector['authentication']['setting_name'] = $args['authentication']['setting_name'];
 			} else {
-				$connector['authentication']['setting_name'] = 'connectors_ai_' . str_replace( '-', '_', $id ) . '_api_key';
+				$connector['authentication']['setting_name'] = str_replace( '-', '_', "connectors_{$connector['type']}_{$id}_api_key" );
+			}
+			if ( isset( $args['authentication']['constant_name'] ) ) {
+				if ( ! is_string( $args['authentication']['constant_name'] ) || '' === $args['authentication']['constant_name'] ) {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: Connector ID. */
+						sprintf( __( 'Connector "%s" authentication constant_name must be a non-empty string.' ), esc_html( $id ) ),
+						'7.0.0'
+					);
+					return null;
+				}
+				$connector['authentication']['constant_name'] = $args['authentication']['constant_name'];
+			}
+			if ( isset( $args['authentication']['env_var_name'] ) ) {
+				if ( ! is_string( $args['authentication']['env_var_name'] ) || '' === $args['authentication']['env_var_name'] ) {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: Connector ID. */
+						sprintf( __( 'Connector "%s" authentication env_var_name must be a non-empty string.' ), esc_html( $id ) ),
+						'7.0.0'
+					);
+					return null;
+				}
+				$connector['authentication']['env_var_name'] = $args['authentication']['env_var_name'];
 			}
 		}
 
