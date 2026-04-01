@@ -58,7 +58,8 @@ function wp_is_connector_registered( string $id ): bool {
  *     @type array  $plugin         {
  *         Optional. Plugin data for install/activate UI.
  *
- *         @type string $slug The WordPress.org plugin slug.
+ *         @type string $file The plugin's main file path relative to the plugins
+ *                            directory (e.g. 'akismet/akismet.php' or 'hello.php').
  *     }
  * }
  * @phpstan-return ?array{
@@ -74,7 +75,7 @@ function wp_is_connector_registered( string $id ): bool {
  *         env_var_name?: non-empty-string
  *     },
  *     plugin?: array{
- *         slug: non-empty-string
+ *         file: non-empty-string
  *     }
  * }
  */
@@ -118,7 +119,8 @@ function wp_get_connector( string $id ): ?array {
  *         @type array       $plugin         {
  *             Optional. Plugin data for install/activate UI.
  *
- *             @type string $slug The WordPress.org plugin slug.
+ *             @type string $file The plugin's main file path relative to the plugins
+ *                                directory (e.g. 'akismet/akismet.php' or 'hello.php').
  *         }
  *     }
  * }
@@ -135,7 +137,7 @@ function wp_get_connector( string $id ): ?array {
  *         env_var_name?: non-empty-string
  *     },
  *     plugin?: array{
- *         slug: non-empty-string
+ *         file: non-empty-string
  *     }
  * }>
  */
@@ -256,7 +258,7 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 			'description'    => __( 'Text generation with Claude.' ),
 			'type'           => 'ai_provider',
 			'plugin'         => array(
-				'slug' => 'ai-provider-for-anthropic',
+				'file' => 'ai-provider-for-anthropic/plugin.php',
 			),
 			'authentication' => array(
 				'method'          => 'api_key',
@@ -268,7 +270,7 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 			'description'    => __( 'Text and image generation with Gemini and Imagen.' ),
 			'type'           => 'ai_provider',
 			'plugin'         => array(
-				'slug' => 'ai-provider-for-google',
+				'file' => 'ai-provider-for-google/plugin.php',
 			),
 			'authentication' => array(
 				'method'          => 'api_key',
@@ -280,7 +282,7 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 			'description'    => __( 'Text and image generation with GPT and Dall-E.' ),
 			'type'           => 'ai_provider',
 			'plugin'         => array(
-				'slug' => 'ai-provider-for-openai',
+				'file' => 'ai-provider-for-openai/plugin.php',
 			),
 			'authentication' => array(
 				'method'          => 'api_key',
@@ -636,14 +638,8 @@ add_action( 'init', '_wp_connectors_pass_default_keys_to_ai_client', 20 );
 function _wp_connectors_get_connector_script_module_data( array $data ): array {
 	$registry = AiClient::defaultRegistry();
 
-	// Build a slug-to-file map for plugin installation status.
-	if ( ! function_exists( 'get_plugins' ) ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	}
-	$plugin_files_by_slug = array();
-	foreach ( array_keys( get_plugins() ) as $plugin_file ) {
-		$slug                          = str_contains( $plugin_file, '/' ) ? dirname( $plugin_file ) : str_replace( '.php', '', $plugin_file );
-		$plugin_files_by_slug[ $slug ] = $plugin_file;
 	}
 
 	$connectors = array();
@@ -676,18 +672,14 @@ function _wp_connectors_get_connector_script_module_data( array $data ): array {
 			'authentication' => $auth_out,
 		);
 
-		if ( ! empty( $connector_data['plugin']['slug'] ) ) {
-			$plugin_slug = $connector_data['plugin']['slug'];
-			$plugin_file = $plugin_files_by_slug[ $plugin_slug ] ?? null;
-
-			$is_installed = null !== $plugin_file;
-			$is_activated = $is_installed && is_plugin_active( $plugin_file );
+		if ( ! empty( $connector_data['plugin']['file'] ) ) {
+			$file         = $connector_data['plugin']['file'];
+			$is_installed = file_exists( wp_normalize_path( WP_PLUGIN_DIR . '/' . $file ) );
+			$is_activated = $is_installed && is_plugin_active( $file );
 
 			$connector_out['plugin'] = array(
-				'slug'        => $plugin_slug,
-				'pluginFile'  => $is_installed
-					? ( str_ends_with( $plugin_file, '.php' ) ? substr( $plugin_file, 0, -4 ) : $plugin_file )
-					: null,
+				'file'        => $file,
+				'isInstalled' => $is_installed,
 				'isActivated' => $is_activated,
 			);
 		}
