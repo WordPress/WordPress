@@ -56,7 +56,7 @@
 .media-frame a:focus {
 	border-radius: 2px;
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-	color: #043959;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -244,13 +244,13 @@
 
 .media-modal-close:hover,
 .media-modal-close:active {
-	color: #135e96;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .media-modal-close:focus {
-	color: #135e96;
-	border-color: #4f94d4;
-	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
+	color: var(--wp-admin-theme-color, #3858e9);
+	border-color: var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 3px rgba(var(--wp-admin-theme-color--rgb, 56, 88, 233), 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -673,7 +673,7 @@
 	font-size: 14px;
 	line-height: 1.28571428;
 	background: transparent;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-align: left;
 	text-decoration: none;
 	cursor: pointer;
@@ -684,7 +684,7 @@
 }
 
 .media-menu .media-menu-item:active {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	outline: none;
 }
 
@@ -696,7 +696,7 @@
 
 .media-menu .media-menu-item:focus {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-	color: #043959;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -739,7 +739,7 @@
 
 .media-router .media-menu-item:hover,
 .media-router .media-menu-item:active {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .media-router .active,
@@ -749,7 +749,7 @@
 
 .media-router .media-menu-item:focus {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-	color: #043959;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	z-index: 1;
@@ -1321,8 +1321,8 @@
 }
 
 .uploader-inline .close:focus {
-	outline: 1px solid #4f94d4;
-	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
+	outline: 1px solid var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 3px rgba(var(--wp-admin-theme-color--rgb, 56, 88, 233), 0.8);
 }
 
 .attachments-browser.hide-sidebar .attachments,
@@ -1409,7 +1409,7 @@
 	height: 10px;
 	min-width: 20px;
 	width: 0;
-	background: #2271b1;
+	background: var(--wp-admin-theme-color, #3858e9);
 	border-radius: 10px;
 	transition: width 300ms;
 }
@@ -1527,7 +1527,7 @@
 
 .uploader-window,
 .wp-editor-wrap .uploader-editor.droppable {
-	background: rgba(10, 75, 120, 0.9);
+	background-color: rgba(var(--wp-admin-theme-color--rgb, 56, 88, 233), 0.9);
 }
 
 .uploader-window-content,
@@ -1688,13 +1688,13 @@
 	margin: 1px 8px 1px -8px;
 	line-height: 1.4;
 	border-right: 1px solid #dcdcde;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-decoration: none;
 }
 
 .media-selection .button-link:hover,
 .media-selection .button-link:focus {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 }
 
 .media-selection .button-link:last-child {
@@ -1752,7 +1752,7 @@
 .wp-core-ui .media-selection .attachment.details:focus {
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 2px 3px #4f94d4;
+		0 0 2px 3px var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -1764,7 +1764,7 @@
 .wp-core-ui .media-selection .attachment.details {
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 3px #2271b1;
+		0 0 0 3px var(--wp-admin-theme-color, #3858e9);
 }
 
 .media-selection:after {
@@ -2044,7 +2044,7 @@
 	margin: 0;
 	padding: 0;
 	background: transparent;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	font-size: 20px;
 	line-height: 1;
 	cursor: pointer;
@@ -2053,9 +2053,9 @@
 }
 
 .wp-core-ui.media-modal .image-editor .imgedit-help-toggle:focus {
-	color: #2271b1;
-	border-color: #2271b1;
-	box-shadow: 0 0 0 1px #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
+	border-color: var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
