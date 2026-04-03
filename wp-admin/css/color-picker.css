@@ -10,7 +10,7 @@
 
 /* Needs higher specificity to override `.wp-core-ui .button`. */
 .wp-picker-container .wp-color-result.button {
-	min-height: 30px;
+	min-height: 32px;
 	margin: 0 6px 6px 0;
 	padding: 0 0 0 30px;
 	font-size: 11px;
@@ -22,7 +22,7 @@
 	border-left: 1px solid #c3c4c7;
 	color: #50575e;
 	display: block;
-	line-height: 2.54545455; /* 28px */
+	line-height: 2.72727273; /* 30px */
 	padding: 0 6px;
 	text-align: center;
 }
@@ -76,8 +76,8 @@
 .wp-customizer .wp-picker-input-wrap .button.wp-picker-clear {
 	margin-left: 6px;
 	padding: 0 8px;
-	line-height: 2.54545455; /* 28px */
-	min-height: 30px;
+	line-height: 2.72727273; /* 30px */
+	min-height: 32px;
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
@@ -97,7 +97,7 @@
 	margin: 0;
 	padding: 0 5px;
 	vertical-align: top;
-	min-height: 30px;
+	min-height: 32px;
 }
 
 .wp-color-picker::-webkit-input-placeholder {
