@@ -994,15 +994,16 @@ form#tags-filter {
 }
 
 .privacy-settings-accordion-actions {
-	text-align: right;
-	display: block;
+	justify-content: right;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1em;
 }
 
 .privacy-settings-accordion-actions .success {
 	display: none;
 	color: #007017;
-	padding-right: 1em;
-	padding-top: 6px;
 }
 
 .privacy-settings-accordion-actions .success.visible {
