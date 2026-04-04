@@ -2282,7 +2282,7 @@ html.wp-toolbar {
 	line-height: 1;
 }
 
-.postbox.closed {
+.postbox.closed .postbox-header {
 	border-bottom: 0;
 }
 
