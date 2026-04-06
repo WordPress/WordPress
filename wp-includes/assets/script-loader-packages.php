@@ -100,7 +100,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '0c1dfcebf759791c9a8b'
+		'version' => '2300d40abe29e438beda'
 	),
 	'block-library.js' => array(
 		'dependencies' => array(
@@ -142,7 +142,7 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => 'd72ed53f961f90f21ed4'
+		'version' => '67d1a681ec0100a25d78'
 	),
 	'block-serialization-default-parser.js' => array(
 		'dependencies' => array(
@@ -428,7 +428,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'a688ac97344ffdfcca99'
+		'version' => 'd36eb0c37b644e4cd4c8'
 	),
 	'edit-widgets.js' => array(
 		'dependencies' => array(
@@ -519,7 +519,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '49ff59c135229f1cc371'
+		'version' => '63782008412a6163c9f0'
 	),
 	'element.js' => array(
 		'dependencies' => array(
@@ -817,7 +817,7 @@
 			'wp-hooks',
 			'wp-private-apis'
 		),
-		'version' => '89ec294039260fd01952'
+		'version' => '8186bfbc15b827d261f5'
 	),
 	'theme.js' => array(
 		'dependencies' => array(

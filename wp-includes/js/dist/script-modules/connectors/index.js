@@ -226,7 +226,7 @@ function DefaultConnectorSettings({
         (0, import_i18n.sprintf)(
           /* translators: %s: Link to provider settings. */
           (0, import_i18n.__)(
-            "Your API key is stored securely. You can reset it at %s"
+            "Your API key is stored securely. You can manage it at %s"
           ),
           "<a></a>"
         ),

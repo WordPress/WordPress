@@ -702,7 +702,7 @@ var import_element4 = __toESM(require_element());
 var import_i18n = __toESM(require_i18n());
 import { speak } from "@wordpress/a11y";
 function useConnectorPlugin({
-  pluginSlug,
+  file: pluginFileFromServer,
   settingName,
   connectorName,
   isInstalled,
@@ -714,6 +714,8 @@ function useConnectorPlugin({
   const [isBusy, setIsBusy] = (0, import_element4.useState)(false);
   const [connectedState, setConnectedState] = (0, import_element4.useState)(initialIsConnected);
   const [pluginStatusOverride, setPluginStatusOverride] = (0, import_element4.useState)(null);
+  const pluginBasename = pluginFileFromServer?.replace(/\.php$/, "");
+  const pluginSlug = pluginBasename?.includes("/") ? pluginBasename.split("/")[0] : pluginBasename;
   const {
     derivedPluginStatus,
     canManagePlugins,
@@ -728,7 +730,7 @@ function useConnectorPlugin({
         kind: "root",
         name: "plugin"
       });
-      if (!pluginSlug) {
+      if (!pluginFileFromServer) {
         const hasLoaded = store2.hasFinishedResolution(
           "getEntityRecord",
           ["root", "site"]
@@ -740,15 +742,14 @@ function useConnectorPlugin({
           canInstallPlugins: canCreate
         };
       }
-      const pluginId = `${pluginSlug}/plugin`;
       const plugin = store2.getEntityRecord(
         "root",
         "plugin",
-        pluginId
+        pluginBasename
       );
       const hasFinished = store2.hasFinishedResolution(
         "getEntityRecord",
-        ["root", "plugin", pluginId]
+        ["root", "plugin", pluginBasename]
       );
       if (!hasFinished) {
         return {
@@ -779,7 +780,7 @@ function useConnectorPlugin({
         canInstallPlugins: canCreate
       };
     },
-    [pluginSlug, settingName, isInstalled, isActivated]
+    [pluginBasename, settingName, isInstalled, isActivated]
   );
   const pluginStatus = pluginStatusOverride ?? derivedPluginStatus;
   const canActivatePlugins = canManagePlugins;
@@ -823,7 +824,7 @@ function useConnectorPlugin({
     }
   };
   const activatePlugin = async () => {
-    if (!pluginSlug) {
+    if (!pluginFileFromServer) {
       return;
     }
     setIsBusy(true);
@@ -831,7 +832,10 @@ function useConnectorPlugin({
       await saveEntityRecord(
         "root",
         "plugin",
-        { plugin: `${pluginSlug}/plugin`, status: "active" },
+        {
+          plugin: pluginBasename,
+          status: "active"
+        },
         { throwOnError: true }
       );
       setPluginStatusOverride("active");
@@ -1030,6 +1034,27 @@ var DefaultConnectorLogo = () => /* @__PURE__ */ React.createElement(
     }
   )
 );
+var AkismetLogo = () => /* @__PURE__ */ React.createElement(
+  "svg",
+  {
+    width: "40",
+    height: "40",
+    viewBox: "0 0 44 44",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-hidden": "true"
+  },
+  /* @__PURE__ */ React.createElement("rect", { width: "44", height: "44", fill: "#357B49", rx: "6" }),
+  /* @__PURE__ */ React.createElement(
+    "path",
+    {
+      fill: "#fff",
+      fillRule: "evenodd",
+      d: "m29.746 28.31-6.392-16.797c-.152-.397-.305-.672-.789-.675-.673 0-1.408.611-1.746 1.316l-7.378 16.154c-.072.16-.143.311-.214.454-.5.995-1.045 1.546-2.357 1.626a.399.399 0 0 0-.16.033l-.01.004a.399.399 0 0 0-.23.392v.01c0 .054.01.106.03.155l.004.01a.416.416 0 0 0 .394.252h6.212a.417.417 0 0 0 .307-.12.416.416 0 0 0 .124-.305.398.398 0 0 0-.105-.302.399.399 0 0 0-.294-.127c-.757 0-2.197-.062-2.197-1.164.02-.318.103-.63.245-.916l1.399-3.152c.52-1.163 1.654-1.163 2.572-1.163h5.843c.023 0 .044 0 .062.003.13.014.16.081.214.242l1.534 4.07a2.857 2.857 0 0 1 .216 1.04c0 .054-.003.104-.01.153-.09.726-.831.887-1.49.887a.4.4 0 0 0-.294.127l-.007.008-.007.008a.401.401 0 0 0-.092.286v.01c0 .054.01.106.03.155l.005.01a.42.42 0 0 0 .395.252h7.011a.413.413 0 0 0 .279-.13.412.412 0 0 0 .11-.297.387.387 0 0 0-.09-.294.388.388 0 0 0-.277-.135c-1.448-.122-2.295-.643-2.847-2.08Zm-11.985-5.844 2.847-6.304c.361-.728.659-1.486.889-2.265 0-.06.03-.092.06-.092s.061.032.061.091c.02.122.045.247.073.374.197.888.584 1.878.914 2.723l.176.453 1.684 4.529a.927.927 0 0 1 .092.4.473.473 0 0 1-.009.094c-.041.202-.228.272-.602.272h-6.063c-.122 0-.184-.03-.184-.092a.36.36 0 0 1 .062-.183Zm17.107-.721c0 .786-.446 1.231-1.25 1.231-.806 0-1.125-.409-1.125-1.034 0-.786.465-1.231 1.25-1.231.785 0 1.125.427 1.125 1.034ZM9.629 23.002c.803 0 1.25-.447 1.25-1.231 0-.607-.343-1.036-1.128-1.036-.785 0-1.25.447-1.25 1.231 0 .625.325 1.036 1.128 1.036Z",
+      clipRule: "evenodd"
+    }
+  )
+);
 var GeminiLogo = () => /* @__PURE__ */ React.createElement(
   "svg",
   {
@@ -1123,7 +1148,8 @@ function getConnectorData() {
 var CONNECTOR_LOGOS = {
   google: GeminiLogo,
   openai: OpenAILogo,
-  anthropic: ClaudeLogo
+  anthropic: ClaudeLogo,
+  akismet: AkismetLogo
 };
 function getConnectorLogo(connectorId, logoUrl) {
   if (logoUrl) {
@@ -1161,7 +1187,8 @@ function ApiKeyConnector({
   const auth = authentication?.method === "api_key" ? authentication : void 0;
   const settingName = auth?.settingName ?? "";
   const helpUrl = auth?.credentialsUrl ?? void 0;
-  const pluginSlug = plugin?.slug;
+  const pluginFile = plugin?.file?.replace(/\.php$/, "");
+  const pluginSlug = pluginFile?.includes("/") ? pluginFile.split("/")[0] : pluginFile;
   let helpLabel;
   try {
     if (helpUrl) {
@@ -1184,7 +1211,7 @@ function ApiKeyConnector({
     saveApiKey,
     removeApiKey
   } = useConnectorPlugin({
-    pluginSlug,
+    file: plugin?.file,
     settingName,
     connectorName: name,
     isInstalled: plugin?.isInstalled,
@@ -1259,16 +1286,20 @@ function registerDefaultConnectors() {
   const connectors = getConnectorData();
   const sanitize = (s) => s.replace(/[^a-z0-9-_]/gi, "-");
   for (const [connectorId, data] of Object.entries(connectors)) {
+    if (connectorId === "akismet" && !data.plugin?.isInstalled) {
+      continue;
+    }
     const { authentication } = data;
     const connectorName = sanitize(connectorId);
     const args = {
       name: data.name,
       description: data.description,
+      type: data.type,
       logo: getConnectorLogo(connectorId, data.logoUrl),
       authentication,
       plugin: data.plugin
     };
-    if (data.type === "ai_provider" && authentication.method === "api_key") {
+    if (authentication.method === "api_key") {
       args.render = ApiKeyConnector;
     }
     registerConnector(connectorName, args);
@@ -1562,6 +1593,7 @@ function ConnectorsPage() {
               slug: connector.slug,
               name: connector.name,
               description: connector.description,
+              type: connector.type,
               logo: connector.logo,
               authentication: connector.authentication,
               plugin: connector.plugin

@@ -883,6 +883,11 @@ html :where(.wp-block-column) {
   height: 100%;
 }
 
+.wp-block[data-align=center] > .wp-block-icon {
+  display: flex;
+  justify-content: center;
+}
+
 .wp-block-icon__inserter {
   padding: 0 24px;
   margin: 0 -24px;

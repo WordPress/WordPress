@@ -9612,11 +9612,27 @@ var wp;
           roomState.processAwarenessUpdate(room.awareness);
           if (roomState.isPrimaryRoom && Object.keys(room.awareness).length > 1) {
             hasCollaborators = true;
-            roomState.updateQueue.resume();
+            roomStates.forEach((state) => {
+              state.updateQueue.resume();
+            });
           }
-          const responseUpdates = room.updates.map((update) => roomState.processDocUpdate(update)).filter(
-            (update) => Boolean(update)
-          );
+          const responseUpdates = [];
+          for (const update of room.updates) {
+            try {
+              const response = roomState.processDocUpdate(update);
+              if (response) {
+                responseUpdates.push(response);
+              }
+            } catch (error) {
+              roomState.log(
+                "Failed to apply sync update",
+                { error, update },
+                "error",
+                true
+                // force
+              );
+            }
+          }
           roomState.updateQueue.addBulk(responseUpdates);
           if (room.should_compact) {
             roomState.log("Server requested compaction update");
@@ -9650,13 +9666,18 @@ var wp;
             continue;
           }
           const state = roomStates.get(room.room);
-          state.updateQueue.restore(room.updates);
+          if (room.updates.length > 0 && state.endCursor > 0) {
+            state.updateQueue.clear();
+            state.updateQueue.add(state.createCompactionUpdate());
+          } else if (room.updates.length > 0) {
+            state.updateQueue.restore(room.updates);
+          }
           state.log(
             "Error posting sync update, will retry with backoff",
-            {
-              error,
-              nextPoll: pollInterval
-            }
+            { error, nextPoll: pollInterval },
+            "error",
+            true
+            // force
           );
         }
         if (!isUnloadPending) {
@@ -9852,16 +9873,20 @@ var wp;
     /**
      * Log debug messages if debugging is enabled.
      *
-     * @param message The debug message
-     * @param debug   Additional debug information
+     * @param message    The debug message
+     * @param debug      Additional debug information
+     * @param errorLevel The console method to use for logging
+     * @param force      Whether to force logging regardless of debug setting
      */
-    log = (message, debug = {}) => {
-      if (this.options.debug) {
-        console.log(`[${this.constructor.name}]: ${message}`, {
-          room: this.options.room,
-          ...debug
-        });
+    log = (message, debug = {}, errorLevel = "log", force = false) => {
+      if (!this.options.debug && !force) {
+        return;
       }
+      const logFn = console[errorLevel] || console.log;
+      logFn(`[${this.constructor.name}]: ${message}`, {
+        room: this.options.room,
+        ...debug
+      });
     };
     /**
      * Handle synchronization events from the polling manager.
