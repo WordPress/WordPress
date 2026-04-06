@@ -71,8 +71,8 @@ final class WP_Connector_Registry {
 	 * For connectors with `api_key` authentication, a `setting_name` can be provided
 	 * explicitly. If omitted, one is automatically generated using the pattern
 	 * `connectors_{$type}_{$id}_api_key`, with hyphens in the type and ID normalized
-	 * to underscores (e.g., connector type `spam_filtering` with ID `akismet` produces
-	 * `connectors_spam_filtering_akismet_api_key`). This setting name is used for the
+	 * to underscores (e.g., connector type `spam_filtering` with ID `my_plugin` produces
+	 * `connectors_spam_filtering_my_plugin_api_key`). This setting name is used for the
 	 * Settings API registration and REST API exposure.
 	 *
 	 * Registering a connector with an ID that is already registered will trigger a
@@ -110,7 +110,7 @@ final class WP_Connector_Registry {
 	 *         Optional. Plugin data for install/activate UI.
 	 *
 	 *         @type string $file The plugin's main file path relative to the plugins
-	 *                            directory (e.g. 'akismet/akismet.php' or 'hello.php').
+	 *                            directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
 	 *     }
 	 * }
 	 * @return array|null The registered connector data on success, null on failure.
