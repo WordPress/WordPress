@@ -22563,9 +22563,13 @@ var wp;
       },
       [clientId]
     );
+    const blockElement = useBlockElement(clientId);
+    const rawCanvasView = blockElement?.ownerDocument?.defaultView;
+    const canvasView = rawCanvasView === null ? void 0 : rawCanvasView;
     const { isBlockCurrentlyHidden, currentViewport } = useBlockVisibility({
       blockVisibility: currentBlockVisibility,
-      deviceType: selectedDeviceType
+      deviceType: selectedDeviceType,
+      view: canvasView
     });
     const isBlockParentHiddenAtViewport2 = (0, import_data28.useSelect)(
       (select3) => {

@@ -47035,10 +47035,22 @@ If there's a particular need for this, please submit a feature request at https:
         ) : /* @__PURE__ */ (0, import_jsx_runtime299.jsx)(SidebarNavigationScreenUnsupported, {});
       },
       preview({ siteData }) {
-        return isClassicThemeWithStyleBookSupport(siteData) ? /* @__PURE__ */ (0, import_jsx_runtime299.jsx)(StyleBookPreview2, { isStatic: true }) : void 0;
+        return isClassicThemeWithStyleBookSupport(siteData) ? /* @__PURE__ */ (0, import_jsx_runtime299.jsx)(
+          StyleBookPreview2,
+          {
+            isStatic: true,
+            settings: siteData.editorSettings
+          }
+        ) : void 0;
       },
       mobile({ siteData }) {
-        return isClassicThemeWithStyleBookSupport(siteData) ? /* @__PURE__ */ (0, import_jsx_runtime299.jsx)(StyleBookPreview2, { isStatic: true }) : void 0;
+        return isClassicThemeWithStyleBookSupport(siteData) ? /* @__PURE__ */ (0, import_jsx_runtime299.jsx)(
+          StyleBookPreview2,
+          {
+            isStatic: true,
+            settings: siteData.editorSettings
+          }
+        ) : void 0;
       }
     }
   };

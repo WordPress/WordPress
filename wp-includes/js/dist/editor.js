@@ -40539,11 +40539,12 @@ var wp;
     userConfig = {},
     isStatic = false,
     path,
-    onPathChange
+    onPathChange,
+    settings: settingsProp
   }) => {
     const editorSettings2 = (0, import_data79.useSelect)(
-      (select6) => select6(store).getEditorSettings(),
-      []
+      (select6) => settingsProp ?? select6(store).getEditorSettings(),
+      [settingsProp]
     );
     const canUserUploadMedia = (0, import_data79.useSelect)(
       (select6) => select6(import_core_data57.store).canUser("create", {

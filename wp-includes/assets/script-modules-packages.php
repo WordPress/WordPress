@@ -166,7 +166,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '105defe2f1526f8a43e8'
+		'version' => '42d3f09bba14cce3054d'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
@@ -177,7 +177,7 @@
 			'wp-i18n',
 			'wp-private-apis'
 		),
-		'version' => 'e973aa806299e3d70144'
+		'version' => '274797868955a828dfdc'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
