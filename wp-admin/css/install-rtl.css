@@ -17,16 +17,16 @@ body {
 }
 
 a {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color);
 }
 
 a:hover,
 a:active {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-20);
 }
 
 a:focus {
-	color: #043959;
+	color: var(--wp-admin-theme-color-darker-20);
 	border-radius: 2px;
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
