@@ -502,7 +502,7 @@ class WP_Ability {
 	 *
 	 * @param callable $callback The callable to invoke.
 	 * @param mixed    $input    Optional. The input data for the ability. Default `null`.
-	 * @return mixed The result of the callable execution.
+	 * @return mixed The result of the callable execution, or a `WP_Error` if the callback threw.
 	 */
 	protected function invoke_callback( callable $callback, $input = null ) {
 		$args = array();
@@ -510,7 +510,19 @@ class WP_Ability {
 			$args[] = $input;
 		}
 
-		return $callback( ...$args );
+		try {
+			return $callback( ...$args );
+		} catch ( Throwable $e ) {
+			return new WP_Error(
+				'ability_callback_exception',
+				sprintf(
+					/* translators: 1: Ability name, 2: Exception message. */
+					__( 'Ability "%1$s" callback threw an exception: %2$s' ),
+					esc_html( $this->name ),
+					esc_html( $e->getMessage() )
+				)
+			);
+		}
 	}
 
 	/**
