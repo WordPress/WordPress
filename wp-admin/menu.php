@@ -72,7 +72,7 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 $menu[10] = array( __( 'Media' ), 'upload_files', 'upload.php', '', 'menu-top menu-icon-media', 'menu-media', 'dashicons-admin-media' );
 
-	$submenu['upload.php'][5]  = array( __( 'Library' ), 'upload_files', 'upload.php' );
+	$submenu['upload.php'][5]  = array( _x( 'Library', 'media library menu item' ), 'upload_files', 'upload.php' );
 	$submenu['upload.php'][10] = array( __( 'Add Media File' ), 'upload_files', 'media-new.php' );
 	$submenu_index             = 15;
 
