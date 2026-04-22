@@ -8,6 +8,8 @@
  */
 
 use WordPress\AiClient\AiClient;
+use WordPress\AiClient\Messages\DTO\Message;
+use WordPress\AiClient\Messages\DTO\MessagePart;
 
 /**
  * Returns whether AI features are supported in the current environment.
@@ -55,6 +57,6 @@ function wp_supports_ai(): bool {
  *                                                                                                   conversations. Default null.
  * @return WP_AI_Client_Prompt_Builder The prompt builder instance.
  */
-function wp_ai_client_prompt( $prompt = null ) {
+function wp_ai_client_prompt( $prompt = null ): WP_AI_Client_Prompt_Builder {
 	return new WP_AI_Client_Prompt_Builder( AiClient::defaultRegistry(), $prompt );
 }

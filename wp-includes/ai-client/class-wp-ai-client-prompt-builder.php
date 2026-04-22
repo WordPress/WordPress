@@ -190,14 +190,29 @@ class WP_AI_Client_Prompt_Builder {
 			$this->error   = $this->exception_to_wp_error( $e );
 		}
 
+		$default_timeout = 30.0;
+
 		/**
 		 * Filters the default request timeout in seconds for AI Client HTTP requests.
 		 *
 		 * @since 7.0.0
 		 *
-		 * @param int $default_timeout The default timeout in seconds.
+		 * @param float $default_timeout The default timeout in seconds.
 		 */
-		$default_timeout = (int) apply_filters( 'wp_ai_client_default_request_timeout', 30 );
+		$filtered_default_timeout = apply_filters( 'wp_ai_client_default_request_timeout', $default_timeout );
+		if ( is_numeric( $filtered_default_timeout ) && (float) $filtered_default_timeout >= 0.0 ) {
+			$default_timeout = (float) $filtered_default_timeout;
+		} else {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					/* translators: %s: wp_ai_client_default_request_timeout */
+					__( 'The %s filter must return a non-negative number.' ),
+					'<code>wp_ai_client_default_request_timeout</code>'
+				),
+				'7.0.0'
+			);
+		}
 
 		$this->builder->usingRequestOptions(
 			RequestOptions::fromArray(

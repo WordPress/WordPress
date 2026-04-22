@@ -32,17 +32,15 @@ class WP_AI_Client_HTTP_Client implements ClientInterface, ClientWithOptionsInte
 	 * Response factory instance.
 	 *
 	 * @since 7.0.0
-	 * @var ResponseFactoryInterface
 	 */
-	private $response_factory;
+	private ResponseFactoryInterface $response_factory;
 
 	/**
 	 * Stream factory instance.
 	 *
 	 * @since 7.0.0
-	 * @var StreamFactoryInterface
 	 */
-	private $stream_factory;
+	private StreamFactoryInterface $stream_factory;
 
 	/**
 	 * Constructor.
