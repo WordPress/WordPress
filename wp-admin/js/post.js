@@ -1028,7 +1028,7 @@ jQuery( function($) {
 		revert_e = $el.html();
 
 		buttons.html(
-			'<button type="button" class="save button button-small">' + __( 'OK' ) + '</button> ' +
+			'<button type="button" class="save button button-compact">' + __( 'OK' ) + '</button> ' +
 			'<button type="button" class="cancel button-link">' + __( 'Cancel' ) + '</button>'
 		);
 
