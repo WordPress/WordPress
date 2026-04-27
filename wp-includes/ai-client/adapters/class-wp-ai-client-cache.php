@@ -104,7 +104,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	 * @param mixed            $default_value Default value to return for keys that do not exist.
 	 * @return array<string, mixed> A list of key => value pairs.
 	 */
-	public function getMultiple( $keys, $default_value = null ) {
+	public function getMultiple( $keys, $default_value = null ): array {
 		/**
 		 * Keys array.
 		 *
