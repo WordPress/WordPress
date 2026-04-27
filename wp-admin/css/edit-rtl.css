@@ -122,7 +122,6 @@ input#link_url {
 #edit-slug-box .cancel {
 	margin-left: 10px;
 	padding: 0;
-	font-size: 11px;
 }
 
 #comment-link-box {
@@ -141,7 +140,7 @@ input#link_url {
 #editable-post-name input {
 	font-size: 13px;
 	font-weight: 400;
-	height: 24px;
+	min-height: 32px;
 	margin: 0;
 	width: 16em;
 }
@@ -1068,6 +1067,10 @@ form#tags-filter {
 
 	#edit-slug-box {
 		padding: 0;
+	}
+
+	#editable-post-name input {
+		min-height: 40px;
 	}
 }
 
