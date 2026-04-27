@@ -583,9 +583,10 @@ input[type="number"].tiny-text {
 	vertical-align: middle;
 }
 
-.button.wp-hide-pw.user-new-password-toggle > .dashicons {
-	line-height: 1.85;
-	vertical-align: top;
+.button.wp-hide-pw.user-new-password-toggle {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 4px;
 }
 
 .wp-cancel-pw .dashicons-no {
