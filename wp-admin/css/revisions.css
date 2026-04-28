@@ -309,7 +309,6 @@ table.diff .diff-addedline ins {
 	float: right;
 	margin-left: 6px;
 	margin-right: 6px;
-	margin-top: 2px;
 }
 
 .diff-meta-from {
@@ -631,9 +630,5 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 		-ms-word-break: break-all;
 		word-break: break-all;
 		word-wrap: break-word;
-	}
-
-	.diff-meta input.restore-revision {
-		margin-top: 0;
 	}
 }

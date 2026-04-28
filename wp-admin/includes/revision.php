@@ -370,11 +370,11 @@ function wp_print_revision_templates() {
 
 	<script id="tmpl-revisions-buttons" type="text/html">
 		<div class="revisions-previous">
-			<input class="button" type="button" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
+			<input class="button button-compact" type="button" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
 		</div>
 
 		<div class="revisions-next">
-			<input class="button" type="button" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
+			<input class="button button-compact" type="button" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
 		</div>
 	</script>
 
@@ -454,9 +454,9 @@ function wp_print_revision_templates() {
 						<# } #>
 					<?php } ?>
 					<# if ( data.attributes.autosave ) { #>
-						type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Autosave' ); ?>" />
+						type="button" class="restore-revision button button-primary button-compact" value="<?php esc_attr_e( 'Restore This Autosave' ); ?>" />
 					<# } else { #>
-						type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
+						type="button" class="restore-revision button button-primary button-compact" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
 					<# } #>
 				<# } #>
 			</div>
