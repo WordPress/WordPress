@@ -139,6 +139,27 @@ function wp_deregister_script_module( string $id ) {
 }
 
 /**
+ * Overrides the text domain and path used to load translations for a script module.
+ *
+ * Translations for script modules are loaded automatically from the default
+ * text domain and language directory. Use this function only when a module's
+ * text domain differs from `'default'` or when translation files live outside
+ * the standard location, for example plugin modules using their own text domain.
+ *
+ * @since 7.0.0
+ *
+ * @see WP_Script_Modules::set_translations()
+ *
+ * @param string $id     The identifier of the script module.
+ * @param string $domain Optional. Text domain. Default 'default'.
+ * @param string $path   Optional. The full file path to the directory containing translation files.
+ * @return bool True if the text domain was registered, false if the module is not registered.
+ */
+function wp_set_script_module_translations( string $id, string $domain = 'default', string $path = '' ): bool {
+	return wp_script_modules()->set_translations( $id, $domain, $path );
+}
+
+/**
  * Registers all the default WordPress Script Modules.
  *
  * @since 6.7.0
