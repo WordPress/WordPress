@@ -173,10 +173,6 @@ body.post-type-wp_navigation .inline-edit-status {
 
 /* Post Screen */
 
-.metabox-holder .postbox-container .meta-box-sortables {
-	padding: 4px;
-}
-
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
 .is-dragging-metaboxes .metabox-holder .postbox-container .meta-box-sortables {
 	border-radius: 8px;
