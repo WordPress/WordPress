@@ -961,7 +961,6 @@ a#remove-post-thumbnail:hover,
 
 #publishing-action .spinner {
 	float: none;
-	margin-top: 5px;
 }
 
 #misc-publishing-actions {
@@ -2460,7 +2459,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	filter: alpha(opacity=70);
 	width: 20px;
 	height: 20px;
-	margin: 4px 10px 0;
+	margin: 10px 10px 0;
 }
 
 .spinner.is-active,
@@ -2480,6 +2479,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 }
 #template .submit .spinner {
 	float: none;
+	vertical-align: top;
 }
 
 .metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
