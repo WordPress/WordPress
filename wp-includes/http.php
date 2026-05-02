@@ -716,6 +716,26 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  *               When a specific component has been requested: null if the component
  *               doesn't exist in the given URL; a string or - in the case of
  *               PHP_URL_PORT - integer when it does. See parse_url()'s return values.
+ *
+ * @phpstan-param int<-1, 7> $component
+ * @phpstan-return (
+ *     $component is -1
+ *         ? false|array{
+ *               scheme?: string,
+ *               host?: string,
+ *               port?: int<0, 65535>,
+ *               user?: string,
+ *               pass?: string,
+ *               path?: string,
+ *               query?: string,
+ *               fragment?: string,
+ *           }
+ *         : (
+ *             $component is 2
+ *                 ? int<0, 65535>|null
+ *                 : string|null
+ *         )
+ * )
  */
 function wp_parse_url( $url, $component = -1 ) {
 	$to_unset = array();
@@ -763,6 +783,36 @@ function wp_parse_url( $url, $component = -1 ) {
  *               When a specific component has been requested: null if the component
  *               doesn't exist in the given URL; a string or - in the case of
  *               PHP_URL_PORT - integer when it does. See parse_url()'s return values.
+ *
+ * @phpstan-param false|array{
+ *     scheme?: string,
+ *     host?: string,
+ *     port?: int<0, 65535>,
+ *     user?: string,
+ *     pass?: string,
+ *     path?: string,
+ *     query?: string,
+ *     fragment?: string,
+ * } $url_parts
+ * @phpstan-param int<-1, 7> $component
+ * @phpstan-return (
+ *     $component is -1
+ *         ? false|array{
+ *               scheme?: string,
+ *               host?: string,
+ *               port?: int<0, 65535>,
+ *               user?: string,
+ *               pass?: string,
+ *               path?: string,
+ *               query?: string,
+ *               fragment?: string,
+ *           }
+ *         : (
+ *             $component is 2
+ *                 ? int<0, 65535>|null
+ *                 : string|null
+ *         )
+ * )
  */
 function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
 	if ( -1 === $component ) {
@@ -789,6 +839,9 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  *
  * @param int $constant PHP_URL_* constant.
  * @return string|false The named key or false.
+ *
+ * @phpstan-param int<-1, 7> $constant
+ * @phpstan-return 'scheme'|'host'|'port'|'user'|'pass'|'path'|'query'|'fragment'|false
  */
 function _wp_translate_php_url_constant_to_key( $constant ) {
 	$translation = array(
