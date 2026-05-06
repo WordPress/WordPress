@@ -40,7 +40,8 @@
  *         env_var_name?: non-empty-string
  *     },
  *     plugin?: array{
- *         file: non-empty-string
+ *         file: non-empty-string,
+ *         is_active?: callable(): bool
  *     }
  * }
  */
@@ -109,8 +110,12 @@ final class WP_Connector_Registry {
 	 *     @type array  $plugin         {
 	 *         Optional. Plugin data for install/activate UI.
 	 *
-	 *         @type string $file The plugin's main file path relative to the plugins
-	 *                            directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
+	 *         @type string   $file      Optional. The plugin's main file path relative to the
+	 *                                   plugins directory (e.g. 'my-plugin/my-plugin.php' or
+	 *                                   'hello.php').
+	 *         @type callable $is_active Optional callback to determine whether the plugin
+	 *                                   is active. Receives no arguments and must return bool.
+	 *                                   Defaults to `__return_true`.
 	 *     }
 	 * }
 	 * @return array|null The registered connector data on success, null on failure.
@@ -243,8 +248,30 @@ final class WP_Connector_Registry {
 			}
 		}
 
-		if ( ! empty( $args['plugin'] ) && is_array( $args['plugin'] ) && ! empty( $args['plugin']['file'] ) ) {
-			$connector['plugin'] = array( 'file' => $args['plugin']['file'] );
+		$connector['plugin'] = array();
+
+		if ( ! empty( $args['plugin'] ) && is_array( $args['plugin'] ) ) {
+			if ( ! empty( $args['plugin']['file'] ) ) {
+				$connector['plugin']['file'] = $args['plugin']['file'];
+			}
+
+			if ( isset( $args['plugin']['is_active'] ) ) {
+				if ( ! is_callable( $args['plugin']['is_active'] ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: Connector ID. */
+						sprintf( __( 'Connector "%s" plugin is_active must be callable.' ), esc_html( $id ) ),
+						'7.0.0'
+					);
+					return null;
+				}
+
+				$connector['plugin']['is_active'] = $args['plugin']['is_active'];
+			}
+		}
+
+		if ( ! isset( $connector['plugin']['is_active'] ) ) {
+			$connector['plugin']['is_active'] = '__return_true';
 		}
 
 		$this->registered_connectors[ $id ] = $connector;
