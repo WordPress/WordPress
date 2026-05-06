@@ -1105,6 +1105,7 @@ tr.inline-edit-row td {
 }
 
 .inline-edit-row select {
+	line-height: 2.14285714; /* 30px for 32px height with 14px font */
 	padding-left: 24px;
 }
 
