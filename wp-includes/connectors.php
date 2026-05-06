@@ -59,7 +59,7 @@ function wp_is_connector_registered( string $id ): bool {
  *         Optional. Plugin data for install/activate UI.
  *
  *         @type string $file The plugin's main file path relative to the plugins
- *                            directory (e.g. 'akismet/akismet.php' or 'hello.php').
+ *                            directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
  *     }
  * }
  * @phpstan-return ?array{
@@ -120,7 +120,7 @@ function wp_get_connector( string $id ): ?array {
  *             Optional. Plugin data for install/activate UI.
  *
  *             @type string $file The plugin's main file path relative to the plugins
- *                                directory (e.g. 'akismet/akismet.php' or 'hello.php').
+ *                                directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
  *         }
  *     }
  * }
@@ -398,9 +398,9 @@ function _wp_connectors_mask_api_key( string $key ): string {
  * @since 7.0.0
  * @access private
  *
- * @param string $setting_name  The option name for the API key (e.g., 'connectors_spam_filtering_akismet_api_key').
- * @param string $env_var_name  Optional. Environment variable name to check (e.g., 'AKISMET_API_KEY').
- * @param string $constant_name Optional. PHP constant name to check (e.g., 'AKISMET_API_KEY').
+ * @param string $setting_name  The option name for the API key (e.g., 'connectors_spam_filtering_my_plugin_api_key').
+ * @param string $env_var_name  Optional. Environment variable name to check (e.g., 'MY_PLUGIN_API_KEY').
+ * @param string $constant_name Optional. PHP constant name to check (e.g., 'MY_PLUGIN_API_KEY').
  * @return string The key source: 'env', 'constant', 'database', or 'none'.
  */
 function _wp_connectors_get_api_key_source( string $setting_name, string $env_var_name = '', string $constant_name = '' ): string {
