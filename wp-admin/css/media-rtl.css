@@ -556,8 +556,18 @@ border color while dragging a file over the uploader drop area */
 	height: auto;
 }
 
-.media-frame.mode-grid .media-toolbar label {
-	display: block;
+.media-frame.mode-grid .media-toolbar label:not(.media-search-input-label) {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	/* Many screen reader and browser combinations announce broken words as they would appear visually. */
+	word-wrap: normal !important;
+	word-break: normal !important;
 }
 
 .media-frame.mode-grid .media-toolbar select {
@@ -572,11 +582,11 @@ border color while dragging a file over the uploader drop area */
 	padding: 0 8px;
 }
 
-.media-frame.mode-grid .media-toolbar .button {
-	min-height: 32px;
-	line-height: 2.30769231; /* 30px for 32px height with 13px font */
-	padding: 0 12px;
-	align-self: end;
+.media-frame.mode-grid .media-toolbar-secondary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
 }
 
 .media-frame.mode-grid.mode-edit .media-toolbar-secondary > .select-mode-toggle-button {
