@@ -61,7 +61,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	<div class="imgedit-panel-content imgedit-panel-tools wp-clearfix">
 		<div class="imgedit-menu wp-clearfix">
 			<button type="button" onclick="imageEdit.toggleCropTool( <?php echo "$post_id, '$nonce'"; ?>, this );" aria-expanded="false" aria-controls="imgedit-crop" class="imgedit-crop button disabled" disabled><?php esc_html_e( 'Crop' ); ?></button>
-			<button type="button" class="imgedit-scale button" onclick="imageEdit.toggleControls(this);" aria-expanded="false" aria-controls="imgedit-scale"><?php esc_html_e( 'Scale' ); ?></button>
+			<button type="button" class="imgedit-scale button" onclick="imageEdit.toggleControls(this);" aria-expanded="false" aria-controls="imgedit-scale"><?php echo esc_html_x( 'Scale', 'verb' ); ?></button>
 			<div class="imgedit-rotate-menu-container">
 				<button type="button" aria-controls="imgedit-rotate-menu" class="imgedit-rotate button" aria-expanded="false" onclick="imageEdit.togglePopup(this)" onblur="imageEdit.monitorPopup()"><?php esc_html_e( 'Image Rotation' ); ?></button>
 				<div id="imgedit-rotate-menu" class="imgedit-popup-menu">
@@ -158,7 +158,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 							<span class="imgedit-separator" aria-hidden="true">&times;</span>
 							<label for="imgedit-scale-height-<?php echo $post_id; ?>" class="screen-reader-text"><?php _e( 'scale height' ); ?></label>
 							<input type="number" step="1" min="0" max="<?php echo $meta['height'] ?? ''; ?>" aria-describedby="imgedit-scale-warn-<?php echo $post_id; ?>" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" value="<?php echo $meta['height'] ?? 0; ?>" />
-							<button id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary"><?php esc_html_e( 'Scale' ); ?></button>
+							<button id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary"><?php echo esc_html_x( 'Scale', 'verb' ); ?></button>
 							</div>
 							<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>"><span class="dashicons dashicons-warning" aria-hidden="true"></span><?php esc_html_e( 'Images cannot be scaled to a size larger than the original.' ); ?></span>
 						</fieldset>
