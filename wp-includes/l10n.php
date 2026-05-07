@@ -1206,6 +1206,7 @@ function load_script_module_textdomain( string $id, string $domain = 'default', 
  * @return string|false The JSON-encoded translated strings on success, false otherwise.
  */
 function _load_script_textdomain_from_src( string $handle, string $src, string $domain, string $path, bool $is_module ) {
+	/** @var WP_Textdomain_Registry $wp_textdomain_registry */
 	global $wp_textdomain_registry;
 
 	$locale = determine_locale();
@@ -1214,7 +1215,9 @@ function _load_script_textdomain_from_src( string $handle, string $src, string $
 		$path = $wp_textdomain_registry->get( $domain, $locale );
 	}
 
-	$path = untrailingslashit( $path );
+	if ( $path ) {
+		$path = untrailingslashit( $path );
+	}
 
 	// If a path was given and the handle file exists simply return it.
 	$file_base       = 'default' === $domain ? $locale : $domain . '-' . $locale;
@@ -1231,8 +1234,17 @@ function _load_script_textdomain_from_src( string $handle, string $src, string $
 	$relative       = false;
 	$languages_path = WP_LANG_DIR;
 
-	$src_url     = wp_parse_url( $src );
+	$src_url = wp_parse_url( $src );
+	if ( ! $src_url ) {
+		return load_script_translations( false, $handle, $domain );
+	}
+	$src_url['path'] ??= '';
+
 	$content_url = wp_parse_url( content_url() );
+	if ( ! $content_url ) {
+		return load_script_translations( false, $handle, $domain );
+	}
+
 	$plugins_url = wp_parse_url( plugins_url() );
 	$site_url    = wp_parse_url( site_url() );
 	$theme_root  = get_theme_root();
@@ -1304,7 +1316,7 @@ function _load_script_textdomain_from_src( string $handle, string $src, string $
 	$relative = apply_filters( 'load_script_textdomain_relative_path', $relative, $src, $is_module );
 
 	// If the source is not from WP.
-	if ( false === $relative ) {
+	if ( ! is_string( $relative ) ) {
 		return load_script_translations( false, $handle, $domain );
 	}
 
