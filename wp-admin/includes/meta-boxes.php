@@ -1453,7 +1453,14 @@ function link_advanced_meta_box( $link ) {
 		<td><input name="link_rss" class="code" type="text" id="rss_uri" maxlength="255" value="<?php echo ( isset( $link->link_rss ) ? esc_attr( $link->link_rss ) : '' ); ?>" /></td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="link_notes"><?php _e( 'Notes' ); ?></label></th>
+		<th scope="row">
+			<label for="link_notes">
+				<?php
+				/* translators: Label for the Notes textarea in the Link Manager edit screen. */
+				_ex( 'Notes', 'Link manager notes field label' );
+				?>
+			</label>
+		</th>
 		<td><textarea name="link_notes" id="link_notes" rows="10"><?php echo $link->link_notes ?? ''; // textarea_escaped ?></textarea></td>
 	</tr>
 	<tr>
