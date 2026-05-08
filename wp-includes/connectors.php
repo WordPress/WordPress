@@ -58,13 +58,15 @@ function wp_is_connector_registered( string $id ): bool {
  *     @type array  $plugin         {
  *         Optional. Plugin data for install/activate UI.
  *
- *         @type string $file The plugin's main file path relative to the plugins
- *                            directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
+ *         @type string   $file      The plugin's main file path relative to the plugins
+ *                                   directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
+ *         @type callable $is_active Callback to determine whether the plugin is active. Receives no arguments and must return bool.
+ *                                   Defaults to `__return_true`.
  *     }
  * }
  * @phpstan-return ?array{
  *     name: non-empty-string,
- *     description: non-empty-string,
+ *     description: string,
  *     logo_url?: non-empty-string,
  *     type: non-empty-string,
  *     authentication: array{
@@ -74,8 +76,9 @@ function wp_is_connector_registered( string $id ): bool {
  *         constant_name?: non-empty-string,
  *         env_var_name?: non-empty-string
  *     },
- *     plugin?: array{
- *         file: non-empty-string
+ *     plugin: array{
+ *         file?: non-empty-string,
+ *         is_active: callable(): bool,
  *     }
  * }
  */
@@ -119,14 +122,16 @@ function wp_get_connector( string $id ): ?array {
  *         @type array       $plugin         {
  *             Optional. Plugin data for install/activate UI.
  *
- *             @type string $file The plugin's main file path relative to the plugins
- *                                directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
+ *             @type string   $file      The plugin's main file path relative to the plugins
+ *                                       directory (e.g. 'my-plugin/my-plugin.php' or 'hello.php').
+ *             @type callable $is_active Callback to determine whether the plugin is active. Receives no arguments and must return bool.
+ *                                       Defaults to `__return_true`.
  *         }
  *     }
  * }
  * @phpstan-return array<string, array{
  *     name: non-empty-string,
- *     description: non-empty-string,
+ *     description: string,
  *     logo_url?: non-empty-string,
  *     type: non-empty-string,
  *     authentication: array{
@@ -136,8 +141,9 @@ function wp_get_connector( string $id ): ?array {
  *         constant_name?: non-empty-string,
  *         env_var_name?: non-empty-string
  *     },
- *     plugin?: array{
- *         file: non-empty-string
+ *     plugin: array{
+ *         file?: non-empty-string,
+ *         is_active: callable(): bool,
  *     }
  * }>
  */
@@ -160,7 +166,7 @@ function wp_get_connectors(): array {
  * @access private
  *
  * @param string $path Absolute path to the logo file.
- * @return string|null The URL to the logo file, or null if the path is invalid.
+ * @return non-empty-string|null The URL to the logo file, or null if the path is invalid.
  */
 function _wp_connectors_resolve_ai_provider_logo_url( string $path ): ?string {
 	if ( ! $path ) {
@@ -175,12 +181,14 @@ function _wp_connectors_resolve_ai_provider_logo_url( string $path ): ?string {
 
 	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 	if ( str_starts_with( $path, $mu_plugin_dir . '/' ) ) {
-		return plugins_url( substr( $path, strlen( $mu_plugin_dir ) ), WPMU_PLUGIN_DIR . '/.' );
+		$logo_url = plugins_url( substr( $path, strlen( $mu_plugin_dir ) ), WPMU_PLUGIN_DIR . '/.' );
+		return $logo_url ? $logo_url : null;
 	}
 
 	$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
 	if ( str_starts_with( $path, $plugin_dir . '/' ) ) {
-		return plugins_url( substr( $path, strlen( $plugin_dir ) ) );
+		$logo_url = plugins_url( substr( $path, strlen( $plugin_dir ) ) );
+		return $logo_url ? $logo_url : null;
 	}
 
 	_doing_it_wrong(
@@ -317,7 +325,7 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 	// Registry values (from provider plugins) take precedence over hardcoded fallbacks.
 	$ai_registry = AiClient::defaultRegistry();
 
-	foreach ( $ai_registry->getRegisteredProviderIds() as $connector_id ) {
+	foreach ( array_filter( $ai_registry->getRegisteredProviderIds() ) as $connector_id ) {
 		$provider_class_name = $ai_registry->getProviderClassName( $connector_id );
 		$provider_metadata   = $provider_class_name::metadata();
 
@@ -327,9 +335,11 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 		if ( $is_api_key ) {
 			$credentials_url = $provider_metadata->getCredentialsUrl();
 			$authentication  = array(
-				'method'          => 'api_key',
-				'credentials_url' => $credentials_url ? $credentials_url : null,
+				'method' => 'api_key',
 			);
+			if ( $credentials_url ) {
+				$authentication['credentials_url'] = $credentials_url;
+			}
 		} else {
 			$authentication = array( 'method' => 'none' );
 		}
@@ -362,8 +372,10 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 				'description'    => $description ? $description : '',
 				'type'           => 'ai_provider',
 				'authentication' => $authentication,
-				'logo_url'       => $logo_url,
 			);
+			if ( $logo_url ) {
+				$defaults[ $connector_id ]['logo_url'] = $logo_url;
+			}
 		}
 	}
 
@@ -372,33 +384,22 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 		if ( 'api_key' === $args['authentication']['method'] ) {
 			$sanitized_id = str_replace( '-', '_', $id );
 
-			if ( ! isset( $args['authentication']['setting_name'] ) ) {
-				$args['authentication']['setting_name'] = "connectors_ai_{$sanitized_id}_api_key";
-			}
+			$args['authentication']['setting_name'] = "connectors_ai_{$sanitized_id}_api_key";
 
 			// All AI providers use the {CONSTANT_CASE_ID}_API_KEY naming convention.
-			if ( ! isset( $args['authentication']['constant_name'] ) || ! isset( $args['authentication']['env_var_name'] ) ) {
-				$constant_case_key = strtoupper( preg_replace( '/([a-z])([A-Z])/', '$1_$2', $sanitized_id ) ) . '_API_KEY';
+			$constant_case_key = strtoupper( (string) preg_replace( '/([a-z])([A-Z])/', '$1_$2', $sanitized_id ) ) . '_API_KEY';
 
-				if ( ! isset( $args['authentication']['constant_name'] ) ) {
-					$args['authentication']['constant_name'] = $constant_case_key;
-				}
+			$args['authentication']['constant_name'] = $constant_case_key;
+			$args['authentication']['env_var_name']  = $constant_case_key;
+		}
 
-				if ( ! isset( $args['authentication']['env_var_name'] ) ) {
-					$args['authentication']['env_var_name'] = $constant_case_key;
-				}
+		$args['plugin']['is_active'] = static function () use ( $ai_registry, $id ): bool {
+			try {
+				return $ai_registry->hasProvider( $id );
+			} catch ( Exception $e ) {
+				return false;
 			}
-		}
-
-		if ( ! isset( $args['plugin']['is_active'] ) ) {
-			$args['plugin']['is_active'] = static function () use ( $ai_registry, $id ): bool {
-				try {
-					return $ai_registry->hasProvider( $id );
-				} catch ( Exception $e ) {
-					return false;
-				}
-			};
-		}
+		};
 
 		$registry->register( $id, $args );
 	}
@@ -646,7 +647,7 @@ function _wp_connectors_pass_default_keys_to_ai_client(): void {
 			}
 
 			$api_key = get_option( $auth['setting_name'], '' );
-			if ( '' === $api_key ) {
+			if ( ! is_string( $api_key ) || '' === $api_key ) {
 				continue;
 			}
 
@@ -672,6 +673,10 @@ add_action( 'init', '_wp_connectors_pass_default_keys_to_ai_client', 20 );
  */
 function _wp_connectors_get_connector_script_module_data( array $data ): array {
 	$registry = AiClient::defaultRegistry();
+
+	if ( ! function_exists( 'validate_plugin' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
 
 	$connectors = array();
 	foreach ( wp_get_connectors() as $connector_id => $connector_data ) {
@@ -706,7 +711,7 @@ function _wp_connectors_get_connector_script_module_data( array $data ): array {
 		if ( ! empty( $connector_data['plugin']['file'] ) ) {
 			$file         = $connector_data['plugin']['file'];
 			$is_activated = (bool) call_user_func( $connector_data['plugin']['is_active'] );
-			$is_installed = $is_activated || file_exists( wp_normalize_path( WP_PLUGIN_DIR . '/' . $file ) );
+			$is_installed = $is_activated || 0 === validate_plugin( $file );
 
 			$connector_out['plugin'] = array(
 				'file'        => $file,

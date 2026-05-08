@@ -29,7 +29,7 @@
  *
  * @phpstan-type Connector array{
  *     name: non-empty-string,
- *     description: non-empty-string,
+ *     description: string,
  *     logo_url?: non-empty-string,
  *     type: non-empty-string,
  *     authentication: array{
@@ -39,9 +39,9 @@
  *         constant_name?: non-empty-string,
  *         env_var_name?: non-empty-string
  *     },
- *     plugin?: array{
- *         file: non-empty-string,
- *         is_active?: callable(): bool
+ *     plugin: array{
+ *         file?: non-empty-string,
+ *         is_active: callable(): bool
  *     }
  * }
  */
@@ -120,7 +120,23 @@ final class WP_Connector_Registry {
 	 * }
 	 * @return array|null The registered connector data on success, null on failure.
 	 *
-	 * @phpstan-param Connector $args
+	 * @phpstan-param array{
+	 *     name: non-empty-string,
+	 *     description?: string,
+	 *     logo_url?: non-empty-string,
+	 *     type: non-empty-string,
+	 *     authentication: array{
+	 *         method: 'api_key'|'none',
+	 *         credentials_url?: non-empty-string,
+	 *         setting_name?: non-empty-string,
+	 *         constant_name?: non-empty-string,
+	 *         env_var_name?: non-empty-string
+	 *     },
+	 *     plugin?: array{
+	 *         file?: non-empty-string,
+	 *         is_active?: callable(): bool
+	 *     }
+	 * } $args
 	 * @phpstan-return Connector|null
 	 */
 	public function register( string $id, array $args ): ?array {
