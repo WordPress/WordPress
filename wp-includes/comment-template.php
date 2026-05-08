@@ -1756,7 +1756,8 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	$defaults = array(
 		'add_below'          => 'comment',
 		'respond_id'         => 'respond',
-		'reply_text'         => __( 'Reply' ),
+		/* translators: Comment reply button text. */
+		'reply_text'         => _x( 'Reply', 'verb' ),
 		/* translators: Comment reply button text. %s: Comment author name. */
 		'reply_to_text'      => __( 'Reply to %s' ),
 		'login_text'         => __( 'Log in to Reply' ),

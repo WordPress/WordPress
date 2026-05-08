@@ -772,7 +772,8 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			$comment->comment_ID,
 			$comment->comment_post_ID,
 			esc_attr__( 'Reply to this comment' ),
-			__( 'Reply' )
+			/* translators: Comment reply button text. */
+			_x( 'Reply', 'verb' )
 		);
 
 		$actions['spam'] = sprintf(

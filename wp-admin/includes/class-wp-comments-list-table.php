@@ -875,7 +875,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 				'replyto',
 				'vim-r comment-inline',
 				esc_attr__( 'Reply to this comment' ),
-				__( 'Reply' )
+				/* translators: Comment reply button text. */
+				_x( 'Reply', 'verb' )
 			);
 		}
 
