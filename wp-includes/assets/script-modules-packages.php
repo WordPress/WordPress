@@ -190,7 +190,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '7cd8fe3a80dded97579b'
+		'version' => '012760fd849397dd0031'
 	),
 	'edit-site-init/index.js' => array(
 		'dependencies' => array(

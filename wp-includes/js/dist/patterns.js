@@ -940,11 +940,13 @@ var wp;
   var import_i18n7 = __toESM(require_i18n(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data9 = __toESM(require_data(), 1);
+  var import_element7 = __toESM(require_element(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_url = __toESM(require_url(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function PatternsManageButton({ clientId, onClose }) {
+    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element7.useState)(false);
     const {
       attributes,
       canDetach,
@@ -996,28 +998,40 @@ var wp;
     if (!isVisible || !canEdit) {
       return null;
     }
+    const handleDetach = () => {
+      if (isSyncedPattern) {
+        convertSyncedPatternToStatic2(clientId);
+      }
+      if (isUnsyncedPattern) {
+        const { patternName, ...attributesWithoutPatternName } = attributes?.metadata ?? {};
+        updateBlockAttributes(clientId, {
+          metadata: attributesWithoutPatternName
+        });
+      }
+      onClose?.();
+      setShowConfirmDialog(false);
+    };
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
-      canDetach && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
-        import_components6.MenuItem,
-        {
-          onClick: () => {
-            if (isSyncedPattern) {
-              convertSyncedPatternToStatic2(clientId);
-            }
-            if (isUnsyncedPattern) {
-              const {
-                patternName,
-                ...attributesWithoutPatternName
-              } = attributes?.metadata ?? {};
-              updateBlockAttributes(clientId, {
-                metadata: attributesWithoutPatternName
-              });
-            }
-            onClose?.();
-          },
-          children: isSyncedPattern ? (0, import_i18n7.__)("Disconnect pattern") : (0, import_i18n7.__)("Detach pattern")
-        }
-      ),
+      canDetach && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { onClick: () => setShowConfirmDialog(true), children: (0, import_i18n7.__)("Detach") }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+          import_components6.__experimentalConfirmDialog,
+          {
+            isOpen: showConfirmDialog,
+            onConfirm: handleDetach,
+            onCancel: () => setShowConfirmDialog(false),
+            confirmButtonText: (0, import_i18n7.__)("Detach"),
+            size: "medium",
+            title: (0, import_i18n7.__)("Detach pattern?"),
+            __experimentalHideHeader: false,
+            children: isSyncedPattern ? (0, import_i18n7.__)(
+              "The blocks will be separated from the original pattern and will be fully editable. Future changes to the pattern will not apply here."
+            ) : (0, import_i18n7.__)(
+              "Blocks will no longer be associated with this pattern and will be fully editable."
+            )
+          }
+        )
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { href: managePatternsUrl, children: (0, import_i18n7.__)("Manage patterns") })
     ] });
   }
@@ -1049,7 +1063,7 @@ var wp;
   var import_components7 = __toESM(require_components(), 1);
   var import_core_data8 = __toESM(require_core_data(), 1);
   var import_data10 = __toESM(require_data(), 1);
-  var import_element7 = __toESM(require_element(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   var import_html_entities3 = __toESM(require_html_entities(), 1);
   var import_i18n8 = __toESM(require_i18n(), 1);
   var import_notices5 = __toESM(require_notices(), 1);
@@ -1063,11 +1077,11 @@ var wp;
     onSuccess,
     ...props
   }) {
-    const id = (0, import_element7.useId)();
-    const textControlRef = (0, import_element7.useRef)();
-    const [name, setName] = (0, import_element7.useState)((0, import_html_entities3.decodeEntities)(category.name));
-    const [isSaving, setIsSaving] = (0, import_element7.useState)(false);
-    const [validationMessage, setValidationMessage] = (0, import_element7.useState)(false);
+    const id = (0, import_element8.useId)();
+    const textControlRef = (0, import_element8.useRef)();
+    const [name, setName] = (0, import_element8.useState)((0, import_html_entities3.decodeEntities)(category.name));
+    const [isSaving, setIsSaving] = (0, import_element8.useState)(false);
+    const [validationMessage, setValidationMessage] = (0, import_element8.useState)(false);
     const validationMessageId = validationMessage ? `patterns-rename-pattern-category-modal__validation-message-${id}` : void 0;
     const { saveEntityRecord, invalidateResolution } = (0, import_data10.useDispatch)(import_core_data8.store);
     const { createErrorNotice, createSuccessNotice } = (0, import_data10.useDispatch)(import_notices5.store);
@@ -1190,7 +1204,7 @@ var wp;
   }
 
   // packages/patterns/build-module/components/pattern-overrides-controls.mjs
-  var import_element9 = __toESM(require_element(), 1);
+  var import_element10 = __toESM(require_element(), 1);
   var import_block_editor6 = __toESM(require_block_editor(), 1);
   var import_components9 = __toESM(require_components(), 1);
   var import_i18n10 = __toESM(require_i18n(), 1);
@@ -1198,7 +1212,7 @@ var wp;
   // packages/patterns/build-module/components/allow-overrides-modal.mjs
   var import_components8 = __toESM(require_components(), 1);
   var import_i18n9 = __toESM(require_i18n(), 1);
-  var import_element8 = __toESM(require_element(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   var import_a11y2 = __toESM(require_a11y(), 1);
   var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function AllowOverridesModal({
@@ -1207,8 +1221,8 @@ var wp;
     onClose,
     onSave
   }) {
-    const [editedBlockName, setEditedBlockName] = (0, import_element8.useState)(initialName);
-    const descriptionId = (0, import_element8.useId)();
+    const [editedBlockName, setEditedBlockName] = (0, import_element9.useState)(initialName);
+    const descriptionId = (0, import_element9.useId)();
     const isNameValid = !!editedBlockName.trim();
     const handleSubmit = () => {
       if (editedBlockName !== initialName) {
@@ -1285,7 +1299,7 @@ var wp;
     );
   }
   function DisallowOverridesModal({ onClose, onSave }) {
-    const descriptionId = (0, import_element8.useId)();
+    const descriptionId = (0, import_element9.useId)();
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       import_components8.Modal,
       {
@@ -1339,9 +1353,9 @@ var wp;
     setAttributes,
     name: blockName
   }) {
-    const controlId = (0, import_element9.useId)();
-    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element9.useState)(false);
-    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element9.useState)(false);
+    const controlId = (0, import_element10.useId)();
+    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element10.useState)(false);
+    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element10.useState)(false);
     const hasName = !!attributes.metadata?.name;
     const defaultBindings = attributes.metadata?.bindings?.__default;
     const hasOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;

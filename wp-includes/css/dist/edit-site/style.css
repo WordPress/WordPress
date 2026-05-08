@@ -3767,6 +3767,7 @@ button.font-library__upload-area {
   background: #fff;
   padding: 12px;
   border-top: 1px solid #ddd;
+  box-sizing: border-box;
 }
 
 .global-styles-ui-variations_item {

@@ -12227,7 +12227,7 @@ var wp;
     if (isWithinSection && getBlockName(state, sectionClientId) === "core/block") {
       return false;
     }
-    if (isWithinSection && (isParentSectionBlock || blockEditingMode === "contentOnly") && !isContainerInsertableToInContentOnlyMode(
+    if (isWithinSection && (isParentSectionBlock || blockEditingMode === "contentOnly" || blockEditingMode === "disabled") && !isContainerInsertableToInContentOnlyMode(
       state,
       blockName,
       rootClientId
@@ -12357,9 +12357,9 @@ var wp;
         if (defaultBlocks.length > 1) {
           return true;
         }
-      } else {
         return false;
       }
+      return false;
     }
     return rootBlockEditingMode !== "disabled";
   }
@@ -14426,10 +14426,6 @@ var wp;
       return;
     }
     const rootClientId = select3.getBlockRootClientId(clientId);
-    const isLocked = select3.getTemplateLock(rootClientId);
-    if (isLocked) {
-      return;
-    }
     const blockIndex = select3.getBlockIndex(clientId);
     const directInsertBlock = rootClientId ? select3.getDirectInsertBlock(rootClientId) : null;
     if (!directInsertBlock) {
@@ -14455,10 +14451,6 @@ var wp;
       return;
     }
     const rootClientId = select3.getBlockRootClientId(clientId);
-    const isLocked = select3.getTemplateLock(rootClientId);
-    if (isLocked) {
-      return;
-    }
     const blockIndex = select3.getBlockIndex(clientId);
     const directInsertBlock = rootClientId ? select3.getDirectInsertBlock(rootClientId) : null;
     if (!directInsertBlock) {
@@ -18416,6 +18408,10 @@ var wp;
       [clientId]
     );
     const { updateBlock: updateBlock2 } = (0, import_data19.useDispatch)(store);
+    const blockContent = (0, import_element26.useMemo)(
+      () => block ? (0, import_blocks18.getBlockContent)(block) : "",
+      [block]
+    );
     const onChange = () => {
       const blockType = (0, import_blocks18.getBlockType)(block.name);
       if (!blockType) {
@@ -18442,8 +18438,8 @@ var wp;
       }
     };
     (0, import_element26.useEffect)(() => {
-      setHtml((0, import_blocks18.getBlockContent)(block));
-    }, [block]);
+      setHtml(blockContent);
+    }, [blockContent]);
     return /* @__PURE__ */ (0, import_jsx_runtime147.jsx)(
       import_react_autosize_textarea.default,
       {
@@ -24505,7 +24501,7 @@ var wp;
       targetRect = target.getBoundingClientRect();
     }
     function isTabCandidate(node) {
-      if (getBlockClientId(node) && import_dom10.focus.focusable.find(node).filter((element) => !(0, import_dom10.isFormElement)(element)).length !== 0) {
+      if (node.contentEditable !== "true" && getBlockClientId(node) && import_dom10.focus.focusable.find(node).filter((element) => !(0, import_dom10.isFormElement)(element)).length !== 0) {
         return false;
       }
       if (!import_dom10.focus.tabbable.isTabbableIndex(node)) {
@@ -72015,6 +72011,7 @@ var wp;
   var import_compose104 = __toESM(require_compose(), 1);
   var import_blocks117 = __toESM(require_blocks(), 1);
   var import_i18n236 = __toESM(require_i18n(), 1);
+  var import_notices12 = __toESM(require_notices(), 1);
   var import_jsx_runtime454 = __toESM(require_jsx_runtime(), 1);
   var CUSTOM_CSS_INSTANCE_REFERENCE = {};
   var EMPTY_STYLE = {};
@@ -72047,6 +72044,7 @@ var wp;
       }
     ) });
   }
+  var CUSTOM_CSS_WARNING_NOTICE_ID = "custom-css-edit-warning";
   function CustomCSSEdit({ clientId, name, setAttributes }) {
     const { style, canEditCSS } = (0, import_data185.useSelect)(
       (select3) => {
@@ -72073,6 +72071,25 @@ var wp;
   function useBlockProps15({ style }) {
     const customCSS = style?.css;
     const isValidCSS = typeof customCSS === "string" && customCSS.trim().length > 0 && validateCSS(customCSS);
+    const canEditCSS = (0, import_data185.useSelect)(
+      (select3) => select3(store).getSettings().canEditCSS,
+      []
+    );
+    const { createWarningNotice } = (0, import_data185.useDispatch)(import_notices12.store);
+    const hasCustomCSS = !!customCSS?.trim();
+    (0, import_element267.useEffect)(() => {
+      if (!canEditCSS && hasCustomCSS) {
+        createWarningNotice(
+          (0, import_i18n236.__)(
+            "This post contains blocks with custom CSS. You do not have permission to edit CSS. If you save this post, the custom CSS will be removed."
+          ),
+          {
+            id: CUSTOM_CSS_WARNING_NOTICE_ID,
+            isDismissible: true
+          }
+        );
+      }
+    }, [canEditCSS, hasCustomCSS, createWarningNotice]);
     const customCSSIdentifier = (0, import_compose104.useInstanceId)(
       CUSTOM_CSS_INSTANCE_REFERENCE,
       "wp-custom-css"
@@ -74865,7 +74882,7 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime468.jsx)(
       import_components278.__experimentalToolsPanelItem,
       {
-        label: (0, import_i18n244.__)("Scale"),
+        label: (0, import_i18n244._x)("Scale", "Image scaling options"),
         isShownByDefault,
         hasValue: () => displayValue !== defaultValue,
         onDeselect: () => onChange(defaultValue),
@@ -74873,7 +74890,7 @@ var wp;
         children: /* @__PURE__ */ (0, import_jsx_runtime468.jsx)(
           import_components278.__experimentalToggleGroupControl,
           {
-            label: (0, import_i18n244.__)("Scale"),
+            label: (0, import_i18n244._x)("Scale", "Image scaling options"),
             isBlock: true,
             help: scaleHelp[displayValue],
             value: displayValue,
@@ -75255,6 +75272,7 @@ var wp;
 
   // packages/block-editor/build-module/components/link-picker/link-preview.mjs
   var import_components282 = __toESM(require_components(), 1);
+  var import_dom41 = __toESM(require_dom(), 1);
   var import_jsx_runtime473 = __toESM(require_jsx_runtime(), 1);
   var { Badge: Badge6 } = unlock(import_components282.privateApis);
   function LinkPreview2({ title, url, image, badges }) {
@@ -75279,7 +75297,7 @@ var wp;
                 {
                   numberOfLines: 1,
                   className: "link-preview-button__title",
-                  children: title
+                  children: (0, import_dom41.__unstableStripHTML)(title)
                 }
               ),
               url && /* @__PURE__ */ (0, import_jsx_runtime473.jsx)(

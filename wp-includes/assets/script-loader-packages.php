@@ -100,7 +100,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '2300d40abe29e438beda'
+		'version' => '7e969d1c58fd6b032753'
 	),
 	'block-library.js' => array(
 		'dependencies' => array(
@@ -142,7 +142,7 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => '67d1a681ec0100a25d78'
+		'version' => 'bbcc73335599ce2b8d51'
 	),
 	'block-serialization-default-parser.js' => array(
 		'dependencies' => array(
@@ -214,7 +214,7 @@
 			'wp-rich-text',
 			'wp-warning'
 		),
-		'version' => '2cbe9a66c53c614d7d6f'
+		'version' => '5dedfe13f08880193a28'
 	),
 	'compose.js' => array(
 		'dependencies' => array(
@@ -257,16 +257,16 @@
 			'wp-data',
 			'wp-deprecated',
 			'wp-element',
+			'wp-hooks',
 			'wp-html-entities',
 			'wp-i18n',
 			'wp-private-apis',
 			'wp-rich-text',
-			'wp-sync',
 			'wp-undo-manager',
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '4d15c0f82a9fb01a04ed'
+		'version' => '515bcc5a2962232ccea7'
 	),
 	'customize-widgets.js' => array(
 		'dependencies' => array(
@@ -381,7 +381,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'f84d20a8526b3463e9ff'
+		'version' => '69ec189de328df478ab5'
 	),
 	'edit-site.js' => array(
 		'dependencies' => array(
@@ -428,7 +428,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'd36eb0c37b644e4cd4c8'
+		'version' => '34fbf7f8c7d55055d9cd'
 	),
 	'edit-widgets.js' => array(
 		'dependencies' => array(
@@ -519,7 +519,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '63782008412a6163c9f0'
+		'version' => 'f8cdc22abc621b3f9409'
 	),
 	'element.js' => array(
 		'dependencies' => array(
@@ -675,7 +675,7 @@
 			'wp-private-apis',
 			'wp-url'
 		),
-		'version' => '4b640c092eb654d2bd78'
+		'version' => '714c49ed2942c98d088f'
 	),
 	'plugins.js' => array(
 		'dependencies' => array(
@@ -758,7 +758,7 @@
 			'wp-primitives',
 			'wp-url'
 		),
-		'version' => 'c72d27a8ac4e33cb74d6'
+		'version' => '21d86e46535b79d9afda'
 	),
 	'rich-text.js' => array(
 		'dependencies' => array(
@@ -810,14 +810,6 @@
 			
 		),
 		'version' => 'faa37ce61b7ec8394b2a'
-	),
-	'sync.js' => array(
-		'dependencies' => array(
-			'wp-api-fetch',
-			'wp-hooks',
-			'wp-private-apis'
-		),
-		'version' => '8186bfbc15b827d261f5'
 	),
 	'theme.js' => array(
 		'dependencies' => array(
