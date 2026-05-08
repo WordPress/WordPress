@@ -131,10 +131,10 @@ var wp;
           if (typeof b2 !== "function" && b2 !== null)
             throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
           extendStatics(d2, b2);
-          function __269() {
+          function __268() {
             this.constructor = d2;
           }
-          d2.prototype = b2 === null ? Object.create(b2) : (__269.prototype = b2.prototype, new __269());
+          d2.prototype = b2 === null ? Object.create(b2) : (__268.prototype = b2.prototype, new __268());
         };
       })();
       var __assign2 = exports && exports.__assign || function() {
@@ -2451,10 +2451,10 @@ var wp;
           if (typeof b2 !== "function" && b2 !== null)
             throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
           extendStatics(d2, b2);
-          function __269() {
+          function __268() {
             this.constructor = d2;
           }
-          d2.prototype = b2 === null ? Object.create(b2) : (__269.prototype = b2.prototype, new __269());
+          d2.prototype = b2 === null ? Object.create(b2) : (__268.prototype = b2.prototype, new __268());
         };
       })();
       var __assign2 = exports && exports.__assign || function() {
@@ -12978,7 +12978,8 @@ var wp;
             "aria-label": (0, import_i18n30.__)(
               "Reply to A WordPress Commenter"
             ),
-            children: (0, import_i18n30.__)("Reply")
+            /* translators: Comment reply button text. */
+            children: (0, import_i18n30._x)("Reply", "verb")
           }
         ) })
       ] }) }) }),
@@ -14240,7 +14241,8 @@ var wp;
       {
         href: "#comment-reply-pseudo-link",
         onClick: (event) => event.preventDefault(),
-        children: (0, import_i18n37.__)("Reply")
+        /* translators: Comment reply button text. */
+        children: (0, import_i18n37._x)("Reply", "verb")
       }
     ) }) });
   }
@@ -18055,12 +18057,14 @@ var wp;
     }
     return matchingVariation;
   }
-  function getIframeSrc(html) {
-    if (!html) {
+  function getBackgroundEmbedHtml(html) {
+    const srcMatch = html?.match(/src=["']([^"']+)["']/);
+    if (!srcMatch) {
       return null;
     }
-    const srcMatch = html.match(/src=["']([^"']+)["']/);
-    return srcMatch ? srcMatch[1] : null;
+    const iframeSrc = srcMatch[1];
+    const backgroundSrc = getBackgroundVideoSrc(iframeSrc);
+    return html.replace(iframeSrc, backgroundSrc);
   }
   function detectProviderFromSrc(src) {
     if (!src) {
@@ -19157,6 +19161,10 @@ var wp;
     );
     const { getSettings: getSettings2 } = (0, import_data30.useSelect)(import_block_editor67.store);
     const { __unstableMarkNextChangeAsNotPersistent } = (0, import_data30.useDispatch)(import_block_editor67.store);
+    const propsRef = (0, import_element24.useRef)({ attributes: attributes2, overlayColor });
+    (0, import_element24.useLayoutEffect)(() => {
+      propsRef.current = { attributes: attributes2, overlayColor };
+    });
     const { media } = (0, import_data30.useSelect)(
       (select9) => {
         return {
@@ -19179,24 +19187,31 @@ var wp;
           return;
         }
         const averageBackgroundColor = await getMediaColor(mediaUrl);
-        let newOverlayColor = overlayColor.color;
-        if (!isUserOverlayColor) {
+        const { attributes: currentAttrs, overlayColor: currentOverlay } = propsRef.current;
+        let newOverlayColor = currentOverlay.color;
+        if (!currentAttrs.isUserOverlayColor) {
           newOverlayColor = averageBackgroundColor;
           __unstableMarkNextChangeAsNotPersistent();
           setOverlayColor(newOverlayColor);
         }
         const newIsDark = compositeIsDark(
-          dimRatio,
+          currentAttrs.dimRatio,
           newOverlayColor,
           averageBackgroundColor
         );
         __unstableMarkNextChangeAsNotPersistent();
         setAttributes({
           isDark: newIsDark,
-          isUserOverlayColor: isUserOverlayColor || false
+          isUserOverlayColor: currentAttrs.isUserOverlayColor || false
         });
       })();
-    }, [mediaUrl]);
+    }, [
+      mediaUrl,
+      __unstableMarkNextChangeAsNotPersistent,
+      setAttributes,
+      setOverlayColor,
+      useFeaturedImage
+    ]);
     const url = useFeaturedImage ? mediaUrl : (
       // Ensure the url is not malformed due to sanitization through `wp_kses`.
       originalUrl?.replaceAll("&amp;", "&")
@@ -19212,13 +19227,14 @@ var wp;
       const averageBackgroundColor = await getMediaColor(
         isImage ? newMedia?.url : void 0
       );
-      let newOverlayColor = overlayColor.color;
-      if (!isUserOverlayColor) {
+      const { attributes: currentAttrs, overlayColor: currentOverlay } = propsRef.current;
+      let newOverlayColor = currentOverlay.color;
+      if (!currentAttrs.isUserOverlayColor) {
         newOverlayColor = averageBackgroundColor;
         setOverlayColor(newOverlayColor);
         __unstableMarkNextChangeAsNotPersistent();
       }
-      const newDimRatio = originalUrl === void 0 && dimRatio === 100 ? 50 : dimRatio;
+      const newDimRatio = currentAttrs.url === void 0 && currentAttrs.dimRatio === 100 ? 50 : currentAttrs.dimRatio;
       const newIsDark = compositeIsDark(
         newDimRatio,
         newOverlayColor,
@@ -19242,7 +19258,7 @@ var wp;
         useFeaturedImage: void 0,
         dimRatio: newDimRatio,
         isDark: newIsDark,
-        isUserOverlayColor: isUserOverlayColor || false
+        isUserOverlayColor: currentAttrs.isUserOverlayColor || false
       });
     };
     const onClearMedia = () => {
@@ -19270,8 +19286,9 @@ var wp;
     };
     const onSetOverlayColor = async (newOverlayColor) => {
       const averageBackgroundColor = await getMediaColor(url);
+      const { attributes: currentAttrs } = propsRef.current;
       const newIsDark = compositeIsDark(
-        dimRatio,
+        currentAttrs.dimRatio,
         newOverlayColor,
         averageBackgroundColor
       );
@@ -19284,9 +19301,10 @@ var wp;
     };
     const onUpdateDimRatio = async (newDimRatio) => {
       const averageBackgroundColor = await getMediaColor(url);
+      const { overlayColor: currentOverlay } = propsRef.current;
       const newIsDark = compositeIsDark(
         newDimRatio,
-        overlayColor.color,
+        currentOverlay.color,
         averageBackgroundColor
       );
       setAttributes({
@@ -19326,15 +19344,11 @@ var wp;
       },
       [url, backgroundType]
     );
-    const embedSrc = (0, import_element24.useMemo)(() => {
+    const embedHtml = (0, import_element24.useMemo)(() => {
       if (backgroundType !== EMBED_VIDEO_BACKGROUND_TYPE || !embedPreview?.html) {
         return null;
       }
-      const iframeSrc = getIframeSrc(embedPreview.html);
-      if (!iframeSrc) {
-        return null;
-      }
-      return getBackgroundVideoSrc(iframeSrc);
+      return getBackgroundEmbedHtml(embedPreview.html);
     }, [embedPreview, backgroundType]);
     const isUploadingMedia = isTemporaryMedia(id, url);
     const isImageBackground = IMAGE_BACKGROUND_TYPE === backgroundType;
@@ -19399,8 +19413,9 @@ var wp;
     const toggleUseFeaturedImage = async () => {
       const newUseFeaturedImage = !useFeaturedImage;
       const averageBackgroundColor = newUseFeaturedImage ? await getMediaColor(mediaUrl) : DEFAULT_BACKGROUND_COLOR;
-      const newOverlayColor = !isUserOverlayColor ? averageBackgroundColor : overlayColor.color;
-      if (!isUserOverlayColor) {
+      const { attributes: currentAttrs, overlayColor: currentOverlay } = propsRef.current;
+      const newOverlayColor = !currentAttrs.isUserOverlayColor ? averageBackgroundColor : currentOverlay.color;
+      if (!currentAttrs.isUserOverlayColor) {
         if (newUseFeaturedImage) {
           setOverlayColor(newOverlayColor);
         } else {
@@ -19408,7 +19423,7 @@ var wp;
         }
         __unstableMarkNextChangeAsNotPersistent();
       }
-      const newDimRatio = dimRatio === 100 ? 50 : dimRatio;
+      const newDimRatio = currentAttrs.dimRatio === 100 ? 50 : currentAttrs.dimRatio;
       const newIsDark = compositeIsDark(
         newDimRatio,
         newOverlayColor,
@@ -19578,24 +19593,26 @@ var wp;
                 style: mediaStyle
               }
             ),
-            isEmbedVideoBackground && embedSrc && /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(
+            isEmbedVideoBackground && embedHtml && /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(
               "div",
               {
                 ref: mediaElement,
                 className: "wp-block-cover__video-background wp-block-cover__embed-background",
                 style: mediaStyle,
                 children: /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(
-                  "iframe",
+                  import_components34.SandBox,
                   {
-                    src: embedSrc,
+                    allowSameOrigin: true,
+                    html: embedHtml,
                     title: "Background video",
-                    frameBorder: "0",
-                    allow: "autoplay; fullscreen"
+                    styles: [
+                      "iframe{position:fixed;top:0;left:0;width:100%;height:100%;}"
+                    ]
                   }
                 )
               }
             ),
-            isEmbedVideoBackground && !embedSrc && isFetchingEmbed && /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(import_components34.Spinner, {}),
+            isEmbedVideoBackground && !embedHtml && isFetchingEmbed && /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(import_components34.Spinner, {}),
             showOverlay && /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(
               "span",
               {
@@ -20973,6 +20990,7 @@ var wp;
       /* @__PURE__ */ (0, import_jsx_runtime234.jsx)(
         import_components40.SandBox,
         {
+          allowSameOrigin: true,
           html,
           scripts,
           title: iframeTitle,

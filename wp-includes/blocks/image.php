@@ -205,8 +205,8 @@ function block_core_image_render_lightbox( $block_content, $block, $block_instan
 		array(
 			'defaultAriaLabel' => __( 'Enlarged image' ),
 			'closeButtonText'  => esc_html__( 'Close' ),
-			'prevButtonText'   => esc_html__( 'Previous' ),
-			'nextButtonText'   => esc_html__( 'Next' ),
+			'prevButtonText'   => esc_html_x( 'Previous', 'previous image in lightbox' ),
+			'nextButtonText'   => esc_html_x( 'Next', 'next image in lightbox' ),
 		)
 	);
 
@@ -323,8 +323,8 @@ function block_core_image_render_lightbox( $block_content, $block, $block_instan
 function block_core_image_print_lightbox_overlay() {
 	$dialog_label      = esc_attr__( 'Enlarged images' );
 	$close_button_text = esc_attr__( 'Close' );
-	$prev_button_text  = esc_attr__( 'Previous' );
-	$next_button_text  = esc_attr__( 'Next' );
+	$prev_button_text  = esc_attr_x( 'Previous', 'previous image in lightbox' );
+	$next_button_text  = esc_attr_x( 'Next', 'next image in lightbox' );
 	$close_button_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg>';
 	$prev_button_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z"></path></svg>';
 	$next_button_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z"></path></svg>';

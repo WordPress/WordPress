@@ -414,11 +414,13 @@ var wp;
   var import_i18n3 = __toESM(require_i18n(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data4 = __toESM(require_data(), 1);
+  var import_element2 = __toESM(require_element(), 1);
   var import_block_editor3 = __toESM(require_block_editor(), 1);
   var import_url = __toESM(require_url(), 1);
   var import_core_data2 = __toESM(require_core_data(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   function ReusableBlocksManageButton({ clientId }) {
+    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element2.useState)(false);
     const { canRemove, isVisible, managePatternsUrl } = (0, import_data4.useSelect)(
       (select) => {
         const { getBlock, canRemoveBlock } = select(import_block_editor3.store);
@@ -450,9 +452,30 @@ var wp;
     if (!isVisible) {
       return null;
     }
+    const handleDetach = () => {
+      convertBlockToStatic(clientId);
+      setShowConfirmDialog(false);
+    };
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_components2.MenuItem, { href: managePatternsUrl, children: (0, import_i18n3.__)("Manage patterns") }),
-      canRemove && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_components2.MenuItem, { onClick: () => convertBlockToStatic(clientId), children: (0, import_i18n3.__)("Disconnect pattern") })
+      canRemove && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_components2.MenuItem, { onClick: () => setShowConfirmDialog(true), children: (0, import_i18n3.__)("Disconnect pattern") }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          import_components2.__experimentalConfirmDialog,
+          {
+            isOpen: showConfirmDialog,
+            onConfirm: handleDetach,
+            onCancel: () => setShowConfirmDialog(false),
+            confirmButtonText: (0, import_i18n3.__)("Disconnect"),
+            size: "medium",
+            title: (0, import_i18n3.__)("Disconnect pattern?"),
+            __experimentalHideHeader: false,
+            children: (0, import_i18n3.__)(
+              "Blocks will be separated from the original pattern and will be fully editable. Future changes to the pattern will not apply here."
+            )
+          }
+        )
+      ] })
     ] });
   }
   var reusable_blocks_manage_button_default = ReusableBlocksManageButton;
