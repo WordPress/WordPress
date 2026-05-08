@@ -229,41 +229,29 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			require_once ABSPATH . 'wp-admin/includes/post.php';
 		}
 
-		$post_lock = wp_check_post_lock( $post->ID );
-		$is_draft  = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
+		$post_lock_is_active = wp_check_post_lock( $post->ID );
+		$is_draft            = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
 
 		/*
-		 * In the context of real-time collaboration, all peers are effectively
-		 * authors and we don't want to vary behavior based on whether they are the
-		 * original author. Always target an autosave revision.
-		 *
-		 * This avoids the following issue when real-time collaboration is enabled:
-		 *
-		 * - Autosaves from the original author (if they have the post lock) will
-		 *   target the saved post.
-		 *
-		 * - Autosaves from other users are applied to a post revision.
-		 *
-		 * - If any user reloads a post, they load changes from the author's autosave.
-		 *
-		 * - The saved post has now diverged from the persisted CRDT document. The
-		 *   content (and/or title or excerpt) are now "ahead" of the persisted CRDT
-		 *   document.
-		 *
-		 * - When the persisted CRDT document is loaded, a diff is computed against
-		 *   the saved post. This diff is then applied to the in-memory CRDT
-		 *   document, which can lead to duplicate inserts or deletions.
+		 * When a post is still in draft form, updates from the author can directly update the post.
+		 * Other autosaves must be stored as per-user autosave revisions.
 		 */
-		$is_collaboration_enabled = wp_is_collaboration_enabled();
+		$can_update_author_draft_post = (
+			$is_draft &&
+			(int) $post->post_author === $user_id
+		);
 
-		if ( $is_draft && (int) $post->post_author === $user_id && ! $post_lock && ! $is_collaboration_enabled ) {
+		$should_update_parent_draft_post = (
+			! $post_lock_is_active && $can_update_author_draft_post
+		);
+
+		if ( $should_update_parent_draft_post ) {
 			/*
 			 * Draft posts for the same author: autosaving updates the post and does not create a revision.
 			 * Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
 			 */
 			$autosave_id = wp_update_post( wp_slash( (array) $prepared_post ), true );
 		} else {
-			// Non-draft posts: create or update the post autosave. Pass the meta data.
 			$autosave_id = $this->create_post_autosave( (array) $prepared_post, (array) $request->get_param( 'meta' ) );
 		}
 
