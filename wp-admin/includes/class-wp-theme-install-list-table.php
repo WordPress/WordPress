@@ -345,7 +345,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			'<a class="install-theme-preview" href="%s" aria-label="%s">%s</a>',
 			esc_url( $preview_url ),
 			esc_attr( $preview_title ),
-			__( 'Preview' )
+			_x( 'Preview', 'verb' )
 		);
 
 		/**

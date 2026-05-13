@@ -4333,7 +4333,7 @@ final class WP_Customize_Manager {
 						<# if ( data.returnUrl !== data.previewUrl ) { #>
 							<a class="button customize-notice-go-back-button" href="{{ data.returnUrl }}"><?php _e( 'Go back' ); ?></a>
 						<# } #>
-						<a class="button customize-notice-preview-button" href="{{ data.frontendPreviewUrl }}"><?php _e( 'Preview' ); ?></a>
+						<a class="button customize-notice-preview-button" href="{{ data.frontendPreviewUrl }}"><?php echo esc_html_x( 'Preview', 'verb' ); ?></a>
 						<# if ( data.allowOverride ) { #>
 							<button class="button button-primary wp-tab-last customize-notice-take-over-button"><?php _e( 'Take over' ); ?></button>
 						<# } #>

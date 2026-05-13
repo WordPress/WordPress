@@ -550,7 +550,7 @@ class Custom_Image_Header {
 
 		<?php if ( get_custom_header() || display_header_text() ) : ?>
 <tr>
-<th scope="row"><?php _e( 'Preview' ); ?></th>
+<th scope="row"><?php echo esc_html_x( 'Preview', 'noun' ); ?></th>
 <td>
 			<?php
 			if ( $this->admin_image_div_callback ) {

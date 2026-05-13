@@ -210,7 +210,7 @@ do_action( 'customize_controls_head' );
 			<span class="spinner"></span>
 			<button type="button" class="customize-controls-preview-toggle">
 				<span class="controls"><?php _e( 'Customize' ); ?></span>
-				<span class="preview"><?php _e( 'Preview' ); ?></span>
+				<span class="preview"><?php echo esc_html_x( 'Preview', 'noun' ); ?></span>
 			</button>
 			<a class="customize-controls-close" href="<?php echo esc_url( $wp_customize->get_return_url() ); ?>">
 				<span class="screen-reader-text">
