@@ -1439,6 +1439,7 @@ var wp;
         lock(selectors, allSelectors);
         const bindResolveSelector = mapResolveSelector(
           store,
+          resolvers,
           boundMetadataSelectors
         );
         const resolveSelectors = mapValues(
@@ -1546,17 +1547,18 @@ var wp;
       (0, import_compose.compose)(enhancers)
     );
   }
-  function mapResolveSelector(store, boundMetadataSelectors) {
+  function mapResolveSelector(store, resolvers, boundMetadataSelectors) {
     return (selector, selectorName) => {
       if (!selector.hasResolver) {
         return async (...args) => selector.apply(null, args);
       }
       return (...args) => new Promise((resolve, reject) => {
+        const resolver = resolvers[selectorName];
         const hasFinished = () => {
           return boundMetadataSelectors.hasFinishedResolution(
             selectorName,
             args
-          );
+          ) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args);
         };
         const finalize = (result2) => {
           const hasFailed = boundMetadataSelectors.hasResolutionFailed(
@@ -1636,7 +1638,7 @@ var wp;
   }
   function mapSelectorWithResolver(selector, selectorName, resolver, store, resolversCache, boundMetadataSelectors) {
     function fulfillSelector(args) {
-      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(selectorName, args)) {
+      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(selectorName, args) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args)) {
         return;
       }
       resolversCache.markAsRunning(selectorName, args);
@@ -1646,12 +1648,9 @@ var wp;
           startResolution(selectorName, args)
         );
         try {
-          const isFulfilled = typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args);
-          if (!isFulfilled) {
-            const action = resolver.fulfill(...args);
-            if (action) {
-              await store.dispatch(action);
-            }
+          const action = resolver.fulfill(...args);
+          if (action) {
+            await store.dispatch(action);
           }
           store.dispatch(
             finishResolution(selectorName, args)

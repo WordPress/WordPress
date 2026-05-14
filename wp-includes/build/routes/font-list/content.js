@@ -810,7 +810,7 @@ var { Fill: SidebarToggleFill, Slot: SidebarToggleSlot } = (0, import_components
 // packages/admin-ui/build-module/page/header.mjs
 var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 function Header({
-  headingLevel = 2,
+  headingLevel = 1,
   breadcrumbs,
   badges,
   title,
@@ -819,42 +819,34 @@ function Header({
   showSidebarToggle = true
 }) {
   const HeadingTag = `h${headingLevel}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
-    Stack,
-    {
-      direction: "column",
-      className: "admin-ui-page__header",
-      render: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("header", {}),
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
-            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-              SidebarToggleSlot,
-              {
-                bubblesVirtually: true,
-                className: "admin-ui-page__sidebar-toggle-slot"
-              }
-            ),
-            title && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
-            breadcrumbs,
-            badges
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-            Stack,
-            {
-              direction: "row",
-              gap: "sm",
-              style: { width: "auto", flexShrink: 0 },
-              className: "admin-ui-page__header-actions",
-              align: "center",
-              children: actions
-            }
-          )
-        ] }),
-        subTitle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
-      ]
-    }
-  );
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "column", className: "admin-ui-page__header", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
+        showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          SidebarToggleSlot,
+          {
+            bubblesVirtually: true,
+            className: "admin-ui-page__sidebar-toggle-slot"
+          }
+        ),
+        title && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
+        breadcrumbs,
+        badges
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+        Stack,
+        {
+          direction: "row",
+          gap: "sm",
+          style: { width: "auto", flexShrink: 0 },
+          className: "admin-ui-page__header-actions",
+          align: "center",
+          children: actions
+        }
+      )
+    ] }),
+    subTitle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
+  ] });
 }
 
 // packages/admin-ui/build-module/page/index.mjs
@@ -15480,7 +15472,7 @@ function FontLibraryPage() {
       }))
     );
   }
-  return /* @__PURE__ */ React.createElement(page_default, { headingLevel: 1, title: (0, import_i18n46.__)("Fonts") }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement(page_default, { title: (0, import_i18n46.__)("Fonts") }, /* @__PURE__ */ React.createElement(
     Tabs3,
     {
       selectedTabId: activeTab,

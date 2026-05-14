@@ -60020,12 +60020,16 @@ var wp;
     advancedFills.length && (hasContentTab || hasListFills)) {
       tabs.push(TAB_SETTINGS);
     }
-    if (hasBlockStyles || hasStyleFills) {
+    const { tabSettings, isPreviewMode } = (0, import_data169.useSelect)((select3) => {
+      const settings2 = select3(store).getSettings();
+      return {
+        tabSettings: settings2.blockInspectorTabs,
+        isPreviewMode: settings2.isPreviewMode
+      };
+    }, []);
+    if (!isPreviewMode && (hasBlockStyles || hasStyleFills)) {
       tabs.push(TAB_STYLES);
     }
-    const tabSettings = (0, import_data169.useSelect)((select3) => {
-      return select3(store).getSettings().blockInspectorTabs;
-    }, []);
     const showTabs = getShowTabs(blockName, tabSettings);
     return showTabs ? tabs : EMPTY_ARRAY14;
   }
