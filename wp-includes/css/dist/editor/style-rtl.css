@@ -5735,10 +5735,6 @@ div.dataviews-view-list {
   padding: 16px;
 }
 
-.editor-private-post-last-revision__button {
-  display: inline-block;
-}
-
 .editor-post-locked-modal__buttons {
   margin-top: 24px;
 }
@@ -5765,6 +5761,7 @@ div.dataviews-view-list {
   padding: 6px 0;
   line-height: 20px;
   hyphens: auto;
+  word-break: break-word;
 }
 
 .editor-post-panel__row-control {
@@ -6048,7 +6045,7 @@ div.dataviews-view-list {
 .revision-diff-markers {
   position: relative;
   flex-shrink: 0;
-  width: 12px;
+  width: max(16px, 1rem);
   background: rgba(0, 0, 0, 0.05);
 }
 .revision-diff-markers .revision-diff-marker {

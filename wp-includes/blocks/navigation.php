@@ -425,7 +425,11 @@ class WP_Navigation_Block_Renderer {
 			$full_template_part_id = $theme . '//' . $slug;
 			$block_template        = get_block_file_template( $full_template_part_id, 'wp_template_part' );
 			if ( isset( $block_template->content ) ) {
-				$parsed_blocks = parse_blocks( $block_template->content );
+				// Expand shortcodes before parsing blocks, matching the order in
+				// `render_block_core_template_part()`.
+				$content       = shortcode_unautop( $block_template->content );
+				$content       = do_shortcode( $content );
+				$parsed_blocks = parse_blocks( $content );
 				$blocks        = block_core_navigation_filter_out_empty_blocks( $parsed_blocks );
 				// Disable overlay menu for any navigation blocks within the overlay to prevent nested overlays.
 				$blocks = static::disable_overlay_menu_for_nested_navigation_blocks( $blocks );
@@ -449,6 +453,12 @@ class WP_Navigation_Block_Renderer {
 		// Re-serialize, and run Block Hooks algorithm to inject hooked blocks.
 		$markup = serialize_blocks( $blocks );
 		$markup = apply_block_hooks_to_content_from_post_object( $markup, $template_part_post );
+
+		// Expand shortcodes before parsing blocks, matching the order in
+		// `render_block_core_template_part()`.
+		$markup = shortcode_unautop( $markup );
+		$markup = do_shortcode( $markup );
+
 		$blocks = parse_blocks( $markup );
 
 		// Disable overlay menu for any navigation blocks within the overlay to prevent nested overlays.

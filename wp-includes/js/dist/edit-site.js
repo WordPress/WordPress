@@ -2494,7 +2494,7 @@ var wp;
   // packages/admin-ui/build-module/page/header.mjs
   var import_jsx_runtime68 = __toESM(require_jsx_runtime(), 1);
   function Header({
-    headingLevel = 2,
+    headingLevel = 1,
     breadcrumbs,
     badges,
     title,
@@ -2503,42 +2503,34 @@ var wp;
     showSidebarToggle = true
   }) {
     const HeadingTag = `h${headingLevel}`;
-    return /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(
-      Stack,
-      {
-        direction: "column",
-        className: "admin-ui-page__header",
-        render: /* @__PURE__ */ (0, import_jsx_runtime68.jsx)("header", {}),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
-              showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
-                SidebarToggleSlot,
-                {
-                  bubblesVirtually: true,
-                  className: "admin-ui-page__sidebar-toggle-slot"
-                }
-              ),
-              title && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
-              breadcrumbs,
-              badges
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
-              Stack,
-              {
-                direction: "row",
-                gap: "sm",
-                style: { width: "auto", flexShrink: 0 },
-                className: "admin-ui-page__header-actions",
-                align: "center",
-                children: actions
-              }
-            )
-          ] }),
-          subTitle && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
-        ]
-      }
-    );
+    return /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(Stack, { direction: "column", className: "admin-ui-page__header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
+          showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
+            SidebarToggleSlot,
+            {
+              bubblesVirtually: true,
+              className: "admin-ui-page__sidebar-toggle-slot"
+            }
+          ),
+          title && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
+          breadcrumbs,
+          badges
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
+          Stack,
+          {
+            direction: "row",
+            gap: "sm",
+            style: { width: "auto", flexShrink: 0 },
+            className: "admin-ui-page__header-actions",
+            align: "center",
+            children: actions
+          }
+        )
+      ] }),
+      subTitle && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
+    ] });
   }
 
   // packages/admin-ui/build-module/page/index.mjs
@@ -22685,6 +22677,7 @@ var wp;
         ) : null,
         className: "edit-site-styles",
         title: (0, import_i18n71.__)("Styles"),
+        headingLevel: 2,
         children: /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
           GlobalStylesUIWrapper,
           {
@@ -42484,6 +42477,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         className: "edit-site-page-patterns-dataviews",
         title,
+        headingLevel: 2,
         subTitle: description,
         actions: /* @__PURE__ */ (0, import_jsx_runtime273.jsx)(
           PatternsActions,
@@ -44472,6 +44466,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         className: "edit-site-page-templates",
         title: (0, import_i18n148.__)("Templates"),
+        headingLevel: 2,
         actions: /* @__PURE__ */ (0, import_jsx_runtime284.jsx)(add_new_template_default, {}),
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime284.jsx)(
@@ -45947,6 +45942,7 @@ If there's a particular need for this, please submit a feature request at https:
       {
         className: "edit-site-page-templates",
         title: (0, import_i18n153.__)("Templates"),
+        headingLevel: 2,
         actions: /* @__PURE__ */ (0, import_jsx_runtime288.jsx)(add_new_template_legacy_default, {}),
         children: /* @__PURE__ */ (0, import_jsx_runtime288.jsx)(
           dataviews_default,
@@ -46849,6 +46845,7 @@ If there's a particular need for this, please submit a feature request at https:
       page_default2,
       {
         title: labels?.name,
+        headingLevel: 2,
         actions: /* @__PURE__ */ (0, import_jsx_runtime295.jsx)(import_jsx_runtime295.Fragment, { children: labels?.add_new_item && canCreateRecord && /* @__PURE__ */ (0, import_jsx_runtime295.jsxs)(import_jsx_runtime295.Fragment, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime295.jsx)(
             import_components163.Button,

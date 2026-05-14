@@ -166,7 +166,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '42d3f09bba14cce3054d'
+		'version' => '54bb5a420026a61c7e4f'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
