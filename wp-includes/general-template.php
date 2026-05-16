@@ -4155,27 +4155,31 @@ function wp_get_code_editor_settings( $args ) {
 			'outline-none'              => true,
 		),
 		'jshint'     => array(
-			'esversion' => 11,
-			'module'    => str_ends_with( $args['file'] ?? '', '.mjs' ),
+			'esversion'       => 11,
+			'module'          => str_ends_with( $args['file'] ?? '', '.mjs' ),
+
+			// This script module URL is intentionally referenced here instead of registering an espree script module
+			// in wp_default_script_modules(). This is a first stab at a core-only private module.
+			'espreeModuleUrl' => add_query_arg( 'ver', '9.6.1', includes_url( 'js/codemirror/espree.min.js' ) ),
 
 			// The following JSHint *linting rule* options are copied from
 			// <https://github.com/WordPress/wordpress-develop/blob/6.9.0/.jshintrc>.
 			// Parsing-related options such as `esversion` (and, in other contexts, `es5`, `es3`, `module`, `strict`)
 			// are honored by the Espree-based integration, but these linting-rule options are not interpreted by Espree
 			// and are kept only for compatibility/documentation with the original JSHint configuration.
-			'boss'      => true,
-			'curly'     => true,
-			'eqeqeq'    => true,
-			'eqnull'    => true,
-			'expr'      => true,
-			'immed'     => true,
-			'noarg'     => true,
-			'nonbsp'    => true,
-			'quotmark'  => 'single',
-			'undef'     => true,
-			'unused'    => true,
-			'browser'   => true,
-			'globals'   => array(
+			'boss'            => true,
+			'curly'           => true,
+			'eqeqeq'          => true,
+			'eqnull'          => true,
+			'expr'            => true,
+			'immed'           => true,
+			'noarg'           => true,
+			'nonbsp'          => true,
+			'quotmark'        => 'single',
+			'undef'           => true,
+			'unused'          => true,
+			'browser'         => true,
+			'globals'         => array(
 				'_'                 => false,
 				'Backbone'          => false,
 				'jQuery'            => false,

@@ -885,7 +885,7 @@ JS;
 					sprintf(
 						/* translators: 1: $strategy, 2: $handle */
 						__( 'Invalid strategy `%1$s` defined for `%2$s` during script registration.' ),
-						$value,
+						is_string( $value ) ? $value : gettype( $value ),
 						$handle
 					),
 					'6.3.0'
@@ -897,7 +897,7 @@ JS;
 					sprintf(
 						/* translators: 1: $strategy, 2: $handle */
 						__( 'Cannot supply a strategy `%1$s` for script `%2$s` because it is an alias (it lacks a `src` value).' ),
-						$value,
+						is_string( $value ) ? $value : gettype( $value ),
 						$handle
 					),
 					'6.3.0'

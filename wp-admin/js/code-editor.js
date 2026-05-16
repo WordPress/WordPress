@@ -2,6 +2,8 @@
  * @output wp-admin/js/code-editor.js
  */
 
+/* global console */
+
 /* eslint-env es2020 */
 
 if ( 'undefined' === typeof window.wp ) {
@@ -412,6 +414,10 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @return {CodeEditorInstance} Instance.
 	 */
 	wp.codeEditor.initialize = function initialize( textarea, settings ) {
+		if ( document.readyState === 'loading' ) {
+			console.warn( 'wp.codeEditor.initialize() ran too early. Invoke this function in a `DOMContentLoaded` event listener.' );
+		}
+
 		let $textarea;
 		if ( 'string' === typeof textarea ) {
 			$textarea = $( '#' + textarea );
