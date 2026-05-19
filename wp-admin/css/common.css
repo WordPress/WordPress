@@ -942,13 +942,6 @@ a#remove-post-thumbnail:hover,
 	line-height: 2.30769231; /* 30px */
 }
 
-#delete-link {
-	line-height: 2.30769231; /* 30px */
-	vertical-align: middle;
-	text-align: left;
-	margin-left: 8px;
-}
-
 #delete-link a {
 	text-decoration: none;
 }
