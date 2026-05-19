@@ -370,7 +370,7 @@ add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_contr
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_customize_preview_js() {
-	wp_enqueue_script( 'twentyfifteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '20141216', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentyfifteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '20260105', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
 
