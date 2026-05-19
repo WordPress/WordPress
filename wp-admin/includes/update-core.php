@@ -896,6 +896,7 @@ $_old_files = array(
 	'wp-includes/js/dist/views.min.js',
 	'wp-includes/js/dist/script-modules/interactivity/debug.js',
 	'wp-includes/js/dist/script-modules/interactivity/debug.min.js',
+	'wp-includes/js/dist/vendor/react-jsx-runtime.min.js.LICENSE.txt',
 );
 
 /**
