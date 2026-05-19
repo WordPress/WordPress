@@ -1967,7 +1967,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .wp-full-overlay-header .button {
 	float: right;
-	margin: 3px 10px 0 0; /* Vertically center 40px button in 45px header */
+	margin: 7px 10px 0 0; /* Vertically center 32px button in 45px header */
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {
@@ -2053,8 +2053,6 @@ body.full-overlay-active {
 
 	.theme-install-overlay .wp-full-overlay-header .button {
 		font-size: 13px;
-		line-height: 2.15384615;
-		min-height: 30px;
 	}
 
 	.theme-browser .theme .theme-actions .button {
