@@ -71,19 +71,30 @@ function _wp_scripts_maybe_doing_it_wrong( $function_name, $handle = '' ) {
 /**
  * Adds the data for the recognized args and warns for unrecognized args.
  *
+ * @see wp_enqueue_script()
+ * @see wp_register_script()
+ *
  * @ignore
  * @since 7.0.0
  *
  * @param WP_Scripts $wp_scripts WP_Scripts instance.
  * @param string     $handle     Script handle.
  * @param array      $args       Array of extra args for the script.
+ *
+ * @phpstan-param non-empty-string $handle
+ * @phpstan-param array{
+ *     in_footer?: bool,
+ *     strategy?: 'async'|'defer',
+ *     fetchpriority?: 'low'|'auto'|'high',
+ *     module_dependencies?: array<non-empty-string|array{ id: non-empty-string, ... }>,
+ * } $args
  */
-function _wp_scripts_add_args_data( WP_Scripts $wp_scripts, string $handle, array $args ) {
+function _wp_scripts_add_args_data( WP_Scripts $wp_scripts, string $handle, array $args ): void {
 	$allowed_keys = array( 'strategy', 'in_footer', 'fetchpriority', 'module_dependencies' );
 	$unknown_keys = array_diff( array_keys( $args ), $allowed_keys );
 	if ( ! empty( $unknown_keys ) ) {
 		$trace         = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 );
-		$function_name = ( $trace[1]['class'] ?? '' ) . ( $trace[1]['type'] ?? '' ) . $trace[1]['function'];
+		$function_name = ( $trace[1]['class'] ?? '' ) . ( $trace[1]['type'] ?? '' ) . ( $trace[1]['function'] ?? __FUNCTION__ );
 		_doing_it_wrong(
 			$function_name,
 			sprintf(
@@ -97,7 +108,8 @@ function _wp_scripts_add_args_data( WP_Scripts $wp_scripts, string $handle, arra
 		);
 	}
 
-	if ( ! empty( $args['in_footer'] ) ) {
+	$in_footer = ! empty( $args['in_footer'] );
+	if ( $in_footer ) {
 		$wp_scripts->add_data( $handle, 'group', 1 );
 	}
 	if ( ! empty( $args['strategy'] ) ) {
@@ -108,6 +120,31 @@ function _wp_scripts_add_args_data( WP_Scripts $wp_scripts, string $handle, arra
 	}
 	if ( ! empty( $args['module_dependencies'] ) ) {
 		$wp_scripts->add_data( $handle, 'module_dependencies', $args['module_dependencies'] );
+
+		/*
+		 * A classic script with module dependencies must either be printed in the
+		 * footer or use the 'defer' loading strategy. Otherwise, the script may be
+		 * evaluated before the script modules import map is printed, causing
+		 * dynamic imports to fail with a "Failed to resolve module specifier" error.
+		 */
+		$is_deferred = 'defer' === ( $args['strategy'] ?? null );
+		if ( ! $in_footer && ! $is_deferred ) {
+			$trace         = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 );
+			$function_name = ( $trace[1]['class'] ?? '' ) . ( $trace[1]['type'] ?? '' ) . ( $trace[1]['function'] ?? __FUNCTION__ );
+			_doing_it_wrong(
+				$function_name,
+				sprintf(
+					/* translators: 1: 'module_dependencies', 2: Script handle, 3: 'in_footer', 4: 'strategy', 5: 'defer'. */
+					__( 'When the %1$s arg is provided, the "%2$s" script must either be printed in the footer (%3$s set to true) or use a deferred loading %4$s (%5$s) so that the import map is printed before the script is evaluated.' ),
+					'<code>module_dependencies</code>',
+					$handle,
+					'<code>in_footer</code>',
+					'<code>strategy</code>',
+					'<code>defer</code>'
+				),
+				'7.0.0'
+			);
+		}
 	}
 }
 
@@ -204,25 +241,39 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
  * @since 6.9.0 The $fetchpriority parameter of type string was added to the $args parameter of type array.
  * @since 7.0.0 The $module_dependencies parameter of type string[] was added to the $args parameter of type array.
  *
- * @param string                                                              $handle Name of the script. Should be unique.
- * @param string|false                                                        $src    Full URL of the script, or path of the script relative to the WordPress root directory.
- *                                                                                    If source is set to false, script is an alias of other scripts it depends on.
- * @param string[]                                                            $deps   Optional. An array of registered script handles this script depends on. Default empty array.
- * @param string|bool|null                                                    $ver    Optional. String specifying script version number, if it has one, which is added to the URL
- *                                                                                    as a query string for cache busting purposes. If version is set to false, a version
- *                                                                                    number is automatically added equal to current installed WordPress version.
- *                                                                                    If set to null, no version is added.
- * @param array<string, string|bool|array<string|array<string, string>>>|bool $args   {
+ * @param string           $handle Name of the script. Should be unique.
+ * @param string|false     $src    Full URL of the script, or path of the script relative to the WordPress root directory.
+ *                                 If source is set to false, script is an alias of other scripts it depends on.
+ * @param string[]         $deps   Optional. An array of registered script handles this script depends on. Default empty array.
+ * @param string|bool|null $ver    Optional. String specifying script version number, if it has one, which is added to the URL
+ *                                 as a query string for cache busting purposes. If version is set to false, a version
+ *                                 number is automatically added equal to current installed WordPress version.
+ *                                 If set to null, no version is added.
+ * @param array|bool       $args   {
  *     Optional. An array of extra args for the script. Default empty array.
  *     Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
  *
- *     @type string                              $strategy            Optional. If provided, may be either 'defer' or 'async'.
- *     @type bool                                $in_footer           Optional. Whether to print the script in the footer. Default 'false'.
- *     @type string                              $fetchpriority       Optional. The fetch priority for the script. Default 'auto'.
- *     @type array<string|array<string, string>> $module_dependencies Optional. IDs for module dependencies loaded via dynamic import. Default empty array.
+ *     @type string $strategy            Optional. If provided, may be either 'defer' or 'async'.
+ *     @type bool   $in_footer           Optional. Whether to print the script in the footer. Default 'false'.
+ *     @type string $fetchpriority       Optional. The fetch priority for the script. Default 'auto'.
+ *     @type array  $module_dependencies Optional. IDs for module dependencies loaded via dynamic import. Default empty array.
  *                                                                    For the full data format, see the `$deps` param of {@see wp_register_script_module()}.
+ *                                                                    When provided, the script must either be printed in the footer (with
+ *                                                                    `in_footer` set to true) or use a deferred loading `strategy` (`defer`),
+ *                                                                    so that the script modules import map is printed before the script
+ *                                                                    is evaluated. Otherwise dynamic imports may fail to resolve.
  * }
  * @return bool Whether the script has been registered. True on success, false on failure.
+ *
+ * @phpstan-param non-empty-string $handle
+ * @phpstan-param non-empty-string|false $src
+ * @phpstan-param non-empty-string[] $deps
+ * @phpstan-param array{
+ *     in_footer?: bool,
+ *     strategy?: 'async'|'defer',
+ *     fetchpriority?: 'low'|'auto'|'high',
+ *     module_dependencies?: array<non-empty-string|array{ id: non-empty-string, ... }>,
+ * }|bool $args
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args = array() ) {
 	if ( ! is_array( $args ) ) {
@@ -386,24 +437,38 @@ function wp_deregister_script( $handle ) {
  * @since 6.9.0 The $fetchpriority parameter of type string was added to the $args parameter of type array.
  * @since 7.0.0 The $module_dependencies parameter of type string[] was added to the $args parameter of type array.
  *
- * @param string                                                              $handle Name of the script. Should be unique.
- * @param string                                                              $src    Full URL of the script, or path of the script relative to the WordPress root directory.
- *                                                                                    Default empty.
- * @param string[]                                                            $deps   Optional. An array of registered script handles this script depends on. Default empty array.
- * @param string|bool|null                                                    $ver    Optional. String specifying script version number, if it has one, which is added to the URL
- *                                                                                    as a query string for cache busting purposes. If version is set to false, a version
- *                                                                                    number is automatically added equal to current installed WordPress version.
- *                                                                                    If set to null, no version is added.
- * @param array<string, string|bool|array<string|array<string, string>>>|bool $args {
+ * @param string           $handle Name of the script. Should be unique.
+ * @param string           $src    Full URL of the script, or path of the script relative to the WordPress root directory.
+ *                                 Default empty.
+ * @param string[]         $deps   Optional. An array of registered script handles this script depends on. Default empty array.
+ * @param string|bool|null $ver    Optional. String specifying script version number, if it has one, which is added to the URL
+ *                                 as a query string for cache busting purposes. If version is set to false, a version
+ *                                 number is automatically added equal to current installed WordPress version.
+ *                                 If set to null, no version is added.
+ * @param array|bool $args {
  *     Optional. An array of extra args for the script. Default empty array.
  *     Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
  *
- *     @type string                              $strategy            Optional. If provided, may be either 'defer' or 'async'.
- *     @type bool                                $in_footer           Optional. Whether to print the script in the footer. Default 'false'.
- *     @type string                              $fetchpriority       Optional. The fetch priority for the script. Default 'auto'.
- *     @type array<string|array<string, string>> $module_dependencies Optional. IDs for module dependencies loaded via dynamic import. Default empty array.
- *                                                                    For the full data format, see the `$deps` param of {@see wp_register_script_module()}.
+ *     @type string $strategy            Optional. If provided, may be either 'defer' or 'async'.
+ *     @type bool   $in_footer           Optional. Whether to print the script in the footer. Default 'false'.
+ *     @type string $fetchpriority       Optional. The fetch priority for the script. Default 'auto'.
+ *     @type array  $module_dependencies Optional. IDs for module dependencies loaded via dynamic import. Default empty array.
+ *                                       For the full data format, see the `$deps` param of {@see wp_register_script_module()}.
+ *                                       When provided, the script must either be printed in the footer (with
+ *                                       `in_footer` set to true) or use a deferred loading `strategy` (`defer`),
+ *                                       so that the script modules import map is printed before the script
+ *                                       is evaluated. Otherwise dynamic imports may fail to resolve.
  * }
+ *
+ * @phpstan-param non-empty-string $handle
+ * @phpstan-param string $src
+ * @phpstan-param non-empty-string[] $deps
+ * @phpstan-param array{
+ *     in_footer?: bool,
+ *     strategy?: 'async'|'defer',
+ *     fetchpriority?: 'low'|'auto'|'high',
+ *     module_dependencies?: array<non-empty-string|array{ id: non-empty-string, ... }>,
+ * }|bool $args
  */
 function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $args = array() ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
@@ -411,6 +476,7 @@ function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $
 	$wp_scripts = wp_scripts();
 
 	if ( $src || ! empty( $args ) ) {
+		/** @var array{ 0: non-empty-string, 1?: string } $_handle */
 		$_handle = explode( '?', $handle );
 		if ( ! is_array( $args ) ) {
 			$args = array(
