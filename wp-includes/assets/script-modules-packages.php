@@ -211,7 +211,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '4d2a3a72c7410d548881'
+		'version' => 'efaa5193bbad9c60ffd1'
 	),
 	'interactivity-router/full-page.js' => array(
 		'dependencies' => array(

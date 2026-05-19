@@ -266,7 +266,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '515bcc5a2962232ccea7'
+		'version' => '89931f90e4df5eb5f8a3'
 	),
 	'customize-widgets.js' => array(
 		'dependencies' => array(
@@ -381,7 +381,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '1975171eba5481ff37cd'
+		'version' => '28ef50b859708963e197'
 	),
 	'edit-site.js' => array(
 		'dependencies' => array(
@@ -519,7 +519,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '77209b33a51951b61574'
+		'version' => '37faadbdf6c40cb0c71c'
 	),
 	'element.js' => array(
 		'dependencies' => array(

@@ -2323,12 +2323,18 @@ var wp;
       hasIncompatibleMetaBoxes,
       hasActiveMetaBoxes
     } = (0, import_data24.useSelect)(
-      (select3) => ({
-        isEnabledAndEditorReady: enabled && select3(import_editor17.store).__unstableIsEditorReady(),
-        isCollaborationEnabled: select3(import_editor17.store).isCollaborationEnabledForCurrentPost(),
-        hasIncompatibleMetaBoxes: enabled ? select3(store).getAllMetaBoxes().some((metaBox) => !metaBox.__rtc_compatible) : false,
-        hasActiveMetaBoxes: enabled && select3(store).hasMetaBoxes()
-      }),
+      (select3) => {
+        const {
+          __unstableIsEditorReady,
+          isCollaborationEnabledForCurrentPost
+        } = unlock(select3(import_editor17.store));
+        return {
+          isEnabledAndEditorReady: enabled && __unstableIsEditorReady(),
+          isCollaborationEnabled: isCollaborationEnabledForCurrentPost(),
+          hasIncompatibleMetaBoxes: enabled ? select3(store).getAllMetaBoxes().some((metaBox) => !metaBox.__rtc_compatible) : false,
+          hasActiveMetaBoxes: enabled && select3(store).hasMetaBoxes()
+        };
+      },
       [enabled]
     );
     const { setCollaborationSupported } = unlock((0, import_data24.useDispatch)(import_core_data7.store));
