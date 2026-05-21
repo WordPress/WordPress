@@ -111,7 +111,11 @@ function wp_register_core_abilities(): void {
 
 				$result = array();
 				foreach ( $requested_fields as $field ) {
-					$result[ $field ] = get_bloginfo( $field );
+					if ( 'language' === $field ) {
+						$result[ $field ] = str_replace( '_', '-', get_locale() );
+					} else {
+						$result[ $field ] = get_bloginfo( $field );
+					}
 				}
 
 				return $result;
