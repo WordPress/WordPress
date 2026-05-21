@@ -436,22 +436,41 @@ class WP_Ability {
 	 * the value of that key. If the input schema does not define a `default`, or if the input schema is empty,
 	 * this method returns null. If input is provided, it is returned as-is.
 	 *
+	 * The {@see 'wp_ability_normalize_input'} filter fires after the built-in default-value handling,
+	 * allowing plugins to transform the result.
+	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_normalize_input` filter.
 	 *
 	 * @param mixed $input Optional. The raw input provided for the ability. Default `null`.
-	 * @return mixed The same input, or the default from schema, or `null` if default not set.
+	 * @return mixed The normalized input, or a `WP_Error` if a filter returned one.
 	 */
 	public function normalize_input( $input = null ) {
-		if ( null !== $input ) {
-			return $input;
+		if ( null === $input ) {
+			$input_schema = $this->get_input_schema();
+			if ( array_key_exists( 'default', $input_schema ) ) {
+				$input = $input_schema['default'];
+			}
 		}
 
-		$input_schema = $this->get_input_schema();
-		if ( ! empty( $input_schema ) && array_key_exists( 'default', $input_schema ) ) {
-			return $input_schema['default'];
-		}
-
-		return null;
+		/**
+		 * Filters the normalized input for an ability.
+		 *
+		 * Fires after `normalize_input()` has applied any default value declared in the input schema,
+		 * giving plugins a chance to adjust the input before it is consumed downstream. Common uses
+		 * include defaulting beyond what JSON Schema can express, prompt enrichment, and injecting
+		 * caller metadata.
+		 *
+		 * Returning a `WP_Error` causes callers that propagate it (such as `execute()`) to halt
+		 * before validation, permission checks, and the registered execute callback.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param mixed      $input        The normalized input data.
+		 * @param string     $ability_name The name of the ability.
+		 * @param WP_Ability $ability      The ability instance.
+		 */
+		return apply_filters( 'wp_ability_normalize_input', $input, $this->name, $this );
 	}
 
 	/**
@@ -531,7 +550,11 @@ class WP_Ability {
 	 * Please note that input is not automatically validated against the input schema.
 	 * Use `validate_input()` method to validate input before calling this method if needed.
 	 *
+	 * The {@see 'wp_ability_permission_result'} filter fires after the registered
+	 * `permission_callback` returns, allowing plugins to override the result.
+	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_permission_result` filter.
 	 *
 	 * @see validate_input()
 	 *
@@ -547,27 +570,76 @@ class WP_Ability {
 			);
 		}
 
-		return $this->invoke_callback( $this->permission_callback, $input );
+		$permission = $this->invoke_callback( $this->permission_callback, $input );
+
+		/**
+		 * Filters the result of an ability's permission check.
+		 *
+		 * Fires after the registered `permission_callback` returns. Plugins can use this to layer
+		 * additional authorization rules on top of the ability's own permission logic — for example,
+		 * multi-factor authorization gates or temporary permission elevation for trusted contexts.
+		 *
+		 * Filters can return `true` to grant, `false` to deny, or a `WP_Error` to deny with a specific
+		 * error code and message. The filter receives whatever the `permission_callback` produced.
+		 * Any other return value is coerced to `false`.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param bool|WP_Error $permission   The permission result returned by `permission_callback`.
+		 * @param string        $ability_name The name of the ability.
+		 * @param mixed         $input        The input data for the permission check.
+		 * @param WP_Ability    $ability      The ability instance.
+		 */
+		$result = apply_filters( 'wp_ability_permission_result', $permission, $this->name, $input, $this );
+		if ( ! is_bool( $result ) && ! is_wp_error( $result ) ) {
+			$result = false;
+		}
+		return $result;
 	}
 
 	/**
 	 * Executes the ability callback.
 	 *
+	 * The {@see 'wp_ability_execute_result'} filter fires before this method returns, allowing
+	 * plugins to transform the result produced by the registered `execute_callback`.
+	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_execute_result` filter.
 	 *
 	 * @param mixed $input Optional. The input data for the ability. Default `null`.
 	 * @return mixed|WP_Error The result of the ability execution, or WP_Error on failure.
 	 */
 	protected function do_execute( $input = null ) {
 		if ( ! is_callable( $this->execute_callback ) ) {
-			return new WP_Error(
+			$result = new WP_Error(
 				'ability_invalid_execute_callback',
 				/* translators: %s ability name. */
 				sprintf( __( 'Ability "%s" does not have a valid execute callback.' ), esc_html( $this->name ) )
 			);
+		} else {
+			$result = $this->invoke_callback( $this->execute_callback, $input );
 		}
 
-		return $this->invoke_callback( $this->execute_callback, $input );
+		/**
+		 * Filters the result returned by an ability's execute callback.
+		 *
+		 * Fires after the registered execute callback runs. Plugins can use this to transform the
+		 * result — response formatting, stripping internal metadata, content safety filtering,
+		 * response enrichment, or recovering from a failure by returning a successful value.
+		 *
+		 * The filter receives whatever the registered callback produced, including a `WP_Error`
+		 * if execution failed. Filters may pass the `WP_Error` through unchanged, override it with
+		 * a recovered result, or convert a successful result into a `WP_Error`.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param mixed      $result       The result returned by the registered `execute_callback`,
+		 *                                 or a `WP_Error` if execution failed.
+		 * @param string     $ability_name The name of the ability.
+		 * @param mixed      $input        The normalized input data.
+		 * @param WP_Ability $ability      The ability instance.
+		 */
+		return apply_filters( 'wp_ability_execute_result', $result, $this->name, $input, $this );
 	}
 
 	/**
@@ -605,12 +677,45 @@ class WP_Ability {
 	 * Before returning the return value, it also validates the output.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_pre_execute_ability` filter.
 	 *
 	 * @param mixed $input Optional. The input data for the ability. Default `null`.
 	 * @return mixed|WP_Error The result of the ability execution, or WP_Error on failure.
 	 */
 	public function execute( $input = null ) {
-		$input    = $this->normalize_input( $input );
+		/**
+		 * Filters whether to short-circuit ability execution.
+		 *
+		 * Returning a value other than the received default bypasses the rest of `execute()` —
+		 * input normalization, input validation, permission checks, the registered execute callback,
+		 * output validation, and the surrounding actions — and the value is returned to the caller
+		 * as-is. Useful for cached responses, rate limiting, maintenance mode, and test mocking.
+		 *
+		 * To continue with normal execution, return `$pre` unchanged. This preserves any value
+		 * (including `null`, `false`, or arbitrary objects) as a valid short-circuit result.
+		 *
+		 * Because validation is bypassed, callers that short-circuit are responsible for the
+		 * integrity of any value they consume from `$input`.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param mixed      $pre          The pre-computed result. Return this value unchanged to continue execution.
+		 *                                 Default `WP_Filter_Sentinel` instance unique to this invocation.
+		 * @param string     $ability_name The name of the ability.
+		 * @param mixed      $input        The raw input passed to `execute()`.
+		 * @param WP_Ability $ability      The ability instance.
+		 */
+		$pre_execute_sentinel = new WP_Filter_Sentinel();
+		$pre                  = apply_filters( 'wp_pre_execute_ability', $pre_execute_sentinel, $this->name, $input, $this );
+		if ( $pre !== $pre_execute_sentinel ) {
+			return $pre;
+		}
+
+		$input = $this->normalize_input( $input );
+		if ( is_wp_error( $input ) ) {
+			return $input;
+		}
+
 		$is_valid = $this->validate_input( $input );
 		if ( is_wp_error( $is_valid ) ) {
 			return $is_valid;
