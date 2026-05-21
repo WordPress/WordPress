@@ -493,24 +493,48 @@ class WP_Ability {
 				sprintf(
 					/* translators: %s ability name. */
 					__( 'Ability "%s" does not define an input schema required to validate the provided input.' ),
-					esc_html( $this->name )
+					$this->name
 				)
 			);
 		}
 
 		$valid_input = rest_validate_value_from_schema( $input, $input_schema, 'input' );
 		if ( is_wp_error( $valid_input ) ) {
-			return new WP_Error(
+			$is_valid = new WP_Error(
 				'ability_invalid_input',
 				sprintf(
 					/* translators: %1$s ability name, %2$s error message. */
 					__( 'Ability "%1$s" has invalid input. Reason: %2$s' ),
-					esc_html( $this->name ),
+					$this->name,
 					$valid_input->get_error_message()
 				)
 			);
+		} else {
+			$is_valid = true;
 		}
 
+		/**
+		 * Filters the input validation result for an ability.
+		 *
+		 * Allows developers to add custom validation logic on top of the default
+		 * JSON Schema validation. If default validation already failed, the filter
+		 * receives the WP_Error object and can add additional error information or
+		 * override it. If default validation passed, the filter can add additional
+		 * validation checks and return a WP_Error if those checks fail.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param true|WP_Error $is_valid     The validation result from default validation.
+		 * @param mixed         $input        The input data being validated.
+		 * @param string        $ability_name The name of the ability.
+		 */
+		$validity = apply_filters( 'wp_ability_validate_input', $is_valid, $input, $this->name );
+		if ( false === $validity ) {
+			return new WP_Error( 'ability_invalid_input', __( 'Invalid input.' ) );
+		}
+		if ( is_wp_error( $validity ) && $validity->has_errors() ) {
+			return $validity;
+		}
 		return true;
 	}
 
@@ -653,22 +677,46 @@ class WP_Ability {
 	protected function validate_output( $output ) {
 		$output_schema = $this->get_output_schema();
 		if ( empty( $output_schema ) ) {
-			return true;
+			$is_valid = true;
+		} else {
+			$valid_output = rest_validate_value_from_schema( $output, $output_schema, 'output' );
+			if ( is_wp_error( $valid_output ) ) {
+				$is_valid = new WP_Error(
+					'ability_invalid_output',
+					sprintf(
+						/* translators: %1$s ability name, %2$s error message. */
+						__( 'Ability "%1$s" has invalid output. Reason: %2$s' ),
+						$this->name,
+						$valid_output->get_error_message()
+					)
+				);
+			} else {
+				$is_valid = true;
+			}
 		}
 
-		$valid_output = rest_validate_value_from_schema( $output, $output_schema, 'output' );
-		if ( is_wp_error( $valid_output ) ) {
-			return new WP_Error(
-				'ability_invalid_output',
-				sprintf(
-					/* translators: %1$s ability name, %2$s error message. */
-					__( 'Ability "%1$s" has invalid output. Reason: %2$s' ),
-					esc_html( $this->name ),
-					$valid_output->get_error_message()
-				)
-			);
+		/**
+		 * Filters the output validation result for an ability.
+		 *
+		 * Allows developers to add custom validation logic on top of the default
+		 * JSON Schema validation. If default validation already failed, the filter
+		 * receives the WP_Error object and can add additional error information or
+		 * override it. If default validation passed, the filter can add additional
+		 * validation checks and return a WP_Error if those checks fail.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param true|WP_Error $is_valid     The validation result from default validation.
+		 * @param mixed         $output       The output data being validated.
+		 * @param string        $ability_name The name of the ability.
+		 */
+		$validity = apply_filters( 'wp_ability_validate_output', $is_valid, $output, $this->name );
+		if ( false === $validity ) {
+			return new WP_Error( 'ability_invalid_output', __( 'Invalid output.' ) );
 		}
-
+		if ( is_wp_error( $validity ) && $validity->has_errors() ) {
+			return $validity;
+		}
 		return true;
 	}
 
