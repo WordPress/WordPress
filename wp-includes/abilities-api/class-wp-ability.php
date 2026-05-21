@@ -561,7 +561,7 @@ class WP_Ability {
 				sprintf(
 					/* translators: 1: Ability name, 2: Exception message. */
 					__( 'Ability "%1$s" callback threw an exception: %2$s' ),
-					esc_html( $this->name ),
+					$this->name,
 					esc_html( $e->getMessage() )
 				)
 			);
@@ -590,7 +590,7 @@ class WP_Ability {
 			return new WP_Error(
 				'ability_invalid_permission_callback',
 				/* translators: %s ability name. */
-				sprintf( __( 'Ability "%s" does not have a valid permission callback.' ), esc_html( $this->name ) )
+				sprintf( __( 'Ability "%s" does not have a valid permission callback.' ), $this->name )
 			);
 		}
 
@@ -638,7 +638,7 @@ class WP_Ability {
 			$result = new WP_Error(
 				'ability_invalid_execute_callback',
 				/* translators: %s ability name. */
-				sprintf( __( 'Ability "%s" does not have a valid execute callback.' ), esc_html( $this->name ) )
+				sprintf( __( 'Ability "%s" does not have a valid execute callback.' ), $this->name )
 			);
 		} else {
 			$result = $this->invoke_callback( $this->execute_callback, $input );
@@ -783,7 +783,7 @@ class WP_Ability {
 			return new WP_Error(
 				'ability_invalid_permissions',
 				/* translators: %s ability name. */
-				sprintf( __( 'Ability "%s" does not have necessary permission.' ), esc_html( $this->name ) )
+				sprintf( __( 'Ability "%s" does not have necessary permission.' ), $this->name )
 			);
 		}
 
