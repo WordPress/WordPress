@@ -2905,7 +2905,7 @@ function media_upload_library_form( $errors ) {
 			</select>
 		<?php } ?>
 
-		<?php submit_button( __( 'Filter &#187;' ), '', 'post-query-submit', false ); ?>
+		<?php submit_button( __( 'Filter &#187;' ), 'button-compact', 'post-query-submit', false ); ?>
 
 	</div>
 

@@ -1873,13 +1873,11 @@ p.auto-update-status {
 	border: 1px solid #c3c4c7;
 	border-top: none;
 	height: auto;
-	min-height: 32px; /* Compact size for header buttons */
 	margin-bottom: 0;
 	padding: 0 6px 0 16px;
 	background: #fff;
 	border-radius: 0 0 4px 4px;
 	color: #646970;
-	line-height: 2.30769231; /* 30px - matches compact button */
 	box-shadow: 0 0 0 transparent;
 	transition: box-shadow 0.1s linear;
 }
@@ -4275,6 +4273,10 @@ img {
 
 	#screen-meta-links {
 		margin-bottom: 20px; /* Add margins beneath links for better spacing between boxes and elements */
+	}
+
+	#screen-meta-links .show-settings:after {
+		line-height: 1.9;
 	}
 
 	.wp-filter .search-form input[type="search"] {
