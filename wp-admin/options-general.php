@@ -212,7 +212,7 @@ $tagline_description = sprintf(
 		<?php
 			printf(
 				/* translators: 1: pixel value for icon size. 2: pixel value for icon size. */
-				__( 'The Site Icon is what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. It should be square and at least <code>%1$s by %2$s</code> pixels.' ),
+				__( 'The Site Icon is what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. It should be square and at least <strong>%1$s by %2$s</strong> pixels.' ),
 				512,
 				512
 			);
