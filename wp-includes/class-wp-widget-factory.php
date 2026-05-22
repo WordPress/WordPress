@@ -57,7 +57,7 @@ class WP_Widget_Factory {
 	 */
 	public function register( $widget ) {
 		if ( $widget instanceof WP_Widget ) {
-			$this->widgets[ spl_object_hash( $widget ) ] = $widget;
+			$this->widgets[ spl_object_id( $widget ) ] = $widget;
 		} else {
 			$this->widgets[ $widget ] = new $widget();
 		}
@@ -74,7 +74,7 @@ class WP_Widget_Factory {
 	 */
 	public function unregister( $widget ) {
 		if ( $widget instanceof WP_Widget ) {
-			unset( $this->widgets[ spl_object_hash( $widget ) ] );
+			unset( $this->widgets[ spl_object_id( $widget ) ] );
 		} else {
 			unset( $this->widgets[ $widget ] );
 		}

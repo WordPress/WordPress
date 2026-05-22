@@ -85,6 +85,9 @@ final class WP_Hook implements Iterator, ArrayAccess {
 		}
 
 		$idx = _wp_filter_build_unique_id( $hook_name, $callback, $priority );
+		if ( null === $idx ) {
+			return;
+		}
 
 		$priority_existed = isset( $this->callbacks[ $priority ] );
 
