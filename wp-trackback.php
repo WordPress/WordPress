@@ -34,7 +34,7 @@ function trackback_response( $error = 0, $error_message = '' ) {
 		echo '<?xml version="1.0" encoding="utf-8"?' . ">\n";
 		echo "<response>\n";
 		echo "<error>1</error>\n";
-		echo "<message>$error_message</message>\n";
+		echo '<message>' . esc_xml( $error_message ) . "</message>\n";
 		echo '</response>';
 		die();
 	} else {
