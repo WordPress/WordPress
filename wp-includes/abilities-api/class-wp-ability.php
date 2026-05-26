@@ -725,12 +725,28 @@ class WP_Ability {
 	 * Before returning the return value, it also validates the output.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_invoked` action.
 	 * @since 7.1.0 Added the `wp_pre_execute_ability` filter.
 	 *
 	 * @param mixed $input Optional. The input data for the ability. Default `null`.
 	 * @return mixed|WP_Error The result of the ability execution, or WP_Error on failure.
 	 */
 	public function execute( $input = null ) {
+		/**
+		 * Fires when an ability is invoked, before any processing takes place.
+		 *
+		 * This action fires for every call regardless of outcome (validation failure,
+		 * permission denial, short-circuit, or successful execution), and before input
+		 * normalization so the raw input is captured as-is.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param string     $ability_name The name of the ability.
+		 * @param mixed      $input        The raw input data for the ability, before normalization.
+		 * @param WP_Ability $ability      The ability instance.
+		 */
+		do_action( 'wp_ability_invoked', $this->name, $input, $this );
+
 		/**
 		 * Filters whether to short-circuit ability execution.
 		 *
@@ -791,11 +807,13 @@ class WP_Ability {
 		 * Fires before an ability gets executed, after input validation and permissions check.
 		 *
 		 * @since 6.9.0
+		 * @since 7.1.0 Added the `$ability` parameter.
 		 *
-		 * @param string $ability_name The name of the ability.
-		 * @param mixed  $input        The input data for the ability.
+		 * @param string     $ability_name The name of the ability.
+		 * @param mixed      $input        The input data for the ability.
+		 * @param WP_Ability $ability      The ability instance.
 		 */
-		do_action( 'wp_before_execute_ability', $this->name, $input );
+		do_action( 'wp_before_execute_ability', $this->name, $input, $this );
 
 		$result = $this->do_execute( $input );
 		if ( is_wp_error( $result ) ) {
@@ -811,12 +829,14 @@ class WP_Ability {
 		 * Fires immediately after an ability finished executing.
 		 *
 		 * @since 6.9.0
+		 * @since 7.1.0 Added the `$ability` parameter.
 		 *
-		 * @param string $ability_name The name of the ability.
-		 * @param mixed  $input        The input data for the ability.
-		 * @param mixed  $result       The result of the ability execution.
+		 * @param string     $ability_name The name of the ability.
+		 * @param mixed      $input        The input data for the ability.
+		 * @param mixed      $result       The result of the ability execution.
+		 * @param WP_Ability $ability      The ability instance.
 		 */
-		do_action( 'wp_after_execute_ability', $this->name, $input, $result );
+		do_action( 'wp_after_execute_ability', $this->name, $input, $result, $this );
 
 		return $result;
 	}
