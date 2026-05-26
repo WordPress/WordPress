@@ -586,16 +586,16 @@ function human_readable_duration( $duration = '' ) {
  */
 function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	// MySQL string year.
-	$my = substr( $mysqlstring, 0, 4 );
+	$mysql_year = substr( $mysqlstring, 0, 4 );
 
 	// MySQL string month.
-	$mm = substr( $mysqlstring, 8, 2 );
+	$mysql_month = substr( $mysqlstring, 5, 2 );
 
 	// MySQL string day.
-	$md = substr( $mysqlstring, 5, 2 );
+	$mysql_day = substr( $mysqlstring, 8, 2 );
 
 	// The timestamp for MySQL string day.
-	$day = mktime( 0, 0, 0, $md, $mm, $my );
+	$day = mktime( 0, 0, 0, $mysql_month, $mysql_day, $mysql_year );
 
 	// The day of the week from the timestamp.
 	$weekday = (int) gmdate( 'w', $day );
