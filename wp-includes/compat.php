@@ -110,6 +110,147 @@ function _is_utf8_charset( $charset_slug ) {
 	);
 }
 
+if ( ! function_exists( 'mb_chr' ) ) :
+	/**
+	 * Compat function to mimic mb_chr().
+	 *
+	 * @ignore
+	 * @since 7.1.0
+	 *
+	 * @see _mb_ord()
+	 *
+	 * @param int          $codepoint A Unicode codepoint value, e.g. 128024 for U+1F418 ELEPHANT
+	 * @param "UTF-8"|null $encoding  Must be 'UTF-8' or null.
+	 * @return string|false A string containing the requested character, if it can be represented in the specified encoding or false on failure.
+	 */
+	function mb_chr( $codepoint, $encoding = null ) {
+		return _mb_chr( $codepoint, $encoding );
+	}
+endif;
+
+/**
+ * Internal compat function to mimic mb_chr().
+ *
+ * @ignore
+ * @since 7.1.0
+ *
+ * @param int          $codepoint A Unicode codepoint value, e.g. 128024 for U+1F418 ELEPHANT
+ * @param "UTF-8"|null $encoding  Must be 'UTF-8' or null.
+ * @return string|false A string containing the requested character, if it can be represented in the specified encoding or false on failure.
+ */
+function _mb_chr( $codepoint, $encoding = null ) {
+	if ( ! is_int( $codepoint ) || ( isset( $encoding ) && 'UTF-8' !== $encoding ) ) {
+		return false;
+	}
+
+	// Pre-check to ensure a valid code point.
+	if (
+		$codepoint < 0 ||
+		( $codepoint >= 0xD800 && $codepoint <= 0xDFFF ) ||
+		$codepoint > 0x10FFFF
+	) {
+		return false;
+	}
+
+	if ( $codepoint <= 0x7F ) {
+		return chr( $codepoint );
+	}
+
+	if ( $codepoint <= 0x7FF ) {
+		$byte1 = chr( ( $codepoint >> 6 ) | 0xC0 );
+		$byte2 = chr( $codepoint & 0x3F | 0x80 );
+
+		return "{$byte1}{$byte2}";
+	}
+
+	if ( $codepoint <= 0xFFFF ) {
+		$byte1 = chr( ( $codepoint >> 12 ) | 0xE0 );
+		$byte2 = chr( ( $codepoint >> 6 ) & 0x3F | 0x80 );
+		$byte3 = chr( $codepoint & 0x3F | 0x80 );
+
+		return "{$byte1}{$byte2}{$byte3}";
+	}
+
+	// Any values above U+10FFFF are eliminated above in the pre-check.
+	$byte1 = chr( ( $codepoint >> 18 ) | 0xF0 );
+	$byte2 = chr( ( $codepoint >> 12 ) & 0x3F | 0x80 );
+	$byte3 = chr( ( $codepoint >> 6 ) & 0x3F | 0x80 );
+	$byte4 = chr( $codepoint & 0x3F | 0x80 );
+
+	return "{$byte1}{$byte2}{$byte3}{$byte4}";
+}
+
+if ( ! function_exists( 'mb_ord' ) ) :
+	/**
+	 * Compat function to mimic mb_ord().
+	 *
+	 * @ignore
+	 * @since 7.1.0
+	 *
+	 * @see _mb_ord()
+	 *
+	 * @param string       $string   Return the code point at the start of this string.
+	 * @param "UTF-8"|null $encoding Must be 'UTF-8' or null.
+	 * @return int|false The Unicode code point for the first character of string or false on failure.
+	 */
+	function mb_ord( $string, $encoding = null ) {
+		return _mb_ord( $string, $encoding );
+	}
+endif;
+
+/**
+ * Internal compat function to mimic mb_ord().
+ *
+ * @ignore
+ * @since 7.1.0
+ *
+ * @param string       $string   Return the code point at the start of this string.
+ * @param "UTF-8"|null $encoding Must be 'UTF-8' or null.
+ * @return int|false The Unicode code point for the first character of string or false on failure.
+ */
+function _mb_ord( $string, $encoding = null ) {
+	if ( ! is_string( $string ) || '' === $string || ( isset( $encoding ) && 'UTF-8' !== $encoding ) ) {
+		return false;
+	}
+
+	$byte_length    = 0;
+	$invalid_length = 0;
+	$found_count    = _wp_scan_utf8( $string, $byte_length, $invalid_length, null, 1 );
+
+	if ( 1 !== $found_count ) {
+		return false;
+	}
+
+	// These are valid code points, so no further validation is required.
+	$b0 = ord( $string[0] );
+
+	switch ( $byte_length ) {
+		case 1:
+			return $b0;
+
+		case 2:
+			return (
+				( ( $b0 & 0x1F ) << 6 ) |
+				( ( ord( $string[1] ) & 0x3F ) )
+			);
+
+		case 3:
+			return (
+				( ( $b0 & 0x0F ) << 12 ) |
+				( ( ord( $string[1] ) & 0x3F ) << 6 ) |
+				( ( ord( $string[2] ) & 0x3F ) )
+			);
+
+		case 4:
+			return (
+				( ( $b0 & 0x07 ) << 18 ) |
+				( ( ord( $string[1] ) & 0x3F ) << 12 ) |
+				( ( ord( $string[2] ) & 0x3F ) << 6 ) |
+				( ( ord( $string[3] ) & 0x3F ) )
+			);
+	}
+}
+
 if ( ! function_exists( 'mb_substr' ) ) :
 	/**
 	 * Compat function to mimic mb_substr().

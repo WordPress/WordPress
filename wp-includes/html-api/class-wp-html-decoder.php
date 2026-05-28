@@ -424,40 +424,8 @@ class WP_HTML_Decoder {
 	 * @return string Converted code point, or `�` if invalid.
 	 */
 	public static function code_point_to_utf8_bytes( $code_point ): string {
-		// Pre-check to ensure a valid code point.
-		if (
-			$code_point <= 0 ||
-			( $code_point >= 0xD800 && $code_point <= 0xDFFF ) ||
-			$code_point > 0x10FFFF
-		) {
-			return '�';
-		}
+		$string = mb_chr( $code_point );
 
-		if ( $code_point <= 0x7F ) {
-			return chr( $code_point );
-		}
-
-		if ( $code_point <= 0x7FF ) {
-			$byte1 = chr( ( $code_point >> 6 ) | 0xC0 );
-			$byte2 = chr( $code_point & 0x3F | 0x80 );
-
-			return "{$byte1}{$byte2}";
-		}
-
-		if ( $code_point <= 0xFFFF ) {
-			$byte1 = chr( ( $code_point >> 12 ) | 0xE0 );
-			$byte2 = chr( ( $code_point >> 6 ) & 0x3F | 0x80 );
-			$byte3 = chr( $code_point & 0x3F | 0x80 );
-
-			return "{$byte1}{$byte2}{$byte3}";
-		}
-
-		// Any values above U+10FFFF are eliminated above in the pre-check.
-		$byte1 = chr( ( $code_point >> 18 ) | 0xF0 );
-		$byte2 = chr( ( $code_point >> 12 ) & 0x3F | 0x80 );
-		$byte3 = chr( ( $code_point >> 6 ) & 0x3F | 0x80 );
-		$byte4 = chr( $code_point & 0x3F | 0x80 );
-
-		return "{$byte1}{$byte2}{$byte3}{$byte4}";
+		return false !== $string ? $string : '�';
 	}
 }
