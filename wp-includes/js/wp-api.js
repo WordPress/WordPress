@@ -983,7 +983,7 @@
 			},
 
 			/**
-			 * Extend Backbone.Collection.sync to add nince and pagination support.
+			 * Extend Backbone.Collection.sync to add nonce and pagination support.
 			 *
 			 * Set nonce header before every Backbone sync.
 			 *
@@ -1288,7 +1288,7 @@
 					parentName = wp.api.utils.extractRoutePart( modelRoute.index, 1, routeModel.get( 'versionString' ), false ),
 					routeEnd   = wp.api.utils.extractRoutePart( modelRoute.index, 1, routeModel.get( 'versionString' ), true );
 
-				// Clear the parent part of the rouite if its actually the version string.
+				// Clear the parent part of the route if it's actually the version string.
 				if ( parentName === routeModel.get( 'versionString' ) ) {
 					parentName = '';
 				}

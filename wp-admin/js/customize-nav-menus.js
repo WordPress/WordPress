@@ -3539,7 +3539,7 @@
 
 	/**
 	 * Apply sanitize_text_field()-like logic to the supplied name, returning a
-	 * "unnammed" fallback string if the name is then empty.
+	 * "unnamed" fallback string if the name is then empty.
 	 *
 	 * @alias wp.customize.Menus~displayNavMenuName
 	 *

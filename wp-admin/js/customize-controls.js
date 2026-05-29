@@ -590,7 +590,7 @@
 			return deferred.reject( { code: 'illegal_status_in_changeset_update' } ).promise();
 		}
 
-		// Dates not beung allowed for revisions are is a technical limitation of post revisions.
+		// Dates not being allowed for revisions is a technical limitation of post revisions.
 		if ( submittedArgs.date && submittedArgs.autosave ) {
 			return deferred.reject( { code: 'illegal_autosave_with_date_gmt' } ).promise();
 		}
