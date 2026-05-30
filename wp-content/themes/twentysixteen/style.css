@@ -385,6 +385,11 @@ blockquote cite {
 	font-style: normal;
 }
 
+blockquote :where(cite) em,
+blockquote :where(cite) i {
+	font-style: italic;
+}
+
 blockquote strong,
 blockquote b {
 	font-weight: 400;

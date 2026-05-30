@@ -349,6 +349,11 @@ figure[class*="wp-block-"] > figcaption {
 	font-style: normal;
 }
 
+.wp-block-quote__citation em,
+.wp-block-quote__citation i {
+	font-style: italic;
+}
+
 .wp-block-quote strong,
 .wp-block-quote b {
 	font-weight: 400;
