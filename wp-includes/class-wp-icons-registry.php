@@ -16,14 +16,15 @@ class WP_Icons_Registry {
 	/**
 	 * Registered icons array.
 	 *
+	 * @since 7.0.0
 	 * @var array[]
 	 */
 	protected $registered_icons = array();
 
-
 	/**
 	 * Container for the main instance of the class.
 	 *
+	 * @since 7.0.0
 	 * @var WP_Icons_Registry|null
 	 */
 	protected static $instance = null;
@@ -39,6 +40,8 @@ class WP_Icons_Registry {
 	 * These icons are defined in @wordpress/packages (Gutenberg repository) as
 	 * SVG files and as entries in a single manifest file. On init, the
 	 * registry is loaded with those icons listed in the manifest.
+	 *
+	 * @since 7.0.0
 	 */
 	protected function __construct() {
 		$icons_directory = __DIR__ . '/images/icon-library/';
@@ -87,6 +90,8 @@ class WP_Icons_Registry {
 
 	/**
 	 * Registers an icon.
+	 *
+	 * @since 7.0.0
 	 *
 	 * @param string $icon_name       Icon name including namespace.
 	 * @param array  $icon_properties {
@@ -184,6 +189,8 @@ class WP_Icons_Registry {
 	 * Logic borrowed from twentytwenty.
 	 * @see twentytwenty_get_theme_svg
 	 *
+	 * @since 7.0.0
+	 *
 	 * @param string $icon_content The icon SVG content to sanitize.
 	 * @return string The sanitized icon SVG content.
 	 */
@@ -219,6 +226,8 @@ class WP_Icons_Registry {
 	/**
 	 * Retrieves the content of a registered icon.
 	 *
+	 * @since 7.0.0
+	 *
 	 * @param string $icon_name Icon name including namespace.
 	 * @return string|null The content of the icon, if found.
 	 */
@@ -245,6 +254,7 @@ class WP_Icons_Registry {
 	/**
 	 * Retrieves an array containing the properties of a registered icon.
 	 *
+	 * @since 7.0.0
 	 *
 	 * @param string $icon_name Icon name including namespace.
 	 * @return array|null Registered icon properties or `null` if the icon is not registered.
@@ -262,6 +272,8 @@ class WP_Icons_Registry {
 
 	/**
 	 * Retrieves all registered icons.
+	 *
+	 * @since 7.0.0
 	 *
 	 * @param string $search Optional. Search term by which to filter the icons.
 	 * @return array[] Array of arrays containing the registered icon properties.
@@ -284,6 +296,7 @@ class WP_Icons_Registry {
 	/**
 	 * Checks if an icon is registered.
 	 *
+	 * @since 7.0.0
 	 *
 	 * @param string $icon_name Icon name including namespace.
 	 * @return bool True if the icon is registered, false otherwise.
@@ -297,6 +310,7 @@ class WP_Icons_Registry {
 	 *
 	 * The instance will be created if it does not exist yet.
 	 *
+	 * @since 7.0.0
 	 *
 	 * @return WP_Icons_Registry The main instance.
 	 */
