@@ -8,17 +8,20 @@
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */
+
+/**
+ * @global int $page  WordPress paginated post page count.
+ * @global int $paged WordPress archive pagination page count.
+ */
+global $page, $paged;
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <title>
 <?php
-	/*
-	 * Print the <title> tag based on what is being viewed.
-	 */
-	global $page, $paged;
-
+	// Print the <title> tag based on what is being viewed.
 	wp_title( '|', true, 'right' );
 
 	// Add the site name.
