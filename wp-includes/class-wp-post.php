@@ -36,6 +36,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var numeric-string
 	 */
 	public $post_author = '0';
 
@@ -206,6 +207,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var numeric-string
 	 */
 	public $comment_count = '0';
 
