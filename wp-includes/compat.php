@@ -249,6 +249,8 @@ function _mb_ord( $string, $encoding = null ) {
 				( ( ord( $string[3] ) & 0x3F ) )
 			);
 	}
+
+	return false;
 }
 
 if ( ! function_exists( 'mb_substr' ) ) :
