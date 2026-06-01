@@ -738,7 +738,11 @@ class WP_HTML_Open_Elements {
 		 * When adding support for new elements, expand this switch to trap
 		 * cases where the precalculated value needs to change.
 		 */
-		switch ( $item->node_name ) {
+		$namespaced_name = 'html' === $item->namespace
+			? $item->node_name
+			: "{$item->namespace} {$item->node_name}";
+
+		switch ( $namespaced_name ) {
 			case 'APPLET':
 			case 'BUTTON':
 			case 'CAPTION':

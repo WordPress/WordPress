@@ -813,8 +813,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 *       until there are events or until there are no more
 		 *       tokens works in the meantime and isn't obviously wrong.
 		 */
-		if ( empty( $this->element_queue ) && $this->step() ) {
-			return $this->next_visitable_token();
+		if ( empty( $this->element_queue ) ) {
+			if ( $this->step() ) {
+				return $this->next_visitable_token();
+			}
+
+			if ( isset( $this->last_error ) ) {
+				return false;
+			}
 		}
 
 		// Process the next event on the queue.
@@ -1401,6 +1407,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$tag_name       = str_replace( "\x00", "\u{FFFD}", $this->get_tag() );
 		$in_html        = 'html' === $this->get_namespace();
 		$qualified_name = $in_html ? strtolower( $tag_name ) : $this->get_qualified_tag_name();
+		$qualified_name = str_replace( "\x00", "\u{FFFD}", $qualified_name );
 
 		if ( $this->is_tag_closer() ) {
 			$html .= "</{$qualified_name}>";
@@ -1414,15 +1421,36 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 
 		$html .= "<{$qualified_name}";
+
+		$previous_attribute_was_true = false;
+		$seen_attribute_names        = array();
 		foreach ( $attribute_names as $attribute_name ) {
-			$html .= " {$this->get_qualified_attribute_name( $attribute_name )}";
+			$qualified_attribute_name = $this->get_qualified_attribute_name( $attribute_name );
+			$qualified_attribute_name = str_replace( "\x00", "\u{FFFD}", $qualified_attribute_name );
+			$qualified_attribute_name = wp_scrub_utf8( $qualified_attribute_name );
+			if ( isset( $seen_attribute_names[ $qualified_attribute_name ] ) ) {
+				continue;
+			} else {
+				$seen_attribute_names[ $qualified_attribute_name ] = true;
+			}
+
+			if (
+				$previous_attribute_was_true &&
+				isset( $qualified_attribute_name[0] ) &&
+				'=' === $qualified_attribute_name[0]
+			) {
+				$html .= '=""';
+			}
+
+			$html .= " {$qualified_attribute_name}";
 			$value = $this->get_attribute( $attribute_name );
 
 			if ( is_string( $value ) ) {
 				$html .= '="' . htmlspecialchars( $value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5 ) . '"';
 			}
 
-			$html = str_replace( "\x00", "\u{FFFD}", $html );
+			$previous_attribute_was_true = true === $value;
+			$html                        = str_replace( "\x00", "\u{FFFD}", $html );
 		}
 
 		if ( ! $in_html && $this->has_self_closing_flag() ) {
@@ -2667,8 +2695,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '-FORM':
 				if ( ! $this->state->stack_of_open_elements->contains( 'TEMPLATE' ) ) {
-					$node                      = $this->state->form_element;
-					$this->state->form_element = null;
+					$node = $this->state->form_element;
 
 					/*
 					 * > If node is null or if the stack of open elements does not have node
@@ -2681,9 +2708,19 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 						null === $node ||
 						! $this->state->stack_of_open_elements->has_element_in_scope( 'FORM' )
 					) {
-						// Parse error: ignore the token.
+						/*
+						 * Parse error: ignore the token.
+						 *
+						 * Keep the form pointer intact when the end tag is ignored, such as
+						 * when a FORM closing tag appears inside an SVG TITLE integration
+						 * point. Otherwise the ignored token changes parser state in a way
+						 * that serialization cannot represent, allowing a later FORM opener
+						 * to appear in the first normalization pass and disappear on the second.
+						 */
 						return $this->step();
 					}
+
+					$this->state->form_element = null;
 
 					$this->generate_implied_end_tags();
 					if ( $node !== $this->state->stack_of_open_elements->current_node() ) {
