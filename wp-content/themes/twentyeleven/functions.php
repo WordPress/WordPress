@@ -70,6 +70,8 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 	 * @uses set_post_thumbnail_size()  To set a custom post thumbnail size.
 	 *
 	 * @since Twenty Eleven 1.0
+	 *
+	 * @global string $wp_version The WordPress version string.
 	 */
 	function twentyeleven_setup() {
 
@@ -636,6 +638,8 @@ if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
+	 * @global WP_Query $wp_query WordPress Query object.
+	 *
 	 * @param string $html_id The HTML id attribute.
 	 */
 	function twentyeleven_content_nav( $html_id ) {
@@ -752,6 +756,8 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 	 * Used as a callback by wp_list_comments() for displaying the comments.
 	 *
 	 * @since Twenty Eleven 1.0
+	 *
+	 * @global WP_Comment $comment Global comment object.
 	 *
 	 * @param WP_Comment $comment The comment object.
 	 * @param array      $args    An array of comment arguments. @see get_comment_reply_link()

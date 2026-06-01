@@ -7,6 +7,9 @@
  * @since Twenty Eleven 1.0
  */
 
+/**
+ * @global string $feature_class CSS classes for the article element.
+ */
 global $feature_class;
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( $feature_class ); ?>>

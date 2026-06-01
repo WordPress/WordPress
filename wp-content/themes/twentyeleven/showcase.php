@@ -208,8 +208,11 @@ get_header(); ?>
 					if ( $recent->have_posts() ) :
 						$recent->the_post();
 
-						// Set $more to 0 in order to only get the first part of the post.
+						/**
+						 * @global int $more
+						 */
 						global $more;
+						// Set $more to 0 in order to only get the first part of the post.
 						$more = 0;
 
 						get_template_part( 'content', get_post_format() );

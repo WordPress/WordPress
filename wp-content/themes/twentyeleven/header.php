@@ -8,6 +8,13 @@
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */
+
+/**
+ * @global int $page  WordPress paginated post page count.
+ * @global int $paged WordPress archive pagination page count.
+ */
+global $page, $paged;
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -16,8 +23,6 @@
 <title>
 <?php
 	// Print the <title> tag based on what is being viewed.
-	global $page, $paged;
-
 	wp_title( '|', true, 'right' );
 
 	// Add the site name.
