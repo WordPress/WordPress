@@ -189,15 +189,23 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * WordPress-internal schema keywords to strip from REST responses.
+	 * Additional schema keywords to preserve in REST responses.
 	 *
-	 * @since 7.0.0
-	 * @var array<string, true>
+	 * Ability schemas are exposed to clients as JSON Schema. Preserve additional
+	 * draft-04 keywords so clients can validate richer schemas, even when some
+	 * of those keywords are not enforced by the server-side REST schema validator.
+	 *
+	 * @since 7.1.0
+	 * @var string[]
 	 */
-	private const INTERNAL_SCHEMA_KEYWORDS = array(
-		'sanitize_callback' => true,
-		'validate_callback' => true,
-		'arg_options'       => true,
+	private const ADDITIONAL_ALLOWED_SCHEMA_KEYWORDS = array(
+		'required',
+		'allOf',
+		'not',
+		'$ref',
+		'definitions',
+		'dependencies',
+		'additionalItems',
 	);
 
 	/**
@@ -217,12 +225,11 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	/**
 	 * Transforms an ability schema for REST response output.
 	 *
-	 * Ability schemas may include WordPress-internal properties like
-	 * `sanitize_callback`, `validate_callback`, and `arg_options` that are
-	 * used server-side but are not valid JSON Schema keywords. This method
-	 * removes those specific keys so they are not exposed in REST responses.
-	 * It also converts empty array defaults to objects when the schema type is
-	 * 'object' to ensure proper JSON serialization as {} instead of [].
+	 * Ability schemas may include WordPress-internal properties or unsupported
+	 * schema keywords that should not be exposed in REST responses. This method
+	 * strips keys not recognized by the REST API schema handling. It also
+	 * converts empty array defaults to objects when the schema type is 'object'
+	 * to ensure proper JSON serialization as {} instead of [].
 	 *
 	 * @since 7.1.0
 	 *
@@ -237,7 +244,17 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 			}
 		}
 
-		$schema = array_diff_key( $schema, self::INTERNAL_SCHEMA_KEYWORDS );
+		// Computed once and reused across the recursive calls for every schema node.
+		static $allowed_keywords = null;
+		$allowed_keywords      ??= array_fill_keys(
+			array_merge(
+				rest_get_allowed_schema_keywords(),
+				self::ADDITIONAL_ALLOWED_SCHEMA_KEYWORDS
+			),
+			true
+		);
+
+		$schema = array_intersect_key( $schema, $allowed_keywords );
 
 		// Sub-schema maps: keys are user-defined, values are sub-schemas.
 		// Note: 'dependencies' values can also be property-dependency arrays
