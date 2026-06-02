@@ -1475,6 +1475,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 .plugin-install-php #the-list {
 	display: flex;
 	flex-wrap: wrap;
+	gap: 16px;
 }
 
 .plugin-install-php .plugin-card {
@@ -1506,9 +1507,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 }
 
 .plugin-card {
-	float: right;
-	margin: 0 8px 16px;
-	width: 48.5%;
 	width: calc( 50% - 8px );
 	background-color: #ffffff;
 	border: 1px solid rgb(0, 0, 0, 0.1);
@@ -1517,62 +1515,15 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	overflow: hidden;
 }
 
-.plugin-card:nth-child(odd) {
-	clear: both;
-	margin-right: 0;
-}
-
-.plugin-card:nth-child(even) {
-	margin-left: 0;
-}
-
-@media screen and (min-width: 1600px) and ( max-width: 2299px ) {
+@media screen and (min-width: 1600px) {
 	.plugin-card {
-		width: 30%;
-		width: calc( 33.1% - 8px );
-	}
-
-	.plugin-card:nth-child(odd) {
-		clear: none;
-		margin-right: 8px;
-	}
-
-	.plugin-card:nth-child(even) {
-		margin-left: 8px;
-	}
-
-	.plugin-card:nth-child(3n+1) {
-		clear: both;
-		margin-right: 0;
-	}
-
-	.plugin-card:nth-child(3n) {
-		margin-left: 0;
+		width: calc( (100% - 32px) / 3 );
 	}
 }
 
 @media screen and (min-width: 2300px) {
 	.plugin-card {
-		width: 25%;
-		width: calc( 25% - 12px );
-	}
-
-	.plugin-card:nth-child(odd) {
-		clear: none;
-		margin-right: 8px;
-	}
-
-	.plugin-card:nth-child(even) {
-		margin-left: 8px;
-	}
-
-	.plugin-card:nth-child(4n+1) {
-		clear: both;
-		margin-right: 0;
-	}
-
-	.plugin-card:nth-child(4n) {
-		margin-left: 0;
+		width: calc( (100% - 48px) / 4 );
 	}
 }
 
