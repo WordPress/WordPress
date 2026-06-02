@@ -331,8 +331,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 	/**
 	 * Overrides parent views so we can use the filter bar display.
+	 *
+	 * @global string $tab The current tab.
 	 */
 	public function views() {
+		global $tab;
+
 		$views = $this->get_views();
 
 		/** This filter is documented in wp-admin/includes/class-wp-list-table.php */
@@ -358,7 +362,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 	</ul>
 
-		<?php install_search_form(); ?>
+		<?php
+		if ( 'favorites' !== $tab ) {
+			install_search_form();
+		}
+		?>
 </div>
 		<?php
 	}
