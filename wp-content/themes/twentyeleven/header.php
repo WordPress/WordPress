@@ -10,8 +10,8 @@
  */
 
 /**
- * @global int $page  WordPress paginated post page count.
- * @global int $paged WordPress archive pagination page count.
+ * @global int $page  Page number of a single post.
+ * @global int $paged Page number of a list of posts.
  */
 global $page, $paged;
 
