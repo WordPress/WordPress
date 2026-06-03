@@ -40,6 +40,8 @@ require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Twenty Thirteen only works in WordPress 3.6 or later.
+ *
+ * @global string $wp_version The WordPress version string.
  */
 if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
@@ -70,6 +72,8 @@ add_action( 'init', 'twentythirteen_register_block_patterns' );
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
  * @since Twenty Thirteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentythirteen_setup() {
 	/*
@@ -360,6 +364,8 @@ add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
  * @since Twenty Thirteen 2.1
  * @deprecated Twenty Thirteen 3.8 Disabled filter because, by default, fonts are self-hosted.
  *
+ * @global string $wp_version The WordPress version string.
+ *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
@@ -402,8 +408,8 @@ add_action( 'enqueue_block_editor_assets', 'twentythirteen_block_editor_styles' 
  *
  * @since Twenty Thirteen 1.0
  *
- * @global int $paged WordPress archive pagination page count.
- * @global int $page  WordPress paginated post page count.
+ * @global int $paged Page number of a list of posts.
+ * @global int $page  Page number of a single post.
  *
  * @param string $title Default title text for current view.
  * @param string $sep   Optional separator.
@@ -488,6 +494,8 @@ if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 	 * Displays navigation to next/previous set of posts when applicable.
 	 *
 	 * @since Twenty Thirteen 1.0
+	 *
+	 * @global WP_Query $wp_query WordPress Query object.
 	 */
 	function twentythirteen_paging_nav() {
 		global $wp_query;
