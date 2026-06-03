@@ -2885,6 +2885,7 @@ function gallery_shortcode( $attr ) {
 	 * Filters whether to print default gallery styles.
 	 *
 	 * @since 3.1.0
+	 * @since 3.9.0 Set the default to false when the theme supports HTML5 galleries.
 	 *
 	 * @param bool $print Whether to print default gallery styles.
 	 *                    Defaults to false if the theme supports HTML5 galleries.
@@ -2916,9 +2917,18 @@ function gallery_shortcode( $attr ) {
 	$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
 
 	/**
-	 * Filters the default gallery shortcode CSS styles.
+	 * Filters the gallery shortcode's default CSS styles and opening HTML div container.
+	 *
+	 * To remove the CSS entirely, use the `use_default_gallery_style` filter instead:
+	 *
+	 *     add_filter( 'use_default_gallery_style', '__return_false' );
 	 *
 	 * @since 2.5.0
+	 * @since 3.1.0 Added classes for number of columns and size to opening div.
+	 * @since 5.3.0 Removed the `type` attribute for `style` tags when the theme
+	 *              supports HTML5 style, and changed the quotes from single to
+	 *              double for other themes.
+	 * @since 7.0.0 Removed the `type` attribute for any theme.
 	 *
 	 * @param string $gallery_style Default CSS styles and opening HTML div container
 	 *                              for the gallery shortcode output.
