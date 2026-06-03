@@ -1,11 +1,10 @@
-@use "sass:color";
-
-$highlight-color: #dd823b;
-
 @use "../_admin.scss" with (
   $scheme-name: "sunrise",
-  $base-color: #cf4944,
-  $highlight-color: $highlight-color,
+  $base-color: #8a312d,
+  $highlight-color: #ad631e,
   $notification-color: #ccaf0b,
-  $menu-submenu-focus-text: color.adjust($highlight-color, $lightness: 35%)
+  $menu-highlight-text: #fff,
+  $menu-highlight-icon: #fff,
+  $menu-bubble-text: #1e1e1e,
+  $menu-submenu-focus-text: #fff
 );

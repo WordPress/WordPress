@@ -4941,7 +4941,7 @@ function register_admin_color_schemes() {
 		'light',
 		_x( 'Light', 'admin color scheme' ),
 		admin_url( "css/colors/light/colors$suffix.css" ),
-		array( '#e5e5e5', '#999', '#d64e07', '#04a4cc' ),
+		array( '#e5e5e5', '#6a6a6a', '#c64606', '#007cba' ),
 		array(
 			'base'    => '#999',
 			'focus'   => '#ccc',
@@ -4953,7 +4953,7 @@ function register_admin_color_schemes() {
 		'blue',
 		_x( 'Blue', 'admin color scheme' ),
 		admin_url( "css/colors/blue/colors$suffix.css" ),
-		array( '#096484', '#4796b3', '#52accc', '#74B6CE' ),
+		array( '#183751', '#245278', '#437aa8', '#e1a948' ),
 		array(
 			'base'    => '#e5f8ff',
 			'focus'   => '#fff',
@@ -4965,7 +4965,7 @@ function register_admin_color_schemes() {
 		'midnight',
 		_x( 'Midnight', 'admin color scheme' ),
 		admin_url( "css/colors/midnight/colors$suffix.css" ),
-		array( '#25282b', '#363b3f', '#69a8bb', '#e14d43' ),
+		array( '#232a2e', '#333c42', '#69a8bb', '#cf4339' ),
 		array(
 			'base'    => '#f1f2f3',
 			'focus'   => '#fff',
@@ -4977,7 +4977,7 @@ function register_admin_color_schemes() {
 		'sunrise',
 		_x( 'Sunrise', 'admin color scheme' ),
 		admin_url( "css/colors/sunrise/colors$suffix.css" ),
-		array( '#b43c38', '#cf4944', '#dd823b', '#ccaf0b' ),
+		array( '#6f2724', '#8a312d', '#ad631e', '#ccaf0b' ),
 		array(
 			'base'    => '#f3f1f1',
 			'focus'   => '#fff',
@@ -4989,7 +4989,7 @@ function register_admin_color_schemes() {
 		'ectoplasm',
 		_x( 'Ectoplasm', 'admin color scheme' ),
 		admin_url( "css/colors/ectoplasm/colors$suffix.css" ),
-		array( '#413256', '#523f6d', '#a3b745', '#d46f15' ),
+		array( '#392751', '#4a3369', '#646c3e', '#d46f15' ),
 		array(
 			'base'    => '#ece6f6',
 			'focus'   => '#fff',
@@ -5001,7 +5001,7 @@ function register_admin_color_schemes() {
 		'ocean',
 		_x( 'Ocean', 'admin color scheme' ),
 		admin_url( "css/colors/ocean/colors$suffix.css" ),
-		array( '#627c83', '#738e96', '#9ebaa0', '#aa9d88' ),
+		array( '#2b3f44', '#39535a', '#567958', '#aa9d88' ),
 		array(
 			'base'    => '#f2fcff',
 			'focus'   => '#fff',
@@ -5013,7 +5013,7 @@ function register_admin_color_schemes() {
 		'coffee',
 		_x( 'Coffee', 'admin color scheme' ),
 		admin_url( "css/colors/coffee/colors$suffix.css" ),
-		array( '#46403c', '#59524c', '#c7a589', '#9ea476' ),
+		array( '#382e27', '#5c4c40', '#916745', '#9ea476' ),
 		array(
 			'base'    => '#f3f2f1',
 			'focus'   => '#fff',

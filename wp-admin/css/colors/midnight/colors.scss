@@ -1,7 +1,7 @@
 @use "sass:color";
 
-$base-color: #363b3f;
-$highlight-color: #e14d43;
+$base-color: #333c42;
+$highlight-color: #cf4339;
 $notification-color: #69a8bb;
 
 @use "../_admin.scss" with (
@@ -9,6 +9,10 @@ $notification-color: #69a8bb;
 	$base-color: $base-color,
 	$highlight-color: $highlight-color,
 	$notification-color: $notification-color,
+	$menu-highlight-text: #fff,
+	$menu-highlight-icon: #fff,
+	$menu-bubble-text: #1e1e1e,
+	$menu-submenu-focus-text: #fff,
 
 	$dashboard-accent-2: color.mix($base-color, $notification-color, 90%),
 );

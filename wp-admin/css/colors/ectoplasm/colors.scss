@@ -1,11 +1,15 @@
-$base-color: #523f6d;
+$base-color: #4a3369;
 
 @use "../_admin.scss" with (
 	$scheme-name: "ectoplasm",
 	$base-color: $base-color,
 	$icon-color: #ece6f6,
-	$highlight-color: #a3b745,
+	$highlight-color: #646c3e,
 	$notification-color: #d46f15,
+	$menu-highlight-text: #fff,
+	$menu-highlight-icon: #fff,
+	$menu-bubble-text: #1e1e1e,
+	$menu-submenu-focus-text: #fff,
 
 	$form-checked: $base-color,
 );
