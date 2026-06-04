@@ -32,6 +32,8 @@ add_action( 'after_switch_theme', 'twentyfourteen_switch_theme' );
  * Twenty Fourteen on WordPress versions prior to 3.6.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfourteen_upgrade_notice() {
 	printf(
@@ -48,6 +50,8 @@ function twentyfourteen_upgrade_notice() {
  * Prevents the Customizer from being loaded on WordPress versions prior to 3.6.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfourteen_customize() {
 	wp_die(
@@ -68,6 +72,8 @@ add_action( 'load-customize.php', 'twentyfourteen_customize' );
  * Prevents the Theme Preview from being loaded on WordPress versions prior to 3.4.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfourteen_preview() {
 	if ( isset( $_GET['preview'] ) ) {

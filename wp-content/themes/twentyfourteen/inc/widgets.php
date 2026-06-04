@@ -66,6 +66,9 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
+	 * @global int $content_width Content width.
+	 * @global int $more
+	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
 	 */

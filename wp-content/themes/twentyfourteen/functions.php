@@ -38,6 +38,8 @@ if ( ! isset( $content_width ) ) {
 
 /**
  * Twenty Fourteen only works in WordPress 3.6 or later.
+ *
+ * @global string $wp_version The WordPress version string.
  */
 if ( version_compare( $GLOBALS['wp_version'], '3.6', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
@@ -54,6 +56,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 	 * as indicating support post thumbnails.
 	 *
 	 * @since Twenty Fourteen 1.0
+	 *
+	 * @global string $wp_version The WordPress version string.
 	 */
 	function twentyfourteen_setup() {
 
@@ -226,6 +230,8 @@ add_action( 'after_setup_theme', 'twentyfourteen_setup' );
  * Adjusts content_width value for image attachment template.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @global int $content_width Content width.
  */
 function twentyfourteen_content_width() {
 	if ( is_attachment() && wp_attachment_is_image() ) {
@@ -416,6 +422,8 @@ add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen
  * @since Twenty Fourteen 1.9
  * @deprecated Twenty Fourteen 3.6 Disabled filter because, by default, fonts are self-hosted.
  *
+ * @global string $wp_version The WordPress version string.
+ *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
@@ -523,6 +531,8 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 	 * Prints a list of all site contributors who published at least one post.
 	 *
 	 * @since Twenty Fourteen 1.0
+	 *
+	 * @global string $wp_version The WordPress version string.
 	 */
 	function twentyfourteen_list_authors() {
 		$args = array(
@@ -595,6 +605,8 @@ endif;
  *
  * @since Twenty Fourteen 1.0
  *
+ * @global string $pagenow The filename of the current screen.
+ *
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
  */
@@ -664,8 +676,8 @@ add_filter( 'post_class', 'twentyfourteen_post_classes' );
  *
  * @since Twenty Fourteen 1.0
  *
- * @global int $paged WordPress archive pagination page count.
- * @global int $page  WordPress paginated post page count.
+ * @global int $paged Page number of a list of posts.
+ * @global int $page  Page number of a single post.
  *
  * @param string $title Default title text for current view.
  * @param string $sep Optional separator.
@@ -743,6 +755,8 @@ add_action( 'init', 'twentyfourteen_register_block_patterns' );
  *
  * To overwrite in a plugin, define your own Featured_Content class on or
  * before the 'setup_theme' hook.
+ *
+ * @global string $pagenow The filename of the current screen.
  */
 if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] ) {
 	require get_template_directory() . '/inc/featured-content.php';
