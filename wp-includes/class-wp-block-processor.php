@@ -1799,9 +1799,9 @@ class WP_Block_Processor {
 	 * @return string Fully-qualified block type including namespace.
 	 */
 	public static function normalize_block_type( string $block_type ): string {
-		return false === strpos( $block_type, '/' )
-			? "core/{$block_type}"
-			: $block_type;
+		return str_contains( $block_type, '/' )
+			? $block_type
+			: "core/{$block_type}";
 	}
 
 	/**
