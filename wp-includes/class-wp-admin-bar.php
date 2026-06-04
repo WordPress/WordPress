@@ -218,10 +218,7 @@ class WP_Admin_Bar {
 			$id = 'root';
 		}
 
-		if ( isset( $this->nodes[ $id ] ) ) {
-			return $this->nodes[ $id ];
-		}
-		return null;
+		return $this->nodes[ $id ] ?? null;
 	}
 
 	/**
