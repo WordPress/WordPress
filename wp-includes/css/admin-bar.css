@@ -78,8 +78,9 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar a:focus {
-	/* Inherits transparent outline only visible in Windows High Contrast mode */
 	outline-offset: -1px;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #wpadminbar {
