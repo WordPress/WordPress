@@ -32,6 +32,8 @@ add_action( 'after_switch_theme', 'twentyfifteen_switch_theme' );
  * Twenty Fifteen on WordPress versions prior to 4.1.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfifteen_upgrade_notice() {
 	printf(
@@ -48,6 +50,8 @@ function twentyfifteen_upgrade_notice() {
  * Prevents the Customizer from being loaded on WordPress versions prior to 4.1.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfifteen_customize() {
 	wp_die(
@@ -68,6 +72,8 @@ add_action( 'load-customize.php', 'twentyfifteen_customize' );
  * Prevents the Theme Preview from being loaded on WordPress versions prior to 4.1.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function twentyfifteen_preview() {
 	if ( isset( $_GET['preview'] ) ) {
