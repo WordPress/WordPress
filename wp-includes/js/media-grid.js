@@ -790,8 +790,9 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 
 				if ( val ) {
 					url += '?search=' + val;
-					this.gridRouter.navigate( this.gridRouter.baseUrl( url ), { replace: true } );
 				}
+
+				this.gridRouter.navigate( this.gridRouter.baseUrl( url ), { replace: true } );
 			}, 1000 );
 
 		// Update the URL when entering search string (at most once per second).
