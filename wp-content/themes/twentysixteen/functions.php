@@ -27,6 +27,8 @@
 
 /**
  * Twenty Sixteen only works in WordPress 4.4 or later.
+ *
+ * @global string $wp_version The WordPress version string.
  */
 if ( version_compare( $GLOBALS['wp_version'], '4.4-alpha', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
@@ -43,6 +45,8 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 	 * Create your own twentysixteen_setup() function to override in a child theme.
 	 *
 	 * @since Twenty Sixteen 1.0
+	 *
+	 * @global string $wp_version The WordPress version string.
 	 */
 	function twentysixteen_setup() {
 		/*
@@ -241,9 +245,9 @@ add_action( 'after_setup_theme', 'twentysixteen_setup' );
  *
  * Priority 0 to make it available to lower priority callbacks.
  *
- * @global int $content_width
- *
  * @since Twenty Sixteen 1.0
+ *
+ * @global int $content_width Content width.
  */
 function twentysixteen_content_width() {
 	/**
