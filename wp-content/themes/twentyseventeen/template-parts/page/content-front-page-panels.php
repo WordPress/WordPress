@@ -8,6 +8,9 @@
  * @version 1.0
  */
 
+/**
+ * @global int|string $twentyseventeencounter Front page section counter.
+ */
 global $twentyseventeencounter;
 
 ?>

@@ -11,6 +11,8 @@
 
 /**
  * Twenty Seventeen only works in WordPress 4.7 or later.
+ *
+ * @global string $wp_version The WordPress version string.
  */
 if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
@@ -23,6 +25,10 @@ if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '<' ) ) {
  * Note that this function is hooked into the after_setup_theme hook, which
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
+ *
+ * @since Twenty Seventeen 1.0
+ *
+ * @global int $content_width Content width.
  */
 function twentyseventeen_setup() {
 
@@ -248,7 +254,7 @@ add_action( 'after_setup_theme', 'twentyseventeen_setup' );
  *
  * Priority 0 to make it available to lower priority callbacks.
  *
- * @global int $content_width
+ * @global int $content_width Content width.
  */
 function twentyseventeen_content_width() {
 

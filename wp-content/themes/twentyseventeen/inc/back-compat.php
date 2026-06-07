@@ -33,7 +33,7 @@ add_action( 'after_switch_theme', 'twentyseventeen_switch_theme' );
  *
  * @since Twenty Seventeen 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version The WordPress version string.
  */
 function twentyseventeen_upgrade_notice() {
 	printf(
@@ -51,7 +51,7 @@ function twentyseventeen_upgrade_notice() {
  *
  * @since Twenty Seventeen 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version The WordPress version string.
  */
 function twentyseventeen_customize() {
 	wp_die(
@@ -73,7 +73,7 @@ add_action( 'load-customize.php', 'twentyseventeen_customize' );
  *
  * @since Twenty Seventeen 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version The WordPress version string.
  */
 function twentyseventeen_preview() {
 	if ( isset( $_GET['preview'] ) ) {
