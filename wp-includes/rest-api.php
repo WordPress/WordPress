@@ -1564,13 +1564,43 @@ function rest_is_boolean( $maybe_bool ) {
 /**
  * Determines if a given value is integer-like.
  *
+ * This reports whether the value represents an integer; it does not guarantee that the
+ * value can be represented as a native PHP integer. Values whose magnitude exceeds
+ * `PHP_INT_MAX` are still reported as integer-like, even though the `(int)` cast that
+ * {@see rest_sanitize_value_from_schema()} applies for the 'integer' type cannot round-trip
+ * them: an out-of-range numeric *string* saturates to `PHP_INT_MAX` or `PHP_INT_MIN`, while
+ * an out-of-range *float* is an undefined conversion in PHP that yields an arbitrary wrapped
+ * value. Likewise, a numeric value with a fractional part that is too large for the fraction
+ * to be represented as a float (greater than 2 ** 53) is reported as integer-like.
+ *
  * @since 5.5.0
  *
  * @param mixed $maybe_integer The value being evaluated.
  * @return bool True if an integer, otherwise false.
  */
-function rest_is_integer( $maybe_integer ) {
-	return is_numeric( $maybe_integer ) && round( (float) $maybe_integer ) === (float) $maybe_integer;
+function rest_is_integer( $maybe_integer ): bool {
+	if ( is_int( $maybe_integer ) ) {
+		return true;
+	}
+
+	// A canonical integer string of any magnitude — verified without float conversion.
+	if ( is_string( $maybe_integer ) && preg_match( '/^\s*[+-]?[0-9]+\s*$/', $maybe_integer ) ) {
+		return true;
+	}
+
+	// Decimal and scientific-notation strings (and floats) keep their historical behavior.
+	if ( ! is_numeric( $maybe_integer ) ) {
+		return false;
+	}
+	$float_value = (float) $maybe_integer;
+
+	/*
+	 * The strict equality here is not the unreliable "are two computed floats equal" comparison
+	 * (e.g. 0.1 + 0.2 === 0.3, which is false). It compares a float to its own floor() to ask
+	 * "does this float have a fractional part?". A float is whole exactly when it equals its floor,
+	 * so the comparison is exact and safe regardless of floating-point representation error.
+	 */
+	return floor( $float_value ) === $float_value;
 }
 
 /**
