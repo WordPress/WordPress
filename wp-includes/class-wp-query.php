@@ -4019,17 +4019,17 @@ class WP_Query {
 			}
 		} elseif ( $this->is_post_type_archive ) {
 			$post_type = $this->get( 'post_type' );
-
 			if ( is_array( $post_type ) ) {
 				$post_type = reset( $post_type );
 			}
 
 			$this->queried_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_posts_page ) {
-			$page_for_posts = get_option( 'page_for_posts' );
-
-			$this->queried_object    = get_post( $page_for_posts );
-			$this->queried_object_id = (int) $this->queried_object->ID;
+			$posts_page = get_post( get_option( 'page_for_posts' ) );
+			if ( $posts_page ) {
+				$this->queried_object    = $posts_page;
+				$this->queried_object_id = (int) $posts_page->ID;
+			}
 		} elseif ( $this->is_singular && ! empty( $this->post ) ) {
 			$this->queried_object    = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
@@ -4041,13 +4041,17 @@ class WP_Query {
 				$this->queried_object_id = $author;
 			} elseif ( $author_name ) {
 				$user = get_user_by( 'slug', $author_name );
-
 				if ( $user ) {
 					$this->queried_object_id = $user->ID;
 				}
 			}
 
-			$this->queried_object = get_userdata( $this->queried_object_id );
+			if ( $this->queried_object_id ) {
+				$user = get_userdata( $this->queried_object_id );
+				if ( $user ) {
+					$this->queried_object = $user;
+				}
+			}
 		}
 
 		return $this->queried_object;
