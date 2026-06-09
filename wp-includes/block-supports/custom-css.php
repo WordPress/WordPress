@@ -98,32 +98,31 @@ function wp_enqueue_block_custom_css() {
  * } $block
  */
 function wp_render_custom_css_class_name( $block_content, $block ) {
-	$class_name_attr = $block['attrs']['className'] ?? null;
-
-	if ( ! is_string( $class_name_attr ) || ! str_contains( $class_name_attr, 'wp-custom-css-' ) ) {
+	$class_name_attr   = $block['attrs']['className'] ?? null;
+	$class_name_prefix = 'wp-custom-css-';
+	if ( ! is_string( $class_name_attr ) || ! str_contains( $class_name_attr, $class_name_prefix ) ) {
 		return $block_content;
 	}
 
 	// Parse out the 'wp-custom-css-*' class name added by wp_render_custom_css_support_styles().
-	$custom_class_name = null;
-	$token_delimiter   = " \t\f\r\n";
-	$class_token       = strtok( $class_name_attr, $token_delimiter );
+	$matched_class_name = null;
+	$token_delimiter    = " \t\f\r\n";
+	$class_token        = strtok( $class_name_attr, $token_delimiter );
 	while ( false !== $class_token ) {
-		if ( str_starts_with( $class_token, 'wp-custom-css-' ) ) {
-			$custom_class_name = $class_token;
+		if ( str_starts_with( $class_token, $class_name_prefix ) ) {
+			$matched_class_name = $class_token;
 			break;
 		}
 		$class_token = strtok( $token_delimiter );
 	}
-	if ( null === $custom_class_name ) {
+	if ( null === $matched_class_name ) {
 		return $block_content;
 	}
 
 	$tags = new WP_HTML_Tag_Processor( $block_content );
-
 	if ( $tags->next_tag() ) {
 		$tags->add_class( 'has-custom-css' );
-		$tags->add_class( $custom_class_name );
+		$tags->add_class( $matched_class_name );
 	}
 
 	return $tags->get_updated_html();
