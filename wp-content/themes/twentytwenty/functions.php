@@ -32,6 +32,9 @@
  * as indicating support for post thumbnails.
  *
  * @since Twenty Twenty 1.0
+ *
+ * @global int    $content_width Content width.
+ * @global string $wp_version    The WordPress version string.
  */
 function twentytwenty_theme_support() {
 
@@ -461,6 +464,9 @@ function twentytwenty_block_editor_styles() {
 	}
 }
 
+/**
+ * @global string $wp_version The WordPress version string.
+ */
 if ( is_admin() && version_compare( $GLOBALS['wp_version'], '6.3', '>=' ) ) {
 	add_action( 'enqueue_block_assets', 'twentytwenty_block_editor_styles', 1, 1 );
 } else {
