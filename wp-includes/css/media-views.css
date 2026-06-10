@@ -340,6 +340,7 @@
 .media-toolbar-secondary {
 	float: left;
 	height: 100%;
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat( 2, 1fr );
 	grid-template-rows: repeat( 2, 1fr );
@@ -363,6 +364,13 @@ label[for="media-attachment-date-filters"] {
 select#media-attachment-date-filters { 
 	grid-area: 2 / 2 / 3 / 3; 
 } 
+
+.media-toolbar-secondary > .spinner {
+	position: absolute;
+	left: calc( 100% + 2px );
+	top: 50%;
+	margin: 0;
+}
 
 .media-toolbar-primary > .media-button,
 .media-toolbar-primary > .media-button-group {
@@ -1286,7 +1294,7 @@ select#media-attachment-date-filters {
 }
 
 .attachments-browser .media-toolbar-primary {
-	max-width: 33%;
+	max-width: calc( 33% - 20px );
 }
 
 .mode-grid .attachments-browser .media-toolbar-primary {
@@ -1818,12 +1826,6 @@ select#media-attachment-date-filters {
 	margin: 0;
 	float: none;
 	vertical-align: middle;
-}
-
-.media-modal .media-toolbar .spinner {
-	float: none;
-	vertical-align: bottom;
-	margin: 0 0 5px 5px;
 }
 
 .media-frame .instructions + .spinner.is-active {
@@ -2835,6 +2837,10 @@ select#media-attachment-date-filters {
 		float: right;
 	}
 
+	.media-frame .media-toolbar-secondary .spinner {
+		top: calc( 50% - 8px );
+	}
+
 	.media-modal .attachments-browser .media-toolbar .attachment-filters {
 		height: auto;
 	}
@@ -2855,10 +2861,6 @@ select#media-attachment-date-filters {
 	.media-frame .media-toolbar input[type="search"] {
 		line-height: 2.3755; /* 38px */
 	}
-
-	.media-modal .media-toolbar .spinner {
-		margin-bottom: 10px;
-	}
 }
 
 @media screen and (max-width: 782px) {
@@ -2868,6 +2870,10 @@ select#media-attachment-date-filters {
 
 	.media-frame-toolbar .media-toolbar {
 		bottom: -60px;
+	}
+
+	.media-frame .media-toolbar-secondary .spinner {
+		top: 0;
 	}
 
 	.mode-grid .attachments-browser .media-toolbar-primary {
@@ -2894,7 +2900,7 @@ select#media-attachment-date-filters {
 		top: 0;
 		bottom: 0;
 		margin: auto;
-		left: 0;
+		left: calc( 100% + 2px );
 		right: 0;
 		z-index: 9;
 	}
