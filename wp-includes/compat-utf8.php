@@ -404,6 +404,7 @@ function _wp_utf8_codepoint_span( string $text, int $byte_offset, int $max_code_
  * Fallback support for determining if a string contains Unicode noncharacters.
  *
  * @since 6.9.0
+ * @deprecated 7.1.0
  * @access private
  *
  * @see \wp_has_noncharacters()
@@ -412,17 +413,9 @@ function _wp_utf8_codepoint_span( string $text, int $byte_offset, int $max_code_
  * @return bool Whether noncharacters were found in the string.
  */
 function _wp_has_noncharacters_fallback( string $text ): bool {
-	$at                = 0;
-	$invalid_length    = 0;
-	$has_noncharacters = false;
-	$end               = strlen( $text );
+	_deprecated_function( __FUNCTION__, '7.1.0' );
 
-	while ( $at < $end && ! $has_noncharacters ) {
-		_wp_scan_utf8( $text, $at, $invalid_length, null, null, $has_noncharacters );
-		$at += $invalid_length;
-	}
-
-	return $has_noncharacters;
+	return wp_has_noncharacters( $text );
 }
 
 /**
