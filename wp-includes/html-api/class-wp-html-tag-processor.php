@@ -3071,6 +3071,12 @@ class WP_HTML_Tag_Processor {
 	 * Returns the adjusted attribute name for a given attribute, taking into
 	 * account the current parsing context, whether HTML, SVG, or MathML.
 	 *
+	 * In SVG and MathML contexts, adjusted foreign attributes with a namespace
+	 * prefix use a space between the prefix and local name. For example,
+	 * `xlink:href` is returned as `xlink href`, while the unprefixed `xmlns`
+	 * attribute is returned as `xmlns`. Non-adjusted attributes with a colon in
+	 * their name, such as `foo:bar`, are returned unchanged.
+	 *
 	 * @since 6.7.0
 	 *
 	 * @param string $attribute_name Which attribute to adjust.
