@@ -1254,7 +1254,7 @@ function wp_get_ready_cron_jobs() {
  * @since 6.1.0 Return type modified to consistently return an array.
  * @access private
  *
- * @return array[] Array of cron events.
+ * @return array<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>>|array{} Array of cron events.
  */
 function _get_cron_array() {
 	$cron = get_option( 'cron' );
@@ -1262,12 +1262,17 @@ function _get_cron_array() {
 		return array();
 	}
 
+	/**
+	 * @var array{ version: int, ...<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>> }
+	 *     |array<int, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>> $cron
+	 */
 	if ( ! isset( $cron['version'] ) ) {
 		$cron = _upgrade_cron_array( $cron );
 	}
 
 	unset( $cron['version'] );
 
+	/** @var array<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>> $cron */
 	return $cron;
 }
 
@@ -1283,6 +1288,9 @@ function _get_cron_array() {
  * @param array[] $cron     Array of cron info arrays from _get_cron_array().
  * @param bool    $wp_error Optional. Whether to return a WP_Error on failure. Default false.
  * @return bool|WP_Error True if cron array updated. False or WP_Error on failure.
+ *
+ * @phpstan-param array<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>> $cron
+ * @phpstan-return ( $wp_error is true ? true|WP_Error : bool )
  */
 function _set_cron_array( $cron, $wp_error = false ) {
 	if ( ! is_array( $cron ) ) {
@@ -1313,6 +1321,10 @@ function _set_cron_array( $cron, $wp_error = false ) {
  *
  * @param array $cron Cron info array from _get_cron_array().
  * @return array An upgraded cron info array.
+ *
+ * @phpstan-param array{ version: int, ...<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>> }
+ *               |array<int, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>> $cron
+ * @phpstan-return array{ version: 2, ...<int, array<string, array<string, array{ schedule: string|false, args: array<mixed>, interval?: non-negative-int }>>> }
  */
 function _upgrade_cron_array( $cron ) {
 	if ( isset( $cron['version'] ) && 2 === $cron['version'] ) {
@@ -1323,7 +1335,7 @@ function _upgrade_cron_array( $cron ) {
 
 	foreach ( (array) $cron as $timestamp => $hooks ) {
 		foreach ( (array) $hooks as $hook => $args ) {
-			$key = md5( serialize( $args['args'] ) );
+			$key = md5( serialize( $args['args'] ?? array() ) );
 
 			$new_cron[ $timestamp ][ $hook ][ $key ] = $args;
 		}
