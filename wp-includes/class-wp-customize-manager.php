@@ -3056,7 +3056,7 @@ final class WP_Customize_Manager {
 	 *
 	 * The following re-formulates the logic from `wp_trash_post()` as done in
 	 * `wp_publish_post()`. The reason for bypassing `wp_trash_post()` is that it
-	 * will mutate the the `post_content` and the `post_name` when they should be
+	 * will mutate the `post_content` and the `post_name` when they should be
 	 * untouched.
 	 *
 	 * @since 4.9.0

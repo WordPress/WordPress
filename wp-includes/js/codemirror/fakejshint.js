@@ -1,5 +1,5 @@
 /**
- * JSHINT has some GPL Compatability issues, so we are faking it out and using esprima for validation
+ * JSHINT has some GPL Compatibility issues, so we are faking it out and using esprima for validation
  * Based on https://github.com/jquery/esprima/blob/gh-pages/demo/validate.js which is MIT licensed.
  * This is now deprecated in favor of Espree.
  *

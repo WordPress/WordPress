@@ -2693,7 +2693,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	 */
 	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr );
 
-	// Do not carry on on failure.
+	// Do not continue on failure.
 	if ( is_wp_error( $data ) ) {
 		if ( $wp_error ) {
 			return $data;

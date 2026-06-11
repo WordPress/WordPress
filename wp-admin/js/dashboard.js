@@ -756,8 +756,8 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param {int}    startDate   The Unix timestamp in milliseconds when the the event starts.
-		 * @param {int}    endDate     The Unix timestamp in milliseconds when the the event ends.
+		 * @param {int}    startDate   The Unix timestamp in milliseconds when the event starts.
+		 * @param {int}    endDate     The Unix timestamp in milliseconds when the event ends.
 		 * @param {string} timeZone    A time zone string or offset which is parsable by `wp.date.i18n()`.
 		 *
 		 * @returns {string}

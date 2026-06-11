@@ -132,7 +132,7 @@ final class WP_Recovery_Mode_Email_Service {
 		}
 
 		/**
-		 * Filters the support message sent with the the fatal error protection email.
+		 * Filters the support message sent with the fatal error protection email.
 		 *
 		 * @since 5.2.0
 		 *
