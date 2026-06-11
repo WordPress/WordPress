@@ -424,7 +424,7 @@ class WP_HTML_Decoder {
 	 * @return string Converted code point, or `�` if invalid.
 	 */
 	public static function code_point_to_utf8_bytes( $code_point ): string {
-		$string = mb_chr( $code_point );
+		$string = mb_chr( $code_point, 'UTF-8' );
 
 		return false !== $string ? $string : '�';
 	}
