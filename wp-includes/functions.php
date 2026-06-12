@@ -1031,14 +1031,19 @@ function is_new_day() {
  * This is a convenient function for easily building URL queries.
  * It sets the separator to '&' and uses the _http_build_query() function.
  *
+ * Unlike PHP's native http_build_query(), this function does NOT URL-encode
+ * the keys or values. Callers are responsible for encoding values beforehand
+ * with urlencode() or rawurlencode(), or late-escaping the output with
+ * esc_url() before use.
+ *
  * @since 2.3.0
  *
- * @see _http_build_query() Used to build the query
+ * @see _http_build_query() Used to build the query.
  * @link https://www.php.net/manual/en/function.http-build-query.php for more on what
  *       http_build_query() does.
  *
- * @param array $data URL-encode key/value pairs.
- * @return string URL-encoded string.
+ * @param array $data Array of key/value pairs to build the query from.
+ * @return string Query string, without URL encoding applied.
  */
 function build_query( $data ) {
 	return _http_build_query( $data, null, '&', '', false );
