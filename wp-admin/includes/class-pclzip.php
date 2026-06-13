@@ -3988,7 +3988,7 @@
 
 
     // ----- Write gz file format header
-    $v_binary_data = pack('va1a1Va1a1', 0x8b1f, Chr($p_entry['compression']), Chr(0x00), time(), Chr(0x00), Chr(3));
+    $v_binary_data = pack('va1a1Va1a1', 0x8b1f, chr($p_entry['compression']), chr(0x00), time(), chr(0x00), chr(3));
     @fwrite($v_dest_file, $v_binary_data, 10);
 
     // ----- Read the file by PCLZIP_READ_BLOCK_SIZE octets blocks
@@ -4616,10 +4616,10 @@
         $v_byte = @fread($this->zip_fd, 1);
 
         // -----  Add the byte
-        //$v_bytes = ($v_bytes << 8) | Ord($v_byte);
+        //$v_bytes = ($v_bytes << 8) | ord($v_byte);
         // Note we mask the old value down such that once shifted we can never end up with more than a 32bit number
         // Otherwise on systems where we have 64bit integers the check below for the magic number will fail.
-        $v_bytes = ( ($v_bytes & 0xFFFFFF) << 8) | Ord($v_byte);
+        $v_bytes = ( ($v_bytes & 0xFFFFFF) << 8) | ord($v_byte);
 
         // ----- Compare the bytes
         if ($v_bytes == 0x504b0506)
