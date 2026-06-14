@@ -1086,8 +1086,7 @@ final class WP_Interactivity_API {
 	 */
 	private function data_wp_class_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
-			$all_class_directives = $p->get_attribute_names_with_prefix( 'data-wp-class--' );
-			$entries              = $this->get_directive_entries( $p, 'class' );
+			$entries = $this->get_directive_entries( $p, 'class' );
 			foreach ( $entries as $entry ) {
 				if ( empty( $entry['suffix'] ) ) {
 					continue;
