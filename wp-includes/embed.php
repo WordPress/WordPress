@@ -1232,12 +1232,25 @@ function print_embed_sharing_dialog() {
  *
  * @since 4.5.0
  */
-function the_embed_site_title() {
+function the_embed_site_title(): void {
+	$fallback_icon_url = includes_url( 'images/w-logo-blue.png' );
+	$site_icon_url     = get_site_icon_url( 32, $fallback_icon_url );
+
+	$icon_img = '';
+	if ( $site_icon_url ) {
+		$site_icon_url_2x = get_site_icon_url( 64, $fallback_icon_url );
+		$srcset           = ( $site_icon_url_2x && $site_icon_url !== $site_icon_url_2x ) ? sprintf( ' srcset="%s 2x"', esc_url( $site_icon_url_2x ) ) : '';
+		$icon_img         = sprintf(
+			'<img src="%s"%s width="32" height="32" alt="" class="wp-embed-site-icon" />',
+			esc_url( $site_icon_url ),
+			$srcset
+		);
+	}
+
 	$site_title = sprintf(
-		'<a href="%s" target="_top"><img src="%s" srcset="%s 2x" width="32" height="32" alt="" class="wp-embed-site-icon" /><span>%s</span></a>',
+		'<a href="%s" target="_top">%s<span>%s</span></a>',
 		esc_url( home_url() ),
-		esc_url( get_site_icon_url( 32, includes_url( 'images/w-logo-blue.png' ) ) ),
-		esc_url( get_site_icon_url( 64, includes_url( 'images/w-logo-blue.png' ) ) ),
+		$icon_img,
 		esc_html( get_bloginfo( 'name' ) )
 	);
 
