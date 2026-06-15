@@ -23,7 +23,10 @@ class WP_oEmbed {
 	 * A list of oEmbed providers.
 	 *
 	 * @since 2.9.0
-	 * @var array
+	 * @var array<string, array{ 0: string, 1: bool }> An associative array mapping URL patterns to provider data.
+	 *                                                 Each entry's value is an array with the provider endpoint URL
+	 *                                                 string at index 0 and a boolean at index 1 indicating whether
+	 *                                                 the URL pattern (array key) is a regular expression.
 	 */
 	public $providers = array();
 
@@ -221,9 +224,29 @@ class WP_oEmbed {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array[] $providers An array of arrays containing data about popular oEmbed providers.
+		 * @param array<string, array{ 0: string, 1?: bool }> $providers An associative array mapping URL patterns to
+		 *                                                               provider data. Each value must be an array
+		 *                                                               with a provider endpoint URL string at index 0
+		 *                                                               and an optional boolean regex flag at index 1.
 		 */
-		$this->providers = apply_filters( 'oembed_providers', $providers );
+		$providers = (array) apply_filters( 'oembed_providers', $providers );
+		foreach ( $providers as $match_mask => $data ) {
+			$provider = $this->sanitize_provider( $match_mask, $data );
+			if ( null === $provider ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: 1: oembed_providers, 2: The oEmbed provider URL pattern. */
+						__( 'The oEmbed provider data returned by the %1$s filter at key %2$s is malformed. The providers array must be a mapping of provider URL patterns to a tuple array consisting of a provider endpoint URL string at index 0 and an optional boolean regex flag at index 1.' ),
+						'<code>oembed_providers</code>',
+						'<code>' . esc_html( (string) $match_mask ) . '</code>'
+					),
+					'7.1.0'
+				);
+			} else {
+				$this->providers[ $provider['match_mask'] ] = array( $provider['endpoint'], $provider['is_regex'] );
+			}
+		}
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
 		add_filter( 'oembed_dataparse', array( $this, '_strip_newlines' ), 10, 3 );
@@ -244,6 +267,37 @@ class WP_oEmbed {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Sanitizes and normalizes a single oEmbed provider entry.
+	 *
+	 * Validates that the match mask is a non-empty string and that the provider data
+	 * is an array with a non-empty string endpoint URL at index 0. Normalizes the
+	 * optional regex flag at index 1 to a boolean.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param array-key $match_mask The URL pattern used to match against URLs.
+	 * @param mixed     $data       The raw provider data to sanitize.
+	 * @return array{ match_mask: non-empty-string, endpoint: non-empty-string, is_regex: bool }|null Normalized provider array, or null if malformed.
+	 */
+	private function sanitize_provider( $match_mask, $data ): ?array {
+		if (
+			is_string( $match_mask ) &&
+			'' !== $match_mask &&
+			is_array( $data ) &&
+			isset( $data[0] ) &&
+			is_string( $data[0] ) &&
+			'' !== $data[0]
+		) {
+			return array(
+				'match_mask' => $match_mask,
+				'endpoint'   => $data[0],
+				'is_regex'   => (bool) ( $data[1] ?? false ),
+			);
+		}
+		return null;
 	}
 
 	/**
@@ -272,17 +326,21 @@ class WP_oEmbed {
 			$args['discover'] = true;
 		}
 
-		foreach ( $this->providers as $matchmask => $data ) {
-			list( $providerurl, $regex ) = $data;
+		foreach ( $this->providers as $match_mask => $data ) {
+			$provider_data = $this->sanitize_provider( $match_mask, $data );
+			if ( null === $provider_data ) {
+				continue;
+			}
+			$match_mask = $provider_data['match_mask'];
 
 			// Turn the asterisk-type provider URLs into regex.
-			if ( ! $regex ) {
-				$matchmask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
-				$matchmask = preg_replace( '|^#http\\\://|', '#https?\://', $matchmask );
+			if ( ! $provider_data['is_regex'] ) {
+				$match_mask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $match_mask ), '#' ) ) . '#i';
+				$match_mask = (string) preg_replace( '|^#http\\\://|', '#https?\://', $match_mask );
 			}
 
-			if ( preg_match( $matchmask, $url ) ) {
-				$provider = str_replace( '{format}', 'json', $providerurl ); // JSON is easier to deal with than XML.
+			if ( preg_match( $match_mask, $url ) ) {
+				$provider = str_replace( '{format}', 'json', $provider_data['endpoint'] ); // JSON is easier to deal with than XML.
 				break;
 			}
 		}
