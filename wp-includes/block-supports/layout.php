@@ -1271,10 +1271,29 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	$first_chunk                 = $block['innerContent'][0] ?? null;
 	if ( is_string( $first_chunk ) && count( $block['innerContent'] ) > 1 ) {
 		$first_chunk_processor = new WP_HTML_Tag_Processor( $first_chunk );
-		while ( $first_chunk_processor->next_tag() ) {
-			$class_attribute = $first_chunk_processor->get_attribute( 'class' );
+		/*
+		 * Use a stack to track open elements as tags are visited. Void elements
+		 * (those without a matching closing tag) are excluded so they don't
+		 * accumulate on the stack. At the end of the chunk, every element still
+		 * on the stack is unclosed — meaning its closing tag lives in a later
+		 * innerContent entry alongside the inner blocks, which makes it the
+		 * inner-block container. Elements that open and close within this chunk
+		 * are siblings that precede the inner blocks and should be ignored.
+		 * The last unclosed element with a class attribute is the best candidate
+		 * for the inner-block wrapper.
+		 */
+		$tag_stack = array();
+		while ( $first_chunk_processor->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
+			if ( $first_chunk_processor->is_tag_closer() ) {
+				array_pop( $tag_stack );
+			} elseif ( ! WP_HTML_Processor::is_void( $first_chunk_processor->get_tag() ) ) {
+				$tag_stack[] = $first_chunk_processor->get_attribute( 'class' );
+			}
+		}
+		foreach ( array_reverse( $tag_stack ) as $class_attribute ) {
 			if ( is_string( $class_attribute ) && ! empty( $class_attribute ) ) {
 				$inner_block_wrapper_classes = $class_attribute;
+				break;
 			}
 		}
 	}
