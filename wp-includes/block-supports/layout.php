@@ -116,13 +116,45 @@ function wp_get_child_layout_style_rules( $selector, $child_layout, $parent_layo
 		return array_key_exists( $property, $viewport_overrides );
 	};
 
-	$self_stretch = $child_layout['selfStretch'] ?? null;
+	$self_stretch      = $child_layout['selfStretch'] ?? null;
+	$base_self_stretch = $base_child_layout['selfStretch'] ?? null;
+
+	/*
+	 * These are the serialized `selfStretch` values. `max` used to be called
+	 * "Fixed" in the UI, but was renamed and replaced by `fixedNoShrink`.
+	 */
+	$flex_child_layout_values = array(
+		'fit'   => 'fit',
+		'grow'  => 'fill',
+		'max'   => 'fixed',
+		'fixed' => 'fixedNoShrink',
+	);
+	$flex_size_values         = array(
+		$flex_child_layout_values['max'],
+		$flex_child_layout_values['fixed'],
+	);
 
 	if ( null === $viewport_overrides || $has_viewport_property_override( 'selfStretch' ) || $has_viewport_property_override( 'flexSize' ) ) {
-		if ( 'fixed' === $self_stretch && isset( $child_layout['flexSize'] ) ) {
+		if (
+			null !== $viewport_overrides &&
+			( $flex_child_layout_values['fit'] === $self_stretch || $flex_child_layout_values['grow'] === $self_stretch ) &&
+			in_array( $base_self_stretch, $flex_size_values, true ) &&
+			isset( $base_child_layout['flexSize'] )
+		) {
+			$child_layout_declarations['flex-basis'] = 'unset';
+			if ( $flex_child_layout_values['fixed'] === $base_self_stretch ) {
+				$child_layout_declarations['flex-shrink'] = 'unset';
+			}
+		}
+		if ( in_array( $self_stretch, $flex_size_values, true ) && isset( $child_layout['flexSize'] ) ) {
 			$child_layout_declarations['flex-basis'] = $child_layout['flexSize'];
+			if ( $flex_child_layout_values['fixed'] === $self_stretch ) {
+				$child_layout_declarations['flex-shrink'] = '0';
+			} elseif ( null !== $viewport_overrides && $flex_child_layout_values['fixed'] === $base_self_stretch ) {
+				$child_layout_declarations['flex-shrink'] = 'unset';
+			}
 			$child_layout_declarations['box-sizing'] = 'border-box';
-		} elseif ( 'fill' === $self_stretch ) {
+		} elseif ( $flex_child_layout_values['grow'] === $self_stretch ) {
 			$child_layout_declarations['flex-grow'] = '1';
 		}
 	}
