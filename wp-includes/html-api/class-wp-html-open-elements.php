@@ -78,7 +78,7 @@ class WP_HTML_Open_Elements {
 	 * Sets a pop handler that will be called when an item is popped off the stack of
 	 * open elements.
 	 *
-	 * The function will be called with the pushed item as its argument.
+	 * The function will be called with the popped item as its argument.
 	 *
 	 * @since 6.6.0
 	 *
@@ -103,7 +103,7 @@ class WP_HTML_Open_Elements {
 	}
 
 	/**
-	 * Returns the name of the node at the nth position on the stack
+	 * Returns the node at the nth position on the stack
 	 * of open elements, or `null` if no such position exists.
 	 *
 	 * Note that this uses a 1-based index, which represents the
@@ -114,7 +114,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @param int $nth Retrieve the nth item on the stack, with 1 being
 	 *                 the top element, 2 being the second, etc...
-	 * @return WP_HTML_Token|null Name of the node on the stack at the given location,
+	 * @return WP_HTML_Token|null The node on the stack at the given location,
 	 *                            or `null` if the location isn't on the stack.
 	 */
 	public function at( int $nth ): ?WP_HTML_Token {
@@ -168,7 +168,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @return int How many node are in the stack of open elements.
+	 * @return int How many nodes are in the stack of open elements.
 	 */
 	public function count(): int {
 		return count( $this->stack );

@@ -341,6 +341,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * isn't UTF-8, first convert the document to UTF-8, then pass in the
 	 * converted HTML.
 	 *
+	 * @since 6.7.0
+	 *
 	 * @param string      $html                    Input HTML document to process.
 	 * @param string|null $known_definite_encoding Optional. If provided, specifies the charset used
 	 *                                             in the input byte stream. Currently must be UTF-8.
@@ -957,7 +959,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * token, or if it will self-close on the next step.
 	 *
 	 * Most HTML elements expect a closer, such as a P element or
-	 * a DIV element. Others, like an IMG element are void and don't
+	 * a DIV element. Others, like an IMG element, are void and don't
 	 * have a closing tag. Special elements, such as SCRIPT and STYLE,
 	 * are treated just like void tags. Text nodes and self-closing
 	 * foreign content will also act just like a void tag, immediately
@@ -5213,7 +5215,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @throws Exception When unable to allocate requested bookmark.
 	 *
-	 * @return string|false Name of created bookmark, or false if unable to create.
+	 * @return string Name of created bookmark.
 	 */
 	private function bookmark_token() {
 		if ( ! parent::set_bookmark( ++$this->bookmark_counter ) ) {

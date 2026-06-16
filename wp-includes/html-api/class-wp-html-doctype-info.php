@@ -136,9 +136,12 @@ class WP_HTML_Doctype_Info {
 	 * (e.g. "quirks" or "no-quirks" mode), it will be inferred from the properties
 	 * of the appropriate DOCTYPE declaration, if one exists. The DOCTYPE can
 	 * indicate one of three possible document compatibility modes:
+	 * "no-quirks", "limited-quirks", or "quirks".
 	 *
-	 *  - "no-quirks" and "limited-quirks" modes (also called "standards" mode).
-	 *  - "quirks" mode (also called `CSS1Compat` mode).
+	 * Browsers expose the resulting document mode via `document.compatMode`:
+	 * - "BackCompat" indicates "quirks" mode.
+	 * - "CSS1Compat" indicates "no-quirks" or "limited-quirks" (these modes are not
+	 *   distinguished by `document.compatMode`).
 	 *
 	 * An appropriate DOCTYPE is one encountered in the "initial" insertion mode,
 	 * before the HTML element has been opened and before finding any other

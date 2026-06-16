@@ -67,7 +67,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @return int How many node are in the stack of active formatting elements.
+	 * @return int How many nodes are in the stack of active formatting elements.
 	 */
 	public function count() {
 		return count( $this->stack );
