@@ -60,9 +60,7 @@
 
 	.social-navigation svg,
 	.site-featured-image svg {
-		/* Use -webkit- only if supporting: Chrome < 54, iOS < 9.3, Android < 4.4.4 */
-		-webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
-				filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
+		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
 	}
 
 	/* Entry header */

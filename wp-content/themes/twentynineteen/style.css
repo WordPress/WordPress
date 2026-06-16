@@ -1955,7 +1955,8 @@ abbr[title] {
   /* 1 */
   text-decoration: underline;
   /* 2 */
-  text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
   /* 2 */
 }
 
@@ -2396,9 +2397,6 @@ h6 {
 .error-404 .page-title,
 .comments-title,
 blockquote {
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
   word-break: break-word;
   word-wrap: break-word;
@@ -2407,9 +2405,6 @@ blockquote {
 /* Do not hyphenate entry title on tablet view and bigger. */
 @media only screen and (min-width: 768px) {
   .entry-title {
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
     hyphens: none;
   }
 }
@@ -2478,10 +2473,6 @@ a:focus {
 /* Elements */
 html {
   box-sizing: border-box;
-}
-
-::-moz-selection {
-  background-color: #bfdcea;
 }
 
 ::selection {
@@ -2920,8 +2911,6 @@ body.page .main-navigation {
 @media only screen and (min-width: 768px) {
   .main-navigation .sub-menu {
     width: auto;
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
     min-width: max-content;
   }
 }
@@ -3036,8 +3025,6 @@ body.page .main-navigation {
     top: auto;
     bottom: auto;
     height: auto;
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
     min-width: max-content;
     transform: none;
   }
@@ -3051,8 +3038,6 @@ body.page .main-navigation {
     top: auto;
     bottom: auto;
     height: auto;
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
     min-width: max-content;
     transform: none;
   }
@@ -3175,8 +3160,6 @@ body.page .main-navigation {
     top: auto;
     bottom: auto;
     height: auto;
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
     min-width: max-content;
     transform: none;
   }
@@ -3467,7 +3450,8 @@ body.page .main-navigation {
 
 .post-navigation .nav-links a .meta-nav {
   color: #767676;
-  user-select: none;
+  -webkit-user-select: none;
+          user-select: none;
 }
 
 .post-navigation .nav-links a .meta-nav:before, .post-navigation .nav-links a .meta-nav:after {
@@ -3762,9 +3746,6 @@ body.page .main-navigation {
 
 .site-branding {
   color: #767676;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
   position: relative;
   word-wrap: break-word;
@@ -3963,8 +3944,6 @@ body.page .main-navigation {
 
 .site-header.featured-image .social-navigation svg,
 .site-header.featured-image .site-featured-image svg {
-  /* Use -webkit- only if supporting: Chrome < 54, iOS < 9.3, Android < 4.4.4 */
-  -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 
@@ -4161,10 +4140,6 @@ body.page .main-navigation {
   .image-filters-enabled .site-header.featured-image:after {
     opacity: 0.18;
   }
-}
-
-.site-header.featured-image ::-moz-selection {
-  background: rgba(255, 255, 255, 0.17);
 }
 
 .site-header.featured-image ::selection {
@@ -4563,9 +4538,6 @@ body.page .main-navigation {
 }
 
 .comments-area {
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
   margin: calc(2 * 1rem) 1rem;
   word-wrap: break-word;
@@ -5094,9 +5066,6 @@ body.page .main-navigation {
 }
 
 #colophon .widget-column .widget {
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
   width: 100%;
   word-wrap: break-word;
@@ -5111,9 +5080,6 @@ body.page .main-navigation {
 
 #colophon .site-info {
   color: #767676;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
   word-wrap: break-word;
 }
