@@ -87,6 +87,25 @@ function wp_apply_dimensions_support( $block_type, $block_attributes ) {
 }
 
 /**
+ * Checks whether an aspectRatio block-support value is explicitly set.
+ *
+ * @since 7.1.0
+ * @access private
+ *
+ * @param mixed $aspect_ratio Aspect-ratio value.
+ * @return bool Whether the value is an explicit aspect ratio.
+ */
+function wp_is_explicit_aspect_ratio_value( $aspect_ratio ) {
+	if ( ! is_string( $aspect_ratio ) && ! is_numeric( $aspect_ratio ) ) {
+		return false;
+	}
+
+	$aspect_ratio = strtolower( trim( (string) $aspect_ratio ) );
+
+	return '' !== $aspect_ratio && 'auto' !== $aspect_ratio;
+}
+
+/**
  * Renders server-side dimensions styles to the block wrapper.
  * This block support uses the `render_block` hook to ensure that
  * it is also applied to non-server-rendered blocks.
@@ -113,11 +132,12 @@ function wp_render_dimensions_support( $block_content, $block ) {
 	$dimensions_block_styles                = array();
 	$dimensions_block_styles['aspectRatio'] = $block_attributes['style']['dimensions']['aspectRatio'] ?? null;
 
-	// To ensure the aspect ratio does not get overridden by `minHeight` unset any existing rule.
+	// To ensure the aspect ratio does not get overridden by `minHeight` or `height` unset any existing rule.
 	if (
-		isset( $dimensions_block_styles['aspectRatio'] )
+		wp_is_explicit_aspect_ratio_value( $dimensions_block_styles['aspectRatio'] )
 	) {
 		$dimensions_block_styles['minHeight'] = 'unset';
+		$dimensions_block_styles['height']    = 'unset';
 	} elseif (
 		isset( $block_attributes['style']['dimensions']['minHeight'] ) ||
 		isset( $block_attributes['minHeight'] )
@@ -149,7 +169,7 @@ function wp_render_dimensions_support( $block_content, $block ) {
 				foreach ( explode( ' ', $styles['classnames'] ) as $class_name ) {
 					if (
 						str_contains( $class_name, 'aspect-ratio' ) &&
-						! isset( $block_attributes['style']['dimensions']['aspectRatio'] )
+						! wp_is_explicit_aspect_ratio_value( $block_attributes['style']['dimensions']['aspectRatio'] ?? null )
 					) {
 						continue;
 					}

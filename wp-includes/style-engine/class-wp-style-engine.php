@@ -229,6 +229,12 @@ final class WP_Style_Engine {
 					'dimension' => '--wp--preset--dimension--$slug',
 				),
 			),
+			'objectFit'   => array(
+				'property_keys' => array(
+					'default' => 'object-fit',
+				),
+				'path'          => array( 'dimensions', 'objectFit' ),
+			),
 			'width'       => array(
 				'property_keys' => array(
 					'default' => 'width',
