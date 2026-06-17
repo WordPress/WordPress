@@ -247,12 +247,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param int $width
-	 * @param int $height
+	 * @param int|null $width  Image width.
+	 * @param int|null $height Image height.
 	 * @return true|WP_Error
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$size = null;
+
 		if ( ! $width || ! $height ) {
 			try {
 				$size = $this->image->getImageGeometry();

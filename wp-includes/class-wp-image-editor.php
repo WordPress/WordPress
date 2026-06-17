@@ -201,8 +201,8 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param int $width
-	 * @param int $height
+	 * @param int|null $width  Image width.
+	 * @param int|null $height Image height.
 	 * @return true
 	 */
 	protected function update_size( $width = null, $height = null ) {
