@@ -247,7 +247,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			if ( $this->is_trash && $this->has_items()
 				&& current_user_can( 'edit_others_posts' )
 			) {
-				submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
+				submit_button( __( 'Empty Trash' ), 'apply button-compact', 'delete_all', false );
 			}
 			?>
 		</div>
@@ -351,7 +351,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					?>
 					</label>
 					<input type="search" id="media-search-input" class="search" name="s" value="<?php _admin_search_query(); ?>">
-					<input id="search-submit" type="submit" class="button" value="<?php esc_attr_e( 'Search Media' ); ?>">
+					<input id="search-submit" type="submit" class="button button-compact" value="<?php esc_attr_e( 'Search Media' ); ?>">
 				</p>
 			</div>
 		</div>

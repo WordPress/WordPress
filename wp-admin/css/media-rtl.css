@@ -375,6 +375,10 @@
 	.find-box-inside {
 		bottom: 57px;
 	}
+
+	#delete_all {
+		margin-bottom: 0;
+	}
 }
 
 @media screen and (max-width: 660px) {
@@ -1397,7 +1401,6 @@ audio, video {
 	.wp-filter p.search-box {
 		float: none;
 		width: 100%;
-		margin-bottom: 20px;
 		display: flex;
 		flex-wrap: nowrap;
 		column-gap: 0;
@@ -1413,6 +1416,20 @@ audio, video {
 	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
 		top: 46px;
 		left: 10px;
+	}
+
+	.media-frame.mode-grid .media-toolbar select {
+		min-height: 40px;
+		padding: 0 12px 0 24px;
+	}
+
+	.media-frame.mode-grid .media-toolbar input[type="search"] {
+		min-height: 40px;
+		padding: 0 12px;
+	}
+
+	.wp-filter p.search-box {
+		margin-bottom: 0;
 	}
 }
 

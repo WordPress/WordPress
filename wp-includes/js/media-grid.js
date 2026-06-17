@@ -319,7 +319,7 @@ SelectModeToggle = Button.extend(/** @lends wp.media.view.SelectModeToggle.proto
 
 	render: function() {
 		Button.prototype.render.apply( this, arguments );
-		this.$el.addClass( 'select-mode-toggle-button' );
+		this.$el.addClass( 'select-mode-toggle-button button-compact' );
 		return this;
 	},
 

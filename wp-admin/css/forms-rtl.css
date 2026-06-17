@@ -1799,9 +1799,10 @@ table.form-table td .updated p {
 	p.search-box input[type="search"],
 	p.search-box input[type="text"] {
 		min-height: 40px;
+		padding: 0 12px;
 	}
 
-	p.search-box input[type="submit"] {
+	p.search-box input[type="submit"].button {
 		margin-bottom: 10px;
 	}
 
@@ -1945,6 +1946,7 @@ table.form-table td .updated p {
 	.options-general-php input[type="text"].small-text {
 		max-width: 6.25em;
 		margin: 0;
+		min-height: 40px;
 	}
 
 	/* Privacy Policy settings screen */

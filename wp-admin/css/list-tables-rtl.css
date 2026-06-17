@@ -1538,13 +1538,6 @@ div.action-links,
 	margin: 0; /* Override existing margins */
 }
 
-/* Use compact size for space-constrained plugin cards */
-.plugin-action-buttons li .button {
-	min-height: 32px;
-	line-height: 2.30769231; /* 30px for 32px min-height */
-	padding: 0 12px;
-}
-
 .plugin-card h3 {
 	margin: 0 0 16px 12px;
 	font-size: 18px;
