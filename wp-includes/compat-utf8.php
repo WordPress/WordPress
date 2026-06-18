@@ -65,7 +65,7 @@ function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max
 			"\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f" .
 			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f",
 			$i,
-			$end - $i
+			min( $end - $i, $max_count - $count )
 		);
 
 		if ( $count + $ascii_byte_count >= $max_count ) {
