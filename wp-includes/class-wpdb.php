@@ -3019,12 +3019,16 @@ class wpdb {
 	 * the value in the column and row specified is returned. If $query is null,
 	 * the value in the specified column and row from the previous SQL result is returned.
 	 *
+	 * Returns null both on failure and when the matched cell value is an empty
+	 * string. To distinguish the two cases, check {@see self::$last_error}.
+	 *
 	 * @since 0.71
 	 *
 	 * @param string|null $query Optional. SQL query. Defaults to null, use the result from the previous query.
 	 * @param int         $x     Optional. Column of value to return. Indexed from 0. Default 0.
 	 * @param int         $y     Optional. Row of value to return. Indexed from 0. Default 0.
-	 * @return string|null Database query result (as string), or null on failure.
+	 * @return string|null Database query result (as string), or null on failure or when the value is an empty string.
+	 * @phpstan-return non-empty-string|null
 	 */
 	public function get_var( $query = null, $x = 0, $y = 0 ) {
 		$this->func_call = "\$db->get_var(\"$query\", $x, $y)";
@@ -3039,6 +3043,14 @@ class wpdb {
 
 		// Extract var out of cached results based on x,y vals.
 		if ( ! empty( $this->last_result[ $y ] ) ) {
+			/**
+			 * Column values.
+			 *
+			 * These are returned from the database as strings, or null for SQL NULL, but get_object_vars() types the
+			 * property values as mixed.
+			 *
+			 * @var list<string|null> $values
+			 */
 			$values = array_values( get_object_vars( $this->last_result[ $y ] ) );
 		}
 
@@ -3059,6 +3071,24 @@ class wpdb {
 	 *                            respectively. Default OBJECT.
 	 * @param int         $y      Optional. Row to return. Indexed from 0. Default 0.
 	 * @return array|object|null Database query result in format specified by $output or null on failure.
+	 * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+	 * @phpstan-return (
+	 *     $query is non-falsy-string
+	 *         ? (
+	 *             $output is 'OBJECT'
+	 *                 ? stdClass|null
+	 *                 : (
+	 *                     $output is 'ARRAY_A'
+	 *                         ? array<array-key, mixed>|null
+	 *                         : (
+	 *                             $output is 'ARRAY_N'
+	 *                                 ? list<mixed>|null
+	 *                                 : null
+	 *                         )
+	 *                 )
+	 *         )
+	 *         : null
+	 * )
 	 */
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
@@ -3104,6 +3134,7 @@ class wpdb {
 	 * @param string|null $query Optional. SQL query. Defaults to previous query.
 	 * @param int         $x     Optional. Column to return. Indexed from 0. Default 0.
 	 * @return array Database query result. Array indexed from 0 by SQL result row number.
+	 * @phpstan-return list<non-empty-string|null>
 	 */
 	public function get_col( $query = null, $x = 0 ) {
 		if ( $query ) {
@@ -3118,7 +3149,7 @@ class wpdb {
 		// Extract the column values.
 		if ( $this->last_result ) {
 			for ( $i = 0, $j = count( $this->last_result ); $i < $j; $i++ ) {
-				$new_array[ $i ] = $this->get_var( null, $x, $i );
+				$new_array[] = $this->get_var( null, $x, $i );
 			}
 		}
 		return $new_array;
@@ -3129,18 +3160,47 @@ class wpdb {
 	 *
 	 * Executes a SQL query and returns the entire SQL result.
 	 *
+	 * Returns an empty array when no rows match or when the database
+	 * reports an error for the query. Returns null when $query is empty,
+	 * when $output is not one of the recognized constants, or when the
+	 * query cannot run because the connection is not ready.
+	 *
 	 * @since 0.71
 	 *
-	 * @param string $query  SQL query.
-	 * @param string $output Optional. Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.
-	 *                       With one of the first three, return an array of rows indexed
-	 *                       from 0 by SQL result row number. Each row is an associative array
-	 *                       (column => value, ...), a numerically indexed array (0 => value, ...),
-	 *                       or an object ( ->column = value ), respectively. With OBJECT_K,
-	 *                       return an associative array of row objects keyed by the value
-	 *                       of each row's first column's value. Duplicate keys are discarded.
-	 *                       Default OBJECT.
-	 * @return array|object|null Database query results.
+	 * @param string|null $query  SQL query.
+	 * @param string      $output Optional. Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.
+	 *                            With one of the first three, return an array of rows indexed
+	 *                            from 0 by SQL result row number. Each row is an associative array
+	 *                            (column => value, ...), a numerically indexed array (0 => value, ...),
+	 *                            or an object ( ->column = value ), respectively. With OBJECT_K,
+	 *                            return an associative array of row objects keyed by the value
+	 *                            of each row's first column's value. Duplicate keys are discarded.
+	 *                            Default OBJECT.
+	 * @return array|null Database query results. Empty array when no rows match
+	 *                    or on database error. Null when $query is empty, when
+	 *                    $output is invalid, or when the connection is not ready.
+	 * @phpstan-param 'OBJECT'|'OBJECT_K'|'ARRAY_A'|'ARRAY_N' $output
+	 * @phpstan-return (
+	 *     $query is non-falsy-string
+	 *         ? (
+	 *             $output is 'OBJECT'
+	 *                 ? list<stdClass>|null
+	 *                 : (
+	 *                     $output is 'OBJECT_K'
+	 *                         ? array<array-key, stdClass>
+	 *                         : (
+	 *                             $output is 'ARRAY_A'
+	 *                                 ? list<array<array-key, mixed>>
+	 *                                 : (
+	 *                                     $output is 'ARRAY_N'
+	 *                                         ? list<list<mixed>>
+	 *                                         : null
+	 *                                 )
+	 *                         )
+	 *                 )
+	 *         )
+	 *         : null
+	 * )
 	 */
 	public function get_results( $query = null, $output = OBJECT ) {
 		$this->func_call = "\$db->get_results(\"$query\", $output)";
@@ -3167,7 +3227,15 @@ class wpdb {
 			if ( $this->last_result ) {
 				foreach ( $this->last_result as $row ) {
 					$var_by_ref = get_object_vars( $row );
-					$key        = array_shift( $var_by_ref );
+					/**
+					 * The first column's value is used as the key.
+					 *
+					 * A SQL NULL value surfaces as null here, so coerce it to an empty string to avoid the deprecated
+					 * use of null as an array offset (PHP 8.5+).
+					 *
+					 * @var array-key $key
+					 */
+					$key = array_shift( $var_by_ref ) ?? '';
 					if ( ! isset( $new_array[ $key ] ) ) {
 						$new_array[ $key ] = $row;
 					}
