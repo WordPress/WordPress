@@ -1233,7 +1233,7 @@ function print_embed_sharing_dialog() {
  * @since 4.5.0
  */
 function the_embed_site_title(): void {
-	$fallback_icon_url = includes_url( 'images/w-logo-blue.png' );
+	$fallback_icon_url = includes_url( 'images/w-logo-gray-white-bg.svg' );
 	$site_icon_url     = get_site_icon_url( 32, $fallback_icon_url );
 
 	$icon_img = '';
