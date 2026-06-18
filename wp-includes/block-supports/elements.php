@@ -12,11 +12,10 @@
  * @since 6.0.0
  * @access private
  *
- * @param array $block Block object.
  * @return string The unique class name.
  */
-function wp_get_elements_class_name( $block ) {
-	return 'wp-elements-' . md5( serialize( $block ) );
+function wp_get_elements_class_name(): string {
+	return wp_unique_prefixed_id( 'wp-elements-' );
 }
 
 /**
@@ -109,6 +108,29 @@ function wp_should_add_elements_class_name( $block, $options ) {
  *
  * @param array $parsed_block The parsed block.
  * @return array The same parsed block with elements classname added if appropriate.
+ *
+ * @phpstan-param array{
+ *     blockName: string,
+ *     attrs: array{
+ *         className?: string,
+ *         style?: array{
+ *             elements?: array<string, array{
+ *                 ":hover"?: array<string, string>,
+ *                 ...
+ *             }>,
+ *         },
+ *         ...
+ *     },
+ *     ...
+ * } $parsed_block
+ * @phpstan-return array{
+ *     blockName: string,
+ *     attrs: array{
+ *         className?: string,
+ *         ...
+ *     },
+ *     ...
+ * }
  */
 function wp_render_elements_support_styles( $parsed_block ) {
 	/*
@@ -129,9 +151,12 @@ function wp_render_elements_support_styles( $parsed_block ) {
 		);
 	}
 
-	$block_type           = WP_Block_Type_Registry::get_instance()->get_registered( $parsed_block['blockName'] );
-	$element_block_styles = $parsed_block['attrs']['style']['elements'] ?? null;
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $parsed_block['blockName'] );
+	if ( ! $block_type ) {
+		return $parsed_block;
+	}
 
+	$element_block_styles = $parsed_block['attrs']['style']['elements'] ?? null;
 	if ( ! $element_block_styles ) {
 		return $parsed_block;
 	}
@@ -157,7 +182,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 		return $parsed_block;
 	}
 
-	$class_name         = wp_get_elements_class_name( $parsed_block );
+	$class_name         = wp_get_elements_class_name();
 	$updated_class_name = isset( $parsed_block['attrs']['className'] ) ? $parsed_block['attrs']['className'] . " $class_name" : $class_name;
 
 	_wp_array_set( $parsed_block, array( 'attrs', 'className' ), $updated_class_name );
@@ -197,7 +222,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 				)
 			);
 
-			if ( isset( $element_style_object[':hover'] ) ) {
+			if ( isset( $element_style_object[':hover'], $element_config['hover_selector'] ) ) {
 				wp_style_engine_get_styles(
 					$element_style_object[':hover'],
 					array(
