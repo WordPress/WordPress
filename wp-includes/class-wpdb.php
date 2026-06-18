@@ -2758,7 +2758,7 @@ class wpdb {
 	 * @param string[]|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
 	 *                                      If string, that format will be used for all of the items in $where.
 	 *                                      A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                      If omitted, all values in $data will be treated as strings unless otherwise
+	 *                                      If omitted, all values in $where will be treated as strings unless otherwise
 	 *                                      specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows deleted, or false on error.
 	 */
