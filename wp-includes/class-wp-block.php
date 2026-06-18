@@ -364,13 +364,16 @@ class WP_Block {
 	 * Depending on the block attribute name, replace its value in the HTML based on the value provided.
 	 *
 	 * @since 6.5.0
+	 * @since 7.1.0 Added the optional `$inner_block_offsets` parameter.
 	 *
-	 * @param string $block_content  Block content.
-	 * @param string $attribute_name The attribute name to replace.
-	 * @param mixed  $source_value   The value used to replace in the HTML.
+	 * @param string $block_content       Block content.
+	 * @param string $attribute_name      The attribute name to replace.
+	 * @param mixed  $source_value        The value used to replace in the HTML.
+	 * @param int[]  $inner_block_offsets Optional. Byte offsets where each inner block's
+	 *                                    rendered output begins. Default empty array.
 	 * @return string The modified block content.
 	 */
-	private function replace_html( string $block_content, string $attribute_name, $source_value ) {
+	private function replace_html( string $block_content, string $attribute_name, $source_value, array $inner_block_offsets = array() ) {
 		$block_type = $this->block_type;
 		if ( ! isset( $block_type->attributes[ $attribute_name ]['source'] ) ) {
 			return $block_content;
@@ -396,9 +399,16 @@ class WP_Block {
 							'tag_name' => $selector,
 						)
 					) ) {
-						// TODO: Use `WP_HTML_Processor::set_inner_html` method once it's available.
+						/*
+						 * TODO: Use `WP_HTML_Processor::set_inner_html()` once it's available.
+						 * Any replacement must preserve already-rendered inner block
+						 * markup verbatim (it may come from dynamic blocks), so it
+						 * cannot re-serialize the element's contents. Until an API with
+						 * that guarantee exists, the replacement is spliced by byte
+						 * offset, leaving inner block output untouched.
+						 */
 						$block_reader->release_bookmark( 'iterate-selectors' );
-						$block_reader->replace_rich_text( wp_kses_post( $source_value ) );
+						$block_reader->replace_rich_text( wp_kses_post( $source_value ), $inner_block_offsets );
 						return $block_reader->get_updated_html();
 					} else {
 						$block_reader->seek( 'iterate-selectors' );
@@ -433,10 +443,17 @@ class WP_Block {
 			 * When stopped on a tag opener, replace the content enclosed by it and its
 			 * matching closer with the provided rich text.
 			 *
-			 * @param string $rich_text The rich text to replace the original content with.
+			 * If byte offsets of inner blocks' rendered output are provided, the
+			 * replacement stops at the first inner block found inside the element,
+			 * preserving any markup produced by nested inner blocks (e.g. a List
+			 * block nested inside a List Item).
+			 *
+			 * @param string $rich_text           The rich text to replace the original content with.
+			 * @param int[]  $inner_block_offsets Optional. Byte offsets in the source HTML where
+			 *                                    inner blocks' rendered output begins. Default empty array.
 			 * @return bool True on success.
 			 */
-			public function replace_rich_text( $rich_text ) {
+			public function replace_rich_text( $rich_text, $inner_block_offsets = array() ) {
 				if ( $this->is_tag_closer() || ! $this->expects_closer() ) {
 					return false;
 				}
@@ -461,6 +478,25 @@ class WP_Block {
 				$tag_closer = $this->bookmarks['__wp_block_bindings'];
 				$end        = $tag_closer->start;
 
+				/*
+				 * Stop at the first inner block that renders inside this element so
+				 * its markup is preserved. The block's own rich text always precedes
+				 * its inner blocks, so replacing up to the first inner block offset
+				 * replaces only that rich text. Offsets are recorded during render in
+				 * the same byte coordinates as this fragment, and are in ascending
+				 * order, so the first match is the earliest inner block.
+				 *
+				 * The lower bound is inclusive of `$start`: when an inner block
+				 * begins immediately, with no leading rich text, the (empty) rich
+				 * text is still replaced instead of the inner block markup.
+				 */
+				foreach ( $inner_block_offsets as $inner_block_offset ) {
+					if ( $inner_block_offset >= $start && $inner_block_offset < $end ) {
+						$end = $inner_block_offset;
+						break;
+					}
+				}
+
 				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
 					$start,
 					$end - $start,
@@ -479,6 +515,7 @@ class WP_Block {
 	 *
 	 * @since 5.5.0
 	 * @since 6.5.0 Added block bindings processing.
+	 * @since 7.1.0 Preserve inner blocks when binding a rich text attribute.
 	 *
 	 * @global WP_Post $post Global post object.
 	 *
@@ -538,6 +575,19 @@ class WP_Block {
 		$is_dynamic    = $options['dynamic'] && $this->name && null !== $this->block_type && $this->block_type->is_dynamic();
 		$block_content = '';
 
+		/*
+		 * Byte offsets in $block_content where each inner block's rendered output
+		 * begins. Block bindings rich-text replacement uses these to stop at the
+		 * first inner block inside a selector, so it replaces only the block's own
+		 * rich text and never the markup produced by nested inner blocks.
+		 *
+		 * They are only collected when the block has bound attributes to resolve;
+		 * otherwise they are never read, so recording them would add work to every
+		 * block render for no benefit.
+		 */
+		$inner_block_offsets = array();
+		$collect_offsets     = ! empty( $computed_attributes );
+
 		if ( ! $options['dynamic'] || empty( $this->block_type->skip_inner_blocks ) ) {
 			$index = 0;
 
@@ -545,6 +595,9 @@ class WP_Block {
 				if ( is_string( $chunk ) ) {
 					$block_content .= $chunk;
 				} else {
+					if ( $collect_offsets ) {
+						$inner_block_offsets[] = strlen( $block_content );
+					}
 					$inner_block  = $this->inner_blocks[ $index ];
 					$parent_block = $this;
 
@@ -583,7 +636,23 @@ class WP_Block {
 
 		if ( ! empty( $computed_attributes ) && ! empty( $block_content ) ) {
 			foreach ( $computed_attributes as $attribute_name => $source_value ) {
-				$block_content = $this->replace_html( $block_content, $attribute_name, $source_value );
+				$updated_block_content = $this->replace_html( $block_content, $attribute_name, $source_value, $inner_block_offsets );
+
+				/*
+				 * The offsets describe $block_content as it was assembled. A
+				 * replacement that modifies the markup shifts byte positions, so
+				 * once the content changes the remaining attributes fall back to
+				 * offset-free replacement rather than clamp at a stale position.
+				 * Attributes that leave the markup untouched keep the offsets
+				 * valid: the computed `metadata` attribute produced by a pattern
+				 * overrides `__default` binding has no HTML source, so it must
+				 * not invalidate the offsets for the rich text that follows it.
+				 */
+				if ( $updated_block_content !== $block_content ) {
+					$inner_block_offsets = array();
+				}
+
+				$block_content = $updated_block_content;
 			}
 		}
 
