@@ -28,7 +28,7 @@ $credits = wp_credits();
 
 	<div class="about__header">
 		<div class="about__header-image">
-			<img src="images/about-release-logo.svg?ver=7.0" alt="<?php echo esc_attr( $header_alt_text ); ?>" />
+			<img src="<?php echo esc_url( admin_url( 'images/about-release-logo.svg?ver=7.0' ) ); ?>" alt="<?php echo esc_attr( $header_alt_text ); ?>" />
 		</div>
 
 		<div class="about__header-title">
