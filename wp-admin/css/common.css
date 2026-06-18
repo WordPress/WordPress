@@ -934,6 +934,7 @@ a#remove-post-thumbnail:hover,
 	border-top: 1px solid #dcdcde;
 	background: #f6f7f7;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 }
