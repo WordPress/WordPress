@@ -528,7 +528,7 @@ class WP_Upgrader {
 		/*
 		 * Give the upgrade an additional 300 seconds (5 minutes) to ensure the install
 		 * doesn't prematurely timeout having used up the maximum script execution time
-		 * upacking and downloading in WP_Upgrader->run().
+		 * downloading and unpacking in WP_Upgrader->run().
 		 */
 		if ( function_exists( 'set_time_limit' ) ) {
 			set_time_limit( 300 );
