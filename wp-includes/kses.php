@@ -109,6 +109,8 @@ if ( ! CUSTOM_TAGS ) {
 		),
 		'br'         => array(),
 		'button'     => array(
+			'command'             => true,
+			'commandfor'          => true,
 			'disabled'            => true,
 			'name'                => true,
 			'type'                => true,
