@@ -316,7 +316,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		}
 
 		if ( $scale_down ) {
-			// Resize the image. This will also convet it if needed.
+			// Resize the image. This will also convert it if needed.
 			$resized = $editor->resize( $threshold, $threshold );
 		} elseif ( $convert ) {
 			// The image will be converted (if possible) when saved.
