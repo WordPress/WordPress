@@ -2238,6 +2238,14 @@ function excerpt_remove_blocks( $content ) {
 	$output         = '';
 
 	foreach ( $blocks as $block ) {
+		// Hide the block whenever the value is boolean false, regardless of the
+		// block's current visibility support. This prevents blocks that previously
+		// supported visibility from unintentionally appearing on the front end
+		// after their support was disabled.
+		if ( false === ( $block['attrs']['metadata']['blockVisibility'] ?? null ) ) {
+			continue;
+		}
+
 		if ( in_array( $block['blockName'], $allowed_blocks, true ) ) {
 			if ( ! empty( $block['innerBlocks'] ) ) {
 				if ( in_array( $block['blockName'], $allowed_wrapper_blocks, true ) ) {
@@ -2299,6 +2307,14 @@ function _excerpt_render_inner_blocks( $parsed_block, $allowed_blocks ) {
 	$output = '';
 
 	foreach ( $parsed_block['innerBlocks'] as $inner_block ) {
+		// Hide the block whenever the value is boolean false, regardless of the
+		// block's current visibility support. This prevents blocks that previously
+		// supported visibility from unintentionally appearing on the front end
+		// after their support was disabled.
+		if ( false === ( $inner_block['attrs']['metadata']['blockVisibility'] ?? null ) ) {
+			continue;
+		}
+
 		if ( ! in_array( $inner_block['blockName'], $allowed_blocks, true ) ) {
 			continue;
 		}
