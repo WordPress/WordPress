@@ -970,7 +970,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-my-account > a {
 		position: relative;
 		white-space: nowrap;
-		text-indent: 150%; /* More than 100% indention is needed since this element has padding */
+		text-indent: 150%; /* More than 100% indentation is needed since this element has padding */
 		width: 28px;
 		padding: 0 10px;
 		overflow: hidden; /* Prevent link text from forcing horizontal scrolling on mobile */
