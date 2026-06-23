@@ -404,7 +404,7 @@ function wp_get_ability( string $name ): ?WP_Ability {
  * Filtering pipeline (executed in order):
  *
  * 1. Declarative filters (`category`, `namespace`, `meta`) — per-item, AND logic between
- *    arg types, OR logic within multi-value `category` arrays.
+ *    arg types.
  * 2. `item_include_callback` — per-item, caller-scoped. Return true to include, false to exclude.
  * 3. `wp_get_abilities_item_include` filter — per-item, ecosystem-scoped. Plugins can enforce
  *    universal inclusion rules regardless of what the caller passed.
@@ -420,9 +420,6 @@ function wp_get_ability( string $name ): ?WP_Ability {
  *
  *     // Filter by category.
  *     $abilities = wp_get_abilities( array( 'category' => 'content' ) );
- *
- *     // Filter by multiple categories (OR logic).
- *     $abilities = wp_get_abilities( array( 'category' => array( 'content', 'settings' ) ) );
  *
  *     // Filter by namespace.
  *     $abilities = wp_get_abilities( array( 'namespace' => 'woocommerce' ) );
@@ -466,9 +463,8 @@ function wp_get_ability( string $name ): ?WP_Ability {
  * @param array $args {
  *     Optional. Arguments to filter the returned abilities. Default empty array (returns all).
  *
- *     @type string|string[] $category              Filter by category slug. A single string or an array of
- *                                                  slugs — abilities matching any of the given slugs are
- *                                                  included (OR logic within this arg type).
+ *     @type string          $category              Filter by category slug. Only abilities whose category
+ *                                                  exactly matches the given slug are included.
  *     @type string          $namespace             Filter by ability namespace prefix. Pass the namespace
  *                                                  without a trailing slash, e.g. `'woocommerce'` matches
  *                                                  `'woocommerce/create-order'`.
@@ -495,7 +491,7 @@ function wp_get_abilities( array $args = array() ): array {
 
 	$abilities = $registry->get_all_registered();
 
-	$category              = isset( $args['category'] ) ? (array) $args['category'] : array();
+	$category              = isset( $args['category'] ) && is_string( $args['category'] ) ? $args['category'] : '';
 	$namespace             = isset( $args['namespace'] ) && is_string( $args['namespace'] ) ? rtrim( $args['namespace'], '/' ) . '/' : '';
 	$meta                  = isset( $args['meta'] ) && is_array( $args['meta'] ) ? $args['meta'] : array();
 	$item_include_callback = isset( $args['item_include_callback'] ) && is_callable( $args['item_include_callback'] ) ? $args['item_include_callback'] : null;
@@ -504,8 +500,8 @@ function wp_get_abilities( array $args = array() ): array {
 	$matched = array();
 
 	foreach ( $abilities as $name => $ability ) {
-		// Step 1a: Filter by category (OR logic within the arg).
-		if ( ! empty( $category ) && ! in_array( $ability->get_category(), $category, true ) ) {
+		// Step 1a: Filter by category.
+		if ( '' !== $category && $ability->get_category() !== $category ) {
 			continue;
 		}
 
