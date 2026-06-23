@@ -1357,7 +1357,7 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					'<span class="error"><span class="screen-reader-text">%s</span></span> %s',
+					'<span class="dashicons error" aria-hidden="true"></span><span class="screen-reader-text">%s</span> %s',
 					/* translators: Hidden accessibility text. */
 					__( 'Error' ),
 					sprintf(
