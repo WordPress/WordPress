@@ -1649,7 +1649,7 @@ class WP_REST_Server {
 			}
 		}
 
-		$allowed_schema_keywords = array_flip( rest_get_allowed_schema_keywords() );
+		$allowed_schema_keywords = array_flip( wp_get_json_schema_allowed_keywords( 'rest-api' ) );
 
 		$route = preg_replace( '#\(\?P<(\w+?)>.*?\)#', '{$1}', $route );
 
