@@ -644,6 +644,7 @@ add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_ass
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_block_editor_script_modules' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
 add_action( 'enqueue_block_editor_assets', '_wp_enqueue_auto_register_blocks' );
+add_action( 'enqueue_block_editor_assets', 'wp_declare_classic_block_necessary' );
 add_action( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_action( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
