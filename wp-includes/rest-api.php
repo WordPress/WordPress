@@ -428,6 +428,10 @@ function create_initial_rest_routes() {
 	// Icons.
 	$icons_controller = new WP_REST_Icons_Controller();
 	$icons_controller->register_routes();
+
+	// View Config.
+	$view_config_controller = new WP_REST_View_Config_Controller();
+	$view_config_controller->register_routes();
 }
 
 /**
