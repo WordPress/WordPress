@@ -1598,13 +1598,7 @@ class WP_Block_Processor {
 			return true;
 		}
 
-		foreach ( $block_type as $block ) {
-			if ( $this->is_block_type( $block ) ) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_any( $block_type, fn( $block ) => $this->is_block_type( $block ) );
 	}
 
 	/**

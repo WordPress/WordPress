@@ -1980,13 +1980,8 @@ function wp_create_post_autosave( $post_data ) {
 		$post = get_post( $post_id );
 
 		// If the new autosave has the same content as the post, delete the autosave.
-		$autosave_is_different = false;
-		foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) ) as $field ) {
-			if ( normalize_whitespace( $new_autosave[ $field ] ) !== normalize_whitespace( $post->$field ) ) {
-				$autosave_is_different = true;
-				break;
-			}
-		}
+		$fields                = array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) );
+		$autosave_is_different = array_any( $fields, fn( $field ) => normalize_whitespace( $new_autosave[ $field ] ) !== normalize_whitespace( $post->$field ) );
 
 		if ( ! $autosave_is_different ) {
 			wp_delete_post_revision( $old_autosave->ID );

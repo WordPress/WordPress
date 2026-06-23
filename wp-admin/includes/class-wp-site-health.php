@@ -3834,13 +3834,7 @@ class WP_Site_Health {
 			'users_count'    => $wpdb->users,
 		);
 
-		foreach ( $threshold_map as $threshold => $table ) {
-			if ( $thresholds[ $threshold ] <= $results[ $table ]->rows ) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_any( $threshold_map, fn( $table, $threshold ) => $thresholds[ $threshold ] <= $results[ $table ]->rows );
 	}
 
 	/**

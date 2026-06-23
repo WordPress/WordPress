@@ -1461,13 +1461,7 @@ function block_footer_area() {
 function wp_is_theme_directory_ignored( $path ) {
 	$directories_to_ignore = array( '.DS_Store', '.svn', '.git', '.hg', '.bzr', 'node_modules', 'vendor' );
 
-	foreach ( $directories_to_ignore as $directory ) {
-		if ( str_starts_with( $path, $directory ) ) {
-			return true;
-		}
-	}
-
-	return false;
+	return array_any( $directories_to_ignore, fn( $directory ) => str_starts_with( $path, $directory ) );
 }
 
 /**

@@ -2056,13 +2056,7 @@ function wp_kses_bad_protocol_once2( $scheme, $allowed_protocols ) {
 	$scheme = wp_kses_no_null( $scheme );
 	$scheme = strtolower( $scheme );
 
-	$allowed = false;
-	foreach ( (array) $allowed_protocols as $one_protocol ) {
-		if ( strtolower( $one_protocol ) === $scheme ) {
-			$allowed = true;
-			break;
-		}
-	}
+	$allowed = array_any( (array) $allowed_protocols, fn( $protocol ) => strtolower( $protocol ) === $scheme );
 
 	if ( $allowed ) {
 		return "$scheme:";
