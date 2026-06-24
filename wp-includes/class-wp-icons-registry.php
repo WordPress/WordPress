@@ -310,7 +310,10 @@ class WP_Icons_Registry {
 		$icons = array();
 
 		foreach ( $this->registered_icons as $icon ) {
-			if ( ! empty( $search ) && false === stripos( $icon['name'], $search ) ) {
+			if ( ! empty( $search )
+				&& false === stripos( $icon['name'], $search )
+				&& false === stripos( $icon['label'] ?? '', $search )
+			) {
 				continue;
 			}
 
