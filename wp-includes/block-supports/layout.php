@@ -828,7 +828,7 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 			$responsive_gap_value = '0px';
 		}
 
-		$should_output_grid_columns = null === $viewport_overrides || $has_viewport_property_override( 'minimumColumnWidth' ) || $has_viewport_property_override( 'columnCount' );
+		$should_output_grid_columns = null === $viewport_overrides || $has_viewport_property_override( 'minimumColumnWidth' ) || $has_viewport_property_override( 'columnCount' ) || $has_viewport_property_override( 'autoFit' );
 		$uses_gap_in_grid_columns   = ! empty( $layout_for_styles['columnCount'] ) && ! empty( $layout_for_styles['minimumColumnWidth'] );
 		if ( $has_block_gap_override && $uses_gap_in_grid_columns ) {
 			$should_output_grid_columns = true;
@@ -837,14 +837,18 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 		$should_output_grid_rows = ( null === $viewport_overrides || $has_viewport_property_override( 'rowCount' ) ) && ! empty( $layout_for_styles['columnCount'] ) && ! empty( $layout_for_styles['rowCount'] );
 		$grid_declarations       = array();
 
+		// When enabled, columns stretch to fill the available space using
+		// `auto-fit`; otherwise empty tracks are preserved with `auto-fill`.
+		$auto_placement = ! empty( $layout_for_styles['autoFit'] ) ? 'auto-fit' : 'auto-fill';
+
 		if ( $should_output_grid_columns && ! empty( $layout_for_styles['columnCount'] ) && ! empty( $layout_for_styles['minimumColumnWidth'] ) ) {
 			$max_value                                  = 'max(min(' . $layout_for_styles['minimumColumnWidth'] . ', 100%), (100% - (' . $responsive_gap_value . ' * (' . $layout_for_styles['columnCount'] . ' - 1))) /' . $layout_for_styles['columnCount'] . ')';
-			$grid_declarations['grid-template-columns'] = 'repeat(auto-fill, minmax(' . $max_value . ', 1fr))';
+			$grid_declarations['grid-template-columns'] = 'repeat(' . $auto_placement . ', minmax(' . $max_value . ', 1fr))';
 		} elseif ( $should_output_grid_columns && ! empty( $layout_for_styles['columnCount'] ) ) {
 			$grid_declarations['grid-template-columns'] = 'repeat(' . $layout_for_styles['columnCount'] . ', minmax(0, 1fr))';
 		} elseif ( $should_output_grid_columns ) {
 			$minimum_column_width                       = ! empty( $layout_for_styles['minimumColumnWidth'] ) ? $layout_for_styles['minimumColumnWidth'] : '12rem';
-			$grid_declarations['grid-template-columns'] = 'repeat(auto-fill, minmax(min(' . $minimum_column_width . ', 100%), 1fr))';
+			$grid_declarations['grid-template-columns'] = 'repeat(' . $auto_placement . ', minmax(min(' . $minimum_column_width . ', 100%), 1fr))';
 		}
 
 		if ( ! empty( $grid_declarations ) ) {
