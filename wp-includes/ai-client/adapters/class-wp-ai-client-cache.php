@@ -30,6 +30,28 @@ class WP_AI_Client_Cache implements CacheInterface {
 	private const CACHE_GROUP = 'wp_ai_client';
 
 	/**
+	 * Retrieves the cache group used for cache operations, applying a filter for customization.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return string Cache group name.
+	 */
+	private function get_cache_group(): string {
+		/**
+		 * Filters the cache group used by the WP AI Client cache adapter.
+		 *
+		 * Allows integrators to change the object cache group under which AI client
+		 * items are stored. This is useful for avoiding key collisions, creating
+		 * environment-specific caches, or adapting to backend constraints.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param string $group The cache group.
+		 */
+		return (string) apply_filters( 'wp_ai_client_cache_group', self::CACHE_GROUP );
+	}
+
+	/**
 	 * Fetches a value from the cache.
 	 *
 	 * @since 7.0.0
@@ -40,7 +62,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	 */
 	public function get( $key, $default_value = null ) {
 		$found = false;
-		$value = wp_cache_get( $key, self::CACHE_GROUP, false, $found );
+		$value = wp_cache_get( $key, $this->get_cache_group(), false, $found );
 
 		if ( ! $found ) {
 			return $default_value;
@@ -62,7 +84,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	public function set( $key, $value, $ttl = null ): bool {
 		$expire = $this->ttl_to_seconds( $ttl );
 
-		return wp_cache_set( $key, $value, self::CACHE_GROUP, $expire );
+		return wp_cache_set( $key, $value, $this->get_cache_group(), $expire );
 	}
 
 	/**
@@ -74,7 +96,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	 * @return bool True if the item was successfully removed. False if there was an error.
 	 */
 	public function delete( $key ): bool {
-		return wp_cache_delete( $key, self::CACHE_GROUP );
+		return wp_cache_delete( $key, $this->get_cache_group() );
 	}
 
 	/**
@@ -92,7 +114,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 			return false;
 		}
 
-		return wp_cache_flush_group( self::CACHE_GROUP );
+		return wp_cache_flush_group( $this->get_cache_group() );
 	}
 
 	/**
@@ -111,7 +133,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 		 * @var array<string> $keys_array
 		 */
 		$keys_array = $this->iterable_to_array( $keys );
-		$values     = wp_cache_get_multiple( $keys_array, self::CACHE_GROUP );
+		$values     = wp_cache_get_multiple( $keys_array, $this->get_cache_group() );
 		$result     = array();
 
 		foreach ( $keys_array as $key ) {
@@ -138,7 +160,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	public function setMultiple( $values, $ttl = null ): bool {
 		$values_array = $this->iterable_to_array( $values );
 		$expire       = $this->ttl_to_seconds( $ttl );
-		$results      = wp_cache_set_multiple( $values_array, self::CACHE_GROUP, $expire );
+		$results      = wp_cache_set_multiple( $values_array, $this->get_cache_group(), $expire );
 
 		// Return true only if all operations succeeded.
 		return ! in_array( false, $results, true );
@@ -154,7 +176,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	 */
 	public function deleteMultiple( $keys ): bool {
 		$keys_array = $this->iterable_to_array( $keys );
-		$results    = wp_cache_delete_multiple( $keys_array, self::CACHE_GROUP );
+		$results    = wp_cache_delete_multiple( $keys_array, $this->get_cache_group() );
 
 		// Return true only if all operations succeeded.
 		return ! in_array( false, $results, true );
@@ -170,7 +192,7 @@ class WP_AI_Client_Cache implements CacheInterface {
 	 */
 	public function has( $key ): bool {
 		$found = false;
-		wp_cache_get( $key, self::CACHE_GROUP, false, $found );
+		wp_cache_get( $key, $this->get_cache_group(), false, $found );
 
 		return (bool) $found;
 	}
