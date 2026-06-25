@@ -653,8 +653,8 @@ class WP_Theme_JSON {
 	 * @var array
 	 */
 	const RESPONSIVE_BREAKPOINTS = array(
-		'mobile' => '@media (width <= 480px)',
-		'tablet' => '@media (480px < width <= 782px)',
+		'@mobile' => '@media (width <= 480px)',
+		'@tablet' => '@media (480px < width <= 782px)',
 	);
 
 	/**
@@ -1072,7 +1072,7 @@ class WP_Theme_JSON {
 		 * e.g.
 		 * - top level elements: `$schema['styles']['elements']['link'][':hover']`.
 		 * - block level elements: `$schema['styles']['blocks']['core/button']['elements']['link'][':hover']`.
-		 * - block responsive elements: `$schema['styles']['blocks']['core/button']['tablet']['elements']['link'][':hover']`.
+		 * - block responsive elements: `$schema['styles']['blocks']['core/button']['@tablet']['elements']['link'][':hover']`.
 		 */
 		foreach ( $valid_element_names as $element ) {
 			$schema_styles_elements[ $element ] = $styles_non_top_level;
