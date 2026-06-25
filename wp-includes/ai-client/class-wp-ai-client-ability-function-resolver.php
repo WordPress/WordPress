@@ -190,7 +190,7 @@ class WP_AI_Client_Ability_Function_Resolver {
 		foreach ( $message->getParts() as $part ) {
 			if ( $part->getType()->isFunctionCall() ) {
 				$function_call = $part->getFunctionCall();
-				if ( $function_call instanceof FunctionCall ) {
+				if ( $function_call instanceof FunctionCall && $this->is_ability_call( $function_call ) ) {
 					$function_response = $this->execute_ability( $function_call );
 					$response_parts[]  = new MessagePart( $function_response );
 				}
