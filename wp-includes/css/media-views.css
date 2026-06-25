@@ -1834,6 +1834,10 @@ select#media-attachment-date-filters {
 	visibility: visible;
 }
 
+.media-bg-overlay {
+	position: absolute;
+}
+
 /**
  * Attachment Details
  */
@@ -2901,7 +2905,6 @@ select#media-attachment-date-filters {
 		width: 100%;
 		height: 100%;
 		display: none;
-		position: absolute;
 		left: 0;
 		right: 0;
 		top: 0;
