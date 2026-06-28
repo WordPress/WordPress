@@ -418,6 +418,10 @@ ul#adminmenu > li.current > a.current:after {
 	border-color: transparent;
 }
 
+.js #adminmenu .wp-submenu .wp-submenu-head {
+	cursor: pointer;
+}
+
 #adminmenu li.current,
 .folded #adminmenu li.wp-menu-open {
 	border: 0 none;
