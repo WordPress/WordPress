@@ -194,7 +194,8 @@ TABLE OF CONTENTS:
 	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	border-color: var(--wp-admin-theme-color, #3858e9);
 	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20);
-	position: relative;
+	outline: 3px solid transparent;
+	outline-offset: -3px;
 }
 
 .wp-core-ui .button.active:focus {
@@ -202,19 +203,7 @@ TABLE OF CONTENTS:
 	color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	border-color: var(--wp-admin-theme-color-darker-20, #183ad6);
 	box-shadow: inset 0 2px 6px -2px  var(--wp-admin-theme-color-darker-20), 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-}
-
-/* Only visible in Windows High Contrast mode */
-.wp-core-ui .button.active:before {
-	content: "";
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 0;
-	border-top: 3px solid transparent;
-	bottom: 0;
-	left: 0;
-	box-sizing: border-box;
+	outline-width: 4px;
 }
 
 .wp-core-ui .button[disabled],
