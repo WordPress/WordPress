@@ -128,16 +128,16 @@ class WP_HTML_Open_Elements {
 	}
 
 	/**
-	 * Reports if a node of a given name is in the stack of open elements.
+	 * Reports if an HTML element of a given name is on the stack of open elements.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param string $node_name Name of node for which to check.
+	 * @param string $node_name Name of HTML element for which to check.
 	 * @return bool Whether a node of the given name is in the stack of open elements.
 	 */
 	public function contains( string $node_name ): bool {
 		foreach ( $this->walk_up() as $item ) {
-			if ( $node_name === $item->node_name ) {
+			if ( 'html' === $item->namespace && $node_name === $item->node_name ) {
 				return true;
 			}
 		}
