@@ -298,7 +298,14 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 
 	// The solution below works only for UTF-8; treat all other encodings as byte streams.
 	if ( ! _is_utf8_charset( $encoding ?? get_option( 'blog_charset' ) ) ) {
-		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
+		$result = is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
+
+		/*
+		 * For an out-of-range start, substr() returns false on PHP < 8.0 but an
+		 * empty string on PHP >= 8.0. mb_substr() always returns an empty string,
+		 * so normalize to match its behavior across all supported PHP versions.
+		 */
+		return false === $result ? '' : $result;
 	}
 
 	$total_length = ( $start < 0 || $length < 0 )
