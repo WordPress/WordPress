@@ -1468,8 +1468,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		/*
 		 * The HTML parser strips a leading newline immediately after the start
-		 * tag of TEXTAREA, PRE, and LISTING elements. When serializing, prepend
-		 * a leading newline to ensure the semantic HTML content is preserved.
+		 * tag of TEXTAREA, PRE, and LISTING elements in HTML content. When serializing,
+		 * prepend a leading newline to ensure the semantic HTML content is preserved.
 		 *
 		 * For example, `<pre>\n\nX</pre>` must not become `<pre>\nX</pre>` because its content
 		 * has changed. However, `<pre>X</pre>` and `<pre>\nX</pre>` are _equivalent_.
@@ -1488,7 +1488,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 *
 		 * @see https://html.spec.whatwg.org/multipage/parsing.html
 		 */
-		if ( 'TEXTAREA' === $tag_name || 'PRE' === $tag_name || 'LISTING' === $tag_name ) {
+		if ( $in_html && ( 'TEXTAREA' === $tag_name || 'PRE' === $tag_name || 'LISTING' === $tag_name ) ) {
 			$html .= "\n";
 		}
 
