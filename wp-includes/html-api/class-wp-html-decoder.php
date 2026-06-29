@@ -367,34 +367,60 @@ class WP_HTML_Decoder {
 
 		$after_name = $name_at + $name_length;
 
-		// If the match ended with a semicolon then it should always be decoded.
-		if ( ';' === $text[ $name_at + $name_length - 1 ] ) {
-			$match_byte_length = $after_name - $at;
-			return $replacement;
-		}
-
-		/*
-		 * At this point though there's a match for an entry in the named
-		 * character reference table but the match doesn't end in `;`.
-		 * It may be allowed if it's followed by something unambiguous.
+		/**
+		 * For historical reasons, a matched named character reference is left as literal
+		 * text (its decoded replacement is not used) when all of the following hold:
+		 *
+		 * 1. It was matched in attribute context.
+		 * 2. The match does not end in U+003B SEMICOLON (;) — i.e. it is one of the
+		 *    legacy forms recognized without a trailing semicolon.
+		 * 3. The next input character is U+003D EQUALS SIGN (=) or an ASCII alphanumeric.
+		 *
+		 * Some illustrative examples follow. Note that both `not` and `not;` appear in the
+		 * named character references list. References start with `&` and typically end with
+		 * `;`, but the legacy forms are recognized without one.
+		 *
+		 * - In _data context_, "&notme" is decoded to "¬me": condition 1 fails (not an
+		 *   attribute), so the reference is decoded.
+		 * - In _attribute context_, "&not;me" is decoded to "¬me": the longest match is
+		 *   "not;", which ends in a semicolon, so condition 2 fails.
+		 * - In _attribute context_, "&not己" is decoded to "¬己": the following character
+		 *   "己" is a letter but not an ASCII alphanumeric (nor "="), so condition 3 fails.
+		 * - In _attribute context_, "&not" is decoded to "¬": there is no next input
+		 *   character, so condition 3 fails.
+		 * - In _attribute context_, "&not=me" is left as the literal text "&not=me": all
+		 *   three conditions hold.
+		 * - In _attribute context_, "&notme" is left as the literal text "&notme": all
+		 *   three conditions hold.
+		 *
+		 * Without these special rules, ordinary URL query strings could have surprising
+		 * replacements applied. Consider:
+		 *
+		 *     <a href="/?random&degree&gt=0&lt=360&not=90">
+		 *
+		 * The literal attribute value `/?random&degree&gt=0&lt=360&not=90` is preserved
+		 * by the special handling. Otherwise, the value would decode to
+		 * `/?random°ree>=0<=360¬=90`, which is unlikely to be the author's intent.
+		 *
+		 * (Authors should not rely on this. Escaping the example as
+		 * `/?random&amp;degree&amp;gt=0&amp;lt=360&amp;not=90` produces the intended
+		 * value regardless of the following character.)
+		 *
+		 * @see https://html.spec.whatwg.org/multipage/parsing.html#named-character-reference-state
+		 * @see https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
 		 */
-		$ambiguous_follower = (
-			$after_name < $length &&
-			$name_at < $length &&
-			(
-				ctype_alnum( $text[ $after_name ] ) ||
-				'=' === $text[ $after_name ]
-			)
-		);
-
-		// It's non-ambiguous, safe to leave it in.
-		if ( ! $ambiguous_follower ) {
+		if ( 'attribute' !== $context || ';' === $text[ $after_name - 1 ] || $after_name >= $length ) {
 			$match_byte_length = $after_name - $at;
 			return $replacement;
 		}
 
-		// It's ambiguous, which isn't allowed inside attributes.
-		if ( 'attribute' === $context ) {
+		$follower_byte = ord( $text[ $after_name ] );
+		if (
+			0x3D === $follower_byte || //                              EQUALS SIGN
+			( $follower_byte >= 0x30 && $follower_byte <= 0x39 ) || // ASCII digits 0-9
+			( $follower_byte >= 0x41 && $follower_byte <= 0x5A ) || // ASCII upper alpha A-Z
+			( $follower_byte >= 0x61 && $follower_byte <= 0x7A )    // ASCII lower alpha a-z
+		) {
 			return null;
 		}
 
