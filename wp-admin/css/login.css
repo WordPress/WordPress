@@ -19,6 +19,7 @@ a {
 	transition-property: border, background, color;
 	transition-duration: .05s;
 	transition-timing-function: ease-in-out;
+	text-underline-position: under;
 }
 
 a {
@@ -326,7 +327,6 @@ p {
 
 .login #nav a,
 .login #backtoblog a {
-	text-decoration: none;
 	color: #50575e;
 }
 
