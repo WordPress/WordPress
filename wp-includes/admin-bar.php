@@ -276,7 +276,7 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 	/* translators: %s: Current user's display name. */
 	$howdy = sprintf( __( 'Howdy, %s' ), '<span class="display-name">' . wp_get_current_user()->display_name . '</span>' );
 
-	$avatar = get_avatar( $user_id, 26 );
+	$avatar = get_avatar( $user_id, 28 );
 	$wp_admin_bar->add_node(
 		array(
 			'id'     => 'my-account',
