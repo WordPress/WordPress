@@ -419,6 +419,16 @@ iframe[name=editor-canvas] {
   color: #fff;
   background: var(--wp-admin-theme-color);
 }
+@media not (prefers-reduced-motion) {
+  .block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle.components-button.has-icon svg,
+  .block-editor-block-list__insertion-point-inserter .block-editor-inserter__toggle.components-button.has-icon svg {
+    transition: transform cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
+  }
+}
+.block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle.components-button.has-icon.is-pressed svg,
+.block-editor-block-list__insertion-point-inserter .block-editor-inserter__toggle.components-button.has-icon.is-pressed svg {
+  transform: rotate(45deg);
+}
 
 .block-editor-block-list__insertion-point-inserter .block-editor-inserter__toggle.components-button.has-icon {
   background: var(--wp-admin-theme-color);
@@ -1000,7 +1010,6 @@ iframe[name=editor-canvas] {
 }
 .block-editor-block-patterns-list__item .block-editor-block-patterns-list__item-title {
   flex-grow: 1;
-  font-size: 12px;
   text-align: left;
 }
 .block-editor-block-patterns-list__item .block-editor-block-preview__container {
@@ -3044,22 +3053,6 @@ iframe[name=editor-canvas] {
   padding: 8px 0 0;
 }
 
-.block-editor-media-flow__error {
-  padding: 0 20px 20px 20px;
-  max-width: 255px;
-}
-.block-editor-media-flow__error .components-with-notices-ui {
-  max-width: 255px;
-}
-.block-editor-media-flow__error .components-with-notices-ui .components-notice__content {
-  overflow: hidden;
-  word-wrap: break-word;
-}
-.block-editor-media-flow__error .components-with-notices-ui .components-notice__dismiss {
-  position: absolute;
-  right: 10px;
-}
-
 .block-editor-multi-selection-inspector__card {
   padding: 16px;
 }
@@ -3665,6 +3658,10 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
   color: #757575;
   font-size: 12px;
   margin-bottom: 0;
+}
+
+.layout-block-support-panel .block-editor-hooks__flex-layout-controls {
+  grid-column: 1/-1;
 }
 
 .block-editor-hooks__flex-layout-justification-controls,

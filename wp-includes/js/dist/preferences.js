@@ -119,12 +119,15 @@ var wp;
   var import_element = __toESM(require_element(), 1);
   var icon_default = (0, import_element.forwardRef)(
     ({ icon, size = 24, ...props }, ref) => {
-      return (0, import_element.cloneElement)(icon, {
-        width: size,
-        height: size,
-        ...props,
-        ref
-      });
+      return (0, import_element.cloneElement)(
+        icon,
+        {
+          width: size,
+          height: size,
+          ...props,
+          ref
+        }
+      );
     }
   );
 
@@ -573,3 +576,4 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
+if(wp.preferences&&typeof wp.preferences==='object'){wp.preferences=Object.assign({},wp.preferences);}

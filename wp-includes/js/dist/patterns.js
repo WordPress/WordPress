@@ -1515,3 +1515,4 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
+if(wp.patterns&&typeof wp.patterns==='object'){wp.patterns=Object.assign({},wp.patterns);}

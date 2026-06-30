@@ -325,3 +325,4 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
+if(wp.nux&&typeof wp.nux==='object'){wp.nux=Object.assign({},wp.nux);}

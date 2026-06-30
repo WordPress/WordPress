@@ -680,3 +680,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.styleEngine&&typeof wp.styleEngine==='object'){wp.styleEngine=Object.assign({},wp.styleEngine);}

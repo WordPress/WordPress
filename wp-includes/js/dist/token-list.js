@@ -210,4 +210,4 @@ var wp;
   };
   return __toCommonJS(index_exports);
 })();
-if (typeof wp.tokenList === 'object' && wp.tokenList.default) { wp.tokenList = wp.tokenList.default; }
+if (typeof wp.tokenList === 'object' && wp.tokenList.default) { wp.tokenList = wp.tokenList.default; }if(wp.tokenList&&typeof wp.tokenList==='object'){wp.tokenList=Object.assign({},wp.tokenList);}

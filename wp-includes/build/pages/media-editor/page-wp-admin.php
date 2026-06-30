@@ -153,12 +153,35 @@ function wp_media_editor_wp_admin_enqueue_scripts( $hook_suffix ) {
 		// 2. It initializes the boot module as an inline script.
 		wp_register_script( 'media-editor-wp-admin-prerequisites', '', $asset['dependencies'], $asset['version'], true );
 
-		// Add inline script to initialize the app using initSinglePage (no menuItems)
+		/*
+		 * Add inline script to initialize the app using initSinglePage (no menuItems).
+		 * The dynamic import is deferred until DOMContentLoaded so that all classic
+		 * script dependencies of @wordpress/boot (wp-private-apis, wp-components,
+		 * wp-theme, etc.) have finished parsing and executing before the boot module
+		 * evaluates. Otherwise, a modulepreloaded @wordpress/boot can win the race
+		 * against the classic-script-printing pass on fast CDN-fronted hosts in
+		 * Chrome, evaluating before wp.theme.privateApis is defined and throwing
+		 * "Cannot unlock an undefined object". See <https://core.trac.wordpress.org/ticket/65103>.
+		 */
+		$init_js_function = <<<'JS'
+		( mountId, routes ) => {
+			const run = async () => {
+				const mod = await import( "@wordpress/boot" );
+				mod.initSinglePage( { mountId, routes } );
+			};
+			if ( document.readyState === "loading" ) {
+				document.addEventListener( "DOMContentLoaded", run );
+			} else {
+				run();
+			}
+		}
+		JS;
 		wp_add_inline_script(
 			'media-editor-wp-admin-prerequisites',
 			sprintf(
-				'import("@wordpress/boot").then(mod => mod.initSinglePage({mountId: "%s", routes: %s}));',
-				'media-editor-wp-admin-app',
+				'( %s )( %s, %s );',
+				$init_js_function,
+				wp_json_encode( 'media-editor-wp-admin-app', JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
 				wp_json_encode( $routes, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 			)
 		);

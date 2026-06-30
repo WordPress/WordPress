@@ -1,0 +1,50 @@
+body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__back-icon {
+  top: auto;
+  right: auto;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+}
+body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle:hover .edit-post-fullscreen-mode-close__back-icon {
+  color: var(--wp-admin-theme-color);
+}
+body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header:has(> .editor-header__back-button) {
+  grid-template-columns: 32px minmax(0, max-content) minmax(min-content, 1fr) 64px;
+}
+body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header:has(> .editor-header__back-button):has(> .editor-header__center) {
+  grid-template-columns: 32px min-content 1fr min-content 64px;
+}
+body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header__back-button {
+  padding-right: 8px;
+}
+@media (min-width: 782px) {
+  body.has-admin-bar-in-editor.is-fullscreen-mode {
+    margin-top: 0;
+    height: 100%;
+  }
+  body.has-admin-bar-in-editor.is-fullscreen-mode #wpadminbar {
+    display: block;
+  }
+  body.has-admin-bar-in-editor.is-fullscreen-mode .interface-interface-skeleton,
+  body.has-admin-bar-in-editor.is-fullscreen-mode .editor-post-publish-panel,
+  body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus,
+  body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within {
+    top: var(--wp-admin--admin-bar--height, 0);
+  }
+  body.has-admin-bar-in-editor.is-fullscreen-mode .block-editor__container {
+    min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0));
+  }
+  body.has-admin-bar-in-editor.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) {
+    --wp-admin--admin-bar--height: 0;
+  }
+  body.has-admin-bar-in-editor.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) #wpadminbar {
+    display: none;
+  }
+}

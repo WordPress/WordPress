@@ -156,10 +156,10 @@ var require_keyboard_shortcuts = __commonJS({
 
 // packages/boot/build-module/components/app/index.mjs
 var import_element17 = __toESM(require_element(), 1);
-var import_data11 = __toESM(require_data(), 1);
+var import_data12 = __toESM(require_data(), 1);
 
 // packages/boot/build-module/components/app/router.mjs
-var import_i18n11 = __toESM(require_i18n(), 1);
+var import_i18n12 = __toESM(require_i18n(), 1);
 var import_element16 = __toESM(require_element(), 1);
 
 // node_modules/clsx/dist/clsx.mjs
@@ -758,12 +758,15 @@ var Text = (0, import_element.forwardRef)(function Text2({ variant = "body-md", 
 var import_element2 = __toESM(require_element(), 1);
 var icon_default = (0, import_element2.forwardRef)(
   ({ icon, size = 24, ...props }, ref) => {
-    return (0, import_element2.cloneElement)(icon, {
-      width: size,
-      height: size,
-      ...props,
-      ref
-    });
+    return (0, import_element2.cloneElement)(
+      icon,
+      {
+        width: size,
+        height: size,
+        ...props,
+        ref
+      }
+    );
   }
 );
 
@@ -772,50 +775,55 @@ var import_primitives = __toESM(require_primitives(), 1);
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var arrow_up_left_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M14 6H6v8h1.5V8.5L17 18l1-1-9.5-9.5H14V6Z" }) });
 
-// packages/icons/build-module/library/check.mjs
+// packages/icons/build-module/library/arrow-up-right.mjs
 var import_primitives2 = __toESM(require_primitives(), 1);
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-var check_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M16.5 7.5 10 13.9l-2.5-2.4-1 1 3.5 3.6 7.5-7.6z" }) });
+var arrow_up_right_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M10 6H18V14H16.5V8.5L7 18L6 17L15.5 7.5H10V6Z" }) });
 
-// packages/icons/build-module/library/chevron-down-small.mjs
+// packages/icons/build-module/library/check.mjs
 var import_primitives3 = __toESM(require_primitives(), 1);
 var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-var chevron_down_small_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "m15.99 10.889-3.988 3.418-3.988-3.418.976-1.14 3.012 2.582 3.012-2.581.976 1.139Z" }) });
+var check_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M16.5 7.5 10 13.9l-2.5-2.4-1 1 3.5 3.6 7.5-7.6z" }) });
 
-// packages/icons/build-module/library/chevron-left-small.mjs
+// packages/icons/build-module/library/chevron-down-small.mjs
 var import_primitives4 = __toESM(require_primitives(), 1);
 var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-var chevron_left_small_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "m13.1 16-3.4-4 3.4-4 1.1 1-2.6 3 2.6 3-1.1 1z" }) });
+var chevron_down_small_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "m15.99 10.889-3.988 3.418-3.988-3.418.976-1.14 3.012 2.582 3.012-2.581.976 1.139Z" }) });
 
-// packages/icons/build-module/library/chevron-left.mjs
+// packages/icons/build-module/library/chevron-left-small.mjs
 var import_primitives5 = __toESM(require_primitives(), 1);
 var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-var chevron_left_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { d: "M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z" }) });
+var chevron_left_small_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { d: "m13.1 16-3.4-4 3.4-4 1.1 1-2.6 3 2.6 3-1.1 1z" }) });
 
-// packages/icons/build-module/library/chevron-right-small.mjs
+// packages/icons/build-module/library/chevron-left.mjs
 var import_primitives6 = __toESM(require_primitives(), 1);
 var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-var chevron_right_small_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M10.8622 8.04053L14.2805 12.0286L10.8622 16.0167L9.72327 15.0405L12.3049 12.0286L9.72327 9.01672L10.8622 8.04053Z" }) });
+var chevron_left_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z" }) });
 
-// packages/icons/build-module/library/chevron-right.mjs
+// packages/icons/build-module/library/chevron-right-small.mjs
 var import_primitives7 = __toESM(require_primitives(), 1);
 var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-var chevron_right_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { d: "M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z" }) });
+var chevron_right_small_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { d: "M10.8622 8.04053L14.2805 12.0286L10.8622 16.0167L9.72327 15.0405L12.3049 12.0286L9.72327 9.01672L10.8622 8.04053Z" }) });
 
-// packages/icons/build-module/library/menu.mjs
+// packages/icons/build-module/library/chevron-right.mjs
 var import_primitives8 = __toESM(require_primitives(), 1);
 var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-var menu_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M5 5v1.5h14V5H5zm0 7.8h14v-1.5H5v1.5zM5 19h14v-1.5H5V19z" }) });
+var chevron_right_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z" }) });
 
-// packages/icons/build-module/library/search.mjs
+// packages/icons/build-module/library/menu.mjs
 var import_primitives9 = __toESM(require_primitives(), 1);
 var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
-var search_default = /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
+var menu_default = /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_primitives9.Path, { d: "M5 5v1.5h14V5H5zm0 7.8h14v-1.5H5v1.5zM5 19h14v-1.5H5V19z" }) });
 
-// packages/icons/build-module/library/wordpress.mjs
+// packages/icons/build-module/library/search.mjs
 var import_primitives10 = __toESM(require_primitives(), 1);
 var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
-var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
+var search_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
+
+// packages/icons/build-module/library/wordpress.mjs
+var import_primitives11 = __toESM(require_primitives(), 1);
+var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_primitives11.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
 
 // packages/ui/build-module/stack/stack.mjs
 var import_element3 = __toESM(require_element(), 1);
@@ -930,10 +938,10 @@ var Stack = (0, import_element3.forwardRef)(function Stack2({ direction, gap, al
 
 // packages/admin-ui/build-module/navigable-region/index.mjs
 var import_element4 = __toESM(require_element(), 1);
-var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
 var NavigableRegion = (0, import_element4.forwardRef)(
   ({ children, className, ariaLabel, as: Tag = "div", ...props }, ref) => {
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
       Tag,
       {
         ref,
@@ -955,7 +963,7 @@ var import_components = __toESM(require_components(), 1);
 var { Fill: SidebarToggleFill, Slot: SidebarToggleSlot } = (0, import_components.createSlotFill)("SidebarToggle");
 
 // packages/admin-ui/build-module/page/header.mjs
-var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE3 = "data-wp-hash";
 function getRuntime3() {
   const globalScope = globalThis;
@@ -1051,8 +1059,8 @@ function Header({
   showSidebarToggle = true
 }) {
   const HeadingTag = `h${headingLevel}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Stack, { direction: "column", className: style_default3.header, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Stack, { direction: "column", className: style_default3.header, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       Stack,
       {
         className: style_default3["header-content"],
@@ -1060,15 +1068,15 @@ function Header({
         gap: "sm",
         justify: "space-between",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
-            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
+            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               SidebarToggleSlot,
               {
                 bubblesVirtually: true,
                 className: style_default3["sidebar-toggle-slot"]
               }
             ),
-            visual && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+            visual && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "div",
               {
                 className: style_default3["header-visual"],
@@ -1076,11 +1084,11 @@ function Header({
                 children: visual
               }
             ),
-            title && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+            title && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               Text,
               {
                 className: style_default3["header-title"],
-                render: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(HeadingTag, {}),
+                render: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(HeadingTag, {}),
                 variant: "heading-lg",
                 children: title
               }
@@ -1088,7 +1096,7 @@ function Header({
             breadcrumbs,
             badges
           ] }),
-          actions && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+          actions && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
             Stack,
             {
               align: "center",
@@ -1101,10 +1109,10 @@ function Header({
         ]
       }
     ),
-    subTitle && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+    subTitle && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
       Text,
       {
-        render: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("p", {}),
+        render: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", {}),
         variant: "body-md",
         className: style_default3["header-subtitle"],
         children: subTitle
@@ -1114,7 +1122,7 @@ function Header({
 }
 
 // packages/admin-ui/build-module/page/index.mjs
-var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
 var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
 function getRuntime4() {
   const globalScope = globalThis;
@@ -1215,8 +1223,8 @@ function Page({
 }) {
   const classes = clsx_default(style_default4.page, className);
   const effectiveAriaLabel = ariaLabel ?? (typeof title === "string" ? title : "");
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(navigable_region_default, { className: classes, ariaLabel: effectiveAriaLabel, children: [
-    (title || breadcrumbs || badges || actions || visual) && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(navigable_region_default, { className: classes, ariaLabel: effectiveAriaLabel, children: [
+    (title || breadcrumbs || badges || actions || visual) && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       Header,
       {
         headingLevel,
@@ -1229,7 +1237,7 @@ function Page({
         showSidebarToggle
       }
     ),
-    hasPadding ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    hasPadding ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "div",
       {
         className: clsx_default(
@@ -1245,7 +1253,7 @@ Page.SidebarToggleFill = SidebarToggleFill;
 var page_default = Page;
 
 // packages/boot/build-module/components/app/router.mjs
-var import_data10 = __toESM(require_data(), 1);
+var import_data11 = __toESM(require_data(), 1);
 var import_core_data6 = __toESM(require_core_data(), 1);
 import {
   privateApis as routePrivateApis6
@@ -1254,10 +1262,15 @@ import {
 // packages/boot/build-module/components/root/index.mjs
 var import_notices = __toESM(require_notices(), 1);
 var import_compose4 = __toESM(require_compose(), 1);
-var import_components14 = __toESM(require_components(), 1);
+var import_components15 = __toESM(require_components(), 1);
 import { privateApis as routePrivateApis5 } from "@wordpress/route";
 var import_element15 = __toESM(require_element(), 1);
-var import_i18n10 = __toESM(require_i18n(), 1);
+var import_i18n11 = __toESM(require_i18n(), 1);
+
+// packages/boot/build-module/components/sidebar/index.mjs
+var import_components11 = __toESM(require_components(), 1);
+var import_data9 = __toESM(require_data(), 1);
+var import_i18n7 = __toESM(require_i18n(), 1);
 
 // packages/boot/build-module/components/site-hub/index.mjs
 var import_data3 = __toESM(require_data(), 1);
@@ -1284,7 +1297,7 @@ var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnl
 var import_data = __toESM(require_data(), 1);
 var import_i18n = __toESM(require_i18n(), 1);
 var import_core_data = __toESM(require_core_data(), 1);
-var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='3ada0e3b8a']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "3ada0e3b8a");
@@ -1306,16 +1319,16 @@ function SiteIcon({ className }) {
   }, []);
   let icon = null;
   if (isRequestingSite && !siteIconUrl) {
-    icon = /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "boot-site-icon__image" });
+    icon = /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "boot-site-icon__image" });
   } else {
-    icon = siteIconUrl ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    icon = siteIconUrl ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
       "img",
       {
         className: "boot-site-icon__image",
         alt: (0, import_i18n.__)("Site Icon"),
         src: siteIconUrl
       }
-    ) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    ) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
       icon_default,
       {
         className: "boot-site-icon__icon",
@@ -1324,12 +1337,12 @@ function SiteIcon({ className }) {
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: clsx_default(className, "boot-site-icon"), children: icon });
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: clsx_default(className, "boot-site-icon"), children: icon });
 }
 var site_icon_default = SiteIcon;
 
 // packages/boot/build-module/components/site-icon-link/index.mjs
-var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='5aacc86eea']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "5aacc86eea");
@@ -1344,7 +1357,7 @@ function SiteIconLink({
 }) {
   const router = useRouter();
   const canGoBack = useCanGoBack();
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_components2.Tooltip, { text: props["aria-label"], placement: "right", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_components2.Tooltip, { text: props["aria-label"], placement: "right", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
     Link,
     {
       to,
@@ -1356,7 +1369,7 @@ function SiteIconLink({
           router.history.back();
         }
       },
-      children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(site_icon_default, {})
+      children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(site_icon_default, {})
     }
   ) });
 }
@@ -1468,7 +1481,7 @@ var store = (0, import_data2.createReduxStore)(STORE_NAME, {
 (0, import_data2.register)(store);
 
 // packages/boot/build-module/components/site-hub/index.mjs
-var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='bc60675bd6']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "bc60675bd6");
@@ -1489,26 +1502,26 @@ function SiteHub() {
     };
   }, []);
   const { open: openCommandCenter } = (0, import_data3.useDispatch)(import_commands.store);
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "boot-site-hub", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "boot-site-hub", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
       site_icon_link_default,
       {
         to: dashboardLink || "/",
         "aria-label": (0, import_i18n2.__)("Go to the Dashboard")
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
       import_components3.ExternalLink,
       {
         href: homeUrl ?? "/",
         className: "boot-site-hub__title",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "boot-site-hub__title-text", children: siteTitle && (0, import_html_entities.decodeEntities)(siteTitle) }),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "boot-site-hub__url", children: (0, import_url.filterURLForDisplay)(homeUrl ?? "") })
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "boot-site-hub__title-text", children: siteTitle && (0, import_html_entities.decodeEntities)(siteTitle) }),
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "boot-site-hub__url", children: (0, import_url.filterURLForDisplay)(homeUrl ?? "") })
         ]
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_components3.__experimentalHStack, { className: "boot-site-hub__actions", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_components3.__experimentalHStack, { className: "boot-site-hub__actions", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
       import_components3.Button,
       {
         variant: "tertiary",
@@ -1534,10 +1547,10 @@ var import_components6 = __toESM(require_components(), 1);
 var import_element5 = __toESM(require_element(), 1);
 var import_components4 = __toESM(require_components(), 1);
 import { privateApis as routePrivateApis2 } from "@wordpress/route";
-var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
 var { createLink } = unlock(routePrivateApis2);
 function AnchorOnlyItem(props, forwardedRef) {
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_components4.__experimentalItem, { as: "a", ref: forwardedRef, ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_components4.__experimentalItem, { as: "a", ref: forwardedRef, ...props });
 }
 var RouterLinkItem = createLink((0, import_element5.forwardRef)(AnchorOnlyItem));
 var router_link_item_default = RouterLinkItem;
@@ -1545,21 +1558,21 @@ var router_link_item_default = RouterLinkItem;
 // packages/boot/build-module/components/navigation/items.mjs
 var import_element6 = __toESM(require_element(), 1);
 var import_components5 = __toESM(require_components(), 1);
-var import_primitives11 = __toESM(require_primitives(), 1);
-var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
+var import_primitives12 = __toESM(require_primitives(), 1);
+var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
 function isSvg(element) {
-  return (0, import_element6.isValidElement)(element) && (element.type === import_primitives11.SVG || element.type === "svg");
+  return (0, import_element6.isValidElement)(element) && (element.type === import_primitives12.SVG || element.type === "svg");
 }
 function wrapIcon(icon, shouldShowPlaceholder = true) {
   if (isSvg(icon)) {
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_components5.Icon, { icon });
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_components5.Icon, { icon });
   }
   if (typeof icon === "string" && icon.startsWith("dashicons-")) {
     const iconKey = icon.replace(
       /^dashicons-/,
       ""
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       import_components5.Dashicon,
       {
         style: { padding: "2px" },
@@ -1569,7 +1582,7 @@ function wrapIcon(icon, shouldShowPlaceholder = true) {
     );
   }
   if (typeof icon === "string" && icon.startsWith("data:")) {
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       "img",
       {
         src: icon,
@@ -1588,7 +1601,7 @@ function wrapIcon(icon, shouldShowPlaceholder = true) {
     return icon;
   }
   if (shouldShowPlaceholder) {
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       "div",
       {
         style: { width: "24px", height: "24px" },
@@ -1600,7 +1613,7 @@ function wrapIcon(icon, shouldShowPlaceholder = true) {
 }
 
 // packages/boot/build-module/components/navigation/navigation-item/index.mjs
-var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='26b8e27d3f']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "26b8e27d3f");
@@ -1617,12 +1630,12 @@ function NavigationItem({
   const isExternal = !String(
     new URL(to, window.location.origin)
   ).startsWith(window.location.origin);
-  const content = /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(import_components6.__experimentalHStack, { justify: "flex-start", spacing: 2, style: { flexGrow: "1" }, children: [
+  const content = /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_components6.__experimentalHStack, { justify: "flex-start", spacing: 2, style: { flexGrow: "1" }, children: [
     wrapIcon(icon, shouldShowPlaceholder),
-    /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_components6.FlexBlock, { children })
+    /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components6.FlexBlock, { children })
   ] });
   if (isExternal) {
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
       import_components6.__experimentalItem,
       {
         as: "a",
@@ -1632,7 +1645,7 @@ function NavigationItem({
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
     router_link_item_default,
     {
       to,
@@ -1645,7 +1658,7 @@ function NavigationItem({
 // packages/boot/build-module/components/navigation/drilldown-item/index.mjs
 var import_components7 = __toESM(require_components(), 1);
 var import_i18n3 = __toESM(require_i18n(), 1);
-var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
 function DrilldownItem({
   className,
   id,
@@ -1658,12 +1671,12 @@ function DrilldownItem({
     e.preventDefault();
     onNavigate({ id, direction: "forward" });
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
     import_components7.__experimentalItem,
     {
       className: clsx_default("boot-navigation-item", className),
       onClick: handleClick,
-      children: /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
         import_components7.__experimentalHStack,
         {
           justify: "flex-start",
@@ -1671,8 +1684,13 @@ function DrilldownItem({
           style: { flexGrow: "1" },
           children: [
             wrapIcon(icon, shouldShowPlaceholder),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components7.FlexBlock, { children }),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components7.Icon, { icon: (0, import_i18n3.isRTL)() ? chevron_left_small_default : chevron_right_small_default })
+            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components7.FlexBlock, { children }),
+            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+              import_components7.Icon,
+              {
+                icon: (0, import_i18n3.isRTL)() ? chevron_left_small_default : chevron_right_small_default
+              }
+            )
           ]
         }
       )
@@ -1684,7 +1702,7 @@ function DrilldownItem({
 var import_components8 = __toESM(require_components(), 1);
 var import_compose = __toESM(require_compose(), 1);
 var import_data4 = __toESM(require_data(), 1);
-var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='608eff82f3']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "608eff82f3");
@@ -1709,8 +1727,8 @@ function DropdownItem({
   );
   const items = menuItems.filter((item) => item.parent === id);
   const disableMotion = (0, import_compose.useReducedMotion)();
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "boot-dropdown-item", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "boot-dropdown-item", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
       import_components8.__experimentalItem,
       {
         className: clsx_default("boot-navigation-item", className),
@@ -1720,7 +1738,7 @@ function DropdownItem({
           onToggle();
         },
         onMouseDown: (e) => e.preventDefault(),
-        children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
           import_components8.__experimentalHStack,
           {
             justify: "flex-start",
@@ -1728,8 +1746,8 @@ function DropdownItem({
             style: { flexGrow: "1" },
             children: [
               wrapIcon(icon, false),
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components8.FlexBlock, { children }),
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_components8.FlexBlock, { children }),
+              /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
                 import_components8.Icon,
                 {
                   icon: chevron_down_small_default,
@@ -1743,7 +1761,7 @@ function DropdownItem({
         )
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components8.__unstableAnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_components8.__unstableAnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
       import_components8.__unstableMotion.div,
       {
         initial: { height: 0 },
@@ -1755,7 +1773,7 @@ function DropdownItem({
           ease: "easeOut"
         },
         className: "boot-dropdown-item__children",
-        children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+        children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
           NavigationItem,
           {
             to: item.to,
@@ -1773,7 +1791,7 @@ function DropdownItem({
 var import_components9 = __toESM(require_components(), 1);
 var import_i18n4 = __toESM(require_i18n(), 1);
 var import_compose2 = __toESM(require_compose(), 1);
-var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='c5e42e1495']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "c5e42e1495");
@@ -1813,7 +1831,7 @@ function NavigationScreen({
     e.preventDefault();
     onNavigate({ id: backMenuItem, direction: "backward" });
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
     "div",
     {
       className: "boot-navigation-screen",
@@ -1824,7 +1842,7 @@ function NavigationScreen({
         gridTemplateColumns: "1fr",
         gridTemplateRows: "1fr"
       },
-      children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_components9.__unstableAnimatePresence, { initial: false, children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_components9.__unstableAnimatePresence, { initial: false, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
         import_components9.__unstableMotion.div,
         {
           custom: animationDirection,
@@ -1843,13 +1861,13 @@ function NavigationScreen({
             gridRow: "1"
           },
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+            /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
               import_components9.__experimentalHStack,
               {
                 spacing: 2,
                 className: "boot-navigation-screen__title-icon",
                 children: [
-                  !isRoot && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+                  !isRoot && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
                     import_components9.Button,
                     {
                       ref: backButtonRef,
@@ -1860,7 +1878,7 @@ function NavigationScreen({
                       variant: "tertiary"
                     }
                   ),
-                  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+                  /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
                     import_components9.__experimentalHeading,
                     {
                       className: "boot-navigation-screen__title",
@@ -1869,11 +1887,11 @@ function NavigationScreen({
                       children: title
                     }
                   ),
-                  actions && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "boot-navigation-screen__actions", children: actions })
+                  actions && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "boot-navigation-screen__actions", children: actions })
                 ]
               }
             ),
-            description && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "boot-navigation-screen__description", children: description }),
+            description && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "boot-navigation-screen__description", children: description }),
             content
           ]
         },
@@ -2003,7 +2021,7 @@ function useSidebarParent() {
 }
 
 // packages/boot/build-module/components/navigation/index.mjs
-var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
 function Navigation() {
   const backButtonRef = (0, import_element8.useRef)(null);
   const [animationDirection, setAnimationDirection] = (0, import_element8.useState)(null);
@@ -2037,7 +2055,7 @@ function Navigation() {
     [menuItems, parentId]
   );
   const hasRealIcons = items.some((item) => !!item.icon);
-  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
     NavigationScreen,
     {
       isRoot: !parent,
@@ -2047,9 +2065,9 @@ function Navigation() {
       animationDirection: animationDirection || void 0,
       navigationKey,
       onNavigate: handleNavigate,
-      content: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_jsx_runtime23.Fragment, { children: items.map((item) => {
+      content: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_jsx_runtime24.Fragment, { children: items.map((item) => {
         if (item.parent_type === "dropdown") {
-          return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+          return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
             DropdownItem,
             {
               id: item.id,
@@ -2064,7 +2082,7 @@ function Navigation() {
           );
         }
         if (item.parent_type === "drilldown") {
-          return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+          return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
             DrilldownItem,
             {
               id: item.id,
@@ -2076,7 +2094,7 @@ function Navigation() {
             item.id
           );
         }
-        return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
           NavigationItem,
           {
             to: item.to,
@@ -2151,7 +2169,7 @@ function useSaveShortcut({
 }
 
 // packages/boot/build-module/components/save-button/index.mjs
-var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='294e36b777']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "294e36b777");
@@ -2209,13 +2227,13 @@ function SaveButton() {
     );
   };
   const label = getLabel();
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_jsx_runtime25.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
       import_components10.Tooltip,
       {
         text: hasChanges ? label : void 0,
         shortcut: import_keycodes2.displayShortcut.primary("s"),
-        children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
           import_components10.Button,
           {
             variant: "primary",
@@ -2233,13 +2251,13 @@ function SaveButton() {
         )
       }
     ),
-    isSaveViewOpen && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+    isSaveViewOpen && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
       import_components10.Modal,
       {
         title: (0, import_i18n6.__)("Review changes"),
         onRequestClose: () => setIsSaveViewOpened(false),
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
           import_editor2.EntitiesSavedStates,
           {
             close: () => setIsSaveViewOpened(false),
@@ -2252,27 +2270,45 @@ function SaveButton() {
 }
 
 // packages/boot/build-module/components/sidebar/index.mjs
-var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
-if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='6064f6f183']")) {
+var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='1f27eae1b9']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "6064f6f183");
-  style.appendChild(document.createTextNode(".boot-sidebar__scrollable{display:flex;flex-direction:column;height:100%;overflow:auto;position:relative}.boot-sidebar__content{contain:content;flex-grow:1;position:relative}.boot-sidebar__footer{padding:16px 8px 8px 16px}"));
+  style.setAttribute("data-wp-hash", "1f27eae1b9");
+  style.appendChild(document.createTextNode(".boot-sidebar__scrollable{display:flex;flex-direction:column;height:100%;overflow:auto;position:relative}.boot-sidebar__content{contain:content;flex-grow:1;position:relative}.boot-sidebar__footer{padding:16px 8px 8px 16px}.boot-sidebar__back-button{margin:8px 12px}"));
   document.head.appendChild(style);
 }
+function DashboardBackButton() {
+  const dashboardLink = (0, import_data9.useSelect)(
+    (select) => select(store).getDashboardLink(),
+    []
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+    import_components11.Button,
+    {
+      __next40pxDefaultSize: true,
+      className: "boot-sidebar__back-button",
+      href: dashboardLink || "/",
+      icon: (0, import_i18n7.isRTL)() ? chevron_right_default : chevron_left_default,
+      label: (0, import_i18n7.__)("Go to the Dashboard"),
+      children: (0, import_i18n7.__)("Dashboard")
+    }
+  );
+}
 function Sidebar() {
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "boot-sidebar__scrollable", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(site_hub_default, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "boot-sidebar__content", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(navigation_default, {}) }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "boot-sidebar__footer", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(SaveButton, {}) })
+  const hasAdminBarInEditor = window.__experimentalAdminBarInEditor;
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "boot-sidebar__scrollable", children: [
+    hasAdminBarInEditor ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DashboardBackButton, {}) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(site_hub_default, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "boot-sidebar__content", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(navigation_default, {}) }),
+    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "boot-sidebar__footer", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(SaveButton, {}) })
   ] });
 }
 
 // packages/boot/build-module/components/save-panel/index.mjs
 var import_element11 = __toESM(require_element(), 1);
-var import_components11 = __toESM(require_components(), 1);
+var import_components12 = __toESM(require_components(), 1);
 var import_editor3 = __toESM(require_editor(), 1);
-var import_i18n7 = __toESM(require_i18n(), 1);
-var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
+var import_i18n8 = __toESM(require_i18n(), 1);
+var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
 function SavePanel() {
   const [isOpen, setIsOpen] = (0, import_element11.useState)(false);
   useSaveShortcut({
@@ -2281,14 +2317,14 @@ function SavePanel() {
   if (!isOpen) {
     return false;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
-    import_components11.Modal,
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+    import_components12.Modal,
     {
       className: "edit-site-save-panel__modal",
       onRequestClose: () => setIsOpen(false),
-      title: (0, import_i18n7.__)("Review changes"),
+      title: (0, import_i18n8.__)("Review changes"),
       size: "small",
-      children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
         import_editor3.EntitiesSavedStates,
         {
           close: () => setIsOpen(false),
@@ -2304,14 +2340,14 @@ var import_element13 = __toESM(require_element(), 1);
 
 // packages/boot/build-module/components/canvas/index.mjs
 var import_element12 = __toESM(require_element(), 1);
-var import_components13 = __toESM(require_components(), 1);
+var import_components14 = __toESM(require_components(), 1);
 import { useNavigate } from "@wordpress/route";
 
 // packages/boot/build-module/components/canvas/back-button.mjs
-var import_components12 = __toESM(require_components(), 1);
+var import_components13 = __toESM(require_components(), 1);
 var import_compose3 = __toESM(require_compose(), 1);
-var import_i18n8 = __toESM(require_i18n(), 1);
-var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+var import_i18n9 = __toESM(require_i18n(), 1);
+var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='c8750e18d1']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "c8750e18d1");
@@ -2331,6 +2367,7 @@ var toggleHomeIconVariants = {
 };
 function BootBackButton({ length }) {
   const disableMotion = (0, import_compose3.useReducedMotion)();
+  const hasAdminBarInEditor = window.__experimentalAdminBarInEditor;
   const handleBack = () => {
     window.history.back();
   };
@@ -2340,8 +2377,9 @@ function BootBackButton({ length }) {
   const transition = {
     duration: disableMotion ? 0 : 0.3
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(
-    import_components12.__unstableMotion.div,
+  const arrowIcon = (0, import_i18n9.isRTL)() ? arrow_up_right_default : arrow_up_left_default;
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(
+    import_components13.__unstableMotion.div,
     {
       className: "boot-canvas-back-button",
       animate: "edit",
@@ -2350,23 +2388,26 @@ function BootBackButton({ length }) {
       whileTap: "tap",
       transition,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
-          import_components12.Button,
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+          import_components13.Button,
           {
             className: "boot-canvas-back-button__link",
             onClick: handleBack,
-            "aria-label": (0, import_i18n8.__)("Go back"),
+            "aria-label": (0, import_i18n9.__)("Go back"),
             __next40pxDefaultSize: true,
-            children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(site_icon_default, {})
+            children: !hasAdminBarInEditor && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(site_icon_default, {})
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
-          import_components12.__unstableMotion.div,
-          {
-            className: "boot-canvas-back-button__icon",
-            variants: toggleHomeIconVariants,
-            children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_components12.Icon, { icon: arrow_up_left_default })
-          }
+        hasAdminBarInEditor ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "boot-canvas-back-button__icon", children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_components13.Icon, { icon: arrowIcon }) }) : (
+          /* Overlay arrow that appears on hover */
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+            import_components13.__unstableMotion.div,
+            {
+              className: "boot-canvas-back-button__icon",
+              variants: toggleHomeIconVariants,
+              children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_components13.Icon, { icon: arrowIcon })
+            }
+          )
         )
       ]
     }
@@ -2374,7 +2415,7 @@ function BootBackButton({ length }) {
 }
 
 // packages/boot/build-module/components/canvas/index.mjs
-var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
 function Canvas({ canvas }) {
   const [Editor, setEditor] = (0, import_element12.useState)(null);
   const navigate = useNavigate();
@@ -2386,7 +2427,7 @@ function Canvas({ canvas }) {
     });
   }, []);
   if (!Editor) {
-    return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
       "div",
       {
         style: {
@@ -2396,18 +2437,18 @@ function Canvas({ canvas }) {
           height: "100%",
           padding: "2rem"
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_components13.Spinner, {})
+        children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_components14.Spinner, {})
       }
     );
   }
-  const backButton = !canvas.isPreview ? ({ length }) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(BootBackButton, { length }) : void 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { style: { height: "100%", position: "relative" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+  const backButton = !canvas.isPreview ? ({ length }) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(BootBackButton, { length }) : void 0;
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { style: { height: "100%", position: "relative" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
       "div",
       {
         style: { height: "100%" },
         inert: canvas.isPreview ? "true" : void 0,
-        children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
           Editor,
           {
             postType: canvas.postType,
@@ -2421,7 +2462,7 @@ function Canvas({ canvas }) {
         )
       }
     ),
-    canvas.isPreview && canvas.editLink && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+    canvas.isPreview && canvas.editLink && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
       "div",
       {
         onClick: () => navigate({ to: canvas.editLink }),
@@ -2446,7 +2487,7 @@ function Canvas({ canvas }) {
 }
 
 // packages/boot/build-module/components/canvas-renderer/index.mjs
-var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
 function CanvasRenderer({
   canvas,
   routeContentModule
@@ -2470,16 +2511,16 @@ function CanvasRenderer({
     if (!CustomCanvas) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(CustomCanvas, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(CustomCanvas, {});
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Canvas, { canvas });
+  return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Canvas, { canvas });
 }
 
 // packages/boot/build-module/components/app/use-route-title.mjs
 var import_element14 = __toESM(require_element(), 1);
-var import_data9 = __toESM(require_data(), 1);
+var import_data10 = __toESM(require_data(), 1);
 var import_core_data5 = __toESM(require_core_data(), 1);
-var import_i18n9 = __toESM(require_i18n(), 1);
+var import_i18n10 = __toESM(require_i18n(), 1);
 var import_html_entities2 = __toESM(require_html_entities(), 1);
 import { speak } from "@wordpress/a11y";
 import { privateApis as routePrivateApis4 } from "@wordpress/route";
@@ -2489,7 +2530,7 @@ function useRouteTitle() {
   const matches = useMatches2();
   const currentMatch = matches[matches.length - 1];
   const routeTitle = currentMatch?.loaderData?.title;
-  const siteTitle = (0, import_data9.useSelect)(
+  const siteTitle = (0, import_data10.useSelect)(
     (select) => select(import_core_data5.store).getEntityRecord(
       "root",
       "__unstableBase"
@@ -2507,9 +2548,9 @@ function useRouteTitle() {
     if (routeTitle && typeof routeTitle === "string" && siteTitle && typeof siteTitle === "string") {
       const decodedRouteTitle = (0, import_html_entities2.decodeEntities)(routeTitle);
       const decodedSiteTitle = (0, import_html_entities2.decodeEntities)(siteTitle);
-      const formattedTitle = (0, import_i18n9.sprintf)(
+      const formattedTitle = (0, import_i18n10.sprintf)(
         /* translators: Admin document title. 1: Admin screen name, 2: Site name. */
-        (0, import_i18n9.__)("%1$s \u2039 %2$s \u2014 WordPress"),
+        (0, import_i18n10.__)("%1$s \u2039 %2$s \u2014 WordPress"),
         decodedRouteTitle,
         decodedSiteTitle
       );
@@ -2523,7 +2564,7 @@ function useRouteTitle() {
 
 // packages/boot/build-module/components/user-theme-provider/index.mjs
 var import_theme = __toESM(require_theme(), 1);
-var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
 var ThemeProvider = unlock(import_theme.privateApis).ThemeProvider;
 var THEME_PRIMARY_COLORS = /* @__PURE__ */ new Map([
   ["light", "#0085ba"],
@@ -2544,11 +2585,11 @@ function UserThemeProvider({
   ...restProps
 }) {
   const primary = getAdminThemePrimaryColor();
-  return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ThemeProvider, { ...restProps, color: { primary, ...color } });
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(ThemeProvider, { ...restProps, color: { primary, ...color } });
 }
 
 // packages/boot/build-module/components/root/index.mjs
-var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='be0c278a6c']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "be0c278a6c");
@@ -2570,7 +2611,7 @@ function Root() {
   (0, import_element15.useEffect)(() => {
     setIsMobileSidebarOpen(false);
   }, [location.pathname, isMobileViewport]);
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components14.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(UserThemeProvider, { isRoot: true, color: { bg: "#f8f8f8" }, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(UserThemeProvider, { color: { bg: "#1d2327" }, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_components15.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(UserThemeProvider, { isRoot: true, color: { bg: "#f8f8f8" }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(UserThemeProvider, { color: { bg: "#1d2327" }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
     "div",
     {
       className: clsx_default("boot-layout", {
@@ -2578,19 +2619,19 @@ function Root() {
         "has-full-canvas": isFullScreen
       }),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(SavePanel, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_notices.SnackbarNotices, { className: "boot-notices__snackbar" }),
-        isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(page_default.SidebarToggleFill, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-          import_components14.Button,
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SavePanel, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_notices.SnackbarNotices, { className: "boot-notices__snackbar" }),
+        isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(page_default.SidebarToggleFill, { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          import_components15.Button,
           {
             icon: menu_default,
             onClick: () => setIsMobileSidebarOpen(true),
-            label: (0, import_i18n10.__)("Open navigation panel"),
+            label: (0, import_i18n11.__)("Open navigation panel"),
             size: "compact"
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components14.__unstableAnimatePresence, { children: isMobileViewport && isMobileSidebarOpen && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-          import_components14.__unstableMotion.div,
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_components15.__unstableAnimatePresence, { children: isMobileViewport && isMobileSidebarOpen && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          import_components15.__unstableMotion.div,
           {
             initial: { opacity: 0 },
             animate: { opacity: 1 },
@@ -2609,13 +2650,13 @@ function Root() {
             },
             role: "button",
             tabIndex: -1,
-            "aria-label": (0, import_i18n10.__)(
+            "aria-label": (0, import_i18n11.__)(
               "Close navigation panel"
             )
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components14.__unstableAnimatePresence, { children: isMobileViewport && isMobileSidebarOpen && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-          import_components14.__unstableMotion.div,
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_components15.__unstableAnimatePresence, { children: isMobileViewport && isMobileSidebarOpen && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          import_components15.__unstableMotion.div,
           {
             initial: { x: "-100%" },
             animate: { x: 0 },
@@ -2626,13 +2667,13 @@ function Root() {
               ease: "easeOut"
             },
             className: "boot-layout__sidebar is-mobile",
-            children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Sidebar, {})
+            children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Sidebar, {})
           }
         ) }),
-        !isMobileViewport && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "boot-layout__sidebar", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Sidebar, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "boot-layout__surfaces", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(UserThemeProvider, { color: { bg: "#ffffff" }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Outlet, {}),
-          (canvas || canvas === null) && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+        !isMobileViewport && !isFullScreen && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__sidebar", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Sidebar, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__surfaces", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(UserThemeProvider, { color: { bg: "#ffffff" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Outlet, {}),
+          (canvas || canvas === null) && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
             "div",
             {
               className: clsx_default(
@@ -2642,20 +2683,20 @@ function Root() {
                 }
               ),
               children: [
-                canvas?.isPreview && isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "boot-layout__mobile-sidebar-drawer", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                  import_components14.Button,
+                canvas?.isPreview && isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__mobile-sidebar-drawer", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                  import_components15.Button,
                   {
                     icon: menu_default,
                     onClick: () => setIsMobileSidebarOpen(
                       true
                     ),
-                    label: (0, import_i18n10.__)(
+                    label: (0, import_i18n11.__)(
                       "Open navigation panel"
                     ),
                     size: "compact"
                   }
                 ) }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
                   CanvasRenderer,
                   {
                     canvas,
@@ -2672,7 +2713,7 @@ function Root() {
 }
 
 // packages/boot/build-module/components/app/router.mjs
-var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
 var {
   createLazyRoute,
   createRouter,
@@ -2684,7 +2725,7 @@ var {
   useLoaderData
 } = unlock(routePrivateApis6);
 function NotFoundComponent() {
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__stage", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(page_default, { title: (0, import_i18n11.__)("Route not found"), hasPadding: true, children: (0, import_i18n11.__)("The page you're looking for does not exist") }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "boot-layout__stage", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(page_default, { title: (0, import_i18n12.__)("Route not found"), hasPadding: true, children: (0, import_i18n12.__)("The page you're looking for does not exist") }) });
 }
 function createRouteFromDefinition(route, parentRoute) {
   let tanstackRoute = createRoute({
@@ -2713,7 +2754,7 @@ function createRouteFromDefinition(route, parentRoute) {
         search: opts.deps || {}
       };
       const [, loaderData, canvasData, titleData] = await Promise.all([
-        (0, import_data10.resolveSelect)(import_core_data6.store).getEntityRecord(
+        (0, import_data11.resolveSelect)(import_core_data6.store).getEntityRecord(
           "root",
           "__unstableBase"
         ),
@@ -2742,9 +2783,9 @@ function createRouteFromDefinition(route, parentRoute) {
     return createLazyRoute(route.path)({
       component: function RouteComponent() {
         const { inspector: showInspector } = useLoaderData({ from: route.path }) ?? {};
-        return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(import_jsx_runtime32.Fragment, { children: [
-          Stage && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__stage", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Stage, {}) }),
-          Inspector && showInspector && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "boot-layout__inspector", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Inspector, {}) })
+        return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(import_jsx_runtime33.Fragment, { children: [
+          Stage && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "boot-layout__stage", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Stage, {}) }),
+          Inspector && showInspector && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "boot-layout__inspector", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Inspector, {}) })
         ] });
       }
     });
@@ -2800,14 +2841,14 @@ function Router({
       }
     });
   }, [routes, rootComponent]);
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(RouterProvider, { router });
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(RouterProvider, { router });
 }
 
 // packages/boot/build-module/components/root/single-page.mjs
 var import_notices2 = __toESM(require_notices(), 1);
-var import_components15 = __toESM(require_components(), 1);
+var import_components16 = __toESM(require_components(), 1);
 import { privateApis as routePrivateApis7 } from "@wordpress/route";
-var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='be0c278a6c']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "be0c278a6c");
@@ -2822,7 +2863,7 @@ function RootSinglePage() {
   const routeContentModule = currentMatch?.loaderData?.routeContentModule;
   const isFullScreen = canvas && !canvas.isPreview;
   useRouteTitle();
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components15.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(UserThemeProvider, { isRoot: true, color: { bg: "#f8f8f8" }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(UserThemeProvider, { color: { bg: "#1d2327" }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components16.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(UserThemeProvider, { isRoot: true, color: { bg: "#f8f8f8" }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(UserThemeProvider, { color: { bg: "#1d2327" }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
     "div",
     {
       className: clsx_default(
@@ -2833,11 +2874,11 @@ function RootSinglePage() {
         }
       ),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(SavePanel, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_notices2.SnackbarNotices, { className: "boot-notices__snackbar" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "boot-layout__surfaces", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(UserThemeProvider, { color: { bg: "#ffffff" }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Outlet2, {}),
-          (canvas || canvas === null) && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "boot-layout__canvas", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SavePanel, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_notices2.SnackbarNotices, { className: "boot-notices__snackbar" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "boot-layout__surfaces", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(UserThemeProvider, { color: { bg: "#ffffff" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Outlet2, {}),
+          (canvas || canvas === null) && /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "boot-layout__canvas", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
             CanvasRenderer,
             {
               canvas,
@@ -2851,10 +2892,10 @@ function RootSinglePage() {
 }
 
 // packages/boot/build-module/components/app/index.mjs
-var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
 function App({ rootComponent }) {
-  const routes = (0, import_data11.useSelect)((select) => select(store).getRoutes(), []);
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Router, { routes, rootComponent });
+  const routes = (0, import_data12.useSelect)((select) => select(store).getRoutes(), []);
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(Router, { routes, rootComponent });
 }
 async function init({
   mountId,
@@ -2864,13 +2905,13 @@ async function init({
   dashboardLink
 }) {
   (menuItems ?? []).forEach((menuItem) => {
-    (0, import_data11.dispatch)(store).registerMenuItem(menuItem.id, menuItem);
+    (0, import_data12.dispatch)(store).registerMenuItem(menuItem.id, menuItem);
   });
   (routes ?? []).forEach((route) => {
-    (0, import_data11.dispatch)(store).registerRoute(route);
+    (0, import_data12.dispatch)(store).registerRoute(route);
   });
   if (dashboardLink) {
-    (0, import_data11.dispatch)(store).setDashboardLink(dashboardLink);
+    (0, import_data12.dispatch)(store).setDashboardLink(dashboardLink);
   }
   for (const moduleId of initModules ?? []) {
     const module = await import(moduleId);
@@ -2880,7 +2921,7 @@ async function init({
   if (rootElement) {
     const root = (0, import_element17.createRoot)(rootElement);
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_element17.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(App, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(import_element17.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(App, {}) })
     );
   }
 }
@@ -2889,22 +2930,22 @@ async function initSinglePage({
   routes
 }) {
   (routes ?? []).forEach((route) => {
-    (0, import_data11.dispatch)(store).registerRoute(route);
+    (0, import_data12.dispatch)(store).registerRoute(route);
   });
   const rootElement = document.getElementById(mountId);
   if (rootElement) {
     const root = (0, import_element17.createRoot)(rootElement);
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_element17.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(App, { rootComponent: RootSinglePage }) })
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(import_element17.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(App, { rootComponent: RootSinglePage }) })
     );
   }
 }
 
 // packages/boot/build-module/index.mjs
-if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='fd7d52554d']")) {
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='9947af2e2a']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "fd7d52554d");
-  style.appendChild(document.createTextNode(':root{--wpds-border-radius-xs:1px;--wpds-border-radius-sm:2px;--wpds-border-radius-md:4px;--wpds-border-radius-lg:8px;--wpds-border-width-xs:1px;--wpds-border-width-sm:2px;--wpds-border-width-md:4px;--wpds-border-width-lg:8px;--wpds-border-width-focus:2px;--wpds-color-bg-surface-neutral:#fcfcfc;--wpds-color-bg-surface-neutral-strong:#fff;--wpds-color-bg-surface-neutral-weak:#f4f4f4;--wpds-color-bg-surface-brand:#ecf0fa;--wpds-color-bg-surface-success:#c6f7cd;--wpds-color-bg-surface-success-weak:#ebffed;--wpds-color-bg-surface-info:#deebfa;--wpds-color-bg-surface-info-weak:#f3f9ff;--wpds-color-bg-surface-warning:#fde6be;--wpds-color-bg-surface-warning-weak:#fff7e1;--wpds-color-bg-surface-caution:#fee995;--wpds-color-bg-surface-caution-weak:#fff9ca;--wpds-color-bg-surface-error:#f6e6e3;--wpds-color-bg-surface-error-weak:#fff6f5;--wpds-color-bg-interactive-neutral-strong:#2d2d2d;--wpds-color-bg-interactive-neutral-strong-active:#1e1e1e;--wpds-color-bg-interactive-neutral-strong-disabled:#e6e6e6;--wpds-color-bg-interactive-neutral-weak:#0000;--wpds-color-bg-interactive-neutral-weak-active:#ededed;--wpds-color-bg-interactive-neutral-weak-disabled:#0000;--wpds-color-bg-interactive-brand-strong:#3858e9;--wpds-color-bg-interactive-brand-strong-active:#2e49d9;--wpds-color-bg-interactive-brand-weak:#0000;--wpds-color-bg-interactive-brand-weak-active:#e6eaf4;--wpds-color-bg-interactive-error:#0000;--wpds-color-bg-interactive-error-active:#fff6f5;--wpds-color-bg-interactive-error-strong:#cc1818;--wpds-color-bg-interactive-error-strong-active:#b90000;--wpds-color-bg-interactive-error-weak:#0000;--wpds-color-bg-interactive-error-weak-active:#f6e6e3;--wpds-color-bg-track-neutral-weak:#e4e4e4;--wpds-color-bg-track-neutral:#dbdbdb;--wpds-color-bg-thumb-neutral-weak:#8d8d8d;--wpds-color-bg-thumb-neutral-weak-active:#6e6e6e;--wpds-color-bg-thumb-brand:#3858e9;--wpds-color-bg-thumb-brand-active:#3858e9;--wpds-color-bg-thumb-neutral-disabled:#dbdbdb;--wpds-color-fg-content-neutral:#1e1e1e;--wpds-color-fg-content-neutral-weak:#707070;--wpds-color-fg-content-success:#002900;--wpds-color-fg-content-success-weak:#008030;--wpds-color-fg-content-info:#001b4f;--wpds-color-fg-content-info-weak:#006bd7;--wpds-color-fg-content-warning:#2e1900;--wpds-color-fg-content-warning-weak:#926300;--wpds-color-fg-content-caution:#281d00;--wpds-color-fg-content-caution-weak:#826a00;--wpds-color-fg-content-error:#470000;--wpds-color-fg-content-error-weak:#cc1818;--wpds-color-fg-interactive-neutral:#1e1e1e;--wpds-color-fg-interactive-neutral-active:#1e1e1e;--wpds-color-fg-interactive-neutral-disabled:#8d8d8d;--wpds-color-fg-interactive-neutral-strong:#f0f0f0;--wpds-color-fg-interactive-neutral-strong-active:#f0f0f0;--wpds-color-fg-interactive-neutral-strong-disabled:#8d8d8d;--wpds-color-fg-interactive-neutral-weak:#707070;--wpds-color-fg-interactive-neutral-weak-disabled:#8d8d8d;--wpds-color-fg-interactive-brand:#3858e9;--wpds-color-fg-interactive-brand-active:#3858e9;--wpds-color-fg-interactive-brand-strong:#eff0f2;--wpds-color-fg-interactive-brand-strong-active:#eff0f2;--wpds-color-fg-interactive-error:#cc1818;--wpds-color-fg-interactive-error-active:#cc1818;--wpds-color-fg-interactive-error-strong:#f2efef;--wpds-color-fg-interactive-error-strong-active:#f2efef;--wpds-color-stroke-surface-neutral:#dbdbdb;--wpds-color-stroke-surface-neutral-weak:#e4e4e4;--wpds-color-stroke-surface-neutral-strong:#8d8d8d;--wpds-color-stroke-surface-brand:#a3b1d4;--wpds-color-stroke-surface-brand-strong:#3858e9;--wpds-color-stroke-surface-success:#8ac894;--wpds-color-stroke-surface-success-strong:#008030;--wpds-color-stroke-surface-info:#9fbcdc;--wpds-color-stroke-surface-info-strong:#006bd7;--wpds-color-stroke-surface-warning:#d0b481;--wpds-color-stroke-surface-warning-strong:#926300;--wpds-color-stroke-surface-error:#daa39b;--wpds-color-stroke-surface-error-strong:#cc1818;--wpds-color-stroke-interactive-neutral:#8d8d8d;--wpds-color-stroke-interactive-neutral-active:#6e6e6e;--wpds-color-stroke-interactive-neutral-disabled:#dbdbdb;--wpds-color-stroke-interactive-neutral-strong:#6e6e6e;--wpds-color-stroke-interactive-brand:#3858e9;--wpds-color-stroke-interactive-brand-active:#2337c8;--wpds-color-stroke-interactive-error:#cc1818;--wpds-color-stroke-interactive-error-active:#9d0000;--wpds-color-stroke-interactive-error-strong:#cc1818;--wpds-color-stroke-focus-brand:#3858e9;--wpds-cursor-control:pointer;--wpds-dimension-base:4px;--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:8px;--wpds-dimension-padding-md:12px;--wpds-dimension-padding-lg:16px;--wpds-dimension-padding-xl:20px;--wpds-dimension-padding-2xl:24px;--wpds-dimension-padding-3xl:32px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:8px;--wpds-dimension-gap-md:12px;--wpds-dimension-gap-lg:16px;--wpds-dimension-gap-xl:24px;--wpds-dimension-gap-2xl:32px;--wpds-dimension-gap-3xl:40px;--wpds-dimension-surface-width-xs:240px;--wpds-dimension-surface-width-sm:320px;--wpds-dimension-surface-width-md:400px;--wpds-dimension-surface-width-lg:560px;--wpds-dimension-surface-width-xl:720px;--wpds-dimension-surface-width-2xl:960px;--wpds-elevation-xs:0 1px 1px 0 #00000008,0 1px 2px 0 #00000005,0 3px 3px 0 #00000005,0 4px 4px 0 #00000003;--wpds-elevation-sm:0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005;--wpds-elevation-md:0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005;--wpds-elevation-lg:0 5px 15px 0 #00000014,0 15px 27px 0 #00000012,0 30px 36px 0 #0000000a,0 50px 43px 0 #00000005;--wpds-motion-duration-xs:50ms;--wpds-motion-duration-sm:100ms;--wpds-motion-duration-md:200ms;--wpds-motion-duration-lg:300ms;--wpds-motion-duration-xl:400ms;--wpds-motion-easing-subtle:cubic-bezier(0.15,0,0.15,1);--wpds-motion-easing-balanced:cubic-bezier(0.4,0,0.2,1);--wpds-motion-easing-expressive:cubic-bezier(0.25,0,0,1);--wpds-typography-font-family-heading:-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif;--wpds-typography-font-family-body:-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif;--wpds-typography-font-family-mono:"Menlo","Consolas",monaco,monospace;--wpds-typography-font-size-xs:11px;--wpds-typography-font-size-sm:12px;--wpds-typography-font-size-md:13px;--wpds-typography-font-size-lg:15px;--wpds-typography-font-size-xl:20px;--wpds-typography-font-size-2xl:32px;--wpds-typography-line-height-xs:16px;--wpds-typography-line-height-sm:20px;--wpds-typography-line-height-md:24px;--wpds-typography-line-height-lg:28px;--wpds-typography-line-height-xl:32px;--wpds-typography-line-height-2xl:40px;--wpds-typography-font-weight-regular:400;--wpds-typography-font-weight-medium:499}[data-wpds-theme-provider-id][data-wpds-density=compact]{--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:4px;--wpds-dimension-padding-md:8px;--wpds-dimension-padding-lg:12px;--wpds-dimension-padding-xl:16px;--wpds-dimension-padding-2xl:20px;--wpds-dimension-padding-3xl:24px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:4px;--wpds-dimension-gap-md:8px;--wpds-dimension-gap-lg:12px;--wpds-dimension-gap-xl:20px;--wpds-dimension-gap-2xl:24px;--wpds-dimension-gap-3xl:32px}[data-wpds-theme-provider-id][data-wpds-density=comfortable]{--wpds-dimension-padding-xs:8px;--wpds-dimension-padding-sm:12px;--wpds-dimension-padding-md:16px;--wpds-dimension-padding-lg:20px;--wpds-dimension-padding-xl:24px;--wpds-dimension-padding-2xl:32px;--wpds-dimension-padding-3xl:40px;--wpds-dimension-gap-xs:8px;--wpds-dimension-gap-sm:12px;--wpds-dimension-gap-md:16px;--wpds-dimension-gap-lg:20px;--wpds-dimension-gap-xl:32px;--wpds-dimension-gap-2xl:40px;--wpds-dimension-gap-3xl:48px}[data-wpds-theme-provider-id][data-wpds-density=default]{--wpds-dimension-base:4px;--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:8px;--wpds-dimension-padding-md:12px;--wpds-dimension-padding-lg:16px;--wpds-dimension-padding-xl:20px;--wpds-dimension-padding-2xl:24px;--wpds-dimension-padding-3xl:32px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:8px;--wpds-dimension-gap-md:12px;--wpds-dimension-gap-lg:16px;--wpds-dimension-gap-xl:24px;--wpds-dimension-gap-2xl:32px;--wpds-dimension-gap-3xl:40px;--wpds-dimension-surface-width-xs:240px;--wpds-dimension-surface-width-sm:320px;--wpds-dimension-surface-width-md:400px;--wpds-dimension-surface-width-lg:560px;--wpds-dimension-surface-width-xl:720px;--wpds-dimension-surface-width-2xl:960px}@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){:root{--wpds-border-width-focus:1.5px}}@media (min-width:600px){.boot-layout-container .boot-layout{bottom:0;left:0;min-height:calc(100vh - 46px);position:absolute;right:0;top:0}}@media (min-width:782px){.boot-layout-container .boot-layout{min-height:calc(100vh - 32px)}body:has(.boot-layout.has-full-canvas) .boot-layout-container .boot-layout{min-height:100vh}}.boot-layout-container .boot-layout img{height:auto;max-width:100%}.boot-layout .boot-notices__snackbar{bottom:24px;box-sizing:border-box;display:flex;flex-direction:column;left:0;padding-inline:16px;pointer-events:none;position:fixed;right:0}.boot-layout .boot-notices__snackbar .components-snackbar{margin-inline:auto}'));
+  style.setAttribute("data-wp-hash", "9947af2e2a");
+  style.appendChild(document.createTextNode(':root{--wpds-border-radius-xs:1px;--wpds-border-radius-sm:2px;--wpds-border-radius-md:4px;--wpds-border-radius-lg:8px;--wpds-border-width-xs:1px;--wpds-border-width-sm:2px;--wpds-border-width-md:4px;--wpds-border-width-lg:8px;--wpds-border-width-focus:2px;--wpds-color-bg-surface-neutral:#fcfcfc;--wpds-color-bg-surface-neutral-strong:#fff;--wpds-color-bg-surface-neutral-weak:#f4f4f4;--wpds-color-bg-surface-brand:#ecf0fa;--wpds-color-bg-surface-success:#c6f7cd;--wpds-color-bg-surface-success-weak:#ebffed;--wpds-color-bg-surface-info:#deebfa;--wpds-color-bg-surface-info-weak:#f3f9ff;--wpds-color-bg-surface-warning:#fde6be;--wpds-color-bg-surface-warning-weak:#fff7e1;--wpds-color-bg-surface-caution:#fee995;--wpds-color-bg-surface-caution-weak:#fff9ca;--wpds-color-bg-surface-error:#f6e6e3;--wpds-color-bg-surface-error-weak:#fff6f5;--wpds-color-bg-interactive-neutral-strong:#2d2d2d;--wpds-color-bg-interactive-neutral-strong-active:#1e1e1e;--wpds-color-bg-interactive-neutral-strong-disabled:#e6e6e6;--wpds-color-bg-interactive-neutral-weak:#0000;--wpds-color-bg-interactive-neutral-weak-active:#ededed;--wpds-color-bg-interactive-neutral-weak-disabled:#0000;--wpds-color-bg-interactive-brand-strong:#3858e9;--wpds-color-bg-interactive-brand-strong-active:#2e49d9;--wpds-color-bg-interactive-brand-weak:#0000;--wpds-color-bg-interactive-brand-weak-active:#e6eaf4;--wpds-color-bg-interactive-error:#0000;--wpds-color-bg-interactive-error-active:#fff6f5;--wpds-color-bg-interactive-error-strong:#cc1818;--wpds-color-bg-interactive-error-strong-active:#b90000;--wpds-color-bg-interactive-error-weak:#0000;--wpds-color-bg-interactive-error-weak-active:#f6e6e3;--wpds-color-bg-track-neutral-weak:#e4e4e4;--wpds-color-bg-track-neutral:#dbdbdb;--wpds-color-bg-thumb-neutral-weak:#8d8d8d;--wpds-color-bg-thumb-neutral-weak-active:#6e6e6e;--wpds-color-bg-thumb-brand:#3858e9;--wpds-color-bg-thumb-brand-active:#3858e9;--wpds-color-bg-thumb-neutral-disabled:#dbdbdb;--wpds-color-fg-content-neutral:#1e1e1e;--wpds-color-fg-content-neutral-weak:#707070;--wpds-color-fg-content-success:#002900;--wpds-color-fg-content-success-weak:#008030;--wpds-color-fg-content-info:#001b4f;--wpds-color-fg-content-info-weak:#006bd7;--wpds-color-fg-content-warning:#2e1900;--wpds-color-fg-content-warning-weak:#926300;--wpds-color-fg-content-caution:#281d00;--wpds-color-fg-content-caution-weak:#826a00;--wpds-color-fg-content-error:#470000;--wpds-color-fg-content-error-weak:#cc1818;--wpds-color-fg-interactive-neutral:#1e1e1e;--wpds-color-fg-interactive-neutral-active:#1e1e1e;--wpds-color-fg-interactive-neutral-disabled:#8d8d8d;--wpds-color-fg-interactive-neutral-strong:#f0f0f0;--wpds-color-fg-interactive-neutral-strong-active:#f0f0f0;--wpds-color-fg-interactive-neutral-strong-disabled:#8d8d8d;--wpds-color-fg-interactive-neutral-weak:#707070;--wpds-color-fg-interactive-neutral-weak-disabled:#8d8d8d;--wpds-color-fg-interactive-brand:#3858e9;--wpds-color-fg-interactive-brand-active:#3858e9;--wpds-color-fg-interactive-brand-strong:#eff0f2;--wpds-color-fg-interactive-brand-strong-active:#eff0f2;--wpds-color-fg-interactive-error:#cc1818;--wpds-color-fg-interactive-error-active:#cc1818;--wpds-color-fg-interactive-error-strong:#f2efef;--wpds-color-fg-interactive-error-strong-active:#f2efef;--wpds-color-stroke-surface-neutral:#dbdbdb;--wpds-color-stroke-surface-neutral-weak:#e4e4e4;--wpds-color-stroke-surface-neutral-strong:#8d8d8d;--wpds-color-stroke-surface-brand:#a3b1d4;--wpds-color-stroke-surface-brand-strong:#3858e9;--wpds-color-stroke-surface-success:#8ac894;--wpds-color-stroke-surface-success-strong:#008030;--wpds-color-stroke-surface-info:#9fbcdc;--wpds-color-stroke-surface-info-strong:#006bd7;--wpds-color-stroke-surface-warning:#d0b481;--wpds-color-stroke-surface-warning-strong:#926300;--wpds-color-stroke-surface-error:#daa39b;--wpds-color-stroke-surface-error-strong:#cc1818;--wpds-color-stroke-interactive-neutral:#8d8d8d;--wpds-color-stroke-interactive-neutral-active:#6e6e6e;--wpds-color-stroke-interactive-neutral-disabled:#dbdbdb;--wpds-color-stroke-interactive-neutral-strong:#6e6e6e;--wpds-color-stroke-interactive-brand:#3858e9;--wpds-color-stroke-interactive-brand-active:#2337c8;--wpds-color-stroke-interactive-error:#cc1818;--wpds-color-stroke-interactive-error-active:#9d0000;--wpds-color-stroke-interactive-error-strong:#cc1818;--wpds-color-stroke-focus-brand:#3858e9;--wpds-cursor-control:pointer;--wpds-dimension-base:4px;--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:8px;--wpds-dimension-padding-md:12px;--wpds-dimension-padding-lg:16px;--wpds-dimension-padding-xl:20px;--wpds-dimension-padding-2xl:24px;--wpds-dimension-padding-3xl:32px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:8px;--wpds-dimension-gap-md:12px;--wpds-dimension-gap-lg:16px;--wpds-dimension-gap-xl:24px;--wpds-dimension-gap-2xl:32px;--wpds-dimension-gap-3xl:40px;--wpds-dimension-surface-width-xs:240px;--wpds-dimension-surface-width-sm:320px;--wpds-dimension-surface-width-md:400px;--wpds-dimension-surface-width-lg:560px;--wpds-dimension-surface-width-xl:720px;--wpds-dimension-surface-width-2xl:960px;--wpds-elevation-xs:0 1px 1px 0 #00000008,0 1px 2px 0 #00000005,0 3px 3px 0 #00000005,0 4px 4px 0 #00000003;--wpds-elevation-sm:0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005;--wpds-elevation-md:0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005;--wpds-elevation-lg:0 5px 15px 0 #00000014,0 15px 27px 0 #00000012,0 30px 36px 0 #0000000a,0 50px 43px 0 #00000005;--wpds-motion-duration-xs:50ms;--wpds-motion-duration-sm:100ms;--wpds-motion-duration-md:200ms;--wpds-motion-duration-lg:300ms;--wpds-motion-duration-xl:400ms;--wpds-motion-easing-subtle:cubic-bezier(0.15,0,0.15,1);--wpds-motion-easing-balanced:cubic-bezier(0.4,0,0.2,1);--wpds-motion-easing-expressive:cubic-bezier(0.25,0,0,1);--wpds-typography-font-family-heading:-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif;--wpds-typography-font-family-body:-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif;--wpds-typography-font-family-mono:"Menlo","Consolas",monaco,monospace;--wpds-typography-font-size-xs:11px;--wpds-typography-font-size-sm:12px;--wpds-typography-font-size-md:13px;--wpds-typography-font-size-lg:15px;--wpds-typography-font-size-xl:20px;--wpds-typography-font-size-2xl:32px;--wpds-typography-line-height-xs:16px;--wpds-typography-line-height-sm:20px;--wpds-typography-line-height-md:24px;--wpds-typography-line-height-lg:28px;--wpds-typography-line-height-xl:32px;--wpds-typography-line-height-2xl:40px;--wpds-typography-font-weight-regular:400;--wpds-typography-font-weight-medium:499}[data-wpds-theme-provider-id][data-wpds-density=compact]{--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:4px;--wpds-dimension-padding-md:8px;--wpds-dimension-padding-lg:12px;--wpds-dimension-padding-xl:16px;--wpds-dimension-padding-2xl:20px;--wpds-dimension-padding-3xl:24px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:4px;--wpds-dimension-gap-md:8px;--wpds-dimension-gap-lg:12px;--wpds-dimension-gap-xl:20px;--wpds-dimension-gap-2xl:24px;--wpds-dimension-gap-3xl:32px}[data-wpds-theme-provider-id][data-wpds-density=comfortable]{--wpds-dimension-padding-xs:8px;--wpds-dimension-padding-sm:12px;--wpds-dimension-padding-md:16px;--wpds-dimension-padding-lg:20px;--wpds-dimension-padding-xl:24px;--wpds-dimension-padding-2xl:32px;--wpds-dimension-padding-3xl:40px;--wpds-dimension-gap-xs:8px;--wpds-dimension-gap-sm:12px;--wpds-dimension-gap-md:16px;--wpds-dimension-gap-lg:20px;--wpds-dimension-gap-xl:32px;--wpds-dimension-gap-2xl:40px;--wpds-dimension-gap-3xl:48px}[data-wpds-theme-provider-id][data-wpds-density=default]{--wpds-dimension-base:4px;--wpds-dimension-padding-xs:4px;--wpds-dimension-padding-sm:8px;--wpds-dimension-padding-md:12px;--wpds-dimension-padding-lg:16px;--wpds-dimension-padding-xl:20px;--wpds-dimension-padding-2xl:24px;--wpds-dimension-padding-3xl:32px;--wpds-dimension-gap-xs:4px;--wpds-dimension-gap-sm:8px;--wpds-dimension-gap-md:12px;--wpds-dimension-gap-lg:16px;--wpds-dimension-gap-xl:24px;--wpds-dimension-gap-2xl:32px;--wpds-dimension-gap-3xl:40px;--wpds-dimension-surface-width-xs:240px;--wpds-dimension-surface-width-sm:320px;--wpds-dimension-surface-width-md:400px;--wpds-dimension-surface-width-lg:560px;--wpds-dimension-surface-width-xl:720px;--wpds-dimension-surface-width-2xl:960px}@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){:root{--wpds-border-width-focus:1.5px}}body.has-admin-bar-in-editor #wpadminbar{display:block}body.has-admin-bar-in-editor .boot-canvas-back-button__link{background:#0000}body.has-admin-bar-in-editor .boot-canvas-back-button__icon{background-color:initial}body.has-admin-bar-in-editor #site-editor-v2-app{bottom:0;height:calc(100vh - 32px)!important;left:0;position:fixed;right:0;top:32px}body.has-admin-bar-in-editor .boot-layout.has-full-canvas .boot-layout__canvas{height:calc(100vh - 32px);top:32px}@media (max-width:782px){body.has-admin-bar-in-editor #site-editor-v2-app{height:calc(100vh - 46px)!important;top:46px}body.has-admin-bar-in-editor .boot-layout.has-full-canvas .boot-layout__canvas,body.has-admin-bar-in-editor .boot-layout__canvas:not(.has-mobile-drawer),body.has-admin-bar-in-editor .boot-layout__inspector,body.has-admin-bar-in-editor .boot-layout__stage{height:calc(100vh - 46px);top:46px}body.has-admin-bar-in-editor .boot-layout__mobile-sidebar-drawer{top:46px}}@media (min-width:600px){.boot-layout-container .boot-layout{bottom:0;left:0;min-height:calc(100vh - 46px);position:absolute;right:0;top:0}}@media (min-width:782px){.boot-layout-container .boot-layout{min-height:calc(100vh - 32px)}body:has(.boot-layout.has-full-canvas) .boot-layout-container .boot-layout{min-height:100vh}}.boot-layout-container .boot-layout img{height:auto;max-width:100%}.boot-layout .boot-notices__snackbar{bottom:24px;box-sizing:border-box;display:flex;flex-direction:column;left:0;padding-inline:16px;pointer-events:none;position:fixed;right:0}.boot-layout .boot-notices__snackbar .components-snackbar{margin-inline:auto}'));
   document.head.appendChild(style);
 }
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='cc217bc358']")) {

@@ -9175,6 +9175,7 @@ var wp;
     ConnectionErrorCode2["CONNECTION_EXPIRED"] = "connection-expired";
     ConnectionErrorCode2["CONNECTION_LIMIT_EXCEEDED"] = "connection-limit-exceeded";
     ConnectionErrorCode2["DOCUMENT_SIZE_LIMIT_EXCEEDED"] = "document-size-limit-exceeded";
+    ConnectionErrorCode2["PROTOCOL_MISMATCH"] = "protocol-mismatch";
     ConnectionErrorCode2["UNKNOWN_ERROR"] = "unknown-error";
     return ConnectionErrorCode2;
   })(ConnectionErrorCode || {});
@@ -9288,6 +9289,8 @@ var wp;
   var MAX_ENCODED_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
   var MAX_UPDATE_SIZE_IN_BYTES = Math.floor(MAX_ENCODED_UPDATE_SIZE_IN_BYTES / 4) * 3;
   var MAX_ROOMS_PER_REQUEST = 50;
+  var MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES = 15 * 1024 * 1024;
+  var MIN_SYNC_REQUEST_BODY_SIZE_LIMIT_IN_BYTES = 2 * 1024 * 1024;
   var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
     "sync.pollingManager.pollingInterval",
     4e3
@@ -9360,6 +9363,12 @@ var wp;
       pause() {
         isPaused = true;
       },
+      peek() {
+        if (isPaused) {
+          return [];
+        }
+        return [...updates];
+      },
       restore(restoredUpdates) {
         const filtered = restoredUpdates.filter(
           (u) => u.type !== SyncUpdateType.COMPACTION
@@ -9369,11 +9378,23 @@ var wp;
         }
         updates.unshift(...filtered);
       },
+      restoreExact(restoredUpdates) {
+        if (0 === restoredUpdates.length) {
+          return;
+        }
+        updates.unshift(...restoredUpdates);
+      },
       resume() {
         isPaused = false;
       },
       size() {
         return updates.length;
+      },
+      take(count) {
+        if (isPaused || count <= 0) {
+          return [];
+        }
+        return updates.splice(0, count);
       }
     };
   }
@@ -9416,6 +9437,12 @@ var wp;
   var POLLING_MANAGER_ORIGIN = "polling-manager";
   function isForbiddenError(error) {
     return error?.data?.status === 403;
+  }
+  function isRequestBodyTooLargeError(error) {
+    return error?.data?.status === 413 && error?.code === "rest_sync_body_too_large";
+  }
+  function isProtocolMismatchError(error) {
+    return error?.code === "rest_sync_protocol_mismatch";
   }
   function identifyForbiddenRoom(error, rooms) {
     const message = typeof error.message === "string" ? error.message : "";
@@ -9611,6 +9638,7 @@ var wp;
   var isUnloadPending = false;
   var pollInterval = POLLING_INTERVAL_IN_MS;
   var pollingTimeoutId = null;
+  var syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
   var roomOverflowOffset = 0;
   function handleBeforeUnload() {
     isUnloadPending = true;
@@ -9661,6 +9689,75 @@ var wp;
     }
     return overflowSlice;
   }
+  var textEncoder = new TextEncoder();
+  function getJsonByteLength(value) {
+    return textEncoder.encode(JSON.stringify(value)).byteLength;
+  }
+  function createPayloadRoom(state, updates = []) {
+    return {
+      after: state.endCursor ?? 0,
+      awareness: state.localAwarenessState,
+      client_id: state.clientId,
+      room: state.room,
+      updates
+    };
+  }
+  function getUpdatePayloadSizeDelta(existingUpdateCount, update) {
+    const commaSize = existingUpdateCount === 0 ? 0 : 1;
+    return commaSize + getJsonByteLength(update);
+  }
+  function buildPayloadForRequest(selectedRoomStates) {
+    const payload = { rooms: [] };
+    const roomsInRequest = [];
+    for (const state of selectedRoomStates) {
+      const room = createPayloadRoom(state);
+      const candidate = { rooms: [...payload.rooms, room] };
+      if (payload.rooms.length > 0 && getJsonByteLength(candidate) > syncRequestBodySizeLimit) {
+        break;
+      }
+      payload.rooms.push(room);
+      roomsInRequest.push(state);
+    }
+    const pendingUpdates = roomsInRequest.map(
+      (state) => state.updateQueue.peek()
+    );
+    const sentUpdateCounts = roomsInRequest.map(() => 0);
+    let payloadSize = getJsonByteLength(payload);
+    let addedUpdate = true;
+    while (addedUpdate) {
+      addedUpdate = false;
+      for (let i = 0; i < roomsInRequest.length; i++) {
+        const update = pendingUpdates[i][sentUpdateCounts[i]];
+        if (!update) {
+          continue;
+        }
+        const sizeDelta = getUpdatePayloadSizeDelta(
+          sentUpdateCounts[i],
+          update
+        );
+        if (payloadSize + sizeDelta > syncRequestBodySizeLimit) {
+          continue;
+        }
+        sentUpdateCounts[i]++;
+        payloadSize += sizeDelta;
+        addedUpdate = true;
+      }
+    }
+    for (let i = 0; i < roomsInRequest.length; i++) {
+      payload.rooms[i].updates = roomsInRequest[i].updateQueue.take(
+        sentUpdateCounts[i]
+      );
+    }
+    return { payload, roomsInRequest };
+  }
+  function restoreExactUpdates(payload) {
+    for (const room of payload.rooms) {
+      if (!roomStates.has(room.room) || room.updates.length === 0) {
+        continue;
+      }
+      roomStates.get(room.room).updateQueue.restoreExact(room.updates);
+    }
+  }
   function poll() {
     isPolling = true;
     pollingTimeoutId = null;
@@ -9670,16 +9767,9 @@ var wp;
         return;
       }
       isUnloadPending = false;
-      const roomsInRequest = selectRoomsForRequest();
-      const payload = {
-        rooms: roomsInRequest.map((state) => ({
-          after: state.endCursor ?? 0,
-          awareness: state.localAwarenessState,
-          client_id: state.clientId,
-          room: state.room,
-          updates: state.updateQueue.get()
-        }))
-      };
+      const { payload, roomsInRequest } = buildPayloadForRequest(
+        selectRoomsForRequest()
+      );
       roomsInRequest.forEach((state) => {
         state.onStatusChange({ status: "connecting" });
       });
@@ -9687,6 +9777,7 @@ var wp;
         const { rooms } = await postSyncUpdate(payload);
         consecutiveFailures = 0;
         isManualRetry = false;
+        syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
         roomsInRequest.forEach((state) => {
           if (roomStates.get(state.room) !== state) {
             return;
@@ -9765,6 +9856,45 @@ var wp;
             isPolling = false;
             return;
           }
+        } else if (isRequestBodyTooLargeError(error)) {
+          syncRequestBodySizeLimit = Math.max(
+            MIN_SYNC_REQUEST_BODY_SIZE_LIMIT_IN_BYTES,
+            Math.floor(syncRequestBodySizeLimit / 2)
+          );
+          pollInterval = hasCollaborators ? ERROR_RETRY_DELAYS_WITH_COLLABORATORS_MS[0] : ERROR_RETRY_DELAYS_SOLO_MS[0];
+          restoreExactUpdates(payload);
+          for (const room of payload.rooms) {
+            if (!roomStates.has(room.room)) {
+              continue;
+            }
+            roomStates.get(room.room).log(
+              "Sync request body too large, retrying with smaller batches",
+              {
+                error,
+                nextPoll: pollInterval,
+                syncRequestBodySizeLimit
+              },
+              "error",
+              true
+              // force
+            );
+          }
+        } else if (isProtocolMismatchError(error)) {
+          const affectedRooms = [...roomStates.entries()];
+          for (const [, state] of affectedRooms) {
+            state.onStatusChange({
+              status: "disconnected",
+              error: new ConnectionError(
+                ConnectionErrorCode.PROTOCOL_MISMATCH,
+                "Protocol mismatch between client and server"
+              )
+            });
+          }
+          for (const [room] of affectedRooms) {
+            unregisterRoom(room, { sendDisconnectSignal: false });
+          }
+          isPolling = false;
+          return;
         } else {
           consecutiveFailures++;
           const retrySchedule = hasCollaborators ? ERROR_RETRY_DELAYS_WITH_COLLABORATORS_MS : ERROR_RETRY_DELAYS_SOLO_MS;
@@ -9922,6 +10052,7 @@ var wp;
       hasCheckedConnectionLimit = false;
       consecutiveFailures = 0;
       roomOverflowOffset = 0;
+      syncRequestBodySizeLimit = MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES;
     }
   }
   function retryNow() {
@@ -10457,12 +10588,17 @@ var wp;
       const recordMap = ydoc.getMap(CRDT_RECORD_MAP_KEY);
       const stateMap = ydoc.getMap(CRDT_STATE_MAP_KEY);
       const now = Date.now();
+      let hasObserversAttached = false;
+      let isEntityUnloaded = false;
       const unload = () => {
         log("loadEntity", "unloading", entityId);
-        providerResults.forEach((result) => result.destroy());
+        isEntityUnloaded = true;
+        providerResults?.forEach((result) => result.destroy());
         handlers.onStatusChange(null);
-        recordMap.unobserveDeep(onRecordUpdate);
-        stateMap.unobserve(onStateMapUpdate);
+        if (hasObserversAttached) {
+          recordMap.unobserveDeep(onRecordUpdate);
+          stateMap.unobserve(onStateMapUpdate);
+        }
         ydoc.destroy();
         entityStates.delete(entityId);
       };
@@ -10498,6 +10634,7 @@ var wp;
         addUndoMeta,
         restoreUndoMeta
       });
+      let providerResults;
       const entityState = {
         awareness,
         handlers,
@@ -10509,7 +10646,7 @@ var wp;
       };
       entityStates.set(entityId, entityState);
       log("loadEntity", "connecting", entityId);
-      const providerResults = await Promise.all(
+      providerResults = await Promise.all(
         providerCreators2.map(async (create7) => {
           const provider = await create7({
             objectType,
@@ -10521,10 +10658,16 @@ var wp;
           return provider;
         })
       );
+      if (isEntityUnloaded) {
+        log("loadEntity", "unloaded during connect, aborting", entityId);
+        providerResults.forEach((result) => result.destroy());
+        return;
+      }
       initializeYjsDoc(ydoc);
       internal.applyPersistedCrdtDoc(objectType, objectId, record);
       recordMap.observeDeep(onRecordUpdate);
       stateMap.observe(onStateMapUpdate);
+      hasObserversAttached = true;
     }
     async function loadCollection(syncConfig, objectType, handlers) {
       const providerCreators2 = getProviderCreators();
@@ -10545,11 +10688,16 @@ var wp;
       const ydoc = createYjsDoc({ collection: true, objectType });
       const stateMap = ydoc.getMap(CRDT_STATE_MAP_KEY);
       const now = Date.now();
+      let hasObserversAttached = false;
+      let isCollectionUnloaded = false;
       const unload = () => {
         log("loadCollection", "unloading", entityId);
-        providerResults.forEach((result) => result.destroy());
+        isCollectionUnloaded = true;
+        providerResults?.forEach((result) => result.destroy());
         handlers.onStatusChange(null);
-        stateMap.unobserve(onStateMapUpdate);
+        if (hasObserversAttached) {
+          stateMap.unobserve(onStateMapUpdate);
+        }
         ydoc.destroy();
         collectionStates.delete(objectType);
       };
@@ -10570,6 +10718,7 @@ var wp;
         });
       };
       const awareness = syncConfig.createAwareness?.(ydoc);
+      let providerResults;
       const collectionState = {
         awareness,
         handlers,
@@ -10579,7 +10728,7 @@ var wp;
       };
       collectionStates.set(objectType, collectionState);
       log("loadCollection", "connecting", entityId);
-      const providerResults = await Promise.all(
+      providerResults = await Promise.all(
         providerCreators2.map(async (create7) => {
           const provider = await create7({
             awareness,
@@ -10591,7 +10740,17 @@ var wp;
           return provider;
         })
       );
+      if (isCollectionUnloaded) {
+        log(
+          "loadCollection",
+          "unloaded during connect, aborting",
+          entityId
+        );
+        providerResults.forEach((result) => result.destroy());
+        return;
+      }
       stateMap.observe(onStateMapUpdate);
+      hasObserversAttached = true;
       initializeYjsDoc(ydoc);
     }
     function unloadEntity(objectType, objectId) {
@@ -10599,6 +10758,17 @@ var wp;
       log("unloadEntity", "unloading", entityId);
       entityStates.get(entityId)?.unload();
       updateCRDTDoc(objectType, null, {}, origin, { isSave: true });
+    }
+    function unloadAll() {
+      log("unloadAll", "unloading all entities", "all");
+      for (const [, entityState] of [...entityStates]) {
+        entityState.unload();
+      }
+      entityStates.clear();
+      for (const [, collectionState] of [...collectionStates]) {
+        collectionState.unload();
+      }
+      collectionStates.clear();
     }
     function getAwareness(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
@@ -10727,6 +10897,7 @@ var wp;
         return undoManager;
       },
       unload: debugWrap(unloadEntity),
+      unloadAll: debugWrap(unloadAll),
       update: debugWrap(yieldToEventLoop(updateCRDTDoc))
     };
   }
@@ -11894,3 +12065,4 @@ var wp;
   var YJS_VERSION = "13";
   return __toCommonJS(index_exports);
 })();
+if(wp.sync&&typeof wp.sync==='object'){wp.sync=Object.assign({},wp.sync);}

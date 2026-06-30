@@ -292,3 +292,4 @@ var wp;
   };
   return __toCommonJS(index_exports);
 })();
+if(wp.priorityQueue&&typeof wp.priorityQueue==='object'){wp.priorityQueue=Object.assign({},wp.priorityQueue);}

@@ -373,3 +373,4 @@ var wp;
   } = defaultHooks;
   return __toCommonJS(index_exports);
 })();
+if(wp.hooks&&typeof wp.hooks==='object'){wp.hooks=Object.assign({},wp.hooks);}

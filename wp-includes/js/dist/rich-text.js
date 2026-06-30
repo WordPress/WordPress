@@ -1741,7 +1741,7 @@ var wp;
 
   // packages/rich-text/build-module/hook/index.mjs
   var import_element5 = __toESM(require_element(), 1);
-  var import_compose2 = __toESM(require_compose(), 1);
+  var import_compose9 = __toESM(require_compose(), 1);
   var import_data9 = __toESM(require_data(), 1);
   var import_deprecated = __toESM(require_deprecated(), 1);
 
@@ -1953,9 +1953,11 @@ var wp;
 
   // packages/rich-text/build-module/hook/event-listeners/index.mjs
   var import_element3 = __toESM(require_element(), 1);
-  var import_compose = __toESM(require_compose(), 1);
+  var import_compose8 = __toESM(require_compose(), 1);
 
   // packages/rich-text/build-module/hook/event-listeners/copy-handler.mjs
+  var import_compose = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener } = unlock(import_compose.privateApis);
   var copy_handler_default = (props) => (element) => {
     function onCopy(event) {
       const { record } = props.current;
@@ -1975,15 +1977,25 @@ var wp;
       }
     }
     const { defaultView } = element.ownerDocument;
-    defaultView.addEventListener("copy", onCopy);
-    defaultView.addEventListener("cut", onCopy);
+    const unsubscribeCopy = subscribeDelegatedListener(
+      defaultView,
+      "copy",
+      onCopy
+    );
+    const unsubscribeCut = subscribeDelegatedListener(
+      defaultView,
+      "cut",
+      onCopy
+    );
     return () => {
-      defaultView.removeEventListener("copy", onCopy);
-      defaultView.removeEventListener("cut", onCopy);
+      unsubscribeCopy();
+      unsubscribeCut();
     };
   };
 
   // packages/rich-text/build-module/hook/event-listeners/select-object.mjs
+  var import_compose2 = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener: subscribeDelegatedListener2 } = unlock(import_compose2.privateApis);
   var select_object_default = () => (element) => {
     function onClick(event) {
       const { target } = event;
@@ -2008,16 +2020,26 @@ var wp;
         onClick(event);
       }
     }
-    element.addEventListener("click", onClick);
-    element.addEventListener("focusin", onFocusIn);
+    const unsubscribeClick = subscribeDelegatedListener2(
+      element,
+      "click",
+      onClick
+    );
+    const unsubscribeFocusIn = subscribeDelegatedListener2(
+      element,
+      "focusin",
+      onFocusIn
+    );
     return () => {
-      element.removeEventListener("click", onClick);
-      element.removeEventListener("focusin", onFocusIn);
+      unsubscribeClick();
+      unsubscribeFocusIn();
     };
   };
 
   // packages/rich-text/build-module/hook/event-listeners/format-boundaries.mjs
   var import_keycodes = __toESM(require_keycodes(), 1);
+  var import_compose3 = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener: subscribeDelegatedListener3 } = unlock(import_compose3.privateApis);
   var EMPTY_ACTIVE_FORMATS = [];
   var format_boundaries_default = (props) => (element) => {
     function onKeyDown(event) {
@@ -2037,8 +2059,7 @@ var wp;
         activeFormats: currentActiveFormats = []
       } = record.current;
       const collapsed = isCollapsed(record.current);
-      const { ownerDocument } = element;
-      const { defaultView } = ownerDocument;
+      const { defaultView } = element.ownerDocument;
       const { direction } = defaultView.getComputedStyle(element);
       const reverseKey = direction === "rtl" ? import_keycodes.RIGHT : import_keycodes.LEFT;
       const isReverse = event.keyCode === reverseKey;
@@ -2081,24 +2102,23 @@ var wp;
       applyRecord(newValue);
       forceRender();
     }
-    element.addEventListener("keydown", onKeyDown);
-    return () => {
-      element.removeEventListener("keydown", onKeyDown);
-    };
+    return subscribeDelegatedListener3(element, "keydown", onKeyDown, true);
   };
 
   // packages/rich-text/build-module/hook/event-listeners/delete.mjs
   var import_keycodes2 = __toESM(require_keycodes(), 1);
+  var import_compose4 = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener: subscribeDelegatedListener4 } = unlock(import_compose4.privateApis);
   var delete_default = (props) => (element) => {
     function onKeyDown(event) {
       const { keyCode } = event;
-      const { createRecord, handleChange } = props.current;
       if (event.defaultPrevented) {
         return;
       }
       if (keyCode !== import_keycodes2.DELETE && keyCode !== import_keycodes2.BACKSPACE) {
         return;
       }
+      const { createRecord, handleChange } = props.current;
       const currentValue = createRecord();
       const { start, end, text } = currentValue;
       if (start === 0 && end !== 0 && end === text.length) {
@@ -2106,11 +2126,11 @@ var wp;
         event.preventDefault();
       }
     }
-    element.addEventListener("keydown", onKeyDown);
-    return () => {
-      element.removeEventListener("keydown", onKeyDown);
-    };
+    return subscribeDelegatedListener4(element, "keydown", onKeyDown);
   };
+
+  // packages/rich-text/build-module/hook/event-listeners/input-and-selection.mjs
+  var import_compose5 = __toESM(require_compose(), 1);
 
   // packages/rich-text/build-module/update-formats.mjs
   function updateFormats({ value, start, end, formats }) {
@@ -2141,6 +2161,7 @@ var wp;
   }
 
   // packages/rich-text/build-module/hook/event-listeners/input-and-selection.mjs
+  var { subscribeDelegatedListener: subscribeDelegatedListener5 } = unlock(import_compose5.privateApis);
   var INSERTION_INPUT_TYPES_TO_IGNORE = /* @__PURE__ */ new Set([
     "insertParagraph",
     "insertOrderedList",
@@ -2252,7 +2273,13 @@ var wp;
         handleSelectionChange
       );
     }
-    function onFocus() {
+    function onFocus(event) {
+      if (event.target !== element) {
+        return;
+      }
+      if (element.contentEditable !== "true") {
+        return;
+      }
       const { record, isSelected, onSelectionChange, applyRecord } = props.current;
       if (element.parentElement.closest('[contenteditable="true"]')) {
         return;
@@ -2275,19 +2302,39 @@ var wp;
         handleSelectionChange
       );
     }
-    element.addEventListener("input", onInput);
-    element.addEventListener("compositionstart", onCompositionStart);
-    element.addEventListener("compositionend", onCompositionEnd);
-    element.addEventListener("focus", onFocus);
+    const unsubscribeInput = subscribeDelegatedListener5(
+      element,
+      "input",
+      onInput,
+      true
+    );
+    const unsubscribeCompositionStart = subscribeDelegatedListener5(
+      element,
+      "compositionstart",
+      onCompositionStart
+    );
+    const unsubscribeCompositionEnd = subscribeDelegatedListener5(
+      element,
+      "compositionend",
+      onCompositionEnd,
+      true
+    );
+    const unsubscribeFocus = subscribeDelegatedListener5(
+      element,
+      "focusin",
+      onFocus
+    );
     return () => {
-      element.removeEventListener("input", onInput);
-      element.removeEventListener("compositionstart", onCompositionStart);
-      element.removeEventListener("compositionend", onCompositionEnd);
-      element.removeEventListener("focus", onFocus);
+      unsubscribeInput();
+      unsubscribeCompositionStart();
+      unsubscribeCompositionEnd();
+      unsubscribeFocus();
     };
   };
 
   // packages/rich-text/build-module/hook/event-listeners/selection-change-compat.mjs
+  var import_compose6 = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener: subscribeDelegatedListener6 } = unlock(import_compose6.privateApis);
   var selection_change_compat_default = () => (element) => {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
@@ -2315,15 +2362,25 @@ var wp;
       ownerDocument.addEventListener("input", onCancel);
       range = getRange();
     }
-    element.addEventListener("pointerdown", onDown);
-    element.addEventListener("keydown", onDown);
+    const unsubscribePointerDown = subscribeDelegatedListener6(
+      element,
+      "pointerdown",
+      onDown
+    );
+    const unsubscribeKeyDown = subscribeDelegatedListener6(
+      element,
+      "keydown",
+      onDown
+    );
     return () => {
-      element.removeEventListener("pointerdown", onDown);
-      element.removeEventListener("keydown", onDown);
+      unsubscribePointerDown();
+      unsubscribeKeyDown();
     };
   };
 
   // packages/rich-text/build-module/hook/event-listeners/prevent-focus-capture.mjs
+  var import_compose7 = __toESM(require_compose(), 1);
+  var { subscribeDelegatedListener: subscribeDelegatedListener7 } = unlock(import_compose7.privateApis);
   function preventFocusCapture() {
     return (element) => {
       const { ownerDocument } = element;
@@ -2349,11 +2406,19 @@ var wp;
           value = null;
         }
       }
-      defaultView.addEventListener("pointerdown", onPointerDown);
-      defaultView.addEventListener("pointerup", onPointerUp);
+      const unsubscribePointerDown = subscribeDelegatedListener7(
+        defaultView,
+        "pointerdown",
+        onPointerDown
+      );
+      const unsubscribePointerUp = subscribeDelegatedListener7(
+        defaultView,
+        "pointerup",
+        onPointerUp
+      );
       return () => {
-        defaultView.removeEventListener("pointerdown", onPointerDown);
-        defaultView.removeEventListener("pointerup", onPointerUp);
+        unsubscribePointerDown();
+        unsubscribePointerUp();
       };
     };
   }
@@ -2377,7 +2442,7 @@ var wp;
       () => allEventListeners.map((refEffect) => refEffect(propsRef)),
       [propsRef]
     );
-    return (0, import_compose.useRefEffect)(
+    return (0, import_compose8.useRefEffect)(
       (element) => {
         const cleanups = refEffects.map((effect) => effect(element));
         return () => {
@@ -2645,7 +2710,7 @@ var wp;
       applyRecord(recordRef.current);
       hadSelectionUpdateRef.current = false;
     }, [hadSelectionUpdateRef.current]);
-    const mergedRefs = (0, import_compose2.useMergeRefs)([
+    const mergedRefs = (0, import_compose9.useMergeRefs)([
       ref,
       useDefaultStyle(),
       useBoundaryStyle({ record: recordRef }),
@@ -2658,7 +2723,7 @@ var wp;
         onSelectionChange,
         forceRender
       }),
-      (0, import_compose2.useRefEffect)(() => {
+      (0, import_compose9.useRefEffect)(() => {
         applyFromProps();
         didMountRef.current = true;
       }, [placeholder, ...__unstableDependencies])
@@ -2784,7 +2849,7 @@ var wp;
   }
 
   // packages/rich-text/build-module/hook/use-anchor.mjs
-  var import_compose3 = __toESM(require_compose(), 1);
+  var import_compose10 = __toESM(require_compose(), 1);
   var import_element7 = __toESM(require_element(), 1);
   var import_dom = __toESM(require_dom(), 1);
   function getFormatElement(range, editableContentElement, tagName, className) {
@@ -2869,7 +2934,7 @@ var wp;
     const [anchor, setAnchor] = (0, import_element7.useState)(
       () => getAnchor(editableContentElement, tagName, className ?? "")
     );
-    const wasActive = (0, import_compose3.usePrevious)(isActive);
+    const wasActive = (0, import_compose10.usePrevious)(isActive);
     (0, import_element7.useLayoutEffect)(() => {
       if (!editableContentElement) {
         return;
@@ -2912,3 +2977,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.richText&&typeof wp.richText==='object'){wp.richText=Object.assign({},wp.richText);}

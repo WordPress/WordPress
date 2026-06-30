@@ -129,12 +129,24 @@ function render_block_core_home_link( $attributes, $content, $block ) {
 		$aria_current = ' aria-current="page"';
 	}
 
+	$target = '';
+	if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
+		$target = ' target="_blank"';
+	}
+
+	$description = '';
+	if ( ! empty( $attributes['description'] ) ) {
+		$description = '<span class="wp-block-navigation-item__description">' . wp_kses_post( $attributes['description'] ) . '</span>';
+	}
+
 	return sprintf(
-		'<li %1$s><a class="wp-block-home-link__content wp-block-navigation-item__content" href="%2$s" rel="home"%3$s>%4$s</a></li>',
+		'<li %1$s><a class="wp-block-home-link__content wp-block-navigation-item__content" href="%2$s" rel="home" %3$s%4$s>%5$s%6$s</a></li>',
 		block_core_home_link_build_li_wrapper_attributes( $block->context ),
 		esc_url( home_url() ),
+		$target,
 		$aria_current,
-		wp_kses_post( $attributes['label'] )
+		wp_kses_post( $attributes['label'] ),
+		$description
 	);
 }
 

@@ -574,181 +574,93 @@ var wp;
   var require_react_is_development = __commonJS({
     "packages/blocks/node_modules/react-is/cjs/react-is.development.js"(exports) {
       "use strict";
-      if (true) {
-        (function() {
-          "use strict";
-          var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
-          var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
-          var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
-          var REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode");
-          var REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
-          var REACT_PROVIDER_TYPE = /* @__PURE__ */ Symbol.for("react.provider");
-          var REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context");
-          var REACT_SERVER_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.server_context");
-          var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
-          var REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense");
-          var REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list");
-          var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
-          var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
-          var REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen");
-          var enableScopeAPI = false;
-          var enableCacheElement = false;
-          var enableTransitionTracing = false;
-          var enableLegacyHidden = false;
-          var enableDebugTracing = false;
-          var REACT_MODULE_REFERENCE;
-          {
-            REACT_MODULE_REFERENCE = /* @__PURE__ */ Symbol.for("react.module.reference");
-          }
-          function isValidElementType2(type) {
-            if (typeof type === "string" || typeof type === "function") {
-              return true;
+      (function() {
+        function typeOf(object) {
+          if ("object" === typeof object && null !== object) {
+            var $$typeof = object.$$typeof;
+            switch ($$typeof) {
+              case REACT_ELEMENT_TYPE:
+                switch (object = object.type, object) {
+                  case REACT_FRAGMENT_TYPE:
+                  case REACT_PROFILER_TYPE:
+                  case REACT_STRICT_MODE_TYPE:
+                  case REACT_SUSPENSE_TYPE:
+                  case REACT_SUSPENSE_LIST_TYPE:
+                    return object;
+                  default:
+                    switch (object = object && object.$$typeof, object) {
+                      case REACT_CONTEXT_TYPE:
+                      case REACT_FORWARD_REF_TYPE:
+                      case REACT_LAZY_TYPE:
+                      case REACT_MEMO_TYPE:
+                        return object;
+                      case REACT_CONSUMER_TYPE:
+                        return object;
+                      default:
+                        return $$typeof;
+                    }
+                }
+              case REACT_PORTAL_TYPE:
+                return $$typeof;
             }
-            if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden || type === REACT_OFFSCREEN_TYPE || enableScopeAPI || enableCacheElement || enableTransitionTracing) {
-              return true;
-            }
-            if (typeof type === "object" && type !== null) {
-              if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
-              // types supported by any Flight configuration anywhere since
-              // we don't know which Flight build this will end up being used
-              // with.
-              type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== void 0) {
-                return true;
-              }
-            }
-            return false;
           }
-          function typeOf(object) {
-            if (typeof object === "object" && object !== null) {
-              var $$typeof = object.$$typeof;
-              switch ($$typeof) {
-                case REACT_ELEMENT_TYPE:
-                  var type = object.type;
-                  switch (type) {
-                    case REACT_FRAGMENT_TYPE:
-                    case REACT_PROFILER_TYPE:
-                    case REACT_STRICT_MODE_TYPE:
-                    case REACT_SUSPENSE_TYPE:
-                    case REACT_SUSPENSE_LIST_TYPE:
-                      return type;
-                    default:
-                      var $$typeofType = type && type.$$typeof;
-                      switch ($$typeofType) {
-                        case REACT_SERVER_CONTEXT_TYPE:
-                        case REACT_CONTEXT_TYPE:
-                        case REACT_FORWARD_REF_TYPE:
-                        case REACT_LAZY_TYPE:
-                        case REACT_MEMO_TYPE:
-                        case REACT_PROVIDER_TYPE:
-                          return $$typeofType;
-                        default:
-                          return $$typeof;
-                      }
-                  }
-                case REACT_PORTAL_TYPE:
-                  return $$typeof;
-              }
-            }
-            return void 0;
-          }
-          var ContextConsumer = REACT_CONTEXT_TYPE;
-          var ContextProvider = REACT_PROVIDER_TYPE;
-          var Element = REACT_ELEMENT_TYPE;
-          var ForwardRef = REACT_FORWARD_REF_TYPE;
-          var Fragment = REACT_FRAGMENT_TYPE;
-          var Lazy = REACT_LAZY_TYPE;
-          var Memo = REACT_MEMO_TYPE;
-          var Portal = REACT_PORTAL_TYPE;
-          var Profiler = REACT_PROFILER_TYPE;
-          var StrictMode = REACT_STRICT_MODE_TYPE;
-          var Suspense = REACT_SUSPENSE_TYPE;
-          var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
-          var hasWarnedAboutDeprecatedIsAsyncMode = false;
-          var hasWarnedAboutDeprecatedIsConcurrentMode = false;
-          function isAsyncMode(object) {
-            {
-              if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-                hasWarnedAboutDeprecatedIsAsyncMode = true;
-                console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 18+.");
-              }
-            }
-            return false;
-          }
-          function isConcurrentMode(object) {
-            {
-              if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
-                hasWarnedAboutDeprecatedIsConcurrentMode = true;
-                console["warn"]("The ReactIs.isConcurrentMode() alias has been deprecated, and will be removed in React 18+.");
-              }
-            }
-            return false;
-          }
-          function isContextConsumer(object) {
-            return typeOf(object) === REACT_CONTEXT_TYPE;
-          }
-          function isContextProvider(object) {
-            return typeOf(object) === REACT_PROVIDER_TYPE;
-          }
-          function isElement(object) {
-            return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-          }
-          function isForwardRef(object) {
-            return typeOf(object) === REACT_FORWARD_REF_TYPE;
-          }
-          function isFragment(object) {
-            return typeOf(object) === REACT_FRAGMENT_TYPE;
-          }
-          function isLazy(object) {
-            return typeOf(object) === REACT_LAZY_TYPE;
-          }
-          function isMemo(object) {
-            return typeOf(object) === REACT_MEMO_TYPE;
-          }
-          function isPortal(object) {
-            return typeOf(object) === REACT_PORTAL_TYPE;
-          }
-          function isProfiler(object) {
-            return typeOf(object) === REACT_PROFILER_TYPE;
-          }
-          function isStrictMode(object) {
-            return typeOf(object) === REACT_STRICT_MODE_TYPE;
-          }
-          function isSuspense(object) {
-            return typeOf(object) === REACT_SUSPENSE_TYPE;
-          }
-          function isSuspenseList(object) {
-            return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
-          }
-          exports.ContextConsumer = ContextConsumer;
-          exports.ContextProvider = ContextProvider;
-          exports.Element = Element;
-          exports.ForwardRef = ForwardRef;
-          exports.Fragment = Fragment;
-          exports.Lazy = Lazy;
-          exports.Memo = Memo;
-          exports.Portal = Portal;
-          exports.Profiler = Profiler;
-          exports.StrictMode = StrictMode;
-          exports.Suspense = Suspense;
-          exports.SuspenseList = SuspenseList;
-          exports.isAsyncMode = isAsyncMode;
-          exports.isConcurrentMode = isConcurrentMode;
-          exports.isContextConsumer = isContextConsumer;
-          exports.isContextProvider = isContextProvider;
-          exports.isElement = isElement;
-          exports.isForwardRef = isForwardRef;
-          exports.isFragment = isFragment;
-          exports.isLazy = isLazy;
-          exports.isMemo = isMemo;
-          exports.isPortal = isPortal;
-          exports.isProfiler = isProfiler;
-          exports.isStrictMode = isStrictMode;
-          exports.isSuspense = isSuspense;
-          exports.isSuspenseList = isSuspenseList;
-          exports.isValidElementType = isValidElementType2;
-          exports.typeOf = typeOf;
-        })();
-      }
+        }
+        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
+        /* @__PURE__ */ Symbol.for("react.provider");
+        var REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference");
+        exports.ContextConsumer = REACT_CONSUMER_TYPE;
+        exports.ContextProvider = REACT_CONTEXT_TYPE;
+        exports.Element = REACT_ELEMENT_TYPE;
+        exports.ForwardRef = REACT_FORWARD_REF_TYPE;
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.Lazy = REACT_LAZY_TYPE;
+        exports.Memo = REACT_MEMO_TYPE;
+        exports.Portal = REACT_PORTAL_TYPE;
+        exports.Profiler = REACT_PROFILER_TYPE;
+        exports.StrictMode = REACT_STRICT_MODE_TYPE;
+        exports.Suspense = REACT_SUSPENSE_TYPE;
+        exports.SuspenseList = REACT_SUSPENSE_LIST_TYPE;
+        exports.isContextConsumer = function(object) {
+          return typeOf(object) === REACT_CONSUMER_TYPE;
+        };
+        exports.isContextProvider = function(object) {
+          return typeOf(object) === REACT_CONTEXT_TYPE;
+        };
+        exports.isElement = function(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        };
+        exports.isForwardRef = function(object) {
+          return typeOf(object) === REACT_FORWARD_REF_TYPE;
+        };
+        exports.isFragment = function(object) {
+          return typeOf(object) === REACT_FRAGMENT_TYPE;
+        };
+        exports.isLazy = function(object) {
+          return typeOf(object) === REACT_LAZY_TYPE;
+        };
+        exports.isMemo = function(object) {
+          return typeOf(object) === REACT_MEMO_TYPE;
+        };
+        exports.isPortal = function(object) {
+          return typeOf(object) === REACT_PORTAL_TYPE;
+        };
+        exports.isProfiler = function(object) {
+          return typeOf(object) === REACT_PROFILER_TYPE;
+        };
+        exports.isStrictMode = function(object) {
+          return typeOf(object) === REACT_STRICT_MODE_TYPE;
+        };
+        exports.isSuspense = function(object) {
+          return typeOf(object) === REACT_SUSPENSE_TYPE;
+        };
+        exports.isSuspenseList = function(object) {
+          return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
+        };
+        exports.isValidElementType = function(type) {
+          return "string" === typeof type || "function" === typeof type || type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_OFFSCREEN_TYPE || "object" === typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_CONSUMER_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_CLIENT_REFERENCE || void 0 !== type.getModuleId) ? true : false;
+        };
+        exports.typeOf = typeOf;
+      })();
     }
   });
 
@@ -9736,11 +9648,16 @@ var wp;
           if (objValue === "*" || srcValue === "*") {
             return "*";
           }
-          return { ...objValue, ...srcValue };
+          return mergeSchemas(
+            { ...objValue || {} },
+            srcValue || {}
+          );
         }
         case "attributes":
         case "require": {
-          return [...objValue || [], ...srcValue || []];
+          return Array.from(
+            /* @__PURE__ */ new Set([...objValue || [], ...srcValue || []])
+          );
         }
         case "isMatch": {
           if (!objValue || !srcValue) {
@@ -9750,17 +9667,45 @@ var wp;
             return objValue(...args) || srcValue(...args);
           };
         }
+        case "classes": {
+          if ((objValue || []).includes("*") || (srcValue || []).includes("*")) {
+            return ["*"];
+          }
+          return [...objValue || [], ...srcValue || []];
+        }
       }
     }
     function mergeTagNameSchemas(a2, b2) {
+      if (a2 === b2) {
+        return a2;
+      }
       for (const key in b2) {
-        a2[key] = a2[key] ? mergeTagNameSchemaProperties(a2[key], b2[key], key) : { ...b2[key] };
+        if (a2[key]) {
+          a2[key] = mergeTagNameSchemaProperties(
+            a2[key],
+            b2[key],
+            key
+          );
+        } else if (Array.isArray(b2[key])) {
+          a2[key] = b2[key].slice();
+        } else {
+          a2[key] = { ...b2[key] };
+        }
       }
       return a2;
     }
     function mergeSchemas(a2, b2) {
+      if (a2 === b2) {
+        return a2;
+      }
       for (const key in b2) {
-        a2[key] = a2[key] ? mergeTagNameSchemas(a2[key], b2[key]) : { ...b2[key] };
+        if (a2[key]) {
+          a2[key] = mergeTagNameSchemas(a2[key], b2[key]);
+        } else if (Array.isArray(b2[key])) {
+          a2[key] = b2[key].slice();
+        } else {
+          a2[key] = { ...b2[key] };
+        }
       }
       return a2;
     }
@@ -10493,7 +10438,7 @@ react-is/cjs/react-is.development.js:
    * @license React
    * react-is.development.js
    *
-   * Copyright (c) Facebook, Inc. and its affiliates.
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
    * This source code is licensed under the MIT license found in the
    * LICENSE file in the root directory of this source tree.
@@ -10510,3 +10455,4 @@ is-plain-object/dist/is-plain-object.mjs:
    * Released under the MIT License.
    *)
 */
+if(wp.blocks&&typeof wp.blocks==='object'){wp.blocks=Object.assign({},wp.blocks);}

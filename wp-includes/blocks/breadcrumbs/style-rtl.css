@@ -16,7 +16,7 @@
   align-items: center;
 }
 .wp-block-breadcrumbs li:not(:last-child)::after {
-  content: var(--separator, "/");
+  content: var(--separator, "/")/"";
   margin: 0 0.5em;
   opacity: 0.7;
 }

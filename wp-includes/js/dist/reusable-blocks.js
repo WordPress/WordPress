@@ -502,3 +502,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.reusableBlocks&&typeof wp.reusableBlocks==='object'){wp.reusableBlocks=Object.assign({},wp.reusableBlocks);}

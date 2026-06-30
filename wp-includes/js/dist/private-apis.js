@@ -28,12 +28,14 @@ var wp;
   // packages/private-apis/build-module/implementation.mjs
   var CORE_MODULES_USING_PRIVATE_APIS = [
     "@wordpress/admin-ui",
+    "@wordpress/api-fetch",
     "@wordpress/block-directory",
     "@wordpress/block-editor",
     "@wordpress/block-library",
     "@wordpress/blocks",
     "@wordpress/boot",
     "@wordpress/commands",
+    "@wordpress/compose",
     "@wordpress/connectors",
     "@wordpress/workflows",
     "@wordpress/components",
@@ -110,3 +112,4 @@ var wp;
   var __private = /* @__PURE__ */ Symbol("Private API ID");
   return __toCommonJS(index_exports);
 })();
+if(wp.privateApis&&typeof wp.privateApis==='object'){wp.privateApis=Object.assign({},wp.privateApis);}

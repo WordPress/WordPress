@@ -3031,3 +3031,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.customizeWidgets&&typeof wp.customizeWidgets==='object'){wp.customizeWidgets=Object.assign({},wp.customizeWidgets);}

@@ -217,3 +217,4 @@ var wp;
   listener_default(BREAKPOINTS, OPERATORS);
   return __toCommonJS(index_exports);
 })();
+if(wp.viewport&&typeof wp.viewport==='object'){wp.viewport=Object.assign({},wp.viewport);}

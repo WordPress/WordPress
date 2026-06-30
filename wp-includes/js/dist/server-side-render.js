@@ -299,4 +299,4 @@ var wp;
   var index_default = ServerSideRenderCompat;
   return __toCommonJS(index_exports);
 })();
-if (typeof wp.serverSideRender === 'object' && wp.serverSideRender.default) { wp.serverSideRender = wp.serverSideRender.default; }
+if (typeof wp.serverSideRender === 'object' && wp.serverSideRender.default) { wp.serverSideRender = wp.serverSideRender.default; }if(wp.serverSideRender&&typeof wp.serverSideRender==='object'){wp.serverSideRender=Object.assign({},wp.serverSideRender);}

@@ -105,6 +105,10 @@
 			"source": "attribute",
 			"selector": "figure > a",
 			"attribute": "target"
+		},
+		"isDecorative": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

@@ -208,14 +208,12 @@ var wp;
   var import_components = __toESM(require_components(), 1);
   var import_data3 = __toESM(require_data(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='2c1d02983b']")) {
-    const style = document.createElement("style");
-    style.setAttribute("data-wp-hash", "2c1d02983b");
-    style.appendChild(document.createTextNode(".components-notices__dismissible,.components-notices__pinned{color:#1e1e1e}.components-notices__dismissible .components-notice,.components-notices__pinned .components-notice{border-bottom:1px solid #0003;box-sizing:border-box;min-height:64px;padding:0 12px}.components-notices__dismissible .components-notice .components-notice__dismiss,.components-notices__pinned .components-notice .components-notice__dismiss{margin-top:12px}"));
-    document.head.appendChild(style);
+  function hasRenderableChildren(children) {
+    return children !== null && children !== void 0 && children !== false && children !== "";
   }
   function InlineNotices({
     children,
+    className,
     pinnedNoticesClassName,
     dismissibleNoticesClassName,
     context
@@ -231,8 +229,13 @@ var wp;
     const nonDismissibleNotices = notices2.filter(
       ({ isDismissible, type }) => !isDismissible && type === "default"
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    const hasPinnedNotices = nonDismissibleNotices.length > 0;
+    const hasDismissibleNotices = dismissibleNotices.length > 0 || hasRenderableChildren(children);
+    if (!hasPinnedNotices && !hasDismissibleNotices) {
+      return null;
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: clsx_default("notices-inline-notices-wrapper", className), children: [
+      hasPinnedNotices && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         import_components.NoticeList,
         {
           notices: nonDismissibleNotices,
@@ -242,7 +245,7 @@ var wp;
           )
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      hasDismissibleNotices && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         import_components.NoticeList,
         {
           notices: dismissibleNotices,
@@ -283,3 +286,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.notices&&typeof wp.notices==='object'){wp.notices=Object.assign({},wp.notices);}

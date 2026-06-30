@@ -10,6 +10,19 @@ require_once __DIR__ . '/navigation-link/shared/render-submenu-icon.php';
 require_once __DIR__ . '/navigation-link/shared/build-css-font-sizes.php';
 
 /**
+ * Renders the submenu icon SVG for the Navigation Submenu block.
+ *
+ * @since 5.9.0
+ * @deprecated 7.0.0 Use block_core_shared_navigation_render_submenu_icon() instead.
+ *
+ * @return string SVG markup for the submenu icon.
+ */
+function block_core_navigation_submenu_render_submenu_icon() {
+	_deprecated_function( __FUNCTION__, '7.0.0', 'block_core_shared_navigation_render_submenu_icon()' );
+	return block_core_shared_navigation_render_submenu_icon();
+}
+
+/**
  * Returns the submenu visibility value with backward compatibility
  * for the deprecated openSubmenusOnClick attribute.
  *

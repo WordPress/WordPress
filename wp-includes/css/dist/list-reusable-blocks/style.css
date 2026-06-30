@@ -105,14 +105,6 @@
   float: right;
 }
 
-.list-reusable-blocks-import-form .components-notice__content {
-  margin: 0;
-}
-.list-reusable-blocks-import-form .components-notice.is-dismissible {
-  padding-right: 0;
-  margin: 5px 0;
-}
-
 .list-reusable-blocks__container {
   display: inline-flex;
   align-items: center;

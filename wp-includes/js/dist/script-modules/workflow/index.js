@@ -3293,12 +3293,15 @@ var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
 var import_element = __toESM(require_element(), 1);
 var icon_default = (0, import_element.forwardRef)(
   ({ icon, size = 24, ...props }, ref) => {
-    return (0, import_element.cloneElement)(icon, {
-      width: size,
-      height: size,
-      ...props,
-      ref
-    });
+    return (0, import_element.cloneElement)(
+      icon,
+      {
+        width: size,
+        height: size,
+        ...props,
+        ref
+      }
+    );
   }
 );
 
@@ -3309,6 +3312,7 @@ var search_default = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_primit
 
 // packages/workflow/build-module/components/workflow-menu.mjs
 import { executeAbility, store as abilitiesStore } from "@wordpress/abilities";
+import { initialize as initializeCoreAbilities } from "@wordpress/core-abilities";
 
 // packages/workflow/build-module/lock-unlock.mjs
 var import_private_apis = __toESM(require_private_apis(), 1);
@@ -3401,6 +3405,11 @@ function WorkflowMenu() {
       bindGlobal: true
     }
   );
+  (0, import_element2.useEffect)(() => {
+    if (isOpen) {
+      initializeCoreAbilities();
+    }
+  }, [isOpen]);
   const closeAndReset = () => {
     setSearch("");
     setIsOpen(false);

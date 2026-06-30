@@ -712,17 +712,6 @@ html :where(.wp-block-column) {
 :root :where(figure.wp-block-gallery) > .blocks-gallery-media-placeholder-wrapper {
   flex-basis: 100%;
 }
-:root :where(figure.wp-block-gallery) .wp-block-image .components-notice.is-error {
-  display: block;
-}
-:root :where(figure.wp-block-gallery) .wp-block-image .components-notice__content {
-  margin: 4px 0;
-}
-:root :where(figure.wp-block-gallery) .wp-block-image .components-notice__dismiss {
-  position: absolute;
-  top: 0;
-  right: 5px;
-}
 :root :where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label {
   display: none;
 }

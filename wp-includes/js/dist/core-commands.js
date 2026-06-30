@@ -738,3 +738,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.coreCommands&&typeof wp.coreCommands==='object'){wp.coreCommands=Object.assign({},wp.coreCommands);}

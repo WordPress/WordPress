@@ -135,6 +135,15 @@
   overflow: hidden;
 }
 
+.dataviews-media-field__filename {
+  display: inline-block;
+  max-inline-size: 15ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
 .dataviews-media-field__media-thumbnail {
   display: flex;
   align-items: center;

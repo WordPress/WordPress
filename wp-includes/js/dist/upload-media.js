@@ -45,17 +45,17 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/url
-  var require_url = __commonJS({
-    "package-external:@wordpress/url"(exports, module) {
-      module.exports = window.wp.url;
-    }
-  });
-
   // package-external:@wordpress/i18n
   var require_i18n = __commonJS({
     "package-external:@wordpress/i18n"(exports, module) {
       module.exports = window.wp.i18n;
+    }
+  });
+
+  // package-external:@wordpress/url
+  var require_url = __commonJS({
+    "package-external:@wordpress/url"(exports, module) {
+      module.exports = window.wp.url;
     }
   });
 
@@ -500,6 +500,9 @@ var wp;
   }
   var v4_default = v4;
 
+  // packages/upload-media/build-module/store/actions.mjs
+  var import_i18n5 = __toESM(require_i18n(), 1);
+
   // packages/upload-media/build-module/image-file.mjs
   var ImageFile = class extends File {
     width = 0;
@@ -672,9 +675,15 @@ var wp;
       vipsModule.terminateVipsWorker();
     }
   }
-
-  // packages/upload-media/build-module/validate-mime-type.mjs
-  var import_i18n2 = __toESM(require_i18n(), 1);
+  var completedVipsOperations = 0;
+  var MAX_VIPS_OPS_BEFORE_RECYCLE = 50;
+  function maybeRecycleVipsWorker(activeImageProcessingCount) {
+    completedVipsOperations++;
+    if (completedVipsOperations >= MAX_VIPS_OPS_BEFORE_RECYCLE && activeImageProcessingCount === 0) {
+      terminateVipsWorker();
+      completedVipsOperations = 0;
+    }
+  }
 
   // packages/upload-media/build-module/upload-error.mjs
   var UploadError = class extends Error {
@@ -689,6 +698,7 @@ var wp;
   };
 
   // packages/upload-media/build-module/validate-mime-type.mjs
+  var import_i18n2 = __toESM(require_i18n(), 1);
   function validateMimeType(file, allowedTypes) {
     if (!allowedTypes) {
       return;
@@ -842,10 +852,11 @@ var wp;
       if (!silent) {
         const { onError } = item;
         onError?.(error ?? new Error("Upload cancelled"));
-        if (!onError && error) {
+        if (!onError && error && !item.parentId) {
           console.error("Upload cancelled", error);
         }
       }
+      const { currentOperation, parentId, batchId } = item;
       dispatch({
         type: Type.Cancel,
         id,
@@ -853,7 +864,50 @@ var wp;
       });
       dispatch.removeItem(id);
       dispatch.revokeBlobUrls(id);
-      if (item.batchId && select2.isBatchUploaded(item.batchId)) {
+      if (currentOperation === OperationType.ResizeCrop || currentOperation === OperationType.Rotate) {
+        for (const pending of select2.getPendingImageProcessing()) {
+          dispatch.processItem(pending.id);
+        }
+      }
+      if (currentOperation === OperationType.Upload) {
+        for (const pending of select2.getPendingUploads()) {
+          dispatch.processItem(pending.id);
+        }
+      }
+      if (currentOperation === OperationType.ResizeCrop || currentOperation === OperationType.Rotate || currentOperation === OperationType.TranscodeImage) {
+        maybeRecycleVipsWorker(select2.getActiveImageProcessingCount());
+      }
+      if (parentId) {
+        const parentItem = select2.getItem(parentId);
+        if (parentItem) {
+          if (select2.hasPendingItemsByParentId(parentId)) {
+            if (parentItem.operations && parentItem.operations.length > 0) {
+              dispatch.processItem(parentId);
+            }
+          } else if (parentItem.subSizes && parentItem.subSizes.length > 0) {
+            if (parentItem.operations && parentItem.operations.length > 0) {
+              dispatch.processItem(parentId);
+            }
+          } else {
+            const parentAttachmentId = parentItem.attachment?.id;
+            const { mediaDelete } = select2.getSettings();
+            if (parentAttachmentId && mediaDelete) {
+              mediaDelete(parentAttachmentId).catch(() => {
+              });
+            }
+            dispatch.cancelItem(
+              parentId,
+              new UploadError({
+                code: error instanceof UploadError && error.code || "UPLOAD_ERROR",
+                message: error?.message || (0, import_i18n5.__)("The image could not be uploaded."),
+                file: parentItem.file,
+                cause: error instanceof Error ? error : void 0
+              })
+            );
+          }
+        }
+      }
+      if (batchId && select2.isBatchUploaded(batchId)) {
         item.onBatchSuccess?.();
       }
     };
@@ -900,6 +954,7 @@ var wp;
     uploadItem: () => uploadItem
   });
   var import_blob = __toESM(require_blob(), 1);
+  var import_i18n6 = __toESM(require_i18n(), 1);
 
   // packages/upload-media/build-module/heic-parser.mjs
   var Reader = class {
@@ -1922,6 +1977,9 @@ var wp;
           dispatch.processItem(pendingItem.id);
         }
       }
+      if (previousOperation === OperationType.ResizeCrop || previousOperation === OperationType.Rotate || previousOperation === OperationType.TranscodeImage) {
+        maybeRecycleVipsWorker(select2.getActiveImageProcessingCount());
+      }
     };
   }
   var VALID_IMAGE_FORMATS = ["jpeg", "webp", "avif", "png", "gif"];
@@ -1971,19 +2029,6 @@ var wp;
       );
       const isHeic = HEIC_MIME_TYPES.includes(file.type);
       if (isImage && isVipsSupported) {
-        const { bigImageSizeThreshold } = settings;
-        if (bigImageSizeThreshold) {
-          operations.push([
-            OperationType.ResizeCrop,
-            {
-              resize: {
-                width: bigImageSizeThreshold,
-                height: bigImageSizeThreshold
-              },
-              isThresholdResize: true
-            }
-          ]);
-        }
         operations.push(
           OperationType.Upload,
           OperationType.ThumbnailGeneration,
@@ -2019,7 +2064,7 @@ var wp;
         id,
         operations
       });
-      let updates = {};
+      let updates;
       if (isHeic && heicJpeg) {
         const vipsAvailable = isClientSideMediaSupported();
         updates = {
@@ -2038,6 +2083,13 @@ var wp;
             ...item.additionalData,
             generate_sub_sizes: true,
             convert_format: true
+          }
+        };
+      } else {
+        updates = {
+          additionalData: {
+            ...item.additionalData,
+            generate_sub_sizes: false
           }
         };
       }
@@ -2147,7 +2199,9 @@ var wp;
           id,
           new UploadError({
             code: "IMAGE_TRANSCODING_ERROR",
-            message: "File could not be uploaded",
+            message: (0, import_i18n6.__)(
+              "The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading."
+            ),
             file: item.file,
             cause: error instanceof Error ? error : void 0
           })
@@ -2191,7 +2245,9 @@ var wp;
           id,
           new UploadError({
             code: "IMAGE_ROTATION_ERROR",
-            message: "Image could not be rotated",
+            message: (0, import_i18n6.__)(
+              "The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading."
+            ),
             file: item.file,
             cause: error instanceof Error ? error : void 0
           })
@@ -2409,14 +2465,21 @@ var wp;
       }
       const attachment = item.attachment;
       const { mediaFinalize } = select2.getSettings();
+      const updates = {};
       if (attachment?.id && mediaFinalize) {
         try {
-          await mediaFinalize(attachment.id, item.subSizes || []);
+          const updatedAttachment = await mediaFinalize(
+            attachment.id,
+            item.subSizes || []
+          );
+          if (updatedAttachment) {
+            updates.attachment = updatedAttachment;
+          }
         } catch (error) {
           console.warn("Media finalization failed:", error);
         }
       }
-      dispatch.finishOperation(id, {});
+      dispatch.finishOperation(id, updates);
     };
   }
   function revokeBlobUrls(id) {
@@ -2523,3 +2586,4 @@ var wp;
   var provider_default = MediaUploadProvider;
   return __toCommonJS(index_exports);
 })();
+if(wp.uploadMedia&&typeof wp.uploadMedia==='object'){wp.uploadMedia=Object.assign({},wp.uploadMedia);}

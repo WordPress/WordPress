@@ -86,3 +86,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
+if(wp.isShallowEqual&&typeof wp.isShallowEqual==='object'){wp.isShallowEqual=Object.assign({},wp.isShallowEqual);}

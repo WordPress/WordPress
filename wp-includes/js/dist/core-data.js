@@ -417,8 +417,6 @@ var wp;
   var index_exports = {};
   __export(index_exports, {
     EntityProvider: () => EntityProvider,
-    SelectionDirection: () => SelectionDirection,
-    SelectionType: () => SelectionType,
     __experimentalFetchLinkSuggestions: () => fetchLinkSuggestions,
     __experimentalFetchUrlData: () => experimental_fetch_url_data_default,
     __experimentalUseEntityRecord: () => useDeprecatedEntityRecord,
@@ -1232,6 +1230,17 @@ var wp;
   var import_data2 = __toESM(require_data(), 1);
   var import_sync2 = __toESM(require_sync(), 1);
   var import_block_editor = __toESM(require_block_editor(), 1);
+  function getContainingBlockYMap(yType) {
+    let current = yType;
+    while (current) {
+      const parent = current.parent;
+      if (parent instanceof import_sync2.Y.Map && parent.parent instanceof import_sync2.Y.Array && parent.get("clientId") !== void 0 && parent.get("innerBlocks") instanceof import_sync2.Y.Array) {
+        return parent;
+      }
+      current = parent instanceof import_sync2.Y.AbstractType ? parent : null;
+    }
+    return null;
+  }
   function getBlockPathInYdoc(yType) {
     const path = [];
     let current = yType;
@@ -1334,6 +1343,9 @@ var wp;
     syncManager = createSyncManager();
     return syncManager;
   }
+  function hasSyncManager() {
+    return Boolean(syncManager);
+  }
 
   // packages/core-data/build-module/utils/crdt-utils.mjs
   function getRootMap(doc, key) {
@@ -1350,6 +1362,27 @@ var wp;
   }
   function asHtmlStringIndex(index) {
     return index;
+  }
+  function getYTextByAttributeKey(attributes, attributeKey) {
+    const directValue = attributes.get(attributeKey);
+    if (directValue instanceof import_sync4.Y.Text) {
+      return directValue;
+    }
+    let value = attributes;
+    for (const pathPart of attributeKey.split(".")) {
+      if (value instanceof import_sync4.Y.Map) {
+        value = value.get(pathPart);
+      } else if (value instanceof import_sync4.Y.Array) {
+        const index = Number.parseInt(pathPart, 10);
+        if (!Number.isSafeInteger(index) || index < 0 || index.toString() !== pathPart) {
+          return null;
+        }
+        value = value.get(index);
+      } else {
+        return null;
+      }
+    }
+    return value instanceof import_sync4.Y.Text ? value : null;
   }
   function findBlockByClientIdInDoc(blockId, ydoc) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
@@ -1439,6 +1472,11 @@ var wp;
     SelectionType2["WholeBlock"] = "whole-block";
     return SelectionType2;
   })(SelectionType || {});
+  var SelectionDirection = /* @__PURE__ */ ((SelectionDirection2) => {
+    SelectionDirection2["Forward"] = "f";
+    SelectionDirection2["Backward"] = "b";
+    return SelectionDirection2;
+  })(SelectionDirection || {});
   function getSelectionState(selectionStart, selectionEnd, yDoc, options) {
     const { selectionDirection } = options ?? {};
     const ymap = getRootMap(yDoc, CRDT_RECORD_MAP_KEY);
@@ -1508,7 +1546,7 @@ var wp;
       return null;
     }
     const attributes = block.get("attributes");
-    const currentYText = attributes?.get(selection.attributeKey);
+    const currentYText = attributes ? getYTextByAttributeKey(attributes, selection.attributeKey) : null;
     if (!(currentYText instanceof import_sync6.Y.Text)) {
       return null;
     }
@@ -1521,7 +1559,8 @@ var wp;
     );
     return {
       relativePosition,
-      absoluteOffset: selection.offset
+      absoluteOffset: selection.offset,
+      attributeKey: selection.attributeKey
     };
   }
   function getBlockPathForLocalClientId(clientId) {
@@ -1625,13 +1664,6 @@ var wp;
     const isAbsoluteOffsetEqual = cursorPosition1.absoluteOffset === cursorPosition2.absoluteOffset;
     return isRelativePositionEqual && isAbsoluteOffsetEqual;
   }
-
-  // packages/core-data/build-module/types.mjs
-  var SelectionDirection = /* @__PURE__ */ ((SelectionDirection2) => {
-    SelectionDirection2["Forward"] = "f";
-    SelectionDirection2["Backward"] = "b";
-    return SelectionDirection2;
-  })(SelectionDirection || {});
 
   // packages/core-data/build-module/awareness/post-editor-awareness.mjs
   var PostEditorAwareness = class extends BaseAwarenessState {
@@ -1766,7 +1798,11 @@ var wp;
      */
     convertSelectionStateToAbsolute(selection) {
       if (selection.type === SelectionType.None) {
-        return { richTextOffset: null, localClientId: null };
+        return {
+          richTextOffset: null,
+          localClientId: null,
+          attributeKey: null
+        };
       }
       if (selection.type === SelectionType.WholeBlock) {
         const absolutePos = import_sync8.Y.createAbsolutePositionFromRelativePosition(
@@ -1782,7 +1818,11 @@ var wp;
             localClientId2 = path2 ? resolveBlockClientIdByPath(path2) : null;
           }
         }
-        return { richTextOffset: null, localClientId: localClientId2 };
+        return {
+          richTextOffset: null,
+          localClientId: localClientId2,
+          attributeKey: null
+        };
       }
       const cursorPos = "cursorPosition" in selection ? selection.cursorPosition : selection.cursorStartPosition;
       const absolutePosition = import_sync8.Y.createAbsolutePositionFromRelativePosition(
@@ -1790,17 +1830,22 @@ var wp;
         this.doc
       );
       if (!absolutePosition) {
-        return { richTextOffset: null, localClientId: null };
+        return {
+          richTextOffset: null,
+          localClientId: null,
+          attributeKey: null
+        };
       }
-      const yType = absolutePosition.type.parent?.parent;
-      const path = yType instanceof import_sync8.Y.Map ? getBlockPathInYdoc(yType) : null;
+      const yType = getContainingBlockYMap(absolutePosition.type);
+      const path = yType ? getBlockPathInYdoc(yType) : null;
       const localClientId = path ? resolveBlockClientIdByPath(path) : null;
       return {
         richTextOffset: htmlIndexToRichTextOffset(
           absolutePosition.type.toString(),
           asHtmlStringIndex(absolutePosition.index)
         ),
-        localClientId
+        localClientId,
+        attributeKey: cursorPos.attributeKey ?? null
       };
     }
     /**
@@ -2262,6 +2307,9 @@ var wp;
               );
               break;
             }
+            case "clientId": {
+              break;
+            }
             default:
               if (!(0, import_es62.default)(
                 incomingYBlock[incomingBlockProperty],
@@ -2537,10 +2585,11 @@ var wp;
     const block = findBlockByClientIdInDoc(clientId, ydoc);
     const attributes = block?.get("attributes");
     const attributeKey = selection.attributeKey;
-    const changedYText = attributeKey ? attributes?.get(attributeKey) : void 0;
-    const isYText = changedYText instanceof import_sync11.Y.Text;
-    const isFullyDefinedSelection = attributeKey && clientId;
-    if (!isYText || !isFullyDefinedSelection) {
+    let changedYText = null;
+    if (attributeKey && attributes) {
+      changedYText = getYTextByAttributeKey(attributes, attributeKey);
+    }
+    if (!(changedYText instanceof import_sync11.Y.Text) || !attributeKey || !clientId) {
       return {
         type: "BlockSelection",
         clientId
@@ -2725,7 +2774,18 @@ var wp;
       }
       switch (key) {
         case "blocks": {
-          if (!newValue) {
+          const newCursorPosition = parseCursorSelection(
+            changes.selection
+          );
+          const rawContent = getRawValue(changes.content);
+          if (!newValue && typeof rawContent === "string") {
+            mergeContentWithoutBlocks(
+              ymap,
+              rawContent,
+              newCursorPosition
+            );
+            break;
+          } else if (!newValue) {
             ymap.set(key, void 0);
             break;
           }
@@ -2734,9 +2794,6 @@ var wp;
             currentBlocks = new import_sync13.Y.Array();
             ymap.set(key, currentBlocks);
           }
-          const newCursorPosition = parseCursorSelection(
-            changes.selection
-          );
           mergeCrdtBlocks(currentBlocks, newValue, newCursorPosition);
           break;
         }
@@ -2801,6 +2858,18 @@ var wp;
         updateSelectionHistory(ydoc, selection);
       }, 0);
     }
+  }
+  function mergeContentWithoutBlocks(ymap, rawContent, cursorPosition) {
+    let currentBlocks = ymap.get("blocks");
+    if (!(currentBlocks instanceof import_sync13.Y.Array)) {
+      currentBlocks = new import_sync13.Y.Array();
+      ymap.set("blocks", currentBlocks);
+    }
+    mergeCrdtBlocks(
+      currentBlocks,
+      (0, import_blocks3.parse)(rawContent),
+      cursorPosition
+    );
   }
   function parseCursorSelection(selection) {
     const selectionStart = selection?.selectionStart;
@@ -2880,6 +2949,10 @@ var wp;
       changes.blocks = deserializeBlockAttributes(
         changes.blocks
       );
+    }
+    if (changes.blocks && !changes.content) {
+      const capturedBlocks = changes.blocks;
+      changes.content = () => (0, import_blocks3.__unstableSerializeAndClean)(capturedBlocks);
     }
     if ("object" === typeof changes.meta) {
       changes.meta = {
@@ -4027,7 +4100,6 @@ var wp;
     getReferenceByDistinctEdits: () => getReferenceByDistinctEdits,
     getRevision: () => getRevision,
     getRevisions: () => getRevisions,
-    getSyncConnectionStatus: () => getSyncConnectionStatus,
     getThemeSupports: () => getThemeSupports,
     getUndoEdit: () => getUndoEdit,
     getUserPatternCategories: () => getUserPatternCategories,
@@ -4061,6 +4133,7 @@ var wp;
     getNavigationFallbackId: () => getNavigationFallbackId,
     getPostsPageId: () => getPostsPageId,
     getRegisteredPostMeta: () => getRegisteredPostMeta,
+    getSyncConnectionStatus: () => getSyncConnectionStatus,
     getTemplateId: () => getTemplateId,
     getUndoManager: () => getUndoManager,
     getViewConfig: () => getViewConfig,
@@ -4269,6 +4342,19 @@ var wp;
       view_list: void 0,
       form: void 0
     };
+  }
+  function getSyncConnectionStatus(state) {
+    if (!state.syncConnectionStatuses) {
+      return void 0;
+    }
+    const PRIORITIZED_STATUSES = ["disconnected", "connecting", "connected"];
+    let coalesced;
+    for (const status of Object.values(state.syncConnectionStatuses)) {
+      if (!coalesced || PRIORITIZED_STATUSES.indexOf(status.status) < PRIORITIZED_STATUSES.indexOf(coalesced.status)) {
+        coalesced = status;
+      }
+    }
+    return coalesced;
   }
 
   // packages/core-data/build-module/selectors.mjs
@@ -4823,19 +4909,6 @@ var wp;
       ];
     }
   );
-  function getSyncConnectionStatus(state) {
-    if (!state.syncConnectionStatuses) {
-      return void 0;
-    }
-    const PRIORITIZED_STATUSES = ["disconnected", "connecting", "connected"];
-    let coalesced;
-    for (const status of Object.values(state.syncConnectionStatuses)) {
-      if (!coalesced || PRIORITIZED_STATUSES.indexOf(status.status) < PRIORITIZED_STATUSES.indexOf(coalesced.status)) {
-        coalesced = status;
-      }
-    }
-    return coalesced;
-  }
 
   // packages/core-data/build-module/actions.mjs
   var actions_exports = {};
@@ -4867,7 +4940,6 @@ var wp;
     redo: () => redo,
     saveEditedEntityRecord: () => saveEditedEntityRecord,
     saveEntityRecord: () => saveEntityRecord,
-    setSyncConnectionStatus: () => setSyncConnectionStatus,
     undo: () => undo
   });
   var import_es65 = __toESM(require_es6(), 1);
@@ -5658,23 +5730,6 @@ var wp;
       invalidateCache
     });
   };
-  function setSyncConnectionStatus(kind, name, key, status) {
-    if (!status) {
-      return {
-        type: "CLEAR_SYNC_CONNECTION_STATUS",
-        kind,
-        name,
-        key
-      };
-    }
-    return {
-      type: "SET_SYNC_CONNECTION_STATUS",
-      kind,
-      name,
-      key,
-      status
-    };
-  }
 
   // packages/core-data/build-module/private-actions.mjs
   var private_actions_exports = {};
@@ -5684,7 +5739,8 @@ var wp;
     receiveEditorSettings: () => receiveEditorSettings,
     receiveRegisteredPostMeta: () => receiveRegisteredPostMeta,
     receiveViewConfig: () => receiveViewConfig,
-    setCollaborationSupported: () => setCollaborationSupported
+    setCollaborationSupported: () => setCollaborationSupported,
+    setSyncConnectionStatus: () => setSyncConnectionStatus
   });
   var import_api_fetch4 = __toESM(require_api_fetch(), 1);
   function receiveRegisteredPostMeta(postType, registeredPostMeta2) {
@@ -5776,6 +5832,9 @@ var wp;
   }
   var setCollaborationSupported = (supported) => ({ dispatch: dispatch3 }) => {
     dispatch3({ type: "SET_COLLABORATION_SUPPORTED", supported });
+    if (!supported && hasSyncManager()) {
+      getSyncManager().unloadAll();
+    }
   };
   function receiveViewConfig(kind, name, config) {
     return {
@@ -5783,6 +5842,23 @@ var wp;
       kind,
       name,
       config
+    };
+  }
+  function setSyncConnectionStatus(kind, name, key, status) {
+    if (!status) {
+      return {
+        type: "CLEAR_SYNC_CONNECTION_STATUS",
+        kind,
+        name,
+        key
+      };
+    }
+    return {
+      type: "SET_SYNC_CONNECTION_STATUS",
+      kind,
+      name,
+      key,
+      status
     };
   }
 
@@ -6025,6 +6101,12 @@ var wp;
     );
   }
 
+  // packages/core-data/build-module/parsed-blocks-cache.mjs
+  var parsedBlocksCache = /* @__PURE__ */ new Map();
+  function getCacheKey(kind, name, id) {
+    return `${kind}:${name}:${id}`;
+  }
+
   // packages/core-data/build-module/resolvers.mjs
   var getAuthors2 = (query) => async ({ dispatch: dispatch3 }) => {
     const path = (0, import_url6.addQueryArgs)(
@@ -6109,6 +6191,12 @@ var wp;
         ).forEach(([propName, transientConfig]) => {
           recordWithTransients[propName] = transientConfig.read(recordWithTransients);
         });
+        if (recordWithTransients.blocks && typeof recordWithTransients.content?.raw === "string") {
+          parsedBlocksCache.set(getCacheKey(kind, name, key), {
+            content: recordWithTransients.content.raw,
+            blocks: recordWithTransients.blocks
+          });
+        }
         void getSyncManager()?.load(
           entityConfig.syncConfig,
           objectType,
@@ -6168,10 +6256,13 @@ var wp;
                 if ("auto-draft" === status || !meta) {
                   return;
                 }
+                const entityIdKey = entityConfig.key || DEFAULT_ENTITY_KEY;
                 dispatch3.saveEntityRecord(
                   kind,
                   name,
-                  editedRecord,
+                  {
+                    [entityIdKey]: editedRecord[entityIdKey]
+                  },
                   { __unstableSkipSyncUpdate: true }
                 );
               });
@@ -6661,7 +6752,7 @@ var wp;
     });
   };
   getDefaultTemplateId2.shouldInvalidate = (action) => {
-    return action.type === "RECEIVE_ITEMS" && action.kind === "root" && action.name === "site";
+    return action.type === "RECEIVE_ITEMS" && action.kind === "root" && action.name === "site" && !!action.persistedEdits;
   };
   var getRevisions2 = (kind, name, recordKey, query = {}) => async ({ dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
     const configs = await resolveSelect2.getEntitiesConfig(kind);
@@ -7412,12 +7503,10 @@ var wp;
       (resolve) => {
         const hasId = isEntity ? !!resource.id : !!id;
         const { canUser: canUser3 } = resolve(store);
-        const create3 = canUser3(
-          "create",
-          isEntity ? { kind: resource.kind, name: resource.name } : resource
-        );
+        const collectionResource = isEntity ? { kind: resource.kind, name: resource.name } : resource;
+        const create3 = canUser3("create", collectionResource);
         if (!hasId) {
-          const read2 = canUser3("read", resource);
+          const read2 = canUser3("read", collectionResource);
           const isResolving2 = create3.isResolving || read2.isResolving;
           const hasResolved2 = create3.hasResolved && read2.hasResolved;
           let status2 = Status.Idle;
@@ -7616,7 +7705,6 @@ var wp;
 
   // packages/core-data/build-module/hooks/use-entity-block-editor.mjs
   var EMPTY_ARRAY2 = [];
-  var parsedBlocksCache = /* @__PURE__ */ new Map();
   function useEntityBlockEditor(kind, name, { id: _id } = {}) {
     const providerId = useEntityId(kind, name);
     const id = _id ?? providerId;
@@ -7646,7 +7734,7 @@ var wp;
       if (!content || typeof content !== "string") {
         return EMPTY_ARRAY2;
       }
-      const cacheKey = `${kind}:${name}:${id}`;
+      const cacheKey = getCacheKey(kind, name, id);
       const cached = parsedBlocksCache.get(cacheKey);
       let _blocks;
       if (cached && cached.content === content) {
@@ -7765,7 +7853,8 @@ var wp;
   var import_element8 = __toESM(require_element(), 1);
   var defaultResolvedSelection = {
     richTextOffset: null,
-    localClientId: null
+    localClientId: null,
+    attributeKey: null
   };
   var defaultState = {
     activeCollaborators: [],
@@ -7934,8 +8023,7 @@ var wp;
   }
 
   // packages/core-data/build-module/private-apis.mjs
-  var privateApis = {};
-  lock(privateApis, {
+  var lockedApis = {
     useEntityRecordsWithPermissions,
     RECEIVE_INTERMEDIATE_RESULTS,
     retrySyncConnection,
@@ -7943,8 +8031,12 @@ var wp;
     useResolvedSelection,
     useOnCollaboratorJoin,
     useOnCollaboratorLeave,
-    useOnPostSave
-  });
+    useOnPostSave,
+    SelectionType,
+    SelectionDirection
+  };
+  var privateApis = {};
+  lock(privateApis, lockedApis);
 
   // packages/core-data/build-module/index.mjs
   var entitiesConfig2 = [
@@ -8037,3 +8129,4 @@ var wp;
   (0, import_data15.register)(store);
   return __toCommonJS(index_exports);
 })();
+if(wp.coreData&&typeof wp.coreData==='object'){wp.coreData=Object.assign({},wp.coreData);}

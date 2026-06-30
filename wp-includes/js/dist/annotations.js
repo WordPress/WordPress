@@ -468,3 +468,4 @@ var wp;
   );
   return __toCommonJS(index_exports);
 })();
+if(wp.annotations&&typeof wp.annotations==='object'){wp.annotations=Object.assign({},wp.annotations);}

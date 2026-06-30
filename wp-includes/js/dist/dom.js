@@ -848,11 +848,6 @@ var wp;
     wbr: {},
     "#text": {}
   };
-  var excludedElements = ["#text", "br"];
-  Object.keys(textContentSchema).filter((element) => !excludedElements.includes(element)).forEach((tag) => {
-    const { [tag]: removedTag, ...restSchema } = textContentSchema;
-    textContentSchema[tag].children = restSchema;
-  });
   var embeddedContentSchema = {
     audio: {
       attributes: [
@@ -908,6 +903,14 @@ var wp;
       children: "*"
     }
   };
+  var excludedElements = ["#text", "br", "wbr"];
+  Object.keys(textContentSchema).filter((element) => !excludedElements.includes(element)).forEach((tag) => {
+    const { [tag]: removedTag, ...restSchema } = textContentSchema;
+    textContentSchema[tag].children = {
+      ...restSchema,
+      img: embeddedContentSchema.img
+    };
+  });
   var phrasingContentSchema = {
     ...textContentSchema,
     ...embeddedContentSchema
@@ -1081,3 +1084,4 @@ var wp;
   var focus = { focusable: focusable_exports, tabbable: tabbable_exports };
   return __toCommonJS(index_exports);
 })();
+if(wp.dom&&typeof wp.dom==='object'){wp.dom=Object.assign({},wp.dom);}

@@ -2519,33 +2519,13 @@ var wp;
     return ret;
   }
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/p3-linear.js
-  var toXYZ_M = [
-    [0.4865709486482162, 0.26566769316909306, 0.1982172852343625],
-    [0.2289745640697488, 0.6917385218365064, 0.079286914093745],
-    [0, 0.04511338185890264, 1.043944368900976]
-  ];
-  var fromXYZ_M = [
-    [2.493496911941425, -0.9313836179191239, -0.40271078445071684],
-    [-0.8294889695615747, 1.7626640603183463, 0.023624685841943577],
-    [0.03584583024378447, -0.07617238926804182, 0.9568845240076872]
-  ];
-  var p3_linear_default = new RGBColorSpace({
-    id: "p3-linear",
-    cssId: "display-p3-linear",
-    name: "Linear P3",
-    white: "D65",
-    toXYZ_M,
-    fromXYZ_M
-  });
-
   // packages/theme/node_modules/colorjs.io/src/spaces/srgb-linear.js
-  var toXYZ_M2 = [
+  var toXYZ_M = [
     [0.41239079926595934, 0.357584339383878, 0.1804807884018343],
     [0.21263900587151027, 0.715168678767756, 0.07219231536073371],
     [0.01933081871559182, 0.11919477979462598, 0.9505321522496607]
   ];
-  var fromXYZ_M2 = [
+  var fromXYZ_M = [
     [3.2409699419045226, -1.537383177570094, -0.4986107602930034],
     [-0.9692436362808796, 1.8759675015077202, 0.04155505740717559],
     [0.05563007969699366, -0.20397695888897652, 1.0569715142428786]
@@ -2554,8 +2534,8 @@ var wp;
     id: "srgb-linear",
     name: "Linear sRGB",
     white: "D65",
-    toXYZ_M: toXYZ_M2,
-    fromXYZ_M: fromXYZ_M2
+    toXYZ_M,
+    fromXYZ_M
   });
 
   // packages/theme/node_modules/colorjs.io/src/keywords.js
@@ -2824,17 +2804,6 @@ var wp;
     }
   });
 
-  // packages/theme/node_modules/colorjs.io/src/spaces/p3.js
-  var p3_default = new RGBColorSpace({
-    id: "p3",
-    cssId: "display-p3",
-    name: "P3",
-    base: p3_linear_default,
-    // Gamma encoding/decoding is the same as sRGB
-    fromBase: srgb_default.fromBase,
-    toBase: srgb_default.toBase
-  });
-
   // packages/theme/node_modules/colorjs.io/src/luminance.js
   function getLuminance(color) {
     return get(color, [xyz_d65_default, "y"]);
@@ -3031,12 +3000,6 @@ var wp;
   // packages/theme/build-module/use-theme-provider-styles.mjs
   var import_element2 = __toESM(require_element(), 1);
 
-  // packages/theme/build-module/color-ramps/lib/register-color-spaces.mjs
-  ColorSpace.register(srgb_default);
-  ColorSpace.register(oklch_default);
-  ColorSpace.register(p3_default);
-  ColorSpace.register(hsl_default);
-
   // packages/theme/build-module/prebuilt/ts/color-tokens.mjs
   var color_tokens_default = {
     "primary-bgFill1": ["bg-interactive-brand-strong"],
@@ -3155,19 +3118,31 @@ var wp;
 
   // packages/theme/build-module/color-ramps/lib/color-utils.mjs
   function getColorString(color) {
+    ColorSpace.register(srgb_default);
     const rgbRounded = serialize(to(color, srgb_default));
     return serialize(rgbRounded, { format: "hex" });
   }
   function getContrast(colorA, colorB) {
+    ColorSpace.register(srgb_default);
     return contrastWCAG21(colorA, colorB);
   }
   function clampToGamut(c) {
+    ColorSpace.register(srgb_default);
+    ColorSpace.register(oklch_default);
     return to(toGamut(c, { space: srgb_default, method: "css" }), oklch_default);
   }
 
   // packages/theme/build-module/color-ramps/lib/constants.mjs
-  var WHITE = to("white", oklch_default);
-  var BLACK = to("black", oklch_default);
+  var WHITE = {
+    space: oklch_default,
+    coords: [1, 0, 0],
+    alpha: 1
+  };
+  var BLACK = {
+    space: oklch_default,
+    coords: [0, 0, 0],
+    alpha: 1
+  };
   var UNIVERSAL_CONTRAST_TOPUP = 0.02;
   var WHITE_TEXT_CONTRAST_MARGIN = 3.1;
   var ACCENT_SCALE_BASE_LIGHTNESS_THRESHOLDS = {
@@ -3314,6 +3289,7 @@ var wp;
 
   // packages/theme/build-module/color-ramps/lib/taper-chroma.mjs
   function taperChroma(seed, lTarget, options = {}) {
+    ColorSpace.register(oklch_default);
     const gamut = options.gamut ?? srgb_default;
     const alpha = options.alpha ?? 0.65;
     const carry = options.carry ?? 0.5;
@@ -3452,8 +3428,9 @@ var wp;
         }
       }
       return clampToGamut({
-        spaceId: "oklch",
-        coords: [newL, newC, get(seed, [oklch_default, "h"])]
+        space: oklch_default,
+        coords: [newL, newC, get(seed, [oklch_default, "h"])],
+        alpha: seed.alpha
       });
     }
     const mostContrastingL = direction === "lighter" ? 1 : 0;
@@ -4075,6 +4052,7 @@ var wp;
     return rgb.coords.map((n2) => Math.round((n2 ?? 0) * 255)).join(", ");
   }
   function legacyWpAdminThemeOverridesCSS(accent) {
+    ColorSpace.register(srgb_default);
     const parsedAccent = to(accent, hsl_default);
     const parsedL = parsedAccent.coords[2] ?? 0;
     const darker10 = set(
@@ -4335,3 +4313,4 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
+if(wp.theme&&typeof wp.theme==='object'){wp.theme=Object.assign({},wp.theme);}
