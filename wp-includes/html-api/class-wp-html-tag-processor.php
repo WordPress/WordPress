@@ -628,6 +628,15 @@ class WP_HTML_Tag_Processor {
 	private $token_length;
 
 	/**
+	 * Whether the current tag token has the self-closing flag.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @var bool
+	 */
+	private $has_self_closing_flag = false;
+
+	/**
 	 * Byte offset in input document where current tag name starts.
 	 *
 	 * Example:
@@ -1074,11 +1083,12 @@ class WP_HTML_Tag_Processor {
 		 * the closing tag to point to the opening of the special atomic
 		 * tag sequence.
 		 */
-		$tag_name_starts_at   = $this->tag_name_starts_at;
-		$tag_name_length      = $this->tag_name_length;
-		$tag_ends_at          = $this->token_starts_at + $this->token_length;
-		$attributes           = $this->attributes;
-		$duplicate_attributes = $this->duplicate_attributes;
+		$tag_name_starts_at    = $this->tag_name_starts_at;
+		$tag_name_length       = $this->tag_name_length;
+		$tag_ends_at           = $this->token_starts_at + $this->token_length;
+		$has_self_closing_flag = $this->has_self_closing_flag;
+		$attributes            = $this->attributes;
+		$duplicate_attributes  = $this->duplicate_attributes;
 
 		// Find the closing tag if necessary.
 		switch ( $tag_name ) {
@@ -1128,14 +1138,15 @@ class WP_HTML_Tag_Processor {
 		 * functions that skip the contents have moved all the internal cursors past
 		 * the inner content of the tag.
 		 */
-		$this->token_starts_at      = $was_at;
-		$this->token_length         = $this->bytes_already_parsed - $this->token_starts_at;
-		$this->text_starts_at       = $tag_ends_at;
-		$this->text_length          = $this->tag_name_starts_at - $this->text_starts_at;
-		$this->tag_name_starts_at   = $tag_name_starts_at;
-		$this->tag_name_length      = $tag_name_length;
-		$this->attributes           = $attributes;
-		$this->duplicate_attributes = $duplicate_attributes;
+		$this->token_starts_at       = $was_at;
+		$this->token_length          = $this->bytes_already_parsed - $this->token_starts_at;
+		$this->text_starts_at        = $tag_ends_at;
+		$this->text_length           = $this->tag_name_starts_at - $this->text_starts_at;
+		$this->tag_name_starts_at    = $tag_name_starts_at;
+		$this->tag_name_length       = $tag_name_length;
+		$this->has_self_closing_flag = $has_self_closing_flag;
+		$this->attributes            = $attributes;
+		$this->duplicate_attributes  = $duplicate_attributes;
 
 		return true;
 	}
@@ -2140,10 +2151,31 @@ class WP_HTML_Tag_Processor {
 		$doc_length = strlen( $this->html );
 
 		// Skip whitespace and slashes.
-		$this->bytes_already_parsed += strspn( $this->html, " \t\f\r\n/", $this->bytes_already_parsed );
+		$skipped_length              = strspn( $this->html, " \t\f\r\n/", $this->bytes_already_parsed );
+		$this->bytes_already_parsed += $skipped_length;
 		if ( $this->bytes_already_parsed >= $doc_length ) {
 			$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
+			return false;
+		}
+
+		/**
+		 * This block serves two purposes:
+		 *
+		 * - A fast path for common tag-ending `>`.
+		 * - A check for the self-closing flag which must appear as `/>`.
+		 *
+		 * In a tag like `<g attr=/>`, `/` is the attribute value, not a self-closing
+		 * flag. When it appears in this form, the parser has already consumed the
+		 * attribute value, `$skipped_length` is 0, and this checks below correctly
+		 * identify whether there is a self-closing flag.
+		 *
+		 * Note: Both start and end tags may have the self-closing flag.
+		 */
+		if ( '>' === $this->html[ $this->bytes_already_parsed ] ) {
+			if ( $skipped_length > 0 && '/' === $this->html[ $this->bytes_already_parsed - 1 ] ) {
+				$this->has_self_closing_flag = true;
+			}
 			return false;
 		}
 
@@ -2324,6 +2356,7 @@ class WP_HTML_Tag_Processor {
 
 		$this->token_starts_at          = null;
 		$this->token_length             = null;
+		$this->has_self_closing_flag    = false;
 		$this->tag_name_starts_at       = null;
 		$this->tag_name_length          = null;
 		$this->text_starts_at           = 0;
@@ -3332,15 +3365,7 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		/*
-		 * The self-closing flag is the solidus at the _end_ of the tag, not the beginning.
-		 *
-		 * Example:
-		 *
-		 *     <figure />
-		 *             ^ this appears one character before the end of the closing ">".
-		 */
-		return '/' === $this->html[ $this->token_starts_at + $this->token_length - 2 ];
+		return $this->has_self_closing_flag;
 	}
 
 	/**
