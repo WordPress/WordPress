@@ -211,7 +211,7 @@ var wp;
     let parsedContent;
     try {
       parsedContent = JSON.parse(fileContent);
-    } catch (e) {
+    } catch {
       throw new Error("Invalid JSON file");
     }
     if (parsedContent.__file !== "wp_block" || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== "string" || typeof parsedContent.content !== "string" || parsedContent.syncStatus && typeof parsedContent.syncStatus !== "string") {

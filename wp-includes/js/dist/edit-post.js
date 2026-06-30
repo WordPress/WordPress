@@ -865,7 +865,10 @@ var wp;
         (box) => box.id === metabox.id
       );
       if (existing !== -1) {
-        mergedMetaboxes[existing] = metabox;
+        mergedMetaboxes[existing] = {
+          ...mergedMetaboxes[existing],
+          ...metabox
+        };
       } else {
         mergedMetaboxes.push(metabox);
       }
@@ -2314,10 +2317,15 @@ var wp;
   var import_core_data7 = __toESM(require_core_data(), 1);
   var import_element11 = __toESM(require_element(), 1);
   var useMetaBoxInitialization = (enabled) => {
-    const { isEnabledAndEditorReady, isCollaborationEnabled } = (0, import_data24.useSelect)(
+    const {
+      isEnabledAndEditorReady,
+      isCollaborationEnabled,
+      hasIncompatibleMetaBoxes
+    } = (0, import_data24.useSelect)(
       (select3) => ({
         isEnabledAndEditorReady: enabled && select3(import_editor17.store).__unstableIsEditorReady(),
-        isCollaborationEnabled: select3(import_editor17.store).isCollaborationEnabledForCurrentPost()
+        isCollaborationEnabled: select3(import_editor17.store).isCollaborationEnabledForCurrentPost(),
+        hasIncompatibleMetaBoxes: enabled ? select3(store).getAllMetaBoxes().some((metaBox) => !metaBox.__rtc_compatible) : false
       }),
       [enabled]
     );
@@ -2326,7 +2334,7 @@ var wp;
     (0, import_element11.useEffect)(() => {
       if (isEnabledAndEditorReady) {
         initializeMetaBoxes2();
-        if (isCollaborationEnabled) {
+        if (isCollaborationEnabled && hasIncompatibleMetaBoxes) {
           setCollaborationSupported(false);
         }
       }
@@ -2334,7 +2342,8 @@ var wp;
       isEnabledAndEditorReady,
       initializeMetaBoxes2,
       isCollaborationEnabled,
-      setCollaborationSupported
+      setCollaborationSupported,
+      hasIncompatibleMetaBoxes
     ]);
   };
 

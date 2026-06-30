@@ -625,7 +625,7 @@ var wp;
     let query;
     try {
       query = new URL(url, "http://example.com").search.substring(1);
-    } catch (error) {
+    } catch {
     }
     if (query) {
       return query;
@@ -697,7 +697,7 @@ var wp;
   function safeDecodeURIComponent(uriComponent) {
     try {
       return decodeURIComponent(uriComponent);
-    } catch (uriComponentError) {
+    } catch {
       return uriComponent;
     }
   }
@@ -796,7 +796,7 @@ var wp;
   function safeDecodeURI(uri) {
     try {
       return decodeURI(uri);
-    } catch (uriError) {
+    } catch {
       return uri;
     }
   }
@@ -846,7 +846,7 @@ var wp;
     }
     try {
       filename = new URL(url, "http://example.com").pathname.split("/").pop();
-    } catch (error) {
+    } catch {
     }
     if (filename) {
       return filename;

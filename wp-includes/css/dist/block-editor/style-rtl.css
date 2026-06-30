@@ -116,13 +116,6 @@
   color: inherit !important;
 }
 
-.block-editor-autocompleters__link {
-  white-space: nowrap;
-}
-.block-editor-autocompleters__link .block-editor-block-icon {
-  margin-left: 8px;
-}
-
 .block-editor-global-styles-background-panel__inspector-media-replace-container {
   position: relative;
 }

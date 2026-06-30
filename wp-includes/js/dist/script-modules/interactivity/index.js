@@ -1422,7 +1422,7 @@ var warn = (message) => {
     console.warn(message);
     try {
       throw Error(message);
-    } catch (e4) {
+    } catch {
     }
     logged.add(message);
   }
@@ -2671,7 +2671,7 @@ var directives_default = () => {
           try {
             el[attribute] = result === null || result === void 0 ? "" : result;
             return;
-          } catch (err) {
+          } catch {
           }
         }
         if (result !== null && result !== void 0 && (result !== false || attribute[4] === "-")) {
@@ -2728,7 +2728,7 @@ var directives_default = () => {
           result = result();
         }
         element.props.children = typeof result === "object" ? null : result.toString();
-      } catch (e4) {
+      } catch {
         element.props.children = null;
       }
     });

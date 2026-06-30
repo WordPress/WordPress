@@ -6995,10 +6995,6 @@
 				'default' => array(
 					
 				)
-			),
-			'isSearchFieldHidden' => array(
-				'type' => 'boolean',
-				'default' => false
 			)
 		),
 		'supports' => array(
@@ -7049,7 +7045,11 @@
 			'html' => false
 		),
 		'editorStyle' => 'wp-block-search-editor',
-		'style' => 'wp-block-search'
+		'style' => 'wp-block-search',
+		'selectors' => array(
+			'color' => '.wp-block-search .wp-block-search__button, .wp-block-search.wp-block-search__no-button .wp-block-search__input',
+			'border' => '.wp-block-search.wp-block-search__button-outside .wp-block-search__input, .wp-block-search.wp-block-search__button-outside .wp-block-search__button, .wp-block-search.wp-block-search__no-button .wp-block-search__input, .wp-block-search.wp-block-search__button-only .wp-block-search__input, .wp-block-search.wp-block-search__button-only .wp-block-search__button, .wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper'
+		)
 	),
 	'separator' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

@@ -38,7 +38,7 @@ document.querySelectorAll("form.wp-block-form").forEach(function(form) {
       } else {
         redirectNotification("error");
       }
-    } catch (error) {
+    } catch {
       redirectNotification("error");
     }
   });

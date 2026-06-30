@@ -80,6 +80,13 @@ var require_core_data = __commonJS({
   }
 });
 
+// package-external:@wordpress/notices
+var require_notices = __commonJS({
+  "package-external:@wordpress/notices"(exports, module) {
+    module.exports = window.wp.notices;
+  }
+});
+
 // package-external:@wordpress/url
 var require_url = __commonJS({
   "package-external:@wordpress/url"(exports, module) {
@@ -124,6 +131,9 @@ var NavigableRegion = (0, import_element.forwardRef)(
 );
 NavigableRegion.displayName = "NavigableRegion";
 var navigable_region_default = NavigableRegion;
+
+// packages/ui/build-module/badge/badge.mjs
+var import_element3 = __toESM(require_element(), 1);
 
 // node_modules/@base-ui/utils/esm/useRefWithInit.js
 var React2 = __toESM(require_react(), 1);
@@ -314,20 +324,21 @@ function resolveStyle(style, state) {
 // node_modules/@base-ui/react/esm/merge-props/mergeProps.js
 var EMPTY_PROPS = {};
 function mergeProps(a, b, c, d, e) {
-  let merged = {
-    ...resolvePropsGetter(a, EMPTY_PROPS)
-  };
+  if (!c && !d && !e && !a) {
+    return createInitialMergedProps(b);
+  }
+  let merged = createInitialMergedProps(a);
   if (b) {
-    merged = mergeOne(merged, b);
+    merged = mergeInto(merged, b);
   }
   if (c) {
-    merged = mergeOne(merged, c);
+    merged = mergeInto(merged, c);
   }
   if (d) {
-    merged = mergeOne(merged, d);
+    merged = mergeInto(merged, d);
   }
   if (e) {
-    merged = mergeOne(merged, e);
+    merged = mergeInto(merged, e);
   }
   return merged;
 }
@@ -336,21 +347,39 @@ function mergePropsN(props) {
     return EMPTY_PROPS;
   }
   if (props.length === 1) {
-    return resolvePropsGetter(props[0], EMPTY_PROPS);
+    return createInitialMergedProps(props[0]);
   }
-  let merged = {
-    ...resolvePropsGetter(props[0], EMPTY_PROPS)
-  };
+  let merged = createInitialMergedProps(props[0]);
   for (let i = 1; i < props.length; i += 1) {
-    merged = mergeOne(merged, props[i]);
+    merged = mergeInto(merged, props[i]);
   }
   return merged;
 }
-function mergeOne(merged, inputProps) {
+function createInitialMergedProps(inputProps) {
   if (isPropsGetter(inputProps)) {
-    return inputProps(merged);
+    return {
+      ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+    };
+  }
+  return copyInitialProps(inputProps);
+}
+function mergeInto(merged, inputProps) {
+  if (isPropsGetter(inputProps)) {
+    return resolvePropsGetter(inputProps, merged);
   }
   return mutablyMergeInto(merged, inputProps);
+}
+function copyInitialProps(inputProps) {
+  const copiedProps = {
+    ...inputProps
+  };
+  for (const propName in copiedProps) {
+    const propValue = copiedProps[propName];
+    if (isEventHandler(propName, propValue)) {
+      copiedProps[propName] = wrapEventHandler(propValue);
+    }
+  }
+  return copiedProps;
 }
 function mutablyMergeInto(mergedProps, externalProps) {
   if (!externalProps) {
@@ -398,7 +427,7 @@ function mergeEventHandlers(ourHandler, theirHandler) {
     return ourHandler;
   }
   if (!ourHandler) {
-    return theirHandler;
+    return wrapEventHandler(theirHandler);
   }
   return (event) => {
     if (isSyntheticEvent(event)) {
@@ -413,6 +442,17 @@ function mergeEventHandlers(ourHandler, theirHandler) {
     const result = theirHandler(event);
     ourHandler?.(event);
     return result;
+  };
+}
+function wrapEventHandler(handler) {
+  if (!handler) {
+    return handler;
+  }
+  return (event) => {
+    if (isSyntheticEvent(event)) {
+      makeEventPreventable(event);
+    }
+    return handler(event);
   };
 }
 function makeEventPreventable(event) {
@@ -471,7 +511,8 @@ function useRenderElementProps(componentProps, params = {}) {
   const className = enabled ? resolveClassName(classNameProp, state) : void 0;
   const style = enabled ? resolveStyle(styleProp, state) : void 0;
   const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
-  const outProps = enabled ? mergeObjects(stateProps, Array.isArray(props) ? mergePropsN(props) : props) ?? EMPTY_OBJECT : EMPTY_OBJECT;
+  const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+  const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
   if (typeof document !== "undefined") {
     if (!enabled) {
       useMergedRefs(null, null);
@@ -492,7 +533,15 @@ function useRenderElementProps(componentProps, params = {}) {
   }
   return outProps;
 }
+function resolveRenderFunctionProps(props) {
+  if (Array.isArray(props)) {
+    return mergePropsN(props);
+  }
+  return mergeProps(void 0, props);
+}
 var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
 function evaluateRenderProp(element, render, props, state) {
   if (render) {
     if (typeof render === "function") {
@@ -527,8 +576,10 @@ function warnIfRenderPropLooksLikeComponent(renderFn) {
   if (functionName.length === 0) {
     return;
   }
-  const firstCharacterCode = functionName.charCodeAt(0);
-  if (firstCharacterCode < 65 || firstCharacterCode > 90) {
+  if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+    return;
+  }
+  if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
     return;
   }
   warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
@@ -556,41 +607,74 @@ function useRender(params) {
   return useRenderElement(params.defaultTagName ?? "div", params, params);
 }
 
-// packages/ui/build-module/badge/badge.mjs
+// packages/ui/build-module/text/text.mjs
 var import_element2 = __toESM(require_element(), 1);
-if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='a407d6dd3d']")) {
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='4130d64bea']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "a407d6dd3d");
-  style.appendChild(document.createTextNode('@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._96e6251aad1a6136__badge{border-radius:var(--wpds-border-radius-lg,8px);font-family:var(--wpds-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-font-size-sm,12px);font-weight:var(--wpds-font-weight-regular,400);line-height:var(--wpds-font-line-height-xs,16px);padding-block:var(--wpds-dimension-padding-xs,4px);padding-inline:var(--wpds-dimension-padding-sm,8px)}._99f7158cb520f750__is-high-intent{background-color:var(--wpds-color-bg-surface-error,#f6e6e3);color:var(--wpds-color-fg-content-error,#470000)}.c20ebef2365bc8b7__is-medium-intent{background-color:var(--wpds-color-bg-surface-warning,#fde6bd);color:var(--wpds-color-fg-content-warning,#2e1900)}._365e1626c6202e52__is-low-intent{background-color:var(--wpds-color-bg-surface-caution,#fee994);color:var(--wpds-color-fg-content-caution,#281d00)}._33f8198127ddf4ef__is-stable-intent{background-color:var(--wpds-color-bg-surface-success,#c5f7cc);color:var(--wpds-color-fg-content-success,#002900)}._04c1aca8fc449412__is-informational-intent{background-color:var(--wpds-color-bg-surface-info,#deebfa);color:var(--wpds-color-fg-content-info,#001b4f)}._90726e69d495ec19__is-draft-intent{background-color:var(--wpds-color-bg-surface-neutral-weak,#f0f0f0);color:var(--wpds-color-fg-content-neutral,#1e1e1e)}._898f4a544993bd39__is-none-intent{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#d8d8d8);color:var(--wpds-color-fg-content-neutral,#1e1e1e);padding-block:calc(var(--wpds-dimension-padding-xs, 4px) - var(--wpds-border-width-xs, 1px));padding-inline:calc(var(--wpds-dimension-padding-sm, 8px) - var(--wpds-border-width-xs, 1px))}}'));
+  style.setAttribute("data-wp-hash", "4130d64bea");
+  style.appendChild(document.createTextNode('@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._83ed8a8da5dd50ea__text{margin:0}._14437cfb77831647__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._14437cfb77831647__heading-2xl,._3c78b7fa9b4072dd__heading-xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499)}._3c78b7fa9b4072dd__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.aa58f227716bcde2__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);font-size:var(--wpds-typography-font-size-lg,15px)}.aa58f227716bcde2__heading-lg,.fc4da56d8dfe52c4__heading-md{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-sm,20px)}.fc4da56d8dfe52c4__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);font-size:var(--wpds-typography-font-size-md,13px)}.a9b78c7c82e8dff7__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._305ff559e52180d5__body-xl{--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._305ff559e52180d5__body-xl,.ca1aa3fc2029e958__body-lg{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}.ca1aa3fc2029e958__body-lg{--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._131101940be12424__body-md{--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0e8d87a42c1f75fa__body-sm,._131101940be12424__body-md{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}._0e8d87a42c1f75fa__body-sm{--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}'));
   document.head.appendChild(style);
 }
-var style_default = { "badge": "_96e6251aad1a6136__badge", "is-high-intent": "_99f7158cb520f750__is-high-intent", "is-medium-intent": "c20ebef2365bc8b7__is-medium-intent", "is-low-intent": "_365e1626c6202e52__is-low-intent", "is-stable-intent": "_33f8198127ddf4ef__is-stable-intent", "is-informational-intent": "_04c1aca8fc449412__is-informational-intent", "is-draft-intent": "_90726e69d495ec19__is-draft-intent", "is-none-intent": "_898f4a544993bd39__is-none-intent" };
-var Badge = (0, import_element2.forwardRef)(function Badge2({ children, intent = "none", render, className, ...props }, ref) {
+var style_default = { "text": "_83ed8a8da5dd50ea__text", "heading-2xl": "_14437cfb77831647__heading-2xl", "heading-xl": "_3c78b7fa9b4072dd__heading-xl", "heading-lg": "aa58f227716bcde2__heading-lg", "heading-md": "fc4da56d8dfe52c4__heading-md", "heading-sm": "a9b78c7c82e8dff7__heading-sm", "body-xl": "_305ff559e52180d5__body-xl", "body-lg": "ca1aa3fc2029e958__body-lg", "body-md": "_131101940be12424__body-md", "body-sm": "_0e8d87a42c1f75fa__body-sm" };
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='1fb29d3a3c']")) {
+  const style = document.createElement("style");
+  style.setAttribute("data-wp-hash", "1fb29d3a3c");
+  style.appendChild(document.createTextNode("._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,#0000);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 #0000);color:var(--_gcd-input-color,var(--wpds-color-fg-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,#0000);border-color:var(--_gcd-input-border-color-disabled,#0000);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-fg-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-fg-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid #0000)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-fg-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid #0000);transition:var(--_gcd-a-transition,none)}"));
+  document.head.appendChild(style);
+}
+var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
+var Text = (0, import_element2.forwardRef)(function Text2({ variant = "body-md", render, className, ...props }, ref) {
   const element = useRender({
     render,
     defaultTagName: "span",
     ref,
     props: mergeProps(props, {
       className: clsx_default(
-        style_default.badge,
-        style_default[`is-${intent}-intent`],
+        style_default.text,
+        variant.startsWith("heading-") && global_css_defense_default.heading,
+        variant.startsWith("body-") && global_css_defense_default.p,
+        style_default[variant],
         className
-      ),
-      children
+      )
     })
   });
   return element;
 });
 
+// packages/ui/build-module/badge/badge.mjs
+var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='d6a685e1aa']")) {
+  const style = document.createElement("style");
+  style.setAttribute("data-wp-hash", "d6a685e1aa");
+  style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._96e6251aad1a6136__badge{border-radius:var(--wpds-border-radius-lg,8px);padding-block:var(--wpds-dimension-padding-xs,4px);padding-inline:var(--wpds-dimension-padding-sm,8px)}._99f7158cb520f750__is-high-intent{background-color:var(--wpds-color-bg-surface-error,#f6e6e3);color:var(--wpds-color-fg-content-error,#470000)}.c20ebef2365bc8b7__is-medium-intent{background-color:var(--wpds-color-bg-surface-warning,#fde6be);color:var(--wpds-color-fg-content-warning,#2e1900)}._365e1626c6202e52__is-low-intent{background-color:var(--wpds-color-bg-surface-caution,#fee995);color:var(--wpds-color-fg-content-caution,#281d00)}._33f8198127ddf4ef__is-stable-intent{background-color:var(--wpds-color-bg-surface-success,#c6f7cd);color:var(--wpds-color-fg-content-success,#002900)}._04c1aca8fc449412__is-informational-intent{background-color:var(--wpds-color-bg-surface-info,#deebfa);color:var(--wpds-color-fg-content-info,#001b4f)}._90726e69d495ec19__is-draft-intent{background-color:var(--wpds-color-bg-surface-neutral-weak,#f4f4f4);color:var(--wpds-color-fg-content-neutral,#1e1e1e)}._898f4a544993bd39__is-none-intent{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);color:var(--wpds-color-fg-content-neutral,#1e1e1e);padding-block:calc(var(--wpds-dimension-padding-xs, 4px) - var(--wpds-border-width-xs, 1px));padding-inline:calc(var(--wpds-dimension-padding-sm, 8px) - var(--wpds-border-width-xs, 1px))}}"));
+  document.head.appendChild(style);
+}
+var style_default2 = { "badge": "_96e6251aad1a6136__badge", "is-high-intent": "_99f7158cb520f750__is-high-intent", "is-medium-intent": "c20ebef2365bc8b7__is-medium-intent", "is-low-intent": "_365e1626c6202e52__is-low-intent", "is-stable-intent": "_33f8198127ddf4ef__is-stable-intent", "is-informational-intent": "_04c1aca8fc449412__is-informational-intent", "is-draft-intent": "_90726e69d495ec19__is-draft-intent", "is-none-intent": "_898f4a544993bd39__is-none-intent" };
+var Badge = (0, import_element3.forwardRef)(function Badge2({ intent = "none", className, ...props }, ref) {
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+    Text,
+    {
+      ref,
+      className: clsx_default(
+        style_default2.badge,
+        style_default2[`is-${intent}-intent`],
+        className
+      ),
+      ...props,
+      variant: "body-sm"
+    }
+  );
+});
+
 // packages/ui/build-module/stack/stack.mjs
-var import_element3 = __toESM(require_element(), 1);
+var import_element4 = __toESM(require_element(), 1);
 if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='b51ff41489']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "b51ff41489");
   style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._19ce0419607e1896__stack{display:flex}}"));
   document.head.appendChild(style);
 }
-var style_default2 = { "stack": "_19ce0419607e1896__stack" };
+var style_default3 = { "stack": "_19ce0419607e1896__stack" };
 var gapTokens = {
   xs: "var(--wpds-dimension-gap-xs, 4px)",
   sm: "var(--wpds-dimension-gap-sm, 8px)",
@@ -600,7 +684,7 @@ var gapTokens = {
   "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
   "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
 };
-var Stack = (0, import_element3.forwardRef)(function Stack2({ direction, gap, align, justify, wrap, render, ...props }, ref) {
+var Stack = (0, import_element4.forwardRef)(function Stack2({ direction, gap, align, justify, wrap, render, ...props }, ref) {
   const style = {
     gap: gap && gapTokens[gap],
     alignItems: align,
@@ -611,7 +695,7 @@ var Stack = (0, import_element3.forwardRef)(function Stack2({ direction, gap, al
   const element = useRender({
     render,
     ref,
-    props: mergeProps(props, { style, className: style_default2.stack })
+    props: mergeProps(props, { style, className: style_default3.stack })
   });
   return element;
 });
@@ -621,7 +705,7 @@ var import_components = __toESM(require_components(), 1);
 var { Fill: SidebarToggleFill, Slot: SidebarToggleSlot } = (0, import_components.createSlotFill)("SidebarToggle");
 
 // packages/admin-ui/build-module/page/header.mjs
-var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
 function Header({
   headingLevel = 2,
   breadcrumbs,
@@ -632,27 +716,27 @@ function Header({
   showSidebarToggle = true
 }) {
   const HeadingTag = `h${headingLevel}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
     Stack,
     {
       direction: "column",
       className: "admin-ui-page__header",
-      render: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("header", {}),
+      render: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("header", {}),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
-            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
+            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
               SidebarToggleSlot,
               {
                 bubblesVirtually: true,
                 className: "admin-ui-page__sidebar-toggle-slot"
               }
             ),
-            title && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
+            title && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
             breadcrumbs,
             badges
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
             Stack,
             {
               direction: "row",
@@ -664,14 +748,14 @@ function Header({
             }
           )
         ] }),
-        subTitle && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
+        subTitle && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
       ]
     }
   );
 }
 
 // packages/admin-ui/build-module/page/index.mjs
-var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
 function Page({
   headingLevel,
   breadcrumbs,
@@ -687,8 +771,8 @@ function Page({
 }) {
   const classes = clsx_default("admin-ui-page", className);
   const effectiveAriaLabel = ariaLabel ?? (typeof title === "string" ? title : "");
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(navigable_region_default, { className: classes, ariaLabel: effectiveAriaLabel, children: [
-    (title || breadcrumbs || badges || actions) && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(navigable_region_default, { className: classes, ariaLabel: effectiveAriaLabel, children: [
+    (title || breadcrumbs || badges || actions) && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       Header,
       {
         headingLevel,
@@ -700,7 +784,7 @@ function Page({
         showSidebarToggle
       }
     ),
-    hasPadding ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "admin-ui-page__content has-padding", children }) : children
+    hasPadding ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "admin-ui-page__content has-padding", children }) : children
   ] });
 }
 Page.SidebarToggleFill = SidebarToggleFill;
@@ -708,12 +792,12 @@ var page_default = Page;
 
 // routes/connectors-home/stage.tsx
 var import_components4 = __toESM(require_components());
-var import_data3 = __toESM(require_data());
-var import_element7 = __toESM(require_element());
+var import_data4 = __toESM(require_data());
+var import_element8 = __toESM(require_element());
 var import_i18n4 = __toESM(require_i18n());
 var import_core_data3 = __toESM(require_core_data());
 import {
-  privateApis as connectorsPrivateApis
+  privateApis as connectorsPrivateApis2
 } from "@wordpress/connectors";
 
 // routes/connectors-home/style.scss
@@ -727,28 +811,37 @@ if (typeof document !== "undefined" && true && !document.head.querySelector("sty
 // routes/connectors-home/ai-plugin-callout.tsx
 var import_components3 = __toESM(require_components());
 var import_core_data2 = __toESM(require_core_data());
-var import_data2 = __toESM(require_data());
-var import_element6 = __toESM(require_element());
+var import_data3 = __toESM(require_data());
+var import_element7 = __toESM(require_element());
 var import_i18n3 = __toESM(require_i18n());
+var import_notices2 = __toESM(require_notices());
 var import_url = __toESM(require_url());
-import { speak as speak2 } from "@wordpress/a11y";
 
 // routes/connectors-home/default-connectors.tsx
 var import_components2 = __toESM(require_components());
-var import_element5 = __toESM(require_element());
+var import_element6 = __toESM(require_element());
+var import_data2 = __toESM(require_data());
 var import_i18n2 = __toESM(require_i18n());
 import {
   __experimentalRegisterConnector as registerConnector,
   __experimentalConnectorItem as ConnectorItem,
-  __experimentalDefaultConnectorSettings as DefaultConnectorSettings
+  __experimentalDefaultConnectorSettings as DefaultConnectorSettings,
+  privateApis as connectorsPrivateApis
 } from "@wordpress/connectors";
+
+// routes/lock-unlock.ts
+var import_private_apis = __toESM(require_private_apis());
+var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/routes"
+);
 
 // routes/connectors-home/use-connector-plugin.ts
 var import_core_data = __toESM(require_core_data());
 var import_data = __toESM(require_data());
-var import_element4 = __toESM(require_element());
+var import_element5 = __toESM(require_element());
 var import_i18n = __toESM(require_i18n());
-import { speak } from "@wordpress/a11y";
+var import_notices = __toESM(require_notices());
 function useConnectorPlugin({
   file: pluginFileFromServer,
   settingName,
@@ -758,10 +851,10 @@ function useConnectorPlugin({
   keySource = "none",
   initialIsConnected = false
 }) {
-  const [isExpanded, setIsExpanded] = (0, import_element4.useState)(false);
-  const [isBusy, setIsBusy] = (0, import_element4.useState)(false);
-  const [connectedState, setConnectedState] = (0, import_element4.useState)(initialIsConnected);
-  const [pluginStatusOverride, setPluginStatusOverride] = (0, import_element4.useState)(null);
+  const [isExpanded, setIsExpanded] = (0, import_element5.useState)(false);
+  const [isBusy, setIsBusy] = (0, import_element5.useState)(false);
+  const [connectedState, setConnectedState] = (0, import_element5.useState)(initialIsConnected);
+  const [pluginStatusOverride, setPluginStatusOverride] = (0, import_element5.useState)(null);
   const pluginBasename = pluginFileFromServer?.replace(/\.php$/, "");
   const pluginSlug = pluginBasename?.includes("/") ? pluginBasename.split("/")[0] : pluginBasename;
   const {
@@ -770,8 +863,8 @@ function useConnectorPlugin({
     currentApiKey,
     canInstallPlugins
   } = (0, import_data.useSelect)(
-    (select) => {
-      const store2 = select(import_core_data.store);
+    (select2) => {
+      const store2 = select2(import_core_data.store);
       const siteSettings = store2.getEntityRecord("root", "site");
       const apiKey = siteSettings?.[settingName] ?? "";
       const canCreate = !!store2.canUser("create", {
@@ -836,6 +929,7 @@ function useConnectorPlugin({
   // update connected state (mirrors what the server would report on page load).
   pluginStatusOverride === "active" && !!currentApiKey;
   const { saveEntityRecord, invalidateResolution } = (0, import_data.useDispatch)(import_core_data.store);
+  const { createSuccessNotice, createErrorNotice } = (0, import_data.useDispatch)(import_notices.store);
   const installPlugin = async () => {
     if (!pluginSlug) {
       return;
@@ -851,21 +945,28 @@ function useConnectorPlugin({
       setPluginStatusOverride("active");
       invalidateResolution("getEntityRecord", ["root", "site"]);
       setIsExpanded(true);
-      speak(
+      createSuccessNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("Plugin for %s installed and activated successfully."),
           connectorName
-        )
+        ),
+        {
+          id: "connector-plugin-install-success",
+          type: "snackbar"
+        }
       );
     } catch {
-      speak(
+      createErrorNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("Failed to install plugin for %s."),
           connectorName
         ),
-        "assertive"
+        {
+          id: "connector-plugin-install-error",
+          type: "snackbar"
+        }
       );
     } finally {
       setIsBusy(false);
@@ -889,21 +990,28 @@ function useConnectorPlugin({
       setPluginStatusOverride("active");
       invalidateResolution("getEntityRecord", ["root", "site"]);
       setIsExpanded(true);
-      speak(
+      createSuccessNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("Plugin for %s activated successfully."),
           connectorName
-        )
+        ),
+        {
+          id: "connector-plugin-activate-success",
+          type: "snackbar"
+        }
       );
     } catch {
-      speak(
+      createErrorNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("Failed to activate plugin for %s."),
           connectorName
         ),
-        "assertive"
+        {
+          id: "connector-plugin-activate-error",
+          type: "snackbar"
+        }
       );
     } finally {
       setIsBusy(false);
@@ -962,12 +1070,16 @@ function useConnectorPlugin({
         );
       }
       setConnectedState(true);
-      speak(
+      createSuccessNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("%s connected successfully."),
           connectorName
-        )
+        ),
+        {
+          id: "connector-connect-success",
+          type: "snackbar"
+        }
       );
     } catch (error) {
       console.error("Failed to save API key:", error);
@@ -983,22 +1095,29 @@ function useConnectorPlugin({
         { throwOnError: true }
       );
       setConnectedState(false);
-      speak(
+      createSuccessNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("%s disconnected."),
           connectorName
-        )
+        ),
+        {
+          id: "connector-disconnect-success",
+          type: "snackbar"
+        }
       );
     } catch (error) {
       console.error("Failed to remove API key:", error);
-      speak(
+      createErrorNotice(
         (0, import_i18n.sprintf)(
           /* translators: %s: Name of the connector (e.g. "OpenAI"). */
           (0, import_i18n.__)("Failed to disconnect %s."),
           connectorName
         ),
-        "assertive"
+        {
+          id: "connector-disconnect-error",
+          type: "snackbar"
+        }
       );
       throw error;
     }
@@ -1181,6 +1300,7 @@ var GeminiLogo = () => /* @__PURE__ */ React.createElement(
 );
 
 // routes/connectors-home/default-connectors.tsx
+var { store: connectorsStore } = unlock(connectorsPrivateApis);
 function getConnectorData() {
   try {
     const parsed = JSON.parse(
@@ -1270,9 +1390,9 @@ function ApiKeyConnector({
   const isExternallyConfigured = keySource === "env" || keySource === "constant";
   const showUnavailableBadge = pluginStatus === "not-installed" && canInstallPlugins === false || pluginStatus === "inactive" && canActivatePlugins === false;
   const showActionButton = !showUnavailableBadge;
-  const actionButtonRef = (0, import_element5.useRef)(null);
-  const pendingFocusRef = (0, import_element5.useRef)(false);
-  (0, import_element5.useEffect)(() => {
+  const actionButtonRef = (0, import_element6.useRef)(null);
+  const pendingFocusRef = (0, import_element6.useRef)(false);
+  (0, import_element6.useEffect)(() => {
     if (pendingFocusRef.current && !isBusy) {
       pendingFocusRef.current = false;
       actionButtonRef.current?.focus();
@@ -1334,6 +1454,9 @@ function registerDefaultConnectors() {
   const connectors = getConnectorData();
   const sanitize = (s) => s.replace(/[^a-z0-9-_]/gi, "-");
   for (const [connectorId, data] of Object.entries(connectors)) {
+    if (connectorId === "akismet" && !data.plugin?.isInstalled) {
+      continue;
+    }
     const { authentication } = data;
     const connectorName = sanitize(connectorId);
     const args = {
@@ -1344,7 +1467,10 @@ function registerDefaultConnectors() {
       authentication,
       plugin: data.plugin
     };
-    if (authentication.method === "api_key") {
+    const existing = unlock((0, import_data2.select)(connectorsStore)).getConnector(
+      connectorName
+    );
+    if (authentication.method === "api_key" && !existing?.render) {
       args.render = ApiKeyConnector;
     }
     registerConnector(connectorName, args);
@@ -1394,6 +1520,7 @@ function WpLogoDecoration() {
 
 // routes/connectors-home/ai-plugin-callout.tsx
 var AI_PLUGIN_SLUG = "ai";
+var AI_PLUGIN_PAGE_SLUG = "ai-wp-admin";
 var AI_PLUGIN_ID = "ai/ai";
 var AI_PLUGIN_URL = "https://wordpress.org/plugins/ai/";
 var connectorDataValues = Object.values(getConnectorData());
@@ -1407,15 +1534,15 @@ for (const c of connectorDataValues) {
   }
 }
 function AiPluginCallout() {
-  const [isBusy, setIsBusy] = (0, import_element6.useState)(false);
-  const [justActivated, setJustActivated] = (0, import_element6.useState)(false);
-  const actionButtonRef = (0, import_element6.useRef)(null);
-  (0, import_element6.useEffect)(() => {
+  const [isBusy, setIsBusy] = (0, import_element7.useState)(false);
+  const [justActivated, setJustActivated] = (0, import_element7.useState)(false);
+  const actionButtonRef = (0, import_element7.useRef)(null);
+  (0, import_element7.useEffect)(() => {
     if (justActivated) {
       actionButtonRef.current?.focus();
     }
   }, [justActivated]);
-  const initialHasConnectedProvider = (0, import_element6.useRef)(
+  const initialHasConnectedProvider = (0, import_element7.useRef)(
     connectorDataValues.some(
       (c) => c.type === "ai_provider" && c.authentication.method === "api_key" && c.authentication.isConnected
     )
@@ -1425,8 +1552,8 @@ function AiPluginCallout() {
     canInstallPlugins,
     canManagePlugins,
     hasConnectedProvider
-  } = (0, import_data2.useSelect)((select) => {
-    const store2 = select(import_core_data2.store);
+  } = (0, import_data3.useSelect)((select2) => {
+    const store2 = select2(import_core_data2.store);
     const canCreate = !!store2.canUser("create", {
       kind: "root",
       name: "plugin"
@@ -1468,7 +1595,8 @@ function AiPluginCallout() {
       hasConnectedProvider: hasConnected
     };
   }, []);
-  const { saveEntityRecord } = (0, import_data2.useDispatch)(import_core_data2.store);
+  const { saveEntityRecord } = (0, import_data3.useDispatch)(import_core_data2.store);
+  const { createSuccessNotice, createErrorNotice } = (0, import_data3.useDispatch)(import_notices2.store);
   const installPlugin = async () => {
     setIsBusy(true);
     try {
@@ -1479,9 +1607,18 @@ function AiPluginCallout() {
         { throwOnError: true }
       );
       setJustActivated(true);
-      speak2((0, import_i18n3.__)("AI plugin installed and activated successfully."));
+      createSuccessNotice(
+        (0, import_i18n3.__)("AI plugin installed and activated successfully."),
+        {
+          id: "ai-plugin-install-success",
+          type: "snackbar"
+        }
+      );
     } catch {
-      speak2((0, import_i18n3.__)("Failed to install the AI plugin."), "assertive");
+      createErrorNotice((0, import_i18n3.__)("Failed to install the AI plugin."), {
+        id: "ai-plugin-install-error",
+        type: "snackbar"
+      });
     } finally {
       setIsBusy(false);
     }
@@ -1496,9 +1633,15 @@ function AiPluginCallout() {
         { throwOnError: true }
       );
       setJustActivated(true);
-      speak2((0, import_i18n3.__)("AI plugin activated successfully."));
+      createSuccessNotice((0, import_i18n3.__)("AI plugin activated successfully."), {
+        id: "ai-plugin-activate-success",
+        type: "snackbar"
+      });
     } catch {
-      speak2((0, import_i18n3.__)("Failed to activate the AI plugin."), "assertive");
+      createErrorNotice((0, import_i18n3.__)("Failed to activate the AI plugin."), {
+        id: "ai-plugin-activate-error",
+        type: "snackbar"
+      });
     } finally {
       setIsBusy(false);
     }
@@ -1550,7 +1693,7 @@ function AiPluginCallout() {
       onClick: isBusy ? void 0 : activatePlugin
     };
   };
-  return /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout" }, /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout__content" }, /* @__PURE__ */ React.createElement("p", null, (0, import_element6.createInterpolateElement)(getMessage(), {
+  return /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout" }, /* @__PURE__ */ React.createElement("div", { className: "ai-plugin-callout__content" }, /* @__PURE__ */ React.createElement("p", null, (0, import_element7.createInterpolateElement)(getMessage(), {
     strong: /* @__PURE__ */ React.createElement("strong", null),
     // @ts-ignore children are injected by createInterpolateElement at runtime.
     a: /* @__PURE__ */ React.createElement(import_components3.ExternalLink, { href: AI_PLUGIN_URL })
@@ -1572,28 +1715,21 @@ function AiPluginCallout() {
       variant: "secondary",
       size: "compact",
       href: (0, import_url.addQueryArgs)("options-general.php", {
-        page: AI_PLUGIN_SLUG
+        page: AI_PLUGIN_PAGE_SLUG
       })
     },
     (0, import_i18n3.__)("Control features in the AI plugin")
   )), /* @__PURE__ */ React.createElement(WpLogoDecoration, null));
 }
 
-// routes/lock-unlock.ts
-var import_private_apis = __toESM(require_private_apis());
-var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-  "@wordpress/routes"
-);
-
 // routes/connectors-home/stage.tsx
-var { store } = unlock(connectorsPrivateApis);
+var { store } = unlock(connectorsPrivateApis2);
 registerDefaultConnectors();
 function ConnectorsPage() {
-  const { connectors, canInstallPlugins } = (0, import_data3.useSelect)(
-    (select) => ({
-      connectors: unlock(select(store)).getConnectors(),
-      canInstallPlugins: select(import_core_data3.store).canUser("create", {
+  const { connectors, canInstallPlugins } = (0, import_data4.useSelect)(
+    (select2) => ({
+      connectors: unlock(select2(store)).getConnectors(),
+      canInstallPlugins: select2(import_core_data3.store).canUser("create", {
         kind: "root",
         name: "plugin"
       })
@@ -1647,7 +1783,7 @@ function ConnectorsPage() {
         }
         return null;
       })),
-      canInstallPlugins && /* @__PURE__ */ React.createElement("p", null, (0, import_element7.createInterpolateElement)(
+      canInstallPlugins && /* @__PURE__ */ React.createElement("p", null, (0, import_element8.createInterpolateElement)(
         (0, import_i18n4.__)(
           "If the connector you need is not listed, <a>search the plugin directory</a> to see if a connector is available."
         ),

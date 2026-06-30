@@ -157,7 +157,7 @@ function isURL(url) {
   try {
     new URL(url);
     return true;
-  } catch (_) {
+  } catch {
     return false;
   }
 }
@@ -386,7 +386,7 @@ async function fetchModule(url, fetchOpts, parent) {
   let res;
   try {
     res = await fetch(url, fetchOpts);
-  } catch (e) {
+  } catch {
     throw Error(`Network error${fetching(url, parent)}.`);
   }
   if (!res.ok) {
@@ -690,7 +690,7 @@ var parseRegionAttribute = (region) => {
   try {
     const { id, attachTo } = JSON.parse(value);
     return { id, attachTo };
-  } catch (e) {
+  } catch {
     return { id: value };
   }
 };
@@ -722,7 +722,7 @@ var fetchPage = async (url, { html }) => {
     }
     const dom = new window.DOMParser().parseFromString(html, "text/html");
     return await preparePage(url, dom);
-  } catch (e) {
+  } catch {
     return false;
   }
 };

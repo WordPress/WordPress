@@ -421,9 +421,9 @@ var wp;
     SelectionType: () => SelectionType,
     __experimentalFetchLinkSuggestions: () => fetchLinkSuggestions,
     __experimentalFetchUrlData: () => experimental_fetch_url_data_default,
-    __experimentalUseEntityRecord: () => __experimentalUseEntityRecord,
-    __experimentalUseEntityRecords: () => __experimentalUseEntityRecords,
-    __experimentalUseResourcePermissions: () => __experimentalUseResourcePermissions,
+    __experimentalUseEntityRecord: () => useDeprecatedEntityRecord,
+    __experimentalUseEntityRecords: () => useDeprecatedEntityRecords,
+    __experimentalUseResourcePermissions: () => useDeprecatedResourcePermissions,
     fetchBlockPatterns: () => fetchBlockPatterns,
     privateApis: () => privateApis,
     store: () => store,
@@ -700,7 +700,8 @@ var wp;
 
   // packages/core-data/build-module/queried-data/selectors.mjs
   var queriedItemsCacheByState = /* @__PURE__ */ new WeakMap();
-  function getQueriedItemsUncached(state, query) {
+  function getQueriedItemsUncached(state, query, options = {}) {
+    const { supportsPagination = true } = options;
     const {
       stableKey,
       page,
@@ -714,9 +715,10 @@ var wp;
     if (!itemIds) {
       return null;
     }
-    const startOffset = perPage === -1 ? 0 : queryOffset ?? (page - 1) * perPage;
-    const endOffset = perPage === -1 ? itemIds.length : Math.min(startOffset + perPage, itemIds.length);
-    if (perPage !== -1 && itemIds.length < startOffset + perPage) {
+    const isPaginated = supportsPagination && perPage !== -1;
+    const startOffset = isPaginated ? queryOffset ?? (page - 1) * perPage : 0;
+    const endOffset = isPaginated ? Math.min(startOffset + perPage, itemIds.length) : itemIds.length;
+    if (isPaginated && itemIds.length < startOffset + perPage) {
       const totalItems = state.queries[context][stableKey].meta?.totalItems;
       if (Number.isFinite(totalItems) && itemIds.length < totalItems) {
         return null;
@@ -756,21 +758,23 @@ var wp;
     }
     return items2;
   }
-  var getQueriedItems = (0, import_data.createSelector)((state, query = {}) => {
-    let queriedItemsCache = queriedItemsCacheByState.get(state);
-    if (queriedItemsCache) {
-      const queriedItems = queriedItemsCache.get(query);
-      if (queriedItems !== void 0) {
-        return queriedItems;
+  var getQueriedItems = (0, import_data.createSelector)(
+    (state, query = {}, options = {}) => {
+      let queriedItemsCache = queriedItemsCacheByState.get(state);
+      if (queriedItemsCache) {
+        const queriedItems = queriedItemsCache.get(query);
+        if (queriedItems !== void 0) {
+          return queriedItems;
+        }
+      } else {
+        queriedItemsCache = new import_equivalent_key_map.default();
+        queriedItemsCacheByState.set(state, queriedItemsCache);
       }
-    } else {
-      queriedItemsCache = new import_equivalent_key_map.default();
-      queriedItemsCacheByState.set(state, queriedItemsCache);
+      const items2 = getQueriedItemsUncached(state, query, options);
+      queriedItemsCache.set(query, items2);
+      return items2;
     }
-    const items2 = getQueriedItemsUncached(state, query);
-    queriedItemsCache.set(query, items2);
-    return items2;
-  });
+  );
   function getQueriedTotalItems(state, query = {}) {
     const { stableKey, context } = get_query_parts_default(query);
     return state.queries?.[context]?.[stableKey]?.meta?.totalItems ?? null;
@@ -2031,7 +2035,7 @@ var wp;
       const { name, innerBlocks, attributes, ...rest } = block;
       const newAttributes = { ...attributes };
       for (const [key, value] of Object.entries(attributes)) {
-        const schema = getBlockAttributeType(name, key);
+        const schema = getBlockAttributeSchema(name, key);
         if (schema) {
           newAttributes[key] = deserializeAttributeValue(
             schema,
@@ -2080,11 +2084,44 @@ var wp;
     );
   }
   function createNewYAttributeValue(blockName, attributeName, attributeValue) {
-    const isRichText = isRichTextAttribute(blockName, attributeName);
-    if (isRichText) {
-      return new import_sync9.Y.Text(attributeValue?.toString() ?? "");
+    const schema = getBlockAttributeSchema(blockName, attributeName);
+    return createYValueFromSchema(schema, attributeValue);
+  }
+  function createYValueFromSchema(schema, value) {
+    if (!schema) {
+      return value;
     }
-    return attributeValue;
+    if (schema.type === "rich-text") {
+      return new import_sync9.Y.Text(value?.toString() ?? "");
+    }
+    if (schema.type === "array" && schema.query && Array.isArray(value)) {
+      const query = schema.query;
+      const yArray = new import_sync9.Y.Array();
+      yArray.insert(
+        0,
+        value.map((item) => createYMapFromQuery(query, item))
+      );
+      return yArray;
+    }
+    if (schema.type === "object" && schema.query && isRecord(value)) {
+      return createYMapFromQuery(schema.query, value);
+    }
+    return value;
+  }
+  function isRecord(value) {
+    return !!value && typeof value === "object" && !Array.isArray(value);
+  }
+  function createYMapFromQuery(query, obj) {
+    if (!isRecord(obj)) {
+      return new import_sync9.Y.Map();
+    }
+    const entries = Object.entries(obj).map(
+      ([key, val]) => {
+        const subSchema = query[key];
+        return [key, createYValueFromSchema(subSchema, val)];
+      }
+    );
+    return new import_sync9.Y.Map(entries);
   }
   function createNewYBlock(block) {
     return createYMap(
@@ -2169,7 +2206,8 @@ var wp;
                   attributeName,
                   currentAttribute
                 );
-                const isAttributeChanged = !isExpectedType || !(0, import_es62.default)(
+                const isYType = currentAttribute instanceof import_sync9.Y.AbstractType;
+                const isAttributeChanged = !isExpectedType || isYType || !(0, import_es62.default)(
                   currentAttribute,
                   attributeValue
                 );
@@ -2237,24 +2275,110 @@ var wp;
       knownClientIds.add(clientId);
     }
   }
-  function updateYBlockAttribute(blockName, attributeName, attributeValue, currentAttributes, cursorPosition) {
-    const isRichText = isRichTextAttribute(blockName, attributeName);
-    const currentAttribute = currentAttributes.get(attributeName);
-    if (isRichText && "string" === typeof attributeValue && currentAttributes.has(attributeName) && currentAttribute instanceof import_sync9.Y.Text) {
-      mergeRichTextUpdate(currentAttribute, attributeValue, cursorPosition);
-    } else {
-      currentAttributes.set(
-        attributeName,
-        createNewYAttributeValue(blockName, attributeName, attributeValue)
+  function areArrayElementsEqual(newElement, yElement) {
+    if (yElement instanceof import_sync9.Y.Map && isRecord(newElement)) {
+      return (0, import_es62.default)(newElement, yElement.toJSON());
+    }
+    return (0, import_es62.default)(newElement, yElement);
+  }
+  function mergeYArray(yArray, newValue, schema, cursorPosition) {
+    if (!schema.query) {
+      return;
+    }
+    const query = schema.query;
+    const numOfCommonEntries = Math.min(newValue.length, yArray.length);
+    let left = 0;
+    let right = 0;
+    for (; left < numOfCommonEntries && areArrayElementsEqual(newValue[left], yArray.get(left)); left++) {
+    }
+    for (; right < numOfCommonEntries - left && areArrayElementsEqual(
+      newValue[newValue.length - right - 1],
+      yArray.get(yArray.length - right - 1)
+    ); right++) {
+    }
+    const numOfUpdatesNeeded = numOfCommonEntries - left - right;
+    for (let i = 0; i < numOfUpdatesNeeded; i++) {
+      const currentElement = yArray.get(left + i);
+      const newElement = newValue[left + i];
+      if (currentElement instanceof import_sync9.Y.Map && isRecord(newElement)) {
+        mergeYMapValues(
+          currentElement,
+          newElement,
+          query,
+          cursorPosition
+        );
+      } else {
+        yArray.delete(0, yArray.length);
+        yArray.insert(
+          0,
+          newValue.map((item) => createYMapFromQuery(query, item))
+        );
+        return;
+      }
+    }
+    const numOfDeletionsNeeded = Math.max(0, yArray.length - newValue.length);
+    if (numOfDeletionsNeeded > 0) {
+      yArray.delete(left + numOfUpdatesNeeded, numOfDeletionsNeeded);
+    }
+    const numOfInsertionsNeeded = Math.max(
+      0,
+      newValue.length - yArray.length
+    );
+    if (numOfInsertionsNeeded > 0) {
+      const insertAt = left + numOfUpdatesNeeded;
+      const itemsToInsert = new Array(
+        numOfInsertionsNeeded
       );
+      for (let i = 0; i < numOfInsertionsNeeded; i++) {
+        itemsToInsert[i] = createYMapFromQuery(
+          query,
+          newValue[insertAt + i]
+        );
+      }
+      yArray.insert(insertAt, itemsToInsert);
     }
   }
-  var cachedBlockAttributeTypes;
-  function getBlockAttributeType(blockName, attributeName) {
-    if (!cachedBlockAttributeTypes) {
-      cachedBlockAttributeTypes = /* @__PURE__ */ new Map();
+  function mergeYValue(schema, newVal, yMap, key, cursorPosition) {
+    const currentVal = yMap.get(key);
+    if (schema?.type === "rich-text" && typeof newVal === "string" && currentVal instanceof import_sync9.Y.Text) {
+      mergeRichTextUpdate(currentVal, newVal, cursorPosition);
+    } else if (schema?.type === "array" && schema.query && Array.isArray(newVal) && currentVal instanceof import_sync9.Y.Array) {
+      mergeYArray(currentVal, newVal, schema, cursorPosition);
+    } else if (schema?.type === "object" && schema.query && isRecord(newVal) && currentVal instanceof import_sync9.Y.Map) {
+      mergeYMapValues(currentVal, newVal, schema.query, cursorPosition);
+    } else {
+      const newYValue = createYValueFromSchema(schema, newVal);
+      if (newYValue !== newVal || !(0, import_es62.default)(currentVal, newVal)) {
+        yMap.set(key, newYValue);
+      }
+    }
+  }
+  function mergeYMapValues(yMap, newObj, query, cursorPosition) {
+    for (const [key, newVal] of Object.entries(newObj)) {
+      mergeYValue(query[key], newVal, yMap, key, cursorPosition);
+    }
+    for (const key of yMap.keys()) {
+      if (!Object.hasOwn(newObj, key)) {
+        yMap.delete(key);
+      }
+    }
+  }
+  function updateYBlockAttribute(blockName, attributeName, attributeValue, currentAttributes, cursorPosition) {
+    const schema = getBlockAttributeSchema(blockName, attributeName);
+    mergeYValue(
+      schema,
+      attributeValue,
+      currentAttributes,
+      attributeName,
+      cursorPosition
+    );
+  }
+  var cachedBlockAttributeSchemas;
+  function getBlockAttributeSchema(blockName, attributeName) {
+    if (!cachedBlockAttributeSchemas) {
+      cachedBlockAttributeSchemas = /* @__PURE__ */ new Map();
       for (const blockType of (0, import_blocks.getBlockTypes)()) {
-        cachedBlockAttributeTypes.set(
+        cachedBlockAttributeSchemas.set(
           blockType.name,
           new Map(
             Object.entries(blockType.attributes ?? {}).map(
@@ -2267,26 +2391,26 @@ var wp;
         );
       }
     }
-    return cachedBlockAttributeTypes.get(blockName)?.get(attributeName);
+    return cachedBlockAttributeSchemas.get(blockName)?.get(attributeName);
   }
   function isExpectedAttributeType(blockName, attributeName, attributeValue) {
-    const expectedAttributeType = getBlockAttributeType(
-      blockName,
-      attributeName
-    )?.type;
-    if (expectedAttributeType === "rich-text") {
+    const schema = getBlockAttributeSchema(blockName, attributeName);
+    if (schema?.type === "rich-text") {
       return attributeValue instanceof import_sync9.Y.Text;
     }
-    if (expectedAttributeType === "string") {
+    if (schema?.type === "string") {
       return typeof attributeValue === "string";
+    }
+    if (schema?.type === "array" && schema.query) {
+      return attributeValue instanceof import_sync9.Y.Array;
+    }
+    if (schema?.type === "object" && schema.query) {
+      return attributeValue instanceof import_sync9.Y.Map;
     }
     return true;
   }
   function isLocalAttribute(blockName, attributeName) {
-    return "local" === getBlockAttributeType(blockName, attributeName)?.role;
-  }
-  function isRichTextAttribute(blockName, attributeName) {
-    return "rich-text" === getBlockAttributeType(blockName, attributeName)?.type;
+    return "local" === getBlockAttributeSchema(blockName, attributeName)?.role;
   }
   var localDoc;
   function mergeRichTextUpdate(blockYText, updatedValue, cursorPosition = null) {
@@ -2646,13 +2770,19 @@ var wp;
             return haveValuesChanged(currentValue, newValue);
           }
           case "meta": {
+            const currentMeta = currentValue ?? {};
             allowedMetaChanges = Object.fromEntries(
               Object.entries(newValue ?? {}).filter(
-                ([metaKey]) => !disallowedPostMetaKeys.has(metaKey)
+                ([metaKey]) => {
+                  if (disallowedPostMetaKeys.has(metaKey)) {
+                    return false;
+                  }
+                  return metaKey in currentMeta;
+                }
               )
             );
             const mergedValue = {
-              ...currentValue,
+              ...currentMeta,
               ...allowedMetaChanges
             };
             return haveValuesChanged(currentValue, mergedValue);
@@ -2703,6 +2833,12 @@ var wp;
     applyChangesToCRDTDoc: defaultApplyChangesToCRDTDoc,
     createAwareness: (ydoc) => new BaseAwareness(ydoc),
     getChangesFromCRDTDoc: defaultGetChangesFromCRDTDoc
+  };
+  var defaultCollectionSyncConfig = {
+    applyChangesToCRDTDoc: () => {
+    },
+    getChangesFromCRDTDoc: () => ({}),
+    shouldSync: (_, objectId) => null === objectId
   };
   function getRawValue(value) {
     if ("string" === typeof value) {
@@ -2770,7 +2906,8 @@ var wp;
       },
       // The entity doesn't support selecting multiple records.
       // The property is maintained for backward compatibility.
-      plural: "__unstableBases"
+      plural: "__unstableBases",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Post Type"),
@@ -2779,7 +2916,8 @@ var wp;
       key: "slug",
       baseURL: "/wp/v2/types",
       baseURLParams: { context: "edit" },
-      plural: "postTypes"
+      plural: "postTypes",
+      supportsPagination: false
     },
     {
       name: "media",
@@ -2798,7 +2936,8 @@ var wp;
       baseURL: "/wp/v2/taxonomies",
       baseURLParams: { context: "edit" },
       plural: "taxonomies",
-      label: (0, import_i18n.__)("Taxonomy")
+      label: (0, import_i18n.__)("Taxonomy"),
+      supportsPagination: false
     },
     {
       name: "sidebar",
@@ -2807,7 +2946,8 @@ var wp;
       baseURLParams: { context: "edit" },
       plural: "sidebars",
       transientEdits: { blocks: true },
-      label: (0, import_i18n.__)("Widget areas")
+      label: (0, import_i18n.__)("Widget areas"),
+      supportsPagination: false
     },
     {
       name: "widget",
@@ -2816,7 +2956,8 @@ var wp;
       baseURLParams: { context: "edit" },
       plural: "widgets",
       transientEdits: { blocks: true },
-      label: (0, import_i18n.__)("Widgets")
+      label: (0, import_i18n.__)("Widgets"),
+      supportsPagination: false
     },
     {
       name: "widgetType",
@@ -2824,7 +2965,8 @@ var wp;
       baseURL: "/wp/v2/widget-types",
       baseURLParams: { context: "edit" },
       plural: "widgetTypes",
-      label: (0, import_i18n.__)("Widget types")
+      label: (0, import_i18n.__)("Widget types"),
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("User"),
@@ -2843,7 +2985,8 @@ var wp;
       baseURLParams: { context: "edit" },
       plural: "comments",
       label: (0, import_i18n.__)("Comment"),
-      supportsPagination: true
+      supportsPagination: true,
+      syncConfig: defaultCollectionSyncConfig
     },
     {
       name: "menu",
@@ -2871,7 +3014,8 @@ var wp;
       baseURLParams: { context: "edit" },
       plural: "menuLocations",
       label: (0, import_i18n.__)("Menu Location"),
-      key: "name"
+      key: "name",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Global Styles"),
@@ -2892,7 +3036,8 @@ var wp;
       baseURL: "/wp/v2/themes",
       baseURLParams: { context: "edit" },
       plural: "themes",
-      key: "stylesheet"
+      key: "stylesheet",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Plugins"),
@@ -2901,7 +3046,8 @@ var wp;
       baseURL: "/wp/v2/plugins",
       baseURLParams: { context: "edit" },
       plural: "plugins",
-      key: "plugin"
+      key: "plugin",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Status"),
@@ -2910,14 +3056,16 @@ var wp;
       baseURL: "/wp/v2/statuses",
       baseURLParams: { context: "edit" },
       plural: "statuses",
-      key: "slug"
+      key: "slug",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Registered Templates"),
       name: "registeredTemplate",
       kind: "root",
       baseURL: "/wp/v2/registered-templates",
-      key: "id"
+      key: "id",
+      supportsPagination: false
     },
     {
       label: (0, import_i18n.__)("Font Collections"),
@@ -2936,15 +3084,10 @@ var wp;
       baseURL: "/wp/v2/icons",
       baseURLParams: { context: "view" },
       plural: "icons",
-      key: "name"
+      key: "name",
+      supportsPagination: false
     }
-  ].map((entity2) => {
-    const syncEnabledRootEntities = /* @__PURE__ */ new Set(["comment"]);
-    if (syncEnabledRootEntities.has(entity2.name)) {
-      entity2.syncConfig = defaultSyncConfig;
-    }
-    return entity2;
-  });
+  ];
   var deprecatedEntities = {
     root: {
       media: {
@@ -3116,6 +3259,7 @@ var wp;
       kind: "root",
       key: false,
       baseURL: "/wp/v2/settings",
+      supportsPagination: false,
       meta: {}
     };
     const site = await (0, import_api_fetch.default)({
@@ -3152,13 +3296,14 @@ var wp;
       return nextItemIds;
     }
     const nextItemIdsStartIndex = offset ?? (page - 1) * perPage;
+    const nextItemIdsRange = Math.max(perPage, nextItemIds.length);
     const size = Math.max(
       itemIds.length,
       nextItemIdsStartIndex + nextItemIds.length
     );
     const mergedItemIds = new Array(size);
     for (let i = 0; i < size; i++) {
-      const isInNextItemsRange = i >= nextItemIdsStartIndex && i < nextItemIdsStartIndex + perPage;
+      const isInNextItemsRange = i >= nextItemIdsStartIndex && i < nextItemIdsStartIndex + nextItemIdsRange;
       if (isInNextItemsRange) {
         mergedItemIds[i] = nextItemIds[i - nextItemIdsStartIndex];
       } else {
@@ -4241,7 +4386,9 @@ var wp;
     if (!queriedState) {
       return null;
     }
-    return getQueriedItems(queriedState, query);
+    return getQueriedItems(queriedState, query, {
+      supportsPagination: !!getEntityConfig(state, kind, name)?.supportsPagination
+    });
   });
   var getEntityRecordsTotalItems = (state, kind, name, query) => {
     logEntityDeprecation(kind, name, "getEntityRecordsTotalItems");
@@ -4257,7 +4404,7 @@ var wp;
     if (!queriedState) {
       return null;
     }
-    if (query?.per_page === -1) {
+    if (!getEntityConfig(state, kind, name)?.supportsPagination || query?.per_page === -1) {
       return 1;
     }
     const totalItems = getQueriedTotalItems(queriedState, query);
@@ -6184,7 +6331,7 @@ var wp;
         );
         dispatch3.__unstableReleaseStoreLock(lock2);
       });
-    } catch (e) {
+    } catch {
       dispatch3.__unstableReleaseStoreLock(lock2);
     }
   };
@@ -6208,7 +6355,7 @@ var wp;
         path: (0, import_url6.addQueryArgs)("/oembed/1.0/proxy", { url })
       });
       dispatch3.receiveEmbedPreview(url, embedProxyResponse);
-    } catch (error) {
+    } catch {
       dispatch3.receiveEmbedPreview(url, false);
     }
   };
@@ -6255,7 +6402,7 @@ var wp;
         method: "OPTIONS",
         parse: false
       });
-    } catch (error) {
+    } catch {
       return;
     }
     const permissions = getUserPermissionsFromAllowHeader(
@@ -6484,7 +6631,7 @@ var wp;
       const isPaginated = entityConfig.supportsPagination && query.per_page !== -1;
       try {
         response = await (0, import_api_fetch8.default)({ path, parse: !isPaginated });
-      } catch (error) {
+      } catch {
         return;
       }
       if (response) {
@@ -6579,7 +6726,7 @@ var wp;
       let record;
       try {
         record = await (0, import_api_fetch8.default)({ path });
-      } catch (error) {
+      } catch {
         return;
       }
       if (record) {
@@ -6606,7 +6753,7 @@ var wp;
         path: `${restNamespace}/${restBase}/?context=edit`,
         method: "OPTIONS"
       });
-    } catch (error) {
+    } catch {
       return;
     }
     if (options) {
@@ -6940,9 +7087,6 @@ var wp;
     return memoized;
   }
 
-  // packages/core-data/build-module/hooks/memoize.mjs
-  var memoize_default = memize;
-
   // packages/core-data/build-module/hooks/constants.mjs
   var Status = /* @__PURE__ */ ((Status2) => {
     Status2["Idle"] = "IDLE";
@@ -6966,7 +7110,7 @@ var wp;
       return mapQuerySelect(resolve, registry);
     }, deps);
   }
-  var enrichSelectors = memoize_default(((selectors) => {
+  var enrichSelectors = memize(((selectors) => {
     const resolvers = {};
     for (const selectorName in selectors) {
       if (META_SELECTORS.includes(selectorName)) {
@@ -7070,7 +7214,7 @@ var wp;
       ...mutations
     };
   }
-  function __experimentalUseEntityRecord(kind, name, recordId, options) {
+  function useDeprecatedEntityRecord(kind, name, recordId, options) {
     (0, import_deprecated4.default)(`wp.data.__experimentalUseEntityRecord`, {
       alternative: "wp.data.useEntityRecord",
       since: "6.1"
@@ -7128,7 +7272,7 @@ var wp;
       ...rest
     };
   }
-  function __experimentalUseEntityRecords(kind, name, queryArgs, options) {
+  function useDeprecatedEntityRecords(kind, name, queryArgs, options) {
     (0, import_deprecated5.default)(`wp.data.__experimentalUseEntityRecords`, {
       alternative: "wp.data.useEntityRecords",
       since: "6.1"
@@ -7248,7 +7392,7 @@ var wp;
     );
   }
   var use_resource_permissions_default = useResourcePermissions;
-  function __experimentalUseResourcePermissions(resource, id) {
+  function useDeprecatedResourcePermissions(resource, id) {
     (0, import_deprecated6.default)(`wp.data.__experimentalUseResourcePermissions`, {
       alternative: "wp.data.useResourcePermissions",
       since: "6.1"
@@ -7520,7 +7664,7 @@ var wp;
             (r) => r[revKey] === revisionId
           );
           return revision ? {
-            value: revision[prop],
+            value: revision[prop]?.raw ?? revision[prop],
             fullValue: revision[prop]
           } : {};
         }

@@ -5,7 +5,7 @@
   display: block;
   font-family: inherit;
   overflow-wrap: break-word;
-  white-space: pre-wrap;
+  white-space: break-spaces;
   /*!rtl:begin:ignore*/
   direction: ltr;
   text-align: initial;

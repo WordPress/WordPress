@@ -42,7 +42,7 @@ var wp;
     console.warn(message);
     try {
       throw Error(message);
-    } catch (x) {
+    } catch {
     }
     logged.add(message);
   }

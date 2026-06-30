@@ -70,7 +70,7 @@ return array(
 	array(
 		'handle' => 'wp-media-utils',
 		'path' => 'media-utils/style',
-		'dependencies' => array('wp-components'),
+		'dependencies' => array('wp-components', 'wp-preferences'),
 	),
 	array(
 		'handle' => 'wp-nux',

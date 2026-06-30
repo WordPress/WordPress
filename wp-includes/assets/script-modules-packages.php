@@ -46,7 +46,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '7d4d261d10dca47ebecb'
+		'version' => 'a9114a756e418400594c'
 	),
 	'block-library/form/view.js' => array(
 		'dependencies' => array(
@@ -166,7 +166,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '91e28c26a7994ed4332c'
+		'version' => '570068c474110f2ff13f'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
@@ -177,7 +177,7 @@
 			'wp-i18n',
 			'wp-private-apis'
 		),
-		'version' => 'e973aa806299e3d70144'
+		'version' => '274797868955a828dfdc'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
@@ -273,7 +273,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '65892b41e8d17dc72ead'
+		'version' => 'fe96a6ab10a4550153ab'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
@@ -300,7 +300,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '21ff0ef0ab8315e42da9'
+		'version' => '34c388850fff0c80f78a'
 	),
 	'workflow/index.js' => array(
 		'dependencies' => array(

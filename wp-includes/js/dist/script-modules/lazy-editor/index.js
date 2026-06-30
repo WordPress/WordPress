@@ -2044,7 +2044,9 @@ var getBlockSelectors = (blockTypes, variationInstanceId) => {
         "color.__experimentalDuotone",
         false
       );
-      duotoneSelector = duotoneSupport && rootSelector && scopeSelector(rootSelector, duotoneSupport);
+      if (typeof duotoneSupport === "string" && rootSelector) {
+        duotoneSelector = scopeSelector(rootSelector, duotoneSupport);
+      }
     }
     const hasLayoutSupport = !!blockType?.supports?.layout || !!blockType?.supports?.__experimentalLayout;
     const fallbackGapValue = (
@@ -2179,7 +2181,7 @@ function generateGlobalStyles(config = {}, blockTypes = [], options = {}) {
     },
     {
       assets: svgs,
-      __unstableType: "svg",
+      __unstableType: "svgs",
       isGlobalStyles: true
     }
   ];

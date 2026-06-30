@@ -345,7 +345,7 @@ var wp;
         selectionStart === null || // when not null, compare the two points
         selectionStart !== selectionEnd
       );
-    } catch (error) {
+    } catch {
       return true;
     }
   }

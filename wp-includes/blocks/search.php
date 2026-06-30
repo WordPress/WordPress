@@ -69,6 +69,9 @@ function render_block_core_search( $attributes ) {
 	if ( ! empty( $typography_classes ) ) {
 		$input_classes[] = $typography_classes;
 	}
+	if ( ! $show_button && ! empty( $color_classes ) ) {
+		$input_classes[] = $color_classes;
+	}
 	if ( $input->next_tag() ) {
 		$input->add_class( implode( ' ', $input_classes ) );
 		$input->set_attribute( 'id', $input_id );
@@ -430,20 +433,37 @@ function styles_for_block_core_search( $attributes ) {
 		}
 	}
 
+	$use_input_for_colors = ! empty( $attributes['buttonPosition'] ) && 'no-button' === $attributes['buttonPosition'];
+
 	// Add color styles.
 	$has_text_color = ! empty( $attributes['style']['color']['text'] );
 	if ( $has_text_color ) {
-		$button_styles[] = sprintf( 'color: %s;', $attributes['style']['color']['text'] );
+		$text_color_style = sprintf( 'color: %s;', $attributes['style']['color']['text'] );
+		if ( $use_input_for_colors ) {
+			$input_styles[] = $text_color_style;
+		} else {
+			$button_styles[] = $text_color_style;
+		}
 	}
 
 	$has_background_color = ! empty( $attributes['style']['color']['background'] );
 	if ( $has_background_color ) {
-		$button_styles[] = sprintf( 'background-color: %s;', $attributes['style']['color']['background'] );
+		$background_color_style = sprintf( 'background-color: %s;', $attributes['style']['color']['background'] );
+		if ( $use_input_for_colors ) {
+			$input_styles[] = $background_color_style;
+		} else {
+			$button_styles[] = $background_color_style;
+		}
 	}
 
 	$has_custom_gradient = ! empty( $attributes['style']['color']['gradient'] );
 	if ( $has_custom_gradient ) {
-		$button_styles[] = sprintf( 'background: %s;', $attributes['style']['color']['gradient'] );
+		$custom_gradient_style = sprintf( 'background: %s;', $attributes['style']['color']['gradient'] );
+		if ( $use_input_for_colors ) {
+			$input_styles[] = $custom_gradient_style;
+		} else {
+			$button_styles[] = $custom_gradient_style;
+		}
 	}
 
 	// Get typography styles to be shared across inner elements.

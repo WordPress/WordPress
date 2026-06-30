@@ -3177,7 +3177,7 @@ var wp;
   var CONTRAST_EPSILON = 4e-3;
   var MAX_BISECTION_ITERATIONS = 10;
   var DEFAULT_SEED_COLORS = {
-    bg: "#f8f8f8",
+    bg: "#fcfcfc",
     primary: "#3858e9",
     info: "#0090ff",
     success: "#4ab866",
@@ -4039,31 +4039,31 @@ var wp;
     ],
     [
       "--wp-components-color-foreground-inverted",
-      "var(--wpds-color-bg-surface-neutral, #f8f8f8)"
+      "var(--wpds-color-bg-surface-neutral, #fcfcfc)"
     ],
     [
       "--wp-components-color-gray-100",
-      "var(--wpds-color-bg-surface-neutral, #f8f8f8)"
+      "var(--wpds-color-bg-surface-neutral, #fcfcfc)"
     ],
     [
       "--wp-components-color-gray-200",
-      "var(--wpds-color-stroke-surface-neutral, #d8d8d8)"
+      "var(--wpds-color-stroke-surface-neutral, #dbdbdb)"
     ],
     [
       "--wp-components-color-gray-300",
-      "var(--wpds-color-stroke-surface-neutral, #d8d8d8)"
+      "var(--wpds-color-stroke-surface-neutral, #dbdbdb)"
     ],
     [
       "--wp-components-color-gray-400",
-      "var(--wpds-color-stroke-interactive-neutral, #8a8a8a)"
+      "var(--wpds-color-stroke-interactive-neutral, #8d8d8d)"
     ],
     [
       "--wp-components-color-gray-600",
-      "var(--wpds-color-stroke-interactive-neutral, #8a8a8a)"
+      "var(--wpds-color-stroke-interactive-neutral, #8d8d8d)"
     ],
     [
       "--wp-components-color-gray-700",
-      "var(--wpds-color-fg-content-neutral-weak, #6d6d6d)"
+      "var(--wpds-color-fg-content-neutral-weak, #707070)"
     ],
     [
       "--wp-components-color-gray-800",

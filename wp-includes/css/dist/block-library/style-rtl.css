@@ -427,7 +427,7 @@
   display: block;
   font-family: inherit;
   overflow-wrap: break-word;
-  white-space: pre-wrap;
+  white-space: break-spaces;
   direction: ltr;
   text-align: initial;
 }
@@ -3632,6 +3632,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 
 .wp-block-post-author-biography {
   box-sizing: border-box;
+  white-space: pre-wrap;
 }
 
 :where(.wp-block-post-comments-form textarea),
@@ -4918,15 +4919,6 @@ ul.wp-block-rss.is-grid li {
   display: none;
 }
 
-.wp-block-tabs-menu {
-  display: flex;
-  align-items: flex-end;
-  min-width: fit-content;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: #000;
-}
-
 .wp-block-tabs-menu-item {
   box-sizing: border-box;
   color: inherit;
@@ -4936,6 +4928,7 @@ ul.wp-block-rss.is-grid li {
   cursor: pointer;
   flex-basis: inherit !important;
   flex-grow: inherit !important;
+  position: relative;
   border: none;
   background: none;
   appearance: none;
@@ -4950,12 +4943,14 @@ ul.wp-block-rss.is-grid li {
   text-transform: inherit;
   text-align: inherit;
 }
-.wp-block-tabs-menu-item:focus-visible {
-  outline-offset: 2px;
-}
-.wp-block-tabs-menu-item[aria-selected=true], .wp-block-tabs-menu-item.is-active {
-  background-color: #000;
-  color: #fff;
+.wp-block-tabs-menu-item[aria-selected=true]::before, .wp-block-tabs-menu-item.is-active::before {
+  content: "";
+  position: absolute;
+  border-bottom: 2px solid currentColor;
+  pointer-events: none;
+  right: 0;
+  width: 100%;
+  bottom: 0;
 }
 
 .wp-block-term-count {

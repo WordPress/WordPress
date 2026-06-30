@@ -177,7 +177,7 @@
   position: relative;
 }
 .block-directory-downloadable-block-list-item:not([aria-disabled=true]) {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .block-directory-downloadable-block-list-item:hover {
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);

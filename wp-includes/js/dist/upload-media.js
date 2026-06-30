@@ -629,6 +629,54 @@ var wp;
     );
     return resultFile;
   }
+  async function vipsBatchResizeImage(id, file, outputType, configs, smartCrop = false) {
+    const { vipsBatchResizeImage: batchResize } = await loadVipsModule();
+    const resizes = configs.map((c) => ({
+      resize: { ...c.resize },
+      quality: c.quality
+    }));
+    const results = await batchResize(
+      id,
+      await file.arrayBuffer(),
+      file.type,
+      outputType,
+      resizes,
+      smartCrop
+    );
+    const ext = outputType.split("/")[1];
+    const sourceBasename = getFileBasename(file.name);
+    return results.map((result, i) => {
+      const config = configs[i];
+      const { width, height, originalWidth, originalHeight } = result;
+      const wasResized = originalWidth > width || originalHeight > height;
+      let fileName = `${sourceBasename}.${ext}`;
+      if (wasResized) {
+        if (config.scaledSuffix) {
+          fileName = `${sourceBasename}-scaled.${ext}`;
+        } else {
+          fileName = `${sourceBasename}-${width}x${height}.${ext}`;
+        }
+      }
+      return {
+        name: config.name,
+        file: new ImageFile(
+          new File(
+            [
+              new Blob([result.buffer], {
+                type: outputType
+              })
+            ],
+            fileName,
+            { type: outputType }
+          ),
+          width,
+          height,
+          originalWidth,
+          originalHeight
+        )
+      };
+    });
+  }
   async function vipsRotateImage(id, file, orientation, signal) {
     if (signal?.aborted) {
       throw new Error("Operation aborted");
@@ -1536,6 +1584,9 @@ var wp;
             settings
           );
         }
+        const thumbnailOutputType = thumbnailTranscodeOperation ? `image/${thumbnailTranscodeOperation[1].outputFormat}` : sourceType;
+        const quality = thumbnailTranscodeOperation ? thumbnailTranscodeOperation[1].outputQuality ?? DEFAULT_OUTPUT_QUALITY : DEFAULT_OUTPUT_QUALITY;
+        const batchConfigs = [];
         for (const name of sizesToGenerate) {
           const imageSize = allImageSizes[name];
           if (!imageSize) {
@@ -1544,40 +1595,98 @@ var wp;
             );
             continue;
           }
-          const thumbnailOperations = [
-            [OperationType.ResizeCrop, { resize: imageSize }]
-          ];
-          if (thumbnailTranscodeOperation) {
-            thumbnailOperations.push(thumbnailTranscodeOperation);
-          }
-          thumbnailOperations.push(OperationType.Upload);
-          dispatch.addSideloadItem({
-            file,
-            onChange: ([updatedAttachment]) => {
-              if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
-                return;
-              }
-              item.onChange?.([updatedAttachment]);
-            },
-            batchId,
-            parentId: item.id,
-            additionalData: {
-              // Sideloading does not use the parent post ID but the
-              // attachment ID as the image sizes need to be added to it.
-              post: attachment.id,
-              image_size: name,
-              convert_format: false
-            },
-            operations: thumbnailOperations
+          batchConfigs.push({
+            name,
+            resize: imageSize,
+            quality
           });
         }
         const { bigImageSizeThreshold } = settings;
+        let needsScaling = false;
         if (bigImageSizeThreshold && attachment.id) {
           const bitmap = await createImageBitmap(item.sourceFile);
-          const needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
+          needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
           bitmap.close();
           if (needsScaling) {
-            const sourceForScaled = attachment.filename ? renameFile(item.sourceFile, attachment.filename) : item.sourceFile;
+            batchConfigs.push({
+              name: "scaled",
+              resize: {
+                width: bigImageSizeThreshold,
+                height: bigImageSizeThreshold
+              },
+              quality,
+              scaledSuffix: true
+            });
+          }
+        }
+        let batchResults = null;
+        if (batchConfigs.length > 0) {
+          try {
+            batchResults = await vipsBatchResizeImage(
+              item.id,
+              file,
+              thumbnailOutputType,
+              batchConfigs,
+              false
+            );
+          } catch {
+            console.warn(
+              "Batch resize failed, falling back to per-thumbnail processing"
+            );
+          }
+        }
+        if (batchResults) {
+          for (const result of batchResults) {
+            dispatch.addSideloadItem({
+              file: result.file,
+              onChange: ([updatedAttachment]) => {
+                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
+                  return;
+                }
+                item.onChange?.([updatedAttachment]);
+              },
+              batchId,
+              parentId: item.id,
+              additionalData: {
+                post: attachment.id,
+                image_size: result.name,
+                convert_format: false
+              },
+              operations: [OperationType.Upload]
+            });
+          }
+        } else {
+          for (const name of sizesToGenerate) {
+            const imageSize = allImageSizes[name];
+            if (!imageSize) {
+              continue;
+            }
+            const thumbnailOperations = [
+              [OperationType.ResizeCrop, { resize: imageSize }]
+            ];
+            if (thumbnailTranscodeOperation) {
+              thumbnailOperations.push(thumbnailTranscodeOperation);
+            }
+            thumbnailOperations.push(OperationType.Upload);
+            dispatch.addSideloadItem({
+              file,
+              onChange: ([updatedAttachment]) => {
+                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
+                  return;
+                }
+                item.onChange?.([updatedAttachment]);
+              },
+              batchId,
+              parentId: item.id,
+              additionalData: {
+                post: attachment.id,
+                image_size: name,
+                convert_format: false
+              },
+              operations: thumbnailOperations
+            });
+          }
+          if (needsScaling && bigImageSizeThreshold && attachment.id) {
             const scaledOperations = [
               [
                 OperationType.ResizeCrop,
@@ -1595,7 +1704,7 @@ var wp;
             }
             scaledOperations.push(OperationType.Upload);
             dispatch.addSideloadItem({
-              file: sourceForScaled,
+              file,
               onChange: ([updatedAttachment]) => {
                 if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
                   return;

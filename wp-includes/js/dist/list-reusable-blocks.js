@@ -1,3 +1,4 @@
+"use strict";
 var wp;
 (wp ||= {}).listReusableBlocks = (() => {
   var __create = Object.create;
@@ -40,17 +41,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/api-fetch
-  var require_api_fetch = __commonJS({
-    "package-external:@wordpress/api-fetch"(exports, module) {
-      module.exports = window.wp.apiFetch;
-    }
-  });
-
-  // package-external:@wordpress/blob
-  var require_blob = __commonJS({
-    "package-external:@wordpress/blob"(exports, module) {
-      module.exports = window.wp.blob;
+  // package-external:@wordpress/components
+  var require_components = __commonJS({
+    "package-external:@wordpress/components"(exports, module) {
+      module.exports = window.wp.components;
     }
   });
 
@@ -61,10 +55,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/components
-  var require_components = __commonJS({
-    "package-external:@wordpress/components"(exports, module) {
-      module.exports = window.wp.components;
+  // package-external:@wordpress/api-fetch
+  var require_api_fetch = __commonJS({
+    "package-external:@wordpress/api-fetch"(exports, module) {
+      module.exports = window.wp.apiFetch;
     }
   });
 
@@ -75,107 +69,30 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/blob
+  var require_blob = __commonJS({
+    "package-external:@wordpress/blob"(exports, module) {
+      module.exports = window.wp.blob;
+    }
+  });
+
   // packages/list-reusable-blocks/build-module/index.mjs
   var import_element2 = __toESM(require_element(), 1);
   var import_i18n3 = __toESM(require_i18n(), 1);
 
-  // node_modules/tslib/tslib.es6.mjs
-  var __assign = function() {
-    __assign = Object.assign || function __assign2(t) {
-      for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-      return t;
-    };
-    return __assign.apply(this, arguments);
-  };
-
-  // node_modules/lower-case/dist.es2015/index.js
-  function lowerCase(str) {
-    return str.toLowerCase();
-  }
-
-  // node_modules/no-case/dist.es2015/index.js
-  var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
-  var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
-  function noCase(input, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
-    var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
-    var start = 0;
-    var end = result.length;
-    while (result.charAt(start) === "\0")
-      start++;
-    while (result.charAt(end - 1) === "\0")
-      end--;
-    return result.slice(start, end).split("\0").map(transform).join(delimiter);
-  }
-  function replace(input, re, value) {
-    if (re instanceof RegExp)
-      return input.replace(re, value);
-    return re.reduce(function(input2, re2) {
-      return input2.replace(re2, value);
-    }, input);
-  }
-
-  // node_modules/dot-case/dist.es2015/index.js
-  function dotCase(input, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    return noCase(input, __assign({ delimiter: "." }, options));
-  }
-
-  // node_modules/param-case/dist.es2015/index.js
-  function paramCase(input, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    return dotCase(input, __assign({ delimiter: "-" }, options));
-  }
-
-  // packages/list-reusable-blocks/build-module/utils/export.mjs
-  var import_api_fetch = __toESM(require_api_fetch(), 1);
-  var import_blob = __toESM(require_blob(), 1);
-  async function exportReusableBlock(id) {
-    const postType = await (0, import_api_fetch.default)({ path: `/wp/v2/types/wp_block` });
-    const post = await (0, import_api_fetch.default)({
-      path: `/wp/v2/${postType.rest_base}/${id}?context=edit`
-    });
-    const title = post.title.raw;
-    const content = post.content.raw;
-    const syncStatus = post.wp_pattern_sync_status;
-    const fileContent = JSON.stringify(
-      {
-        __file: "wp_block",
-        title,
-        content,
-        syncStatus
-      },
-      null,
-      2
-    );
-    const fileName = paramCase(title) + ".json";
-    (0, import_blob.downloadBlob)(fileName, fileContent, "application/json");
-  }
-  var export_default = exportReusableBlock;
-
   // packages/list-reusable-blocks/build-module/components/import-dropdown/index.mjs
+  var import_components2 = __toESM(require_components(), 1);
   var import_compose2 = __toESM(require_compose(), 1);
   var import_i18n2 = __toESM(require_i18n(), 1);
-  var import_components2 = __toESM(require_components(), 1);
 
   // packages/list-reusable-blocks/build-module/components/import-form/index.mjs
-  var import_element = __toESM(require_element(), 1);
-  var import_compose = __toESM(require_compose(), 1);
-  var import_i18n = __toESM(require_i18n(), 1);
   var import_components = __toESM(require_components(), 1);
+  var import_compose = __toESM(require_compose(), 1);
+  var import_element = __toESM(require_element(), 1);
+  var import_i18n = __toESM(require_i18n(), 1);
 
   // packages/list-reusable-blocks/build-module/utils/import.mjs
-  var import_api_fetch2 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch = __toESM(require_api_fetch(), 1);
 
   // packages/list-reusable-blocks/build-module/utils/file.mjs
   function readTextFile(file) {
@@ -194,14 +111,16 @@ var wp;
     let parsedContent;
     try {
       parsedContent = JSON.parse(fileContent);
-    } catch (e) {
+    } catch {
       throw new Error("Invalid JSON file");
     }
     if (parsedContent.__file !== "wp_block" || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== "string" || typeof parsedContent.content !== "string" || parsedContent.syncStatus && typeof parsedContent.syncStatus !== "string") {
       throw new Error("Invalid pattern JSON file");
     }
-    const postType = await (0, import_api_fetch2.default)({ path: `/wp/v2/types/wp_block` });
-    const reusableBlock = await (0, import_api_fetch2.default)({
+    const postType = await (0, import_api_fetch.default)({
+      path: `/wp/v2/types/wp_block`
+    });
+    const reusableBlock = await (0, import_api_fetch.default)({
       path: `/wp/v2/${postType.rest_base}`,
       data: {
         title: parsedContent.title,
@@ -219,12 +138,12 @@ var wp;
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   function ImportForm({ instanceId, onUpload }) {
     const inputId = "list-reusable-blocks-import-form-" + instanceId;
-    const formRef = (0, import_element.useRef)();
+    const formRef = (0, import_element.useRef)(null);
     const [isLoading, setIsLoading] = (0, import_element.useState)(false);
     const [error, setError] = (0, import_element.useState)(null);
     const [file, setFile] = (0, import_element.useState)(null);
     const onChangeFile = (event) => {
-      setFile(event.target.files[0]);
+      setFile(event.target.files?.[0] || null);
       setError(null);
     };
     const onSubmit = (event) => {
@@ -234,13 +153,13 @@ var wp;
       }
       setIsLoading(true);
       import_default(file).then((reusableBlock) => {
-        if (!formRef) {
+        if (!formRef.current) {
           return;
         }
         setIsLoading(false);
         onUpload(reusableBlock);
       }).catch((errors) => {
-        if (!formRef) {
+        if (!formRef.current) {
           return;
         }
         let uiMessage;
@@ -322,14 +241,104 @@ var wp;
   }
   var import_dropdown_default = ImportDropdown;
 
+  // node_modules/tslib/tslib.es6.mjs
+  var __assign = function() {
+    __assign = Object.assign || function __assign2(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+    };
+    return __assign.apply(this, arguments);
+  };
+
+  // node_modules/lower-case/dist.es2015/index.js
+  function lowerCase(str) {
+    return str.toLowerCase();
+  }
+
+  // node_modules/no-case/dist.es2015/index.js
+  var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
+  var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
+  function noCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
+    var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
+    var start = 0;
+    var end = result.length;
+    while (result.charAt(start) === "\0")
+      start++;
+    while (result.charAt(end - 1) === "\0")
+      end--;
+    return result.slice(start, end).split("\0").map(transform).join(delimiter);
+  }
+  function replace(input, re, value) {
+    if (re instanceof RegExp)
+      return input.replace(re, value);
+    return re.reduce(function(input2, re2) {
+      return input2.replace(re2, value);
+    }, input);
+  }
+
+  // node_modules/dot-case/dist.es2015/index.js
+  function dotCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return noCase(input, __assign({ delimiter: "." }, options));
+  }
+
+  // node_modules/param-case/dist.es2015/index.js
+  function paramCase(input, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return dotCase(input, __assign({ delimiter: "-" }, options));
+  }
+
+  // packages/list-reusable-blocks/build-module/utils/export.mjs
+  var import_api_fetch2 = __toESM(require_api_fetch(), 1);
+  var import_blob = __toESM(require_blob(), 1);
+  async function exportReusableBlock(id) {
+    const postType = await (0, import_api_fetch2.default)({
+      path: `/wp/v2/types/wp_block`
+    });
+    const post = await (0, import_api_fetch2.default)({
+      path: `/wp/v2/${postType.rest_base}/${id}?context=edit`
+    });
+    const title = post.title.raw;
+    const content = post.content.raw;
+    const syncStatus = post.wp_pattern_sync_status;
+    const fileContent = JSON.stringify(
+      {
+        __file: "wp_block",
+        title,
+        content,
+        syncStatus
+      },
+      null,
+      2
+    );
+    const fileName = paramCase(title) + ".json";
+    (0, import_blob.downloadBlob)(fileName, fileContent, "application/json");
+  }
+  var export_default = exportReusableBlock;
+
   // packages/list-reusable-blocks/build-module/index.mjs
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   document.body.addEventListener("click", (event) => {
-    if (!event.target.classList.contains("wp-list-reusable-blocks__export")) {
+    const target = event.target;
+    if (!target.classList.contains("wp-list-reusable-blocks__export")) {
       return;
     }
     event.preventDefault();
-    export_default(event.target.dataset.id);
+    const blockId = target.dataset.id;
+    if (blockId) {
+      export_default(Number(blockId));
+    }
   });
   document.addEventListener("DOMContentLoaded", () => {
     const button = document.querySelector(".page-title-action");
@@ -341,13 +350,16 @@ var wp;
       notice.className = "notice notice-success is-dismissible";
       notice.innerHTML = `<p>${(0, import_i18n3.__)("Pattern imported successfully!")}</p>`;
       const headerEnd = document.querySelector(".wp-header-end");
-      if (!headerEnd) {
+      if (!headerEnd || !headerEnd.parentNode) {
         return;
       }
       headerEnd.parentNode.insertBefore(notice, headerEnd);
     };
     const container = document.createElement("div");
     container.className = "list-reusable-blocks__container";
+    if (!button.parentNode) {
+      return;
+    }
     button.parentNode.insertBefore(container, button);
     (0, import_element2.createRoot)(container).render(
       /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_element2.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_dropdown_default, { onUpload: showNotice }) })

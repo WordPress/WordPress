@@ -1,3 +1,4 @@
+"use strict";
 var wp;
 (wp ||= {}).viewport = (() => {
   var __create = Object.create;
@@ -45,10 +46,10 @@ var wp;
     }
   });
 
-  // vendor-external:react/jsx-runtime
-  var require_jsx_runtime = __commonJS({
-    "vendor-external:react/jsx-runtime"(exports, module) {
-      module.exports = window.ReactJSXRuntime;
+  // package-external:@wordpress/element
+  var require_element = __commonJS({
+    "package-external:@wordpress/element"(exports, module) {
+      module.exports = window.wp.element;
     }
   });
 
@@ -125,13 +126,15 @@ var wp;
     const operatorEntries = Object.entries(operators);
     const queries = Object.entries(breakpoints).flatMap(
       ([name, width]) => {
-        return operatorEntries.map(([operator, condition]) => {
-          const list = window.matchMedia(
-            `(${condition}: ${width}px)`
-          );
-          list.addEventListener("change", setIsMatching2);
-          return [`${operator} ${name}`, list];
-        });
+        return operatorEntries.map(
+          ([operator, condition]) => {
+            const list = window.matchMedia(
+              `(${condition}: ${width}px)`
+            );
+            list.addEventListener("change", setIsMatching2);
+            return [`${operator} ${name}`, list];
+          }
+        );
       }
     );
     window.addEventListener("orientationchange", setIsMatching2);
@@ -144,8 +147,8 @@ var wp;
   var import_compose3 = __toESM(require_compose(), 1);
 
   // packages/viewport/build-module/with-viewport-match.mjs
+  var import_element = __toESM(require_element(), 1);
   var import_compose2 = __toESM(require_compose(), 1);
-  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var withViewportMatch = (queries) => {
     const queryEntries = Object.entries(queries);
     const useViewPortQueriesResult = () => Object.fromEntries(
@@ -155,15 +158,32 @@ var wp;
           breakpointName = operator;
           operator = ">=";
         }
-        return [key, (0, import_compose2.useViewportMatch)(breakpointName, operator)];
+        return [
+          key,
+          // Hooks should unconditionally execute in the same order,
+          // we are respecting that as from the static query of the HOC we generate
+          // a hook that calls other hooks always in the same order (because the query never changes).
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          (0, import_compose2.useViewportMatch)(
+            breakpointName,
+            operator
+          )
+        ];
       })
     );
-    return (0, import_compose2.createHigherOrderComponent)((WrappedComponent) => {
-      return (0, import_compose2.pure)((props) => {
-        const queriesResult = useViewPortQueriesResult();
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(WrappedComponent, { ...props, ...queriesResult });
-      });
-    }, "withViewportMatch");
+    return (0, import_compose2.createHigherOrderComponent)(
+      (WrappedComponent) => {
+        const WrappedWithViewport = (props) => {
+          const queriesResult = useViewPortQueriesResult();
+          return (0, import_element.createElement)(WrappedComponent, {
+            ...props,
+            ...queriesResult
+          });
+        };
+        return (0, import_compose2.pure)(WrappedWithViewport);
+      },
+      "withViewportMatch"
+    );
   };
   var with_viewport_match_default = withViewportMatch;
 
@@ -173,7 +193,9 @@ var wp;
       with_viewport_match_default({
         isViewportMatch: query
       }),
-      (0, import_compose3.ifCondition)((props) => props.isViewportMatch)
+      (0, import_compose3.ifCondition)(
+        (props) => props.isViewportMatch
+      )
     ]),
     "ifViewportMatches"
   );

@@ -1,3 +1,4 @@
+"use strict";
 var wp;
 (wp ||= {}).annotations = (() => {
   var __create = Object.create;
@@ -81,6 +82,9 @@ var wp;
   function applyAnnotations(record, annotations2 = []) {
     annotations2.forEach((annotation2) => {
       let { start, end } = annotation2;
+      if (typeof start !== "number" || typeof end !== "number") {
+        return;
+      }
       if (start > record.text.length) {
         start = record.text.length;
       }
@@ -124,7 +128,10 @@ var wp;
     });
     return positions;
   }
-  function updateAnnotationsWithPositions(annotations2, positions, { removeAnnotation, updateAnnotationRange }) {
+  function updateAnnotationsWithPositions(annotations2, positions, {
+    removeAnnotation,
+    updateAnnotationRange
+  }) {
     annotations2.forEach((currentAnnotation) => {
       const position = positions[currentAnnotation.id];
       if (!position) {
@@ -132,11 +139,11 @@ var wp;
         return;
       }
       const { start, end } = currentAnnotation;
-      if (start !== position.start || end !== position.end) {
+      if (typeof start === "number" && typeof end === "number" && (start !== position.start || end !== (position.end ?? position.start))) {
         updateAnnotationRange(
           currentAnnotation.id,
           position.start,
-          position.end
+          position.end ?? position.start
         );
       }
     });
@@ -150,10 +157,12 @@ var wp;
       className: "class",
       id: "id"
     },
-    edit() {
+    interactive: false,
+    object: false,
+    edit: () => {
       return null;
     },
-    __experimentalGetPropsForEditableTreePreparation(select, { richTextIdentifier, blockClientId }) {
+    __experimentalGetPropsForEditableTreePreparation: (select, { richTextIdentifier, blockClientId }) => {
       return {
         annotations: select(
           STORE_NAME
@@ -163,23 +172,29 @@ var wp;
         )
       };
     },
-    __experimentalCreatePrepareEditableTree({ annotations: annotations2 }) {
+    __experimentalCreatePrepareEditableTree: ({ annotations: annotations2 }) => {
       return (formats, text) => {
         if (annotations2.length === 0) {
           return formats;
         }
-        let record = { formats, text };
+        let record = {
+          formats,
+          text,
+          replacements: [],
+          start: 0,
+          end: 0
+        };
         record = applyAnnotations(record, annotations2);
         return record.formats;
       };
     },
-    __experimentalGetPropsForEditableTreeChangeHandler(dispatch) {
+    __experimentalGetPropsForEditableTreeChangeHandler: (dispatch) => {
       return {
         removeAnnotation: dispatch(STORE_NAME).__experimentalRemoveAnnotation,
         updateAnnotationRange: dispatch(STORE_NAME).__experimentalUpdateAnnotationRange
       };
     },
-    __experimentalCreateOnChangeEditableValue(props) {
+    __experimentalCreateOnChangeEditableValue: (props) => {
       return (formats) => {
         const positions = retrieveAnnotationPositions(formats);
         const { removeAnnotation, updateAnnotationRange, annotations: annotations2 } = props;
@@ -197,42 +212,29 @@ var wp;
 
   // packages/annotations/build-module/block/index.mjs
   var import_hooks = __toESM(require_hooks(), 1);
-  var import_data = __toESM(require_data(), 1);
-  var addAnnotationClassName = (OriginalComponent) => {
-    return (0, import_data.withSelect)((select, { clientId, className }) => {
-      const annotations2 = select(STORE_NAME).__experimentalGetAnnotationsForBlock(
-        clientId
-      );
-      return {
-        className: annotations2.map((annotation2) => {
-          return "is-annotated-by-" + annotation2.source;
-        }).concat(className).filter(Boolean).join(" ")
-      };
-    })(OriginalComponent);
-  };
-  (0, import_hooks.addFilter)(
-    "editor.BlockListBlock",
-    "core/annotations",
-    addAnnotationClassName
-  );
+  var import_data3 = __toESM(require_data(), 1);
 
   // packages/annotations/build-module/store/index.mjs
-  var import_data3 = __toESM(require_data(), 1);
+  var import_data2 = __toESM(require_data(), 1);
 
   // packages/annotations/build-module/store/reducer.mjs
   function filterWithReference(collection, predicate) {
     const filteredCollection = collection.filter(predicate);
     return collection.length === filteredCollection.length ? collection : filteredCollection;
   }
-  var mapValues = (obj, callback) => Object.entries(obj).reduce(
-    (acc, [key, value]) => ({
+  var mapValues = (obj, callback) => Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value === void 0) {
+      return acc;
+    }
+    return {
       ...acc,
       [key]: callback(value)
-    }),
-    {}
-  );
+    };
+  }, {});
   function isValidAnnotationRange(annotation2) {
-    return typeof annotation2.start === "number" && typeof annotation2.end === "number" && annotation2.start <= annotation2.end;
+    return Boolean(
+      annotation2.range && typeof annotation2.range.start === "number" && typeof annotation2.range.end === "number" && annotation2.range.start <= annotation2.range.end
+    );
   }
   function annotations(state = {}, action) {
     switch (action.type) {
@@ -246,7 +248,7 @@ var wp;
           selector: action.selector,
           range: action.range
         };
-        if (newAnnotation.selector === "range" && !isValidAnnotationRange(newAnnotation.range)) {
+        if (newAnnotation.selector === "range" && !isValidAnnotationRange(newAnnotation)) {
           return state;
         }
         const previousAnnotationsForBlock = state?.[blockClientId] ?? [];
@@ -308,20 +310,22 @@ var wp;
     __experimentalGetAnnotationsForBlock: () => __experimentalGetAnnotationsForBlock,
     __experimentalGetAnnotationsForRichText: () => __experimentalGetAnnotationsForRichText
   });
-  var import_data2 = __toESM(require_data(), 1);
+  var import_data = __toESM(require_data(), 1);
   var EMPTY_ARRAY = [];
-  var __experimentalGetAnnotationsForBlock = (0, import_data2.createSelector)(
+  var __experimentalGetAnnotationsForBlock = (0, import_data.createSelector)(
     (state, blockClientId) => {
       return (state?.[blockClientId] ?? []).filter((annotation2) => {
         return annotation2.selector === "block";
       });
     },
-    (state, blockClientId) => [state?.[blockClientId] ?? EMPTY_ARRAY]
+    (state, blockClientId) => [
+      state?.[blockClientId] ?? EMPTY_ARRAY
+    ]
   );
   function __experimentalGetAllAnnotationsForBlock(state, blockClientId) {
     return state?.[blockClientId] ?? EMPTY_ARRAY;
   }
-  var __experimentalGetAnnotationsForRichText = (0, import_data2.createSelector)(
+  var __experimentalGetAnnotationsForRichText = (0, import_data.createSelector)(
     (state, blockClientId, richTextIdentifier) => {
       return (state?.[blockClientId] ?? []).filter((annotation2) => {
         return annotation2.selector === "range" && richTextIdentifier === annotation2.richTextIdentifier;
@@ -333,10 +337,12 @@ var wp;
         };
       });
     },
-    (state, blockClientId) => [state?.[blockClientId] ?? EMPTY_ARRAY]
+    (state, blockClientId) => [
+      state?.[blockClientId] ?? EMPTY_ARRAY
+    ]
   );
   function __experimentalGetAnnotations(state) {
-    return Object.values(state).flat();
+    return Object.values(state).filter((arr) => Boolean(arr)).flat();
   }
 
   // packages/annotations/build-module/store/actions.mjs
@@ -413,7 +419,7 @@ var wp;
       source,
       selector
     };
-    if (selector === "range") {
+    if (selector === "range" && range !== null) {
       action.range = range;
     }
     return action;
@@ -440,11 +446,29 @@ var wp;
   }
 
   // packages/annotations/build-module/store/index.mjs
-  var store = (0, import_data3.createReduxStore)(STORE_NAME, {
+  var store = (0, import_data2.createReduxStore)(STORE_NAME, {
     reducer: reducer_default,
     selectors: selectors_exports,
     actions: actions_exports
   });
-  (0, import_data3.register)(store);
+  (0, import_data2.register)(store);
+
+  // packages/annotations/build-module/block/index.mjs
+  var addAnnotationClassName = (OriginalComponent) => {
+    return (0, import_data3.withSelect)((select, ownProps) => {
+      const { clientId, className } = ownProps;
+      const annotations2 = select(store).__experimentalGetAnnotationsForBlock(clientId);
+      return {
+        className: annotations2.map((annotation2) => {
+          return "is-annotated-by-" + annotation2.source;
+        }).concat(className || "").filter(Boolean).join(" ")
+      };
+    })(OriginalComponent);
+  };
+  (0, import_hooks.addFilter)(
+    "editor.BlockListBlock",
+    "core/annotations",
+    addAnnotationClassName
+  );
   return __toCommonJS(index_exports);
 })();

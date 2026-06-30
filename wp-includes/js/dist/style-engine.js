@@ -178,7 +178,7 @@ var wp;
   function safeDecodeURI(uri) {
     try {
       return decodeURI(uri);
-    } catch (uriError) {
+    } catch {
       return uri;
     }
   }

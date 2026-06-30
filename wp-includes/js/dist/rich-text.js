@@ -109,7 +109,7 @@ var wp;
     __experimentalRichText: () => __experimentalRichText,
     __unstableCreateElement: () => createElement,
     __unstableToDom: () => toDom,
-    __unstableUseRichText: () => __unstableUseRichText,
+    __unstableUseRichText: () => useDeprecatedRichText,
     applyFormat: () => applyFormat,
     concat: () => concat,
     create: () => create,
@@ -1753,7 +1753,7 @@ var wp;
       if (!element) {
         return;
       }
-      element.style.whiteSpace = whiteSpace;
+      element.style.whiteSpace = element.style.whiteSpace || whiteSpace;
     }, []);
   }
 
@@ -2734,7 +2734,7 @@ var wp;
     });
     return { ...result, formatTypes: formatTypes2 };
   }
-  function __unstableUseRichText(props) {
+  function useDeprecatedRichText(props) {
     (0, import_deprecated.default)("`__unstableUseRichText` hook", {
       since: "7.0"
     });
@@ -2808,6 +2808,9 @@ var wp;
       return;
     }
     const selector = tagName + (className ? "." + className : "");
+    if (!selector) {
+      return;
+    }
     if (!(element instanceof window.HTMLElement)) {
       return;
     }
@@ -2848,16 +2851,10 @@ var wp;
     if (!range || !range.startContainer) {
       return;
     }
-    const formatElement = getFormatElement(
-      range,
-      editableContentElement,
-      tagName,
-      className
-    );
-    if (formatElement) {
-      return formatElement;
+    if (!tagName && !className) {
+      return createVirtualAnchorElement(range, editableContentElement);
     }
-    return createVirtualAnchorElement(range, editableContentElement);
+    return getFormatElement(range, editableContentElement, tagName, className) ?? createVirtualAnchorElement(range, editableContentElement);
   }
   var DEFAULT_SETTINGS = {
     tagName: "",
