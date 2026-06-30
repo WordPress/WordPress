@@ -261,7 +261,7 @@ class WP_AI_Client_Prompt_Builder {
 			}
 
 			$function_name = WP_AI_Client_Ability_Function_Resolver::ability_name_to_function_name( $ability->get_name() );
-			$input_schema  = $ability->get_input_schema();
+			$input_schema  = wp_prepare_json_schema_for_client( $ability->get_input_schema() );
 
 			$declarations[] = new FunctionDeclaration(
 				$function_name,
