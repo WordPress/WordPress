@@ -712,6 +712,45 @@ form#tags-filter {
 	margin-top: 3px;
 }
 
+#post-visibility-select {
+	--post-visibility-control-gap: 3px;
+
+	margin-left: var(--post-visibility-control-gap);
+}
+
+#post-visibility-select input#post_password {
+	box-sizing: border-box;
+	width: 100%;
+	margin-top: 3px;
+}
+
+#post-visibility-select input[type="radio"],
+#post-visibility-select input#sticky {
+	margin-top: 2px;
+	margin-right: var(--post-visibility-control-gap);
+	margin-bottom: 5px;
+	vertical-align: middle;
+}
+
+#post-visibility-select #sticky-span,
+#post-visibility-select #password-span {
+	display: block;
+	margin-left: calc(1rem + var(--post-visibility-control-gap) + 0.25em);
+	margin-top: 2px;
+}
+
+#post-visibility-select #sticky-span {
+	margin-bottom: 2px;
+}
+
+#post-visibility-select #password-span {
+	margin-bottom: 6px;
+}
+
+#post-visibility-select p {
+	margin: 12px 0 0;
+}
+
 #linksubmitdiv .inside, /* Old Link Manager back-compat. */
 #poststuff #submitdiv .inside {
 	margin: 0;
@@ -1892,6 +1931,10 @@ table.links-table {
 	/* Publish Metabox Options */
 	#post-visibility-select {
 		line-height: 280%;
+	}
+
+	#post-visibility-select #password-span {
+		line-height: 1.5;
 	}
 
 	.wp-core-ui .save-post-visibility,
