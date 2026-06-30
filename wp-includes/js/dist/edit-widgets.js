@@ -1272,7 +1272,7 @@ var wp;
               {
                 as: import_components6.__unstableMotion.div,
                 className: "interface-interface-skeleton__header",
-                "aria-label": mergedLabels.header,
+                ariaLabel: mergedLabels.header,
                 initial: isDistractionFree && !isMobileViewport ? "distractionFreeHidden" : "hidden",
                 whileHover: isDistractionFree && !isMobileViewport ? "distractionFreeHover" : "visible",
                 animate: isDistractionFree && !isMobileViewport ? "distractionFreeDisabled" : "visible",

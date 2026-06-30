@@ -221,6 +221,7 @@
   position: absolute;
   width: 1px;
   word-wrap: normal !important;
+  word-break: normal !important;
 }
 
 .screen-reader-text:focus {

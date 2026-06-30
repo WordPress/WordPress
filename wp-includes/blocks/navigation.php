@@ -425,11 +425,7 @@ class WP_Navigation_Block_Renderer {
 			$full_template_part_id = $theme . '//' . $slug;
 			$block_template        = get_block_file_template( $full_template_part_id, 'wp_template_part' );
 			if ( isset( $block_template->content ) ) {
-				// Expand shortcodes before parsing blocks, matching the order in
-				// `render_block_core_template_part()`.
-				$content       = shortcode_unautop( $block_template->content );
-				$content       = do_shortcode( $content );
-				$parsed_blocks = parse_blocks( $content );
+				$parsed_blocks = parse_blocks( $block_template->content );
 				$blocks        = block_core_navigation_filter_out_empty_blocks( $parsed_blocks );
 				// Disable overlay menu for any navigation blocks within the overlay to prevent nested overlays.
 				$blocks = static::disable_overlay_menu_for_nested_navigation_blocks( $blocks );
@@ -453,12 +449,6 @@ class WP_Navigation_Block_Renderer {
 		// Re-serialize, and run Block Hooks algorithm to inject hooked blocks.
 		$markup = serialize_blocks( $blocks );
 		$markup = apply_block_hooks_to_content_from_post_object( $markup, $template_part_post );
-
-		// Expand shortcodes before parsing blocks, matching the order in
-		// `render_block_core_template_part()`.
-		$markup = shortcode_unautop( $markup );
-		$markup = do_shortcode( $markup );
-
 		$blocks = parse_blocks( $markup );
 
 		// Disable overlay menu for any navigation blocks within the overlay to prevent nested overlays.
@@ -1352,17 +1342,6 @@ function block_core_navigation_build_css_font_sizes( $attributes ) {
 	}
 
 	return $font_sizes;
-}
-
-/**
- * Returns the top-level submenu SVG chevron icon.
- *
- * @since 5.9.0
- *
- * @return string
- */
-function block_core_navigation_render_submenu_icon() {
-	return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
 }
 
 /**

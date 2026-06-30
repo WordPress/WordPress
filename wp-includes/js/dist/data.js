@@ -721,13 +721,13 @@ var wp;
   var SELECT = "@@data/SELECT";
   var RESOLVE_SELECT = "@@data/RESOLVE_SELECT";
   var DISPATCH = "@@data/DISPATCH";
-  function isObject(object) {
+  function isStoreDescriptor(object) {
     return object !== null && typeof object === "object";
   }
   function select(storeNameOrDescriptor, selectorName, ...args) {
     return {
       type: SELECT,
-      storeKey: isObject(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
+      storeKey: isStoreDescriptor(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
       selectorName,
       args
     };
@@ -735,7 +735,7 @@ var wp;
   function resolveSelect(storeNameOrDescriptor, selectorName, ...args) {
     return {
       type: RESOLVE_SELECT,
-      storeKey: isObject(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
+      storeKey: isStoreDescriptor(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
       selectorName,
       args
     };
@@ -743,7 +743,7 @@ var wp;
   function dispatch(storeNameOrDescriptor, actionName, ...args) {
     return {
       type: DISPATCH,
-      storeKey: isObject(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
+      storeKey: isStoreDescriptor(storeNameOrDescriptor) ? storeNameOrDescriptor.name : storeNameOrDescriptor,
       actionName,
       args
     };
@@ -755,7 +755,8 @@ var wp;
     ),
     [RESOLVE_SELECT]: createRegistryControl(
       (registry) => ({ storeKey, selectorName, args }) => {
-        const method = registry.select(storeKey)[selectorName].hasResolver ? "resolveSelect" : "select";
+        const selector = registry.select(storeKey)[selectorName];
+        const method = selector.hasResolver ? "resolveSelect" : "select";
         return registry[method](storeKey)[selectorName](
           ...args
         );
@@ -785,6 +786,7 @@ var wp;
         if (resolvedAction) {
           return next(resolvedAction);
         }
+        return void 0;
       });
     }
     return next(action);
@@ -794,12 +796,15 @@ var wp;
   // packages/data/build-module/resolvers-cache-middleware.mjs
   var createResolversCacheMiddleware = (registry, storeName) => () => (next) => (action) => {
     const resolvers = registry.select(storeName).getCachedResolvers();
-    const resolverEntries = Object.entries(resolvers);
+    const resolverEntries = Object.entries(
+      resolvers
+    );
     resolverEntries.forEach(([selectorName, resolversByArgs]) => {
       const resolver = registry.stores[storeName]?.resolvers?.[selectorName];
       if (!resolver || !resolver.shouldInvalidate) {
         return;
       }
+      const { shouldInvalidate } = resolver;
       resolversByArgs.forEach((value, args) => {
         if (value === void 0) {
           return;
@@ -807,7 +812,7 @@ var wp;
         if (value.status !== "finished" && value.status !== "error") {
           return;
         }
-        if (!resolver.shouldInvalidate(action, ...args)) {
+        if (!shouldInvalidate(action, ...args)) {
           return;
         }
         registry.dispatch(storeName).invalidateResolution(selectorName, args);
@@ -1255,11 +1260,11 @@ var wp;
       callback(value, key)
     ])
   );
-  var devToolsReplacer = (key, state) => {
+  var devToolsReplacer = (_key, state) => {
     if (state instanceof Map) {
       return Object.fromEntries(state);
     }
-    if (state instanceof window.HTMLElement) {
+    if (typeof window !== "undefined" && state instanceof window.HTMLElement) {
       return null;
     }
     return state;
@@ -1268,7 +1273,7 @@ var wp;
     const cache = {};
     return {
       isRunning(selectorName, args) {
-        return cache[selectorName] && cache[selectorName].get(trimUndefinedValues(args));
+        return !!(cache[selectorName] && cache[selectorName].get(trimUndefinedValues(args)));
       },
       clear(selectorName, args) {
         if (cache[selectorName]) {
@@ -1347,8 +1352,14 @@ var wp;
           return (...args) => Promise.resolve(store.dispatch(action(...args)));
         }
         const actions = {
-          ...mapValues(actions_exports, bindAction),
-          ...mapValues(options.actions, bindAction)
+          ...mapValues(
+            actions_exports,
+            bindAction
+          ),
+          ...mapValues(
+            options.actions,
+            bindAction
+          )
         };
         const allActions = createPrivateProxy(
           actions,
@@ -1359,10 +1370,15 @@ var wp;
         );
         const thunkDispatch = new Proxy(
           (action) => store.dispatch(action),
-          { get: (target, name) => allActions[name] }
+          {
+            get: (_target, name) => allActions[name]
+          }
         );
         lock(actions, allActions);
-        const resolvers = options.resolvers ? mapValues(options.resolvers, mapResolver) : {};
+        const resolvers = options.resolvers ? mapValues(
+          options.resolvers,
+          mapResolver
+        ) : {};
         function bindSelector(selector, selectorName) {
           if (selector.isRegistrySelector) {
             selector.registry = registry;
@@ -1416,7 +1432,10 @@ var wp;
           selectors_exports,
           bindMetadataSelector
         );
-        const boundSelectors = mapValues(options.selectors, bindSelector);
+        const boundSelectors = mapValues(
+          options.selectors,
+          bindSelector
+        );
         const selectors = {
           ...boundMetadataSelectors,
           ...boundSelectors
@@ -1434,12 +1453,13 @@ var wp;
         }
         const thunkSelect = new Proxy(
           (selector) => selector(store.__unstableOriginalGetState()),
-          { get: (target, name) => allSelectors[name] }
+          {
+            get: (_target, name) => allSelectors[name]
+          }
         );
         lock(selectors, allSelectors);
         const bindResolveSelector = mapResolveSelector(
           store,
-          resolvers,
           boundMetadataSelectors
         );
         const resolveSelectors = mapValues(
@@ -1477,10 +1497,10 @@ var wp;
         const getSuspendSelectors = () => suspendSelectors;
         store.__unstableOriginalGetState = store.getState;
         store.getState = () => store.__unstableOriginalGetState().root;
-        const subscribe2 = store && ((listener) => {
+        const subscribe2 = (listener) => {
           listeners.add(listener);
           return () => listeners.delete(listener);
-        });
+        };
         let lastState = store.__unstableOriginalGetState();
         store.subscribe(() => {
           const state = store.__unstableOriginalGetState();
@@ -1544,21 +1564,20 @@ var wp;
     return createStore(
       enhancedReducer,
       { root: initialState },
-      (0, import_compose.compose)(enhancers)
+      (0, import_compose.compose)(...enhancers)
     );
   }
-  function mapResolveSelector(store, resolvers, boundMetadataSelectors) {
+  function mapResolveSelector(store, boundMetadataSelectors) {
     return (selector, selectorName) => {
       if (!selector.hasResolver) {
-        return async (...args) => selector.apply(null, args);
+        return async (...args) => selector(...args);
       }
       return (...args) => new Promise((resolve, reject) => {
-        const resolver = resolvers[selectorName];
         const hasFinished = () => {
           return boundMetadataSelectors.hasFinishedResolution(
             selectorName,
             args
-          ) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args);
+          );
         };
         const finalize = (result2) => {
           const hasFailed = boundMetadataSelectors.hasResolutionFailed(
@@ -1575,7 +1594,7 @@ var wp;
             resolve(result2);
           }
         };
-        const getResult = () => selector.apply(null, args);
+        const getResult = () => selector(...args);
         const result = getResult();
         if (hasFinished()) {
           return finalize(result);
@@ -1595,7 +1614,7 @@ var wp;
         return selector;
       }
       return (...args) => {
-        const result = selector.apply(null, args);
+        const result = selector(...args);
         if (boundMetadataSelectors.hasFinishedResolution(
           selectorName,
           args
@@ -1638,7 +1657,7 @@ var wp;
   }
   function mapSelectorWithResolver(selector, selectorName, resolver, store, resolversCache, boundMetadataSelectors) {
     function fulfillSelector(args) {
-      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(selectorName, args) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args)) {
+      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(selectorName, args)) {
         return;
       }
       resolversCache.markAsRunning(selectorName, args);
@@ -1648,9 +1667,12 @@ var wp;
           startResolution(selectorName, args)
         );
         try {
-          const action = resolver.fulfill(...args);
-          if (action) {
-            await store.dispatch(action);
+          const isFulfilled = typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args);
+          if (!isFulfilled) {
+            const action = resolver.fulfill(...args);
+            if (action) {
+              await store.dispatch(action);
+            }
           }
           store.dispatch(
             finishResolution(selectorName, args)
@@ -1841,19 +1863,19 @@ var wp;
           }
           return [
             key,
-            function() {
-              return registry[key].apply(null, arguments);
+            (...args) => {
+              return registry[key](...args);
             }
           ];
         })
       );
     }
-    function registerStoreInstance(name, createStore2) {
+    function registerStoreInstance(name, createStoreFunc) {
       if (stores[name]) {
         console.error('Store "' + name + '" is already registered.');
         return stores[name];
       }
-      const store = createStore2();
+      const store = createStoreFunc();
       if (typeof store.getSelectors !== "function") {
         throw new TypeError("store.getSelectors must be a function");
       }
@@ -1913,7 +1935,9 @@ var wp;
       }
       const store = registerStoreInstance(
         storeName,
-        () => createReduxStore(storeName, options).instantiate(registry)
+        () => createReduxStore(storeName, options).instantiate(
+          registry
+        )
       );
       return store.store;
     }
@@ -1966,7 +1990,9 @@ var wp;
     if (parent) {
       parent.subscribe(globalListener);
     }
-    const registryWithPlugins = withPlugins(registry);
+    const registryWithPlugins = withPlugins(
+      registry
+    );
     lock(registryWithPlugins, {
       privateActionsOf: (name) => {
         try {
@@ -1987,7 +2013,8 @@ var wp;
   }
 
   // packages/data/build-module/default-registry.mjs
-  var default_registry_default = createRegistry();
+  var defaultRegistry = createRegistry();
+  var default_registry_default = defaultRegistry;
 
   // packages/data/build-module/plugins/index.mjs
   var plugins_exports = {};
@@ -1996,16 +2023,16 @@ var wp;
   });
 
   // node_modules/is-plain-object/dist/is-plain-object.mjs
-  function isObject2(o) {
+  function isObject(o) {
     return Object.prototype.toString.call(o) === "[object Object]";
   }
   function isPlainObject2(o) {
     var ctor, prot;
-    if (isObject2(o) === false) return false;
+    if (isObject(o) === false) return false;
     ctor = o.constructor;
     if (ctor === void 0) return true;
     prot = ctor.prototype;
-    if (isObject2(prot) === false) return false;
+    if (isObject(prot) === false) return false;
     if (prot.hasOwnProperty("isPrototypeOf") === false) {
       return false;
     }
@@ -2098,7 +2125,7 @@ var wp;
           combineReducers2(reducers)
         );
       } else {
-        getPersistedState = (state, action) => action.nextState;
+        getPersistedState = (_state, action) => action.nextState;
       }
       let lastState = getPersistedState(void 0, {
         nextState: getState()
@@ -2124,9 +2151,13 @@ var wp;
             type: "@@WP/PERSISTENCE_RESTORE"
           });
           if (isPlainObject2(initialState) && isPlainObject2(persistedState)) {
-            initialState = (0, import_deepmerge.default)(initialState, persistedState, {
-              isMergeableObject: isPlainObject2
-            });
+            initialState = (0, import_deepmerge.default)(
+              initialState,
+              persistedState,
+              {
+                isMergeableObject: isPlainObject2
+              }
+            );
           } else {
             initialState = persistedState;
           }
@@ -2147,9 +2178,10 @@ var wp;
       }
     };
   }
-  persistencePlugin.__unstableMigrate = () => {
-  };
-  var persistence_default = persistencePlugin;
+  var persistence_default = Object.assign(persistencePlugin, {
+    __unstableMigrate: () => {
+    }
+  });
 
   // packages/data/build-module/components/with-select/index.mjs
   var import_compose2 = __toESM(require_compose(), 1);
@@ -2270,7 +2302,7 @@ var wp;
     return (mapSelect, isAsync) => {
       function updateValue() {
         if (lastMapResultValid && mapSelect === lastMapSelect) {
-          return lastMapResult;
+          return;
         }
         const listeningStores = { current: null };
         const mapResult = registry.__unstableMarkListeningStores(
@@ -2423,26 +2455,31 @@ var wp;
 
   // packages/data/build-module/dispatch.mjs
   function dispatch2(storeNameOrDescriptor) {
-    return default_registry_default.dispatch(storeNameOrDescriptor);
+    return default_registry_default.dispatch(
+      storeNameOrDescriptor
+    );
   }
 
   // packages/data/build-module/select.mjs
   function select2(storeNameOrDescriptor) {
-    return default_registry_default.select(storeNameOrDescriptor);
+    return default_registry_default.select(
+      storeNameOrDescriptor
+    );
   }
 
   // packages/data/build-module/index.mjs
-  var defaultRegistry = default_registry_default;
   var combineReducers2 = combineReducers;
   function resolveSelect2(storeNameOrDescriptor) {
-    return defaultRegistry.resolveSelect(storeNameOrDescriptor);
+    return default_registry_default.resolveSelect(
+      storeNameOrDescriptor
+    );
   }
-  var suspendSelect = (storeNameOrDescriptor) => defaultRegistry.suspendSelect(storeNameOrDescriptor);
-  var subscribe = (listener, storeNameOrDescriptor) => defaultRegistry.subscribe(listener, storeNameOrDescriptor);
-  var registerGenericStore = defaultRegistry.registerGenericStore;
-  var registerStore = defaultRegistry.registerStore;
-  var use = defaultRegistry.use;
-  var register = (store) => defaultRegistry.register(store);
+  var suspendSelect = (storeNameOrDescriptor) => default_registry_default.suspendSelect(storeNameOrDescriptor);
+  var subscribe = (listener, storeNameOrDescriptor) => default_registry_default.subscribe(listener, storeNameOrDescriptor);
+  var registerGenericStore = default_registry_default.registerGenericStore;
+  var registerStore = default_registry_default.registerStore;
+  var use = default_registry_default.use;
+  var register = (store) => default_registry_default.register(store);
   return __toCommonJS(index_exports);
 })();
 /*! Bundled license information:

@@ -72,7 +72,7 @@ function render_block_core_search( $attributes ) {
 	if ( $input->next_tag() ) {
 		$input->add_class( implode( ' ', $input_classes ) );
 		$input->set_attribute( 'id', $input_id );
-		$input->set_attribute( 'value', get_search_query() );
+		$input->set_attribute( 'value', get_search_query( false ) );
 		$input->set_attribute( 'placeholder', $attributes['placeholder'] );
 
 		// If it's interactive, enqueue the script module and add the directives.

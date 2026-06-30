@@ -47,7 +47,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       function useSyncExternalStore$2(subscribe2, getSnapshot) {
-        didWarnOld18Alpha || void 0 === React12.startTransition || (didWarnOld18Alpha = true, console.error(
+        didWarnOld18Alpha || void 0 === React13.startTransition || (didWarnOld18Alpha = true, console.error(
           "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
         ));
         var value = getSnapshot();
@@ -57,7 +57,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
             "The result of getSnapshot should be cached to avoid an infinite loop"
           ), didWarnUncachedGetSnapshot = true);
         }
-        cachedValue = useState4({
+        cachedValue = useState5({
           inst: { value, getSnapshot }
         });
         var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
@@ -69,7 +69,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
           },
           [subscribe2, value, getSnapshot]
         );
-        useEffect5(
+        useEffect6(
           function() {
             checkIfSnapshotChanged(inst) && forceUpdate({ inst });
             return subscribe2(function() {
@@ -95,8 +95,8 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return getSnapshot();
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React12 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState4 = React12.useState, useEffect5 = React12.useEffect, useLayoutEffect3 = React12.useLayoutEffect, useDebugValue = React12.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-      exports.useSyncExternalStore = void 0 !== React12.useSyncExternalStore ? React12.useSyncExternalStore : shim;
+      var React13 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState5 = React13.useState, useEffect6 = React13.useEffect, useLayoutEffect3 = React13.useLayoutEffect, useDebugValue = React13.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+      exports.useSyncExternalStore = void 0 !== React13.useSyncExternalStore ? React13.useSyncExternalStore : shim;
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
   }
@@ -123,7 +123,7 @@ var require_with_selector_development = __commonJS({
         return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React12 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore = shim.useSyncExternalStore, useRef7 = React12.useRef, useEffect5 = React12.useEffect, useMemo3 = React12.useMemo, useDebugValue = React12.useDebugValue;
+      var React13 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore = shim.useSyncExternalStore, useRef7 = React13.useRef, useEffect6 = React13.useEffect, useMemo3 = React13.useMemo, useDebugValue = React13.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe2, getSnapshot, getServerSnapshot, selector, isEqual) {
         var instRef = useRef7(null);
         if (null === instRef.current) {
@@ -166,7 +166,7 @@ var require_with_selector_development = __commonJS({
           [getSnapshot, getServerSnapshot, selector, isEqual]
         );
         var value = useSyncExternalStore(subscribe2, instRef[0], instRef[1]);
-        useEffect5(
+        useEffect6(
           function() {
             inst.hasValue = true;
             inst.value = value;
@@ -673,6 +673,43 @@ function createBrowserHistory(opts) {
     return res;
   };
   return history;
+}
+function createMemoryHistory(opts = {
+  initialEntries: ["/"]
+}) {
+  const entries = opts.initialEntries;
+  let index = opts.initialIndex ? Math.min(Math.max(opts.initialIndex, 0), entries.length - 1) : entries.length - 1;
+  const states = entries.map(
+    (_entry, index2) => assignKeyAndIndex(index2, void 0)
+  );
+  const getLocation = () => parseHref(entries[index], states[index]);
+  return createHistory({
+    getLocation,
+    getLength: () => entries.length,
+    pushState: (path, state) => {
+      if (index < entries.length - 1) {
+        entries.splice(index + 1);
+        states.splice(index + 1);
+      }
+      states.push(state);
+      entries.push(path);
+      index = Math.max(entries.length - 1, 0);
+    },
+    replaceState: (path, state) => {
+      states[index] = state;
+      entries[index] = path;
+    },
+    back: () => {
+      index = Math.max(index - 1, 0);
+    },
+    forward: () => {
+      index = Math.min(index + 1, entries.length - 1);
+    },
+    go: (n) => {
+      index = Math.min(Math.max(index + n, 0), entries.length - 1);
+    },
+    createHref: (path) => path
+  });
 }
 function parseHref(href, state) {
   const hashIndex = href.indexOf("#");
@@ -5483,6 +5520,126 @@ function RouterProvider({ router, ...rest }) {
   return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(RouterContextProvider, { router, ...rest, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Matches, {}) });
 }
 
+// node_modules/@tanstack/react-router/dist/esm/useBlocker.js
+var React12 = __toESM(require_react(), 1);
+function _resolveBlockerOpts(opts, condition) {
+  if (opts === void 0) {
+    return {
+      shouldBlockFn: () => true,
+      withResolver: false
+    };
+  }
+  if ("shouldBlockFn" in opts) {
+    return opts;
+  }
+  if (typeof opts === "function") {
+    const shouldBlock2 = Boolean(condition ?? true);
+    const _customBlockerFn2 = async () => {
+      if (shouldBlock2) return await opts();
+      return false;
+    };
+    return {
+      shouldBlockFn: _customBlockerFn2,
+      enableBeforeUnload: shouldBlock2,
+      withResolver: false
+    };
+  }
+  const shouldBlock = Boolean(opts.condition ?? true);
+  const fn = opts.blockerFn;
+  const _customBlockerFn = async () => {
+    if (shouldBlock && fn !== void 0) {
+      return await fn();
+    }
+    return shouldBlock;
+  };
+  return {
+    shouldBlockFn: _customBlockerFn,
+    enableBeforeUnload: shouldBlock,
+    withResolver: fn === void 0
+  };
+}
+function useBlocker(opts, condition) {
+  const {
+    shouldBlockFn,
+    enableBeforeUnload = true,
+    disabled = false,
+    withResolver = false
+  } = _resolveBlockerOpts(opts, condition);
+  const router = useRouter();
+  const { history } = router;
+  const [resolver, setResolver] = React12.useState({
+    status: "idle",
+    current: void 0,
+    next: void 0,
+    action: void 0,
+    proceed: void 0,
+    reset: void 0
+  });
+  React12.useEffect(() => {
+    const blockerFnComposed = async (blockerFnArgs) => {
+      function getLocation(location) {
+        const parsedLocation = router.parseLocation(location);
+        const matchedRoutes = router.getMatchedRoutes(
+          parsedLocation.pathname,
+          void 0
+        );
+        if (matchedRoutes.foundRoute === void 0) {
+          throw new Error(`No route found for location ${location.href}`);
+        }
+        return {
+          routeId: matchedRoutes.foundRoute.id,
+          fullPath: matchedRoutes.foundRoute.fullPath,
+          pathname: parsedLocation.pathname,
+          params: matchedRoutes.routeParams,
+          search: parsedLocation.search
+        };
+      }
+      const current = getLocation(blockerFnArgs.currentLocation);
+      const next = getLocation(blockerFnArgs.nextLocation);
+      const shouldBlock = await shouldBlockFn({
+        action: blockerFnArgs.action,
+        current,
+        next
+      });
+      if (!withResolver) {
+        return shouldBlock;
+      }
+      if (!shouldBlock) {
+        return false;
+      }
+      const promise = new Promise((resolve) => {
+        setResolver({
+          status: "blocked",
+          current,
+          next,
+          action: blockerFnArgs.action,
+          proceed: () => resolve(false),
+          reset: () => resolve(true)
+        });
+      });
+      const canNavigateAsync = await promise;
+      setResolver({
+        status: "idle",
+        current: void 0,
+        next: void 0,
+        action: void 0,
+        proceed: void 0,
+        reset: void 0
+      });
+      return canNavigateAsync;
+    };
+    return disabled ? void 0 : history.block({ blockerFn: blockerFnComposed, enableBeforeUnload });
+  }, [
+    shouldBlockFn,
+    enableBeforeUnload,
+    disabled,
+    withResolver,
+    history,
+    router
+  ]);
+  return resolver;
+}
+
 // node_modules/@tanstack/react-router/dist/esm/useLocation.js
 function useLocation(opts) {
   return useRouterState({
@@ -5508,6 +5665,7 @@ lock(privateApis, {
   // Router creation and setup
   createBrowserHistory,
   createLazyRoute,
+  createMemoryHistory,
   createRouter,
   createRootRoute,
   createRoute,
@@ -5522,6 +5680,7 @@ lock(privateApis, {
   useMatches,
   useRouter,
   useRouterState,
+  useBlocker,
   // History utilities
   parseHref
 });

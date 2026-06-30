@@ -63,9 +63,6 @@
 		},
 		"gradient": {
 			"type": "string"
-		},
-		"width": {
-			"type": "number"
 		}
 	},
 	"supports": {
@@ -79,6 +76,13 @@
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
+			}
+		},
+		"dimensions": {
+			"width": true,
+			"__experimentalSkipSerialization": [ "width" ],
+			"__experimentalDefaultControls": {
+				"width": true
 			}
 		},
 		"typography": {
@@ -145,6 +149,10 @@
 		"root": ".wp-block-button .wp-block-button__link",
 		"typography": {
 			"writingMode": ".wp-block-button"
+		},
+		"dimensions": {
+			"root": ".wp-block-button",
+			"width": ".wp-block-button"
 		}
 	}
 }

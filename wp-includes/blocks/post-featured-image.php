@@ -166,10 +166,8 @@ function get_block_core_post_featured_image_overlay_element_markup( $attributes 
 	}
 
 	// Apply overlay and gradient classes.
-	if ( $has_dim_background ) {
-		$class_names[] = 'has-background-dim';
-		$class_names[] = "has-background-dim-{$attributes['dimRatio']}";
-	}
+	$class_names[] = 'has-background-dim';
+	$class_names[] = "has-background-dim-{$attributes['dimRatio']}";
 
 	if ( $has_solid_overlay ) {
 		$class_names[] = "has-{$attributes['overlayColor']}-background-color";

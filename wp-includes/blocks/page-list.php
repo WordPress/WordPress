@@ -166,7 +166,7 @@ function block_core_page_list_build_css_font_sizes( $context ) {
  *
  * @since 5.8.0
  *
- * @param boolean $open_submenus_on_click Whether to open submenus on click instead of hover.
+ * @param string  $submenu_visibility The submenu visibility mode: 'hover', 'click', or 'always'.
  * @param boolean $show_submenu_icons Whether to show submenu indicator icons.
  * @param boolean $is_navigation_child If block is a child of Navigation block.
  * @param array   $nested_pages The array of nested pages.

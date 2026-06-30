@@ -7,9 +7,6 @@
 	"description": "Display the excerpt.",
 	"textdomain": "default",
 	"attributes": {
-		"textAlign": {
-			"type": "string"
-		},
 		"moreText": {
 			"type": "string",
 			"role": "content"
@@ -46,6 +43,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"textColumns": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,

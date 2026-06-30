@@ -158,7 +158,7 @@ var import_i18n = __toESM(require_i18n(), 1);
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 function ConnectorItem({
   className,
-  logo,
+  icon,
   name,
   description,
   actionArea,
@@ -167,7 +167,7 @@ function ConnectorItem({
   const headingId = (0, import_element.useId)();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalItem, { className, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 4, role: "group", "aria-labelledby": headingId, children: [
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalHStack, { alignment: "center", spacing: 4, wrap: true, children: [
-      logo,
+      icon,
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.FlexBlock, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_components.__experimentalVStack, { spacing: 0, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           import_components.__experimentalText,
@@ -226,7 +226,7 @@ function DefaultConnectorSettings({
         (0, import_i18n.sprintf)(
           /* translators: %s: Link to provider settings. */
           (0, import_i18n.__)(
-            "Your API key is stored securely. You can manage it at %s"
+            "Your API key is stored securely. You can reset it at %s"
           ),
           "<a></a>"
         ),
@@ -281,15 +281,7 @@ function DefaultConnectorSettings({
             help: getHelp()
           }
         ),
-        readOnly ? onRemove && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalHStack, { justify: "flex-start", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          import_components.Button,
-          {
-            variant: "link",
-            isDestructive: true,
-            onClick: onRemove,
-            children: (0, import_i18n.__)("Remove and replace")
-          }
-        ) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalHStack, { justify: "flex-start", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        readOnly ? onRemove && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Button, { variant: "link", isDestructive: true, onClick: onRemove, children: (0, import_i18n.__)("Remove and replace") }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.__experimentalHStack, { justify: "flex-start", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           import_components.Button,
           {
             __next40pxDefaultSize: true,

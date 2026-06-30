@@ -118,7 +118,7 @@
 }
 
 .admin-ui-page__header {
-  padding: var(--wpds-dimension-padding-lg, 16px) var(--wpds-dimension-padding-2xl, 24px);
+  padding: var(--wpds-dimension-padding-md, 12px) var(--wpds-dimension-padding-2xl, 24px);
   border-bottom: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e0e0e0);
   background: var(--wpds-color-bg-surface-neutral-strong, #ffffff);
   position: sticky;
@@ -128,9 +128,9 @@
 
 .admin-ui-page__header-title {
   font-family: var(--wpds-font-family-heading, -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif);
-  font-size: var(--wpds-font-size-xl, 20px);
+  font-size: var(--wpds-font-size-lg, 15px);
   font-weight: var(--wpds-font-weight-medium, 499);
-  line-height: var(--wpds-font-line-height-xl, 32px);
+  line-height: var(--wpds-font-line-height-lg, 28px);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -220,13 +220,15 @@
  * These variables do not appear to be used anywhere else.
  */
 .admin-ui-breadcrumbs__list {
+  font-family: var(--wpds-font-family-heading, -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif);
+  font-size: var(--wpds-font-size-lg, 15px);
+  font-weight: var(--wpds-font-weight-medium, 499);
+  line-height: var(--wpds-font-line-height-lg, 28px);
   list-style: none;
   padding: 0;
   margin: 0;
   gap: 0;
-  font-size: 15px;
   min-height: 32px;
-  font-weight: 500;
 }
 
 .admin-ui-breadcrumbs__list li:not(:last-child)::after {

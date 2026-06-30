@@ -121,7 +121,4 @@ async function initialize() {
   await initializeCategories();
   await initializeAbilities();
 }
-var ready = initialize();
-export {
-  ready
-};
+initialize();

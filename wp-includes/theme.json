@@ -316,6 +316,30 @@
 			"core/button": {
 				"border": {
 					"radius": true
+				},
+				"dimensions": {
+					"dimensionSizes": [
+						{
+							"name": "25%",
+							"slug": "25",
+							"size": "25%"
+						},
+						{
+							"name": "50%",
+							"slug": "50",
+							"size": "50%"
+						},
+						{
+							"name": "75%",
+							"slug": "75",
+							"size": "75%"
+						},
+						{
+							"name": "100%",
+							"slug": "100",
+							"size": "100%"
+						}
+					]
 				}
 			},
 			"core/image": {

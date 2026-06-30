@@ -34,6 +34,9 @@
 .wp-block-buttons > .wp-block-button.has-custom-font-size .wp-block-button__link {
   font-size: inherit;
 }
+.wp-block-buttons > .wp-block-button[class*=wp-block-button__width] {
+  width: calc(var(--wp--block-button--width) * 1% - var(--wp--style--block-gap, 0.5em) * (1 - var(--wp--block-button--width) / 100));
+}
 .wp-block-buttons > .wp-block-button.wp-block-button__width-25 {
   width: calc(25% - var(--wp--style--block-gap, 0.5em) * 0.75);
 }
@@ -48,6 +51,9 @@
   flex-basis: 100%;
 }
 
+.wp-block-buttons.is-vertical > .wp-block-button[class*=wp-block-button__width] {
+  width: calc(var(--wp--block-button--width) * 1%);
+}
 .wp-block-buttons.is-vertical > .wp-block-button.wp-block-button__width-25 {
   width: 25%;
 }

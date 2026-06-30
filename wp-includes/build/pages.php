@@ -10,3 +10,5 @@ require_once __DIR__ . '/pages/font-library/page.php';
 require_once __DIR__ . '/pages/font-library/page-wp-admin.php';
 require_once __DIR__ . '/pages/options-connectors/page.php';
 require_once __DIR__ . '/pages/options-connectors/page-wp-admin.php';
+require_once __DIR__ . '/pages/guidelines/page.php';
+require_once __DIR__ . '/pages/guidelines/page-wp-admin.php';

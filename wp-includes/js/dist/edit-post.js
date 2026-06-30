@@ -865,10 +865,7 @@ var wp;
         (box) => box.id === metabox.id
       );
       if (existing !== -1) {
-        mergedMetaboxes[existing] = {
-          ...mergedMetaboxes[existing],
-          ...metabox
-        };
+        mergedMetaboxes[existing] = metabox;
       } else {
         mergedMetaboxes.push(metabox);
       }
@@ -2317,47 +2314,27 @@ var wp;
   var import_core_data7 = __toESM(require_core_data(), 1);
   var import_element11 = __toESM(require_element(), 1);
   var useMetaBoxInitialization = (enabled) => {
-    const {
-      isEnabledAndEditorReady,
-      isCollaborationEnabled,
-      hasIncompatibleMetaBoxes,
-      hasActiveMetaBoxes
-    } = (0, import_data24.useSelect)(
-      (select3) => {
-        const {
-          __unstableIsEditorReady,
-          isCollaborationEnabledForCurrentPost
-        } = unlock(select3(import_editor17.store));
-        return {
-          isEnabledAndEditorReady: enabled && __unstableIsEditorReady(),
-          isCollaborationEnabled: isCollaborationEnabledForCurrentPost(),
-          hasIncompatibleMetaBoxes: enabled ? select3(store).getAllMetaBoxes().some((metaBox) => !metaBox.__rtc_compatible) : false,
-          hasActiveMetaBoxes: enabled && select3(store).hasMetaBoxes()
-        };
-      },
+    const { isEnabledAndEditorReady, isCollaborationEnabled } = (0, import_data24.useSelect)(
+      (select3) => ({
+        isEnabledAndEditorReady: enabled && select3(import_editor17.store).__unstableIsEditorReady(),
+        isCollaborationEnabled: select3(import_editor17.store).isCollaborationEnabledForCurrentPost()
+      }),
       [enabled]
     );
     const { setCollaborationSupported } = unlock((0, import_data24.useDispatch)(import_core_data7.store));
-    const { updateEditorSettings } = (0, import_data24.useDispatch)(import_editor17.store);
     const { initializeMetaBoxes: initializeMetaBoxes2 } = (0, import_data24.useDispatch)(store);
     (0, import_element11.useEffect)(() => {
       if (isEnabledAndEditorReady) {
         initializeMetaBoxes2();
-        if (isCollaborationEnabled && hasIncompatibleMetaBoxes) {
+        if (isCollaborationEnabled) {
           setCollaborationSupported(false);
-        }
-        if (hasActiveMetaBoxes) {
-          updateEditorSettings({ disableVisualRevisions: true });
         }
       }
     }, [
       isEnabledAndEditorReady,
       initializeMetaBoxes2,
       isCollaborationEnabled,
-      setCollaborationSupported,
-      hasIncompatibleMetaBoxes,
-      hasActiveMetaBoxes,
-      updateEditorSettings
+      setCollaborationSupported
     ]);
   };
 
@@ -2572,7 +2549,7 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
       navigable_region_default,
       {
-        "aria-label": paneLabel,
+        ariaLabel: paneLabel,
         ref: setMainRefs,
         className: clsx_default(
           "edit-post-meta-boxes-main",

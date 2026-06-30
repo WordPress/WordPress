@@ -1126,38 +1126,6 @@ var BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS = {
   spacing: "spacing",
   typography: "typography"
 };
-function getPresetsDeclarations(blockPresets = {}, mergedSettings) {
-  return PRESET_METADATA.reduce(
-    (declarations, { path, valueKey, valueFunc, cssVarInfix }) => {
-      const presetByOrigin = getValueFromObjectPath(
-        blockPresets,
-        path,
-        []
-      );
-      ["default", "theme", "custom"].forEach((origin) => {
-        if (presetByOrigin[origin]) {
-          presetByOrigin[origin].forEach((value) => {
-            if (valueKey && !valueFunc) {
-              declarations.push(
-                `--wp--preset--${cssVarInfix}--${kebabCase(
-                  value.slug
-                )}: ${value[valueKey]}`
-              );
-            } else if (valueFunc && typeof valueFunc === "function") {
-              declarations.push(
-                `--wp--preset--${cssVarInfix}--${kebabCase(
-                  value.slug
-                )}: ${valueFunc(value, mergedSettings)}`
-              );
-            }
-          });
-        }
-      });
-      return declarations;
-    },
-    []
-  );
-}
 function getPresetsClasses(blockSelector = "*", blockPresets = {}) {
   return PRESET_METADATA.reduce(
     (declarations, { path, cssVarInfix, classes }) => {
@@ -1262,6 +1230,53 @@ var updateParagraphTextIndentSelector = (featureDeclarations, settings, blockNam
     return updated;
   }
   return featureDeclarations;
+};
+var updateButtonWidthDeclarations = (featureDeclarations, settings) => {
+  const buttonSelector = ".wp-block-button";
+  if (!(buttonSelector in featureDeclarations)) {
+    return featureDeclarations;
+  }
+  const updated = { ...featureDeclarations };
+  updated[buttonSelector] = updated[buttonSelector].map(
+    (declaration) => {
+      const match = declaration.match(/^width:\s*(.+)$/);
+      if (!match) {
+        return declaration;
+      }
+      const value = match[1];
+      let percentage = null;
+      if (value.endsWith("%")) {
+        percentage = parseFloat(value);
+      }
+      const presetPrefix = "var(--wp--preset--dimension--";
+      if (percentage === null && value.startsWith(presetPrefix) && value.endsWith(")")) {
+        const slug = value.slice(presetPrefix.length, -1);
+        const dimensionSizes = {
+          ...settings?.dimensions?.dimensionSizes ?? {},
+          ...settings?.blocks?.["core/button"]?.dimensions?.dimensionSizes ?? {}
+        };
+        for (const origin of Object.values(dimensionSizes)) {
+          if (!Array.isArray(origin)) {
+            continue;
+          }
+          for (const preset of origin) {
+            if (preset.slug === slug && typeof preset.size === "string" && preset.size.endsWith("%")) {
+              percentage = parseFloat(preset.size);
+              break;
+            }
+          }
+          if (percentage !== null) {
+            break;
+          }
+        }
+      }
+      if (percentage === null || isNaN(percentage)) {
+        return declaration;
+      }
+      return `width: calc(${percentage} * 1% - (var(--wp--style--block-gap, 0.5em) * (1 - ${percentage} / 100)))`;
+    }
+  );
+  return updated;
 };
 var getFeatureDeclarations = (selectors, styles) => {
   const declarations = {};
@@ -1673,26 +1688,97 @@ var getNodesWithSettings = (tree, blockSelectors) => {
         nodes.push({
           presets: blockPresets,
           custom: blockCustom,
-          selector: blockSelectors[blockName]?.selector
+          selector: blockSelectors[blockName]?.selector,
+          featureSelectors: blockSelectors[blockName]?.featureSelectors
         });
       }
     }
   );
   return nodes;
 };
+function resolveFeatureSelector(featureSelectors, featureKey, fallback) {
+  if (!featureSelectors || typeof featureSelectors === "string") {
+    return fallback;
+  }
+  const feature = featureSelectors[featureKey];
+  if (typeof feature === "string") {
+    return feature;
+  }
+  if (typeof feature === "object" && feature.root) {
+    return feature.root;
+  }
+  return fallback;
+}
+function getPresetVarDeclarations(presets, mergedSettings, { path, valueKey, valueFunc, cssVarInfix }) {
+  const presetByOrigin = getValueFromObjectPath(
+    presets,
+    path,
+    []
+  );
+  const declarations = [];
+  for (const origin of ["default", "theme", "custom"]) {
+    if (!presetByOrigin[origin]) {
+      continue;
+    }
+    for (const value of presetByOrigin[origin]) {
+      const slug = kebabCase(value.slug);
+      if (valueKey && !valueFunc) {
+        declarations.push(
+          `--wp--preset--${cssVarInfix}--${slug}: ${value[valueKey]}`
+        );
+      } else if (valueFunc && typeof valueFunc === "function") {
+        declarations.push(
+          `--wp--preset--${cssVarInfix}--${slug}: ${valueFunc(
+            value,
+            mergedSettings
+          )}`
+        );
+      }
+    }
+  }
+  return declarations;
+}
 var generateCustomProperties = (tree, blockSelectors) => {
-  const settings = getNodesWithSettings(tree, blockSelectors);
+  const nodes = getNodesWithSettings(tree, blockSelectors);
   let ruleset = "";
-  settings.forEach(({ presets, custom, selector }) => {
-    const declarations = tree?.settings ? getPresetsDeclarations(presets, tree?.settings) : [];
+  for (const { presets, custom, selector, featureSelectors } of nodes) {
+    const defaultSelector = selector;
+    const varsBySelector = {
+      [defaultSelector]: []
+    };
+    if (tree?.settings) {
+      for (const metadata of PRESET_METADATA) {
+        const declarations = getPresetVarDeclarations(
+          presets,
+          tree.settings,
+          metadata
+        );
+        if (declarations.length === 0) {
+          continue;
+        }
+        const target = resolveFeatureSelector(
+          featureSelectors,
+          metadata.path[0],
+          defaultSelector
+        );
+        if (!varsBySelector[target]) {
+          varsBySelector[target] = [];
+        }
+        varsBySelector[target].push(...declarations);
+      }
+    }
     const customProps = flattenTree(custom, "--wp--custom--", "--");
     if (customProps.length > 0) {
-      declarations.push(...customProps);
+      varsBySelector[defaultSelector].push(...customProps);
     }
-    if (declarations.length > 0) {
-      ruleset += `${selector}{${declarations.join(";")};}`;
+    for (const [ruleSelector, declarations] of Object.entries(
+      varsBySelector
+    )) {
+      if (declarations.length > 0) {
+        ruleset += `${ruleSelector}{${declarations.join(";")};}`;
+      }
     }
-  });
+  }
   return ruleset;
 };
 var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles = false, disableRootPadding = false, styleOptions = {}) => {
@@ -1752,6 +1838,10 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
             featureDeclarations,
             tree.settings,
             name
+          );
+          featureDeclarations = updateButtonWidthDeclarations(
+            featureDeclarations,
+            tree.settings
           );
           Object.entries(featureDeclarations).forEach(
             ([cssSelector, declarations]) => {
@@ -1817,6 +1907,10 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
                     featureDeclarations,
                     tree.settings,
                     name
+                  );
+                  featureDeclarations = updateButtonWidthDeclarations(
+                    featureDeclarations,
+                    tree.settings
                   );
                   Object.entries(
                     featureDeclarations
@@ -2091,7 +2185,15 @@ function generateGlobalStyles(config = {}, blockTypes = [], options = {}) {
   blocks.forEach((blockType) => {
     const blockStyles = updatedConfig?.styles?.blocks?.[blockType.name];
     if (blockStyles?.css) {
-      const selector = blockSelectors[blockType.name].selector;
+      const { featureSelectors } = blockSelectors[blockType.name];
+      const cssFeatureSelector = typeof featureSelectors === "object" ? featureSelectors?.css : void 0;
+      let resolvedCssSelector;
+      if (typeof cssFeatureSelector === "string") {
+        resolvedCssSelector = cssFeatureSelector;
+      } else if (typeof cssFeatureSelector === "object") {
+        resolvedCssSelector = cssFeatureSelector?.root;
+      }
+      const selector = resolvedCssSelector ?? blockSelectors[blockType.name].selector;
       styles.push({
         css: processCSSNesting(blockStyles.css, selector),
         isGlobalStyles: true
@@ -2541,7 +2643,7 @@ var import_block_editor = __toESM(require_block_editor(), 1);
 var import_editor2 = __toESM(require_editor(), 1);
 var import_blocks2 = __toESM(require_blocks(), 1);
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='5619aa31a1']")) {
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='5619aa31a1']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "5619aa31a1");
   style.appendChild(document.createTextNode(".lazy-editor-block-preview__container{align-items:center;border-radius:4px;display:flex;flex-direction:column;height:100%;justify-content:center}.dataviews-view-grid .lazy-editor-block-preview__container .block-editor-block-preview__container{height:100%}.dataviews-view-table .lazy-editor-block-preview__container{text-wrap:balance;text-wrap:pretty;flex-grow:0;width:96px}"));
@@ -2608,5 +2710,6 @@ export {
   Editor,
   Preview,
   loadEditorAssets,
-  useEditorAssets
+  useEditorAssets,
+  useEditorSettings
 };

@@ -39,7 +39,6 @@ function block_core_accordion_item_render( array $attributes, string $content ):
 
 		if ( $p->next_tag( array( 'class_name' => 'wp-block-accordion-heading__toggle' ) ) ) {
 			$p->set_attribute( 'data-wp-on--click', 'actions.toggle' );
-			$p->set_attribute( 'data-wp-on--keydown', 'actions.handleKeyDown' );
 			$p->set_attribute( 'id', $unique_id );
 			$p->set_attribute( 'aria-controls', $unique_id . '-panel' );
 			$p->set_attribute( 'data-wp-bind--aria-expanded', 'state.isOpen' );

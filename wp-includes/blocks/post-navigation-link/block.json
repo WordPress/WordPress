@@ -7,9 +7,6 @@
 	"description": "Displays the next or previous post link that is adjacent to the current post.",
 	"textdomain": "default",
 	"attributes": {
-		"textAlign": {
-			"type": "string"
-		},
 		"type": {
 			"type": "string",
 			"default": "next"
@@ -46,6 +43,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

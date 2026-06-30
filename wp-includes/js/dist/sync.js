@@ -9217,10 +9217,10 @@ var wp;
   }
 
   // packages/sync/build-module/providers/index.mjs
-  var import_hooks3 = __toESM(require_hooks(), 1);
+  var import_hooks2 = __toESM(require_hooks(), 1);
 
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
-  var import_hooks2 = __toESM(require_hooks(), 1);
+  var import_hooks = __toESM(require_hooks(), 1);
 
   // packages/sync/node_modules/y-protocols/sync.js
   var messageYjsSyncStep1 = 0;
@@ -9267,20 +9267,11 @@ var wp;
   };
 
   // packages/sync/build-module/providers/http-polling/config.mjs
-  var import_hooks = __toESM(require_hooks(), 1);
   var DEFAULT_CLIENT_LIMIT_PER_ROOM = 3;
   var MAX_ERROR_BACKOFF_IN_MS = 30 * 1e3;
   var MAX_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
-  var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
-    "sync.pollingManager.pollingInterval",
-    4e3
-    // 4 seconds
-  );
-  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = (0, import_hooks.applyFilters)(
-    "sync.pollingManager.pollingIntervalWithCollaborators",
-    1e3
-    // 1 second
-  );
+  var POLLING_INTERVAL_IN_MS = 1e3;
+  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = 250;
   var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
 
   // packages/sync/build-module/providers/http-polling/types.mjs
@@ -9360,34 +9351,22 @@ var wp;
       }
     };
   }
-  async function postSyncUpdate(payload) {
-    const response = await (0, import_api_fetch.default)({
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json"
-      },
+  function postSyncUpdate(payload) {
+    return (0, import_api_fetch.default)({
       method: "POST",
-      parse: false,
-      path: SYNC_API_PATH
+      path: SYNC_API_PATH,
+      data: payload
     });
-    if (!response.ok) {
-      throw new Error(
-        `Sync update failed with status ${response.status}`
-      );
-    }
-    return await response.json();
   }
   function postSyncUpdateNonBlocking(payload) {
     if (payload.rooms.length === 0) {
       return;
     }
     (0, import_api_fetch.default)({
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
       method: "POST",
-      parse: false,
-      path: SYNC_API_PATH
+      path: SYNC_API_PATH,
+      data: payload,
+      keepalive: true
     }).catch(() => {
     });
   }
@@ -9505,11 +9484,11 @@ var wp;
     }
   }
   function checkConnectionLimit(awareness, roomState) {
-    if (!roomState.isPrimaryRoom || hasCheckedConnectionLimit) {
+    if (!roomState.enforceConnectionLimit) {
       return false;
     }
-    hasCheckedConnectionLimit = true;
-    const maxClientsPerRoom = (0, import_hooks2.applyFilters)(
+    roomState.enforceConnectionLimit = false;
+    const maxClientsPerRoom = (0, import_hooks.applyFilters)(
       "sync.pollingProvider.maxClientsPerRoom",
       DEFAULT_CLIENT_LIMIT_PER_ROOM,
       roomState.room
@@ -9530,7 +9509,6 @@ var wp;
     return false;
   }
   var areListenersRegistered = false;
-  var hasCheckedConnectionLimit = false;
   var hasCollaborators = false;
   var isActiveBrowser = "visible" === document.visibilityState;
   var isPolling = false;
@@ -9591,7 +9569,6 @@ var wp;
         roomStates.forEach((state) => {
           state.onStatusChange({ status: "connected" });
         });
-        hasCollaborators = false;
         rooms.forEach((room) => {
           if (!roomStates.has(room.room)) {
             return;
@@ -9610,29 +9587,13 @@ var wp;
             return;
           }
           roomState.processAwarenessUpdate(room.awareness);
-          if (roomState.isPrimaryRoom && Object.keys(room.awareness).length > 1) {
+          if (Object.keys(room.awareness).length > 1) {
             hasCollaborators = true;
-            roomStates.forEach((state) => {
-              state.updateQueue.resume();
-            });
+            roomState.updateQueue.resume();
           }
-          const responseUpdates = [];
-          for (const update of room.updates) {
-            try {
-              const response = roomState.processDocUpdate(update);
-              if (response) {
-                responseUpdates.push(response);
-              }
-            } catch (error) {
-              roomState.log(
-                "Failed to apply sync update",
-                { error, update },
-                "error",
-                true
-                // force
-              );
-            }
-          }
+          const responseUpdates = room.updates.map((update) => roomState.processDocUpdate(update)).filter(
+            (update) => Boolean(update)
+          );
           roomState.updateQueue.addBulk(responseUpdates);
           if (room.should_compact) {
             roomState.log("Server requested compaction update");
@@ -9666,18 +9627,13 @@ var wp;
             continue;
           }
           const state = roomStates.get(room.room);
-          if (room.updates.length > 0 && state.endCursor > 0) {
-            state.updateQueue.clear();
-            state.updateQueue.add(state.createCompactionUpdate());
-          } else if (room.updates.length > 0) {
-            state.updateQueue.restore(room.updates);
-          }
+          state.updateQueue.restore(room.updates);
           state.log(
             "Error posting sync update, will retry with backoff",
-            { error, nextPoll: pollInterval },
-            "error",
-            true
-            // force
+            {
+              error,
+              nextPoll: pollInterval
+            }
           );
         }
         if (!isUnloadPending) {
@@ -9706,7 +9662,7 @@ var wp;
       return;
     }
     const updateQueue = createUpdateQueue([createSyncStep1Update(doc2)]);
-    const isPrimaryRoom = 0 === roomStates.size;
+    const enforceConnectionLimit = 0 === roomStates.size;
     function onAwarenessUpdate() {
       roomState.localAwarenessState = awareness.getLocalState() ?? {};
     }
@@ -9746,7 +9702,7 @@ var wp;
         SyncUpdateType.COMPACTION
       ),
       endCursor: 0,
-      isPrimaryRoom,
+      enforceConnectionLimit,
       localAwarenessState: awareness.getLocalState() ?? {},
       log,
       onStatusChange,
@@ -9793,7 +9749,6 @@ var wp;
         handleVisibilityChange
       );
       areListenersRegistered = false;
-      hasCheckedConnectionLimit = false;
     }
   }
   function retryNow() {
@@ -9873,20 +9828,16 @@ var wp;
     /**
      * Log debug messages if debugging is enabled.
      *
-     * @param message    The debug message
-     * @param debug      Additional debug information
-     * @param errorLevel The console method to use for logging
-     * @param force      Whether to force logging regardless of debug setting
+     * @param message The debug message
+     * @param debug   Additional debug information
      */
-    log = (message, debug = {}, errorLevel = "log", force = false) => {
-      if (!this.options.debug && !force) {
-        return;
+    log = (message, debug = {}) => {
+      if (this.options.debug) {
+        console.log(`[${this.constructor.name}]: ${message}`, {
+          room: this.options.room,
+          ...debug
+        });
       }
-      const logFn = console[errorLevel] || console.log;
-      logFn(`[${this.constructor.name}]: ${message}`, {
-        room: this.options.room,
-        ...debug
-      });
     };
     /**
      * Handle synchronization events from the polling manager.
@@ -9938,7 +9889,7 @@ var wp;
     if (!window._wpCollaborationEnabled) {
       return [];
     }
-    const filteredProviderCreators = (0, import_hooks3.applyFilters)(
+    const filteredProviderCreators = (0, import_hooks2.applyFilters)(
       "sync.providers",
       getDefaultProviderCreators()
     );
@@ -10793,54 +10744,6 @@ var wp;
     return characterDiff.diff(oldStr, newStr, options);
   }
 
-  // packages/sync/node_modules/diff/libesm/diff/line.js
-  var LineDiff = class extends Diff {
-    constructor() {
-      super(...arguments);
-      this.tokenize = tokenize;
-    }
-    equals(left, right, options) {
-      if (options.ignoreWhitespace) {
-        if (!options.newlineIsToken || !left.includes("\n")) {
-          left = left.trim();
-        }
-        if (!options.newlineIsToken || !right.includes("\n")) {
-          right = right.trim();
-        }
-      } else if (options.ignoreNewlineAtEof && !options.newlineIsToken) {
-        if (left.endsWith("\n")) {
-          left = left.slice(0, -1);
-        }
-        if (right.endsWith("\n")) {
-          right = right.slice(0, -1);
-        }
-      }
-      return super.equals(left, right, options);
-    }
-  };
-  var lineDiff = new LineDiff();
-  function diffLines(oldStr, newStr, options) {
-    return lineDiff.diff(oldStr, newStr, options);
-  }
-  function tokenize(value, options) {
-    if (options.stripTrailingCr) {
-      value = value.replace(/\r\n/g, "\n");
-    }
-    const retLines = [], linesAndNewlines = value.split(/(\n|\r\n)/);
-    if (!linesAndNewlines[linesAndNewlines.length - 1]) {
-      linesAndNewlines.pop();
-    }
-    for (let i = 0; i < linesAndNewlines.length; i++) {
-      const line = linesAndNewlines[i];
-      if (i % 2 && !options.newlineIsToken) {
-        retLines[retLines.length - 1] += line;
-      } else {
-        retLines.push(line);
-      }
-    }
-    return retLines;
-  }
-
   // packages/sync/build-module/quill-delta/Delta.mjs
   var import_es62 = __toESM(require_es6(), 1);
 
@@ -11045,7 +10948,6 @@ var wp;
     return JSON.parse(JSON.stringify(value));
   }
   var NULL_CHARACTER = String.fromCharCode(0);
-  var STRING_TOO_LARGE_THRESHOLD = 1e4;
   function normalizeChangeCounts(changes) {
     return changes.map((change) => ({
       ...change,
@@ -11481,25 +11383,10 @@ var wp;
     diffWithCursor(other, cursorAfterChange) {
       if (this.ops === other.ops) {
         return new _Delta();
-      }
-      const strings = this.deltasToStrings(other);
-      const maxStringLength = Math.max(
-        ...strings.map((str) => str.length)
-      );
-      if (maxStringLength > STRING_TOO_LARGE_THRESHOLD) {
-        const diffResult = normalizeChangeCounts(
-          diffLines(strings[0], strings[1])
-        );
-        const thisIterLarge = new Iterator(this.ops);
-        const otherIterLarge = new Iterator(other.ops);
-        return this.convertChangesToDelta(
-          diffResult,
-          thisIterLarge,
-          otherIterLarge
-        ).chop();
       } else if (cursorAfterChange === null) {
         return this.diff(other);
       }
+      const strings = this.deltasToStrings(other);
       let diffs = normalizeChangeCounts(
         diffChars(strings[0], strings[1])
       );

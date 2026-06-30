@@ -4176,7 +4176,7 @@ var wp;
 
   // packages/theme/build-module/theme-provider.mjs
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='662a5161a8']")) {
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='662a5161a8']")) {
     const style = document.createElement("style");
     style.setAttribute("data-wp-hash", "662a5161a8");
     style.appendChild(document.createTextNode(".dba930ea7a9438fd__root{display:contents}"));

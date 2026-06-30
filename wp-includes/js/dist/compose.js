@@ -1298,8 +1298,8 @@ var wp;
   var import_keycodes = __toESM(require_keycodes(), 1);
 
   // packages/compose/build-module/hooks/use-focus-on-mount/index.mjs
-  var import_element9 = __toESM(require_element(), 1);
   var import_dom2 = __toESM(require_dom(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   function useFocusOnMount(focusOnMount = "firstElement") {
     const focusOnMountRef = (0, import_element9.useRef)(focusOnMount);
     const setFocus = (target) => {
@@ -1310,12 +1310,11 @@ var wp;
         preventScroll: true
       });
     };
-    const timerIdRef = (0, import_element9.useRef)(void 0);
     (0, import_element9.useEffect)(() => {
       focusOnMountRef.current = focusOnMount;
     }, [focusOnMount]);
     return useRefEffect((node) => {
-      if (!node || focusOnMountRef.current === false) {
+      if (focusOnMountRef.current === false) {
         return;
       }
       if (node.contains(node.ownerDocument?.activeElement ?? null)) {
@@ -1325,14 +1324,11 @@ var wp;
         setFocus(node);
         return;
       }
-      timerIdRef.current = setTimeout(() => {
+      const timerId = setTimeout(() => {
         if (focusOnMountRef.current === "firstInputElement") {
-          let formInput = null;
-          if (typeof window !== "undefined" && node instanceof window.Element) {
-            formInput = node.querySelector(
-              'input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
-            );
-          }
+          const formInput = node.querySelector(
+            'input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
+          );
           if (formInput) {
             setFocus(formInput);
             return;
@@ -1344,9 +1340,7 @@ var wp;
         }
       }, 0);
       return () => {
-        if (timerIdRef.current) {
-          clearTimeout(timerIdRef.current);
-        }
+        clearTimeout(timerId);
       };
     }, []);
   }

@@ -245,6 +245,9 @@
 .wp-block-buttons > .wp-block-button.has-custom-font-size .wp-block-button__link {
   font-size: inherit;
 }
+.wp-block-buttons > .wp-block-button[class*=wp-block-button__width] {
+  width: calc(var(--wp--block-button--width) * 1% - var(--wp--style--block-gap, 0.5em) * (1 - var(--wp--block-button--width) / 100));
+}
 .wp-block-buttons > .wp-block-button.wp-block-button__width-25 {
   width: calc(25% - var(--wp--style--block-gap, 0.5em) * 0.75);
 }
@@ -259,6 +262,9 @@
   flex-basis: 100%;
 }
 
+.wp-block-buttons.is-vertical > .wp-block-button[class*=wp-block-button__width] {
+  width: calc(var(--wp--block-button--width) * 1%);
+}
 .wp-block-buttons.is-vertical > .wp-block-button.wp-block-button__width-25 {
   width: 25%;
 }
@@ -3165,29 +3171,371 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   rotate: 180deg;
 }
 
-.wp-block-playlist .wp-block-playlist__current-item {
-  display: flex;
-  align-items: center;
-  gap: var(--wp--preset--spacing--40, 1.5em);
-  align-self: stretch;
-  padding-bottom: var(--wp--preset--spacing--30, 1em);
-  margin-bottom: var(--wp--preset--spacing--30, 1em);
+.waveform-player {
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.4;
 }
-.wp-block-playlist .wp-block-playlist__current-item div {
+
+.waveform-player * {
+  box-sizing: border-box;
+}
+
+.waveform-body {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--wp--preset--spacing--20, 0.5em);
+  gap: 8px;
 }
-.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__current-item-artist-album {
-  flex-direction: row;
+
+.waveform-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
 }
-.wp-block-playlist .wp-block-playlist__current-item .wp-block-playlist__item-title {
-  word-break: break-all;
+
+.waveform-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+  opacity: 0.9;
+  flex-shrink: 0;
 }
-.wp-block-playlist audio {
+
+.waveform-btn:hover:not(:disabled) {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.waveform-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.waveform-btn > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  margin-top: var(--wp--preset--spacing--20, 0.625em);
+  height: 100%;
+}
+
+.waveform-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: block;
+}
+
+.waveform-icon-play svg {
+  margin-right: 1px;
+}
+
+.waveform-container {
+  flex: 1;
+  position: relative;
+  min-height: 60px;
+  cursor: pointer;
+  min-width: 0;
+  width: 100%;
+}
+
+.waveform-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  transition: opacity 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.waveform-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  min-height: 20px;
+}
+
+.waveform-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.waveform-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.waveform-subtitle {
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.waveform-time {
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.waveform-bpm {
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.waveform-loading {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1019607843);
+  z-index: 10;
+}
+
+.waveform-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.waveform-error-text {
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.waveform-markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.waveform-marker {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5019607843);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: all;
+  transition: all 0.2s;
+}
+
+.waveform-marker:hover {
+  width: 4px;
+  z-index: 20;
+}
+
+.waveform-marker-tooltip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 50%;
+  transform: translate(50%);
+  background: rgba(0, 0, 0, 0.9019607843);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 1000;
+}
+
+.waveform-marker:hover .waveform-marker-tooltip {
+  opacity: 1;
+}
+
+.waveform-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.waveform-marker:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+  width: 4px;
+}
+
+.waveform-speed {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.speed-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 40px;
+}
+
+.speed-btn:hover {
+  background: rgba(255, 255, 255, 0.0509803922);
+  border-color: rgba(255, 255, 255, 0.3019607843);
+}
+
+.speed-value {
+  font-weight: 600;
+}
+
+.speed-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 4px;
+  background: rgba(0, 0, 0, 0.9490196078);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 4px;
+  z-index: 100;
+  min-width: 60px;
+}
+
+.speed-option {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7019607843);
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: right;
+  border-radius: 4px;
+}
+
+.speed-option:hover {
+  background: rgba(255, 255, 255, 0.1019607843);
+  color: #fff;
+}
+
+.speed-option.active {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+  font-weight: 600;
+}
+
+.waveform-player.waveform-focused {
+  outline: 2px solid rgba(168, 85, 247, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.waveform-player:focus {
+  outline: none;
+}
+
+.waveform-player:focus-visible {
+  outline: 1px solid rgba(168, 85, 247, 0.3);
+  outline-offset: 1px;
+}
+
+.waveform-player.waveform-focused {
+  outline: none;
+}
+
+.waveform-track.waveform-align-top {
+  align-items: flex-start;
+}
+
+.waveform-track.waveform-align-top .waveform-btn {
+  margin-top: 5px;
+}
+
+.waveform-track.waveform-align-center {
+  align-items: center;
+}
+
+.waveform-track.waveform-align-bottom {
+  align-items: flex-end;
+}
+
+.waveform-track.waveform-align-bottom .waveform-btn {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 480px) {
+  .waveform-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+  .waveform-container {
+    min-height: 50px;
+  }
+  .waveform-info {
+    font-size: 12px;
+  }
+  .waveform-subtitle, .waveform-time, .waveform-bpm {
+    font-size: 10px;
+  }
+}
+.wp-block-playlist {
+  overflow: hidden;
+  overflow: clip;
+}
+.wp-block-playlist .wp-block-playlist__waveform-player {
+  width: 100%;
+  margin: var(--wp--preset--spacing--20, 0.625em) 0;
+  position: relative;
+}
+.wp-block-playlist .waveform-track {
+  height: 100px;
+  gap: 0;
+}
+.wp-block-playlist .waveform-btn {
+  border-radius: 0;
+  border-end-start-radius: 0.125rem;
+  border-start-start-radius: 0.125rem;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  background: currentColor;
+  margin: 0;
+}
+.wp-block-playlist .waveform-btn:hover:not(:disabled) {
+  transform: none;
+}
+.wp-block-playlist .waveform-track.waveform-align-bottom .waveform-btn {
+  margin-bottom: 0;
+}
+.wp-block-playlist .waveform-subtitle {
+  opacity: 0.7;
 }
 .wp-block-playlist .wp-block-playlist__tracklist {
   margin: 0;
@@ -3202,10 +3550,6 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 .wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-show-numbers {
   counter-reset: playlist-track;
-}
-.wp-block-playlist li.block-list-appender.block-list-appender {
-  position: initial;
-  margin-top: var(--wp--preset--spacing--30, 1em);
 }
 
 .wp-block-playlist-track:has([aria-current=true]) {
@@ -4594,8 +4938,7 @@ ul.wp-block-rss.is-grid li {
   appearance: none;
   -webkit-appearance: none;
   margin: 0;
-  padding-block: var(--tab-padding-block, var(--wp--preset--spacing--20, 0.5em));
-  padding-inline: var(--tab-padding-inline, var(--wp--preset--spacing--30, 1em));
+  padding: var(--wp--preset--spacing--20, 0.5em) var(--wp--preset--spacing--30, 1em);
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
@@ -4604,20 +4947,12 @@ ul.wp-block-rss.is-grid li {
   text-transform: inherit;
   text-align: inherit;
 }
-.wp-block-tabs-menu-item:focus {
-  outline: none;
-}
 .wp-block-tabs-menu-item:focus-visible {
-  outline: 2px solid var(--tab-border-color-active, #000);
   outline-offset: 2px;
 }
-.wp-block-tabs-menu-item:hover {
-  background-color: var(--custom-tab-hover-color, #eaeaea) !important;
-  color: var(--custom-tab-hover-text-color, #000) !important;
-}
 .wp-block-tabs-menu-item[aria-selected=true], .wp-block-tabs-menu-item.is-active {
-  background-color: var(--custom-tab-active-color, #000) !important;
-  color: var(--custom-tab-active-text-color, #fff) !important;
+  background-color: #000;
+  color: #fff;
 }
 
 .wp-block-term-count {
@@ -4861,6 +5196,7 @@ a[data-fn].fn::after {
   position: absolute;
   width: 1px;
   word-wrap: normal !important;
+  word-break: normal !important;
 }
 
 .screen-reader-text:focus {

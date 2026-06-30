@@ -5,14 +5,8 @@
  * @package WordPress
  */
 
-// Path differs between source and build: './shared/' in source, './navigation-link/shared/' in build.
-if ( file_exists( __DIR__ . '/shared/item-should-render.php' ) ) {
-	require_once __DIR__ . '/shared/item-should-render.php';
-	require_once __DIR__ . '/shared/render-submenu-icon.php';
-} else {
-	require_once __DIR__ . '/navigation-link/shared/item-should-render.php';
-	require_once __DIR__ . '/navigation-link/shared/render-submenu-icon.php';
-}
+require_once __DIR__ . '/navigation-link/shared/item-should-render.php';
+require_once __DIR__ . '/navigation-link/shared/render-submenu-icon.php';
 
 /**
  * Build an array with CSS classes and inline styles defining the colors
@@ -262,7 +256,13 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 
 	if ( isset( $block->context['showSubmenuIcon'] ) && $block->context['showSubmenuIcon'] && $has_submenu ) {
 		// The submenu icon can be hidden by a CSS rule on the Navigation Block.
-		$html .= '<span class="wp-block-navigation__submenu-icon">' . block_core_navigation_render_submenu_icon() . '</span>';
+		$html .= '<span class="wp-block-navigation__submenu-icon">';
+		if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
+			$html .= gutenberg_block_core_shared_navigation_render_submenu_icon();
+		} else {
+			$html .= block_core_shared_navigation_render_submenu_icon();
+		}
+		$html .= '</span>';
 	}
 
 	if ( $has_submenu ) {
@@ -485,4 +485,4 @@ add_action( 'init', 'register_block_core_navigation_link' );
  * Creates all variations for post types / taxonomies dynamically (= each time when variations are requested).
  * Do not use variation_callback, to also account for unregistering post types/taxonomies later on.
  */
-add_action( 'get_block_type_variations', 'block_core_navigation_link_filter_variations', 10, 2 );
+add_filter( 'get_block_type_variations', 'block_core_navigation_link_filter_variations', 10, 2 );

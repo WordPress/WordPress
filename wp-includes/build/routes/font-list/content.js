@@ -692,6 +692,7 @@ function useRenderElementProps(componentProps, params = {}) {
   }
   return outProps;
 }
+var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
 function evaluateRenderProp(element, render, props, state) {
   if (render) {
     if (typeof render === "function") {
@@ -699,7 +700,17 @@ function evaluateRenderProp(element, render, props, state) {
     }
     const mergedProps = mergeProps(props, render.props);
     mergedProps.ref = props.ref;
-    return /* @__PURE__ */ React5.cloneElement(render, mergedProps);
+    let newElement = render;
+    if (newElement?.$$typeof === REACT_LAZY_TYPE) {
+      const children = React5.Children.toArray(render);
+      newElement = children[0];
+    }
+    if (true) {
+      if (!/* @__PURE__ */ React5.isValidElement(newElement)) {
+        throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+      }
+    }
+    return /* @__PURE__ */ React5.cloneElement(newElement, mergedProps);
   }
   if (element) {
     if (typeof element === "string") {
@@ -771,7 +782,7 @@ var previous_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primi
 
 // packages/ui/build-module/stack/stack.mjs
 var import_element3 = __toESM(require_element(), 1);
-if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='71d20935c2']")) {
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='71d20935c2']")) {
   const style = document.createElement("style");
   style.setAttribute("data-wp-hash", "71d20935c2");
   style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._19ce0419607e1896__stack{display:flex}}"));
@@ -810,7 +821,7 @@ var { Fill: SidebarToggleFill, Slot: SidebarToggleSlot } = (0, import_components
 // packages/admin-ui/build-module/page/header.mjs
 var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 function Header({
-  headingLevel = 1,
+  headingLevel = 2,
   breadcrumbs,
   badges,
   title,
@@ -819,34 +830,42 @@ function Header({
   showSidebarToggle = true
 }) {
   const HeadingTag = `h${headingLevel}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "column", className: "admin-ui-page__header", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
-        showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-          SidebarToggleSlot,
-          {
-            bubblesVirtually: true,
-            className: "admin-ui-page__sidebar-toggle-slot"
-          }
-        ),
-        title && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
-        breadcrumbs,
-        badges
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-        Stack,
-        {
-          direction: "row",
-          gap: "sm",
-          style: { width: "auto", flexShrink: 0 },
-          className: "admin-ui-page__header-actions",
-          align: "center",
-          children: actions
-        }
-      )
-    ] }),
-    subTitle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
-  ] });
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+    Stack,
+    {
+      direction: "column",
+      className: "admin-ui-page__header",
+      render: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("header", {}),
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", justify: "space-between", gap: "sm", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", justify: "start", children: [
+            showSidebarToggle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+              SidebarToggleSlot,
+              {
+                bubblesVirtually: true,
+                className: "admin-ui-page__sidebar-toggle-slot"
+              }
+            ),
+            title && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(HeadingTag, { className: "admin-ui-page__header-title", children: title }),
+            breadcrumbs,
+            badges
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+            Stack,
+            {
+              direction: "row",
+              gap: "sm",
+              style: { width: "auto", flexShrink: 0 },
+              className: "admin-ui-page__header-actions",
+              align: "center",
+              children: actions
+            }
+          )
+        ] }),
+        subTitle && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "admin-ui-page__header-subtitle", children: subTitle })
+      ]
+    }
+  );
 }
 
 // packages/admin-ui/build-module/page/index.mjs
@@ -860,11 +879,13 @@ function Page({
   children,
   className,
   actions,
+  ariaLabel,
   hasPadding = false,
   showSidebarToggle = true
 }) {
   const classes = clsx_default("admin-ui-page", className);
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(navigable_region_default, { className: classes, ariaLabel: title, children: [
+  const effectiveAriaLabel = ariaLabel ?? (typeof title === "string" ? title : "");
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(navigable_region_default, { className: classes, ariaLabel: effectiveAriaLabel, children: [
     (title || breadcrumbs || badges) && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
       Header,
       {
@@ -884,7 +905,7 @@ Page.SidebarToggleFill = SidebarToggleFill;
 var page_default = Page;
 
 // routes/font-list/stage.tsx
-var import_i18n46 = __toESM(require_i18n());
+var import_i18n47 = __toESM(require_i18n());
 var import_components62 = __toESM(require_components());
 var import_editor = __toESM(require_editor());
 var import_core_data12 = __toESM(require_core_data());
@@ -895,7 +916,7 @@ var import_element35 = __toESM(require_element());
 var import_components61 = __toESM(require_components(), 1);
 var import_blocks5 = __toESM(require_blocks(), 1);
 var import_data12 = __toESM(require_data(), 1);
-var import_block_editor13 = __toESM(require_block_editor(), 1);
+var import_block_editor14 = __toESM(require_block_editor(), 1);
 var import_element34 = __toESM(require_element(), 1);
 var import_compose6 = __toESM(require_compose(), 1);
 
@@ -1689,7 +1710,7 @@ function GlobalStylesProvider({
 
 // packages/global-styles-ui/build-module/screen-root.mjs
 var import_components8 = __toESM(require_components(), 1);
-var import_i18n4 = __toESM(require_i18n(), 1);
+var import_i18n5 = __toESM(require_i18n(), 1);
 var import_data2 = __toESM(require_data(), 1);
 var import_core_data2 = __toESM(require_core_data(), 1);
 
@@ -1733,7 +1754,7 @@ function NavigationButtonAsItem(props) {
 
 // packages/global-styles-ui/build-module/root-menu.mjs
 var import_components3 = __toESM(require_components(), 1);
-var import_i18n2 = __toESM(require_i18n(), 1);
+var import_i18n3 = __toESM(require_i18n(), 1);
 var import_block_editor = __toESM(require_block_editor(), 1);
 
 // node_modules/colord/plugins/a11y.mjs
@@ -1762,9 +1783,38 @@ function a11y_default(o3) {
 var import_element6 = __toESM(require_element(), 1);
 var import_data = __toESM(require_data(), 1);
 var import_core_data = __toESM(require_core_data(), 1);
-var import_i18n = __toESM(require_i18n(), 1);
+var import_i18n2 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/utils.mjs
+var import_i18n = __toESM(require_i18n(), 1);
+var VALID_ELEMENT_STATES = {
+  link: [
+    { value: ":link", label: (0, import_i18n.__)("Link") },
+    { value: ":any-link", label: (0, import_i18n.__)("Any Link") },
+    { value: ":visited", label: (0, import_i18n.__)("Visited") },
+    { value: ":hover", label: (0, import_i18n.__)("Hover") },
+    { value: ":focus", label: (0, import_i18n.__)("Focus") },
+    { value: ":focus-visible", label: (0, import_i18n.__)("Focus Visible") },
+    { value: ":active", label: (0, import_i18n.__)("Active") }
+  ],
+  button: [
+    { value: ":link", label: (0, import_i18n.__)("Link") },
+    { value: ":any-link", label: (0, import_i18n.__)("Any Link") },
+    { value: ":visited", label: (0, import_i18n.__)("Visited") },
+    { value: ":hover", label: (0, import_i18n.__)("Hover") },
+    { value: ":focus", label: (0, import_i18n.__)("Focus") },
+    { value: ":focus-visible", label: (0, import_i18n.__)("Focus Visible") },
+    { value: ":active", label: (0, import_i18n.__)("Active") }
+  ]
+};
+var VALID_BLOCK_STATES = {
+  "core/button": [
+    { value: ":hover", label: (0, import_i18n.__)("Hover") },
+    { value: ":focus", label: (0, import_i18n.__)("Focus") },
+    { value: ":focus-visible", label: (0, import_i18n.__)("Focus Visible") },
+    { value: ":active", label: (0, import_i18n.__)("Active") }
+  ]
+};
 function removePropertiesFromObject(object, properties) {
   if (!properties?.length) {
     return object;
@@ -1907,7 +1957,7 @@ function hasThemeVariation({
   settings,
   styles
 }) {
-  return title === (0, import_i18n.__)("Default") || Object.keys(settings || {}).length > 0 || Object.keys(styles || {}).length > 0;
+  return title === (0, import_i18n2.__)("Default") || Object.keys(settings || {}).length > 0 || Object.keys(styles || {}).length > 0;
 }
 function useCurrentMergeThemeStyleVariationsWithUserConfig(properties = []) {
   const { variationsFromTheme } = (0, import_data.useSelect)((select) => {
@@ -1925,7 +1975,7 @@ function useCurrentMergeThemeStyleVariationsWithUserConfig(properties = []) {
       clonedUserVariation,
       properties
     );
-    userVariationWithoutProperties.title = (0, import_i18n.__)("Default");
+    userVariationWithoutProperties.title = (0, import_i18n2.__)("Default");
     const variationsWithPropertiesAndBase = variationsFromTheme.filter((variation) => {
       return isVariationWithProperties(variation, properties);
     }).map((variation) => {
@@ -1998,7 +2048,7 @@ function useStylesPreviewColors() {
 // packages/global-styles-ui/build-module/typography-example.mjs
 var import_element7 = __toESM(require_element(), 1);
 var import_components4 = __toESM(require_components(), 1);
-var import_i18n3 = __toESM(require_i18n(), 1);
+var import_i18n4 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/font-library/utils/preview-styles.mjs
 function findNearest(input, numbers) {
@@ -2130,8 +2180,8 @@ function PreviewTypography({
         lineHeight: 1
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { style: headingPreviewStyle, children: (0, import_i18n3._x)("A", "Uppercase letter A") }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { style: bodyPreviewStyle, children: (0, import_i18n3._x)("a", "Lowercase letter A") })
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { style: headingPreviewStyle, children: (0, import_i18n4._x)("A", "Uppercase letter A") }),
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { style: bodyPreviewStyle, children: (0, import_i18n4._x)("a", "Lowercase letter A") })
       ]
     }
   );
@@ -2436,11 +2486,11 @@ var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-block-list.mjs
 var import_blocks2 = __toESM(require_blocks(), 1);
-var import_i18n6 = __toESM(require_i18n(), 1);
+var import_i18n7 = __toESM(require_i18n(), 1);
 var import_components11 = __toESM(require_components(), 1);
 var import_data4 = __toESM(require_data(), 1);
 var import_element9 = __toESM(require_element(), 1);
-var import_block_editor2 = __toESM(require_block_editor(), 1);
+var import_block_editor3 = __toESM(require_block_editor(), 1);
 var import_compose2 = __toESM(require_compose(), 1);
 import { speak } from "@wordpress/a11y";
 
@@ -2469,8 +2519,10 @@ function useBlockVariations(name2) {
 
 // packages/global-styles-ui/build-module/screen-header.mjs
 var import_components10 = __toESM(require_components(), 1);
-var import_i18n5 = __toESM(require_i18n(), 1);
+var import_i18n6 = __toESM(require_i18n(), 1);
+var import_block_editor2 = __toESM(require_block_editor(), 1);
 var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+var { StateControl } = unlock(import_block_editor2.privateApis);
 
 // packages/global-styles-ui/build-module/screen-block-list.mjs
 var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
@@ -2480,7 +2532,7 @@ var {
   useHasBorderPanel,
   useSettingsForBlockElement: useSettingsForBlockElement2,
   useHasColorPanel: useHasColorPanel2
-} = unlock(import_block_editor2.privateApis);
+} = unlock(import_block_editor3.privateApis);
 function useSortedBlockTypes() {
   const blockItems = (0, import_data4.useSelect)(
     (select) => select(import_blocks2.store).getBlockTypes(),
@@ -2520,7 +2572,7 @@ function BlockMenuItem({ block }) {
     {
       path: "/blocks/" + encodeURIComponent(block.name),
       children: /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_components11.__experimentalHStack, { justify: "flex-start", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_block_editor2.BlockIcon, { icon: block.icon }),
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_block_editor3.BlockIcon, { icon: block.icon }),
         /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components11.FlexItem, { children: block.title })
       ] })
     }
@@ -2539,9 +2591,9 @@ function BlockList({ filterValue }) {
       return;
     }
     const count = blockTypesListRef.current?.childElementCount || 0;
-    const resultsFoundMessage = (0, import_i18n6.sprintf)(
+    const resultsFoundMessage = (0, import_i18n7.sprintf)(
       /* translators: %d: number of results. */
-      (0, import_i18n6._n)("%d result found.", "%d results found.", count),
+      (0, import_i18n7._n)("%d result found.", "%d results found.", count),
       count
     );
     debouncedSpeak(resultsFoundMessage, "polite");
@@ -2552,7 +2604,7 @@ function BlockList({ filterValue }) {
       ref: blockTypesListRef,
       className: "global-styles-ui-block-types-item-list",
       role: "list",
-      children: filteredBlockTypes.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components11.__experimentalText, { align: "center", as: "p", children: (0, import_i18n6.__)("No blocks found.") }) : filteredBlockTypes.map((block) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+      children: filteredBlockTypes.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_components11.__experimentalText, { align: "center", as: "p", children: (0, import_i18n7.__)("No blocks found.") }) : filteredBlockTypes.map((block) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
         BlockMenuItem,
         {
           block
@@ -2566,15 +2618,15 @@ var MemoizedBlockList = (0, import_element9.memo)(BlockList);
 
 // packages/global-styles-ui/build-module/screen-block.mjs
 var import_blocks4 = __toESM(require_blocks(), 1);
-var import_block_editor4 = __toESM(require_block_editor(), 1);
+var import_block_editor5 = __toESM(require_block_editor(), 1);
 var import_element11 = __toESM(require_element(), 1);
 var import_data5 = __toESM(require_data(), 1);
 var import_core_data3 = __toESM(require_core_data(), 1);
 var import_components14 = __toESM(require_components(), 1);
-var import_i18n7 = __toESM(require_i18n(), 1);
+var import_i18n8 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/block-preview-panel.mjs
-var import_block_editor3 = __toESM(require_block_editor(), 1);
+var import_block_editor4 = __toESM(require_block_editor(), 1);
 var import_blocks3 = __toESM(require_blocks(), 1);
 var import_components12 = __toESM(require_components(), 1);
 var import_element10 = __toESM(require_element(), 1);
@@ -2606,10 +2658,10 @@ var {
   FiltersPanel: StylesFiltersPanel,
   ImageSettingsPanel,
   AdvancedPanel: StylesAdvancedPanel
-} = unlock(import_block_editor4.privateApis);
+} = unlock(import_block_editor5.privateApis);
 
 // packages/global-styles-ui/build-module/screen-typography.mjs
-var import_i18n21 = __toESM(require_i18n(), 1);
+var import_i18n22 = __toESM(require_i18n(), 1);
 var import_components34 = __toESM(require_components(), 1);
 var import_element22 = __toESM(require_element(), 1);
 
@@ -2618,7 +2670,7 @@ var import_components15 = __toESM(require_components(), 1);
 var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/typography-elements.mjs
-var import_i18n8 = __toESM(require_i18n(), 1);
+var import_i18n9 = __toESM(require_i18n(), 1);
 var import_components16 = __toESM(require_components(), 1);
 var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 
@@ -2667,7 +2719,7 @@ var preview_typography_default = StylesPreviewTypography;
 var import_components18 = __toESM(require_components(), 1);
 var import_element12 = __toESM(require_element(), 1);
 var import_keycodes = __toESM(require_keycodes(), 1);
-var import_i18n9 = __toESM(require_i18n(), 1);
+var import_i18n10 = __toESM(require_i18n(), 1);
 var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
 function Variation({
   variation,
@@ -2708,9 +2760,9 @@ function Variation({
   );
   let label = variation?.title;
   if (variation?.description) {
-    label = (0, import_i18n9.sprintf)(
+    label = (0, import_i18n10.sprintf)(
       /* translators: 1: variation title. 2: variation description. */
-      (0, import_i18n9._x)("%1$s (%2$s)", "variation label"),
+      (0, import_i18n10._x)("%1$s (%2$s)", "variation label"),
       variation?.title,
       variation?.description
     );
@@ -2787,7 +2839,7 @@ function TypographyVariations({
 }
 
 // packages/global-styles-ui/build-module/font-families.mjs
-var import_i18n19 = __toESM(require_i18n(), 1);
+var import_i18n20 = __toESM(require_i18n(), 1);
 var import_components32 = __toESM(require_components(), 1);
 var import_element21 = __toESM(require_element(), 1);
 
@@ -2795,7 +2847,7 @@ var import_element21 = __toESM(require_element(), 1);
 var import_element13 = __toESM(require_element(), 1);
 var import_data6 = __toESM(require_data(), 1);
 var import_core_data5 = __toESM(require_core_data(), 1);
-var import_i18n11 = __toESM(require_i18n(), 1);
+var import_i18n12 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/font-library/api.mjs
 var import_api_fetch = __toESM(require_api_fetch(), 1);
@@ -2844,22 +2896,22 @@ async function fetchInstallFontFace(fontFamilyId, data, registry) {
 var import_components20 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/font-library/utils/constants.mjs
-var import_i18n10 = __toESM(require_i18n(), 1);
+var import_i18n11 = __toESM(require_i18n(), 1);
 var ALLOWED_FILE_EXTENSIONS = ["otf", "ttf", "woff", "woff2"];
 var FONT_WEIGHTS = {
-  100: (0, import_i18n10._x)("Thin", "font weight"),
-  200: (0, import_i18n10._x)("Extra-light", "font weight"),
-  300: (0, import_i18n10._x)("Light", "font weight"),
-  400: (0, import_i18n10._x)("Normal", "font weight"),
-  500: (0, import_i18n10._x)("Medium", "font weight"),
-  600: (0, import_i18n10._x)("Semi-bold", "font weight"),
-  700: (0, import_i18n10._x)("Bold", "font weight"),
-  800: (0, import_i18n10._x)("Extra-bold", "font weight"),
-  900: (0, import_i18n10._x)("Black", "font weight")
+  100: (0, import_i18n11._x)("Thin", "font weight"),
+  200: (0, import_i18n11._x)("Extra-light", "font weight"),
+  300: (0, import_i18n11._x)("Light", "font weight"),
+  400: (0, import_i18n11._x)("Normal", "font weight"),
+  500: (0, import_i18n11._x)("Medium", "font weight"),
+  600: (0, import_i18n11._x)("Semi-bold", "font weight"),
+  700: (0, import_i18n11._x)("Bold", "font weight"),
+  800: (0, import_i18n11._x)("Extra-bold", "font weight"),
+  900: (0, import_i18n11._x)("Black", "font weight")
 };
 var FONT_STYLES = {
-  normal: (0, import_i18n10._x)("Normal", "font style"),
-  italic: (0, import_i18n10._x)("Italic", "font style")
+  normal: (0, import_i18n11._x)("Normal", "font style"),
+  italic: (0, import_i18n11._x)("Italic", "font style")
 };
 
 // packages/global-styles-ui/build-module/font-library/utils/index.mjs
@@ -3335,7 +3387,7 @@ function FontLibraryProvider({ children }) {
         await saveFontFamilies(activeFonts);
       }
       if (installationErrorMessages.length > 0) {
-        const installError = new Error((0, import_i18n11.__)("There was an error installing fonts."));
+        const installError = new Error((0, import_i18n12.__)("There was an error installing fonts."));
         installError.installationErrors = installationErrorMessages;
         throw installError;
       }
@@ -3345,7 +3397,7 @@ function FontLibraryProvider({ children }) {
   }
   async function uninstallFontFamily(fontFamilyToUninstall) {
     if (!fontFamilyToUninstall?.id) {
-      throw new Error((0, import_i18n11.__)("Font family to uninstall is not defined."));
+      throw new Error((0, import_i18n12.__)("Font family to uninstall is not defined."));
     }
     try {
       await deleteEntityRecord(
@@ -3478,7 +3530,7 @@ function FontLibraryProvider({ children }) {
 var context_default = FontLibraryProvider;
 
 // packages/global-styles-ui/build-module/font-library/modal.mjs
-var import_i18n17 = __toESM(require_i18n(), 1);
+var import_i18n18 = __toESM(require_i18n(), 1);
 var import_components30 = __toESM(require_components(), 1);
 var import_core_data8 = __toESM(require_core_data(), 1);
 var import_data8 = __toESM(require_data(), 1);
@@ -3488,10 +3540,10 @@ var import_components24 = __toESM(require_components(), 1);
 var import_core_data6 = __toESM(require_core_data(), 1);
 var import_data7 = __toESM(require_data(), 1);
 var import_element16 = __toESM(require_element(), 1);
-var import_i18n13 = __toESM(require_i18n(), 1);
+var import_i18n14 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/font-library/font-card.mjs
-var import_i18n12 = __toESM(require_i18n(), 1);
+var import_i18n13 = __toESM(require_i18n(), 1);
 var import_components22 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/font-library/font-demo.mjs
@@ -3608,16 +3660,16 @@ function FontCard({
       children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_components22.Flex, { justify: "space-between", wrap: false, children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(font_demo_default, { font: font2 }),
         /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_components22.Flex, { justify: "flex-end", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.__experimentalText, { className: "font-library__font-card__count", children: variantsText || (0, import_i18n12.sprintf)(
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.__experimentalText, { className: "font-library__font-card__count", children: variantsText || (0, import_i18n13.sprintf)(
             /* translators: %d: Number of font variants. */
-            (0, import_i18n12._n)(
+            (0, import_i18n13._n)(
               "%d variant",
               "%d variants",
               variantsCount
             ),
             variantsCount
           ) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(icon_default, { icon: (0, import_i18n12.isRTL)() ? chevron_left_default : chevron_right_default }) })
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_components22.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(icon_default, { icon: (0, import_i18n13.isRTL)() ? chevron_left_default : chevron_right_default }) })
         ] })
       ] })
     }
@@ -3757,14 +3809,14 @@ function InstalledFonts() {
       await saveFontFamilies(fontFamilies);
       setNotice({
         type: "success",
-        message: (0, import_i18n13.__)("Font family updated successfully.")
+        message: (0, import_i18n14.__)("Font family updated successfully.")
       });
     } catch (error) {
       setNotice({
         type: "error",
-        message: (0, import_i18n13.sprintf)(
+        message: (0, import_i18n14.sprintf)(
           /* translators: %s: error message */
-          (0, import_i18n13.__)("There was an error updating the font family. %s"),
+          (0, import_i18n14.__)("There was an error updating the font family. %s"),
           error.message
         )
       });
@@ -3791,9 +3843,9 @@ function InstalledFonts() {
       font2.slug,
       font2.source
     ).length;
-    return (0, import_i18n13.sprintf)(
+    return (0, import_i18n14.sprintf)(
       /* translators: 1: Active font variants, 2: Total font variants. */
-      (0, import_i18n13.__)("%1$d/%2$d variants active"),
+      (0, import_i18n14.__)("%1$d/%2$d variants active"),
       variantsActive,
       variantsInstalled
     );
@@ -3853,12 +3905,12 @@ function InstalledFonts() {
                   children: notice.message
                 }
               ),
-              !hasFonts && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalText, { as: "p", children: (0, import_i18n13.__)("No fonts installed.") }),
+              !hasFonts && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalText, { as: "p", children: (0, import_i18n14.__)("No fonts installed.") }),
               baseThemeFonts.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(import_components24.__experimentalVStack, { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("h2", {
                   className: "font-library__fonts-title",
                   /* translators: Heading for a list of fonts provided by the theme. */
-                  children: (0, import_i18n13._x)("Theme", "font source")
+                  children: (0, import_i18n14._x)("Theme", "font source")
                 }),
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
                   "ul",
@@ -3895,7 +3947,7 @@ function InstalledFonts() {
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("h2", {
                   className: "font-library__fonts-title",
                   /* translators: Heading for a list of fonts installed by the user. */
-                  children: (0, import_i18n13._x)("Custom", "font source")
+                  children: (0, import_i18n14._x)("Custom", "font source")
                 }),
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
                   "ul",
@@ -3945,7 +3997,7 @@ function InstalledFonts() {
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
                   import_components24.Navigator.BackButton,
                   {
-                    icon: (0, import_i18n13.isRTL)() ? chevron_right_default : chevron_left_default,
+                    icon: (0, import_i18n14.isRTL)() ? chevron_right_default : chevron_left_default,
                     size: "small",
                     onClick: () => {
                       handleSetLibraryFontSelected(
@@ -3953,7 +4005,7 @@ function InstalledFonts() {
                       );
                       setNotice(null);
                     },
-                    label: (0, import_i18n13.__)("Back")
+                    label: (0, import_i18n14.__)("Back")
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
@@ -3979,7 +4031,7 @@ function InstalledFonts() {
                 /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalSpacer, { margin: 1 })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalSpacer, { margin: 4 }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalText, { children: (0, import_i18n13.__)(
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalText, { children: (0, import_i18n14.__)(
                 "Choose font variants. Keep in mind that too many variants could make your site slower."
               ) }),
               /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_components24.__experimentalSpacer, { margin: 4 }),
@@ -3988,7 +4040,7 @@ function InstalledFonts() {
                   import_components24.CheckboxControl,
                   {
                     className: "font-library__select-all",
-                    label: (0, import_i18n13.__)("Select all"),
+                    label: (0, import_i18n14.__)("Select all"),
                     checked: isSelectAllChecked,
                     onChange: toggleSelectAll,
                     indeterminate: isIndeterminate
@@ -4033,7 +4085,7 @@ function InstalledFonts() {
             isDestructive: true,
             variant: "tertiary",
             onClick: handleUninstallClick,
-            children: (0, import_i18n13.__)("Delete")
+            children: (0, import_i18n14.__)("Delete")
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
@@ -4044,7 +4096,7 @@ function InstalledFonts() {
             onClick: handleUpdate,
             disabled: !fontFamiliesHasChanges,
             accessibleWhenDisabled: true,
-            children: (0, import_i18n13.__)("Update")
+            children: (0, import_i18n14.__)("Update")
           }
         )
       ] })
@@ -4069,12 +4121,12 @@ function ConfirmDeleteDialog({
       handleSetLibraryFontSelected(void 0);
       setNotice({
         type: "success",
-        message: (0, import_i18n13.__)("Font family uninstalled successfully.")
+        message: (0, import_i18n14.__)("Font family uninstalled successfully.")
       });
     } catch (error) {
       setNotice({
         type: "error",
-        message: (0, import_i18n13.__)("There was an error uninstalling the font family.") + error.message
+        message: (0, import_i18n14.__)("There was an error uninstalling the font family.") + error.message
       });
     }
   };
@@ -4085,14 +4137,14 @@ function ConfirmDeleteDialog({
     import_components24.__experimentalConfirmDialog,
     {
       isOpen,
-      cancelButtonText: (0, import_i18n13.__)("Cancel"),
-      confirmButtonText: (0, import_i18n13.__)("Delete"),
+      cancelButtonText: (0, import_i18n14.__)("Cancel"),
+      confirmButtonText: (0, import_i18n14.__)("Delete"),
       onCancel: handleCancelUninstall,
       onConfirm: handleConfirmUninstall,
       size: "medium",
-      children: font2 && (0, import_i18n13.sprintf)(
+      children: font2 && (0, import_i18n14.sprintf)(
         /* translators: %s: Name of the font. */
-        (0, import_i18n13.__)(
+        (0, import_i18n14.__)(
           'Are you sure you want to delete "%s" font and all its variants and assets?'
         ),
         font2.name
@@ -4106,7 +4158,7 @@ var installed_fonts_default = InstalledFonts;
 var import_element18 = __toESM(require_element(), 1);
 var import_components27 = __toESM(require_components(), 1);
 var import_compose3 = __toESM(require_compose(), 1);
-var import_i18n15 = __toESM(require_i18n(), 1);
+var import_i18n16 = __toESM(require_i18n(), 1);
 var import_core_data7 = __toESM(require_core_data(), 1);
 
 // packages/global-styles-ui/build-module/font-library/utils/filter-fonts.mjs
@@ -4150,7 +4202,7 @@ function isFontFontFaceInOutline(slug, face, outline) {
 }
 
 // packages/global-styles-ui/build-module/font-library/google-fonts-confirm-dialog.mjs
-var import_i18n14 = __toESM(require_i18n(), 1);
+var import_i18n15 = __toESM(require_i18n(), 1);
 var import_components25 = __toESM(require_components(), 1);
 var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
 function GoogleFontsConfirmDialog() {
@@ -4162,13 +4214,13 @@ function GoogleFontsConfirmDialog() {
     window.dispatchEvent(new Event("storage"));
   };
   return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "font-library__google-fonts-confirm", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.Card, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(import_components25.CardBody, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalHeading, { level: 2, children: (0, import_i18n14.__)("Connect to Google Fonts") }),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalHeading, { level: 2, children: (0, import_i18n15.__)("Connect to Google Fonts") }),
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalSpacer, { margin: 6 }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalText, { as: "p", children: (0, import_i18n14.__)(
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalText, { as: "p", children: (0, import_i18n15.__)(
       "To install fonts from Google you must give permission to connect directly to Google servers. The fonts you install will be downloaded from Google and stored on your site. Your site will then use these locally-hosted fonts."
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalSpacer, { margin: 3 }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalText, { as: "p", children: (0, import_i18n14.__)(
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalText, { as: "p", children: (0, import_i18n15.__)(
       "You can alternatively upload files directly on the Upload tab."
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_components25.__experimentalSpacer, { margin: 6 }),
@@ -4178,7 +4230,7 @@ function GoogleFontsConfirmDialog() {
         __next40pxDefaultSize: true,
         variant: "primary",
         onClick: handleConfirm,
-        children: (0, import_i18n14.__)("Allow access to Google Fonts")
+        children: (0, import_i18n15.__)("Allow access to Google Fonts")
       }
     )
   ] }) }) });
@@ -4229,7 +4281,7 @@ var collection_font_variant_default = CollectionFontVariant;
 var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
 var DEFAULT_CATEGORY = {
   slug: "all",
-  name: (0, import_i18n15._x)("All", "font categories")
+  name: (0, import_i18n16._x)("All", "font categories")
 };
 var LOCAL_STORAGE_ITEM = "wp-font-library-google-fonts-permission";
 var MIN_WINDOW_HEIGHT = 500;
@@ -4333,7 +4385,7 @@ function FontCollection({ slug }) {
     } catch (error) {
       setNotice({
         type: "error",
-        message: (0, import_i18n15.__)(
+        message: (0, import_i18n16.__)(
           "Error installing the fonts, could not be downloaded."
         )
       });
@@ -4343,7 +4395,7 @@ function FontCollection({ slug }) {
       await installFonts([fontFamily]);
       setNotice({
         type: "success",
-        message: (0, import_i18n15.__)("Fonts were installed successfully.")
+        message: (0, import_i18n16.__)("Fonts were installed successfully.")
       });
     } catch (error) {
       setNotice({
@@ -4379,13 +4431,13 @@ function FontCollection({ slug }) {
       import_components27.DropdownMenu,
       {
         icon: more_vertical_default,
-        label: (0, import_i18n15.__)("Actions"),
+        label: (0, import_i18n16.__)("Actions"),
         popoverProps: {
           position: "bottom left"
         },
         controls: [
           {
-            title: (0, import_i18n15.__)("Revoke access to Google Fonts"),
+            title: (0, import_i18n16.__)("Revoke access to Google Fonts"),
             onClick: revokeAccess
           }
         ]
@@ -4415,8 +4467,8 @@ function FontCollection({ slug }) {
                   import_components27.SearchControl,
                   {
                     value: filters.search,
-                    placeholder: (0, import_i18n15.__)("Font name\u2026"),
-                    label: (0, import_i18n15.__)("Search"),
+                    placeholder: (0, import_i18n16.__)("Font name\u2026"),
+                    label: (0, import_i18n16.__)("Search"),
                     onChange: debouncedUpdateSearchInput,
                     hideLabelFromVision: false
                   }
@@ -4425,7 +4477,7 @@ function FontCollection({ slug }) {
                   import_components27.SelectControl,
                   {
                     __next40pxDefaultSize: true,
-                    label: (0, import_i18n15.__)("Category"),
+                    label: (0, import_i18n16.__)("Category"),
                     value: filters.category,
                     onChange: handleCategoryFilter,
                     children: categories && categories.map((category) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
@@ -4440,7 +4492,7 @@ function FontCollection({ slug }) {
                 )
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalSpacer, { margin: 4 }),
-              !!selectedCollection?.font_families?.length && !fonts.length && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalText, { children: (0, import_i18n15.__)(
+              !!selectedCollection?.font_families?.length && !fonts.length && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalText, { children: (0, import_i18n16.__)(
                 "No fonts found. Try with a different search term."
               ) }),
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "font-library__fonts-grid__main", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
@@ -4475,13 +4527,13 @@ function FontCollection({ slug }) {
                 /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                   import_components27.Navigator.BackButton,
                   {
-                    icon: (0, import_i18n15.isRTL)() ? chevron_right_default : chevron_left_default,
+                    icon: (0, import_i18n16.isRTL)() ? chevron_right_default : chevron_left_default,
                     size: "small",
                     onClick: () => {
                       setSelectedFont(null);
                       setNotice(null);
                     },
-                    label: (0, import_i18n15.__)("Back")
+                    label: (0, import_i18n16.__)("Back")
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
@@ -4507,13 +4559,13 @@ function FontCollection({ slug }) {
                 /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalSpacer, { margin: 1 })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalSpacer, { margin: 4 }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalText, { children: (0, import_i18n15.__)("Select font variants to install.") }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalText, { children: (0, import_i18n16.__)("Select font variants to install.") }),
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_components27.__experimentalSpacer, { margin: 4 }),
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                 import_components27.CheckboxControl,
                 {
                   className: "font-library__select-all",
-                  label: (0, import_i18n15.__)("Select all"),
+                  label: (0, import_i18n16.__)("Select all"),
                   checked: isSelectAllChecked,
                   onChange: toggleSelectAll,
                   indeterminate: isIndeterminate
@@ -4568,7 +4620,7 @@ function FontCollection({ slug }) {
               isBusy: isInstalling,
               disabled: fontsToInstall.length === 0 || isInstalling,
               accessibleWhenDisabled: true,
-              children: (0, import_i18n15.__)("Install")
+              children: (0, import_i18n16.__)("Install")
             }
           )
         }
@@ -4589,9 +4641,9 @@ function FontCollection({ slug }) {
                 spacing: 1,
                 className: "font-library__page-selection",
                 children: (0, import_element18.createInterpolateElement)(
-                  (0, import_i18n15.sprintf)(
+                  (0, import_i18n16.sprintf)(
                     // translators: 1: Current page number, 2: Total number of pages.
-                    (0, import_i18n15._x)(
+                    (0, import_i18n16._x)(
                       "<div>Page</div>%1$s<div>of %2$d</div>",
                       "paging"
                     ),
@@ -4603,7 +4655,7 @@ function FontCollection({ slug }) {
                     CurrentPage: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                       import_components27.SelectControl,
                       {
-                        "aria-label": (0, import_i18n15.__)(
+                        "aria-label": (0, import_i18n16.__)(
                           "Current page"
                         ),
                         value: page.toString(),
@@ -4633,8 +4685,8 @@ function FontCollection({ slug }) {
                   onClick: () => setPage(page - 1),
                   disabled: page === 1,
                   accessibleWhenDisabled: true,
-                  label: (0, import_i18n15.__)("Previous page"),
-                  icon: (0, import_i18n15.isRTL)() ? next_default : previous_default,
+                  label: (0, import_i18n16.__)("Previous page"),
+                  icon: (0, import_i18n16.isRTL)() ? next_default : previous_default,
                   showTooltip: true,
                   size: "compact",
                   tooltipPosition: "top"
@@ -4646,8 +4698,8 @@ function FontCollection({ slug }) {
                   onClick: () => setPage(page + 1),
                   disabled: page === totalPages,
                   accessibleWhenDisabled: true,
-                  label: (0, import_i18n15.__)("Next page"),
-                  icon: (0, import_i18n15.isRTL)() ? previous_default : next_default,
+                  label: (0, import_i18n16.__)("Next page"),
+                  icon: (0, import_i18n16.isRTL)() ? previous_default : next_default,
                   showTooltip: true,
                   size: "compact",
                   tooltipPosition: "top"
@@ -4663,7 +4715,7 @@ function FontCollection({ slug }) {
 var font_collection_default = FontCollection;
 
 // packages/global-styles-ui/build-module/font-library/upload-fonts.mjs
-var import_i18n16 = __toESM(require_i18n(), 1);
+var import_i18n17 = __toESM(require_i18n(), 1);
 var import_components29 = __toESM(require_components(), 1);
 var import_element19 = __toESM(require_element(), 1);
 
@@ -7603,8 +7655,8 @@ var unbrotli_default = (function() {
                           ringbuffer,
                           ringbuffer_size
                         );
-                        for (var _x9 = 0; _x9 < copy_dst - ringbuffer_end; _x9++)
-                          ringbuffer[_x9] = ringbuffer[ringbuffer_end + _x9];
+                        for (var _x10 = 0; _x10 < copy_dst - ringbuffer_end; _x10++)
+                          ringbuffer[_x10] = ringbuffer[ringbuffer_end + _x10];
                       }
                     } else {
                       throw new Error(
@@ -8483,12 +8535,12 @@ var inflate_default = (function() {
           var STR_APPLY_UIA_OK = true;
           try {
             String.fromCharCode.apply(null, [0]);
-          } catch (__42) {
+          } catch (__43) {
             STR_APPLY_OK = false;
           }
           try {
             String.fromCharCode.apply(null, new Uint8Array(1));
-          } catch (__42) {
+          } catch (__43) {
             STR_APPLY_UIA_OK = false;
           }
           var _utf8len = new utils.Buf8(256);
@@ -14762,7 +14814,7 @@ function UploadFonts() {
     if (allowedFiles.length > 0) {
       loadFiles(allowedFiles);
     } else {
-      const message = hasInvalidFiles ? (0, import_i18n16.__)("Sorry, you are not allowed to upload this file type.") : (0, import_i18n16.__)("No fonts found to install.");
+      const message = hasInvalidFiles ? (0, import_i18n17.__)("Sorry, you are not allowed to upload this file type.") : (0, import_i18n17.__)("No fonts found to install.");
       setNotice({
         type: "error",
         message
@@ -14832,7 +14884,7 @@ function UploadFonts() {
       await installFonts(fontFamilies);
       setNotice({
         type: "success",
-        message: (0, import_i18n16.__)("Fonts were installed successfully.")
+        message: (0, import_i18n17.__)("Fonts were installed successfully.")
       });
     } catch (error) {
       const typedError = error;
@@ -14874,12 +14926,12 @@ function UploadFonts() {
               __next40pxDefaultSize: true,
               className: "font-library__upload-area",
               onClick: openFileDialog,
-              children: (0, import_i18n16.__)("Upload font")
+              children: (0, import_i18n17.__)("Upload font")
             }
           )
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_components29.__experimentalText, { className: "font-library__upload-area__text", children: (0, import_i18n16.__)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_components29.__experimentalText, { className: "font-library__upload-area__text", children: (0, import_i18n17.__)(
         "Uploaded fonts appear in your library and can be used in your theme. Supported formats: .ttf, .otf, .woff, and .woff2."
       ) })
     ] })
@@ -14892,15 +14944,15 @@ var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
 var { Tabs } = unlock(import_components30.privateApis);
 var DEFAULT_TAB = {
   id: "installed-fonts",
-  title: (0, import_i18n17._x)("Library", "Font library")
+  title: (0, import_i18n18._x)("Library", "Font library")
 };
 var UPLOAD_TAB = {
   id: "upload-fonts",
-  title: (0, import_i18n17._x)("Upload", "noun")
+  title: (0, import_i18n18._x)("Upload", "noun")
 };
 
 // packages/global-styles-ui/build-module/font-family-item.mjs
-var import_i18n18 = __toESM(require_i18n(), 1);
+var import_i18n19 = __toESM(require_i18n(), 1);
 var import_components31 = __toESM(require_components(), 1);
 var import_element20 = __toESM(require_element(), 1);
 var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
@@ -14909,7 +14961,7 @@ var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
 var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/font-sizes-count.mjs
-var import_i18n20 = __toESM(require_i18n(), 1);
+var import_i18n21 = __toESM(require_i18n(), 1);
 var import_components33 = __toESM(require_components(), 1);
 var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
 
@@ -14917,14 +14969,14 @@ var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
 var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-typography-element.mjs
-var import_i18n22 = __toESM(require_i18n(), 1);
+var import_i18n23 = __toESM(require_i18n(), 1);
 var import_components35 = __toESM(require_components(), 1);
 var import_element23 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/typography-panel.mjs
-var import_block_editor5 = __toESM(require_block_editor(), 1);
+var import_block_editor6 = __toESM(require_block_editor(), 1);
 var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
-var { useSettingsForBlockElement: useSettingsForBlockElement4, TypographyPanel: StylesTypographyPanel2 } = unlock(import_block_editor5.privateApis);
+var { useSettingsForBlockElement: useSettingsForBlockElement4, TypographyPanel: StylesTypographyPanel2 } = unlock(import_block_editor6.privateApis);
 
 // packages/global-styles-ui/build-module/typography-preview.mjs
 var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
@@ -14933,35 +14985,35 @@ var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
 var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
 var elements = {
   text: {
-    description: (0, import_i18n22.__)("Manage the fonts used on the site."),
-    title: (0, import_i18n22.__)("Text")
+    description: (0, import_i18n23.__)("Manage the fonts used on the site."),
+    title: (0, import_i18n23.__)("Text")
   },
   link: {
-    description: (0, import_i18n22.__)("Manage the fonts and typography used on the links."),
-    title: (0, import_i18n22.__)("Links")
+    description: (0, import_i18n23.__)("Manage the fonts and typography used on the links."),
+    title: (0, import_i18n23.__)("Links")
   },
   heading: {
-    description: (0, import_i18n22.__)("Manage the fonts and typography used on headings."),
-    title: (0, import_i18n22.__)("Headings")
+    description: (0, import_i18n23.__)("Manage the fonts and typography used on headings."),
+    title: (0, import_i18n23.__)("Headings")
   },
   caption: {
-    description: (0, import_i18n22.__)("Manage the fonts and typography used on captions."),
-    title: (0, import_i18n22.__)("Captions")
+    description: (0, import_i18n23.__)("Manage the fonts and typography used on captions."),
+    title: (0, import_i18n23.__)("Captions")
   },
   button: {
-    description: (0, import_i18n22.__)("Manage the fonts and typography used on buttons."),
-    title: (0, import_i18n22.__)("Buttons")
+    description: (0, import_i18n23.__)("Manage the fonts and typography used on buttons."),
+    title: (0, import_i18n23.__)("Buttons")
   }
 };
 
 // packages/global-styles-ui/build-module/screen-colors.mjs
-var import_i18n24 = __toESM(require_i18n(), 1);
+var import_i18n25 = __toESM(require_i18n(), 1);
 var import_components38 = __toESM(require_components(), 1);
-var import_block_editor6 = __toESM(require_block_editor(), 1);
+var import_block_editor7 = __toESM(require_block_editor(), 1);
 
 // packages/global-styles-ui/build-module/palette.mjs
 var import_components37 = __toESM(require_components(), 1);
-var import_i18n23 = __toESM(require_i18n(), 1);
+var import_i18n24 = __toESM(require_i18n(), 1);
 var import_element24 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/color-indicator-wrapper.mjs
@@ -14974,17 +15026,17 @@ var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
 // packages/global-styles-ui/build-module/screen-colors.mjs
 var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
 var { useSettingsForBlockElement: useSettingsForBlockElement5, ColorPanel: StylesColorPanel2 } = unlock(
-  import_block_editor6.privateApis
+  import_block_editor7.privateApis
 );
 
 // packages/global-styles-ui/build-module/screen-color-palette.mjs
-var import_i18n27 = __toESM(require_i18n(), 1);
+var import_i18n28 = __toESM(require_i18n(), 1);
 var import_components43 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/color-palette-panel.mjs
 var import_compose4 = __toESM(require_compose(), 1);
 var import_components41 = __toESM(require_components(), 1);
-var import_i18n25 = __toESM(require_i18n(), 1);
+var import_i18n26 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/variations/variations-color.mjs
 var import_components40 = __toESM(require_components(), 1);
@@ -15093,7 +15145,7 @@ var import_jsx_runtime52 = __toESM(require_jsx_runtime(), 1);
 // packages/global-styles-ui/build-module/gradients-palette-panel.mjs
 var import_compose5 = __toESM(require_compose(), 1);
 var import_components42 = __toESM(require_components(), 1);
-var import_i18n26 = __toESM(require_i18n(), 1);
+var import_i18n27 = __toESM(require_i18n(), 1);
 var import_jsx_runtime53 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-color-palette.mjs
@@ -15101,29 +15153,29 @@ var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
 var { Tabs: Tabs2 } = unlock(import_components43.privateApis);
 
 // packages/global-styles-ui/build-module/screen-background.mjs
-var import_i18n28 = __toESM(require_i18n(), 1);
-var import_block_editor8 = __toESM(require_block_editor(), 1);
+var import_i18n29 = __toESM(require_i18n(), 1);
+var import_block_editor9 = __toESM(require_block_editor(), 1);
 var import_components44 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/background-panel.mjs
-var import_block_editor7 = __toESM(require_block_editor(), 1);
+var import_block_editor8 = __toESM(require_block_editor(), 1);
 var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
 var { BackgroundPanel: StylesBackgroundPanel2 } = unlock(
-  import_block_editor7.privateApis
+  import_block_editor8.privateApis
 );
 
 // packages/global-styles-ui/build-module/screen-background.mjs
 var import_jsx_runtime56 = __toESM(require_jsx_runtime(), 1);
-var { useHasBackgroundPanel: useHasBackgroundPanel3 } = unlock(import_block_editor8.privateApis);
+var { useHasBackgroundPanel: useHasBackgroundPanel3 } = unlock(import_block_editor9.privateApis);
 
 // packages/global-styles-ui/build-module/shadows-panel.mjs
 var import_components46 = __toESM(require_components(), 1);
-var import_i18n30 = __toESM(require_i18n(), 1);
+var import_i18n31 = __toESM(require_i18n(), 1);
 var import_element25 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/confirm-reset-shadow-dialog.mjs
 var import_components45 = __toESM(require_components(), 1);
-var import_i18n29 = __toESM(require_i18n(), 1);
+var import_i18n30 = __toESM(require_i18n(), 1);
 var import_jsx_runtime57 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/shadows-panel.mjs
@@ -15132,23 +15184,23 @@ var { Menu } = unlock(import_components46.privateApis);
 
 // packages/global-styles-ui/build-module/shadows-edit-panel.mjs
 var import_components47 = __toESM(require_components(), 1);
-var import_i18n31 = __toESM(require_i18n(), 1);
+var import_i18n32 = __toESM(require_i18n(), 1);
 var import_element26 = __toESM(require_element(), 1);
 var import_jsx_runtime59 = __toESM(require_jsx_runtime(), 1);
 var { Menu: Menu2 } = unlock(import_components47.privateApis);
 var customShadowMenuItems = [
   {
-    label: (0, import_i18n31.__)("Rename"),
+    label: (0, import_i18n32.__)("Rename"),
     action: "rename"
   },
   {
-    label: (0, import_i18n31.__)("Delete"),
+    label: (0, import_i18n32.__)("Delete"),
     action: "delete"
   }
 ];
 var presetShadowMenuItems = [
   {
-    label: (0, import_i18n31.__)("Reset"),
+    label: (0, import_i18n32.__)("Reset"),
     action: "reset"
   }
 ];
@@ -15157,27 +15209,27 @@ var presetShadowMenuItems = [
 var import_jsx_runtime60 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-layout.mjs
-var import_i18n32 = __toESM(require_i18n(), 1);
-var import_block_editor10 = __toESM(require_block_editor(), 1);
+var import_i18n33 = __toESM(require_i18n(), 1);
+var import_block_editor11 = __toESM(require_block_editor(), 1);
 
 // packages/global-styles-ui/build-module/dimensions-panel.mjs
-var import_block_editor9 = __toESM(require_block_editor(), 1);
+var import_block_editor10 = __toESM(require_block_editor(), 1);
 var import_element27 = __toESM(require_element(), 1);
 var import_jsx_runtime61 = __toESM(require_jsx_runtime(), 1);
-var { useSettingsForBlockElement: useSettingsForBlockElement6, DimensionsPanel: StylesDimensionsPanel2 } = unlock(import_block_editor9.privateApis);
+var { useSettingsForBlockElement: useSettingsForBlockElement6, DimensionsPanel: StylesDimensionsPanel2 } = unlock(import_block_editor10.privateApis);
 
 // packages/global-styles-ui/build-module/screen-layout.mjs
 var import_jsx_runtime62 = __toESM(require_jsx_runtime(), 1);
 var { useHasDimensionsPanel: useHasDimensionsPanel4, useSettingsForBlockElement: useSettingsForBlockElement7 } = unlock(
-  import_block_editor10.privateApis
+  import_block_editor11.privateApis
 );
 
 // packages/global-styles-ui/build-module/screen-style-variations.mjs
 var import_components50 = __toESM(require_components(), 1);
-var import_i18n35 = __toESM(require_i18n(), 1);
+var import_i18n36 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/style-variations-content.mjs
-var import_i18n34 = __toESM(require_i18n(), 1);
+var import_i18n35 = __toESM(require_i18n(), 1);
 var import_components49 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/style-variations-container.mjs
@@ -15185,7 +15237,7 @@ var import_core_data9 = __toESM(require_core_data(), 1);
 var import_data9 = __toESM(require_data(), 1);
 var import_element28 = __toESM(require_element(), 1);
 var import_components48 = __toESM(require_components(), 1);
-var import_i18n33 = __toESM(require_i18n(), 1);
+var import_i18n34 = __toESM(require_i18n(), 1);
 var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
 function StyleVariationsContainer({
   gap = 2
@@ -15209,7 +15261,7 @@ function StyleVariationsContainer({
   const themeVariations = (0, import_element28.useMemo)(() => {
     const withEmptyVariation = [
       {
-        title: (0, import_i18n33.__)("Default"),
+        title: (0, import_i18n34.__)("Default"),
         settings: {},
         styles: {}
       },
@@ -15281,14 +15333,14 @@ var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
 var import_jsx_runtime65 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-css.mjs
-var import_i18n36 = __toESM(require_i18n(), 1);
+var import_i18n37 = __toESM(require_i18n(), 1);
 var import_components51 = __toESM(require_components(), 1);
-var import_block_editor11 = __toESM(require_block_editor(), 1);
+var import_block_editor12 = __toESM(require_block_editor(), 1);
 var import_jsx_runtime66 = __toESM(require_jsx_runtime(), 1);
-var { AdvancedPanel: StylesAdvancedPanel2 } = unlock(import_block_editor11.privateApis);
+var { AdvancedPanel: StylesAdvancedPanel2 } = unlock(import_block_editor12.privateApis);
 
 // packages/global-styles-ui/build-module/screen-revisions/index.mjs
-var import_i18n39 = __toESM(require_i18n(), 1);
+var import_i18n40 = __toESM(require_i18n(), 1);
 var import_components54 = __toESM(require_components(), 1);
 var import_element30 = __toESM(require_element(), 1);
 
@@ -15298,7 +15350,7 @@ var import_core_data10 = __toESM(require_core_data(), 1);
 var import_element29 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/screen-revisions/revisions-buttons.mjs
-var import_i18n37 = __toESM(require_i18n(), 1);
+var import_i18n38 = __toESM(require_i18n(), 1);
 var import_components52 = __toESM(require_components(), 1);
 var import_date = __toESM(require_date(), 1);
 var import_core_data11 = __toESM(require_core_data(), 1);
@@ -15309,20 +15361,20 @@ var DAY_IN_MILLISECONDS = 60 * 60 * 1e3 * 24;
 
 // packages/global-styles-ui/build-module/pagination/index.mjs
 var import_components53 = __toESM(require_components(), 1);
-var import_i18n38 = __toESM(require_i18n(), 1);
+var import_i18n39 = __toESM(require_i18n(), 1);
 var import_jsx_runtime68 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-revisions/index.mjs
 var import_jsx_runtime69 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/font-sizes.mjs
-var import_i18n41 = __toESM(require_i18n(), 1);
+var import_i18n42 = __toESM(require_i18n(), 1);
 var import_components56 = __toESM(require_components(), 1);
 var import_element31 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/confirm-reset-font-sizes-dialog.mjs
 var import_components55 = __toESM(require_components(), 1);
-var import_i18n40 = __toESM(require_i18n(), 1);
+var import_i18n41 = __toESM(require_i18n(), 1);
 var import_jsx_runtime70 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/font-sizes.mjs
@@ -15330,23 +15382,23 @@ var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
 var { Menu: Menu3 } = unlock(import_components56.privateApis);
 
 // packages/global-styles-ui/build-module/font-sizes/font-size.mjs
-var import_i18n45 = __toESM(require_i18n(), 1);
+var import_i18n46 = __toESM(require_i18n(), 1);
 var import_components60 = __toESM(require_components(), 1);
 var import_element33 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/font-size-preview.mjs
-var import_block_editor12 = __toESM(require_block_editor(), 1);
-var import_i18n42 = __toESM(require_i18n(), 1);
+var import_block_editor13 = __toESM(require_block_editor(), 1);
+var import_i18n43 = __toESM(require_i18n(), 1);
 var import_jsx_runtime72 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/confirm-delete-font-size-dialog.mjs
 var import_components57 = __toESM(require_components(), 1);
-var import_i18n43 = __toESM(require_i18n(), 1);
+var import_i18n44 = __toESM(require_i18n(), 1);
 var import_jsx_runtime73 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/rename-font-size-dialog.mjs
 var import_components58 = __toESM(require_components(), 1);
-var import_i18n44 = __toESM(require_i18n(), 1);
+var import_i18n45 = __toESM(require_i18n(), 1);
 var import_element32 = __toESM(require_element(), 1);
 var import_jsx_runtime74 = __toESM(require_jsx_runtime(), 1);
 
@@ -15429,10 +15481,10 @@ var { unlock: unlock2 } = (0, import_private_apis2.__dangerousOptInToUnstableAPI
 );
 
 // routes/font-list/style.scss
-if (typeof document !== "undefined" && !document.head.querySelector("style[data-wp-hash='4bbd4c3e39']")) {
+if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='89af99528f']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "4bbd4c3e39");
-  style.appendChild(document.createTextNode('@media (min-width:782px){.font-library-modal.font-library-modal{width:65vw}}.font-library-modal .components-modal__header{border-bottom:none}.font-library-modal .components-modal__content{margin-bottom:90px;padding:0}.font-library-modal .font-library__subtitle{font-size:11px;font-weight:499;text-transform:uppercase}.font-library-modal__tab-panel{height:calc(100% - 50px)}.font-library__tabpanel-layout{display:flex;flex-direction:column;height:100%}.font-library__tabpanel-layout>div{flex-grow:1}.font-library__tabpanel-layout .font-library__loading{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;left:0;padding-top:124px;position:absolute;top:0;width:100%}.font-library__footer,.font-library__tabpanel-layout .components-navigator-screen{padding:24px;width:100%}.font-library__footer{background-color:#fff;border-top:1px solid #ddd;bottom:0;box-sizing:border-box;flex-grow:0!important;flex-shrink:0;height:90px;position:absolute}.font-library__page-selection{font-size:11px;font-weight:499;text-transform:uppercase}@media (min-width:600px){.font-library__page-selection .font-library__page-selection-trigger{font-size:11px!important;font-weight:499}}.font-library__fonts-title{font-size:11px;font-weight:600;margin-bottom:0;margin-top:0;text-transform:uppercase}.font-library__fonts-list{list-style:none;margin-bottom:0;margin-top:0;padding:0}.font-library__fonts-list-item{margin-bottom:0}.font-library__font-card{border:1px solid #ddd;box-sizing:border-box;height:auto!important;margin-top:-1px;padding:16px;width:100%}.font-library__font-card:hover{background-color:#f0f0f0}.font-library__font-card:focus{position:relative}.font-library__font-card .font-library__font-card__name{font-weight:700}.font-library__font-card .font-library__font-card__count{color:#757575}.font-library__font-card .font-library__font-variant_demo-image{display:block;height:24px;width:auto}.font-library__font-card .font-library__font-variant_demo-text{flex-shrink:0;white-space:nowrap}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-text{transition:opacity .3s ease-in-out}}.font-library-modal__tablist-container{background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:1}.font-library__upload-area{align-items:center;display:flex;height:256px!important;justify-content:center;width:100%}button.font-library__upload-area{background-color:#f0f0f0}.font-library__local-fonts{margin:24px auto;width:80%}.font-library__local-fonts .font-library__upload-area__text{color:#757575}.font-library__google-fonts-confirm{align-items:center;display:flex;justify-content:center;margin-top:64px}.font-library__google-fonts-confirm p{line-height:1.4}.font-library__google-fonts-confirm h2{font-size:1.2rem;font-weight:400}.font-library__google-fonts-confirm .components-card{padding:16px;width:400px}.font-library__google-fonts-confirm .components-button{justify-content:center;width:100%}.font-library__select-all{padding:16px 16px 16px 17px}.font-library__select-all .components-checkbox-control__label{padding-left:16px}.global-styles-ui-pagination .components-button.is-tertiary{height:32px;justify-content:center;width:32px}.global-styles-ui-screen-revisions__revisions-list{flex-grow:1;list-style:none;margin:0 16px 16px}.global-styles-ui-screen-revisions__revisions-list li{margin-bottom:0}.global-styles-ui-screen-revisions__revision-item{cursor:pointer;display:flex;flex-direction:column;position:relative}.global-styles-ui-screen-revisions__revision-item[role=option]:active,.global-styles-ui-screen-revisions__revision-item[role=option]:focus{box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);outline:2px solid #0000}.global-styles-ui-screen-revisions__revision-item:hover{background:rgba(var(--wp-admin-theme-color--rgb),.04)}.global-styles-ui-screen-revisions__revision-item:hover .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item:after,.global-styles-ui-screen-revisions__revision-item:before{content:"\\a";display:block;position:absolute}.global-styles-ui-screen-revisions__revision-item:before{background:#ddd;border:4px solid #0000;border-radius:50%;height:8px;left:17px;top:18px;transform:translate(-50%,-50%);width:8px;z-index:1}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]{background:rgba(var(--wp-admin-theme-color--rgb),.04);border-radius:2px;color:var(--wp-admin-theme-color);outline:3px solid #0000;outline-offset:-2px}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]:before{background:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__changes>li,.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__meta{color:#1e1e1e}.global-styles-ui-screen-revisions__revision-item:after{border:.5px solid #ddd;height:100%;left:16px;top:0;width:0}.global-styles-ui-screen-revisions__revision-item:first-child:after{top:18px}.global-styles-ui-screen-revisions__revision-item:last-child:after{height:18px}.global-styles-ui-screen-revisions__revision-item-wrapper{display:block;padding:12px 12px 4px 40px}.global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__apply-button.is-primary{align-self:flex-start;margin:4px 12px 12px 40px}.global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__changes,.global-styles-ui-screen-revisions__meta{color:#757575;font-size:12px}.global-styles-ui-screen-revisions__description{align-items:flex-start;display:flex;flex-direction:column;gap:8px}.global-styles-ui-screen-revisions__description .global-styles-ui-screen-revisions__date{font-size:12px;font-weight:600;text-transform:uppercase}.global-styles-ui-screen-revisions__meta{align-items:flex-start;display:flex;justify-content:start;margin-bottom:4px;text-align:left;width:100%}.global-styles-ui-screen-revisions__meta img{border-radius:100%;height:16px;margin-right:8px;width:16px}.global-styles-ui-screen-revisions__loading{margin:24px auto!important}.global-styles-ui-screen-revisions__changes{line-height:1.4;list-style:disc;margin-left:12px;text-align:left}.global-styles-ui-screen-revisions__changes li{margin-bottom:4px}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination{gap:2px;justify-content:space-between}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .edit-site-pagination__total{height:1px;left:-1000px;margin:-1px;overflow:hidden;position:absolute}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-text{font-size:12px;will-change:opacity}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary{color:#1e1e1e}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary:disabled,.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary[aria-disabled=true]{color:#949494}.global-styles-ui-screen-revisions__footer{background:#fff;border-top:1px solid #ddd;bottom:0;box-sizing:border-box;height:56px;min-width:100%;padding:12px;position:sticky;z-index:1}.global-styles-ui-variations_item{box-sizing:border-box;cursor:pointer}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{border-radius:2px;outline:1px solid #0000001a;outline-offset:-1px;overflow:hidden;position:relative}@media not (prefers-reduced-motion){.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{transition:outline .1s linear}}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill{height:32px}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill .block-editor-iframe__scale-container{overflow:hidden}.global-styles-ui-variations_item:not(.is-active):hover .global-styles-ui-variations_item-preview{outline-color:#0000004d}.global-styles-ui-variations_item.is-active .global-styles-ui-variations_item-preview,.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:#1e1e1e;outline-offset:1px;outline-width:var(--wp-admin-border-width-focus)}.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:var(--wp-admin-theme-color)}.global-styles-ui-preview{align-items:center;cursor:pointer;display:flex;justify-content:center;line-height:1}.global-styles-ui-preview__wrapper{display:block;max-width:100%;width:100%}.global-styles-ui-typography-preview{align-items:center;background:#f0f0f0;border-radius:2px;display:flex;justify-content:center;margin-bottom:20px;min-height:100px;overflow:hidden}.global-styles-ui-font-size__item{line-break:anywhere;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-styles-ui-font-size__item-value{color:#757575}.global-styles-ui-screen-typography__indicator{align-items:center;border-radius:2px;display:flex!important;font-size:14px;height:24px;justify-content:center;width:24px}.global-styles-ui-block-types-search{margin-bottom:10px;padding:0 16px}.global-styles-ui-screen-typography__font-variants-count{color:#757575}.global-styles-ui-font-families__manage-fonts{justify-content:center}.global-styles-ui-screen .color-block-support-panel{border-top:none;padding-left:0;padding-right:0;padding-top:0;row-gap:12px}.global-styles-ui-header{margin-bottom:0!important}.global-styles-ui-subtitle{font-size:11px!important;font-weight:499!important;margin-bottom:0!important;text-transform:uppercase}.global-styles-ui-section-title{color:#2f2f2f;font-weight:600;line-height:1.2;margin:0;padding:16px 16px 0}.global-styles-ui-icon-with-current-color{fill:currentColor}.global-styles-ui__color-indicator-wrapper{flex-shrink:0;height:24px}.global-styles-ui__shadows-panel__options-container,.global-styles-ui__typography-panel__options-container{height:24px}.global-styles-ui__block-preview-panel{border:1px solid #ddd;border-radius:2px;overflow:hidden;position:relative;width:100%}.global-styles-ui__shadow-preview-panel{background-image:repeating-linear-gradient(45deg,#e0e0e0 25%,#0000 0,#0000 75%,#e0e0e0 0,#e0e0e0),repeating-linear-gradient(45deg,#e0e0e0 25%,#0000 0,#0000 75%,#e0e0e0 0,#e0e0e0);background-position:0 0,8px 8px;background-size:16px 16px;border:1px solid #ddd;border-radius:2px;height:144px;overflow:auto}.global-styles-ui__shadow-preview-panel .global-styles-ui__shadow-preview-block{background-color:#fff;border:1px solid #ddd;border-radius:2px;height:60px;width:60%}.global-styles-ui__shadow-editor__dropdown-content{width:280px}.global-styles-ui__shadow-editor-panel{margin-bottom:4px}.global-styles-ui__shadow-editor__dropdown{position:relative;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle{border-radius:inherit;height:auto;padding-bottom:8px;padding-top:8px;text-align:left;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle.is-open{background:#f0f0f0;color:var(--wp-admin-theme-color)}.global-styles-ui__shadow-editor__remove-button{opacity:0;position:absolute;right:8px;top:8px}.global-styles-ui__shadow-editor__remove-button.global-styles-ui__shadow-editor__remove-button{border:none}.global-styles-ui__shadow-editor__dropdown-toggle:hover+.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__shadow-editor__remove-button:focus,.global-styles-ui__shadow-editor__remove-button:hover{opacity:1}@media (hover:none){.global-styles-ui__shadow-editor__remove-button{opacity:1}}.global-styles-ui-screen-css{display:flex;flex:1 1 auto;flex-direction:column;margin:16px}.global-styles-ui-screen-css .components-v-stack{flex:1 1 auto}.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input,.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field{display:flex;flex:1 1 auto;flex-direction:column}.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field .components-textarea-control__input{direction:ltr;flex:1 1 auto}.global-styles-ui-screen-css-help-link{display:inline-block;margin-top:8px}.global-styles-ui-screen-variations{border-top:1px solid #ddd;margin-top:16px}.global-styles-ui-screen-variations>*{margin:24px 16px}.global-styles-ui-sidebar__navigator-provider{height:100%}.global-styles-ui-sidebar__navigator-screen{display:flex;flex-direction:column;height:100%}.global-styles-ui-sidebar__navigator-screen .single-column{grid-column:span 1}.global-styles-ui-screen-root.global-styles-ui-screen-root,.global-styles-ui-screen-style-variations.global-styles-ui-screen-style-variations{background:unset;color:inherit}.global-styles-ui-sidebar__panel .block-editor-block-icon svg{fill:currentColor}.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile,.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile .global-styles-ui-screen-root__active-style-tile-preview{border-radius:2px}.global-styles-ui-screen-root__active-style-tile-preview{clip-path:border-box}.global-styles-ui-color-palette-panel,.global-styles-ui-gradient-palette-panel{padding:16px}.font-library-page__tablist{border-bottom:1px solid #f0f0f0;padding:0 24px}.font-library-page__tab-panel{flex-grow:1;max-height:calc(100% - 110px);overflow:auto}.admin-ui-page:has(.font-library__footer) .font-library-page__tab-panel{max-height:calc(100% - 198px)}'));
+  style.setAttribute("data-wp-hash", "89af99528f");
+  style.appendChild(document.createTextNode('@media (min-width:782px){.font-library-modal.font-library-modal{width:65vw}}.font-library-modal .components-modal__header{border-bottom:none}.font-library-modal .components-modal__content{margin-bottom:90px;padding:0}.font-library-modal .font-library__subtitle{font-size:11px;font-weight:499;text-transform:uppercase}.font-library-modal__tab-panel{height:calc(100% - 50px)}.font-library__tabpanel-layout{display:flex;flex-direction:column;height:100%}.font-library__tabpanel-layout>div{flex-grow:1}.font-library__tabpanel-layout .font-library__loading{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;left:0;padding-top:124px;position:absolute;top:0;width:100%}.font-library__footer,.font-library__tabpanel-layout .components-navigator-screen{padding:24px;width:100%}.font-library__footer{background-color:#fff;border-top:1px solid #ddd;bottom:0;box-sizing:border-box;flex-grow:0!important;flex-shrink:0;height:90px;position:absolute}.font-library__page-selection{font-size:11px;font-weight:499;text-transform:uppercase}@media (min-width:600px){.font-library__page-selection .font-library__page-selection-trigger{font-size:11px!important;font-weight:499}}.font-library__fonts-title{font-size:11px;font-weight:600;margin-bottom:0;margin-top:0;text-transform:uppercase}.font-library__fonts-list{list-style:none;margin-bottom:0;margin-top:0;padding:0}.font-library__fonts-list-item{margin-bottom:0}.font-library__font-card{border:1px solid #ddd;box-sizing:border-box;height:auto!important;margin-top:-1px;padding:16px;width:100%}.font-library__font-card:hover{background-color:#f0f0f0}.font-library__font-card:focus{position:relative}.font-library__font-card .font-library__font-card__name{font-weight:700}.font-library__font-card .font-library__font-card__count{color:#757575}.font-library__font-card .font-library__font-variant_demo-image{display:block;height:24px;width:auto}.font-library__font-card .font-library__font-variant_demo-text{flex-shrink:0;white-space:nowrap}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-text{transition:opacity .3s ease-in-out}}.font-library-modal__tablist-container{background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:1}.font-library__upload-area{align-items:center;display:flex;height:256px!important;justify-content:center;width:100%}button.font-library__upload-area{background-color:#f0f0f0}.font-library__local-fonts{margin:24px auto;width:80%}.font-library__local-fonts .font-library__upload-area__text{color:#757575}.font-library__google-fonts-confirm{align-items:center;display:flex;justify-content:center;margin-top:64px}.font-library__google-fonts-confirm p{line-height:1.4}.font-library__google-fonts-confirm h2{font-size:1.2rem;font-weight:400}.font-library__google-fonts-confirm .components-card{padding:16px;width:400px}.font-library__google-fonts-confirm .components-button{justify-content:center;width:100%}.font-library__select-all{padding:16px 16px 16px 17px}.font-library__select-all .components-checkbox-control__label{padding-left:16px}.global-styles-ui-pagination .components-button.is-tertiary{height:32px;justify-content:center;width:32px}.global-styles-ui-screen-revisions__revisions-list{flex-grow:1;list-style:none;margin:0 16px 16px}.global-styles-ui-screen-revisions__revisions-list li{margin-bottom:0}.global-styles-ui-screen-revisions__revision-item{cursor:pointer;display:flex;flex-direction:column;position:relative}.global-styles-ui-screen-revisions__revision-item[role=option]:active,.global-styles-ui-screen-revisions__revision-item[role=option]:focus{box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);outline:2px solid #0000}.global-styles-ui-screen-revisions__revision-item:hover{background:rgba(var(--wp-admin-theme-color--rgb),.04)}.global-styles-ui-screen-revisions__revision-item:hover .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item:after,.global-styles-ui-screen-revisions__revision-item:before{content:"\\a";display:block;position:absolute}.global-styles-ui-screen-revisions__revision-item:before{background:#ddd;border:4px solid #0000;border-radius:50%;height:8px;left:17px;top:18px;transform:translate(-50%,-50%);width:8px;z-index:1}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]{background:rgba(var(--wp-admin-theme-color--rgb),.04);border-radius:2px;color:var(--wp-admin-theme-color);outline:3px solid #0000;outline-offset:-2px}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]:before{background:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__changes>li,.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__meta{color:#1e1e1e}.global-styles-ui-screen-revisions__revision-item:after{border:.5px solid #ddd;height:100%;left:16px;top:0;width:0}.global-styles-ui-screen-revisions__revision-item:first-child:after{top:18px}.global-styles-ui-screen-revisions__revision-item:last-child:after{height:18px}.global-styles-ui-screen-revisions__revision-item-wrapper{display:block;padding:12px 12px 4px 40px}.global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__apply-button.is-primary{align-self:flex-start;margin:4px 12px 12px 40px}.global-styles-ui-screen-revisions__applied-text,.global-styles-ui-screen-revisions__changes,.global-styles-ui-screen-revisions__meta{color:#757575;font-size:12px}.global-styles-ui-screen-revisions__description{align-items:flex-start;display:flex;flex-direction:column;gap:8px}.global-styles-ui-screen-revisions__description .global-styles-ui-screen-revisions__date{font-size:12px;font-weight:600;text-transform:uppercase}.global-styles-ui-screen-revisions__meta{align-items:flex-start;display:flex;justify-content:start;margin-bottom:4px;text-align:left;width:100%}.global-styles-ui-screen-revisions__meta img{border-radius:100%;height:16px;margin-right:8px;width:16px}.global-styles-ui-screen-revisions__loading{margin:24px auto!important}.global-styles-ui-screen-revisions__changes{line-height:1.4;list-style:disc;margin-left:12px;text-align:left}.global-styles-ui-screen-revisions__changes li{margin-bottom:4px}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination{gap:2px;justify-content:space-between}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .edit-site-pagination__total{height:1px;left:-1000px;margin:-1px;overflow:hidden;position:absolute}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-text{font-size:12px;will-change:opacity}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary{color:#1e1e1e}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary:disabled,.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary[aria-disabled=true]{color:#949494}.global-styles-ui-screen-revisions__footer{background:#fff;border-top:1px solid #ddd;bottom:0;height:56px;min-width:100%;padding:12px;position:sticky;z-index:1}.global-styles-ui-variations_item{box-sizing:border-box;cursor:pointer}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{border-radius:2px;outline:1px solid #0000001a;outline-offset:-1px;overflow:hidden;position:relative}@media not (prefers-reduced-motion){.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{transition:outline .1s linear}}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill{height:32px}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill .block-editor-iframe__scale-container{overflow:hidden}.global-styles-ui-variations_item:not(.is-active):hover .global-styles-ui-variations_item-preview{outline-color:#0000004d}.global-styles-ui-variations_item.is-active .global-styles-ui-variations_item-preview,.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:#1e1e1e;outline-offset:1px;outline-width:var(--wp-admin-border-width-focus)}.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:var(--wp-admin-theme-color)}.global-styles-ui-preview{align-items:center;cursor:pointer;display:flex;justify-content:center;line-height:1}.global-styles-ui-preview__wrapper{display:block;max-width:100%;width:100%}.global-styles-ui-typography-preview{align-items:center;background:#f0f0f0;border-radius:2px;display:flex;justify-content:center;margin-bottom:20px;min-height:100px;overflow:hidden}.global-styles-ui-font-size__item{line-break:anywhere;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-styles-ui-font-size__item-value{color:#757575}.global-styles-ui-screen-typography__indicator{align-items:center;border-radius:2px;display:flex!important;font-size:14px;height:24px;justify-content:center;width:24px}.global-styles-ui-block-types-search{margin-bottom:10px;padding:0 16px}.global-styles-ui-screen-typography__font-variants-count{color:#757575}.global-styles-ui-font-families__manage-fonts{justify-content:center}.global-styles-ui-screen .color-block-support-panel{border-top:none;padding-left:0;padding-right:0;padding-top:0;row-gap:12px}.global-styles-ui-header{margin-bottom:0!important}.global-styles-ui-subtitle{font-size:11px!important;font-weight:499!important;margin-bottom:0!important;text-transform:uppercase}.global-styles-ui-section-title{color:#2f2f2f;font-weight:600;line-height:1.2;margin:0;padding:16px 16px 0}.global-styles-ui-icon-with-current-color{fill:currentColor}.global-styles-ui__color-indicator-wrapper{flex-shrink:0;height:24px}.global-styles-ui__shadows-panel__options-container,.global-styles-ui__typography-panel__options-container{height:24px}.global-styles-ui__block-preview-panel{border:1px solid #ddd;border-radius:2px;overflow:hidden;position:relative;width:100%}.global-styles-ui__shadow-preview-panel{background-image:repeating-linear-gradient(45deg,#e0e0e0 25%,#0000 0,#0000 75%,#e0e0e0 0,#e0e0e0),repeating-linear-gradient(45deg,#e0e0e0 25%,#0000 0,#0000 75%,#e0e0e0 0,#e0e0e0);background-position:0 0,8px 8px;background-size:16px 16px;border:1px solid #ddd;border-radius:2px;height:144px;overflow:auto}.global-styles-ui__shadow-preview-panel .global-styles-ui__shadow-preview-block{background-color:#fff;border:1px solid #ddd;border-radius:2px;height:60px;width:60%}.global-styles-ui__shadow-editor__dropdown-content{width:280px}.global-styles-ui__shadow-editor-panel{margin-bottom:4px}.global-styles-ui__shadow-editor__dropdown{position:relative;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle{border-radius:inherit;height:auto;padding-bottom:8px;padding-top:8px;text-align:left;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle.is-open{background:#f0f0f0;color:var(--wp-admin-theme-color)}.global-styles-ui__shadow-editor__remove-button{opacity:0;position:absolute;right:8px;top:8px}.global-styles-ui__shadow-editor__remove-button.global-styles-ui__shadow-editor__remove-button{border:none}.global-styles-ui__shadow-editor__dropdown-toggle:hover+.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__shadow-editor__remove-button:focus,.global-styles-ui__shadow-editor__remove-button:hover{opacity:1}@media (hover:none){.global-styles-ui__shadow-editor__remove-button{opacity:1}}.global-styles-ui-screen-css{display:flex;flex:1 1 auto;flex-direction:column;margin:16px}.global-styles-ui-screen-css .components-v-stack{flex:1 1 auto}.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input,.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field{display:flex;flex:1 1 auto;flex-direction:column}.global-styles-ui-screen-css .components-v-stack .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field .components-textarea-control__input{direction:ltr;flex:1 1 auto}.global-styles-ui-screen-css-help-link{display:inline-block;margin-top:8px}.global-styles-ui-screen-variations{border-top:1px solid #ddd;margin-top:16px}.global-styles-ui-screen-variations>*{margin:24px 16px}.global-styles-ui-sidebar__navigator-provider{height:100%}.global-styles-ui-sidebar__navigator-screen{display:flex;flex-direction:column;height:100%}.global-styles-ui-sidebar__navigator-screen .single-column{grid-column:span 1}.global-styles-ui-screen-root.global-styles-ui-screen-root,.global-styles-ui-screen-style-variations.global-styles-ui-screen-style-variations{background:unset;color:inherit}.global-styles-ui-sidebar__panel .block-editor-block-icon svg{fill:currentColor}.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile,.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile .global-styles-ui-screen-root__active-style-tile-preview{border-radius:2px}.global-styles-ui-screen-root__active-style-tile-preview{clip-path:border-box}.global-styles-ui-color-palette-panel,.global-styles-ui-gradient-palette-panel{padding:16px}.font-library-page__tablist{border-bottom:1px solid #f0f0f0;padding:0 24px}.font-library-page__tab-panel{flex-grow:1;max-height:calc(100% - 110px);overflow:auto}.admin-ui-page:has(.font-library__footer) .font-library-page__tab-panel{max-height:calc(100% - 198px)}'));
   document.head.appendChild(style);
 }
 
@@ -15457,22 +15509,22 @@ function FontLibraryPage() {
   const tabs = [
     {
       id: "installed-fonts",
-      title: (0, import_i18n46.__)("Library")
+      title: (0, import_i18n47._x)("Library", "Font library")
     }
   ];
   if (canUserCreate) {
     tabs.push({
       id: "upload-fonts",
-      title: (0, import_i18n46.__)("Upload")
+      title: (0, import_i18n47._x)("Upload", "noun")
     });
     tabs.push(
       ...(collections || []).map(({ slug, name: name2 }) => ({
         id: slug,
-        title: collections && collections.length === 1 && slug === "google-fonts" ? (0, import_i18n46.__)("Install Fonts") : name2
+        title: collections && collections.length === 1 && slug === "google-fonts" ? (0, import_i18n47.__)("Install Fonts") : name2
       }))
     );
   }
-  return /* @__PURE__ */ React.createElement(page_default, { title: (0, import_i18n46.__)("Fonts") }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement(page_default, { title: (0, import_i18n47.__)("Fonts") }, /* @__PURE__ */ React.createElement(
     Tabs3,
     {
       selectedTabId: activeTab,

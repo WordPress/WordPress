@@ -232,7 +232,7 @@ var wp;
       if (!file) {
         return;
       }
-      setIsLoading({ isLoading: true });
+      setIsLoading(true);
       import_default(file).then((reusableBlock) => {
         if (!formRef) {
           return;

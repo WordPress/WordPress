@@ -92,10 +92,9 @@
   margin-right: auto;
 }
 
-.editor-styles-wrapper {
+html :where(.editor-styles-wrapper) {
   padding: 8px;
 }
-
 html :where(.editor-styles-wrapper) .block-editor-block-list__layout.is-root-container > .wp-block[data-align=full] {
   margin-left: -8px;
   margin-right: -8px;
