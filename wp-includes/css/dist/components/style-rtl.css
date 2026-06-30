@@ -1104,6 +1104,7 @@ svg.components-checkbox-control__indeterminate {
   display: inline-block;
   width: 100%;
   min-width: 188px;
+  isolation: isolate;
 }
 .components-circular-option-picker .components-circular-option-picker__custom-clear-wrapper {
   display: flex;
@@ -1671,20 +1672,43 @@ body.is-dragging-components-draggable {
 }
 
 .components-external-link {
+  color: var(--wpds-color-fg-interactive-brand, var(--wp-admin-theme-color, #3858e9));
   text-decoration: none;
+}
+@media not (prefers-reduced-motion) {
+  .components-external-link {
+    transition: outline 0.1s ease-out;
+  }
+}
+.components-external-link {
+  outline: 0 solid transparent;
+  outline-offset: 1px;
+}
+.components-external-link:visited {
+  color: var(--wpds-color-fg-interactive-brand, var(--wp-admin-theme-color, #3858e9));
+}
+.components-external-link:hover, .components-external-link:active {
+  color: var(--wpds-color-fg-interactive-brand-active, var(--wp-admin-theme-color, #3858e9));
+}
+.components-external-link:focus {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--wpds-color-stroke-focus-brand, var(--wp-admin-theme-color, #3858e9));
 }
 
 .components-external-link__contents {
   text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: from-font;
 }
 
 .components-external-link__icon {
-  margin-right: 0.5ch;
-  font-weight: 400;
+  display: inline-block;
+  margin-inline-start: var(--wpds-dimension-padding-xs, 4px);
+  font-weight: var(--wpds-typography-font-weight-regular, 400);
 }
 
 .components-form-toggle {
   position: relative;
+  isolation: isolate;
   display: inline-block;
   height: 16px;
 }

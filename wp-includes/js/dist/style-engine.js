@@ -312,6 +312,17 @@ var wp;
       );
     }
   };
+  var minWidth = {
+    name: "minWidth",
+    generate: (style, options) => {
+      return generateRule(
+        style,
+        options,
+        ["dimensions", "minWidth"],
+        "minWidth"
+      );
+    }
+  };
   var aspectRatio = {
     name: "aspectRatio",
     generate: (style, options) => {
@@ -334,7 +345,7 @@ var wp;
       );
     }
   };
-  var dimensions_default = [height, minHeight, aspectRatio, width2];
+  var dimensions_default = [height, minHeight, minWidth, aspectRatio, width2];
 
   // packages/style-engine/build-module/styles/background/index.mjs
   var backgroundImage = {

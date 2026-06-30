@@ -1013,16 +1013,16 @@ var wp;
     };
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
       canDetach && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { onClick: () => setShowConfirmDialog(true), children: isSyncedPattern ? (0, import_i18n7.__)("Disconnect pattern") : (0, import_i18n7.__)("Detach pattern") }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_components6.MenuItem, { onClick: () => setShowConfirmDialog(true), children: (0, import_i18n7.__)("Detach") }),
         /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
           import_components6.__experimentalConfirmDialog,
           {
             isOpen: showConfirmDialog,
             onConfirm: handleDetach,
             onCancel: () => setShowConfirmDialog(false),
-            confirmButtonText: isSyncedPattern ? (0, import_i18n7.__)("Disconnect") : (0, import_i18n7.__)("Detach"),
+            confirmButtonText: (0, import_i18n7.__)("Detach"),
             size: "medium",
-            title: isSyncedPattern ? (0, import_i18n7.__)("Disconnect pattern?") : (0, import_i18n7.__)("Detach pattern?"),
+            title: (0, import_i18n7.__)("Detach pattern?"),
             __experimentalHideHeader: false,
             children: isSyncedPattern ? (0, import_i18n7.__)(
               "The blocks will be separated from the original pattern and will be fully editable. Future changes to the pattern will not apply here."

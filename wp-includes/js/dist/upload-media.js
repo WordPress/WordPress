@@ -102,6 +102,7 @@ var wp;
     clearFeatureDetectionCache: () => clearFeatureDetectionCache,
     detectClientSideMediaSupport: () => detectClientSideMediaSupport,
     isClientSideMediaSupported: () => isClientSideMediaSupported,
+    isHeicCanvasSupported: () => isHeicCanvasSupported,
     store: () => store
   });
 
@@ -126,6 +127,7 @@ var wp;
     Type2["CacheBlobUrl"] = "CACHE_BLOB_URL";
     Type2["RevokeBlobUrls"] = "REVOKE_BLOB_URLS";
     Type2["UpdateProgress"] = "UPDATE_PROGRESS";
+    Type2["AccumulateSubSize"] = "ACCUMULATE_SUB_SIZE";
     Type2["UpdateSettings"] = "UPDATE_SETTINGS";
     return Type2;
   })(Type || {});
@@ -158,6 +160,10 @@ var wp;
     "image/gif",
     "image/webp",
     "image/avif"
+  ];
+  var HEIC_MIME_TYPES = [
+    "image/heic",
+    "image/heif"
   ];
 
   // packages/upload-media/build-module/store/reducer.mjs
@@ -319,6 +325,19 @@ var wp;
             } : item
           )
         };
+      case Type.AccumulateSubSize:
+        return {
+          ...state,
+          queue: state.queue.map(
+            (item) => item.id === action.id ? {
+              ...item,
+              subSizes: [
+                ...item.subSizes || [],
+                action.subSize
+              ]
+            } : item
+          )
+        };
       case Type.UpdateSettings: {
         return {
           ...state,
@@ -372,13 +391,11 @@ var wp;
     getFailedItems: () => getFailedItems,
     getItem: () => getItem,
     getItemProgress: () => getItemProgress,
-    getPausedUploadForPost: () => getPausedUploadForPost,
     getPendingImageProcessing: () => getPendingImageProcessing,
     getPendingUploads: () => getPendingUploads,
     hasPendingItemsByParentId: () => hasPendingItemsByParentId,
     isBatchUploaded: () => isBatchUploaded,
-    isPaused: () => isPaused,
-    isUploadingToPost: () => isUploadingToPost
+    isPaused: () => isPaused
   });
   function getAllItems(state) {
     return state.queue;
@@ -391,16 +408,6 @@ var wp;
       (item) => batchId === item.batchId
     );
     return batchItems.length === 0;
-  }
-  function isUploadingToPost(state, postOrAttachmentId) {
-    return state.queue.some(
-      (item) => item.currentOperation === OperationType.Upload && item.additionalData.post === postOrAttachmentId
-    );
-  }
-  function getPausedUploadForPost(state, postOrAttachmentId) {
-    return state.queue.find(
-      (item) => item.status === ItemStatus.Paused && item.additionalData.post === postOrAttachmentId
-    );
   }
   function isPaused(state) {
     return state.queueStatus === "paused";
@@ -628,54 +635,6 @@ var wp;
       originalHeight
     );
     return resultFile;
-  }
-  async function vipsBatchResizeImage(id, file, outputType, configs, smartCrop = false) {
-    const { vipsBatchResizeImage: batchResize } = await loadVipsModule();
-    const resizes = configs.map((c) => ({
-      resize: { ...c.resize },
-      quality: c.quality
-    }));
-    const results = await batchResize(
-      id,
-      await file.arrayBuffer(),
-      file.type,
-      outputType,
-      resizes,
-      smartCrop
-    );
-    const ext = outputType.split("/")[1];
-    const sourceBasename = getFileBasename(file.name);
-    return results.map((result, i) => {
-      const config = configs[i];
-      const { width, height, originalWidth, originalHeight } = result;
-      const wasResized = originalWidth > width || originalHeight > height;
-      let fileName = `${sourceBasename}.${ext}`;
-      if (wasResized) {
-        if (config.scaledSuffix) {
-          fileName = `${sourceBasename}-scaled.${ext}`;
-        } else {
-          fileName = `${sourceBasename}-${width}x${height}.${ext}`;
-        }
-      }
-      return {
-        name: config.name,
-        file: new ImageFile(
-          new File(
-            [
-              new Blob([result.buffer], {
-                type: outputType
-              })
-            ],
-            fileName,
-            { type: outputType }
-          ),
-          width,
-          height,
-          originalWidth,
-          originalHeight
-        )
-      };
-    });
   }
   async function vipsRotateImage(id, file, orientation, signal) {
     if (signal?.aborted) {
@@ -935,7 +894,6 @@ var wp;
     processItem: () => processItem,
     removeItem: () => removeItem,
     resizeCropItem: () => resizeCropItem,
-    resumeItemByPostId: () => resumeItemByPostId,
     resumeQueue: () => resumeQueue,
     revokeBlobUrls: () => revokeBlobUrls,
     rotateItem: () => rotateItem,
@@ -947,6 +905,759 @@ var wp;
   });
   var import_blob = __toESM(require_blob(), 1);
 
+  // packages/upload-media/build-module/heic-parser.mjs
+  var Reader = class {
+    view;
+    buffer;
+    pos;
+    constructor(buffer, offset = 0) {
+      this.buffer = buffer;
+      this.view = new DataView(buffer);
+      this.pos = offset;
+    }
+    u8() {
+      const v = this.view.getUint8(this.pos);
+      this.pos += 1;
+      return v;
+    }
+    u16() {
+      const v = this.view.getUint16(this.pos);
+      this.pos += 2;
+      return v;
+    }
+    u32() {
+      const v = this.view.getUint32(this.pos);
+      this.pos += 4;
+      return v;
+    }
+    u64() {
+      const hi = this.view.getUint32(this.pos);
+      const lo = this.view.getUint32(this.pos + 4);
+      this.pos += 8;
+      return hi * 4294967296 + lo;
+    }
+    /**
+     * Read a variable-width unsigned integer (0, 4 or 8 bytes).
+     *
+     * @param size Byte width to read (0, 4, or 8).
+     */
+    uN(size) {
+      if (size === 0) {
+        return 0;
+      }
+      if (size === 4) {
+        return this.u32();
+      }
+      if (size === 8) {
+        return this.u64();
+      }
+      throw new Error(`Unsupported uint size: ${size}`);
+    }
+    str(len) {
+      let s = "";
+      for (let i = 0; i < len; i++) {
+        s += String.fromCharCode(this.view.getUint8(this.pos + i));
+      }
+      this.pos += len;
+      return s;
+    }
+    bytes(len) {
+      const b = new Uint8Array(this.buffer, this.pos, len);
+      this.pos += len;
+      return new Uint8Array(b);
+    }
+  };
+  function readBox(r) {
+    if (r.pos + 8 > r.view.byteLength) {
+      return null;
+    }
+    const offset = r.pos;
+    let size = r.u32();
+    const type = r.str(4);
+    let headerSize = 8;
+    if (size === 1) {
+      size = r.u64();
+      headerSize = 16;
+    } else if (size === 0) {
+      size = r.view.byteLength - offset;
+    }
+    return { type, offset, size, headerSize };
+  }
+  function findBoxes(r, start, end) {
+    const boxes = [];
+    r.pos = start;
+    while (r.pos < end) {
+      const box = readBox(r);
+      if (!box || box.size < 8) {
+        break;
+      }
+      boxes.push(box);
+      r.pos = box.offset + box.size;
+    }
+    return boxes;
+  }
+  function findBox(r, start, end, type) {
+    r.pos = start;
+    while (r.pos < end) {
+      const box = readBox(r);
+      if (!box || box.size < 8) {
+        break;
+      }
+      if (box.type === type) {
+        return box;
+      }
+      r.pos = box.offset + box.size;
+    }
+    return void 0;
+  }
+  function parsePitm(r, box) {
+    r.pos = box.offset + box.headerSize;
+    const version = r.u8();
+    r.pos += 3;
+    return version === 0 ? r.u16() : r.u32();
+  }
+  function parseIloc(r, box) {
+    r.pos = box.offset + box.headerSize;
+    const version = r.u8();
+    r.pos += 3;
+    const byte1 = r.u8();
+    const offsetSize = byte1 >> 4 & 15;
+    const lengthSize = byte1 & 15;
+    const byte2 = r.u8();
+    const baseOffsetSize = byte2 >> 4 & 15;
+    const indexSize = version >= 1 ? byte2 & 15 : 0;
+    const itemCount = version < 2 ? r.u16() : r.u32();
+    const items = /* @__PURE__ */ new Map();
+    for (let i = 0; i < itemCount; i++) {
+      const itemId = version < 2 ? r.u16() : r.u32();
+      let constructionMethod = 0;
+      if (version === 1 || version === 2) {
+        const cm = r.u16();
+        constructionMethod = cm & 15;
+      }
+      r.u16();
+      const baseOffset = r.uN(baseOffsetSize);
+      const extentCount = r.u16();
+      const extents = [];
+      for (let j = 0; j < extentCount; j++) {
+        if (version >= 1) {
+          r.uN(indexSize);
+        }
+        const extOffset = r.uN(offsetSize);
+        const extLength = r.uN(lengthSize);
+        extents.push({
+          offset: baseOffset + extOffset,
+          length: extLength
+        });
+      }
+      items.set(itemId, { constructionMethod, extents });
+    }
+    return items;
+  }
+  function parseIpma(r, box) {
+    r.pos = box.offset + box.headerSize;
+    const vf = r.u32();
+    const version = vf >>> 24;
+    const flags = vf & 16777215;
+    const largeIndex = (flags & 1) !== 0;
+    const entryCount = r.u32();
+    const associations = /* @__PURE__ */ new Map();
+    for (let i = 0; i < entryCount; i++) {
+      const itemId = version < 1 ? r.u16() : r.u32();
+      const assocCount = r.u8();
+      const indices = [];
+      for (let j = 0; j < assocCount; j++) {
+        if (largeIndex) {
+          indices.push(r.u16() & 32767);
+        } else {
+          indices.push(r.u8() & 127);
+        }
+      }
+      associations.set(itemId, indices);
+    }
+    return associations;
+  }
+  function parseIspe(r, box) {
+    r.pos = box.offset + box.headerSize + 4;
+    return { width: r.u32(), height: r.u32() };
+  }
+  function parseIrot(r, box) {
+    r.pos = box.offset + box.headerSize;
+    return (r.u8() & 3) * 90;
+  }
+  function parseIinf(r, box) {
+    r.pos = box.offset + box.headerSize;
+    const version = r.u8();
+    r.pos += 3;
+    const entryCount = version === 0 ? r.u16() : r.u32();
+    const itemTypes = /* @__PURE__ */ new Map();
+    const entriesStart = r.pos;
+    const boxEnd = box.offset + box.size;
+    const infeBoxes = findBoxes(r, entriesStart, boxEnd);
+    for (let i = 0; i < Math.min(entryCount, infeBoxes.length); i++) {
+      const infe = infeBoxes[i];
+      if (infe.type !== "infe") {
+        continue;
+      }
+      r.pos = infe.offset + infe.headerSize;
+      const infeVersion = r.u8();
+      r.pos += 3;
+      if (infeVersion >= 2) {
+        const itemId = infeVersion === 2 ? r.u16() : r.u32();
+        r.u16();
+        const itemType = r.str(4);
+        itemTypes.set(itemId, itemType);
+      }
+    }
+    return itemTypes;
+  }
+  function parseIref(r, box, refType) {
+    r.pos = box.offset + box.headerSize;
+    const version = r.u8();
+    r.pos += 3;
+    const refs = /* @__PURE__ */ new Map();
+    const boxEnd = box.offset + box.size;
+    while (r.pos < boxEnd) {
+      const refBox = readBox(r);
+      if (!refBox || refBox.size < 8) {
+        break;
+      }
+      r.pos = refBox.offset + refBox.headerSize;
+      const fromId = version === 0 ? r.u16() : r.u32();
+      const refCount = r.u16();
+      const toIds = [];
+      for (let i = 0; i < refCount; i++) {
+        toIds.push(version === 0 ? r.u16() : r.u32());
+      }
+      if (refBox.type === refType) {
+        refs.set(fromId, toIds);
+      }
+      r.pos = refBox.offset + refBox.size;
+    }
+    return refs;
+  }
+  function reverseBits32(n) {
+    n = n >>> 1 & 1431655765 | (n & 1431655765) << 1;
+    n = n >>> 2 & 858993459 | (n & 858993459) << 2;
+    n = n >>> 4 & 252645135 | (n & 252645135) << 4;
+    n = n >>> 8 & 16711935 | (n & 16711935) << 8;
+    n = n >>> 16 | n << 16;
+    return n >>> 0;
+  }
+  function buildCodecString(r, recordOffset) {
+    r.pos = recordOffset;
+    r.u8();
+    const byte1 = r.u8();
+    const profileSpace = byte1 >> 6 & 3;
+    const tierFlag = byte1 >> 5 & 1;
+    const profileIdc = byte1 & 31;
+    const compatFlags = r.u32();
+    const constraintBytes = r.bytes(6);
+    const levelIdc = r.u8();
+    const spacePrefix = profileSpace > 0 ? String.fromCharCode(64 + profileSpace) : "";
+    const compatHex = reverseBits32(compatFlags).toString(16).toUpperCase();
+    const tierChar = tierFlag ? "H" : "L";
+    let lastNonZero = -1;
+    for (let i = 5; i >= 0; i--) {
+      if (constraintBytes[i] !== 0) {
+        lastNonZero = i;
+        break;
+      }
+    }
+    let constraintStr = "";
+    if (lastNonZero >= 0) {
+      const parts = [];
+      for (let i = 0; i <= lastNonZero; i++) {
+        parts.push(constraintBytes[i].toString(16).toUpperCase());
+      }
+      constraintStr = "." + parts.join(".");
+    }
+    return `hvc1.${spacePrefix}${profileIdc}.${compatHex}.${tierChar}${levelIdc}${constraintStr}`;
+  }
+  function readItemData(buffer, loc, idatOffset) {
+    const baseOffset = loc.constructionMethod === 1 ? idatOffset : 0;
+    if (loc.extents.length === 1) {
+      const ext = loc.extents[0];
+      const start = baseOffset + ext.offset;
+      return new Uint8Array(buffer.slice(start, start + ext.length));
+    }
+    let totalLength = 0;
+    for (const ext of loc.extents) {
+      totalLength += ext.length;
+    }
+    const data = new Uint8Array(totalLength);
+    let pos = 0;
+    for (const ext of loc.extents) {
+      const start = baseOffset + ext.offset;
+      data.set(
+        new Uint8Array(buffer.slice(start, start + ext.length)),
+        pos
+      );
+      pos += ext.length;
+    }
+    return data;
+  }
+  function findHvcProperties(propIndices, properties) {
+    let hvcCBox;
+    let ispeBox;
+    let irotBox;
+    for (const idx of propIndices) {
+      if (idx < 1 || idx > properties.length) {
+        continue;
+      }
+      const prop = properties[idx - 1];
+      if (prop.type === "hvcC" && !hvcCBox) {
+        hvcCBox = prop;
+      }
+      if (prop.type === "ispe" && !ispeBox) {
+        ispeBox = prop;
+      }
+      if (prop.type === "irot" && !irotBox) {
+        irotBox = prop;
+      }
+    }
+    if (!hvcCBox) {
+      throw new Error("No HEVC configuration (hvcC) found");
+    }
+    if (!ispeBox) {
+      throw new Error("No image dimensions (ispe) found");
+    }
+    return { hvcCBox, ispeBox, irotBox };
+  }
+  function parseHeic(buffer) {
+    const r = new Reader(buffer);
+    const fileEnd = buffer.byteLength;
+    const metaBox = findBox(r, 0, fileEnd, "meta");
+    if (!metaBox) {
+      throw new Error("No meta box found in HEIC file");
+    }
+    const metaChildStart = metaBox.offset + metaBox.headerSize + 4;
+    const metaEnd = metaBox.offset + metaBox.size;
+    const children = findBoxes(r, metaChildStart, metaEnd);
+    const pitmBox = children.find((b) => b.type === "pitm");
+    const ilocBox = children.find((b) => b.type === "iloc");
+    const iprpBox = children.find((b) => b.type === "iprp");
+    const iinfBox = children.find((b) => b.type === "iinf");
+    const irefBox = children.find((b) => b.type === "iref");
+    const idatBox = children.find((b) => b.type === "idat");
+    const idatOffset = idatBox ? idatBox.offset + idatBox.headerSize : 0;
+    if (!pitmBox || !ilocBox || !iprpBox) {
+      throw new Error("Missing required boxes (pitm, iloc, iprp) in HEIC");
+    }
+    const primaryId = parsePitm(r, pitmBox);
+    const locations = parseIloc(r, ilocBox);
+    const iprpStart = iprpBox.offset + iprpBox.headerSize;
+    const iprpEnd = iprpBox.offset + iprpBox.size;
+    const iprpChildren = findBoxes(r, iprpStart, iprpEnd);
+    const ipcoBox = iprpChildren.find((b) => b.type === "ipco");
+    const ipmaBox = iprpChildren.find((b) => b.type === "ipma");
+    if (!ipcoBox || !ipmaBox) {
+      throw new Error("Missing ipco or ipma in HEIC properties");
+    }
+    const allAssoc = parseIpma(r, ipmaBox);
+    const ipcoStart = ipcoBox.offset + ipcoBox.headerSize;
+    const ipcoEnd = ipcoBox.offset + ipcoBox.size;
+    const properties = findBoxes(r, ipcoStart, ipcoEnd);
+    let primaryItemType = "hvc1";
+    if (iinfBox) {
+      const itemTypes = parseIinf(r, iinfBox);
+      const t = itemTypes.get(primaryId);
+      if (t) {
+        primaryItemType = t;
+      }
+    }
+    if (primaryItemType === "grid") {
+      return parseGridImage(
+        r,
+        buffer,
+        primaryId,
+        locations,
+        allAssoc,
+        properties,
+        irefBox,
+        idatOffset
+      );
+    }
+    const primaryLoc = locations.get(primaryId);
+    if (!primaryLoc || primaryLoc.extents.length === 0) {
+      throw new Error(`No location data for primary item ${primaryId}`);
+    }
+    const primaryPropIndices = allAssoc.get(primaryId);
+    if (!primaryPropIndices || primaryPropIndices.length === 0) {
+      throw new Error("No property associations for primary item");
+    }
+    const { hvcCBox, ispeBox, irotBox } = findHvcProperties(
+      primaryPropIndices,
+      properties
+    );
+    const hvcCDataStart = hvcCBox.offset + hvcCBox.headerSize;
+    const hvcCDataSize = hvcCBox.size - hvcCBox.headerSize;
+    const description = new Uint8Array(
+      buffer.slice(hvcCDataStart, hvcCDataStart + hvcCDataSize)
+    );
+    const codecString = buildCodecString(r, hvcCDataStart);
+    const { width, height } = parseIspe(r, ispeBox);
+    const rotation = irotBox ? parseIrot(r, irotBox) : 0;
+    return {
+      codecString,
+      description,
+      tiles: [
+        {
+          data: readItemData(buffer, primaryLoc, idatOffset),
+          x: 0,
+          y: 0
+        }
+      ],
+      tileWidth: width,
+      tileHeight: height,
+      outputWidth: width,
+      outputHeight: height,
+      rotation
+    };
+  }
+  function parseGridImage(r, buffer, gridItemId, locations, allAssoc, properties, irefBox, idatOffset) {
+    const gridLoc = locations.get(gridItemId);
+    if (!gridLoc || gridLoc.extents.length === 0) {
+      throw new Error("No location data for grid item");
+    }
+    const gridData = readItemData(buffer, gridLoc, idatOffset);
+    const largeFields = gridData.length > 1 && (gridData[1] & 1) !== 0;
+    const minGridSize = largeFields ? 12 : 8;
+    if (gridData.length < minGridSize) {
+      throw new Error(
+        `Grid descriptor too short: ${gridData.length} bytes`
+      );
+    }
+    const rows = gridData[2] + 1;
+    const columns = gridData[3] + 1;
+    const gv = new DataView(gridData.buffer, gridData.byteOffset);
+    let outputWidth;
+    let outputHeight;
+    if (largeFields) {
+      outputWidth = gv.getUint32(4);
+      outputHeight = gv.getUint32(8);
+    } else {
+      outputWidth = gv.getUint16(4);
+      outputHeight = gv.getUint16(6);
+    }
+    if (!irefBox) {
+      throw new Error("Grid image requires iref box");
+    }
+    const dimgRefs = parseIref(r, irefBox, "dimg");
+    const tileItemIds = dimgRefs.get(gridItemId);
+    if (!tileItemIds || tileItemIds.length === 0) {
+      throw new Error("No tile references found for grid item");
+    }
+    const expectedTiles = rows * columns;
+    if (tileItemIds.length < expectedTiles) {
+      throw new Error(
+        `Grid expects ${expectedTiles} tiles but found ${tileItemIds.length}`
+      );
+    }
+    const firstTileProps = allAssoc.get(tileItemIds[0]);
+    if (!firstTileProps || firstTileProps.length === 0) {
+      throw new Error("No property associations for tile item");
+    }
+    const { hvcCBox, ispeBox } = findHvcProperties(
+      firstTileProps,
+      properties
+    );
+    const gridProps = allAssoc.get(gridItemId) || [];
+    let irotBox;
+    for (const idx of gridProps) {
+      if (idx >= 1 && idx <= properties.length) {
+        const prop = properties[idx - 1];
+        if (prop.type === "irot") {
+          irotBox = prop;
+          break;
+        }
+      }
+    }
+    const hvcCDataStart = hvcCBox.offset + hvcCBox.headerSize;
+    const hvcCDataSize = hvcCBox.size - hvcCBox.headerSize;
+    const description = new Uint8Array(
+      buffer.slice(hvcCDataStart, hvcCDataStart + hvcCDataSize)
+    );
+    const codecString = buildCodecString(r, hvcCDataStart);
+    const { width: tileWidth, height: tileHeight } = parseIspe(r, ispeBox);
+    const tiles = [];
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < columns; col++) {
+        const tileIdx = row * columns + col;
+        const tileId = tileItemIds[tileIdx];
+        const tileLoc = locations.get(tileId);
+        if (!tileLoc || tileLoc.extents.length === 0) {
+          throw new Error(`No location data for tile item ${tileId}`);
+        }
+        tiles.push({
+          data: readItemData(buffer, tileLoc, idatOffset),
+          x: col * tileWidth,
+          y: row * tileHeight
+        });
+      }
+    }
+    const rotation = irotBox ? parseIrot(r, irotBox) : 0;
+    return {
+      codecString,
+      description,
+      tiles,
+      tileWidth,
+      tileHeight,
+      outputWidth,
+      outputHeight,
+      rotation
+    };
+  }
+
+  // packages/upload-media/build-module/canvas-utils.mjs
+  async function canvasConvertToJpeg(file, quality = 0.82) {
+    const baseName = getFileBasename(file.name);
+    try {
+      const bitmap = await createImageBitmap(file);
+      try {
+        const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          throw new Error("Could not get canvas 2d context");
+        }
+        ctx.drawImage(bitmap, 0, 0);
+        const jpegBlob = await canvas.convertToBlob({
+          type: "image/jpeg",
+          quality
+        });
+        return new File([jpegBlob], `${baseName}.jpg`, {
+          type: "image/jpeg"
+        });
+      } finally {
+        bitmap.close();
+      }
+    } catch {
+    }
+    if (typeof ImageDecoder !== "undefined") {
+      const supported = await ImageDecoder.isTypeSupported(file.type);
+      if (supported) {
+        const decoder = new ImageDecoder({
+          type: file.type,
+          data: file.stream()
+        });
+        try {
+          const { image: videoFrame } = await decoder.decode();
+          try {
+            const canvas = new OffscreenCanvas(
+              videoFrame.displayWidth,
+              videoFrame.displayHeight
+            );
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+              throw new Error("Could not get canvas 2d context");
+            }
+            ctx.drawImage(videoFrame, 0, 0);
+            const jpegBlob = await canvas.convertToBlob({
+              type: "image/jpeg",
+              quality
+            });
+            return new File([jpegBlob], `${baseName}.jpg`, {
+              type: "image/jpeg"
+            });
+          } finally {
+            videoFrame.close();
+          }
+        } finally {
+          decoder.close();
+        }
+      }
+    }
+    if (typeof VideoDecoder !== "undefined") {
+      try {
+        const heicData = parseHeic(await file.arrayBuffer());
+        const support = await VideoDecoder.isConfigSupported({
+          codec: heicData.codecString
+        });
+        if (support.supported) {
+          const canvas = new OffscreenCanvas(
+            heicData.outputWidth,
+            heicData.outputHeight
+          );
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            throw new Error("Could not get canvas 2d context");
+          }
+          for (const tile of heicData.tiles) {
+            const frame = await decodeHevcFrame(
+              heicData.codecString,
+              heicData.description,
+              heicData.tileWidth,
+              heicData.tileHeight,
+              tile.data
+            );
+            try {
+              ctx.drawImage(frame, tile.x, tile.y);
+            } finally {
+              frame.close();
+            }
+          }
+          const outputCanvas = applyRotation(canvas, heicData.rotation);
+          const jpegBlob = await outputCanvas.convertToBlob({
+            type: "image/jpeg",
+            quality
+          });
+          return new File([jpegBlob], `${baseName}.jpg`, {
+            type: "image/jpeg"
+          });
+        }
+      } catch {
+      }
+    }
+    throw new Error(
+      "This browser cannot decode HEIC images. Please use Safari or convert to JPEG before uploading."
+    );
+  }
+  function applyRotation(source, rotation) {
+    if (rotation === 0) {
+      return source;
+    }
+    const swap = rotation === 90 || rotation === 270;
+    const w = swap ? source.height : source.width;
+    const h = swap ? source.width : source.height;
+    const rotated = new OffscreenCanvas(w, h);
+    const ctx = rotated.getContext("2d");
+    if (!ctx) {
+      return source;
+    }
+    ctx.translate(w / 2, h / 2);
+    ctx.rotate(-rotation * Math.PI / 180);
+    ctx.drawImage(source, -source.width / 2, -source.height / 2);
+    return rotated;
+  }
+  function decodeHevcFrame(codec, description, width, height, data) {
+    return new Promise((resolve, reject) => {
+      const decoder = new VideoDecoder({
+        output: (frame) => {
+          decoder.close();
+          resolve(frame);
+        },
+        error: (e) => {
+          if (decoder.state !== "closed") {
+            decoder.close();
+          }
+          reject(e);
+        }
+      });
+      decoder.configure({
+        codec,
+        codedWidth: width,
+        codedHeight: height,
+        description
+      });
+      decoder.decode(
+        new EncodedVideoChunk({
+          type: "key",
+          timestamp: 0,
+          data
+        })
+      );
+      decoder.flush().catch((e) => {
+        if (decoder.state !== "closed") {
+          decoder.close();
+        }
+        reject(e);
+      });
+    });
+  }
+
+  // packages/upload-media/build-module/feature-detection.mjs
+  var cachedResult = null;
+  function detectClientSideMediaSupport() {
+    if (cachedResult !== null) {
+      return cachedResult;
+    }
+    if (typeof WebAssembly === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "WebAssembly is not supported in this browser."
+      };
+      return cachedResult;
+    }
+    if (typeof SharedArrayBuffer === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "SharedArrayBuffer is not available. This may be due to missing cross-origin isolation headers."
+      };
+      return cachedResult;
+    }
+    if (typeof Worker === "undefined") {
+      cachedResult = {
+        supported: false,
+        reason: "Web Workers are not supported in this browser."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined" && "deviceMemory" in navigator && navigator.deviceMemory <= 2) {
+      cachedResult = {
+        supported: false,
+        reason: "Device has insufficient memory for client-side media processing."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined" && "hardwareConcurrency" in navigator && navigator.hardwareConcurrency < 2) {
+      cachedResult = {
+        supported: false,
+        reason: "Device has insufficient CPU cores for client-side media processing."
+      };
+      return cachedResult;
+    }
+    if (typeof navigator !== "undefined") {
+      const connection = navigator.connection;
+      if (connection) {
+        if (connection.saveData) {
+          cachedResult = {
+            supported: false,
+            reason: "Data saver mode is enabled."
+          };
+          return cachedResult;
+        }
+        if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") {
+          cachedResult = {
+            supported: false,
+            reason: "Network connection is too slow for client-side media processing."
+          };
+          return cachedResult;
+        }
+      }
+    }
+    if (typeof window !== "undefined") {
+      try {
+        const testBlob = new Blob([""], {
+          type: "application/javascript"
+        });
+        const testUrl = URL.createObjectURL(testBlob);
+        try {
+          const testWorker = new Worker(testUrl);
+          testWorker.terminate();
+        } finally {
+          URL.revokeObjectURL(testUrl);
+        }
+      } catch {
+        cachedResult = {
+          supported: false,
+          reason: "The site's Content Security Policy (CSP) does not allow blob: workers. The worker-src directive must include blob: to enable client-side media processing."
+        };
+        return cachedResult;
+      }
+    }
+    cachedResult = { supported: true };
+    return cachedResult;
+  }
+  function isClientSideMediaSupported() {
+    return detectClientSideMediaSupport().supported;
+  }
+  function isHeicCanvasSupported() {
+    return typeof createImageBitmap !== "undefined" && typeof OffscreenCanvas !== "undefined";
+  }
+  function clearFeatureDetectionCache() {
+    cachedResult = null;
+  }
+
   // packages/upload-media/build-module/stub-file.mjs
   var StubFile = class extends File {
     constructor(fileName = "stub-file") {
@@ -956,12 +1667,6 @@ var wp;
 
   // packages/upload-media/build-module/store/private-actions.mjs
   var DEFAULT_OUTPUT_QUALITY = 0.82;
-  function shouldPauseForSideload(item, operation, select2) {
-    if (operation !== OperationType.Upload || !item.parentId || !item.additionalData.post) {
-      return false;
-    }
-    return select2.isUploadingToPost(item.additionalData.post);
-  }
   function addItem({
     file: fileOrBlob,
     batchId,
@@ -999,7 +1704,6 @@ var wp;
             url: blobUrl
           },
           additionalData: {
-            convert_format: false,
             generate_sub_sizes: false,
             ...additionalData
           },
@@ -1065,13 +1769,6 @@ var wp;
       } = item;
       const operation = Array.isArray(item.operations?.[0]) ? item.operations[0][0] : item.operations?.[0];
       const operationArgs = Array.isArray(item.operations?.[0]) ? item.operations[0][1] : void 0;
-      if (shouldPauseForSideload(item, operation, select2)) {
-        dispatch({
-          type: Type.PauseItem,
-          id
-        });
-        return;
-      }
       if (operation === OperationType.Upload) {
         const settings = select2.getSettings();
         const activeCount = select2.getActiveUploadCount();
@@ -1087,7 +1784,10 @@ var wp;
         }
       }
       if (attachment) {
-        onChange?.([attachment]);
+        const isHeicUrl = attachment.url && /\.hei[cf]$/i.test(attachment.url);
+        if (!isHeicUrl) {
+          onChange?.([attachment]);
+        }
       }
       if (!operation) {
         if (parentId || !parentId && !select2.hasPendingItemsByParentId(id)) {
@@ -1189,18 +1889,6 @@ var wp;
       });
     };
   }
-  function resumeItemByPostId(postOrAttachmentId) {
-    return async ({ select: select2, dispatch }) => {
-      const item = select2.getPausedUploadForPost(postOrAttachmentId);
-      if (item) {
-        dispatch({
-          type: Type.ResumeItem,
-          id: item.id
-        });
-        dispatch.processItem(item.id);
-      }
-    };
-  }
   function removeItem(id) {
     return async ({ select: select2, dispatch }) => {
       const item = select2.getItem(id);
@@ -1244,19 +1932,7 @@ var wp;
   function isValidImageFormat(format) {
     return VALID_IMAGE_FORMATS.includes(format);
   }
-  function getInterlacedSetting(outputMimeType, settings) {
-    switch (outputMimeType) {
-      case "image/jpeg":
-        return settings.jpegInterlaced ?? false;
-      case "image/png":
-        return settings.pngInterlaced ?? false;
-      case "image/gif":
-        return settings.gifInterlaced ?? false;
-      default:
-        return false;
-    }
-  }
-  async function getTranscodeImageOperation(file, outputMimeType, settings) {
+  async function getTranscodeImageOperation(file, outputMimeType, interlaced = false) {
     if (file.type === "image/png" && outputMimeType === "image/jpeg") {
       const blobUrl = (0, import_blob.createBlobURL)(file);
       try {
@@ -1279,7 +1955,7 @@ var wp;
       {
         outputFormat: formatPart,
         outputQuality: DEFAULT_OUTPUT_QUALITY,
-        interlaced: getInterlacedSetting(outputMimeType, settings)
+        interlaced
       }
     ];
   }
@@ -1292,22 +1968,47 @@ var wp;
       const { file } = item;
       const operations = [];
       const settings = select2.getSettings();
+      let heicJpeg = null;
       const isImage = file.type.startsWith("image/");
       const isVipsSupported = CLIENT_SIDE_SUPPORTED_MIME_TYPES.includes(
         file.type
       );
+      const isHeic = HEIC_MIME_TYPES.includes(file.type);
       if (isImage && isVipsSupported) {
-        const { imageOutputFormats } = settings;
-        const outputMimeType = imageOutputFormats?.[file.type];
-        if (outputMimeType && outputMimeType !== file.type) {
-          const transcodeOperation = await getTranscodeImageOperation(
+        const { bigImageSizeThreshold } = settings;
+        if (bigImageSizeThreshold) {
+          operations.push([
+            OperationType.ResizeCrop,
+            {
+              resize: {
+                width: bigImageSizeThreshold,
+                height: bigImageSizeThreshold
+              },
+              isThresholdResize: true
+            }
+          ]);
+        }
+        operations.push(
+          OperationType.Upload,
+          OperationType.ThumbnailGeneration,
+          OperationType.Finalize
+        );
+      } else if (isImage && isHeic) {
+        try {
+          heicJpeg = await canvasConvertToJpeg(
             file,
-            outputMimeType,
-            settings
+            settings.imageQuality ?? DEFAULT_OUTPUT_QUALITY
           );
-          if (transcodeOperation) {
-            operations.push(transcodeOperation);
-          }
+        } catch {
+          dispatch.cancelItem(
+            id,
+            new UploadError({
+              code: "HEIC_DECODE_ERROR",
+              message: "This browser cannot decode HEIC images and the server does not support them either. Please convert to JPEG before uploading.",
+              file
+            })
+          );
+          return;
         }
         operations.push(
           OperationType.Upload,
@@ -1322,13 +2023,28 @@ var wp;
         id,
         operations
       });
-      const updates = !isVipsSupported || !isImage ? {
-        additionalData: {
-          ...item.additionalData,
-          generate_sub_sizes: true,
-          convert_format: true
-        }
-      } : {};
+      let updates = {};
+      if (isHeic && heicJpeg) {
+        const vipsAvailable = isClientSideMediaSupported();
+        updates = {
+          file: heicJpeg,
+          sourceFile: heicJpeg,
+          originalHeicFile: item.file,
+          additionalData: {
+            ...item.additionalData,
+            generate_sub_sizes: !vipsAvailable,
+            convert_format: true
+          }
+        };
+      } else if (!isVipsSupported || !isImage) {
+        updates = {
+          additionalData: {
+            ...item.additionalData,
+            generate_sub_sizes: true,
+            convert_format: true
+          }
+        };
+      }
       dispatch.finishOperation(id, updates);
     };
   }
@@ -1377,13 +2093,18 @@ var wp;
         attachmentId: post,
         additionalData,
         signal: item.abortController?.signal,
-        onFileChange: ([attachment]) => {
-          dispatch.finishOperation(id, { attachment });
-          dispatch.resumeItemByPostId(post);
+        onSuccess: (subSize) => {
+          if (item.parentId) {
+            dispatch({
+              type: Type.AccumulateSubSize,
+              id: item.parentId,
+              subSize
+            });
+          }
+          dispatch.finishOperation(id, {});
         },
         onError: (error) => {
           dispatch.cancelItem(id, error);
-          dispatch.resumeItemByPostId(post);
         }
       });
     };
@@ -1541,52 +2262,65 @@ var wp;
         return;
       }
       const attachment = item.attachment;
-      const needsRotation = attachment.exif_orientation && attachment.exif_orientation !== 1 && !item.file.name.includes("-scaled");
-      if (needsRotation && attachment.id) {
-        try {
-          const rotatedFile = await vipsRotateImage(
-            item.id,
-            item.sourceFile,
-            attachment.exif_orientation,
-            item.abortController?.signal
-          );
-          dispatch.addSideloadItem({
-            file: rotatedFile,
-            batchId: v4_default(),
-            parentId: item.id,
-            additionalData: {
-              post: attachment.id,
-              image_size: "original",
-              convert_format: false
-            },
-            operations: [OperationType.Upload]
-          });
-        } catch {
-          console.warn(
-            "Failed to rotate image, continuing with thumbnails"
-          );
+      const settings = select2.getSettings();
+      if (item.originalHeicFile && attachment.id) {
+        dispatch.addSideloadItem({
+          file: item.originalHeicFile,
+          batchId: v4_default(),
+          parentId: item.id,
+          additionalData: {
+            post: attachment.id,
+            image_size: "original-heic",
+            convert_format: false
+          },
+          operations: [OperationType.Upload]
+        });
+      }
+      {
+        const needsRotation = attachment.exif_orientation && attachment.exif_orientation !== 1 && !item.file.name.includes("-scaled");
+        if (needsRotation && attachment.id) {
+          try {
+            const rotatedFile = await vipsRotateImage(
+              item.id,
+              item.sourceFile,
+              attachment.exif_orientation,
+              item.abortController?.signal
+            );
+            dispatch.addSideloadItem({
+              file: rotatedFile,
+              batchId: v4_default(),
+              parentId: item.id,
+              additionalData: {
+                post: attachment.id,
+                image_size: "original",
+                convert_format: false
+              },
+              operations: [OperationType.Upload]
+            });
+          } catch {
+            console.warn(
+              "Failed to rotate image, continuing with thumbnails"
+            );
+          }
         }
       }
       if (!item.parentId && attachment.missing_image_sizes && attachment.missing_image_sizes.length > 0) {
-        const settings = select2.getSettings();
         const allImageSizes = settings.allImageSizes || {};
         const sizesToGenerate = attachment.missing_image_sizes;
-        const file = attachment.filename ? renameFile(item.sourceFile, attachment.filename) : item.sourceFile;
+        const thumbnailSource = item.sourceFile;
+        const file = attachment.filename ? renameFile(thumbnailSource, attachment.filename) : thumbnailSource;
         const batchId = v4_default();
-        const { imageOutputFormats } = settings;
-        const sourceType = item.sourceFile.type;
-        const outputMimeType = imageOutputFormats?.[sourceType];
+        const outputMimeType = attachment.image_output_format;
+        const interlaced = attachment.image_save_progressive ?? false;
         let thumbnailTranscodeOperation = null;
-        if (outputMimeType && outputMimeType !== sourceType) {
+        if (outputMimeType) {
           thumbnailTranscodeOperation = await getTranscodeImageOperation(
-            item.sourceFile,
+            thumbnailSource,
             outputMimeType,
-            settings
+            interlaced
           );
         }
-        const thumbnailOutputType = thumbnailTranscodeOperation ? `image/${thumbnailTranscodeOperation[1].outputFormat}` : sourceType;
-        const quality = thumbnailTranscodeOperation ? thumbnailTranscodeOperation[1].outputQuality ?? DEFAULT_OUTPUT_QUALITY : DEFAULT_OUTPUT_QUALITY;
-        const batchConfigs = [];
+        const dimensionGroups = /* @__PURE__ */ new Map();
         for (const name of sizesToGenerate) {
           const imageSize = allImageSizes[name];
           if (!imageSize) {
@@ -1595,131 +2329,76 @@ var wp;
             );
             continue;
           }
-          batchConfigs.push({
-            name,
-            resize: imageSize,
-            quality
+          const key = `${imageSize.width}x${imageSize.height}x${imageSize.crop}`;
+          const group = dimensionGroups.get(key);
+          if (group) {
+            group.push(name);
+          } else {
+            dimensionGroups.set(key, [name]);
+          }
+        }
+        for (const [, names] of dimensionGroups) {
+          const imageSize = allImageSizes[names[0]];
+          const thumbnailOperations = [
+            [OperationType.ResizeCrop, { resize: imageSize }]
+          ];
+          if (thumbnailTranscodeOperation) {
+            thumbnailOperations.push(thumbnailTranscodeOperation);
+          }
+          thumbnailOperations.push(OperationType.Upload);
+          const imageSizeParam = names.length === 1 ? names[0] : names;
+          dispatch.addSideloadItem({
+            file,
+            batchId,
+            parentId: item.id,
+            additionalData: {
+              // Sideloading does not use the parent post ID but the
+              // attachment ID as the image sizes need to be added to it.
+              post: attachment.id,
+              image_size: imageSizeParam,
+              convert_format: false
+            },
+            operations: thumbnailOperations
           });
         }
-        const { bigImageSizeThreshold } = settings;
-        let needsScaling = false;
-        if (bigImageSizeThreshold && attachment.id) {
-          const bitmap = await createImageBitmap(item.sourceFile);
-          needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
-          bitmap.close();
-          if (needsScaling) {
-            batchConfigs.push({
-              name: "scaled",
-              resize: {
-                width: bigImageSizeThreshold,
-                height: bigImageSizeThreshold
-              },
-              quality,
-              scaledSuffix: true
-            });
-          }
-        }
-        let batchResults = null;
-        if (batchConfigs.length > 0) {
-          try {
-            batchResults = await vipsBatchResizeImage(
-              item.id,
-              file,
-              thumbnailOutputType,
-              batchConfigs,
-              false
-            );
-          } catch {
-            console.warn(
-              "Batch resize failed, falling back to per-thumbnail processing"
-            );
-          }
-        }
-        if (batchResults) {
-          for (const result of batchResults) {
-            dispatch.addSideloadItem({
-              file: result.file,
-              onChange: ([updatedAttachment]) => {
-                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
-                  return;
-                }
-                item.onChange?.([updatedAttachment]);
-              },
-              batchId,
-              parentId: item.id,
-              additionalData: {
-                post: attachment.id,
-                image_size: result.name,
-                convert_format: false
-              },
-              operations: [OperationType.Upload]
-            });
-          }
-        } else {
-          for (const name of sizesToGenerate) {
-            const imageSize = allImageSizes[name];
-            if (!imageSize) {
-              continue;
+        {
+          const { bigImageSizeThreshold } = settings;
+          if (bigImageSizeThreshold && attachment.id) {
+            const bitmap = await createImageBitmap(thumbnailSource);
+            const needsScaling = bitmap.width > bigImageSizeThreshold || bitmap.height > bigImageSizeThreshold;
+            bitmap.close();
+            if (needsScaling) {
+              const sourceForScaled = attachment.filename ? renameFile(thumbnailSource, attachment.filename) : thumbnailSource;
+              const scaledOperations = [
+                [
+                  OperationType.ResizeCrop,
+                  {
+                    resize: {
+                      width: bigImageSizeThreshold,
+                      height: bigImageSizeThreshold
+                    },
+                    isThresholdResize: true
+                  }
+                ]
+              ];
+              if (thumbnailTranscodeOperation) {
+                scaledOperations.push(
+                  thumbnailTranscodeOperation
+                );
+              }
+              scaledOperations.push(OperationType.Upload);
+              dispatch.addSideloadItem({
+                file: sourceForScaled,
+                batchId,
+                parentId: item.id,
+                additionalData: {
+                  post: attachment.id,
+                  image_size: "scaled",
+                  convert_format: false
+                },
+                operations: scaledOperations
+              });
             }
-            const thumbnailOperations = [
-              [OperationType.ResizeCrop, { resize: imageSize }]
-            ];
-            if (thumbnailTranscodeOperation) {
-              thumbnailOperations.push(thumbnailTranscodeOperation);
-            }
-            thumbnailOperations.push(OperationType.Upload);
-            dispatch.addSideloadItem({
-              file,
-              onChange: ([updatedAttachment]) => {
-                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
-                  return;
-                }
-                item.onChange?.([updatedAttachment]);
-              },
-              batchId,
-              parentId: item.id,
-              additionalData: {
-                post: attachment.id,
-                image_size: name,
-                convert_format: false
-              },
-              operations: thumbnailOperations
-            });
-          }
-          if (needsScaling && bigImageSizeThreshold && attachment.id) {
-            const scaledOperations = [
-              [
-                OperationType.ResizeCrop,
-                {
-                  resize: {
-                    width: bigImageSizeThreshold,
-                    height: bigImageSizeThreshold
-                  },
-                  isThresholdResize: true
-                }
-              ]
-            ];
-            if (thumbnailTranscodeOperation) {
-              scaledOperations.push(thumbnailTranscodeOperation);
-            }
-            scaledOperations.push(OperationType.Upload);
-            dispatch.addSideloadItem({
-              file,
-              onChange: ([updatedAttachment]) => {
-                if ((0, import_blob.isBlobURL)(updatedAttachment.url)) {
-                  return;
-                }
-                item.onChange?.([updatedAttachment]);
-              },
-              batchId,
-              parentId: item.id,
-              additionalData: {
-                post: attachment.id,
-                image_size: "scaled",
-                convert_format: false
-              },
-              operations: scaledOperations
-            });
           }
         }
       }
@@ -1736,7 +2415,7 @@ var wp;
       const { mediaFinalize } = select2.getSettings();
       if (attachment?.id && mediaFinalize) {
         try {
-          await mediaFinalize(attachment.id);
+          await mediaFinalize(attachment.id, item.subSizes || []);
         } catch (error) {
           console.warn("Media finalization failed:", error);
         }
@@ -1846,95 +2525,5 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children });
   });
   var provider_default = MediaUploadProvider;
-
-  // packages/upload-media/build-module/feature-detection.mjs
-  var cachedResult = null;
-  function detectClientSideMediaSupport() {
-    if (cachedResult !== null) {
-      return cachedResult;
-    }
-    if (typeof WebAssembly === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "WebAssembly is not supported in this browser."
-      };
-      return cachedResult;
-    }
-    if (typeof SharedArrayBuffer === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "SharedArrayBuffer is not available. This may be due to missing cross-origin isolation headers."
-      };
-      return cachedResult;
-    }
-    if (typeof Worker === "undefined") {
-      cachedResult = {
-        supported: false,
-        reason: "Web Workers are not supported in this browser."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined" && "deviceMemory" in navigator && navigator.deviceMemory <= 2) {
-      cachedResult = {
-        supported: false,
-        reason: "Device has insufficient memory for client-side media processing."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined" && "hardwareConcurrency" in navigator && navigator.hardwareConcurrency < 2) {
-      cachedResult = {
-        supported: false,
-        reason: "Device has insufficient CPU cores for client-side media processing."
-      };
-      return cachedResult;
-    }
-    if (typeof navigator !== "undefined") {
-      const connection = navigator.connection;
-      if (connection) {
-        if (connection.saveData) {
-          cachedResult = {
-            supported: false,
-            reason: "Data saver mode is enabled."
-          };
-          return cachedResult;
-        }
-        if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") {
-          cachedResult = {
-            supported: false,
-            reason: "Network connection is too slow for client-side media processing."
-          };
-          return cachedResult;
-        }
-      }
-    }
-    if (typeof window !== "undefined") {
-      try {
-        const testBlob = new Blob([""], {
-          type: "application/javascript"
-        });
-        const testUrl = URL.createObjectURL(testBlob);
-        try {
-          const testWorker = new Worker(testUrl);
-          testWorker.terminate();
-        } finally {
-          URL.revokeObjectURL(testUrl);
-        }
-      } catch {
-        cachedResult = {
-          supported: false,
-          reason: "The site's Content Security Policy (CSP) does not allow blob: workers. The worker-src directive must include blob: to enable client-side media processing."
-        };
-        return cachedResult;
-      }
-    }
-    cachedResult = { supported: true };
-    return cachedResult;
-  }
-  function isClientSideMediaSupported() {
-    return detectClientSideMediaSupport().supported;
-  }
-  function clearFeatureDetectionCache() {
-    cachedResult = null;
-  }
   return __toCommonJS(index_exports);
 })();

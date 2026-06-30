@@ -43,10 +43,7 @@
 			}
 		},
 		"dimensions": {
-			"minHeight": true,
-			"__experimentalDefaultControls": {
-				"minHeight": false
-			}
+			"minHeight": true
 		},
 		"spacing": {
 			"margin": true,

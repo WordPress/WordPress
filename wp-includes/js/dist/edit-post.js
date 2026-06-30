@@ -94,10 +94,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/components
-  var require_components = __commonJS({
-    "package-external:@wordpress/components"(exports, module) {
-      module.exports = window.wp.components;
+  // vendor-external:react
+  var require_react = __commonJS({
+    "vendor-external:react"(exports, module) {
+      module.exports = window.React;
     }
   });
 
@@ -115,6 +115,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/compose
+  var require_compose = __commonJS({
+    "package-external:@wordpress/compose"(exports, module) {
+      module.exports = window.wp.compose;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -122,10 +129,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/compose
-  var require_compose = __commonJS({
-    "package-external:@wordpress/compose"(exports, module) {
-      module.exports = window.wp.compose;
+  // package-external:@wordpress/components
+  var require_components = __commonJS({
+    "package-external:@wordpress/components"(exports, module) {
+      module.exports = window.wp.components;
     }
   });
 
@@ -234,7 +241,7 @@ var wp;
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_block_library2 = __toESM(require_block_library(), 1);
   var import_deprecated4 = __toESM(require_deprecated(), 1);
-  var import_element13 = __toESM(require_element(), 1);
+  var import_element14 = __toESM(require_element(), 1);
   var import_data26 = __toESM(require_data(), 1);
   var import_preferences11 = __toESM(require_preferences(), 1);
   var import_widgets = __toESM(require_widgets(), 1);
@@ -256,12 +263,532 @@ var wp;
   }
   var clsx_default = clsx;
 
-  // packages/admin-ui/build-module/navigable-region/index.mjs
-  var import_element = __toESM(require_element(), 1);
+  // node_modules/@base-ui/utils/esm/useRefWithInit.js
+  var React = __toESM(require_react(), 1);
+  var UNINITIALIZED = {};
+  function useRefWithInit(init, initArg) {
+    const ref = React.useRef(UNINITIALIZED);
+    if (ref.current === UNINITIALIZED) {
+      ref.current = init(initArg);
+    }
+    return ref;
+  }
+
+  // node_modules/@base-ui/utils/esm/warn.js
+  var set;
+  if (true) {
+    set = /* @__PURE__ */ new Set();
+  }
+  function warn(...messages) {
+    if (true) {
+      const messageKey = messages.join(" ");
+      if (!set.has(messageKey)) {
+        set.add(messageKey);
+        console.warn(`Base UI: ${messageKey}`);
+      }
+    }
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var React4 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/useMergedRefs.js
+  function useMergedRefs(a, b, c, d) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChange(forkRef, a, b, c, d)) {
+      update(forkRef, [a, b, c, d]);
+    }
+    return forkRef.callback;
+  }
+  function useMergedRefsN(refs) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChangeN(forkRef, refs)) {
+      update(forkRef, refs);
+    }
+    return forkRef.callback;
+  }
+  function createForkRef() {
+    return {
+      callback: null,
+      cleanup: null,
+      refs: []
+    };
+  }
+  function didChange(forkRef, a, b, c, d) {
+    return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
+  }
+  function didChangeN(forkRef, newRefs) {
+    return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index) => ref !== newRefs[index]);
+  }
+  function update(forkRef, refs) {
+    forkRef.refs = refs;
+    if (refs.every((ref) => ref == null)) {
+      forkRef.callback = null;
+      return;
+    }
+    forkRef.callback = (instance) => {
+      if (forkRef.cleanup) {
+        forkRef.cleanup();
+        forkRef.cleanup = null;
+      }
+      if (instance != null) {
+        const cleanupCallbacks = Array(refs.length).fill(null);
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
+          if (ref == null) {
+            continue;
+          }
+          switch (typeof ref) {
+            case "function": {
+              const refCleanup = ref(instance);
+              if (typeof refCleanup === "function") {
+                cleanupCallbacks[i] = refCleanup;
+              }
+              break;
+            }
+            case "object": {
+              ref.current = instance;
+              break;
+            }
+            default:
+          }
+        }
+        forkRef.cleanup = () => {
+          for (let i = 0; i < refs.length; i += 1) {
+            const ref = refs[i];
+            if (ref == null) {
+              continue;
+            }
+            switch (typeof ref) {
+              case "function": {
+                const cleanupCallback = cleanupCallbacks[i];
+                if (typeof cleanupCallback === "function") {
+                  cleanupCallback();
+                } else {
+                  ref(null);
+                }
+                break;
+              }
+              case "object": {
+                ref.current = null;
+                break;
+              }
+              default:
+            }
+          }
+        };
+      }
+    };
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  var React3 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/reactVersion.js
+  var React2 = __toESM(require_react(), 1);
+  var majorVersion = parseInt(React2.version, 10);
+  function isReactVersionAtLeast(reactVersionToCheck) {
+    return majorVersion >= reactVersionToCheck;
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  function getReactElementRef(element) {
+    if (!/* @__PURE__ */ React3.isValidElement(element)) {
+      return null;
+    }
+    const reactElement = element;
+    const propsWithRef = reactElement.props;
+    return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+  }
+
+  // node_modules/@base-ui/utils/esm/mergeObjects.js
+  function mergeObjects(a, b) {
+    if (a && !b) {
+      return a;
+    }
+    if (!a && b) {
+      return b;
+    }
+    if (a || b) {
+      return {
+        ...a,
+        ...b
+      };
+    }
+    return void 0;
+  }
+
+  // node_modules/@base-ui/utils/esm/empty.js
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
+
+  // node_modules/@base-ui/react/esm/internals/getStateAttributesProps.js
+  function getStateAttributesProps(state, customMapping) {
+    const props = {};
+    for (const key in state) {
+      const value = state[key];
+      if (customMapping?.hasOwnProperty(key)) {
+        const customProps = customMapping[key](value);
+        if (customProps != null) {
+          Object.assign(props, customProps);
+        }
+        continue;
+      }
+      if (value === true) {
+        props[`data-${key.toLowerCase()}`] = "";
+      } else if (value) {
+        props[`data-${key.toLowerCase()}`] = value.toString();
+      }
+    }
+    return props;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveClassName.js
+  function resolveClassName(className, state) {
+    return typeof className === "function" ? className(state) : className;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveStyle.js
+  function resolveStyle(style, state) {
+    return typeof style === "function" ? style(state) : style;
+  }
+
+  // node_modules/@base-ui/react/esm/merge-props/mergeProps.js
+  var EMPTY_PROPS = {};
+  function mergeProps(a, b, c, d, e) {
+    if (!c && !d && !e && !a) {
+      return createInitialMergedProps(b);
+    }
+    let merged = createInitialMergedProps(a);
+    if (b) {
+      merged = mergeInto(merged, b);
+    }
+    if (c) {
+      merged = mergeInto(merged, c);
+    }
+    if (d) {
+      merged = mergeInto(merged, d);
+    }
+    if (e) {
+      merged = mergeInto(merged, e);
+    }
+    return merged;
+  }
+  function mergePropsN(props) {
+    if (props.length === 0) {
+      return EMPTY_PROPS;
+    }
+    if (props.length === 1) {
+      return createInitialMergedProps(props[0]);
+    }
+    let merged = createInitialMergedProps(props[0]);
+    for (let i = 1; i < props.length; i += 1) {
+      merged = mergeInto(merged, props[i]);
+    }
+    return merged;
+  }
+  function createInitialMergedProps(inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return {
+        ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+      };
+    }
+    return copyInitialProps(inputProps);
+  }
+  function mergeInto(merged, inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return resolvePropsGetter(inputProps, merged);
+    }
+    return mutablyMergeInto(merged, inputProps);
+  }
+  function copyInitialProps(inputProps) {
+    const copiedProps = {
+      ...inputProps
+    };
+    for (const propName in copiedProps) {
+      const propValue = copiedProps[propName];
+      if (isEventHandler(propName, propValue)) {
+        copiedProps[propName] = wrapEventHandler(propValue);
+      }
+    }
+    return copiedProps;
+  }
+  function mutablyMergeInto(mergedProps, externalProps) {
+    if (!externalProps) {
+      return mergedProps;
+    }
+    for (const propName in externalProps) {
+      const externalPropValue = externalProps[propName];
+      switch (propName) {
+        case "style": {
+          mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
+          break;
+        }
+        case "className": {
+          mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
+          break;
+        }
+        default: {
+          if (isEventHandler(propName, externalPropValue)) {
+            mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
+          } else {
+            mergedProps[propName] = externalPropValue;
+          }
+        }
+      }
+    }
+    return mergedProps;
+  }
+  function isEventHandler(key, value) {
+    const code0 = key.charCodeAt(0);
+    const code1 = key.charCodeAt(1);
+    const code2 = key.charCodeAt(2);
+    return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
+  }
+  function isPropsGetter(inputProps) {
+    return typeof inputProps === "function";
+  }
+  function resolvePropsGetter(inputProps, previousProps) {
+    if (isPropsGetter(inputProps)) {
+      return inputProps(previousProps);
+    }
+    return inputProps ?? EMPTY_PROPS;
+  }
+  function mergeEventHandlers(ourHandler, theirHandler) {
+    if (!theirHandler) {
+      return ourHandler;
+    }
+    if (!ourHandler) {
+      return wrapEventHandler(theirHandler);
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        const baseUIEvent = event;
+        makeEventPreventable(baseUIEvent);
+        const result2 = theirHandler(...args);
+        if (!baseUIEvent.baseUIHandlerPrevented) {
+          ourHandler?.(...args);
+        }
+        return result2;
+      }
+      const result = theirHandler(...args);
+      ourHandler?.(...args);
+      return result;
+    };
+  }
+  function wrapEventHandler(handler) {
+    if (!handler) {
+      return handler;
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        makeEventPreventable(event);
+      }
+      return handler(...args);
+    };
+  }
+  function makeEventPreventable(event) {
+    event.preventBaseUIHandler = () => {
+      event.baseUIHandlerPrevented = true;
+    };
+    return event;
+  }
+  function mergeClassNames(ourClassName, theirClassName) {
+    if (theirClassName) {
+      if (ourClassName) {
+        return theirClassName + " " + ourClassName;
+      }
+      return theirClassName;
+    }
+    return ourClassName;
+  }
+  function isSyntheticEvent(event) {
+    return event != null && typeof event === "object" && "nativeEvent" in event;
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var import_react = __toESM(require_react(), 1);
+  function useRenderElement(element, componentProps, params = {}) {
+    const renderProp = componentProps.render;
+    const outProps = useRenderElementProps(componentProps, params);
+    if (params.enabled === false) {
+      return null;
+    }
+    const state = params.state ?? EMPTY_OBJECT;
+    return evaluateRenderProp(element, renderProp, outProps, state);
+  }
+  function useRenderElementProps(componentProps, params = {}) {
+    const {
+      className: classNameProp,
+      style: styleProp,
+      render: renderProp
+    } = componentProps;
+    const {
+      state = EMPTY_OBJECT,
+      ref,
+      props,
+      stateAttributesMapping,
+      enabled = true
+    } = params;
+    const className = enabled ? resolveClassName(classNameProp, state) : void 0;
+    const style = enabled ? resolveStyle(styleProp, state) : void 0;
+    const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+    const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+    const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
+    if (typeof document !== "undefined") {
+      if (!enabled) {
+        useMergedRefs(null, null);
+      } else if (Array.isArray(ref)) {
+        outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
+      } else {
+        outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
+      }
+    }
+    if (!enabled) {
+      return EMPTY_OBJECT;
+    }
+    if (className !== void 0) {
+      outProps.className = mergeClassNames(outProps.className, className);
+    }
+    if (style !== void 0) {
+      outProps.style = mergeObjects(outProps.style, style);
+    }
+    return outProps;
+  }
+  function resolveRenderFunctionProps(props) {
+    if (Array.isArray(props)) {
+      return mergePropsN(props);
+    }
+    return mergeProps(void 0, props);
+  }
+  var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+  var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+  var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+  function evaluateRenderProp(element, render, props, state) {
+    if (render) {
+      if (typeof render === "function") {
+        if (true) {
+          warnIfRenderPropLooksLikeComponent(render);
+        }
+        return render(props, state);
+      }
+      const mergedProps = mergeProps(props, render.props);
+      mergedProps.ref = props.ref;
+      let newElement = render;
+      if (newElement?.$$typeof === REACT_LAZY_TYPE) {
+        const children = React4.Children.toArray(render);
+        newElement = children[0];
+      }
+      if (true) {
+        if (!/* @__PURE__ */ React4.isValidElement(newElement)) {
+          throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+        }
+      }
+      return /* @__PURE__ */ React4.cloneElement(newElement, mergedProps);
+    }
+    if (element) {
+      if (typeof element === "string") {
+        return renderTag(element, props);
+      }
+    }
+    throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
+  }
+  function warnIfRenderPropLooksLikeComponent(renderFn) {
+    const functionName = renderFn.name;
+    if (functionName.length === 0) {
+      return;
+    }
+    if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+      return;
+    }
+    if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
+      return;
+    }
+    warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
+  }
+  function renderTag(Tag, props) {
+    if (Tag === "button") {
+      return /* @__PURE__ */ (0, import_react.createElement)("button", {
+        type: "button",
+        ...props,
+        key: props.key
+      });
+    }
+    if (Tag === "img") {
+      return /* @__PURE__ */ (0, import_react.createElement)("img", {
+        alt: "",
+        ...props,
+        key: props.key
+      });
+    }
+    return /* @__PURE__ */ React4.createElement(Tag, props);
+  }
+
+  // node_modules/@base-ui/react/esm/use-render/useRender.js
+  function useRender(params) {
+    return useRenderElement(params.defaultTagName ?? "div", params, params);
+  }
+
+  // packages/icons/build-module/library/arrow-up-left.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var NavigableRegion = (0, import_element.forwardRef)(
+  var arrow_up_left_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M14 6H6v8h1.5V8.5L17 18l1-1-9.5-9.5H14V6Z" }) });
+
+  // packages/icons/build-module/library/chevron-down.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
+
+  // packages/icons/build-module/library/chevron-up.mjs
+  var import_primitives3 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
+
+  // packages/icons/build-module/library/fullscreen.mjs
+  var import_primitives4 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var fullscreen_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z" }) });
+
+  // packages/icons/build-module/library/wordpress.mjs
+  var import_primitives5 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
+
+  // packages/ui/build-module/visually-hidden/visually-hidden.mjs
+  var import_element = __toESM(require_element(), 1);
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='c46e8cb841']")) {
+    const style = document.createElement("style");
+    style.setAttribute("data-wp-hash", "c46e8cb841");
+    style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}"));
+    document.head.appendChild(style);
+  }
+  var style_default = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
+  var VisuallyHidden = (0, import_element.forwardRef)(
+    function VisuallyHidden2({ render, ...restProps }, ref) {
+      const element = useRender({
+        render,
+        ref,
+        props: mergeProps(
+          { className: style_default["visually-hidden"] },
+          restProps,
+          {
+            // @ts-expect-error Arbitrary data-* attributes aren't indexable on the typed div props. Kept hardcoded so consumers can't change or remove it.
+            "data-visually-hidden": ""
+          }
+        )
+      });
+      return element;
+    }
+  );
+
+  // packages/admin-ui/build-module/navigable-region/index.mjs
+  var import_element2 = __toESM(require_element(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var NavigableRegion = (0, import_element2.forwardRef)(
     ({ children, className, ariaLabel, as: Tag = "div", ...props }, ref) => {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
         Tag,
         {
           ref,
@@ -277,31 +804,6 @@ var wp;
   );
   NavigableRegion.displayName = "NavigableRegion";
   var navigable_region_default = NavigableRegion;
-
-  // packages/icons/build-module/library/arrow-up-left.mjs
-  var import_primitives = __toESM(require_primitives(), 1);
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var arrow_up_left_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M14 6H6v8h1.5V8.5L17 18l1-1-9.5-9.5H14V6Z" }) });
-
-  // packages/icons/build-module/library/chevron-down.mjs
-  var import_primitives2 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var chevron_down_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z" }) });
-
-  // packages/icons/build-module/library/chevron-up.mjs
-  var import_primitives3 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var chevron_up_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z" }) });
-
-  // packages/icons/build-module/library/fullscreen.mjs
-  var import_primitives4 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var fullscreen_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z" }) });
-
-  // packages/icons/build-module/library/wordpress.mjs
-  var import_primitives5 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var wordpress_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "-2 -2 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z" }) });
 
   // packages/edit-post/build-module/components/layout/index.mjs
   var import_editor18 = __toESM(require_editor(), 1);
@@ -615,7 +1117,7 @@ var wp;
   // packages/edit-post/build-module/components/layout/index.mjs
   var import_plugins = __toESM(require_plugins(), 1);
   var import_i18n14 = __toESM(require_i18n(), 1);
-  var import_element12 = __toESM(require_element(), 1);
+  var import_element13 = __toESM(require_element(), 1);
   var import_notices3 = __toESM(require_notices(), 1);
   var import_preferences10 = __toESM(require_preferences(), 1);
   var import_commands2 = __toESM(require_commands(), 1);
@@ -735,7 +1237,7 @@ var wp;
               href: buttonHref,
               label: buttonLabel,
               showTooltip,
-              tooltipPosition: "middle right",
+              tooltipPosition: "bottom",
               children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_components.__unstableMotion.div, { variants: !disableMotion && siteIconVariants, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "edit-post-fullscreen-mode-close__view-mode-toggle-icon", children: buttonIcon }) })
             }
           ),
@@ -793,7 +1295,7 @@ var wp;
 
   // packages/edit-post/build-module/components/editor-initialization/listener-hooks.mjs
   var import_data3 = __toESM(require_data(), 1);
-  var import_element2 = __toESM(require_element(), 1);
+  var import_element3 = __toESM(require_element(), 1);
   var import_editor3 = __toESM(require_editor(), 1);
   var import_core_data2 = __toESM(require_core_data(), 1);
 
@@ -813,11 +1315,11 @@ var wp;
         newPermalink: getCurrentPost().link
       };
     }, []);
-    const nodeToUpdateRef = (0, import_element2.useRef)();
-    (0, import_element2.useEffect)(() => {
+    const nodeToUpdateRef = (0, import_element3.useRef)();
+    (0, import_element3.useEffect)(() => {
       nodeToUpdateRef.current = document.querySelector(VIEW_AS_PREVIEW_LINK_SELECTOR) || document.querySelector(VIEW_AS_LINK_SELECTOR);
     }, []);
-    (0, import_element2.useEffect)(() => {
+    (0, import_element3.useEffect)(() => {
       if (!newPermalink || !nodeToUpdateRef.current) {
         return;
       }
@@ -837,7 +1339,7 @@ var wp;
   }
 
   // packages/edit-post/build-module/components/keyboard-shortcuts/index.mjs
-  var import_element3 = __toESM(require_element(), 1);
+  var import_element4 = __toESM(require_element(), 1);
   var import_data7 = __toESM(require_data(), 1);
   var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
   var import_i18n3 = __toESM(require_i18n(), 1);
@@ -1243,8 +1745,8 @@ var wp;
   var import_editor5 = __toESM(require_editor(), 1);
   var import_deprecated2 = __toESM(require_deprecated(), 1);
   var { interfaceStore: interfaceStore2 } = unlock(import_editor5.privateApis);
-  var EMPTY_ARRAY = [];
-  var EMPTY_OBJECT = {};
+  var EMPTY_ARRAY2 = [];
+  var EMPTY_OBJECT2 = {};
   var getEditorMode = (0, import_data5.createRegistrySelector)(
     (select3) => () => select3(import_preferences2.store).get("core", "editorMode") ?? "visual"
   );
@@ -1289,7 +1791,7 @@ var wp;
         }
       };
     }, panelsWithEnabledState ?? {});
-    return panels ?? panelsWithEnabledState ?? EMPTY_OBJECT;
+    return panels ?? panelsWithEnabledState ?? EMPTY_OBJECT2;
   }
   var getPreferences = (0, import_data5.createRegistrySelector)((select3) => () => {
     (0, import_deprecated2.default)(`select( 'core/edit-post' ).getPreferences`, {
@@ -1330,7 +1832,7 @@ var wp;
     return value === void 0 ? defaultValue : value;
   }
   var getHiddenBlockTypes = (0, import_data5.createRegistrySelector)((select3) => () => {
-    return select3(import_preferences2.store).get("core", "hiddenBlockTypes") ?? EMPTY_ARRAY;
+    return select3(import_preferences2.store).get("core", "hiddenBlockTypes") ?? EMPTY_ARRAY2;
   });
   var isPublishSidebarOpened = (0, import_data5.createRegistrySelector)(
     (select3) => () => {
@@ -1502,7 +2004,7 @@ var wp;
   function KeyboardShortcuts() {
     const { toggleFullscreenMode: toggleFullscreenMode2 } = (0, import_data7.useDispatch)(store);
     const { registerShortcut } = (0, import_data7.useDispatch)(import_keyboard_shortcuts.store);
-    (0, import_element3.useEffect)(() => {
+    (0, import_element4.useEffect)(() => {
       registerShortcut({
         name: "core/edit-post/toggle-fullscreen",
         category: "global",
@@ -1524,18 +2026,18 @@ var wp;
   var import_data8 = __toESM(require_data(), 1);
   var import_i18n4 = __toESM(require_i18n(), 1);
   var import_components3 = __toESM(require_components(), 1);
-  var import_element4 = __toESM(require_element(), 1);
+  var import_element5 = __toESM(require_element(), 1);
   var import_editor6 = __toESM(require_editor(), 1);
   var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   function InitPatternModal() {
     const { editPost } = (0, import_data8.useDispatch)(import_editor6.store);
-    const [syncType, setSyncType] = (0, import_element4.useState)(void 0);
-    const [title, setTitle] = (0, import_element4.useState)("");
+    const [syncType, setSyncType] = (0, import_element5.useState)(void 0);
+    const [title, setTitle] = (0, import_element5.useState)("");
     const isNewPost = (0, import_data8.useSelect)(
       (select3) => select3(import_editor6.store).isCleanNewPost(),
       []
     );
-    const [isModalOpen, setIsModalOpen] = (0, import_element4.useState)(() => isNewPost);
+    const [isModalOpen, setIsModalOpen] = (0, import_element5.useState)(() => isNewPost);
     if (!isNewPost) {
       return null;
     }
@@ -1606,7 +2108,7 @@ var wp;
   }
 
   // packages/edit-post/build-module/components/browser-url/index.mjs
-  var import_element5 = __toESM(require_element(), 1);
+  var import_element6 = __toESM(require_element(), 1);
   var import_data9 = __toESM(require_data(), 1);
   var import_url2 = __toESM(require_url(), 1);
   var import_editor7 = __toESM(require_editor(), 1);
@@ -1614,7 +2116,7 @@ var wp;
     return (0, import_url2.addQueryArgs)("post.php", { post: postId, action: "edit" });
   }
   function BrowserURL() {
-    const [historyId, setHistoryId] = (0, import_element5.useState)(null);
+    const [historyId, setHistoryId] = (0, import_element6.useState)(null);
     const { postId, postStatus } = (0, import_data9.useSelect)((select3) => {
       const { getCurrentPost } = select3(import_editor7.store);
       const post = getCurrentPost();
@@ -1630,7 +2132,7 @@ var wp;
         postStatus: status
       };
     }, []);
-    (0, import_element5.useEffect)(() => {
+    (0, import_element6.useEffect)(() => {
       if (postId && postId !== historyId && postStatus !== "auto-draft") {
         window.history.replaceState(
           { id: postId },
@@ -1647,14 +2149,14 @@ var wp;
   var import_data12 = __toESM(require_data(), 1);
 
   // packages/edit-post/build-module/components/meta-boxes/meta-boxes-area/index.mjs
-  var import_element6 = __toESM(require_element(), 1);
+  var import_element7 = __toESM(require_element(), 1);
   var import_components4 = __toESM(require_components(), 1);
   var import_data10 = __toESM(require_data(), 1);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   function MetaBoxesArea({ location }) {
-    const container = (0, import_element6.useRef)(null);
-    const formRef = (0, import_element6.useRef)(null);
-    (0, import_element6.useEffect)(() => {
+    const container = (0, import_element7.useRef)(null);
+    const formRef = (0, import_element7.useRef)(null);
+    (0, import_element7.useEffect)(() => {
       formRef.current = document.querySelector(
         ".metabox-location-" + location
       );
@@ -1688,7 +2190,7 @@ var wp;
   var meta_boxes_area_default = MetaBoxesArea;
 
   // packages/edit-post/build-module/components/meta-boxes/meta-box-visibility.mjs
-  var import_element7 = __toESM(require_element(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   var import_data11 = __toESM(require_data(), 1);
   var import_editor8 = __toESM(require_editor(), 1);
   function MetaBoxVisibility({ id }) {
@@ -1700,7 +2202,7 @@ var wp;
       },
       [id]
     );
-    (0, import_element7.useEffect)(() => {
+    (0, import_element8.useEffect)(() => {
       const element = document.getElementById(id);
       if (!element) {
         return;
@@ -1792,7 +2294,7 @@ var wp;
   var import_preferences6 = __toESM(require_preferences(), 1);
 
   // packages/edit-post/build-module/components/preferences-modal/enable-custom-fields.mjs
-  var import_element8 = __toESM(require_element(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   var import_i18n7 = __toESM(require_i18n(), 1);
   var import_components6 = __toESM(require_components(), 1);
   var import_data15 = __toESM(require_data(), 1);
@@ -1809,7 +2311,7 @@ var wp;
     customFieldsForm.submit();
   }
   function CustomFieldsConfirmation({ willEnable }) {
-    const [isReloading, setIsReloading] = (0, import_element8.useState)(false);
+    const [isReloading, setIsReloading] = (0, import_element9.useState)(false);
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "edit-post-preferences-modal__custom-fields-confirmation-message", children: (0, import_i18n7.__)(
         "A page reload is required for this change. Make sure your content is saved before reloading."
@@ -1835,7 +2337,7 @@ var wp;
     const areCustomFieldsEnabled = (0, import_data15.useSelect)((select3) => {
       return !!select3(import_editor10.store).getEditorSettings().enableCustomFields;
     }, []);
-    const [isChecked, setIsChecked] = (0, import_element8.useState)(areCustomFieldsEnabled);
+    const [isChecked, setIsChecked] = (0, import_element9.useState)(areCustomFieldsEnabled);
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       PreferenceBaseOption,
       {
@@ -1970,7 +2472,7 @@ var wp;
   var import_data18 = __toESM(require_data(), 1);
   var import_components7 = __toESM(require_components(), 1);
   var import_i18n11 = __toESM(require_i18n(), 1);
-  var import_element9 = __toESM(require_element(), 1);
+  var import_element10 = __toESM(require_element(), 1);
 
   // packages/edit-post/build-module/components/welcome-guide/image.mjs
   var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
@@ -2039,7 +2541,7 @@ var wp;
             ),
             content: /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
               /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h1", { className: "edit-post-welcome-guide__heading", children: (0, import_i18n11.__)("Explore all blocks") }),
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "edit-post-welcome-guide__text", children: (0, import_element9.createInterpolateElement)(
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "edit-post-welcome-guide__text", children: (0, import_element10.createInterpolateElement)(
                 (0, import_i18n11.__)(
                   "All of the blocks available to you live in the block library. You\u2019ll find it wherever you see the <InserterIconImage /> icon."
                 ),
@@ -2065,7 +2567,7 @@ var wp;
             ),
             content: /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
               /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h1", { className: "edit-post-welcome-guide__heading", children: (0, import_i18n11.__)("Learn more") }),
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "edit-post-welcome-guide__text", children: (0, import_element9.createInterpolateElement)(
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "edit-post-welcome-guide__text", children: (0, import_element10.createInterpolateElement)(
                 (0, import_i18n11.__)(
                   "New to the block editor? Want to learn more about using it? <a>Here's a detailed guide.</a>"
                 ),
@@ -2214,13 +2716,13 @@ var wp;
   }
 
   // packages/edit-post/build-module/hooks/use-navigate-to-entity-record.mjs
-  var import_element10 = __toESM(require_element(), 1);
+  var import_element11 = __toESM(require_element(), 1);
   var import_data23 = __toESM(require_data(), 1);
   var import_editor16 = __toESM(require_editor(), 1);
   var import_core_data6 = __toESM(require_core_data(), 1);
   function useNavigateToEntityRecord(initialPostId, initialPostType, defaultRenderingMode) {
     const registry = (0, import_data23.useRegistry)();
-    const [postHistory, dispatch2] = (0, import_element10.useReducer)(
+    const [postHistory, dispatch2] = (0, import_element11.useReducer)(
       (historyState, { type, post: post2, previousRenderingMode: previousRenderingMode2, selectedBlockClientId }) => {
         if (type === "push") {
           const updatedHistory = [...historyState];
@@ -2248,7 +2750,7 @@ var wp;
     const { getRenderingMode } = (0, import_data23.useSelect)(import_editor16.store);
     const { setRenderingMode } = (0, import_data23.useDispatch)(import_editor16.store);
     const { editEntityRecord } = (0, import_data23.useDispatch)(import_core_data6.store);
-    const onNavigateToEntityRecord = (0, import_element10.useCallback)(
+    const onNavigateToEntityRecord = (0, import_element11.useCallback)(
       (params) => {
         const entityEdits = registry.select(import_core_data6.store).getEntityRecordEdits("postType", post.postType, post.postId);
         const externalClientId = entityEdits?.selection?.selectionStart?.clientId ?? null;
@@ -2270,7 +2772,7 @@ var wp;
         defaultRenderingMode
       ]
     );
-    const onNavigateToPreviousEntityRecord = (0, import_element10.useCallback)(() => {
+    const onNavigateToPreviousEntityRecord = (0, import_element11.useCallback)(() => {
       if (postHistory.length > 1) {
         const previousItem = postHistory[postHistory.length - 2];
         if (previousItem.selectedBlockClientId) {
@@ -2315,7 +2817,7 @@ var wp;
   var import_data24 = __toESM(require_data(), 1);
   var import_editor17 = __toESM(require_editor(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
-  var import_element11 = __toESM(require_element(), 1);
+  var import_element12 = __toESM(require_element(), 1);
   var useMetaBoxInitialization = (enabled) => {
     const {
       isEnabledAndEditorReady,
@@ -2331,7 +2833,7 @@ var wp;
     );
     const { setCollaborationSupported } = unlock((0, import_data24.useDispatch)(import_core_data7.store));
     const { initializeMetaBoxes: initializeMetaBoxes2 } = (0, import_data24.useDispatch)(store);
-    (0, import_element11.useEffect)(() => {
+    (0, import_element12.useEffect)(() => {
       if (isEnabledAndEditorReady) {
         initializeMetaBoxes2();
         if (isCollaborationEnabled && hasIncompatibleMetaBoxes) {
@@ -2365,7 +2867,7 @@ var wp;
         hasThemeStyleSupport: select3(store).isFeatureActive("themeStyles")
       };
     }, []);
-    return (0, import_element12.useMemo)(() => {
+    return (0, import_element13.useMemo)(() => {
       const presetStyles = settings.styles?.filter(
         (style) => style.__unstableType && style.__unstableType !== "theme"
       ) ?? [];
@@ -2405,7 +2907,7 @@ var wp;
     }, []);
     const { set: setPreference } = (0, import_data25.useDispatch)(import_preferences10.store);
     const isShort = (0, import_compose3.useMediaQuery)("(max-height: 549px)");
-    const [{ min = 0, max }, setHeightConstraints] = (0, import_element12.useState)(() => ({}));
+    const [{ min = 0, max }, setHeightConstraints] = (0, import_element13.useState)(() => ({}));
     const effectSizeConstraints = (0, import_compose3.useRefEffect)((node) => {
       const container = node.closest(
         ".interface-interface-skeleton__content"
@@ -2435,14 +2937,14 @@ var wp;
       }
       return () => observer.disconnect();
     }, []);
-    const metaBoxesMainRef = (0, import_element12.useRef)();
+    const metaBoxesMainRef = (0, import_element13.useRef)();
     const setMainRefs = (0, import_compose3.useMergeRefs)([
       metaBoxesMainRef,
       effectSizeConstraints
     ]);
-    const separatorRef = (0, import_element12.useRef)();
-    const separatorHelpId = (0, import_element12.useId)();
-    const heightRef = (0, import_element12.useRef)();
+    const separatorRef = (0, import_element13.useRef)();
+    const separatorHelpId = (0, import_element13.useId)();
+    const heightRef = (0, import_element13.useRef)();
     const applyHeight = (candidateHeight = "auto", isPersistent) => {
       let styleHeight;
       if (candidateHeight === "auto") {
@@ -2551,7 +3053,7 @@ var wp;
           ...bindDragGesture()
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_components9.VisuallyHidden, { id: separatorHelpId, children: (0, import_i18n14.__)(
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(VisuallyHidden, { id: separatorHelpId, children: (0, import_i18n14.__)(
         "Use up and down arrow keys to resize the meta box pane."
       ) })
     ] });
@@ -2653,7 +3155,7 @@ var wp;
     const commandContext = hasBlockSelected ? "block-selection-edit" : "entity-edit";
     useCommandContext(commandContext);
     const styles = useEditorStyles(settings);
-    const editorSettings = (0, import_element12.useMemo)(
+    const editorSettings = (0, import_element13.useMemo)(
       () => ({
         ...settings,
         styles,
@@ -2689,7 +3191,7 @@ var wp;
       );
     }
     const { createSuccessNotice } = (0, import_data25.useDispatch)(import_notices3.store);
-    const onActionPerformed = (0, import_element12.useCallback)(
+    const onActionPerformed = (0, import_element13.useCallback)(
       (actionId, items) => {
         switch (actionId) {
           case "move-to-trash":
@@ -2734,7 +3236,7 @@ var wp;
       },
       [createSuccessNotice]
     );
-    const initialPost = (0, import_element12.useMemo)(() => {
+    const initialPost = (0, import_element13.useMemo)(() => {
       return {
         type: initialPostType,
         id: initialPostId
@@ -2881,7 +3383,7 @@ var wp;
   function initializeEditor(id, postType, postId, settings, initialEdits) {
     const isMediumOrBigger = window.matchMedia("(min-width: 782px)").matches;
     const target = document.getElementById(id);
-    const root = (0, import_element13.createRoot)(target);
+    const root = (0, import_element14.createRoot)(target);
     (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core/edit-post", {
       fullscreenMode: true,
       themeStyles: true,
@@ -2948,7 +3450,7 @@ var wp;
     window.addEventListener("dragover", (e) => e.preventDefault(), false);
     window.addEventListener("drop", (e) => e.preventDefault(), false);
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_element13.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_element14.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
         layout_default,
         {
           settings,

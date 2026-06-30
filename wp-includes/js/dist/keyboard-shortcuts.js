@@ -1,3 +1,4 @@
+"use strict";
 var wp;
 (wp ||= {}).keyboardShortcuts = (() => {
   var __create = Object.create;
@@ -136,8 +137,17 @@ var wp;
   var import_keycodes = __toESM(require_keycodes(), 1);
   var EMPTY_ARRAY = [];
   var FORMATTING_METHODS = {
+    /**
+     * Display formatting.
+     */
     display: import_keycodes.displayShortcut,
+    /**
+     * Raw shortcut formatting.
+     */
     raw: import_keycodes.rawShortcut,
+    /**
+     * ARIA label formatting.
+     */
     ariaLabel: import_keycodes.shortcutAriaLabel
   };
   function getKeyCombinationRepresentation(shortcut, representation) {
@@ -166,7 +176,9 @@ var wp;
       return [
         getShortcutKeyCombination(state, name),
         ...getShortcutAliases(state, name)
-      ].filter(Boolean);
+      ].filter(
+        (combination) => !!combination
+      );
     },
     (state, name) => [state[name]]
   );
@@ -195,34 +207,40 @@ var wp;
   (0, import_data2.register)(store);
 
   // packages/keyboard-shortcuts/build-module/hooks/use-shortcut.mjs
-  var import_element2 = __toESM(require_element(), 1);
+  var import_element3 = __toESM(require_element(), 1);
 
   // packages/keyboard-shortcuts/build-module/hooks/use-shortcut-event-match.mjs
   var import_data3 = __toESM(require_data(), 1);
+  var import_element = __toESM(require_element(), 1);
   var import_keycodes2 = __toESM(require_keycodes(), 1);
   function useShortcutEventMatch() {
     const { getAllShortcutKeyCombinations: getAllShortcutKeyCombinations2 } = (0, import_data3.useSelect)(
       store
     );
-    function isMatch(name, event) {
-      return getAllShortcutKeyCombinations2(name).some(
-        ({ modifier, character }) => {
-          return import_keycodes2.isKeyboardEvent[modifier](event, character);
-        }
-      );
-    }
-    return isMatch;
+    return (0, import_element.useCallback)(
+      (name, event) => {
+        return getAllShortcutKeyCombinations2(name).some(
+          (combination) => {
+            if (!combination) {
+              return false;
+            }
+            return import_keycodes2.isKeyboardEvent[combination.modifier ?? "undefined"](event, combination.character);
+          }
+        );
+      },
+      [getAllShortcutKeyCombinations2]
+    );
   }
 
   // packages/keyboard-shortcuts/build-module/context.mjs
-  var import_element = __toESM(require_element(), 1);
+  var import_element2 = __toESM(require_element(), 1);
   var globalShortcuts = /* @__PURE__ */ new Set();
   var globalListener = (event) => {
     for (const keyboardShortcut of globalShortcuts) {
       keyboardShortcut(event);
     }
   };
-  var context = (0, import_element.createContext)({
+  var context = (0, import_element2.createContext)({
     add: (shortcut) => {
       if (globalShortcuts.size === 0) {
         document.addEventListener("keydown", globalListener);
@@ -240,18 +258,18 @@ var wp;
 
   // packages/keyboard-shortcuts/build-module/hooks/use-shortcut.mjs
   function useShortcut(name, callback, { isDisabled = false } = {}) {
-    const shortcuts = (0, import_element2.useContext)(context);
+    const shortcuts = (0, import_element3.useContext)(context);
     const isMatch = useShortcutEventMatch();
-    const callbackRef = (0, import_element2.useRef)();
-    (0, import_element2.useEffect)(() => {
+    const callbackRef = (0, import_element3.useRef)();
+    (0, import_element3.useEffect)(() => {
       callbackRef.current = callback;
     }, [callback]);
-    (0, import_element2.useEffect)(() => {
+    (0, import_element3.useEffect)(() => {
       if (isDisabled) {
         return;
       }
       function _callback(event) {
-        if (isMatch(name, event)) {
+        if (isMatch(name, event) && callbackRef.current) {
           callbackRef.current(event);
         }
       }
@@ -259,21 +277,24 @@ var wp;
       return () => {
         shortcuts.delete(_callback);
       };
-    }, [name, isDisabled, shortcuts]);
+    }, [name, isDisabled, shortcuts, isMatch]);
   }
 
   // packages/keyboard-shortcuts/build-module/components/shortcut-provider.mjs
-  var import_element3 = __toESM(require_element(), 1);
+  var import_element4 = __toESM(require_element(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var { Provider } = context;
   function ShortcutProvider(props) {
-    const [keyboardShortcuts] = (0, import_element3.useState)(() => /* @__PURE__ */ new Set());
+    const [keyboardShortcuts] = (0, import_element4.useState)(
+      () => /* @__PURE__ */ new Set()
+    );
     function onKeyDown(event) {
       if (props.onKeyDown) {
         props.onKeyDown(event);
       }
+      const nativeEvent = event.nativeEvent;
       for (const keyboardShortcut of keyboardShortcuts) {
-        keyboardShortcut(event);
+        keyboardShortcut(nativeEvent);
       }
     }
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Provider, { value: keyboardShortcuts, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { ...props, onKeyDown }) });

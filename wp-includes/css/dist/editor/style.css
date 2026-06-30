@@ -107,141 +107,6 @@
   }
 }
 
-.admin-ui-page {
-  display: flex;
-  height: 100%;
-  background-color: var(--wpds-color-bg-surface-neutral, #fcfcfc);
-  color: var(--wpds-color-fg-content-neutral, #1e1e1e);
-  position: relative;
-  z-index: 1;
-  flex-flow: column;
-  text-wrap: pretty;
-}
-
-.admin-ui-page__header {
-  padding: var(--wpds-dimension-padding-lg, 16px) var(--wpds-dimension-padding-2xl, 24px);
-  border-bottom: var(--wpds-border-width-xs, 1px) solid var(--wpds-color-stroke-surface-neutral-weak, #e4e4e4);
-  background: var(--wpds-color-bg-surface-neutral-strong, #ffffff);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.admin-ui-page__header-title {
-  font-family: var(--wpds-typography-font-family-heading, -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif);
-  font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
-  line-height: var(--wpds-typography-line-height-lg, 28px);
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.admin-ui-page__sidebar-toggle-slot:empty {
-  display: none;
-}
-
-.admin-ui-page__header-subtitle {
-  padding-block-end: var(--wpds-dimension-padding-xs, 4px);
-  color: var(--wpds-color-fg-content-neutral-weak, #707070);
-  font-size: var(--wpds-typography-font-size-md, 13px);
-  line-height: var(--wpds-typography-line-height-md, 24px);
-  margin: 0;
-}
-
-.admin-ui-page__content {
-  flex-grow: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-ui-page__content.has-padding {
-  padding: var(--wpds-dimension-padding-lg, 16px) var(--wpds-dimension-padding-2xl, 24px);
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon {
-  width: auto;
-  padding: 0 var(--wpds-dimension-padding-xs, 4px);
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon svg {
-  display: none;
-}
-
-.show-icon-labels .admin-ui-page__header-actions .components-button.has-icon::after {
-  content: attr(aria-label);
-  font-size: var(--wpds-typography-font-size-sm, 12px);
-}
-
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Typography
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Radius scale.
- */
-/**
- * Elevation scale.
- */
-/**
- * Dimensions.
- */
-/**
- * Mobile specific styles
- */
-/**
- * Editor styles.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-.admin-ui-breadcrumbs__list {
-  font-family: var(--wpds-typography-font-family-heading, -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif);
-  font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
-  line-height: var(--wpds-typography-line-height-lg, 28px);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 0;
-  min-height: 32px;
-}
-
-.admin-ui-breadcrumbs__list li:not(:last-child)::after {
-  content: "/";
-  margin: 0 8px;
-}
-
-.admin-ui-breadcrumbs__list h1 {
-  font-size: inherit;
-  line-height: inherit;
-}
-
 /**
  * Colors
  */
@@ -977,7 +842,7 @@ button.font-library__upload-area {
 
 .global-styles-ui-screen-revisions__revision-item {
   position: relative;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   display: flex;
   flex-direction: column;
 }
@@ -1154,7 +1019,7 @@ button.font-library__upload-area {
 
 .global-styles-ui-variations_item {
   box-sizing: border-box;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 
 .global-styles-ui-variations_item .global-styles-ui-variations_item-preview {
@@ -1192,18 +1057,14 @@ button.font-library__upload-area {
   outline-color: var(--wp-admin-theme-color);
 }
 
-.global-styles-ui-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  cursor: pointer;
-}
-
 .global-styles-ui-preview__wrapper {
   max-width: 100%;
   display: block;
   width: 100%;
+}
+
+.global-styles-ui-preview__wrapper.is-hoverable {
+  cursor: var(--wpds-cursor-control, pointer);
 }
 
 .global-styles-ui-typography-preview {
@@ -4188,7 +4049,7 @@ div.dataviews-view-list {
 }
 
 input[type=radio]:not(:checked) ~ .fields-create-template-part-modal__area-radio-label::before {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 
 input[type=radio]:focus-visible ~ .fields-create-template-part-modal__area-radio-label::before {
@@ -4316,7 +4177,7 @@ fieldset.fields__media-edit .fields__media-edit-picker-button {
   border-radius: 2px;
   padding: 4px 8px;
   min-height: 40px;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   min-width: 0;
 }
 
@@ -4751,6 +4612,363 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   margin-top: 8px;
 }
 
+.wp-media-editor-image-editor {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.wp-media-editor-image-editor__canvas {
+  position: absolute;
+  inset: 22px;
+}
+
+.wp-media-editor-image-editor--dragging {
+  cursor: grabbing;
+}
+
+.wp-media-editor-image-editor__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.wp-media-editor-image-editor__stencil {
+  position: absolute;
+  pointer-events: none;
+}
+
+.wp-media-editor-image-editor__dimming {
+  position: absolute;
+  pointer-events: none;
+  /* Large shadow spread dims everything outside the crop area.
+     Darker at rest for clear crop framing, lighter during drag
+     so the user can see where they're panning. */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.15s ease;
+}
+
+.wp-media-editor-image-editor--dragging .wp-media-editor-image-editor__dimming {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.wp-media-editor-image-editor__grid {
+  position: absolute;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.15s ease;
+}
+
+.wp-media-editor-image-editor__canvas--grid-interactive .wp-media-editor-image-editor__grid {
+  opacity: 0;
+  transition-delay: 0.1s;
+}
+
+.wp-media-editor-image-editor__canvas--show-grid .wp-media-editor-image-editor__grid {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.wp-media-editor-image-editor__grid-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.wp-media-editor-image-editor__grid-line--horizontal {
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.wp-media-editor-image-editor__grid-line--vertical {
+  top: 0;
+  height: 100%;
+  width: 1px;
+}
+
+.wp-media-editor-image-editor__stencil-rect {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.wp-media-editor-image-editor__handle {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  cursor: default;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-sizing: border-box;
+  pointer-events: auto;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wp-media-editor-image-editor__handle:focus {
+  outline: none;
+}
+
+.wp-media-editor-image-editor__handle:focus-visible {
+  background: var(--wp-image-editor-focus-color, var(--wp-admin-theme-color, #007cba));
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-image-editor-focus-color, var(--wp-admin-theme-color, #007cba));
+}
+
+.wp-media-editor-image-editor__handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
+.wp-media-editor-image-editor__handle {
+  /* Offset by half the handle width (12px / 2 = 6px) to center on crop edge */
+}
+
+.wp-media-editor-image-editor__handle--n {
+  top: -6px;
+  left: 50%;
+  margin-left: -6px;
+  cursor: ns-resize;
+}
+
+.wp-media-editor-image-editor__handle--s {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -6px;
+  cursor: ns-resize;
+}
+
+.wp-media-editor-image-editor__handle--e {
+  top: 50%;
+  right: -6px;
+  margin-top: -6px;
+  cursor: ew-resize;
+}
+
+.wp-media-editor-image-editor__handle--w {
+  top: 50%;
+  left: -6px;
+  margin-top: -6px;
+  cursor: ew-resize;
+}
+
+.wp-media-editor-image-editor__handle--nw {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
+
+.wp-media-editor-image-editor__handle--ne {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
+
+.wp-media-editor-image-editor__handle--sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
+
+.wp-media-editor-image-editor__handle--se {
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize;
+}
+
+/**
+ * Typography
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
+.media-editor-modal.components-modal__frame .components-modal__content {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.media-editor-modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.media-editor-modal .media-editor-modal__loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-editor-modal .interface-interface-skeleton {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  height: 100%;
+  max-height: none;
+  flex: 1;
+  flex-direction: column;
+}
+
+.media-editor-modal .interface-interface-skeleton__editor {
+  min-width: 0;
+  flex: 1;
+}
+
+.media-editor-modal .interface-interface-skeleton__footer {
+  position: relative;
+  display: flex;
+}
+
+.media-editor-modal .interface-interface-skeleton.has-footer .interface-interface-skeleton__body {
+  padding-bottom: 0;
+}
+
+.media-editor-modal .media-editor-modal__canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  overflow: auto;
+  height: 100%;
+}
+
+.media-editor-modal .media-editor-modal__canvas .media-editor-preview {
+  height: 100%;
+}
+
+.media-editor-modal .media-editor-modal__canvas img,
+.media-editor-modal .media-editor-modal__canvas video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.media-editor-modal .media-editor-modal__sidebar {
+  box-sizing: border-box;
+}
+
+.media-editor-modal .media-editor-modal__sidebar *,
+.media-editor-modal .media-editor-modal__sidebar *::before,
+.media-editor-modal .media-editor-modal__sidebar *::after {
+  box-sizing: inherit;
+}
+
+.media-editor-modal .media-editor-modal__panel {
+  padding: 16px;
+}
+
+.media-editor-modal .components-panel__header.media-editor-modal__sidebar-header {
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.media-editor-modal .components-panel__header.media-editor-modal__sidebar-header .components-button.has-icon {
+  padding: 0;
+}
+
+@media (min-width: 782px) {
+  .media-editor-modal .components-panel__header.media-editor-modal__sidebar-header .components-button.has-icon {
+    display: flex;
+  }
+}
+.media-editor-modal__snackbar {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  padding-inline: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.media-editor-modal__snackbar .components-snackbar {
+  margin-inline: auto;
+}
+
+.media-editor-modal__snackbar {
+  z-index: 1000001;
+}
+
+.media-editor-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.media-editor-toolbar {
+  width: 100%;
+  padding: 8px 16px;
+}
+
+.media-editor-toolbar .media-editor-toolbar__rotation-slider {
+  flex: 1 1 auto;
+  max-width: 240px;
+}
+
+@media (max-width: 480px) {
+  .media-editor-toolbar .media-editor-toolbar__rotation-slider {
+    display: none;
+  }
+}
 .editor-autocompleters__link {
   white-space: nowrap;
   gap: 8px;
@@ -4805,6 +5023,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 
 .editor-collab-sidebar-panel {
+  position: relative;
   padding: 16px 16px 24px;
   height: 100%;
   overflow: hidden;
@@ -4833,6 +5052,8 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   right: 16px;
   position: absolute;
   margin-top: 16px;
+  transform: translateY(var(--canvas-scroll, 0));
+  will-change: transform;
 }
 
 .editor-collab-sidebar-panel__user-name {
@@ -4852,7 +5073,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   color: #757575;
 }
 
-.editor-collab-sidebar-panel__user-comment p:last-child {
+.editor-collab-sidebar-panel__note-content p:last-child {
   margin-bottom: 0;
 }
 
@@ -4865,18 +5086,14 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   background: #fff;
 }
 
-.editor-collab-sidebar-panel__comment-status {
+.editor-collab-sidebar-panel__note-actions {
   margin-left: auto;
 }
-.editor-collab-sidebar-panel__comment-status button.has-icon:not(.has-text) {
+.editor-collab-sidebar-panel__note-actions button.has-icon:not(.has-text) {
   min-width: 24px;
   padding: 0;
   width: 24px;
   height: 24px;
-  flex-shrink: 0;
-}
-
-.editor-collab-sidebar-panel__comment-dropdown-menu {
   flex-shrink: 0;
 }
 
@@ -4893,11 +5110,16 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   font-weight: 499;
 }
 
+.editor-collab-sidebar-panel__deleted-block-notice {
+  font-weight: 499;
+  color: #757575;
+}
+
 .editor-collab-sidebar-panel__resolution-text {
   font-style: italic;
 }
 
-.editor-collab-sidebar-panel__comment-form textarea {
+.editor-collab-sidebar-panel__note-form textarea {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
@@ -4909,32 +5131,32 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   border: 1px solid #949494;
 }
 @media not (prefers-reduced-motion) {
-  .editor-collab-sidebar-panel__comment-form textarea {
+  .editor-collab-sidebar-panel__note-form textarea {
     transition: box-shadow 0.1s linear;
   }
 }
 @media (min-width: 600px) {
-  .editor-collab-sidebar-panel__comment-form textarea {
+  .editor-collab-sidebar-panel__note-form textarea {
     font-size: 13px;
     /* Override core line-height. To be reviewed. */
     line-height: normal;
   }
 }
-.editor-collab-sidebar-panel__comment-form textarea:focus {
+.editor-collab-sidebar-panel__note-form textarea:focus {
   border-color: var(--wp-admin-theme-color);
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.editor-collab-sidebar-panel__comment-form textarea::placeholder {
+.editor-collab-sidebar-panel__note-form textarea::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.editor-collab-sidebar-panel__comment-form textarea {
+.editor-collab-sidebar-panel__note-form textarea {
   padding: 9px 11px;
   line-height: 20px !important;
   display: block;
 }
 
-.editor-collab-sidebar-panel__skip-to-comment,
+.editor-collab-sidebar-panel__skip-to-note,
 .editor-collab-sidebar-panel__skip-to-block {
   position: absolute;
   top: -9999px;
@@ -4944,7 +5166,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   background: #fff !important;
   z-index: -1;
 }
-.editor-collab-sidebar-panel__skip-to-comment:focus,
+.editor-collab-sidebar-panel__skip-to-note:focus,
 .editor-collab-sidebar-panel__skip-to-block:focus {
   overflow: visible;
   clip-path: none;
@@ -4952,7 +5174,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   right: 8px;
 }
 
-.editor-collab-sidebar-panel__skip-to-comment:focus {
+.editor-collab-sidebar-panel__skip-to-note:focus {
   top: 8px;
 }
 
@@ -4961,7 +5183,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   bottom: 8px;
 }
 
-.comment-avatar {
+.editor-note-indicator__avatar {
   width: 24px;
   border-radius: 50%;
   margin-left: -12px;
@@ -4971,17 +5193,21 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   background: #fff;
   box-sizing: border-box;
 }
-.comment-avatar:first-child {
+.editor-note-indicator__avatar:first-child {
   margin-left: 0;
 }
 
-.show-icon-labels .comment-avatar-indicator {
+.editor-note-indicator__overflow {
+  font-weight: 499;
+}
+
+.show-icon-labels .editor-note-indicator {
   width: auto;
 }
-.show-icon-labels .comment-avatar-indicator div {
+.show-icon-labels .editor-note-indicator div {
   display: none;
 }
-.show-icon-labels .comment-avatar-indicator::after {
+.show-icon-labels .editor-note-indicator::after {
   content: attr(aria-label);
   font-size: 12px;
 }
@@ -5412,7 +5638,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 
 .document-outline__button {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   background: none;
   border: none;
   display: flex;
@@ -6733,7 +6959,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   min-height: 4px;
   border: none;
   padding: 0;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   transition: opacity 0.1s ease;
 }
 .revision-diff-markers .revision-diff-marker.is-added {
@@ -6959,7 +7185,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   }
 }
 .editor-template-actions-panel__preview[role=button] {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .editor-template-actions-panel__preview[role=button]:hover .block-editor-block-preview__container::after {
   outline-color: rgba(0, 0, 0, 0.3);

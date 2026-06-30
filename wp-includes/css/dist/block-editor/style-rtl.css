@@ -173,7 +173,7 @@
 }
 
 .block-editor-global-styles-background-panel__dropdown-toggle {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   background: transparent;
   border: none;
   height: 100%;
@@ -980,7 +980,7 @@ iframe[name=editor-canvas] {
 }
 
 .block-editor-block-patterns-list__list-item {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   margin-bottom: 16px;
   position: relative;
 }
@@ -1230,7 +1230,7 @@ iframe[name=editor-canvas] {
   margin-top: 16px;
 }
 .block-editor-block-switcher__preview-patterns-container .block-editor-block-switcher__preview-patterns-container-list__list-item .block-editor-block-preview__container {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .block-editor-block-switcher__preview-patterns-container .block-editor-block-switcher__preview-patterns-container-list__list-item .block-editor-block-switcher__preview-patterns-container-list__item {
   height: 100%;
@@ -1256,7 +1256,7 @@ iframe[name=editor-canvas] {
   padding: 4px;
   font-size: 12px;
   text-align: center;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 
 .block-editor-block-switcher__no-transforms {
@@ -1306,7 +1306,7 @@ iframe[name=editor-canvas] {
 }
 .block-editor-block-pattern-setup.view-mode-grid .block-editor-block-pattern-setup__container .block-editor-block-preview__container,
 .block-editor-block-pattern-setup.view-mode-grid .block-editor-block-pattern-setup__container div[role=button] {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .block-editor-block-pattern-setup.view-mode-grid .block-editor-block-pattern-setup__container .block-editor-block-pattern-setup-list__item {
   scroll-margin: 5px 0;
@@ -1330,7 +1330,7 @@ iframe[name=editor-canvas] {
   padding-top: 8px;
   font-size: 12px;
   text-align: center;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .block-editor-block-pattern-setup.view-mode-grid .block-editor-block-pattern-setup__container .block-editor-block-pattern-setup-list__list-item .block-editor-block-preview__container {
   min-height: 100px;
@@ -1685,7 +1685,7 @@ iframe[name=editor-canvas] {
   color: #2f2f2f;
   border: #e0e0e0 1px solid;
   border-radius: 2px;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   display: inline-flex;
   align-items: center;
   padding: 0;
@@ -1999,7 +1999,7 @@ iframe[name=editor-canvas] {
   padding: 8px;
   align-items: stretch;
   justify-content: center;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   background: transparent;
   word-break: break-word;
 }
@@ -2855,7 +2855,7 @@ iframe[name=editor-canvas] {
 .block-editor-list-view__expander {
   height: 24px;
   width: 24px;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 
 .block-editor-list-view-leaf[aria-level] .block-editor-list-view__expander {
@@ -3265,7 +3265,7 @@ iframe[name=editor-canvas] {
   color: #757575;
   display: block;
   font-size: 13px;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   background: #fff;
   width: 100%;
   border: none;
@@ -4006,7 +4006,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 .block-editor-inserter__toggle.components-button {
   display: inline-flex;
   align-items: center;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   border: none;
   outline: none;
   padding: 0;
@@ -4379,7 +4379,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 
 .block-editor-inserter__media-list__list-item {
   position: relative;
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   margin-bottom: 24px;
 }
 .block-editor-inserter__media-list__list-item.is-placeholder {

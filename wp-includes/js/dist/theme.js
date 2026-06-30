@@ -4031,7 +4031,7 @@ var wp;
     ],
     [
       "--wp-components-color-background",
-      "var(--wpds-color-bg-surface-neutral-strong, #ffffff)"
+      "var(--wpds-color-bg-surface-neutral-strong, #fff)"
     ],
     [
       "--wp-components-color-foreground",

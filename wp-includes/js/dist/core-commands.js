@@ -631,16 +631,21 @@ var wp;
   var getGlobalStylesOpenCssCommands = () => function useGlobalStylesOpenCssCommands() {
     const history = useHistory();
     const isSiteEditor = isInSiteEditor();
-    const { canEditCSS } = (0, import_data2.useSelect)((select) => {
-      const { getEntityRecord, __experimentalGetCurrentGlobalStylesId } = select(import_core_data2.store);
+    const { canEditCSS, isBlockBasedTheme } = (0, import_data2.useSelect)((select) => {
+      const {
+        getEntityRecord,
+        __experimentalGetCurrentGlobalStylesId,
+        getCurrentTheme
+      } = select(import_core_data2.store);
       const globalStylesId = __experimentalGetCurrentGlobalStylesId();
       const globalStyles = globalStylesId ? getEntityRecord("root", "globalStyles", globalStylesId) : void 0;
       return {
-        canEditCSS: !!globalStyles?._links?.["wp:action-edit-css"]
+        canEditCSS: !!globalStyles?._links?.["wp:action-edit-css"],
+        isBlockBasedTheme: getCurrentTheme()?.is_block_theme
       };
     }, []);
     const commands = (0, import_element2.useMemo)(() => {
-      if (!canEditCSS) {
+      if (!canEditCSS || !isBlockBasedTheme) {
         return [];
       }
       return [
@@ -665,7 +670,7 @@ var wp;
           }
         }
       ];
-    }, [history, canEditCSS, isSiteEditor]);
+    }, [history, canEditCSS, isSiteEditor, isBlockBasedTheme]);
     return {
       isLoading: false,
       commands

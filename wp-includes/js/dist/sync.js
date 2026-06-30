@@ -9285,7 +9285,9 @@ var wp;
   ];
   var DISCONNECT_DIALOG_RETRY_MS = 3e4;
   var MANUAL_RETRY_INTERVAL_MS = 15e3;
-  var MAX_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
+  var MAX_ENCODED_UPDATE_SIZE_IN_BYTES = 1 * 1024 * 1024;
+  var MAX_UPDATE_SIZE_IN_BYTES = Math.floor(MAX_ENCODED_UPDATE_SIZE_IN_BYTES / 4) * 3;
+  var MAX_ROOMS_PER_REQUEST = 50;
   var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
     "sync.pollingManager.pollingInterval",
     4e3
@@ -9397,6 +9399,17 @@ var wp;
   function intValueOrDefault(value, defaultValue) {
     const intValue = parseInt(String(value), 10);
     return isNaN(intValue) ? defaultValue : intValue;
+  }
+  function rotateWindow(items, offset, size2) {
+    if (items.length === 0) {
+      return { window: [], nextOffset: 0 };
+    }
+    const start = (offset % items.length + items.length) % items.length;
+    const wrapped = [...items.slice(start), ...items.slice(0, start)];
+    return {
+      window: wrapped.slice(0, Math.max(0, size2)),
+      nextOffset: (start + Math.max(0, size2)) % items.length
+    };
   }
 
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
@@ -9598,6 +9611,7 @@ var wp;
   var isUnloadPending = false;
   var pollInterval = POLLING_INTERVAL_IN_MS;
   var pollingTimeoutId = null;
+  var roomOverflowOffset = 0;
   function handleBeforeUnload() {
     isUnloadPending = true;
   }
@@ -9611,7 +9625,11 @@ var wp;
         updates: []
       })
     );
-    postSyncUpdateNonBlocking({ rooms });
+    for (let i = 0; i < rooms.length; i += MAX_ROOMS_PER_REQUEST) {
+      postSyncUpdateNonBlocking({
+        rooms: rooms.slice(i, i + MAX_ROOMS_PER_REQUEST)
+      });
+    }
   }
   function handleVisibilityChange() {
     const wasActive = isActiveBrowser;
@@ -9624,6 +9642,25 @@ var wp;
       }
     }
   }
+  function selectRoomsForRequest() {
+    const allRooms = Array.from(roomStates.values());
+    if (allRooms.length <= MAX_ROOMS_PER_REQUEST) {
+      return allRooms;
+    }
+    const primaryRoom = allRooms.find((state) => state.isPrimaryRoom);
+    const overflowRooms = allRooms.filter((state) => state !== primaryRoom);
+    const overflowSlotsPerRequest = MAX_ROOMS_PER_REQUEST - (primaryRoom ? 1 : 0);
+    const { window: overflowSlice, nextOffset } = rotateWindow(
+      overflowRooms,
+      roomOverflowOffset,
+      overflowSlotsPerRequest
+    );
+    roomOverflowOffset = nextOffset;
+    if (primaryRoom) {
+      return [primaryRoom, ...overflowSlice];
+    }
+    return overflowSlice;
+  }
   function poll() {
     isPolling = true;
     pollingTimeoutId = null;
@@ -9633,25 +9670,27 @@ var wp;
         return;
       }
       isUnloadPending = false;
-      roomStates.forEach((state) => {
+      const roomsInRequest = selectRoomsForRequest();
+      const payload = {
+        rooms: roomsInRequest.map((state) => ({
+          after: state.endCursor ?? 0,
+          awareness: state.localAwarenessState,
+          client_id: state.clientId,
+          room: state.room,
+          updates: state.updateQueue.get()
+        }))
+      };
+      roomsInRequest.forEach((state) => {
         state.onStatusChange({ status: "connecting" });
       });
-      const payload = {
-        rooms: Array.from(roomStates.entries()).map(
-          ([room, state]) => ({
-            after: state.endCursor ?? 0,
-            awareness: state.localAwarenessState,
-            client_id: state.clientId,
-            room,
-            updates: state.updateQueue.get()
-          })
-        )
-      };
       try {
         const { rooms } = await postSyncUpdate(payload);
         consecutiveFailures = 0;
         isManualRetry = false;
-        roomStates.forEach((state) => {
+        roomsInRequest.forEach((state) => {
+          if (roomStates.get(state.room) !== state) {
+            return;
+          }
           state.onStatusChange({ status: "connected" });
         });
         hasCollaborators = false;
@@ -9759,7 +9798,10 @@ var wp;
           }
           if (!isUnloadPending) {
             const backgroundRetriesFailed = consecutiveFailures > retrySchedule.length;
-            roomStates.forEach((state) => {
+            roomsInRequest.forEach((state) => {
+              if (roomStates.get(state.room) !== state) {
+                return;
+              }
               state.onStatusChange({
                 status: "disconnected",
                 canManuallyRetry: true,
@@ -9812,6 +9854,7 @@ var wp;
           )
         });
         unregisterRoom(room);
+        return;
       }
       updateQueue.add(createSyncUpdate(update, SyncUpdateType.UPDATE));
     }
@@ -9878,6 +9921,7 @@ var wp;
       areListenersRegistered = false;
       hasCheckedConnectionLimit = false;
       consecutiveFailures = 0;
+      roomOverflowOffset = 0;
     }
   }
   function retryNow() {
@@ -10223,6 +10267,7 @@ var wp;
 
   // packages/sync/build-module/undo-manager.mjs
   function createUndoManager() {
+    const undoMetaHandlers = /* @__PURE__ */ new Map();
     const yUndoManager = new YMultiDocUndoManager([], {
       // Throttle undo/redo captures after 500ms of inactivity.
       // 500 was selected from subjective local UX testing, shorter timeouts
@@ -10231,6 +10276,20 @@ var wp;
       // Ensure that we only scope the undo/redo to the current editor.
       // The yjs document's clientID is added once it's available.
       trackedOrigins: /* @__PURE__ */ new Set([LOCAL_EDITOR_ORIGIN])
+    });
+    yUndoManager.on("stack-item-added", (event) => {
+      const handlers = undoMetaHandlers.get(event.ydoc);
+      if (!handlers) {
+        return;
+      }
+      handlers.addUndoMeta(event.ydoc, event.stackItem.meta);
+    });
+    yUndoManager.on("stack-item-popped", (event) => {
+      const handlers = undoMetaHandlers.get(event.ydoc);
+      if (!handlers) {
+        return;
+      }
+      handlers.restoreUndoMeta(event.ydoc, event.stackItem.meta);
     });
     return {
       /**
@@ -10257,13 +10316,10 @@ var wp;
         }
         const ydoc = ymap.doc;
         yUndoManager.addToScope(ymap);
-        const { addUndoMeta, restoreUndoMeta } = handlers;
-        yUndoManager.on("stack-item-added", (event) => {
-          addUndoMeta(ydoc, event.stackItem.meta);
-        });
-        yUndoManager.on("stack-item-popped", (event) => {
-          restoreUndoMeta(ydoc, event.stackItem.meta);
-        });
+        if (!undoMetaHandlers.has(ydoc)) {
+          ydoc.on("destroy", () => undoMetaHandlers.delete(ydoc));
+        }
+        undoMetaHandlers.set(ydoc, handlers);
       },
       /**
        * Undo the last recorded changes.
@@ -10465,10 +10521,10 @@ var wp;
           return provider;
         })
       );
-      recordMap.observeDeep(onRecordUpdate);
-      stateMap.observe(onStateMapUpdate);
       initializeYjsDoc(ydoc);
       internal.applyPersistedCrdtDoc(objectType, objectId, record);
+      recordMap.observeDeep(onRecordUpdate);
+      stateMap.observe(onStateMapUpdate);
     }
     async function loadCollection(syncConfig, objectType, handlers) {
       const providerCreators2 = getProviderCreators();

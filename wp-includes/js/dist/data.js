@@ -418,6 +418,7 @@ var wp;
     createRegistrySelector: () => createRegistrySelector,
     createSelector: () => rememo_default,
     dispatch: () => dispatch2,
+    keyedReducer: () => keyedReducer,
     plugins: () => plugins_exports,
     register: () => register,
     registerGenericStore: () => registerGenericStore,
@@ -835,8 +836,8 @@ var wp;
   // packages/data/build-module/redux-store/metadata/reducer.mjs
   var import_equivalent_key_map = __toESM(require_equivalent_key_map(), 1);
 
-  // packages/data/build-module/redux-store/metadata/utils.mjs
-  var onSubKey = (actionProperty) => (reducer) => (state = {}, action) => {
+  // packages/data/build-module/redux-store/keyed-reducer.mjs
+  var keyedReducer = (actionProperty) => (reducer) => (state = {}, action) => {
     const key = action[actionProperty];
     if (key === void 0) {
       return state;
@@ -850,6 +851,8 @@ var wp;
       [key]: nextKeyState
     };
   };
+
+  // packages/data/build-module/redux-store/metadata/utils.mjs
   function selectorArgsToStateKey(args) {
     if (args === void 0 || args === null) {
       return [];
@@ -863,7 +866,7 @@ var wp;
   }
 
   // packages/data/build-module/redux-store/metadata/reducer.mjs
-  var subKeysIsResolved = onSubKey("selectorName")((state = new import_equivalent_key_map.default(), action) => {
+  var subKeysIsResolved = keyedReducer("selectorName")((state = new import_equivalent_key_map.default(), action) => {
     switch (action.type) {
       case "START_RESOLUTION": {
         const nextState = new import_equivalent_key_map.default(state);

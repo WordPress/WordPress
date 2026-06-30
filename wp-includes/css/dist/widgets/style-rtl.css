@@ -191,7 +191,7 @@
 
 .wp-block-legacy-widget__edit-preview,
 .wp-block-legacy-widget__edit-no-preview {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
 }
 .wp-block-legacy-widget__edit-preview:hover::after,
 .wp-block-legacy-widget__edit-no-preview:hover::after {

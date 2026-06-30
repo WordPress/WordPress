@@ -172,7 +172,7 @@
   outline: none;
 }
 .commands-command-menu__container [cmdk-item] {
-  cursor: pointer;
+  cursor: var(--wpds-cursor-control, pointer);
   display: flex;
   align-items: center;
   padding: 4px 0;

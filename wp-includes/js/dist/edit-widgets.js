@@ -150,6 +150,13 @@ var wp;
     }
   });
 
+  // vendor-external:react
+  var require_react = __commonJS({
+    "vendor-external:react"(exports, module) {
+      module.exports = window.React;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -224,7 +231,7 @@ var wp;
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data32 = __toESM(require_data(), 1);
   var import_deprecated6 = __toESM(require_deprecated(), 1);
-  var import_element25 = __toESM(require_element(), 1);
+  var import_element26 = __toESM(require_element(), 1);
   var import_block_library2 = __toESM(require_block_library(), 1);
   var import_core_data12 = __toESM(require_core_data(), 1);
   var import_widgets5 = __toESM(require_widgets(), 1);
@@ -1148,10 +1155,505 @@ var wp;
   ComplementaryArea.Slot = ComplementaryAreaSlot;
   var complementary_area_default = ComplementaryArea;
 
-  // packages/admin-ui/build-module/navigable-region/index.mjs
+  // node_modules/@base-ui/utils/esm/useRefWithInit.js
+  var React = __toESM(require_react(), 1);
+  var UNINITIALIZED = {};
+  function useRefWithInit(init, initArg) {
+    const ref = React.useRef(UNINITIALIZED);
+    if (ref.current === UNINITIALIZED) {
+      ref.current = init(initArg);
+    }
+    return ref;
+  }
+
+  // node_modules/@base-ui/utils/esm/warn.js
+  var set;
+  if (true) {
+    set = /* @__PURE__ */ new Set();
+  }
+  function warn(...messages) {
+    if (true) {
+      const messageKey = messages.join(" ");
+      if (!set.has(messageKey)) {
+        set.add(messageKey);
+        console.warn(`Base UI: ${messageKey}`);
+      }
+    }
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var React4 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/useMergedRefs.js
+  function useMergedRefs(a, b, c, d) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChange(forkRef, a, b, c, d)) {
+      update(forkRef, [a, b, c, d]);
+    }
+    return forkRef.callback;
+  }
+  function useMergedRefsN(refs) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChangeN(forkRef, refs)) {
+      update(forkRef, refs);
+    }
+    return forkRef.callback;
+  }
+  function createForkRef() {
+    return {
+      callback: null,
+      cleanup: null,
+      refs: []
+    };
+  }
+  function didChange(forkRef, a, b, c, d) {
+    return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
+  }
+  function didChangeN(forkRef, newRefs) {
+    return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index) => ref !== newRefs[index]);
+  }
+  function update(forkRef, refs) {
+    forkRef.refs = refs;
+    if (refs.every((ref) => ref == null)) {
+      forkRef.callback = null;
+      return;
+    }
+    forkRef.callback = (instance) => {
+      if (forkRef.cleanup) {
+        forkRef.cleanup();
+        forkRef.cleanup = null;
+      }
+      if (instance != null) {
+        const cleanupCallbacks = Array(refs.length).fill(null);
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
+          if (ref == null) {
+            continue;
+          }
+          switch (typeof ref) {
+            case "function": {
+              const refCleanup = ref(instance);
+              if (typeof refCleanup === "function") {
+                cleanupCallbacks[i] = refCleanup;
+              }
+              break;
+            }
+            case "object": {
+              ref.current = instance;
+              break;
+            }
+            default:
+          }
+        }
+        forkRef.cleanup = () => {
+          for (let i = 0; i < refs.length; i += 1) {
+            const ref = refs[i];
+            if (ref == null) {
+              continue;
+            }
+            switch (typeof ref) {
+              case "function": {
+                const cleanupCallback = cleanupCallbacks[i];
+                if (typeof cleanupCallback === "function") {
+                  cleanupCallback();
+                } else {
+                  ref(null);
+                }
+                break;
+              }
+              case "object": {
+                ref.current = null;
+                break;
+              }
+              default:
+            }
+          }
+        };
+      }
+    };
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  var React3 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/reactVersion.js
+  var React2 = __toESM(require_react(), 1);
+  var majorVersion = parseInt(React2.version, 10);
+  function isReactVersionAtLeast(reactVersionToCheck) {
+    return majorVersion >= reactVersionToCheck;
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  function getReactElementRef(element) {
+    if (!/* @__PURE__ */ React3.isValidElement(element)) {
+      return null;
+    }
+    const reactElement = element;
+    const propsWithRef = reactElement.props;
+    return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+  }
+
+  // node_modules/@base-ui/utils/esm/mergeObjects.js
+  function mergeObjects(a, b) {
+    if (a && !b) {
+      return a;
+    }
+    if (!a && b) {
+      return b;
+    }
+    if (a || b) {
+      return {
+        ...a,
+        ...b
+      };
+    }
+    return void 0;
+  }
+
+  // node_modules/@base-ui/utils/esm/empty.js
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
+
+  // node_modules/@base-ui/react/esm/internals/getStateAttributesProps.js
+  function getStateAttributesProps(state, customMapping) {
+    const props = {};
+    for (const key in state) {
+      const value = state[key];
+      if (customMapping?.hasOwnProperty(key)) {
+        const customProps = customMapping[key](value);
+        if (customProps != null) {
+          Object.assign(props, customProps);
+        }
+        continue;
+      }
+      if (value === true) {
+        props[`data-${key.toLowerCase()}`] = "";
+      } else if (value) {
+        props[`data-${key.toLowerCase()}`] = value.toString();
+      }
+    }
+    return props;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveClassName.js
+  function resolveClassName(className, state) {
+    return typeof className === "function" ? className(state) : className;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveStyle.js
+  function resolveStyle(style, state) {
+    return typeof style === "function" ? style(state) : style;
+  }
+
+  // node_modules/@base-ui/react/esm/merge-props/mergeProps.js
+  var EMPTY_PROPS = {};
+  function mergeProps(a, b, c, d, e) {
+    if (!c && !d && !e && !a) {
+      return createInitialMergedProps(b);
+    }
+    let merged = createInitialMergedProps(a);
+    if (b) {
+      merged = mergeInto(merged, b);
+    }
+    if (c) {
+      merged = mergeInto(merged, c);
+    }
+    if (d) {
+      merged = mergeInto(merged, d);
+    }
+    if (e) {
+      merged = mergeInto(merged, e);
+    }
+    return merged;
+  }
+  function mergePropsN(props) {
+    if (props.length === 0) {
+      return EMPTY_PROPS;
+    }
+    if (props.length === 1) {
+      return createInitialMergedProps(props[0]);
+    }
+    let merged = createInitialMergedProps(props[0]);
+    for (let i = 1; i < props.length; i += 1) {
+      merged = mergeInto(merged, props[i]);
+    }
+    return merged;
+  }
+  function createInitialMergedProps(inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return {
+        ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+      };
+    }
+    return copyInitialProps(inputProps);
+  }
+  function mergeInto(merged, inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return resolvePropsGetter(inputProps, merged);
+    }
+    return mutablyMergeInto(merged, inputProps);
+  }
+  function copyInitialProps(inputProps) {
+    const copiedProps = {
+      ...inputProps
+    };
+    for (const propName in copiedProps) {
+      const propValue = copiedProps[propName];
+      if (isEventHandler(propName, propValue)) {
+        copiedProps[propName] = wrapEventHandler(propValue);
+      }
+    }
+    return copiedProps;
+  }
+  function mutablyMergeInto(mergedProps, externalProps) {
+    if (!externalProps) {
+      return mergedProps;
+    }
+    for (const propName in externalProps) {
+      const externalPropValue = externalProps[propName];
+      switch (propName) {
+        case "style": {
+          mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
+          break;
+        }
+        case "className": {
+          mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
+          break;
+        }
+        default: {
+          if (isEventHandler(propName, externalPropValue)) {
+            mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
+          } else {
+            mergedProps[propName] = externalPropValue;
+          }
+        }
+      }
+    }
+    return mergedProps;
+  }
+  function isEventHandler(key, value) {
+    const code0 = key.charCodeAt(0);
+    const code1 = key.charCodeAt(1);
+    const code2 = key.charCodeAt(2);
+    return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
+  }
+  function isPropsGetter(inputProps) {
+    return typeof inputProps === "function";
+  }
+  function resolvePropsGetter(inputProps, previousProps) {
+    if (isPropsGetter(inputProps)) {
+      return inputProps(previousProps);
+    }
+    return inputProps ?? EMPTY_PROPS;
+  }
+  function mergeEventHandlers(ourHandler, theirHandler) {
+    if (!theirHandler) {
+      return ourHandler;
+    }
+    if (!ourHandler) {
+      return wrapEventHandler(theirHandler);
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        const baseUIEvent = event;
+        makeEventPreventable(baseUIEvent);
+        const result2 = theirHandler(...args);
+        if (!baseUIEvent.baseUIHandlerPrevented) {
+          ourHandler?.(...args);
+        }
+        return result2;
+      }
+      const result = theirHandler(...args);
+      ourHandler?.(...args);
+      return result;
+    };
+  }
+  function wrapEventHandler(handler) {
+    if (!handler) {
+      return handler;
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        makeEventPreventable(event);
+      }
+      return handler(...args);
+    };
+  }
+  function makeEventPreventable(event) {
+    event.preventBaseUIHandler = () => {
+      event.baseUIHandlerPrevented = true;
+    };
+    return event;
+  }
+  function mergeClassNames(ourClassName, theirClassName) {
+    if (theirClassName) {
+      if (ourClassName) {
+        return theirClassName + " " + ourClassName;
+      }
+      return theirClassName;
+    }
+    return ourClassName;
+  }
+  function isSyntheticEvent(event) {
+    return event != null && typeof event === "object" && "nativeEvent" in event;
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var import_react = __toESM(require_react(), 1);
+  function useRenderElement(element, componentProps, params = {}) {
+    const renderProp = componentProps.render;
+    const outProps = useRenderElementProps(componentProps, params);
+    if (params.enabled === false) {
+      return null;
+    }
+    const state = params.state ?? EMPTY_OBJECT;
+    return evaluateRenderProp(element, renderProp, outProps, state);
+  }
+  function useRenderElementProps(componentProps, params = {}) {
+    const {
+      className: classNameProp,
+      style: styleProp,
+      render: renderProp
+    } = componentProps;
+    const {
+      state = EMPTY_OBJECT,
+      ref,
+      props,
+      stateAttributesMapping,
+      enabled = true
+    } = params;
+    const className = enabled ? resolveClassName(classNameProp, state) : void 0;
+    const style = enabled ? resolveStyle(styleProp, state) : void 0;
+    const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+    const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+    const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
+    if (typeof document !== "undefined") {
+      if (!enabled) {
+        useMergedRefs(null, null);
+      } else if (Array.isArray(ref)) {
+        outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
+      } else {
+        outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
+      }
+    }
+    if (!enabled) {
+      return EMPTY_OBJECT;
+    }
+    if (className !== void 0) {
+      outProps.className = mergeClassNames(outProps.className, className);
+    }
+    if (style !== void 0) {
+      outProps.style = mergeObjects(outProps.style, style);
+    }
+    return outProps;
+  }
+  function resolveRenderFunctionProps(props) {
+    if (Array.isArray(props)) {
+      return mergePropsN(props);
+    }
+    return mergeProps(void 0, props);
+  }
+  var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+  var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+  var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+  function evaluateRenderProp(element, render, props, state) {
+    if (render) {
+      if (typeof render === "function") {
+        if (true) {
+          warnIfRenderPropLooksLikeComponent(render);
+        }
+        return render(props, state);
+      }
+      const mergedProps = mergeProps(props, render.props);
+      mergedProps.ref = props.ref;
+      let newElement = render;
+      if (newElement?.$$typeof === REACT_LAZY_TYPE) {
+        const children = React4.Children.toArray(render);
+        newElement = children[0];
+      }
+      if (true) {
+        if (!/* @__PURE__ */ React4.isValidElement(newElement)) {
+          throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+        }
+      }
+      return /* @__PURE__ */ React4.cloneElement(newElement, mergedProps);
+    }
+    if (element) {
+      if (typeof element === "string") {
+        return renderTag(element, props);
+      }
+    }
+    throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
+  }
+  function warnIfRenderPropLooksLikeComponent(renderFn) {
+    const functionName = renderFn.name;
+    if (functionName.length === 0) {
+      return;
+    }
+    if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+      return;
+    }
+    if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
+      return;
+    }
+    warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
+  }
+  function renderTag(Tag, props) {
+    if (Tag === "button") {
+      return /* @__PURE__ */ (0, import_react.createElement)("button", {
+        type: "button",
+        ...props,
+        key: props.key
+      });
+    }
+    if (Tag === "img") {
+      return /* @__PURE__ */ (0, import_react.createElement)("img", {
+        alt: "",
+        ...props,
+        key: props.key
+      });
+    }
+    return /* @__PURE__ */ React4.createElement(Tag, props);
+  }
+
+  // node_modules/@base-ui/react/esm/use-render/useRender.js
+  function useRender(params) {
+    return useRenderElement(params.defaultTagName ?? "div", params, params);
+  }
+
+  // packages/ui/build-module/visually-hidden/visually-hidden.mjs
   var import_element3 = __toESM(require_element(), 1);
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='c46e8cb841']")) {
+    const style = document.createElement("style");
+    style.setAttribute("data-wp-hash", "c46e8cb841");
+    style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}"));
+    document.head.appendChild(style);
+  }
+  var style_default = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
+  var VisuallyHidden = (0, import_element3.forwardRef)(
+    function VisuallyHidden2({ render, ...restProps }, ref) {
+      const element = useRender({
+        render,
+        ref,
+        props: mergeProps(
+          { className: style_default["visually-hidden"] },
+          restProps,
+          {
+            // @ts-expect-error Arbitrary data-* attributes aren't indexable on the typed div props. Kept hardcoded so consumers can't change or remove it.
+            "data-visually-hidden": ""
+          }
+        )
+      });
+      return element;
+    }
+  );
+
+  // packages/admin-ui/build-module/navigable-region/index.mjs
+  var import_element4 = __toESM(require_element(), 1);
   var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
-  var NavigableRegion = (0, import_element3.forwardRef)(
+  var NavigableRegion = (0, import_element4.forwardRef)(
     ({ children, className, ariaLabel, as: Tag = "div", ...props }, ref) => {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
         Tag,
@@ -1171,7 +1673,7 @@ var wp;
   var navigable_region_default = NavigableRegion;
 
   // packages/interface/build-module/components/interface-skeleton/index.mjs
-  var import_element4 = __toESM(require_element(), 1);
+  var import_element5 = __toESM(require_element(), 1);
   var import_components6 = __toESM(require_components(), 1);
   var import_i18n2 = __toESM(require_i18n(), 1);
   var import_compose2 = __toESM(require_compose(), 1);
@@ -1183,7 +1685,7 @@ var wp;
     ease: [0.6, 0, 0.4, 1]
   };
   function useHTMLClass(className) {
-    (0, import_element4.useEffect)(() => {
+    (0, import_element5.useEffect)(() => {
       const element = document && document.querySelector(`html:not(.${className})`);
       if (!element) {
         return;
@@ -1358,7 +1860,7 @@ var wp;
       }
     );
   }
-  var interface_skeleton_default = (0, import_element4.forwardRef)(InterfaceSkeleton);
+  var interface_skeleton_default = (0, import_element5.forwardRef)(InterfaceSkeleton);
 
   // packages/edit-widgets/build-module/store/actions.mjs
   var import_widgets2 = __toESM(require_widgets(), 1);
@@ -2095,7 +2597,7 @@ var wp;
   };
 
   // packages/edit-widgets/build-module/blocks/widget-area/edit/index.mjs
-  var import_element7 = __toESM(require_element(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   var import_data10 = __toESM(require_data(), 1);
   var import_core_data5 = __toESM(require_core_data(), 1);
   var import_components7 = __toESM(require_components(), 1);
@@ -2104,13 +2606,13 @@ var wp;
   // packages/edit-widgets/build-module/blocks/widget-area/edit/inner-blocks.mjs
   var import_core_data4 = __toESM(require_core_data(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
-  var import_element6 = __toESM(require_element(), 1);
+  var import_element7 = __toESM(require_element(), 1);
 
   // packages/edit-widgets/build-module/blocks/widget-area/edit/use-is-dragging-within.mjs
-  var import_element5 = __toESM(require_element(), 1);
+  var import_element6 = __toESM(require_element(), 1);
   var useIsDraggingWithin = (elementRef) => {
-    const [isDraggingWithin, setIsDraggingWithin] = (0, import_element5.useState)(false);
-    (0, import_element5.useEffect)(() => {
+    const [isDraggingWithin, setIsDraggingWithin] = (0, import_element6.useState)(false);
+    (0, import_element6.useEffect)(() => {
       const { ownerDocument } = elementRef.current;
       function handleDragStart(event) {
         handleDragEnter(event);
@@ -2145,7 +2647,7 @@ var wp;
       "root",
       "postType"
     );
-    const innerBlocksRef = (0, import_element6.useRef)();
+    const innerBlocksRef = (0, import_element7.useRef)();
     const isDraggingWithinInnerBlocks = use_is_dragging_within_default(innerBlocksRef);
     const shouldHighlightDropZone = isDraggingWithinInnerBlocks;
     const innerBlocksProps = (0, import_block_editor4.useInnerBlocksProps)(
@@ -2184,15 +2686,15 @@ var wp;
       [clientId]
     );
     const { setIsWidgetAreaOpen: setIsWidgetAreaOpen2 } = (0, import_data10.useDispatch)(store2);
-    const wrapper = (0, import_element7.useRef)();
-    const setOpen = (0, import_element7.useCallback)(
+    const wrapper = (0, import_element8.useRef)();
+    const setOpen = (0, import_element8.useCallback)(
       (openState) => setIsWidgetAreaOpen2(clientId, openState),
       [clientId]
     );
     const isDragging = useIsDragging(wrapper);
     const isDraggingWithin = use_is_dragging_within_default(wrapper);
-    const [openedWhileDragging, setOpenedWhileDragging] = (0, import_element7.useState)(false);
-    (0, import_element7.useEffect)(() => {
+    const [openedWhileDragging, setOpenedWhileDragging] = (0, import_element8.useState)(false);
+    (0, import_element8.useEffect)(() => {
       if (!isDragging) {
         setOpenedWhileDragging(false);
         return;
@@ -2240,8 +2742,8 @@ var wp;
     ) }) });
   }
   var useIsDragging = (elementRef) => {
-    const [isDragging, setIsDragging] = (0, import_element7.useState)(false);
-    (0, import_element7.useEffect)(() => {
+    const [isDragging, setIsDragging] = (0, import_element8.useState)(false);
+    (0, import_element8.useEffect)(() => {
       const { ownerDocument } = elementRef.current;
       function handleDragStart() {
         setIsDragging(true);
@@ -2276,7 +2778,7 @@ var wp;
   var import_components22 = __toESM(require_components(), 1);
 
   // packages/edit-widgets/build-module/components/error-boundary/index.mjs
-  var import_element8 = __toESM(require_element(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   var import_i18n5 = __toESM(require_i18n(), 1);
   var import_components8 = __toESM(require_components(), 1);
   var import_block_editor6 = __toESM(require_block_editor(), 1);
@@ -2293,7 +2795,7 @@ var wp;
     ];
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_block_editor6.Warning, { className: "edit-widgets-error-boundary", actions, children: message });
   }
-  var ErrorBoundary = class extends import_element8.Component {
+  var ErrorBoundary = class extends import_element9.Component {
     constructor() {
       super(...arguments);
       this.state = {
@@ -2328,14 +2830,14 @@ var wp;
   var import_media_utils2 = __toESM(require_media_utils(), 1);
   var import_data13 = __toESM(require_data(), 1);
   var import_core_data8 = __toESM(require_core_data(), 1);
-  var import_element10 = __toESM(require_element(), 1);
+  var import_element11 = __toESM(require_element(), 1);
   var import_block_editor8 = __toESM(require_block_editor(), 1);
   var import_patterns = __toESM(require_patterns(), 1);
   var import_preferences4 = __toESM(require_preferences(), 1);
   var import_block_library = __toESM(require_block_library(), 1);
 
   // packages/edit-widgets/build-module/components/keyboard-shortcuts/index.mjs
-  var import_element9 = __toESM(require_element(), 1);
+  var import_element10 = __toESM(require_element(), 1);
   var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
   var import_keycodes = __toESM(require_keycodes(), 1);
   var import_data11 = __toESM(require_data(), 1);
@@ -2360,7 +2862,7 @@ var wp;
   }
   function KeyboardShortcutsRegister() {
     const { registerShortcut } = (0, import_data11.useDispatch)(import_keyboard_shortcuts.store);
-    (0, import_element9.useEffect)(() => {
+    (0, import_element10.useEffect)(() => {
       registerShortcut({
         name: "core/edit-widgets/undo",
         category: "global",
@@ -2481,7 +2983,7 @@ var wp;
   var { ExperimentalBlockEditorProvider } = unlock(import_block_editor8.privateApis);
   var { PatternsMenuItems } = unlock(import_patterns.privateApis);
   var { BlockKeyboardShortcuts } = unlock(import_block_library.privateApis);
-  var EMPTY_ARRAY = [];
+  var EMPTY_ARRAY2 = [];
   function WidgetAreasBlockEditorProvider({
     blockEditorSettings,
     children,
@@ -2506,7 +3008,7 @@ var wp;
           kind: "postType",
           name: "attachment"
         }) ?? true,
-        reusableBlocks: ALLOW_REUSABLE_BLOCKS ? getEntityRecords("postType", "wp_block") : EMPTY_ARRAY,
+        reusableBlocks: ALLOW_REUSABLE_BLOCKS ? getEntityRecords("postType", "wp_block") : EMPTY_ARRAY2,
         isFixedToolbarActive: !!select(import_preferences4.store).get(
           "core/edit-widgets",
           "fixedToolbar"
@@ -2520,7 +3022,7 @@ var wp;
       };
     }, []);
     const { setIsInserterOpened: setIsInserterOpened2 } = (0, import_data13.useDispatch)(store2);
-    const settings2 = (0, import_element10.useMemo)(() => {
+    const settings2 = (0, import_element11.useMemo)(() => {
       let mediaUploadBlockEditor;
       if (hasUploadPermissions) {
         mediaUploadBlockEditor = ({ onError, ...argumentsObject }) => {
@@ -2582,7 +3084,7 @@ var wp;
   }
 
   // packages/edit-widgets/build-module/components/sidebar/index.mjs
-  var import_element12 = __toESM(require_element(), 1);
+  var import_element13 = __toESM(require_element(), 1);
   var import_i18n8 = __toESM(require_i18n(), 1);
   var import_block_editor10 = __toESM(require_block_editor(), 1);
   var import_components11 = __toESM(require_components(), 1);
@@ -2590,7 +3092,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/sidebar/widget-areas.mjs
   var import_data14 = __toESM(require_data(), 1);
-  var import_element11 = __toESM(require_element(), 1);
+  var import_element12 = __toESM(require_element(), 1);
   var import_block_editor9 = __toESM(require_block_editor(), 1);
   var import_components10 = __toESM(require_components(), 1);
   var import_i18n7 = __toESM(require_i18n(), 1);
@@ -2602,7 +3104,7 @@ var wp;
       (select) => select(store2).getWidgetAreas(),
       []
     );
-    const selectedWidgetArea = (0, import_element11.useMemo)(
+    const selectedWidgetArea = (0, import_element12.useMemo)(
       () => selectedWidgetAreaId && widgetAreas?.find(
         (widgetArea) => widgetArea.id === selectedWidgetAreaId
       ),
@@ -2653,7 +3155,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/sidebar/index.mjs
   var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
-  var SIDEBAR_ACTIVE_BY_DEFAULT = import_element12.Platform.select({
+  var SIDEBAR_ACTIVE_BY_DEFAULT = import_element13.Platform.select({
     web: true,
     native: false
   });
@@ -2673,7 +3175,7 @@ var wp;
     selectedWidgetAreaBlock
   }) {
     const { enableComplementaryArea: enableComplementaryArea2 } = (0, import_data15.useDispatch)(store);
-    (0, import_element12.useEffect)(() => {
+    (0, import_element13.useEffect)(() => {
       if (hasSelectedNonAreaBlock && currentArea === WIDGET_AREAS_IDENTIFIER && isGeneralSidebarOpen) {
         enableComplementaryArea2(
           "core/edit-widgets",
@@ -2687,7 +3189,7 @@ var wp;
         );
       }
     }, [hasSelectedNonAreaBlock, enableComplementaryArea2]);
-    const tabsContextValue = (0, import_element12.useContext)(Tabs.Context);
+    const tabsContextValue = (0, import_element13.useContext)(Tabs.Context);
     return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
       complementary_area_default,
       {
@@ -2775,7 +3277,7 @@ var wp;
       };
     }, []);
     const { enableComplementaryArea: enableComplementaryArea2 } = (0, import_data15.useDispatch)(store);
-    const onTabSelect = (0, import_element12.useCallback)(
+    const onTabSelect = (0, import_element13.useCallback)(
       (newSelectedTabId) => {
         if (!!newSelectedTabId) {
           enableComplementaryArea2(
@@ -2808,7 +3310,7 @@ var wp;
   // packages/edit-widgets/build-module/components/layout/interface.mjs
   var import_compose12 = __toESM(require_compose(), 1);
   var import_block_editor17 = __toESM(require_block_editor(), 1);
-  var import_element22 = __toESM(require_element(), 1);
+  var import_element23 = __toESM(require_element(), 1);
   var import_data28 = __toESM(require_data(), 1);
   var import_i18n18 = __toESM(require_i18n(), 1);
   var import_preferences8 = __toESM(require_preferences(), 1);
@@ -2816,7 +3318,7 @@ var wp;
   // packages/edit-widgets/build-module/components/header/index.mjs
   var import_block_editor12 = __toESM(require_block_editor(), 1);
   var import_data22 = __toESM(require_data(), 1);
-  var import_element18 = __toESM(require_element(), 1);
+  var import_element19 = __toESM(require_element(), 1);
   var import_i18n16 = __toESM(require_i18n(), 1);
   var import_components19 = __toESM(require_components(), 1);
   var import_compose8 = __toESM(require_compose(), 1);
@@ -2827,7 +3329,7 @@ var wp;
   var import_i18n11 = __toESM(require_i18n(), 1);
   var import_components14 = __toESM(require_components(), 1);
   var import_block_editor11 = __toESM(require_block_editor(), 1);
-  var import_element15 = __toESM(require_element(), 1);
+  var import_element16 = __toESM(require_element(), 1);
   var import_compose6 = __toESM(require_compose(), 1);
 
   // packages/edit-widgets/build-module/components/header/undo-redo/undo.mjs
@@ -2836,7 +3338,7 @@ var wp;
   var import_data16 = __toESM(require_data(), 1);
   var import_keycodes2 = __toESM(require_keycodes(), 1);
   var import_core_data9 = __toESM(require_core_data(), 1);
-  var import_element13 = __toESM(require_element(), 1);
+  var import_element14 = __toESM(require_element(), 1);
   var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
   function UndoButton(props, ref) {
     const hasUndo = (0, import_data16.useSelect)(
@@ -2858,7 +3360,7 @@ var wp;
       }
     );
   }
-  var undo_default2 = (0, import_element13.forwardRef)(UndoButton);
+  var undo_default2 = (0, import_element14.forwardRef)(UndoButton);
 
   // packages/edit-widgets/build-module/components/header/undo-redo/redo.mjs
   var import_i18n10 = __toESM(require_i18n(), 1);
@@ -2866,7 +3368,7 @@ var wp;
   var import_data17 = __toESM(require_data(), 1);
   var import_keycodes3 = __toESM(require_keycodes(), 1);
   var import_core_data10 = __toESM(require_core_data(), 1);
-  var import_element14 = __toESM(require_element(), 1);
+  var import_element15 = __toESM(require_element(), 1);
   var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
   function RedoButton(props, ref) {
     const shortcut = (0, import_keycodes3.isAppleOS)() ? import_keycodes3.displayShortcut.primaryShift("z") : import_keycodes3.displayShortcut.primary("y");
@@ -2889,7 +3391,7 @@ var wp;
       }
     );
   }
-  var redo_default2 = (0, import_element14.forwardRef)(RedoButton);
+  var redo_default2 = (0, import_element15.forwardRef)(RedoButton);
 
   // packages/edit-widgets/build-module/components/header/document-tools/index.mjs
   var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
@@ -2915,11 +3417,11 @@ var wp;
       };
     }, []);
     const { setIsInserterOpened: setIsInserterOpened2, setIsListViewOpened: setIsListViewOpened2 } = (0, import_data18.useDispatch)(store2);
-    const toggleListView = (0, import_element15.useCallback)(
+    const toggleListView = (0, import_element16.useCallback)(
       () => setIsListViewOpened2(!isListViewOpen),
       [setIsListViewOpened2, isListViewOpen]
     );
-    const toggleInserterSidebar = (0, import_element15.useCallback)(
+    const toggleInserterSidebar = (0, import_element16.useCallback)(
       () => setIsInserterOpened2(!isInserterOpen),
       [setIsInserterOpened2, isInserterOpen]
     );
@@ -3012,7 +3514,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/more-menu/index.mjs
   var import_components18 = __toESM(require_components(), 1);
-  var import_element17 = __toESM(require_element(), 1);
+  var import_element18 = __toESM(require_element(), 1);
   var import_i18n15 = __toESM(require_i18n(), 1);
   var import_preferences5 = __toESM(require_preferences(), 1);
   var import_keycodes5 = __toESM(require_keycodes(), 1);
@@ -3086,7 +3588,7 @@ var wp;
   ];
 
   // packages/edit-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.mjs
-  var import_element16 = __toESM(require_element(), 1);
+  var import_element17 = __toESM(require_element(), 1);
   var import_keycodes4 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
   function KeyCombination({ keyCombination, forceAriaLabel }) {
@@ -3104,7 +3606,7 @@ var wp;
         "aria-label": forceAriaLabel || ariaLabel,
         children: shortcuts.map((character, index) => {
           if (character === "+") {
-            return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_element16.Fragment, { children: character }, index);
+            return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_element17.Fragment, { children: character }, index);
           }
           return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
             "kbd",
@@ -3323,7 +3825,7 @@ var wp;
     const [
       isKeyboardShortcutsModalActive,
       setIsKeyboardShortcutsModalVisible
-    ] = (0, import_element17.useState)(false);
+    ] = (0, import_element18.useState)(false);
     const toggleKeyboardShortcutsModal = () => setIsKeyboardShortcutsModalVisible(!isKeyboardShortcutsModalActive);
     (0, import_keyboard_shortcuts5.useShortcut)(
       "core/edit-widgets/keyboard-shortcuts",
@@ -3390,11 +3892,11 @@ var wp;
                     "https://wordpress.org/documentation/article/block-based-widgets-editor/"
                   ),
                   target: "_blank",
-                  rel: "noopener noreferrer",
+                  rel: "noopener",
                   children: [
                     (0, import_i18n15.__)("Help"),
-                    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_components18.VisuallyHidden, {
-                      as: "span",
+                    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(VisuallyHidden, {
+                      render: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", {}),
                       /* translators: accessibility text */
                       children: (0, import_i18n15.__)("(opens in a new tab)")
                     })
@@ -3474,7 +3976,7 @@ var wp;
   var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
   function Header() {
     const isLargeViewport = (0, import_compose8.useViewportMatch)("medium");
-    const blockToolbarRef = (0, import_element18.useRef)();
+    const blockToolbarRef = (0, import_element19.useRef)();
     const { hasFixedToolbar } = (0, import_data22.useSelect)(
       (select) => ({
         hasFixedToolbar: !!select(import_preferences6.store).get(
@@ -3488,10 +3990,10 @@ var wp;
       /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "edit-widgets-header__navigable-toolbar-wrapper", children: [
         isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h1", { className: "edit-widgets-header__title", children: (0, import_i18n16.__)("Widgets") }),
         !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-          import_components19.VisuallyHidden,
+          VisuallyHidden,
           {
-            as: "h1",
             className: "edit-widgets-header__title",
+            render: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h1", {}),
             children: (0, import_i18n16.__)("Widgets")
           }
         ),
@@ -3520,7 +4022,7 @@ var wp;
   var import_block_editor13 = __toESM(require_block_editor(), 1);
   var import_compose9 = __toESM(require_compose(), 1);
   var import_data23 = __toESM(require_data(), 1);
-  var import_element19 = __toESM(require_element(), 1);
+  var import_element20 = __toESM(require_element(), 1);
   var import_preferences7 = __toESM(require_preferences(), 1);
 
   // packages/edit-widgets/build-module/components/notices/index.mjs
@@ -3553,7 +4055,7 @@ var wp;
       []
     );
     const isLargeViewport = (0, import_compose9.useViewportMatch)("medium");
-    const styles = (0, import_element19.useMemo)(() => {
+    const styles = (0, import_element20.useMemo)(() => {
       return hasThemeStyles ? blockEditorSettings.styles : [];
     }, [blockEditorSettings, hasThemeStyles]);
     return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "edit-widgets-block-editor", children: [
@@ -3579,7 +4081,7 @@ var wp;
   // packages/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.mjs
   var import_block_editor15 = __toESM(require_block_editor(), 1);
   var import_compose10 = __toESM(require_compose(), 1);
-  var import_element20 = __toESM(require_element(), 1);
+  var import_element21 = __toESM(require_element(), 1);
   var import_data25 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/hooks/use-widget-library-insertion-point.mjs
@@ -3632,10 +4134,10 @@ var wp;
     const isMobileViewport = (0, import_compose10.useViewportMatch)("medium", "<");
     const { rootClientId, insertionIndex } = use_widget_library_insertion_point_default();
     const { setIsInserterOpened: setIsInserterOpened2 } = (0, import_data25.useDispatch)(store2);
-    const closeInserter = (0, import_element20.useCallback)(() => {
+    const closeInserter = (0, import_element21.useCallback)(() => {
       return setIsInserterOpened2(false);
     }, [setIsInserterOpened2]);
-    const libraryRef = (0, import_element20.useRef)();
+    const libraryRef = (0, import_element21.useRef)();
     return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       import_block_editor15.__experimentalLibrary,
       {
@@ -3654,20 +4156,20 @@ var wp;
   var import_components20 = __toESM(require_components(), 1);
   var import_compose11 = __toESM(require_compose(), 1);
   var import_data26 = __toESM(require_data(), 1);
-  var import_element21 = __toESM(require_element(), 1);
+  var import_element22 = __toESM(require_element(), 1);
   var import_i18n17 = __toESM(require_i18n(), 1);
   var import_keycodes6 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
   function ListViewSidebar() {
     const { setIsListViewOpened: setIsListViewOpened2 } = (0, import_data26.useDispatch)(store2);
     const { getListViewToggleRef: getListViewToggleRef2 } = unlock((0, import_data26.useSelect)(store2));
-    const [dropZoneElement, setDropZoneElement] = (0, import_element21.useState)(null);
+    const [dropZoneElement, setDropZoneElement] = (0, import_element22.useState)(null);
     const focusOnMountRef = (0, import_compose11.useFocusOnMount)("firstElement");
-    const closeListView = (0, import_element21.useCallback)(() => {
+    const closeListView = (0, import_element22.useCallback)(() => {
       setIsListViewOpened2(false);
       getListViewToggleRef2().current?.focus();
     }, [getListViewToggleRef2, setIsListViewOpened2]);
-    const closeOnEscape = (0, import_element21.useCallback)(
+    const closeOnEscape = (0, import_element22.useCallback)(
       (event) => {
         if (event.keyCode === import_keycodes6.ESCAPE && !event.defaultPrevented) {
           event.preventDefault();
@@ -3764,13 +4266,13 @@ var wp;
       }),
       []
     );
-    (0, import_element22.useEffect)(() => {
+    (0, import_element23.useEffect)(() => {
       if (hasSidebarEnabled && !isHugeViewport) {
         setIsInserterOpened2(false);
         setIsListViewOpened2(false);
       }
     }, [hasSidebarEnabled, isHugeViewport]);
-    (0, import_element22.useEffect)(() => {
+    (0, import_element23.useEffect)(() => {
       if ((isInserterOpened2 || isListViewOpened2) && !isHugeViewport) {
         closeGeneralSidebar2();
       }
@@ -3801,7 +4303,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/layout/unsaved-changes-warning.mjs
   var import_i18n19 = __toESM(require_i18n(), 1);
-  var import_element23 = __toESM(require_element(), 1);
+  var import_element24 = __toESM(require_element(), 1);
   var import_data29 = __toESM(require_data(), 1);
   function UnsavedChangesWarning() {
     const isDirty = (0, import_data29.useSelect)((select) => {
@@ -3809,7 +4311,7 @@ var wp;
       const editedWidgetAreas = getEditedWidgetAreas2();
       return editedWidgetAreas?.length > 0;
     }, []);
-    (0, import_element23.useEffect)(() => {
+    (0, import_element24.useEffect)(() => {
       const warnIfUnsavedChanges = (event) => {
         if (isDirty) {
           event.returnValue = (0, import_i18n19.__)(
@@ -3830,7 +4332,7 @@ var wp;
   var import_data30 = __toESM(require_data(), 1);
   var import_components21 = __toESM(require_components(), 1);
   var import_i18n20 = __toESM(require_i18n(), 1);
-  var import_element24 = __toESM(require_element(), 1);
+  var import_element25 = __toESM(require_element(), 1);
   var import_preferences9 = __toESM(require_preferences(), 1);
   var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
   function WelcomeGuide() {
@@ -3932,7 +4434,7 @@ var wp;
             ),
             content: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
               /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n20.__)("Explore all blocks") }),
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element24.createInterpolateElement)(
+              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element25.createInterpolateElement)(
                 (0, import_i18n20.__)(
                   "All of the blocks available to you live in the block library. You\u2019ll find it wherever you see the <InserterIconImage /> icon."
                 ),
@@ -3959,7 +4461,7 @@ var wp;
             ),
             content: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
               /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n20.__)("Learn more") }),
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element24.createInterpolateElement)(
+              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element25.createInterpolateElement)(
                 (0, import_i18n20.__)(
                   "New to the block editor? Want to learn more about using it? <a>Here's a detailed guide.</a>"
                 ),
@@ -4043,7 +4545,7 @@ var wp;
   ];
   function initializeEditor(id, settings2) {
     const target = document.getElementById(id);
-    const root = (0, import_element25.createRoot)(target);
+    const root = (0, import_element26.createRoot)(target);
     const coreBlocks = (0, import_block_library2.__experimentalGetCoreBlocks)().filter((block) => {
       return !(disabledBlocks.includes(block.name) || block.name.startsWith("core/post") || block.name.startsWith("core/query") || block.name.startsWith("core/site") || block.name.startsWith("core/navigation") || block.name.startsWith("core/term"));
     });
@@ -4067,7 +4569,7 @@ var wp;
     settings2.__experimentalFetchLinkSuggestions = (search, searchOptions) => (0, import_core_data12.__experimentalFetchLinkSuggestions)(search, searchOptions, settings2);
     (0, import_blocks3.setFreeformContentHandlerName)("core/html");
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_element25.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(layout_default, { blockEditorSettings: settings2 }) })
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_element26.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(layout_default, { blockEditorSettings: settings2 }) })
     );
     return root;
   }

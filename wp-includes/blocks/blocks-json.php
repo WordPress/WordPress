@@ -224,6 +224,7 @@
 					'top',
 					'bottom'
 				),
+				'padding' => true,
 				'blockGap' => true
 			),
 			'__experimentalBorder' => array(
@@ -2905,7 +2906,8 @@
 				)
 			),
 			'dimensions' => array(
-				'minHeight' => true
+				'minHeight' => true,
+				'minWidth' => true
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
@@ -6127,10 +6129,7 @@
 				)
 			),
 			'dimensions' => array(
-				'minHeight' => true,
-				'__experimentalDefaultControls' => array(
-					'minHeight' => false
-				)
+				'minHeight' => true
 			),
 			'spacing' => array(
 				'margin' => true,

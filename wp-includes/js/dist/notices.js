@@ -62,27 +62,11 @@ var wp;
   });
 
   // packages/notices/build-module/store/index.mjs
-  var import_data = __toESM(require_data(), 1);
-
-  // packages/notices/build-module/store/utils/on-sub-key.mjs
-  var onSubKey = (actionProperty) => (reducer) => (state = {}, action) => {
-    const key = action[actionProperty];
-    if (key === void 0) {
-      return state;
-    }
-    const nextKeyState = reducer(state[key], action);
-    if (nextKeyState === state[key]) {
-      return state;
-    }
-    return {
-      ...state,
-      [key]: nextKeyState
-    };
-  };
-  var on_sub_key_default = onSubKey;
+  var import_data2 = __toESM(require_data(), 1);
 
   // packages/notices/build-module/store/reducer.mjs
-  var notices = on_sub_key_default("context")((state = [], action) => {
+  var import_data = __toESM(require_data(), 1);
+  var notices = (0, import_data.keyedReducer)("context")((state = [], action) => {
     switch (action.type) {
       case "CREATE_NOTICE":
         return [
@@ -197,12 +181,12 @@ var wp;
   }
 
   // packages/notices/build-module/store/index.mjs
-  var store = (0, import_data.createReduxStore)("core/notices", {
+  var store = (0, import_data2.createReduxStore)("core/notices", {
     reducer: reducer_default,
     actions: actions_exports,
     selectors: selectors_exports
   });
-  (0, import_data.register)(store);
+  (0, import_data2.register)(store);
 
   // node_modules/clsx/dist/clsx.mjs
   function r(e) {
@@ -222,7 +206,7 @@ var wp;
 
   // packages/notices/build-module/components/inline-notices/index.mjs
   var import_components = __toESM(require_components(), 1);
-  var import_data2 = __toESM(require_data(), 1);
+  var import_data3 = __toESM(require_data(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='2c1d02983b']")) {
     const style = document.createElement("style");
@@ -236,11 +220,11 @@ var wp;
     dismissibleNoticesClassName,
     context
   }) {
-    const notices2 = (0, import_data2.useSelect)(
+    const notices2 = (0, import_data3.useSelect)(
       (select) => select(store).getNotices(context),
       [context]
     );
-    const { removeNotice: removeNotice2 } = (0, import_data2.useDispatch)(store);
+    const { removeNotice: removeNotice2 } = (0, import_data3.useDispatch)(store);
     const dismissibleNotices = notices2.filter(
       ({ isDismissible, type }) => isDismissible && type === "default"
     );
@@ -275,18 +259,18 @@ var wp;
 
   // packages/notices/build-module/components/snackbar-notices/index.mjs
   var import_components2 = __toESM(require_components(), 1);
-  var import_data3 = __toESM(require_data(), 1);
+  var import_data4 = __toESM(require_data(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var MAX_VISIBLE_NOTICES = -3;
   function SnackbarNotices({
     className,
     context
   }) {
-    const notices2 = (0, import_data3.useSelect)(
+    const notices2 = (0, import_data4.useSelect)(
       (select) => select(store).getNotices(context),
       [context]
     );
-    const { removeNotice: removeNotice2 } = (0, import_data3.useDispatch)(store);
+    const { removeNotice: removeNotice2 } = (0, import_data4.useDispatch)(store);
     const snackbarNotices = notices2.filter(({ type }) => type === "snackbar").slice(MAX_VISIBLE_NOTICES);
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
       import_components2.SnackbarList,

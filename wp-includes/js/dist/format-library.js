@@ -116,6 +116,13 @@ var wp;
     }
   });
 
+  // vendor-external:react
+  var require_react = __commonJS({
+    "vendor-external:react"(exports, module) {
+      module.exports = window.React;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -563,7 +570,7 @@ var wp;
 
   // packages/format-library/build-module/link/index.mjs
   var import_i18n7 = __toESM(require_i18n(), 1);
-  var import_element5 = __toESM(require_element(), 1);
+  var import_element6 = __toESM(require_element(), 1);
   var import_rich_text6 = __toESM(require_rich_text(), 1);
   var import_url3 = __toESM(require_url(), 1);
   var import_block_editor6 = __toESM(require_block_editor(), 1);
@@ -571,7 +578,7 @@ var wp;
   var import_a11y2 = __toESM(require_a11y(), 1);
 
   // packages/format-library/build-module/link/inline.mjs
-  var import_element4 = __toESM(require_element(), 1);
+  var import_element5 = __toESM(require_element(), 1);
   var import_i18n6 = __toESM(require_i18n(), 1);
   var import_a11y = __toESM(require_a11y(), 1);
   var import_components3 = __toESM(require_components(), 1);
@@ -642,7 +649,7 @@ var wp;
     }
     if (opensInNewWindow) {
       format.attributes.target = "_blank";
-      format.attributes.rel = format.attributes.rel ? format.attributes.rel + " noreferrer noopener" : "noreferrer noopener";
+      format.attributes.rel = format.attributes.rel ? format.attributes.rel + " noopener" : "noopener";
     }
     if (nofollow) {
       format.attributes.rel = format.attributes.rel ? format.attributes.rel + " nofollow" : "nofollow";
@@ -715,14 +722,511 @@ var wp;
   var walkToEnd = partialRight(walkToBoundary, "forwards");
 
   // packages/format-library/build-module/link/css-classes-setting.mjs
-  var import_element3 = __toESM(require_element(), 1);
+  var import_element4 = __toESM(require_element(), 1);
   var import_compose = __toESM(require_compose(), 1);
   var import_i18n5 = __toESM(require_i18n(), 1);
   var import_components2 = __toESM(require_components(), 1);
+
+  // node_modules/@base-ui/utils/esm/useRefWithInit.js
+  var React = __toESM(require_react(), 1);
+  var UNINITIALIZED = {};
+  function useRefWithInit(init, initArg) {
+    const ref = React.useRef(UNINITIALIZED);
+    if (ref.current === UNINITIALIZED) {
+      ref.current = init(initArg);
+    }
+    return ref;
+  }
+
+  // node_modules/@base-ui/utils/esm/warn.js
+  var set;
+  if (true) {
+    set = /* @__PURE__ */ new Set();
+  }
+  function warn(...messages) {
+    if (true) {
+      const messageKey = messages.join(" ");
+      if (!set.has(messageKey)) {
+        set.add(messageKey);
+        console.warn(`Base UI: ${messageKey}`);
+      }
+    }
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var React4 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/useMergedRefs.js
+  function useMergedRefs(a, b, c, d) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChange(forkRef, a, b, c, d)) {
+      update(forkRef, [a, b, c, d]);
+    }
+    return forkRef.callback;
+  }
+  function useMergedRefsN(refs) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChangeN(forkRef, refs)) {
+      update(forkRef, refs);
+    }
+    return forkRef.callback;
+  }
+  function createForkRef() {
+    return {
+      callback: null,
+      cleanup: null,
+      refs: []
+    };
+  }
+  function didChange(forkRef, a, b, c, d) {
+    return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
+  }
+  function didChangeN(forkRef, newRefs) {
+    return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index) => ref !== newRefs[index]);
+  }
+  function update(forkRef, refs) {
+    forkRef.refs = refs;
+    if (refs.every((ref) => ref == null)) {
+      forkRef.callback = null;
+      return;
+    }
+    forkRef.callback = (instance) => {
+      if (forkRef.cleanup) {
+        forkRef.cleanup();
+        forkRef.cleanup = null;
+      }
+      if (instance != null) {
+        const cleanupCallbacks = Array(refs.length).fill(null);
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
+          if (ref == null) {
+            continue;
+          }
+          switch (typeof ref) {
+            case "function": {
+              const refCleanup = ref(instance);
+              if (typeof refCleanup === "function") {
+                cleanupCallbacks[i] = refCleanup;
+              }
+              break;
+            }
+            case "object": {
+              ref.current = instance;
+              break;
+            }
+            default:
+          }
+        }
+        forkRef.cleanup = () => {
+          for (let i = 0; i < refs.length; i += 1) {
+            const ref = refs[i];
+            if (ref == null) {
+              continue;
+            }
+            switch (typeof ref) {
+              case "function": {
+                const cleanupCallback = cleanupCallbacks[i];
+                if (typeof cleanupCallback === "function") {
+                  cleanupCallback();
+                } else {
+                  ref(null);
+                }
+                break;
+              }
+              case "object": {
+                ref.current = null;
+                break;
+              }
+              default:
+            }
+          }
+        };
+      }
+    };
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  var React3 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/esm/reactVersion.js
+  var React2 = __toESM(require_react(), 1);
+  var majorVersion = parseInt(React2.version, 10);
+  function isReactVersionAtLeast(reactVersionToCheck) {
+    return majorVersion >= reactVersionToCheck;
+  }
+
+  // node_modules/@base-ui/utils/esm/getReactElementRef.js
+  function getReactElementRef(element) {
+    if (!/* @__PURE__ */ React3.isValidElement(element)) {
+      return null;
+    }
+    const reactElement = element;
+    const propsWithRef = reactElement.props;
+    return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+  }
+
+  // node_modules/@base-ui/utils/esm/mergeObjects.js
+  function mergeObjects(a, b) {
+    if (a && !b) {
+      return a;
+    }
+    if (!a && b) {
+      return b;
+    }
+    if (a || b) {
+      return {
+        ...a,
+        ...b
+      };
+    }
+    return void 0;
+  }
+
+  // node_modules/@base-ui/utils/esm/empty.js
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
+
+  // node_modules/@base-ui/react/esm/internals/getStateAttributesProps.js
+  function getStateAttributesProps(state, customMapping) {
+    const props = {};
+    for (const key in state) {
+      const value = state[key];
+      if (customMapping?.hasOwnProperty(key)) {
+        const customProps = customMapping[key](value);
+        if (customProps != null) {
+          Object.assign(props, customProps);
+        }
+        continue;
+      }
+      if (value === true) {
+        props[`data-${key.toLowerCase()}`] = "";
+      } else if (value) {
+        props[`data-${key.toLowerCase()}`] = value.toString();
+      }
+    }
+    return props;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveClassName.js
+  function resolveClassName(className, state) {
+    return typeof className === "function" ? className(state) : className;
+  }
+
+  // node_modules/@base-ui/react/esm/utils/resolveStyle.js
+  function resolveStyle(style, state) {
+    return typeof style === "function" ? style(state) : style;
+  }
+
+  // node_modules/@base-ui/react/esm/merge-props/mergeProps.js
+  var EMPTY_PROPS = {};
+  function mergeProps(a, b, c, d, e) {
+    if (!c && !d && !e && !a) {
+      return createInitialMergedProps(b);
+    }
+    let merged = createInitialMergedProps(a);
+    if (b) {
+      merged = mergeInto(merged, b);
+    }
+    if (c) {
+      merged = mergeInto(merged, c);
+    }
+    if (d) {
+      merged = mergeInto(merged, d);
+    }
+    if (e) {
+      merged = mergeInto(merged, e);
+    }
+    return merged;
+  }
+  function mergePropsN(props) {
+    if (props.length === 0) {
+      return EMPTY_PROPS;
+    }
+    if (props.length === 1) {
+      return createInitialMergedProps(props[0]);
+    }
+    let merged = createInitialMergedProps(props[0]);
+    for (let i = 1; i < props.length; i += 1) {
+      merged = mergeInto(merged, props[i]);
+    }
+    return merged;
+  }
+  function createInitialMergedProps(inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return {
+        ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+      };
+    }
+    return copyInitialProps(inputProps);
+  }
+  function mergeInto(merged, inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return resolvePropsGetter(inputProps, merged);
+    }
+    return mutablyMergeInto(merged, inputProps);
+  }
+  function copyInitialProps(inputProps) {
+    const copiedProps = {
+      ...inputProps
+    };
+    for (const propName in copiedProps) {
+      const propValue = copiedProps[propName];
+      if (isEventHandler(propName, propValue)) {
+        copiedProps[propName] = wrapEventHandler(propValue);
+      }
+    }
+    return copiedProps;
+  }
+  function mutablyMergeInto(mergedProps, externalProps) {
+    if (!externalProps) {
+      return mergedProps;
+    }
+    for (const propName in externalProps) {
+      const externalPropValue = externalProps[propName];
+      switch (propName) {
+        case "style": {
+          mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
+          break;
+        }
+        case "className": {
+          mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
+          break;
+        }
+        default: {
+          if (isEventHandler(propName, externalPropValue)) {
+            mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
+          } else {
+            mergedProps[propName] = externalPropValue;
+          }
+        }
+      }
+    }
+    return mergedProps;
+  }
+  function isEventHandler(key, value) {
+    const code0 = key.charCodeAt(0);
+    const code1 = key.charCodeAt(1);
+    const code2 = key.charCodeAt(2);
+    return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
+  }
+  function isPropsGetter(inputProps) {
+    return typeof inputProps === "function";
+  }
+  function resolvePropsGetter(inputProps, previousProps) {
+    if (isPropsGetter(inputProps)) {
+      return inputProps(previousProps);
+    }
+    return inputProps ?? EMPTY_PROPS;
+  }
+  function mergeEventHandlers(ourHandler, theirHandler) {
+    if (!theirHandler) {
+      return ourHandler;
+    }
+    if (!ourHandler) {
+      return wrapEventHandler(theirHandler);
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        const baseUIEvent = event;
+        makeEventPreventable(baseUIEvent);
+        const result2 = theirHandler(...args);
+        if (!baseUIEvent.baseUIHandlerPrevented) {
+          ourHandler?.(...args);
+        }
+        return result2;
+      }
+      const result = theirHandler(...args);
+      ourHandler?.(...args);
+      return result;
+    };
+  }
+  function wrapEventHandler(handler) {
+    if (!handler) {
+      return handler;
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        makeEventPreventable(event);
+      }
+      return handler(...args);
+    };
+  }
+  function makeEventPreventable(event) {
+    event.preventBaseUIHandler = () => {
+      event.baseUIHandlerPrevented = true;
+    };
+    return event;
+  }
+  function mergeClassNames(ourClassName, theirClassName) {
+    if (theirClassName) {
+      if (ourClassName) {
+        return theirClassName + " " + ourClassName;
+      }
+      return theirClassName;
+    }
+    return ourClassName;
+  }
+  function isSyntheticEvent(event) {
+    return event != null && typeof event === "object" && "nativeEvent" in event;
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useRenderElement.js
+  var import_react = __toESM(require_react(), 1);
+  function useRenderElement(element, componentProps, params = {}) {
+    const renderProp = componentProps.render;
+    const outProps = useRenderElementProps(componentProps, params);
+    if (params.enabled === false) {
+      return null;
+    }
+    const state = params.state ?? EMPTY_OBJECT;
+    return evaluateRenderProp(element, renderProp, outProps, state);
+  }
+  function useRenderElementProps(componentProps, params = {}) {
+    const {
+      className: classNameProp,
+      style: styleProp,
+      render: renderProp
+    } = componentProps;
+    const {
+      state = EMPTY_OBJECT,
+      ref,
+      props,
+      stateAttributesMapping,
+      enabled = true
+    } = params;
+    const className = enabled ? resolveClassName(classNameProp, state) : void 0;
+    const style = enabled ? resolveStyle(styleProp, state) : void 0;
+    const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+    const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+    const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
+    if (typeof document !== "undefined") {
+      if (!enabled) {
+        useMergedRefs(null, null);
+      } else if (Array.isArray(ref)) {
+        outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
+      } else {
+        outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
+      }
+    }
+    if (!enabled) {
+      return EMPTY_OBJECT;
+    }
+    if (className !== void 0) {
+      outProps.className = mergeClassNames(outProps.className, className);
+    }
+    if (style !== void 0) {
+      outProps.style = mergeObjects(outProps.style, style);
+    }
+    return outProps;
+  }
+  function resolveRenderFunctionProps(props) {
+    if (Array.isArray(props)) {
+      return mergePropsN(props);
+    }
+    return mergeProps(void 0, props);
+  }
+  var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+  var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+  var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+  function evaluateRenderProp(element, render, props, state) {
+    if (render) {
+      if (typeof render === "function") {
+        if (true) {
+          warnIfRenderPropLooksLikeComponent(render);
+        }
+        return render(props, state);
+      }
+      const mergedProps = mergeProps(props, render.props);
+      mergedProps.ref = props.ref;
+      let newElement = render;
+      if (newElement?.$$typeof === REACT_LAZY_TYPE) {
+        const children = React4.Children.toArray(render);
+        newElement = children[0];
+      }
+      if (true) {
+        if (!/* @__PURE__ */ React4.isValidElement(newElement)) {
+          throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+        }
+      }
+      return /* @__PURE__ */ React4.cloneElement(newElement, mergedProps);
+    }
+    if (element) {
+      if (typeof element === "string") {
+        return renderTag(element, props);
+      }
+    }
+    throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
+  }
+  function warnIfRenderPropLooksLikeComponent(renderFn) {
+    const functionName = renderFn.name;
+    if (functionName.length === 0) {
+      return;
+    }
+    if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+      return;
+    }
+    if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
+      return;
+    }
+    warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
+  }
+  function renderTag(Tag, props) {
+    if (Tag === "button") {
+      return /* @__PURE__ */ (0, import_react.createElement)("button", {
+        type: "button",
+        ...props,
+        key: props.key
+      });
+    }
+    if (Tag === "img") {
+      return /* @__PURE__ */ (0, import_react.createElement)("img", {
+        alt: "",
+        ...props,
+        key: props.key
+      });
+    }
+    return /* @__PURE__ */ React4.createElement(Tag, props);
+  }
+
+  // node_modules/@base-ui/react/esm/use-render/useRender.js
+  function useRender(params) {
+    return useRenderElement(params.defaultTagName ?? "div", params, params);
+  }
+
+  // packages/ui/build-module/visually-hidden/visually-hidden.mjs
+  var import_element3 = __toESM(require_element(), 1);
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='c46e8cb841']")) {
+    const style = document.createElement("style");
+    style.setAttribute("data-wp-hash", "c46e8cb841");
+    style.appendChild(document.createTextNode("@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}"));
+    document.head.appendChild(style);
+  }
+  var style_default = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
+  var VisuallyHidden = (0, import_element3.forwardRef)(
+    function VisuallyHidden2({ render, ...restProps }, ref) {
+      const element = useRender({
+        render,
+        ref,
+        props: mergeProps(
+          { className: style_default["visually-hidden"] },
+          restProps,
+          {
+            // @ts-expect-error Arbitrary data-* attributes aren't indexable on the typed div props. Kept hardcoded so consumers can't change or remove it.
+            "data-visually-hidden": ""
+          }
+        )
+      });
+      return element;
+    }
+  );
+
+  // packages/format-library/build-module/link/css-classes-setting.mjs
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   var CSSClassesSettingComponent = ({ setting, value, onChange }) => {
     const hasValue = value ? value?.cssClasses?.length > 0 : false;
-    const [isSettingActive, setIsSettingActive] = (0, import_element3.useState)(hasValue);
+    const [isSettingActive, setIsSettingActive] = (0, import_element4.useState)(hasValue);
     const instanceId = (0, import_compose.useInstanceId)(CSSClassesSettingComponent);
     const controlledRegionId = `css-classes-setting-${instanceId}`;
     const handleSettingChange = (newValue) => {
@@ -743,7 +1247,7 @@ var wp;
       }
     };
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("fieldset", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_components2.VisuallyHidden, { as: "legend", children: setting.title }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("legend", {}), children: setting.title }),
       /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_components2.__experimentalVStack, { spacing: 3, children: [
         /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           import_components2.CheckboxControl,
@@ -821,7 +1325,7 @@ var wp;
       },
       []
     );
-    const linkValue = (0, import_element4.useMemo)(
+    const linkValue = (0, import_element5.useMemo)(
       () => ({
         url: activeAttributes.url,
         type: activeAttributes.type,
@@ -943,7 +1447,7 @@ var wp;
       };
     }
     function createButtonText(searchTerm) {
-      return (0, import_element4.createInterpolateElement)(
+      return (0, import_element5.createInterpolateElement)(
         (0, import_i18n6.sprintf)(
           /* translators: %s: search term. */
           (0, import_i18n6.__)("Create page: <mark>%s</mark>"),
@@ -1017,14 +1521,14 @@ var wp;
     contentRef,
     isVisible = true
   }) {
-    const [addingLink, setAddingLink] = (0, import_element5.useState)(false);
-    const [openedBy, setOpenedBy] = (0, import_element5.useState)(null);
-    (0, import_element5.useEffect)(() => {
+    const [addingLink, setAddingLink] = (0, import_element6.useState)(false);
+    const [openedBy, setOpenedBy] = (0, import_element6.useState)(null);
+    (0, import_element6.useEffect)(() => {
       if (!isActive) {
         setAddingLink(false);
       }
     }, [isActive]);
-    (0, import_element5.useLayoutEffect)(() => {
+    (0, import_element6.useLayoutEffect)(() => {
       const editableContentElement = contentRef.current;
       if (!editableContentElement) {
         return;
@@ -1278,12 +1782,12 @@ var wp;
 
   // packages/format-library/build-module/text-color/index.mjs
   var import_i18n11 = __toESM(require_i18n(), 1);
-  var import_element7 = __toESM(require_element(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   var import_block_editor10 = __toESM(require_block_editor(), 1);
   var import_rich_text10 = __toESM(require_rich_text(), 1);
 
   // packages/format-library/build-module/text-color/inline.mjs
-  var import_element6 = __toESM(require_element(), 1);
+  var import_element7 = __toESM(require_element(), 1);
   var import_data2 = __toESM(require_data(), 1);
   var import_rich_text9 = __toESM(require_rich_text(), 1);
   var import_block_editor9 = __toESM(require_block_editor(), 1);
@@ -1378,7 +1882,7 @@ var wp;
       const { getSettings } = select(import_block_editor9.store);
       return getSettings().colors ?? [];
     }, []);
-    const activeColors = (0, import_element6.useMemo)(
+    const activeColors = (0, import_element7.useMemo)(
       () => getActiveColors(value, name16, colors),
       [name16, value, colors]
     );
@@ -1443,7 +1947,7 @@ var wp;
   var transparentValue = "rgba(0, 0, 0, 0)";
   var name8 = "core/text-color";
   var title8 = (0, import_i18n11.__)("Highlight");
-  var EMPTY_ARRAY = [];
+  var EMPTY_ARRAY2 = [];
   function getComputedStyleProperty(element, property) {
     const { ownerDocument } = element;
     const { defaultView } = ownerDocument;
@@ -1470,12 +1974,12 @@ var wp;
     activeAttributes,
     contentRef
   }) {
-    const [allowCustomControl, colors = EMPTY_ARRAY] = (0, import_block_editor10.useSettings)(
+    const [allowCustomControl, colors = EMPTY_ARRAY2] = (0, import_block_editor10.useSettings)(
       "color.custom",
       "color.palette"
     );
-    const [isAddingColor, setIsAddingColor] = (0, import_element7.useState)(false);
-    const colorIndicatorStyle = (0, import_element7.useMemo)(
+    const [isAddingColor, setIsAddingColor] = (0, import_element8.useState)(false);
+    const colorIndicatorStyle = (0, import_element8.useMemo)(
       () => fillComputedColors(
         contentRef.current,
         getActiveColors(value, name8, colors)
@@ -1675,7 +2179,7 @@ var wp;
   var import_i18n16 = __toESM(require_i18n(), 1);
   var import_block_editor15 = __toESM(require_block_editor(), 1);
   var import_components5 = __toESM(require_components(), 1);
-  var import_element8 = __toESM(require_element(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   var import_rich_text15 = __toESM(require_rich_text(), 1);
   var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
   var name13 = "core/language";
@@ -1692,7 +2196,7 @@ var wp;
     edit: Edit3
   };
   function Edit3({ isActive, value, onChange, contentRef }) {
-    const [isPopoverVisible, setIsPopoverVisible] = (0, import_element8.useState)(false);
+    const [isPopoverVisible, setIsPopoverVisible] = (0, import_element9.useState)(false);
     const togglePopover = () => {
       setIsPopoverVisible((state) => !state);
     };
@@ -1730,8 +2234,8 @@ var wp;
       editableContentElement: contentRef.current,
       settings: language
     });
-    const [lang, setLang] = (0, import_element8.useState)("");
-    const [dir, setDir] = (0, import_element8.useState)("ltr");
+    const [lang, setLang] = (0, import_element9.useState)("");
+    const [dir, setDir] = (0, import_element9.useState)("ltr");
     return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
       import_components5.Popover,
       {
@@ -1807,13 +2311,13 @@ var wp;
 
   // packages/format-library/build-module/math/index.mjs
   var import_i18n17 = __toESM(require_i18n(), 1);
-  var import_element9 = __toESM(require_element(), 1);
+  var import_element10 = __toESM(require_element(), 1);
   var import_rich_text16 = __toESM(require_rich_text(), 1);
   var import_block_editor16 = __toESM(require_block_editor(), 1);
   var import_components6 = __toESM(require_components(), 1);
   var import_a11y3 = __toESM(require_a11y(), 1);
   var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
-  var { Badge } = unlock(import_components6.privateApis);
+  var { Badge: WCBadge } = unlock(import_components6.privateApis);
   var name14 = "core/math";
   var title14 = (0, import_i18n17.__)("Math");
   function InlineUI2({
@@ -1823,10 +2327,10 @@ var wp;
     contentRef,
     latexToMathML
   }) {
-    const [latex, setLatex] = (0, import_element9.useState)(
+    const [latex, setLatex] = (0, import_element10.useState)(
       activeAttributes?.["data-latex"] || ""
     );
-    const [error, setError] = (0, import_element9.useState)(null);
+    const [error, setError] = (0, import_element10.useState)(null);
     const popoverAnchor = (0, import_rich_text16.useAnchor)({
       editableContentElement: contentRef.current,
       settings: math
@@ -1887,7 +2391,7 @@ var wp;
           ),
           error && /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(import_jsx_runtime30.Fragment, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
-              Badge,
+              WCBadge,
               {
                 intent: "error",
                 className: "wp-block-math__error",
@@ -1912,8 +2416,8 @@ var wp;
     activeObjectAttributes,
     contentRef
   }) {
-    const [latexToMathML, setLatexToMathML] = (0, import_element9.useState)();
-    (0, import_element9.useEffect)(() => {
+    const [latexToMathML, setLatexToMathML] = (0, import_element10.useState)();
+    (0, import_element10.useEffect)(() => {
       import("@wordpress/latex-to-mathml").then((module) => {
         setLatexToMathML(() => module.default);
       });

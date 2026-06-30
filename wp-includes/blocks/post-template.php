@@ -94,6 +94,9 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 	if ( isset( $attributes['layout']['type'] ) && 'grid' === $attributes['layout']['type'] && ! empty( $attributes['layout']['columnCount'] ) ) {
 		$classnames .= ' ' . sanitize_title( 'columns-' . $attributes['layout']['columnCount'] );
 	}
+	if ( isset( $attributes['layout']['type'] ) && 'grid' === $attributes['layout']['type'] && ! empty( $attributes['layout']['columnCount'] ) && ! empty( $attributes['layout']['minimumColumnWidth'] ) ) {
+		$classnames .= ' has-native-responsive-grid';
+	}
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => trim( $classnames ) ) );
 

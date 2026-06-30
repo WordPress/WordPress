@@ -39,3 +39,17 @@
   outline-offset: 0;
   outline: auto;
 }
+
+.wp-block-tab:not(.has-text-color) {
+  color: inherit !important;
+}
+.wp-block-tab:not(.has-background) {
+  background-color: inherit !important;
+}
+.wp-block-tab:hover, .wp-block-tab:focus {
+  text-decoration: none;
+}
+.wp-block-tab:focus-visible {
+  outline-offset: 0;
+  outline: auto;
+}

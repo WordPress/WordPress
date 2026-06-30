@@ -15,6 +15,20 @@ return array(
 		'has_content' => true,
 	),
 	array(
+		'name'        => 'dashboard',
+		'path'        => '/',
+		'page'        => 'dashboard',
+		'has_route'   => false,
+		'has_content' => true,
+	),
+	array(
+		'name'        => 'experiments-home',
+		'path'        => '/',
+		'page'        => 'experiments',
+		'has_route'   => true,
+		'has_content' => true,
+	),
+	array(
 		'name'        => 'font-list',
 		'path'        => '/font-list',
 		'page'        => 'font-library',
@@ -32,6 +46,20 @@ return array(
 		'name'        => 'guidelines',
 		'path'        => '/',
 		'page'        => 'guidelines',
+		'has_route'   => true,
+		'has_content' => true,
+	),
+	array(
+		'name'        => 'taxonomies',
+		'path'        => '/',
+		'page'        => 'taxonomies',
+		'has_route'   => true,
+		'has_content' => true,
+	),
+	array(
+		'name'        => 'taxonomy-edit',
+		'path'        => '/edit/$id',
+		'page'        => 'taxonomies',
 		'has_route'   => true,
 		'has_content' => true,
 	)

@@ -434,12 +434,12 @@ var wp;
     useEntityRecords: () => useEntityRecords,
     useResourcePermissions: () => use_resource_permissions_default
   });
-  var import_data16 = __toESM(require_data(), 1);
+  var import_data15 = __toESM(require_data(), 1);
 
   // packages/core-data/build-module/reducer.mjs
   var import_es64 = __toESM(require_es6(), 1);
   var import_compose2 = __toESM(require_compose(), 1);
-  var import_data8 = __toESM(require_data(), 1);
+  var import_data7 = __toESM(require_data(), 1);
   var import_undo_manager = __toESM(require_undo_manager(), 1);
 
   // packages/core-data/build-module/utils/conservative-map-item.mjs
@@ -494,23 +494,6 @@ var wp;
     await resolveSelect2[resolverName](...args);
   };
   var forward_resolver_default = forwardResolver;
-
-  // packages/core-data/build-module/utils/on-sub-key.mjs
-  var onSubKey = (actionProperty) => (reducer) => (state = {}, action) => {
-    const key = action[actionProperty];
-    if (key === void 0) {
-      return state;
-    }
-    const nextKeyState = reducer(state[key], action);
-    if (nextKeyState === state[key]) {
-      return state;
-    }
-    return {
-      ...state,
-      [key]: nextKeyState
-    };
-  };
-  var on_sub_key_default = onSubKey;
 
   // packages/core-data/build-module/utils/replace-action.mjs
   var replaceAction = (replacer) => (reducer) => (state, action) => {
@@ -644,7 +627,6 @@ var wp;
 
   // packages/core-data/build-module/queried-data/selectors.mjs
   var import_equivalent_key_map = __toESM(require_equivalent_key_map(), 1);
-  var import_data = __toESM(require_data(), 1);
 
   // packages/core-data/build-module/queried-data/get-query-parts.mjs
   var import_url = __toESM(require_url(), 1);
@@ -758,23 +740,21 @@ var wp;
     }
     return items2;
   }
-  var getQueriedItems = (0, import_data.createSelector)(
-    (state, query = {}, options = {}) => {
-      let queriedItemsCache = queriedItemsCacheByState.get(state);
-      if (queriedItemsCache) {
-        const queriedItems = queriedItemsCache.get(query);
-        if (queriedItems !== void 0) {
-          return queriedItems;
-        }
-      } else {
-        queriedItemsCache = new import_equivalent_key_map.default();
-        queriedItemsCacheByState.set(state, queriedItemsCache);
+  function getQueriedItems(state, query = {}, options = {}) {
+    let queriedItemsCache = queriedItemsCacheByState.get(state);
+    if (queriedItemsCache) {
+      const queriedItems = queriedItemsCache.get(query);
+      if (queriedItems !== void 0) {
+        return queriedItems;
       }
-      const items2 = getQueriedItemsUncached(state, query, options);
-      queriedItemsCache.set(query, items2);
-      return items2;
+    } else {
+      queriedItemsCache = new import_equivalent_key_map.default();
+      queriedItemsCacheByState.set(state, queriedItemsCache);
     }
-  );
+    const items2 = getQueriedItemsUncached(state, query, options);
+    queriedItemsCache.set(query, items2);
+    return items2;
+  }
   function getQueriedTotalItems(state, query = {}) {
     const { stableKey, context } = get_query_parts_default(query);
     return state.queries?.[context]?.[stableKey]?.meta?.totalItems ?? null;
@@ -785,7 +765,7 @@ var wp;
   }
 
   // packages/core-data/build-module/queried-data/reducer.mjs
-  var import_data7 = __toESM(require_data(), 1);
+  var import_data6 = __toESM(require_data(), 1);
   var import_compose = __toESM(require_compose(), 1);
 
   // node_modules/tslib/tslib.es6.mjs
@@ -881,12 +861,12 @@ var wp;
   var import_i18n = __toESM(require_i18n(), 1);
 
   // packages/core-data/build-module/awareness/post-editor-awareness.mjs
-  var import_data5 = __toESM(require_data(), 1);
+  var import_data4 = __toESM(require_data(), 1);
   var import_sync8 = __toESM(require_sync(), 1);
   var import_block_editor3 = __toESM(require_block_editor(), 1);
 
   // packages/core-data/build-module/awareness/base-awareness.mjs
-  var import_data2 = __toESM(require_data(), 1);
+  var import_data = __toESM(require_data(), 1);
 
   // packages/core-data/build-module/awareness/config.mjs
   var AWARENESS_CURSOR_UPDATE_THROTTLE_IN_MS = 100;
@@ -1236,7 +1216,7 @@ var wp;
      * Set the current collaborator info in the local state.
      */
     async setCurrentCollaboratorInfo() {
-      const currentUser2 = await (0, import_data2.resolveSelect)(STORE_NAME).getCurrentUser();
+      const currentUser2 = await (0, import_data.resolveSelect)(STORE_NAME).getCurrentUser();
       const collaboratorInfo = generateCollaboratorInfo(currentUser2);
       this.setLocalStateField("collaboratorInfo", collaboratorInfo);
     }
@@ -1249,7 +1229,7 @@ var wp;
   };
 
   // packages/core-data/build-module/awareness/block-lookup.mjs
-  var import_data3 = __toESM(require_data(), 1);
+  var import_data2 = __toESM(require_data(), 1);
   var import_sync2 = __toESM(require_sync(), 1);
   var import_block_editor = __toESM(require_block_editor(), 1);
   function getBlockPathInYdoc(yType) {
@@ -1284,7 +1264,7 @@ var wp;
     if (path.length === 0) {
       return null;
     }
-    const { getBlocks } = (0, import_data3.select)(import_block_editor.store);
+    const { getBlocks } = (0, import_data2.select)(import_block_editor.store);
     const postContentBlocks = getPostContentBlocks(getBlocks(), getBlocks);
     let blocks = postContentBlocks;
     for (let i = 0; i < path.length; i++) {
@@ -1440,7 +1420,7 @@ var wp;
   }
 
   // packages/core-data/build-module/utils/crdt-user-selections.mjs
-  var import_data4 = __toESM(require_data(), 1);
+  var import_data3 = __toESM(require_data(), 1);
   var import_sync6 = __toESM(require_sync(), 1);
   var import_block_editor2 = __toESM(require_block_editor(), 1);
   var SelectionType = /* @__PURE__ */ ((SelectionType2) => {
@@ -1534,7 +1514,7 @@ var wp;
     };
   }
   function getBlockPathForLocalClientId(clientId) {
-    const { getBlockIndex, getBlockRootClientId, getBlockName } = (0, import_data4.select)(import_block_editor2.store);
+    const { getBlockIndex, getBlockRootClientId, getBlockName } = (0, import_data3.select)(import_block_editor2.store);
     const path = [];
     let current = clientId;
     while (current) {
@@ -1666,12 +1646,12 @@ var wp;
         getSelectionStart,
         getSelectionEnd,
         getSelectedBlocksInitialCaretPosition
-      } = (0, import_data5.select)(import_block_editor3.store);
+      } = (0, import_data4.select)(import_block_editor3.store);
       let selectionStart = getSelectionStart();
       let selectionEnd = getSelectionEnd();
       let localCursorTimeout = null;
       let selectionBeforeDebounce = null;
-      (0, import_data5.subscribe)(() => {
+      (0, import_data4.subscribe)(() => {
         const newSelectionStart = getSelectionStart();
         const newSelectionEnd = getSelectionEnd();
         if (newSelectionStart === selectionStart && newSelectionEnd === selectionEnd) {
@@ -1733,7 +1713,7 @@ var wp;
       const options = {
         undoIgnore: true
       };
-      (0, import_data5.dispatch)(STORE_NAME).editEntityRecord(
+      (0, import_data4.dispatch)(STORE_NAME).editEntityRecord(
         this.kind,
         this.name,
         this.postId,
@@ -2430,7 +2410,7 @@ var wp;
   }
 
   // packages/core-data/build-module/utils/crdt-selection.mjs
-  var import_data6 = __toESM(require_data(), 1);
+  var import_data5 = __toESM(require_data(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_blocks2 = __toESM(require_blocks(), 1);
   var import_sync12 = __toESM(require_sync(), 1);
@@ -2587,8 +2567,8 @@ var wp;
     if (selectionToRestore === null) {
       return;
     }
-    const { getBlock } = (0, import_data6.select)(import_block_editor4.store);
-    const { resetSelection } = (0, import_data6.dispatch)(import_block_editor4.store);
+    const { getBlock } = (0, import_data5.select)(import_block_editor4.store);
+    const { resetSelection } = (0, import_data5.dispatch)(import_block_editor4.store);
     const { selectionStart, selectionEnd } = selectionToRestore;
     const isSelectionInSameBlock = selectionStart.clientId === selectionEnd.clientId;
     if (isSelectionInSameBlock) {
@@ -2889,10 +2869,6 @@ var wp;
           "home",
           "image_sizes",
           "image_size_threshold",
-          "image_output_formats",
-          "jpeg_interlaced",
-          "png_interlaced",
-          "gif_interlaced",
           "name",
           "site_icon",
           "site_icon_url",
@@ -3390,7 +3366,7 @@ var wp;
     // Limit to matching action type so we don't attempt to replace action on
     // an unhandled action.
     if_matching_action_default((action) => "query" in action),
-    // Inject query parts into action for use both in `onSubKey` and reducer.
+    // Inject query parts into action for use both in `keyedReducer` and reducer.
     replace_action_default((action) => {
       if (action.query) {
         return {
@@ -3400,10 +3376,10 @@ var wp;
       }
       return action;
     }),
-    on_sub_key_default("context"),
+    (0, import_data6.keyedReducer)("context"),
     // Queries shape is shared, but keyed by query `stableKey` part. Original
     // reducer tracks only a single query object.
-    on_sub_key_default("stableKey")
+    (0, import_data6.keyedReducer)("stableKey")
   ])((state = {}, action) => {
     if (action.type !== "RECEIVE_ITEMS") {
       return state;
@@ -3458,7 +3434,7 @@ var wp;
         return state;
     }
   };
-  var reducer_default = (0, import_data7.combineReducers)({
+  var reducer_default = (0, import_data6.combineReducers)({
     items,
     itemIsComplete,
     queries
@@ -3568,7 +3544,7 @@ var wp;
         };
       })
     ])(
-      (0, import_data8.combineReducers)({
+      (0, import_data7.combineReducers)({
         queriedData: reducer_default,
         edits: (state = {}, action) => {
           switch (action.type) {
@@ -3709,11 +3685,11 @@ var wp;
         acc[kind].push(record);
         return acc;
       }, {});
-      entitiesDataReducer = (0, import_data8.combineReducers)(
+      entitiesDataReducer = (0, import_data7.combineReducers)(
         Object.fromEntries(
           Object.entries(entitiesByKind).map(
             ([kind, subEntities]) => {
-              const kindReducer = (0, import_data8.combineReducers)(
+              const kindReducer = (0, import_data7.combineReducers)(
                 Object.fromEntries(
                   subEntities.map((entityConfig) => [
                     entityConfig.name,
@@ -3897,7 +3873,7 @@ var wp;
     }
     return state;
   }
-  var reducer_default2 = (0, import_data8.combineReducers)({
+  var reducer_default2 = (0, import_data7.combineReducers)({
     users,
     currentTheme,
     currentGlobalStylesId,
@@ -3981,7 +3957,7 @@ var wp;
     isRequestingEmbedPreview: () => isRequestingEmbedPreview,
     isSavingEntityRecord: () => isSavingEntityRecord
   });
-  var import_data10 = __toESM(require_data(), 1);
+  var import_data9 = __toESM(require_data(), 1);
   var import_url2 = __toESM(require_url(), 1);
   var import_deprecated2 = __toESM(require_deprecated(), 1);
 
@@ -4002,7 +3978,7 @@ var wp;
     getViewConfig: () => getViewConfig,
     isCollaborationSupported: () => isCollaborationSupported
   });
-  var import_data9 = __toESM(require_data(), 1);
+  var import_data8 = __toESM(require_data(), 1);
 
   // packages/core-data/build-module/utils/log-entity-deprecation.mjs
   var import_deprecated = __toESM(require_deprecated(), 1);
@@ -4041,16 +4017,16 @@ var wp;
   function getNavigationFallbackId(state) {
     return state.navigationFallbackId;
   }
-  var getBlockPatternsForPostType = (0, import_data9.createRegistrySelector)(
-    (select5) => (0, import_data9.createSelector)(
+  var getBlockPatternsForPostType = (0, import_data8.createRegistrySelector)(
+    (select5) => (0, import_data8.createSelector)(
       (state, postType) => select5(STORE_NAME).getBlockPatterns().filter(
         ({ postTypes }) => !postTypes || Array.isArray(postTypes) && postTypes.includes(postType)
       ),
       () => [select5(STORE_NAME).getBlockPatterns()]
     )
   );
-  var getEntityRecordsPermissions = (0, import_data9.createRegistrySelector)(
-    (select5) => (0, import_data9.createSelector)(
+  var getEntityRecordsPermissions = (0, import_data8.createRegistrySelector)(
+    (select5) => (0, import_data8.createSelector)(
       (state, kind, name, ids) => {
         const normalizedIds = Array.isArray(ids) ? ids : [ids];
         return normalizedIds.map((id) => ({
@@ -4085,8 +4061,8 @@ var wp;
     }
     return value.toString();
   }
-  var getHomePage = (0, import_data9.createRegistrySelector)(
-    (select5) => (0, import_data9.createSelector)(
+  var getHomePage = (0, import_data8.createRegistrySelector)(
+    (select5) => (0, import_data8.createSelector)(
       () => {
         const siteData = select5(STORE_NAME).getEntityRecord(
           "root",
@@ -4126,14 +4102,14 @@ var wp;
       ]
     )
   );
-  var getPostsPageId = (0, import_data9.createRegistrySelector)((select5) => () => {
+  var getPostsPageId = (0, import_data8.createRegistrySelector)((select5) => () => {
     const siteData = select5(STORE_NAME).getEntityRecord(
       "root",
       "__unstableBase"
     );
     return siteData?.show_on_front === "page" ? normalizePageId(siteData.page_for_posts) : null;
   });
-  var getTemplateId = (0, import_data9.createRegistrySelector)(
+  var getTemplateId = (0, import_data8.createRegistrySelector)(
     (select5) => (state, postType, postId) => {
       const homepage = unlock(select5(STORE_NAME)).getHomePage();
       if (!homepage) {
@@ -4209,7 +4185,7 @@ var wp;
 
   // packages/core-data/build-module/selectors.mjs
   var EMPTY_OBJECT2 = {};
-  var isRequestingEmbedPreview = (0, import_data10.createRegistrySelector)(
+  var isRequestingEmbedPreview = (0, import_data9.createRegistrySelector)(
     (select5) => (state, url) => {
       return select5(STORE_NAME).isResolving("getEmbedPreview", [
         url
@@ -4230,7 +4206,7 @@ var wp;
   function getCurrentUser(state) {
     return state.currentUser;
   }
-  var getUserQueryResults = (0, import_data10.createSelector)(
+  var getUserQueryResults = (0, import_data9.createSelector)(
     (state, queryID) => {
       const queryResults = state.users.queries[queryID] ?? [];
       return queryResults.map((id) => state.users.byId[id]);
@@ -4247,7 +4223,7 @@ var wp;
     });
     return getEntitiesConfig(state, kind);
   }
-  var getEntitiesConfig = (0, import_data10.createSelector)(
+  var getEntitiesConfig = (0, import_data9.createSelector)(
     (state, kind) => state.entities.config.filter((entity2) => entity2.kind === kind),
     /* eslint-disable @typescript-eslint/no-unused-vars */
     (state, kind) => state.entities.config
@@ -4266,7 +4242,7 @@ var wp;
       (config) => config.kind === kind && config.name === name
     );
   }
-  var getEntityRecord = (0, import_data10.createSelector)(
+  var getEntityRecord = (0, import_data9.createSelector)(
     ((state, kind, name, key, query) => {
       logEntityDeprecation(kind, name, "getEntityRecord");
       const queriedState = state.entities.records?.[kind]?.[name]?.queriedData;
@@ -4341,7 +4317,7 @@ var wp;
   function __experimentalGetEntityRecordNoResolver(state, kind, name, key) {
     return getEntityRecord(state, kind, name, key);
   }
-  var getRawEntityRecord = (0, import_data10.createSelector)(
+  var getRawEntityRecord = (0, import_data9.createSelector)(
     (state, kind, name, key) => {
       logEntityDeprecation(kind, name, "getRawEntityRecord");
       const record = getEntityRecord(
@@ -4416,7 +4392,7 @@ var wp;
     }
     return Math.ceil(totalItems / query.per_page);
   };
-  var __experimentalGetDirtyEntityRecords = (0, import_data10.createSelector)(
+  var __experimentalGetDirtyEntityRecords = (0, import_data9.createSelector)(
     (state) => {
       const {
         entities: { records }
@@ -4456,7 +4432,7 @@ var wp;
     },
     (state) => [state.entities.records]
   );
-  var __experimentalGetEntitiesBeingSaved = (0, import_data10.createSelector)(
+  var __experimentalGetEntitiesBeingSaved = (0, import_data9.createSelector)(
     (state) => {
       const {
         entities: { records }
@@ -4496,7 +4472,7 @@ var wp;
     logEntityDeprecation(kind, name, "getEntityRecordEdits");
     return state.entities.records?.[kind]?.[name]?.edits?.[recordId];
   }
-  var getEntityRecordNonTransientEdits = (0, import_data10.createSelector)(
+  var getEntityRecordNonTransientEdits = (0, import_data9.createSelector)(
     (state, kind, name, recordId) => {
       logEntityDeprecation(kind, name, "getEntityRecordNonTransientEdits");
       const { transientEdits } = getEntityConfig(state, kind, name) || {};
@@ -4522,7 +4498,7 @@ var wp;
       getEntityRecordNonTransientEdits(state, kind, name, recordId)
     ).length > 0;
   }
-  var getEditedEntityRecord = (0, import_data10.createSelector)(
+  var getEditedEntityRecord = (0, import_data9.createSelector)(
     (state, kind, name, recordId) => {
       logEntityDeprecation(kind, name, "getEditedEntityRecord");
       const raw = getRawEntityRecord(state, kind, name, recordId);
@@ -4637,7 +4613,7 @@ var wp;
       (autosave) => autosave.author === authorId
     );
   }
-  var hasFetchedAutosaves = (0, import_data10.createRegistrySelector)(
+  var hasFetchedAutosaves = (0, import_data9.createRegistrySelector)(
     (select5) => (state, postType, postId) => {
       return select5(STORE_NAME).hasFinishedResolution("getAutosaves", [
         postType,
@@ -4720,7 +4696,7 @@ var wp;
     }
     return true;
   }
-  var getRevision = (0, import_data10.createSelector)(
+  var getRevision = (0, import_data9.createSelector)(
     (state, kind, name, recordKey, revisionKey, query) => {
       logEntityDeprecation(kind, name, "getRevision");
       const queriedState = state.entities.records?.[kind]?.[name]?.revisions?.[recordKey];
@@ -7012,12 +6988,12 @@ var wp;
   }
 
   // packages/core-data/build-module/hooks/use-entity-record.mjs
-  var import_data12 = __toESM(require_data(), 1);
+  var import_data11 = __toESM(require_data(), 1);
   var import_deprecated4 = __toESM(require_deprecated(), 1);
   var import_element3 = __toESM(require_element(), 1);
 
   // packages/core-data/build-module/hooks/use-query-select.mjs
-  var import_data11 = __toESM(require_data(), 1);
+  var import_data10 = __toESM(require_data(), 1);
 
   // node_modules/memize/dist/index.js
   function memize(fn, options) {
@@ -7105,7 +7081,7 @@ var wp;
     "getCachedResolvers"
   ];
   function useQuerySelect(mapQuerySelect, deps) {
-    return (0, import_data11.useSelect)((select5, registry) => {
+    return (0, import_data10.useSelect)((select5, registry) => {
       const resolve = (store2) => enrichSelectors(select5(store2));
       return mapQuerySelect(resolve, registry);
     }, deps);
@@ -7154,7 +7130,7 @@ var wp;
   // packages/core-data/build-module/hooks/use-entity-record.mjs
   var EMPTY_OBJECT3 = {};
   function useEntityRecord(kind, name, recordId, options = { enabled: true }) {
-    const { editEntityRecord: editEntityRecord2, saveEditedEntityRecord: saveEditedEntityRecord2 } = (0, import_data12.useDispatch)(store);
+    const { editEntityRecord: editEntityRecord2, saveEditedEntityRecord: saveEditedEntityRecord2 } = (0, import_data11.useDispatch)(store);
     const mutations = (0, import_element3.useMemo)(
       () => ({
         edit: (record2, editOptions = {}) => editEntityRecord2(kind, name, recordId, record2, editOptions),
@@ -7165,7 +7141,7 @@ var wp;
       }),
       [editEntityRecord2, kind, name, recordId, saveEditedEntityRecord2]
     );
-    const { editedRecord, hasEdits, edits } = (0, import_data12.useSelect)(
+    const { editedRecord, hasEdits, edits } = (0, import_data11.useSelect)(
       (select5) => {
         if (!options.enabled) {
           return {
@@ -7225,7 +7201,7 @@ var wp;
   // packages/core-data/build-module/hooks/use-entity-records.mjs
   var import_url7 = __toESM(require_url(), 1);
   var import_deprecated5 = __toESM(require_deprecated(), 1);
-  var import_data13 = __toESM(require_data(), 1);
+  var import_data12 = __toESM(require_data(), 1);
   var import_element4 = __toESM(require_element(), 1);
   var EMPTY_ARRAY = [];
   function useEntityRecords(kind, name, queryArgs = {}, options = { enabled: true }) {
@@ -7242,7 +7218,7 @@ var wp;
       },
       [kind, name, queryAsString, options.enabled]
     );
-    const { totalItems, totalPages } = (0, import_data13.useSelect)(
+    const { totalItems, totalPages } = (0, import_data12.useSelect)(
       (select5) => {
         if (!options.enabled) {
           return {
@@ -7280,7 +7256,7 @@ var wp;
     return useEntityRecords(kind, name, queryArgs, options);
   }
   function useEntityRecordsWithPermissions(kind, name, queryArgs = {}, options = { enabled: true }) {
-    const entityConfig = (0, import_data13.useSelect)(
+    const entityConfig = (0, import_data12.useSelect)(
       (select5) => select5(store).getEntityConfig(kind, name),
       [kind, name]
     );
@@ -7310,7 +7286,7 @@ var wp;
       ) ?? [],
       [data, entityConfig?.key]
     );
-    const permissions = (0, import_data13.useSelect)(
+    const permissions = (0, import_data12.useSelect)(
       (select5) => {
         const { getEntityRecordsPermissions: getEntityRecordsPermissions2 } = unlock(
           select5(store)
@@ -7402,7 +7378,7 @@ var wp;
 
   // packages/core-data/build-module/hooks/use-entity-block-editor.mjs
   var import_element6 = __toESM(require_element(), 1);
-  var import_data14 = __toESM(require_data(), 1);
+  var import_data13 = __toESM(require_data(), 1);
   var import_blocks5 = __toESM(require_blocks(), 1);
 
   // packages/core-data/build-module/hooks/use-entity-id.mjs
@@ -7553,7 +7529,7 @@ var wp;
   function useEntityBlockEditor(kind, name, { id: _id } = {}) {
     const providerId = useEntityId(kind, name);
     const id = _id ?? providerId;
-    const { content, editedBlocks, meta } = (0, import_data14.useSelect)(
+    const { content, editedBlocks, meta } = (0, import_data13.useSelect)(
       (select5) => {
         if (!id) {
           return {};
@@ -7568,7 +7544,7 @@ var wp;
       },
       [kind, name, id]
     );
-    const { __unstableCreateUndoLevel: __unstableCreateUndoLevel2, editEntityRecord: editEntityRecord2 } = (0, import_data14.useDispatch)(STORE_NAME);
+    const { __unstableCreateUndoLevel: __unstableCreateUndoLevel2, editEntityRecord: editEntityRecord2 } = (0, import_data13.useDispatch)(STORE_NAME);
     const blocks = (0, import_element6.useMemo)(() => {
       if (!id) {
         return void 0;
@@ -7636,13 +7612,13 @@ var wp;
 
   // packages/core-data/build-module/hooks/use-entity-prop.mjs
   var import_element7 = __toESM(require_element(), 1);
-  var import_data15 = __toESM(require_data(), 1);
+  var import_data14 = __toESM(require_data(), 1);
   function useEntityProp(kind, name, prop, _id) {
     const providerId = useEntityId(kind, name);
     const id = _id ?? providerId;
     const context = (0, import_element7.useContext)(EntityContext);
     const revisionId = context?.revisionId;
-    const { value, fullValue } = (0, import_data15.useSelect)(
+    const { value, fullValue } = (0, import_data14.useSelect)(
       (select5) => {
         if (revisionId) {
           const revisions = select5(STORE_NAME).getRevisions(
@@ -7678,7 +7654,7 @@ var wp;
       },
       [kind, name, id, prop, revisionId]
     );
-    const { editEntityRecord: editEntityRecord2 } = (0, import_data15.useDispatch)(STORE_NAME);
+    const { editEntityRecord: editEntityRecord2 } = (0, import_data14.useDispatch)(STORE_NAME);
     const setValue = (0, import_element7.useCallback)(
       (newValue) => {
         if (revisionId) {
@@ -7964,9 +7940,9 @@ var wp;
     },
     resolvers: { ...resolvers_exports, ...entityResolvers }
   });
-  var store = (0, import_data16.createReduxStore)(STORE_NAME, storeConfig());
+  var store = (0, import_data15.createReduxStore)(STORE_NAME, storeConfig());
   unlock(store).registerPrivateSelectors(private_selectors_exports);
   unlock(store).registerPrivateActions(private_actions_exports);
-  (0, import_data16.register)(store);
+  (0, import_data15.register)(store);
   return __toCommonJS(index_exports);
 })();

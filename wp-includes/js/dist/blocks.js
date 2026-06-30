@@ -5103,6 +5103,11 @@ var wp;
       support: ["dimensions", "minHeight"],
       useEngine: true
     },
+    minWidth: {
+      value: ["dimensions", "minWidth"],
+      support: ["dimensions", "minWidth"],
+      useEngine: true
+    },
     height: {
       value: ["dimensions", "height"],
       support: ["dimensions", "height"],
@@ -5413,7 +5418,13 @@ var wp;
     return (0, import_data.select)(store).getBlockVariations(blockName, scope);
   };
   var registerBlockVariation = (blockName, variation) => {
-    if (typeof variation.name !== "string") {
+    if (Array.isArray(variation)) {
+      for (const v2 of variation) {
+        if (typeof v2.name !== "string") {
+          (0, import_warning.default)("Variation names must be unique strings.");
+        }
+      }
+    } else if (typeof variation.name !== "string") {
       (0, import_warning.default)("Variation names must be unique strings.");
     }
     (0, import_data.dispatch)(store).addBlockVariations(blockName, variation);
@@ -9888,7 +9899,7 @@ var wp;
     } else if (node.nodeName === "A") {
       const anchor = node;
       if (anchor.target && anchor.target.toLowerCase() === "_blank") {
-        anchor.rel = "noreferrer noopener";
+        anchor.rel = "noopener";
       } else {
         anchor.removeAttribute("target");
         anchor.removeAttribute("rel");

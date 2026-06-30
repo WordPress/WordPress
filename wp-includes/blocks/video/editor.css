@@ -65,6 +65,10 @@
   z-index: 159990;
 }
 
+.modal-open .block-library-video-tracks-editor {
+  z-index: 99999;
+}
+
 .block-library-video-tracks-editor__track-list-track {
   padding-left: 12px;
 }

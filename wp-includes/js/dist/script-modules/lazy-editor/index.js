@@ -187,6 +187,7 @@ var VALID_SETTINGS = [
   "dimensions.aspectRatio",
   "dimensions.height",
   "dimensions.minHeight",
+  "dimensions.minWidth",
   "dimensions.width",
   "dimensions.dimensionSizes",
   "layout.contentSize",
@@ -1127,6 +1128,10 @@ var BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS = {
   spacing: "spacing",
   typography: "typography"
 };
+var VALID_BLOCK_PSEUDO_SELECTORS = {
+  "core/button": [":hover", ":focus", ":focus-visible", ":active"],
+  "core/navigation-link": [":hover", ":focus", ":focus-visible", ":active"]
+};
 function getPresetsClasses(blockSelector = "*", blockPresets = {}) {
   return PRESET_METADATA.reduce(
     (declarations, { path, cssVarInfix, classes }) => {
@@ -1499,18 +1504,82 @@ var STYLE_KEYS = [
   "background"
 ];
 function pickStyleKeys(treeToPickFrom) {
+  return pickStyleAndPseudoKeys(treeToPickFrom);
+}
+function pickStyleAndPseudoKeys(treeToPickFrom, blockName) {
   if (!treeToPickFrom) {
     return {};
   }
   const entries = Object.entries(treeToPickFrom);
+  const allowedPseudoSelectors = blockName ? VALID_BLOCK_PSEUDO_SELECTORS[blockName] ?? [] : [];
   const pickedEntries = entries.filter(
-    ([key]) => STYLE_KEYS.includes(key)
+    ([key]) => STYLE_KEYS.includes(key) || allowedPseudoSelectors.includes(key)
   );
   const clonedEntries = pickedEntries.map(([key, style]) => [
     key,
     JSON.parse(JSON.stringify(style))
   ]);
   return Object.fromEntries(clonedEntries);
+}
+function appendPseudoSelectorStyles(styles, selector, ruleset, featureSelectors, treeSettings, blockName, styleVariationSelector) {
+  const pseudoSelectorStyles = Object.entries(styles).filter(
+    ([key]) => key.startsWith(":")
+  );
+  if (!pseudoSelectorStyles.length) {
+    return ruleset;
+  }
+  pseudoSelectorStyles.forEach(([pseudoKey, pseudoStyle]) => {
+    if (!pseudoStyle || typeof pseudoStyle !== "object") {
+      return;
+    }
+    const remainingPseudoStyles = JSON.parse(
+      JSON.stringify(pseudoStyle)
+    );
+    if (featureSelectors && typeof featureSelectors !== "string") {
+      let pseudoFeatureDeclarations = getFeatureDeclarations(
+        featureSelectors,
+        remainingPseudoStyles
+      );
+      pseudoFeatureDeclarations = updateParagraphTextIndentSelector(
+        pseudoFeatureDeclarations,
+        treeSettings,
+        blockName
+      );
+      pseudoFeatureDeclarations = updateButtonWidthDeclarations(
+        pseudoFeatureDeclarations,
+        treeSettings
+      );
+      Object.entries(pseudoFeatureDeclarations).forEach(
+        ([baseSelector, declarations]) => {
+          if (!declarations.length) {
+            return;
+          }
+          const pseudoFeatureSelector = appendToSelector(
+            baseSelector,
+            pseudoKey
+          );
+          const cssSelector = styleVariationSelector ? concatFeatureVariationSelectorString(
+            pseudoFeatureSelector,
+            styleVariationSelector
+          ) : pseudoFeatureSelector;
+          const rules = declarations.join(";");
+          ruleset += `:root :where(${cssSelector}){${rules};}`;
+        }
+      );
+    }
+    const pseudoDeclarations = getStylesDeclarations(
+      remainingPseudoStyles
+    );
+    if (!pseudoDeclarations.length) {
+      return;
+    }
+    const pseudoSelector = appendToSelector(selector, pseudoKey);
+    const pseudoRule = `:root :where(${pseudoSelector}){${pseudoDeclarations.join(
+      ";"
+    )};}`;
+    ruleset += pseudoRule;
+  });
+  return ruleset;
 }
 var getNodesWithStyles = (tree, blockSelectors) => {
   const nodes = [];
@@ -1540,7 +1609,7 @@ var getNodesWithStyles = (tree, blockSelectors) => {
   });
   Object.entries(tree.styles?.blocks ?? {}).forEach(
     ([blockName, node]) => {
-      const blockStyles = pickStyleKeys(node);
+      const blockStyles = pickStyleAndPseudoKeys(node, blockName);
       const typedNode = node;
       const variationNodesToAdd = [];
       if (typedNode?.variations) {
@@ -1548,7 +1617,10 @@ var getNodesWithStyles = (tree, blockSelectors) => {
         Object.entries(typedNode.variations).forEach(
           ([variationName, variation]) => {
             const typedVariation = variation;
-            variations[variationName] = pickStyleKeys(typedVariation);
+            variations[variationName] = pickStyleAndPseudoKeys(
+              typedVariation,
+              blockName
+            );
             if (typedVariation?.css) {
               variations[variationName].css = typedVariation.css;
             }
@@ -1583,7 +1655,10 @@ var getNodesWithStyles = (tree, blockSelectors) => {
                   variationSelector,
                   blockSelectors[variationBlockName]?.featureSelectors ?? {}
                 ) : void 0;
-                const variationBlockStyleNodes = pickStyleKeys(variationBlockStyles);
+                const variationBlockStyleNodes = pickStyleAndPseudoKeys(
+                  variationBlockStyles,
+                  variationBlockName
+                );
                 if (variationBlockStyles?.css) {
                   variationBlockStyleNodes.css = variationBlockStyles.css;
                 }
@@ -1945,6 +2020,15 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
                     `:root :where(${styleVariationSelector})`
                   );
                 }
+                ruleset = appendPseudoSelectorStyles(
+                  styleVariations,
+                  styleVariationSelector,
+                  ruleset,
+                  featureSelectors,
+                  tree.settings,
+                  name,
+                  styleVariationSelector
+                );
                 if (hasLayoutSupport && styleVariations?.spacing?.blockGap) {
                   const variationSelectorWithBlock = styleVariationSelector + selector;
                   ruleset += getLayoutStyles({
@@ -1959,24 +2043,14 @@ var transformToStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGa
             }
           );
         }
-        const pseudoSelectorStyles = Object.entries(styles).filter(
-          ([key]) => key.startsWith(":")
+        ruleset = appendPseudoSelectorStyles(
+          styles,
+          selector,
+          ruleset,
+          featureSelectors,
+          tree.settings,
+          name
         );
-        if (pseudoSelectorStyles?.length) {
-          pseudoSelectorStyles.forEach(
-            ([pseudoKey, pseudoStyle]) => {
-              const pseudoDeclarations = getStylesDeclarations(pseudoStyle);
-              if (!pseudoDeclarations?.length) {
-                return;
-              }
-              const _selector = selector.split(",").map((sel) => sel + pseudoKey).join(",");
-              const pseudoRule = `:root :where(${_selector}){${pseudoDeclarations.join(
-                ";"
-              )};}`;
-              ruleset += pseudoRule;
-            }
-          );
-        }
       }
     );
   }
