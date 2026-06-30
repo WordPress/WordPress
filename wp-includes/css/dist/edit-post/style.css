@@ -384,11 +384,11 @@
   background: transparent;
   z-index: 1;
 }
-.edit-post-meta-boxes-area .components-spinner {
+.edit-post-meta-boxes-area .edit-post-meta-boxes-area__spinner {
   position: absolute;
   top: 10px;
   right: 20px;
-  z-index: 5;
+  z-index: 2;
 }
 .edit-post-meta-boxes-area .is-hidden {
   display: none;

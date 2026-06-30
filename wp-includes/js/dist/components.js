@@ -100,7 +100,7 @@ var wp;
             inst: { value, getSnapshot }
           });
           var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
-          useLayoutEffect24(
+          useLayoutEffect25(
             function() {
               inst.value = value;
               inst.getSnapshot = getSnapshot;
@@ -134,7 +134,7 @@ var wp;
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React41 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState83 = React41.useState, useEffect80 = React41.useEffect, useLayoutEffect24 = React41.useLayoutEffect, useDebugValue = React41.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        var React41 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState83 = React41.useState, useEffect80 = React41.useEffect, useLayoutEffect25 = React41.useLayoutEffect, useDebugValue = React41.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
         exports.useSyncExternalStore = void 0 !== React41.useSyncExternalStore ? React41.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
@@ -22550,6 +22550,9 @@ If there's a particular need for this, please submit a feature request at https:
     surfaceBorderSubtleColor: "rgba(0, 0, 0, 0.05)",
     surfaceBackgroundTertiaryColor: COLORS.white,
     surfaceColor: COLORS.white,
+    // Modal exit animation: `use-modal-exit-animation` parses this for the
+    // `animationend` timeout race; keep the numeric duration equal to
+    // `--wpds-motion-duration-md` on `.components-modal__frame` in modal/style.scss.
     transitionDuration: "200ms",
     transitionDurationFast: "160ms",
     transitionDurationFaster: "120ms",
@@ -22567,9 +22570,9 @@ If there's a particular need for this, please submit a feature request at https:
     SLIDE_DURATION: 200,
     SLIDE_EASING: {
       function: "cubic-bezier",
-      args: [0, 0, 0, 1]
+      args: [0.25, 0, 0, 1]
     },
-    FADE_DURATION: 80,
+    FADE_DURATION: 100,
     FADE_EASING: {
       function: "linear"
     }
@@ -23343,11 +23346,83 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/components/build-module/alignment-matrix-control/cell.mjs
   var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='9251e317a9']")) {
-    const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "9251e317a9");
-    style2.appendChild(document.createTextNode("._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer);direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}"));
-    document.head.appendChild(style2);
+  var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
+  function getRuntime() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash(targetDocument, hash2) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style2 of targetDocument.head.querySelectorAll(`style[${STYLE_HASH_ATTRIBUTE}]`)) {
+      if (style2.getAttribute(STYLE_HASH_ATTRIBUTE) === hash2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle(targetDocument, hash2, css3) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash2)) {
+      return;
+    }
+    if (documentContainsStyleHash(targetDocument, hash2)) {
+      injectedStyles.add(hash2);
+      return;
+    }
+    const style2 = targetDocument.createElement("style");
+    style2.setAttribute(STYLE_HASH_ATTRIBUTE, hash2);
+    style2.appendChild(targetDocument.createTextNode(css3));
+    targetDocument.head.appendChild(style2);
+    injectedStyles.add(hash2);
+  }
+  function registerDocument(targetDocument) {
+    const runtime = getRuntime();
+    runtime.documents.set(targetDocument, (runtime.documents.get(targetDocument) ?? 0) + 1);
+    for (const [hash2, css3] of runtime.styles) {
+      injectStyle(targetDocument, hash2, css3);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
+  function registerStyle(hash2, css3) {
+    const runtime = getRuntime();
+    runtime.styles.set(hash2, css3);
+    for (const targetDocument of runtime.documents.keys()) {
+      injectStyle(targetDocument, hash2, css3);
+    }
+  }
+  if (typeof process === "undefined" || true) {
+    registerStyle("9251e317a9", "._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer);direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}");
   }
   var style_module_default = { "grid-container": "_02e2af5803bf5bda__grid-container", "grid-row": "c421f8ed08c23077__grid-row", "cell": "_3af769f755097fdb__cell", "point": "_37ef12d4fb6d6131__point" };
   function Cell({
@@ -23420,11 +23495,83 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/components/build-module/alignment-matrix-control/index.mjs
   var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='9251e317a9']")) {
-    const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "9251e317a9");
-    style2.appendChild(document.createTextNode("._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer);direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}"));
-    document.head.appendChild(style2);
+  var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
+  function getRuntime2() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument2(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash2(targetDocument, hash2) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style2 of targetDocument.head.querySelectorAll(`style[${STYLE_HASH_ATTRIBUTE2}]`)) {
+      if (style2.getAttribute(STYLE_HASH_ATTRIBUTE2) === hash2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle2(targetDocument, hash2, css3) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime2();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash2)) {
+      return;
+    }
+    if (documentContainsStyleHash2(targetDocument, hash2)) {
+      injectedStyles.add(hash2);
+      return;
+    }
+    const style2 = targetDocument.createElement("style");
+    style2.setAttribute(STYLE_HASH_ATTRIBUTE2, hash2);
+    style2.appendChild(targetDocument.createTextNode(css3));
+    targetDocument.head.appendChild(style2);
+    injectedStyles.add(hash2);
+  }
+  function registerDocument2(targetDocument) {
+    const runtime = getRuntime2();
+    runtime.documents.set(targetDocument, (runtime.documents.get(targetDocument) ?? 0) + 1);
+    for (const [hash2, css3] of runtime.styles) {
+      injectStyle2(targetDocument, hash2, css3);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
+  function registerStyle2(hash2, css3) {
+    const runtime = getRuntime2();
+    runtime.styles.set(hash2, css3);
+    for (const targetDocument of runtime.documents.keys()) {
+      injectStyle2(targetDocument, hash2, css3);
+    }
+  }
+  if (typeof process === "undefined" || true) {
+    registerStyle2("9251e317a9", "._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer);direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}");
   }
   var style_module_default2 = { "grid-container": "_02e2af5803bf5bda__grid-container", "grid-row": "c421f8ed08c23077__grid-row", "cell": "_3af769f755097fdb__cell", "point": "_37ef12d4fb6d6131__point" };
   function UnforwardedAlignmentMatrixControl({
@@ -24150,25 +24297,25 @@ If there's a particular need for this, please submit a feature request at https:
   function _EMOTION_STRINGIFIED_CSS_ERROR__4() {
     return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).";
   }
-  var Text = /* @__PURE__ */ css("color:", COLORS.theme.foreground, ";line-height:", config_values_default.fontLineHeightBase, ";margin:0;text-wrap:pretty;" + (false ? "" : ";label:Text;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFVdUIiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT0xPUlMsIENPTkZJRyB9IGZyb20gJy4uL3V0aWxzJztcblxuZXhwb3J0IGNvbnN0IFRleHQgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuZm9yZWdyb3VuZCB9O1xuXHRsaW5lLWhlaWdodDogJHsgQ09ORklHLmZvbnRMaW5lSGVpZ2h0QmFzZSB9O1xuXHRtYXJnaW46IDA7XG5cdHRleHQtd3JhcDogcHJldHR5O1xuYDtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBibG9jaztcbmA7XG5cbmV4cG9ydCBjb25zdCBwb3NpdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5ncmVlbiB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGRlc3RydWN0aXZlID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLmFsZXJ0LnJlZCB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IG11dGVkID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLmdyYXlbIDcwMCBdIH07XG5gO1xuXG5leHBvcnQgY29uc3QgaGlnaGxpZ2h0ZXJUZXh0ID0gY3NzYFxuXHRtYXJrIHtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMuYWxlcnQueWVsbG93IH07XG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0Ym94LXNoYWRvdzpcblx0XHRcdDAgMCAwIDFweCByZ2JhKCAwLCAwLCAwLCAwLjA1ICkgaW5zZXQsXG5cdFx0XHQwIC0xcHggMCByZ2JhKCAwLCAwLCAwLCAwLjEgKSBpbnNldDtcblx0fVxuYDtcblxuZXhwb3J0IGNvbnN0IHVwcGVyQ2FzZSA9IGNzc2Bcblx0dGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbmA7XG4iXX0= */");
+  var Text = /* @__PURE__ */ css("color:", COLORS.theme.foreground, ";line-height:", config_values_default.fontLineHeightBase, ";margin:0;text-wrap:pretty;" + (false ? "" : ";label:Text;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFVdUIiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT0xPUlMsIENPTkZJRyB9IGZyb20gJy4uL3V0aWxzJztcblxuZXhwb3J0IGNvbnN0IFRleHQgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuZm9yZWdyb3VuZCB9O1xuXHRsaW5lLWhlaWdodDogJHsgQ09ORklHLmZvbnRMaW5lSGVpZ2h0QmFzZSB9O1xuXHRtYXJnaW46IDA7XG5cdHRleHQtd3JhcDogcHJldHR5O1xuYDtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBibG9jaztcbmA7XG5cbmV4cG9ydCBjb25zdCBwb3NpdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5ncmVlbiB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGRlc3RydWN0aXZlID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLmFsZXJ0LnJlZCB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IG11dGVkID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmdyYXlbIDcwMCBdIH07XG5gO1xuXG5leHBvcnQgY29uc3QgaGlnaGxpZ2h0ZXJUZXh0ID0gY3NzYFxuXHRtYXJrIHtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMuYWxlcnQueWVsbG93IH07XG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0Ym94LXNoYWRvdzpcblx0XHRcdDAgMCAwIDFweCByZ2JhKCAwLCAwLCAwLCAwLjA1ICkgaW5zZXQsXG5cdFx0XHQwIC0xcHggMCByZ2JhKCAwLCAwLCAwLCAwLjEgKSBpbnNldDtcblx0fVxuYDtcblxuZXhwb3J0IGNvbnN0IHVwcGVyQ2FzZSA9IGNzc2Bcblx0dGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbmA7XG4iXX0= */");
   var block2 = false ? {
     name: "4zleql",
     styles: "display:block"
   } : {
     name: "14aceuy-block",
-    styles: "display:block;label:block;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpQndCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */",
+    styles: "display:block;label:block;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpQndCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */",
     toString: _EMOTION_STRINGIFIED_CSS_ERROR__4
   };
-  var positive = /* @__PURE__ */ css("color:", COLORS.alert.green, ";" + (false ? "" : ";label:positive;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFxQjJCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
-  var destructive = /* @__PURE__ */ css("color:", COLORS.alert.red, ";" + (false ? "" : ";label:destructive;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF5QjhCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
-  var muted = /* @__PURE__ */ css("color:", COLORS.gray[700], ";" + (false ? "" : ";label:muted;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE2QndCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
-  var highlighterText = /* @__PURE__ */ css("mark{background:", COLORS.alert.yellow, ";border-radius:", config_values_default.radiusSmall, ";box-shadow:0 0 0 1px rgba( 0, 0, 0, 0.05 ) inset,0 -1px 0 rgba( 0, 0, 0, 0.1 ) inset;}" + (false ? "" : ";label:highlighterText;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpQ2tDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
+  var positive = /* @__PURE__ */ css("color:", COLORS.alert.green, ";" + (false ? "" : ";label:positive;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFxQjJCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
+  var destructive = /* @__PURE__ */ css("color:", COLORS.alert.red, ";" + (false ? "" : ";label:destructive;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF5QjhCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
+  var muted = /* @__PURE__ */ css("color:", COLORS.theme.gray[700], ";" + (false ? "" : ";label:muted;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE2QndCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
+  var highlighterText = /* @__PURE__ */ css("mark{background:", COLORS.alert.yellow, ";border-radius:", config_values_default.radiusSmall, ";box-shadow:0 0 0 1px rgba( 0, 0, 0, 0.05 ) inset,0 -1px 0 rgba( 0, 0, 0, 0.1 ) inset;}" + (false ? "" : ";label:highlighterText;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpQ2tDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */");
   var upperCase = false ? {
     name: "50zrmy",
     styles: "text-transform:uppercase"
   } : {
     name: "1mrt3zt-upperCase",
-    styles: "text-transform:uppercase;label:upperCase;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEyQzRCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */",
+    styles: "text-transform:uppercase;label:upperCase;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEyQzRCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcgfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBjb25zdCBUZXh0ID0gY3NzYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0bGluZS1oZWlnaHQ6ICR7IENPTkZJRy5mb250TGluZUhlaWdodEJhc2UgfTtcblx0bWFyZ2luOiAwO1xuXHR0ZXh0LXdyYXA6IHByZXR0eTtcbmA7XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogYmxvY2s7XG5gO1xuXG5leHBvcnQgY29uc3QgcG9zaXRpdmUgPSBjc3NgXG5cdGNvbG9yOiAkeyBDT0xPUlMuYWxlcnQuZ3JlZW4gfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBkZXN0cnVjdGl2ZSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5hbGVydC5yZWQgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBtdXRlZCA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuYDtcblxuZXhwb3J0IGNvbnN0IGhpZ2hsaWdodGVyVGV4dCA9IGNzc2Bcblx0bWFyayB7XG5cdFx0YmFja2dyb3VuZDogJHsgQ09MT1JTLmFsZXJ0LnllbGxvdyB9O1xuXHRcdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRcdGJveC1zaGFkb3c6XG5cdFx0XHQwIDAgMCAxcHggcmdiYSggMCwgMCwgMCwgMC4wNSApIGluc2V0LFxuXHRcdFx0MCAtMXB4IDAgcmdiYSggMCwgMCwgMCwgMC4xICkgaW5zZXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCB1cHBlckNhc2UgPSBjc3NgXG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuIl19 */",
     toString: _EMOTION_STRINGIFIED_CSS_ERROR__4
   };
 
@@ -27589,11 +27736,83 @@ This message will only show in development mode. It won't appear in production. 
   var import_element37 = __toESM(require_element(), 1);
   var import_compose8 = __toESM(require_compose(), 1);
   var import_jsx_runtime101 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='e91ec3f005']")) {
-    const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "e91ec3f005");
-    style2.appendChild(document.createTextNode("._8f57b8d483c51fbe__circle-root{border:1px solid var(--wp-components-color-gray-600,#949494);border-radius:50%;box-sizing:border-box;cursor:grab;height:32px;overflow:hidden;width:32px}._8f57b8d483c51fbe__circle-root:active{cursor:grabbing}.b1bae984ac10fcc3__circle-indicator-wrapper{box-sizing:border-box;height:100%;position:relative;width:100%}.b1bae984ac10fcc3__circle-indicator-wrapper:focus-visible{outline:none}._6d2fe0a2cbb31bf0__circle-indicator{background:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));border-radius:50%;box-sizing:border-box;display:block;height:6px;left:50%;position:absolute;top:4px;transform:translateX(-50%);width:6px}"));
-    document.head.appendChild(style2);
+  var STYLE_HASH_ATTRIBUTE3 = "data-wp-hash";
+  function getRuntime3() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument3(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash3(targetDocument, hash2) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style2 of targetDocument.head.querySelectorAll(`style[${STYLE_HASH_ATTRIBUTE3}]`)) {
+      if (style2.getAttribute(STYLE_HASH_ATTRIBUTE3) === hash2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle3(targetDocument, hash2, css3) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime3();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash2)) {
+      return;
+    }
+    if (documentContainsStyleHash3(targetDocument, hash2)) {
+      injectedStyles.add(hash2);
+      return;
+    }
+    const style2 = targetDocument.createElement("style");
+    style2.setAttribute(STYLE_HASH_ATTRIBUTE3, hash2);
+    style2.appendChild(targetDocument.createTextNode(css3));
+    targetDocument.head.appendChild(style2);
+    injectedStyles.add(hash2);
+  }
+  function registerDocument3(targetDocument) {
+    const runtime = getRuntime3();
+    runtime.documents.set(targetDocument, (runtime.documents.get(targetDocument) ?? 0) + 1);
+    for (const [hash2, css3] of runtime.styles) {
+      injectStyle3(targetDocument, hash2, css3);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
+  function registerStyle3(hash2, css3) {
+    const runtime = getRuntime3();
+    runtime.styles.set(hash2, css3);
+    for (const targetDocument of runtime.documents.keys()) {
+      injectStyle3(targetDocument, hash2, css3);
+    }
+  }
+  if (typeof process === "undefined" || true) {
+    registerStyle3("e91ec3f005", "._8f57b8d483c51fbe__circle-root{border:1px solid var(--wp-components-color-gray-600,#949494);border-radius:50%;box-sizing:border-box;cursor:grab;height:32px;overflow:hidden;width:32px}._8f57b8d483c51fbe__circle-root:active{cursor:grabbing}.b1bae984ac10fcc3__circle-indicator-wrapper{box-sizing:border-box;height:100%;position:relative;width:100%}.b1bae984ac10fcc3__circle-indicator-wrapper:focus-visible{outline:none}._6d2fe0a2cbb31bf0__circle-indicator{background:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));border-radius:50%;box-sizing:border-box;display:block;height:6px;left:50%;position:absolute;top:4px;transform:translateX(-50%);width:6px}");
   }
   var style_module_default3 = { "circle-root": "_8f57b8d483c51fbe__circle-root", "circle-indicator-wrapper": "b1bae984ac10fcc3__circle-indicator-wrapper", "circle-indicator": "_6d2fe0a2cbb31bf0__circle-indicator" };
   function AngleCircle({
@@ -27744,7 +27963,7 @@ This message will only show in development mode. It won't appear in production. 
   var angle_picker_control_default = AnglePickerControl;
 
   // packages/components/build-module/autocomplete/index.mjs
-  var import_element52 = __toESM(require_element(), 1);
+  var import_element53 = __toESM(require_element(), 1);
   var import_compose18 = __toESM(require_compose(), 1);
   var import_rich_text2 = __toESM(require_rich_text(), 1);
   var import_a11y2 = __toESM(require_a11y(), 1);
@@ -27752,7 +27971,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/autocomplete/autocompleter-ui.mjs
   var import_react_dom6 = __toESM(require_react_dom(), 1);
-  var import_element51 = __toESM(require_element(), 1);
+  var import_element52 = __toESM(require_element(), 1);
   var import_rich_text = __toESM(require_rich_text(), 1);
   var import_compose17 = __toESM(require_compose(), 1);
   var import_a11y = __toESM(require_a11y(), 1);
@@ -28097,7 +28316,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/popover/index.mjs
-  var import_element50 = __toESM(require_element(), 1);
+  var import_element51 = __toESM(require_element(), 1);
   var import_compose16 = __toESM(require_compose(), 1);
   var import_deprecated6 = __toESM(require_deprecated(), 1);
   var import_primitives32 = __toESM(require_primitives(), 1);
@@ -28137,11 +28356,11 @@ This message will only show in development mode. It won't appear in production. 
   var scroll_lock_default = ScrollLock;
 
   // packages/components/build-module/slot-fill/index.mjs
-  var import_element48 = __toESM(require_element(), 1);
+  var import_element49 = __toESM(require_element(), 1);
 
   // packages/components/build-module/slot-fill/fill.mjs
   var import_compose11 = __toESM(require_compose(), 1);
-  var import_element42 = __toESM(require_element(), 1);
+  var import_element43 = __toESM(require_element(), 1);
 
   // packages/components/build-module/slot-fill/context.mjs
   var import_compose10 = __toESM(require_compose(), 1);
@@ -28170,45 +28389,41 @@ This message will only show in development mode. It won't appear in production. 
   SlotFillContext.displayName = "SlotFillContext";
   var context_default = SlotFillContext;
 
-  // node_modules/uuid/dist/esm-browser/rng.js
-  var getRandomValues;
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    if (!getRandomValues) {
-      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-      if (!getRandomValues) {
-        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-      }
-    }
-    return getRandomValues(rnds8);
-  }
-
-  // node_modules/uuid/dist/esm-browser/stringify.js
+  // node_modules/uuid/dist/stringify.js
   var byteToHex = [];
   for (let i3 = 0; i3 < 256; ++i3) {
     byteToHex.push((i3 + 256).toString(16).slice(1));
   }
   function unsafeStringify(arr, offset3 = 0) {
-    return byteToHex[arr[offset3 + 0]] + byteToHex[arr[offset3 + 1]] + byteToHex[arr[offset3 + 2]] + byteToHex[arr[offset3 + 3]] + "-" + byteToHex[arr[offset3 + 4]] + byteToHex[arr[offset3 + 5]] + "-" + byteToHex[arr[offset3 + 6]] + byteToHex[arr[offset3 + 7]] + "-" + byteToHex[arr[offset3 + 8]] + byteToHex[arr[offset3 + 9]] + "-" + byteToHex[arr[offset3 + 10]] + byteToHex[arr[offset3 + 11]] + byteToHex[arr[offset3 + 12]] + byteToHex[arr[offset3 + 13]] + byteToHex[arr[offset3 + 14]] + byteToHex[arr[offset3 + 15]];
+    return (byteToHex[arr[offset3 + 0]] + byteToHex[arr[offset3 + 1]] + byteToHex[arr[offset3 + 2]] + byteToHex[arr[offset3 + 3]] + "-" + byteToHex[arr[offset3 + 4]] + byteToHex[arr[offset3 + 5]] + "-" + byteToHex[arr[offset3 + 6]] + byteToHex[arr[offset3 + 7]] + "-" + byteToHex[arr[offset3 + 8]] + byteToHex[arr[offset3 + 9]] + "-" + byteToHex[arr[offset3 + 10]] + byteToHex[arr[offset3 + 11]] + byteToHex[arr[offset3 + 12]] + byteToHex[arr[offset3 + 13]] + byteToHex[arr[offset3 + 14]] + byteToHex[arr[offset3 + 15]]).toLowerCase();
   }
 
-  // node_modules/uuid/dist/esm-browser/native.js
-  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-  var native_default = {
-    randomUUID
-  };
+  // node_modules/uuid/dist/rng.js
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    return crypto.getRandomValues(rnds8);
+  }
 
-  // node_modules/uuid/dist/esm-browser/v4.js
+  // node_modules/uuid/dist/v4.js
   function v4(options2, buf, offset3) {
-    if (native_default.randomUUID && !buf && !options2) {
-      return native_default.randomUUID();
+    if (!buf && !options2 && crypto.randomUUID) {
+      return crypto.randomUUID();
     }
+    return _v4(options2, buf, offset3);
+  }
+  function _v4(options2, buf, offset3) {
     options2 = options2 || {};
-    const rnds = options2.random || (options2.rng || rng)();
+    const rnds = options2.random ?? options2.rng?.() ?? rng();
+    if (rnds.length < 16) {
+      throw new Error("Random bytes length must be >= 16");
+    }
     rnds[6] = rnds[6] & 15 | 64;
     rnds[8] = rnds[8] & 63 | 128;
     if (buf) {
       offset3 = offset3 || 0;
+      if (offset3 < 0 || offset3 + 16 > buf.length) {
+        throw new RangeError(`UUID byte range ${offset3}:${offset3 + 15} is out of buffer bounds`);
+      }
       for (let i3 = 0; i3 < 16; ++i3) {
         buf[offset3 + i3] = rnds[i3];
       }
@@ -28219,7 +28434,76 @@ This message will only show in development mode. It won't appear in production. 
   var v4_default = v4;
 
   // packages/components/build-module/style-provider/index.mjs
+  var import_element42 = __toESM(require_element(), 1);
   var import_jsx_runtime103 = __toESM(require_jsx_runtime(), 1);
+  var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
+  function getRuntime4() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument4(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash4(targetDocument, hash2) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style2 of targetDocument.head.querySelectorAll(`style[${STYLE_HASH_ATTRIBUTE4}]`)) {
+      if (style2.getAttribute(STYLE_HASH_ATTRIBUTE4) === hash2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle4(targetDocument, hash2, css3) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime4();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash2)) {
+      return;
+    }
+    if (documentContainsStyleHash4(targetDocument, hash2)) {
+      injectedStyles.add(hash2);
+      return;
+    }
+    const style2 = targetDocument.createElement("style");
+    style2.setAttribute(STYLE_HASH_ATTRIBUTE4, hash2);
+    style2.appendChild(targetDocument.createTextNode(css3));
+    targetDocument.head.appendChild(style2);
+    injectedStyles.add(hash2);
+  }
+  function registerDocument4(targetDocument) {
+    const runtime = getRuntime4();
+    runtime.documents.set(targetDocument, (runtime.documents.get(targetDocument) ?? 0) + 1);
+    for (const [hash2, css3] of runtime.styles) {
+      injectStyle4(targetDocument, hash2, css3);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
   var uuidCache = /* @__PURE__ */ new Set();
   var containerCacheMap = /* @__PURE__ */ new WeakMap();
   var memoizedCreateCacheWithContainer = (container) => {
@@ -28243,6 +28527,12 @@ This message will only show in development mode. It won't appear in production. 
       children,
       document: document2
     } = props;
+    (0, import_element42.useLayoutEffect)(() => {
+      if (!document2) {
+        return;
+      }
+      return registerDocument4(document2);
+    }, [document2]);
     if (!document2) {
       return null;
     }
@@ -28260,13 +28550,13 @@ This message will only show in development mode. It won't appear in production. 
     name,
     children
   }) {
-    const registry = (0, import_element42.useContext)(context_default);
-    const instanceRef = (0, import_element42.useRef)({});
-    const childrenRef = (0, import_element42.useRef)(children);
-    (0, import_element42.useLayoutEffect)(() => {
+    const registry = (0, import_element43.useContext)(context_default);
+    const instanceRef = (0, import_element43.useRef)({});
+    const childrenRef = (0, import_element43.useRef)(children);
+    (0, import_element43.useLayoutEffect)(() => {
       childrenRef.current = children;
     }, [children]);
-    (0, import_element42.useLayoutEffect)(() => {
+    (0, import_element43.useLayoutEffect)(() => {
       const instance = instanceRef.current;
       registry.registerFill(name, {
         instance,
@@ -28274,12 +28564,12 @@ This message will only show in development mode. It won't appear in production. 
       });
       return () => registry.unregisterFill(name, instance);
     }, [registry, name]);
-    (0, import_element42.useLayoutEffect)(() => {
+    (0, import_element43.useLayoutEffect)(() => {
       registry.updateFill(name, {
         instance: instanceRef.current,
-        children: childrenRef.current
+        children
       });
-    });
+    }, [registry, name, children]);
     const slot = (0, import_compose11.useObservableValue)(registry.slots, name);
     if (!slot) {
       return null;
@@ -28292,7 +28582,7 @@ This message will only show in development mode. It won't appear in production. 
       return null;
     }
     const wrappedChildren = typeof children === "function" ? children(slot.fillProps ?? {}) : children;
-    return (0, import_element42.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime104.jsx)(style_provider_default, {
+    return (0, import_element43.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime104.jsx)(style_provider_default, {
       document: portalEl.ownerDocument,
       children: wrappedChildren
     }), portalEl);
@@ -28300,13 +28590,13 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/slot-fill/slot.mjs
   var import_compose12 = __toESM(require_compose(), 1);
-  var import_element43 = __toESM(require_element(), 1);
+  var import_element44 = __toESM(require_element(), 1);
   var import_jsx_runtime105 = __toESM(require_jsx_runtime(), 1);
   function isFunction(maybeFunc) {
     return typeof maybeFunc === "function";
   }
   function addKeysToChildren(children) {
-    return import_element43.Children.map(children, (child, childIndex) => {
+    return import_element44.Children.map(children, (child, childIndex) => {
       if (!child || typeof child === "string") {
         return child;
       }
@@ -28314,7 +28604,7 @@ This message will only show in development mode. It won't appear in production. 
       if (typeof child === "object" && "key" in child && child?.key) {
         childKey = child.key;
       }
-      return (0, import_element43.cloneElement)(child, {
+      return (0, import_element44.cloneElement)(child, {
         key: childKey
       });
     });
@@ -28325,9 +28615,9 @@ This message will only show in development mode. It won't appear in production. 
       children,
       fillProps = {}
     } = props;
-    const registry = (0, import_element43.useContext)(context_default);
-    const instanceRef = (0, import_element43.useRef)({});
-    (0, import_element43.useLayoutEffect)(() => {
+    const registry = (0, import_element44.useContext)(context_default);
+    const instanceRef = (0, import_element44.useRef)({});
+    (0, import_element44.useLayoutEffect)(() => {
       const instance = instanceRef.current;
       registry.registerSlot(name, {
         type: "children",
@@ -28347,7 +28637,7 @@ This message will only show in development mode. It won't appear in production. 
       // In some cases fills are rendered only when some conditions apply.
       // This ensures that we only use non-empty fills when rendering, i.e.,
       // it allows us to render wrappers only when the fills are actually present.
-      (element) => !(0, import_element43.isEmptyElement)(element)
+      (element) => !(0, import_element44.isEmptyElement)(element)
     );
     return /* @__PURE__ */ (0, import_jsx_runtime105.jsx)(import_jsx_runtime105.Fragment, {
       children: isFunction(children) ? children(renderedFills) : renderedFills
@@ -28356,7 +28646,7 @@ This message will only show in development mode. It won't appear in production. 
   var slot_default = Slot;
 
   // packages/components/build-module/slot-fill/bubbles-virtually/slot.mjs
-  var import_element44 = __toESM(require_element(), 1);
+  var import_element45 = __toESM(require_element(), 1);
   var import_compose13 = __toESM(require_compose(), 1);
   var import_jsx_runtime106 = __toESM(require_jsx_runtime(), 1);
   function Slot2(props, forwardedRef) {
@@ -28369,14 +28659,14 @@ This message will only show in development mode. It won't appear in production. 
       children,
       ...restProps
     } = props;
-    const registry = (0, import_element44.useContext)(context_default);
-    const instanceRef = (0, import_element44.useRef)({});
-    const ref = (0, import_element44.useRef)(null);
-    const fillPropsRef = (0, import_element44.useRef)(fillProps);
-    (0, import_element44.useLayoutEffect)(() => {
+    const registry = (0, import_element45.useContext)(context_default);
+    const instanceRef = (0, import_element45.useRef)({});
+    const ref = (0, import_element45.useRef)(null);
+    const fillPropsRef = (0, import_element45.useRef)(fillProps);
+    (0, import_element45.useLayoutEffect)(() => {
       fillPropsRef.current = fillProps;
     }, [fillProps]);
-    (0, import_element44.useLayoutEffect)(() => {
+    (0, import_element45.useLayoutEffect)(() => {
       const instance = instanceRef.current;
       registry.registerSlot(name, {
         type: "portal",
@@ -28386,7 +28676,7 @@ This message will only show in development mode. It won't appear in production. 
       });
       return () => registry.unregisterSlot(name, instance);
     }, [registry, name]);
-    (0, import_element44.useLayoutEffect)(() => {
+    (0, import_element45.useLayoutEffect)(() => {
       registry.updateSlot(name, {
         type: "portal",
         instance: instanceRef.current,
@@ -28400,11 +28690,11 @@ This message will only show in development mode. It won't appear in production. 
       ...restProps
     });
   }
-  var slot_default2 = (0, import_element44.forwardRef)(Slot2);
+  var slot_default2 = (0, import_element45.forwardRef)(Slot2);
 
   // packages/components/build-module/slot-fill/provider.mjs
   var import_compose14 = __toESM(require_compose(), 1);
-  var import_element45 = __toESM(require_element(), 1);
+  var import_element46 = __toESM(require_element(), 1);
   var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
   var import_jsx_runtime107 = __toESM(require_jsx_runtime(), 1);
   function createSlotRegistry() {
@@ -28482,7 +28772,7 @@ This message will only show in development mode. It won't appear in production. 
   function SlotFillProvider({
     children
   }) {
-    const [contextValue] = (0, import_element45.useState)(createSlotRegistry);
+    const [contextValue] = (0, import_element46.useState)(createSlotRegistry);
     return /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(context_default.Provider, {
       value: contextValue,
       children
@@ -28494,10 +28784,10 @@ This message will only show in development mode. It won't appear in production. 
   var import_jsx_runtime108 = __toESM(require_jsx_runtime(), 1);
 
   // packages/components/build-module/slot-fill/bubbles-virtually/use-slot.mjs
-  var import_element46 = __toESM(require_element(), 1);
+  var import_element47 = __toESM(require_element(), 1);
   var import_compose15 = __toESM(require_compose(), 1);
   function useSlot(name) {
-    const registry = (0, import_element46.useContext)(context_default);
+    const registry = (0, import_element47.useContext)(context_default);
     const slot = (0, import_compose15.useObservableValue)(registry.slots, name);
     let ref;
     if (slot && slot.type === "portal") {
@@ -28509,19 +28799,19 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/slot-fill/bubbles-virtually/use-slot-fills.mjs
-  var import_element47 = __toESM(require_element(), 1);
+  var import_element48 = __toESM(require_element(), 1);
   function useObservableValueWithSelector(map, name, selector2) {
-    const subscribe2 = (0, import_element47.useMemo)(() => (listener) => map.subscribe(name, listener), [map, name]);
+    const subscribe2 = (0, import_element48.useMemo)(() => (listener) => map.subscribe(name, listener), [map, name]);
     const getValue3 = () => selector2(map.get(name));
-    return (0, import_element47.useSyncExternalStore)(subscribe2, getValue3, getValue3);
+    return (0, import_element48.useSyncExternalStore)(subscribe2, getValue3, getValue3);
   }
   function getLength(array) {
     return array?.length;
   }
   function useSlotFills(name) {
-    const registry = (0, import_element47.useContext)(context_default);
+    const registry = (0, import_element48.useContext)(context_default);
     const length2 = useObservableValueWithSelector(registry.fills, name, getLength);
-    const fills = (0, import_element47.useMemo)(() => {
+    const fills = (0, import_element48.useMemo)(() => {
       return length2 !== void 0 ? Array.from({
         length: length2
       }) : void 0;
@@ -28530,7 +28820,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/slot-fill/index.mjs
-  var Slot3 = (0, import_element48.forwardRef)((props, ref) => {
+  var Slot3 = (0, import_element49.forwardRef)((props, ref) => {
     const {
       bubblesVirtually,
       ...restProps
@@ -28550,7 +28840,7 @@ This message will only show in development mode. It won't appear in production. 
     children,
     passthrough = false
   }) {
-    const parent = (0, import_element48.useContext)(context_default);
+    const parent = (0, import_element49.useContext)(context_default);
     if (!parent.isDefault && passthrough) {
       return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(import_jsx_runtime108.Fragment, {
         children
@@ -28568,7 +28858,7 @@ This message will only show in development mode. It won't appear in production. 
       ...props
     });
     FillComponent.displayName = `${baseName}Fill`;
-    const SlotComponent = (0, import_element48.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Slot3, {
+    const SlotComponent = (0, import_element49.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Slot3, {
       name: key,
       ref,
       ...props
@@ -28611,8 +28901,8 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/popover/context.mjs
-  var import_element49 = __toESM(require_element(), 1);
-  var slotNameContext = (0, import_element49.createContext)(void 0);
+  var import_element50 = __toESM(require_element(), 1);
+  var slotNameContext = (0, import_element50.createContext)(void 0);
   slotNameContext.displayName = "__unstableSlotNameContext";
 
   // packages/components/build-module/popover/index.mjs
@@ -28711,9 +29001,9 @@ This message will only show in development mode. It won't appear in production. 
         alternative: "`variant` prop with the `'toolbar'` value"
       });
     }
-    const arrowRef = (0, import_element50.useRef)(null);
-    const [fallbackReferenceElement, setFallbackReferenceElement] = (0, import_element50.useState)(null);
-    const anchorRefFallback = (0, import_element50.useCallback)((node2) => {
+    const arrowRef = (0, import_element51.useRef)(null);
+    const [fallbackReferenceElement, setFallbackReferenceElement] = (0, import_element51.useState)(null);
+    const anchorRefFallback = (0, import_element51.useCallback)((node2) => {
       setFallbackReferenceElement(node2);
     }, []);
     const isMobileViewport = (0, import_compose16.useViewportMatch)("medium", "<");
@@ -28742,7 +29032,7 @@ This message will only show in development mode. It won't appear in production. 
     }), arrow3({
       element: arrowRef
     })];
-    const slotName = (0, import_element50.useContext)(slotNameContext) || __unstableSlotName;
+    const slotName = (0, import_element51.useContext)(slotNameContext) || __unstableSlotName;
     const slot = useSlot(slotName);
     let onDialogClose;
     if (onClose || onFocusOutside) {
@@ -28794,7 +29084,7 @@ This message will only show in development mode. It won't appear in production. 
         animationFrame: true
       })
     });
-    const arrowCallbackRef = (0, import_element50.useCallback)((node2) => {
+    const arrowCallbackRef = (0, import_element51.useCallback)((node2) => {
       arrowRef.current = node2;
       update();
     }, [update]);
@@ -28802,7 +29092,7 @@ This message will only show in development mode. It won't appear in production. 
     const anchorRefBottom = anchorRef?.bottom;
     const anchorRefStartContainer = anchorRef?.startContainer;
     const anchorRefCurrent = anchorRef?.current;
-    (0, import_element50.useLayoutEffect)(() => {
+    (0, import_element51.useLayoutEffect)(() => {
       const resultingReferenceElement = getReferenceElement({
         anchor,
         anchorRef,
@@ -28827,11 +29117,11 @@ This message will only show in development mode. It won't appear in production. 
     };
     const shouldReduceMotion = (0, import_compose16.useReducedMotion)();
     const shouldAnimate = animate && !isExpanded && !shouldReduceMotion;
-    const [animationFinished, setAnimationFinished] = (0, import_element50.useState)(false);
+    const [animationFinished, setAnimationFinished] = (0, import_element51.useState)(false);
     const {
       style: motionInlineStyles,
       ...otherMotionProps
-    } = (0, import_element50.useMemo)(() => placementToMotionAnimationProps(computedPlacement), [computedPlacement]);
+    } = (0, import_element51.useMemo)(() => placementToMotionAnimationProps(computedPlacement), [computedPlacement]);
     const animationProps = shouldAnimate ? {
       style: {
         ...contentStyle,
@@ -28893,7 +29183,7 @@ This message will only show in development mode. It won't appear in production. 
         children: content
       });
     } else if (!inline3) {
-      content = (0, import_element50.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime109.jsx)(StyleProvider, {
+      content = (0, import_element51.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime109.jsx)(StyleProvider, {
         document,
         children: content
       }), getPopoverFallbackContainer());
@@ -28907,7 +29197,7 @@ This message will only show in development mode. It won't appear in production. 
       }), content]
     });
   };
-  var PopoverSlot = (0, import_element50.forwardRef)(({
+  var PopoverSlot = (0, import_element51.forwardRef)(({
     name = SLOT_NAME
   }, ref) => {
     return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Slot3, {
@@ -28984,8 +29274,8 @@ This message will only show in development mode. It won't appear in production. 
     const popoverAnchor = (0, import_rich_text.useAnchor)({
       editableContentElement: contentRef.current
     });
-    const [needsA11yCompat, setNeedsA11yCompat] = (0, import_element51.useState)(false);
-    const popoverRef = (0, import_element51.useRef)(null);
+    const [needsA11yCompat, setNeedsA11yCompat] = (0, import_element52.useState)(false);
+    const popoverRef = (0, import_element52.useRef)(null);
     const popoverRefs = (0, import_compose17.useMergeRefs)([popoverRef, (0, import_compose17.useRefEffect)((node2) => {
       if (!contentRef.current) {
         return;
@@ -29016,7 +29306,7 @@ This message will only show in development mode. It won't appear in production. 
         debouncedSpeak((0, import_i18n8.__)("No results."), "assertive");
       }
     }
-    (0, import_element51.useLayoutEffect)(() => {
+    (0, import_element52.useLayoutEffect)(() => {
       onChangeOptions(items);
       announce(items);
     }, [items]);
@@ -29051,7 +29341,7 @@ This message will only show in development mode. It won't appear in production. 
     });
   }
   function useOnClickOutside(ref, handler) {
-    (0, import_element51.useEffect)(() => {
+    (0, import_element52.useEffect)(() => {
       const listener = (event) => {
         if (!ref.current || ref.current.contains(event.target)) {
           return;
@@ -29203,16 +29493,16 @@ This message will only show in development mode. It won't appear in production. 
     contentRef
   }) {
     const instanceId = (0, import_compose18.useInstanceId)(AUTOCOMPLETE_HOOK_REFERENCE);
-    const [state, dispatch] = (0, import_element52.useReducer)(autocompleteReducer, initialState);
+    const [state, dispatch] = (0, import_element53.useReducer)(autocompleteReducer, initialState);
     const {
       selectedIndex,
       filteredOptions,
       filterValue,
       autocompleter
     } = state;
-    const backspacingRef = (0, import_element52.useRef)(false);
-    const prevRecordTextRef = (0, import_element52.useRef)("");
-    const lastCompletionRef = (0, import_element52.useRef)(null);
+    const backspacingRef = (0, import_element53.useRef)(false);
+    const prevRecordTextRef = (0, import_element53.useRef)("");
+    const lastCompletionRef = (0, import_element53.useRef)(null);
     function insertCompletion(replacement) {
       if (autocompleter === null) {
         return "";
@@ -29220,7 +29510,7 @@ This message will only show in development mode. It won't appear in production. 
       const end = record.start;
       const start = end - autocompleter.triggerPrefix.length - filterValue.length;
       const toInsert = (0, import_rich_text2.create)({
-        html: (0, import_element52.renderToString)(replacement)
+        html: (0, import_element53.renderToString)(replacement)
       });
       onChange((0, import_rich_text2.insert)(record, toInsert, start, end));
       return (0, import_rich_text2.getTextContent)(toInsert);
@@ -29312,13 +29602,13 @@ This message will only show in development mode. It won't appear in production. 
       }
       event.preventDefault();
     }
-    const textContent = (0, import_element52.useMemo)(() => {
+    const textContent = (0, import_element53.useMemo)(() => {
       if ((0, import_rich_text2.isCollapsed)(record)) {
         return (0, import_rich_text2.getTextContent)((0, import_rich_text2.slice)(record, 0));
       }
       return "";
     }, [record]);
-    (0, import_element52.useEffect)(() => {
+    (0, import_element53.useEffect)(() => {
       const isTextChange = record.text !== prevRecordTextRef.current;
       prevRecordTextRef.current = record.text;
       function getTextAfterSelection() {
@@ -29389,7 +29679,7 @@ This message will only show in development mode. It won't appear in production. 
     return a3.text === b3.text && a3.start === b3.start && a3.end === b3.end;
   }
   function useLastDifferentValue(value) {
-    const history = (0, import_element52.useRef)([]);
+    const history = (0, import_element53.useRef)([]);
     const lastEntry = history.current[history.current.length - 1];
     if (!lastEntry || !recordValuesMatch(value, lastEntry)) {
       history.current.push(value);
@@ -29400,8 +29690,8 @@ This message will only show in development mode. It won't appear in production. 
     return history.current[0];
   }
   function useAutocompleteProps(options2) {
-    const ref = (0, import_element52.useRef)(null);
-    const onKeyDownRef = (0, import_element52.useRef)(void 0);
+    const ref = (0, import_element53.useRef)(null);
+    const onKeyDownRef = (0, import_element53.useRef)(void 0);
     const {
       record
     } = options2;
@@ -29455,14 +29745,14 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/border-box-control/border-box-control/component.mjs
   var import_i18n26 = __toESM(require_i18n(), 1);
-  var import_element89 = __toESM(require_element(), 1);
+  var import_element90 = __toESM(require_element(), 1);
   var import_compose36 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/border-box-control/border-box-control-linked-button/component.mjs
   var import_i18n9 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/border-box-control/border-box-control-linked-button/hook.mjs
-  var import_element53 = __toESM(require_element(), 1);
+  var import_element54 = __toESM(require_element(), 1);
 
   // packages/components/build-module/border-box-control/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__9() {
@@ -29524,7 +29814,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "BorderBoxControlLinkedButton");
     const cx3 = useCx();
-    const classes = (0, import_element53.useMemo)(() => {
+    const classes = (0, import_element54.useMemo)(() => {
       return cx3(borderBoxControlLinkedButton(size3), className2);
     }, [className2, cx3, size3]);
     return {
@@ -29557,11 +29847,11 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/border-box-control/border-box-control-split-controls/component.mjs
   var import_i18n25 = __toESM(require_i18n(), 1);
-  var import_element87 = __toESM(require_element(), 1);
+  var import_element88 = __toESM(require_element(), 1);
   var import_compose35 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/border-box-control/border-box-control-visualizer/hook.mjs
-  var import_element54 = __toESM(require_element(), 1);
+  var import_element55 = __toESM(require_element(), 1);
   function useBorderBoxControlVisualizer(props) {
     const {
       className: className2,
@@ -29570,7 +29860,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "BorderBoxControlVisualizer");
     const cx3 = useCx();
-    const classes = (0, import_element54.useMemo)(() => {
+    const classes = (0, import_element55.useMemo)(() => {
       return cx3(borderBoxControlVisualizer(value, size3), className2);
     }, [cx3, className2, value, size3]);
     return {
@@ -29605,7 +29895,7 @@ This message will only show in development mode. It won't appear in production. 
   var import_i18n11 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/component.mjs
-  var import_element62 = __toESM(require_element(), 1);
+  var import_element63 = __toESM(require_element(), 1);
   var import_compose25 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/styles.mjs
@@ -29655,30 +29945,30 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/as-radio-group.mjs
   var import_compose20 = __toESM(require_compose(), 1);
-  var import_element57 = __toESM(require_element(), 1);
+  var import_element58 = __toESM(require_element(), 1);
   var import_i18n10 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/toggle-group-control/context.mjs
-  var import_element55 = __toESM(require_element(), 1);
-  var ToggleGroupControlContext = (0, import_element55.createContext)({});
+  var import_element56 = __toESM(require_element(), 1);
+  var ToggleGroupControlContext = (0, import_element56.createContext)({});
   ToggleGroupControlContext.displayName = "ToggleGroupControlContext";
-  var useToggleGroupControlContext = () => (0, import_element55.useContext)(ToggleGroupControlContext);
+  var useToggleGroupControlContext = () => (0, import_element56.useContext)(ToggleGroupControlContext);
   var context_default2 = ToggleGroupControlContext;
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/utils.mjs
   var import_compose19 = __toESM(require_compose(), 1);
-  var import_element56 = __toESM(require_element(), 1);
+  var import_element57 = __toESM(require_element(), 1);
   function useComputeControlledOrUncontrolledValue(valueProp) {
-    const isInitialRenderRef = (0, import_element56.useRef)(true);
+    const isInitialRenderRef = (0, import_element57.useRef)(true);
     const prevValueProp = (0, import_compose19.usePrevious)(valueProp);
-    const prevIsControlledRef = (0, import_element56.useRef)(false);
-    (0, import_element56.useEffect)(() => {
+    const prevIsControlledRef = (0, import_element57.useRef)(false);
+    (0, import_element57.useEffect)(() => {
       if (isInitialRenderRef.current) {
         isInitialRenderRef.current = false;
       }
     }, []);
     const isControlled = prevIsControlledRef.current || !isInitialRenderRef.current && prevValueProp !== valueProp;
-    (0, import_element56.useEffect)(() => {
+    (0, import_element57.useEffect)(() => {
       prevIsControlledRef.current = isControlled;
     }, [isControlled]);
     if (isControlled) {
@@ -29723,12 +30013,12 @@ This message will only show in development mode. It won't appear in production. 
     });
     const selectedValue = useStoreState(radio, "value");
     const setValue = radio.setValue;
-    (0, import_element57.useEffect)(() => {
+    (0, import_element58.useEffect)(() => {
       if (selectedValue === "") {
         radio.setActiveId(void 0);
       }
     }, [radio, selectedValue]);
-    const groupContextValue = (0, import_element57.useMemo)(() => ({
+    const groupContextValue = (0, import_element58.useMemo)(() => ({
       activeItemIsNotFirstItem: () => radio.getState().activeId !== radio.first(),
       baseId,
       isBlock: !isAdaptiveWidth,
@@ -29752,12 +30042,12 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var ToggleGroupControlAsRadioGroup = (0, import_element57.forwardRef)(UnforwardedToggleGroupControlAsRadioGroup);
+  var ToggleGroupControlAsRadioGroup = (0, import_element58.forwardRef)(UnforwardedToggleGroupControlAsRadioGroup);
   ToggleGroupControlAsRadioGroup.displayName = "ToggleGroupControlAsRadioGroup";
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/as-button-group.mjs
   var import_compose21 = __toESM(require_compose(), 1);
-  var import_element58 = __toESM(require_element(), 1);
+  var import_element59 = __toESM(require_element(), 1);
   var import_jsx_runtime115 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToggleGroupControlAsButtonGroup({
     children,
@@ -29781,7 +30071,7 @@ This message will only show in development mode. It won't appear in production. 
       value,
       onChange
     });
-    const groupContextValue = (0, import_element58.useMemo)(() => ({
+    const groupContextValue = (0, import_element59.useMemo)(() => ({
       baseId,
       value: selectedValue,
       setValue: setSelectedValue,
@@ -29802,11 +30092,11 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var ToggleGroupControlAsButtonGroup = (0, import_element58.forwardRef)(UnforwardedToggleGroupControlAsButtonGroup);
+  var ToggleGroupControlAsButtonGroup = (0, import_element59.forwardRef)(UnforwardedToggleGroupControlAsButtonGroup);
   ToggleGroupControlAsButtonGroup.displayName = "ToggleGroupControlAsButtonGroup";
 
   // packages/components/build-module/utils/element-rect.mjs
-  var import_element59 = __toESM(require_element(), 1);
+  var import_element60 = __toESM(require_element(), 1);
   var import_compose22 = __toESM(require_compose(), 1);
   var NULL_ELEMENT_OFFSET_RECT = {
     element: void 0,
@@ -29847,8 +30137,8 @@ This message will only show in development mode. It won't appear in production. 
   }
   var POLL_RATE = 100;
   function useTrackElementOffsetRect(targetElement, deps = []) {
-    const [indicatorPosition, setIndicatorPosition] = (0, import_element59.useState)(NULL_ELEMENT_OFFSET_RECT);
-    const intervalRef = (0, import_element59.useRef)(void 0);
+    const [indicatorPosition, setIndicatorPosition] = (0, import_element60.useState)(NULL_ELEMENT_OFFSET_RECT);
+    const intervalRef = (0, import_element60.useRef)(void 0);
     const measure = (0, import_compose22.useEvent)(() => {
       if (targetElement && targetElement.isConnected) {
         const elementOffsetRect = getElementOffsetRect(targetElement);
@@ -29871,13 +30161,13 @@ This message will only show in development mode. It won't appear in production. 
         });
       }
     });
-    (0, import_element59.useLayoutEffect)(() => {
+    (0, import_element60.useLayoutEffect)(() => {
       setElement(targetElement);
       if (!targetElement) {
         setIndicatorPosition(NULL_ELEMENT_OFFSET_RECT);
       }
     }, [setElement, targetElement]);
-    (0, import_element59.useLayoutEffect)(() => {
+    (0, import_element60.useLayoutEffect)(() => {
       measure();
     }, deps);
     return indicatorPosition;
@@ -29885,15 +30175,15 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/utils/hooks/use-animated-offset-rect.mjs
   var import_compose24 = __toESM(require_compose(), 1);
-  var import_element61 = __toESM(require_element(), 1);
+  var import_element62 = __toESM(require_element(), 1);
 
   // packages/components/build-module/utils/hooks/use-on-value-update.mjs
   var import_compose23 = __toESM(require_compose(), 1);
-  var import_element60 = __toESM(require_element(), 1);
+  var import_element61 = __toESM(require_element(), 1);
   function useOnValueUpdate(value, onUpdate) {
-    const previousValueRef = (0, import_element60.useRef)(value);
+    const previousValueRef = (0, import_element61.useRef)(value);
     const updateCallbackEvent = (0, import_compose23.useEvent)(onUpdate);
-    (0, import_element60.useLayoutEffect)(() => {
+    (0, import_element61.useLayoutEffect)(() => {
       if (previousValueRef.current !== value) {
         updateCallbackEvent({
           previousValue: previousValueRef.current
@@ -29913,7 +30203,7 @@ This message will only show in development mode. It won't appear in production. 
     const setProperties = (0, import_compose24.useEvent)(() => {
       Object.keys(rect).forEach((property) => property !== "element" && container?.style.setProperty(`--${prefix2}-${property}`, String(roundRect ? Math.floor(rect[property]) : rect[property])));
     });
-    (0, import_element61.useLayoutEffect)(() => {
+    (0, import_element62.useLayoutEffect)(() => {
       setProperties();
     }, [rect, setProperties]);
     useOnValueUpdate(rect.element, ({
@@ -29923,7 +30213,7 @@ This message will only show in development mode. It won't appear in production. 
         container?.setAttribute(`data-${dataAttribute}`, "");
       }
     });
-    (0, import_element61.useLayoutEffect)(() => {
+    (0, import_element62.useLayoutEffect)(() => {
       function onTransitionEnd(event) {
         if (transitionEndFilter(event)) {
           container?.removeAttribute(`data-${dataAttribute}`);
@@ -29966,8 +30256,8 @@ This message will only show in development mode. It won't appear in production. 
       hideLabelFromVision
     });
     const normalizedSize = __next40pxDefaultSize && size3 === "default" ? "__unstable-large" : size3;
-    const [selectedElement, setSelectedElement] = (0, import_element62.useState)();
-    const [controlElement, setControlElement] = (0, import_element62.useState)();
+    const [selectedElement, setSelectedElement] = (0, import_element63.useState)();
+    const [controlElement, setControlElement] = (0, import_element63.useState)();
     const refs = (0, import_compose25.useMergeRefs)([setControlElement, forwardedRef]);
     const selectedRect = useTrackElementOffsetRect(value !== null && value !== void 0 ? selectedElement : void 0);
     useAnimatedOffsetRect(controlElement, selectedRect, {
@@ -29977,7 +30267,7 @@ This message will only show in development mode. It won't appear in production. 
       roundRect: false
     });
     const cx3 = useCx();
-    const classes = (0, import_element62.useMemo)(() => cx3(toggleGroupControl({
+    const classes = (0, import_element63.useMemo)(() => cx3(toggleGroupControl({
       isBlock,
       isDeselectable,
       size: normalizedSize
@@ -30010,11 +30300,11 @@ This message will only show in development mode. It won't appear in production. 
   var component_default12 = ToggleGroupControl;
 
   // packages/components/build-module/toggle-group-control/toggle-group-control-option/component.mjs
-  var import_element64 = __toESM(require_element(), 1);
+  var import_element65 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toggle-group-control/toggle-group-control-option-base/component.mjs
   var import_compose26 = __toESM(require_compose(), 1);
-  var import_element63 = __toESM(require_element(), 1);
+  var import_element64 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toggle-group-control/toggle-group-control-option-base/styles.mjs
   var styles_exports6 = {};
@@ -30119,8 +30409,8 @@ This message will only show in development mode. It won't appear in production. 
     } = buttonProps;
     const isPressed = toggleGroupControlContext.value === value;
     const cx3 = useCx();
-    const labelViewClasses = (0, import_element63.useMemo)(() => cx3(isBlock && labelBlock), [cx3, isBlock]);
-    const itemClasses = (0, import_element63.useMemo)(() => cx3(buttonView({
+    const labelViewClasses = (0, import_element64.useMemo)(() => cx3(isBlock && labelBlock), [cx3, isBlock]);
+    const itemClasses = (0, import_element64.useMemo)(() => cx3(buttonView({
       isDeselectable,
       isIcon,
       isPressed,
@@ -30139,8 +30429,8 @@ This message will only show in development mode. It won't appear in production. 
       "data-value": value,
       ref: forwardedRef
     };
-    const labelRef = (0, import_element63.useRef)(null);
-    (0, import_element63.useLayoutEffect)(() => {
+    const labelRef = (0, import_element64.useRef)(null);
+    (0, import_element64.useLayoutEffect)(() => {
       if (isPressed && labelRef.current) {
         toggleGroupControlContext.setSelectedElement(labelRef.current);
       }
@@ -30198,12 +30488,12 @@ This message will only show in development mode. It won't appear in production. 
       children: label
     });
   }
-  var ToggleGroupControlOption = (0, import_element64.forwardRef)(UnforwardedToggleGroupControlOption);
+  var ToggleGroupControlOption = (0, import_element65.forwardRef)(UnforwardedToggleGroupControlOption);
   ToggleGroupControlOption.displayName = "ToggleGroupControlOption";
   var component_default14 = ToggleGroupControlOption;
 
   // packages/components/build-module/toggle-group-control/toggle-group-control-option-icon/component.mjs
-  var import_element65 = __toESM(require_element(), 1);
+  var import_element66 = __toESM(require_element(), 1);
   var import_jsx_runtime119 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToggleGroupControlOptionIcon(props, ref) {
     const {
@@ -30222,7 +30512,7 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var ToggleGroupControlOptionIcon = (0, import_element65.forwardRef)(UnforwardedToggleGroupControlOptionIcon);
+  var ToggleGroupControlOptionIcon = (0, import_element66.forwardRef)(UnforwardedToggleGroupControlOptionIcon);
   ToggleGroupControlOptionIcon.displayName = "ToggleGroupControlOptionIcon";
   var component_default15 = ToggleGroupControlOptionIcon;
 
@@ -30264,7 +30554,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default16 = BorderControlStylePicker;
 
   // packages/components/build-module/color-indicator/index.mjs
-  var import_element66 = __toESM(require_element(), 1);
+  var import_element67 = __toESM(require_element(), 1);
   var import_jsx_runtime121 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedColorIndicator(props, forwardedRef) {
     const {
@@ -30281,7 +30571,7 @@ This message will only show in development mode. It won't appear in production. 
       ...additionalProps
     });
   }
-  var ColorIndicator = (0, import_element66.forwardRef)(UnforwardedColorIndicator);
+  var ColorIndicator = (0, import_element67.forwardRef)(UnforwardedColorIndicator);
   ColorIndicator.displayName = "ColorIndicator";
   var color_indicator_default = ColorIndicator;
 
@@ -30310,10 +30600,10 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/color-palette/index.mjs
   var import_compose34 = __toESM(require_compose(), 1);
   var import_i18n20 = __toESM(require_i18n(), 1);
-  var import_element79 = __toESM(require_element(), 1);
+  var import_element80 = __toESM(require_element(), 1);
 
   // packages/components/build-module/dropdown/index.mjs
-  var import_element67 = __toESM(require_element(), 1);
+  var import_element68 = __toESM(require_element(), 1);
   var import_compose27 = __toESM(require_compose(), 1);
   var import_deprecated7 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime122 = __toESM(require_jsx_runtime(), 1);
@@ -30344,8 +30634,8 @@ This message will only show in development mode. It won't appear in production. 
         hint: "Note that the `position` prop will override any values passed through the `popoverProps.placement` prop."
       });
     }
-    const [fallbackPopoverAnchor, setFallbackPopoverAnchor] = (0, import_element67.useState)(null);
-    const containerRef = (0, import_element67.useRef)(null);
+    const [fallbackPopoverAnchor, setFallbackPopoverAnchor] = (0, import_element68.useState)(null);
+    const containerRef = (0, import_element68.useRef)(null);
     const [isOpen, setIsOpen] = useControlledValue({
       defaultValue: defaultOpen,
       value: open,
@@ -30400,13 +30690,13 @@ This message will only show in development mode. It won't appear in production. 
   var dropdown_default = Dropdown;
 
   // packages/components/build-module/color-picker/component.mjs
-  var import_element74 = __toESM(require_element(), 1);
+  var import_element75 = __toESM(require_element(), 1);
   var import_compose31 = __toESM(require_compose(), 1);
   var import_i18n16 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/select-control/index.mjs
   var import_compose28 = __toESM(require_compose(), 1);
-  var import_element68 = __toESM(require_element(), 1);
+  var import_element69 = __toESM(require_element(), 1);
 
   // packages/components/build-module/select-control/styles/select-control-styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__12() {
@@ -30679,17 +30969,17 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var SelectControl = (0, import_element68.forwardRef)(UnforwardedSelectControl);
+  var SelectControl = (0, import_element69.forwardRef)(UnforwardedSelectControl);
   SelectControl.displayName = "SelectControl";
   var select_control_default = SelectControl;
 
   // packages/components/build-module/range-control/index.mjs
   var import_i18n13 = __toESM(require_i18n(), 1);
-  var import_element72 = __toESM(require_element(), 1);
+  var import_element73 = __toESM(require_element(), 1);
   var import_compose29 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/range-control/utils.mjs
-  var import_element69 = __toESM(require_element(), 1);
+  var import_element70 = __toESM(require_element(), 1);
   function floatClamp(value, min3, max3) {
     if (typeof value !== "number") {
       return null;
@@ -30707,7 +30997,7 @@ This message will only show in development mode. It won't appear in production. 
       initial: floatClamp(initial ?? null, min3, max3),
       fallback: null
     });
-    const setState = (0, import_element69.useCallback)((nextValue) => {
+    const setState = (0, import_element70.useCallback)((nextValue) => {
       if (nextValue === null) {
         setInternalState(null);
       } else {
@@ -30718,7 +31008,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/range-control/input-range.mjs
-  var import_element70 = __toESM(require_element(), 1);
+  var import_element71 = __toESM(require_element(), 1);
 
   // packages/components/build-module/range-control/styles/range-control-styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__13() {
@@ -30944,7 +31234,7 @@ This message will only show in development mode. It won't appear in production. 
       value
     });
   }
-  var ForwardedComponent2 = (0, import_element70.forwardRef)(InputRange2);
+  var ForwardedComponent2 = (0, import_element71.forwardRef)(InputRange2);
   var input_range_default = ForwardedComponent2;
 
   // packages/components/build-module/range-control/rail.mjs
@@ -31074,7 +31364,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/range-control/tooltip.mjs
-  var import_element71 = __toESM(require_element(), 1);
+  var import_element72 = __toESM(require_element(), 1);
   var import_jsx_runtime128 = __toESM(require_jsx_runtime(), 1);
   function SimpleTooltip(props) {
     const {
@@ -31112,16 +31402,16 @@ This message will only show in development mode. It won't appear in production. 
     inputRef,
     tooltipPlacement: tooltipPlacement2
   }) {
-    const [placement, setPlacement] = (0, import_element71.useState)();
-    const setTooltipPlacement = (0, import_element71.useCallback)(() => {
+    const [placement, setPlacement] = (0, import_element72.useState)();
+    const setTooltipPlacement = (0, import_element72.useCallback)(() => {
       if (inputRef && inputRef.current) {
         setPlacement(tooltipPlacement2);
       }
     }, [tooltipPlacement2, inputRef]);
-    (0, import_element71.useEffect)(() => {
+    (0, import_element72.useEffect)(() => {
       setTooltipPlacement();
     }, [setTooltipPlacement]);
-    (0, import_element71.useEffect)(() => {
+    (0, import_element72.useEffect)(() => {
       window.addEventListener("resize", setTooltipPlacement);
       return () => {
         window.removeEventListener("resize", setTooltipPlacement);
@@ -31189,16 +31479,16 @@ This message will only show in development mode. It won't appear in production. 
       value: valueProp ?? null,
       initial: initialPosition
     });
-    const isResetPendent = (0, import_element72.useRef)(false);
+    const isResetPendent = (0, import_element73.useRef)(false);
     let hasTooltip = showTooltipProp;
     let hasInputField = withInputField;
     if (step === "any") {
       hasTooltip = false;
       hasInputField = false;
     }
-    const [showTooltip, setShowTooltip] = (0, import_element72.useState)(hasTooltip);
-    const [isFocused, setIsFocused] = (0, import_element72.useState)(false);
-    const inputRef = (0, import_element72.useRef)(null);
+    const [showTooltip, setShowTooltip] = (0, import_element73.useState)(hasTooltip);
+    const [isFocused, setIsFocused] = (0, import_element73.useState)(false);
+    const inputRef = (0, import_element73.useRef)(null);
     const isCurrentlyFocused = inputRef.current?.matches(":focus");
     const isThumbFocused = !disabled && isFocused;
     const isValueReset = value === null;
@@ -31368,7 +31658,7 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var RangeControl = (0, import_element72.forwardRef)(UnforwardedRangeControl);
+  var RangeControl = (0, import_element73.forwardRef)(UnforwardedRangeControl);
   RangeControl.displayName = "RangeControl";
   var range_control_default = RangeControl;
 
@@ -31423,7 +31713,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/color-picker/color-copy-button.mjs
   var import_compose30 = __toESM(require_compose(), 1);
-  var import_element73 = __toESM(require_element(), 1);
+  var import_element74 = __toESM(require_element(), 1);
   var import_i18n14 = __toESM(require_i18n(), 1);
   var import_jsx_runtime130 = __toESM(require_jsx_runtime(), 1);
   var ColorCopyButton = (props) => {
@@ -31431,8 +31721,8 @@ This message will only show in development mode. It won't appear in production. 
       color: color2,
       colorType
     } = props;
-    const [copiedColor, setCopiedColor] = (0, import_element73.useState)(null);
-    const copyTimerRef = (0, import_element73.useRef)(void 0);
+    const [copiedColor, setCopiedColor] = (0, import_element74.useState)(null);
+    const copyTimerRef = (0, import_element74.useRef)(void 0);
     const copyRef = (0, import_compose30.useCopyToClipboard)(() => {
       switch (colorType) {
         case "hsl": {
@@ -31456,7 +31746,7 @@ This message will only show in development mode. It won't appear in production. 
         copyTimerRef.current = void 0;
       }, 3e3);
     });
-    (0, import_element73.useEffect)(() => {
+    (0, import_element74.useEffect)(() => {
       return () => {
         if (copyTimerRef.current) {
           clearTimeout(copyTimerRef.current);
@@ -31668,7 +31958,7 @@ This message will only show in development mode. It won't appear in production. 
     enableAlpha
   }) => {
     const handleChange = (nextValue) => {
-      if (!nextValue) {
+      if (nextValue === void 0) {
         return;
       }
       const hexValue = nextValue.startsWith("#") ? nextValue : "#" + nextValue;
@@ -32015,15 +32305,15 @@ This message will only show in development mode. It won't appear in production. 
       value: colorProp,
       defaultValue: defaultValue2
     });
-    const safeColordColor = (0, import_element74.useMemo)(() => {
+    const safeColordColor = (0, import_element75.useMemo)(() => {
       return w(color2 || "");
     }, [color2]);
     const debouncedSetColor = (0, import_compose31.useDebounce)(setColor);
-    const [internalHSLA, setInternalHSLA] = (0, import_element74.useState)(() => ({
+    const [internalHSLA, setInternalHSLA] = (0, import_element75.useState)(() => ({
       ...safeColordColor.toHsl()
     }));
-    const lastProducedHexRef = (0, import_element74.useRef)(safeColordColor.toHex());
-    (0, import_element74.useEffect)(() => {
+    const lastProducedHexRef = (0, import_element75.useRef)(safeColordColor.toHex());
+    (0, import_element75.useEffect)(() => {
       const incomingHex = safeColordColor.toHex();
       if (incomingHex === lastProducedHexRef.current) {
         return;
@@ -32032,7 +32322,7 @@ This message will only show in development mode. It won't appear in production. 
       const externalHSLA = safeColordColor.toHsl();
       setInternalHSLA((prev2) => mergeHSLA(externalHSLA, prev2));
     }, [safeColordColor]);
-    const handleHSLAChange = (0, import_element74.useCallback)((nextHSLA) => {
+    const handleHSLAChange = (0, import_element75.useCallback)((nextHSLA) => {
       setInternalHSLA(nextHSLA);
       const previousHex = lastProducedHexRef.current;
       const nextHex = w(nextHSLA).toHex();
@@ -32041,15 +32331,15 @@ This message will only show in development mode. It won't appear in production. 
         setColor(nextHex);
       }
     }, [setColor]);
-    const handleChange = (0, import_element74.useCallback)((nextValue) => {
+    const handleChange = (0, import_element75.useCallback)((nextValue) => {
       const nextHSLA = nextValue.toHsl();
       setInternalHSLA((prev2) => mergeHSLA(nextHSLA, prev2));
       const nextHex = nextValue.toHex();
       lastProducedHexRef.current = nextHex;
       debouncedSetColor(nextHex);
     }, [debouncedSetColor]);
-    const [colorType, setColorType] = (0, import_element74.useState)(copyFormat || "hex");
-    const maybeHandlePaste = (0, import_element74.useCallback)((event) => {
+    const [colorType, setColorType] = (0, import_element75.useState)(copyFormat || "hex");
+    const maybeHandlePaste = (0, import_element75.useCallback)((event) => {
       const pastedText = event.clipboardData?.getData("text")?.trim();
       if (!pastedText) {
         return;
@@ -32114,7 +32404,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default17 = ColorPicker;
 
   // packages/components/build-module/color-picker/use-deprecated-props.mjs
-  var import_element75 = __toESM(require_element(), 1);
+  var import_element76 = __toESM(require_element(), 1);
   function isLegacyProps(props) {
     return typeof props.onChangeComplete !== "undefined" || typeof props.disableAlpha !== "undefined" || typeof props.color?.hex === "string";
   }
@@ -32149,7 +32439,7 @@ This message will only show in development mode. It won't appear in production. 
     const {
       onChangeComplete
     } = props;
-    const legacyChangeHandler = (0, import_element75.useCallback)((color2) => {
+    const legacyChangeHandler = (0, import_element76.useCallback)((color2) => {
       onChangeComplete(transformColorStringToLegacyColor(color2));
     }, [onChangeComplete]);
     if (isLegacyProps(props)) {
@@ -32178,16 +32468,16 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/circular-option-picker/circular-option-picker.mjs
   var import_compose33 = __toESM(require_compose(), 1);
   var import_i18n17 = __toESM(require_i18n(), 1);
-  var import_element78 = __toESM(require_element(), 1);
+  var import_element79 = __toESM(require_element(), 1);
 
   // packages/components/build-module/circular-option-picker/circular-option-picker-context.mjs
-  var import_element76 = __toESM(require_element(), 1);
-  var CircularOptionPickerContext = (0, import_element76.createContext)({});
+  var import_element77 = __toESM(require_element(), 1);
+  var CircularOptionPickerContext = (0, import_element77.createContext)({});
   CircularOptionPickerContext.displayName = "CircularOptionPickerContext";
 
   // packages/components/build-module/circular-option-picker/circular-option-picker-option.mjs
   var import_compose32 = __toESM(require_compose(), 1);
-  var import_element77 = __toESM(require_element(), 1);
+  var import_element78 = __toESM(require_element(), 1);
   var import_jsx_runtime139 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedOptionAsButton(props, forwardedRef) {
     const {
@@ -32203,7 +32493,7 @@ This message will only show in development mode. It won't appear in production. 
       label
     });
   }
-  var OptionAsButton = (0, import_element77.forwardRef)(UnforwardedOptionAsButton);
+  var OptionAsButton = (0, import_element78.forwardRef)(UnforwardedOptionAsButton);
   function UnforwardedOptionAsOption(props, forwardedRef) {
     const {
       id: id3,
@@ -32214,8 +32504,8 @@ This message will only show in development mode. It won't appear in production. 
     const {
       setActiveId,
       activeId
-    } = (0, import_element77.useContext)(CircularOptionPickerContext);
-    (0, import_element77.useEffect)(() => {
+    } = (0, import_element78.useContext)(CircularOptionPickerContext);
+    (0, import_element78.useEffect)(() => {
       if (isSelected2 && !activeId) {
         window.setTimeout(() => setActiveId?.(id3), 0);
       }
@@ -32232,7 +32522,7 @@ This message will only show in development mode. It won't appear in production. 
       id: id3
     });
   }
-  var OptionAsOption = (0, import_element77.forwardRef)(UnforwardedOptionAsOption);
+  var OptionAsOption = (0, import_element78.forwardRef)(UnforwardedOptionAsOption);
   function Option({
     className: className2,
     isSelected: isSelected2,
@@ -32243,7 +32533,7 @@ This message will only show in development mode. It won't appear in production. 
     const {
       baseId,
       setActiveId
-    } = (0, import_element77.useContext)(CircularOptionPickerContext);
+    } = (0, import_element78.useContext)(CircularOptionPickerContext);
     const id3 = (0, import_compose32.useInstanceId)(Option, baseId || "components-circular-option-picker__option");
     const commonProps = {
       id: id3,
@@ -32335,8 +32625,8 @@ This message will only show in development mode. It won't appear in production. 
       children,
       ...additionalProps
     } = props;
-    const [activeId, setActiveId] = (0, import_element78.useState)(void 0);
-    const contextValue = (0, import_element78.useMemo)(() => ({
+    const [activeId, setActiveId] = (0, import_element79.useState)(void 0);
+    const contextValue = (0, import_element79.useMemo)(() => ({
       baseId,
       activeId,
       setActiveId
@@ -32366,7 +32656,7 @@ This message will only show in development mode. It won't appear in production. 
       baseId,
       ...additionalProps
     } = props;
-    const contextValue = (0, import_element78.useMemo)(() => ({
+    const contextValue = (0, import_element79.useMemo)(() => ({
       baseId
     }), [baseId]);
     return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)("div", {
@@ -32558,7 +32848,7 @@ This message will only show in development mode. It won't appear in production. 
     const valueIsColorMix = /color-mix\(/.test(value ?? "");
     return !valueIsCssVariable && !valueIsColorMix;
   };
-  var extractColorNameFromCurrentValue = (currentValue, colors = [], showMultiplePalettes = false) => {
+  var extractColorNameFromCurrentValue = (currentValue, colors = [], showMultiplePalettes = false, selectedSlug) => {
     if (!currentValue) {
       return "";
     }
@@ -32572,8 +32862,15 @@ This message will only show in development mode. It won't appear in production. 
     } of colorPalettes) {
       for (const {
         name: colorName,
-        color: colorValue
+        color: colorValue,
+        slug
       } of paletteColors) {
+        if (selectedSlug) {
+          if (slug === selectedSlug) {
+            return colorName;
+          }
+          continue;
+        }
         const normalizedColorValue = currentValueIsSimpleColor ? w(colorValue).toHex() : colorValue;
         if (normalizedCurrentValue === normalizedColorValue) {
           return colorName;
@@ -32609,15 +32906,17 @@ This message will only show in development mode. It won't appear in production. 
     colors,
     onChange,
     value,
+    selectedSlug,
     ...additionalProps
   }) {
-    const colorOptions = (0, import_element79.useMemo)(() => {
+    const colorOptions = (0, import_element80.useMemo)(() => {
       return colors.map(({
         color: color2,
-        name
+        name,
+        slug
       }, index2) => {
         const colordColor = w(color2);
-        const isSelected2 = value === color2;
+        const isSelected2 = selectedSlug ? slug === selectedSlug : value === color2;
         return /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(circular_option_picker_default2.Option, {
           isSelected: isSelected2,
           selectedIconProps: isSelected2 ? {
@@ -32629,10 +32928,10 @@ This message will only show in development mode. It won't appear in production. 
             backgroundColor: color2,
             color: color2
           },
-          onClick: isSelected2 ? clearColor : () => onChange(color2, index2)
-        }, `${color2}-${index2}`);
+          onClick: isSelected2 ? clearColor : () => onChange(color2, index2, slug)
+        }, slug ?? `${color2}-${index2}`);
       });
-    }, [colors, value, onChange, clearColor]);
+    }, [colors, value, selectedSlug, onChange, clearColor]);
     return /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(circular_option_picker_default2.OptionGroup, {
       className: className2,
       options: colorOptions,
@@ -32645,6 +32944,7 @@ This message will only show in development mode. It won't appear in production. 
     colors,
     onChange,
     value,
+    selectedSlug,
     headingLevel
   }) {
     const instanceId = (0, import_compose34.useInstanceId)(MultiplePalettes, "color-palette");
@@ -32668,8 +32968,9 @@ This message will only show in development mode. It won't appear in production. 
           }), /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(SinglePalette, {
             clearColor,
             colors: colorPalette,
-            onChange: (newColor) => onChange(newColor, index2),
+            onChange: (newColor, _colorIndex, slug) => onChange(newColor, index2, slug),
             value,
+            selectedSlug,
             "aria-labelledby": id3
           })]
         }, index2);
@@ -32681,7 +32982,7 @@ This message will only show in development mode. It won't appear in production. 
     popoverProps: receivedPopoverProps,
     ...props
   }) {
-    const popoverProps = (0, import_element79.useMemo)(() => ({
+    const popoverProps = (0, import_element80.useMemo)(() => ({
       shift: true,
       // Disabling resize as it would otherwise cause the popover to show
       // scrollbars while dragging the color picker's handle close to the
@@ -32715,19 +33016,20 @@ This message will only show in development mode. It won't appear in production. 
       enableAlpha = false,
       onChange,
       value,
+      selectedSlug,
       __experimentalIsRenderedInSidebar = false,
       headingLevel = 2,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
       ...additionalProps
     } = props;
-    const [normalizedColorValue, setNormalizedColorValue] = (0, import_element79.useState)(value);
-    const clearColor = (0, import_element79.useCallback)(() => onChange(void 0), [onChange]);
-    const customColorPaletteCallbackRef = (0, import_element79.useCallback)((node2) => {
+    const [normalizedColorValue, setNormalizedColorValue] = (0, import_element80.useState)(value);
+    const clearColor = (0, import_element80.useCallback)(() => onChange(void 0), [onChange]);
+    const customColorPaletteCallbackRef = (0, import_element80.useCallback)((node2) => {
       setNormalizedColorValue(normalizeColorValue(value, node2));
     }, [value]);
     const hasMultipleColorOrigins = isMultiplePaletteArray(colors);
-    const buttonLabelName = (0, import_element79.useMemo)(() => extractColorNameFromCurrentValue(value, colors, hasMultipleColorOrigins), [value, colors, hasMultipleColorOrigins]);
+    const buttonLabelName = (0, import_element80.useMemo)(() => extractColorNameFromCurrentValue(value, colors, hasMultipleColorOrigins, selectedSlug), [value, colors, hasMultipleColorOrigins, selectedSlug]);
     const renderCustomColorPicker = () => /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(dropdown_content_wrapper_default, {
       paddingSize: "none",
       children: /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(LegacyAdapter, {
@@ -32747,7 +33049,8 @@ This message will only show in development mode. It won't appear in production. 
     const paletteCommonProps = {
       clearColor,
       onChange,
-      value
+      value,
+      selectedSlug
     };
     const actions = !!clearable && /* @__PURE__ */ (0, import_jsx_runtime146.jsx)(circular_option_picker_default2.ButtonAction, {
       onClick: clearColor,
@@ -32814,12 +33117,12 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   }
-  var ColorPalette = (0, import_element79.forwardRef)(UnforwardedColorPalette);
+  var ColorPalette = (0, import_element80.forwardRef)(UnforwardedColorPalette);
   ColorPalette.displayName = "ColorPalette";
   var color_palette_default = ColorPalette;
 
   // packages/components/build-module/border-control/border-control-dropdown/hook.mjs
-  var import_element81 = __toESM(require_element(), 1);
+  var import_element82 = __toESM(require_element(), 1);
 
   // packages/components/build-module/unit-control/styles/unit-control-styles.mjs
   var ValueInput = /* @__PURE__ */ createStyled(number_control_default, false ? {
@@ -32911,8 +33214,8 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/unit-control/utils.mjs
   var import_i18n21 = __toESM(require_i18n(), 1);
-  var import_element80 = __toESM(require_element(), 1);
-  var isWeb = import_element80.Platform.OS === "web";
+  var import_element81 = __toESM(require_element(), 1);
+  var isWeb = import_element81.Platform.OS === "web";
   var allUnits = {
     px: {
       value: "px",
@@ -33223,22 +33526,22 @@ This message will only show in development mode. It won't appear in production. 
       });
     };
     const cx3 = useCx();
-    const classes = (0, import_element81.useMemo)(() => {
+    const classes = (0, import_element82.useMemo)(() => {
       return cx3(borderControlDropdown, className2);
     }, [className2, cx3]);
-    const indicatorClassName = (0, import_element81.useMemo)(() => {
+    const indicatorClassName = (0, import_element82.useMemo)(() => {
       return cx3(borderColorIndicator);
     }, [cx3]);
-    const indicatorWrapperClassName = (0, import_element81.useMemo)(() => {
+    const indicatorWrapperClassName = (0, import_element82.useMemo)(() => {
       return cx3(colorIndicatorWrapper(border, size3));
     }, [border, cx3, size3]);
-    const popoverControlsClassName = (0, import_element81.useMemo)(() => {
+    const popoverControlsClassName = (0, import_element82.useMemo)(() => {
       return cx3(borderControlPopoverControls);
     }, [cx3]);
-    const popoverContentClassName = (0, import_element81.useMemo)(() => {
+    const popoverContentClassName = (0, import_element82.useMemo)(() => {
       return cx3(borderControlPopoverContent);
     }, [cx3]);
-    const resetButtonWrapperClassName = (0, import_element81.useMemo)(() => {
+    const resetButtonWrapperClassName = (0, import_element82.useMemo)(() => {
       return cx3(resetButtonWrapper);
     }, [cx3]);
     return {
@@ -33429,11 +33732,11 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/unit-control/index.mjs
   var import_deprecated8 = __toESM(require_deprecated(), 1);
-  var import_element83 = __toESM(require_element(), 1);
+  var import_element84 = __toESM(require_element(), 1);
   var import_i18n23 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/unit-control/unit-select-control.mjs
-  var import_element82 = __toESM(require_element(), 1);
+  var import_element83 = __toESM(require_element(), 1);
   var import_jsx_runtime148 = __toESM(require_jsx_runtime(), 1);
   function UnitSelectControl({
     className: className2,
@@ -33476,7 +33779,7 @@ This message will only show in development mode. It won't appear in production. 
       }, option.value))
     });
   }
-  var unit_select_control_default = (0, import_element82.forwardRef)(UnitSelectControl);
+  var unit_select_control_default = (0, import_element83.forwardRef)(UnitSelectControl);
 
   // packages/components/build-module/unit-control/index.mjs
   var import_jsx_runtime149 = __toESM(require_jsx_runtime(), 1);
@@ -33517,7 +33820,7 @@ This message will only show in development mode. It won't appear in production. 
       });
     }
     const nonNullValueProp = valueProp ?? void 0;
-    const [units, reFirstCharacterOfUnits] = (0, import_element83.useMemo)(() => {
+    const [units, reFirstCharacterOfUnits] = (0, import_element84.useMemo)(() => {
       const list = getUnitsWithCurrentUnit(nonNullValueProp, unitProp, unitsProp);
       const [{
         value: firstUnitValue = ""
@@ -33535,7 +33838,7 @@ This message will only show in development mode. It won't appear in production. 
       initial: parsedUnit,
       fallback: ""
     });
-    (0, import_element83.useEffect)(() => {
+    (0, import_element84.useEffect)(() => {
       if (parsedUnit !== void 0) {
         setUnit(parsedUnit);
       }
@@ -33576,7 +33879,7 @@ This message will only show in development mode. It won't appear in production. 
         }
       };
     }
-    const refInputSuffix = (0, import_element83.useRef)(null);
+    const refInputSuffix = (0, import_element84.useRef)(null);
     const inputSuffix = !disableUnits ? /* @__PURE__ */ (0, import_jsx_runtime149.jsx)(unit_select_control_default, {
       ref: refInputSuffix,
       "aria-label": (0, import_i18n23.__)("Select unit"),
@@ -33615,12 +33918,12 @@ This message will only show in development mode. It won't appear in production. 
       __unstableStateReducer
     });
   }
-  var UnitControl = (0, import_element83.forwardRef)(UnforwardedUnitControl);
+  var UnitControl = (0, import_element84.forwardRef)(UnforwardedUnitControl);
   UnitControl.displayName = "UnitControl";
   var unit_control_default = UnitControl;
 
   // packages/components/build-module/border-control/border-control/hook.mjs
-  var import_element84 = __toESM(require_element(), 1);
+  var import_element85 = __toESM(require_element(), 1);
   var isValidBorder = (border) => {
     const hasWidth = border?.width !== void 0 && border.width !== "";
     const hasColor = border?.color !== void 0;
@@ -33653,17 +33956,17 @@ This message will only show in development mode. It won't appear in production. 
     const [widthValue, originalWidthUnit] = parseQuantityAndUnitFromRawValue(border?.width);
     const widthUnit = originalWidthUnit || "px";
     const hadPreviousZeroWidth = widthValue === 0;
-    const [colorSelection, setColorSelection] = (0, import_element84.useState)();
-    const [styleSelection, setStyleSelection] = (0, import_element84.useState)();
+    const [colorSelection, setColorSelection] = (0, import_element85.useState)();
+    const [styleSelection, setStyleSelection] = (0, import_element85.useState)();
     const isStyleSettable = shouldSanitizeBorder ? isValidBorder(border) : true;
-    const onBorderChange = (0, import_element84.useCallback)((newBorder) => {
+    const onBorderChange = (0, import_element85.useCallback)((newBorder) => {
       if (shouldSanitizeBorder && !isValidBorder(newBorder)) {
         onChange(void 0);
         return;
       }
       onChange(newBorder);
     }, [onChange, shouldSanitizeBorder]);
-    const onWidthChange = (0, import_element84.useCallback)((newWidth) => {
+    const onWidthChange = (0, import_element85.useCallback)((newWidth) => {
       const newWidthValue = newWidth === "" ? void 0 : newWidth;
       const [parsedValue] = parseQuantityAndUnitFromRawValue(newWidth);
       const hasZeroWidth = parsedValue === 0;
@@ -33687,23 +33990,23 @@ This message will only show in development mode. It won't appear in production. 
       }
       onBorderChange(updatedBorder);
     }, [border, hadPreviousZeroWidth, colorSelection, styleSelection, onBorderChange]);
-    const onSliderChange = (0, import_element84.useCallback)((value) => {
+    const onSliderChange = (0, import_element85.useCallback)((value) => {
       onWidthChange(`${value}${widthUnit}`);
     }, [onWidthChange, widthUnit]);
     const cx3 = useCx();
-    const classes = (0, import_element84.useMemo)(() => {
+    const classes = (0, import_element85.useMemo)(() => {
       return cx3(borderControl, className2);
     }, [className2, cx3]);
     let wrapperWidth2 = width;
     if (isCompact) {
       wrapperWidth2 = size3 === "__unstable-large" ? "116px" : "90px";
     }
-    const innerWrapperClassName = (0, import_element84.useMemo)(() => {
+    const innerWrapperClassName = (0, import_element85.useMemo)(() => {
       const widthStyle = !!wrapperWidth2 && wrapperWidth;
       const heightStyle = wrapperHeight(computedSize);
       return cx3(innerWrapper(), widthStyle, heightStyle);
     }, [wrapperWidth2, cx3, computedSize]);
-    const sliderClassName = (0, import_element84.useMemo)(() => {
+    const sliderClassName = (0, import_element85.useMemo)(() => {
       return cx3(borderSlider());
     }, [cx3]);
     return {
@@ -33836,7 +34139,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default21 = BorderControl;
 
   // packages/components/build-module/grid/hook.mjs
-  var import_element85 = __toESM(require_element(), 1);
+  var import_element86 = __toESM(require_element(), 1);
 
   // packages/components/build-module/grid/utils.mjs
   var ALIGNMENTS2 = {
@@ -33913,7 +34216,7 @@ This message will only show in development mode. It won't appear in production. 
     const gridTemplateColumns = templateColumns || !!columns && `repeat( ${column2}, 1fr )`;
     const gridTemplateRows = templateRows || !!rows && `repeat( ${row}, 1fr )`;
     const cx3 = useCx();
-    const classes = (0, import_element85.useMemo)(() => {
+    const classes = (0, import_element86.useMemo)(() => {
       const alignmentProps = getAlignmentProps2(alignment);
       const gridClasses = /* @__PURE__ */ css({
         alignItems: align,
@@ -33948,7 +34251,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default22 = Grid;
 
   // packages/components/build-module/border-box-control/border-box-control-split-controls/hook.mjs
-  var import_element86 = __toESM(require_element(), 1);
+  var import_element87 = __toESM(require_element(), 1);
   function useBorderBoxControlSplitControls(props) {
     const {
       className: className2,
@@ -33960,13 +34263,13 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "BorderBoxControlSplitControls");
     const cx3 = useCx();
-    const classes = (0, import_element86.useMemo)(() => {
+    const classes = (0, import_element87.useMemo)(() => {
       return cx3(borderBoxControlSplitControls(size3), className2);
     }, [cx3, className2, size3]);
-    const centeredClassName = (0, import_element86.useMemo)(() => {
+    const centeredClassName = (0, import_element87.useMemo)(() => {
       return cx3(centeredBorderControl, className2);
     }, [cx3, className2]);
-    const rightAlignedClassName = (0, import_element86.useMemo)(() => {
+    const rightAlignedClassName = (0, import_element87.useMemo)(() => {
       return cx3(rightBorderControl(), className2);
     }, [cx3, className2]);
     return {
@@ -34000,8 +34303,8 @@ This message will only show in development mode. It won't appear in production. 
       __experimentalIsRenderedInSidebar,
       ...otherProps
     } = useBorderBoxControlSplitControls(props);
-    const [popoverAnchor, setPopoverAnchor] = (0, import_element87.useState)(null);
-    const popoverProps = (0, import_element87.useMemo)(() => popoverPlacement ? {
+    const [popoverAnchor, setPopoverAnchor] = (0, import_element88.useState)(null);
+    const popoverProps = (0, import_element88.useMemo)(() => popoverPlacement ? {
       placement: popoverPlacement,
       offset: popoverOffset,
       anchor: popoverAnchor,
@@ -34063,7 +34366,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default23 = ConnectedBorderBoxControlSplitControls;
 
   // packages/components/build-module/border-box-control/border-box-control/hook.mjs
-  var import_element88 = __toESM(require_element(), 1);
+  var import_element89 = __toESM(require_element(), 1);
 
   // packages/components/build-module/utils/unit-values.mjs
   var UNITED_VALUE_REGEX = /^([\d.\-+]*)\s*(fr|cm|mm|Q|in|pc|pt|px|em|ex|ch|rem|lh|vw|vh|vmin|vmax|%|cap|ic|rlh|vi|vb|deg|grad|rad|turn|s|ms|Hz|kHz|dpi|dpcm|dppx|svw|lvw|dvw|svh|lvh|dvh|svi|lvi|dvi|svb|lvb|dvb|svmin|lvmin|dvmin|svmax|lvmax|dvmax)?$/;
@@ -34224,7 +34527,7 @@ This message will only show in development mode. It won't appear in production. 
     const linkedValue = splitBorders ? getCommonBorder(value) : value;
     const splitValue = splitBorders ? value : getSplitBorders(value);
     const hasWidthValue = !isNaN(parseFloat(`${linkedValue?.width}`));
-    const [isLinked, setIsLinked] = (0, import_element88.useState)(!mixedBorders);
+    const [isLinked, setIsLinked] = (0, import_element89.useState)(!mixedBorders);
     const toggleLinked = () => setIsLinked(!isLinked);
     const onLinkedChange = (newBorder) => {
       if (!newBorder) {
@@ -34270,13 +34573,13 @@ This message will only show in development mode. It won't appear in production. 
       }
     };
     const cx3 = useCx();
-    const classes = (0, import_element88.useMemo)(() => {
+    const classes = (0, import_element89.useMemo)(() => {
       return cx3(borderBoxControl, className2);
     }, [cx3, className2]);
-    const linkedControlClassName = (0, import_element88.useMemo)(() => {
+    const linkedControlClassName = (0, import_element89.useMemo)(() => {
       return cx3(linkedBorderControl());
     }, [cx3]);
-    const wrapperClassName = (0, import_element88.useMemo)(() => {
+    const wrapperClassName = (0, import_element89.useMemo)(() => {
       return cx3(wrapper);
     }, [cx3]);
     return {
@@ -34342,8 +34645,8 @@ This message will only show in development mode. It won't appear in production. 
       __experimentalIsRenderedInSidebar,
       ...otherProps
     } = useBorderBoxControl(props);
-    const [popoverAnchor, setPopoverAnchor] = (0, import_element89.useState)(null);
-    const popoverProps = (0, import_element89.useMemo)(() => popoverPlacement ? {
+    const [popoverAnchor, setPopoverAnchor] = (0, import_element90.useState)(null);
+    const popoverProps = (0, import_element90.useMemo)(() => popoverPlacement ? {
       placement: popoverPlacement,
       offset: popoverOffset,
       anchor: popoverAnchor,
@@ -34400,14 +34703,14 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/box-control/index.mjs
   var import_compose38 = __toESM(require_compose(), 1);
-  var import_element91 = __toESM(require_element(), 1);
+  var import_element92 = __toESM(require_element(), 1);
   var import_i18n30 = __toESM(require_i18n(), 1);
   var import_warning5 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/box-control/input-control.mjs
   var import_compose37 = __toESM(require_compose(), 1);
   var import_i18n28 = __toESM(require_i18n(), 1);
-  var import_element90 = __toESM(require_element(), 1);
+  var import_element91 = __toESM(require_element(), 1);
 
   // packages/components/build-module/box-control/utils.mjs
   var import_deprecated9 = __toESM(require_deprecated(), 1);
@@ -34991,7 +35294,7 @@ This message will only show in development mode. It won't appear in production. 
     const mixedPlaceholder = isMixed || isMixedUnit ? (0, import_i18n28.__)("Mixed") : void 0;
     const hasPresets = presets && presets.length > 0 && presetKey;
     const hasPresetValue = hasPresets && mergedValue !== void 0 && !isMixed && isValuePreset(mergedValue, presetKey);
-    const [showCustomValueControl, setShowCustomValueControl] = (0, import_element90.useState)(!hasPresets || !hasPresetValue && !isMixed && mergedValue !== void 0);
+    const [showCustomValueControl, setShowCustomValueControl] = (0, import_element91.useState)(!hasPresets || !hasPresetValue && !isMixed && mergedValue !== void 0);
     const presetIndex = hasPresetValue ? getPresetIndexFromValue(mergedValue, presetKey, presets) : void 0;
     const marks = hasPresets ? [{
       value: 0,
@@ -35125,9 +35428,9 @@ This message will only show in development mode. It won't appear in production. 
     const inputValues = values || DEFAULT_VALUES;
     const hasInitialValue = isValuesDefined(valuesProp);
     const hasOneSide = sides3?.length === 1;
-    const [isDirty, setIsDirty] = (0, import_element91.useState)(hasInitialValue);
-    const [isLinked, setIsLinked] = (0, import_element91.useState)(!hasInitialValue || !isValueMixed(inputValues) || hasOneSide);
-    const [selectedUnits, setSelectedUnits] = (0, import_element91.useState)({
+    const [isDirty, setIsDirty] = (0, import_element92.useState)(hasInitialValue);
+    const [isLinked, setIsLinked] = (0, import_element92.useState)(!hasInitialValue || !isValueMixed(inputValues) || hasOneSide);
+    const [selectedUnits, setSelectedUnits] = (0, import_element92.useState)({
       top: parseQuantityAndUnitFromRawValue(valuesProp?.top)[1],
       right: parseQuantityAndUnitFromRawValue(valuesProp?.right)[1],
       bottom: parseQuantityAndUnitFromRawValue(valuesProp?.bottom)[1],
@@ -35221,7 +35524,7 @@ This message will only show in development mode. It won't appear in production. 
   var box_control_default = BoxControl;
 
   // packages/components/build-module/button-group/index.mjs
-  var import_element92 = __toESM(require_element(), 1);
+  var import_element93 = __toESM(require_element(), 1);
   var import_deprecated10 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime158 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedButtonGroup(props, ref) {
@@ -35244,15 +35547,15 @@ This message will only show in development mode. It won't appear in production. 
       ...restProps
     });
   }
-  var ButtonGroup = (0, import_element92.forwardRef)(UnforwardedButtonGroup);
+  var ButtonGroup = (0, import_element93.forwardRef)(UnforwardedButtonGroup);
   ButtonGroup.displayName = "ButtonGroup";
   var button_group_default = ButtonGroup;
 
   // packages/components/build-module/card/card/component.mjs
-  var import_element96 = __toESM(require_element(), 1);
+  var import_element97 = __toESM(require_element(), 1);
 
   // packages/components/build-module/elevation/hook.mjs
-  var import_element93 = __toESM(require_element(), 1);
+  var import_element94 = __toESM(require_element(), 1);
 
   // packages/components/build-module/elevation/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__17() {
@@ -35287,7 +35590,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "Elevation");
     const cx3 = useCx();
-    const classes = (0, import_element93.useMemo)(() => {
+    const classes = (0, import_element94.useMemo)(() => {
       let hoverValue = isValueDefined(hover2) ? hover2 : value * 2;
       let activeValue = isValueDefined(active) ? active : value / 2;
       if (!isInteractive) {
@@ -35412,10 +35715,10 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/card/card/hook.mjs
   var import_deprecated11 = __toESM(require_deprecated(), 1);
-  var import_element95 = __toESM(require_element(), 1);
+  var import_element96 = __toESM(require_element(), 1);
 
   // packages/components/build-module/surface/hook.mjs
-  var import_element94 = __toESM(require_element(), 1);
+  var import_element95 = __toESM(require_element(), 1);
 
   // packages/components/build-module/surface/styles.mjs
   var Surface = /* @__PURE__ */ css("background-color:", config_values_default.surfaceColor, ";color:", COLORS.gray[900], ";position:relative;" + (false ? "" : ";label:Surface;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFXMEIiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgU3VyZmFjZVZhcmlhbnQsIFN1cmZhY2VQcm9wcyB9IGZyb20gJy4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgU3VyZmFjZSA9IGNzc2Bcblx0YmFja2dyb3VuZC1jb2xvcjogJHsgQ09ORklHLnN1cmZhY2VDb2xvciB9O1xuXHRjb2xvcjogJHsgQ09MT1JTLmdyYXlbIDkwMCBdIH07XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcbmA7XG5cbmV4cG9ydCBjb25zdCBiYWNrZ3JvdW5kID0gY3NzYFxuXHRiYWNrZ3JvdW5kLWNvbG9yOiAkeyBDT05GSUcuc3VyZmFjZUJhY2tncm91bmRDb2xvciB9O1xuYDtcblxuZXhwb3J0IGZ1bmN0aW9uIGdldEJvcmRlcnMoIHtcblx0Ym9yZGVyQm90dG9tLFxuXHRib3JkZXJMZWZ0LFxuXHRib3JkZXJSaWdodCxcblx0Ym9yZGVyVG9wLFxufTogUGljazxcblx0U3VyZmFjZVByb3BzLFxuXHQnYm9yZGVyQm90dG9tJyB8ICdib3JkZXJMZWZ0JyB8ICdib3JkZXJSaWdodCcgfCAnYm9yZGVyVG9wJ1xuPiApIHtcblx0Y29uc3QgYm9yZGVyU3R5bGUgPSBgMXB4IHNvbGlkICR7IENPTkZJRy5zdXJmYWNlQm9yZGVyQ29sb3IgfWA7XG5cblx0cmV0dXJuIGNzcygge1xuXHRcdGJvcmRlckJvdHRvbTogYm9yZGVyQm90dG9tID8gYm9yZGVyU3R5bGUgOiB1bmRlZmluZWQsXG5cdFx0Ym9yZGVyTGVmdDogYm9yZGVyTGVmdCA/IGJvcmRlclN0eWxlIDogdW5kZWZpbmVkLFxuXHRcdGJvcmRlclJpZ2h0OiBib3JkZXJSaWdodCA/IGJvcmRlclN0eWxlIDogdW5kZWZpbmVkLFxuXHRcdGJvcmRlclRvcDogYm9yZGVyVG9wID8gYm9yZGVyU3R5bGUgOiB1bmRlZmluZWQsXG5cdH0gKTtcbn1cblxuZXhwb3J0IGNvbnN0IHByaW1hcnkgPSBjc3NgYDtcblxuZXhwb3J0IGNvbnN0IHNlY29uZGFyeSA9IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09ORklHLnN1cmZhY2VCYWNrZ3JvdW5kVGludENvbG9yIH07XG5gO1xuXG5leHBvcnQgY29uc3QgdGVydGlhcnkgPSBjc3NgXG5cdGJhY2tncm91bmQ6ICR7IENPTkZJRy5zdXJmYWNlQmFja2dyb3VuZFRlcnRpYXJ5Q29sb3IgfTtcbmA7XG5cbmNvbnN0IGN1c3RvbUJhY2tncm91bmRTaXplID0gKCBzdXJmYWNlQmFja2dyb3VuZFNpemU6IHN0cmluZyApID0+XG5cdFsgc3VyZmFjZUJhY2tncm91bmRTaXplLCBzdXJmYWNlQmFja2dyb3VuZFNpemUgXS5qb2luKCAnICcgKTtcblxuY29uc3QgZG90dGVkQmFja2dyb3VuZDEgPSAoIHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZURvdHRlZDogc3RyaW5nICkgPT5cblx0W1xuXHRcdCc5MGRlZycsXG5cdFx0WyBDT05GSUcuc3VyZmFjZUJhY2tncm91bmRDb2xvciwgc3VyZmFjZUJhY2tncm91bmRTaXplRG90dGVkIF0uam9pbihcblx0XHRcdCcgJ1xuXHRcdCksXG5cdFx0J3RyYW5zcGFyZW50IDElJyxcblx0XS5qb2luKCAnLCcgKTtcblxuY29uc3QgZG90dGVkQmFja2dyb3VuZDIgPSAoIHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZURvdHRlZDogc3RyaW5nICkgPT5cblx0W1xuXHRcdFsgQ09ORklHLnN1cmZhY2VCYWNrZ3JvdW5kQ29sb3IsIHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZURvdHRlZCBdLmpvaW4oXG5cdFx0XHQnICdcblx0XHQpLFxuXHRcdCd0cmFuc3BhcmVudCAxJScsXG5cdF0uam9pbiggJywnICk7XG5cbmNvbnN0IGRvdHRlZEJhY2tncm91bmRDb21iaW5lZCA9ICggc3VyZmFjZUJhY2tncm91bmRTaXplRG90dGVkOiBzdHJpbmcgKSA9PlxuXHRbXG5cdFx0YGxpbmVhci1ncmFkaWVudCggJHsgZG90dGVkQmFja2dyb3VuZDEoXG5cdFx0XHRzdXJmYWNlQmFja2dyb3VuZFNpemVEb3R0ZWRcblx0XHQpIH0gKSBjZW50ZXJgLFxuXHRcdGBsaW5lYXItZ3JhZGllbnQoICR7IGRvdHRlZEJhY2tncm91bmQyKFxuXHRcdFx0c3VyZmFjZUJhY2tncm91bmRTaXplRG90dGVkXG5cdFx0KSB9ICkgY2VudGVyYCxcblx0XHRDT05GSUcuc3VyZmFjZUJvcmRlckJvbGRDb2xvcixcblx0XS5qb2luKCAnLCcgKTtcblxuZXhwb3J0IGNvbnN0IGdldERvdHRlZCA9IChcblx0c3VyZmFjZUJhY2tncm91bmRTaXplOiBzdHJpbmcsXG5cdHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZURvdHRlZDogc3RyaW5nXG4pID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgZG90dGVkQmFja2dyb3VuZENvbWJpbmVkKCBzdXJmYWNlQmFja2dyb3VuZFNpemVEb3R0ZWQgKSB9O1xuXHRiYWNrZ3JvdW5kLXNpemU6ICR7IGN1c3RvbUJhY2tncm91bmRTaXplKCBzdXJmYWNlQmFja2dyb3VuZFNpemUgKSB9O1xuYDtcblxuY29uc3QgZ3JpZEJhY2tncm91bmQxID0gW1xuXHRgJHsgQ09ORklHLnN1cmZhY2VCb3JkZXJTdWJ0bGVDb2xvciB9IDFweGAsXG5cdCd0cmFuc3BhcmVudCAxcHgnLFxuXS5qb2luKCAnLCcgKTtcblxuY29uc3QgZ3JpZEJhY2tncm91bmQyID0gW1xuXHQnOTBkZWcnLFxuXHRgJHsgQ09ORklHLnN1cmZhY2VCb3JkZXJTdWJ0bGVDb2xvciB9IDFweGAsXG5cdCd0cmFuc3BhcmVudCAxcHgnLFxuXS5qb2luKCAnLCcgKTtcblxuY29uc3QgZ3JpZEJhY2tncm91bmRDb21iaW5lZCA9IFtcblx0YGxpbmVhci1ncmFkaWVudCggJHsgZ3JpZEJhY2tncm91bmQxIH0gKWAsXG5cdGBsaW5lYXItZ3JhZGllbnQoICR7IGdyaWRCYWNrZ3JvdW5kMiB9IClgLFxuXS5qb2luKCAnLCcgKTtcblxuZXhwb3J0IGNvbnN0IGdldEdyaWQgPSAoIHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZTogc3RyaW5nICkgPT4ge1xuXHRyZXR1cm4gY3NzYFxuXHRcdGJhY2tncm91bmQ6ICR7IENPTkZJRy5zdXJmYWNlQmFja2dyb3VuZENvbG9yIH07XG5cdFx0YmFja2dyb3VuZC1pbWFnZTogJHsgZ3JpZEJhY2tncm91bmRDb21iaW5lZCB9O1xuXHRcdGJhY2tncm91bmQtc2l6ZTogJHsgY3VzdG9tQmFja2dyb3VuZFNpemUoIHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZSApIH07XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgZ2V0VmFyaWFudCA9IChcblx0dmFyaWFudDogU3VyZmFjZVZhcmlhbnQsXG5cdHN1cmZhY2VCYWNrZ3JvdW5kU2l6ZTogc3RyaW5nLFxuXHRzdXJmYWNlQmFja2dyb3VuZFNpemVEb3R0ZWQ6IHN0cmluZ1xuKSA9PiB7XG5cdHN3aXRjaCAoIHZhcmlhbnQgKSB7XG5cdFx0Y2FzZSAnZG90dGVkJzoge1xuXHRcdFx0cmV0dXJuIGdldERvdHRlZChcblx0XHRcdFx0c3VyZmFjZUJhY2tncm91bmRTaXplLFxuXHRcdFx0XHRzdXJmYWNlQmFja2dyb3VuZFNpemVEb3R0ZWRcblx0XHRcdCk7XG5cdFx0fVxuXHRcdGNhc2UgJ2dyaWQnOiB7XG5cdFx0XHRyZXR1cm4gZ2V0R3JpZCggc3VyZmFjZUJhY2tncm91bmRTaXplICk7XG5cdFx0fVxuXHRcdGNhc2UgJ3ByaW1hcnknOiB7XG5cdFx0XHRyZXR1cm4gcHJpbWFyeTtcblx0XHR9XG5cdFx0Y2FzZSAnc2Vjb25kYXJ5Jzoge1xuXHRcdFx0cmV0dXJuIHNlY29uZGFyeTtcblx0XHR9XG5cdFx0Y2FzZSAndGVydGlhcnknOiB7XG5cdFx0XHRyZXR1cm4gdGVydGlhcnk7XG5cdFx0fVxuXHR9XG59O1xuIl19 */");
@@ -35481,7 +35784,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "Surface");
     const cx3 = useCx();
-    const classes = (0, import_element94.useMemo)(() => {
+    const classes = (0, import_element95.useMemo)(() => {
       const sx = {
         borders: getBorders({
           borderBottom,
@@ -35542,7 +35845,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(useDeprecatedProps4(props), "Card");
     const cx3 = useCx();
-    const classes = (0, import_element95.useMemo)(() => {
+    const classes = (0, import_element96.useMemo)(() => {
       return cx3(Card, isBorderless && boxShadowless, isRounded && rounded, className2);
     }, [className2, cx3, isBorderless, isRounded]);
     const surfaceProps = useSurface({
@@ -35571,10 +35874,10 @@ This message will only show in development mode. It won't appear in production. 
     } = useCard(props);
     const elevationBorderRadius = isRounded ? config_values_default.radiusLarge : 0;
     const cx3 = useCx();
-    const elevationClassName = (0, import_element96.useMemo)(() => cx3(/* @__PURE__ */ css({
+    const elevationClassName = (0, import_element97.useMemo)(() => cx3(/* @__PURE__ */ css({
       borderRadius: elevationBorderRadius
     }, false ? "" : ";label:elevationClassName;", false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBeUNZIiwiZmlsZSI6ImNvbXBvbmVudC50c3giLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEV4dGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBjc3MgfSBmcm9tICdAZW1vdGlvbi9yZWFjdCc7XG5pbXBvcnQgdHlwZSB7IEZvcndhcmRlZFJlZiB9IGZyb20gJ3JlYWN0JztcblxuLyoqXG4gKiBXb3JkUHJlc3MgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IHVzZU1lbW8gfSBmcm9tICdAd29yZHByZXNzL2VsZW1lbnQnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgdHlwZSB7IFdvcmRQcmVzc0NvbXBvbmVudFByb3BzIH0gZnJvbSAnLi4vLi4vY29udGV4dCc7XG5pbXBvcnQgeyBjb250ZXh0Q29ubmVjdCwgQ29udGV4dFN5c3RlbVByb3ZpZGVyIH0gZnJvbSAnLi4vLi4vY29udGV4dCc7XG5pbXBvcnQgeyBFbGV2YXRpb24gfSBmcm9tICcuLi8uLi9lbGV2YXRpb24nO1xuaW1wb3J0IHsgVmlldyB9IGZyb20gJy4uLy4uL3ZpZXcnO1xuaW1wb3J0ICogYXMgc3R5bGVzIGZyb20gJy4uL3N0eWxlcyc7XG5pbXBvcnQgeyB1c2VDYXJkIH0gZnJvbSAnLi9ob29rJztcbmltcG9ydCBDT05GSUcgZnJvbSAnLi4vLi4vdXRpbHMvY29uZmlnLXZhbHVlcyc7XG5pbXBvcnQgeyB1c2VDeCB9IGZyb20gJy4uLy4uL3V0aWxzL2hvb2tzL3VzZS1jeCc7XG5pbXBvcnQgdHlwZSB7IFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5mdW5jdGlvbiBVbmNvbm5lY3RlZENhcmQoXG5cdHByb3BzOiBXb3JkUHJlc3NDb21wb25lbnRQcm9wczwgUHJvcHMsICdkaXYnID4sXG5cdGZvcndhcmRlZFJlZjogRm9yd2FyZGVkUmVmPCBhbnkgPlxuKSB7XG5cdGNvbnN0IHtcblx0XHRjaGlsZHJlbixcblx0XHRlbGV2YXRpb24sXG5cdFx0aXNCb3JkZXJsZXNzLFxuXHRcdGlzUm91bmRlZCxcblx0XHRzaXplLFxuXHRcdC4uLm90aGVyUHJvcHNcblx0fSA9IHVzZUNhcmQoIHByb3BzICk7XG5cdGNvbnN0IGVsZXZhdGlvbkJvcmRlclJhZGl1cyA9IGlzUm91bmRlZCA/IENPTkZJRy5yYWRpdXNMYXJnZSA6IDA7XG5cblx0Y29uc3QgY3ggPSB1c2VDeCgpO1xuXG5cdGNvbnN0IGVsZXZhdGlvbkNsYXNzTmFtZSA9IHVzZU1lbW8oXG5cdFx0KCkgPT4gY3goIGNzcyggeyBib3JkZXJSYWRpdXM6IGVsZXZhdGlvbkJvcmRlclJhZGl1cyB9ICkgKSxcblx0XHRbIGN4LCBlbGV2YXRpb25Cb3JkZXJSYWRpdXMgXVxuXHQpO1xuXG5cdGNvbnN0IGNvbnRleHRQcm92aWRlclZhbHVlID0gdXNlTWVtbyggKCkgPT4ge1xuXHRcdGNvbnN0IGNvbnRleHRQcm9wcyA9IHtcblx0XHRcdHNpemUsXG5cdFx0XHRpc0JvcmRlcmxlc3MsXG5cdFx0fTtcblx0XHRyZXR1cm4ge1xuXHRcdFx0Q2FyZEJvZHk6IGNvbnRleHRQcm9wcyxcblx0XHRcdENhcmRIZWFkZXI6IGNvbnRleHRQcm9wcyxcblx0XHRcdENhcmRGb290ZXI6IGNvbnRleHRQcm9wcyxcblx0XHR9O1xuXHR9LCBbIGlzQm9yZGVybGVzcywgc2l6ZSBdICk7XG5cblx0cmV0dXJuIChcblx0XHQ8Q29udGV4dFN5c3RlbVByb3ZpZGVyIHZhbHVlPXsgY29udGV4dFByb3ZpZGVyVmFsdWUgfT5cblx0XHRcdDxWaWV3IHsgLi4ub3RoZXJQcm9wcyB9IHJlZj17IGZvcndhcmRlZFJlZiB9PlxuXHRcdFx0XHQ8VmlldyBjbGFzc05hbWU9eyBjeCggc3R5bGVzLkNvbnRlbnQgKSB9PnsgY2hpbGRyZW4gfTwvVmlldz5cblx0XHRcdFx0PEVsZXZhdGlvblxuXHRcdFx0XHRcdGNsYXNzTmFtZT17IGVsZXZhdGlvbkNsYXNzTmFtZSB9XG5cdFx0XHRcdFx0aXNJbnRlcmFjdGl2ZT17IGZhbHNlIH1cblx0XHRcdFx0XHR2YWx1ZT17IGVsZXZhdGlvbiA/IDEgOiAwIH1cblx0XHRcdFx0Lz5cblx0XHRcdFx0PEVsZXZhdGlvblxuXHRcdFx0XHRcdGNsYXNzTmFtZT17IGVsZXZhdGlvbkNsYXNzTmFtZSB9XG5cdFx0XHRcdFx0aXNJbnRlcmFjdGl2ZT17IGZhbHNlIH1cblx0XHRcdFx0XHR2YWx1ZT17IGVsZXZhdGlvbiB9XG5cdFx0XHRcdC8+XG5cdFx0XHQ8L1ZpZXc+XG5cdFx0PC9Db250ZXh0U3lzdGVtUHJvdmlkZXI+XG5cdCk7XG59XG5cbi8qKlxuICogYENhcmRgIHByb3ZpZGVzIGEgZmxleGlibGUgYW5kIGV4dGVuc2libGUgY29udGVudCBjb250YWluZXIuXG4gKiBgQ2FyZGAgYWxzbyBwcm92aWRlcyBhIGNvbnZlbmllbnQgc2V0IG9mIHN1Yi1jb21wb25lbnRzIHN1Y2ggYXMgYENhcmRCb2R5YCxcbiAqIGBDYXJkSGVhZGVyYCwgYENhcmRGb290ZXJgLCBhbmQgbW9yZS5cbiAqXG4gKiBgYGBqc3hcbiAqIGltcG9ydCB7XG4gKiAgIENhcmQsXG4gKiAgIENhcmRIZWFkZXIsXG4gKiAgIENhcmRCb2R5LFxuICogICBDYXJkRm9vdGVyLFxuICogICBfX2V4cGVyaW1lbnRhbFRleHQgYXMgVGV4dCxcbiAqICAgX19leHBlcmltZW50YWxIZWFkaW5nIGFzIEhlYWRpbmcsXG4gKiB9IGZyb20gYEB3b3JkcHJlc3MvY29tcG9uZW50c2A7XG4gKlxuICogZnVuY3Rpb24gRXhhbXBsZSgpIHtcbiAqICAgcmV0dXJuIChcbiAqICAgICA8Q2FyZD5cbiAqICAgICAgIDxDYXJkSGVhZGVyPlxuICogICAgICAgICA8SGVhZGluZyBsZXZlbD17IDQgfT5DYXJkIFRpdGxlPC9IZWFkaW5nPlxuICogICAgICAgPC9DYXJkSGVhZGVyPlxuICogICAgICAgPENhcmRCb2R5PlxuICogICAgICAgICA8VGV4dD5DYXJkIENvbnRlbnQ8L1RleHQ+XG4gKiAgICAgICA8L0NhcmRCb2R5PlxuICogICAgICAgPENhcmRGb290ZXI+XG4gKiAgICAgICAgIDxUZXh0PkNhcmQgRm9vdGVyPC9UZXh0PlxuICogICAgICAgPC9DYXJkRm9vdGVyPlxuICogICAgIDwvQ2FyZD5cbiAqICAgKTtcbiAqIH1cbiAqIGBgYFxuICovXG5leHBvcnQgY29uc3QgQ2FyZCA9IGNvbnRleHRDb25uZWN0KCBVbmNvbm5lY3RlZENhcmQsICdDYXJkJyApO1xuXG5leHBvcnQgZGVmYXVsdCBDYXJkO1xuIl19 */")), [cx3, elevationBorderRadius]);
-    const contextProviderValue = (0, import_element96.useMemo)(() => {
+    const contextProviderValue = (0, import_element97.useMemo)(() => {
       const contextProps = {
         size: size3,
         isBorderless
@@ -35609,7 +35912,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default27 = Card2;
 
   // packages/components/build-module/scrollable/hook.mjs
-  var import_element97 = __toESM(require_element(), 1);
+  var import_element98 = __toESM(require_element(), 1);
 
   // packages/components/build-module/scrollable/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__19() {
@@ -35666,7 +35969,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "Scrollable");
     const cx3 = useCx();
-    const classes = (0, import_element97.useMemo)(() => cx3(Scrollable, scrollableScrollbar, smoothScroll2 && smoothScroll, scrollDirection === "x" && scrollX, scrollDirection === "y" && scrollY, scrollDirection === "auto" && scrollAuto, className2), [className2, cx3, scrollDirection, smoothScroll2]);
+    const classes = (0, import_element98.useMemo)(() => cx3(Scrollable, scrollableScrollbar, smoothScroll2 && smoothScroll, scrollDirection === "x" && scrollX, scrollDirection === "y" && scrollY, scrollDirection === "auto" && scrollAuto, className2), [className2, cx3, scrollDirection, smoothScroll2]);
     return {
       ...otherProps,
       className: classes
@@ -35686,7 +35989,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default28 = Scrollable2;
 
   // packages/components/build-module/card/card-body/hook.mjs
-  var import_element98 = __toESM(require_element(), 1);
+  var import_element99 = __toESM(require_element(), 1);
 
   // packages/components/build-module/card/get-padding-by-size.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__20() {
@@ -35752,7 +36055,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "CardBody");
     const cx3 = useCx();
-    const classes = (0, import_element98.useMemo)(() => cx3(
+    const classes = (0, import_element99.useMemo)(() => cx3(
       Body,
       borderRadius,
       getPaddingBySize(size3),
@@ -35859,14 +36162,14 @@ This message will only show in development mode. It won't appear in production. 
   var component_default30 = Divider2;
 
   // packages/components/build-module/card/card-divider/hook.mjs
-  var import_element99 = __toESM(require_element(), 1);
+  var import_element100 = __toESM(require_element(), 1);
   function useCardDivider(props) {
     const {
       className: className2,
       ...otherProps
     } = useContextSystem(props, "CardDivider");
     const cx3 = useCx();
-    const classes = (0, import_element99.useMemo)(() => cx3(
+    const classes = (0, import_element100.useMemo)(() => cx3(
       Divider,
       borderColor,
       // This classname is added for legacy compatibility reasons.
@@ -35892,7 +36195,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default31 = CardDivider;
 
   // packages/components/build-module/card/card-footer/hook.mjs
-  var import_element100 = __toESM(require_element(), 1);
+  var import_element101 = __toESM(require_element(), 1);
   function useCardFooter(props) {
     const {
       className: className2,
@@ -35903,7 +36206,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "CardFooter");
     const cx3 = useCx();
-    const classes = (0, import_element100.useMemo)(() => cx3(
+    const classes = (0, import_element101.useMemo)(() => cx3(
       Footer,
       borderRadius,
       borderColor,
@@ -35934,7 +36237,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default32 = CardFooter;
 
   // packages/components/build-module/card/card-header/hook.mjs
-  var import_element101 = __toESM(require_element(), 1);
+  var import_element102 = __toESM(require_element(), 1);
   function useCardHeader(props) {
     const {
       className: className2,
@@ -35944,7 +36247,7 @@ This message will only show in development mode. It won't appear in production. 
       ...otherProps
     } = useContextSystem(props, "CardHeader");
     const cx3 = useCx();
-    const classes = (0, import_element101.useMemo)(() => cx3(
+    const classes = (0, import_element102.useMemo)(() => cx3(
       Header,
       borderRadius,
       borderColor,
@@ -35974,14 +36277,14 @@ This message will only show in development mode. It won't appear in production. 
   var component_default33 = CardHeader;
 
   // packages/components/build-module/card/card-media/hook.mjs
-  var import_element102 = __toESM(require_element(), 1);
+  var import_element103 = __toESM(require_element(), 1);
   function useCardMedia(props) {
     const {
       className: className2,
       ...otherProps
     } = useContextSystem(props, "CardMedia");
     const cx3 = useCx();
-    const classes = (0, import_element102.useMemo)(() => cx3(
+    const classes = (0, import_element103.useMemo)(() => cx3(
       Media,
       borderRadius,
       // This classname is added for legacy compatibility reasons.
@@ -36007,7 +36310,7 @@ This message will only show in development mode. It won't appear in production. 
   var component_default34 = CardMedia;
 
   // packages/components/build-module/checkbox-control/index.mjs
-  var import_element103 = __toESM(require_element(), 1);
+  var import_element104 = __toESM(require_element(), 1);
   var import_compose39 = __toESM(require_compose(), 1);
   var import_deprecated12 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime169 = __toESM(require_jsx_runtime(), 1);
@@ -36032,8 +36335,8 @@ This message will only show in development mode. It won't appear in production. 
         since: "5.8"
       });
     }
-    const [showCheckedIcon, setShowCheckedIcon] = (0, import_element103.useState)(false);
-    const [showIndeterminateIcon, setShowIndeterminateIcon] = (0, import_element103.useState)(false);
+    const [showCheckedIcon, setShowCheckedIcon] = (0, import_element104.useState)(false);
+    const [showIndeterminateIcon, setShowIndeterminateIcon] = (0, import_element104.useState)(false);
     const ref = (0, import_compose39.useRefEffect)((node2) => {
       if (!node2) {
         return;
@@ -36092,7 +36395,7 @@ This message will only show in development mode. It won't appear in production. 
   var checkbox_control_default = CheckboxControl;
 
   // packages/components/build-module/clipboard-button/index.mjs
-  var import_element104 = __toESM(require_element(), 1);
+  var import_element105 = __toESM(require_element(), 1);
   var import_compose40 = __toESM(require_compose(), 1);
   var import_deprecated13 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime170 = __toESM(require_jsx_runtime(), 1);
@@ -36109,7 +36412,7 @@ This message will only show in development mode. It won't appear in production. 
       since: "5.8",
       alternative: "wp.compose.useCopyToClipboard"
     });
-    const timeoutIdRef = (0, import_element104.useRef)(void 0);
+    const timeoutIdRef = (0, import_element105.useRef)(void 0);
     const ref = (0, import_compose40.useCopyToClipboard)(text, () => {
       onCopy();
       if (timeoutIdRef.current) {
@@ -36119,7 +36422,7 @@ This message will only show in development mode. It won't appear in production. 
         timeoutIdRef.current = setTimeout(() => onFinishCopy(), TIMEOUT);
       }
     });
-    (0, import_element104.useEffect)(() => {
+    (0, import_element105.useEffect)(() => {
       return () => {
         if (timeoutIdRef.current) {
           clearTimeout(timeoutIdRef.current);
@@ -36144,12 +36447,12 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/palette-edit/index.mjs
-  var import_element114 = __toESM(require_element(), 1);
+  var import_element115 = __toESM(require_element(), 1);
   var import_i18n35 = __toESM(require_i18n(), 1);
   var import_compose44 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/item-group/item/hook.mjs
-  var import_element106 = __toESM(require_element(), 1);
+  var import_element107 = __toESM(require_element(), 1);
 
   // packages/components/build-module/item-group/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__22() {
@@ -36190,12 +36493,12 @@ This message will only show in development mode. It won't appear in production. 
   };
 
   // packages/components/build-module/item-group/context.mjs
-  var import_element105 = __toESM(require_element(), 1);
-  var ItemGroupContext = (0, import_element105.createContext)({
+  var import_element106 = __toESM(require_element(), 1);
+  var ItemGroupContext = (0, import_element106.createContext)({
     size: "medium"
   });
   ItemGroupContext.displayName = "ItemGroupContext";
-  var useItemGroupContext = () => (0, import_element105.useContext)(ItemGroupContext);
+  var useItemGroupContext = () => (0, import_element106.useContext)(ItemGroupContext);
 
   // packages/components/build-module/item-group/item/hook.mjs
   function useItem(props) {
@@ -36214,7 +36517,7 @@ This message will only show in development mode. It won't appear in production. 
     const size3 = sizeProp || contextSize;
     const as = asProp || (typeof onClick !== "undefined" ? "button" : "div");
     const cx3 = useCx();
-    const classes = (0, import_element106.useMemo)(() => cx3((as === "button" || as === "a") && unstyledButton(as), itemSizes[size3] || itemSizes.medium, item, spacedAround2 && spacedAround, className2), [as, className2, cx3, size3, spacedAround2]);
+    const classes = (0, import_element107.useMemo)(() => cx3((as === "button" || as === "a") && unstyledButton(as), itemSizes[size3] || itemSizes.medium, item, spacedAround2 && spacedAround, className2), [as, className2, cx3, size3, spacedAround2]);
     const wrapperClassName = cx3(itemWrapper);
     return {
       as,
@@ -36299,18 +36602,18 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/gradient-picker/index.mjs
   var import_i18n34 = __toESM(require_i18n(), 1);
   var import_compose42 = __toESM(require_compose(), 1);
-  var import_element110 = __toESM(require_element(), 1);
+  var import_element111 = __toESM(require_element(), 1);
 
   // packages/components/build-module/custom-gradient-picker/index.mjs
   var import_i18n33 = __toESM(require_i18n(), 1);
-  var import_element109 = __toESM(require_element(), 1);
+  var import_element110 = __toESM(require_element(), 1);
 
   // packages/components/build-module/custom-gradient-picker/gradient-bar/index.mjs
-  var import_element108 = __toESM(require_element(), 1);
+  var import_element109 = __toESM(require_element(), 1);
 
   // packages/components/build-module/custom-gradient-picker/gradient-bar/control-points.mjs
   var import_compose41 = __toESM(require_compose(), 1);
-  var import_element107 = __toESM(require_element(), 1);
+  var import_element108 = __toESM(require_element(), 1);
   var import_i18n31 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/custom-gradient-picker/gradient-bar/constants.mjs
@@ -36426,7 +36729,7 @@ This message will only show in development mode. It won't appear in production. 
     className: className2,
     ...props
   }) {
-    const popoverProps = (0, import_element107.useMemo)(() => ({
+    const popoverProps = (0, import_element108.useMemo)(() => ({
       placement: "bottom",
       offset: 8,
       // Disabling resize as it would otherwise cause the popover to show
@@ -36453,7 +36756,7 @@ This message will only show in development mode. It won't appear in production. 
     onStopControlPointChange,
     __experimentalIsRenderedInSidebar
   }) {
-    const controlPointMoveStateRef = (0, import_element107.useRef)(void 0);
+    const controlPointMoveStateRef = (0, import_element108.useRef)(void 0);
     const onMouseMove = (event) => {
       if (controlPointMoveStateRef.current === void 0 || gradientPickerDomRef.current === null) {
         return;
@@ -36477,9 +36780,9 @@ This message will only show in development mode. It won't appear in production. 
         controlPointMoveStateRef.current.listenersActivated = false;
       }
     };
-    const cleanEventListenersRef = (0, import_element107.useRef)(void 0);
+    const cleanEventListenersRef = (0, import_element108.useRef)(void 0);
     cleanEventListenersRef.current = cleanEventListeners;
-    (0, import_element107.useEffect)(() => {
+    (0, import_element108.useEffect)(() => {
       return () => {
         cleanEventListenersRef.current?.();
       };
@@ -36571,7 +36874,7 @@ This message will only show in development mode. It won't appear in production. 
     disableAlpha,
     __experimentalIsRenderedInSidebar
   }) {
-    const [alreadyInsertedPoint, setAlreadyInsertedPoint] = (0, import_element107.useState)(false);
+    const [alreadyInsertedPoint, setAlreadyInsertedPoint] = (0, import_element108.useState)(false);
     return /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(GradientColorPickerDropdown, {
       isRenderedInSidebar: __experimentalIsRenderedInSidebar,
       className: "components-custom-gradient-picker__inserter",
@@ -36683,8 +36986,8 @@ This message will only show in development mode. It won't appear in production. 
     disableAlpha = false,
     __experimentalIsRenderedInSidebar = false
   }) {
-    const gradientMarkersContainerDomRef = (0, import_element108.useRef)(null);
-    const [gradientBarState, gradientBarStateDispatch] = (0, import_element108.useReducer)(customGradientBarReducer, customGradientBarReducerInitialState);
+    const gradientMarkersContainerDomRef = (0, import_element109.useRef)(null);
+    const [gradientBarState, gradientBarStateDispatch] = (0, import_element109.useReducer)(customGradientBarReducer, customGradientBarReducerInitialState);
     const onMouseEnterAndMove = (event) => {
       if (!gradientMarkersContainerDomRef.current) {
         return;
@@ -37025,7 +37328,7 @@ This message will only show in development mode. It won't appear in production. 
     const {
       type
     } = gradientAST;
-    const lastLinearOrientationAngle = (0, import_element109.useRef)(Number(HORIZONTAL_GRADIENT_ORIENTATION.value));
+    const lastLinearOrientationAngle = (0, import_element110.useRef)(Number(HORIZONTAL_GRADIENT_ORIENTATION.value));
     if (type === "linear-gradient" && gradientAST.orientation) {
       lastLinearOrientationAngle.current = Number(gradientAST.orientation.value);
     }
@@ -37134,7 +37437,7 @@ This message will only show in development mode. It won't appear in production. 
     value,
     ...additionalProps
   }) {
-    const gradientOptions = (0, import_element110.useMemo)(() => {
+    const gradientOptions = (0, import_element111.useMemo)(() => {
       return gradients.map(({
         gradient,
         name,
@@ -37237,7 +37540,7 @@ This message will only show in development mode. It won't appear in production. 
     headingLevel = 2,
     ...additionalProps
   }) {
-    const clearGradient = (0, import_element110.useCallback)(() => onChange(void 0), [onChange]);
+    const clearGradient = (0, import_element111.useCallback)(() => onChange(void 0), [onChange]);
     return /* @__PURE__ */ (0, import_jsx_runtime176.jsxs)(component_default18, {
       spacing: gradients.length ? 4 : 0,
       children: [!disableCustomGradients && /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(custom_gradient_picker_default, {
@@ -37265,10 +37568,10 @@ This message will only show in development mode. It won't appear in production. 
   var gradient_picker_default = GradientPicker;
 
   // packages/components/build-module/navigable-container/menu.mjs
-  var import_element112 = __toESM(require_element(), 1);
+  var import_element113 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigable-container/container.mjs
-  var import_element111 = __toESM(require_element(), 1);
+  var import_element112 = __toESM(require_element(), 1);
   var import_compose43 = __toESM(require_compose(), 1);
   var import_dom29 = __toESM(require_dom(), 1);
   var import_jsx_runtime177 = __toESM(require_jsx_runtime(), 1);
@@ -37294,11 +37597,11 @@ This message will only show in development mode. It won't appear in production. 
     onlyBrowserTabstops,
     ...restProps
   }, ref) {
-    const containerRef = (0, import_element111.useRef)(null);
-    const getFocusableIndex = (0, import_element111.useCallback)((focusables, target) => {
+    const containerRef = (0, import_element112.useRef)(null);
+    const getFocusableIndex = (0, import_element112.useCallback)((focusables, target) => {
       return focusables.indexOf(target);
     }, []);
-    const getFocusableContext = (0, import_element111.useCallback)((target) => {
+    const getFocusableContext = (0, import_element112.useCallback)((target) => {
       if (!containerRef.current) {
         return null;
       }
@@ -37314,7 +37617,7 @@ This message will only show in development mode. It won't appear in production. 
       }
       return null;
     }, [onlyBrowserTabstops, getFocusableIndex]);
-    (0, import_element111.useEffect)(() => {
+    (0, import_element112.useEffect)(() => {
       const container = containerRef.current;
       if (!container) {
         return;
@@ -37368,7 +37671,7 @@ This message will only show in development mode. It won't appear in production. 
       children
     });
   }
-  var NavigableContainer = (0, import_element111.forwardRef)(UnforwardedNavigableContainer);
+  var NavigableContainer = (0, import_element112.forwardRef)(UnforwardedNavigableContainer);
   NavigableContainer.displayName = "NavigableContainer";
   var container_default = NavigableContainer;
 
@@ -37412,12 +37715,12 @@ This message will only show in development mode. It won't appear in production. 
       ...rest
     });
   }
-  var NavigableMenu = (0, import_element112.forwardRef)(UnforwardedNavigableMenu);
+  var NavigableMenu = (0, import_element113.forwardRef)(UnforwardedNavigableMenu);
   NavigableMenu.displayName = "NavigableMenu";
   var menu_default2 = NavigableMenu;
 
   // packages/components/build-module/navigable-container/tabbable.mjs
-  var import_element113 = __toESM(require_element(), 1);
+  var import_element114 = __toESM(require_element(), 1);
   var import_jsx_runtime179 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTabbableContainer({
     eventToOffset,
@@ -37444,7 +37747,7 @@ This message will only show in development mode. It won't appear in production. 
       ...props
     });
   }
-  var TabbableContainer = (0, import_element113.forwardRef)(UnforwardedTabbableContainer);
+  var TabbableContainer = (0, import_element114.forwardRef)(UnforwardedTabbableContainer);
   TabbableContainer.displayName = "TabbableContainer";
   var tabbable_default = TabbableContainer;
 
@@ -37716,7 +38019,7 @@ This message will only show in development mode. It won't appear in production. 
     onClose = () => {
     }
   }) {
-    const popoverProps = (0, import_element114.useMemo)(() => ({
+    const popoverProps = (0, import_element115.useMemo)(() => ({
       shift: true,
       offset: 20,
       // Disabling resize as it would otherwise cause the popover to show
@@ -37764,9 +38067,9 @@ This message will only show in development mode. It won't appear in production. 
     isGradient
   }) {
     const value = isGradient ? element.gradient : element.color;
-    const [isEditingColor, setIsEditingColor] = (0, import_element114.useState)(false);
-    const [popoverAnchor, setPopoverAnchor] = (0, import_element114.useState)(null);
-    const popoverProps = (0, import_element114.useMemo)(() => ({
+    const [isEditingColor, setIsEditingColor] = (0, import_element115.useState)(false);
+    const [popoverAnchor, setPopoverAnchor] = (0, import_element115.useState)(null);
+    const popoverProps = (0, import_element115.useMemo)(() => ({
       ...receivedPopoverProps,
       // Use the custom palette color item as the popover anchor.
       anchor: popoverAnchor
@@ -37837,8 +38140,8 @@ This message will only show in development mode. It won't appear in production. 
     popoverProps,
     addColorRef
   }) {
-    const elementsReferenceRef = (0, import_element114.useRef)(void 0);
-    (0, import_element114.useEffect)(() => {
+    const elementsReferenceRef = (0, import_element115.useRef)(void 0);
+    (0, import_element115.useEffect)(() => {
       elementsReferenceRef.current = elements2;
     }, [elements2]);
     const debounceOnChange = (0, import_compose44.useDebounce)((updatedElements) => onChange(deduplicateElementSlugs(updatedElements)), 100);
@@ -37891,13 +38194,13 @@ This message will only show in development mode. It won't appear in production. 
   }) {
     const isGradient = !!gradients;
     const elements2 = isGradient ? gradients : colors;
-    const [isEditing, setIsEditing] = (0, import_element114.useState)(false);
-    const [editingElement, setEditingElement] = (0, import_element114.useState)(null);
+    const [isEditing, setIsEditing] = (0, import_element115.useState)(false);
+    const [editingElement, setEditingElement] = (0, import_element115.useState)(null);
     const isAdding = isEditing && !!editingElement && elements2[editingElement] && !elements2[editingElement].slug;
     const elementsLength = elements2.length;
     const hasElements = elementsLength > 0;
     const debounceOnChange = (0, import_compose44.useDebounce)(onChange, 100);
-    const onSelectPaletteItem = (0, import_element114.useCallback)((value, newEditingElementIndex) => {
+    const onSelectPaletteItem = (0, import_element115.useCallback)((value, newEditingElementIndex) => {
       const selectedElement = newEditingElementIndex === void 0 ? void 0 : elements2[newEditingElementIndex];
       const key = isGradient ? "gradient" : "color";
       if (!!selectedElement && selectedElement[key] === value) {
@@ -37906,7 +38209,7 @@ This message will only show in development mode. It won't appear in production. 
         setIsEditing(true);
       }
     }, [isGradient, elements2]);
-    const addColorRef = (0, import_element114.useRef)(null);
+    const addColorRef = (0, import_element115.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(PaletteEditStyles, {
       children: [/* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(component_default9, {
         children: [/* @__PURE__ */ (0, import_jsx_runtime181.jsx)(PaletteHeading, {
@@ -38038,7 +38341,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/combobox-control/index.mjs
   var import_i18n37 = __toESM(require_i18n(), 1);
-  var import_element118 = __toESM(require_element(), 1);
+  var import_element119 = __toESM(require_element(), 1);
   var import_compose47 = __toESM(require_compose(), 1);
   var import_a11y5 = __toESM(require_a11y(), 1);
 
@@ -38054,7 +38357,7 @@ This message will only show in development mode. It won't appear in production. 
   })("height:38px;padding-left:", space(2), ";padding-right:", space(2), ";", deprecatedDefaultSize, ";" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1QjhDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgRmxleCB9IGZyb20gJy4uL2ZsZXgnO1xuaW1wb3J0IHsgc3BhY2UgfSBmcm9tICcuLi91dGlscy9zcGFjZSc7XG5pbXBvcnQgdHlwZSB7IENvbWJvYm94Q29udHJvbFByb3BzIH0gZnJvbSAnLi90eXBlcyc7XG5cbmNvbnN0IGRlcHJlY2F0ZWREZWZhdWx0U2l6ZSA9ICgge1xuXHRfX25leHQ0MHB4RGVmYXVsdFNpemUsXG59OiBQaWNrPCBDb21ib2JveENvbnRyb2xQcm9wcywgJ19fbmV4dDQwcHhEZWZhdWx0U2l6ZScgPiApID0+XG5cdCEgX19uZXh0NDBweERlZmF1bHRTaXplICYmXG5cdGNzc2Bcblx0XHRoZWlnaHQ6IDI4cHg7IC8vIDMwcHggLSAycHggdmVydGljYWwgYm9yZGVycyBvbiBwYXJlbnQgY29udGFpbmVyXG5cdFx0cGFkZGluZy1sZWZ0OiAkeyBzcGFjZSggMSApIH07XG5cdFx0cGFkZGluZy1yaWdodDogJHsgc3BhY2UoIDEgKSB9O1xuXHRgO1xuXG5leHBvcnQgY29uc3QgSW5wdXRXcmFwcGVyRmxleCA9IHN0eWxlZCggRmxleCApYFxuXHRoZWlnaHQ6IDM4cHg7IC8vIDQwcHggLSAycHggdmVydGljYWwgYm9yZGVycyBvbiBwYXJlbnQgY29udGFpbmVyXG5cdHBhZGRpbmctbGVmdDogJHsgc3BhY2UoIDIgKSB9O1xuXHRwYWRkaW5nLXJpZ2h0OiAkeyBzcGFjZSggMiApIH07XG5cblx0JHsgZGVwcmVjYXRlZERlZmF1bHRTaXplIH1cbmA7XG4iXX0= */"));
 
   // packages/components/build-module/form-token-field/token-input.mjs
-  var import_element115 = __toESM(require_element(), 1);
+  var import_element116 = __toESM(require_element(), 1);
   var import_jsx_runtime182 = __toESM(require_jsx_runtime(), 1);
   function UnForwardedTokenInput(props, ref) {
     const {
@@ -38069,7 +38372,7 @@ This message will only show in development mode. It won't appear in production. 
       "aria-describedby": ariaDescribedBy,
       ...restProps
     } = props;
-    const [hasFocus2, setHasFocus] = (0, import_element115.useState)(false);
+    const [hasFocus2, setHasFocus] = (0, import_element116.useState)(false);
     const size3 = value ? value.length + 1 : 0;
     const onChangeHandler = (event) => {
       if (onChange) {
@@ -38112,7 +38415,7 @@ This message will only show in development mode. It won't appear in production. 
       "aria-describedby": ariaDescribedBy
     });
   }
-  var TokenInput = (0, import_element115.forwardRef)(UnForwardedTokenInput);
+  var TokenInput = (0, import_element116.forwardRef)(UnForwardedTokenInput);
   TokenInput.displayName = "TokenInput";
   var token_input_default = TokenInput;
 
@@ -38215,12 +38518,12 @@ This message will only show in development mode. It won't appear in production. 
   var suggestions_list_default = SuggestionsList;
 
   // packages/components/build-module/higher-order/with-focus-outside/index.mjs
-  var import_element116 = __toESM(require_element(), 1);
+  var import_element117 = __toESM(require_element(), 1);
   var import_compose46 = __toESM(require_compose(), 1);
   var import_jsx_runtime184 = __toESM(require_jsx_runtime(), 1);
   var with_focus_outside_default = (0, import_compose46.createHigherOrderComponent)((WrappedComponent) => function WithFocusOutside(props) {
-    const [handleFocusOutside, setHandleFocusOutside] = (0, import_element116.useState)(void 0);
-    const bindFocusOutsideHandler = (0, import_element116.useCallback)((node2) => setHandleFocusOutside(() => node2?.handleFocusOutside ? node2.handleFocusOutside.bind(node2) : void 0), []);
+    const [handleFocusOutside, setHandleFocusOutside] = (0, import_element117.useState)(void 0);
+    const bindFocusOutsideHandler = (0, import_element117.useCallback)((node2) => setHandleFocusOutside(() => node2?.handleFocusOutside ? node2.handleFocusOutside.bind(node2) : void 0), []);
     return /* @__PURE__ */ (0, import_jsx_runtime184.jsx)("div", {
       ...(0, import_compose46.__experimentalUseFocusOutside)(handleFocusOutside),
       children: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(WrappedComponent, {
@@ -38270,7 +38573,7 @@ This message will only show in development mode. It won't appear in production. 
   })(commonPathProps, ";stroke:currentColor;stroke-linecap:round;transform-origin:50% 50%;animation:1.4s linear infinite both ", spinAnimation, ";" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEwQzJDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcywga2V5ZnJhbWVzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT0xPUlMsIENPTkZJRyB9IGZyb20gJy4uL3V0aWxzJztcblxuY29uc3Qgc3BpbkFuaW1hdGlvbiA9IGtleWZyYW1lc2Bcblx0ZnJvbSB7XG5cdFx0dHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7XG5cdH1cblx0dG8ge1xuXHRcdHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7XG5cdH1cbiBgO1xuXG5leHBvcnQgY29uc3QgU3R5bGVkU3Bpbm5lciA9IHN0eWxlZC5zdmdgXG5cdHdpZHRoOiAkeyBDT05GSUcuc3Bpbm5lclNpemUgfXB4O1xuXHRoZWlnaHQ6ICR7IENPTkZJRy5zcGlubmVyU2l6ZSB9cHg7XG5cdGRpc3BsYXk6IGlubGluZS1ibG9jaztcblx0bWFyZ2luOiA1cHggMTFweCAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cdG92ZXJmbG93OiB2aXNpYmxlO1xuXHRvcGFjaXR5OiAxO1xuXHRiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbmA7XG5cbmNvbnN0IGNvbW1vblBhdGhQcm9wcyA9IGNzc2Bcblx0ZmlsbDogdHJhbnNwYXJlbnQ7XG5cdHN0cm9rZS13aWR0aDogMS41cHg7XG5gO1xuXG5leHBvcnQgY29uc3QgU3Bpbm5lclRyYWNrID0gc3R5bGVkLmNpcmNsZWBcblx0JHsgY29tbW9uUGF0aFByb3BzIH07XG5cdHN0cm9rZTogJHsgQ09MT1JTLmdyYXlbIDMwMCBdIH07XG5gO1xuXG5leHBvcnQgY29uc3QgU3Bpbm5lckluZGljYXRvciA9IHN0eWxlZC5wYXRoYFxuXHQkeyBjb21tb25QYXRoUHJvcHMgfTtcblx0c3Ryb2tlOiBjdXJyZW50Q29sb3I7XG5cdHN0cm9rZS1saW5lY2FwOiByb3VuZDtcblx0dHJhbnNmb3JtLW9yaWdpbjogNTAlIDUwJTtcblx0YW5pbWF0aW9uOiAxLjRzIGxpbmVhciBpbmZpbml0ZSBib3RoICR7IHNwaW5BbmltYXRpb24gfTtcbmA7XG4iXX0= */"));
 
   // packages/components/build-module/spinner/index.mjs
-  var import_element117 = __toESM(require_element(), 1);
+  var import_element118 = __toESM(require_element(), 1);
   var import_jsx_runtime185 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedSpinner({
     className: className2,
@@ -38297,7 +38600,7 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   }
-  var Spinner = (0, import_element117.forwardRef)(UnforwardedSpinner);
+  var Spinner = (0, import_element118.forwardRef)(UnforwardedSpinner);
   Spinner.displayName = "Spinner";
   var spinner_default = Spinner;
 
@@ -38305,7 +38608,7 @@ This message will only show in development mode. It won't appear in production. 
   var import_jsx_runtime186 = __toESM(require_jsx_runtime(), 1);
   var noop11 = () => {
   };
-  var DetectOutside = with_focus_outside_default(class DetectOutsideComponent extends import_element118.Component {
+  var DetectOutside = with_focus_outside_default(class DetectOutsideComponent extends import_element119.Component {
     handleFocusOutside(event) {
       this.props.onFocusOutside(event);
     }
@@ -38341,12 +38644,12 @@ This message will only show in development mode. It won't appear in production. 
     const currentOption = options2.find((option) => option.value === value);
     const currentLabel = currentOption?.label ?? "";
     const instanceId = (0, import_compose47.useInstanceId)(ComboboxControl, "combobox-control");
-    const [selectedSuggestion, setSelectedSuggestion] = (0, import_element118.useState)(currentOption || null);
-    const [isExpanded, setIsExpanded] = (0, import_element118.useState)(false);
-    const [inputHasFocus, setInputHasFocus] = (0, import_element118.useState)(false);
-    const [inputValue, setInputValue] = (0, import_element118.useState)("");
-    const inputContainer = (0, import_element118.useRef)(null);
-    const matchingSuggestions = (0, import_element118.useMemo)(() => {
+    const [selectedSuggestion, setSelectedSuggestion] = (0, import_element119.useState)(currentOption || null);
+    const [isExpanded, setIsExpanded] = (0, import_element119.useState)(false);
+    const [inputHasFocus, setInputHasFocus] = (0, import_element119.useState)(false);
+    const [inputValue, setInputValue] = (0, import_element119.useState)("");
+    const inputContainer = (0, import_element119.useRef)(null);
+    const matchingSuggestions = (0, import_element119.useMemo)(() => {
       const startsWithMatch = [];
       const containsMatch = [];
       const match4 = normalizeTextString(inputValue);
@@ -38445,14 +38748,14 @@ This message will only show in development mode. It won't appear in production. 
     const handleResetStopPropagation = (event) => {
       event.stopPropagation();
     };
-    (0, import_element118.useEffect)(() => {
+    (0, import_element119.useEffect)(() => {
       const hasMatchingSuggestions = matchingSuggestions.length > 0;
       const hasSelectedMatchingSuggestions = getIndexOfMatchingSuggestion(selectedSuggestion, matchingSuggestions) > 0;
       if (hasMatchingSuggestions && !hasSelectedMatchingSuggestions) {
         setSelectedSuggestion(matchingSuggestions[0]);
       }
     }, [matchingSuggestions, selectedSuggestion]);
-    (0, import_element118.useEffect)(() => {
+    (0, import_element119.useEffect)(() => {
       const hasMatchingSuggestions = matchingSuggestions.length > 0;
       if (isExpanded) {
         const message2 = hasMatchingSuggestions ? (0, import_i18n37.sprintf)(
@@ -38528,7 +38831,7 @@ This message will only show in development mode. It won't appear in production. 
   var combobox_control_default = ComboboxControl;
 
   // packages/components/build-module/composite/legacy/index.mjs
-  var import_element119 = __toESM(require_element(), 1);
+  var import_element120 = __toESM(require_element(), 1);
   var import_compose48 = __toESM(require_compose(), 1);
   var import_deprecated14 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime187 = __toESM(require_jsx_runtime(), 1);
@@ -38589,7 +38892,7 @@ This message will only show in development mode. It won't appear in production. 
     Component8.displayName = displayName;
     return Component8;
   }
-  var UnproxiedCompositeGroup = (0, import_element119.forwardRef)(({
+  var UnproxiedCompositeGroup = (0, import_element120.forwardRef)(({
     role,
     ...props
   }, ref) => {
@@ -38644,10 +38947,10 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/confirm-dialog/component.mjs
   var import_i18n39 = __toESM(require_i18n(), 1);
-  var import_element123 = __toESM(require_element(), 1);
+  var import_element124 = __toESM(require_element(), 1);
 
   // packages/components/build-module/modal/index.mjs
-  var import_element122 = __toESM(require_element(), 1);
+  var import_element123 = __toESM(require_element(), 1);
   var import_compose50 = __toESM(require_compose(), 1);
   var import_i18n38 = __toESM(require_i18n(), 1);
   var import_dom30 = __toESM(require_dom(), 1);
@@ -38685,66 +38988,77 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/modal/use-modal-exit-animation.mjs
   var import_compose49 = __toESM(require_compose(), 1);
-  var import_element120 = __toESM(require_element(), 1);
+  var import_element121 = __toESM(require_element(), 1);
   var import_warning6 = __toESM(require_warning(), 1);
-  var FRAME_ANIMATION_DURATION = config_values_default.transitionDuration;
-  var FRAME_ANIMATION_DURATION_NUMBER = Number.parseInt(config_values_default.transitionDuration);
+  var FRAME_ANIMATION_DURATION_MS = Number.parseInt(
+    config_values_default.transitionDuration
+  );
   var EXIT_ANIMATION_NAME = "components-modal__disappear-animation";
   function useModalExitAnimation() {
-    const frameRef = (0, import_element120.useRef)(null);
-    const [isAnimatingOut, setIsAnimatingOut] = (0, import_element120.useState)(false);
+    const frameRef = (0, import_element121.useRef)(null);
+    const [isAnimatingOut, setIsAnimatingOut] = (0, import_element121.useState)(false);
     const isReducedMotion = (0, import_compose49.useReducedMotion)();
-    const closeModal = (0, import_element120.useCallback)(() => new Promise((closeModalResolve) => {
-      const frameEl = frameRef.current;
-      if (isReducedMotion) {
-        closeModalResolve();
-        return;
-      }
-      if (!frameEl) {
-        true ? (0, import_warning6.default)("wp.components.Modal: the Modal component can't be closed with an exit animation because of a missing reference to the modal frame element.") : void 0;
-        closeModalResolve();
-        return;
-      }
-      let handleAnimationEnd;
-      const startAnimation = () => new Promise((animationResolve) => {
-        handleAnimationEnd = (e3) => {
-          if (e3.animationName === EXIT_ANIMATION_NAME) {
-            animationResolve();
-          }
-        };
-        frameEl.addEventListener("animationend", handleAnimationEnd);
-        setIsAnimatingOut(true);
-      });
-      const animationTimeout = () => new Promise((timeoutResolve) => {
-        setTimeout(
-          () => timeoutResolve(),
-          // Allow an extra 20% of the animation duration for the
-          // animationend event to fire, in case the animation frame is
-          // slightly delayes by some other events in the event loop.
-          FRAME_ANIMATION_DURATION_NUMBER * 1.2
-        );
-      });
-      Promise.race([startAnimation(), animationTimeout()]).then(() => {
-        if (handleAnimationEnd) {
-          frameEl.removeEventListener("animationend", handleAnimationEnd);
+    const closeModal = (0, import_element121.useCallback)(
+      () => new Promise((closeModalResolve) => {
+        const frameEl = frameRef.current;
+        if (isReducedMotion) {
+          closeModalResolve();
+          return;
         }
-        setIsAnimatingOut(false);
-        closeModalResolve();
-      });
-    }), [isReducedMotion]);
+        if (!frameEl) {
+          (0, import_warning6.default)(
+            "wp.components.Modal: the Modal component can't be closed with an exit animation because of a missing reference to the modal frame element."
+          );
+          closeModalResolve();
+          return;
+        }
+        let handleAnimationEnd;
+        const startAnimation = () => new Promise((animationResolve) => {
+          handleAnimationEnd = (e3) => {
+            if (e3.animationName === EXIT_ANIMATION_NAME) {
+              animationResolve();
+            }
+          };
+          frameEl.addEventListener(
+            "animationend",
+            handleAnimationEnd
+          );
+          setIsAnimatingOut(true);
+        });
+        const animationTimeout = () => new Promise((timeoutResolve) => {
+          setTimeout(
+            () => timeoutResolve(),
+            // Allow an extra 20% of the animation duration for the
+            // animationend event to fire, in case the animation frame is
+            // slightly delayes by some other events in the event loop.
+            FRAME_ANIMATION_DURATION_MS * 1.2
+          );
+        });
+        Promise.race([startAnimation(), animationTimeout()]).then(
+          () => {
+            if (handleAnimationEnd) {
+              frameEl.removeEventListener(
+                "animationend",
+                handleAnimationEnd
+              );
+            }
+            setIsAnimatingOut(false);
+            closeModalResolve();
+          }
+        );
+      }),
+      [isReducedMotion]
+    );
     return {
       overlayClassname: isAnimatingOut ? "is-animating-out" : void 0,
       frameRef,
-      frameStyle: {
-        "--modal-frame-animation-duration": `${FRAME_ANIMATION_DURATION}`
-      },
       closeModal
     };
   }
 
   // packages/components/build-module/modal/context.mjs
-  var import_element121 = __toESM(require_element(), 1);
-  var ModalContext = (0, import_element121.createContext)(/* @__PURE__ */ new Set());
+  var import_element122 = __toESM(require_element(), 1);
+  var ModalContext = (0, import_element122.createContext)(/* @__PURE__ */ new Set());
   ModalContext.displayName = "ModalContext";
 
   // packages/components/build-module/modal/index.mjs
@@ -38778,23 +39092,23 @@ This message will only show in development mode. It won't appear in production. 
       headerActions = null,
       __experimentalHideHeader = false
     } = props;
-    const ref = (0, import_element122.useRef)(null);
+    const ref = (0, import_element123.useRef)(null);
     const instanceId = (0, import_compose50.useInstanceId)(Modal);
     const headingId = title ? `components-modal-header-${instanceId}` : aria.labelledby;
     const focusOnMountRef = (0, import_compose50.useFocusOnMount)(focusOnMount === "firstContentElement" ? "firstElement" : focusOnMount);
     const constrainedTabbingRef = (0, import_compose50.useConstrainedTabbing)();
     const focusReturnRef = (0, import_compose50.useFocusReturn)();
-    const contentRef = (0, import_element122.useRef)(null);
-    const childrenContainerRef = (0, import_element122.useRef)(null);
-    const [hasScrolledContent, setHasScrolledContent] = (0, import_element122.useState)(false);
-    const [hasScrollableContent, setHasScrollableContent] = (0, import_element122.useState)(false);
+    const contentRef = (0, import_element123.useRef)(null);
+    const childrenContainerRef = (0, import_element123.useRef)(null);
+    const [hasScrolledContent, setHasScrolledContent] = (0, import_element123.useState)(false);
+    const [hasScrollableContent, setHasScrollableContent] = (0, import_element123.useState)(false);
     let sizeClass;
     if (isFullScreen || size3 === "fill") {
       sizeClass = "is-full-screen";
     } else if (size3) {
       sizeClass = `has-size-${size3}`;
     }
-    const isContentScrollable = (0, import_element122.useCallback)(() => {
+    const isContentScrollable = (0, import_element123.useCallback)(() => {
       if (!contentRef.current) {
         return;
       }
@@ -38805,17 +39119,17 @@ This message will only show in development mode. It won't appear in production. 
         setHasScrollableContent(false);
       }
     }, [contentRef]);
-    (0, import_element122.useEffect)(() => {
+    (0, import_element123.useEffect)(() => {
       modalize(ref.current);
       return () => unmodalize();
     }, []);
-    const onRequestCloseRef = (0, import_element122.useRef)(void 0);
-    (0, import_element122.useEffect)(() => {
+    const onRequestCloseRef = (0, import_element123.useRef)(void 0);
+    (0, import_element123.useEffect)(() => {
       onRequestCloseRef.current = onRequestClose;
     }, [onRequestClose]);
-    const dismissers = (0, import_element122.useContext)(ModalContext);
-    const [nestedDismissers] = (0, import_element122.useState)(() => /* @__PURE__ */ new Set());
-    (0, import_element122.useEffect)(() => {
+    const dismissers = (0, import_element123.useContext)(ModalContext);
+    const [nestedDismissers] = (0, import_element123.useState)(() => /* @__PURE__ */ new Set());
+    (0, import_element123.useEffect)(() => {
       dismissers.add(onRequestCloseRef);
       for (const dismisser of dismissers) {
         if (dismisser !== onRequestCloseRef) {
@@ -38829,7 +39143,7 @@ This message will only show in development mode. It won't appear in production. 
         dismissers.delete(onRequestCloseRef);
       };
     }, [dismissers, nestedDismissers]);
-    (0, import_element122.useEffect)(() => {
+    (0, import_element123.useEffect)(() => {
       const theClass = bodyOpenClassName;
       const oneMore = 1 + (bodyOpenClasses.get(theClass) ?? 0);
       bodyOpenClasses.set(theClass, oneMore);
@@ -38847,10 +39161,9 @@ This message will only show in development mode. It won't appear in production. 
     const {
       closeModal,
       frameRef,
-      frameStyle,
       overlayClassname
     } = useModalExitAnimation();
-    (0, import_element122.useLayoutEffect)(() => {
+    (0, import_element123.useLayoutEffect)(() => {
       if (!window.ResizeObserver || !childrenContainerRef.current) {
         return;
       }
@@ -38867,7 +39180,7 @@ This message will only show in development mode. It won't appear in production. 
         closeModal().then(() => onRequestClose(event));
       }
     }
-    const onContentContainerScroll = (0, import_element122.useCallback)((e3) => {
+    const onContentContainerScroll = (0, import_element123.useCallback)((e3) => {
       const scrollY2 = e3?.currentTarget?.scrollTop ?? -1;
       if (!hasScrolledContent && scrollY2 > 0) {
         setHasScrolledContent(true);
@@ -38911,10 +39224,7 @@ This message will only show in development mode. It won't appear in production. 
           document,
           children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)("div", {
             className: clsx_default("components-modal__frame", sizeClass, className2),
-            style: {
-              ...frameStyle,
-              ...style2
-            },
+            style: style2,
             ref: (0, import_compose50.useMergeRefs)([frameRef, constrainedTabbingRef, focusReturnRef, focusOnMount !== "firstContentElement" ? focusOnMountRef : null]),
             role,
             "aria-label": contentLabel,
@@ -38967,12 +39277,12 @@ This message will only show in development mode. It won't appear in production. 
         })
       })
     );
-    return (0, import_element122.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime188.jsx)(ModalContext.Provider, {
+    return (0, import_element123.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime188.jsx)(ModalContext.Provider, {
       value: nestedDismissers,
       children: modal
     }), document.body);
   }
-  var Modal = (0, import_element122.forwardRef)(UnforwardedModal);
+  var Modal = (0, import_element123.forwardRef)(UnforwardedModal);
   Modal.displayName = "Modal";
   var modal_default = Modal;
 
@@ -39004,22 +39314,22 @@ This message will only show in development mode. It won't appear in production. 
     } = useContextSystem(props, "ConfirmDialog");
     const cx3 = useCx();
     const wrapperClassName = cx3(wrapper2);
-    const cancelButtonRef = (0, import_element123.useRef)(null);
-    const confirmButtonRef = (0, import_element123.useRef)(null);
-    const [isOpen, setIsOpen] = (0, import_element123.useState)();
-    const [shouldSelfClose, setShouldSelfClose] = (0, import_element123.useState)();
-    (0, import_element123.useEffect)(() => {
+    const cancelButtonRef = (0, import_element124.useRef)(null);
+    const confirmButtonRef = (0, import_element124.useRef)(null);
+    const [isOpen, setIsOpen] = (0, import_element124.useState)();
+    const [shouldSelfClose, setShouldSelfClose] = (0, import_element124.useState)();
+    (0, import_element124.useEffect)(() => {
       const isIsOpenSet = typeof isOpenProp !== "undefined";
       setIsOpen(isIsOpenSet ? isOpenProp : true);
       setShouldSelfClose(!isIsOpenSet);
     }, [isOpenProp]);
-    const handleEvent = (0, import_element123.useCallback)((callback) => (event) => {
+    const handleEvent = (0, import_element124.useCallback)((callback) => (event) => {
       callback?.(event);
       if (shouldSelfClose) {
         setIsOpen(false);
       }
     }, [shouldSelfClose, setIsOpen]);
-    const handleEnter = (0, import_element123.useCallback)((event) => {
+    const handleEnter = (0, import_element124.useCallback)((event) => {
       const isConfirmOrCancelButton = event.target === cancelButtonRef.current || event.target === confirmButtonRef.current;
       if (!isConfirmOrCancelButton && event.key === "Enter") {
         handleEvent(onConfirm)(event);
@@ -39075,7 +39385,7 @@ This message will only show in development mode. It won't appear in production. 
   var import_i18n41 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/custom-select-control-v2/custom-select.mjs
-  var import_element124 = __toESM(require_element(), 1);
+  var import_element125 = __toESM(require_element(), 1);
   var import_i18n40 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/custom-select-control-v2/styles.mjs
@@ -39211,7 +39521,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/custom-select-control-v2/custom-select.mjs
   var import_jsx_runtime190 = __toESM(require_jsx_runtime(), 1);
-  var CustomSelectContext = (0, import_element124.createContext)(void 0);
+  var CustomSelectContext = (0, import_element125.createContext)(void 0);
   CustomSelectContext.displayName = "CustomSelectContext";
   function defaultRenderSelectedValue(value) {
     const isValueEmpty2 = Array.isArray(value) ? value.length === 0 : value === void 0 || value === null;
@@ -39236,7 +39546,7 @@ This message will only show in development mode. It won't appear in production. 
     const {
       value: currentValue
     } = useStoreState(store);
-    const computedRenderSelectedValue = (0, import_element124.useMemo)(() => renderSelectedValue ?? defaultRenderSelectedValue, [renderSelectedValue]);
+    const computedRenderSelectedValue = (0, import_element125.useMemo)(() => renderSelectedValue ?? defaultRenderSelectedValue, [renderSelectedValue]);
     return /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(Select22, {
       ...restProps,
       size: size3,
@@ -39256,12 +39566,12 @@ This message will only show in development mode. It won't appear in production. 
       isLegacy = false,
       ...restProps
     } = props;
-    const onSelectPopoverKeyDown = (0, import_element124.useCallback)((e3) => {
+    const onSelectPopoverKeyDown = (0, import_element125.useCallback)((e3) => {
       if (isLegacy) {
         e3.stopPropagation();
       }
     }, [isLegacy]);
-    const contextValue = (0, import_element124.useMemo)(() => ({
+    const contextValue = (0, import_element125.useMemo)(() => ({
       store,
       size: size3
     }), [store, size3]);
@@ -39309,13 +39619,13 @@ This message will only show in development mode. It won't appear in production. 
   var custom_select_default = CustomSelect;
 
   // packages/components/build-module/custom-select-control-v2/item.mjs
-  var import_element125 = __toESM(require_element(), 1);
+  var import_element126 = __toESM(require_element(), 1);
   var import_jsx_runtime191 = __toESM(require_jsx_runtime(), 1);
   function CustomSelectItem({
     children,
     ...props
   }) {
-    const customSelectContext = (0, import_element125.useContext)(CustomSelectContext);
+    const customSelectContext = (0, import_element126.useContext)(CustomSelectContext);
     return /* @__PURE__ */ (0, import_jsx_runtime191.jsxs)(SelectItem22, {
       store: customSelectContext?.store,
       size: customSelectContext?.size ?? "default",
@@ -39479,47 +39789,52 @@ This message will only show in development mode. It won't appear in production. 
   }
   var custom_select_control_default = CustomSelectControl;
 
-  // node_modules/date-fns/toDate.mjs
-  function toDate(argument) {
-    const argStr = Object.prototype.toString.call(argument);
-    if (argument instanceof Date || typeof argument === "object" && argStr === "[object Date]") {
-      return new argument.constructor(+argument);
-    } else if (typeof argument === "number" || argStr === "[object Number]" || typeof argument === "string" || argStr === "[object String]") {
-      return new Date(argument);
-    } else {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-  }
+  // node_modules/date-fns/constants.js
+  var daysInYear = 365.2425;
+  var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1e3;
+  var minTime = -maxTime;
+  var millisecondsInWeek = 6048e5;
+  var millisecondsInDay = 864e5;
+  var secondsInHour = 3600;
+  var secondsInDay = secondsInHour * 24;
+  var secondsInWeek = secondsInDay * 7;
+  var secondsInYear = secondsInDay * daysInYear;
+  var secondsInMonth = secondsInYear / 12;
+  var secondsInQuarter = secondsInMonth * 3;
+  var constructFromSymbol = /* @__PURE__ */ Symbol.for("constructDateFrom");
 
-  // node_modules/date-fns/constructFrom.mjs
+  // node_modules/date-fns/constructFrom.js
   function constructFrom(date, value) {
-    if (date instanceof Date) {
-      return new date.constructor(value);
-    } else {
-      return new Date(value);
-    }
+    if (typeof date === "function") return date(value);
+    if (date && typeof date === "object" && constructFromSymbol in date)
+      return date[constructFromSymbol](value);
+    if (date instanceof Date) return new date.constructor(value);
+    return new Date(value);
   }
 
-  // node_modules/date-fns/addDays.mjs
-  function addDays(date, amount) {
-    const _date = toDate(date);
-    if (isNaN(amount)) return constructFrom(date, NaN);
-    if (!amount) {
-      return _date;
-    }
+  // node_modules/date-fns/toDate.js
+  function toDate(argument, context) {
+    return constructFrom(context || argument, argument);
+  }
+
+  // node_modules/date-fns/addDays.js
+  function addDays(date, amount, options2) {
+    const _date = toDate(date, options2?.in);
+    if (isNaN(amount)) return constructFrom(options2?.in || date, NaN);
+    if (!amount) return _date;
     _date.setDate(_date.getDate() + amount);
     return _date;
   }
 
-  // node_modules/date-fns/addMonths.mjs
-  function addMonths(date, amount) {
-    const _date = toDate(date);
-    if (isNaN(amount)) return constructFrom(date, NaN);
+  // node_modules/date-fns/addMonths.js
+  function addMonths(date, amount, options2) {
+    const _date = toDate(date, options2?.in);
+    if (isNaN(amount)) return constructFrom(options2?.in || date, NaN);
     if (!amount) {
       return _date;
     }
     const dayOfMonth = _date.getDate();
-    const endOfDesiredMonth = constructFrom(date, _date.getTime());
+    const endOfDesiredMonth = constructFrom(options2?.in || date, _date.getTime());
     endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
     const daysInMonth = endOfDesiredMonth.getDate();
     if (dayOfMonth >= daysInMonth) {
@@ -39534,29 +39849,17 @@ This message will only show in development mode. It won't appear in production. 
     }
   }
 
-  // node_modules/date-fns/constants.mjs
-  var daysInYear = 365.2425;
-  var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1e3;
-  var minTime = -maxTime;
-  var millisecondsInDay = 864e5;
-  var secondsInHour = 3600;
-  var secondsInDay = secondsInHour * 24;
-  var secondsInWeek = secondsInDay * 7;
-  var secondsInYear = secondsInDay * daysInYear;
-  var secondsInMonth = secondsInYear / 12;
-  var secondsInQuarter = secondsInMonth * 3;
-
-  // node_modules/date-fns/_lib/defaultOptions.mjs
+  // node_modules/date-fns/_lib/defaultOptions.js
   var defaultOptions2 = {};
   function getDefaultOptions() {
     return defaultOptions2;
   }
 
-  // node_modules/date-fns/startOfWeek.mjs
+  // node_modules/date-fns/startOfWeek.js
   function startOfWeek(date, options2) {
-    const defaultOptions4 = getDefaultOptions();
-    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions4.weekStartsOn ?? defaultOptions4.locale?.options?.weekStartsOn ?? 0;
-    const _date = toDate(date);
+    const defaultOptions3 = getDefaultOptions();
+    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions3.weekStartsOn ?? defaultOptions3.locale?.options?.weekStartsOn ?? 0;
+    const _date = toDate(date, options2?.in);
     const day = _date.getDay();
     const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
     _date.setDate(_date.getDate() - diff);
@@ -39564,14 +39867,33 @@ This message will only show in development mode. It won't appear in production. 
     return _date;
   }
 
-  // node_modules/date-fns/startOfDay.mjs
-  function startOfDay(date) {
-    const _date = toDate(date);
-    _date.setHours(0, 0, 0, 0);
-    return _date;
+  // node_modules/date-fns/startOfISOWeek.js
+  function startOfISOWeek(date, options2) {
+    return startOfWeek(date, { ...options2, weekStartsOn: 1 });
   }
 
-  // node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds.mjs
+  // node_modules/date-fns/getISOWeekYear.js
+  function getISOWeekYear(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const year = _date.getFullYear();
+    const fourthOfJanuaryOfNextYear = constructFrom(_date, 0);
+    fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
+    fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
+    const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
+    const fourthOfJanuaryOfThisYear = constructFrom(_date, 0);
+    fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
+    fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
+    const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
+    if (_date.getTime() >= startOfNextYear.getTime()) {
+      return year + 1;
+    } else if (_date.getTime() >= startOfThisYear.getTime()) {
+      return year;
+    } else {
+      return year - 1;
+    }
+  }
+
+  // node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds.js
   function getTimezoneOffsetInMilliseconds(date) {
     const _date = toDate(date);
     const utcDate = new Date(
@@ -39589,50 +39911,135 @@ This message will only show in development mode. It won't appear in production. 
     return +date - +utcDate;
   }
 
-  // node_modules/date-fns/differenceInCalendarDays.mjs
-  function differenceInCalendarDays(dateLeft, dateRight) {
-    const startOfDayLeft = startOfDay(dateLeft);
-    const startOfDayRight = startOfDay(dateRight);
-    const timestampLeft = +startOfDayLeft - getTimezoneOffsetInMilliseconds(startOfDayLeft);
-    const timestampRight = +startOfDayRight - getTimezoneOffsetInMilliseconds(startOfDayRight);
-    return Math.round((timestampLeft - timestampRight) / millisecondsInDay);
+  // node_modules/date-fns/_lib/normalizeDates.js
+  function normalizeDates(context, ...dates) {
+    const normalize2 = constructFrom.bind(
+      null,
+      context || dates.find((date) => typeof date === "object")
+    );
+    return dates.map(normalize2);
   }
 
-  // node_modules/date-fns/addWeeks.mjs
-  function addWeeks(date, amount) {
-    const days = amount * 7;
-    return addDays(date, days);
+  // node_modules/date-fns/startOfDay.js
+  function startOfDay(date, options2) {
+    const _date = toDate(date, options2?.in);
+    _date.setHours(0, 0, 0, 0);
+    return _date;
   }
 
-  // node_modules/date-fns/addYears.mjs
-  function addYears(date, amount) {
-    return addMonths(date, amount * 12);
+  // node_modules/date-fns/differenceInCalendarDays.js
+  function differenceInCalendarDays(laterDate, earlierDate, options2) {
+    const [laterDate_, earlierDate_] = normalizeDates(
+      options2?.in,
+      laterDate,
+      earlierDate
+    );
+    const laterStartOfDay = startOfDay(laterDate_);
+    const earlierStartOfDay = startOfDay(earlierDate_);
+    const laterTimestamp = +laterStartOfDay - getTimezoneOffsetInMilliseconds(laterStartOfDay);
+    const earlierTimestamp = +earlierStartOfDay - getTimezoneOffsetInMilliseconds(earlierStartOfDay);
+    return Math.round((laterTimestamp - earlierTimestamp) / millisecondsInDay);
   }
 
-  // node_modules/date-fns/isSameDay.mjs
-  function isSameDay(dateLeft, dateRight) {
-    const dateLeftStartOfDay = startOfDay(dateLeft);
-    const dateRightStartOfDay = startOfDay(dateRight);
-    return +dateLeftStartOfDay === +dateRightStartOfDay;
+  // node_modules/date-fns/startOfISOWeekYear.js
+  function startOfISOWeekYear(date, options2) {
+    const year = getISOWeekYear(date, options2);
+    const fourthOfJanuary = constructFrom(options2?.in || date, 0);
+    fourthOfJanuary.setFullYear(year, 0, 4);
+    fourthOfJanuary.setHours(0, 0, 0, 0);
+    return startOfISOWeek(fourthOfJanuary);
   }
 
-  // node_modules/date-fns/endOfMonth.mjs
-  function endOfMonth(date) {
-    const _date = toDate(date);
+  // node_modules/date-fns/addWeeks.js
+  function addWeeks(date, amount, options2) {
+    return addDays(date, amount * 7, options2);
+  }
+
+  // node_modules/date-fns/addYears.js
+  function addYears(date, amount, options2) {
+    return addMonths(date, amount * 12, options2);
+  }
+
+  // node_modules/date-fns/max.js
+  function max2(dates, options2) {
+    let result;
+    let context = options2?.in;
+    dates.forEach((date) => {
+      if (!context && typeof date === "object")
+        context = constructFrom.bind(null, date);
+      const date_ = toDate(date, context);
+      if (!result || result < date_ || isNaN(+date_)) result = date_;
+    });
+    return constructFrom(context, result || NaN);
+  }
+
+  // node_modules/date-fns/min.js
+  function min2(dates, options2) {
+    let result;
+    let context = options2?.in;
+    dates.forEach((date) => {
+      if (!context && typeof date === "object")
+        context = constructFrom.bind(null, date);
+      const date_ = toDate(date, context);
+      if (!result || result > date_ || isNaN(+date_)) result = date_;
+    });
+    return constructFrom(context, result || NaN);
+  }
+
+  // node_modules/date-fns/isSameDay.js
+  function isSameDay(laterDate, earlierDate, options2) {
+    const [dateLeft_, dateRight_] = normalizeDates(
+      options2?.in,
+      laterDate,
+      earlierDate
+    );
+    return +startOfDay(dateLeft_) === +startOfDay(dateRight_);
+  }
+
+  // node_modules/date-fns/isDate.js
+  function isDate(value) {
+    return value instanceof Date || typeof value === "object" && Object.prototype.toString.call(value) === "[object Date]";
+  }
+
+  // node_modules/date-fns/isValid.js
+  function isValid(date) {
+    return !(!isDate(date) && typeof date !== "number" || isNaN(+toDate(date)));
+  }
+
+  // node_modules/date-fns/differenceInCalendarMonths.js
+  function differenceInCalendarMonths(laterDate, earlierDate, options2) {
+    const [laterDate_, earlierDate_] = normalizeDates(
+      options2?.in,
+      laterDate,
+      earlierDate
+    );
+    const yearsDiff = laterDate_.getFullYear() - earlierDate_.getFullYear();
+    const monthsDiff = laterDate_.getMonth() - earlierDate_.getMonth();
+    return yearsDiff * 12 + monthsDiff;
+  }
+
+  // node_modules/date-fns/endOfMonth.js
+  function endOfMonth(date, options2) {
+    const _date = toDate(date, options2?.in);
     const month = _date.getMonth();
     _date.setFullYear(_date.getFullYear(), month + 1, 0);
     _date.setHours(23, 59, 59, 999);
     return _date;
   }
 
-  // node_modules/date-fns/eachDayOfInterval.mjs
+  // node_modules/date-fns/_lib/normalizeInterval.js
+  function normalizeInterval(context, interval) {
+    const [start, end] = normalizeDates(context, interval.start, interval.end);
+    return { start, end };
+  }
+
+  // node_modules/date-fns/eachDayOfInterval.js
   function eachDayOfInterval(interval, options2) {
-    const startDate = toDate(interval.start);
-    const endDate = toDate(interval.end);
-    let reversed = +startDate > +endDate;
-    const endTime = reversed ? +startDate : +endDate;
-    const currentDate = reversed ? endDate : startDate;
-    currentDate.setHours(0, 0, 0, 0);
+    const { start, end } = normalizeInterval(options2?.in, interval);
+    let reversed = +start > +end;
+    const endTime = reversed ? +start : +end;
+    const date = reversed ? end : start;
+    date.setHours(0, 0, 0, 0);
     let step = options2?.step ?? 1;
     if (!step) return [];
     if (step < 0) {
@@ -39640,30 +40047,22 @@ This message will only show in development mode. It won't appear in production. 
       reversed = !reversed;
     }
     const dates = [];
-    while (+currentDate <= endTime) {
-      dates.push(toDate(currentDate));
-      currentDate.setDate(currentDate.getDate() + step);
-      currentDate.setHours(0, 0, 0, 0);
+    while (+date <= endTime) {
+      dates.push(constructFrom(start, date));
+      date.setDate(date.getDate() + step);
+      date.setHours(0, 0, 0, 0);
     }
     return reversed ? dates.reverse() : dates;
   }
 
-  // node_modules/date-fns/startOfMinute.mjs
-  function startOfMinute(date) {
-    const _date = toDate(date);
-    _date.setSeconds(0, 0);
-    return _date;
-  }
-
-  // node_modules/date-fns/eachMonthOfInterval.mjs
+  // node_modules/date-fns/eachMonthOfInterval.js
   function eachMonthOfInterval(interval, options2) {
-    const startDate = toDate(interval.start);
-    const endDate = toDate(interval.end);
-    let reversed = +startDate > +endDate;
-    const endTime = reversed ? +startDate : +endDate;
-    const currentDate = reversed ? endDate : startDate;
-    currentDate.setHours(0, 0, 0, 0);
-    currentDate.setDate(1);
+    const { start, end } = normalizeInterval(options2?.in, interval);
+    let reversed = +start > +end;
+    const endTime = reversed ? +start : +end;
+    const date = reversed ? end : start;
+    date.setHours(0, 0, 0, 0);
+    date.setDate(1);
     let step = options2?.step ?? 1;
     if (!step) return [];
     if (step < 0) {
@@ -39671,20 +40070,19 @@ This message will only show in development mode. It won't appear in production. 
       reversed = !reversed;
     }
     const dates = [];
-    while (+currentDate <= endTime) {
-      dates.push(toDate(currentDate));
-      currentDate.setMonth(currentDate.getMonth() + step);
+    while (+date <= endTime) {
+      dates.push(constructFrom(start, date));
+      date.setMonth(date.getMonth() + step);
     }
     return reversed ? dates.reverse() : dates;
   }
 
-  // node_modules/date-fns/eachWeekOfInterval.mjs
+  // node_modules/date-fns/eachWeekOfInterval.js
   function eachWeekOfInterval(interval, options2) {
-    const startDate = toDate(interval.start);
-    const endDate = toDate(interval.end);
-    let reversed = +startDate > +endDate;
-    const startDateWeek = reversed ? startOfWeek(endDate, options2) : startOfWeek(startDate, options2);
-    const endDateWeek = reversed ? startOfWeek(startDate, options2) : startOfWeek(endDate, options2);
+    const { start, end } = normalizeInterval(options2?.in, interval);
+    let reversed = +start > +end;
+    const startDateWeek = reversed ? startOfWeek(end, options2) : startOfWeek(start, options2);
+    const endDateWeek = reversed ? startOfWeek(start, options2) : startOfWeek(end, options2);
     startDateWeek.setHours(15);
     endDateWeek.setHours(15);
     const endTime = +endDateWeek.getTime();
@@ -39698,26 +40096,43 @@ This message will only show in development mode. It won't appear in production. 
     const dates = [];
     while (+currentDate <= endTime) {
       currentDate.setHours(0);
-      dates.push(toDate(currentDate));
+      dates.push(constructFrom(start, currentDate));
       currentDate = addWeeks(currentDate, step);
       currentDate.setHours(15);
     }
     return reversed ? dates.reverse() : dates;
   }
 
-  // node_modules/date-fns/startOfMonth.mjs
-  function startOfMonth(date) {
-    const _date = toDate(date);
+  // node_modules/date-fns/startOfMonth.js
+  function startOfMonth(date, options2) {
+    const _date = toDate(date, options2?.in);
     _date.setDate(1);
     _date.setHours(0, 0, 0, 0);
     return _date;
   }
 
-  // node_modules/date-fns/endOfWeek.mjs
+  // node_modules/date-fns/endOfYear.js
+  function endOfYear(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const year = _date.getFullYear();
+    _date.setFullYear(year + 1, 0, 0);
+    _date.setHours(23, 59, 59, 999);
+    return _date;
+  }
+
+  // node_modules/date-fns/startOfYear.js
+  function startOfYear(date, options2) {
+    const date_ = toDate(date, options2?.in);
+    date_.setFullYear(date_.getFullYear(), 0, 1);
+    date_.setHours(0, 0, 0, 0);
+    return date_;
+  }
+
+  // node_modules/date-fns/endOfWeek.js
   function endOfWeek(date, options2) {
-    const defaultOptions4 = getDefaultOptions();
-    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions4.weekStartsOn ?? defaultOptions4.locale?.options?.weekStartsOn ?? 0;
-    const _date = toDate(date);
+    const defaultOptions3 = getDefaultOptions();
+    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions3.weekStartsOn ?? defaultOptions3.locale?.options?.weekStartsOn ?? 0;
+    const _date = toDate(date, options2?.in);
     const day = _date.getDay();
     const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
     _date.setDate(_date.getDate() + diff);
@@ -39725,130 +40140,1563 @@ This message will only show in development mode. It won't appear in production. 
     return _date;
   }
 
-  // node_modules/date-fns/getDaysInMonth.mjs
-  function getDaysInMonth(date) {
-    const _date = toDate(date);
+  // node_modules/date-fns/endOfISOWeek.js
+  function endOfISOWeek(date, options2) {
+    return endOfWeek(date, { ...options2, weekStartsOn: 1 });
+  }
+
+  // node_modules/date-fns/locale/en-US/_lib/formatDistance.js
+  var formatDistanceLocale = {
+    lessThanXSeconds: {
+      one: "less than a second",
+      other: "less than {{count}} seconds"
+    },
+    xSeconds: {
+      one: "1 second",
+      other: "{{count}} seconds"
+    },
+    halfAMinute: "half a minute",
+    lessThanXMinutes: {
+      one: "less than a minute",
+      other: "less than {{count}} minutes"
+    },
+    xMinutes: {
+      one: "1 minute",
+      other: "{{count}} minutes"
+    },
+    aboutXHours: {
+      one: "about 1 hour",
+      other: "about {{count}} hours"
+    },
+    xHours: {
+      one: "1 hour",
+      other: "{{count}} hours"
+    },
+    xDays: {
+      one: "1 day",
+      other: "{{count}} days"
+    },
+    aboutXWeeks: {
+      one: "about 1 week",
+      other: "about {{count}} weeks"
+    },
+    xWeeks: {
+      one: "1 week",
+      other: "{{count}} weeks"
+    },
+    aboutXMonths: {
+      one: "about 1 month",
+      other: "about {{count}} months"
+    },
+    xMonths: {
+      one: "1 month",
+      other: "{{count}} months"
+    },
+    aboutXYears: {
+      one: "about 1 year",
+      other: "about {{count}} years"
+    },
+    xYears: {
+      one: "1 year",
+      other: "{{count}} years"
+    },
+    overXYears: {
+      one: "over 1 year",
+      other: "over {{count}} years"
+    },
+    almostXYears: {
+      one: "almost 1 year",
+      other: "almost {{count}} years"
+    }
+  };
+  var formatDistance = (token2, count, options2) => {
+    let result;
+    const tokenValue = formatDistanceLocale[token2];
+    if (typeof tokenValue === "string") {
+      result = tokenValue;
+    } else if (count === 1) {
+      result = tokenValue.one;
+    } else {
+      result = tokenValue.other.replace("{{count}}", count.toString());
+    }
+    if (options2?.addSuffix) {
+      if (options2.comparison && options2.comparison > 0) {
+        return "in " + result;
+      } else {
+        return result + " ago";
+      }
+    }
+    return result;
+  };
+
+  // node_modules/date-fns/locale/_lib/buildFormatLongFn.js
+  function buildFormatLongFn(args) {
+    return (options2 = {}) => {
+      const width = options2.width ? String(options2.width) : args.defaultWidth;
+      const format2 = args.formats[width] || args.formats[args.defaultWidth];
+      return format2;
+    };
+  }
+
+  // node_modules/date-fns/locale/en-US/_lib/formatLong.js
+  var dateFormats = {
+    full: "EEEE, MMMM do, y",
+    long: "MMMM do, y",
+    medium: "MMM d, y",
+    short: "MM/dd/yyyy"
+  };
+  var timeFormats = {
+    full: "h:mm:ss a zzzz",
+    long: "h:mm:ss a z",
+    medium: "h:mm:ss a",
+    short: "h:mm a"
+  };
+  var dateTimeFormats = {
+    full: "{{date}} 'at' {{time}}",
+    long: "{{date}} 'at' {{time}}",
+    medium: "{{date}}, {{time}}",
+    short: "{{date}}, {{time}}"
+  };
+  var formatLong = {
+    date: buildFormatLongFn({
+      formats: dateFormats,
+      defaultWidth: "full"
+    }),
+    time: buildFormatLongFn({
+      formats: timeFormats,
+      defaultWidth: "full"
+    }),
+    dateTime: buildFormatLongFn({
+      formats: dateTimeFormats,
+      defaultWidth: "full"
+    })
+  };
+
+  // node_modules/date-fns/locale/en-US/_lib/formatRelative.js
+  var formatRelativeLocale = {
+    lastWeek: "'last' eeee 'at' p",
+    yesterday: "'yesterday at' p",
+    today: "'today at' p",
+    tomorrow: "'tomorrow at' p",
+    nextWeek: "eeee 'at' p",
+    other: "P"
+  };
+  var formatRelative = (token2, _date, _baseDate, _options) => formatRelativeLocale[token2];
+
+  // node_modules/date-fns/locale/_lib/buildLocalizeFn.js
+  function buildLocalizeFn(args) {
+    return (value, options2) => {
+      const context = options2?.context ? String(options2.context) : "standalone";
+      let valuesArray;
+      if (context === "formatting" && args.formattingValues) {
+        const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
+        const width = options2?.width ? String(options2.width) : defaultWidth;
+        valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
+      } else {
+        const defaultWidth = args.defaultWidth;
+        const width = options2?.width ? String(options2.width) : args.defaultWidth;
+        valuesArray = args.values[width] || args.values[defaultWidth];
+      }
+      const index2 = args.argumentCallback ? args.argumentCallback(value) : value;
+      return valuesArray[index2];
+    };
+  }
+
+  // node_modules/date-fns/locale/en-US/_lib/localize.js
+  var eraValues = {
+    narrow: ["B", "A"],
+    abbreviated: ["BC", "AD"],
+    wide: ["Before Christ", "Anno Domini"]
+  };
+  var quarterValues = {
+    narrow: ["1", "2", "3", "4"],
+    abbreviated: ["Q1", "Q2", "Q3", "Q4"],
+    wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"]
+  };
+  var monthValues = {
+    narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    abbreviated: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    wide: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+  };
+  var dayValues = {
+    narrow: ["S", "M", "T", "W", "T", "F", "S"],
+    short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    wide: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  };
+  var dayPeriodValues = {
+    narrow: {
+      am: "a",
+      pm: "p",
+      midnight: "mi",
+      noon: "n",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    },
+    abbreviated: {
+      am: "AM",
+      pm: "PM",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    },
+    wide: {
+      am: "a.m.",
+      pm: "p.m.",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    }
+  };
+  var formattingDayPeriodValues = {
+    narrow: {
+      am: "a",
+      pm: "p",
+      midnight: "mi",
+      noon: "n",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    },
+    abbreviated: {
+      am: "AM",
+      pm: "PM",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    },
+    wide: {
+      am: "a.m.",
+      pm: "p.m.",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    }
+  };
+  var ordinalNumber = (dirtyNumber, _options) => {
+    const number2 = Number(dirtyNumber);
+    const rem100 = number2 % 100;
+    if (rem100 > 20 || rem100 < 10) {
+      switch (rem100 % 10) {
+        case 1:
+          return number2 + "st";
+        case 2:
+          return number2 + "nd";
+        case 3:
+          return number2 + "rd";
+      }
+    }
+    return number2 + "th";
+  };
+  var localize = {
+    ordinalNumber,
+    era: buildLocalizeFn({
+      values: eraValues,
+      defaultWidth: "wide"
+    }),
+    quarter: buildLocalizeFn({
+      values: quarterValues,
+      defaultWidth: "wide",
+      argumentCallback: (quarter) => quarter - 1
+    }),
+    month: buildLocalizeFn({
+      values: monthValues,
+      defaultWidth: "wide"
+    }),
+    day: buildLocalizeFn({
+      values: dayValues,
+      defaultWidth: "wide"
+    }),
+    dayPeriod: buildLocalizeFn({
+      values: dayPeriodValues,
+      defaultWidth: "wide",
+      formattingValues: formattingDayPeriodValues,
+      defaultFormattingWidth: "wide"
+    })
+  };
+
+  // node_modules/date-fns/locale/_lib/buildMatchFn.js
+  function buildMatchFn(args) {
+    return (string, options2 = {}) => {
+      const width = options2.width;
+      const matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
+      const matchResult = string.match(matchPattern);
+      if (!matchResult) {
+        return null;
+      }
+      const matchedString = matchResult[0];
+      const parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
+      const key = Array.isArray(parsePatterns) ? findIndex(parsePatterns, (pattern) => pattern.test(matchedString)) : (
+        // [TODO] -- I challenge you to fix the type
+        findKey(parsePatterns, (pattern) => pattern.test(matchedString))
+      );
+      let value;
+      value = args.valueCallback ? args.valueCallback(key) : key;
+      value = options2.valueCallback ? (
+        // [TODO] -- I challenge you to fix the type
+        options2.valueCallback(value)
+      ) : value;
+      const rest = string.slice(matchedString.length);
+      return { value, rest };
+    };
+  }
+  function findKey(object, predicate) {
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key) && predicate(object[key])) {
+        return key;
+      }
+    }
+    return void 0;
+  }
+  function findIndex(array, predicate) {
+    for (let key = 0; key < array.length; key++) {
+      if (predicate(array[key])) {
+        return key;
+      }
+    }
+    return void 0;
+  }
+
+  // node_modules/date-fns/locale/_lib/buildMatchPatternFn.js
+  function buildMatchPatternFn(args) {
+    return (string, options2 = {}) => {
+      const matchResult = string.match(args.matchPattern);
+      if (!matchResult) return null;
+      const matchedString = matchResult[0];
+      const parseResult = string.match(args.parsePattern);
+      if (!parseResult) return null;
+      let value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
+      value = options2.valueCallback ? options2.valueCallback(value) : value;
+      const rest = string.slice(matchedString.length);
+      return { value, rest };
+    };
+  }
+
+  // node_modules/date-fns/locale/en-US/_lib/match.js
+  var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
+  var parseOrdinalNumberPattern = /\d+/i;
+  var matchEraPatterns = {
+    narrow: /^(b|a)/i,
+    abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
+    wide: /^(before christ|before common era|anno domini|common era)/i
+  };
+  var parseEraPatterns = {
+    any: [/^b/i, /^(a|c)/i]
+  };
+  var matchQuarterPatterns = {
+    narrow: /^[1234]/i,
+    abbreviated: /^q[1234]/i,
+    wide: /^[1234](th|st|nd|rd)? quarter/i
+  };
+  var parseQuarterPatterns = {
+    any: [/1/i, /2/i, /3/i, /4/i]
+  };
+  var matchMonthPatterns = {
+    narrow: /^[jfmasond]/i,
+    abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
+    wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
+  };
+  var parseMonthPatterns = {
+    narrow: [
+      /^j/i,
+      /^f/i,
+      /^m/i,
+      /^a/i,
+      /^m/i,
+      /^j/i,
+      /^j/i,
+      /^a/i,
+      /^s/i,
+      /^o/i,
+      /^n/i,
+      /^d/i
+    ],
+    any: [
+      /^ja/i,
+      /^f/i,
+      /^mar/i,
+      /^ap/i,
+      /^may/i,
+      /^jun/i,
+      /^jul/i,
+      /^au/i,
+      /^s/i,
+      /^o/i,
+      /^n/i,
+      /^d/i
+    ]
+  };
+  var matchDayPatterns = {
+    narrow: /^[smtwf]/i,
+    short: /^(su|mo|tu|we|th|fr|sa)/i,
+    abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
+    wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
+  };
+  var parseDayPatterns = {
+    narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
+    any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i]
+  };
+  var matchDayPeriodPatterns = {
+    narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
+    any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
+  };
+  var parseDayPeriodPatterns = {
+    any: {
+      am: /^a/i,
+      pm: /^p/i,
+      midnight: /^mi/i,
+      noon: /^no/i,
+      morning: /morning/i,
+      afternoon: /afternoon/i,
+      evening: /evening/i,
+      night: /night/i
+    }
+  };
+  var match2 = {
+    ordinalNumber: buildMatchPatternFn({
+      matchPattern: matchOrdinalNumberPattern,
+      parsePattern: parseOrdinalNumberPattern,
+      valueCallback: (value) => parseInt(value, 10)
+    }),
+    era: buildMatchFn({
+      matchPatterns: matchEraPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseEraPatterns,
+      defaultParseWidth: "any"
+    }),
+    quarter: buildMatchFn({
+      matchPatterns: matchQuarterPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseQuarterPatterns,
+      defaultParseWidth: "any",
+      valueCallback: (index2) => index2 + 1
+    }),
+    month: buildMatchFn({
+      matchPatterns: matchMonthPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseMonthPatterns,
+      defaultParseWidth: "any"
+    }),
+    day: buildMatchFn({
+      matchPatterns: matchDayPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseDayPatterns,
+      defaultParseWidth: "any"
+    }),
+    dayPeriod: buildMatchFn({
+      matchPatterns: matchDayPeriodPatterns,
+      defaultMatchWidth: "any",
+      parsePatterns: parseDayPeriodPatterns,
+      defaultParseWidth: "any"
+    })
+  };
+
+  // node_modules/date-fns/locale/en-US.js
+  var enUS = {
+    code: "en-US",
+    formatDistance,
+    formatLong,
+    formatRelative,
+    localize,
+    match: match2,
+    options: {
+      weekStartsOn: 0,
+      firstWeekContainsDate: 1
+    }
+  };
+
+  // node_modules/date-fns/getDayOfYear.js
+  function getDayOfYear(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const diff = differenceInCalendarDays(_date, startOfYear(_date));
+    const dayOfYear = diff + 1;
+    return dayOfYear;
+  }
+
+  // node_modules/date-fns/getISOWeek.js
+  function getISOWeek(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
+    return Math.round(diff / millisecondsInWeek) + 1;
+  }
+
+  // node_modules/date-fns/getWeekYear.js
+  function getWeekYear(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const year = _date.getFullYear();
+    const defaultOptions3 = getDefaultOptions();
+    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions3.firstWeekContainsDate ?? defaultOptions3.locale?.options?.firstWeekContainsDate ?? 1;
+    const firstWeekOfNextYear = constructFrom(options2?.in || date, 0);
+    firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
+    firstWeekOfNextYear.setHours(0, 0, 0, 0);
+    const startOfNextYear = startOfWeek(firstWeekOfNextYear, options2);
+    const firstWeekOfThisYear = constructFrom(options2?.in || date, 0);
+    firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
+    firstWeekOfThisYear.setHours(0, 0, 0, 0);
+    const startOfThisYear = startOfWeek(firstWeekOfThisYear, options2);
+    if (+_date >= +startOfNextYear) {
+      return year + 1;
+    } else if (+_date >= +startOfThisYear) {
+      return year;
+    } else {
+      return year - 1;
+    }
+  }
+
+  // node_modules/date-fns/startOfWeekYear.js
+  function startOfWeekYear(date, options2) {
+    const defaultOptions3 = getDefaultOptions();
+    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions3.firstWeekContainsDate ?? defaultOptions3.locale?.options?.firstWeekContainsDate ?? 1;
+    const year = getWeekYear(date, options2);
+    const firstWeek = constructFrom(options2?.in || date, 0);
+    firstWeek.setFullYear(year, 0, firstWeekContainsDate);
+    firstWeek.setHours(0, 0, 0, 0);
+    const _date = startOfWeek(firstWeek, options2);
+    return _date;
+  }
+
+  // node_modules/date-fns/getWeek.js
+  function getWeek(date, options2) {
+    const _date = toDate(date, options2?.in);
+    const diff = +startOfWeek(_date, options2) - +startOfWeekYear(_date, options2);
+    return Math.round(diff / millisecondsInWeek) + 1;
+  }
+
+  // node_modules/date-fns/_lib/addLeadingZeros.js
+  function addLeadingZeros(number2, targetLength) {
+    const sign = number2 < 0 ? "-" : "";
+    const output = Math.abs(number2).toString().padStart(targetLength, "0");
+    return sign + output;
+  }
+
+  // node_modules/date-fns/_lib/format/lightFormatters.js
+  var lightFormatters = {
+    // Year
+    y(date, token2) {
+      const signedYear = date.getFullYear();
+      const year = signedYear > 0 ? signedYear : 1 - signedYear;
+      return addLeadingZeros(token2 === "yy" ? year % 100 : year, token2.length);
+    },
+    // Month
+    M(date, token2) {
+      const month = date.getMonth();
+      return token2 === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
+    },
+    // Day of the month
+    d(date, token2) {
+      return addLeadingZeros(date.getDate(), token2.length);
+    },
+    // AM or PM
+    a(date, token2) {
+      const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
+      switch (token2) {
+        case "a":
+        case "aa":
+          return dayPeriodEnumValue.toUpperCase();
+        case "aaa":
+          return dayPeriodEnumValue;
+        case "aaaaa":
+          return dayPeriodEnumValue[0];
+        case "aaaa":
+        default:
+          return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
+      }
+    },
+    // Hour [1-12]
+    h(date, token2) {
+      return addLeadingZeros(date.getHours() % 12 || 12, token2.length);
+    },
+    // Hour [0-23]
+    H(date, token2) {
+      return addLeadingZeros(date.getHours(), token2.length);
+    },
+    // Minute
+    m(date, token2) {
+      return addLeadingZeros(date.getMinutes(), token2.length);
+    },
+    // Second
+    s(date, token2) {
+      return addLeadingZeros(date.getSeconds(), token2.length);
+    },
+    // Fraction of second
+    S(date, token2) {
+      const numberOfDigits = token2.length;
+      const milliseconds = date.getMilliseconds();
+      const fractionalSeconds = Math.trunc(
+        milliseconds * Math.pow(10, numberOfDigits - 3)
+      );
+      return addLeadingZeros(fractionalSeconds, token2.length);
+    }
+  };
+
+  // node_modules/date-fns/_lib/format/formatters.js
+  var dayPeriodEnum = {
+    am: "am",
+    pm: "pm",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night"
+  };
+  var formatters = {
+    // Era
+    G: function(date, token2, localize2) {
+      const era = date.getFullYear() > 0 ? 1 : 0;
+      switch (token2) {
+        // AD, BC
+        case "G":
+        case "GG":
+        case "GGG":
+          return localize2.era(era, { width: "abbreviated" });
+        // A, B
+        case "GGGGG":
+          return localize2.era(era, { width: "narrow" });
+        // Anno Domini, Before Christ
+        case "GGGG":
+        default:
+          return localize2.era(era, { width: "wide" });
+      }
+    },
+    // Year
+    y: function(date, token2, localize2) {
+      if (token2 === "yo") {
+        const signedYear = date.getFullYear();
+        const year = signedYear > 0 ? signedYear : 1 - signedYear;
+        return localize2.ordinalNumber(year, { unit: "year" });
+      }
+      return lightFormatters.y(date, token2);
+    },
+    // Local week-numbering year
+    Y: function(date, token2, localize2, options2) {
+      const signedWeekYear = getWeekYear(date, options2);
+      const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
+      if (token2 === "YY") {
+        const twoDigitYear = weekYear % 100;
+        return addLeadingZeros(twoDigitYear, 2);
+      }
+      if (token2 === "Yo") {
+        return localize2.ordinalNumber(weekYear, { unit: "year" });
+      }
+      return addLeadingZeros(weekYear, token2.length);
+    },
+    // ISO week-numbering year
+    R: function(date, token2) {
+      const isoWeekYear = getISOWeekYear(date);
+      return addLeadingZeros(isoWeekYear, token2.length);
+    },
+    // Extended year. This is a single number designating the year of this calendar system.
+    // The main difference between `y` and `u` localizers are B.C. years:
+    // | Year | `y` | `u` |
+    // |------|-----|-----|
+    // | AC 1 |   1 |   1 |
+    // | BC 1 |   1 |   0 |
+    // | BC 2 |   2 |  -1 |
+    // Also `yy` always returns the last two digits of a year,
+    // while `uu` pads single digit years to 2 characters and returns other years unchanged.
+    u: function(date, token2) {
+      const year = date.getFullYear();
+      return addLeadingZeros(year, token2.length);
+    },
+    // Quarter
+    Q: function(date, token2, localize2) {
+      const quarter = Math.ceil((date.getMonth() + 1) / 3);
+      switch (token2) {
+        // 1, 2, 3, 4
+        case "Q":
+          return String(quarter);
+        // 01, 02, 03, 04
+        case "QQ":
+          return addLeadingZeros(quarter, 2);
+        // 1st, 2nd, 3rd, 4th
+        case "Qo":
+          return localize2.ordinalNumber(quarter, { unit: "quarter" });
+        // Q1, Q2, Q3, Q4
+        case "QQQ":
+          return localize2.quarter(quarter, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+        case "QQQQQ":
+          return localize2.quarter(quarter, {
+            width: "narrow",
+            context: "formatting"
+          });
+        // 1st quarter, 2nd quarter, ...
+        case "QQQQ":
+        default:
+          return localize2.quarter(quarter, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Stand-alone quarter
+    q: function(date, token2, localize2) {
+      const quarter = Math.ceil((date.getMonth() + 1) / 3);
+      switch (token2) {
+        // 1, 2, 3, 4
+        case "q":
+          return String(quarter);
+        // 01, 02, 03, 04
+        case "qq":
+          return addLeadingZeros(quarter, 2);
+        // 1st, 2nd, 3rd, 4th
+        case "qo":
+          return localize2.ordinalNumber(quarter, { unit: "quarter" });
+        // Q1, Q2, Q3, Q4
+        case "qqq":
+          return localize2.quarter(quarter, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+        case "qqqqq":
+          return localize2.quarter(quarter, {
+            width: "narrow",
+            context: "standalone"
+          });
+        // 1st quarter, 2nd quarter, ...
+        case "qqqq":
+        default:
+          return localize2.quarter(quarter, {
+            width: "wide",
+            context: "standalone"
+          });
+      }
+    },
+    // Month
+    M: function(date, token2, localize2) {
+      const month = date.getMonth();
+      switch (token2) {
+        case "M":
+        case "MM":
+          return lightFormatters.M(date, token2);
+        // 1st, 2nd, ..., 12th
+        case "Mo":
+          return localize2.ordinalNumber(month + 1, { unit: "month" });
+        // Jan, Feb, ..., Dec
+        case "MMM":
+          return localize2.month(month, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        // J, F, ..., D
+        case "MMMMM":
+          return localize2.month(month, {
+            width: "narrow",
+            context: "formatting"
+          });
+        // January, February, ..., December
+        case "MMMM":
+        default:
+          return localize2.month(month, { width: "wide", context: "formatting" });
+      }
+    },
+    // Stand-alone month
+    L: function(date, token2, localize2) {
+      const month = date.getMonth();
+      switch (token2) {
+        // 1, 2, ..., 12
+        case "L":
+          return String(month + 1);
+        // 01, 02, ..., 12
+        case "LL":
+          return addLeadingZeros(month + 1, 2);
+        // 1st, 2nd, ..., 12th
+        case "Lo":
+          return localize2.ordinalNumber(month + 1, { unit: "month" });
+        // Jan, Feb, ..., Dec
+        case "LLL":
+          return localize2.month(month, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        // J, F, ..., D
+        case "LLLLL":
+          return localize2.month(month, {
+            width: "narrow",
+            context: "standalone"
+          });
+        // January, February, ..., December
+        case "LLLL":
+        default:
+          return localize2.month(month, { width: "wide", context: "standalone" });
+      }
+    },
+    // Local week of year
+    w: function(date, token2, localize2, options2) {
+      const week = getWeek(date, options2);
+      if (token2 === "wo") {
+        return localize2.ordinalNumber(week, { unit: "week" });
+      }
+      return addLeadingZeros(week, token2.length);
+    },
+    // ISO week of year
+    I: function(date, token2, localize2) {
+      const isoWeek = getISOWeek(date);
+      if (token2 === "Io") {
+        return localize2.ordinalNumber(isoWeek, { unit: "week" });
+      }
+      return addLeadingZeros(isoWeek, token2.length);
+    },
+    // Day of the month
+    d: function(date, token2, localize2) {
+      if (token2 === "do") {
+        return localize2.ordinalNumber(date.getDate(), { unit: "date" });
+      }
+      return lightFormatters.d(date, token2);
+    },
+    // Day of year
+    D: function(date, token2, localize2) {
+      const dayOfYear = getDayOfYear(date);
+      if (token2 === "Do") {
+        return localize2.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
+      }
+      return addLeadingZeros(dayOfYear, token2.length);
+    },
+    // Day of week
+    E: function(date, token2, localize2) {
+      const dayOfWeek = date.getDay();
+      switch (token2) {
+        // Tue
+        case "E":
+        case "EE":
+        case "EEE":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        // T
+        case "EEEEE":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        // Tu
+        case "EEEEEE":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        // Tuesday
+        case "EEEE":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Local day of week
+    e: function(date, token2, localize2, options2) {
+      const dayOfWeek = date.getDay();
+      const localDayOfWeek = (dayOfWeek - options2.weekStartsOn + 8) % 7 || 7;
+      switch (token2) {
+        // Numerical value (Nth day of week with current locale or weekStartsOn)
+        case "e":
+          return String(localDayOfWeek);
+        // Padded numerical value
+        case "ee":
+          return addLeadingZeros(localDayOfWeek, 2);
+        // 1st, 2nd, ..., 7th
+        case "eo":
+          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
+        case "eee":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        // T
+        case "eeeee":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        // Tu
+        case "eeeeee":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        // Tuesday
+        case "eeee":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Stand-alone local day of week
+    c: function(date, token2, localize2, options2) {
+      const dayOfWeek = date.getDay();
+      const localDayOfWeek = (dayOfWeek - options2.weekStartsOn + 8) % 7 || 7;
+      switch (token2) {
+        // Numerical value (same as in `e`)
+        case "c":
+          return String(localDayOfWeek);
+        // Padded numerical value
+        case "cc":
+          return addLeadingZeros(localDayOfWeek, token2.length);
+        // 1st, 2nd, ..., 7th
+        case "co":
+          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
+        case "ccc":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        // T
+        case "ccccc":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "standalone"
+          });
+        // Tu
+        case "cccccc":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "standalone"
+          });
+        // Tuesday
+        case "cccc":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "standalone"
+          });
+      }
+    },
+    // ISO day of week
+    i: function(date, token2, localize2) {
+      const dayOfWeek = date.getDay();
+      const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+      switch (token2) {
+        // 2
+        case "i":
+          return String(isoDayOfWeek);
+        // 02
+        case "ii":
+          return addLeadingZeros(isoDayOfWeek, token2.length);
+        // 2nd
+        case "io":
+          return localize2.ordinalNumber(isoDayOfWeek, { unit: "day" });
+        // Tue
+        case "iii":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        // T
+        case "iiiii":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        // Tu
+        case "iiiiii":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        // Tuesday
+        case "iiii":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // AM or PM
+    a: function(date, token2, localize2) {
+      const hours = date.getHours();
+      const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+      switch (token2) {
+        case "a":
+        case "aa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "aaa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          }).toLowerCase();
+        case "aaaaa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "aaaa":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // AM, PM, midnight, noon
+    b: function(date, token2, localize2) {
+      const hours = date.getHours();
+      let dayPeriodEnumValue;
+      if (hours === 12) {
+        dayPeriodEnumValue = dayPeriodEnum.noon;
+      } else if (hours === 0) {
+        dayPeriodEnumValue = dayPeriodEnum.midnight;
+      } else {
+        dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+      }
+      switch (token2) {
+        case "b":
+        case "bb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "bbb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          }).toLowerCase();
+        case "bbbbb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "bbbb":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // in the morning, in the afternoon, in the evening, at night
+    B: function(date, token2, localize2) {
+      const hours = date.getHours();
+      let dayPeriodEnumValue;
+      if (hours >= 17) {
+        dayPeriodEnumValue = dayPeriodEnum.evening;
+      } else if (hours >= 12) {
+        dayPeriodEnumValue = dayPeriodEnum.afternoon;
+      } else if (hours >= 4) {
+        dayPeriodEnumValue = dayPeriodEnum.morning;
+      } else {
+        dayPeriodEnumValue = dayPeriodEnum.night;
+      }
+      switch (token2) {
+        case "B":
+        case "BB":
+        case "BBB":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "BBBBB":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "BBBB":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Hour [1-12]
+    h: function(date, token2, localize2) {
+      if (token2 === "ho") {
+        let hours = date.getHours() % 12;
+        if (hours === 0) hours = 12;
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return lightFormatters.h(date, token2);
+    },
+    // Hour [0-23]
+    H: function(date, token2, localize2) {
+      if (token2 === "Ho") {
+        return localize2.ordinalNumber(date.getHours(), { unit: "hour" });
+      }
+      return lightFormatters.H(date, token2);
+    },
+    // Hour [0-11]
+    K: function(date, token2, localize2) {
+      const hours = date.getHours() % 12;
+      if (token2 === "Ko") {
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return addLeadingZeros(hours, token2.length);
+    },
+    // Hour [1-24]
+    k: function(date, token2, localize2) {
+      let hours = date.getHours();
+      if (hours === 0) hours = 24;
+      if (token2 === "ko") {
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return addLeadingZeros(hours, token2.length);
+    },
+    // Minute
+    m: function(date, token2, localize2) {
+      if (token2 === "mo") {
+        return localize2.ordinalNumber(date.getMinutes(), { unit: "minute" });
+      }
+      return lightFormatters.m(date, token2);
+    },
+    // Second
+    s: function(date, token2, localize2) {
+      if (token2 === "so") {
+        return localize2.ordinalNumber(date.getSeconds(), { unit: "second" });
+      }
+      return lightFormatters.s(date, token2);
+    },
+    // Fraction of second
+    S: function(date, token2) {
+      return lightFormatters.S(date, token2);
+    },
+    // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
+    X: function(date, token2, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      if (timezoneOffset === 0) {
+        return "Z";
+      }
+      switch (token2) {
+        // Hours and optional minutes
+        case "X":
+          return formatTimezoneWithOptionalMinutes(timezoneOffset);
+        // Hours, minutes and optional seconds without `:` delimiter
+        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+        // so this token always has the same output as `XX`
+        case "XXXX":
+        case "XX":
+          return formatTimezone(timezoneOffset);
+        // Hours, minutes and optional seconds with `:` delimiter
+        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+        // so this token always has the same output as `XXX`
+        case "XXXXX":
+        case "XXX":
+        // Hours and minutes with `:` delimiter
+        default:
+          return formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
+    x: function(date, token2, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token2) {
+        // Hours and optional minutes
+        case "x":
+          return formatTimezoneWithOptionalMinutes(timezoneOffset);
+        // Hours, minutes and optional seconds without `:` delimiter
+        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+        // so this token always has the same output as `xx`
+        case "xxxx":
+        case "xx":
+          return formatTimezone(timezoneOffset);
+        // Hours, minutes and optional seconds with `:` delimiter
+        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+        // so this token always has the same output as `xxx`
+        case "xxxxx":
+        case "xxx":
+        // Hours and minutes with `:` delimiter
+        default:
+          return formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (GMT)
+    O: function(date, token2, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token2) {
+        // Short
+        case "O":
+        case "OO":
+        case "OOO":
+          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+        // Long
+        case "OOOO":
+        default:
+          return "GMT" + formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (specific non-location)
+    z: function(date, token2, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token2) {
+        // Short
+        case "z":
+        case "zz":
+        case "zzz":
+          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+        // Long
+        case "zzzz":
+        default:
+          return "GMT" + formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Seconds timestamp
+    t: function(date, token2, _localize) {
+      const timestamp = Math.trunc(+date / 1e3);
+      return addLeadingZeros(timestamp, token2.length);
+    },
+    // Milliseconds timestamp
+    T: function(date, token2, _localize) {
+      return addLeadingZeros(+date, token2.length);
+    }
+  };
+  function formatTimezoneShort(offset3, delimiter2 = "") {
+    const sign = offset3 > 0 ? "-" : "+";
+    const absOffset = Math.abs(offset3);
+    const hours = Math.trunc(absOffset / 60);
+    const minutes = absOffset % 60;
+    if (minutes === 0) {
+      return sign + String(hours);
+    }
+    return sign + String(hours) + delimiter2 + addLeadingZeros(minutes, 2);
+  }
+  function formatTimezoneWithOptionalMinutes(offset3, delimiter2) {
+    if (offset3 % 60 === 0) {
+      const sign = offset3 > 0 ? "-" : "+";
+      return sign + addLeadingZeros(Math.abs(offset3) / 60, 2);
+    }
+    return formatTimezone(offset3, delimiter2);
+  }
+  function formatTimezone(offset3, delimiter2 = "") {
+    const sign = offset3 > 0 ? "-" : "+";
+    const absOffset = Math.abs(offset3);
+    const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
+    const minutes = addLeadingZeros(absOffset % 60, 2);
+    return sign + hours + delimiter2 + minutes;
+  }
+
+  // node_modules/date-fns/_lib/format/longFormatters.js
+  var dateLongFormatter = (pattern, formatLong2) => {
+    switch (pattern) {
+      case "P":
+        return formatLong2.date({ width: "short" });
+      case "PP":
+        return formatLong2.date({ width: "medium" });
+      case "PPP":
+        return formatLong2.date({ width: "long" });
+      case "PPPP":
+      default:
+        return formatLong2.date({ width: "full" });
+    }
+  };
+  var timeLongFormatter = (pattern, formatLong2) => {
+    switch (pattern) {
+      case "p":
+        return formatLong2.time({ width: "short" });
+      case "pp":
+        return formatLong2.time({ width: "medium" });
+      case "ppp":
+        return formatLong2.time({ width: "long" });
+      case "pppp":
+      default:
+        return formatLong2.time({ width: "full" });
+    }
+  };
+  var dateTimeLongFormatter = (pattern, formatLong2) => {
+    const matchResult = pattern.match(/(P+)(p+)?/) || [];
+    const datePattern = matchResult[1];
+    const timePattern = matchResult[2];
+    if (!timePattern) {
+      return dateLongFormatter(pattern, formatLong2);
+    }
+    let dateTimeFormat;
+    switch (datePattern) {
+      case "P":
+        dateTimeFormat = formatLong2.dateTime({ width: "short" });
+        break;
+      case "PP":
+        dateTimeFormat = formatLong2.dateTime({ width: "medium" });
+        break;
+      case "PPP":
+        dateTimeFormat = formatLong2.dateTime({ width: "long" });
+        break;
+      case "PPPP":
+      default:
+        dateTimeFormat = formatLong2.dateTime({ width: "full" });
+        break;
+    }
+    return dateTimeFormat.replace("{{date}}", dateLongFormatter(datePattern, formatLong2)).replace("{{time}}", timeLongFormatter(timePattern, formatLong2));
+  };
+  var longFormatters = {
+    p: timeLongFormatter,
+    P: dateTimeLongFormatter
+  };
+
+  // node_modules/date-fns/_lib/protectedTokens.js
+  var dayOfYearTokenRE = /^D+$/;
+  var weekYearTokenRE = /^Y+$/;
+  var throwTokens = ["D", "DD", "YY", "YYYY"];
+  function isProtectedDayOfYearToken(token2) {
+    return dayOfYearTokenRE.test(token2);
+  }
+  function isProtectedWeekYearToken(token2) {
+    return weekYearTokenRE.test(token2);
+  }
+  function warnOrThrowProtectedError(token2, format2, input) {
+    const _message = message(token2, format2, input);
+    console.warn(_message);
+    if (throwTokens.includes(token2)) throw new RangeError(_message);
+  }
+  function message(token2, format2, input) {
+    const subject = token2[0] === "Y" ? "years" : "days of the month";
+    return `Use \`${token2.toLowerCase()}\` instead of \`${token2}\` (in \`${format2}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
+  }
+
+  // node_modules/date-fns/format.js
+  var formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
+  var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+  var escapedStringRegExp = /^'([^]*?)'?$/;
+  var doubleQuoteRegExp = /''/g;
+  var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+  function format(date, formatStr, options2) {
+    const defaultOptions3 = getDefaultOptions();
+    const locale = options2?.locale ?? defaultOptions3.locale ?? enUS;
+    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions3.firstWeekContainsDate ?? defaultOptions3.locale?.options?.firstWeekContainsDate ?? 1;
+    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions3.weekStartsOn ?? defaultOptions3.locale?.options?.weekStartsOn ?? 0;
+    const originalDate = toDate(date, options2?.in);
+    if (!isValid(originalDate)) {
+      throw new RangeError("Invalid time value");
+    }
+    let parts = formatStr.match(longFormattingTokensRegExp).map((substring) => {
+      const firstCharacter = substring[0];
+      if (firstCharacter === "p" || firstCharacter === "P") {
+        const longFormatter = longFormatters[firstCharacter];
+        return longFormatter(substring, locale.formatLong);
+      }
+      return substring;
+    }).join("").match(formattingTokensRegExp).map((substring) => {
+      if (substring === "''") {
+        return { isToken: false, value: "'" };
+      }
+      const firstCharacter = substring[0];
+      if (firstCharacter === "'") {
+        return { isToken: false, value: cleanEscapedString(substring) };
+      }
+      if (formatters[firstCharacter]) {
+        return { isToken: true, value: substring };
+      }
+      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
+        throw new RangeError(
+          "Format string contains an unescaped latin alphabet character `" + firstCharacter + "`"
+        );
+      }
+      return { isToken: false, value: substring };
+    });
+    if (locale.localize.preprocessor) {
+      parts = locale.localize.preprocessor(originalDate, parts);
+    }
+    const formatterOptions = {
+      firstWeekContainsDate,
+      weekStartsOn,
+      locale
+    };
+    return parts.map((part) => {
+      if (!part.isToken) return part.value;
+      const token2 = part.value;
+      if (!options2?.useAdditionalWeekYearTokens && isProtectedWeekYearToken(token2) || !options2?.useAdditionalDayOfYearTokens && isProtectedDayOfYearToken(token2)) {
+        warnOrThrowProtectedError(token2, formatStr, String(date));
+      }
+      const formatter = formatters[token2[0]];
+      return formatter(originalDate, token2, locale.localize, formatterOptions);
+    }).join("");
+  }
+  function cleanEscapedString(input) {
+    const matched = input.match(escapedStringRegExp);
+    if (!matched) {
+      return input;
+    }
+    return matched[1].replace(doubleQuoteRegExp, "'");
+  }
+
+  // node_modules/date-fns/getDaysInMonth.js
+  function getDaysInMonth(date, options2) {
+    const _date = toDate(date, options2?.in);
     const year = _date.getFullYear();
     const monthIndex = _date.getMonth();
-    const lastDayOfMonth = constructFrom(date, 0);
+    const lastDayOfMonth = constructFrom(_date, 0);
     lastDayOfMonth.setFullYear(year, monthIndex + 1, 0);
     lastDayOfMonth.setHours(0, 0, 0, 0);
     return lastDayOfMonth.getDate();
   }
 
-  // node_modules/date-fns/isAfter.mjs
+  // node_modules/date-fns/getMonth.js
+  function getMonth(date, options2) {
+    return toDate(date, options2?.in).getMonth();
+  }
+
+  // node_modules/date-fns/getYear.js
+  function getYear(date, options2) {
+    return toDate(date, options2?.in).getFullYear();
+  }
+
+  // node_modules/date-fns/isAfter.js
   function isAfter(date, dateToCompare) {
-    const _date = toDate(date);
-    const _dateToCompare = toDate(dateToCompare);
-    return _date.getTime() > _dateToCompare.getTime();
+    return +toDate(date) > +toDate(dateToCompare);
   }
 
-  // node_modules/date-fns/isBefore.mjs
+  // node_modules/date-fns/isBefore.js
   function isBefore(date, dateToCompare) {
-    const _date = toDate(date);
-    const _dateToCompare = toDate(dateToCompare);
-    return +_date < +_dateToCompare;
+    return +toDate(date) < +toDate(dateToCompare);
   }
 
-  // node_modules/date-fns/isEqual.mjs
+  // node_modules/date-fns/isEqual.js
   function isEqual(leftDate, rightDate) {
-    const _dateLeft = toDate(leftDate);
-    const _dateRight = toDate(rightDate);
-    return +_dateLeft === +_dateRight;
+    return +toDate(leftDate) === +toDate(rightDate);
   }
 
-  // node_modules/date-fns/isSameMonth.mjs
-  function isSameMonth(dateLeft, dateRight) {
-    const _dateLeft = toDate(dateLeft);
-    const _dateRight = toDate(dateRight);
-    return _dateLeft.getFullYear() === _dateRight.getFullYear() && _dateLeft.getMonth() === _dateRight.getMonth();
+  // node_modules/date-fns/startOfMinute.js
+  function startOfMinute(date, options2) {
+    const date_ = toDate(date, options2?.in);
+    date_.setSeconds(0, 0);
+    return date_;
   }
 
-  // node_modules/date-fns/subDays.mjs
-  function subDays(date, amount) {
-    return addDays(date, -amount);
+  // node_modules/date-fns/isSameMonth.js
+  function isSameMonth(laterDate, earlierDate, options2) {
+    const [laterDate_, earlierDate_] = normalizeDates(
+      options2?.in,
+      laterDate,
+      earlierDate
+    );
+    return laterDate_.getFullYear() === earlierDate_.getFullYear() && laterDate_.getMonth() === earlierDate_.getMonth();
   }
 
-  // node_modules/date-fns/setMonth.mjs
-  function setMonth(date, month) {
-    const _date = toDate(date);
+  // node_modules/date-fns/isSameYear.js
+  function isSameYear(laterDate, earlierDate, options2) {
+    const [laterDate_, earlierDate_] = normalizeDates(
+      options2?.in,
+      laterDate,
+      earlierDate
+    );
+    return laterDate_.getFullYear() === earlierDate_.getFullYear();
+  }
+
+  // node_modules/date-fns/subDays.js
+  function subDays(date, amount, options2) {
+    return addDays(date, -amount, options2);
+  }
+
+  // node_modules/date-fns/setMonth.js
+  function setMonth(date, month, options2) {
+    const _date = toDate(date, options2?.in);
     const year = _date.getFullYear();
     const day = _date.getDate();
-    const dateWithDesiredMonth = constructFrom(date, 0);
-    dateWithDesiredMonth.setFullYear(year, month, 15);
-    dateWithDesiredMonth.setHours(0, 0, 0, 0);
-    const daysInMonth = getDaysInMonth(dateWithDesiredMonth);
+    const midMonth = constructFrom(options2?.in || date, 0);
+    midMonth.setFullYear(year, month, 15);
+    midMonth.setHours(0, 0, 0, 0);
+    const daysInMonth = getDaysInMonth(midMonth);
     _date.setMonth(month, Math.min(day, daysInMonth));
     return _date;
   }
 
-  // node_modules/date-fns/set.mjs
-  function set(date, values) {
-    let _date = toDate(date);
-    if (isNaN(+_date)) {
-      return constructFrom(date, NaN);
-    }
-    if (values.year != null) {
-      _date.setFullYear(values.year);
-    }
-    if (values.month != null) {
-      _date = setMonth(_date, values.month);
-    }
-    if (values.date != null) {
-      _date.setDate(values.date);
-    }
-    if (values.hours != null) {
-      _date.setHours(values.hours);
-    }
-    if (values.minutes != null) {
-      _date.setMinutes(values.minutes);
-    }
-    if (values.seconds != null) {
-      _date.setSeconds(values.seconds);
-    }
-    if (values.milliseconds != null) {
-      _date.setMilliseconds(values.milliseconds);
-    }
+  // node_modules/date-fns/set.js
+  function set(date, values, options2) {
+    let _date = toDate(date, options2?.in);
+    if (isNaN(+_date)) return constructFrom(options2?.in || date, NaN);
+    if (values.year != null) _date.setFullYear(values.year);
+    if (values.month != null) _date = setMonth(_date, values.month);
+    if (values.date != null) _date.setDate(values.date);
+    if (values.hours != null) _date.setHours(values.hours);
+    if (values.minutes != null) _date.setMinutes(values.minutes);
+    if (values.seconds != null) _date.setSeconds(values.seconds);
+    if (values.milliseconds != null) _date.setMilliseconds(values.milliseconds);
     return _date;
   }
 
-  // node_modules/date-fns/setYear.mjs
-  function setYear(date, year) {
-    const _date = toDate(date);
-    if (isNaN(+_date)) {
-      return constructFrom(date, NaN);
-    }
-    _date.setFullYear(year);
-    return _date;
+  // node_modules/date-fns/setYear.js
+  function setYear(date, year, options2) {
+    const date_ = toDate(date, options2?.in);
+    if (isNaN(+date_)) return constructFrom(options2?.in || date, NaN);
+    date_.setFullYear(year);
+    return date_;
   }
 
-  // node_modules/date-fns/startOfToday.mjs
-  function startOfToday() {
-    return startOfDay(Date.now());
+  // node_modules/date-fns/startOfToday.js
+  function startOfToday(options2) {
+    return startOfDay(Date.now(), options2);
   }
 
-  // node_modules/date-fns/subMonths.mjs
-  function subMonths(date, amount) {
-    return addMonths(date, -amount);
+  // node_modules/date-fns/subMonths.js
+  function subMonths(date, amount, options2) {
+    return addMonths(date, -amount, options2);
   }
 
-  // node_modules/date-fns/subWeeks.mjs
-  function subWeeks(date, amount) {
-    return addWeeks(date, -amount);
+  // node_modules/date-fns/subWeeks.js
+  function subWeeks(date, amount, options2) {
+    return addWeeks(date, -amount, options2);
   }
 
-  // node_modules/date-fns/subYears.mjs
-  function subYears(date, amount) {
-    return addYears(date, -amount);
+  // node_modules/date-fns/subYears.js
+  function subYears(date, amount, options2) {
+    return addYears(date, -amount, options2);
   }
 
   // packages/components/build-module/date-time/date-picker/index.mjs
   var import_i18n42 = __toESM(require_i18n(), 1);
   var import_date3 = __toESM(require_date(), 1);
-  var import_element127 = __toESM(require_element(), 1);
+  var import_element128 = __toESM(require_element(), 1);
 
   // packages/components/build-module/date-time/date-picker/use-lilius/index.mjs
-  var import_element126 = __toESM(require_element(), 1);
+  var import_element127 = __toESM(require_element(), 1);
   var Day = /* @__PURE__ */ (function(Day22) {
     Day22[Day22["SUNDAY"] = 0] = "SUNDAY";
     Day22[Day22["MONDAY"] = 1] = "MONDAY";
@@ -39872,27 +41720,27 @@ This message will only show in development mode. It won't appear in production. 
     selected: initialSelected = [],
     numberOfMonths = 1
   } = {}) => {
-    const [viewing, setViewing] = (0, import_element126.useState)(initialViewing);
-    const viewToday = (0, import_element126.useCallback)(() => setViewing(startOfToday()), [setViewing]);
-    const viewMonth = (0, import_element126.useCallback)((month) => setViewing((v3) => setMonth(v3, month)), []);
-    const viewPreviousMonth = (0, import_element126.useCallback)(() => setViewing((v3) => subMonths(v3, 1)), []);
-    const viewNextMonth = (0, import_element126.useCallback)(() => setViewing((v3) => addMonths(v3, 1)), []);
-    const viewYear = (0, import_element126.useCallback)((year) => setViewing((v3) => setYear(v3, year)), []);
-    const viewPreviousYear = (0, import_element126.useCallback)(() => setViewing((v3) => subYears(v3, 1)), []);
-    const viewNextYear = (0, import_element126.useCallback)(() => setViewing((v3) => addYears(v3, 1)), []);
-    const [selected, setSelected] = (0, import_element126.useState)(initialSelected.map(clearTime2));
+    const [viewing, setViewing] = (0, import_element127.useState)(initialViewing);
+    const viewToday = (0, import_element127.useCallback)(() => setViewing(startOfToday()), [setViewing]);
+    const viewMonth = (0, import_element127.useCallback)((month) => setViewing((v3) => setMonth(v3, month)), []);
+    const viewPreviousMonth = (0, import_element127.useCallback)(() => setViewing((v3) => subMonths(v3, 1)), []);
+    const viewNextMonth = (0, import_element127.useCallback)(() => setViewing((v3) => addMonths(v3, 1)), []);
+    const viewYear = (0, import_element127.useCallback)((year) => setViewing((v3) => setYear(v3, year)), []);
+    const viewPreviousYear = (0, import_element127.useCallback)(() => setViewing((v3) => subYears(v3, 1)), []);
+    const viewNextYear = (0, import_element127.useCallback)(() => setViewing((v3) => addYears(v3, 1)), []);
+    const [selected, setSelected] = (0, import_element127.useState)(initialSelected.map(clearTime2));
     const clearSelected = () => setSelected([]);
-    const isSelected2 = (0, import_element126.useCallback)((date) => selected.findIndex((s3) => isEqual(s3, date)) > -1, [selected]);
-    const select = (0, import_element126.useCallback)((date, replaceExisting) => {
+    const isSelected2 = (0, import_element127.useCallback)((date) => selected.findIndex((s3) => isEqual(s3, date)) > -1, [selected]);
+    const select = (0, import_element127.useCallback)((date, replaceExisting) => {
       if (replaceExisting) {
         setSelected(Array.isArray(date) ? date : [date]);
       } else {
         setSelected((selectedItems) => selectedItems.concat(Array.isArray(date) ? date : [date]));
       }
     }, []);
-    const deselect = (0, import_element126.useCallback)((date) => setSelected((selectedItems) => Array.isArray(date) ? selectedItems.filter((s3) => !date.map((d3) => d3.getTime()).includes(s3.getTime())) : selectedItems.filter((s3) => !isEqual(s3, date))), []);
-    const toggle = (0, import_element126.useCallback)((date, replaceExisting) => isSelected2(date) ? deselect(date) : select(date, replaceExisting), [deselect, isSelected2, select]);
-    const selectRange = (0, import_element126.useCallback)((start, end, replaceExisting) => {
+    const deselect = (0, import_element127.useCallback)((date) => setSelected((selectedItems) => Array.isArray(date) ? selectedItems.filter((s3) => !date.map((d3) => d3.getTime()).includes(s3.getTime())) : selectedItems.filter((s3) => !isEqual(s3, date))), []);
+    const toggle = (0, import_element127.useCallback)((date, replaceExisting) => isSelected2(date) ? deselect(date) : select(date, replaceExisting), [deselect, isSelected2, select]);
+    const selectRange = (0, import_element127.useCallback)((start, end, replaceExisting) => {
       if (replaceExisting) {
         setSelected(eachDayOfInterval({
           start,
@@ -39905,13 +41753,13 @@ This message will only show in development mode. It won't appear in production. 
         })));
       }
     }, []);
-    const deselectRange = (0, import_element126.useCallback)((start, end) => {
+    const deselectRange = (0, import_element127.useCallback)((start, end) => {
       setSelected((selectedItems) => selectedItems.filter((s3) => !eachDayOfInterval({
         start,
         end
       }).map((d3) => d3.getTime()).includes(s3.getTime())));
     }, []);
-    const calendar = (0, import_element126.useMemo)(() => eachMonthOfInterval({
+    const calendar = (0, import_element127.useMemo)(() => eachMonthOfInterval({
       start: startOfMonth(viewing),
       end: endOfMonth(addMonths(viewing, numberOfMonths - 1))
     }).map((month) => eachWeekOfInterval({
@@ -40194,9 +42042,9 @@ This message will only show in development mode. It won't appear in production. 
       viewing: startOfDayInConfiguredTimezone(date),
       weekStartsOn
     });
-    const [focusable, setFocusable] = (0, import_element127.useState)(startOfDayInConfiguredTimezone(date));
-    const [isFocusWithinCalendar, setIsFocusWithinCalendar] = (0, import_element127.useState)(false);
-    const [prevCurrentDate, setPrevCurrentDate] = (0, import_element127.useState)(currentDate);
+    const [focusable, setFocusable] = (0, import_element128.useState)(startOfDayInConfiguredTimezone(date));
+    const [isFocusWithinCalendar, setIsFocusWithinCalendar] = (0, import_element128.useState)(false);
+    const [prevCurrentDate, setPrevCurrentDate] = (0, import_element128.useState)(currentDate);
     if (currentDate !== prevCurrentDate) {
       setPrevCurrentDate(currentDate);
       setSelected([startOfDayInConfiguredTimezone(date)]);
@@ -40320,8 +42168,8 @@ This message will only show in development mode. It won't appear in production. 
     onClick,
     onKeyDown
   }) {
-    const ref = (0, import_element127.useRef)(null);
-    (0, import_element127.useEffect)(() => {
+    const ref = (0, import_element128.useRef)(null);
+    (0, import_element128.useEffect)(() => {
       if (ref.current && isFocusable2 && isFocusAllowed) {
         ref.current.focus();
       }
@@ -40366,7 +42214,7 @@ This message will only show in development mode. It won't appear in production. 
   var date_picker_default = DatePicker;
 
   // packages/components/build-module/date-time/time-picker/index.mjs
-  var import_element129 = __toESM(require_element(), 1);
+  var import_element130 = __toESM(require_element(), 1);
   var import_i18n45 = __toESM(require_i18n(), 1);
   var import_date5 = __toESM(require_date(), 1);
 
@@ -40492,7 +42340,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/date-time/time-picker/time-input/index.mjs
   var import_i18n44 = __toESM(require_i18n(), 1);
-  var import_element128 = __toESM(require_element(), 1);
+  var import_element129 = __toESM(require_element(), 1);
   var import_jsx_runtime195 = __toESM(require_jsx_runtime(), 1);
   function TimeInput({
     value: valueProp,
@@ -40540,7 +42388,7 @@ This message will only show in development mode. It won't appear in production. 
     function parseDayPeriod(_hours) {
       return _hours < 12 ? "AM" : "PM";
     }
-    const Wrapper7 = label ? Fieldset : import_element128.Fragment;
+    const Wrapper7 = label ? Fieldset : import_element129.Fragment;
     return /* @__PURE__ */ (0, import_jsx_runtime195.jsxs)(Wrapper7, {
       children: [label && /* @__PURE__ */ (0, import_jsx_runtime195.jsx)(base_control_default.VisualLabel, {
         as: "legend",
@@ -40626,11 +42474,11 @@ This message will only show in development mode. It won't appear in production. 
     dateOrder: dateOrderProp,
     hideLabelFromVision = false
   }) {
-    const [date, setDate] = (0, import_element129.useState)(() => (
+    const [date, setDate] = (0, import_element130.useState)(() => (
       // Truncate the date at the minutes, see: #15495.
       startOfMinute(inputToDate(currentTime ?? /* @__PURE__ */ new Date()))
     ));
-    (0, import_element129.useEffect)(() => {
+    (0, import_element130.useEffect)(() => {
       setDate(startOfMinute(inputToDate(currentTime ?? /* @__PURE__ */ new Date())));
     }, [currentTime]);
     const monthOptions = [{
@@ -40676,7 +42524,7 @@ This message will only show in development mode. It won't appear in production. 
       year,
       minutes,
       hours
-    } = (0, import_element129.useMemo)(() => ({
+    } = (0, import_element130.useMemo)(() => ({
       day: (0, import_date5.date)("d", date),
       month: (0, import_date5.date)("m", date),
       year: (0, import_date5.date)("Y", date),
@@ -40817,7 +42665,7 @@ This message will only show in development mode. It won't appear in production. 
   var time_picker_default = TimePicker;
 
   // packages/components/build-module/date-time/date-time/index.mjs
-  var import_element130 = __toESM(require_element(), 1);
+  var import_element131 = __toESM(require_element(), 1);
 
   // packages/components/build-module/date-time/date-time/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__30() {
@@ -40849,7 +42697,7 @@ This message will only show in development mode. It won't appear in production. 
     onMonthPreviewed = noop12,
     onChange,
     events,
-    startOfWeek: startOfWeek3
+    startOfWeek: startOfWeek2
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime197.jsx)(Wrapper5, {
       ref,
@@ -40867,12 +42715,12 @@ This message will only show in development mode. It won't appear in production. 
           isInvalidDate,
           events,
           onMonthPreviewed,
-          startOfWeek: startOfWeek3
+          startOfWeek: startOfWeek2
         })]
       })
     });
   }
-  var DateTimePicker = (0, import_element130.forwardRef)(UnforwardedDateTimePicker);
+  var DateTimePicker = (0, import_element131.forwardRef)(UnforwardedDateTimePicker);
   DateTimePicker.displayName = "DateTimePicker";
   var date_time_default = DateTimePicker;
 
@@ -40893,8 +42741,8 @@ This message will only show in development mode. It won't appear in production. 
   };
 
   // packages/components/build-module/disabled/context.mjs
-  var import_element131 = __toESM(require_element(), 1);
-  var Context = (0, import_element131.createContext)(false);
+  var import_element132 = __toESM(require_element(), 1);
+  var Context = (0, import_element132.createContext)(false);
   Context.displayName = "DisabledContext";
   var context_default3 = Context;
 
@@ -40927,7 +42775,7 @@ This message will only show in development mode. It won't appear in production. 
   var disabled_default = Disabled;
 
   // packages/components/build-module/disclosure/index.mjs
-  var import_element132 = __toESM(require_element(), 1);
+  var import_element133 = __toESM(require_element(), 1);
   var import_jsx_runtime199 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedDisclosureContent = ({
     visible,
@@ -40944,12 +42792,12 @@ This message will only show in development mode. It won't appear in production. 
       children
     });
   };
-  var DisclosureContent22 = (0, import_element132.forwardRef)(UnforwardedDisclosureContent);
+  var DisclosureContent22 = (0, import_element133.forwardRef)(UnforwardedDisclosureContent);
   DisclosureContent22.displayName = "DisclosureContent";
 
   // packages/components/build-module/draggable/index.mjs
   var import_compose52 = __toESM(require_compose(), 1);
-  var import_element133 = __toESM(require_element(), 1);
+  var import_element134 = __toESM(require_element(), 1);
   var import_jsx_runtime200 = __toESM(require_jsx_runtime(), 1);
   var dragImageClass = "components-draggable__invisible-drag-image";
   var cloneWrapperClass = "components-draggable__clone";
@@ -40967,8 +42815,8 @@ This message will only show in development mode. It won't appear in production. 
     __experimentalTransferDataType: transferDataType = "text",
     __experimentalDragComponent: dragComponent
   }) {
-    const dragComponentRef = (0, import_element133.useRef)(null);
-    const cleanupRef = (0, import_element133.useRef)(() => {
+    const dragComponentRef = (0, import_element134.useRef)(null);
+    const cleanupRef = (0, import_element134.useRef)(() => {
     });
     function end(event) {
       event.preventDefault();
@@ -41059,7 +42907,7 @@ This message will only show in development mode. It won't appear in production. 
         ownerDocument.removeEventListener("dragover", throttledDragOver);
       };
     }
-    (0, import_element133.useEffect)(() => () => {
+    (0, import_element134.useEffect)(() => () => {
       cleanupRef.current();
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime200.jsxs)(import_jsx_runtime200.Fragment, {
@@ -41080,7 +42928,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/drop-zone/index.mjs
   var import_i18n46 = __toESM(require_i18n(), 1);
-  var import_element134 = __toESM(require_element(), 1);
+  var import_element135 = __toESM(require_element(), 1);
   var import_dom31 = __toESM(require_dom(), 1);
   var import_compose53 = __toESM(require_compose(), 1);
   var import_jsx_runtime201 = __toESM(require_jsx_runtime(), 1);
@@ -41094,9 +42942,9 @@ This message will only show in development mode. It won't appear in production. 
     isEligible = () => true,
     ...restProps
   }) {
-    const [isDraggingOverDocument, setIsDraggingOverDocument] = (0, import_element134.useState)();
-    const [isDraggingOverElement, setIsDraggingOverElement] = (0, import_element134.useState)();
-    const [isActive, setIsActive] = (0, import_element134.useState)();
+    const [isDraggingOverDocument, setIsDraggingOverDocument] = (0, import_element135.useState)();
+    const [isDraggingOverElement, setIsDraggingOverElement] = (0, import_element135.useState)();
+    const [isActive, setIsActive] = (0, import_element135.useState)();
     const ref = (0, import_compose53.__experimentalUseDropZone)({
       onDrop(event) {
         if (!event.dataTransfer) {
@@ -41181,11 +43029,11 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/duotone-picker/duotone-picker.mjs
   var import_es62 = __toESM(require_es6(), 1);
-  var import_element136 = __toESM(require_element(), 1);
+  var import_element137 = __toESM(require_element(), 1);
   var import_i18n48 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/duotone-picker/color-list-picker/index.mjs
-  var import_element135 = __toESM(require_element(), 1);
+  var import_element136 = __toESM(require_element(), 1);
   var import_i18n47 = __toESM(require_i18n(), 1);
   var import_compose54 = __toESM(require_compose(), 1);
   var import_jsx_runtime202 = __toESM(require_jsx_runtime(), 1);
@@ -41197,7 +43045,7 @@ This message will only show in development mode. It won't appear in production. 
     enableAlpha,
     onChange
   }) {
-    const [isOpen, setIsOpen] = (0, import_element135.useState)(false);
+    const [isOpen, setIsOpen] = (0, import_element136.useState)(false);
     const idRoot = (0, import_compose54.useInstanceId)(ColorOption, "color-list-picker-option");
     const labelId = `${idRoot}__label`;
     const contentId = `${idRoot}__content`;
@@ -41340,7 +43188,7 @@ This message will only show in development mode. It won't appear in production. 
     "aria-labelledby": ariaLabelledby,
     ...otherProps
   }) {
-    const [defaultDark, defaultLight] = (0, import_element136.useMemo)(() => getDefaultColors(colorPalette), [colorPalette]);
+    const [defaultDark, defaultLight] = (0, import_element137.useMemo)(() => getDefaultColors(colorPalette), [colorPalette]);
     const isUnset = value === "unset";
     const unsetOptionLabel = (0, import_i18n48.__)("Unset");
     const unsetOption = /* @__PURE__ */ (0, import_jsx_runtime204.jsx)(circular_option_picker_default2.Option, {
@@ -41445,7 +43293,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/external-link/index.mjs
   var import_i18n49 = __toESM(require_i18n(), 1);
-  var import_element137 = __toESM(require_element(), 1);
+  var import_element138 = __toESM(require_element(), 1);
   var import_jsx_runtime206 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedExternalLink(props, ref) {
     const {
@@ -41494,13 +43342,13 @@ This message will only show in development mode. It won't appear in production. 
       })
     );
   }
-  var ExternalLink = (0, import_element137.forwardRef)(UnforwardedExternalLink);
+  var ExternalLink = (0, import_element138.forwardRef)(UnforwardedExternalLink);
   ExternalLink.displayName = "ExternalLink";
   var external_link_default = ExternalLink;
 
   // packages/components/build-module/focal-point-picker/index.mjs
   var import_i18n51 = __toESM(require_i18n(), 1);
-  var import_element138 = __toESM(require_element(), 1);
+  var import_element139 = __toESM(require_element(), 1);
   var import_compose55 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/focal-point-picker/controls.mjs
@@ -41831,8 +43679,8 @@ This message will only show in development mode. It won't appear in production. 
     },
     ...restProps
   }) {
-    const [point, setPoint] = (0, import_element138.useState)(valueProp);
-    const [showGridOverlay, setShowGridOverlay] = (0, import_element138.useState)(false);
+    const [point, setPoint] = (0, import_element139.useState)(valueProp);
+    const [showGridOverlay, setShowGridOverlay] = (0, import_element139.useState)(false);
     const {
       startDrag,
       endDrag,
@@ -41865,9 +43713,9 @@ This message will only show in development mode. It won't appear in production. 
       x: x2,
       y: y3
     } = isDragging2 ? point : valueProp;
-    const dragAreaRef = (0, import_element138.useRef)(null);
-    const [bounds, setBounds] = (0, import_element138.useState)(INITIAL_BOUNDS);
-    const refUpdateBounds = (0, import_element138.useRef)(() => {
+    const dragAreaRef = (0, import_element139.useRef)(null);
+    const [bounds, setBounds] = (0, import_element139.useState)(INITIAL_BOUNDS);
+    const refUpdateBounds = (0, import_element139.useRef)(() => {
       if (!dragAreaRef.current) {
         return;
       }
@@ -41882,7 +43730,7 @@ This message will only show in development mode. It won't appear in production. 
         ...INITIAL_BOUNDS
       });
     });
-    (0, import_element138.useEffect)(() => {
+    (0, import_element139.useEffect)(() => {
       const updateBounds = refUpdateBounds.current;
       if (!dragAreaRef.current) {
         return;
@@ -42030,7 +43878,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/font-size-picker/index.mjs
   var import_i18n55 = __toESM(require_i18n(), 1);
-  var import_element140 = __toESM(require_element(), 1);
+  var import_element141 = __toESM(require_element(), 1);
   var import_compose57 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/font-size-picker/styles.mjs
@@ -42084,7 +43932,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/font-size-picker/font-size-picker-select.mjs
   var import_i18n52 = __toESM(require_i18n(), 1);
-  var import_element139 = __toESM(require_element(), 1);
+  var import_element140 = __toESM(require_element(), 1);
 
   // packages/components/build-module/font-size-picker/utils.mjs
   function isSimpleCssValue(value) {
@@ -42126,7 +43974,7 @@ This message will only show in development mode. It won't appear in production. 
         hint
       };
     })];
-    const selectedOption = (0, import_element139.useMemo)(() => {
+    const selectedOption = (0, import_element140.useMemo)(() => {
       if (value === void 0) {
         return DEFAULT_OPTION;
       }
@@ -42267,7 +44115,7 @@ This message will only show in development mode. It won't appear in production. 
       return fontSizes.find((fontSize) => fontSize.size === value);
     })();
     const isCustomValue2 = !!value && !selectedFontSize;
-    const [userRequestedCustom, setUserRequestedCustom] = (0, import_element140.useState)(isCustomValue2);
+    const [userRequestedCustom, setUserRequestedCustom] = (0, import_element141.useState)(isCustomValue2);
     const resolvedValueForControls = valueMode === "slug" ? selectedFontSize?.size : value;
     let currentPickerType;
     if (!disableCustomFontSizes && userRequestedCustom) {
@@ -42403,12 +44251,12 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   };
-  var FontSizePicker = (0, import_element140.forwardRef)(UnforwardedFontSizePicker);
+  var FontSizePicker = (0, import_element141.forwardRef)(UnforwardedFontSizePicker);
   FontSizePicker.displayName = "FontSizePicker";
   var font_size_picker_default = FontSizePicker;
 
   // packages/components/build-module/form-file-upload/index.mjs
-  var import_element141 = __toESM(require_element(), 1);
+  var import_element142 = __toESM(require_element(), 1);
   var import_jsx_runtime216 = __toESM(require_jsx_runtime(), 1);
   function FormFileUpload({
     accept,
@@ -42419,7 +44267,7 @@ This message will only show in development mode. It won't appear in production. 
     render,
     ...props
   }) {
-    const ref = (0, import_element141.useRef)(null);
+    const ref = (0, import_element142.useRef)(null);
     const openFileDialog = () => {
       ref.current?.click();
     };
@@ -42462,7 +44310,7 @@ This message will only show in development mode. It won't appear in production. 
   var form_file_upload_default = FormFileUpload;
 
   // packages/components/build-module/form-toggle/index.mjs
-  var import_element142 = __toESM(require_element(), 1);
+  var import_element143 = __toESM(require_element(), 1);
   var import_jsx_runtime217 = __toESM(require_jsx_runtime(), 1);
   var noop14 = () => {
   };
@@ -42502,12 +44350,12 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   }
-  var FormToggle = (0, import_element142.forwardRef)(UnforwardedFormToggle);
+  var FormToggle = (0, import_element143.forwardRef)(UnforwardedFormToggle);
   FormToggle.displayName = "FormToggle";
   var form_toggle_default = FormToggle;
 
   // packages/components/build-module/form-token-field/index.mjs
-  var import_element143 = __toESM(require_element(), 1);
+  var import_element144 = __toESM(require_element(), 1);
   var import_i18n57 = __toESM(require_i18n(), 1);
   var import_compose59 = __toESM(require_compose(), 1);
   var import_a11y6 = __toESM(require_a11y(), 1);
@@ -42649,32 +44497,32 @@ This message will only show in development mode. It won't appear in production. 
       }
     }
     const instanceId = (0, import_compose59.useInstanceId)(FormTokenField);
-    const [incompleteTokenValue, setIncompleteTokenValue] = (0, import_element143.useState)("");
-    const [inputOffsetFromEnd, setInputOffsetFromEnd] = (0, import_element143.useState)(0);
-    const [isActive, setIsActive] = (0, import_element143.useState)(false);
-    const [isExpanded, setIsExpanded] = (0, import_element143.useState)(false);
-    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = (0, import_element143.useState)(-1);
-    const [selectedSuggestionScroll, setSelectedSuggestionScroll] = (0, import_element143.useState)(false);
+    const [incompleteTokenValue, setIncompleteTokenValue] = (0, import_element144.useState)("");
+    const [inputOffsetFromEnd, setInputOffsetFromEnd] = (0, import_element144.useState)(0);
+    const [isActive, setIsActive] = (0, import_element144.useState)(false);
+    const [isExpanded, setIsExpanded] = (0, import_element144.useState)(false);
+    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = (0, import_element144.useState)(-1);
+    const [selectedSuggestionScroll, setSelectedSuggestionScroll] = (0, import_element144.useState)(false);
     const prevSuggestions = (0, import_compose59.usePrevious)(suggestions);
     const prevValue = (0, import_compose59.usePrevious)(value);
-    const input = (0, import_element143.useRef)(null);
-    const tokensAndInput = (0, import_element143.useRef)(null);
+    const input = (0, import_element144.useRef)(null);
+    const tokensAndInput = (0, import_element144.useRef)(null);
     const debouncedSpeak = (0, import_compose59.useDebounce)(import_a11y6.speak, 500);
-    (0, import_element143.useEffect)(() => {
+    (0, import_element144.useEffect)(() => {
       if (isActive && !hasFocus2()) {
         focus4();
       }
     }, [isActive]);
-    (0, import_element143.useEffect)(() => {
+    (0, import_element144.useEffect)(() => {
       const suggestionsDidUpdate = !(0, import_is_shallow_equal2.isShallowEqual)(suggestions, prevSuggestions || []);
       if (suggestionsDidUpdate || value !== prevValue) {
         updateSuggestions(suggestionsDidUpdate);
       }
     }, [suggestions, prevSuggestions, value, prevValue]);
-    (0, import_element143.useEffect)(() => {
+    (0, import_element144.useEffect)(() => {
       updateSuggestions();
     }, [incompleteTokenValue]);
-    (0, import_element143.useEffect)(() => {
+    (0, import_element144.useEffect)(() => {
       updateSuggestions();
     }, [__experimentalAutoSelectFirstMatch]);
     if (disabled && isActive) {
@@ -43116,7 +44964,7 @@ This message will only show in development mode. It won't appear in production. 
   var form_token_field_default = FormTokenField;
 
   // packages/components/build-module/guide/index.mjs
-  var import_element144 = __toESM(require_element(), 1);
+  var import_element145 = __toESM(require_element(), 1);
   var import_deprecated18 = __toESM(require_deprecated(), 1);
   var import_i18n59 = __toESM(require_i18n(), 1);
 
@@ -43180,24 +45028,24 @@ This message will only show in development mode. It won't appear in production. 
     onFinish,
     pages = []
   }) {
-    const ref = (0, import_element144.useRef)(null);
-    const [currentPage, setCurrentPage] = (0, import_element144.useState)(0);
-    (0, import_element144.useEffect)(() => {
+    const ref = (0, import_element145.useRef)(null);
+    const [currentPage, setCurrentPage] = (0, import_element145.useState)(0);
+    (0, import_element145.useEffect)(() => {
       const frame2 = ref.current?.querySelector(".components-guide");
       if (frame2 instanceof HTMLElement) {
         frame2.focus();
       }
     }, [currentPage]);
-    (0, import_element144.useEffect)(() => {
-      if (import_element144.Children.count(children)) {
+    (0, import_element145.useEffect)(() => {
+      if (import_element145.Children.count(children)) {
         (0, import_deprecated18.default)("Passing children to <Guide>", {
           since: "5.5",
           alternative: "the `pages` prop"
         });
       }
     }, [children]);
-    if (import_element144.Children.count(children)) {
-      pages = import_element144.Children.map(children, (child) => ({
+    if (import_element145.Children.count(children)) {
+      pages = import_element145.Children.map(children, (child) => ({
         content: child
       })) ?? [];
     }
@@ -43268,11 +45116,11 @@ This message will only show in development mode. It won't appear in production. 
   var guide_default = Guide;
 
   // packages/components/build-module/guide/page.mjs
-  var import_element145 = __toESM(require_element(), 1);
+  var import_element146 = __toESM(require_element(), 1);
   var import_deprecated19 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime223 = __toESM(require_jsx_runtime(), 1);
   function GuidePage(props) {
-    (0, import_element145.useEffect)(() => {
+    (0, import_element146.useEffect)(() => {
       (0, import_deprecated19.default)("<GuidePage>", {
         since: "5.5",
         alternative: "the `pages` prop in <Guide>"
@@ -43285,7 +45133,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/button/deprecated.mjs
   var import_deprecated20 = __toESM(require_deprecated(), 1);
-  var import_element146 = __toESM(require_element(), 1);
+  var import_element147 = __toESM(require_element(), 1);
   var import_jsx_runtime224 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedIconButton({
     label,
@@ -43312,10 +45160,10 @@ This message will only show in development mode. It won't appear in production. 
       })
     );
   }
-  var deprecated_default = (0, import_element146.forwardRef)(UnforwardedIconButton);
+  var deprecated_default = (0, import_element147.forwardRef)(UnforwardedIconButton);
 
   // packages/components/build-module/keyboard-shortcuts/index.mjs
-  var import_element147 = __toESM(require_element(), 1);
+  var import_element148 = __toESM(require_element(), 1);
   var import_compose60 = __toESM(require_compose(), 1);
   var import_jsx_runtime225 = __toESM(require_jsx_runtime(), 1);
   function KeyboardShortcut({
@@ -43338,7 +45186,7 @@ This message will only show in development mode. It won't appear in production. 
     bindGlobal,
     eventName
   }) {
-    const target = (0, import_element147.useRef)(null);
+    const target = (0, import_element148.useRef)(null);
     const element = Object.entries(shortcuts ?? {}).map(([shortcut, callback]) => /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(KeyboardShortcut, {
       shortcut,
       callback,
@@ -43346,7 +45194,7 @@ This message will only show in development mode. It won't appear in production. 
       eventName,
       target
     }, shortcut));
-    if (!import_element147.Children.count(children)) {
+    if (!import_element148.Children.count(children)) {
       return /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(import_jsx_runtime225.Fragment, {
         children: element
       });
@@ -43359,7 +45207,7 @@ This message will only show in development mode. It won't appear in production. 
   var keyboard_shortcuts_default = KeyboardShortcuts;
 
   // packages/components/build-module/menu-group/index.mjs
-  var import_element148 = __toESM(require_element(), 1);
+  var import_element149 = __toESM(require_element(), 1);
   var import_compose61 = __toESM(require_compose(), 1);
   var import_jsx_runtime226 = __toESM(require_jsx_runtime(), 1);
   function MenuGroup3(props) {
@@ -43370,7 +45218,7 @@ This message will only show in development mode. It won't appear in production. 
       hideSeparator
     } = props;
     const instanceId = (0, import_compose61.useInstanceId)(MenuGroup3);
-    if (!import_element148.Children.count(children)) {
+    if (!import_element149.Children.count(children)) {
       return null;
     }
     const labelId = `components-menu-group-label-${instanceId}`;
@@ -43394,7 +45242,7 @@ This message will only show in development mode. It won't appear in production. 
   var menu_group_default = MenuGroup3;
 
   // packages/components/build-module/menu-item/index.mjs
-  var import_element149 = __toESM(require_element(), 1);
+  var import_element150 = __toESM(require_element(), 1);
   var import_jsx_runtime227 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedMenuItem(props, ref) {
     let {
@@ -43423,7 +45271,7 @@ This message will only show in development mode. It won't appear in production. 
       });
     }
     if (icon && typeof icon !== "string") {
-      icon = (0, import_element149.cloneElement)(icon, {
+      icon = (0, import_element150.cloneElement)(icon, {
         className: clsx_default("components-menu-items__item-icon", {
           "has-icon-right": iconPosition === "right"
         })
@@ -43449,7 +45297,7 @@ This message will only show in development mode. It won't appear in production. 
       }), suffix]
     });
   }
-  var MenuItem3 = (0, import_element149.forwardRef)(UnforwardedMenuItem);
+  var MenuItem3 = (0, import_element150.forwardRef)(UnforwardedMenuItem);
   MenuItem3.displayName = "MenuItem";
   var menu_item_default = MenuItem3;
 
@@ -43491,7 +45339,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/navigation/index.mjs
   var import_deprecated21 = __toESM(require_deprecated(), 1);
-  var import_element153 = __toESM(require_element(), 1);
+  var import_element154 = __toESM(require_element(), 1);
   var import_i18n61 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/navigation/constants.mjs
@@ -43499,12 +45347,12 @@ This message will only show in development mode. It won't appear in production. 
   var SEARCH_FOCUS_DELAY = 100;
 
   // packages/components/build-module/navigation/context.mjs
-  var import_element150 = __toESM(require_element(), 1);
+  var import_element151 = __toESM(require_element(), 1);
   var noop17 = () => {
   };
   var defaultIsEmpty = () => false;
   var defaultGetter = () => void 0;
-  var NavigationContext = (0, import_element150.createContext)({
+  var NavigationContext = (0, import_element151.createContext)({
     activeItem: void 0,
     activeMenu: ROOT_MENU,
     setActiveMenu: noop17,
@@ -43523,7 +45371,7 @@ This message will only show in development mode. It won't appear in production. 
     }
   });
   NavigationContext.displayName = "NavigationContext";
-  var useNavigationContext = () => (0, import_element150.useContext)(NavigationContext);
+  var useNavigationContext = () => (0, import_element151.useContext)(NavigationContext);
 
   // packages/components/build-module/navigation/styles/navigation-styles.mjs
   var import_i18n60 = __toESM(require_i18n(), 1);
@@ -43629,12 +45477,12 @@ This message will only show in development mode. It won't appear in production. 
   })(() => (0, import_i18n60.isRTL)() ? "margin-left: auto;" : "margin-right: auto;", " font-size:14px;line-height:20px;color:inherit;" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5hdmlnYXRpb24tc3R5bGVzLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUErTHlDIiwiZmlsZSI6Im5hdmlnYXRpb24tc3R5bGVzLnRzeCIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBXb3JkUHJlc3MgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGlzUlRMIH0gZnJvbSAnQHdvcmRwcmVzcy9pMThuJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTIH0gZnJvbSAnLi4vLi4vdXRpbHMvY29sb3JzLXZhbHVlcyc7XG5pbXBvcnQgQnV0dG9uIGZyb20gJy4uLy4uL2J1dHRvbic7XG5pbXBvcnQgeyBUZXh0IH0gZnJvbSAnLi4vLi4vdGV4dCc7XG5pbXBvcnQgeyBIZWFkaW5nIH0gZnJvbSAnLi4vLi4vaGVhZGluZyc7XG5pbXBvcnQgeyBydGwsIENPTkZJRyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB7IHNwYWNlIH0gZnJvbSAnLi4vLi4vdXRpbHMvc3BhY2UnO1xuXG5leHBvcnQgY29uc3QgTmF2aWdhdGlvblVJID0gc3R5bGVkLmRpdmBcblx0d2lkdGg6IDEwMCU7XG5cdGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG5cdHBhZGRpbmc6IDAgJHsgc3BhY2UoIDQgKSB9O1xuXHRvdmVyZmxvdzogaGlkZGVuO1xuYDtcblxuZXhwb3J0IGNvbnN0IE1lbnVVSSA9IHN0eWxlZC5kaXZgXG5cdG1hcmdpbi10b3A6ICR7IHNwYWNlKCA2ICkgfTtcblx0bWFyZ2luLWJvdHRvbTogJHsgc3BhY2UoIDYgKSB9O1xuXHRkaXNwbGF5OiBmbGV4O1xuXHRmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuXHR1bCB7XG5cdFx0cGFkZGluZzogMDtcblx0XHRtYXJnaW46IDA7XG5cdFx0bGlzdC1zdHlsZTogbm9uZTtcblx0fVxuXHQuY29tcG9uZW50cy1uYXZpZ2F0aW9uX19iYWNrLWJ1dHRvbiB7XG5cdFx0bWFyZ2luLWJvdHRvbTogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5cblx0LmNvbXBvbmVudHMtbmF2aWdhdGlvbl9fZ3JvdXAgKyAuY29tcG9uZW50cy1uYXZpZ2F0aW9uX19ncm91cCB7XG5cdFx0bWFyZ2luLXRvcDogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgTWVudUJhY2tCdXR0b25VSSA9IHN0eWxlZCggQnV0dG9uIClgXG5cdCYuaXMtdGVydGlhcnkge1xuXHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdG9wYWNpdHk6IDAuNztcblxuXHRcdCY6aG92ZXI6bm90KCA6ZGlzYWJsZWQgKSB7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Ym94LXNoYWRvdzogbm9uZTtcblx0XHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdH1cblxuXHRcdCY6YWN0aXZlOm5vdCggOmRpc2FibGVkICkge1xuXHRcdFx0YmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Y29sb3I6IGluaGVyaXQ7XG5cdFx0fVxuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgTWVudVRpdGxlVUkgPSBzdHlsZWQuZGl2YFxuXHRvdmVyZmxvdzogaGlkZGVuO1xuXHR3aWR0aDogMTAwJTtcbmA7XG5cbmV4cG9ydCBjb25zdCBNZW51VGl0bGVTZWFyY2hDb250cm9sV3JhcHBlciA9IHN0eWxlZC5kaXZgXG5cdG1hcmdpbjogMTFweCAwOyAvLyBub24taWRlYWwgaGFyZGNvZGluZyB0byBtYWludGFpbiBzYW1lIGhlaWdodCBhcyBIZWFkaW5nLCBjb3VsZCBiZSBpbXByb3ZlZFxuXHRwYWRkaW5nOiAxcHg7IC8vIHNvIHRoZSBmb2N1cyBib3JkZXIgZG9lc24ndCBnZXQgY3V0IG9mZiBieSB0aGUgb3ZlcmZsb3cgaGlkZGVuIG9uIE1lbnVUaXRsZVVJXG5gO1xuXG5leHBvcnQgY29uc3QgTWVudVRpdGxlQWN0aW9uc1VJID0gc3R5bGVkLnNwYW5gXG5cdGhlaWdodDogJHsgc3BhY2UoIDYgKSB9OyAvLyAyNHB4LCBzYW1lIGhlaWdodCBhcyB0aGUgYnV0dG9ucyBpbnNpZGVcblxuXHQuY29tcG9uZW50cy1idXR0b24uaXMtc21hbGwge1xuXHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdG9wYWNpdHk6IDAuNztcblx0XHRtYXJnaW4tcmlnaHQ6ICR7IHNwYWNlKCAxICkgfTsgLy8gQXZvaWQgaGlkaW5nIHRoZSBmb2N1cyBvdXRsaW5lXG5cdFx0cGFkZGluZzogMDtcblxuXHRcdCY6YWN0aXZlOm5vdCggOmRpc2FibGVkICkge1xuXHRcdFx0YmFja2dyb3VuZDogbm9uZTtcblx0XHRcdG9wYWNpdHk6IDE7XG5cdFx0XHRjb2xvcjogaW5oZXJpdDtcblx0XHR9XG5cdFx0Jjpob3Zlcjpub3QoIDpkaXNhYmxlZCApIHtcblx0XHRcdGJveC1zaGFkb3c6IG5vbmU7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Y29sb3I6IGluaGVyaXQ7XG5cdFx0fVxuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgR3JvdXBUaXRsZVVJID0gc3R5bGVkKCBIZWFkaW5nIClgXG5cdG1pbi1oZWlnaHQ6ICR7IHNwYWNlKCAxMiApIH07XG5cdGFsaWduLWl0ZW1zOiBjZW50ZXI7XG5cdGNvbG9yOiBpbmhlcml0O1xuXHRkaXNwbGF5OiBmbGV4O1xuXHRqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG5cdG1hcmdpbi1ib3R0b206ICR7IHNwYWNlKCAyICkgfTtcblx0cGFkZGluZzogJHsgKCkgPT5cblx0XHRpc1JUTCgpXG5cdFx0XHQ/IGAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDQgKSB9ICR7IHNwYWNlKCAxICkgfSAkeyBzcGFjZSggMiApIH1gXG5cdFx0XHQ6IGAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDIgKSB9ICR7IHNwYWNlKCAxICkgfSAkeyBzcGFjZShcblx0XHRcdFx0XHQ0XG5cdFx0XHQgICkgfWAgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtQmFzZVVJID0gc3R5bGVkLmxpYFxuXHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0Y29sb3I6IGluaGVyaXQ7XG5cdG1hcmdpbi1ib3R0b206IDA7XG5cblx0PiBidXR0b24sXG5cdD4gYS5jb21wb25lbnRzLWJ1dHRvbixcblx0PiBhIHtcblx0XHR3aWR0aDogMTAwJTtcblx0XHRjb2xvcjogaW5oZXJpdDtcblx0XHRvcGFjaXR5OiAwLjc7XG5cdFx0cGFkZGluZzogJHsgc3BhY2UoIDIgKSB9ICR7IHNwYWNlKCA0ICkgfTsgLyogOHB4IDE2cHggKi9cblx0XHQkeyBydGwoIHsgdGV4dEFsaWduOiAnbGVmdCcgfSwgeyB0ZXh0QWxpZ246ICdyaWdodCcgfSApIH1cblxuXHRcdCY6aG92ZXIsXG5cdFx0Jjpmb2N1czpub3QoIFthcmlhLWRpc2FibGVkPSd0cnVlJ10gKTphY3RpdmUsXG5cdFx0JjphY3RpdmU6bm90KCBbYXJpYS1kaXNhYmxlZD0ndHJ1ZSddICk6YWN0aXZlIHtcblx0XHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHQmLmlzLWFjdGl2ZSB7XG5cdFx0YmFja2dyb3VuZC1jb2xvcjogJHsgQ09MT1JTLnRoZW1lLmFjY2VudCB9O1xuXHRcdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50SW52ZXJ0ZWQgfTtcblxuXHRcdD4gYnV0dG9uLFxuXHRcdC5jb21wb25lbnRzLWJ1dHRvbjpob3Zlcixcblx0XHQ+IGEge1xuXHRcdFx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5hY2NlbnRJbnZlcnRlZCB9O1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHQ+IHN2ZyBwYXRoIHtcblx0XHRjb2xvcjogJHsgQ09MT1JTLmdyYXlbIDYwMCBdIH07XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtVUkgPSBzdHlsZWQuZGl2YFxuXHRkaXNwbGF5OiBmbGV4O1xuXHRhbGlnbi1pdGVtczogY2VudGVyO1xuXHRoZWlnaHQ6IGF1dG87XG5cdG1pbi1oZWlnaHQ6IDQwcHg7XG5cdG1hcmdpbjogMDtcblx0cGFkZGluZzogJHsgc3BhY2UoIDEuNSApIH0gJHsgc3BhY2UoIDQgKSB9O1xuXHRmb250LXdlaWdodDogNDAwO1xuXHRsaW5lLWhlaWdodDogMjBweDtcblx0d2lkdGg6IDEwMCU7XG5cdGNvbG9yOiBpbmhlcml0O1xuXHRvcGFjaXR5OiAwLjc7XG5gO1xuXG5leHBvcnQgY29uc3QgSXRlbUljb25VSSA9IHN0eWxlZC5zcGFuYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHRtYXJnaW4tcmlnaHQ6ICR7IHNwYWNlKCAyICkgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtQmFkZ2VVSSA9IHN0eWxlZC5zcGFuYFxuXHRtYXJnaW4tbGVmdDogJHsgKCkgPT4gKCBpc1JUTCgpID8gJzAnIDogc3BhY2UoIDIgKSApIH07XG5cdG1hcmdpbi1yaWdodDogJHsgKCkgPT4gKCBpc1JUTCgpID8gc3BhY2UoIDIgKSA6ICcwJyApIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRwYWRkaW5nOiAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDMgKSB9O1xuXHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblxuXHRAa2V5ZnJhbWVzIGZhZGUtaW4ge1xuXHRcdGZyb20ge1xuXHRcdFx0b3BhY2l0eTogMDtcblx0XHR9XG5cdFx0dG8ge1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHRAbWVkaWEgbm90ICggcHJlZmVycy1yZWR1Y2VkLW1vdGlvbiApIHtcblx0XHRhbmltYXRpb246IGZhZGUtaW4gMjUwbXMgZWFzZS1vdXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtVGl0bGVVSSA9IHN0eWxlZCggVGV4dCApYFxuXHQkeyAoKSA9PiAoIGlzUlRMKCkgPyAnbWFyZ2luLWxlZnQ6IGF1dG87JyA6ICdtYXJnaW4tcmlnaHQ6IGF1dG87JyApIH1cblx0Zm9udC1zaXplOiAxNHB4O1xuXHRsaW5lLWhlaWdodDogMjBweDtcblx0Y29sb3I6IGluaGVyaXQ7XG5gO1xuIl19 */"));
 
   // packages/components/build-module/navigation/use-create-navigation-tree.mjs
-  var import_element152 = __toESM(require_element(), 1);
+  var import_element153 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/use-navigation-tree-nodes.mjs
-  var import_element151 = __toESM(require_element(), 1);
+  var import_element152 = __toESM(require_element(), 1);
   function useNavigationTreeNodes() {
-    const [nodes, setNodes] = (0, import_element151.useState)({});
+    const [nodes, setNodes] = (0, import_element152.useState)({});
     const getNode = (key) => nodes[key];
     const addNode = (key, value) => {
       const {
@@ -43677,7 +45525,7 @@ This message will only show in development mode. It won't appear in production. 
       addNode: addMenu,
       removeNode: removeMenu
     } = useNavigationTreeNodes();
-    const [childMenu, setChildMenu] = (0, import_element152.useState)({});
+    const [childMenu, setChildMenu] = (0, import_element153.useState)({});
     const getChildMenu = (menu2) => childMenu[menu2] || [];
     const traverseMenu = (startMenu, callback) => {
       const visited = [];
@@ -43747,8 +45595,8 @@ This message will only show in development mode. It won't appear in production. 
     className: className2,
     onActivateMenu = noop18
   }) {
-    const [menu2, setMenu] = (0, import_element153.useState)(activeMenu);
-    const [slideOrigin, setSlideOrigin] = (0, import_element153.useState)();
+    const [menu2, setMenu] = (0, import_element154.useState)(activeMenu);
+    const [slideOrigin, setSlideOrigin] = (0, import_element154.useState)();
     const navigationTree = useCreateNavigationTree();
     const defaultSlideOrigin = (0, import_i18n61.isRTL)() ? "right" : "left";
     (0, import_deprecated21.default)("wp.components.Navigation (and all subcomponents)", {
@@ -43764,13 +45612,13 @@ This message will only show in development mode. It won't appear in production. 
       setMenu(menuId);
       onActivateMenu(menuId);
     };
-    const isMountedRef = (0, import_element153.useRef)(false);
-    (0, import_element153.useEffect)(() => {
+    const isMountedRef = (0, import_element154.useRef)(false);
+    (0, import_element154.useEffect)(() => {
       if (!isMountedRef.current) {
         isMountedRef.current = true;
       }
     }, []);
-    (0, import_element153.useEffect)(() => {
+    (0, import_element154.useEffect)(() => {
       if (activeMenu !== menu2) {
         setActiveMenu(activeMenu);
       }
@@ -43802,7 +45650,7 @@ This message will only show in development mode. It won't appear in production. 
   var navigation_default = Navigation;
 
   // packages/components/build-module/navigation/back-button/index.mjs
-  var import_element154 = __toESM(require_element(), 1);
+  var import_element155 = __toESM(require_element(), 1);
   var import_i18n62 = __toESM(require_i18n(), 1);
   var import_jsx_runtime230 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedNavigationBackButton({
@@ -43840,20 +45688,20 @@ This message will only show in development mode. It won't appear in production. 
       }), backButtonLabel || parentMenuTitle || (0, import_i18n62.__)("Back")]
     });
   }
-  var NavigationBackButton = (0, import_element154.forwardRef)(UnforwardedNavigationBackButton);
+  var NavigationBackButton = (0, import_element155.forwardRef)(UnforwardedNavigationBackButton);
   NavigationBackButton.displayName = "NavigationBackButton";
   var back_button_default = NavigationBackButton;
 
   // packages/components/build-module/navigation/group/index.mjs
-  var import_element156 = __toESM(require_element(), 1);
+  var import_element157 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/group/context.mjs
-  var import_element155 = __toESM(require_element(), 1);
-  var NavigationGroupContext = (0, import_element155.createContext)({
+  var import_element156 = __toESM(require_element(), 1);
+  var NavigationGroupContext = (0, import_element156.createContext)({
     group: void 0
   });
   NavigationGroupContext.displayName = "NavigationGroupContext";
-  var useNavigationGroupContext = () => (0, import_element155.useContext)(NavigationGroupContext);
+  var useNavigationGroupContext = () => (0, import_element156.useContext)(NavigationGroupContext);
 
   // packages/components/build-module/navigation/group/index.mjs
   var import_jsx_runtime231 = __toESM(require_jsx_runtime(), 1);
@@ -43863,7 +45711,7 @@ This message will only show in development mode. It won't appear in production. 
     className: className2,
     title
   }) {
-    const [groupId] = (0, import_element156.useState)(`group-${++uniqueId}`);
+    const [groupId] = (0, import_element157.useState)(`group-${++uniqueId}`);
     const {
       navigationTree: {
         items
@@ -43922,19 +45770,19 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/navigation/item/base.mjs
-  var import_element159 = __toESM(require_element(), 1);
+  var import_element160 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/item/use-navigation-tree-item.mjs
-  var import_element158 = __toESM(require_element(), 1);
+  var import_element159 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/menu/context.mjs
-  var import_element157 = __toESM(require_element(), 1);
-  var NavigationMenuContext = (0, import_element157.createContext)({
+  var import_element158 = __toESM(require_element(), 1);
+  var NavigationMenuContext = (0, import_element158.createContext)({
     menu: void 0,
     search: ""
   });
   NavigationMenuContext.displayName = "NavigationMenuContext";
-  var useNavigationMenuContext = () => (0, import_element157.useContext)(NavigationMenuContext);
+  var useNavigationMenuContext = () => (0, import_element158.useContext)(NavigationMenuContext);
 
   // packages/components/build-module/navigation/utils.mjs
   var import_remove_accents4 = __toESM(require_remove_accents(), 1);
@@ -43957,7 +45805,7 @@ This message will only show in development mode. It won't appear in production. 
       menu: menu2,
       search
     } = useNavigationMenuContext();
-    (0, import_element158.useEffect)(() => {
+    (0, import_element159.useEffect)(() => {
       const isMenuActive = activeMenu === menu2;
       const isItemVisible = !search || props.title !== void 0 && normalizedSearch(props.title, search);
       addItem(itemId, {
@@ -43983,7 +45831,7 @@ This message will only show in development mode. It won't appear in production. 
       href,
       ...restProps
     } = props;
-    const [itemId] = (0, import_element159.useState)(`item-${++uniqueId2}`);
+    const [itemId] = (0, import_element160.useState)(`item-${++uniqueId2}`);
     useNavigationTreeItem(itemId, props);
     const {
       navigationTree
@@ -44072,10 +45920,10 @@ This message will only show in development mode. It won't appear in production. 
   var item_default2 = NavigationItem;
 
   // packages/components/build-module/navigation/menu/index.mjs
-  var import_element164 = __toESM(require_element(), 1);
+  var import_element165 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/menu/use-navigation-tree-menu.mjs
-  var import_element160 = __toESM(require_element(), 1);
+  var import_element161 = __toESM(require_element(), 1);
   var useNavigationTreeMenu = (props) => {
     const {
       navigationTree: {
@@ -44084,7 +45932,7 @@ This message will only show in development mode. It won't appear in production. 
       }
     } = useNavigationContext();
     const key = props.menu || ROOT_MENU;
-    (0, import_element160.useEffect)(() => {
+    (0, import_element161.useEffect)(() => {
       addMenu(key, {
         ...props,
         menu: key
@@ -44096,11 +45944,11 @@ This message will only show in development mode. It won't appear in production. 
   };
 
   // packages/components/build-module/navigation/menu/menu-title.mjs
-  var import_element163 = __toESM(require_element(), 1);
+  var import_element164 = __toESM(require_element(), 1);
   var import_i18n66 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/navigation/menu/menu-title-search.mjs
-  var import_element162 = __toESM(require_element(), 1);
+  var import_element163 = __toESM(require_element(), 1);
   var import_i18n65 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/higher-order/with-spoken-messages/index.mjs
@@ -44118,7 +45966,7 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/search-control/index.mjs
   var import_compose63 = __toESM(require_compose(), 1);
   var import_i18n64 = __toESM(require_i18n(), 1);
-  var import_element161 = __toESM(require_element(), 1);
+  var import_element162 = __toESM(require_element(), 1);
   var import_deprecated22 = __toESM(require_deprecated(), 1);
 
   // packages/components/build-module/search-control/styles.mjs
@@ -44199,7 +46047,7 @@ This message will only show in development mode. It won't appear in production. 
       disabled,
       ...filteredRestProps
     } = restProps;
-    const searchRef = (0, import_element161.useRef)(null);
+    const searchRef = (0, import_element162.useRef)(null);
     const instanceId = (0, import_compose63.useInstanceId)(SearchControl, "components-search-control");
     return /* @__PURE__ */ (0, import_jsx_runtime236.jsx)(StyledInputControl, {
       __next40pxDefaultSize: true,
@@ -44230,7 +46078,7 @@ This message will only show in development mode. It won't appear in production. 
       ...filteredRestProps
     });
   }
-  var SearchControl = (0, import_element161.forwardRef)(UnforwardedSearchControl);
+  var SearchControl = (0, import_element162.forwardRef)(UnforwardedSearchControl);
   SearchControl.displayName = "SearchControl";
   var search_control_default = SearchControl;
 
@@ -44251,8 +46099,8 @@ This message will only show in development mode. It won't appear in production. 
     const {
       menu: menu2
     } = useNavigationMenuContext();
-    const inputRef = (0, import_element162.useRef)(null);
-    (0, import_element162.useEffect)(() => {
+    const inputRef = (0, import_element163.useRef)(null);
+    (0, import_element163.useEffect)(() => {
       const delayedFocus = setTimeout(() => {
         inputRef.current?.focus();
       }, SEARCH_FOCUS_DELAY);
@@ -44260,7 +46108,7 @@ This message will only show in development mode. It won't appear in production. 
         clearTimeout(delayedFocus);
       };
     }, []);
-    (0, import_element162.useEffect)(() => {
+    (0, import_element163.useEffect)(() => {
       if (!search) {
         return;
       }
@@ -44312,11 +46160,11 @@ This message will only show in development mode. It won't appear in production. 
     title,
     titleAction
   }) {
-    const [isSearching, setIsSearching] = (0, import_element163.useState)(false);
+    const [isSearching, setIsSearching] = (0, import_element164.useState)(false);
     const {
       menu: menu2
     } = useNavigationMenuContext();
-    const searchButtonRef = (0, import_element163.useRef)(null);
+    const searchButtonRef = (0, import_element164.useRef)(null);
     if (!title) {
       return null;
     }
@@ -44403,7 +46251,7 @@ This message will only show in development mode. It won't appear in production. 
       title,
       titleAction
     } = props;
-    const [uncontrolledSearch, setUncontrolledSearch] = (0, import_element164.useState)("");
+    const [uncontrolledSearch, setUncontrolledSearch] = (0, import_element165.useState)("");
     useNavigationTreeMenu(props);
     const {
       activeMenu
@@ -44452,7 +46300,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/navigator/navigator/component.mjs
   var import_deprecated23 = __toESM(require_deprecated(), 1);
-  var import_element166 = __toESM(require_element(), 1);
+  var import_element167 = __toESM(require_element(), 1);
   var import_is_shallow_equal3 = __toESM(require_is_shallow_equal(), 1);
   var import_warning7 = __toESM(require_warning(), 1);
 
@@ -44639,7 +46487,7 @@ This message will only show in development mode. It won't appear in production. 
     }
     return result;
   }
-  function match2(str, options2) {
+  function match3(str, options2) {
     var keys = [];
     var re4 = pathToRegexp(str, keys, options2);
     return regexpToFunction(re4, keys, options2);
@@ -44773,7 +46621,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/navigator/utils/router.mjs
   function matchPath(path, pattern) {
-    const matchingFunction = match2(pattern, {
+    const matchingFunction = match3(pattern, {
       decode: decodeURIComponent
     });
     return matchingFunction(path);
@@ -44809,7 +46657,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/navigator/context.mjs
-  var import_element165 = __toESM(require_element(), 1);
+  var import_element166 = __toESM(require_element(), 1);
   var initialContextValue = {
     location: {},
     goTo: () => {
@@ -44824,7 +46672,7 @@ This message will only show in development mode. It won't appear in production. 
     },
     params: {}
   };
-  var NavigatorContext = (0, import_element165.createContext)(initialContextValue);
+  var NavigatorContext = (0, import_element166.createContext)(initialContextValue);
   NavigatorContext.displayName = "NavigatorContext";
 
   // packages/components/build-module/navigator/styles.mjs
@@ -45061,7 +46909,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       className: className2,
       ...otherProps
     } = useContextSystem(props, "Navigator");
-    const [routerState, dispatch] = (0, import_element166.useReducer)(routerReducer, initialPathProp, (path) => ({
+    const [routerState, dispatch] = (0, import_element167.useReducer)(routerReducer, initialPathProp, (path) => ({
       screens: [],
       currentLocation: {
         path,
@@ -45071,7 +46919,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       focusSelectors: /* @__PURE__ */ new Map(),
       initialPath: initialPathProp
     }));
-    const methods = (0, import_element166.useMemo)(() => ({
+    const methods = (0, import_element167.useMemo)(() => ({
       // Note: calling goBack calls `goToParent` internally, as it was established
       // that `goBack` should behave like `goToParent`, and `goToParent` should
       // be marked as deprecated.
@@ -45107,14 +46955,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       currentLocation,
       matchedPath
     } = routerState;
-    const navigatorContextValue = (0, import_element166.useMemo)(() => ({
+    const navigatorContextValue = (0, import_element167.useMemo)(() => ({
       location: currentLocation,
       params: matchedPath?.params ?? {},
       match: matchedPath?.id,
       ...methods
     }), [currentLocation, matchedPath, methods]);
     const cx3 = useCx();
-    const classes = (0, import_element166.useMemo)(() => cx3(navigatorWrapper, className2), [className2, cx3]);
+    const classes = (0, import_element167.useMemo)(() => cx3(navigatorWrapper, className2), [className2, cx3]);
     return /* @__PURE__ */ (0, import_jsx_runtime241.jsx)(component_default, {
       ref: forwardedRef,
       className: classes,
@@ -45129,13 +46977,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/navigator/navigator-screen/component.mjs
   var import_dom32 = __toESM(require_dom(), 1);
-  var import_element168 = __toESM(require_element(), 1);
+  var import_element169 = __toESM(require_element(), 1);
   var import_compose65 = __toESM(require_compose(), 1);
   var import_escape_html = __toESM(require_escape_html(), 1);
   var import_warning8 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/navigator/navigator-screen/use-screen-animate-presence.mjs
-  var import_element167 = __toESM(require_element(), 1);
+  var import_element168 = __toESM(require_element(), 1);
   var import_compose64 = __toESM(require_compose(), 1);
   var import_i18n68 = __toESM(require_i18n(), 1);
   var ANIMATION_TIMEOUT_MARGIN = 1.2;
@@ -45149,10 +46997,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }) {
     const isRTL23 = (0, import_i18n68.isRTL)();
     const prefersReducedMotion2 = (0, import_compose64.useReducedMotion)();
-    const [animationStatus, setAnimationStatus] = (0, import_element167.useState)("INITIAL");
+    const [animationStatus, setAnimationStatus] = (0, import_element168.useState)("INITIAL");
     const becameSelected = animationStatus !== "ANIMATING_IN" && animationStatus !== "IN" && isMatch;
     const becameUnselected = animationStatus !== "ANIMATING_OUT" && animationStatus !== "OUT" && !isMatch;
-    (0, import_element167.useLayoutEffect)(() => {
+    (0, import_element168.useLayoutEffect)(() => {
       if (becameSelected) {
         setAnimationStatus(skipAnimation || prefersReducedMotion2 ? "IN" : "ANIMATING_IN");
       } else if (becameUnselected) {
@@ -45168,7 +47016,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     } else if (isAnimatingOut) {
       animationType = "out";
     }
-    const onScreenAnimationEnd = (0, import_element167.useCallback)((e3) => {
+    const onScreenAnimationEnd = (0, import_element168.useCallback)((e3) => {
       onAnimationEnd?.(e3);
       if (isExitAnimation(animationDirection, animationStatus, e3.animationName)) {
         setAnimationStatus("OUT");
@@ -45176,7 +47024,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         setAnimationStatus("IN");
       }
     }, [onAnimationEnd, animationStatus, animationDirection]);
-    (0, import_element167.useEffect)(() => {
+    (0, import_element168.useEffect)(() => {
       let animationTimeout;
       if (isAnimatingOut) {
         animationTimeout = window.setTimeout(() => {
@@ -45216,7 +47064,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     if (!/^\//.test(props.path)) {
       true ? (0, import_warning8.default)("wp.components.Navigator.Screen: the `path` should follow a URL-like scheme; it should start with and be separated by the `/` character.") : void 0;
     }
-    const screenId = (0, import_element168.useId)();
+    const screenId = (0, import_element169.useId)();
     const {
       children,
       className: className2,
@@ -45229,7 +47077,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       match: match4,
       addScreen: addScreen2,
       removeScreen: removeScreen2
-    } = (0, import_element168.useContext)(NavigatorContext);
+    } = (0, import_element169.useContext)(NavigatorContext);
     const {
       isInitial,
       isBack,
@@ -45237,9 +47085,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       skipFocus
     } = location;
     const isMatch = match4 === screenId;
-    const wrapperRef = (0, import_element168.useRef)(null);
+    const wrapperRef = (0, import_element169.useRef)(null);
     const skipAnimationAndFocusRestoration = !!isInitial && !isBack;
-    (0, import_element168.useEffect)(() => {
+    (0, import_element169.useEffect)(() => {
       const screen = {
         id: screenId,
         path: (0, import_escape_html.escapeAttribute)(path)
@@ -45258,12 +47106,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       skipAnimation: skipAnimationAndFocusRestoration
     });
     const cx3 = useCx();
-    const classes = (0, import_element168.useMemo)(() => cx3(navigatorScreen, animationStyles, className2), [className2, cx3, animationStyles]);
-    const locationRef = (0, import_element168.useRef)(location);
-    (0, import_element168.useEffect)(() => {
+    const classes = (0, import_element169.useMemo)(() => cx3(navigatorScreen, animationStyles, className2), [className2, cx3, animationStyles]);
+    const locationRef = (0, import_element169.useRef)(location);
+    (0, import_element169.useEffect)(() => {
       locationRef.current = location;
     }, [location]);
-    (0, import_element168.useEffect)(() => {
+    (0, import_element169.useEffect)(() => {
       const wrapperEl = wrapperRef.current;
       if (skipAnimationAndFocusRestoration || !isMatch || !wrapperEl || locationRef.current.hasRestoredFocus || skipFocus) {
         return;
@@ -45295,11 +47143,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var NavigatorScreen = contextConnect(UnconnectedNavigatorScreen, "Navigator.Screen");
 
   // packages/components/build-module/navigator/navigator-button/hook.mjs
-  var import_element170 = __toESM(require_element(), 1);
+  var import_element171 = __toESM(require_element(), 1);
   var import_escape_html2 = __toESM(require_escape_html(), 1);
 
   // packages/components/build-module/navigator/use-navigator.mjs
-  var import_element169 = __toESM(require_element(), 1);
+  var import_element170 = __toESM(require_element(), 1);
   function useNavigator() {
     const {
       location,
@@ -45307,7 +47155,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       goTo: goTo2,
       goBack,
       goToParent: goToParent2
-    } = (0, import_element169.useContext)(NavigatorContext);
+    } = (0, import_element170.useContext)(NavigatorContext);
     return {
       location,
       goTo: goTo2,
@@ -45331,7 +47179,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       goTo: goTo2
     } = useNavigator();
-    const handleClick = (0, import_element170.useCallback)((e3) => {
+    const handleClick = (0, import_element171.useCallback)((e3) => {
       e3.preventDefault();
       goTo2(escapedPath, {
         focusTargetSelector: cssSelectorForAttribute(attributeName, escapedPath)
@@ -45358,7 +47206,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var NavigatorButton = contextConnect(UnconnectedNavigatorButton, "Navigator.Button");
 
   // packages/components/build-module/navigator/navigator-back-button/hook.mjs
-  var import_element171 = __toESM(require_element(), 1);
+  var import_element172 = __toESM(require_element(), 1);
   function useNavigatorBackButton(props) {
     const {
       onClick,
@@ -45368,7 +47216,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       goBack
     } = useNavigator();
-    const handleClick = (0, import_element171.useCallback)((e3) => {
+    const handleClick = (0, import_element172.useCallback)((e3) => {
       e3.preventDefault();
       goBack();
       onClick?.(e3);
@@ -45522,14 +47370,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/notice/index.mjs
   var import_i18n69 = __toESM(require_i18n(), 1);
-  var import_element172 = __toESM(require_element(), 1);
+  var import_element173 = __toESM(require_element(), 1);
   var import_a11y8 = __toESM(require_a11y(), 1);
   var import_jsx_runtime246 = __toESM(require_jsx_runtime(), 1);
   var noop20 = () => {
   };
   function useSpokenMessage(message2, politeness) {
-    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element172.renderToString)(message2);
-    (0, import_element172.useEffect)(() => {
+    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element173.renderToString)(message2);
+    (0, import_element173.useEffect)(() => {
       if (spokenMessage) {
         (0, import_a11y8.speak)(spokenMessage, politeness);
       }
@@ -45579,7 +47427,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       "is-dismissible": isDismissible
     });
     if (__unstableHTML && typeof children === "string") {
-      children = /* @__PURE__ */ (0, import_jsx_runtime246.jsx)(import_element172.RawHTML, {
+      children = /* @__PURE__ */ (0, import_jsx_runtime246.jsx)(import_element173.RawHTML, {
         children
       });
     }
@@ -45666,7 +47514,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var list_default = NoticeList;
 
   // packages/components/build-module/panel/index.mjs
-  var import_element173 = __toESM(require_element(), 1);
+  var import_element174 = __toESM(require_element(), 1);
 
   // packages/components/build-module/panel/header.mjs
   var import_jsx_runtime248 = __toESM(require_jsx_runtime(), 1);
@@ -45699,13 +47547,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }), children]
     });
   }
-  var Panel = (0, import_element173.forwardRef)(UnforwardedPanel);
+  var Panel = (0, import_element174.forwardRef)(UnforwardedPanel);
   Panel.displayName = "Panel";
   var panel_default = Panel;
 
   // packages/components/build-module/panel/body.mjs
   var import_compose66 = __toESM(require_compose(), 1);
-  var import_element174 = __toESM(require_element(), 1);
+  var import_element175 = __toESM(require_element(), 1);
   var import_jsx_runtime250 = __toESM(require_jsx_runtime(), 1);
   var noop22 = () => {
   };
@@ -45725,7 +47573,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       initial: initialOpen === void 0 ? true : initialOpen,
       fallback: false
     });
-    const nodeRef = (0, import_element174.useRef)(null);
+    const nodeRef = (0, import_element175.useRef)(null);
     const scrollBehavior = (0, import_compose66.useReducedMotion)() ? "auto" : "smooth";
     const handleOnToggle = (event) => {
       event.preventDefault();
@@ -45733,7 +47581,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       setIsOpened(next2);
       onToggle(next2);
     };
-    const scrollAfterOpenRef = (0, import_element174.useRef)(void 0);
+    const scrollAfterOpenRef = (0, import_element175.useRef)(void 0);
     scrollAfterOpenRef.current = scrollAfterOpen;
     use_update_effect_default(() => {
       if (isOpened && scrollAfterOpenRef.current && nodeRef.current?.scrollIntoView) {
@@ -45761,7 +47609,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }) : isOpened && children]
     });
   }
-  var PanelBodyTitle = (0, import_element174.forwardRef)(({
+  var PanelBodyTitle = (0, import_element175.forwardRef)(({
     isOpened,
     icon,
     title,
@@ -45792,12 +47640,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   });
-  var PanelBody = (0, import_element174.forwardRef)(UnforwardedPanelBody);
+  var PanelBody = (0, import_element175.forwardRef)(UnforwardedPanelBody);
   PanelBody.displayName = "PanelBody";
   var body_default = PanelBody;
 
   // packages/components/build-module/panel/row.mjs
-  var import_element175 = __toESM(require_element(), 1);
+  var import_element176 = __toESM(require_element(), 1);
   var import_jsx_runtime251 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedPanelRow({
     className: className2,
@@ -45809,14 +47657,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var PanelRow = (0, import_element175.forwardRef)(UnforwardedPanelRow);
+  var PanelRow = (0, import_element176.forwardRef)(UnforwardedPanelRow);
   PanelRow.displayName = "PanelRow";
   var row_default = PanelRow;
 
   // packages/components/build-module/placeholder/index.mjs
   var import_compose67 = __toESM(require_compose(), 1);
   var import_primitives34 = __toESM(require_primitives(), 1);
-  var import_element176 = __toESM(require_element(), 1);
+  var import_element177 = __toESM(require_element(), 1);
   var import_a11y9 = __toESM(require_a11y(), 1);
   var import_jsx_runtime252 = __toESM(require_jsx_runtime(), 1);
   var PlaceholderIllustration = /* @__PURE__ */ (0, import_jsx_runtime252.jsx)(import_primitives34.SVG, {
@@ -45858,7 +47706,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const fieldsetClasses = clsx_default("components-placeholder__fieldset", {
       "is-column-layout": isColumnLayout
     });
-    (0, import_element176.useEffect)(() => {
+    (0, import_element177.useEffect)(() => {
       if (instructions) {
         (0, import_a11y9.speak)(instructions);
       }
@@ -45887,7 +47735,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/progress-bar/index.mjs
   var import_i18n71 = __toESM(require_i18n(), 1);
-  var import_element177 = __toESM(require_element(), 1);
+  var import_element178 = __toESM(require_element(), 1);
 
   // packages/components/build-module/progress-bar/styles.mjs
   var import_i18n70 = __toESM(require_i18n(), 1);
@@ -45973,7 +47821,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ProgressBar = (0, import_element177.forwardRef)(UnforwardedProgressBar);
+  var ProgressBar = (0, import_element178.forwardRef)(UnforwardedProgressBar);
   ProgressBar.displayName = "ProgressBar";
   var progress_bar_default = ProgressBar;
 
@@ -46017,7 +47865,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/tree-select/index.mjs
-  var import_element178 = __toESM(require_element(), 1);
+  var import_element179 = __toESM(require_element(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
   var import_jsx_runtime254 = __toESM(require_jsx_runtime(), 1);
   function getSelectOptions(tree, level = 0) {
@@ -46037,7 +47885,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       tree = [],
       ...restProps
     } = useDeprecated36pxDefaultSizeProp(props);
-    const options2 = (0, import_element178.useMemo)(() => {
+    const options2 = (0, import_element179.useMemo)(() => {
       return [noOptionLabel && {
         value: "",
         label: noOptionLabel
@@ -46088,7 +47936,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/query-controls/category-select.mjs
-  var import_element179 = __toESM(require_element(), 1);
+  var import_element180 = __toESM(require_element(), 1);
   var import_jsx_runtime256 = __toESM(require_jsx_runtime(), 1);
   function CategorySelect({
     __next40pxDefaultSize,
@@ -46099,7 +47947,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onChange: onChangeProp,
     ...props
   }) {
-    const termsTree = (0, import_element179.useMemo)(() => {
+    const termsTree = (0, import_element180.useMemo)(() => {
       return buildTermsTree(categoriesList);
     }, [categoriesList]);
     return /* @__PURE__ */ (0, import_jsx_runtime256.jsx)(tree_select_default, {
@@ -46218,11 +48066,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var query_controls_default = QueryControls;
 
   // packages/components/build-module/radio-group/radio.mjs
-  var import_element181 = __toESM(require_element(), 1);
+  var import_element182 = __toESM(require_element(), 1);
 
   // packages/components/build-module/radio-group/context.mjs
-  var import_element180 = __toESM(require_element(), 1);
-  var RadioGroupContext = (0, import_element180.createContext)({
+  var import_element181 = __toESM(require_element(), 1);
+  var RadioGroupContext = (0, import_element181.createContext)({
     store: void 0,
     disabled: void 0
   });
@@ -46238,7 +48086,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       store,
       disabled
-    } = (0, import_element181.useContext)(RadioGroupContext);
+    } = (0, import_element182.useContext)(RadioGroupContext);
     const selectedValue = useStoreState(store, "value");
     const isChecked = selectedValue !== void 0 && selectedValue === value;
     maybeWarnDeprecated36pxSize({
@@ -46262,13 +48110,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children: children || value
     });
   }
-  var Radio22 = (0, import_element181.forwardRef)(UnforwardedRadio);
+  var Radio22 = (0, import_element182.forwardRef)(UnforwardedRadio);
   Radio22.displayName = "Radio";
   var radio_default = Radio22;
 
   // packages/components/build-module/radio-group/index.mjs
   var import_deprecated25 = __toESM(require_deprecated(), 1);
-  var import_element182 = __toESM(require_element(), 1);
+  var import_element183 = __toESM(require_element(), 1);
   var import_i18n73 = __toESM(require_i18n(), 1);
   var import_jsx_runtime259 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedRadioGroup({
@@ -46288,7 +48136,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       },
       rtl: (0, import_i18n73.isRTL)()
     });
-    const contextValue = (0, import_element182.useMemo)(() => ({
+    const contextValue = (0, import_element183.useMemo)(() => ({
       store: radioStore,
       disabled
     }), [radioStore, disabled]);
@@ -46310,7 +48158,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var RadioGroup22 = (0, import_element182.forwardRef)(UnforwardedRadioGroup);
+  var RadioGroup22 = (0, import_element183.forwardRef)(UnforwardedRadioGroup);
   RadioGroup22.displayName = "RadioGroup";
   var radio_group_default = RadioGroup22;
 
@@ -46398,7 +48246,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var radio_control_default = RadioControl;
 
   // packages/components/build-module/resizable-box/index.mjs
-  var import_element186 = __toESM(require_element(), 1);
+  var import_element187 = __toESM(require_element(), 1);
 
   // node_modules/re-resizable/lib/index.js
   var React13 = __toESM(require_react());
@@ -47239,14 +49087,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   );
 
   // packages/components/build-module/resizable-box/resize-tooltip/index.mjs
-  var import_element185 = __toESM(require_element(), 1);
+  var import_element186 = __toESM(require_element(), 1);
 
   // packages/components/build-module/resizable-box/resize-tooltip/label.mjs
-  var import_element184 = __toESM(require_element(), 1);
+  var import_element185 = __toESM(require_element(), 1);
   var import_i18n74 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/resizable-box/resize-tooltip/utils.mjs
-  var import_element183 = __toESM(require_element(), 1);
+  var import_element184 = __toESM(require_element(), 1);
   var import_compose69 = __toESM(require_compose(), 1);
   var noop23 = () => {
   };
@@ -47263,16 +49111,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }) {
     const [resizeListener, sizes] = (0, import_compose69.useResizeObserver)();
     const isAxisControlled = !!axis;
-    const [moveX, setMoveX] = (0, import_element183.useState)(false);
-    const [moveY, setMoveY] = (0, import_element183.useState)(false);
+    const [moveX, setMoveX] = (0, import_element184.useState)(false);
+    const [moveY, setMoveY] = (0, import_element184.useState)(false);
     const {
       width,
       height
     } = sizes;
-    const heightRef = (0, import_element183.useRef)(height);
-    const widthRef = (0, import_element183.useRef)(width);
-    const moveTimeoutRef = (0, import_element183.useRef)(void 0);
-    const debounceUnsetMoveXY = (0, import_element183.useCallback)(() => {
+    const heightRef = (0, import_element184.useRef)(height);
+    const widthRef = (0, import_element184.useRef)(width);
+    const moveTimeoutRef = (0, import_element184.useRef)(void 0);
+    const debounceUnsetMoveXY = (0, import_element184.useCallback)(() => {
       const unsetMoveXY = () => {
         if (isAxisControlled) {
           return;
@@ -47285,7 +49133,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
       moveTimeoutRef.current = window.setTimeout(unsetMoveXY, fadeTimeout);
     }, [fadeTimeout, isAxisControlled]);
-    (0, import_element183.useEffect)(() => {
+    (0, import_element184.useEffect)(() => {
       const isRendered = width !== null || height !== null;
       if (!isRendered) {
         return;
@@ -47465,7 +49313,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ForwardedComponent3 = (0, import_element184.forwardRef)(Label3);
+  var ForwardedComponent3 = (0, import_element185.forwardRef)(Label3);
   var label_default = ForwardedComponent3;
 
   // packages/components/build-module/resizable-box/resize-tooltip/index.mjs
@@ -47512,7 +49360,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ForwardedComponent4 = (0, import_element185.forwardRef)(ResizeTooltip);
+  var ForwardedComponent4 = (0, import_element186.forwardRef)(ResizeTooltip);
   var resize_tooltip_default = ForwardedComponent4;
 
   // packages/components/build-module/resizable-box/index.mjs
@@ -47570,12 +49418,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ResizableBox = (0, import_element186.forwardRef)(UnforwardedResizableBox);
+  var ResizableBox = (0, import_element187.forwardRef)(UnforwardedResizableBox);
   ResizableBox.displayName = "ResizableBox";
   var resizable_box_default = ResizableBox;
 
   // packages/components/build-module/responsive-wrapper/index.mjs
-  var import_element187 = __toESM(require_element(), 1);
+  var import_element188 = __toESM(require_element(), 1);
   var import_jsx_runtime264 = __toESM(require_jsx_runtime(), 1);
   function ResponsiveWrapper({
     naturalWidth,
@@ -47583,7 +49431,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     children,
     isInline = false
   }) {
-    if (import_element187.Children.count(children) !== 1) {
+    if (import_element188.Children.count(children) !== 1) {
       return null;
     }
     const TagName59 = isInline ? "span" : "div";
@@ -47594,7 +49442,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     return /* @__PURE__ */ (0, import_jsx_runtime264.jsx)(TagName59, {
       className: "components-responsive-wrapper",
       children: /* @__PURE__ */ (0, import_jsx_runtime264.jsx)("div", {
-        children: (0, import_element187.cloneElement)(children, {
+        children: (0, import_element188.cloneElement)(children, {
           className: clsx_default("components-responsive-wrapper__content", children.props.className),
           style: {
             ...children.props.style,
@@ -47607,7 +49455,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var responsive_wrapper_default = ResponsiveWrapper;
 
   // packages/components/build-module/sandbox/index.mjs
-  var import_element188 = __toESM(require_element(), 1);
+  var import_element189 = __toESM(require_element(), 1);
   var import_compose70 = __toESM(require_compose(), 1);
   var import_jsx_runtime265 = __toESM(require_jsx_runtime(), 1);
   var observeAndResizeJS = function() {
@@ -47715,7 +49563,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }, src))]
       })]
     });
-    return "<!DOCTYPE html>" + (0, import_element188.renderToString)(htmlDoc);
+    return "<!DOCTYPE html>" + (0, import_element189.renderToString)(htmlDoc);
   }
   function IsolatedSandBox({
     html = "",
@@ -47726,17 +49574,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onFocus,
     tabIndex
   }) {
-    const ref = (0, import_element188.useRef)(null);
-    const [width, setWidth] = (0, import_element188.useState)(0);
-    const [height, setHeight] = (0, import_element188.useState)(0);
-    const srcDoc = (0, import_element188.useMemo)(() => buildSandBoxDocument({
+    const ref = (0, import_element189.useRef)(null);
+    const [width, setWidth] = (0, import_element189.useState)(0);
+    const [height, setHeight] = (0, import_element189.useState)(0);
+    const srcDoc = (0, import_element189.useMemo)(() => buildSandBoxDocument({
       html,
       title,
       type,
       styles: styles3,
       scripts
     }), [html, title, type, styles3, scripts]);
-    (0, import_element188.useEffect)(() => {
+    (0, import_element189.useEffect)(() => {
       const iframe = ref.current;
       if (!iframe) {
         return;
@@ -47796,9 +49644,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onFocus,
     tabIndex
   }) {
-    const ref = (0, import_element188.useRef)(null);
-    const [width, setWidth] = (0, import_element188.useState)(0);
-    const [height, setHeight] = (0, import_element188.useState)(0);
+    const ref = (0, import_element189.useRef)(null);
+    const [width, setWidth] = (0, import_element189.useState)(0);
+    const [height, setHeight] = (0, import_element189.useState)(0);
     function isFrameAccessible() {
       try {
         return !!ref.current?.contentDocument?.body;
@@ -47850,10 +49698,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         })]
       });
       contentDocument.open();
-      contentDocument.write("<!DOCTYPE html>" + (0, import_element188.renderToString)(htmlDoc));
+      contentDocument.write("<!DOCTYPE html>" + (0, import_element189.renderToString)(htmlDoc));
       contentDocument.close();
     }
-    (0, import_element188.useEffect)(() => {
+    (0, import_element189.useEffect)(() => {
       trySandBox();
       function tryNoForceSandBox() {
         trySandBox(false);
@@ -47885,10 +49733,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         defaultView?.removeEventListener("message", checkMessageForResize);
       };
     }, []);
-    (0, import_element188.useEffect)(() => {
+    (0, import_element189.useEffect)(() => {
       trySandBox();
     }, [title, styles3, scripts]);
-    (0, import_element188.useEffect)(() => {
+    (0, import_element189.useEffect)(() => {
       trySandBox(true);
     }, [html, type]);
     return /* @__PURE__ */ (0, import_jsx_runtime265.jsx)("iframe", {
@@ -47919,14 +49767,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/snackbar/index.mjs
   var import_a11y10 = __toESM(require_a11y(), 1);
-  var import_element189 = __toESM(require_element(), 1);
+  var import_element190 = __toESM(require_element(), 1);
   var import_i18n75 = __toESM(require_i18n(), 1);
   var import_warning9 = __toESM(require_warning(), 1);
   var import_jsx_runtime266 = __toESM(require_jsx_runtime(), 1);
   var NOTICE_TIMEOUT = 6e3;
   function useSpokenMessage2(message2, politeness) {
-    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element189.renderToString)(message2);
-    (0, import_element189.useEffect)(() => {
+    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element190.renderToString)(message2);
+    (0, import_element190.useEffect)(() => {
       if (spokenMessage) {
         (0, import_a11y10.speak)(spokenMessage, politeness);
       }
@@ -47963,17 +49811,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
     }
     useSpokenMessage2(spokenMessage, politeness);
-    const callbacksRef = (0, import_element189.useRef)({
+    const callbacksRef = (0, import_element190.useRef)({
       onDismiss,
       onRemove
     });
-    (0, import_element189.useLayoutEffect)(() => {
+    (0, import_element190.useLayoutEffect)(() => {
       callbacksRef.current = {
         onDismiss,
         onRemove
       };
     });
-    (0, import_element189.useEffect)(() => {
+    (0, import_element190.useEffect)(() => {
       const timeoutHandle = setTimeout(() => {
         if (!explicitDismiss) {
           callbacksRef.current.onDismiss?.();
@@ -48035,13 +49883,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var Snackbar = (0, import_element189.forwardRef)(UnforwardedSnackbar);
+  var Snackbar = (0, import_element190.forwardRef)(UnforwardedSnackbar);
   Snackbar.displayName = "Snackbar";
   var snackbar_default = Snackbar;
 
   // packages/components/build-module/snackbar/list.mjs
   var import_compose71 = __toESM(require_compose(), 1);
-  var import_element190 = __toESM(require_element(), 1);
+  var import_element191 = __toESM(require_element(), 1);
   var import_jsx_runtime267 = __toESM(require_jsx_runtime(), 1);
   var SNACKBAR_VARIANTS = {
     init: {
@@ -48080,7 +49928,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     children,
     onRemove
   }) {
-    const listRef = (0, import_element190.useRef)(null);
+    const listRef = (0, import_element191.useRef)(null);
     const isReducedMotion = (0, import_compose71.useReducedMotion)();
     className2 = clsx_default("components-snackbar-list", className2);
     const removeNotice = (notice) => () => onRemove?.(notice.id);
@@ -48121,7 +49969,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var list_default2 = SnackbarList;
 
   // packages/components/build-module/tab-panel/index.mjs
-  var import_element191 = __toESM(require_element(), 1);
+  var import_element192 = __toESM(require_element(), 1);
   var import_compose72 = __toESM(require_compose(), 1);
   var import_i18n76 = __toESM(require_i18n(), 1);
   var import_jsx_runtime268 = __toESM(require_jsx_runtime(), 1);
@@ -48142,7 +49990,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onSelect
   }, ref) => {
     const instanceId = (0, import_compose72.useInstanceId)(TabPanel22, "tab-panel");
-    const prependInstanceId = (0, import_element191.useCallback)((tabName) => {
+    const prependInstanceId = (0, import_element192.useCallback)((tabName) => {
       if (typeof tabName === "undefined") {
         return;
       }
@@ -48169,19 +50017,19 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       rtl: (0, import_i18n76.isRTL)()
     });
     const selectedTabName = extractTabName(useStoreState(tabStore, "selectedId"));
-    const setTabStoreSelectedId = (0, import_element191.useCallback)((tabName) => {
+    const setTabStoreSelectedId = (0, import_element192.useCallback)((tabName) => {
       tabStore.setState("selectedId", prependInstanceId(tabName));
     }, [prependInstanceId, tabStore]);
     const selectedTab = tabs.find(({
       name
     }) => name === selectedTabName);
     const previousSelectedTabName = (0, import_compose72.usePrevious)(selectedTabName);
-    (0, import_element191.useEffect)(() => {
+    (0, import_element192.useEffect)(() => {
       if (previousSelectedTabName !== selectedTabName && selectedTabName === initialTabName && !!selectedTabName) {
         onSelect?.(selectedTabName);
       }
     }, [selectedTabName, initialTabName, onSelect, previousSelectedTabName]);
-    (0, import_element191.useLayoutEffect)(() => {
+    (0, import_element192.useLayoutEffect)(() => {
       if (selectedTab) {
         return;
       }
@@ -48198,7 +50046,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     }, [tabs, selectedTab, initialTabName, instanceId, setTabStoreSelectedId]);
-    (0, import_element191.useEffect)(() => {
+    (0, import_element192.useEffect)(() => {
       if (!selectedTab?.disabled) {
         return;
       }
@@ -48239,13 +50087,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var TabPanel22 = (0, import_element191.forwardRef)(UnforwardedTabPanel);
+  var TabPanel22 = (0, import_element192.forwardRef)(UnforwardedTabPanel);
   TabPanel22.displayName = "TabPanel";
   var tab_panel_default = TabPanel22;
 
   // packages/components/build-module/text-control/index.mjs
   var import_compose73 = __toESM(require_compose(), 1);
-  var import_element192 = __toESM(require_element(), 1);
+  var import_element193 = __toESM(require_element(), 1);
   var import_jsx_runtime269 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTextControl(props, ref) {
     const {
@@ -48289,13 +50137,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TextControl = (0, import_element192.forwardRef)(UnforwardedTextControl);
+  var TextControl = (0, import_element193.forwardRef)(UnforwardedTextControl);
   TextControl.displayName = "TextControl";
   var text_control_default = TextControl;
 
   // packages/components/build-module/textarea-control/index.mjs
   var import_compose74 = __toESM(require_compose(), 1);
-  var import_element193 = __toESM(require_element(), 1);
+  var import_element194 = __toESM(require_element(), 1);
 
   // packages/components/build-module/textarea-control/styles/textarea-control-styles.mjs
   var inputStyleNeutral = /* @__PURE__ */ css("box-shadow:0 0 0 transparent;border-radius:", config_values_default.radiusSmall, ";border:", config_values_default.borderWidth, " solid ", COLORS.ui.border, ";@media not ( prefers-reduced-motion ){transition:box-shadow 0.1s linear;}" + (false ? "" : ";label:inputStyleNeutral;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRleHRhcmVhLWNvbnRyb2wtc3R5bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQWM2QiIsImZpbGUiOiJ0ZXh0YXJlYS1jb250cm9sLXN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgZm9udCB9IGZyb20gJy4uLy4uL3V0aWxzL2ZvbnQnO1xuaW1wb3J0IHsgQ09MT1JTIH0gZnJvbSAnLi4vLi4vdXRpbHMvY29sb3JzLXZhbHVlcyc7XG5pbXBvcnQgeyBDT05GSUcgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgeyBicmVha3BvaW50IH0gZnJvbSAnLi4vLi4vdXRpbHMvYnJlYWtwb2ludCc7XG5cbmNvbnN0IGlucHV0U3R5bGVOZXV0cmFsID0gY3NzYFxuXHRib3gtc2hhZG93OiAwIDAgMCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGJvcmRlcjogJHsgQ09ORklHLmJvcmRlcldpZHRoIH0gc29saWQgJHsgQ09MT1JTLnVpLmJvcmRlciB9O1xuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdHRyYW5zaXRpb246IGJveC1zaGFkb3cgMC4xcyBsaW5lYXI7XG5cdH1cbmA7XG5cbmNvbnN0IGlucHV0U3R5bGVGb2N1cyA9IGNzc2Bcblx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cdGJveC1zaGFkb3c6IDAgMCAwXG5cdFx0Y2FsYyggJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSAtICR7IENPTkZJRy5ib3JkZXJXaWR0aCB9IClcblx0XHQkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cblx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuYDtcblxuZXhwb3J0IGNvbnN0IFN0eWxlZFRleHRhcmVhID0gc3R5bGVkLnRleHRhcmVhYFxuXHR3aWR0aDogMTAwJTtcblx0ZGlzcGxheTogYmxvY2s7XG5cdGZvbnQtZmFtaWx5OiAkeyBmb250KCAnZGVmYXVsdC5mb250RmFtaWx5JyApIH07XG5cdGxpbmUtaGVpZ2h0OiAyMHB4O1xuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuYmFja2dyb3VuZCB9O1xuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0cmVzaXplOiB2ZXJ0aWNhbDtcblxuXHQvLyBWZXJ0aWNhbCBwYWRkaW5nIGlzIHRvIG1hdGNoIHRoZSBzdGFuZGFyZCA0MHB4IGNvbnRyb2wgaGVpZ2h0IHdoZW4gcm93cz0xLFxuXHQvLyBpbiBjb25qdW5jdGlvbiB3aXRoIHRoZSAyMHB4IGxpbmUtaGVpZ2h0LlxuXHQvLyBcIlN0YW5kYXJkXCIgbWV0cmljcyBhcmUgMTBweCAxMnB4LCBidXQgc3VidHJhY3RzIDFweCBlYWNoIHRvIGFjY291bnQgZm9yIHRoZSBib3JkZXIgd2lkdGguXG5cdHBhZGRpbmc6IDlweCAxMXB4O1xuXG5cdC8vIE1hdGNoaW5nIHRoZSAyMHB4IGxpbmUtaGVpZ2h0ICsgdGhlIDlweCB0b3AgYW5kIGJvdHRvbSBwYWRkaW5nLlxuXHRtaW4taGVpZ2h0OiAzOHB4O1xuXG5cdCR7IGlucHV0U3R5bGVOZXV0cmFsIH07XG5cblx0LyogRm9udHMgc21hbGxlciB0aGFuIDE2cHggY2F1c2VzIG1vYmlsZSBzYWZhcmkgdG8gem9vbS4gKi9cblx0Zm9udC1zaXplOiAkeyBmb250KCAnbW9iaWxlVGV4dE1pbkZvbnRTaXplJyApIH07XG5cblx0JHsgYnJlYWtwb2ludCggJ3NtYWxsJyApIH0ge1xuXHRcdGZvbnQtc2l6ZTogJHsgZm9udCggJ2RlZmF1bHQuZm9udFNpemUnICkgfTtcblx0fVxuXG5cdCY6Zm9jdXMge1xuXHRcdCR7IGlucHV0U3R5bGVGb2N1cyB9XG5cdH1cblxuXHQmOmRpc2FibGVkIHtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZERpc2FibGVkIH07XG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMudWkuYm9yZGVyRGlzYWJsZWQgfTtcblx0XHRjb2xvcjogJHsgQ09MT1JTLnVpLnRleHREaXNhYmxlZCB9O1xuXHR9XG5cblx0Ly8gVXNlIG9wYWNpdHkgdG8gd29yayBpbiB2YXJpb3VzIGVkaXRvciBzdHlsZXMuXG5cdCY6Oi13ZWJraXQtaW5wdXQtcGxhY2Vob2xkZXIge1xuXHRcdGNvbG9yOiAkeyBDT0xPUlMudWkuZGFya0dyYXlQbGFjZWhvbGRlciB9O1xuXHR9XG5cblx0Jjo6LW1vei1wbGFjZWhvbGRlciB7XG5cdFx0Y29sb3I6ICR7IENPTE9SUy51aS5kYXJrR3JheVBsYWNlaG9sZGVyIH07XG5cdH1cblxuXHQmOi1tcy1pbnB1dC1wbGFjZWhvbGRlciB7XG5cdFx0Y29sb3I6ICR7IENPTE9SUy51aS5kYXJrR3JheVBsYWNlaG9sZGVyIH07XG5cdH1cblxuXHQuaXMtZGFyay10aGVtZSAmIHtcblx0XHQmOjotd2Via2l0LWlucHV0LXBsYWNlaG9sZGVyIHtcblx0XHRcdGNvbG9yOiAkeyBDT0xPUlMudWkubGlnaHRHcmF5UGxhY2Vob2xkZXIgfTtcblx0XHR9XG5cblx0XHQmOjotbW96LXBsYWNlaG9sZGVyIHtcblx0XHRcdGNvbG9yOiAkeyBDT0xPUlMudWkubGlnaHRHcmF5UGxhY2Vob2xkZXIgfTtcblx0XHR9XG5cblx0XHQmOi1tcy1pbnB1dC1wbGFjZWhvbGRlciB7XG5cdFx0XHRjb2xvcjogJHsgQ09MT1JTLnVpLmxpZ2h0R3JheVBsYWNlaG9sZGVyIH07XG5cdFx0fVxuXHR9XG5gO1xuIl19 */");
@@ -48344,12 +50192,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TextareaControl = (0, import_element193.forwardRef)(UnforwardedTextareaControl);
+  var TextareaControl = (0, import_element194.forwardRef)(UnforwardedTextareaControl);
   TextareaControl.displayName = "TextareaControl";
   var textarea_control_default = TextareaControl;
 
   // packages/components/build-module/text-highlight/index.mjs
-  var import_element194 = __toESM(require_element(), 1);
+  var import_element195 = __toESM(require_element(), 1);
   var import_jsx_runtime271 = __toESM(require_jsx_runtime(), 1);
   var TextHighlight = (props) => {
     const {
@@ -48363,7 +50211,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       });
     }
     const regex = new RegExp(`(${escapeRegExp(trimmedHighlightText)})`, "gi");
-    return (0, import_element194.createInterpolateElement)(text.replace(regex, "<mark>$&</mark>"), {
+    return (0, import_element195.createInterpolateElement)(text.replace(regex, "<mark>$&</mark>"), {
       mark: /* @__PURE__ */ (0, import_jsx_runtime271.jsx)("mark", {})
     });
   };
@@ -48388,7 +50236,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var tip_default2 = Tip;
 
   // packages/components/build-module/toggle-control/index.mjs
-  var import_element195 = __toESM(require_element(), 1);
+  var import_element196 = __toESM(require_element(), 1);
   var import_compose75 = __toESM(require_compose(), 1);
   var import_jsx_runtime273 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToggleControl({
@@ -48449,27 +50297,27 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToggleControl = (0, import_element195.forwardRef)(UnforwardedToggleControl);
+  var ToggleControl = (0, import_element196.forwardRef)(UnforwardedToggleControl);
   ToggleControl.displayName = "ToggleControl";
   var toggle_control_default = ToggleControl;
 
   // packages/components/build-module/toolbar/toolbar/index.mjs
-  var import_element202 = __toESM(require_element(), 1);
+  var import_element203 = __toESM(require_element(), 1);
   var import_deprecated26 = __toESM(require_deprecated(), 1);
 
   // packages/components/build-module/toolbar/toolbar-group/index.mjs
-  var import_element200 = __toESM(require_element(), 1);
+  var import_element201 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toolbar/toolbar-button/index.mjs
-  var import_element198 = __toESM(require_element(), 1);
+  var import_element199 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toolbar/toolbar-item/index.mjs
-  var import_element197 = __toESM(require_element(), 1);
+  var import_element198 = __toESM(require_element(), 1);
   var import_warning10 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/toolbar/toolbar-context/index.mjs
-  var import_element196 = __toESM(require_element(), 1);
-  var ToolbarContext = (0, import_element196.createContext)(void 0);
+  var import_element197 = __toESM(require_element(), 1);
+  var ToolbarContext = (0, import_element197.createContext)(void 0);
   ToolbarContext.displayName = "ToolbarContext";
   var toolbar_context_default = ToolbarContext;
 
@@ -48480,7 +50328,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     as: Component8,
     ...props
   }, ref) {
-    const accessibleToolbarStore = (0, import_element197.useContext)(toolbar_context_default);
+    const accessibleToolbarStore = (0, import_element198.useContext)(toolbar_context_default);
     const isRenderProp = typeof children === "function";
     if (!isRenderProp && !Component8) {
       true ? (0, import_warning10.default)("`ToolbarItem` is a generic headless component. You must pass either a `children` prop as a function or an `as` prop as a component. See https://developer.wordpress.org/block-editor/components/toolbar-item/") : void 0;
@@ -48513,7 +50361,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       render
     });
   }
-  var ToolbarItem22 = (0, import_element197.forwardRef)(UnforwardedToolbarItem);
+  var ToolbarItem22 = (0, import_element198.forwardRef)(UnforwardedToolbarItem);
   ToolbarItem22.displayName = "ToolbarItem";
   var toolbar_item_default = ToolbarItem22;
 
@@ -48549,7 +50397,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       title,
       ...restProps
     } = useDeprecatedProps6(props);
-    const accessibleToolbarState = (0, import_element198.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element199.useContext)(toolbar_context_default);
     if (!accessibleToolbarState) {
       return /* @__PURE__ */ (0, import_jsx_runtime276.jsx)(toolbar_button_container_default, {
         className: containerClassName,
@@ -48590,7 +50438,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToolbarButton = (0, import_element198.forwardRef)(UnforwardedToolbarButton);
+  var ToolbarButton = (0, import_element199.forwardRef)(UnforwardedToolbarButton);
   ToolbarButton.displayName = "ToolbarButton";
   var toolbar_button_default = ToolbarButton;
 
@@ -48608,14 +50456,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var toolbar_group_container_default = ToolbarGroupContainer;
 
   // packages/components/build-module/toolbar/toolbar-group/toolbar-group-collapsed.mjs
-  var import_element199 = __toESM(require_element(), 1);
+  var import_element200 = __toESM(require_element(), 1);
   var import_jsx_runtime278 = __toESM(require_jsx_runtime(), 1);
   function ToolbarGroupCollapsed({
     controls = [],
     toggleProps,
     ...props
   }) {
-    const accessibleToolbarState = (0, import_element199.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element200.useContext)(toolbar_context_default);
     const renderDropdownMenu = (internalToggleProps) => /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(dropdown_menu_default, {
       controls,
       toggleProps: {
@@ -48647,7 +50495,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     title,
     ...props
   }) {
-    const accessibleToolbarState = (0, import_element200.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element201.useContext)(toolbar_context_default);
     if ((!controls || !controls.length) && !children) {
       return null;
     }
@@ -48684,7 +50532,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var toolbar_group_default = ToolbarGroup;
 
   // packages/components/build-module/toolbar/toolbar/toolbar-container.mjs
-  var import_element201 = __toESM(require_element(), 1);
+  var import_element202 = __toESM(require_element(), 1);
   var import_i18n77 = __toESM(require_i18n(), 1);
   var import_jsx_runtime280 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToolbarContainer({
@@ -48708,7 +50556,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     );
   }
-  var ToolbarContainer2 = (0, import_element201.forwardRef)(UnforwardedToolbarContainer);
+  var ToolbarContainer2 = (0, import_element202.forwardRef)(UnforwardedToolbarContainer);
   ToolbarContainer2.displayName = "ToolbarContainer";
   var toolbar_container_default = ToolbarContainer2;
 
@@ -48721,7 +50569,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     ...props
   }, ref) {
     const isVariantDefined = variant !== void 0;
-    const contextSystemValue = (0, import_element202.useMemo)(() => {
+    const contextSystemValue = (0, import_element203.useMemo)(() => {
       if (isVariantDefined) {
         return {};
       }
@@ -48764,15 +50612,15 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var Toolbar3 = (0, import_element202.forwardRef)(UnforwardedToolbar);
+  var Toolbar3 = (0, import_element203.forwardRef)(UnforwardedToolbar);
   Toolbar3.displayName = "Toolbar";
   var toolbar_default = Toolbar3;
 
   // packages/components/build-module/toolbar/toolbar-dropdown-menu/index.mjs
-  var import_element203 = __toESM(require_element(), 1);
+  var import_element204 = __toESM(require_element(), 1);
   var import_jsx_runtime282 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToolbarDropdownMenu(props, ref) {
-    const accessibleToolbarState = (0, import_element203.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element204.useContext)(toolbar_context_default);
     if (!accessibleToolbarState) {
       return /* @__PURE__ */ (0, import_jsx_runtime282.jsx)(dropdown_menu_default, {
         ...props
@@ -48790,7 +50638,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToolbarDropdownMenu = (0, import_element203.forwardRef)(UnforwardedToolbarDropdownMenu);
+  var ToolbarDropdownMenu = (0, import_element204.forwardRef)(UnforwardedToolbarDropdownMenu);
   ToolbarDropdownMenu.displayName = "ToolbarDropdownMenu";
   var toolbar_dropdown_menu_default = ToolbarDropdownMenu;
 
@@ -48799,7 +50647,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var import_i18n78 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/tools-panel/tools-panel-header/hook.mjs
-  var import_element205 = __toESM(require_element(), 1);
+  var import_element206 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tools-panel/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__39() {
@@ -48861,9 +50709,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var DefaultControlsItem = /* @__PURE__ */ css("color:", COLORS.gray[900], ";&&[aria-disabled='true']{color:", COLORS.gray[700], ";opacity:1;&:hover{color:", COLORS.gray[700], ";}", ResetLabel, "{opacity:0.3;}}" + (false ? "" : ";label:DefaultControlsItem;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFnSnNDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHtcblx0U3R5bGVkRmllbGQgYXMgQmFzZUNvbnRyb2xGaWVsZCxcblx0U3R5bGVkSGVscCBhcyBCYXNlQ29udHJvbEhlbHAsXG5cdFdyYXBwZXIgYXMgQmFzZUNvbnRyb2xXcmFwcGVyLFxufSBmcm9tICcuLi9iYXNlLWNvbnRyb2wvc3R5bGVzL2Jhc2UtY29udHJvbC1zdHlsZXMnO1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcsIHJ0bCB9IGZyb20gJy4uL3V0aWxzJztcbmltcG9ydCB7IHNwYWNlIH0gZnJvbSAnLi4vdXRpbHMvc3BhY2UnO1xuXG5jb25zdCB0b29sc1BhbmVsR3JpZCA9IHtcblx0Y29sdW1uczogKCBjb2x1bW5zOiBudW1iZXIgKSA9PiBjc3NgXG5cdFx0Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiAkeyBgcmVwZWF0KCAkeyBjb2x1bW5zIH0sIG1pbm1heCgwLCAxZnIpIClgIH07XG5cdGAsXG5cdHNwYWNpbmc6IGNzc2Bcblx0XHRjb2x1bW4tZ2FwOiAkeyBzcGFjZSggNCApIH07XG5cdFx0cm93LWdhcDogJHsgc3BhY2UoIDQgKSB9O1xuXHRgLFxuXHRpdGVtOiB7XG5cdFx0ZnVsbFdpZHRoOiBjc3NgXG5cdFx0XHRncmlkLWNvbHVtbjogMSAvIC0xO1xuXHRcdGAsXG5cdH0sXG59O1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbCA9ICggY29sdW1uczogbnVtYmVyICkgPT4gY3NzYFxuXHQkeyB0b29sc1BhbmVsR3JpZC5jb2x1bW5zKCBjb2x1bW5zICkgfVxuXHQkeyB0b29sc1BhbmVsR3JpZC5zcGFjaW5nIH1cblxuXHRib3JkZXItdG9wOiAkeyBDT05GSUcuYm9yZGVyV2lkdGggfSBzb2xpZCAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0bWFyZ2luLXRvcDogLTFweDtcblx0cGFkZGluZzogJHsgc3BhY2UoIDQgKSB9O1xuYDtcblxuLyoqXG4gKiBJdGVtcyBpbmplY3RlZCBpbnRvIGEgVG9vbHNQYW5lbCB2aWEgYSB2aXJ0dWFsIGJ1YmJsaW5nIHNsb3Qgd2lsbCByZXF1aXJlXG4gKiBhbiBpbm5lciBkb20gZWxlbWVudCB0byBiZSBpbmplY3RlZC4gVGhlIGZvbGxvd2luZyBydWxlIGFsbG93cyBmb3IgdGhlXG4gKiBDU1MgZ3JpZCBkaXNwbGF5IHRvIGJlIHJlLWVzdGFibGlzaGVkLlxuICovXG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsV2l0aElubmVyV3JhcHBlciA9ICggY29sdW1uczogbnVtYmVyICkgPT4ge1xuXHRyZXR1cm4gY3NzYFxuXHRcdD4gZGl2Om5vdCggOmZpcnN0LW9mLXR5cGUgKSB7XG5cdFx0XHRkaXNwbGF5OiBncmlkO1xuXHRcdFx0JHsgdG9vbHNQYW5lbEdyaWQuY29sdW1ucyggY29sdW1ucyApIH1cblx0XHRcdCR7IHRvb2xzUGFuZWxHcmlkLnNwYWNpbmcgfVxuXHRcdFx0JHsgdG9vbHNQYW5lbEdyaWQuaXRlbS5mdWxsV2lkdGggfVxuXHRcdH1cblx0YDtcbn07XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSGlkZGVuSW5uZXJXcmFwcGVyID0gY3NzYFxuXHQ+IGRpdjpub3QoIDpmaXJzdC1vZi10eXBlICkge1xuXHRcdGRpc3BsYXk6IG5vbmU7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSGVhZGVyID0gY3NzYFxuXHQkeyB0b29sc1BhbmVsR3JpZC5pdGVtLmZ1bGxXaWR0aCB9XG5cdGdhcDogJHsgc3BhY2UoIDIgKSB9O1xuXG5cdC8qKlxuXHQgKiBUaGUgdGFyZ2V0aW5nIG9mIGRyb3Bkb3duIG1lbnUgY29tcG9uZW50IGNsYXNzZXMgaGVyZSBpcyBhIHRlbXBvcmFyeVxuXHQgKiBtZWFzdXJlIG9ubHkuXG5cdCAqXG5cdCAqIFRoZSBmb2xsb3dpbmcgc3R5bGVzIHNob3VsZCBiZSByZXBsYWNlZCBvbmNlIHRoZSBEcm9wZG93bk1lbnUgaGFzIGJlZW5cblx0ICogcmVmYWN0b3JlZCBhbmQgY2FuIGJlIHRhcmdldGVkIHZpYSBjb21wb25lbnQgaW50ZXJwb2xhdGlvbi5cblx0ICovXG5cdC5jb21wb25lbnRzLWRyb3Bkb3duLW1lbnUge1xuXHRcdG1hcmdpbjogJHsgc3BhY2UoIC0xICkgfSAwO1xuXHRcdGxpbmUtaGVpZ2h0OiAwO1xuXHR9XG5cdCYmJiYgLmNvbXBvbmVudHMtZHJvcGRvd24tbWVudV9fdG9nZ2xlIHtcblx0XHRwYWRkaW5nOiAwO1xuXHRcdG1pbi13aWR0aDogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbEhlYWRpbmcgPSBjc3NgXG5cdGZvbnQtc2l6ZTogaW5oZXJpdDtcblx0Zm9udC13ZWlnaHQ6ICR7IENPTkZJRy5mb250V2VpZ2h0TWVkaXVtIH07XG5cdGxpbmUtaGVpZ2h0OiBub3JtYWw7XG5cblx0LyogUmVxdWlyZWQgdG8gbWVldCBzcGVjaWZpY2l0eSByZXF1aXJlbWVudHMgdG8gZW5zdXJlIHplcm8gbWFyZ2luICovXG5cdCYmIHtcblx0XHRtYXJnaW46IDA7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSXRlbSA9IGNzc2Bcblx0JHsgdG9vbHNQYW5lbEdyaWQuaXRlbS5mdWxsV2lkdGggfVxuXG5cdC8qIENsZWFyIHNwYWNpbmcgaW4gYW5kIGFyb3VuZCBjb250cm9scyBhZGRlZCBhcyBwYW5lbCBpdGVtcy4gKi9cblx0LyogUmVtb3ZlIHdoZW4gdGhleSBjYW4gYmUgYWRkcmVzc2VkIHZpYSBjb250ZXh0IHN5c3RlbS4gKi9cblx0JiA+IGRpdixcblx0JiA+IGZpZWxkc2V0IHtcblx0XHRwYWRkaW5nLWJvdHRvbTogMDtcblx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHRcdG1heC13aWR0aDogMTAwJTtcblx0fVxuXG5cdC8qIFJlbW92ZSBCYXNlQ29udHJvbCBjb21wb25lbnRzIG1hcmdpbnMgYW5kIGxlYXZlIHNwYWNpbmcgdG8gZ3JpZCBsYXlvdXQgKi9cblx0JiYgJHsgQmFzZUNvbnRyb2xXcmFwcGVyIH0ge1xuXHRcdG1hcmdpbi1ib3R0b206IDA7XG5cblx0XHQvKipcblx0XHQgKiBUbyBtYWludGFpbiBwcm9wZXIgc3BhY2luZyB3aXRoaW4gYSBiYXNlIGNvbnRyb2wsIHRoZSBmaWVsZCdzIGJvdHRvbVxuXHRcdCAqIG1hcmdpbiBzaG91bGQgb25seSBiZSByZW1vdmVkIHdoZW4gdGhlcmUgaXMgbm8gaGVscCB0ZXh0IGluY2x1ZGVkIGFuZFxuXHRcdCAqIGl0IGlzIHRoZXJlZm9yZSB0aGUgbGFzdC1jaGlsZC5cblx0XHQgKi9cblx0XHQkeyBCYXNlQ29udHJvbEZpZWxkIH06bGFzdC1jaGlsZCB7XG5cdFx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHRcdH1cblx0fVxuXG5cdCR7IEJhc2VDb250cm9sSGVscCB9IHtcblx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbEl0ZW1QbGFjZWhvbGRlciA9IGNzc2Bcblx0ZGlzcGxheTogbm9uZTtcbmA7XG5cbmV4cG9ydCBjb25zdCBEcm9wZG93bk1lbnUgPSBjc3NgXG5cdG1pbi13aWR0aDogMjAwcHg7XG5gO1xuXG5leHBvcnQgY29uc3QgUmVzZXRMYWJlbCA9IHN0eWxlZC5zcGFuYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmFjY2VudERhcmtlcjEwIH07XG5cdGZvbnQtc2l6ZTogMTFweDtcblx0Zm9udC13ZWlnaHQ6ICR7IENPTkZJRy5mb250V2VpZ2h0TWVkaXVtIH07XG5cdGxpbmUtaGVpZ2h0OiAxLjQ7XG5cdCR7IHJ0bCggeyBtYXJnaW5MZWZ0OiBzcGFjZSggMyApIH0gKSB9XG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuXG5leHBvcnQgY29uc3QgRGVmYXVsdENvbnRyb2xzSXRlbSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA5MDAgXSB9O1xuXG5cdCYmW2FyaWEtZGlzYWJsZWQ9J3RydWUnXSB7XG5cdFx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuXHRcdG9wYWNpdHk6IDE7XG5cblx0XHQmOmhvdmVyIHtcblx0XHRcdGNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNzAwIF0gfTtcblx0XHR9XG5cblx0XHQkeyBSZXNldExhYmVsIH0ge1xuXHRcdFx0b3BhY2l0eTogMC4zO1xuXHRcdH1cblx0fVxuYDtcbiJdfQ== */");
 
   // packages/components/build-module/tools-panel/context.mjs
-  var import_element204 = __toESM(require_element(), 1);
+  var import_element205 = __toESM(require_element(), 1);
   var noop25 = () => void 0;
-  var ToolsPanelContext = (0, import_element204.createContext)({
+  var ToolsPanelContext = (0, import_element205.createContext)({
     menuItems: {
       default: {},
       optional: {}
@@ -48879,7 +50727,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     areAllOptionalControlsHidden: true
   });
   ToolsPanelContext.displayName = "ToolsPanelContext";
-  var useToolsPanelContext = () => (0, import_element204.useContext)(ToolsPanelContext);
+  var useToolsPanelContext = () => (0, import_element205.useContext)(ToolsPanelContext);
 
   // packages/components/build-module/tools-panel/tools-panel-header/hook.mjs
   function useToolsPanelHeader(props) {
@@ -48889,16 +50737,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       ...otherProps
     } = useContextSystem(props, "ToolsPanelHeader");
     const cx3 = useCx();
-    const classes = (0, import_element205.useMemo)(() => {
+    const classes = (0, import_element206.useMemo)(() => {
       return cx3(ToolsPanelHeader, className2);
     }, [className2, cx3]);
-    const dropdownMenuClassName = (0, import_element205.useMemo)(() => {
+    const dropdownMenuClassName = (0, import_element206.useMemo)(() => {
       return cx3(DropdownMenu2);
     }, [cx3]);
-    const headingClassName = (0, import_element205.useMemo)(() => {
+    const headingClassName = (0, import_element206.useMemo)(() => {
       return cx3(ToolsPanelHeading);
     }, [cx3]);
-    const defaultControlsItemClassName = (0, import_element205.useMemo)(() => {
+    const defaultControlsItemClassName = (0, import_element206.useMemo)(() => {
       return cx3(DefaultControlsItem);
     }, [cx3]);
     const {
@@ -49089,7 +50937,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var component_default38 = ConnectedToolsPanelHeader;
 
   // packages/components/build-module/tools-panel/tools-panel/hook.mjs
-  var import_element206 = __toESM(require_element(), 1);
+  var import_element207 = __toESM(require_element(), 1);
   var DEFAULT_COLUMNS = 2;
   function emptyMenuItems() {
     return {
@@ -49263,9 +51111,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       __experimentalLastVisibleItemClass,
       ...otherProps
     } = useContextSystem(props, "ToolsPanel");
-    const isResettingRef = (0, import_element206.useRef)(false);
+    const isResettingRef = (0, import_element207.useRef)(false);
     const wasResetting = isResettingRef.current;
-    (0, import_element206.useEffect)(() => {
+    (0, import_element207.useEffect)(() => {
       if (wasResetting) {
         isResettingRef.current = false;
       }
@@ -49273,33 +51121,33 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const [{
       panelItems,
       menuItems
-    }, panelDispatch] = (0, import_element206.useReducer)(panelReducer, void 0, emptyState);
-    const [resetAllFilters, dispatchResetAllFilters] = (0, import_element206.useReducer)(resetAllFiltersReducer, []);
-    const registerPanelItem = (0, import_element206.useCallback)((item2) => {
+    }, panelDispatch] = (0, import_element207.useReducer)(panelReducer, void 0, emptyState);
+    const [resetAllFilters, dispatchResetAllFilters] = (0, import_element207.useReducer)(resetAllFiltersReducer, []);
+    const registerPanelItem = (0, import_element207.useCallback)((item2) => {
       panelDispatch({
         type: "REGISTER_PANEL",
         item: item2
       });
     }, []);
-    const deregisterPanelItem = (0, import_element206.useCallback)((label) => {
+    const deregisterPanelItem = (0, import_element207.useCallback)((label) => {
       panelDispatch({
         type: "UNREGISTER_PANEL",
         label
       });
     }, []);
-    const registerResetAllFilter = (0, import_element206.useCallback)((filter2) => {
+    const registerResetAllFilter = (0, import_element207.useCallback)((filter2) => {
       dispatchResetAllFilters({
         type: "REGISTER",
         filter: filter2
       });
     }, []);
-    const deregisterResetAllFilter = (0, import_element206.useCallback)((filter2) => {
+    const deregisterResetAllFilter = (0, import_element207.useCallback)((filter2) => {
       dispatchResetAllFilters({
         type: "UNREGISTER",
         filter: filter2
       });
     }, []);
-    const flagItemCustomization = (0, import_element206.useCallback)((value, label, group = "default") => {
+    const flagItemCustomization = (0, import_element207.useCallback)((value, label, group = "default") => {
       panelDispatch({
         type: "UPDATE_VALUE",
         group,
@@ -49307,22 +51155,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         value
       });
     }, []);
-    const areAllOptionalControlsHidden = (0, import_element206.useMemo)(() => {
+    const areAllOptionalControlsHidden = (0, import_element207.useMemo)(() => {
       return isMenuItemTypeEmpty(menuItems.default) && !isMenuItemTypeEmpty(menuItems.optional) && Object.values(menuItems.optional).every((isSelected2) => !isSelected2);
     }, [menuItems]);
     const cx3 = useCx();
-    const classes = (0, import_element206.useMemo)(() => {
+    const classes = (0, import_element207.useMemo)(() => {
       const wrapperStyle = hasInnerWrapper && ToolsPanelWithInnerWrapper(DEFAULT_COLUMNS);
       const emptyStyle = areAllOptionalControlsHidden && ToolsPanelHiddenInnerWrapper;
       return cx3(ToolsPanel(DEFAULT_COLUMNS), wrapperStyle, emptyStyle, className2);
     }, [areAllOptionalControlsHidden, className2, cx3, hasInnerWrapper]);
-    const toggleItem = (0, import_element206.useCallback)((label) => {
+    const toggleItem = (0, import_element207.useCallback)((label) => {
       panelDispatch({
         type: "TOGGLE_VALUE",
         label
       });
     }, []);
-    const resetAllItems = (0, import_element206.useCallback)(() => {
+    const resetAllItems = (0, import_element207.useCallback)(() => {
       if (typeof resetAll === "function") {
         isResettingRef.current = true;
         resetAll(resetAllFilters);
@@ -49339,7 +51187,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const firstDisplayedItem = getFirstVisibleItemLabel(panelItems);
     const lastDisplayedItem = getFirstVisibleItemLabel([...panelItems].reverse());
     const hasMenuItems = panelItems.length > 0;
-    const panelContext = (0, import_element206.useMemo)(() => ({
+    const panelContext = (0, import_element207.useMemo)(() => ({
       areAllOptionalControlsHidden,
       deregisterPanelItem,
       deregisterResetAllFilter,
@@ -49400,7 +51248,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tools-panel/tools-panel-item/hook.mjs
   var import_compose76 = __toESM(require_compose(), 1);
-  var import_element207 = __toESM(require_element(), 1);
+  var import_element208 = __toESM(require_element(), 1);
   var noop26 = () => {
   };
   function useToolsPanelItem(props) {
@@ -49430,11 +51278,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       __experimentalFirstVisibleItemClass,
       __experimentalLastVisibleItemClass
     } = useToolsPanelContext();
-    const hasValueCallback = (0, import_element207.useCallback)(hasValue, [panelId]);
-    const resetAllFilterCallback = (0, import_element207.useCallback)(resetAllFilter, [panelId]);
+    const hasValueCallback = (0, import_element208.useCallback)(hasValue, [panelId]);
+    const resetAllFilterCallback = (0, import_element208.useCallback)(resetAllFilter, [panelId]);
     const previousPanelId = (0, import_compose76.usePrevious)(currentPanelId);
     const hasMatchingPanel = currentPanelId === panelId || currentPanelId === null;
-    (0, import_element207.useLayoutEffect)(() => {
+    (0, import_element208.useLayoutEffect)(() => {
       if (hasMatchingPanel && previousPanelId !== null) {
         registerPanelItem({
           hasValue: hasValueCallback,
@@ -49449,7 +51297,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       };
     }, [currentPanelId, hasMatchingPanel, isShownByDefault, label, hasValueCallback, panelId, previousPanelId, registerPanelItem, deregisterPanelItem]);
-    (0, import_element207.useEffect)(() => {
+    (0, import_element208.useEffect)(() => {
       if (hasMatchingPanel) {
         registerResetAllFilter(resetAllFilterCallback);
       }
@@ -49464,13 +51312,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const wasMenuItemChecked = (0, import_compose76.usePrevious)(isMenuItemChecked);
     const isRegistered = menuItems?.[menuGroup]?.[label] !== void 0;
     const isValueSet = hasValue();
-    (0, import_element207.useEffect)(() => {
+    (0, import_element208.useEffect)(() => {
       if (!isShownByDefault && !isValueSet) {
         return;
       }
       flagItemCustomization(isValueSet, label, menuGroup);
     }, [isValueSet, menuGroup, label, flagItemCustomization, isShownByDefault]);
-    (0, import_element207.useEffect)(() => {
+    (0, import_element208.useEffect)(() => {
       if (!isRegistered || isResetting || !hasMatchingPanel) {
         return;
       }
@@ -49483,7 +51331,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }, [hasMatchingPanel, isMenuItemChecked, isRegistered, isResetting, isValueSet, wasMenuItemChecked, onSelect, onDeselect]);
     const isShown = isShownByDefault ? menuItems?.[menuGroup]?.[label] !== void 0 : isMenuItemChecked;
     const cx3 = useCx();
-    const classes = (0, import_element207.useMemo)(() => {
+    const classes = (0, import_element208.useMemo)(() => {
       const shouldApplyPlaceholderStyles = shouldRenderPlaceholder && !isShown;
       const firstItemStyle = firstDisplayedItem === label && __experimentalFirstVisibleItemClass;
       const lastItemStyle = lastDisplayedItem === label && __experimentalLastVisibleItemClass;
@@ -49523,17 +51371,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tree-grid/index.mjs
   var import_dom33 = __toESM(require_dom(), 1);
-  var import_element214 = __toESM(require_element(), 1);
+  var import_element215 = __toESM(require_element(), 1);
   var import_keycodes2 = __toESM(require_keycodes(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index.mjs
-  var import_element209 = __toESM(require_element(), 1);
+  var import_element210 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index-context.mjs
-  var import_element208 = __toESM(require_element(), 1);
-  var RovingTabIndexContext = (0, import_element208.createContext)(void 0);
+  var import_element209 = __toESM(require_element(), 1);
+  var RovingTabIndexContext = (0, import_element209.createContext)(void 0);
   RovingTabIndexContext.displayName = "RovingTabIndexContext";
-  var useRovingTabIndexContext = () => (0, import_element208.useContext)(RovingTabIndexContext);
+  var useRovingTabIndexContext = () => (0, import_element209.useContext)(RovingTabIndexContext);
   var RovingTabIndexProvider = RovingTabIndexContext.Provider;
 
   // packages/components/build-module/tree-grid/roving-tab-index.mjs
@@ -49541,8 +51389,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   function RovingTabIndex({
     children
   }) {
-    const [lastFocusedElement, setLastFocusedElement] = (0, import_element209.useState)();
-    const providerValue = (0, import_element209.useMemo)(() => ({
+    const [lastFocusedElement, setLastFocusedElement] = (0, import_element210.useState)();
+    const providerValue = (0, import_element210.useMemo)(() => ({
       lastFocusedElement,
       setLastFocusedElement
     }), [lastFocusedElement]);
@@ -49556,7 +51404,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var import_jsx_runtime291 = __toESM(require_jsx_runtime(), 1);
 
   // packages/components/build-module/tree-grid/row.mjs
-  var import_element210 = __toESM(require_element(), 1);
+  var import_element211 = __toESM(require_element(), 1);
   var import_jsx_runtime287 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTreeGridRow({
     children,
@@ -49577,25 +51425,25 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var TreeGridRow = (0, import_element210.forwardRef)(UnforwardedTreeGridRow);
+  var TreeGridRow = (0, import_element211.forwardRef)(UnforwardedTreeGridRow);
   TreeGridRow.displayName = "TreeGridRow";
   var row_default2 = TreeGridRow;
 
   // packages/components/build-module/tree-grid/cell.mjs
-  var import_element213 = __toESM(require_element(), 1);
+  var import_element214 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/item.mjs
-  var import_element212 = __toESM(require_element(), 1);
+  var import_element213 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index-item.mjs
-  var import_element211 = __toESM(require_element(), 1);
+  var import_element212 = __toESM(require_element(), 1);
   var import_jsx_runtime288 = __toESM(require_jsx_runtime(), 1);
-  var RovingTabIndexItem = (0, import_element211.forwardRef)(function UnforwardedRovingTabIndexItem({
+  var RovingTabIndexItem = (0, import_element212.forwardRef)(function UnforwardedRovingTabIndexItem({
     children,
     as: Component8,
     ...props
   }, forwardedRef) {
-    const localRef = (0, import_element211.useRef)(null);
+    const localRef = (0, import_element212.useRef)(null);
     const ref = forwardedRef || localRef;
     const {
       lastFocusedElement,
@@ -49642,7 +51490,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var TreeGridItem = (0, import_element212.forwardRef)(UnforwardedTreeGridItem);
+  var TreeGridItem = (0, import_element213.forwardRef)(UnforwardedTreeGridItem);
   TreeGridItem.displayName = "TreeGridItem";
   var item_default3 = TreeGridItem;
 
@@ -49667,7 +51515,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TreeGridCell = (0, import_element213.forwardRef)(UnforwardedTreeGridCell);
+  var TreeGridCell = (0, import_element214.forwardRef)(UnforwardedTreeGridCell);
   TreeGridCell.displayName = "TreeGridCell";
   var cell_default = TreeGridCell;
 
@@ -49691,7 +51539,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     applicationAriaLabel,
     ...props
   }, ref) {
-    const onKeyDown = (0, import_element214.useCallback)((event) => {
+    const onKeyDown = (0, import_element215.useCallback)((event) => {
       const {
         keyCode,
         metaKey,
@@ -49828,18 +51676,18 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TreeGrid = (0, import_element214.forwardRef)(UnforwardedTreeGrid);
+  var TreeGrid = (0, import_element215.forwardRef)(UnforwardedTreeGrid);
   TreeGrid.displayName = "TreeGrid";
   var tree_grid_default = TreeGrid;
 
   // packages/components/build-module/isolated-event-container/index.mjs
-  var import_element215 = __toESM(require_element(), 1);
+  var import_element216 = __toESM(require_element(), 1);
   var import_deprecated27 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime292 = __toESM(require_jsx_runtime(), 1);
   function stopPropagation(event) {
     event.stopPropagation();
   }
-  var IsolatedEventContainer = (0, import_element215.forwardRef)((props, ref) => {
+  var IsolatedEventContainer = (0, import_element216.forwardRef)((props, ref) => {
     (0, import_deprecated27.default)("wp.components.IsolatedEventContainer", {
       since: "5.7"
     });
@@ -49852,7 +51700,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var isolated_event_container_default = IsolatedEventContainer;
 
   // packages/components/build-module/z-stack/component.mjs
-  var import_element216 = __toESM(require_element(), 1);
+  var import_element217 = __toESM(require_element(), 1);
 
   // packages/components/build-module/z-stack/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__40() {
@@ -49908,7 +51756,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const clonedChildren = validChildren.map((child, index2) => {
       const zIndex = isReversed ? childrenLastIndex - index2 : index2;
       const offsetAmount = isLayered ? offset3 * index2 : offset3;
-      const key = (0, import_element216.isValidElement)(child) ? child.key : index2;
+      const key = (0, import_element217.isValidElement)(child) ? child.key : index2;
       return /* @__PURE__ */ (0, import_jsx_runtime293.jsx)(ZStackChildView, {
         offsetAmount,
         zIndex,
@@ -49927,7 +51775,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var component_default41 = ZStack;
 
   // packages/components/build-module/higher-order/navigate-regions/index.mjs
-  var import_element217 = __toESM(require_element(), 1);
+  var import_element218 = __toESM(require_element(), 1);
   var import_compose77 = __toESM(require_compose(), 1);
   var import_keycodes3 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime294 = __toESM(require_jsx_runtime(), 1);
@@ -49951,8 +51799,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }]
   };
   function useNavigateRegions(shortcuts = defaultShortcuts) {
-    const ref = (0, import_element217.useRef)(null);
-    const [isFocusingRegions, setIsFocusingRegions] = (0, import_element217.useState)(false);
+    const ref = (0, import_element218.useRef)(null);
+    const [isFocusingRegions, setIsFocusingRegions] = (0, import_element218.useState)(false);
     function focusRegion(offset3) {
       const regions = Array.from(ref.current?.querySelectorAll('[role="region"][tabindex="-1"]') ?? []);
       if (!regions.length) {
@@ -50030,11 +51878,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/higher-order/with-fallback-styles/index.mjs
   var import_es63 = __toESM(require_es6(), 1);
-  var import_element218 = __toESM(require_element(), 1);
+  var import_element219 = __toESM(require_element(), 1);
   var import_compose79 = __toESM(require_compose(), 1);
   var import_jsx_runtime296 = __toESM(require_jsx_runtime(), 1);
   var with_fallback_styles_default = (mapNodeToProps) => (0, import_compose79.createHigherOrderComponent)((WrappedComponent) => {
-    return class WithFallbackStyles extends import_element218.Component {
+    return class WithFallbackStyles extends import_element219.Component {
       constructor(props) {
         super(props);
         this.nodeRef = this.props.node;
@@ -50085,7 +51933,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }, "withFallbackStyles");
 
   // packages/components/build-module/higher-order/with-filters/index.mjs
-  var import_element219 = __toESM(require_element(), 1);
+  var import_element220 = __toESM(require_element(), 1);
   var import_hooks11 = __toESM(require_hooks(), 1);
   var import_compose80 = __toESM(require_compose(), 1);
   var import_jsx_runtime297 = __toESM(require_jsx_runtime(), 1);
@@ -50099,7 +51947,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
           FilteredComponent = (0, import_hooks11.applyFilters)(hookName, OriginalComponent);
         }
       }
-      class FilteredComponentRenderer extends import_element219.Component {
+      class FilteredComponentRenderer extends import_element220.Component {
         constructor(props) {
           super(props);
           ensureFilteredComponent();
@@ -50141,12 +51989,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/higher-order/with-focus-return/index.mjs
-  var import_element220 = __toESM(require_element(), 1);
+  var import_element221 = __toESM(require_element(), 1);
   var import_compose81 = __toESM(require_compose(), 1);
   var import_deprecated28 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime298 = __toESM(require_jsx_runtime(), 1);
   function isComponentLike(object) {
-    return object instanceof import_element220.Component || typeof object === "function";
+    return object instanceof import_element221.Component || typeof object === "function";
   }
   var with_focus_return_default = (0, import_compose81.createHigherOrderComponent)(
     // @ts-expect-error TODO: Reconcile with intended `createHigherOrderComponent` types
@@ -50184,13 +52032,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   };
 
   // packages/components/build-module/higher-order/with-notices/index.mjs
-  var import_element221 = __toESM(require_element(), 1);
+  var import_element222 = __toESM(require_element(), 1);
   var import_compose82 = __toESM(require_compose(), 1);
   var import_jsx_runtime299 = __toESM(require_jsx_runtime(), 1);
   var with_notices_default = (0, import_compose82.createHigherOrderComponent)((OriginalComponent) => {
     function Component8(props, ref) {
-      const [noticeList, setNoticeList] = (0, import_element221.useState)([]);
-      const noticeOperations = (0, import_element221.useMemo)(() => {
+      const [noticeList, setNoticeList] = (0, import_element222.useState)([]);
+      const noticeOperations = (0, import_element222.useMemo)(() => {
         const createNotice = (notice) => {
           const noticeToAdd = notice.id ? notice : {
             ...notice,
@@ -50237,22 +52085,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     } = OriginalComponent;
     if (typeof render === "function") {
       isForwardRef = true;
-      return (0, import_element221.forwardRef)(Component8);
+      return (0, import_element222.forwardRef)(Component8);
     }
     return Component8;
   }, "withNotices");
 
   // packages/components/build-module/menu/index.mjs
-  var import_element234 = __toESM(require_element(), 1);
+  var import_element235 = __toESM(require_element(), 1);
   var import_i18n79 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/menu/context.mjs
-  var import_element222 = __toESM(require_element(), 1);
-  var Context2 = (0, import_element222.createContext)(void 0);
+  var import_element223 = __toESM(require_element(), 1);
+  var Context2 = (0, import_element223.createContext)(void 0);
   Context2.displayName = "MenuContext";
 
   // packages/components/build-module/menu/item.mjs
-  var import_element223 = __toESM(require_element(), 1);
+  var import_element224 = __toESM(require_element(), 1);
 
   // packages/components/build-module/menu/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__41() {
@@ -50387,7 +52235,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/menu/item.mjs
   var import_jsx_runtime300 = __toESM(require_jsx_runtime(), 1);
-  var Item22 = (0, import_element223.forwardRef)(function Item32({
+  var Item22 = (0, import_element224.forwardRef)(function Item32({
     prefix: prefix2,
     suffix,
     children,
@@ -50396,7 +52244,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     store,
     ...props
   }, ref) {
-    const menuContext = (0, import_element223.useContext)(Context2);
+    const menuContext = (0, import_element224.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Item can only be rendered inside a Menu component");
     }
@@ -50421,16 +52269,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/checkbox-item.mjs
-  var import_element224 = __toESM(require_element(), 1);
+  var import_element225 = __toESM(require_element(), 1);
   var import_jsx_runtime301 = __toESM(require_jsx_runtime(), 1);
-  var CheckboxItem2 = (0, import_element224.forwardRef)(function CheckboxItem3({
+  var CheckboxItem2 = (0, import_element225.forwardRef)(function CheckboxItem3({
     suffix,
     children,
     disabled = false,
     hideOnClick = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element224.useContext)(Context2);
+    const menuContext = (0, import_element225.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.CheckboxItem can only be rendered inside a Menu component");
     }
@@ -50463,7 +52311,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/radio-item.mjs
-  var import_element225 = __toESM(require_element(), 1);
+  var import_element226 = __toESM(require_element(), 1);
   var import_primitives35 = __toESM(require_primitives(), 1);
   var import_jsx_runtime302 = __toESM(require_jsx_runtime(), 1);
   var radioCheck = /* @__PURE__ */ (0, import_jsx_runtime302.jsx)(import_primitives35.SVG, {
@@ -50475,14 +52323,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       r: 3
     })
   });
-  var RadioItem2 = (0, import_element225.forwardRef)(function RadioItem3({
+  var RadioItem2 = (0, import_element226.forwardRef)(function RadioItem3({
     suffix,
     children,
     disabled = false,
     hideOnClick = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element225.useContext)(Context2);
+    const menuContext = (0, import_element226.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.RadioItem can only be rendered inside a Menu component");
     }
@@ -50515,10 +52363,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/group.mjs
-  var import_element226 = __toESM(require_element(), 1);
+  var import_element227 = __toESM(require_element(), 1);
   var import_jsx_runtime303 = __toESM(require_jsx_runtime(), 1);
-  var Group22 = (0, import_element226.forwardRef)(function Group32(props, ref) {
-    const menuContext = (0, import_element226.useContext)(Context2);
+  var Group22 = (0, import_element227.forwardRef)(function Group32(props, ref) {
+    const menuContext = (0, import_element227.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Group can only be rendered inside a Menu component");
     }
@@ -50530,10 +52378,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/group-label.mjs
-  var import_element227 = __toESM(require_element(), 1);
+  var import_element228 = __toESM(require_element(), 1);
   var import_jsx_runtime304 = __toESM(require_jsx_runtime(), 1);
-  var GroupLabel22 = (0, import_element227.forwardRef)(function Group4(props, ref) {
-    const menuContext = (0, import_element227.useContext)(Context2);
+  var GroupLabel22 = (0, import_element228.forwardRef)(function Group4(props, ref) {
+    const menuContext = (0, import_element228.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.GroupLabel can only be rendered inside a Menu component");
     }
@@ -50555,10 +52403,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/separator.mjs
-  var import_element228 = __toESM(require_element(), 1);
+  var import_element229 = __toESM(require_element(), 1);
   var import_jsx_runtime305 = __toESM(require_jsx_runtime(), 1);
-  var Separator22 = (0, import_element228.forwardRef)(function Separator32(props, ref) {
-    const menuContext = (0, import_element228.useContext)(Context2);
+  var Separator22 = (0, import_element229.forwardRef)(function Separator32(props, ref) {
+    const menuContext = (0, import_element229.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Separator can only be rendered inside a Menu component");
     }
@@ -50571,10 +52419,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/item-label.mjs
-  var import_element229 = __toESM(require_element(), 1);
+  var import_element230 = __toESM(require_element(), 1);
   var import_jsx_runtime306 = __toESM(require_jsx_runtime(), 1);
-  var ItemLabel2 = (0, import_element229.forwardRef)(function ItemLabel3(props, ref) {
-    const menuContext = (0, import_element229.useContext)(Context2);
+  var ItemLabel2 = (0, import_element230.forwardRef)(function ItemLabel3(props, ref) {
+    const menuContext = (0, import_element230.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.ItemLabel can only be rendered inside a Menu component");
     }
@@ -50586,10 +52434,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/item-help-text.mjs
-  var import_element230 = __toESM(require_element(), 1);
+  var import_element231 = __toESM(require_element(), 1);
   var import_jsx_runtime307 = __toESM(require_jsx_runtime(), 1);
-  var ItemHelpText2 = (0, import_element230.forwardRef)(function ItemHelpText3(props, ref) {
-    const menuContext = (0, import_element230.useContext)(Context2);
+  var ItemHelpText2 = (0, import_element231.forwardRef)(function ItemHelpText3(props, ref) {
+    const menuContext = (0, import_element231.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.ItemHelpText can only be rendered inside a Menu component");
     }
@@ -50601,14 +52449,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/trigger-button.mjs
-  var import_element231 = __toESM(require_element(), 1);
+  var import_element232 = __toESM(require_element(), 1);
   var import_jsx_runtime308 = __toESM(require_jsx_runtime(), 1);
-  var TriggerButton = (0, import_element231.forwardRef)(function TriggerButton2({
+  var TriggerButton = (0, import_element232.forwardRef)(function TriggerButton2({
     children,
     disabled = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element231.useContext)(Context2);
+    const menuContext = (0, import_element232.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.TriggerButton can only be rendered inside a Menu component");
     }
@@ -50625,13 +52473,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/submenu-trigger-item.mjs
-  var import_element232 = __toESM(require_element(), 1);
+  var import_element233 = __toESM(require_element(), 1);
   var import_jsx_runtime309 = __toESM(require_jsx_runtime(), 1);
-  var SubmenuTriggerItem = (0, import_element232.forwardRef)(function SubmenuTriggerItem2({
+  var SubmenuTriggerItem = (0, import_element233.forwardRef)(function SubmenuTriggerItem2({
     suffix,
     ...otherProps
   }, ref) {
-    const menuContext = (0, import_element232.useContext)(Context2);
+    const menuContext = (0, import_element233.useContext)(Context2);
     if (!menuContext?.store.parent) {
       throw new Error("Menu.SubmenuTriggerItem can only be rendered inside a nested Menu component");
     }
@@ -50659,22 +52507,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/popover.mjs
-  var import_element233 = __toESM(require_element(), 1);
+  var import_element234 = __toESM(require_element(), 1);
   var import_jsx_runtime310 = __toESM(require_jsx_runtime(), 1);
-  var Popover4 = (0, import_element233.forwardRef)(function Popover22({
+  var Popover4 = (0, import_element234.forwardRef)(function Popover22({
     gutter,
     shift: shift3,
     modal = true,
     ...otherProps
   }, ref) {
-    const menuContext = (0, import_element233.useContext)(Context2);
+    const menuContext = (0, import_element234.useContext)(Context2);
     const appliedPlacementSide = useStoreState(menuContext?.store, "currentPlacement")?.split("-")[0];
-    const hideOnEscape = (0, import_element233.useCallback)((event) => {
+    const hideOnEscape = (0, import_element234.useCallback)((event) => {
       event.preventDefault();
       return true;
     }, []);
     const computedDirection = useStoreState(menuContext?.store, "rtl") ? "rtl" : "ltr";
-    const wrapperProps = (0, import_element233.useMemo)(() => ({
+    const wrapperProps = (0, import_element234.useMemo)(() => ({
       dir: computedDirection,
       style: {
         direction: computedDirection
@@ -50683,7 +52531,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     if (!menuContext?.store) {
       throw new Error("Menu.Popover can only be rendered inside a Menu component");
     }
-    const renderMenu = (0, import_element233.useCallback)((htmlProps) => /* @__PURE__ */ (0, import_jsx_runtime310.jsx)(MenuMotionRoot, {
+    const renderMenu = (0, import_element234.useCallback)((htmlProps) => /* @__PURE__ */ (0, import_jsx_runtime310.jsx)(MenuMotionRoot, {
       children: /* @__PURE__ */ (0, import_jsx_runtime310.jsx)(MenuSurface, {
         ...htmlProps,
         variant: menuContext.variant
@@ -50718,7 +52566,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       // From internal components context
       variant
     } = useContextSystem(props, "Menu");
-    const parentContext = (0, import_element234.useContext)(Context2);
+    const parentContext = (0, import_element235.useContext)(Context2);
     const rtl2 = (0, import_i18n79.isRTL)();
     let computedPlacement = placement ?? (parentContext?.store ? "right-start" : "bottom-start");
     if (rtl2) {
@@ -50739,7 +52587,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       },
       rtl: rtl2
     });
-    const contextValue = (0, import_element234.useMemo)(() => ({
+    const contextValue = (0, import_element235.useMemo)(() => ({
       store: menuStore,
       variant
     }), [menuStore, variant]);
@@ -50850,7 +52698,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/theme/index.mjs
-  var import_element235 = __toESM(require_element(), 1);
+  var import_element236 = __toESM(require_element(), 1);
 
   // packages/components/build-module/theme/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__42() {
@@ -50970,7 +52818,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     ...props
   }) {
     const cx3 = useCx();
-    const classes = (0, import_element235.useMemo)(() => cx3(...colorVariables(generateThemeVariables({
+    const classes = (0, import_element236.useMemo)(() => cx3(...colorVariables(generateThemeVariables({
       accent,
       background: background2
     })), className2), [accent, background2, className2, cx3]);
@@ -50983,17 +52831,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/index.mjs
   var import_compose85 = __toESM(require_compose(), 1);
-  var import_element241 = __toESM(require_element(), 1);
+  var import_element242 = __toESM(require_element(), 1);
   var import_i18n80 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/tabs/context.mjs
-  var import_element236 = __toESM(require_element(), 1);
-  var TabsContext = (0, import_element236.createContext)(void 0);
+  var import_element237 = __toESM(require_element(), 1);
+  var TabsContext = (0, import_element237.createContext)(void 0);
   TabsContext.displayName = "TabsContext";
-  var useTabsContext = () => (0, import_element236.useContext)(TabsContext);
+  var useTabsContext = () => (0, import_element237.useContext)(TabsContext);
 
   // packages/components/build-module/tabs/tab.mjs
-  var import_element237 = __toESM(require_element(), 1);
+  var import_element238 = __toESM(require_element(), 1);
   var import_warning12 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/tabs/styles.mjs
@@ -51040,7 +52888,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/tab.mjs
   var import_jsx_runtime313 = __toESM(require_jsx_runtime(), 1);
-  var Tab3 = (0, import_element237.forwardRef)(function Tab23({
+  var Tab3 = (0, import_element238.forwardRef)(function Tab23({
     children,
     tabId,
     disabled,
@@ -51073,16 +52921,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/tablist.mjs
   var import_warning13 = __toESM(require_warning(), 1);
-  var import_element239 = __toESM(require_element(), 1);
+  var import_element240 = __toESM(require_element(), 1);
   var import_compose84 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/tabs/use-track-overflow.mjs
-  var import_element238 = __toESM(require_element(), 1);
+  var import_element239 = __toESM(require_element(), 1);
   var import_compose83 = __toESM(require_compose(), 1);
   function useTrackOverflow(parent, children) {
-    const [first, setFirst] = (0, import_element238.useState)(false);
-    const [last, setLast] = (0, import_element238.useState)(false);
-    const [observer, setObserver] = (0, import_element238.useState)();
+    const [first, setFirst] = (0, import_element239.useState)(false);
+    const [last, setLast] = (0, import_element239.useState)(false);
+    const [observer, setObserver] = (0, import_element239.useState)();
     const callback = (0, import_compose83.useEvent)((entries) => {
       for (const entry of entries) {
         if (entry.target === children.first) {
@@ -51093,7 +52941,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     });
-    (0, import_element238.useEffect)(() => {
+    (0, import_element239.useEffect)(() => {
       if (!parent || !window.IntersectionObserver) {
         return;
       }
@@ -51104,7 +52952,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       setObserver(newObserver);
       return () => newObserver.disconnect();
     }, [callback, parent]);
-    (0, import_element238.useEffect)(() => {
+    (0, import_element239.useEffect)(() => {
       if (!observer) {
         return;
       }
@@ -51135,7 +52983,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   function useScrollRectIntoView(parent, rect, {
     margin = DEFAULT_SCROLL_MARGIN
   } = {}) {
-    (0, import_element239.useLayoutEffect)(() => {
+    (0, import_element240.useLayoutEffect)(() => {
       if (!parent || !rect) {
         return;
       }
@@ -51164,7 +53012,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
     }, [margin, parent, rect]);
   }
-  var TabList3 = (0, import_element239.forwardRef)(function TabList22({
+  var TabList3 = (0, import_element240.forwardRef)(function TabList22({
     children,
     ...otherProps
   }, ref) {
@@ -51175,7 +53023,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const activeId = useStoreState(store, "activeId");
     const selectOnMove = useStoreState(store, "selectOnMove");
     const items = useStoreState(store, "items");
-    const [parent, setParent] = (0, import_element239.useState)();
+    const [parent, setParent] = (0, import_element240.useState)();
     const refs = (0, import_compose84.useMergeRefs)([ref, setParent]);
     const selectedItem = store?.item(selectedId);
     const renderedItems = useStoreState(store, "renderedItems");
@@ -51222,10 +53070,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/tabs/tabpanel.mjs
-  var import_element240 = __toESM(require_element(), 1);
+  var import_element241 = __toESM(require_element(), 1);
   var import_warning14 = __toESM(require_warning(), 1);
   var import_jsx_runtime315 = __toESM(require_jsx_runtime(), 1);
-  var TabPanel3 = (0, import_element240.forwardRef)(function TabPanel24({
+  var TabPanel3 = (0, import_element241.forwardRef)(function TabPanel24({
     children,
     tabId,
     focusable = true,
@@ -51295,7 +53143,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       setActiveId
     } = store;
-    (0, import_element241.useEffect)(() => {
+    (0, import_element242.useEffect)(() => {
       requestAnimationFrame(() => {
         const focusedElement = items?.[0]?.element?.ownerDocument.activeElement;
         if (!focusedElement || !items.some((item2) => focusedElement === item2.element)) {
@@ -51306,7 +53154,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       });
     }, [activeId, items, setActiveId]);
-    const contextValue = (0, import_element241.useMemo)(() => ({
+    const contextValue = (0, import_element242.useMemo)(() => ({
       store,
       instanceId
     }), [store, instanceId]);
@@ -51660,1808 +53508,6 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     Animation2["caption_before_exit"] = "caption_before_exit";
   })(Animation || (Animation = {}));
 
-  // node_modules/react-day-picker/node_modules/date-fns/constants.js
-  var daysInYear2 = 365.2425;
-  var maxTime2 = Math.pow(10, 8) * 24 * 60 * 60 * 1e3;
-  var minTime2 = -maxTime2;
-  var millisecondsInWeek = 6048e5;
-  var millisecondsInDay2 = 864e5;
-  var secondsInHour2 = 3600;
-  var secondsInDay2 = secondsInHour2 * 24;
-  var secondsInWeek2 = secondsInDay2 * 7;
-  var secondsInYear2 = secondsInDay2 * daysInYear2;
-  var secondsInMonth2 = secondsInYear2 / 12;
-  var secondsInQuarter2 = secondsInMonth2 * 3;
-  var constructFromSymbol = /* @__PURE__ */ Symbol.for("constructDateFrom");
-
-  // node_modules/react-day-picker/node_modules/date-fns/constructFrom.js
-  function constructFrom2(date, value) {
-    if (typeof date === "function") return date(value);
-    if (date && typeof date === "object" && constructFromSymbol in date)
-      return date[constructFromSymbol](value);
-    if (date instanceof Date) return new date.constructor(value);
-    return new Date(value);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/toDate.js
-  function toDate2(argument, context) {
-    return constructFrom2(context || argument, argument);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/addDays.js
-  function addDays2(date, amount, options2) {
-    const _date = toDate2(date, options2?.in);
-    if (isNaN(amount)) return constructFrom2(options2?.in || date, NaN);
-    if (!amount) return _date;
-    _date.setDate(_date.getDate() + amount);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/addMonths.js
-  function addMonths2(date, amount, options2) {
-    const _date = toDate2(date, options2?.in);
-    if (isNaN(amount)) return constructFrom2(options2?.in || date, NaN);
-    if (!amount) {
-      return _date;
-    }
-    const dayOfMonth = _date.getDate();
-    const endOfDesiredMonth = constructFrom2(options2?.in || date, _date.getTime());
-    endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
-    const daysInMonth = endOfDesiredMonth.getDate();
-    if (dayOfMonth >= daysInMonth) {
-      return endOfDesiredMonth;
-    } else {
-      _date.setFullYear(
-        endOfDesiredMonth.getFullYear(),
-        endOfDesiredMonth.getMonth(),
-        dayOfMonth
-      );
-      return _date;
-    }
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/defaultOptions.js
-  var defaultOptions3 = {};
-  function getDefaultOptions2() {
-    return defaultOptions3;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfWeek.js
-  function startOfWeek2(date, options2) {
-    const defaultOptions4 = getDefaultOptions2();
-    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions4.weekStartsOn ?? defaultOptions4.locale?.options?.weekStartsOn ?? 0;
-    const _date = toDate2(date, options2?.in);
-    const day = _date.getDay();
-    const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-    _date.setDate(_date.getDate() - diff);
-    _date.setHours(0, 0, 0, 0);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfISOWeek.js
-  function startOfISOWeek(date, options2) {
-    return startOfWeek2(date, { ...options2, weekStartsOn: 1 });
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getISOWeekYear.js
-  function getISOWeekYear(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const year = _date.getFullYear();
-    const fourthOfJanuaryOfNextYear = constructFrom2(_date, 0);
-    fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
-    fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
-    const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
-    const fourthOfJanuaryOfThisYear = constructFrom2(_date, 0);
-    fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
-    fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
-    const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
-    if (_date.getTime() >= startOfNextYear.getTime()) {
-      return year + 1;
-    } else if (_date.getTime() >= startOfThisYear.getTime()) {
-      return year;
-    } else {
-      return year - 1;
-    }
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds.js
-  function getTimezoneOffsetInMilliseconds2(date) {
-    const _date = toDate2(date);
-    const utcDate = new Date(
-      Date.UTC(
-        _date.getFullYear(),
-        _date.getMonth(),
-        _date.getDate(),
-        _date.getHours(),
-        _date.getMinutes(),
-        _date.getSeconds(),
-        _date.getMilliseconds()
-      )
-    );
-    utcDate.setUTCFullYear(_date.getFullYear());
-    return +date - +utcDate;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/normalizeDates.js
-  function normalizeDates(context, ...dates) {
-    const normalize2 = constructFrom2.bind(
-      null,
-      context || dates.find((date) => typeof date === "object")
-    );
-    return dates.map(normalize2);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfDay.js
-  function startOfDay2(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    _date.setHours(0, 0, 0, 0);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/differenceInCalendarDays.js
-  function differenceInCalendarDays2(laterDate, earlierDate, options2) {
-    const [laterDate_, earlierDate_] = normalizeDates(
-      options2?.in,
-      laterDate,
-      earlierDate
-    );
-    const laterStartOfDay = startOfDay2(laterDate_);
-    const earlierStartOfDay = startOfDay2(earlierDate_);
-    const laterTimestamp = +laterStartOfDay - getTimezoneOffsetInMilliseconds2(laterStartOfDay);
-    const earlierTimestamp = +earlierStartOfDay - getTimezoneOffsetInMilliseconds2(earlierStartOfDay);
-    return Math.round((laterTimestamp - earlierTimestamp) / millisecondsInDay2);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfISOWeekYear.js
-  function startOfISOWeekYear(date, options2) {
-    const year = getISOWeekYear(date, options2);
-    const fourthOfJanuary = constructFrom2(options2?.in || date, 0);
-    fourthOfJanuary.setFullYear(year, 0, 4);
-    fourthOfJanuary.setHours(0, 0, 0, 0);
-    return startOfISOWeek(fourthOfJanuary);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/addWeeks.js
-  function addWeeks2(date, amount, options2) {
-    return addDays2(date, amount * 7, options2);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/addYears.js
-  function addYears2(date, amount, options2) {
-    return addMonths2(date, amount * 12, options2);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/max.js
-  function max2(dates, options2) {
-    let result;
-    let context = options2?.in;
-    dates.forEach((date) => {
-      if (!context && typeof date === "object")
-        context = constructFrom2.bind(null, date);
-      const date_ = toDate2(date, context);
-      if (!result || result < date_ || isNaN(+date_)) result = date_;
-    });
-    return constructFrom2(context, result || NaN);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/min.js
-  function min2(dates, options2) {
-    let result;
-    let context = options2?.in;
-    dates.forEach((date) => {
-      if (!context && typeof date === "object")
-        context = constructFrom2.bind(null, date);
-      const date_ = toDate2(date, context);
-      if (!result || result > date_ || isNaN(+date_)) result = date_;
-    });
-    return constructFrom2(context, result || NaN);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isSameDay.js
-  function isSameDay2(laterDate, earlierDate, options2) {
-    const [dateLeft_, dateRight_] = normalizeDates(
-      options2?.in,
-      laterDate,
-      earlierDate
-    );
-    return +startOfDay2(dateLeft_) === +startOfDay2(dateRight_);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isDate.js
-  function isDate(value) {
-    return value instanceof Date || typeof value === "object" && Object.prototype.toString.call(value) === "[object Date]";
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isValid.js
-  function isValid(date) {
-    return !(!isDate(date) && typeof date !== "number" || isNaN(+toDate2(date)));
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/differenceInCalendarMonths.js
-  function differenceInCalendarMonths(laterDate, earlierDate, options2) {
-    const [laterDate_, earlierDate_] = normalizeDates(
-      options2?.in,
-      laterDate,
-      earlierDate
-    );
-    const yearsDiff = laterDate_.getFullYear() - earlierDate_.getFullYear();
-    const monthsDiff = laterDate_.getMonth() - earlierDate_.getMonth();
-    return yearsDiff * 12 + monthsDiff;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/endOfMonth.js
-  function endOfMonth2(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const month = _date.getMonth();
-    _date.setFullYear(_date.getFullYear(), month + 1, 0);
-    _date.setHours(23, 59, 59, 999);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/normalizeInterval.js
-  function normalizeInterval(context, interval) {
-    const [start, end] = normalizeDates(context, interval.start, interval.end);
-    return { start, end };
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/eachMonthOfInterval.js
-  function eachMonthOfInterval2(interval, options2) {
-    const { start, end } = normalizeInterval(options2?.in, interval);
-    let reversed = +start > +end;
-    const endTime = reversed ? +start : +end;
-    const date = reversed ? end : start;
-    date.setHours(0, 0, 0, 0);
-    date.setDate(1);
-    let step = options2?.step ?? 1;
-    if (!step) return [];
-    if (step < 0) {
-      step = -step;
-      reversed = !reversed;
-    }
-    const dates = [];
-    while (+date <= endTime) {
-      dates.push(constructFrom2(start, date));
-      date.setMonth(date.getMonth() + step);
-    }
-    return reversed ? dates.reverse() : dates;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfMonth.js
-  function startOfMonth2(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    _date.setDate(1);
-    _date.setHours(0, 0, 0, 0);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/endOfYear.js
-  function endOfYear(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const year = _date.getFullYear();
-    _date.setFullYear(year + 1, 0, 0);
-    _date.setHours(23, 59, 59, 999);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfYear.js
-  function startOfYear(date, options2) {
-    const date_ = toDate2(date, options2?.in);
-    date_.setFullYear(date_.getFullYear(), 0, 1);
-    date_.setHours(0, 0, 0, 0);
-    return date_;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/endOfWeek.js
-  function endOfWeek2(date, options2) {
-    const defaultOptions4 = getDefaultOptions2();
-    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions4.weekStartsOn ?? defaultOptions4.locale?.options?.weekStartsOn ?? 0;
-    const _date = toDate2(date, options2?.in);
-    const day = _date.getDay();
-    const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
-    _date.setDate(_date.getDate() + diff);
-    _date.setHours(23, 59, 59, 999);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/endOfISOWeek.js
-  function endOfISOWeek(date, options2) {
-    return endOfWeek2(date, { ...options2, weekStartsOn: 1 });
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US/_lib/formatDistance.js
-  var formatDistanceLocale = {
-    lessThanXSeconds: {
-      one: "less than a second",
-      other: "less than {{count}} seconds"
-    },
-    xSeconds: {
-      one: "1 second",
-      other: "{{count}} seconds"
-    },
-    halfAMinute: "half a minute",
-    lessThanXMinutes: {
-      one: "less than a minute",
-      other: "less than {{count}} minutes"
-    },
-    xMinutes: {
-      one: "1 minute",
-      other: "{{count}} minutes"
-    },
-    aboutXHours: {
-      one: "about 1 hour",
-      other: "about {{count}} hours"
-    },
-    xHours: {
-      one: "1 hour",
-      other: "{{count}} hours"
-    },
-    xDays: {
-      one: "1 day",
-      other: "{{count}} days"
-    },
-    aboutXWeeks: {
-      one: "about 1 week",
-      other: "about {{count}} weeks"
-    },
-    xWeeks: {
-      one: "1 week",
-      other: "{{count}} weeks"
-    },
-    aboutXMonths: {
-      one: "about 1 month",
-      other: "about {{count}} months"
-    },
-    xMonths: {
-      one: "1 month",
-      other: "{{count}} months"
-    },
-    aboutXYears: {
-      one: "about 1 year",
-      other: "about {{count}} years"
-    },
-    xYears: {
-      one: "1 year",
-      other: "{{count}} years"
-    },
-    overXYears: {
-      one: "over 1 year",
-      other: "over {{count}} years"
-    },
-    almostXYears: {
-      one: "almost 1 year",
-      other: "almost {{count}} years"
-    }
-  };
-  var formatDistance = (token2, count, options2) => {
-    let result;
-    const tokenValue = formatDistanceLocale[token2];
-    if (typeof tokenValue === "string") {
-      result = tokenValue;
-    } else if (count === 1) {
-      result = tokenValue.one;
-    } else {
-      result = tokenValue.other.replace("{{count}}", count.toString());
-    }
-    if (options2?.addSuffix) {
-      if (options2.comparison && options2.comparison > 0) {
-        return "in " + result;
-      } else {
-        return result + " ago";
-      }
-    }
-    return result;
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/_lib/buildFormatLongFn.js
-  function buildFormatLongFn(args) {
-    return (options2 = {}) => {
-      const width = options2.width ? String(options2.width) : args.defaultWidth;
-      const format2 = args.formats[width] || args.formats[args.defaultWidth];
-      return format2;
-    };
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US/_lib/formatLong.js
-  var dateFormats = {
-    full: "EEEE, MMMM do, y",
-    long: "MMMM do, y",
-    medium: "MMM d, y",
-    short: "MM/dd/yyyy"
-  };
-  var timeFormats = {
-    full: "h:mm:ss a zzzz",
-    long: "h:mm:ss a z",
-    medium: "h:mm:ss a",
-    short: "h:mm a"
-  };
-  var dateTimeFormats = {
-    full: "{{date}} 'at' {{time}}",
-    long: "{{date}} 'at' {{time}}",
-    medium: "{{date}}, {{time}}",
-    short: "{{date}}, {{time}}"
-  };
-  var formatLong = {
-    date: buildFormatLongFn({
-      formats: dateFormats,
-      defaultWidth: "full"
-    }),
-    time: buildFormatLongFn({
-      formats: timeFormats,
-      defaultWidth: "full"
-    }),
-    dateTime: buildFormatLongFn({
-      formats: dateTimeFormats,
-      defaultWidth: "full"
-    })
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US/_lib/formatRelative.js
-  var formatRelativeLocale = {
-    lastWeek: "'last' eeee 'at' p",
-    yesterday: "'yesterday at' p",
-    today: "'today at' p",
-    tomorrow: "'tomorrow at' p",
-    nextWeek: "eeee 'at' p",
-    other: "P"
-  };
-  var formatRelative = (token2, _date, _baseDate, _options) => formatRelativeLocale[token2];
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/_lib/buildLocalizeFn.js
-  function buildLocalizeFn(args) {
-    return (value, options2) => {
-      const context = options2?.context ? String(options2.context) : "standalone";
-      let valuesArray;
-      if (context === "formatting" && args.formattingValues) {
-        const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
-        const width = options2?.width ? String(options2.width) : defaultWidth;
-        valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
-      } else {
-        const defaultWidth = args.defaultWidth;
-        const width = options2?.width ? String(options2.width) : args.defaultWidth;
-        valuesArray = args.values[width] || args.values[defaultWidth];
-      }
-      const index2 = args.argumentCallback ? args.argumentCallback(value) : value;
-      return valuesArray[index2];
-    };
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US/_lib/localize.js
-  var eraValues = {
-    narrow: ["B", "A"],
-    abbreviated: ["BC", "AD"],
-    wide: ["Before Christ", "Anno Domini"]
-  };
-  var quarterValues = {
-    narrow: ["1", "2", "3", "4"],
-    abbreviated: ["Q1", "Q2", "Q3", "Q4"],
-    wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"]
-  };
-  var monthValues = {
-    narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
-    abbreviated: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    wide: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ]
-  };
-  var dayValues = {
-    narrow: ["S", "M", "T", "W", "T", "F", "S"],
-    short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    wide: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ]
-  };
-  var dayPeriodValues = {
-    narrow: {
-      am: "a",
-      pm: "p",
-      midnight: "mi",
-      noon: "n",
-      morning: "morning",
-      afternoon: "afternoon",
-      evening: "evening",
-      night: "night"
-    },
-    abbreviated: {
-      am: "AM",
-      pm: "PM",
-      midnight: "midnight",
-      noon: "noon",
-      morning: "morning",
-      afternoon: "afternoon",
-      evening: "evening",
-      night: "night"
-    },
-    wide: {
-      am: "a.m.",
-      pm: "p.m.",
-      midnight: "midnight",
-      noon: "noon",
-      morning: "morning",
-      afternoon: "afternoon",
-      evening: "evening",
-      night: "night"
-    }
-  };
-  var formattingDayPeriodValues = {
-    narrow: {
-      am: "a",
-      pm: "p",
-      midnight: "mi",
-      noon: "n",
-      morning: "in the morning",
-      afternoon: "in the afternoon",
-      evening: "in the evening",
-      night: "at night"
-    },
-    abbreviated: {
-      am: "AM",
-      pm: "PM",
-      midnight: "midnight",
-      noon: "noon",
-      morning: "in the morning",
-      afternoon: "in the afternoon",
-      evening: "in the evening",
-      night: "at night"
-    },
-    wide: {
-      am: "a.m.",
-      pm: "p.m.",
-      midnight: "midnight",
-      noon: "noon",
-      morning: "in the morning",
-      afternoon: "in the afternoon",
-      evening: "in the evening",
-      night: "at night"
-    }
-  };
-  var ordinalNumber = (dirtyNumber, _options) => {
-    const number2 = Number(dirtyNumber);
-    const rem100 = number2 % 100;
-    if (rem100 > 20 || rem100 < 10) {
-      switch (rem100 % 10) {
-        case 1:
-          return number2 + "st";
-        case 2:
-          return number2 + "nd";
-        case 3:
-          return number2 + "rd";
-      }
-    }
-    return number2 + "th";
-  };
-  var localize = {
-    ordinalNumber,
-    era: buildLocalizeFn({
-      values: eraValues,
-      defaultWidth: "wide"
-    }),
-    quarter: buildLocalizeFn({
-      values: quarterValues,
-      defaultWidth: "wide",
-      argumentCallback: (quarter) => quarter - 1
-    }),
-    month: buildLocalizeFn({
-      values: monthValues,
-      defaultWidth: "wide"
-    }),
-    day: buildLocalizeFn({
-      values: dayValues,
-      defaultWidth: "wide"
-    }),
-    dayPeriod: buildLocalizeFn({
-      values: dayPeriodValues,
-      defaultWidth: "wide",
-      formattingValues: formattingDayPeriodValues,
-      defaultFormattingWidth: "wide"
-    })
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/_lib/buildMatchFn.js
-  function buildMatchFn(args) {
-    return (string, options2 = {}) => {
-      const width = options2.width;
-      const matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
-      const matchResult = string.match(matchPattern);
-      if (!matchResult) {
-        return null;
-      }
-      const matchedString = matchResult[0];
-      const parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
-      const key = Array.isArray(parsePatterns) ? findIndex(parsePatterns, (pattern) => pattern.test(matchedString)) : (
-        // [TODO] -- I challenge you to fix the type
-        findKey(parsePatterns, (pattern) => pattern.test(matchedString))
-      );
-      let value;
-      value = args.valueCallback ? args.valueCallback(key) : key;
-      value = options2.valueCallback ? (
-        // [TODO] -- I challenge you to fix the type
-        options2.valueCallback(value)
-      ) : value;
-      const rest = string.slice(matchedString.length);
-      return { value, rest };
-    };
-  }
-  function findKey(object, predicate) {
-    for (const key in object) {
-      if (Object.prototype.hasOwnProperty.call(object, key) && predicate(object[key])) {
-        return key;
-      }
-    }
-    return void 0;
-  }
-  function findIndex(array, predicate) {
-    for (let key = 0; key < array.length; key++) {
-      if (predicate(array[key])) {
-        return key;
-      }
-    }
-    return void 0;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/_lib/buildMatchPatternFn.js
-  function buildMatchPatternFn(args) {
-    return (string, options2 = {}) => {
-      const matchResult = string.match(args.matchPattern);
-      if (!matchResult) return null;
-      const matchedString = matchResult[0];
-      const parseResult = string.match(args.parsePattern);
-      if (!parseResult) return null;
-      let value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
-      value = options2.valueCallback ? options2.valueCallback(value) : value;
-      const rest = string.slice(matchedString.length);
-      return { value, rest };
-    };
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US/_lib/match.js
-  var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
-  var parseOrdinalNumberPattern = /\d+/i;
-  var matchEraPatterns = {
-    narrow: /^(b|a)/i,
-    abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
-    wide: /^(before christ|before common era|anno domini|common era)/i
-  };
-  var parseEraPatterns = {
-    any: [/^b/i, /^(a|c)/i]
-  };
-  var matchQuarterPatterns = {
-    narrow: /^[1234]/i,
-    abbreviated: /^q[1234]/i,
-    wide: /^[1234](th|st|nd|rd)? quarter/i
-  };
-  var parseQuarterPatterns = {
-    any: [/1/i, /2/i, /3/i, /4/i]
-  };
-  var matchMonthPatterns = {
-    narrow: /^[jfmasond]/i,
-    abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
-    wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
-  };
-  var parseMonthPatterns = {
-    narrow: [
-      /^j/i,
-      /^f/i,
-      /^m/i,
-      /^a/i,
-      /^m/i,
-      /^j/i,
-      /^j/i,
-      /^a/i,
-      /^s/i,
-      /^o/i,
-      /^n/i,
-      /^d/i
-    ],
-    any: [
-      /^ja/i,
-      /^f/i,
-      /^mar/i,
-      /^ap/i,
-      /^may/i,
-      /^jun/i,
-      /^jul/i,
-      /^au/i,
-      /^s/i,
-      /^o/i,
-      /^n/i,
-      /^d/i
-    ]
-  };
-  var matchDayPatterns = {
-    narrow: /^[smtwf]/i,
-    short: /^(su|mo|tu|we|th|fr|sa)/i,
-    abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
-    wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
-  };
-  var parseDayPatterns = {
-    narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
-    any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i]
-  };
-  var matchDayPeriodPatterns = {
-    narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
-    any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
-  };
-  var parseDayPeriodPatterns = {
-    any: {
-      am: /^a/i,
-      pm: /^p/i,
-      midnight: /^mi/i,
-      noon: /^no/i,
-      morning: /morning/i,
-      afternoon: /afternoon/i,
-      evening: /evening/i,
-      night: /night/i
-    }
-  };
-  var match3 = {
-    ordinalNumber: buildMatchPatternFn({
-      matchPattern: matchOrdinalNumberPattern,
-      parsePattern: parseOrdinalNumberPattern,
-      valueCallback: (value) => parseInt(value, 10)
-    }),
-    era: buildMatchFn({
-      matchPatterns: matchEraPatterns,
-      defaultMatchWidth: "wide",
-      parsePatterns: parseEraPatterns,
-      defaultParseWidth: "any"
-    }),
-    quarter: buildMatchFn({
-      matchPatterns: matchQuarterPatterns,
-      defaultMatchWidth: "wide",
-      parsePatterns: parseQuarterPatterns,
-      defaultParseWidth: "any",
-      valueCallback: (index2) => index2 + 1
-    }),
-    month: buildMatchFn({
-      matchPatterns: matchMonthPatterns,
-      defaultMatchWidth: "wide",
-      parsePatterns: parseMonthPatterns,
-      defaultParseWidth: "any"
-    }),
-    day: buildMatchFn({
-      matchPatterns: matchDayPatterns,
-      defaultMatchWidth: "wide",
-      parsePatterns: parseDayPatterns,
-      defaultParseWidth: "any"
-    }),
-    dayPeriod: buildMatchFn({
-      matchPatterns: matchDayPeriodPatterns,
-      defaultMatchWidth: "any",
-      parsePatterns: parseDayPeriodPatterns,
-      defaultParseWidth: "any"
-    })
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/locale/en-US.js
-  var enUS = {
-    code: "en-US",
-    formatDistance,
-    formatLong,
-    formatRelative,
-    localize,
-    match: match3,
-    options: {
-      weekStartsOn: 0,
-      firstWeekContainsDate: 1
-    }
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/getDayOfYear.js
-  function getDayOfYear(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const diff = differenceInCalendarDays2(_date, startOfYear(_date));
-    const dayOfYear = diff + 1;
-    return dayOfYear;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getISOWeek.js
-  function getISOWeek(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
-    return Math.round(diff / millisecondsInWeek) + 1;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getWeekYear.js
-  function getWeekYear(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const year = _date.getFullYear();
-    const defaultOptions4 = getDefaultOptions2();
-    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions4.firstWeekContainsDate ?? defaultOptions4.locale?.options?.firstWeekContainsDate ?? 1;
-    const firstWeekOfNextYear = constructFrom2(options2?.in || date, 0);
-    firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
-    firstWeekOfNextYear.setHours(0, 0, 0, 0);
-    const startOfNextYear = startOfWeek2(firstWeekOfNextYear, options2);
-    const firstWeekOfThisYear = constructFrom2(options2?.in || date, 0);
-    firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
-    firstWeekOfThisYear.setHours(0, 0, 0, 0);
-    const startOfThisYear = startOfWeek2(firstWeekOfThisYear, options2);
-    if (+_date >= +startOfNextYear) {
-      return year + 1;
-    } else if (+_date >= +startOfThisYear) {
-      return year;
-    } else {
-      return year - 1;
-    }
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/startOfWeekYear.js
-  function startOfWeekYear(date, options2) {
-    const defaultOptions4 = getDefaultOptions2();
-    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions4.firstWeekContainsDate ?? defaultOptions4.locale?.options?.firstWeekContainsDate ?? 1;
-    const year = getWeekYear(date, options2);
-    const firstWeek = constructFrom2(options2?.in || date, 0);
-    firstWeek.setFullYear(year, 0, firstWeekContainsDate);
-    firstWeek.setHours(0, 0, 0, 0);
-    const _date = startOfWeek2(firstWeek, options2);
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getWeek.js
-  function getWeek(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const diff = +startOfWeek2(_date, options2) - +startOfWeekYear(_date, options2);
-    return Math.round(diff / millisecondsInWeek) + 1;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/addLeadingZeros.js
-  function addLeadingZeros(number2, targetLength) {
-    const sign = number2 < 0 ? "-" : "";
-    const output = Math.abs(number2).toString().padStart(targetLength, "0");
-    return sign + output;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/format/lightFormatters.js
-  var lightFormatters = {
-    // Year
-    y(date, token2) {
-      const signedYear = date.getFullYear();
-      const year = signedYear > 0 ? signedYear : 1 - signedYear;
-      return addLeadingZeros(token2 === "yy" ? year % 100 : year, token2.length);
-    },
-    // Month
-    M(date, token2) {
-      const month = date.getMonth();
-      return token2 === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
-    },
-    // Day of the month
-    d(date, token2) {
-      return addLeadingZeros(date.getDate(), token2.length);
-    },
-    // AM or PM
-    a(date, token2) {
-      const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
-      switch (token2) {
-        case "a":
-        case "aa":
-          return dayPeriodEnumValue.toUpperCase();
-        case "aaa":
-          return dayPeriodEnumValue;
-        case "aaaaa":
-          return dayPeriodEnumValue[0];
-        case "aaaa":
-        default:
-          return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
-      }
-    },
-    // Hour [1-12]
-    h(date, token2) {
-      return addLeadingZeros(date.getHours() % 12 || 12, token2.length);
-    },
-    // Hour [0-23]
-    H(date, token2) {
-      return addLeadingZeros(date.getHours(), token2.length);
-    },
-    // Minute
-    m(date, token2) {
-      return addLeadingZeros(date.getMinutes(), token2.length);
-    },
-    // Second
-    s(date, token2) {
-      return addLeadingZeros(date.getSeconds(), token2.length);
-    },
-    // Fraction of second
-    S(date, token2) {
-      const numberOfDigits = token2.length;
-      const milliseconds = date.getMilliseconds();
-      const fractionalSeconds = Math.trunc(
-        milliseconds * Math.pow(10, numberOfDigits - 3)
-      );
-      return addLeadingZeros(fractionalSeconds, token2.length);
-    }
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/format/formatters.js
-  var dayPeriodEnum = {
-    am: "am",
-    pm: "pm",
-    midnight: "midnight",
-    noon: "noon",
-    morning: "morning",
-    afternoon: "afternoon",
-    evening: "evening",
-    night: "night"
-  };
-  var formatters = {
-    // Era
-    G: function(date, token2, localize2) {
-      const era = date.getFullYear() > 0 ? 1 : 0;
-      switch (token2) {
-        // AD, BC
-        case "G":
-        case "GG":
-        case "GGG":
-          return localize2.era(era, { width: "abbreviated" });
-        // A, B
-        case "GGGGG":
-          return localize2.era(era, { width: "narrow" });
-        // Anno Domini, Before Christ
-        case "GGGG":
-        default:
-          return localize2.era(era, { width: "wide" });
-      }
-    },
-    // Year
-    y: function(date, token2, localize2) {
-      if (token2 === "yo") {
-        const signedYear = date.getFullYear();
-        const year = signedYear > 0 ? signedYear : 1 - signedYear;
-        return localize2.ordinalNumber(year, { unit: "year" });
-      }
-      return lightFormatters.y(date, token2);
-    },
-    // Local week-numbering year
-    Y: function(date, token2, localize2, options2) {
-      const signedWeekYear = getWeekYear(date, options2);
-      const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
-      if (token2 === "YY") {
-        const twoDigitYear = weekYear % 100;
-        return addLeadingZeros(twoDigitYear, 2);
-      }
-      if (token2 === "Yo") {
-        return localize2.ordinalNumber(weekYear, { unit: "year" });
-      }
-      return addLeadingZeros(weekYear, token2.length);
-    },
-    // ISO week-numbering year
-    R: function(date, token2) {
-      const isoWeekYear = getISOWeekYear(date);
-      return addLeadingZeros(isoWeekYear, token2.length);
-    },
-    // Extended year. This is a single number designating the year of this calendar system.
-    // The main difference between `y` and `u` localizers are B.C. years:
-    // | Year | `y` | `u` |
-    // |------|-----|-----|
-    // | AC 1 |   1 |   1 |
-    // | BC 1 |   1 |   0 |
-    // | BC 2 |   2 |  -1 |
-    // Also `yy` always returns the last two digits of a year,
-    // while `uu` pads single digit years to 2 characters and returns other years unchanged.
-    u: function(date, token2) {
-      const year = date.getFullYear();
-      return addLeadingZeros(year, token2.length);
-    },
-    // Quarter
-    Q: function(date, token2, localize2) {
-      const quarter = Math.ceil((date.getMonth() + 1) / 3);
-      switch (token2) {
-        // 1, 2, 3, 4
-        case "Q":
-          return String(quarter);
-        // 01, 02, 03, 04
-        case "QQ":
-          return addLeadingZeros(quarter, 2);
-        // 1st, 2nd, 3rd, 4th
-        case "Qo":
-          return localize2.ordinalNumber(quarter, { unit: "quarter" });
-        // Q1, Q2, Q3, Q4
-        case "QQQ":
-          return localize2.quarter(quarter, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-        case "QQQQQ":
-          return localize2.quarter(quarter, {
-            width: "narrow",
-            context: "formatting"
-          });
-        // 1st quarter, 2nd quarter, ...
-        case "QQQQ":
-        default:
-          return localize2.quarter(quarter, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // Stand-alone quarter
-    q: function(date, token2, localize2) {
-      const quarter = Math.ceil((date.getMonth() + 1) / 3);
-      switch (token2) {
-        // 1, 2, 3, 4
-        case "q":
-          return String(quarter);
-        // 01, 02, 03, 04
-        case "qq":
-          return addLeadingZeros(quarter, 2);
-        // 1st, 2nd, 3rd, 4th
-        case "qo":
-          return localize2.ordinalNumber(quarter, { unit: "quarter" });
-        // Q1, Q2, Q3, Q4
-        case "qqq":
-          return localize2.quarter(quarter, {
-            width: "abbreviated",
-            context: "standalone"
-          });
-        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-        case "qqqqq":
-          return localize2.quarter(quarter, {
-            width: "narrow",
-            context: "standalone"
-          });
-        // 1st quarter, 2nd quarter, ...
-        case "qqqq":
-        default:
-          return localize2.quarter(quarter, {
-            width: "wide",
-            context: "standalone"
-          });
-      }
-    },
-    // Month
-    M: function(date, token2, localize2) {
-      const month = date.getMonth();
-      switch (token2) {
-        case "M":
-        case "MM":
-          return lightFormatters.M(date, token2);
-        // 1st, 2nd, ..., 12th
-        case "Mo":
-          return localize2.ordinalNumber(month + 1, { unit: "month" });
-        // Jan, Feb, ..., Dec
-        case "MMM":
-          return localize2.month(month, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        // J, F, ..., D
-        case "MMMMM":
-          return localize2.month(month, {
-            width: "narrow",
-            context: "formatting"
-          });
-        // January, February, ..., December
-        case "MMMM":
-        default:
-          return localize2.month(month, { width: "wide", context: "formatting" });
-      }
-    },
-    // Stand-alone month
-    L: function(date, token2, localize2) {
-      const month = date.getMonth();
-      switch (token2) {
-        // 1, 2, ..., 12
-        case "L":
-          return String(month + 1);
-        // 01, 02, ..., 12
-        case "LL":
-          return addLeadingZeros(month + 1, 2);
-        // 1st, 2nd, ..., 12th
-        case "Lo":
-          return localize2.ordinalNumber(month + 1, { unit: "month" });
-        // Jan, Feb, ..., Dec
-        case "LLL":
-          return localize2.month(month, {
-            width: "abbreviated",
-            context: "standalone"
-          });
-        // J, F, ..., D
-        case "LLLLL":
-          return localize2.month(month, {
-            width: "narrow",
-            context: "standalone"
-          });
-        // January, February, ..., December
-        case "LLLL":
-        default:
-          return localize2.month(month, { width: "wide", context: "standalone" });
-      }
-    },
-    // Local week of year
-    w: function(date, token2, localize2, options2) {
-      const week = getWeek(date, options2);
-      if (token2 === "wo") {
-        return localize2.ordinalNumber(week, { unit: "week" });
-      }
-      return addLeadingZeros(week, token2.length);
-    },
-    // ISO week of year
-    I: function(date, token2, localize2) {
-      const isoWeek = getISOWeek(date);
-      if (token2 === "Io") {
-        return localize2.ordinalNumber(isoWeek, { unit: "week" });
-      }
-      return addLeadingZeros(isoWeek, token2.length);
-    },
-    // Day of the month
-    d: function(date, token2, localize2) {
-      if (token2 === "do") {
-        return localize2.ordinalNumber(date.getDate(), { unit: "date" });
-      }
-      return lightFormatters.d(date, token2);
-    },
-    // Day of year
-    D: function(date, token2, localize2) {
-      const dayOfYear = getDayOfYear(date);
-      if (token2 === "Do") {
-        return localize2.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
-      }
-      return addLeadingZeros(dayOfYear, token2.length);
-    },
-    // Day of week
-    E: function(date, token2, localize2) {
-      const dayOfWeek = date.getDay();
-      switch (token2) {
-        // Tue
-        case "E":
-        case "EE":
-        case "EEE":
-          return localize2.day(dayOfWeek, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        // T
-        case "EEEEE":
-          return localize2.day(dayOfWeek, {
-            width: "narrow",
-            context: "formatting"
-          });
-        // Tu
-        case "EEEEEE":
-          return localize2.day(dayOfWeek, {
-            width: "short",
-            context: "formatting"
-          });
-        // Tuesday
-        case "EEEE":
-        default:
-          return localize2.day(dayOfWeek, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // Local day of week
-    e: function(date, token2, localize2, options2) {
-      const dayOfWeek = date.getDay();
-      const localDayOfWeek = (dayOfWeek - options2.weekStartsOn + 8) % 7 || 7;
-      switch (token2) {
-        // Numerical value (Nth day of week with current locale or weekStartsOn)
-        case "e":
-          return String(localDayOfWeek);
-        // Padded numerical value
-        case "ee":
-          return addLeadingZeros(localDayOfWeek, 2);
-        // 1st, 2nd, ..., 7th
-        case "eo":
-          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
-        case "eee":
-          return localize2.day(dayOfWeek, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        // T
-        case "eeeee":
-          return localize2.day(dayOfWeek, {
-            width: "narrow",
-            context: "formatting"
-          });
-        // Tu
-        case "eeeeee":
-          return localize2.day(dayOfWeek, {
-            width: "short",
-            context: "formatting"
-          });
-        // Tuesday
-        case "eeee":
-        default:
-          return localize2.day(dayOfWeek, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // Stand-alone local day of week
-    c: function(date, token2, localize2, options2) {
-      const dayOfWeek = date.getDay();
-      const localDayOfWeek = (dayOfWeek - options2.weekStartsOn + 8) % 7 || 7;
-      switch (token2) {
-        // Numerical value (same as in `e`)
-        case "c":
-          return String(localDayOfWeek);
-        // Padded numerical value
-        case "cc":
-          return addLeadingZeros(localDayOfWeek, token2.length);
-        // 1st, 2nd, ..., 7th
-        case "co":
-          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
-        case "ccc":
-          return localize2.day(dayOfWeek, {
-            width: "abbreviated",
-            context: "standalone"
-          });
-        // T
-        case "ccccc":
-          return localize2.day(dayOfWeek, {
-            width: "narrow",
-            context: "standalone"
-          });
-        // Tu
-        case "cccccc":
-          return localize2.day(dayOfWeek, {
-            width: "short",
-            context: "standalone"
-          });
-        // Tuesday
-        case "cccc":
-        default:
-          return localize2.day(dayOfWeek, {
-            width: "wide",
-            context: "standalone"
-          });
-      }
-    },
-    // ISO day of week
-    i: function(date, token2, localize2) {
-      const dayOfWeek = date.getDay();
-      const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
-      switch (token2) {
-        // 2
-        case "i":
-          return String(isoDayOfWeek);
-        // 02
-        case "ii":
-          return addLeadingZeros(isoDayOfWeek, token2.length);
-        // 2nd
-        case "io":
-          return localize2.ordinalNumber(isoDayOfWeek, { unit: "day" });
-        // Tue
-        case "iii":
-          return localize2.day(dayOfWeek, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        // T
-        case "iiiii":
-          return localize2.day(dayOfWeek, {
-            width: "narrow",
-            context: "formatting"
-          });
-        // Tu
-        case "iiiiii":
-          return localize2.day(dayOfWeek, {
-            width: "short",
-            context: "formatting"
-          });
-        // Tuesday
-        case "iiii":
-        default:
-          return localize2.day(dayOfWeek, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // AM or PM
-    a: function(date, token2, localize2) {
-      const hours = date.getHours();
-      const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
-      switch (token2) {
-        case "a":
-        case "aa":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        case "aaa":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting"
-          }).toLowerCase();
-        case "aaaaa":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "narrow",
-            context: "formatting"
-          });
-        case "aaaa":
-        default:
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // AM, PM, midnight, noon
-    b: function(date, token2, localize2) {
-      const hours = date.getHours();
-      let dayPeriodEnumValue;
-      if (hours === 12) {
-        dayPeriodEnumValue = dayPeriodEnum.noon;
-      } else if (hours === 0) {
-        dayPeriodEnumValue = dayPeriodEnum.midnight;
-      } else {
-        dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
-      }
-      switch (token2) {
-        case "b":
-        case "bb":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        case "bbb":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting"
-          }).toLowerCase();
-        case "bbbbb":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "narrow",
-            context: "formatting"
-          });
-        case "bbbb":
-        default:
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // in the morning, in the afternoon, in the evening, at night
-    B: function(date, token2, localize2) {
-      const hours = date.getHours();
-      let dayPeriodEnumValue;
-      if (hours >= 17) {
-        dayPeriodEnumValue = dayPeriodEnum.evening;
-      } else if (hours >= 12) {
-        dayPeriodEnumValue = dayPeriodEnum.afternoon;
-      } else if (hours >= 4) {
-        dayPeriodEnumValue = dayPeriodEnum.morning;
-      } else {
-        dayPeriodEnumValue = dayPeriodEnum.night;
-      }
-      switch (token2) {
-        case "B":
-        case "BB":
-        case "BBB":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting"
-          });
-        case "BBBBB":
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "narrow",
-            context: "formatting"
-          });
-        case "BBBB":
-        default:
-          return localize2.dayPeriod(dayPeriodEnumValue, {
-            width: "wide",
-            context: "formatting"
-          });
-      }
-    },
-    // Hour [1-12]
-    h: function(date, token2, localize2) {
-      if (token2 === "ho") {
-        let hours = date.getHours() % 12;
-        if (hours === 0) hours = 12;
-        return localize2.ordinalNumber(hours, { unit: "hour" });
-      }
-      return lightFormatters.h(date, token2);
-    },
-    // Hour [0-23]
-    H: function(date, token2, localize2) {
-      if (token2 === "Ho") {
-        return localize2.ordinalNumber(date.getHours(), { unit: "hour" });
-      }
-      return lightFormatters.H(date, token2);
-    },
-    // Hour [0-11]
-    K: function(date, token2, localize2) {
-      const hours = date.getHours() % 12;
-      if (token2 === "Ko") {
-        return localize2.ordinalNumber(hours, { unit: "hour" });
-      }
-      return addLeadingZeros(hours, token2.length);
-    },
-    // Hour [1-24]
-    k: function(date, token2, localize2) {
-      let hours = date.getHours();
-      if (hours === 0) hours = 24;
-      if (token2 === "ko") {
-        return localize2.ordinalNumber(hours, { unit: "hour" });
-      }
-      return addLeadingZeros(hours, token2.length);
-    },
-    // Minute
-    m: function(date, token2, localize2) {
-      if (token2 === "mo") {
-        return localize2.ordinalNumber(date.getMinutes(), { unit: "minute" });
-      }
-      return lightFormatters.m(date, token2);
-    },
-    // Second
-    s: function(date, token2, localize2) {
-      if (token2 === "so") {
-        return localize2.ordinalNumber(date.getSeconds(), { unit: "second" });
-      }
-      return lightFormatters.s(date, token2);
-    },
-    // Fraction of second
-    S: function(date, token2) {
-      return lightFormatters.S(date, token2);
-    },
-    // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
-    X: function(date, token2, _localize) {
-      const timezoneOffset = date.getTimezoneOffset();
-      if (timezoneOffset === 0) {
-        return "Z";
-      }
-      switch (token2) {
-        // Hours and optional minutes
-        case "X":
-          return formatTimezoneWithOptionalMinutes(timezoneOffset);
-        // Hours, minutes and optional seconds without `:` delimiter
-        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-        // so this token always has the same output as `XX`
-        case "XXXX":
-        case "XX":
-          return formatTimezone(timezoneOffset);
-        // Hours, minutes and optional seconds with `:` delimiter
-        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-        // so this token always has the same output as `XXX`
-        case "XXXXX":
-        case "XXX":
-        // Hours and minutes with `:` delimiter
-        default:
-          return formatTimezone(timezoneOffset, ":");
-      }
-    },
-    // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
-    x: function(date, token2, _localize) {
-      const timezoneOffset = date.getTimezoneOffset();
-      switch (token2) {
-        // Hours and optional minutes
-        case "x":
-          return formatTimezoneWithOptionalMinutes(timezoneOffset);
-        // Hours, minutes and optional seconds without `:` delimiter
-        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-        // so this token always has the same output as `xx`
-        case "xxxx":
-        case "xx":
-          return formatTimezone(timezoneOffset);
-        // Hours, minutes and optional seconds with `:` delimiter
-        // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-        // so this token always has the same output as `xxx`
-        case "xxxxx":
-        case "xxx":
-        // Hours and minutes with `:` delimiter
-        default:
-          return formatTimezone(timezoneOffset, ":");
-      }
-    },
-    // Timezone (GMT)
-    O: function(date, token2, _localize) {
-      const timezoneOffset = date.getTimezoneOffset();
-      switch (token2) {
-        // Short
-        case "O":
-        case "OO":
-        case "OOO":
-          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
-        // Long
-        case "OOOO":
-        default:
-          return "GMT" + formatTimezone(timezoneOffset, ":");
-      }
-    },
-    // Timezone (specific non-location)
-    z: function(date, token2, _localize) {
-      const timezoneOffset = date.getTimezoneOffset();
-      switch (token2) {
-        // Short
-        case "z":
-        case "zz":
-        case "zzz":
-          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
-        // Long
-        case "zzzz":
-        default:
-          return "GMT" + formatTimezone(timezoneOffset, ":");
-      }
-    },
-    // Seconds timestamp
-    t: function(date, token2, _localize) {
-      const timestamp = Math.trunc(+date / 1e3);
-      return addLeadingZeros(timestamp, token2.length);
-    },
-    // Milliseconds timestamp
-    T: function(date, token2, _localize) {
-      return addLeadingZeros(+date, token2.length);
-    }
-  };
-  function formatTimezoneShort(offset3, delimiter2 = "") {
-    const sign = offset3 > 0 ? "-" : "+";
-    const absOffset = Math.abs(offset3);
-    const hours = Math.trunc(absOffset / 60);
-    const minutes = absOffset % 60;
-    if (minutes === 0) {
-      return sign + String(hours);
-    }
-    return sign + String(hours) + delimiter2 + addLeadingZeros(minutes, 2);
-  }
-  function formatTimezoneWithOptionalMinutes(offset3, delimiter2) {
-    if (offset3 % 60 === 0) {
-      const sign = offset3 > 0 ? "-" : "+";
-      return sign + addLeadingZeros(Math.abs(offset3) / 60, 2);
-    }
-    return formatTimezone(offset3, delimiter2);
-  }
-  function formatTimezone(offset3, delimiter2 = "") {
-    const sign = offset3 > 0 ? "-" : "+";
-    const absOffset = Math.abs(offset3);
-    const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
-    const minutes = addLeadingZeros(absOffset % 60, 2);
-    return sign + hours + delimiter2 + minutes;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/format/longFormatters.js
-  var dateLongFormatter = (pattern, formatLong2) => {
-    switch (pattern) {
-      case "P":
-        return formatLong2.date({ width: "short" });
-      case "PP":
-        return formatLong2.date({ width: "medium" });
-      case "PPP":
-        return formatLong2.date({ width: "long" });
-      case "PPPP":
-      default:
-        return formatLong2.date({ width: "full" });
-    }
-  };
-  var timeLongFormatter = (pattern, formatLong2) => {
-    switch (pattern) {
-      case "p":
-        return formatLong2.time({ width: "short" });
-      case "pp":
-        return formatLong2.time({ width: "medium" });
-      case "ppp":
-        return formatLong2.time({ width: "long" });
-      case "pppp":
-      default:
-        return formatLong2.time({ width: "full" });
-    }
-  };
-  var dateTimeLongFormatter = (pattern, formatLong2) => {
-    const matchResult = pattern.match(/(P+)(p+)?/) || [];
-    const datePattern = matchResult[1];
-    const timePattern = matchResult[2];
-    if (!timePattern) {
-      return dateLongFormatter(pattern, formatLong2);
-    }
-    let dateTimeFormat;
-    switch (datePattern) {
-      case "P":
-        dateTimeFormat = formatLong2.dateTime({ width: "short" });
-        break;
-      case "PP":
-        dateTimeFormat = formatLong2.dateTime({ width: "medium" });
-        break;
-      case "PPP":
-        dateTimeFormat = formatLong2.dateTime({ width: "long" });
-        break;
-      case "PPPP":
-      default:
-        dateTimeFormat = formatLong2.dateTime({ width: "full" });
-        break;
-    }
-    return dateTimeFormat.replace("{{date}}", dateLongFormatter(datePattern, formatLong2)).replace("{{time}}", timeLongFormatter(timePattern, formatLong2));
-  };
-  var longFormatters = {
-    p: timeLongFormatter,
-    P: dateTimeLongFormatter
-  };
-
-  // node_modules/react-day-picker/node_modules/date-fns/_lib/protectedTokens.js
-  var dayOfYearTokenRE = /^D+$/;
-  var weekYearTokenRE = /^Y+$/;
-  var throwTokens = ["D", "DD", "YY", "YYYY"];
-  function isProtectedDayOfYearToken(token2) {
-    return dayOfYearTokenRE.test(token2);
-  }
-  function isProtectedWeekYearToken(token2) {
-    return weekYearTokenRE.test(token2);
-  }
-  function warnOrThrowProtectedError(token2, format2, input) {
-    const _message = message(token2, format2, input);
-    console.warn(_message);
-    if (throwTokens.includes(token2)) throw new RangeError(_message);
-  }
-  function message(token2, format2, input) {
-    const subject = token2[0] === "Y" ? "years" : "days of the month";
-    return `Use \`${token2.toLowerCase()}\` instead of \`${token2}\` (in \`${format2}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/format.js
-  var formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
-  var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
-  var escapedStringRegExp = /^'([^]*?)'?$/;
-  var doubleQuoteRegExp = /''/g;
-  var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
-  function format(date, formatStr, options2) {
-    const defaultOptions4 = getDefaultOptions2();
-    const locale = options2?.locale ?? defaultOptions4.locale ?? enUS;
-    const firstWeekContainsDate = options2?.firstWeekContainsDate ?? options2?.locale?.options?.firstWeekContainsDate ?? defaultOptions4.firstWeekContainsDate ?? defaultOptions4.locale?.options?.firstWeekContainsDate ?? 1;
-    const weekStartsOn = options2?.weekStartsOn ?? options2?.locale?.options?.weekStartsOn ?? defaultOptions4.weekStartsOn ?? defaultOptions4.locale?.options?.weekStartsOn ?? 0;
-    const originalDate = toDate2(date, options2?.in);
-    if (!isValid(originalDate)) {
-      throw new RangeError("Invalid time value");
-    }
-    let parts = formatStr.match(longFormattingTokensRegExp).map((substring) => {
-      const firstCharacter = substring[0];
-      if (firstCharacter === "p" || firstCharacter === "P") {
-        const longFormatter = longFormatters[firstCharacter];
-        return longFormatter(substring, locale.formatLong);
-      }
-      return substring;
-    }).join("").match(formattingTokensRegExp).map((substring) => {
-      if (substring === "''") {
-        return { isToken: false, value: "'" };
-      }
-      const firstCharacter = substring[0];
-      if (firstCharacter === "'") {
-        return { isToken: false, value: cleanEscapedString(substring) };
-      }
-      if (formatters[firstCharacter]) {
-        return { isToken: true, value: substring };
-      }
-      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
-        throw new RangeError(
-          "Format string contains an unescaped latin alphabet character `" + firstCharacter + "`"
-        );
-      }
-      return { isToken: false, value: substring };
-    });
-    if (locale.localize.preprocessor) {
-      parts = locale.localize.preprocessor(originalDate, parts);
-    }
-    const formatterOptions = {
-      firstWeekContainsDate,
-      weekStartsOn,
-      locale
-    };
-    return parts.map((part) => {
-      if (!part.isToken) return part.value;
-      const token2 = part.value;
-      if (!options2?.useAdditionalWeekYearTokens && isProtectedWeekYearToken(token2) || !options2?.useAdditionalDayOfYearTokens && isProtectedDayOfYearToken(token2)) {
-        warnOrThrowProtectedError(token2, formatStr, String(date));
-      }
-      const formatter = formatters[token2[0]];
-      return formatter(originalDate, token2, locale.localize, formatterOptions);
-    }).join("");
-  }
-  function cleanEscapedString(input) {
-    const matched = input.match(escapedStringRegExp);
-    if (!matched) {
-      return input;
-    }
-    return matched[1].replace(doubleQuoteRegExp, "'");
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getDaysInMonth.js
-  function getDaysInMonth3(date, options2) {
-    const _date = toDate2(date, options2?.in);
-    const year = _date.getFullYear();
-    const monthIndex = _date.getMonth();
-    const lastDayOfMonth = constructFrom2(_date, 0);
-    lastDayOfMonth.setFullYear(year, monthIndex + 1, 0);
-    lastDayOfMonth.setHours(0, 0, 0, 0);
-    return lastDayOfMonth.getDate();
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getMonth.js
-  function getMonth(date, options2) {
-    return toDate2(date, options2?.in).getMonth();
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/getYear.js
-  function getYear(date, options2) {
-    return toDate2(date, options2?.in).getFullYear();
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isAfter.js
-  function isAfter2(date, dateToCompare) {
-    return +toDate2(date) > +toDate2(dateToCompare);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isBefore.js
-  function isBefore2(date, dateToCompare) {
-    return +toDate2(date) < +toDate2(dateToCompare);
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isSameMonth.js
-  function isSameMonth2(laterDate, earlierDate, options2) {
-    const [laterDate_, earlierDate_] = normalizeDates(
-      options2?.in,
-      laterDate,
-      earlierDate
-    );
-    return laterDate_.getFullYear() === earlierDate_.getFullYear() && laterDate_.getMonth() === earlierDate_.getMonth();
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/isSameYear.js
-  function isSameYear(laterDate, earlierDate, options2) {
-    const [laterDate_, earlierDate_] = normalizeDates(
-      options2?.in,
-      laterDate,
-      earlierDate
-    );
-    return laterDate_.getFullYear() === earlierDate_.getFullYear();
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/setMonth.js
-  function setMonth2(date, month, options2) {
-    const _date = toDate2(date, options2?.in);
-    const year = _date.getFullYear();
-    const day = _date.getDate();
-    const midMonth = constructFrom2(options2?.in || date, 0);
-    midMonth.setFullYear(year, month, 15);
-    midMonth.setHours(0, 0, 0, 0);
-    const daysInMonth = getDaysInMonth3(midMonth);
-    _date.setMonth(month, Math.min(day, daysInMonth));
-    return _date;
-  }
-
-  // node_modules/react-day-picker/node_modules/date-fns/setYear.js
-  function setYear2(date, year, options2) {
-    const date_ = toDate2(date, options2?.in);
-    if (isNaN(+date_)) return constructFrom2(options2?.in || date, NaN);
-    date_.setFullYear(year);
-    return date_;
-  }
-
   // node_modules/react-day-picker/dist/esm/helpers/getBroadcastWeeksInMonth.js
   var FIVE_WEEKS = 5;
   var FOUR_WEEKS = 4;
@@ -53524,25 +53570,25 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         return new Date(year, monthIndex, date);
       };
       this.addDays = (date, amount) => {
-        return this.overrides?.addDays ? this.overrides.addDays(date, amount) : addDays2(date, amount);
+        return this.overrides?.addDays ? this.overrides.addDays(date, amount) : addDays(date, amount);
       };
       this.addMonths = (date, amount) => {
-        return this.overrides?.addMonths ? this.overrides.addMonths(date, amount) : addMonths2(date, amount);
+        return this.overrides?.addMonths ? this.overrides.addMonths(date, amount) : addMonths(date, amount);
       };
       this.addWeeks = (date, amount) => {
-        return this.overrides?.addWeeks ? this.overrides.addWeeks(date, amount) : addWeeks2(date, amount);
+        return this.overrides?.addWeeks ? this.overrides.addWeeks(date, amount) : addWeeks(date, amount);
       };
       this.addYears = (date, amount) => {
-        return this.overrides?.addYears ? this.overrides.addYears(date, amount) : addYears2(date, amount);
+        return this.overrides?.addYears ? this.overrides.addYears(date, amount) : addYears(date, amount);
       };
       this.differenceInCalendarDays = (dateLeft, dateRight) => {
-        return this.overrides?.differenceInCalendarDays ? this.overrides.differenceInCalendarDays(dateLeft, dateRight) : differenceInCalendarDays2(dateLeft, dateRight);
+        return this.overrides?.differenceInCalendarDays ? this.overrides.differenceInCalendarDays(dateLeft, dateRight) : differenceInCalendarDays(dateLeft, dateRight);
       };
       this.differenceInCalendarMonths = (dateLeft, dateRight) => {
         return this.overrides?.differenceInCalendarMonths ? this.overrides.differenceInCalendarMonths(dateLeft, dateRight) : differenceInCalendarMonths(dateLeft, dateRight);
       };
       this.eachMonthOfInterval = (interval) => {
-        return this.overrides?.eachMonthOfInterval ? this.overrides.eachMonthOfInterval(interval) : eachMonthOfInterval2(interval);
+        return this.overrides?.eachMonthOfInterval ? this.overrides.eachMonthOfInterval(interval) : eachMonthOfInterval(interval);
       };
       this.endOfBroadcastWeek = (date) => {
         return this.overrides?.endOfBroadcastWeek ? this.overrides.endOfBroadcastWeek(date) : endOfBroadcastWeek(date, this);
@@ -53551,10 +53597,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         return this.overrides?.endOfISOWeek ? this.overrides.endOfISOWeek(date) : endOfISOWeek(date);
       };
       this.endOfMonth = (date) => {
-        return this.overrides?.endOfMonth ? this.overrides.endOfMonth(date) : endOfMonth2(date);
+        return this.overrides?.endOfMonth ? this.overrides.endOfMonth(date) : endOfMonth(date);
       };
       this.endOfWeek = (date, options3) => {
-        return this.overrides?.endOfWeek ? this.overrides.endOfWeek(date, options3) : endOfWeek2(date, this.options);
+        return this.overrides?.endOfWeek ? this.overrides.endOfWeek(date, options3) : endOfWeek(date, this.options);
       };
       this.endOfYear = (date) => {
         return this.overrides?.endOfYear ? this.overrides.endOfYear(date) : endOfYear(date);
@@ -53579,19 +53625,19 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         return this.overrides?.getWeek ? this.overrides.getWeek(date, this.options) : getWeek(date, this.options);
       };
       this.isAfter = (date, dateToCompare) => {
-        return this.overrides?.isAfter ? this.overrides.isAfter(date, dateToCompare) : isAfter2(date, dateToCompare);
+        return this.overrides?.isAfter ? this.overrides.isAfter(date, dateToCompare) : isAfter(date, dateToCompare);
       };
       this.isBefore = (date, dateToCompare) => {
-        return this.overrides?.isBefore ? this.overrides.isBefore(date, dateToCompare) : isBefore2(date, dateToCompare);
+        return this.overrides?.isBefore ? this.overrides.isBefore(date, dateToCompare) : isBefore(date, dateToCompare);
       };
       this.isDate = (value) => {
         return this.overrides?.isDate ? this.overrides.isDate(value) : isDate(value);
       };
       this.isSameDay = (dateLeft, dateRight) => {
-        return this.overrides?.isSameDay ? this.overrides.isSameDay(dateLeft, dateRight) : isSameDay2(dateLeft, dateRight);
+        return this.overrides?.isSameDay ? this.overrides.isSameDay(dateLeft, dateRight) : isSameDay(dateLeft, dateRight);
       };
       this.isSameMonth = (dateLeft, dateRight) => {
-        return this.overrides?.isSameMonth ? this.overrides.isSameMonth(dateLeft, dateRight) : isSameMonth2(dateLeft, dateRight);
+        return this.overrides?.isSameMonth ? this.overrides.isSameMonth(dateLeft, dateRight) : isSameMonth(dateLeft, dateRight);
       };
       this.isSameYear = (dateLeft, dateRight) => {
         return this.overrides?.isSameYear ? this.overrides.isSameYear(dateLeft, dateRight) : isSameYear(dateLeft, dateRight);
@@ -53603,25 +53649,25 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         return this.overrides?.min ? this.overrides.min(dates) : min2(dates);
       };
       this.setMonth = (date, month) => {
-        return this.overrides?.setMonth ? this.overrides.setMonth(date, month) : setMonth2(date, month);
+        return this.overrides?.setMonth ? this.overrides.setMonth(date, month) : setMonth(date, month);
       };
       this.setYear = (date, year) => {
-        return this.overrides?.setYear ? this.overrides.setYear(date, year) : setYear2(date, year);
+        return this.overrides?.setYear ? this.overrides.setYear(date, year) : setYear(date, year);
       };
       this.startOfBroadcastWeek = (date, dateLib) => {
         return this.overrides?.startOfBroadcastWeek ? this.overrides.startOfBroadcastWeek(date, this) : startOfBroadcastWeek(date, this);
       };
       this.startOfDay = (date) => {
-        return this.overrides?.startOfDay ? this.overrides.startOfDay(date) : startOfDay2(date);
+        return this.overrides?.startOfDay ? this.overrides.startOfDay(date) : startOfDay(date);
       };
       this.startOfISOWeek = (date) => {
         return this.overrides?.startOfISOWeek ? this.overrides.startOfISOWeek(date) : startOfISOWeek(date);
       };
       this.startOfMonth = (date) => {
-        return this.overrides?.startOfMonth ? this.overrides.startOfMonth(date) : startOfMonth2(date);
+        return this.overrides?.startOfMonth ? this.overrides.startOfMonth(date) : startOfMonth(date);
       };
       this.startOfWeek = (date, options3) => {
-        return this.overrides?.startOfWeek ? this.overrides.startOfWeek(date, this.options) : startOfWeek2(date, this.options);
+        return this.overrides?.startOfWeek ? this.overrides.startOfWeek(date, this.options) : startOfWeek(date, this.options);
       };
       this.startOfYear = (date) => {
         return this.overrides?.startOfYear ? this.overrides.startOfYear(date) : startOfYear(date);
@@ -53710,20 +53756,20 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/utils/rangeIncludesDate.js
   function rangeIncludesDate(range, date, excludeEnds = false, dateLib = defaultDateLib) {
     let { from: from2, to } = range;
-    const { differenceInCalendarDays: differenceInCalendarDays3, isSameDay: isSameDay3 } = dateLib;
+    const { differenceInCalendarDays: differenceInCalendarDays2, isSameDay: isSameDay2 } = dateLib;
     if (from2 && to) {
-      const isRangeInverted = differenceInCalendarDays3(to, from2) < 0;
+      const isRangeInverted = differenceInCalendarDays2(to, from2) < 0;
       if (isRangeInverted) {
         [from2, to] = [to, from2];
       }
-      const isInRange = differenceInCalendarDays3(date, from2) >= (excludeEnds ? 1 : 0) && differenceInCalendarDays3(to, date) >= (excludeEnds ? 1 : 0);
+      const isInRange = differenceInCalendarDays2(date, from2) >= (excludeEnds ? 1 : 0) && differenceInCalendarDays2(to, date) >= (excludeEnds ? 1 : 0);
       return isInRange;
     }
     if (!excludeEnds && to) {
-      return isSameDay3(to, date);
+      return isSameDay2(to, date);
     }
     if (!excludeEnds && from2) {
-      return isSameDay3(from2, date);
+      return isSameDay2(from2, date);
     }
     return false;
   }
@@ -53751,13 +53797,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/utils/dateMatchModifiers.js
   function dateMatchModifiers(date, matchers, dateLib = defaultDateLib) {
     const matchersArr = !Array.isArray(matchers) ? [matchers] : matchers;
-    const { isSameDay: isSameDay3, differenceInCalendarDays: differenceInCalendarDays3, isAfter: isAfter3 } = dateLib;
+    const { isSameDay: isSameDay2, differenceInCalendarDays: differenceInCalendarDays2, isAfter: isAfter2 } = dateLib;
     return matchersArr.some((matcher) => {
       if (typeof matcher === "boolean") {
         return matcher;
       }
       if (dateLib.isDate(matcher)) {
-        return isSameDay3(date, matcher);
+        return isSameDay2(date, matcher);
       }
       if (isDatesArray(matcher, dateLib)) {
         return matcher.includes(date);
@@ -53772,11 +53818,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         return matcher.dayOfWeek.includes(date.getDay());
       }
       if (isDateInterval(matcher)) {
-        const diffBefore = differenceInCalendarDays3(matcher.before, date);
-        const diffAfter = differenceInCalendarDays3(matcher.after, date);
+        const diffBefore = differenceInCalendarDays2(matcher.before, date);
+        const diffAfter = differenceInCalendarDays2(matcher.after, date);
         const isDayBefore = diffBefore > 0;
         const isDayAfter = diffAfter < 0;
-        const isClosedInterval = isAfter3(matcher.before, matcher.after);
+        const isClosedInterval = isAfter2(matcher.before, matcher.after);
         if (isClosedInterval) {
           return isDayAfter && isDayBefore;
         } else {
@@ -53784,10 +53830,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
       if (isDateAfterType(matcher)) {
-        return differenceInCalendarDays3(date, matcher.after) > 0;
+        return differenceInCalendarDays2(date, matcher.after) > 0;
       }
       if (isDateBeforeType(matcher)) {
-        return differenceInCalendarDays3(matcher.before, date) > 0;
+        return differenceInCalendarDays2(matcher.before, date) > 0;
       }
       if (typeof matcher === "function") {
         return matcher(date);
@@ -53799,9 +53845,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/helpers/createGetModifiers.js
   function createGetModifiers(days, props, dateLib) {
     const { disabled, hidden, modifiers, showOutsideDays, broadcastCalendar, today } = props;
-    const { isSameDay: isSameDay3, isSameMonth: isSameMonth3, startOfMonth: startOfMonth3, isBefore: isBefore3, endOfMonth: endOfMonth3, isAfter: isAfter3 } = dateLib;
-    const startMonth = props.startMonth && startOfMonth3(props.startMonth);
-    const endMonth = props.endMonth && endOfMonth3(props.endMonth);
+    const { isSameDay: isSameDay2, isSameMonth: isSameMonth2, startOfMonth: startOfMonth2, isBefore: isBefore2, endOfMonth: endOfMonth2, isAfter: isAfter2 } = dateLib;
+    const startMonth = props.startMonth && startOfMonth2(props.startMonth);
+    const endMonth = props.endMonth && endOfMonth2(props.endMonth);
     const internalModifiersMap = {
       [DayFlag.focused]: [],
       [DayFlag.outside]: [],
@@ -53812,13 +53858,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const customModifiersMap = {};
     for (const day of days) {
       const { date, displayMonth } = day;
-      const isOutside = Boolean(displayMonth && !isSameMonth3(date, displayMonth));
-      const isBeforeStartMonth = Boolean(startMonth && isBefore3(date, startMonth));
-      const isAfterEndMonth = Boolean(endMonth && isAfter3(date, endMonth));
+      const isOutside = Boolean(displayMonth && !isSameMonth2(date, displayMonth));
+      const isBeforeStartMonth = Boolean(startMonth && isBefore2(date, startMonth));
+      const isAfterEndMonth = Boolean(endMonth && isAfter2(date, endMonth));
       const isDisabled = Boolean(disabled && dateMatchModifiers(date, disabled, dateLib));
       const isHidden2 = Boolean(hidden && dateMatchModifiers(date, hidden, dateLib)) || isBeforeStartMonth || isAfterEndMonth || // Broadcast calendar will show outside days as default
       !broadcastCalendar && !showOutsideDays && isOutside || broadcastCalendar && showOutsideDays === false && isOutside;
-      const isToday = isSameDay3(date, today ?? dateLib.today());
+      const isToday = isSameDay2(date, today ?? dateLib.today());
       if (isOutside)
         internalModifiersMap.outside.push(day);
       if (isDisabled)
@@ -54260,15 +54306,15 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // node_modules/react-day-picker/dist/esm/helpers/getMonthOptions.js
   function getMonthOptions(displayMonth, navStart, navEnd, formatters2, dateLib) {
-    const { startOfMonth: startOfMonth3, startOfYear: startOfYear2, endOfYear: endOfYear2, eachMonthOfInterval: eachMonthOfInterval3, getMonth: getMonth2 } = dateLib;
-    const months = eachMonthOfInterval3({
+    const { startOfMonth: startOfMonth2, startOfYear: startOfYear2, endOfYear: endOfYear2, eachMonthOfInterval: eachMonthOfInterval2, getMonth: getMonth2 } = dateLib;
+    const months = eachMonthOfInterval2({
       start: startOfYear2(displayMonth),
       end: endOfYear2(displayMonth)
     });
     const options2 = months.map((month) => {
       const label = formatters2.formatMonthDropdown(month, dateLib);
       const value = getMonth2(month);
-      const disabled = navStart && month < startOfMonth3(navStart) || navEnd && month > startOfMonth3(navEnd) || false;
+      const disabled = navStart && month < startOfMonth2(navStart) || navEnd && month > startOfMonth2(navEnd) || false;
       return { value, label, disabled };
     });
     return options2;
@@ -54304,14 +54350,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       return void 0;
     if (!navEnd)
       return void 0;
-    const { startOfYear: startOfYear2, endOfYear: endOfYear2, addYears: addYears3, getYear: getYear2, isBefore: isBefore3, isSameYear: isSameYear2 } = dateLib;
+    const { startOfYear: startOfYear2, endOfYear: endOfYear2, addYears: addYears2, getYear: getYear2, isBefore: isBefore2, isSameYear: isSameYear2 } = dateLib;
     const firstNavYear = startOfYear2(navStart);
     const lastNavYear = endOfYear2(navEnd);
     const years = [];
     let year = firstNavYear;
-    while (isBefore3(year, lastNavYear) || isSameYear2(year, lastNavYear)) {
+    while (isBefore2(year, lastNavYear) || isSameYear2(year, lastNavYear)) {
       years.push(year);
-      year = addYears3(year, 1);
+      year = addYears2(year, 1);
     }
     return years.map((year2) => {
       const label = formatters2.formatYearDropdown(year2, dateLib);
@@ -54434,7 +54480,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       months.length === 0 || previousMonths.length === 0 || months.length !== previousMonths.length) {
         return;
       }
-      const isSameMonth3 = dateLib.isSameMonth(months[0].date, previousMonths[0].date);
+      const isSameMonth2 = dateLib.isSameMonth(months[0].date, previousMonths[0].date);
       const isAfterPreviousMonth = dateLib.isAfter(months[0].date, previousMonths[0].date);
       const captionAnimationClass = isAfterPreviousMonth ? classNames[Animation.caption_after_enter] : classNames[Animation.caption_before_enter];
       const weeksAnimationClass = isAfterPreviousMonth ? classNames[Animation.weeks_after_enter] : classNames[Animation.weeks_before_enter];
@@ -54462,7 +54508,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       } else {
         previousRootElSnapshotRef.current = null;
       }
-      if (animatingRef.current || isSameMonth3 || // skip animation if a day is focused because it can cause issues to the animation and is better for a11y
+      if (animatingRef.current || isSameMonth2 || // skip animation if a day is focused because it can cause issues to the animation and is better for a11y
       focused) {
         return;
       }
@@ -54543,15 +54589,15 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const firstMonth = displayMonths[0];
     const lastMonth = displayMonths[displayMonths.length - 1];
     const { ISOWeek, fixedWeeks, broadcastCalendar } = props ?? {};
-    const { addDays: addDays3, differenceInCalendarDays: differenceInCalendarDays3, differenceInCalendarMonths: differenceInCalendarMonths2, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfMonth: endOfMonth3, endOfWeek: endOfWeek3, isAfter: isAfter3, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek3 } = dateLib;
-    const startWeekFirstDate = broadcastCalendar ? startOfBroadcastWeek2(firstMonth, dateLib) : ISOWeek ? startOfISOWeek2(firstMonth) : startOfWeek3(firstMonth);
-    const endWeekLastDate = broadcastCalendar ? endOfBroadcastWeek2(lastMonth) : ISOWeek ? endOfISOWeek2(endOfMonth3(lastMonth)) : endOfWeek3(endOfMonth3(lastMonth));
-    const nOfDays = differenceInCalendarDays3(endWeekLastDate, startWeekFirstDate);
+    const { addDays: addDays2, differenceInCalendarDays: differenceInCalendarDays2, differenceInCalendarMonths: differenceInCalendarMonths2, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfMonth: endOfMonth2, endOfWeek: endOfWeek2, isAfter: isAfter2, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek2 } = dateLib;
+    const startWeekFirstDate = broadcastCalendar ? startOfBroadcastWeek2(firstMonth, dateLib) : ISOWeek ? startOfISOWeek2(firstMonth) : startOfWeek2(firstMonth);
+    const endWeekLastDate = broadcastCalendar ? endOfBroadcastWeek2(lastMonth) : ISOWeek ? endOfISOWeek2(endOfMonth2(lastMonth)) : endOfWeek2(endOfMonth2(lastMonth));
+    const nOfDays = differenceInCalendarDays2(endWeekLastDate, startWeekFirstDate);
     const nOfMonths = differenceInCalendarMonths2(lastMonth, firstMonth) + 1;
     const dates = [];
     for (let i3 = 0; i3 <= nOfDays; i3++) {
-      const date = addDays3(startWeekFirstDate, i3);
-      if (maxDate && isAfter3(date, maxDate)) {
+      const date = addDays2(startWeekFirstDate, i3);
+      if (maxDate && isAfter2(date, maxDate)) {
         break;
       }
       dates.push(date);
@@ -54561,7 +54607,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     if (fixedWeeks && dates.length < extraDates) {
       const daysToAdd = extraDates - dates.length;
       for (let i3 = 0; i3 < daysToAdd; i3++) {
-        const date = addDays3(dates[dates.length - 1], 1);
+        const date = addDays2(dates[dates.length - 1], 1);
         dates.push(date);
       }
     }
@@ -54597,23 +54643,23 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   function getInitialMonth(props, dateLib) {
     const { month, defaultMonth, today = dateLib.today(), numberOfMonths = 1, endMonth, startMonth } = props;
     let initialMonth = month || defaultMonth || today;
-    const { differenceInCalendarMonths: differenceInCalendarMonths2, addMonths: addMonths3, startOfMonth: startOfMonth3 } = dateLib;
+    const { differenceInCalendarMonths: differenceInCalendarMonths2, addMonths: addMonths2, startOfMonth: startOfMonth2 } = dateLib;
     if (endMonth && differenceInCalendarMonths2(endMonth, initialMonth) < 0) {
       const offset3 = -1 * (numberOfMonths - 1);
-      initialMonth = addMonths3(endMonth, offset3);
+      initialMonth = addMonths2(endMonth, offset3);
     }
     if (startMonth && differenceInCalendarMonths2(initialMonth, startMonth) < 0) {
       initialMonth = startMonth;
     }
-    return startOfMonth3(initialMonth);
+    return startOfMonth2(initialMonth);
   }
 
   // node_modules/react-day-picker/dist/esm/helpers/getMonths.js
   function getMonths(displayMonths, dates, props, dateLib) {
-    const { addDays: addDays3, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfMonth: endOfMonth3, endOfWeek: endOfWeek3, getISOWeek: getISOWeek2, getWeek: getWeek2, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek3 } = dateLib;
+    const { addDays: addDays2, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfMonth: endOfMonth2, endOfWeek: endOfWeek2, getISOWeek: getISOWeek2, getWeek: getWeek2, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek2 } = dateLib;
     const dayPickerMonths = displayMonths.reduce((months, month) => {
-      const firstDateOfFirstWeek = props.broadcastCalendar ? startOfBroadcastWeek2(month, dateLib) : props.ISOWeek ? startOfISOWeek2(month) : startOfWeek3(month);
-      const lastDateOfLastWeek = props.broadcastCalendar ? endOfBroadcastWeek2(month) : props.ISOWeek ? endOfISOWeek2(endOfMonth3(month)) : endOfWeek3(endOfMonth3(month));
+      const firstDateOfFirstWeek = props.broadcastCalendar ? startOfBroadcastWeek2(month, dateLib) : props.ISOWeek ? startOfISOWeek2(month) : startOfWeek2(month);
+      const lastDateOfLastWeek = props.broadcastCalendar ? endOfBroadcastWeek2(month) : props.ISOWeek ? endOfISOWeek2(endOfMonth2(month)) : endOfWeek2(endOfMonth2(month));
       const monthDates = dates.filter((date) => {
         return date >= firstDateOfFirstWeek && date <= lastDateOfLastWeek;
       });
@@ -54621,7 +54667,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       if (props.fixedWeeks && monthDates.length < nrOfDaysWithFixedWeeks) {
         const extraDates = dates.filter((date) => {
           const daysToAdd = nrOfDaysWithFixedWeeks - monthDates.length;
-          return date > lastDateOfLastWeek && date <= addDays3(lastDateOfLastWeek, daysToAdd);
+          return date > lastDateOfLastWeek && date <= addDays2(lastDateOfLastWeek, daysToAdd);
         });
         monthDates.push(...extraDates);
       }
@@ -54650,7 +54696,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/helpers/getNavMonth.js
   function getNavMonths(props, dateLib) {
     let { startMonth, endMonth } = props;
-    const { startOfYear: startOfYear2, startOfDay: startOfDay3, startOfMonth: startOfMonth3, endOfMonth: endOfMonth3, addYears: addYears3, endOfYear: endOfYear2, newDate, today } = dateLib;
+    const { startOfYear: startOfYear2, startOfDay: startOfDay2, startOfMonth: startOfMonth2, endOfMonth: endOfMonth2, addYears: addYears2, endOfYear: endOfYear2, newDate, today } = dateLib;
     const { fromYear, toYear, fromMonth, toMonth } = props;
     if (!startMonth && fromMonth) {
       startMonth = fromMonth;
@@ -54666,22 +54712,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }
     const hasYearDropdown = props.captionLayout === "dropdown" || props.captionLayout === "dropdown-years";
     if (startMonth) {
-      startMonth = startOfMonth3(startMonth);
+      startMonth = startOfMonth2(startMonth);
     } else if (fromYear) {
       startMonth = newDate(fromYear, 0, 1);
     } else if (!startMonth && hasYearDropdown) {
-      startMonth = startOfYear2(addYears3(props.today ?? today(), -100));
+      startMonth = startOfYear2(addYears2(props.today ?? today(), -100));
     }
     if (endMonth) {
-      endMonth = endOfMonth3(endMonth);
+      endMonth = endOfMonth2(endMonth);
     } else if (toYear) {
       endMonth = newDate(toYear, 11, 31);
     } else if (!endMonth && hasYearDropdown) {
       endMonth = endOfYear2(props.today ?? today());
     }
     return [
-      startMonth ? startOfDay3(startMonth) : startMonth,
-      endMonth ? startOfDay3(endMonth) : endMonth
+      startMonth ? startOfDay2(startMonth) : startMonth,
+      endMonth ? startOfDay2(endMonth) : endMonth
     ];
   }
 
@@ -54691,17 +54737,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       return void 0;
     }
     const { pagedNavigation, numberOfMonths = 1 } = options2;
-    const { startOfMonth: startOfMonth3, addMonths: addMonths3, differenceInCalendarMonths: differenceInCalendarMonths2 } = dateLib;
+    const { startOfMonth: startOfMonth2, addMonths: addMonths2, differenceInCalendarMonths: differenceInCalendarMonths2 } = dateLib;
     const offset3 = pagedNavigation ? numberOfMonths : 1;
-    const month = startOfMonth3(firstDisplayedMonth);
+    const month = startOfMonth2(firstDisplayedMonth);
     if (!calendarEndMonth) {
-      return addMonths3(month, offset3);
+      return addMonths2(month, offset3);
     }
     const monthsDiff = differenceInCalendarMonths2(calendarEndMonth, firstDisplayedMonth);
     if (monthsDiff < numberOfMonths) {
       return void 0;
     }
-    return addMonths3(month, offset3);
+    return addMonths2(month, offset3);
   }
 
   // node_modules/react-day-picker/dist/esm/helpers/getPreviousMonth.js
@@ -54710,17 +54756,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       return void 0;
     }
     const { pagedNavigation, numberOfMonths } = options2;
-    const { startOfMonth: startOfMonth3, addMonths: addMonths3, differenceInCalendarMonths: differenceInCalendarMonths2 } = dateLib;
+    const { startOfMonth: startOfMonth2, addMonths: addMonths2, differenceInCalendarMonths: differenceInCalendarMonths2 } = dateLib;
     const offset3 = pagedNavigation ? numberOfMonths ?? 1 : 1;
-    const month = startOfMonth3(firstDisplayedMonth);
+    const month = startOfMonth2(firstDisplayedMonth);
     if (!calendarStartMonth) {
-      return addMonths3(month, -offset3);
+      return addMonths2(month, -offset3);
     }
     const monthsDiff = differenceInCalendarMonths2(month, calendarStartMonth);
     if (monthsDiff <= 0) {
       return void 0;
     }
-    return addMonths3(month, -offset3);
+    return addMonths2(month, -offset3);
   }
 
   // node_modules/react-day-picker/dist/esm/helpers/getWeeks.js
@@ -54742,7 +54788,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/useCalendar.js
   function useCalendar(props, dateLib) {
     const [navStart, navEnd] = getNavMonths(props, dateLib);
-    const { startOfMonth: startOfMonth3, endOfMonth: endOfMonth3 } = dateLib;
+    const { startOfMonth: startOfMonth2, endOfMonth: endOfMonth2 } = dateLib;
     const initialMonth = getInitialMonth(props, dateLib);
     const [firstMonth, setFirstMonth] = useControlledValue2(
       initialMonth,
@@ -54754,7 +54800,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       setFirstMonth(newInitialMonth);
     }, [props.timeZone]);
     const displayMonths = getDisplayMonths(firstMonth, navEnd, props, dateLib);
-    const dates = getDates(displayMonths, props.endMonth ? endOfMonth3(props.endMonth) : void 0, props, dateLib);
+    const dates = getDates(displayMonths, props.endMonth ? endOfMonth2(props.endMonth) : void 0, props, dateLib);
     const months = getMonths(displayMonths, dates, props, dateLib);
     const weeks = getWeeks(months);
     const days = getDays(months);
@@ -54766,12 +54812,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       if (disableNavigation) {
         return;
       }
-      let newMonth = startOfMonth3(date);
-      if (navStart && newMonth < startOfMonth3(navStart)) {
-        newMonth = startOfMonth3(navStart);
+      let newMonth = startOfMonth2(date);
+      if (navStart && newMonth < startOfMonth2(navStart)) {
+        newMonth = startOfMonth2(navStart);
       }
-      if (navEnd && newMonth > startOfMonth3(navEnd)) {
-        newMonth = startOfMonth3(navEnd);
+      if (navEnd && newMonth > startOfMonth2(navEnd)) {
+        newMonth = startOfMonth2(navEnd);
       }
       setFirstMonth(newMonth);
       onMonthChange?.(newMonth);
@@ -54840,14 +54886,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/helpers/getFocusableDate.js
   function getFocusableDate(moveBy, moveDir, refDate, navStart, navEnd, props, dateLib) {
     const { ISOWeek, broadcastCalendar } = props;
-    const { addDays: addDays3, addMonths: addMonths3, addWeeks: addWeeks3, addYears: addYears3, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfWeek: endOfWeek3, max: max3, min: min3, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek3 } = dateLib;
+    const { addDays: addDays2, addMonths: addMonths2, addWeeks: addWeeks2, addYears: addYears2, endOfBroadcastWeek: endOfBroadcastWeek2, endOfISOWeek: endOfISOWeek2, endOfWeek: endOfWeek2, max: max3, min: min3, startOfBroadcastWeek: startOfBroadcastWeek2, startOfISOWeek: startOfISOWeek2, startOfWeek: startOfWeek2 } = dateLib;
     const moveFns = {
-      day: addDays3,
-      week: addWeeks3,
-      month: addMonths3,
-      year: addYears3,
-      startOfWeek: (date) => broadcastCalendar ? startOfBroadcastWeek2(date, dateLib) : ISOWeek ? startOfISOWeek2(date) : startOfWeek3(date),
-      endOfWeek: (date) => broadcastCalendar ? endOfBroadcastWeek2(date) : ISOWeek ? endOfISOWeek2(date) : endOfWeek3(date)
+      day: addDays2,
+      week: addWeeks2,
+      month: addMonths2,
+      year: addYears2,
+      startOfWeek: (date) => broadcastCalendar ? startOfBroadcastWeek2(date, dateLib) : ISOWeek ? startOfISOWeek2(date) : startOfWeek2(date),
+      endOfWeek: (date) => broadcastCalendar ? endOfBroadcastWeek2(date) : ISOWeek ? endOfISOWeek2(date) : endOfWeek2(date)
     };
     let focusableDate = moveFns[moveBy](refDate, moveDir === "after" ? 1 : -1);
     if (moveDir === "before" && navStart) {
@@ -54911,9 +54957,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const { selected: initiallySelected, required, onSelect } = props;
     const [internallySelected, setSelected] = useControlledValue2(initiallySelected, onSelect ? initiallySelected : void 0);
     const selected = !onSelect ? internallySelected : initiallySelected;
-    const { isSameDay: isSameDay3 } = dateLib;
+    const { isSameDay: isSameDay2 } = dateLib;
     const isSelected2 = (date) => {
-      return selected?.some((d3) => isSameDay3(d3, date)) ?? false;
+      return selected?.some((d3) => isSameDay2(d3, date)) ?? false;
     };
     const { min: min3, max: max3 } = props;
     const select = (triggerDate, modifiers, e3) => {
@@ -54925,7 +54971,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         if (required && selected?.length === 1) {
           return;
         }
-        newDates = selected?.filter((d3) => !isSameDay3(d3, triggerDate));
+        newDates = selected?.filter((d3) => !isSameDay2(d3, triggerDate));
       } else {
         if (selected?.length === max3) {
           newDates = [triggerDate];
@@ -54949,38 +54995,38 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   // node_modules/react-day-picker/dist/esm/utils/addToRange.js
   function addToRange(date, initialRange, min3 = 0, max3 = 0, required = false, dateLib = defaultDateLib) {
     const { from: from2, to } = initialRange || {};
-    const { isSameDay: isSameDay3, isAfter: isAfter3, isBefore: isBefore3 } = dateLib;
+    const { isSameDay: isSameDay2, isAfter: isAfter2, isBefore: isBefore2 } = dateLib;
     let range;
     if (!from2 && !to) {
       range = { from: date, to: min3 > 0 ? void 0 : date };
     } else if (from2 && !to) {
-      if (isSameDay3(from2, date)) {
+      if (isSameDay2(from2, date)) {
         if (required) {
           range = { from: from2, to: void 0 };
         } else {
           range = void 0;
         }
-      } else if (isBefore3(date, from2)) {
+      } else if (isBefore2(date, from2)) {
         range = { from: date, to: from2 };
       } else {
         range = { from: from2, to: date };
       }
     } else if (from2 && to) {
-      if (isSameDay3(from2, date) && isSameDay3(to, date)) {
+      if (isSameDay2(from2, date) && isSameDay2(to, date)) {
         if (required) {
           range = { from: from2, to };
         } else {
           range = void 0;
         }
-      } else if (isSameDay3(from2, date)) {
+      } else if (isSameDay2(from2, date)) {
         range = { from: from2, to: min3 > 0 ? void 0 : date };
-      } else if (isSameDay3(to, date)) {
+      } else if (isSameDay2(to, date)) {
         range = { from: date, to: min3 > 0 ? void 0 : date };
-      } else if (isBefore3(date, from2)) {
+      } else if (isBefore2(date, from2)) {
         range = { from: date, to };
-      } else if (isAfter3(date, from2)) {
+      } else if (isAfter2(date, from2)) {
         range = { from: from2, to: date };
-      } else if (isAfter3(date, to)) {
+      } else if (isAfter2(date, to)) {
         range = { from: from2, to: date };
       } else {
         throw new Error("Invalid range");
@@ -55104,13 +55150,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const { selected: initiallySelected, required, onSelect } = props;
     const [internallySelected, setSelected] = useControlledValue2(initiallySelected, onSelect ? initiallySelected : void 0);
     const selected = !onSelect ? internallySelected : initiallySelected;
-    const { isSameDay: isSameDay3 } = dateLib;
+    const { isSameDay: isSameDay2 } = dateLib;
     const isSelected2 = (compareDate) => {
-      return selected ? isSameDay3(selected, compareDate) : false;
+      return selected ? isSameDay2(selected, compareDate) : false;
     };
     const select = (triggerDate, modifiers, e3) => {
       let newDate = triggerDate;
-      if (!required && selected && selected && isSameDay3(triggerDate, selected)) {
+      if (!required && selected && selected && isSameDay2(triggerDate, selected)) {
         newDate = void 0;
       }
       if (!onSelect) {
@@ -55403,7 +55449,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/calendar/date-calendar/index.mjs
-  var import_element243 = __toESM(require_element(), 1);
+  var import_element244 = __toESM(require_element(), 1);
 
   // packages/components/build-module/calendar/utils/day-cell.mjs
   var import_jsx_runtime318 = __toESM(require_jsx_runtime(), 1);
@@ -55560,7 +55606,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/calendar/utils/use-localization-props.mjs
   var import_i18n81 = __toESM(require_i18n(), 1);
-  var import_element242 = __toESM(require_element(), 1);
+  var import_element243 = __toESM(require_element(), 1);
   function isLocaleRTL(localeCode) {
     const localeObj = new Intl.Locale(localeCode);
     const direction = localeObj.getTextInfo?.().direction;
@@ -55593,7 +55639,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     timeZone,
     mode: mode2
   }) => {
-    return (0, import_element242.useMemo)(() => {
+    return (0, import_element243.useMemo)(() => {
       const monthNameFormatter = new Intl.DateTimeFormat(locale.code, {
         year: "numeric",
         month: "long",
@@ -55704,7 +55750,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       timeZone,
       mode: "single"
     });
-    const onChange = (0, import_element243.useCallback)((selected2, triggerDate, modifiers, e3) => {
+    const onChange = (0, import_element244.useCallback)((selected2, triggerDate, modifiers, e3) => {
       onSelect?.(selected2 ?? void 0, triggerDate, modifiers, e3);
     }, [onSelect]);
     const [selected, setSelected] = useControlledValue({
@@ -55724,7 +55770,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   };
 
   // packages/components/build-module/calendar/date-range-calendar/index.mjs
-  var import_element244 = __toESM(require_element(), 1);
+  var import_element245 = __toESM(require_element(), 1);
   var import_jsx_runtime320 = __toESM(require_jsx_runtime(), 1);
   function usePreviewRange({
     selected,
@@ -55734,7 +55780,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     max: max3,
     disabled
   }) {
-    return (0, import_element244.useMemo)(() => {
+    return (0, import_element245.useMemo)(() => {
       if (!hoveredDate || !selected?.from) {
         return;
       }
@@ -55807,7 +55853,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       timeZone,
       mode: "range"
     });
-    const onChange = (0, import_element244.useCallback)((selected2, triggerDate, modifiers2, e3) => {
+    const onChange = (0, import_element245.useCallback)((selected2, triggerDate, modifiers2, e3) => {
       onSelect?.(selected2 ?? void 0, triggerDate, modifiers2, e3);
     }, [onSelect]);
     const [selected, setSelected] = useControlledValue({
@@ -55815,7 +55861,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       value: selectedProp,
       onChange
     });
-    const [hoveredDate, setHoveredDate] = (0, import_element244.useState)(void 0);
+    const [hoveredDate, setHoveredDate] = (0, import_element245.useState)(void 0);
     const previewRange = usePreviewRange({
       selected,
       hoveredDate,
@@ -55824,7 +55870,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       max: max3,
       disabled
     });
-    const modifiers = (0, import_element244.useMemo)(() => {
+    const modifiers = (0, import_element245.useMemo)(() => {
       return {
         preview: previewRange,
         preview_start: previewRange?.from,
@@ -55852,11 +55898,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/validated-form-controls/components/checkbox-control.mjs
   var import_compose86 = __toESM(require_compose(), 1);
-  var import_element246 = __toESM(require_element(), 1);
+  var import_element247 = __toESM(require_element(), 1);
 
   // packages/components/build-module/validated-form-controls/control-with-error.mjs
   var import_i18n82 = __toESM(require_i18n(), 1);
-  var import_element245 = __toESM(require_element(), 1);
+  var import_element246 = __toESM(require_element(), 1);
 
   // packages/components/build-module/validated-form-controls/validity-indicator.mjs
   var import_jsx_runtime321 = __toESM(require_jsx_runtime(), 1);
@@ -55911,11 +55957,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     getValidityTarget,
     children
   }, forwardedRef) {
-    const [errorMessage, setErrorMessage] = (0, import_element245.useState)();
-    const [statusMessage, setStatusMessage] = (0, import_element245.useState)();
-    const [showMessage, setShowMessage] = (0, import_element245.useState)(false);
-    const [isTouched, setIsTouched] = (0, import_element245.useState)(false);
-    (0, import_element245.useEffect)(() => {
+    const [errorMessage, setErrorMessage] = (0, import_element246.useState)();
+    const [statusMessage, setStatusMessage] = (0, import_element246.useState)();
+    const [showMessage, setShowMessage] = (0, import_element246.useState)(false);
+    const [isTouched, setIsTouched] = (0, import_element246.useState)(false);
+    (0, import_element246.useEffect)(() => {
       const validityTarget = getValidityTarget();
       const handler = () => {
         setShowMessage(true);
@@ -55924,7 +55970,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       validityTarget?.addEventListener("invalid", handler);
       return () => validityTarget?.removeEventListener("invalid", handler);
     }, [getValidityTarget]);
-    (0, import_element245.useEffect)(() => {
+    (0, import_element246.useEffect)(() => {
       const validityTarget = getValidityTarget();
       const suppressNativePopover = (event) => {
         event.preventDefault();
@@ -55942,7 +55988,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         radioSibilings.forEach((sibling) => sibling.removeEventListener("invalid", suppressNativePopover));
       };
     }, [getValidityTarget]);
-    (0, import_element245.useEffect)(() => {
+    (0, import_element246.useEffect)(() => {
       const validityTarget = getValidityTarget();
       if (!customValidity?.type) {
         validityTarget?.setCustomValidity("");
@@ -55977,7 +56023,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     }, [customValidity, getValidityTarget]);
-    (0, import_element245.useEffect)(() => {
+    (0, import_element246.useEffect)(() => {
       if (!isTouched || showMessage) {
         return;
       }
@@ -55998,7 +56044,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         getValidityTarget()?.setAttribute(VALIDITY_VISIBLE_ATTRIBUTE, "");
       }
     };
-    const messageId = (0, import_element245.useId)();
+    const messageId = (0, import_element246.useId)();
     const message2 = (() => {
       if (errorMessage) {
         return /* @__PURE__ */ (0, import_jsx_runtime322.jsx)(ValidityIndicator, {
@@ -56017,7 +56063,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       return null;
     })();
     const visibleMessage = showMessage ? message2 : null;
-    (0, import_element245.useEffect)(() => {
+    (0, import_element246.useEffect)(() => {
       const target = getValidityTarget();
       if (!target) {
         return;
@@ -56040,7 +56086,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       className,
       ref: forwardedRef,
       onBlur,
-      children: [(0, import_element245.cloneElement)(children, {
+      children: [(0, import_element246.cloneElement)(children, {
         label: appendRequiredIndicator(children.props.label, required, markWhenOptional),
         required
       }), /* @__PURE__ */ (0, import_jsx_runtime322.jsx)("div", {
@@ -56049,7 +56095,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ControlWithError = (0, import_element245.forwardRef)(UnforwardedControlWithError);
+  var ControlWithError = (0, import_element246.forwardRef)(UnforwardedControlWithError);
   ControlWithError.displayName = "ControlWithError";
 
   // packages/components/build-module/validated-form-controls/components/checkbox-control.mjs
@@ -56060,7 +56106,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element246.useRef)(null);
+    const validityTargetRef = (0, import_element247.useRef)(null);
     const mergedRefs = (0, import_compose86.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime323.jsx)(ControlWithError, {
       required,
@@ -56076,12 +56122,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       )
     });
   };
-  var ValidatedCheckboxControl = (0, import_element246.forwardRef)(UnforwardedValidatedCheckboxControl);
+  var ValidatedCheckboxControl = (0, import_element247.forwardRef)(UnforwardedValidatedCheckboxControl);
   ValidatedCheckboxControl.displayName = "ValidatedCheckboxControl";
 
   // packages/components/build-module/validated-form-controls/components/combobox-control.mjs
   var import_compose87 = __toESM(require_compose(), 1);
-  var import_element247 = __toESM(require_element(), 1);
+  var import_element248 = __toESM(require_element(), 1);
   var import_jsx_runtime324 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedComboboxControl = ({
     required,
@@ -56089,9 +56135,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element247.useRef)(null);
+    const validityTargetRef = (0, import_element248.useRef)(null);
     const mergedRefs = (0, import_compose87.useMergeRefs)([forwardedRef, validityTargetRef]);
-    (0, import_element247.useEffect)(() => {
+    (0, import_element248.useEffect)(() => {
       const input = validityTargetRef.current?.querySelector('input[role="combobox"]');
       if (input) {
         input.required = required ?? false;
@@ -56112,11 +56158,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     );
   };
-  var ValidatedComboboxControl = (0, import_element247.forwardRef)(UnforwardedValidatedComboboxControl);
+  var ValidatedComboboxControl = (0, import_element248.forwardRef)(UnforwardedValidatedComboboxControl);
   ValidatedComboboxControl.displayName = "ValidatedComboboxControl";
 
   // packages/components/build-module/validated-form-controls/components/form-token-field.mjs
-  var import_element248 = __toESM(require_element(), 1);
+  var import_element249 = __toESM(require_element(), 1);
   var import_jsx_runtime325 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedFormTokenField = ({
     required,
@@ -56124,7 +56170,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element248.useRef)(null);
+    const validityTargetRef = (0, import_element249.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime325.jsxs)("div", {
       className: "components-validated-control__wrapper-with-error-delegate",
       ref: forwardedRef,
@@ -56152,11 +56198,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var ValidatedFormTokenField = (0, import_element248.forwardRef)(UnforwardedValidatedFormTokenField);
+  var ValidatedFormTokenField = (0, import_element249.forwardRef)(UnforwardedValidatedFormTokenField);
   ValidatedFormTokenField.displayName = "ValidatedFormTokenField";
 
   // packages/components/build-module/validated-form-controls/components/input-control.mjs
-  var import_element249 = __toESM(require_element(), 1);
+  var import_element250 = __toESM(require_element(), 1);
   var import_compose88 = __toESM(require_compose(), 1);
   var import_jsx_runtime326 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedInputControl = ({
@@ -56165,7 +56211,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element249.useRef)(null);
+    const validityTargetRef = (0, import_element250.useRef)(null);
     const mergedRefs = (0, import_compose88.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime326.jsx)(ControlWithError, {
       required,
@@ -56179,11 +56225,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedInputControl = (0, import_element249.forwardRef)(UnforwardedValidatedInputControl);
+  var ValidatedInputControl = (0, import_element250.forwardRef)(UnforwardedValidatedInputControl);
   ValidatedInputControl.displayName = "ValidatedInputControl";
 
   // packages/components/build-module/validated-form-controls/components/number-control.mjs
-  var import_element250 = __toESM(require_element(), 1);
+  var import_element251 = __toESM(require_element(), 1);
   var import_compose89 = __toESM(require_compose(), 1);
   var import_jsx_runtime327 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedNumberControl = ({
@@ -56192,7 +56238,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element250.useRef)(null);
+    const validityTargetRef = (0, import_element251.useRef)(null);
     const mergedRefs = (0, import_compose89.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime327.jsx)(ControlWithError, {
       required,
@@ -56206,12 +56252,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedNumberControl = (0, import_element250.forwardRef)(UnforwardedValidatedNumberControl);
+  var ValidatedNumberControl = (0, import_element251.forwardRef)(UnforwardedValidatedNumberControl);
   ValidatedNumberControl.displayName = "ValidatedNumberControl";
 
   // packages/components/build-module/validated-form-controls/components/radio-control.mjs
   var import_compose90 = __toESM(require_compose(), 1);
-  var import_element251 = __toESM(require_element(), 1);
+  var import_element252 = __toESM(require_element(), 1);
   var import_jsx_runtime328 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedRadioControl = ({
     required,
@@ -56219,7 +56265,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element251.useRef)(null);
+    const validityTargetRef = (0, import_element252.useRef)(null);
     const mergedRefs = (0, import_compose90.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime328.jsx)(ControlWithError, {
       required,
@@ -56232,11 +56278,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedRadioControl = (0, import_element251.forwardRef)(UnforwardedValidatedRadioControl);
+  var ValidatedRadioControl = (0, import_element252.forwardRef)(UnforwardedValidatedRadioControl);
   ValidatedRadioControl.displayName = "ValidatedRadioControl";
 
   // packages/components/build-module/validated-form-controls/components/select-control.mjs
-  var import_element252 = __toESM(require_element(), 1);
+  var import_element253 = __toESM(require_element(), 1);
   var import_compose91 = __toESM(require_compose(), 1);
   var import_jsx_runtime329 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedSelectControl = ({
@@ -56245,7 +56291,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element252.useRef)(null);
+    const validityTargetRef = (0, import_element253.useRef)(null);
     const mergedRefs = (0, import_compose91.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime329.jsx)(ControlWithError, {
       required,
@@ -56259,12 +56305,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedSelectControl = (0, import_element252.forwardRef)(UnforwardedValidatedSelectControl);
+  var ValidatedSelectControl = (0, import_element253.forwardRef)(UnforwardedValidatedSelectControl);
   ValidatedSelectControl.displayName = "ValidatedSelectControl";
 
   // packages/components/build-module/validated-form-controls/components/text-control.mjs
   var import_compose92 = __toESM(require_compose(), 1);
-  var import_element253 = __toESM(require_element(), 1);
+  var import_element254 = __toESM(require_element(), 1);
   var import_jsx_runtime330 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedTextControl = ({
     required,
@@ -56272,7 +56318,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element253.useRef)(null);
+    const validityTargetRef = (0, import_element254.useRef)(null);
     const mergedRefs = (0, import_compose92.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime330.jsx)(ControlWithError, {
       required,
@@ -56286,11 +56332,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedTextControl = (0, import_element253.forwardRef)(UnforwardedValidatedTextControl);
+  var ValidatedTextControl = (0, import_element254.forwardRef)(UnforwardedValidatedTextControl);
   ValidatedTextControl.displayName = "ValidatedTextControl";
 
   // packages/components/build-module/validated-form-controls/components/textarea-control.mjs
-  var import_element254 = __toESM(require_element(), 1);
+  var import_element255 = __toESM(require_element(), 1);
   var import_compose93 = __toESM(require_compose(), 1);
   var import_jsx_runtime331 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedTextareaControl = ({
@@ -56299,7 +56345,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element254.useRef)(null);
+    const validityTargetRef = (0, import_element255.useRef)(null);
     const mergedRefs = (0, import_compose93.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime331.jsx)(ControlWithError, {
       required,
@@ -56312,11 +56358,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedTextareaControl = (0, import_element254.forwardRef)(UnforwardedValidatedTextareaControl);
+  var ValidatedTextareaControl = (0, import_element255.forwardRef)(UnforwardedValidatedTextareaControl);
   ValidatedTextareaControl.displayName = "ValidatedTextareaControl";
 
   // packages/components/build-module/validated-form-controls/components/toggle-control.mjs
-  var import_element255 = __toESM(require_element(), 1);
+  var import_element256 = __toESM(require_element(), 1);
   var import_compose94 = __toESM(require_compose(), 1);
   var import_jsx_runtime332 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedToggleControl = ({
@@ -56325,7 +56371,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element255.useRef)(null);
+    const validityTargetRef = (0, import_element256.useRef)(null);
     const mergedRefs = (0, import_compose94.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime332.jsx)(ControlWithError, {
       required,
@@ -56339,11 +56385,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedToggleControl = (0, import_element255.forwardRef)(UnforwardedValidatedToggleControl);
+  var ValidatedToggleControl = (0, import_element256.forwardRef)(UnforwardedValidatedToggleControl);
   ValidatedToggleControl.displayName = "ValidatedToggleControl";
 
   // packages/components/build-module/validated-form-controls/components/toggle-group-control.mjs
-  var import_element256 = __toESM(require_element(), 1);
+  var import_element257 = __toESM(require_element(), 1);
   var import_jsx_runtime333 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedToggleGroupControl = ({
     required,
@@ -56351,8 +56397,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element256.useRef)(null);
-    const nameAttr = (0, import_element256.useId)();
+    const validityTargetRef = (0, import_element257.useRef)(null);
+    const nameAttr = (0, import_element257.useId)();
     return /* @__PURE__ */ (0, import_jsx_runtime333.jsxs)("div", {
       className: "components-validated-control__wrapper-with-error-delegate",
       children: [/* @__PURE__ */ (0, import_jsx_runtime333.jsx)(ControlWithError, {
@@ -56381,7 +56427,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var ValidatedToggleGroupControl = (0, import_element256.forwardRef)(UnforwardedValidatedToggleGroupControl);
+  var ValidatedToggleGroupControl = (0, import_element257.forwardRef)(UnforwardedValidatedToggleGroupControl);
   ValidatedToggleGroupControl.displayName = "ValidatedToggleGroupControl";
 
   // packages/components/build-module/private-apis.mjs

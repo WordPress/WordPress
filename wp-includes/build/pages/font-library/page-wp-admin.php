@@ -196,6 +196,21 @@ function wp_font_library_wp_admin_enqueue_scripts( $hook_suffix ) {
 			}
 		}
 
+		/**
+		 * Filters the boot script-module dependencies for the
+		 * font-library-wp-admin page.
+		 *
+		 * Surfaces extending this page can append entries to the boot
+		 * dependency list. Each entry is an array with 'import' (string
+		 * 'static' or 'dynamic') and 'id' (script-module handle) keys.
+		 *
+		 * @param array $boot_dependencies Boot dependencies for the page.
+		 */
+		$boot_dependencies = apply_filters(
+			'font-library-wp-admin_boot_dependencies',
+			$boot_dependencies
+		);
+
 		// Dummy script module to ensure dependencies are loaded
 		wp_register_script_module(
 			'font-library-wp-admin',

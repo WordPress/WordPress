@@ -9028,7 +9028,7 @@ var wp;
   }
   glo[importIdentifier] = true;
 
-  // packages/sync/node_modules/y-protocols/awareness.js
+  // node_modules/y-protocols/awareness.js
   var outdatedTimeout = 3e4;
   var Awareness = class extends Observable {
     /**
@@ -9222,7 +9222,7 @@ var wp;
   // packages/sync/build-module/providers/http-polling/polling-manager.mjs
   var import_hooks2 = __toESM(require_hooks(), 1);
 
-  // packages/sync/node_modules/y-protocols/sync.js
+  // node_modules/y-protocols/sync.js
   var messageYjsSyncStep1 = 0;
   var messageYjsSyncStep2 = 1;
   var messageYjsUpdate = 2;
@@ -11621,6 +11621,12 @@ var wp;
     /**
      * Given a Delta and a cursor position, do a diff and attempt to adjust
      * the diff to place insertions or deletions at the cursor position.
+     *
+     * @todo There are at least a few known cases where this produces a corrupted
+     *       diff. When this is fixed, it should not be necessary to verify that the
+     *       transformed diff applies cleanly.
+     *
+     * @see import("@wordpress/core-data/src/utils/crdt-blocks").mergeRichTextUpdate()
      *
      * @param other             - The other Delta to diff against.
      * @param cursorAfterChange - The cursor position index after the change.

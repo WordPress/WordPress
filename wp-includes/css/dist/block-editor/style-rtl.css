@@ -832,6 +832,7 @@ iframe[name=editor-canvas] {
 }
 
 .block-editor-block-manager__category {
+  isolation: isolate;
   margin: 0 0 24px 0;
 }
 
@@ -1637,6 +1638,14 @@ iframe[name=editor-canvas] {
 
 .block-editor-global-styles__clear-shadow {
   text-align: left;
+}
+
+.block-editor-global-styles-state-control {
+  margin-top: -4px;
+}
+
+.block-editor-global-styles-state-control__badges {
+  min-height: 24px;
 }
 
 .block-editor-global-styles-filters-panel__dropdown,
@@ -4041,7 +4050,20 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 }
 
 .block-editor-inserter__search {
-  padding: 16px 16px 0 16px;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+  border-bottom: 1px solid transparent;
+}
+@media not (prefers-reduced-motion) {
+  .block-editor-inserter__search {
+    transition: border-bottom-color 0.1s linear;
+  }
+}
+.block-editor-inserter__search.is-scrolled {
+  border-bottom-color: #e0e0e0;
 }
 
 .block-editor-inserter__no-tab-container {
@@ -4054,7 +4076,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 16px 16px 0;
+  padding: 0 16px;
 }
 
 .block-editor-inserter__panel-content {
@@ -4137,10 +4159,14 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 .block-editor-inserter__media-tabs-container,
 .block-editor-inserter__block-patterns-tabs-container {
   flex-grow: 1;
-  padding: 16px;
+  padding: 0 16px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.block-editor-inserter__media-tabs-container {
+  padding-top: 16px;
 }
 
 .block-editor-inserter__category-tablist {

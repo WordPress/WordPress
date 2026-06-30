@@ -3858,6 +3858,7 @@ button.font-library__upload-area {
 
 .global-styles-ui-header {
   margin-bottom: 0 !important;
+  line-height: 1.9 !important;
 }
 
 .global-styles-ui-subtitle {
@@ -4356,10 +4357,6 @@ button.font-library__upload-area {
   text-wrap: pretty;
 }
 
-.edit-site-page-templates .dataviews-pagination {
-  z-index: 2;
-}
-
 .edit-site-list__rename-modal {
   z-index: 1000001;
 }
@@ -4566,15 +4563,6 @@ button.font-library__upload-area {
   flex-grow: 1;
   z-index: 2;
   overflow: visible;
-}
-.edit-site-layout__canvas-container.is-resizing::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  content: "";
-  z-index: 100;
 }
 
 .edit-site-layout__canvas {

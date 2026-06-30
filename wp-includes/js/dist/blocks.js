@@ -6777,45 +6777,41 @@ var wp;
   unlock(store).registerPrivateSelectors(private_selectors_exports);
   unlock(store).registerPrivateActions(private_actions_exports);
 
-  // node_modules/uuid/dist/esm-browser/rng.js
-  var getRandomValues;
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    if (!getRandomValues) {
-      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-      if (!getRandomValues) {
-        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-      }
-    }
-    return getRandomValues(rnds8);
-  }
-
-  // node_modules/uuid/dist/esm-browser/stringify.js
+  // node_modules/uuid/dist/stringify.js
   var byteToHex = [];
   for (let i2 = 0; i2 < 256; ++i2) {
     byteToHex.push((i2 + 256).toString(16).slice(1));
   }
   function unsafeStringify(arr, offset = 0) {
-    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+    return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
   }
 
-  // node_modules/uuid/dist/esm-browser/native.js
-  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-  var native_default = {
-    randomUUID
-  };
+  // node_modules/uuid/dist/rng.js
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    return crypto.getRandomValues(rnds8);
+  }
 
-  // node_modules/uuid/dist/esm-browser/v4.js
+  // node_modules/uuid/dist/v4.js
   function v4(options, buf, offset) {
-    if (native_default.randomUUID && !buf && !options) {
-      return native_default.randomUUID();
+    if (!buf && !options && crypto.randomUUID) {
+      return crypto.randomUUID();
     }
+    return _v4(options, buf, offset);
+  }
+  function _v4(options, buf, offset) {
     options = options || {};
-    const rnds = options.random || (options.rng || rng)();
+    const rnds = options.random ?? options.rng?.() ?? rng();
+    if (rnds.length < 16) {
+      throw new Error("Random bytes length must be >= 16");
+    }
     rnds[6] = rnds[6] & 15 | 64;
     rnds[8] = rnds[8] & 63 | 128;
     if (buf) {
       offset = offset || 0;
+      if (offset < 0 || offset + 16 > buf.length) {
+        throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+      }
       for (let i2 = 0; i2 < 16; ++i2) {
         buf[offset + i2] = rnds[i2];
       }
@@ -6998,11 +6994,12 @@ var wp;
     }
     const blockType = normalizeBlockType(blockTypeOrName);
     const { name: blockName, transforms } = blockType || {};
-    if (!transforms || !Array.isArray(transforms[direction])) {
+    const directionTransforms = transforms?.[direction];
+    if (!transforms || !Array.isArray(directionTransforms)) {
       return [];
     }
     const usingMobileTransformations = transforms.supportedMobileTransforms && Array.isArray(transforms.supportedMobileTransforms);
-    const filteredTransforms = usingMobileTransformations ? transforms[direction].filter((t3) => {
+    const filteredTransforms = usingMobileTransformations ? directionTransforms.filter((t3) => {
       if (t3.type === "raw") {
         return true;
       }
@@ -7020,7 +7017,7 @@ var wp;
           transformBlockName
         )
       );
-    }) : transforms[direction];
+    }) : directionTransforms;
     return filteredTransforms.map((transform) => ({
       ...transform,
       blockName,
@@ -10058,9 +10055,23 @@ ${p3}`
   function bulletsToAsterisks(text2) {
     return text2.replace(/(^|\n)•( +)/g, "$1*$2");
   }
+  function escapeSingleLineOrderedListMarker(text2) {
+    if (text2.includes("\n")) {
+      return text2;
+    }
+    return text2.replace(/^(\d+)\.(\s)/, "$1\\.$2");
+  }
+  var correctors = [
+    escapeSingleLineOrderedListMarker,
+    bulletsToAsterisks,
+    slackMarkdownVariantCorrector
+  ];
   function markdownConverter(text2) {
     return converter.makeHtml(
-      slackMarkdownVariantCorrector(bulletsToAsterisks(text2))
+      correctors.reduce(
+        (current, corrector) => corrector(current),
+        text2
+      )
     );
   }
 

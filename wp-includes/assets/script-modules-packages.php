@@ -166,7 +166,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '1ea95bd3abfe75ec1bbc'
+		'version' => '5e02fdb03b9e05e7ba82'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
@@ -178,6 +178,41 @@
 			'wp-private-apis'
 		),
 		'version' => 'dce5e2b0fc240815717b'
+	),
+	'content-types/index.js' => array(
+		'dependencies' => array(
+			'react',
+			'react-dom',
+			'react-jsx-runtime',
+			'wp-components',
+			'wp-compose',
+			'wp-core-data',
+			'wp-data',
+			'wp-date',
+			'wp-deprecated',
+			'wp-element',
+			'wp-i18n',
+			'wp-is-shallow-equal',
+			'wp-keycodes',
+			'wp-notices',
+			'wp-preferences',
+			'wp-primitives',
+			'wp-private-apis',
+			'wp-theme',
+			'wp-url',
+			'wp-warning'
+		),
+		'module_dependencies' => array(
+			array(
+				'id' => '@wordpress/a11y',
+				'import' => 'static'
+			),
+			array(
+				'id' => '@wordpress/route',
+				'import' => 'static'
+			)
+		),
+		'version' => '9a35d0da8badd6a33cf8'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
@@ -211,7 +246,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '4d2a3a72c7410d548881'
+		'version' => 'efaa5193bbad9c60ffd1'
 	),
 	'interactivity-router/full-page.js' => array(
 		'dependencies' => array(
@@ -273,7 +308,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '4dbbb677aac222671901'
+		'version' => '8bd91519756b243fc835'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
@@ -283,30 +318,6 @@
 			'wp-private-apis'
 		),
 		'version' => '48a77bfa70722b4254e4'
-	),
-	'user-taxonomies/index.js' => array(
-		'dependencies' => array(
-			'react',
-			'react-dom',
-			'react-jsx-runtime',
-			'wp-components',
-			'wp-compose',
-			'wp-core-data',
-			'wp-data',
-			'wp-element',
-			'wp-i18n',
-			'wp-notices',
-			'wp-primitives',
-			'wp-private-apis',
-			'wp-theme'
-		),
-		'module_dependencies' => array(
-			array(
-				'id' => '@wordpress/a11y',
-				'import' => 'static'
-			)
-		),
-		'version' => '339ee65736f7a738a4ad'
 	),
 	'vips/loader.js' => array(
 		'dependencies' => array(

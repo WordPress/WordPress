@@ -444,6 +444,8 @@ p + .components-button.is-tertiary {
   font-weight: 400;
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: from-font;
 }
 @media not (prefers-reduced-motion) {
   .components-button.is-link {
@@ -1692,6 +1694,8 @@ body.is-dragging-components-draggable {
 }
 .components-external-link:focus {
   outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--wpds-color-stroke-focus-brand, var(--wp-admin-theme-color, #3858e9));
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .components-external-link__contents {
@@ -1701,6 +1705,7 @@ body.is-dragging-components-draggable {
 }
 
 .components-external-link__icon {
+  line-height: 1;
   display: inline-block;
   margin-inline-start: var(--wpds-dimension-padding-xs, 4px);
   font-weight: var(--wpds-typography-font-weight-regular, 400);
@@ -2317,7 +2322,7 @@ body.is-dragging-components-draggable {
 }
 @media not (prefers-reduced-motion) {
   .components-modal__screen-overlay {
-    animation: __wp-base-styles-fade-in 0.08s linear 0s;
+    animation: __wp-base-styles-fade-in var(--wpds-motion-duration-sm, 100ms) var(--wpds-motion-easing-subtle, cubic-bezier(0.15, 0, 0.15, 1)) 0s;
     animation-fill-mode: forwards;
   }
 }
@@ -2331,7 +2336,7 @@ body.is-dragging-components-draggable {
 }
 @media not (prefers-reduced-motion) {
   .components-modal__screen-overlay.is-animating-out {
-    animation: __wp-base-styles-fade-out 0.08s linear 80ms;
+    animation: __wp-base-styles-fade-out var(--wpds-motion-duration-sm, 100ms) var(--wpds-motion-easing-subtle, cubic-bezier(0.15, 0, 0.15, 1)) var(--wpds-motion-duration-xs, 50ms);
     animation-fill-mode: forwards;
   }
 }
@@ -2345,8 +2350,10 @@ body.is-dragging-components-draggable {
   box-sizing: inherit;
 }
 .components-modal__frame {
-  margin: 40px 0 0 0;
+  align-self: flex-end;
+  margin: 0;
   width: 100%;
+  max-height: calc(100% - 40px);
   background: #fff;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08), 0 15px 27px rgba(0, 0, 0, 0.07), 0 30px 36px rgba(0, 0, 0, 0.04), 0 50px 43px rgba(0, 0, 0, 0.02);
   border-radius: 8px 8px 0 0;
@@ -2355,7 +2362,7 @@ body.is-dragging-components-draggable {
   color: #1e1e1e;
   animation-name: components-modal__appear-animation;
   animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0.29, 0, 0, 1);
+  animation-timing-function: var(--wpds-motion-easing-expressive, cubic-bezier(0.25, 0, 0, 1));
 }
 .components-modal__frame h1,
 .components-modal__frame h2,
@@ -2364,15 +2371,16 @@ body.is-dragging-components-draggable {
 }
 @media not (prefers-reduced-motion) {
   .components-modal__frame {
-    animation-duration: var(--modal-frame-animation-duration);
+    animation-duration: var(--wpds-motion-duration-md, 200ms);
   }
 }
 .components-modal__screen-overlay.is-animating-out .components-modal__frame {
   animation-name: components-modal__disappear-animation;
-  animation-timing-function: cubic-bezier(1, 0, 0.2, 1);
+  animation-timing-function: var(--wpds-motion-easing-expressive, cubic-bezier(0.25, 0, 0, 1));
 }
 @media (min-width: 600px) {
   .components-modal__frame {
+    align-self: auto;
     border-radius: 8px;
     margin: auto;
     width: auto;
@@ -2380,22 +2388,6 @@ body.is-dragging-components-draggable {
     max-width: calc(100% - 32px);
     max-height: calc(100% - 128px);
   }
-}
-@media (min-width: 600px) and (min-width: 600px) {
-  .components-modal__frame.is-full-screen {
-    width: calc(100% - 32px);
-    height: calc(100% - 32px);
-    max-height: none;
-  }
-}
-@media (min-width: 600px) and (min-width: 782px) {
-  .components-modal__frame.is-full-screen {
-    width: calc(100% - 80px);
-    height: calc(100% - 80px);
-    max-width: none;
-  }
-}
-@media (min-width: 600px) {
   .components-modal__frame.has-size-small, .components-modal__frame.has-size-medium, .components-modal__frame.has-size-large {
     width: 100%;
   }
@@ -2414,6 +2406,13 @@ body.is-dragging-components-draggable {
     max-height: 70%;
   }
 }
+.components-modal__frame.is-full-screen {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 0;
+}
 .components-modal__frame.is-full-screen :where(.components-modal__content) {
   display: flex;
   margin-bottom: 24px;
@@ -2422,25 +2421,62 @@ body.is-dragging-components-draggable {
 .components-modal__frame.is-full-screen :where(.components-modal__content) > :last-child {
   flex: 1;
 }
+@media (min-width: 600px) {
+  .components-modal__frame.is-full-screen {
+    margin: auto;
+    border-radius: 8px;
+    width: calc(100% - 32px);
+    height: calc(100% - 32px);
+  }
+}
+@media (min-width: 782px) {
+  .components-modal__frame.is-full-screen {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+    max-width: none;
+  }
+}
 
 @keyframes components-modal__appear-animation {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(100%);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 @keyframes components-modal__disappear-animation {
   from {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(100%);
+  }
+}
+@media (min-width: 600px) {
+  @keyframes components-modal__appear-animation {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes components-modal__disappear-animation {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9);
+    }
   }
 }
 .components-modal__header {
@@ -3005,10 +3041,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   width: 100%;
 }
 
-.components-popover__close.components-button {
-  z-index: 5;
-}
-
 .components-popover__arrow {
   position: absolute;
   width: 14px;
@@ -3497,7 +3529,7 @@ body.lockscroll {
 }
 @media not (prefers-reduced-motion) {
   .components-tab-panel__tabs-item::after {
-    transition: all 0.1s linear;
+    transition: height 0.1s linear;
   }
 }
 .components-tab-panel__tabs-item.is-active::after {
@@ -3518,7 +3550,7 @@ body.lockscroll {
 }
 @media not (prefers-reduced-motion) {
   .components-tab-panel__tabs-item::before {
-    transition: all 0.1s linear;
+    transition: box-shadow 0.1s linear;
   }
 }
 .components-tab-panel__tabs-item:focus-visible::before {

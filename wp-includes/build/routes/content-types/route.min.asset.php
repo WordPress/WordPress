@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('wp-i18n'), 'module_dependencies' => array(array('id' => '@wordpress/content-types', 'import' => 'static'), array('id' => '@wordpress/route', 'import' => 'static')), 'version' => '8795d28ffed87f0ea7f0');

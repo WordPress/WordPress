@@ -506,26 +506,23 @@ var wp;
     } else {
       modalContent = /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_components4.Navigator, { initialPath: "/", className: "preferences__provider", children: [
         /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.Navigator.Screen, { path: "/", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.Card, { isBorderless: true, size: "small", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.CardBody, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.__experimentalItemGroup, { children: tabs.map((tab) => {
-          return (
-            // @ts-expect-error: Navigator.Button is currently typed in a way that prevents Item from being passed in
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-              import_components4.Navigator.Button,
-              {
-                path: `/${tab.name}`,
-                as: import_components4.__experimentalItem,
-                isAction: true,
-                children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_components4.__experimentalHStack, { justify: "space-between", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.__experimentalTruncate, { children: tab.title }) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-                    icon_default,
-                    {
-                      icon: (0, import_i18n3.isRTL)() ? chevron_left_default : chevron_right_default
-                    }
-                  ) })
-                ] })
-              },
-              tab.name
-            )
+          return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+            import_components4.Navigator.Button,
+            {
+              path: `/${tab.name}`,
+              as: import_components4.__experimentalItem,
+              isAction: true,
+              children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(import_components4.__experimentalHStack, { justify: "space-between", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.__experimentalTruncate, { children: tab.title }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_components4.FlexItem, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+                  icon_default,
+                  {
+                    icon: (0, import_i18n3.isRTL)() ? chevron_left_default : chevron_right_default
+                  }
+                ) })
+              ] })
+            },
+            tab.name
           );
         }) }) }) }) }),
         sections.length && sections.map((section) => {

@@ -111,6 +111,25 @@ function wp_register_options_connectors_wp_admin_page_routes() {
 }
 add_action( 'options-connectors-wp-admin_init', 'wp_register_options_connectors_wp_admin_page_routes' );
 
+// Page-specific route registration functions for content-types
+/**
+ * Register routes for content-types page (full-page mode).
+ */
+function wp_register_content_types_page_routes() {
+	global $wp_content_types_routes_data;
+	wp_register_page_routes( $wp_content_types_routes_data, 'wp_register_content_types_route' );
+}
+add_action( 'content-types_init', 'wp_register_content_types_page_routes' );
+
+/**
+ * Register routes for content-types page (wp-admin mode).
+ */
+function wp_register_content_types_wp_admin_page_routes() {
+	global $wp_content_types_routes_data;
+	wp_register_page_routes( $wp_content_types_routes_data, 'wp_register_content_types_wp_admin_route' );
+}
+add_action( 'content-types-wp-admin_init', 'wp_register_content_types_wp_admin_page_routes' );
+
 // Page-specific route registration functions for dashboard
 /**
  * Register routes for dashboard page (full-page mode).
@@ -187,22 +206,22 @@ function wp_register_guidelines_wp_admin_page_routes() {
 }
 add_action( 'guidelines-wp-admin_init', 'wp_register_guidelines_wp_admin_page_routes' );
 
-// Page-specific route registration functions for taxonomies
+// Page-specific route registration functions for media-editor
 /**
- * Register routes for taxonomies page (full-page mode).
+ * Register routes for media-editor page (full-page mode).
  */
-function wp_register_taxonomies_page_routes() {
-	global $wp_taxonomies_routes_data;
-	wp_register_page_routes( $wp_taxonomies_routes_data, 'wp_register_taxonomies_route' );
+function wp_register_media_editor_page_routes() {
+	global $wp_media_editor_routes_data;
+	wp_register_page_routes( $wp_media_editor_routes_data, 'wp_register_media_editor_route' );
 }
-add_action( 'taxonomies_init', 'wp_register_taxonomies_page_routes' );
+add_action( 'media-editor_init', 'wp_register_media_editor_page_routes' );
 
 /**
- * Register routes for taxonomies page (wp-admin mode).
+ * Register routes for media-editor page (wp-admin mode).
  */
-function wp_register_taxonomies_wp_admin_page_routes() {
-	global $wp_taxonomies_routes_data;
-	wp_register_page_routes( $wp_taxonomies_routes_data, 'wp_register_taxonomies_wp_admin_route' );
+function wp_register_media_editor_wp_admin_page_routes() {
+	global $wp_media_editor_routes_data;
+	wp_register_page_routes( $wp_media_editor_routes_data, 'wp_register_media_editor_wp_admin_route' );
 }
-add_action( 'taxonomies-wp-admin_init', 'wp_register_taxonomies_wp_admin_page_routes' );
+add_action( 'media-editor-wp-admin_init', 'wp_register_media_editor_wp_admin_page_routes' );
 
