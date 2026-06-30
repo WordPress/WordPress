@@ -751,6 +751,17 @@ form#tags-filter {
 	margin: 12px 0 0;
 }
 
+#post-status-select select {
+	display: block;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+#post-status-select .save-post-status,
+#post-status-select .cancel-post-status {
+	vertical-align: middle;
+}
+
 #linksubmitdiv .inside, /* Old Link Manager back-compat. */
 #poststuff #submitdiv .inside {
 	margin: 0;
@@ -1937,10 +1948,15 @@ table.links-table {
 		line-height: 1.5;
 	}
 
+	.wp-core-ui #post-status-select .save-post-status.button,
 	.wp-core-ui .save-post-visibility,
 	.wp-core-ui .save-timestamp {
 		vertical-align: middle;
 		margin-right: 15px;
+	}
+
+	.wp-core-ui #post-status-select .save-post-status.button {
+		margin-left: 0;
 	}
 
 	.timestamp-wrap select#mm {
