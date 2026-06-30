@@ -819,7 +819,7 @@ add_filter( 'rest_pre_insert_wp_template', 'inject_ignored_hooked_blocks_metadat
 add_filter( 'rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes' );
 
 // View Config API.
-foreach ( array( 'page', 'post', 'wp_block', 'wp_template_part', 'wp_template' ) as $post_type ) {
+foreach ( array( 'page', 'wp_block', 'wp_template_part', 'wp_template' ) as $post_type ) {
 	add_filter(
 		"get_entity_view_config_postType_{$post_type}",
 		"_wp_get_entity_view_config_post_type_{$post_type}",

@@ -11,6 +11,89 @@
  */
 
 /**
+ * Builds the default `form` configuration for post types that don't provide their own.
+ *
+ * It is a sensible default for `post`, `page`, and custom post types alike rather
+ * than being tailored per type. Post types that need a different shape can replace
+ * it entirely with a dedicated `form` through their own filter callback.
+ *
+ * It is intentionally NOT gated by `supports`. The registered fields are the
+ * single source of truth for what applies: each field is registered for a post
+ * type based on its `supports` (and related flags such as `theme_supports`), and
+ * the editor drops any form field whose definition is absent or whose `isVisible`
+ * returns `false`.
+ *
+ * @since 7.1.0
+ *
+ * @return array The default form configuration.
+ */
+function _wp_get_default_post_type_form() {
+	return array(
+		'layout' => array( 'type' => 'panel' ),
+		'fields' => array(
+			array(
+				'id'     => 'featured_media',
+				'layout' => array(
+					'type'          => 'regular',
+					'labelPosition' => 'none',
+				),
+			),
+			array(
+				'id'     => 'post-content-info',
+				'layout' => array(
+					'type'          => 'regular',
+					'labelPosition' => 'none',
+				),
+			),
+			array(
+				'id'     => 'excerpt',
+				'layout' => array(
+					'type'          => 'panel',
+					'labelPosition' => 'top',
+				),
+			),
+			array(
+				'id'       => 'status',
+				'label'    => __( 'Status' ),
+				'children' => array(
+					array(
+						'id'     => 'status',
+						'layout' => array(
+							'type'          => 'regular',
+							'labelPosition' => 'none',
+						),
+					),
+					'scheduled_date',
+					'password',
+					'sticky',
+				),
+			),
+			'date',
+			'slug',
+			'author',
+			'template',
+			array(
+				'id'       => 'discussion',
+				'label'    => __( 'Discussion' ),
+				'children' => array(
+					array(
+						'id'     => 'comment_status',
+						'layout' => array(
+							'type'          => 'regular',
+							'labelPosition' => 'none',
+						),
+					),
+					'ping_status',
+				),
+			),
+			'parent',
+			'format',
+			'revisions',
+		),
+	);
+}
+
+/**
  * Returns the view configuration for the given entity.
  *
  * Builds the default configuration shared by all entities and then exposes it
@@ -65,7 +148,7 @@ function wp_get_entity_view_config( $kind, $name ) {
 		'default_view'    => $default_view,
 		'default_layouts' => $default_layouts,
 		'view_list'       => $view_list,
-		'form'            => array(),
+		'form'            => 'postType' === $kind ? _wp_get_default_post_type_form() : array(),
 	);
 
 	/**
@@ -241,148 +324,6 @@ function _wp_get_entity_view_config_post_type_page( $config ) {
 		),
 	);
 
-	$config['form'] = array(
-		'layout' => array( 'type' => 'panel' ),
-		'fields' => array(
-			array(
-				'id'     => 'featured_media',
-				'layout' => array(
-					'type'          => 'regular',
-					'labelPosition' => 'none',
-				),
-			),
-			array(
-				'id'     => 'post-content-info',
-				'layout' => array(
-					'type'          => 'regular',
-					'labelPosition' => 'none',
-				),
-			),
-			array(
-				'id'     => 'excerpt',
-				'layout' => array(
-					'type'          => 'panel',
-					'labelPosition' => 'top',
-				),
-			),
-			array(
-				'id'       => 'status',
-				'label'    => __( 'Status' ),
-				'children' => array(
-					array(
-						'id'     => 'status',
-						'layout' => array(
-							'type'          => 'regular',
-							'labelPosition' => 'none',
-						),
-					),
-					'scheduled_date',
-					'password',
-					'sticky',
-				),
-			),
-			'date',
-			'slug',
-			'author',
-			'template',
-			array(
-				'id'       => 'discussion',
-				'label'    => __( 'Discussion' ),
-				'children' => array(
-					array(
-						'id'     => 'comment_status',
-						'layout' => array(
-							'type'          => 'regular',
-							'labelPosition' => 'none',
-						),
-					),
-					'ping_status',
-				),
-			),
-			'parent',
-			'format',
-			'revisions',
-		),
-	);
-
-	return $config;
-}
-
-/**
- * Provides the view configuration for the `post` post type.
- *
- * @since 7.1.0
- *
- * @param array $config {
- *     The view configuration for the entity.
- * }
- * @return array The filtered view configuration.
- */
-function _wp_get_entity_view_config_post_type_post( $config ) {
-	$config['form'] = array(
-		'layout' => array( 'type' => 'panel' ),
-		'fields' => array(
-			array(
-				'id'     => 'featured_media',
-				'layout' => array(
-					'type'          => 'regular',
-					'labelPosition' => 'none',
-				),
-			),
-			array(
-				'id'     => 'post-content-info',
-				'layout' => array(
-					'type'          => 'regular',
-					'labelPosition' => 'none',
-				),
-			),
-			array(
-				'id'     => 'excerpt',
-				'layout' => array(
-					'type'          => 'panel',
-					'labelPosition' => 'top',
-				),
-			),
-			array(
-				'id'       => 'status',
-				'label'    => __( 'Status' ),
-				'children' => array(
-					array(
-						'id'     => 'status',
-						'layout' => array(
-							'type'          => 'regular',
-							'labelPosition' => 'none',
-						),
-					),
-					'scheduled_date',
-					'password',
-					'sticky',
-				),
-			),
-			'date',
-			'slug',
-			'author',
-			'template',
-			array(
-				'id'       => 'discussion',
-				'label'    => __( 'Discussion' ),
-				'children' => array(
-					array(
-						'id'     => 'comment_status',
-						'layout' => array(
-							'type'          => 'regular',
-							'labelPosition' => 'none',
-						),
-					),
-					'ping_status',
-				),
-			),
-			'parent',
-			'format',
-			'revisions',
-		),
-	);
-
 	return $config;
 }
 
@@ -472,6 +413,28 @@ function _wp_get_entity_view_config_post_type_wp_block( $config ) {
 	}
 
 	$config['view_list'] = $view_list;
+
+	$config['form'] = array(
+		'layout' => array( 'type' => 'panel' ),
+		'fields' => array(
+			array(
+				'id'     => 'excerpt',
+				'layout' => array(
+					'type'          => 'panel',
+					'labelPosition' => 'top',
+				),
+			),
+			array(
+				'id'     => 'post-content-info',
+				'layout' => array(
+					'type'          => 'regular',
+					'labelPosition' => 'none',
+				),
+			),
+			'sync-status',
+			'revisions',
+		),
+	);
 
 	return $config;
 }
