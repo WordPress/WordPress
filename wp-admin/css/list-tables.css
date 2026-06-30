@@ -1941,15 +1941,16 @@ div.action-links,
 
 	.tablenav .tablenav-pages .button,
 	.tablenav .tablenav-pages .tablenav-pages-navspan {
-		min-width: 44px;
-		padding: 12px 8px;
+		min-width: 40px;
+		min-height: 40px;
+		padding: 10px 8px;
 		font-size: 18px;
 		line-height: 1;
 	}
 
 	.tablenav-pages .pagination-links .current-page {
-		min-width: 44px;
-		padding: 12px 6px;
+		min-width: 40px;
+		padding: 10px 6px;
 		font-size: 16px;
 		line-height: 1.125;
 	}
@@ -2175,6 +2176,11 @@ div.action-links,
 		width: 100%;
 		max-width: none;
 		box-sizing: border-box;
+	}
+
+	.inline-edit-row select,
+	.inline-edit-row input:where(:not([type=checkbox],[type=radio],[type=submit],[type=button])) {
+		min-height: 40px;
 	}
 
 	.inline-edit-row fieldset input[name=jj],
