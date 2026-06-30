@@ -999,7 +999,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	/**
 	 * Steps through the HTML document and stop at the next tag, if any.
 	 *
+	 * This is an internal method. The relevant public methods are
+	 * {@see WP_HTML_Processor::next_tag()} and {@see WP_HTML_Processor::next_token()}.
+	 *
 	 * @since 6.4.0
+	 *
+	 * @access private
 	 *
 	 * @throws Exception When unable to allocate a bookmark for the next token in the input HTML document.
 	 *
