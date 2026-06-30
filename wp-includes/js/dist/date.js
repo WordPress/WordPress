@@ -2052,4 +2052,3 @@ moment-timezone/moment-timezone-utils.js:
   (*! license : MIT *)
   (*! github.com/moment/moment-timezone *)
 */
-if(wp.date&&typeof wp.date==='object'){wp.date=Object.assign({},wp.date);}

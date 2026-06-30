@@ -260,7 +260,7 @@ var wp;
   function useShortcut(name, callback, { isDisabled = false } = {}) {
     const shortcuts = (0, import_element3.useContext)(context);
     const isMatch = useShortcutEventMatch();
-    const callbackRef = (0, import_element3.useRef)(void 0);
+    const callbackRef = (0, import_element3.useRef)();
     (0, import_element3.useEffect)(() => {
       callbackRef.current = callback;
     }, [callback]);
@@ -301,4 +301,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.keyboardShortcuts&&typeof wp.keyboardShortcuts==='object'){wp.keyboardShortcuts=Object.assign({},wp.keyboardShortcuts);}

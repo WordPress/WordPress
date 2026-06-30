@@ -1184,4 +1184,3 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
-if(wp.router&&typeof wp.router==='object'){wp.router=Object.assign({},wp.router);}

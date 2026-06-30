@@ -292,4 +292,4 @@ var wp;
   var index_default = Shortcode;
   return __toCommonJS(index_exports);
 })();
-if (typeof wp.shortcode === 'object' && wp.shortcode.default) { wp.shortcode = wp.shortcode.default; }if(wp.shortcode&&typeof wp.shortcode==='object'){wp.shortcode=Object.assign({},wp.shortcode);}
+if (typeof wp.shortcode === 'object' && wp.shortcode.default) { wp.shortcode = wp.shortcode.default; }

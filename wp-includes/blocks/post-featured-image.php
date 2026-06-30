@@ -104,7 +104,7 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 		$height         = ! empty( $attributes['height'] ) ? 'style="' . esc_attr( safecss_filter_attr( 'height:' . $attributes['height'] ) ) . '"' : '';
 		$featured_image = sprintf(
 			'<a href="%1$s" target="%2$s" %3$s %4$s>%5$s%6$s</a>',
-			get_the_permalink( $post_ID ),
+			esc_url( get_the_permalink( $post_ID ) ),
 			esc_attr( $link_target ),
 			$rel,
 			$height,

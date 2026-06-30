@@ -7,20 +7,10 @@
  */
 
 foreach ( [
-	__DIR__ . '/pages/media-editor/page.php',
-	__DIR__ . '/pages/media-editor/page-wp-admin.php',
 	__DIR__ . '/pages/font-library/page.php',
 	__DIR__ . '/pages/font-library/page-wp-admin.php',
 	__DIR__ . '/pages/options-connectors/page.php',
 	__DIR__ . '/pages/options-connectors/page-wp-admin.php',
-	__DIR__ . '/pages/guidelines/page.php',
-	__DIR__ . '/pages/guidelines/page-wp-admin.php',
-	__DIR__ . '/pages/experiments/page.php',
-	__DIR__ . '/pages/experiments/page-wp-admin.php',
-	__DIR__ . '/pages/content-types/page.php',
-	__DIR__ . '/pages/content-types/page-wp-admin.php',
-	__DIR__ . '/pages/dashboard/page.php',
-	__DIR__ . '/pages/dashboard/page-wp-admin.php',
 ] as $file ) {
 	if ( file_exists( $file ) ) {
 		require_once $file;

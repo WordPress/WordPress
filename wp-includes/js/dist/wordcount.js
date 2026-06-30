@@ -208,4 +208,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.wordcount&&typeof wp.wordcount==='object'){wp.wordcount=Object.assign({},wp.wordcount);}

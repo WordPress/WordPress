@@ -362,4 +362,3 @@ var wp;
   var plugin_area_default = PluginArea;
   return __toCommonJS(index_exports);
 })();
-if(wp.plugins&&typeof wp.plugins==='object'){wp.plugins=Object.assign({},wp.plugins);}

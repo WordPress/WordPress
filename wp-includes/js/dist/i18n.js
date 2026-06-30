@@ -555,4 +555,3 @@ var wp;
   var hasTranslation = i18n.hasTranslation.bind(i18n);
   return __toCommonJS(index_exports);
 })();
-if(wp.i18n&&typeof wp.i18n==='object'){wp.i18n=Object.assign({},wp.i18n);}

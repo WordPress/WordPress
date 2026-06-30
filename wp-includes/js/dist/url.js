@@ -877,4 +877,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.url&&typeof wp.url==='object'){wp.url=Object.assign({},wp.url);}

@@ -166,7 +166,7 @@ var wp;
           return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
         }
         function useSyncExternalStore$2(subscribe, getSnapshot) {
-          didWarnOld18Alpha || void 0 === React48.startTransition || (didWarnOld18Alpha = true, console.error(
+          didWarnOld18Alpha || void 0 === React47.startTransition || (didWarnOld18Alpha = true, console.error(
             "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
           ));
           var value = getSnapshot();
@@ -180,7 +180,7 @@ var wp;
             inst: { value, getSnapshot }
           });
           var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
-          useLayoutEffect4(
+          useLayoutEffect3(
             function() {
               inst.value = value;
               inst.getSnapshot = getSnapshot;
@@ -214,8 +214,8 @@ var wp;
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React48 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState13 = React48.useState, useEffect13 = React48.useEffect, useLayoutEffect4 = React48.useLayoutEffect, useDebugValue2 = React48.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-        exports.useSyncExternalStore = void 0 !== React48.useSyncExternalStore ? React48.useSyncExternalStore : shim;
+        var React47 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState13 = React47.useState, useEffect13 = React47.useEffect, useLayoutEffect3 = React47.useLayoutEffect, useDebugValue2 = React47.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        exports.useSyncExternalStore = void 0 !== React47.useSyncExternalStore ? React47.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -242,14 +242,14 @@ var wp;
           return x === y && (0 !== x || 1 / x === 1 / y) || x !== x && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React48 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore2 = shim.useSyncExternalStore, useRef18 = React48.useRef, useEffect13 = React48.useEffect, useMemo16 = React48.useMemo, useDebugValue2 = React48.useDebugValue;
+        var React47 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore2 = shim.useSyncExternalStore, useRef19 = React47.useRef, useEffect13 = React47.useEffect, useMemo15 = React47.useMemo, useDebugValue2 = React47.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual) {
-          var instRef = useRef18(null);
+          var instRef = useRef19(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo16(
+          instRef = useMemo15(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -899,7 +899,7 @@ var wp;
   // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.mjs
   var import_block_editor3 = __toESM(require_block_editor(), 1);
   var import_compose = __toESM(require_compose(), 1);
-  var import_element18 = __toESM(require_element(), 1);
+  var import_element20 = __toESM(require_element(), 1);
 
   // packages/block-directory/build-module/components/downloadable-blocks-panel/index.mjs
   var import_i18n8 = __toESM(require_i18n(), 1);
@@ -933,19 +933,22 @@ var wp;
   // packages/block-directory/build-module/components/downloadable-block-list-item/index.mjs
   var import_i18n4 = __toESM(require_i18n(), 1);
   var import_components = __toESM(require_components(), 1);
-  var import_element16 = __toESM(require_element(), 1);
+  var import_element18 = __toESM(require_element(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data6 = __toESM(require_data(), 1);
 
-  // node_modules/@base-ui/utils/esm/useStableCallback.js
-  var React2 = __toESM(require_react(), 1);
+  // node_modules/@base-ui/utils/esm/safeReact.js
+  var React = __toESM(require_react(), 1);
+  var SafeReact = {
+    ...React
+  };
 
   // node_modules/@base-ui/utils/esm/useRefWithInit.js
-  var React = __toESM(require_react(), 1);
+  var React2 = __toESM(require_react(), 1);
   var UNINITIALIZED = {};
   function useRefWithInit(init, initArg) {
-    const ref = React.useRef(UNINITIALIZED);
+    const ref = React2.useRef(UNINITIALIZED);
     if (ref.current === UNINITIALIZED) {
       ref.current = init(initArg);
     }
@@ -953,11 +956,11 @@ var wp;
   }
 
   // node_modules/@base-ui/utils/esm/useStableCallback.js
-  var useInsertionEffect = React2[`useInsertionEffect${Math.random().toFixed(1)}`.slice(0, -3)];
+  var useInsertionEffect = SafeReact.useInsertionEffect;
   var useSafeInsertionEffect = (
     // React 17 doesn't have useInsertionEffect.
     useInsertionEffect && // Preact replaces useInsertionEffect with useLayoutEffect and fires too late.
-    useInsertionEffect !== React2.useLayoutEffect ? useInsertionEffect : (fn) => fn()
+    useInsertionEffect !== SafeReact.useLayoutEffect ? useInsertionEffect : (fn) => fn()
   );
   function useStableCallback(callback) {
     const stable = useRefWithInit(createStableCallback).current;
@@ -1469,6 +1472,7 @@ var wp;
     focusOut: () => focusOut,
     imperativeAction: () => imperativeAction,
     incrementPress: () => incrementPress,
+    initial: () => initial,
     inputBlur: () => inputBlur,
     inputChange: () => inputChange,
     inputClear: () => inputClear,
@@ -1478,6 +1482,7 @@ var wp;
     keyboard: () => keyboard,
     linkPress: () => linkPress,
     listNavigation: () => listNavigation,
+    missing: () => missing,
     none: () => none,
     outsidePress: () => outsidePress,
     pointer: () => pointer,
@@ -1521,6 +1526,8 @@ var wp;
   var cancelOpen = "cancel-open";
   var siblingOpen = "sibling-open";
   var disabled = "disabled";
+  var missing = "missing";
+  var initial = "initial";
   var imperativeAction = "imperative-action";
   var swipe = "swipe";
   var windowResize = "window-resize";
@@ -1552,20 +1559,12 @@ var wp;
   }
 
   // node_modules/@base-ui/utils/esm/useId.js
-  var React9 = __toESM(require_react(), 1);
-
-  // node_modules/@base-ui/utils/esm/safeReact.js
   var React8 = __toESM(require_react(), 1);
-  var SafeReact = {
-    ...React8
-  };
-
-  // node_modules/@base-ui/utils/esm/useId.js
   var globalId = 0;
   function useGlobalId(idOverride, prefix = "mui") {
-    const [defaultId, setDefaultId] = React9.useState(idOverride);
+    const [defaultId, setDefaultId] = React8.useState(idOverride);
     const id = idOverride || defaultId;
-    React9.useEffect(() => {
+    React8.useEffect(() => {
       if (defaultId == null) {
         globalId += 1;
         setDefaultId(`${prefix}-${globalId}`);
@@ -1587,14 +1586,14 @@ var wp;
     return useId(idOverride, "base-ui");
   }
 
-  // node_modules/@base-ui/react/esm/internals/useAnimationsFinished.js
-  var ReactDOM = __toESM(require_react_dom(), 1);
+  // node_modules/@base-ui/react/esm/internals/useTransitionStatus.js
+  var React10 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/utils/esm/useOnMount.js
-  var React10 = __toESM(require_react(), 1);
+  var React9 = __toESM(require_react(), 1);
   var EMPTY = [];
   function useOnMount(fn) {
-    React10.useEffect(fn, EMPTY);
+    React9.useEffect(fn, EMPTY);
   }
 
   // node_modules/@base-ui/utils/esm/useAnimationFrame.js
@@ -1685,103 +1684,10 @@ var wp;
     return timeout;
   }
 
-  // node_modules/@base-ui/react/esm/utils/resolveRef.js
-  function resolveRef(maybeRef) {
-    if (maybeRef == null) {
-      return maybeRef;
-    }
-    return "current" in maybeRef ? maybeRef.current : maybeRef;
-  }
-
-  // node_modules/@base-ui/react/esm/internals/stateAttributesMapping.js
-  var TransitionStatusDataAttributes = /* @__PURE__ */ (function(TransitionStatusDataAttributes2) {
-    TransitionStatusDataAttributes2["startingStyle"] = "data-starting-style";
-    TransitionStatusDataAttributes2["endingStyle"] = "data-ending-style";
-    return TransitionStatusDataAttributes2;
-  })({});
-  var STARTING_HOOK = {
-    [TransitionStatusDataAttributes.startingStyle]: ""
-  };
-  var ENDING_HOOK = {
-    [TransitionStatusDataAttributes.endingStyle]: ""
-  };
-  var transitionStatusMapping = {
-    transitionStatus(value) {
-      if (value === "starting") {
-        return STARTING_HOOK;
-      }
-      if (value === "ending") {
-        return ENDING_HOOK;
-      }
-      return null;
-    }
-  };
-
-  // node_modules/@base-ui/react/esm/internals/useAnimationsFinished.js
-  function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, treatAbortedAsFinished = true) {
-    const frame = useAnimationFrame();
-    return useStableCallback((fnToExecute, signal = null) => {
-      frame.cancel();
-      const element = resolveRef(elementOrRef);
-      if (element == null) {
-        return;
-      }
-      const resolvedElement = element;
-      const done = () => {
-        ReactDOM.flushSync(fnToExecute);
-      };
-      if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
-        fnToExecute();
-        return;
-      }
-      function exec() {
-        Promise.all(resolvedElement.getAnimations().map((animation) => animation.finished)).then(() => {
-          if (!signal?.aborted) {
-            done();
-          }
-        }).catch(() => {
-          if (treatAbortedAsFinished) {
-            if (!signal?.aborted) {
-              done();
-            }
-            return;
-          }
-          const currentAnimations = resolvedElement.getAnimations();
-          if (!signal?.aborted && currentAnimations.length > 0 && currentAnimations.some((animation) => animation.pending || animation.playState !== "finished")) {
-            exec();
-          }
-        });
-      }
-      if (waitForStartingStyleRemoved) {
-        const startingStyleAttribute = TransitionStatusDataAttributes.startingStyle;
-        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-          frame.request(exec);
-          return;
-        }
-        const attributeObserver = new MutationObserver(() => {
-          if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-            attributeObserver.disconnect();
-            exec();
-          }
-        });
-        attributeObserver.observe(resolvedElement, {
-          attributes: true,
-          attributeFilter: [startingStyleAttribute]
-        });
-        signal?.addEventListener("abort", () => attributeObserver.disconnect(), {
-          once: true
-        });
-        return;
-      }
-      frame.request(exec);
-    });
-  }
-
   // node_modules/@base-ui/react/esm/internals/useTransitionStatus.js
-  var React11 = __toESM(require_react(), 1);
   function useTransitionStatus(open, enableIdleState = false, deferEndingState = false) {
-    const [transitionStatus, setTransitionStatus] = React11.useState(open && enableIdleState ? "idle" : void 0);
-    const [mounted, setMounted] = React11.useState(open);
+    const [transitionStatus, setTransitionStatus] = React10.useState(open && enableIdleState ? "idle" : void 0);
+    const [mounted, setMounted] = React10.useState(open);
     if (open && !mounted) {
       setMounted(true);
       setTransitionStatus("starting");
@@ -1834,6 +1740,30 @@ var wp;
       transitionStatus
     };
   }
+
+  // node_modules/@base-ui/react/esm/internals/stateAttributesMapping.js
+  var TransitionStatusDataAttributes = /* @__PURE__ */ (function(TransitionStatusDataAttributes2) {
+    TransitionStatusDataAttributes2["startingStyle"] = "data-starting-style";
+    TransitionStatusDataAttributes2["endingStyle"] = "data-ending-style";
+    return TransitionStatusDataAttributes2;
+  })({});
+  var STARTING_HOOK = {
+    [TransitionStatusDataAttributes.startingStyle]: ""
+  };
+  var ENDING_HOOK = {
+    [TransitionStatusDataAttributes.endingStyle]: ""
+  };
+  var transitionStatusMapping = {
+    transitionStatus(value) {
+      if (value === "starting") {
+        return STARTING_HOOK;
+      }
+      if (value === "ending") {
+        return ENDING_HOOK;
+      }
+      return null;
+    }
+  };
 
   // node_modules/@floating-ui/utils/dist/floating-ui.utils.dom.mjs
   function hasWindow() {
@@ -2052,8 +1982,6 @@ var wp;
 
   // node_modules/@base-ui/react/esm/floating-ui-react/utils/constants.js
   var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
-  var ACTIVE_KEY = "active";
-  var SELECTED_KEY = "selected";
   var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
 
   // node_modules/@base-ui/react/esm/internals/shadowDom.js
@@ -2482,8 +2410,99 @@ var wp;
     };
   }
 
+  // node_modules/@base-ui/utils/esm/useValueAsRef.js
+  function useValueAsRef(value) {
+    const latest = useRefWithInit(createLatestRef, value).current;
+    latest.next = value;
+    useIsoLayoutEffect(latest.effect);
+    return latest;
+  }
+  function createLatestRef(value) {
+    const latest = {
+      current: value,
+      next: value,
+      effect: () => {
+        latest.current = latest.next;
+      }
+    };
+    return latest;
+  }
+
   // node_modules/@base-ui/react/esm/internals/useOpenChangeComplete.js
-  var React12 = __toESM(require_react(), 1);
+  var React11 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/react/esm/internals/useAnimationsFinished.js
+  var ReactDOM = __toESM(require_react_dom(), 1);
+
+  // node_modules/@base-ui/react/esm/utils/resolveRef.js
+  function resolveRef(maybeRef) {
+    if (maybeRef == null) {
+      return maybeRef;
+    }
+    return "current" in maybeRef ? maybeRef.current : maybeRef;
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useAnimationsFinished.js
+  function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, treatAbortedAsFinished = true) {
+    const frame = useAnimationFrame();
+    return useStableCallback((fnToExecute, signal = null) => {
+      frame.cancel();
+      const element = resolveRef(elementOrRef);
+      if (element == null) {
+        return;
+      }
+      const resolvedElement = element;
+      const done = () => {
+        ReactDOM.flushSync(fnToExecute);
+      };
+      if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
+        fnToExecute();
+        return;
+      }
+      function exec() {
+        Promise.all(resolvedElement.getAnimations().map((animation) => animation.finished)).then(() => {
+          if (!signal?.aborted) {
+            done();
+          }
+        }).catch(() => {
+          if (treatAbortedAsFinished) {
+            if (!signal?.aborted) {
+              done();
+            }
+            return;
+          }
+          const currentAnimations = resolvedElement.getAnimations();
+          if (!signal?.aborted && currentAnimations.length > 0 && currentAnimations.some((animation) => animation.pending || animation.playState !== "finished")) {
+            exec();
+          }
+        });
+      }
+      if (waitForStartingStyleRemoved) {
+        const startingStyleAttribute = TransitionStatusDataAttributes.startingStyle;
+        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+          frame.request(exec);
+          return;
+        }
+        const attributeObserver = new MutationObserver(() => {
+          if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+            attributeObserver.disconnect();
+            exec();
+          }
+        });
+        attributeObserver.observe(resolvedElement, {
+          attributes: true,
+          attributeFilter: [startingStyleAttribute]
+        });
+        signal?.addEventListener("abort", () => attributeObserver.disconnect(), {
+          once: true
+        });
+        return;
+      }
+      frame.request(exec);
+    });
+  }
+
+  // node_modules/@base-ui/react/esm/internals/useOpenChangeComplete.js
   function useOpenChangeComplete(parameters) {
     const {
       enabled = true,
@@ -2493,7 +2512,7 @@ var wp;
     } = parameters;
     const onComplete = useStableCallback(onCompleteParam);
     const runOnceAnimationsFinish = useAnimationsFinished(ref, open, false);
-    React12.useEffect(() => {
+    React11.useEffect(() => {
       if (!enabled) {
         return void 0;
       }
@@ -2506,9 +2525,9 @@ var wp;
   }
 
   // node_modules/@base-ui/utils/esm/useOnFirstRender.js
-  var React13 = __toESM(require_react(), 1);
+  var React12 = __toESM(require_react(), 1);
   function useOnFirstRender(fn) {
-    const ref = React13.useRef(true);
+    const ref = React12.useRef(true);
     if (ref.current) {
       ref.current = false;
       fn();
@@ -2552,7 +2571,7 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingDelayGroup.js
-  var React14 = __toESM(require_react(), 1);
+  var React13 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useHoverShared.js
   function resolveValue(value, pointerType) {
@@ -2580,10 +2599,13 @@ var wp;
   function isClickLikeOpenEvent(openEventType, interactedInside) {
     return interactedInside || openEventType === "click" || openEventType === "mousedown";
   }
+  function isHoverOpenEvent(openEventType) {
+    return openEventType?.includes("mouse") && openEventType !== "mousedown";
+  }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingDelayGroup.js
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var FloatingDelayGroupContext = /* @__PURE__ */ React14.createContext({
+  var FloatingDelayGroupContext = /* @__PURE__ */ React13.createContext({
     hasProvider: false,
     timeoutMs: 0,
     delayRef: {
@@ -2607,13 +2629,13 @@ var wp;
       delay,
       timeoutMs = 0
     } = props;
-    const delayRef = React14.useRef(delay);
-    const initialDelayRef = React14.useRef(delay);
-    const currentIdRef = React14.useRef(null);
-    const currentContextRef = React14.useRef(null);
+    const delayRef = React13.useRef(delay);
+    const initialDelayRef = React13.useRef(delay);
+    const currentIdRef = React13.useRef(null);
+    const currentContextRef = React13.useRef(null);
     const timeout = useTimeout();
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FloatingDelayGroupContext.Provider, {
-      value: React14.useMemo(() => ({
+      value: React13.useMemo(() => ({
         hasProvider: true,
         delayRef,
         initialDelayRef,
@@ -2628,12 +2650,12 @@ var wp;
   function useDelayGroup(context, options = {
     open: false
   }) {
-    const store2 = "rootStore" in context ? context.rootStore : context;
-    const floatingId = store2.useState("floatingId");
     const {
       open
     } = options;
-    const groupContext = React14.useContext(FloatingDelayGroupContext);
+    const store2 = "rootStore" in context ? context.rootStore : context;
+    const floatingId = store2.useState("floatingId");
+    const groupContext = React13.useContext(FloatingDelayGroupContext);
     const {
       currentIdRef,
       delayRef,
@@ -2643,7 +2665,7 @@ var wp;
       hasProvider,
       timeout
     } = groupContext;
-    const [isInstantPhase, setIsInstantPhase] = React14.useState(false);
+    const [isInstantPhase, setIsInstantPhase] = React13.useState(false);
     useIsoLayoutEffect(() => {
       function unset() {
         setIsInstantPhase(false);
@@ -2697,13 +2719,13 @@ var wp;
         setIsInstantPhase(false);
         prevContext?.setIsInstantPhase(false);
       }
-    }, [open, floatingId, store2, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout]);
+    }, [open, floatingId, store2, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
     useIsoLayoutEffect(() => {
       return () => {
         currentContextRef.current = null;
       };
     }, [currentContextRef]);
-    return React14.useMemo(() => ({
+    return React13.useMemo(() => ({
       hasProvider,
       delayRef,
       isInstantPhase
@@ -2722,26 +2744,8 @@ var wp;
     };
   }
 
-  // node_modules/@base-ui/utils/esm/useValueAsRef.js
-  function useValueAsRef(value) {
-    const latest = useRefWithInit(createLatestRef, value).current;
-    latest.next = value;
-    useIsoLayoutEffect(latest.effect);
-    return latest;
-  }
-  function createLatestRef(value) {
-    const latest = {
-      current: value,
-      next: value,
-      effect: () => {
-        latest.current = latest.next;
-      }
-    };
-    return latest;
-  }
-
   // node_modules/@base-ui/react/esm/utils/FocusGuard.js
-  var React15 = __toESM(require_react(), 1);
+  var React14 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/utils/esm/visuallyHidden.js
   var visuallyHiddenBase = {
@@ -2767,8 +2771,8 @@ var wp;
 
   // node_modules/@base-ui/react/esm/utils/FocusGuard.js
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var FocusGuard = /* @__PURE__ */ React15.forwardRef(function FocusGuard2(props, ref) {
-    const [role, setRole] = React15.useState();
+  var FocusGuard = /* @__PURE__ */ React14.forwardRef(function FocusGuard2(props, ref) {
+    const [role, setRole] = React14.useState();
     useIsoLayoutEffect(() => {
       if (isSafari) {
         setRole("button");
@@ -2796,7 +2800,7 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingPortal.js
-  var React16 = __toESM(require_react(), 1);
+  var React15 = __toESM(require_react(), 1);
   var ReactDOM2 = __toESM(require_react_dom(), 1);
 
   // node_modules/@base-ui/react/esm/internals/constants.js
@@ -2821,9 +2825,9 @@ var wp;
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingPortal.js
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var PortalContext = /* @__PURE__ */ React16.createContext(null);
+  var PortalContext = /* @__PURE__ */ React15.createContext(null);
   if (true) PortalContext.displayName = "PortalContext";
-  var usePortalContext = () => React16.useContext(PortalContext);
+  var usePortalContext = () => React15.useContext(PortalContext);
   var attr = createAttribute("portal");
   function useFloatingPortalNode(props = {}) {
     const {
@@ -2835,14 +2839,14 @@ var wp;
     const uniqueId = useId();
     const portalContext = usePortalContext();
     const parentPortalNode = portalContext?.portalNode;
-    const [containerElement, setContainerElement] = React16.useState(null);
-    const [portalNode, setPortalNode] = React16.useState(null);
+    const [containerElement, setContainerElement] = React15.useState(null);
+    const [portalNode, setPortalNode] = React15.useState(null);
     const setPortalNodeRef = useStableCallback((node) => {
       if (node !== null) {
         setPortalNode(node);
       }
     });
-    const containerRef = React16.useRef(null);
+    const containerRef = React15.useRef(null);
     useIsoLayoutEffect(() => {
       if (containerProp === null) {
         if (containerRef.current) {
@@ -2883,14 +2887,14 @@ var wp;
       portalSubtree
     };
   }
-  var FloatingPortal = /* @__PURE__ */ React16.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
+  var FloatingPortal = /* @__PURE__ */ React15.forwardRef(function FloatingPortal2(componentProps, forwardedRef) {
     const {
+      render,
+      className,
+      style,
       children,
       container,
-      className,
-      render,
       renderGuards,
-      style,
       ...elementProps
     } = componentProps;
     const {
@@ -2902,16 +2906,16 @@ var wp;
       componentProps,
       elementProps
     });
-    const beforeOutsideRef = React16.useRef(null);
-    const afterOutsideRef = React16.useRef(null);
-    const beforeInsideRef = React16.useRef(null);
-    const afterInsideRef = React16.useRef(null);
-    const [focusManagerState, setFocusManagerState] = React16.useState(null);
-    const focusInsideDisabledRef = React16.useRef(false);
+    const beforeOutsideRef = React15.useRef(null);
+    const afterOutsideRef = React15.useRef(null);
+    const beforeInsideRef = React15.useRef(null);
+    const afterInsideRef = React15.useRef(null);
+    const [focusManagerState, setFocusManagerState] = React15.useState(null);
+    const focusInsideDisabledRef = React15.useRef(false);
     const modal = focusManagerState?.modal;
     const open = focusManagerState?.open;
     const shouldRenderGuards = typeof renderGuards === "boolean" ? renderGuards : !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
-    React16.useEffect(() => {
+    React15.useEffect(() => {
       if (!portalNode || modal) {
         return void 0;
       }
@@ -2930,14 +2934,14 @@ var wp;
       }
       return mergeCleanups(addEventListener(portalNode, "focusin", onFocus, true), addEventListener(portalNode, "focusout", onFocus, true));
     }, [portalNode, modal]);
-    React16.useEffect(() => {
+    React15.useEffect(() => {
       if (!portalNode || open !== false) {
         return;
       }
       enableFocusInside(portalNode);
       focusInsideDisabledRef.current = false;
     }, [open, portalNode]);
-    const portalContextValue = React16.useMemo(() => ({
+    const portalContextValue = React15.useMemo(() => ({
       beforeOutsideRef,
       afterOutsideRef,
       beforeInsideRef,
@@ -2945,7 +2949,7 @@ var wp;
       portalNode,
       setFocusManagerState
     }), [portalNode]);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(React16.Fragment, {
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(React15.Fragment, {
       children: [portalSubtree, /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(PortalContext.Provider, {
         value: portalContextValue,
         children: [shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FocusGuard, {
@@ -2985,7 +2989,7 @@ var wp;
   if (true) FloatingPortal.displayName = "FloatingPortal";
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingTree.js
-  var React17 = __toESM(require_react(), 1);
+  var React16 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/floating-ui-react/utils/createEventEmitter.js
   function createEventEmitter() {
@@ -3008,18 +3012,18 @@ var wp;
 
   // node_modules/@base-ui/react/esm/floating-ui-react/components/FloatingTree.js
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var FloatingNodeContext = /* @__PURE__ */ React17.createContext(null);
+  var FloatingNodeContext = /* @__PURE__ */ React16.createContext(null);
   if (true) FloatingNodeContext.displayName = "FloatingNodeContext";
-  var FloatingTreeContext = /* @__PURE__ */ React17.createContext(null);
+  var FloatingTreeContext = /* @__PURE__ */ React16.createContext(null);
   if (true) FloatingTreeContext.displayName = "FloatingTreeContext";
-  var useFloatingParentNodeId = () => React17.useContext(FloatingNodeContext)?.id || null;
+  var useFloatingParentNodeId = () => React16.useContext(FloatingNodeContext)?.id || null;
   var useFloatingTree = (externalTree) => {
-    const contextTree = React17.useContext(FloatingTreeContext);
+    const contextTree = React16.useContext(FloatingTreeContext);
     return externalTree ?? contextTree;
   };
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useClientPoint.js
-  var React18 = __toESM(require_react(), 1);
+  var React17 = __toESM(require_react(), 1);
   function createVirtualElement(domElement, data) {
     let offsetX = null;
     let offsetY = null;
@@ -3077,19 +3081,22 @@ var wp;
     return event != null && event.clientX != null;
   }
   function useClientPoint(context, props = {}) {
+    const {
+      enabled = true,
+      axis = "both"
+    } = props;
     const store2 = "rootStore" in context ? context.rootStore : context;
     const open = store2.useState("open");
     const floating = store2.useState("floatingElement");
     const domReference = store2.useState("domReferenceElement");
     const dataRef = store2.context.dataRef;
-    const {
-      enabled = true,
-      axis = "both"
-    } = props;
-    const initialRef = React18.useRef(false);
-    const cleanupListenerRef = React18.useRef(null);
-    const [pointerType, setPointerType] = React18.useState();
-    const [reactive, setReactive] = React18.useState([]);
+    const initialRef = React17.useRef(false);
+    const cleanupListenerRef = React17.useRef(null);
+    const [pointerType, setPointerType] = React17.useState();
+    const [reactive, setReactive] = React17.useState([]);
+    const resetReference = useStableCallback((reference2) => {
+      store2.set("positionReference", reference2);
+    });
     const setReference = useStableCallback((newX, newY, referenceElement) => {
       if (initialRef.current) {
         return;
@@ -3109,13 +3116,22 @@ var wp;
       if (!open) {
         setReference(event.clientX, event.clientY, event.currentTarget);
       } else if (!cleanupListenerRef.current) {
+        setReference(event.clientX, event.clientY, event.currentTarget);
         setReactive([]);
       }
     });
     const openCheck = isMouseLikePointerType(pointerType) ? floating : open;
-    const addListener = React18.useCallback(() => {
-      if (!openCheck || !enabled) {
+    React17.useEffect(() => {
+      if (!enabled) {
+        resetReference(domReference);
         return void 0;
+      }
+      if (!openCheck) {
+        return void 0;
+      }
+      function cleanupListener() {
+        cleanupListenerRef.current?.();
+        cleanupListenerRef.current = null;
       }
       const win = getWindow(floating);
       function handleMouseMove(event) {
@@ -3123,35 +3139,30 @@ var wp;
         if (!contains(floating, target)) {
           setReference(event.clientX, event.clientY);
         } else {
-          cleanupListenerRef.current?.();
-          cleanupListenerRef.current = null;
+          cleanupListener();
         }
       }
       if (!dataRef.current.openEvent || isMouseBasedEvent(dataRef.current.openEvent)) {
-        const cleanup = () => {
-          cleanupListenerRef.current?.();
-          cleanupListenerRef.current = null;
-        };
         cleanupListenerRef.current = addEventListener(win, "mousemove", handleMouseMove);
-        return cleanup;
+      } else {
+        resetReference(domReference);
       }
-      store2.set("positionReference", domReference);
-      return void 0;
-    }, [openCheck, enabled, floating, dataRef, domReference, store2, setReference]);
-    React18.useEffect(() => {
-      return addListener();
-    }, [addListener, reactive]);
-    React18.useEffect(() => {
+      return cleanupListener;
+    }, [openCheck, enabled, floating, dataRef, domReference, store2, setReference, resetReference, reactive]);
+    React17.useEffect(() => () => {
+      store2.set("positionReference", null);
+    }, [store2]);
+    React17.useEffect(() => {
       if (enabled && !floating) {
         initialRef.current = false;
       }
     }, [enabled, floating]);
-    React18.useEffect(() => {
+    React17.useEffect(() => {
       if (!enabled && open) {
         initialRef.current = true;
       }
     }, [enabled, open]);
-    const reference = React18.useMemo(() => {
+    const reference = React17.useMemo(() => {
       function setPointerTypeRef(event) {
         setPointerType(event.pointerType);
       }
@@ -3162,14 +3173,14 @@ var wp;
         onMouseEnter: handleReferenceEnterOrMove
       };
     }, [handleReferenceEnterOrMove]);
-    return React18.useMemo(() => enabled ? {
+    return React17.useMemo(() => enabled ? {
       reference,
       trigger: reference
     } : {}, [enabled, reference]);
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useDismiss.js
-  var React19 = __toESM(require_react(), 1);
+  var React18 = __toESM(require_react(), 1);
   var bubbleHandlerKeys = {
     intentional: "onClick",
     sloppy: "onPointerDown"
@@ -3184,12 +3195,6 @@ var wp;
     };
   }
   function useDismiss(context, props = {}) {
-    const store2 = "rootStore" in context ? context.rootStore : context;
-    const open = store2.useState("open");
-    const floatingElement = store2.useState("floatingElement");
-    const {
-      dataRef
-    } = store2.context;
     const {
       enabled = true,
       escapeKey: escapeKey2 = true,
@@ -3200,28 +3205,47 @@ var wp;
       bubbles,
       externalTree
     } = props;
+    const store2 = "rootStore" in context ? context.rootStore : context;
+    const open = store2.useState("open");
+    const floatingElement = store2.useState("floatingElement");
+    const {
+      dataRef
+    } = store2.context;
     const tree = useFloatingTree(externalTree);
     const outsidePressFn = useStableCallback(typeof outsidePressProp === "function" ? outsidePressProp : () => false);
     const outsidePress2 = typeof outsidePressProp === "function" ? outsidePressFn : outsidePressProp;
     const outsidePressEnabled = outsidePress2 !== false;
     const getOutsidePressEventProp = useStableCallback(() => outsidePressEvent);
-    const pressStartedInsideRef = React19.useRef(false);
-    const pressStartPreventedRef = React19.useRef(false);
-    const suppressNextOutsideClickRef = React19.useRef(false);
     const {
       escapeKey: escapeKeyBubbles,
       outsidePress: outsidePressBubbles
     } = normalizeProp(bubbles);
-    const touchStateRef = React19.useRef(null);
+    const pressStartedInsideRef = React18.useRef(false);
+    const pressStartPreventedRef = React18.useRef(false);
+    const suppressNextOutsideClickRef = React18.useRef(false);
+    const isComposingRef = React18.useRef(false);
+    const currentPointerTypeRef = React18.useRef("");
+    const touchStateRef = React18.useRef(null);
     const cancelDismissOnEndTimeout = useTimeout();
     const clearInsideReactTreeTimeout = useTimeout();
     const clearInsideReactTree = useStableCallback(() => {
       clearInsideReactTreeTimeout.clear();
       dataRef.current.insideReactTree = false;
     });
-    const isComposingRef = React19.useRef(false);
-    const currentPointerTypeRef = React19.useRef("");
-    const isReferencePressEnabled = useStableCallback(referencePress);
+    const hasBlockingChild = useStableCallback((bubbleKey) => {
+      const nodeId = dataRef.current.floatingContext?.nodeId;
+      const children = tree ? getNodeChildren(tree.nodesRef.current, nodeId) : [];
+      return children.some((child) => child.context?.open && !child.context.dataRef.current[bubbleKey]);
+    });
+    const isEventWithinOwnElements = useStableCallback((event) => {
+      return isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement"));
+    });
+    const closeOnReferencePress = useStableCallback((event) => {
+      if (!referencePress()) {
+        return;
+      }
+      store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
+    });
     const closeOnEscapeKeyDown = useStableCallback((event) => {
       if (!open || !enabled || !escapeKey2 || event.key !== "Escape") {
         return;
@@ -3229,24 +3253,15 @@ var wp;
       if (isComposingRef.current) {
         return;
       }
-      const nodeId = dataRef.current.floatingContext?.nodeId;
-      const children = tree ? getNodeChildren(tree.nodesRef.current, nodeId) : [];
-      if (!escapeKeyBubbles) {
-        if (children.length > 0) {
-          let shouldDismiss = true;
-          children.forEach((child) => {
-            if (child.context?.open && !child.context.dataRef.current.__escapeKeyBubbles) {
-              shouldDismiss = false;
-            }
-          });
-          if (!shouldDismiss) {
-            return;
-          }
-        }
+      if (!escapeKeyBubbles && hasBlockingChild("__escapeKeyBubbles")) {
+        return;
       }
       const native = isReactEvent(event) ? event.nativeEvent : event;
       const eventDetails = createChangeEventDetails(reason_parts_exports.escapeKey, native);
       store2.setOpen(false, eventDetails);
+      if (!eventDetails.isCanceled) {
+        event.preventDefault();
+      }
       if (!escapeKeyBubbles && !eventDetails.isPropagationAllowed) {
         event.stopPropagation();
       }
@@ -3255,7 +3270,31 @@ var wp;
       dataRef.current.insideReactTree = true;
       clearInsideReactTreeTimeout.start(0, clearInsideReactTree);
     });
-    React19.useEffect(() => {
+    const markPressStartedInsideReactTree = useStableCallback((event) => {
+      if (!open || !enabled || event.button !== 0) {
+        return;
+      }
+      const target = getTarget(event.nativeEvent);
+      if (!contains(store2.select("floatingElement"), target)) {
+        return;
+      }
+      if (!pressStartedInsideRef.current) {
+        pressStartedInsideRef.current = true;
+        pressStartPreventedRef.current = false;
+      }
+    });
+    const markInsidePressStartPrevented = useStableCallback((event) => {
+      if (!open || !enabled) {
+        return;
+      }
+      if (!(event.defaultPrevented || event.nativeEvent.defaultPrevented)) {
+        return;
+      }
+      if (pressStartedInsideRef.current) {
+        pressStartPreventedRef.current = true;
+      }
+    });
+    React18.useEffect(() => {
       if (!open || !enabled) {
         return void 0;
       }
@@ -3304,10 +3343,14 @@ var wp;
       function isEventWithinFloatingTree(event) {
         const nodeId = dataRef.current.floatingContext?.nodeId;
         const targetIsInsideChildren = tree && getNodeChildren(tree.nodesRef.current, nodeId).some((node) => isEventTargetWithin(event, node.context?.elements.floating));
-        return isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement")) || targetIsInsideChildren;
+        return isEventWithinOwnElements(event) || targetIsInsideChildren;
       }
       function closeOnPressOutside(event) {
         if (shouldIgnoreEvent(event)) {
+          if (event.type !== "click" && !isEventWithinOwnElements(event)) {
+            preventedPressSuppressionTimeout.clear();
+            suppressNextOutsideClickRef.current = false;
+          }
           clearInsideReactTree();
           return;
         }
@@ -3363,30 +3406,20 @@ var wp;
         if (typeof outsidePress2 === "function" && !outsidePress2(event)) {
           return;
         }
-        const nodeId = dataRef.current.floatingContext?.nodeId;
-        const children = tree ? getNodeChildren(tree.nodesRef.current, nodeId) : [];
-        if (children.length > 0) {
-          let shouldDismiss = true;
-          children.forEach((child) => {
-            if (child.context?.open && !child.context.dataRef.current.__outsidePressBubbles) {
-              shouldDismiss = false;
-            }
-          });
-          if (!shouldDismiss) {
-            return;
-          }
+        if (hasBlockingChild("__outsidePressBubbles")) {
+          return;
         }
         store2.setOpen(false, createChangeEventDetails(reason_parts_exports.outsidePress, event));
         clearInsideReactTree();
       }
       function handlePointerDown(event) {
-        if (getOutsidePressEvent() !== "sloppy" || event.pointerType === "touch" || !store2.select("open") || !enabled || isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement"))) {
+        if (getOutsidePressEvent() !== "sloppy" || event.pointerType === "touch" || !store2.select("open") || !enabled || isEventWithinOwnElements(event)) {
           return;
         }
         closeOnPressOutside(event);
       }
       function handleTouchStart(event) {
-        if (getOutsidePressEvent() !== "sloppy" || !store2.select("open") || !enabled || isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement"))) {
+        if (getOutsidePressEvent() !== "sloppy" || !store2.select("open") || !enabled || isEventWithinOwnElements(event)) {
           return;
         }
         const touch = event.touches[0];
@@ -3466,7 +3499,7 @@ var wp;
         clearInsideReactTree();
       }
       function handleTouchMove(event) {
-        if (getOutsidePressEvent() !== "sloppy" || !touchStateRef.current || isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement"))) {
+        if (getOutsidePressEvent() !== "sloppy" || !touchStateRef.current || isEventWithinOwnElements(event)) {
           return;
         }
         const touch = event.touches[0];
@@ -3489,7 +3522,7 @@ var wp;
         addTargetEventListenerOnce(event, handleTouchMove);
       }
       function handleTouchEnd(event) {
-        if (getOutsidePressEvent() !== "sloppy" || !touchStateRef.current || isEventTargetWithin(event, store2.select("floatingElement")) || isEventTargetWithin(event, store2.select("domReferenceElement"))) {
+        if (getOutsidePressEvent() !== "sloppy" || !touchStateRef.current || isEventWithinOwnElements(event)) {
           return;
         }
         if (touchStateRef.current.dismissOnTouchEnd) {
@@ -3510,50 +3543,16 @@ var wp;
         resetPressStartState();
         suppressNextOutsideClickRef.current = false;
       };
-    }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, tree, store2, cancelDismissOnEndTimeout]);
-    React19.useEffect(clearInsideReactTree, [outsidePress2, clearInsideReactTree]);
-    const reference = React19.useMemo(() => ({
+    }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store2, cancelDismissOnEndTimeout]);
+    React18.useEffect(clearInsideReactTree, [outsidePress2, clearInsideReactTree]);
+    const reference = React18.useMemo(() => ({
       onKeyDown: closeOnEscapeKeyDown,
-      [bubbleHandlerKeys[referencePressEvent]]: (event) => {
-        if (!isReferencePressEnabled()) {
-          return;
-        }
-        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
-      },
+      [bubbleHandlerKeys[referencePressEvent]]: closeOnReferencePress,
       ...referencePressEvent !== "intentional" && {
-        onClick(event) {
-          if (!isReferencePressEnabled()) {
-            return;
-          }
-          store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
-        }
+        onClick: closeOnReferencePress
       }
-    }), [closeOnEscapeKeyDown, store2, referencePressEvent, isReferencePressEnabled]);
-    const markPressStartedInsideReactTree = useStableCallback((event) => {
-      if (!open || !enabled || event.button !== 0) {
-        return;
-      }
-      const target = getTarget(event.nativeEvent);
-      if (!contains(store2.select("floatingElement"), target)) {
-        return;
-      }
-      if (!pressStartedInsideRef.current) {
-        pressStartedInsideRef.current = true;
-        pressStartPreventedRef.current = false;
-      }
-    });
-    const markInsidePressStartPrevented = useStableCallback((event) => {
-      if (!open || !enabled) {
-        return;
-      }
-      if (!(event.defaultPrevented || event.nativeEvent.defaultPrevented)) {
-        return;
-      }
-      if (pressStartedInsideRef.current) {
-        pressStartPreventedRef.current = true;
-      }
-    });
-    const floating = React19.useMemo(() => ({
+    }), [closeOnEscapeKeyDown, closeOnReferencePress, referencePressEvent]);
+    const floating = React18.useMemo(() => ({
       onKeyDown: closeOnEscapeKeyDown,
       // `onMouseDown` may be blocked if `event.preventDefault()` is called in
       // `onPointerDown`, such as with <NumberField.ScrubArea>.
@@ -3573,7 +3572,7 @@ var wp;
       onTouchEndCapture: markInsideReactTree,
       onTouchMoveCapture: markInsideReactTree
     }), [closeOnEscapeKeyDown, markInsideReactTree, markPressStartedInsideReactTree, markInsidePressStartPrevented]);
-    return React19.useMemo(() => enabled ? {
+    return React18.useMemo(() => enabled ? {
       reference,
       floating,
       trigger: reference
@@ -4853,7 +4852,7 @@ var wp;
   };
 
   // node_modules/@base-ui/react/node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.mjs
-  var React20 = __toESM(require_react(), 1);
+  var React19 = __toESM(require_react(), 1);
   var import_react2 = __toESM(require_react(), 1);
   var ReactDOM3 = __toESM(require_react_dom(), 1);
   var isClient = typeof document !== "undefined";
@@ -4919,7 +4918,7 @@ var wp;
     return Math.round(value * dpr) / dpr;
   }
   function useLatestRef(value) {
-    const ref = React20.useRef(value);
+    const ref = React19.useRef(value);
     index(() => {
       ref.current = value;
     });
@@ -4942,7 +4941,7 @@ var wp;
       whileElementsMounted,
       open
     } = options;
-    const [data, setData] = React20.useState({
+    const [data, setData] = React19.useState({
       x: 0,
       y: 0,
       strategy,
@@ -4950,19 +4949,19 @@ var wp;
       middlewareData: {},
       isPositioned: false
     });
-    const [latestMiddleware, setLatestMiddleware] = React20.useState(middleware);
+    const [latestMiddleware, setLatestMiddleware] = React19.useState(middleware);
     if (!deepEqual(latestMiddleware, middleware)) {
       setLatestMiddleware(middleware);
     }
-    const [_reference, _setReference] = React20.useState(null);
-    const [_floating, _setFloating] = React20.useState(null);
-    const setReference = React20.useCallback((node) => {
+    const [_reference, _setReference] = React19.useState(null);
+    const [_floating, _setFloating] = React19.useState(null);
+    const setReference = React19.useCallback((node) => {
       if (node !== referenceRef.current) {
         referenceRef.current = node;
         _setReference(node);
       }
     }, []);
-    const setFloating = React20.useCallback((node) => {
+    const setFloating = React19.useCallback((node) => {
       if (node !== floatingRef.current) {
         floatingRef.current = node;
         _setFloating(node);
@@ -4970,14 +4969,14 @@ var wp;
     }, []);
     const referenceEl = externalReference || _reference;
     const floatingEl = externalFloating || _floating;
-    const referenceRef = React20.useRef(null);
-    const floatingRef = React20.useRef(null);
-    const dataRef = React20.useRef(data);
+    const referenceRef = React19.useRef(null);
+    const floatingRef = React19.useRef(null);
+    const dataRef = React19.useRef(data);
     const hasWhileElementsMounted = whileElementsMounted != null;
     const whileElementsMountedRef = useLatestRef(whileElementsMounted);
     const platformRef = useLatestRef(platform3);
     const openRef = useLatestRef(open);
-    const update2 = React20.useCallback(() => {
+    const update2 = React19.useCallback(() => {
       if (!referenceRef.current || !floatingRef.current) {
         return;
       }
@@ -5015,7 +5014,7 @@ var wp;
         }));
       }
     }, [open]);
-    const isMountedRef = React20.useRef(false);
+    const isMountedRef = React19.useRef(false);
     index(() => {
       isMountedRef.current = true;
       return () => {
@@ -5032,17 +5031,17 @@ var wp;
         update2();
       }
     }, [referenceEl, floatingEl, update2, whileElementsMountedRef, hasWhileElementsMounted]);
-    const refs = React20.useMemo(() => ({
+    const refs = React19.useMemo(() => ({
       reference: referenceRef,
       floating: floatingRef,
       setReference,
       setFloating
     }), [setReference, setFloating]);
-    const elements = React20.useMemo(() => ({
+    const elements = React19.useMemo(() => ({
       reference: referenceEl,
       floating: floatingEl
     }), [referenceEl, floatingEl]);
-    const floatingStyles = React20.useMemo(() => {
+    const floatingStyles = React19.useMemo(() => {
       const initialStyles = {
         position: strategy,
         left: 0,
@@ -5068,7 +5067,7 @@ var wp;
         top: y
       };
     }, [strategy, transform, elements.floating, data.x, data.y]);
-    return React20.useMemo(() => ({
+    return React19.useMemo(() => ({
       ...data,
       update: update2,
       refs,
@@ -5124,6 +5123,12 @@ var wp;
     };
   };
 
+  // node_modules/@base-ui/react/esm/utils/popups/popupStoreUtils.js
+  var React24 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useSyncedFloatingRootContext.js
+  var React23 = __toESM(require_react(), 1);
+
   // node_modules/@base-ui/utils/esm/store/createSelector.js
   var createSelector2 = (a, b, c, d, e, f, ...other) => {
     if (other.length > 0) {
@@ -5177,12 +5182,12 @@ var wp;
   };
 
   // node_modules/@base-ui/utils/esm/store/useStore.js
-  var React22 = __toESM(require_react(), 1);
+  var React21 = __toESM(require_react(), 1);
   var import_shim = __toESM(require_shim(), 1);
   var import_with_selector = __toESM(require_with_selector(), 1);
 
   // node_modules/@base-ui/utils/esm/fastHooks.js
-  var React21 = __toESM(require_react(), 1);
+  var React20 = __toESM(require_react(), 1);
   var hooks = [];
   var currentInstance = void 0;
   function getInstance() {
@@ -5214,7 +5219,7 @@ var wp;
     return FastComponent;
   }
   function fastComponentRef(fn) {
-    return /* @__PURE__ */ React21.forwardRef(fastComponent(fn));
+    return /* @__PURE__ */ React20.forwardRef(fastComponent(fn));
   }
   function createInstance() {
     return {
@@ -5229,7 +5234,7 @@ var wp;
     return useStoreImplementation(store2, selector, a1, a2, a3);
   }
   function useStoreR19(store2, selector, a1, a2, a3) {
-    const getSelection = React22.useCallback(() => selector(store2.getSnapshot(), a1, a2, a3), [store2, selector, a1, a2, a3]);
+    const getSelection = React21.useCallback(() => selector(store2.getSnapshot(), a1, a2, a3), [store2, selector, a1, a2, a3]);
     return (0, import_shim.useSyncExternalStore)(store2.subscribe, getSelection, getSelection);
   }
   register2({
@@ -5418,7 +5423,7 @@ var wp;
   };
 
   // node_modules/@base-ui/utils/esm/store/ReactStore.js
-  var React23 = __toESM(require_react(), 1);
+  var React22 = __toESM(require_react(), 1);
   var ReactStore = class extends Store {
     /**
      * Creates a new ReactStore instance.
@@ -5442,12 +5447,13 @@ var wp;
      * by `useState` is updated before the next render (similarly to React's `useState`).
      */
     useSyncedValue(key, value) {
-      React23.useDebugValue(key);
+      React22.useDebugValue(key);
+      const store2 = this;
       useIsoLayoutEffect(() => {
-        if (this.state[key] !== value) {
-          this.set(key, value);
+        if (store2.state[key] !== value) {
+          store2.set(key, value);
         }
-      }, [key, value]);
+      }, [store2, key, value]);
     }
     /**
      * Synchronizes a single external value into the store and
@@ -5476,8 +5482,8 @@ var wp;
     useSyncedValues(statePart) {
       const store2 = this;
       if (true) {
-        React23.useDebugValue(statePart, (p) => Object.keys(p));
-        const keys = React23.useRef(Object.keys(statePart)).current;
+        React22.useDebugValue(statePart, (p) => Object.keys(p));
+        const keys = React22.useRef(Object.keys(statePart)).current;
         const nextKeys = Object.keys(statePart);
         if (keys.length !== nextKeys.length || keys.some((key, index2) => key !== nextKeys[index2])) {
           console.error("ReactStore.useSyncedValues expects the same prop keys on every render. Keys should be stable.");
@@ -5493,16 +5499,17 @@ var wp;
      * is non-undefined, the store's state at `key` is updated to match `controlled`.
      */
     useControlledProp(key, controlled) {
-      React23.useDebugValue(key);
+      React22.useDebugValue(key);
+      const store2 = this;
       const isControlled = controlled !== void 0;
       useIsoLayoutEffect(() => {
-        if (isControlled && !Object.is(this.state[key], controlled)) {
-          super.setState({
-            ...this.state,
+        if (isControlled && !Object.is(store2.state[key], controlled)) {
+          store2.setState({
+            ...store2.state,
             [key]: controlled
           });
         }
-      }, [key, controlled, isControlled]);
+      }, [store2, key, controlled, isControlled]);
       if (true) {
         const cache = this.controlledValues ??= /* @__PURE__ */ new Map();
         if (!cache.has(key)) {
@@ -5530,7 +5537,7 @@ var wp;
      * @param key Key of the selector to use.
      */
     useState(key, a1, a2, a3) {
-      React23.useDebugValue(key);
+      React22.useDebugValue(key);
       return useStore(this, this.selectors[key], a1, a2, a3);
     }
     /**
@@ -5541,7 +5548,7 @@ var wp;
      * @param fn Function to assign.
      */
     useContextCallback(key, fn) {
-      React23.useDebugValue(key);
+      React22.useDebugValue(key);
       const stableFunction = useStableCallback(fn ?? NOOP);
       this.context[key] = stableFunction;
     }
@@ -5552,7 +5559,7 @@ var wp;
      * @param key Key of the state to set.
      */
     useStateSetter(key) {
-      const ref = React23.useRef(void 0);
+      const ref = React22.useRef(void 0);
       if (ref.current === void 0) {
         ref.current = (value) => {
           this.set(key, value);
@@ -5659,8 +5666,83 @@ var wp;
     };
   };
 
+  // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useSyncedFloatingRootContext.js
+  function useSyncedFloatingRootContext(options) {
+    const {
+      popupStore,
+      treatPopupAsFloatingElement = false,
+      floatingRootContext: floatingRootContextProp,
+      floatingId,
+      nested,
+      onOpenChange
+    } = options;
+    const open = popupStore.useState("open");
+    const referenceElement = popupStore.useState("activeTriggerElement");
+    const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
+    const triggerElements = popupStore.context.triggerElements;
+    const handleOpenChange = onOpenChange;
+    const internalStoreRef = React23.useRef(null);
+    if (floatingRootContextProp === void 0 && internalStoreRef.current === null) {
+      internalStoreRef.current = new FloatingRootStore({
+        open,
+        transitionStatus: void 0,
+        referenceElement,
+        floatingElement,
+        triggerElements,
+        onOpenChange: handleOpenChange,
+        floatingId,
+        syncOnly: true,
+        nested
+      });
+    }
+    const store2 = floatingRootContextProp ?? internalStoreRef.current;
+    popupStore.useSyncedValue("floatingId", floatingId);
+    useIsoLayoutEffect(() => {
+      const valuesToSync = {
+        open,
+        floatingId,
+        referenceElement,
+        floatingElement
+      };
+      if (isElement(referenceElement)) {
+        valuesToSync.domReferenceElement = referenceElement;
+      }
+      if (store2.state.positionReference === store2.state.referenceElement) {
+        valuesToSync.positionReference = referenceElement;
+      }
+      store2.update(valuesToSync);
+    }, [open, floatingId, referenceElement, floatingElement, store2]);
+    store2.context.onOpenChange = handleOpenChange;
+    store2.context.nested = nested;
+    return store2;
+  }
+
   // node_modules/@base-ui/react/esm/utils/popups/popupStoreUtils.js
-  var React24 = __toESM(require_react(), 1);
+  var FOCUSABLE_POPUP_PROPS = {
+    tabIndex: -1,
+    [FOCUSABLE_ATTRIBUTE]: ""
+  };
+  function usePopupStore(externalStore, createStore, treatPopupAsFloatingElement = false) {
+    const floatingId = useId();
+    const nested = useFloatingParentNodeId() != null;
+    const internalStoreRef = React24.useRef(null);
+    if (externalStore === void 0 && internalStoreRef.current === null) {
+      internalStoreRef.current = createStore(floatingId, nested);
+    }
+    const store2 = externalStore ?? internalStoreRef.current;
+    useSyncedFloatingRootContext({
+      popupStore: store2,
+      treatPopupAsFloatingElement,
+      floatingRootContext: store2.state.floatingRootContext,
+      floatingId,
+      nested,
+      onOpenChange: store2.setOpen
+    });
+    return {
+      store: store2,
+      internalStore: internalStoreRef.current
+    };
+  }
   function useTriggerRegistration(id, store2) {
     const registeredElementIdRef = React24.useRef(null);
     const registeredElementRef = React24.useRef(null);
@@ -5668,12 +5750,14 @@ var wp;
       if (id === void 0) {
         return;
       }
+      let shouldSyncTriggerCount = false;
       if (registeredElementIdRef.current !== null) {
         const registeredId = registeredElementIdRef.current;
         const registeredElement = registeredElementRef.current;
         const currentElement = store2.context.triggerElements.getById(registeredId);
         if (registeredElement && currentElement === registeredElement) {
           store2.context.triggerElements.delete(registeredId);
+          shouldSyncTriggerCount = true;
         }
         registeredElementIdRef.current = null;
         registeredElementRef.current = null;
@@ -5682,26 +5766,41 @@ var wp;
         registeredElementIdRef.current = id;
         registeredElementRef.current = element;
         store2.context.triggerElements.add(id, element);
+        shouldSyncTriggerCount = true;
+      }
+      if (shouldSyncTriggerCount) {
+        const triggerCount = store2.context.triggerElements.size;
+        if (store2.select("open") && store2.state.triggerCount !== triggerCount) {
+          store2.set("triggerCount", triggerCount);
+        }
       }
     }, [store2, id]);
+  }
+  function setOpenTriggerState(state, open, trigger) {
+    const triggerId = trigger?.id ?? null;
+    if (triggerId || open) {
+      state.activeTriggerId = triggerId;
+      state.activeTriggerElement = trigger ?? null;
+    }
   }
   function useTriggerDataForwarding(triggerId, triggerElementRef, store2, stateUpdates) {
     const isMountedByThisTrigger = store2.useState("isMountedByTrigger", triggerId);
     const baseRegisterTrigger = useTriggerRegistration(triggerId, store2);
     const registerTrigger = useStableCallback((element) => {
       baseRegisterTrigger(element);
-      if (!element || !store2.select("open")) {
+      if (!element) {
         return;
       }
+      const open = store2.select("open");
       const activeTriggerId = store2.select("activeTriggerId");
       if (activeTriggerId === triggerId) {
         store2.update({
           activeTriggerElement: element,
-          ...stateUpdates
+          ...open ? stateUpdates : null
         });
         return;
       }
-      if (activeTriggerId == null) {
+      if (activeTriggerId == null && open) {
         store2.update({
           activeTriggerId: triggerId,
           activeTriggerElement: element,
@@ -5724,18 +5823,31 @@ var wp;
   }
   function useImplicitActiveTrigger(store2) {
     const open = store2.useState("open");
+    const reactiveTriggerCount = store2.useState("triggerCount");
     useIsoLayoutEffect(() => {
-      if (open && !store2.select("activeTriggerId") && store2.context.triggerElements.size === 1) {
+      if (!open) {
+        if (store2.state.triggerCount !== 0) {
+          store2.set("triggerCount", 0);
+        }
+        return;
+      }
+      const triggerCount = store2.context.triggerElements.size;
+      const stateUpdates = {};
+      if (store2.state.triggerCount !== triggerCount) {
+        stateUpdates.triggerCount = triggerCount;
+      }
+      if (!store2.select("activeTriggerId") && triggerCount === 1) {
         const iteratorResult = store2.context.triggerElements.entries().next();
         if (!iteratorResult.done) {
           const [implicitTriggerId, implicitTriggerElement] = iteratorResult.value;
-          store2.update({
-            activeTriggerId: implicitTriggerId,
-            activeTriggerElement: implicitTriggerElement
-          });
+          stateUpdates.activeTriggerId = implicitTriggerId;
+          stateUpdates.activeTriggerElement = implicitTriggerElement;
         }
       }
-    }, [open, store2]);
+      if (stateUpdates.triggerCount !== void 0 || stateUpdates.activeTriggerId !== void 0) {
+        store2.update(stateUpdates);
+      }
+    }, [open, store2, reactiveTriggerCount]);
   }
   function useOpenStateTransitions(open, store2, onUnmount) {
     const {
@@ -5752,14 +5864,15 @@ var wp;
       store2.update({
         activeTriggerId: null,
         activeTriggerElement: null,
-        mounted: false
+        mounted: false,
+        preventUnmountingOnClose: false
       });
       onUnmount?.();
       store2.context.onOpenChangeComplete?.(false);
     });
     const preventUnmountingOnClose = store2.useState("preventUnmountingOnClose");
     useOpenChangeComplete({
-      enabled: !preventUnmountingOnClose,
+      enabled: mounted && !open && !preventUnmountingOnClose,
       open,
       ref: store2.context.popupRef,
       onComplete() {
@@ -5772,6 +5885,16 @@ var wp;
       forceUnmount,
       transitionStatus
     };
+  }
+  function usePopupInteractionProps(store2, statePart) {
+    store2.useSyncedValues(statePart);
+    useIsoLayoutEffect(() => () => {
+      store2.update({
+        activeTriggerProps: EMPTY_OBJECT,
+        inactiveTriggerProps: EMPTY_OBJECT,
+        popupProps: EMPTY_OBJECT
+      });
+    }, [store2]);
   }
 
   // node_modules/@base-ui/react/esm/utils/popups/popupTriggerMap.js
@@ -5862,7 +5985,7 @@ var wp;
       floatingElement: null,
       referenceElement: null,
       triggerElements: new PopupTriggerMap(),
-      floatingId: "",
+      floatingId: void 0,
       syncOnly: false,
       nested: false,
       onOpenChange: void 0
@@ -5877,6 +6000,8 @@ var wp;
       mounted: false,
       transitionStatus: void 0,
       floatingRootContext: getEmptyRootContext(),
+      floatingId: void 0,
+      triggerCount: 0,
       preventUnmountingOnClose: false,
       payload: void 0,
       activeTriggerId: null,
@@ -5889,16 +6014,45 @@ var wp;
       popupProps: EMPTY_OBJECT
     };
   }
+  function createPopupFloatingRootContext(triggerElements, floatingId, nested = false) {
+    return new FloatingRootStore({
+      open: false,
+      transitionStatus: void 0,
+      floatingElement: null,
+      referenceElement: null,
+      triggerElements,
+      floatingId,
+      syncOnly: true,
+      nested,
+      onOpenChange: void 0
+    });
+  }
   var activeTriggerIdSelector = createSelector2((state) => state.triggerIdProp ?? state.activeTriggerId);
+  var openSelector = createSelector2((state) => state.openProp ?? state.open);
+  var popupIdSelector = createSelector2((state) => {
+    const popupId = state.popupElement?.id ?? state.floatingId;
+    return popupId || void 0;
+  });
+  function triggerOwnsOpenPopup(state, triggerId) {
+    return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) === triggerId;
+  }
+  function triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) {
+    if (triggerOwnsOpenPopup(state, triggerId)) {
+      return true;
+    }
+    return triggerId !== void 0 && openSelector(state) && activeTriggerIdSelector(state) == null && state.triggerCount === 1;
+  }
   var popupStoreSelectors = {
-    open: createSelector2((state) => state.openProp ?? state.open),
+    open: openSelector,
     mounted: createSelector2((state) => state.mounted),
     transitionStatus: createSelector2((state) => state.transitionStatus),
     floatingRootContext: createSelector2((state) => state.floatingRootContext),
+    triggerCount: createSelector2((state) => state.triggerCount),
     preventUnmountingOnClose: createSelector2((state) => state.preventUnmountingOnClose),
     payload: createSelector2((state) => state.payload),
     activeTriggerId: activeTriggerIdSelector,
     activeTriggerElement: createSelector2((state) => state.mounted ? state.activeTriggerElement : null),
+    popupId: popupIdSelector,
     /**
      * Whether the trigger with the given ID was used to open the popup.
      */
@@ -5906,12 +6060,16 @@ var wp;
     /**
      * Whether the popup is open and was activated by a trigger with the given ID.
      */
-    isOpenedByTrigger: createSelector2((state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId && state.open),
+    isOpenedByTrigger: createSelector2((state, triggerId) => triggerOwnsOpenPopup(state, triggerId)),
     /**
      * Whether the popup is mounted and was activated by a trigger with the given ID.
      */
     isMountedByTrigger: createSelector2((state, triggerId) => triggerId !== void 0 && activeTriggerIdSelector(state) === triggerId && state.mounted),
     triggerProps: createSelector2((state, isActive) => isActive ? state.activeTriggerProps : state.inactiveTriggerProps),
+    /**
+     * Popup id for the trigger that currently owns the open popup.
+     */
+    triggerPopupId: createSelector2((state, triggerId) => triggerOwnsOpenPopupOrIsOnlyTrigger(state, triggerId) ? popupIdSelector(state) : void 0),
     popupProps: createSelector2((state) => state.popupProps),
     popupElement: createSelector2((state) => state.popupElement),
     positionerElement: createSelector2((state) => state.positionerElement)
@@ -5968,30 +6126,37 @@ var wp;
       nodeId,
       externalTree
     } = options;
-    const internalRootStore = useFloatingRootContext(options);
-    const rootContext = options.rootContext || internalRootStore;
-    const rootContextElements = {
-      reference: rootContext.useState("referenceElement"),
-      floating: rootContext.useState("floatingElement"),
-      domReference: rootContext.useState("domReferenceElement")
-    };
+    const internalStore = useFloatingRootContext(options);
+    const store2 = options.rootContext || internalStore;
+    const referenceElement = store2.useState("referenceElement");
+    const floatingElement = store2.useState("floatingElement");
+    const domReferenceElement = store2.useState("domReferenceElement");
+    const open = store2.useState("open");
+    const floatingId = store2.useState("floatingId");
     const [positionReference, setPositionReferenceRaw] = React25.useState(null);
+    const [localDomReference, setLocalDomReference] = React25.useState(void 0);
+    const [localFloatingElement, setLocalFloatingElement] = React25.useState(void 0);
     const domReferenceRef = React25.useRef(null);
     const tree = useFloatingTree(externalTree);
-    useIsoLayoutEffect(() => {
-      if (rootContextElements.domReference) {
-        domReferenceRef.current = rootContextElements.domReference;
-      }
-    }, [rootContextElements.domReference]);
+    const storeElements = React25.useMemo(() => ({
+      reference: referenceElement,
+      floating: floatingElement,
+      domReference: domReferenceElement
+    }), [referenceElement, floatingElement, domReferenceElement]);
     const position = useFloating({
       ...options,
       elements: {
-        ...rootContextElements,
+        ...storeElements,
         ...positionReference && {
           reference: positionReference
         }
       }
     });
+    const localDomReferenceElement = isElement(localDomReference) ? localDomReference : null;
+    const syncedFloatingElement = localFloatingElement === void 0 ? store2.state.floatingElement : localFloatingElement;
+    store2.useSyncedValue("referenceElement", localDomReference ?? null);
+    store2.useSyncedValue("domReferenceElement", localDomReference === void 0 ? domReferenceElement : localDomReferenceElement);
+    store2.useSyncedValue("floatingElement", syncedFloatingElement);
     const setPositionReference = React25.useCallback((node) => {
       const computedPositionReference = isElement(node) ? {
         getBoundingClientRect: () => node.getBoundingClientRect(),
@@ -6001,12 +6166,6 @@ var wp;
       setPositionReferenceRaw(computedPositionReference);
       position.refs.setReference(computedPositionReference);
     }, [position.refs]);
-    const [localDomReference, setLocalDomReference] = React25.useState(void 0);
-    const [localFloatingElement, setLocalFloatingElement] = React25.useState(null);
-    rootContext.useSyncedValue("referenceElement", localDomReference ?? null);
-    const localDomReferenceElement = isElement(localDomReference) ? localDomReference : null;
-    rootContext.useSyncedValue("domReferenceElement", localDomReference === void 0 ? rootContextElements.domReference : localDomReferenceElement);
-    rootContext.useSyncedValue("floatingElement", localFloatingElement);
     const setReference = React25.useCallback((node) => {
       if (isElement(node) || node === null) {
         domReferenceRef.current = node;
@@ -6032,24 +6191,27 @@ var wp;
     }), [position.refs, setReference, setFloating, setPositionReference]);
     const elements = React25.useMemo(() => ({
       ...position.elements,
-      domReference: rootContextElements.domReference
-    }), [position.elements, rootContextElements.domReference]);
-    const open = rootContext.useState("open");
-    const floatingId = rootContext.useState("floatingId");
+      domReference: domReferenceElement
+    }), [position.elements, domReferenceElement]);
     const context = React25.useMemo(() => ({
       ...position,
-      dataRef: rootContext.context.dataRef,
+      dataRef: store2.context.dataRef,
       open,
-      onOpenChange: rootContext.setOpen,
-      events: rootContext.context.events,
+      onOpenChange: store2.setOpen,
+      events: store2.context.events,
       floatingId,
       refs,
       elements,
       nodeId,
-      rootStore: rootContext
-    }), [position, refs, elements, nodeId, rootContext, open, floatingId]);
+      rootStore: store2
+    }), [position, refs, elements, nodeId, store2, open, floatingId]);
     useIsoLayoutEffect(() => {
-      rootContext.context.dataRef.current.floatingContext = context;
+      if (domReferenceElement) {
+        domReferenceRef.current = domReferenceElement;
+      }
+    }, [domReferenceElement]);
+    useIsoLayoutEffect(() => {
+      store2.context.dataRef.current.floatingContext = context;
       const node = tree?.nodesRef.current.find((n) => n.id === nodeId);
       if (node) {
         node.context = context;
@@ -6060,71 +6222,27 @@ var wp;
       context,
       refs,
       elements,
-      rootStore: rootContext
-    }), [position, refs, elements, context, rootContext]);
-  }
-
-  // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useSyncedFloatingRootContext.js
-  function useSyncedFloatingRootContext(options) {
-    const {
-      popupStore,
-      treatPopupAsFloatingElement = false,
-      onOpenChange
-    } = options;
-    const floatingId = useId();
-    const nested = useFloatingParentNodeId() != null;
-    const open = popupStore.useState("open");
-    const referenceElement = popupStore.useState("activeTriggerElement");
-    const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
-    const triggerElements = popupStore.context.triggerElements;
-    const store2 = useRefWithInit(() => new FloatingRootStore({
-      open,
-      transitionStatus: void 0,
-      referenceElement,
-      floatingElement,
-      triggerElements,
-      onOpenChange,
-      floatingId,
-      syncOnly: true,
-      nested
-    })).current;
-    useIsoLayoutEffect(() => {
-      const valuesToSync = {
-        open,
-        floatingId,
-        referenceElement,
-        floatingElement
-      };
-      if (isElement(referenceElement)) {
-        valuesToSync.domReferenceElement = referenceElement;
-      }
-      if (store2.state.positionReference === store2.state.referenceElement) {
-        valuesToSync.positionReference = referenceElement;
-      }
-      store2.update(valuesToSync);
-    }, [open, floatingId, referenceElement, floatingElement, store2]);
-    store2.context.onOpenChange = onOpenChange;
-    store2.context.nested = nested;
-    return store2;
+      rootStore: store2
+    }), [position, refs, elements, context, store2]);
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useFocus.js
   var React26 = __toESM(require_react(), 1);
   var isMacSafari = isMac && isSafari;
   function useFocus(context, props = {}) {
+    const {
+      enabled = true,
+      delay
+    } = props;
     const store2 = "rootStore" in context ? context.rootStore : context;
     const {
       events,
       dataRef
     } = store2.context;
-    const {
-      enabled = true,
-      delay
-    } = props;
     const blockFocusRef = React26.useRef(false);
     const blockedReferenceRef = React26.useRef(null);
-    const timeout = useTimeout();
     const keyboardModalityRef = React26.useRef(true);
+    const timeout = useTimeout();
     React26.useEffect(() => {
       const domReference = store2.select("domReferenceElement");
       if (!enabled) {
@@ -6163,70 +6281,73 @@ var wp;
         events.off("openchange", onOpenChangeLocal);
       };
     }, [events, enabled, store2]);
-    const reference = React26.useMemo(() => ({
-      onMouseLeave() {
+    const reference = React26.useMemo(() => {
+      function resetBlockedFocus() {
         blockFocusRef.current = false;
         blockedReferenceRef.current = null;
-      },
-      onFocus(event) {
-        const focusTarget = event.currentTarget;
-        if (blockFocusRef.current) {
-          if (blockedReferenceRef.current === focusTarget) {
-            return;
-          }
-          blockFocusRef.current = false;
-          blockedReferenceRef.current = null;
-        }
-        const target = getTarget(event.nativeEvent);
-        if (isElement(target)) {
-          if (isMacSafari && !event.relatedTarget) {
-            if (!keyboardModalityRef.current && !isTypeableElement(target)) {
+      }
+      return {
+        onMouseLeave() {
+          resetBlockedFocus();
+        },
+        onFocus(event) {
+          const focusTarget = event.currentTarget;
+          if (blockFocusRef.current) {
+            if (blockedReferenceRef.current === focusTarget) {
               return;
             }
-          } else if (!matchesFocusVisible(target)) {
+            resetBlockedFocus();
+          }
+          const target = getTarget(event.nativeEvent);
+          if (isElement(target)) {
+            if (isMacSafari && !event.relatedTarget) {
+              if (!keyboardModalityRef.current && !isTypeableElement(target)) {
+                return;
+              }
+            } else if (!matchesFocusVisible(target)) {
+              return;
+            }
+          }
+          const movedFromOtherEnabledTrigger = isTargetInsideEnabledTrigger(event.relatedTarget, store2.context.triggerElements);
+          const {
+            nativeEvent,
+            currentTarget
+          } = event;
+          const delayValue = typeof delay === "function" ? delay() : delay;
+          if (store2.select("open") && movedFromOtherEnabledTrigger || delayValue === 0 || delayValue === void 0) {
+            store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
             return;
           }
+          timeout.start(delayValue, () => {
+            if (blockFocusRef.current) {
+              return;
+            }
+            store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
+          });
+        },
+        onBlur(event) {
+          resetBlockedFocus();
+          const relatedTarget = event.relatedTarget;
+          const nativeEvent = event.nativeEvent;
+          const movedToFocusGuard = isElement(relatedTarget) && relatedTarget.hasAttribute(createAttribute("focus-guard")) && relatedTarget.getAttribute("data-type") === "outside";
+          timeout.start(0, () => {
+            const domReference = store2.select("domReferenceElement");
+            const activeEl = activeElement(ownerDocument(domReference));
+            if (!relatedTarget && activeEl === domReference) {
+              return;
+            }
+            if (contains(dataRef.current.floatingContext?.refs.floating.current, activeEl) || contains(domReference, activeEl) || movedToFocusGuard) {
+              return;
+            }
+            const nextFocusedElement = relatedTarget ?? activeEl;
+            if (isTargetInsideEnabledTrigger(nextFocusedElement, store2.context.triggerElements)) {
+              return;
+            }
+            store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent));
+          });
         }
-        const movedFromOtherEnabledTrigger = isTargetInsideEnabledTrigger(event.relatedTarget, store2.context.triggerElements);
-        const {
-          nativeEvent,
-          currentTarget
-        } = event;
-        const delayValue = typeof delay === "function" ? delay() : delay;
-        if (store2.select("open") && movedFromOtherEnabledTrigger || delayValue === 0 || delayValue === void 0) {
-          store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
-          return;
-        }
-        timeout.start(delayValue, () => {
-          if (blockFocusRef.current) {
-            return;
-          }
-          store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent, currentTarget));
-        });
-      },
-      onBlur(event) {
-        blockFocusRef.current = false;
-        blockedReferenceRef.current = null;
-        const relatedTarget = event.relatedTarget;
-        const nativeEvent = event.nativeEvent;
-        const movedToFocusGuard = isElement(relatedTarget) && relatedTarget.hasAttribute(createAttribute("focus-guard")) && relatedTarget.getAttribute("data-type") === "outside";
-        timeout.start(0, () => {
-          const domReference = store2.select("domReferenceElement");
-          const activeEl = activeElement(ownerDocument(domReference));
-          if (!relatedTarget && activeEl === domReference) {
-            return;
-          }
-          if (contains(dataRef.current.floatingContext?.refs.floating.current, activeEl) || contains(domReference, activeEl) || movedToFocusGuard) {
-            return;
-          }
-          const nextFocusedElement = relatedTarget ?? activeEl;
-          if (isTargetInsideEnabledTrigger(nextFocusedElement, store2.context.triggerElements)) {
-            return;
-          }
-          store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerFocus, nativeEvent));
-        });
-      }
-    }), [dataRef, store2, timeout, delay]);
+      };
+    }, [dataRef, delay, store2, timeout]);
     return React26.useMemo(() => enabled ? {
       reference,
       trigger: reference
@@ -6301,8 +6422,8 @@ var wp;
     floatingElement.style.pointerEvents = "auto";
   }
   function useHoverInteractionSharedState(store2) {
-    const instance = useRefWithInit(HoverInteraction.create).current;
     const data = store2.context.dataRef.current;
+    const instance = useRefWithInit(() => data.hoverInteractionState ?? HoverInteraction.create()).current;
     if (!data.hoverInteractionState) {
       data.hoverInteractionState = instance;
     }
@@ -6312,6 +6433,11 @@ var wp;
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useHoverFloatingInteraction.js
   function useHoverFloatingInteraction(context, parameters = {}) {
+    const {
+      enabled = true,
+      closeDelay: closeDelayProp = 0,
+      nodeId: nodeIdProp
+    } = parameters;
     const store2 = "rootStore" in context ? context.rootStore : context;
     const open = store2.useState("open");
     const floatingElement = store2.useState("floatingElement");
@@ -6319,47 +6445,18 @@ var wp;
     const {
       dataRef
     } = store2.context;
-    const {
-      enabled = true,
-      closeDelay: closeDelayProp = 0,
-      nodeId: nodeIdProp
-    } = parameters;
-    const instance = useHoverInteractionSharedState(store2);
     const tree = useFloatingTree();
     const parentId = useFloatingParentNodeId();
+    const instance = useHoverInteractionSharedState(store2);
+    const childClosedTimeout = useTimeout();
     const isClickLikeOpenEvent2 = useStableCallback(() => {
       return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
     });
     const isHoverOpen = useStableCallback(() => {
-      const type = dataRef.current.openEvent?.type;
-      return type?.includes("mouse") && type !== "mousedown";
+      return isHoverOpenEvent(dataRef.current.openEvent?.type);
     });
-    const isRelatedTargetInsideEnabledTrigger = useStableCallback((target) => {
-      return isTargetInsideEnabledTrigger(target, store2.context.triggerElements);
-    });
-    const closeWithDelay = React27.useCallback((event) => {
-      const closeDelay = getDelay(closeDelayProp, "close", instance.pointerType);
-      const close = () => {
-        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-        tree?.events.emit("floating.closed", event);
-      };
-      if (closeDelay) {
-        instance.openChangeTimeout.start(closeDelay, close);
-      } else {
-        instance.openChangeTimeout.clear();
-        close();
-      }
-    }, [closeDelayProp, store2, instance, tree]);
     const clearPointerEvents = useStableCallback(() => {
       clearSafePolygonPointerEventsMutation(instance);
-    });
-    const handleInteractInside = useStableCallback((event) => {
-      const target = getTarget(event);
-      if (!isInteractiveElement(target)) {
-        instance.interactedInside = false;
-        return;
-      }
-      instance.interactedInside = target?.closest("[aria-haspopup]") != null;
     });
     useIsoLayoutEffect(() => {
       if (!open) {
@@ -6384,7 +6481,9 @@ var wp;
         if (parentFloating) {
           parentFloating.style.pointerEvents = "";
         }
-        const scopeElement = instance.handleCloseOptions?.getScope?.() ?? instance.pointerEventsScopeElement ?? parentFloating ?? ref.closest("[data-rootownerid]") ?? doc.body;
+        const cachedScopeElement = instance.pointerEventsScopeElement !== floatingEl ? instance.pointerEventsScopeElement : null;
+        const parentScopeElement = parentFloating !== floatingEl ? parentFloating : null;
+        const scopeElement = instance.handleCloseOptions?.getScope?.() ?? cachedScopeElement ?? parentScopeElement ?? ref.closest("[data-rootownerid]") ?? doc.body;
         applySafePolygonPointerEventsMutation(instance, {
           scopeElement,
           referenceElement: ref,
@@ -6396,10 +6495,33 @@ var wp;
       }
       return void 0;
     }, [enabled, open, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
-    const childClosedTimeout = useTimeout();
     React27.useEffect(() => {
       if (!enabled) {
         return void 0;
+      }
+      function hasParentChildren() {
+        return !!(tree && parentId && getNodeChildren(tree.nodesRef.current, parentId).length > 0);
+      }
+      function closeWithDelay(event) {
+        const closeDelay = getDelay(closeDelayProp, "close", instance.pointerType);
+        const close = () => {
+          store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+          tree?.events.emit("floating.closed", event);
+        };
+        if (closeDelay) {
+          instance.openChangeTimeout.start(closeDelay, close);
+        } else {
+          instance.openChangeTimeout.clear();
+          close();
+        }
+      }
+      function handleInteractInside(event) {
+        const target = getTarget(event);
+        if (!isInteractiveElement(target)) {
+          instance.interactedInside = false;
+          return;
+        }
+        instance.interactedInside = target?.closest("[aria-haspopup]") != null;
       }
       function onFloatingMouseEnter() {
         instance.openChangeTimeout.clear();
@@ -6408,11 +6530,11 @@ var wp;
         clearPointerEvents();
       }
       function onFloatingMouseLeave(event) {
-        if (tree && parentId && getNodeChildren(tree.nodesRef.current, parentId).length > 0) {
+        if (hasParentChildren() && tree) {
           tree.events.on("floating.closed", onNodeClosed);
           return;
         }
-        if (isRelatedTargetInsideEnabledTrigger(event.relatedTarget)) {
+        if (isTargetInsideEnabledTrigger(event.relatedTarget, store2.context.triggerElements)) {
           return;
         }
         const currentNodeId = dataRef.current.floatingContext?.nodeId ?? nodeIdProp;
@@ -6431,7 +6553,7 @@ var wp;
         }
       }
       function onNodeClosed(event) {
-        if (!tree || !parentId || getNodeChildren(tree.nodesRef.current, parentId).length > 0) {
+        if (!tree || !parentId || hasParentChildren()) {
           return;
         }
         childClosedTimeout.start(0, () => {
@@ -6444,7 +6566,7 @@ var wp;
       return mergeCleanups(floating && addEventListener(floating, "mouseenter", onFloatingMouseEnter), floating && addEventListener(floating, "mouseleave", onFloatingMouseLeave), floating && addEventListener(floating, "pointerdown", handleInteractInside, true), () => {
         tree?.events.off("floating.closed", onNodeClosed);
       });
-    }, [enabled, floatingElement, store2, dataRef, nodeIdProp, isClickLikeOpenEvent2, isRelatedTargetInsideEnabledTrigger, closeWithDelay, clearPointerEvents, handleInteractInside, instance, tree, parentId, childClosedTimeout]);
+    }, [enabled, floatingElement, store2, dataRef, closeDelayProp, nodeIdProp, isClickLikeOpenEvent2, clearPointerEvents, instance, tree, parentId, childClosedTimeout]);
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useHoverReferenceInteraction.js
@@ -6454,11 +6576,6 @@ var wp;
     current: null
   };
   function useHoverReferenceInteraction(context, props = {}) {
-    const store2 = "rootStore" in context ? context.rootStore : context;
-    const {
-      dataRef,
-      events
-    } = store2.context;
     const {
       enabled = true,
       delay = 0,
@@ -6470,8 +6587,14 @@ var wp;
       externalTree,
       isActiveTrigger = true,
       getHandleCloseContext,
-      isClosing
+      isClosing,
+      shouldOpen: shouldOpenProp
     } = props;
+    const store2 = "rootStore" in context ? context.rootStore : context;
+    const {
+      dataRef,
+      events
+    } = store2.context;
     const tree = useFloatingTree(externalTree);
     const instance = useHoverInteractionSharedState(store2);
     const isHoverCloseActiveRef = React28.useRef(false);
@@ -6479,15 +6602,13 @@ var wp;
     const delayRef = useValueAsRef(delay);
     const restMsRef = useValueAsRef(restMs);
     const enabledRef = useValueAsRef(enabled);
+    const shouldOpenRef = useValueAsRef(shouldOpenProp);
     const isClosingRef = useValueAsRef(isClosing);
-    if (isActiveTrigger) {
-      instance.handleCloseOptions = handleCloseRef.current?.__options;
-    }
     const isClickLikeOpenEvent2 = useStableCallback(() => {
       return isClickLikeOpenEvent(dataRef.current.openEvent?.type, instance.interactedInside);
     });
-    const isRelatedTargetInsideEnabledTrigger = useStableCallback((target) => {
-      return isTargetInsideEnabledTrigger(target, store2.context.triggerElements);
+    const checkShouldOpen = useStableCallback(() => {
+      return shouldOpenRef.current?.() !== false;
     });
     const isOverInactiveTrigger = useStableCallback((currentDomReference, currentTarget, target) => {
       const allTriggers = store2.context.triggerElements;
@@ -6500,19 +6621,6 @@ var wp;
       const targetElement = target;
       return allTriggers.hasMatchingElement((trigger) => contains(trigger, targetElement)) && (!currentDomReference || !contains(currentDomReference, targetElement));
     });
-    const closeWithDelay = useStableCallback((event, runElseBranch = true) => {
-      const closeDelay = getDelay(delayRef.current, "close", instance.pointerType);
-      if (closeDelay) {
-        instance.openChangeTimeout.start(closeDelay, () => {
-          store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-          tree?.events.emit("floating.closed", event);
-        });
-      } else if (runElseBranch) {
-        instance.openChangeTimeout.clear();
-        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
-        tree?.events.emit("floating.closed", event);
-      }
-    });
     const cleanupMouseMoveHandler = useStableCallback(() => {
       if (!instance.handler) {
         return;
@@ -6524,6 +6632,9 @@ var wp;
     const clearPointerEvents = useStableCallback(() => {
       clearSafePolygonPointerEventsMutation(instance);
     });
+    if (isActiveTrigger) {
+      instance.handleCloseOptions = handleCloseRef.current?.__options;
+    }
     React28.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
     React28.useEffect(() => {
       if (!enabled) {
@@ -6549,6 +6660,19 @@ var wp;
     React28.useEffect(() => {
       if (!enabled) {
         return void 0;
+      }
+      function closeWithDelay(event, runElseBranch = true) {
+        const closeDelay = getDelay(delayRef.current, "close", instance.pointerType);
+        if (closeDelay) {
+          instance.openChangeTimeout.start(closeDelay, () => {
+            store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+            tree?.events.emit("floating.closed", event);
+          });
+        } else if (runElseBranch) {
+          instance.openChangeTimeout.clear();
+          store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+          tree?.events.emit("floating.closed", event);
+        }
       }
       const trigger = triggerElementRef.current ?? (isActiveTrigger ? store2.select("domReferenceElement") : null);
       if (!isElement(trigger)) {
@@ -6586,7 +6710,9 @@ var wp;
         const shouldOpenImmediately = isOverInactive && (isOpen || isHoverCloseTransition) || isReenteringSameTriggerDuringCloseTransition;
         const shouldOpen = !isOpen || isOverInactive;
         if (shouldOpenImmediately) {
-          store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+          if (checkShouldOpen()) {
+            store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+          }
           return;
         }
         if (isRestOnlyDelay) {
@@ -6594,12 +6720,14 @@ var wp;
         }
         if (openDelay) {
           instance.openChangeTimeout.start(openDelay, () => {
-            if (shouldOpen) {
+            if (shouldOpen && checkShouldOpen()) {
               store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
             }
           });
         } else if (shouldOpen) {
-          store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+          if (checkShouldOpen()) {
+            store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerNode));
+          }
         }
       }
       function onMouseLeave(event) {
@@ -6613,8 +6741,7 @@ var wp;
         instance.restTimeout.clear();
         instance.restTimeoutPending = false;
         const handleCloseContextBase = dataRef.current.floatingContext ?? getHandleCloseContext?.();
-        const ignoreRelatedTargetTrigger = isRelatedTargetInsideEnabledTrigger(event.relatedTarget);
-        if (ignoreRelatedTargetTrigger) {
+        if (isTargetInsideEnabledTrigger(event.relatedTarget, store2.context.triggerElements)) {
           return;
         }
         if (handleCloseRef.current && handleCloseContextBase) {
@@ -6650,7 +6777,7 @@ var wp;
         }), addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave));
       }
       return mergeCleanups(addEventListener(trigger, "mouseenter", onMouseEnter), addEventListener(trigger, "mouseleave", onMouseLeave));
-    }, [cleanupMouseMoveHandler, clearPointerEvents, dataRef, delayRef, closeWithDelay, store2, enabled, handleCloseRef, instance, isActiveTrigger, isOverInactiveTrigger, isClickLikeOpenEvent2, isRelatedTargetInsideEnabledTrigger, mouseOnly, move, restMsRef, triggerElementRef, tree, enabledRef, getHandleCloseContext, isClosingRef]);
+    }, [cleanupMouseMoveHandler, clearPointerEvents, dataRef, delayRef, store2, enabled, handleCloseRef, instance, isActiveTrigger, isOverInactiveTrigger, isClickLikeOpenEvent2, mouseOnly, move, restMsRef, triggerElementRef, tree, enabledRef, getHandleCloseContext, isClosingRef, checkShouldOpen]);
     return React28.useMemo(() => {
       if (!enabled) {
         return void 0;
@@ -6697,7 +6824,7 @@ var wp;
               return;
             }
             const latestOpen = store2.select("open");
-            if (!instance.blockMouseMove && (!latestOpen || isOverInactive)) {
+            if (!instance.blockMouseMove && (!latestOpen || isOverInactive) && checkShouldOpen()) {
               store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, nativeEvent, trigger));
             }
           }
@@ -6713,95 +6840,7 @@ var wp;
           }
         }
       };
-    }, [enabled, instance, isClickLikeOpenEvent2, isOverInactiveTrigger, mouseOnly, store2, restMsRef]);
-  }
-
-  // node_modules/@base-ui/react/esm/floating-ui-react/hooks/useInteractions.js
-  var React29 = __toESM(require_react(), 1);
-  function useInteractions(propsList = []) {
-    const referenceDeps = propsList.map((key) => key?.reference);
-    const floatingDeps = propsList.map((key) => key?.floating);
-    const itemDeps = propsList.map((key) => key?.item);
-    const triggerDeps = propsList.map((key) => key?.trigger);
-    const getReferenceProps = React29.useCallback(
-      (userProps) => mergeProps2(userProps, propsList, "reference"),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      referenceDeps
-    );
-    const getFloatingProps = React29.useCallback(
-      (userProps) => mergeProps2(userProps, propsList, "floating"),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      floatingDeps
-    );
-    const getItemProps = React29.useCallback(
-      (userProps) => mergeProps2(userProps, propsList, "item"),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      itemDeps
-    );
-    const getTriggerProps = React29.useCallback(
-      (userProps) => mergeProps2(userProps, propsList, "trigger"),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      triggerDeps
-    );
-    return React29.useMemo(() => ({
-      getReferenceProps,
-      getFloatingProps,
-      getItemProps,
-      getTriggerProps
-    }), [getReferenceProps, getFloatingProps, getItemProps, getTriggerProps]);
-  }
-  function mergeProps2(userProps, propsList, elementKey) {
-    const eventHandlers = /* @__PURE__ */ new Map();
-    const isItem = elementKey === "item";
-    const outputProps = {};
-    if (elementKey === "floating") {
-      outputProps.tabIndex = -1;
-      outputProps[FOCUSABLE_ATTRIBUTE] = "";
-    }
-    for (const key in userProps) {
-      if (isItem && userProps) {
-        if (key === ACTIVE_KEY || key === SELECTED_KEY) {
-          continue;
-        }
-      }
-      outputProps[key] = userProps[key];
-    }
-    for (let i = 0; i < propsList.length; i += 1) {
-      let props;
-      const propsOrGetProps = propsList[i]?.[elementKey];
-      if (typeof propsOrGetProps === "function") {
-        props = userProps ? propsOrGetProps(userProps) : null;
-      } else {
-        props = propsOrGetProps;
-      }
-      if (!props) {
-        continue;
-      }
-      mutablyMergeProps(outputProps, props, isItem, eventHandlers);
-    }
-    mutablyMergeProps(outputProps, userProps, isItem, eventHandlers);
-    return outputProps;
-  }
-  function mutablyMergeProps(outputProps, props, isItem, eventHandlers) {
-    for (const key in props) {
-      const value = props[key];
-      if (isItem && (key === ACTIVE_KEY || key === SELECTED_KEY)) {
-        continue;
-      }
-      if (!key.startsWith("on")) {
-        outputProps[key] = value;
-      } else {
-        if (!eventHandlers.has(key)) {
-          eventHandlers.set(key, []);
-        }
-        if (typeof value === "function") {
-          eventHandlers.get(key)?.push(value);
-          outputProps[key] = (...args) => {
-            return eventHandlers.get(key)?.map((fn) => fn(...args)).find((val) => val !== void 0);
-          };
-        }
-      }
-    }
+    }, [enabled, instance, isClickLikeOpenEvent2, isOverInactiveTrigger, mouseOnly, store2, restMsRef, checkShouldOpen]);
   }
 
   // node_modules/@base-ui/react/esm/floating-ui-react/safePolygon.js
@@ -7084,7 +7123,7 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/utils/useAnchorPositioning.js
-  var React30 = __toESM(require_react(), 1);
+  var React29 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/floating-ui-react/middleware/arrow.js
   var baseArrow = (options) => ({
@@ -7292,6 +7331,7 @@ var wp;
       sticky = false,
       arrowPadding = 5,
       disableAnchorTracking = false,
+      inline: inlineMiddleware,
       // Private parameters
       keepMounted = false,
       floatingRootContext,
@@ -7303,7 +7343,7 @@ var wp;
       lazyFlip = false,
       externalTree
     } = params;
-    const [mountSide, setMountSide] = React30.useState(null);
+    const [mountSide, setMountSide] = React29.useState(null);
     if (!mounted && mountSide !== null) {
       setMountSide(null);
     }
@@ -7351,12 +7391,16 @@ var wp;
       boundary: collisionBoundary === "clipping-ancestors" ? "clippingAncestors" : collisionBoundary,
       padding: collisionPadding
     };
-    const arrowRef = React30.useRef(null);
+    const arrowRef = React29.useRef(null);
     const sideOffsetRef = useValueAsRef(sideOffset);
     const alignOffsetRef = useValueAsRef(alignOffset);
     const sideOffsetDep = typeof sideOffset !== "function" ? sideOffset : 0;
     const alignOffsetDep = typeof alignOffset !== "function" ? alignOffset : 0;
-    const middleware = [offset3((state) => {
+    const middleware = [];
+    if (inlineMiddleware) {
+      middleware.push(inlineMiddleware);
+    }
+    middleware.push(offset3((state) => {
       const data = getOffsetData(state, sideParam, isRtl);
       const sideAxis = typeof sideOffsetRef.current === "function" ? sideOffsetRef.current(data) : sideOffsetRef.current;
       const alignAxis = typeof alignOffsetRef.current === "function" ? alignOffsetRef.current(data) : alignOffsetRef.current;
@@ -7365,7 +7409,7 @@ var wp;
         crossAxis: alignAxis,
         alignmentAxis: alignAxis
       };
-    }, [sideOffsetDep, alignOffsetDep, isRtl, sideParam])];
+    }, [sideOffsetDep, alignOffsetDep, isRtl, sideParam]));
     const shiftDisabled = collisionAvoidanceAlign === "none" && collisionAvoidanceSide !== "shift";
     const crossAxisShiftEnabled = !shiftDisabled && (sticky || shiftCrossAxis || collisionAvoidanceSide === "shift");
     const flipMiddleware = collisionAvoidanceSide === "none" ? null : flip3({
@@ -7446,10 +7490,10 @@ var wp;
         floatingStyle.setProperty("--anchor-width", `${anchorWidth}px`);
         floatingStyle.setProperty("--anchor-height", `${anchorHeight}px`);
       }
-    }), arrow4(() => ({
+    }), arrow4((state) => ({
       // `transform-origin` calculations rely on an element existing. If the arrow hasn't been set,
       // we'll create a fake element.
-      element: arrowRef.current || ownerDocument(arrowRef.current).createElement("div"),
+      element: arrowRef.current || ownerDocument(state.elements.floating).createElement("div"),
       padding: arrowPadding,
       offsetParent: "floating"
     }), [arrowPadding]), {
@@ -7496,7 +7540,7 @@ var wp;
         });
       }
     }, [mounted, floatingRootContext]);
-    const autoUpdateOptions = React30.useMemo(() => ({
+    const autoUpdateOptions = React29.useMemo(() => ({
       elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
       layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
     }), [disableAnchorTracking]);
@@ -7526,7 +7570,7 @@ var wp;
       sideY
     } = middlewareData.adaptiveOrigin || DEFAULT_SIDES;
     const resolvedPosition = isPositioned ? positionMethod : "fixed";
-    const floatingStyles = React30.useMemo(() => {
+    const floatingStyles = React29.useMemo(() => {
       const base = adaptiveOrigin2 ? {
         position: resolvedPosition,
         [sideX]: x,
@@ -7540,7 +7584,7 @@ var wp;
       }
       return base;
     }, [adaptiveOrigin2, resolvedPosition, sideX, x, sideY, y, originalFloatingStyles, isPositioned]);
-    const registeredPositionReferenceRef = React30.useRef(null);
+    const registeredPositionReferenceRef = React29.useRef(null);
     useIsoLayoutEffect(() => {
       if (!mounted) {
         return;
@@ -7554,7 +7598,7 @@ var wp;
         registeredPositionReferenceRef.current = finalAnchor;
       }
     }, [mounted, refs, anchorDep, anchorValueRef]);
-    React30.useEffect(() => {
+    React29.useEffect(() => {
       if (!mounted) {
         return;
       }
@@ -7567,7 +7611,7 @@ var wp;
         registeredPositionReferenceRef.current = anchorValue.current;
       }
     }, [mounted, refs, anchorDep, anchorValueRef]);
-    React30.useEffect(() => {
+    React29.useEffect(() => {
       if (keepMounted && mounted && elements.domReference && elements.floating) {
         return autoUpdate(elements.domReference, elements.floating, update2, autoUpdateOptions);
       }
@@ -7582,13 +7626,13 @@ var wp;
         setMountSide(renderedSide);
       }
     }, [lazyFlip, mounted, isPositioned, renderedSide]);
-    const arrowStyles = React30.useMemo(() => ({
+    const arrowStyles = React29.useMemo(() => ({
       position: "absolute",
       top: middlewareData.arrow?.y,
       left: middlewareData.arrow?.x
     }), [middlewareData.arrow]);
     const arrowUncentered = middlewareData.arrow?.centerOffset !== 0;
-    return React30.useMemo(() => ({
+    return React29.useMemo(() => ({
       positionerStyles: floatingStyles,
       arrowStyles,
       arrowRef,
@@ -7640,13 +7684,13 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/utils/usePopupViewport.js
-  var React33 = __toESM(require_react(), 1);
+  var React32 = __toESM(require_react(), 1);
   var ReactDOM5 = __toESM(require_react_dom(), 1);
 
   // node_modules/@base-ui/utils/esm/usePreviousValue.js
-  var React31 = __toESM(require_react(), 1);
+  var React30 = __toESM(require_react(), 1);
   function usePreviousValue(value) {
-    const [state, setState] = React31.useState({
+    const [state, setState] = React30.useState({
       current: value,
       previous: null
     });
@@ -7660,7 +7704,7 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/utils/usePopupAutoResize.js
-  var React32 = __toESM(require_react(), 1);
+  var React31 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/utils/getCssDimensions.js
   function getCssDimensions2(element) {
@@ -7697,13 +7741,13 @@ var wp;
     } = parameters;
     const runOnceAnimationsFinish = useAnimationsFinished(popupElement, true, false);
     const animationFrame = useAnimationFrame();
-    const committedDimensionsRef = React32.useRef(null);
-    const liveDimensionsRef = React32.useRef(null);
-    const isInitialRenderRef = React32.useRef(true);
-    const restoreAnchoringStylesRef = React32.useRef(NOOP);
+    const committedDimensionsRef = React31.useRef(null);
+    const liveDimensionsRef = React31.useRef(null);
+    const isInitialRenderRef = React31.useRef(true);
+    const restoreAnchoringStylesRef = React31.useRef(NOOP);
     const onMeasureLayout = useStableCallback(onMeasureLayoutParam);
     const onMeasureLayoutComplete = useStableCallback(onMeasureLayoutCompleteParam);
-    const anchoringStyles = React32.useMemo(() => {
+    const anchoringStyles = React31.useMemo(() => {
       let isOriginSide = side === "top";
       let isPhysicalLeft = side === "left";
       if (direction === "rtl") {
@@ -7858,15 +7902,15 @@ var wp;
     const positionerElement = store2.useState("positionerElement");
     const previousActiveTrigger = usePreviousValue(open ? activeTrigger : null);
     const currentContentKey = usePopupContentKey(activeTriggerId, payload);
-    const capturedNodeRef = React33.useRef(null);
-    const [previousContentNode, setPreviousContentNode] = React33.useState(null);
-    const [newTriggerOffset, setNewTriggerOffset] = React33.useState(null);
-    const currentContainerRef = React33.useRef(null);
-    const previousContainerRef = React33.useRef(null);
+    const capturedNodeRef = React32.useRef(null);
+    const [previousContentNode, setPreviousContentNode] = React32.useState(null);
+    const [newTriggerOffset, setNewTriggerOffset] = React32.useState(null);
+    const currentContainerRef = React32.useRef(null);
+    const previousContainerRef = React32.useRef(null);
     const onAnimationsFinished = useAnimationsFinished(currentContainerRef, true, false);
     const cleanupFrame = useAnimationFrame();
-    const [previousContentDimensions, setPreviousContentDimensions] = React33.useState(null);
-    const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React33.useState(false);
+    const [previousContentDimensions, setPreviousContentDimensions] = React32.useState(null);
+    const [showStartingStyleAttribute, setShowStartingStyleAttribute] = React32.useState(false);
     useIsoLayoutEffect(() => {
       store2.set("hasViewport", true);
       return () => {
@@ -7886,7 +7930,7 @@ var wp;
         setPreviousContentDimensions(previousDimensions);
       }
     });
-    const lastHandledTriggerRef = React33.useRef(null);
+    const lastHandledTriggerRef = React32.useRef(null);
     useIsoLayoutEffect(() => {
       if (activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
         setPreviousContentNode(capturedNodeRef.current);
@@ -7926,7 +7970,7 @@ var wp;
         children
       }, currentContentKey);
     } else {
-      childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(React33.Fragment, {
+      childrenToRender = /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(React32.Fragment, {
         children: [/* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {
           "data-previous": true,
           inert: inertValue(true),
@@ -8005,10 +8049,10 @@ var wp;
     };
   }
   function usePopupContentKey(activeTriggerId, payload) {
-    const [contentKey, setContentKey] = React33.useState(0);
-    const previousActiveTriggerIdRef = React33.useRef(activeTriggerId);
-    const previousPayloadRef = React33.useRef(payload);
-    const pendingPayloadUpdateRef = React33.useRef(false);
+    const [contentKey, setContentKey] = React32.useState(0);
+    const previousActiveTriggerIdRef = React32.useRef(activeTriggerId);
+    const previousPayloadRef = React32.useRef(payload);
+    const pendingPayloadUpdateRef = React32.useRef(false);
     useIsoLayoutEffect(() => {
       const previousActiveTriggerId = previousActiveTriggerIdRef.current;
       const previousPayload = previousPayloadRef.current;
@@ -8028,10 +8072,10 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/utils/FloatingPortalLite.js
-  var React34 = __toESM(require_react(), 1);
+  var React33 = __toESM(require_react(), 1);
   var ReactDOM6 = __toESM(require_react_dom(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var FloatingPortalLite = /* @__PURE__ */ React34.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
+  var FloatingPortalLite = /* @__PURE__ */ React33.forwardRef(function FloatingPortalLite2(componentProps, forwardedRef) {
     const {
       children,
       container,
@@ -8052,7 +8096,7 @@ var wp;
     if (!portalSubtree && !portalNode) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(React34.Fragment, {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(React33.Fragment, {
       children: [portalSubtree, portalNode && /* @__PURE__ */ ReactDOM6.createPortal(children, portalNode)]
     });
   });
@@ -8074,14 +8118,14 @@ var wp;
   });
 
   // node_modules/@base-ui/react/esm/tooltip/root/TooltipRoot.js
-  var React37 = __toESM(require_react(), 1);
+  var React36 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/tooltip/root/TooltipRootContext.js
-  var React35 = __toESM(require_react(), 1);
-  var TooltipRootContext = /* @__PURE__ */ React35.createContext(void 0);
+  var React34 = __toESM(require_react(), 1);
+  var TooltipRootContext = /* @__PURE__ */ React34.createContext(void 0);
   if (true) TooltipRootContext.displayName = "TooltipRootContext";
   function useTooltipRootContext(optional) {
-    const context = React35.useContext(TooltipRootContext);
+    const context = React34.useContext(TooltipRootContext);
     if (context === void 0 && !optional) {
       throw new Error(true ? "Base UI: TooltipRootContext is missing. Tooltip parts must be placed within <Tooltip.Root>." : formatErrorMessage_default(72));
     }
@@ -8089,7 +8133,7 @@ var wp;
   }
 
   // node_modules/@base-ui/react/esm/tooltip/store/TooltipStore.js
-  var React36 = __toESM(require_react(), 1);
+  var React35 = __toESM(require_react(), 1);
   var ReactDOM7 = __toESM(require_react_dom(), 1);
   var selectors2 = {
     ...popupStoreSelectors,
@@ -8104,15 +8148,18 @@ var wp;
     hasViewport: createSelector2((state) => state.hasViewport)
   };
   var TooltipStore = class _TooltipStore extends ReactStore {
-    constructor(initialState) {
-      super({
+    constructor(initialState, floatingId, nested = false) {
+      const triggerElements = new PopupTriggerMap();
+      const state = {
         ...createInitialState(),
         ...initialState
-      }, {
-        popupRef: /* @__PURE__ */ React36.createRef(),
+      };
+      state.floatingRootContext = createPopupFloatingRootContext(triggerElements, floatingId, nested);
+      super(state, {
+        popupRef: /* @__PURE__ */ React35.createRef(),
         onOpenChange: void 0,
         onOpenChangeComplete: void 0,
-        triggerElements: new PopupTriggerMap()
+        triggerElements
       }, selectors2);
     }
     setOpen = (nextOpen, eventDetails) => {
@@ -8140,11 +8187,7 @@ var wp;
         } else if (reason === reason_parts_exports.triggerHover) {
           updatedState.instantType = void 0;
         }
-        const newTriggerId = eventDetails.trigger?.id ?? null;
-        if (newTriggerId || nextOpen) {
-          updatedState.activeTriggerId = newTriggerId;
-          updatedState.activeTriggerElement = eventDetails.trigger ?? null;
-        }
+        setOpenTriggerState(updatedState, nextOpen, eventDetails.trigger);
         this.update(updatedState);
       };
       if (isHover) {
@@ -8153,16 +8196,12 @@ var wp;
         changeState();
       }
     };
+    // Used by trigger clicks to clear a delayed hover open without reporting a public open-state change.
+    cancelPendingOpen(event) {
+      this.state.floatingRootContext.dispatchOpenChange(false, createChangeEventDetails(reason_parts_exports.triggerPress, event));
+    }
     static useStore(externalStore, initialState) {
-      const internalStore = useRefWithInit(() => {
-        return new _TooltipStore(initialState);
-      }).current;
-      const store2 = externalStore ?? internalStore;
-      const floatingRootContext = useSyncedFloatingRootContext({
-        popupStore: store2,
-        onOpenChange: store2.setOpen
-      });
-      store2.state.floatingRootContext = floatingRootContext;
+      const store2 = usePopupStore(externalStore, (floatingId, nested) => new _TooltipStore(initialState, floatingId, nested)).store;
       return store2;
     }
   };
@@ -8219,27 +8258,27 @@ var wp;
     const openState = store2.useState("open");
     const open = !disabled2 && openState;
     const activeTriggerId = store2.useState("activeTriggerId");
+    const mounted = store2.useState("mounted");
     const payload = store2.useState("payload");
     store2.useSyncedValues({
       trackCursorAxis,
       disableHoverablePopup
     });
-    useIsoLayoutEffect(() => {
-      if (openState && disabled2) {
-        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.disabled));
-      }
-    }, [openState, disabled2, store2]);
     store2.useSyncedValue("disabled", disabled2);
     useImplicitActiveTrigger(store2);
     const {
       forceUnmount,
       transitionStatus
     } = useOpenStateTransitions(open, store2);
-    const floatingRootContext = store2.select("floatingRootContext");
     const isInstantPhase = store2.useState("isInstantPhase");
     const instantType = store2.useState("instantType");
     const lastOpenChangeReason = store2.useState("lastOpenChangeReason");
-    const previousInstantTypeRef = React37.useRef(null);
+    const previousInstantTypeRef = React36.useRef(null);
+    useIsoLayoutEffect(() => {
+      if (openState && disabled2) {
+        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.disabled));
+      }
+    }, [openState, disabled2, store2]);
     useIsoLayoutEffect(() => {
       if (transitionStatus === "ending" && lastOpenChangeReason === reason_parts_exports.none || transitionStatus !== "ending" && isInstantPhase) {
         if (instantType !== "delay") {
@@ -8258,13 +8297,32 @@ var wp;
         }
       }
     }, [store2, activeTriggerId, open]);
-    const handleImperativeClose = React37.useCallback(() => {
+    const handleImperativeClose = React36.useCallback(() => {
       store2.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction));
     }, [store2]);
-    React37.useImperativeHandle(actionsRef, () => ({
+    React36.useImperativeHandle(actionsRef, () => ({
       unmount: forceUnmount,
       close: handleImperativeClose
     }), [forceUnmount, handleImperativeClose]);
+    const shouldRenderInteractions = open || mounted || !disabled2 && trackCursorAxis !== "none";
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(TooltipRootContext.Provider, {
+      value: store2,
+      children: [shouldRenderInteractions && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TooltipInteractions, {
+        store: store2,
+        disabled: disabled2,
+        trackCursorAxis
+      }), typeof children === "function" ? children({
+        payload
+      }) : children]
+    });
+  });
+  if (true) TooltipRoot.displayName = "TooltipRoot";
+  function TooltipInteractions({
+    store: store2,
+    disabled: disabled2,
+    trackCursorAxis
+  }) {
+    const floatingRootContext = store2.useState("floatingRootContext");
     const dismiss = useDismiss(floatingRootContext, {
       enabled: !disabled2,
       referencePress: () => store2.select("closeOnClick")
@@ -8273,37 +8331,26 @@ var wp;
       enabled: !disabled2 && trackCursorAxis !== "none",
       axis: trackCursorAxis === "none" ? void 0 : trackCursorAxis
     });
-    const {
-      getReferenceProps,
-      getFloatingProps,
-      getTriggerProps
-    } = useInteractions([dismiss, clientPoint]);
-    const activeTriggerProps = React37.useMemo(() => getReferenceProps(), [getReferenceProps]);
-    const inactiveTriggerProps = React37.useMemo(() => getTriggerProps(), [getTriggerProps]);
-    const popupProps = React37.useMemo(() => getFloatingProps(), [getFloatingProps]);
-    store2.useSyncedValues({
+    const activeTriggerProps = React36.useMemo(() => mergeProps(clientPoint.reference, dismiss.reference), [clientPoint.reference, dismiss.reference]);
+    const inactiveTriggerProps = React36.useMemo(() => mergeProps(clientPoint.trigger, dismiss.trigger), [clientPoint.trigger, dismiss.trigger]);
+    const popupProps = React36.useMemo(() => mergeProps(FOCUSABLE_POPUP_PROPS, clientPoint.floating, dismiss.floating), [clientPoint.floating, dismiss.floating]);
+    usePopupInteractionProps(store2, {
       activeTriggerProps,
       inactiveTriggerProps,
       popupProps
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TooltipRootContext.Provider, {
-      value: store2,
-      children: typeof children === "function" ? children({
-        payload
-      }) : children
-    });
-  });
-  if (true) TooltipRoot.displayName = "TooltipRoot";
+    return null;
+  }
 
   // node_modules/@base-ui/react/esm/tooltip/trigger/TooltipTrigger.js
-  var React39 = __toESM(require_react(), 1);
+  var React38 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/tooltip/provider/TooltipProviderContext.js
-  var React38 = __toESM(require_react(), 1);
-  var TooltipProviderContext = /* @__PURE__ */ React38.createContext(void 0);
+  var React37 = __toESM(require_react(), 1);
+  var TooltipProviderContext = /* @__PURE__ */ React37.createContext(void 0);
   if (true) TooltipProviderContext.displayName = "TooltipProviderContext";
   function useTooltipProviderContext() {
-    return React38.useContext(TooltipProviderContext);
+    return React37.useContext(TooltipProviderContext);
   }
 
   // node_modules/@base-ui/react/esm/tooltip/trigger/TooltipTriggerDataAttributes.js
@@ -8317,10 +8364,44 @@ var wp;
   var OPEN_DELAY = 600;
 
   // node_modules/@base-ui/react/esm/tooltip/trigger/TooltipTrigger.js
+  var TOOLTIP_TRIGGER_IDENTIFIER = "data-base-ui-tooltip-trigger";
+  function getTargetElement(event) {
+    if ("composedPath" in event) {
+      const path = event.composedPath();
+      for (let i = 0; i < path.length; i += 1) {
+        const element = path[i];
+        if (isElement(element)) {
+          return element;
+        }
+      }
+    }
+    const target = event.target;
+    if (isElement(target)) {
+      return target;
+    }
+    return null;
+  }
+  function closestEnabledTooltipTrigger(element) {
+    let current = element;
+    while (current) {
+      if (current.hasAttribute(TOOLTIP_TRIGGER_IDENTIFIER)) {
+        return current;
+      }
+      const parentElement = current.parentElement;
+      if (parentElement) {
+        current = parentElement;
+        continue;
+      }
+      const root = current.getRootNode();
+      current = "host" in root && isElement(root.host) ? root.host : null;
+    }
+    return null;
+  }
   var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, forwardedRef) {
     const {
-      className,
       render,
+      className,
+      style,
       handle,
       payload,
       disabled: disabledProp,
@@ -8328,7 +8409,6 @@ var wp;
       closeOnClick = true,
       closeDelay,
       id: idProp,
-      style,
       ...elementProps
     } = componentProps;
     const rootContext = useTooltipRootContext(true);
@@ -8340,7 +8420,7 @@ var wp;
     const isTriggerActive = store2.useState("isTriggerActive", thisTriggerId);
     const isOpenedByThisTrigger = store2.useState("isOpenedByTrigger", thisTriggerId);
     const floatingRootContext = store2.useState("floatingRootContext");
-    const triggerElementRef = React39.useRef(null);
+    const triggerElementRef = React38.useRef(null);
     const delayWithDefault = delay ?? OPEN_DELAY;
     const closeDelayWithDefault = closeDelay ?? 0;
     const {
@@ -8359,29 +8439,54 @@ var wp;
     } = useDelayGroup(floatingRootContext, {
       open: isOpenedByThisTrigger
     });
+    const hoverInteraction = useHoverInteractionSharedState(floatingRootContext);
     store2.useSyncedValue("isInstantPhase", isInstantPhase);
     const rootDisabled = store2.useState("disabled");
     const disabled2 = disabledProp ?? rootDisabled;
+    const disabledRef = useValueAsRef(disabled2);
     const trackCursorAxis = store2.useState("trackCursorAxis");
     const disableHoverablePopup = store2.useState("disableHoverablePopup");
+    const isNestedTriggerHoveredRef = React38.useRef(false);
+    const nestedTriggerOpenTimeout = useTimeout();
+    const pointerTypeRef = React38.useRef(void 0);
+    function getOpenDelay() {
+      const providerDelay = providerContext?.delay;
+      const groupOpenValue = typeof delayRef.current === "object" ? delayRef.current.open : void 0;
+      let computedOpenDelay = delayWithDefault;
+      if (hasProvider) {
+        if (groupOpenValue !== 0) {
+          computedOpenDelay = delay ?? providerDelay ?? delayWithDefault;
+        } else {
+          computedOpenDelay = 0;
+        }
+      }
+      return computedOpenDelay;
+    }
+    function isEnabledNestedTriggerTarget(target) {
+      const triggerEl = triggerElementRef.current;
+      if (!triggerEl || !target) {
+        return false;
+      }
+      const nearestTrigger = closestEnabledTooltipTrigger(target);
+      return nearestTrigger !== null && nearestTrigger !== triggerEl && contains(triggerEl, nearestTrigger);
+    }
+    function detectNestedTriggerHover(target) {
+      const nestedTriggerHovered = isEnabledNestedTriggerTarget(target);
+      isNestedTriggerHoveredRef.current = nestedTriggerHovered;
+      if (nestedTriggerHovered) {
+        hoverInteraction.openChangeTimeout.clear();
+        hoverInteraction.restTimeout.clear();
+        hoverInteraction.restTimeoutPending = false;
+        nestedTriggerOpenTimeout.clear();
+      }
+      return nestedTriggerHovered;
+    }
     const hoverProps = useHoverReferenceInteraction(floatingRootContext, {
       enabled: !disabled2,
       mouseOnly: true,
       move: false,
       handleClose: !disableHoverablePopup && trackCursorAxis !== "both" ? safePolygon() : null,
-      restMs() {
-        const providerDelay = providerContext?.delay;
-        const groupOpenValue = typeof delayRef.current === "object" ? delayRef.current.open : void 0;
-        let computedRestMs = delayWithDefault;
-        if (hasProvider) {
-          if (groupOpenValue !== 0) {
-            computedRestMs = delay ?? providerDelay ?? delayWithDefault;
-          } else {
-            computedRestMs = 0;
-          }
-        }
-        return computedRestMs;
-      },
+      restMs: getOpenDelay,
       delay() {
         const closeValue = typeof delayRef.current === "object" ? delayRef.current.close : void 0;
         let computedCloseDelay = closeDelayWithDefault;
@@ -8394,24 +8499,80 @@ var wp;
       },
       triggerElementRef,
       isActiveTrigger: isTriggerActive,
-      isClosing: () => store2.select("transitionStatus") === "ending"
+      isClosing: () => store2.select("transitionStatus") === "ending",
+      shouldOpen() {
+        return !isNestedTriggerHoveredRef.current;
+      }
     });
     const focusProps = useFocus(floatingRootContext, {
       enabled: !disabled2
     }).reference;
+    const handleNestedTriggerHover = (event) => {
+      const wasNestedTriggerHovered = isNestedTriggerHoveredRef.current;
+      const target = getTargetElement(event);
+      const nestedTriggerHovered = detectNestedTriggerHover(target);
+      const triggerEl = triggerElementRef.current;
+      const targetInsideTrigger = triggerEl && target && contains(triggerEl, target);
+      if (nestedTriggerHovered && store2.select("open") && store2.select("lastOpenChangeReason") === reason_parts_exports.triggerHover) {
+        store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerHover, event));
+        return;
+      }
+      if (wasNestedTriggerHovered && !nestedTriggerHovered && targetInsideTrigger && !disabledRef.current && !store2.select("open") && triggerEl && // Match the hover hook's non-strict mouse fallback for mouse-only event sequences.
+      isMouseLikePointerType(pointerTypeRef.current)) {
+        const open = () => {
+          if (!isNestedTriggerHoveredRef.current && !disabledRef.current && !store2.select("open")) {
+            store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerEl));
+          }
+        };
+        const openDelay = getOpenDelay();
+        if (openDelay === 0) {
+          nestedTriggerOpenTimeout.clear();
+          open();
+        } else {
+          nestedTriggerOpenTimeout.start(openDelay, open);
+        }
+      }
+    };
+    const rootTriggerProps = store2.useState("triggerProps", isMountedByThisTrigger);
+    const shouldApplyRootTriggerProps = isMountedByThisTrigger || trackCursorAxis !== "none";
     const state = {
       open: isOpenedByThisTrigger
     };
-    const rootTriggerProps = store2.useState("triggerProps", isMountedByThisTrigger);
     const element = useRenderElement("button", componentProps, {
       state,
       ref: [forwardedRef, registerTrigger, triggerElementRef],
-      props: [hoverProps, focusProps, rootTriggerProps, {
-        onPointerDown() {
+      props: [hoverProps, focusProps, shouldApplyRootTriggerProps ? rootTriggerProps : void 0, {
+        onMouseOver(event) {
+          handleNestedTriggerHover(event.nativeEvent);
+        },
+        onFocus(event) {
+          if (isEnabledNestedTriggerTarget(getTargetElement(event.nativeEvent))) {
+            event.preventBaseUIHandler();
+          }
+        },
+        onMouseLeave() {
+          isNestedTriggerHoveredRef.current = false;
+          nestedTriggerOpenTimeout.clear();
+          pointerTypeRef.current = void 0;
+        },
+        onPointerEnter(event) {
+          pointerTypeRef.current = event.pointerType;
+        },
+        onPointerDown(event) {
+          pointerTypeRef.current = event.pointerType;
           store2.set("closeOnClick", closeOnClick);
+          if (closeOnClick && !store2.select("open")) {
+            store2.cancelPendingOpen(event.nativeEvent);
+          }
+        },
+        onClick(event) {
+          if (closeOnClick && !store2.select("open")) {
+            store2.cancelPendingOpen(event.nativeEvent);
+          }
         },
         id: thisTriggerId,
-        [TooltipTriggerDataAttributes.triggerDisabled]: disabled2 ? "" : void 0
+        [TooltipTriggerDataAttributes.triggerDisabled]: disabled2 ? "" : void 0,
+        [TOOLTIP_TRIGGER_IDENTIFIER]: disabled2 ? void 0 : ""
       }, elementProps],
       stateAttributesMapping: triggerOpenStateMapping
     });
@@ -8420,14 +8581,14 @@ var wp;
   if (true) TooltipTrigger.displayName = "TooltipTrigger";
 
   // node_modules/@base-ui/react/esm/tooltip/portal/TooltipPortal.js
-  var React41 = __toESM(require_react(), 1);
+  var React40 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/tooltip/portal/TooltipPortalContext.js
-  var React40 = __toESM(require_react(), 1);
-  var TooltipPortalContext = /* @__PURE__ */ React40.createContext(void 0);
+  var React39 = __toESM(require_react(), 1);
+  var TooltipPortalContext = /* @__PURE__ */ React39.createContext(void 0);
   if (true) TooltipPortalContext.displayName = "TooltipPortalContext";
   function useTooltipPortalContext() {
-    const value = React40.useContext(TooltipPortalContext);
+    const value = React39.useContext(TooltipPortalContext);
     if (value === void 0) {
       throw new Error(true ? "Base UI: <Tooltip.Portal> is missing." : formatErrorMessage_default(70));
     }
@@ -8436,7 +8597,7 @@ var wp;
 
   // node_modules/@base-ui/react/esm/tooltip/portal/TooltipPortal.js
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-  var TooltipPortal = /* @__PURE__ */ React41.forwardRef(function TooltipPortal2(props, forwardedRef) {
+  var TooltipPortal = /* @__PURE__ */ React40.forwardRef(function TooltipPortal2(props, forwardedRef) {
     const {
       keepMounted = false,
       ...portalProps
@@ -8458,14 +8619,14 @@ var wp;
   if (true) TooltipPortal.displayName = "TooltipPortal";
 
   // node_modules/@base-ui/react/esm/tooltip/positioner/TooltipPositioner.js
-  var React43 = __toESM(require_react(), 1);
+  var React42 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/tooltip/positioner/TooltipPositionerContext.js
-  var React42 = __toESM(require_react(), 1);
-  var TooltipPositionerContext = /* @__PURE__ */ React42.createContext(void 0);
+  var React41 = __toESM(require_react(), 1);
+  var TooltipPositionerContext = /* @__PURE__ */ React41.createContext(void 0);
   if (true) TooltipPositionerContext.displayName = "TooltipPositionerContext";
   function useTooltipPositionerContext() {
-    const context = React42.useContext(TooltipPositionerContext);
+    const context = React41.useContext(TooltipPositionerContext);
     if (context === void 0) {
       throw new Error(true ? "Base UI: TooltipPositionerContext is missing. TooltipPositioner parts must be placed within <Tooltip.Positioner>." : formatErrorMessage_default(71));
     }
@@ -8474,7 +8635,7 @@ var wp;
 
   // node_modules/@base-ui/react/esm/tooltip/positioner/TooltipPositioner.js
   var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
-  var TooltipPositioner = /* @__PURE__ */ React43.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
+  var TooltipPositioner = /* @__PURE__ */ React42.forwardRef(function TooltipPositioner2(componentProps, forwardedRef) {
     const {
       render,
       className,
@@ -8521,7 +8682,7 @@ var wp;
       collisionAvoidance,
       adaptiveOrigin: hasViewport ? adaptiveOrigin : void 0
     });
-    const state = React43.useMemo(() => ({
+    const state = React42.useMemo(() => ({
       open,
       side: positioning.side,
       align: positioning.align,
@@ -8544,15 +8705,15 @@ var wp;
   if (true) TooltipPositioner.displayName = "TooltipPositioner";
 
   // node_modules/@base-ui/react/esm/tooltip/popup/TooltipPopup.js
-  var React44 = __toESM(require_react(), 1);
+  var React43 = __toESM(require_react(), 1);
   var stateAttributesMapping = {
     ...popupStateMapping,
     ...transitionStatusMapping
   };
-  var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
+  var TooltipPopup = /* @__PURE__ */ React43.forwardRef(function TooltipPopup2(componentProps, forwardedRef) {
     const {
-      className,
       render,
+      className,
       style,
       ...elementProps
     } = componentProps;
@@ -8566,6 +8727,8 @@ var wp;
     const transitionStatus = store2.useState("transitionStatus");
     const popupProps = store2.useState("popupProps");
     const floatingContext = store2.useState("floatingRootContext");
+    const disabled2 = store2.useState("disabled");
+    const closeDelay = store2.useState("closeDelay");
     useOpenChangeComplete({
       open,
       ref: store2.context.popupRef,
@@ -8575,12 +8738,11 @@ var wp;
         }
       }
     });
-    const disabled2 = store2.useState("disabled");
-    const closeDelay = store2.useState("closeDelay");
     useHoverFloatingInteraction(floatingContext, {
       enabled: !disabled2,
       closeDelay
     });
+    const setPopupElement = store2.useStateSetter("popupElement");
     const state = {
       open,
       side,
@@ -8590,7 +8752,7 @@ var wp;
     };
     const element = useRenderElement("div", componentProps, {
       state,
-      ref: [forwardedRef, store2.context.popupRef, store2.useStateSetter("popupElement")],
+      ref: [forwardedRef, store2.context.popupRef, setPopupElement],
       props: [popupProps, getDisabledMountTransitionStyles(transitionStatus), elementProps],
       stateAttributesMapping
     });
@@ -8599,17 +8761,15 @@ var wp;
   if (true) TooltipPopup.displayName = "TooltipPopup";
 
   // node_modules/@base-ui/react/esm/tooltip/arrow/TooltipArrow.js
-  var React45 = __toESM(require_react(), 1);
-  var TooltipArrow = /* @__PURE__ */ React45.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
+  var React44 = __toESM(require_react(), 1);
+  var TooltipArrow = /* @__PURE__ */ React44.forwardRef(function TooltipArrow2(componentProps, forwardedRef) {
     const {
-      className,
       render,
+      className,
       style,
       ...elementProps
     } = componentProps;
     const store2 = useTooltipRootContext();
-    const open = store2.useState("open");
-    const instantType = store2.useState("instantType");
     const {
       arrowRef,
       side,
@@ -8617,6 +8777,8 @@ var wp;
       arrowUncentered,
       arrowStyles
     } = useTooltipPositionerContext();
+    const open = store2.useState("open");
+    const instantType = store2.useState("instantType");
     const state = {
       open,
       side,
@@ -8638,7 +8800,7 @@ var wp;
   if (true) TooltipArrow.displayName = "TooltipArrow";
 
   // node_modules/@base-ui/react/esm/tooltip/provider/TooltipProvider.js
-  var React46 = __toESM(require_react(), 1);
+  var React45 = __toESM(require_react(), 1);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var TooltipProvider = function TooltipProvider2(props) {
     const {
@@ -8646,11 +8808,11 @@ var wp;
       closeDelay,
       timeout = 400
     } = props;
-    const contextValue = React46.useMemo(() => ({
+    const contextValue = React45.useMemo(() => ({
       delay,
       closeDelay
     }), [delay, closeDelay]);
-    const delayValue = React46.useMemo(() => ({
+    const delayValue = React45.useMemo(() => ({
       open: delay,
       close: closeDelay
     }), [delay, closeDelay]);
@@ -8666,7 +8828,7 @@ var wp;
   if (true) TooltipProvider.displayName = "TooltipProvider";
 
   // node_modules/@base-ui/react/esm/tooltip/viewport/TooltipViewport.js
-  var React47 = __toESM(require_react(), 1);
+  var React46 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/esm/tooltip/viewport/TooltipViewportCssVars.js
   var TooltipViewportCssVars = /* @__PURE__ */ (function(TooltipViewportCssVars2) {
@@ -8681,7 +8843,7 @@ var wp;
       "data-activation-direction": value
     } : null
   };
-  var TooltipViewport = /* @__PURE__ */ React47.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
+  var TooltipViewport = /* @__PURE__ */ React46.forwardRef(function TooltipViewport2(componentProps, forwardedRef) {
     const {
       render,
       className,
@@ -8751,7 +8913,7 @@ var wp;
      * Indicates whether the tooltip is currently open.
      */
     get isOpen() {
-      return this.store.state.open;
+      return this.store.select("open");
     }
   };
   function createTooltipHandle() {
@@ -8764,18 +8926,15 @@ var wp;
   }
 
   // packages/icons/build-module/icon/index.mjs
-  var import_element9 = __toESM(require_element(), 1);
-  var icon_default = (0, import_element9.forwardRef)(
+  var import_element11 = __toESM(require_element(), 1);
+  var icon_default = (0, import_element11.forwardRef)(
     ({ icon, size: size4 = 24, ...props }, ref) => {
-      return (0, import_element9.cloneElement)(
-        icon,
-        {
-          width: size4,
-          height: size4,
-          ...props,
-          ref
-        }
-      );
+      return (0, import_element11.cloneElement)(icon, {
+        width: size4,
+        height: size4,
+        ...props,
+        ref
+      });
     }
   );
 
@@ -8795,12 +8954,9 @@ var wp;
   var star_half_default = /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_primitives3.Path, { d: "M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z" }) });
 
   // packages/ui/build-module/utils/render-slot-with-children.mjs
-  var import_element10 = __toESM(require_element(), 1);
+  var import_element12 = __toESM(require_element(), 1);
   function renderSlotWithChildren(slot, defaultSlot, children) {
-    return (0, import_element10.cloneElement)(
-      slot ?? defaultSlot,
-      { children }
-    );
+    return (0, import_element12.cloneElement)(slot ?? defaultSlot, { children });
   }
 
   // packages/ui/build-module/lock-unlock.mjs
@@ -8822,11 +8978,11 @@ var wp;
   });
 
   // packages/ui/build-module/tooltip/popup.mjs
-  var import_element13 = __toESM(require_element(), 1);
+  var import_element15 = __toESM(require_element(), 1);
   var import_theme = __toESM(require_theme(), 1);
 
   // packages/ui/build-module/tooltip/portal.mjs
-  var import_element11 = __toESM(require_element(), 1);
+  var import_element13 = __toESM(require_element(), 1);
 
   // packages/ui/build-module/utils/wp-compat-overlay-slot.mjs
   var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
@@ -8910,7 +9066,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle("45eb1fe20f", "@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;._11fc52b637ff8a7e__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui-utilities{._11fc52b637ff8a7e__slot>*{pointer-events:auto}}");
+    registerStyle("be37f31c1e", "._11fc52b637ff8a7e__slot{inset:0;isolation:isolate;pointer-events:none;position:fixed;z-index:1000000003}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._11fc52b637ff8a7e__slot>*{pointer-events:auto}}}");
   }
   var wp_compat_overlay_slot_default = { "slot": "_11fc52b637ff8a7e__slot" };
   var WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE = "data-wp-compat-overlay-slot";
@@ -8966,7 +9122,7 @@ var wp;
 
   // packages/ui/build-module/tooltip/portal.mjs
   var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  var Portal = (0, import_element11.forwardRef)(
+  var Portal = (0, import_element13.forwardRef)(
     function TooltipPortal3({ container, ...restProps }, ref) {
       return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
         index_parts_exports.Portal,
@@ -8980,7 +9136,7 @@ var wp;
   );
 
   // packages/ui/build-module/tooltip/positioner.mjs
-  var import_element12 = __toESM(require_element(), 1);
+  var import_element14 = __toESM(require_element(), 1);
   var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
   var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
   function getRuntime2() {
@@ -9063,14 +9219,14 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle2("e3ae230cea", "@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}");
+    registerStyle2("10f3806643", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._336cd3e4e743482f__box-sizing{box-sizing:border-box;*,:after,:before{box-sizing:inherit}}}}");
   }
   var resets_default = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle2("8293efbb49", '@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-sm,2px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-fg-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}');
+    registerStyle2("4811d023d1", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-fg-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
   }
   var style_default = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
-  var Positioner = (0, import_element12.forwardRef)(
+  var Positioner = (0, import_element14.forwardRef)(
     function TooltipPositioner3({ align = "center", className, side = "top", sideOffset = 4, ...props }, ref) {
       return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
         index_parts_exports.Positioner,
@@ -9173,32 +9329,21 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle3("8293efbb49", '@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-sm,2px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-fg-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}');
+    registerStyle3("4811d023d1", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-bg-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-fg-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
   }
   var style_default2 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
   var ThemeProvider = unlock(import_theme.privateApis).ThemeProvider;
-  var Popup = (0, import_element13.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
-    const popupContent = (
-      /* This should ideally use whatever dark color makes sense,
-       * and not be hardcoded to #1e1e1e. The solutions would be to:
-       *   - review the design of the tooltip, in case we want to stop
-       *     hardcoding it to a dark background
-       *   - create new semantic tokens as needed (aliasing either the
-       *     "inverted bg" or "perma-dark bg" private tokens) and have
-       *     Tooltip.Popup use them;
-       *   - remove the hardcoded `bg` setting from the `ThemeProvider`
-       *     below
-       */
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ThemeProvider, { color: { bg: "#1e1e1e" }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-        index_parts_exports.Popup,
-        {
-          ref,
-          className: clsx_default(style_default2.popup, className),
-          ...props,
-          children
-        }
-      ) })
-    );
+  var POPUP_COLOR = { background: "#1e1e1e" };
+  var Popup = (0, import_element15.forwardRef)(function TooltipPopup3({ portal, positioner, children, className, ...props }, ref) {
+    const popupContent = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ThemeProvider, { color: POPUP_COLOR, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+      index_parts_exports.Popup,
+      {
+        ref,
+        className: clsx_default(style_default2.popup, className),
+        ...props,
+        children
+      }
+    ) });
     const positionedPopup = renderSlotWithChildren(
       positioner,
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Positioner, {}),
@@ -9208,9 +9353,9 @@ var wp;
   });
 
   // packages/ui/build-module/tooltip/trigger.mjs
-  var import_element14 = __toESM(require_element(), 1);
+  var import_element16 = __toESM(require_element(), 1);
   var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-  var Trigger = (0, import_element14.forwardRef)(
+  var Trigger = (0, import_element16.forwardRef)(
     function TooltipTrigger3(props, ref) {
       return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(index_parts_exports.Trigger, { ref, ...props });
     }
@@ -9229,7 +9374,7 @@ var wp;
   }
 
   // packages/ui/build-module/visually-hidden/visually-hidden.mjs
-  var import_element15 = __toESM(require_element(), 1);
+  var import_element17 = __toESM(require_element(), 1);
   var STYLE_HASH_ATTRIBUTE4 = "data-wp-hash";
   function getRuntime4() {
     const globalScope = globalThis;
@@ -9311,10 +9456,10 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle4("c46e8cb841", "@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}");
+    registerStyle4("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
   }
   var style_default3 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
-  var VisuallyHidden = (0, import_element15.forwardRef)(
+  var VisuallyHidden = (0, import_element17.forwardRef)(
     function VisuallyHidden2({ render, ...restProps }, ref) {
       const element = useRender({
         render,
@@ -9502,7 +9647,7 @@ var wp;
                   isInstalling2 ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "block-directory-downloadable-block-list-item__spinner", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_components.Spinner, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(block_ratings_default, { rating })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("span", { className: "block-directory-downloadable-block-list-item__details", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "block-directory-downloadable-block-list-item__title", children: (0, import_element16.createInterpolateElement)(
+                  /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "block-directory-downloadable-block-list-item__title", children: (0, import_element18.createInterpolateElement)(
                     (0, import_i18n4.sprintf)(
                       /* translators: 1: block title. 2: author name. */
                       (0, import_i18n4.__)("%1$s <span>by %2$s</span>"),
@@ -9572,7 +9717,7 @@ var wp;
 
   // packages/block-directory/build-module/components/downloadable-blocks-panel/inserter-panel.mjs
   var import_i18n6 = __toESM(require_i18n(), 1);
-  var import_element17 = __toESM(require_element(), 1);
+  var import_element19 = __toESM(require_element(), 1);
   var import_a11y = __toESM(require_a11y(), 1);
   var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
   function DownloadableBlocksInserterPanel({
@@ -9581,7 +9726,7 @@ var wp;
     hasLocalBlocks
   }) {
     const count = downloadableItems.length;
-    (0, import_element17.useEffect)(() => {
+    (0, import_element19.useEffect)(() => {
       (0, import_a11y.speak)(
         (0, import_i18n6.sprintf)(
           /* translators: %d: number of available blocks. */
@@ -9719,7 +9864,7 @@ var wp;
   // packages/block-directory/build-module/plugins/inserter-menu-downloadable-blocks-panel/index.mjs
   var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
   function InserterMenuDownloadableBlocksPanel() {
-    const [debouncedFilterValue, setFilterValue] = (0, import_element18.useState)("");
+    const [debouncedFilterValue, setFilterValue] = (0, import_element20.useState)("");
     const debouncedSetFilterValue = (0, import_compose.debounce)(setFilterValue, 400);
     return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_block_editor3.__unstableInserterMenuExtension, { children: ({ onSelect, onHover, filterValue, hasItems }) => {
       if (debouncedFilterValue !== filterValue) {
@@ -9806,7 +9951,7 @@ var wp;
   var import_i18n12 = __toESM(require_i18n(), 1);
   var import_components6 = __toESM(require_components(), 1);
   var import_blocks7 = __toESM(require_blocks(), 1);
-  var import_element19 = __toESM(require_element(), 1);
+  var import_element21 = __toESM(require_element(), 1);
   var import_data11 = __toESM(require_data(), 1);
   var import_core_data2 = __toESM(require_core_data(), 1);
   var import_block_editor5 = __toESM(require_block_editor(), 1);
@@ -9948,7 +10093,7 @@ var wp;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { ...(0, import_block_editor5.useBlockProps)(), children: [
       /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_block_editor5.Warning, { actions, children: messageHTML }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_element19.RawHTML, { children: originalUndelimitedContent })
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_element21.RawHTML, { children: originalUndelimitedContent })
     ] });
   };
   var get_install_missing_default = getInstallMissing;
@@ -10004,4 +10149,3 @@ use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.developme
    * LICENSE file in the root directory of this source tree.
    *)
 */
-if(wp.blockDirectory&&typeof wp.blockDirectory==='object'){wp.blockDirectory=Object.assign({},wp.blockDirectory);}

@@ -153,6 +153,9 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 .block-editor-block-list__layout {
   position: relative;
 }
+.block-editor-block-list__layout .block-editor-block-list__block.is-multi-selected:not(.is-partially-selected)::-moz-selection, .block-editor-block-list__layout .block-editor-block-list__block.is-multi-selected:not(.is-partially-selected) ::-moz-selection {
+  background: transparent;
+}
 .block-editor-block-list__layout .block-editor-block-list__block.is-multi-selected:not(.is-partially-selected)::selection, .block-editor-block-list__layout .block-editor-block-list__block.is-multi-selected:not(.is-partially-selected) ::selection {
   background: transparent;
 }
@@ -222,6 +225,7 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 }
 .block-editor-block-list__layout [class^=components-] {
   -webkit-user-select: text;
+     -moz-user-select: text;
           user-select: text;
 }
 
@@ -254,6 +258,7 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning > * {
   pointer-events: none;
   -webkit-user-select: none;
+     -moz-user-select: none;
           user-select: none;
 }
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning .block-editor-warning {
@@ -521,6 +526,9 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 }
 .block-editor-block-list__layout .is-dragging iframe {
   pointer-events: none;
+}
+.block-editor-block-list__layout .is-dragging::-moz-selection {
+  background: transparent !important;
 }
 .block-editor-block-list__layout .is-dragging::selection {
   background: transparent !important;
@@ -899,6 +907,10 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   filter: invert(100%);
   color: currentColor;
   padding: 0 2px;
+}
+
+.rich-text [contenteditable=false]::-moz-selection {
+  background-color: transparent;
 }
 
 .rich-text [contenteditable=false]::selection {

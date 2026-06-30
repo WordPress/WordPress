@@ -154,4 +154,3 @@ var wp;
   (0, import_dom_ready.default)(setup);
   return __toCommonJS(index_exports);
 })();
-if(wp.a11y&&typeof wp.a11y==='object'){wp.a11y=Object.assign({},wp.a11y);}

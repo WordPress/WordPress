@@ -45,7 +45,9 @@ body.has-admin-bar-in-editor .edit-site-layout.is-full-canvas .edit-site-layout_
   height: calc(100vh - var(--wp-admin--admin-bar--height, 0));
 }
 body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus,
-body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within {
+body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within,
+body.has-admin-bar-in-editor.is-fullscreen-mode .edit-site-layout__actions.is-entity-save-view-open:focus,
+body.has-admin-bar-in-editor.is-fullscreen-mode .edit-site-layout__actions.is-entity-save-view-open:focus-within {
   top: var(--wp-admin--admin-bar--height, 0);
 }
 body.has-admin-bar-in-editor.is-fullscreen-mode #wpadminbar {

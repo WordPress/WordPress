@@ -245,4 +245,3 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
-if(wp.keycodes&&typeof wp.keycodes==='object'){wp.keycodes=Object.assign({},wp.keycodes);}

@@ -111,63 +111,6 @@ function wp_register_options_connectors_wp_admin_page_routes() {
 }
 add_action( 'options-connectors-wp-admin_init', 'wp_register_options_connectors_wp_admin_page_routes' );
 
-// Page-specific route registration functions for content-types
-/**
- * Register routes for content-types page (full-page mode).
- */
-function wp_register_content_types_page_routes() {
-	global $wp_content_types_routes_data;
-	wp_register_page_routes( $wp_content_types_routes_data, 'wp_register_content_types_route' );
-}
-add_action( 'content-types_init', 'wp_register_content_types_page_routes' );
-
-/**
- * Register routes for content-types page (wp-admin mode).
- */
-function wp_register_content_types_wp_admin_page_routes() {
-	global $wp_content_types_routes_data;
-	wp_register_page_routes( $wp_content_types_routes_data, 'wp_register_content_types_wp_admin_route' );
-}
-add_action( 'content-types-wp-admin_init', 'wp_register_content_types_wp_admin_page_routes' );
-
-// Page-specific route registration functions for dashboard
-/**
- * Register routes for dashboard page (full-page mode).
- */
-function wp_register_dashboard_page_routes() {
-	global $wp_dashboard_routes_data;
-	wp_register_page_routes( $wp_dashboard_routes_data, 'wp_register_dashboard_route' );
-}
-add_action( 'dashboard_init', 'wp_register_dashboard_page_routes' );
-
-/**
- * Register routes for dashboard page (wp-admin mode).
- */
-function wp_register_dashboard_wp_admin_page_routes() {
-	global $wp_dashboard_routes_data;
-	wp_register_page_routes( $wp_dashboard_routes_data, 'wp_register_dashboard_wp_admin_route' );
-}
-add_action( 'dashboard-wp-admin_init', 'wp_register_dashboard_wp_admin_page_routes' );
-
-// Page-specific route registration functions for experiments
-/**
- * Register routes for experiments page (full-page mode).
- */
-function wp_register_experiments_page_routes() {
-	global $wp_experiments_routes_data;
-	wp_register_page_routes( $wp_experiments_routes_data, 'wp_register_experiments_route' );
-}
-add_action( 'experiments_init', 'wp_register_experiments_page_routes' );
-
-/**
- * Register routes for experiments page (wp-admin mode).
- */
-function wp_register_experiments_wp_admin_page_routes() {
-	global $wp_experiments_routes_data;
-	wp_register_page_routes( $wp_experiments_routes_data, 'wp_register_experiments_wp_admin_route' );
-}
-add_action( 'experiments-wp-admin_init', 'wp_register_experiments_wp_admin_page_routes' );
-
 // Page-specific route registration functions for font-library
 /**
  * Register routes for font-library page (full-page mode).
@@ -186,42 +129,4 @@ function wp_register_font_library_wp_admin_page_routes() {
 	wp_register_page_routes( $wp_font_library_routes_data, 'wp_register_font_library_wp_admin_route' );
 }
 add_action( 'font-library-wp-admin_init', 'wp_register_font_library_wp_admin_page_routes' );
-
-// Page-specific route registration functions for guidelines
-/**
- * Register routes for guidelines page (full-page mode).
- */
-function wp_register_guidelines_page_routes() {
-	global $wp_guidelines_routes_data;
-	wp_register_page_routes( $wp_guidelines_routes_data, 'wp_register_guidelines_route' );
-}
-add_action( 'guidelines_init', 'wp_register_guidelines_page_routes' );
-
-/**
- * Register routes for guidelines page (wp-admin mode).
- */
-function wp_register_guidelines_wp_admin_page_routes() {
-	global $wp_guidelines_routes_data;
-	wp_register_page_routes( $wp_guidelines_routes_data, 'wp_register_guidelines_wp_admin_route' );
-}
-add_action( 'guidelines-wp-admin_init', 'wp_register_guidelines_wp_admin_page_routes' );
-
-// Page-specific route registration functions for media-editor
-/**
- * Register routes for media-editor page (full-page mode).
- */
-function wp_register_media_editor_page_routes() {
-	global $wp_media_editor_routes_data;
-	wp_register_page_routes( $wp_media_editor_routes_data, 'wp_register_media_editor_route' );
-}
-add_action( 'media-editor_init', 'wp_register_media_editor_page_routes' );
-
-/**
- * Register routes for media-editor page (wp-admin mode).
- */
-function wp_register_media_editor_wp_admin_page_routes() {
-	global $wp_media_editor_routes_data;
-	wp_register_page_routes( $wp_media_editor_routes_data, 'wp_register_media_editor_wp_admin_route' );
-}
-add_action( 'media-editor-wp-admin_init', 'wp_register_media_editor_wp_admin_page_routes' );
 

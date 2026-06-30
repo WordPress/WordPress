@@ -65,4 +65,4 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if (typeof wp.deprecated === 'object' && wp.deprecated.default) { wp.deprecated = wp.deprecated.default; }if(wp.deprecated&&typeof wp.deprecated==='object'){wp.deprecated=Object.assign({},wp.deprecated);}
+if (typeof wp.deprecated === 'object' && wp.deprecated.default) { wp.deprecated = wp.deprecated.default; }

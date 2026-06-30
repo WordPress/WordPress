@@ -163,7 +163,9 @@
   height: auto;
   padding: 12px;
   margin: 0;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   background: none;
   border: 0;
   text-align: right;

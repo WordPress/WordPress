@@ -3152,7 +3152,7 @@ var wp;
   var CONTRAST_EPSILON = 4e-3;
   var MAX_BISECTION_ITERATIONS = 10;
   var DEFAULT_SEED_COLORS = {
-    bg: "#fcfcfc",
+    background: "#fcfcfc",
     primary: "#3858e9",
     info: "#0090ff",
     success: "#4ab866",
@@ -3798,7 +3798,7 @@ var wp;
       contrast: {
         reference: "stroke3",
         followDirection: "opposite",
-        target: 2.6
+        target: 2.9
       },
       taperChromaOptions: STROKE_TAPER_CHROMA
     },
@@ -4115,29 +4115,29 @@ var wp;
   } = {}) {
     const { resolvedSettings: inheritedSettings } = (0, import_element2.useContext)(ThemeContext);
     const primary = color.primary ?? inheritedSettings.color?.primary ?? DEFAULT_SEED_COLORS.primary;
-    const bg = color.bg ?? inheritedSettings.color?.bg ?? DEFAULT_SEED_COLORS.bg;
+    const background = color.background ?? inheritedSettings.color?.background ?? DEFAULT_SEED_COLORS.background;
     const cursorControl = cursor?.control ?? inheritedSettings.cursor?.control;
     const resolvedSettings = (0, import_element2.useMemo)(
       () => ({
         color: {
           primary,
-          bg
+          background
         },
         cursor: cursorControl ? { control: cursorControl } : void 0
       }),
-      [primary, bg, cursorControl]
+      [primary, background, cursorControl]
     );
     const colorStyles = (0, import_element2.useMemo)(() => {
       const seeds = {
         ...DEFAULT_SEED_COLORS,
-        bg,
+        background,
         primary
       };
       const computedColorRamps = /* @__PURE__ */ new Map();
-      const bgRamp = getCachedBgRamp(seeds.bg);
+      const bgRamp = getCachedBgRamp(seeds.background);
       Object.entries(seeds).forEach(([rampName, seed]) => {
-        if (rampName === "bg") {
-          computedColorRamps.set(rampName, bgRamp);
+        if (rampName === "background") {
+          computedColorRamps.set("bg", bgRamp);
         } else {
           computedColorRamps.set(
             rampName,
@@ -4149,7 +4149,7 @@ var wp;
         primary: seeds.primary,
         computedColorRamps
       });
-    }, [primary, bg]);
+    }, [primary, background]);
     const themeProviderStyles = (0, import_element2.useMemo)(
       () => ({
         ...colorStyles,
@@ -4273,8 +4273,7 @@ var wp;
     children,
     color = {},
     cursor,
-    isRoot = false,
-    density
+    isRoot = false
   }) => {
     const instanceId = (0, import_element3.useId)();
     const { themeProviderStyles, resolvedSettings } = useThemeProviderStyles({
@@ -4297,7 +4296,6 @@ var wp;
         {
           "data-wpds-theme-provider-id": instanceId,
           "data-wpds-root-provider": isRoot,
-          "data-wpds-density": density,
           className: style_default.root,
           children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeContext.Provider, { value: contextValue, children })
         }
@@ -4313,4 +4311,3 @@ var wp;
   });
   return __toCommonJS(index_exports);
 })();
-if(wp.theme&&typeof wp.theme==='object'){wp.theme=Object.assign({},wp.theme);}

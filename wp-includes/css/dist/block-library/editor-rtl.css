@@ -2165,7 +2165,8 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
   word-break: break-all;
   white-space: normal;
   text-align: start;
-  text-align-last: center;
+  -moz-text-align-last: center;
+       text-align-last: center;
 }
 .block-library-site-logo__inspector-media-replace-container img {
   width: 20px;
@@ -2387,16 +2388,20 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
   z-index: 1000001;
 }
 .block-editor-template-part__selection-modal .block-editor-block-patterns-list {
-  column-count: 2;
-  column-gap: 24px;
+  -moz-column-count: 2;
+       column-count: 2;
+  -moz-column-gap: 24px;
+       column-gap: 24px;
 }
 @media (min-width: 1280px) {
   .block-editor-template-part__selection-modal .block-editor-block-patterns-list {
-    column-count: 3;
+    -moz-column-count: 3;
+         column-count: 3;
   }
 }
 .block-editor-template-part__selection-modal .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item {
-  break-inside: avoid-column;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid-column;
 }
 
 .block-library-template-part__selection-search {
@@ -2510,16 +2515,20 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 }
 
 .block-library-query-pattern__selection-modal .block-editor-block-patterns-list {
-  column-count: 2;
-  column-gap: 24px;
+  -moz-column-count: 2;
+       column-count: 2;
+  -moz-column-gap: 24px;
+       column-gap: 24px;
 }
 @media (min-width: 1280px) {
   .block-library-query-pattern__selection-modal .block-editor-block-patterns-list {
-    column-count: 3;
+    -moz-column-count: 3;
+         column-count: 3;
   }
 }
 .block-library-query-pattern__selection-modal .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item {
-  break-inside: avoid-column;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid-column;
 }
 .block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search {
   background: #fff;
@@ -2771,9 +2780,11 @@ div[data-type="core/post-featured-image"] img {
   outline: 1px solid rgba(0, 0, 0, 0.1);
 }
 .block-library-poster-image__preview .block-library-poster-image__preview-image {
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   width: 100%;
-  object-position: 50% 50%;
+  -o-object-position: 50% 50%;
+     object-position: 50% 50%;
   aspect-ratio: 2/1;
 }
 

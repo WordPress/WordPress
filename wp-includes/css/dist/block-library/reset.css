@@ -116,7 +116,9 @@ html :where(.editor-styles-wrapper) {
 }
 :where(.editor-styles-wrapper) select {
   font-family: system-ui;
-  appearance: revert;
+  -webkit-appearance: revert;
+     -moz-appearance: revert;
+          appearance: revert;
   color: revert;
   border: revert;
   border-radius: revert;

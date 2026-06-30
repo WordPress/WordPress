@@ -84,7 +84,7 @@ function render_block_core_post_date( $attributes, $content, $block ) {
 	$time_tag = sprintf( '<time datetime="%1$s">%2$s</time>', $unformatted_date, $formatted_date );
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] && isset( $block->context['postId'] ) ) {
-		$time_tag = sprintf( '<a href="%1s">%2s</a>', get_the_permalink( $block->context['postId'] ), $time_tag );
+		$time_tag = sprintf( '<a href="%1$s">%2$s</a>', esc_url( get_the_permalink( $block->context['postId'] ) ), $time_tag );
 	}
 
 	return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $time_tag );

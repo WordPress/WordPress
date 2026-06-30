@@ -60,17 +60,9 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/deprecated
-  var require_deprecated = __commonJS({
-    "package-external:@wordpress/deprecated"(exports, module) {
-      module.exports = window.wp.deprecated;
-    }
-  });
-
   // packages/element/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
-    Activity: () => import_react.Activity,
     Children: () => import_react.Children,
     Component: () => import_react.Component,
     Fragment: () => import_react.Fragment,
@@ -87,38 +79,30 @@ var wp;
     createPortal: () => import_react_dom.createPortal,
     createRef: () => import_react.createRef,
     createRoot: () => import_client.createRoot,
-    findDOMNode: () => findDOMNode,
+    findDOMNode: () => import_react_dom.findDOMNode,
     flushSync: () => import_react_dom.flushSync,
     forwardRef: () => import_react.forwardRef,
+    hydrate: () => import_react_dom.hydrate,
     hydrateRoot: () => import_client.hydrateRoot,
     isEmptyElement: () => isEmptyElement,
     isValidElement: () => import_react.isValidElement,
     lazy: () => import_react.lazy,
     memo: () => import_react.memo,
-    preconnect: () => import_react_dom.preconnect,
-    prefetchDNS: () => import_react_dom.prefetchDNS,
-    preinit: () => import_react_dom.preinit,
-    preinitModule: () => import_react_dom.preinitModule,
-    preload: () => import_react_dom.preload,
-    preloadModule: () => import_react_dom.preloadModule,
+    render: () => import_react_dom.render,
     renderToString: () => serialize_default,
     startTransition: () => import_react.startTransition,
     switchChildrenNodeName: () => switchChildrenNodeName,
-    use: () => import_react.use,
-    useActionState: () => import_react.useActionState,
+    unmountComponentAtNode: () => import_react_dom.unmountComponentAtNode,
     useCallback: () => import_react.useCallback,
     useContext: () => import_react.useContext,
     useDebugValue: () => import_react.useDebugValue,
     useDeferredValue: () => import_react.useDeferredValue,
     useEffect: () => import_react.useEffect,
-    useEffectEvent: () => import_react.useEffectEvent,
-    useFormStatus: () => import_react_dom.useFormStatus,
     useId: () => import_react.useId,
     useImperativeHandle: () => import_react.useImperativeHandle,
     useInsertionEffect: () => import_react.useInsertionEffect,
     useLayoutEffect: () => import_react.useLayoutEffect,
     useMemo: () => import_react.useMemo,
-    useOptimistic: () => import_react.useOptimistic,
     useReducer: () => import_react.useReducer,
     useRef: () => import_react.useRef,
     useState: () => import_react.useState,
@@ -838,9 +822,7 @@ var wp;
         return renderChildren(props.children, props.value, legacyContext);
       case Consumer.$$typeof:
         return renderElement(
-          props.children(
-            context || type._currentValue || type._context._currentValue
-          ),
+          props.children(context || type._currentValue),
           context,
           legacyContext
         );
@@ -946,71 +928,6 @@ var wp;
     return result;
   }
   var serialize_default = renderElement;
-
-  // packages/element/build-module/find-dom-node.mjs
-  var import_deprecated = __toESM(require_deprecated(), 1);
-  var internalsKey = "_reactInternals";
-  var HostComponent = 5;
-  var HostText = 6;
-  function findCurrentFiber(fiber) {
-    if (!fiber.alternate) {
-      return fiber;
-    }
-    let node = fiber;
-    while (node.return) {
-      node = node.return;
-    }
-    if (node.stateNode.current === node) {
-      return fiber;
-    }
-    return fiber.alternate;
-  }
-  function findHostFiber(fiber) {
-    const current = findCurrentFiber(fiber);
-    if (!current) {
-      return null;
-    }
-    return findHostFiberImpl(current);
-  }
-  function findHostFiberImpl(fiber) {
-    if (fiber.tag === HostComponent || fiber.tag === HostText) {
-      return fiber;
-    }
-    let child = fiber.child;
-    while (child) {
-      const hostFiber = findHostFiberImpl(child);
-      if (hostFiber) {
-        return hostFiber;
-      }
-      child = child.sibling;
-    }
-    return null;
-  }
-  function findDOMNode(instance) {
-    (0, import_deprecated.default)("wp.element.findDOMNode", {
-      since: "7.1",
-      alternative: "DOM refs",
-      link: "https://react.dev/reference/react-dom/findDOMNode"
-    });
-    if (instance === null || instance === void 0) {
-      return null;
-    }
-    if (instance.nodeType !== void 0) {
-      return instance;
-    }
-    const fiber = instance[internalsKey];
-    if (fiber === void 0) {
-      if (typeof instance.render === "function") {
-        throw new Error("Unable to find node on an unmounted component.");
-      }
-      const keys = Object.keys(instance).join(",");
-      throw new Error(
-        `Argument appears to not be a ReactComponent. Keys: ${keys}`
-      );
-    }
-    const hostFiber = findHostFiber(fiber);
-    return hostFiber?.stateNode ?? null;
-  }
   return __toCommonJS(index_exports);
 })();
 /*! Bundled license information:
@@ -1023,4 +940,3 @@ is-plain-object/dist/is-plain-object.mjs:
    * Released under the MIT License.
    *)
 */
-if(wp.element&&typeof wp.element==='object'){wp.element=Object.assign({},wp.element);}

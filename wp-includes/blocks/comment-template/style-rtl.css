@@ -20,6 +20,7 @@
 .wp-block-comment-template.aligncenter {
   margin-right: auto;
   margin-left: auto;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .wp-block-comment-template.alignright {

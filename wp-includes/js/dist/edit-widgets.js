@@ -1706,7 +1706,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle("c46e8cb841", "@layer wp-ui-utilities, wp-ui-components, wp-ui-compositions, wp-ui-overrides;@layer wp-ui-components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}");
+    registerStyle("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
   }
   var style_default = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
   var VisuallyHidden = (0, import_element3.forwardRef)(
@@ -3232,10 +3232,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/sidebar/index.mjs
   var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
-  var SIDEBAR_ACTIVE_BY_DEFAULT = import_element13.Platform.select({
-    web: true,
-    native: false
-  });
+  var SIDEBAR_ACTIVE_BY_DEFAULT = true;
   var BLOCK_INSPECTOR_IDENTIFIER = "edit-widgets/block-inspector";
   var WIDGET_AREAS_IDENTIFIER = "edit-widgets/block-areas";
   var { Tabs } = unlock(import_components11.privateApis);
@@ -4669,4 +4666,3 @@ var wp;
   };
   return __toCommonJS(index_exports);
 })();
-if(wp.editWidgets&&typeof wp.editWidgets==='object'){wp.editWidgets=Object.assign({},wp.editWidgets);}

@@ -94,4 +94,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.reactI18n&&typeof wp.reactI18n==='object'){wp.reactI18n=Object.assign({},wp.reactI18n);}

@@ -88,12 +88,12 @@
  * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
  */
 body.admin-color-light {
-  --wp-admin-theme-color: #0085ba;
-  --wp-admin-theme-color--rgb: 0, 133, 186;
-  --wp-admin-theme-color-darker-10: rgb(0, 114.7661290323, 160.5);
-  --wp-admin-theme-color-darker-10--rgb: 0, 114.7661290323, 160.5;
-  --wp-admin-theme-color-darker-20: rgb(0, 96.5322580645, 135);
-  --wp-admin-theme-color-darker-20--rgb: 0, 96.5322580645, 135;
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0, 124, 186;
+  --wp-admin-theme-color-darker-10: rgb(0, 107, 160.5);
+  --wp-admin-theme-color-darker-10--rgb: 0, 107, 160.5;
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -118,12 +118,12 @@ body.admin-color-modern {
 }
 
 body.admin-color-blue {
-  --wp-admin-theme-color: #096484;
-  --wp-admin-theme-color--rgb: 9, 100, 132;
-  --wp-admin-theme-color-darker-10: rgb(7.3723404255, 81.914893617, 108.1276595745);
-  --wp-admin-theme-color-darker-10--rgb: 7.3723404255, 81.914893617, 108.1276595745;
-  --wp-admin-theme-color-darker-20: rgb(5.7446808511, 63.829787234, 84.2553191489);
-  --wp-admin-theme-color-darker-20--rgb: 5.7446808511, 63.829787234, 84.2553191489;
+  --wp-admin-theme-color: #437aa8;
+  --wp-admin-theme-color--rgb: 67, 122, 168;
+  --wp-admin-theme-color-darker-10: rgb(59.729787234, 108.7617021277, 149.770212766);
+  --wp-admin-theme-color-darker-10--rgb: 59.729787234, 108.7617021277, 149.770212766;
+  --wp-admin-theme-color-darker-20: rgb(52.4595744681, 95.5234042553, 131.5404255319);
+  --wp-admin-theme-color-darker-20--rgb: 52.4595744681, 95.5234042553, 131.5404255319;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -133,12 +133,12 @@ body.admin-color-blue {
 }
 
 body.admin-color-coffee {
-  --wp-admin-theme-color: #46403c;
-  --wp-admin-theme-color--rgb: 70, 64, 60;
-  --wp-admin-theme-color-darker-10: rgb(56.2692307692, 51.4461538462, 48.2307692308);
-  --wp-admin-theme-color-darker-10--rgb: 56.2692307692, 51.4461538462, 48.2307692308;
-  --wp-admin-theme-color-darker-20: rgb(42.5384615385, 38.8923076923, 36.4615384615);
-  --wp-admin-theme-color-darker-20--rgb: 42.5384615385, 38.8923076923, 36.4615384615;
+  --wp-admin-theme-color: #916745;
+  --wp-admin-theme-color--rgb: 145, 103, 69;
+  --wp-admin-theme-color-darker-10: rgb(127.7219626168, 90.726635514, 60.7780373832);
+  --wp-admin-theme-color-darker-10--rgb: 127.7219626168, 90.726635514, 60.7780373832;
+  --wp-admin-theme-color-darker-20: rgb(110.4439252336, 78.453271028, 52.5560747664);
+  --wp-admin-theme-color-darker-20--rgb: 110.4439252336, 78.453271028, 52.5560747664;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -148,12 +148,12 @@ body.admin-color-coffee {
 }
 
 body.admin-color-ectoplasm {
-  --wp-admin-theme-color: #523f6d;
-  --wp-admin-theme-color--rgb: 82, 63, 109;
-  --wp-admin-theme-color-darker-10: rgb(69.8430232558, 53.6598837209, 92.8401162791);
-  --wp-admin-theme-color-darker-10--rgb: 69.8430232558, 53.6598837209, 92.8401162791;
-  --wp-admin-theme-color-darker-20: rgb(57.6860465116, 44.3197674419, 76.6802325581);
-  --wp-admin-theme-color-darker-20--rgb: 57.6860465116, 44.3197674419, 76.6802325581;
+  --wp-admin-theme-color: #646c3e;
+  --wp-admin-theme-color--rgb: 100, 108, 62;
+  --wp-admin-theme-color-darker-10: rgb(85, 91.8, 52.7);
+  --wp-admin-theme-color-darker-10--rgb: 85, 91.8, 52.7;
+  --wp-admin-theme-color-darker-20: rgb(70, 75.6, 43.4);
+  --wp-admin-theme-color-darker-20--rgb: 70, 75.6, 43.4;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -163,12 +163,12 @@ body.admin-color-ectoplasm {
 }
 
 body.admin-color-midnight {
-  --wp-admin-theme-color: #e14d43;
-  --wp-admin-theme-color--rgb: 225, 77, 67;
-  --wp-admin-theme-color-darker-10: rgb(221.4908256881, 56.1788990826, 45.0091743119);
-  --wp-admin-theme-color-darker-10--rgb: 221.4908256881, 56.1788990826, 45.0091743119;
-  --wp-admin-theme-color-darker-20: rgb(207.8348623853, 44.2201834862, 33.1651376147);
-  --wp-admin-theme-color-darker-20--rgb: 207.8348623853, 44.2201834862, 33.1651376147;
+  --wp-admin-theme-color: #cf4339;
+  --wp-admin-theme-color--rgb: 207, 67, 57;
+  --wp-admin-theme-color-darker-10: rgb(191.9634146341, 56.2317073171, 46.5365853659);
+  --wp-admin-theme-color-darker-10--rgb: 191.9634146341, 56.2317073171, 46.5365853659;
+  --wp-admin-theme-color-darker-20: rgb(171.4390243902, 50.2195121951, 41.5609756098);
+  --wp-admin-theme-color-darker-20--rgb: 171.4390243902, 50.2195121951, 41.5609756098;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -178,12 +178,12 @@ body.admin-color-midnight {
 }
 
 body.admin-color-ocean {
-  --wp-admin-theme-color: #627c83;
-  --wp-admin-theme-color--rgb: 98, 124, 131;
-  --wp-admin-theme-color-darker-10: rgb(87.0873362445, 110.192139738, 116.4126637555);
-  --wp-admin-theme-color-darker-10--rgb: 87.0873362445, 110.192139738, 116.4126637555;
-  --wp-admin-theme-color-darker-20: rgb(76.1746724891, 96.384279476, 101.8253275109);
-  --wp-admin-theme-color-darker-20--rgb: 76.1746724891, 96.384279476, 101.8253275109;
+  --wp-admin-theme-color: #567958;
+  --wp-admin-theme-color--rgb: 86, 121, 88;
+  --wp-admin-theme-color-darker-10: rgb(75.4057971014, 106.0942028986, 77.1594202899);
+  --wp-admin-theme-color-darker-10--rgb: 75.4057971014, 106.0942028986, 77.1594202899;
+  --wp-admin-theme-color-darker-20: rgb(64.8115942029, 91.1884057971, 66.3188405797);
+  --wp-admin-theme-color-darker-20--rgb: 64.8115942029, 91.1884057971, 66.3188405797;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {
@@ -193,12 +193,12 @@ body.admin-color-ocean {
 }
 
 body.admin-color-sunrise {
-  --wp-admin-theme-color: #dd823b;
-  --wp-admin-theme-color--rgb: 221, 130, 59;
-  --wp-admin-theme-color-darker-10: rgb(216.8782608696, 116.1847826087, 37.6217391304);
-  --wp-admin-theme-color-darker-10--rgb: 216.8782608696, 116.1847826087, 37.6217391304;
-  --wp-admin-theme-color-darker-20: rgb(195.147826087, 104.5434782609, 33.852173913);
-  --wp-admin-theme-color-darker-20--rgb: 195.147826087, 104.5434782609, 33.852173913;
+  --wp-admin-theme-color: #ad631e;
+  --wp-admin-theme-color--rgb: 173, 99, 30;
+  --wp-admin-theme-color-darker-10: rgb(151.2684729064, 86.5640394089, 26.2315270936);
+  --wp-admin-theme-color-darker-10--rgb: 151.2684729064, 86.5640394089, 26.2315270936;
+  --wp-admin-theme-color-darker-20: rgb(129.5369458128, 74.1280788177, 22.4630541872);
+  --wp-admin-theme-color-darker-20--rgb: 129.5369458128, 74.1280788177, 22.4630541872;
   --wp-admin-border-width-focus: 2px;
 }
 @media (min-resolution: 192dpi) {

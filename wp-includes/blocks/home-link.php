@@ -5,8 +5,6 @@
  * @package WordPress
  */
 
-require_once __DIR__ . '/navigation-link/shared/build-css-font-sizes.php';
-
 /**
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the home link markup in the front-end.
@@ -70,22 +68,12 @@ function block_core_home_link_build_css_colors( $context ) {
  * @return string The li wrapper attributes.
  */
 function block_core_home_link_build_li_wrapper_attributes( $context ) {
-	$colors = block_core_home_link_build_css_colors( $context );
-	//  The build system prefixes this function with "gutenberg_" to avoid
-	// collisions with the core version. Until this function is backported to
-	// core, we need to guard it's use and only call the prefixed name in
-	//  the plugin.
-	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
-		$font_sizes = gutenberg_block_core_shared_navigation_build_css_font_sizes( $context );
-	} else {
-		$font_sizes = block_core_shared_navigation_build_css_font_sizes( $context );
-	}
+	$colors  = block_core_home_link_build_css_colors( $context );
 	$classes = array_merge(
-		$colors['css_classes'],
-		$font_sizes['css_classes']
+		$colors['css_classes']
 	);
 
-	$style_attribute = ( $colors['inline_styles'] . $font_sizes['inline_styles'] );
+	$style_attribute = ( $colors['inline_styles'] );
 	$classes[]       = 'wp-block-navigation-item';
 
 	if ( is_front_page() ) {

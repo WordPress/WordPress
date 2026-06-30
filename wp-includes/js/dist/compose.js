@@ -973,8 +973,13 @@ var wp;
   // packages/compose/build-module/higher-order/pure/index.mjs
   var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
   var import_element = __toESM(require_element(), 1);
+  var import_deprecated = __toESM(require_deprecated(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var pure = createHigherOrderComponent(function(WrappedComponent) {
+    (0, import_deprecated.default)("wp.compose.pure", {
+      since: "7.1",
+      alternative: "Use `memo` or `PureComponent` instead"
+    });
     if (WrappedComponent.prototype instanceof import_element.Component) {
       return class extends WrappedComponent {
         shouldComponentUpdate(nextProps, nextState) {
@@ -995,7 +1000,7 @@ var wp;
 
   // packages/compose/build-module/higher-order/with-global-events/index.mjs
   var import_element2 = __toESM(require_element(), 1);
-  var import_deprecated = __toESM(require_deprecated(), 1);
+  var import_deprecated2 = __toESM(require_deprecated(), 1);
 
   // packages/compose/build-module/higher-order/with-global-events/listener.mjs
   var Listener = class {
@@ -1036,7 +1041,7 @@ var wp;
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var listener = new listener_default();
   function withGlobalEvents(eventTypesToHandlers) {
-    (0, import_deprecated.default)("wp.compose.withGlobalEvents", {
+    (0, import_deprecated2.default)("wp.compose.withGlobalEvents", {
       since: "5.7",
       alternative: "useEffect"
     });
@@ -1171,10 +1176,10 @@ var wp;
 
   // packages/compose/build-module/higher-order/with-state/index.mjs
   var import_element5 = __toESM(require_element(), 1);
-  var import_deprecated2 = __toESM(require_deprecated(), 1);
+  var import_deprecated3 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function withState(initialState = {}) {
-    (0, import_deprecated2.default)("wp.compose.withState", {
+    (0, import_deprecated3.default)("wp.compose.withState", {
       since: "5.8",
       alternative: "wp.element.useState"
     });
@@ -1257,7 +1262,7 @@ var wp;
 
   // packages/compose/build-module/hooks/use-copy-on-click/index.mjs
   var import_element8 = __toESM(require_element(), 1);
-  var import_deprecated3 = __toESM(require_deprecated(), 1);
+  var import_deprecated4 = __toESM(require_deprecated(), 1);
 
   // packages/compose/build-module/hooks/use-copy-to-clipboard/index.mjs
   var import_element7 = __toESM(require_element(), 1);
@@ -1329,7 +1334,7 @@ var wp;
 
   // packages/compose/build-module/hooks/use-copy-on-click/index.mjs
   function useCopyOnClick(ref, text, timeout = 4e3) {
-    (0, import_deprecated3.default)("wp.compose.useCopyOnClick", {
+    (0, import_deprecated4.default)("wp.compose.useCopyOnClick", {
       since: "5.8",
       alternative: "wp.compose.useCopyToClipboard"
     });
@@ -1554,25 +1559,40 @@ var wp;
   var import_element12 = __toESM(require_element(), 1);
   function assignRef(ref, value) {
     if (typeof ref === "function") {
-      ref(value);
+      const returned = ref(value);
+      return typeof returned === "function" ? returned : void 0;
     } else if (ref && ref.hasOwnProperty("current")) {
       ref.current = value;
     }
+    return void 0;
+  }
+  function detachRef(ref, index, cleanups) {
+    const cleanup = cleanups[index];
+    if (cleanup) {
+      cleanups[index] = void 0;
+      cleanup();
+    } else {
+      assignRef(ref, null);
+    }
   }
   function useMergeRefs(refs) {
-    const element = (0, import_element12.useRef)(null);
+    const elementRef = (0, import_element12.useRef)(null);
     const isAttachedRef = (0, import_element12.useRef)(false);
     const didElementChangeRef = (0, import_element12.useRef)(false);
     const previousRefsRef = (0, import_element12.useRef)([]);
     const currentRefsRef = (0, import_element12.useRef)(refs);
+    const cleanupsRef = (0, import_element12.useRef)([]);
     currentRefsRef.current = refs;
     (0, import_element12.useLayoutEffect)(() => {
       if (didElementChangeRef.current === false && isAttachedRef.current === true) {
         refs.forEach((ref, index) => {
           const previousRef = previousRefsRef.current[index];
           if (ref !== previousRef) {
-            assignRef(previousRef, null);
-            assignRef(ref, element.current);
+            detachRef(previousRef, index, cleanupsRef.current);
+            cleanupsRef.current[index] = assignRef(
+              ref,
+              elementRef.current
+            );
           }
         });
       }
@@ -1582,12 +1602,17 @@ var wp;
       didElementChangeRef.current = false;
     });
     return (0, import_element12.useCallback)((value) => {
-      assignRef(element, value);
+      elementRef.current = value;
       didElementChangeRef.current = true;
       isAttachedRef.current = value !== null;
-      const refsToAssign = value ? currentRefsRef.current : previousRefsRef.current;
-      for (const ref of refsToAssign) {
-        assignRef(ref, value);
+      if (value === null) {
+        previousRefsRef.current.forEach((ref, index) => {
+          detachRef(ref, index, cleanupsRef.current);
+        });
+      } else {
+        currentRefsRef.current.forEach((ref, index) => {
+          cleanupsRef.current[index] = assignRef(ref, value);
+        });
       }
     }, []);
   }
@@ -1651,8 +1676,8 @@ var wp;
             if (!(child instanceof defaultView.HTMLElement)) {
               return;
             }
-            if (!child.hasAttribute("inert")) {
-              child.setAttribute("inert", "");
+            if (!child.getAttribute("inert")) {
+              child.setAttribute("inert", "true");
               updates.push(() => {
                 child.removeAttribute("inert");
               });
@@ -1850,7 +1875,7 @@ var wp;
     getValue: () => false
   };
   function getMQLSubscriber(view, query) {
-    if (!query || typeof view?.matchMedia !== "function") {
+    if (!view || !query || typeof view.matchMedia !== "function") {
       return EMPTY_SUBSCRIBER;
     }
     let queryCache = perWindowCache.get(view);
@@ -1889,7 +1914,7 @@ var wp;
     queryCache.set(query, subscriber);
     return subscriber;
   }
-  function useMediaQuery(query, view = window) {
+  function useMediaQuery(query, view = typeof window !== "undefined" ? window : void 0) {
     const source = getMQLSubscriber(view, query);
     return (0, import_element18.useSyncExternalStore)(
       source.subscribe,
@@ -2014,7 +2039,7 @@ var wp;
     null
   );
   ViewportMatchWidthContext.displayName = "ViewportMatchWidthContext";
-  var useViewportMatch = (breakpoint, operator = ">=", view = window) => {
+  var useViewportMatch = (breakpoint, operator = ">=", view = typeof window !== "undefined" ? window : void 0) => {
     const simulatedWidth = (0, import_element21.useContext)(ViewportMatchWidthContext);
     const mediaQuery = !simulatedWidth && `(${CONDITIONS[operator]}: ${BREAKPOINTS[breakpoint]}px)`;
     const mediaQueryResult = useMediaQuery(mediaQuery || void 0, view);
@@ -2535,4 +2560,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.compose&&typeof wp.compose==='object'){wp.compose=Object.assign({},wp.compose);}

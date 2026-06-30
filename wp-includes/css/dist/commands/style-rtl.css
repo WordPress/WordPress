@@ -164,6 +164,9 @@
   line-height: 24px;
   border-radius: 0;
 }
+.commands-command-menu__container [cmdk-input]::-moz-placeholder {
+  color: #757575;
+}
 .commands-command-menu__container [cmdk-input]::placeholder {
   color: #757575;
 }

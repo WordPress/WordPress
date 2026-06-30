@@ -266,7 +266,9 @@
   margin: 0;
   border: 0;
   cursor: var(--wpds-cursor-control, pointer);
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   background: none;
 }
 @media not (prefers-reduced-motion) {
@@ -655,7 +657,9 @@ p + .components-button.is-tertiary {
   padding: 0;
   margin: 0;
   cursor: var(--wpds-cursor-control, pointer);
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -701,6 +705,7 @@ p + .components-button.is-tertiary {
   justify-content: center;
   flex-wrap: wrap;
   gap: 16px;
+  max-width: -moz-fit-content;
   max-width: fit-content;
 }
 
@@ -975,6 +980,9 @@ p + .components-button.is-tertiary {
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
+.components-checkbox-control__input[type=checkbox]::-moz-placeholder {
+  color: rgba(30, 30, 30, 0.62);
+}
 .components-checkbox-control__input[type=checkbox]::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
@@ -1036,7 +1044,9 @@ p + .components-button.is-tertiary {
   vertical-align: top;
   width: var(--checkbox-input-size);
   height: var(--checkbox-input-size);
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 @media not (prefers-reduced-motion) {
   .components-checkbox-control__input[type=checkbox] {
@@ -1082,6 +1092,7 @@ svg.components-checkbox-control__indeterminate {
   width: var(--checkmark-size);
   height: var(--checkmark-size);
   -webkit-user-select: none;
+     -moz-user-select: none;
           user-select: none;
   pointer-events: none;
 }
@@ -1309,6 +1320,9 @@ input.components-combobox-control__input[type=text]:focus {
   border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
+}
+.components-combobox-control__suggestions-container::-moz-placeholder {
+  color: rgba(30, 30, 30, 0.62);
 }
 .components-combobox-control__suggestions-container::placeholder {
   color: rgba(30, 30, 30, 0.62);
@@ -1857,6 +1871,9 @@ input.components-combobox-control__input[type=text]:focus {
   border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
+}
+.components-form-token-field__input-container::-moz-placeholder {
+  color: rgba(30, 30, 30, 0.62);
 }
 .components-form-token-field__input-container::placeholder {
   color: rgba(30, 30, 30, 0.62);
@@ -2529,7 +2546,7 @@ input.components-combobox-control__input[type=text]:focus {
 
 .components-notice {
   --wp-components-notice-background-color: var(--wpds-color-bg-surface-info-weak, #f3f9ff);
-  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-info, #9fbcdc);
+  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-info, #a9c6e7);
   --wp-components-notice-text-color: var(--wpds-color-fg-content-info, #001b4f);
   box-sizing: border-box;
   display: grid;
@@ -2546,17 +2563,17 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-notice.is-success {
   --wp-components-notice-background-color: var(--wpds-color-bg-surface-success-weak, #ebffed);
-  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-success, #8ac894);
+  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-success, #94d29e);
   --wp-components-notice-text-color: var(--wpds-color-fg-content-success, #002900);
 }
 .components-notice.is-warning {
   --wp-components-notice-background-color: var(--wpds-color-bg-surface-warning-weak, #fff7e1);
-  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-warning, #d0b481);
+  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-warning, #e1bc7c);
   --wp-components-notice-text-color: var(--wpds-color-fg-content-warning, #2e1900);
 }
 .components-notice.is-error {
   --wp-components-notice-background-color: var(--wpds-color-bg-surface-error-weak, #fff6f5);
-  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-error, #daa39b);
+  --wp-components-notice-border-color: var(--wpds-color-stroke-surface-error, #dab1aa);
   --wp-components-notice-text-color: var(--wpds-color-fg-content-error, #470000);
 }
 
@@ -2858,6 +2875,9 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
+.components-placeholder__input[type=url]::-moz-placeholder {
+  color: rgba(30, 30, 30, 0.62);
+}
 .components-placeholder__input[type=url]::placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
@@ -2995,6 +3015,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   box-shadow: 0 0 0 1px #ccc, 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 5px rgba(0, 0, 0, 0.04), 0 12px 12px rgba(0, 0, 0, 0.03), 0 16px 16px rgba(0, 0, 0, 0.02);
   border-radius: 4px;
   box-sizing: border-box;
+  width: -moz-min-content;
   width: min-content;
 }
 .is-alternate .components-popover__content {
@@ -3103,7 +3124,8 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto minmax(0, max-content);
-  column-gap: 8px;
+  -moz-column-gap: 8px;
+       column-gap: 8px;
   align-items: center;
 }
 
@@ -3163,7 +3185,9 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   display: inline-flex;
   margin: 0;
   padding: 0;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 .components-radio-control__input[type=radio]:not(:disabled) {
   cursor: var(--wpds-cursor-control, pointer);
@@ -3427,6 +3451,7 @@ body.lockscroll {
 }
 @media (min-width: 600px) {
   .components-snackbar {
+    width: -moz-fit-content;
     width: fit-content;
   }
 }
@@ -3663,6 +3688,9 @@ body.lockscroll {
   box-shadow: 0 0 0 0.5px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   outline: 2px solid transparent;
 }
+.components-text-control__input::-moz-placeholder, .components-text-control__input[type=text]::-moz-placeholder, .components-text-control__input[type=tel]::-moz-placeholder, .components-text-control__input[type=time]::-moz-placeholder, .components-text-control__input[type=url]::-moz-placeholder, .components-text-control__input[type=week]::-moz-placeholder, .components-text-control__input[type=password]::-moz-placeholder, .components-text-control__input[type=color]::-moz-placeholder, .components-text-control__input[type=date]::-moz-placeholder, .components-text-control__input[type=datetime]::-moz-placeholder, .components-text-control__input[type=datetime-local]::-moz-placeholder, .components-text-control__input[type=email]::-moz-placeholder, .components-text-control__input[type=month]::-moz-placeholder, .components-text-control__input[type=number]::-moz-placeholder {
+  color: rgba(30, 30, 30, 0.62);
+}
 .components-text-control__input::placeholder,
 .components-text-control__input[type=text]::placeholder,
 .components-text-control__input[type=tel]::placeholder,
@@ -3694,6 +3722,9 @@ body.lockscroll {
 .components-text-control__input[type=month],
 .components-text-control__input[type=number] {
   border-color: var(--wp-components-color-gray-600, #949494);
+}
+.components-text-control__input::-moz-placeholder, .components-text-control__input[type=text]::-moz-placeholder, .components-text-control__input[type=tel]::-moz-placeholder, .components-text-control__input[type=time]::-moz-placeholder, .components-text-control__input[type=url]::-moz-placeholder, .components-text-control__input[type=week]::-moz-placeholder, .components-text-control__input[type=password]::-moz-placeholder, .components-text-control__input[type=color]::-moz-placeholder, .components-text-control__input[type=date]::-moz-placeholder, .components-text-control__input[type=datetime]::-moz-placeholder, .components-text-control__input[type=datetime-local]::-moz-placeholder, .components-text-control__input[type=email]::-moz-placeholder, .components-text-control__input[type=month]::-moz-placeholder, .components-text-control__input[type=number]::-moz-placeholder {
+  color: color-mix(in srgb, var(--wp-components-color-foreground, #1e1e1e), transparent 38%);
 }
 .components-text-control__input::placeholder,
 .components-text-control__input[type=text]::placeholder,
@@ -3945,7 +3976,7 @@ div.components-toolbar > div + div.has-left-divider::before {
 .components-tooltip {
   background: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  border-radius: 2px;
+  border-radius: var(--wpds-border-radius-md, 4px);
   color: #f0f0f0;
   text-align: center;
   line-height: 1.4;

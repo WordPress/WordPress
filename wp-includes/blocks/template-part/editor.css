@@ -91,16 +91,20 @@
   z-index: 1000001;
 }
 .block-editor-template-part__selection-modal .block-editor-block-patterns-list {
-  column-count: 2;
-  column-gap: 24px;
+  -moz-column-count: 2;
+       column-count: 2;
+  -moz-column-gap: 24px;
+       column-gap: 24px;
 }
 @media (min-width: 1280px) {
   .block-editor-template-part__selection-modal .block-editor-block-patterns-list {
-    column-count: 3;
+    -moz-column-count: 3;
+         column-count: 3;
   }
 }
 .block-editor-template-part__selection-modal .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item {
-  break-inside: avoid-column;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid-column;
 }
 
 .block-library-template-part__selection-search {

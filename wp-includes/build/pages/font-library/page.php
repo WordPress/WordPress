@@ -134,7 +134,9 @@ function wp_font_library_render_page() {
 		wp_dequeue_style( $style );
 	}
 
-	// Fire init action for extensions to register routes and menu items
+	/**
+	 * Fires when the font-library page is initialized so extensions can register routes and menu items.
+	 */
 	do_action( 'font-library_init' );
 
 	// Enqueue command palette assets for boot-based pages
@@ -267,18 +269,10 @@ function wp_font_library_render_page() {
 	print_admin_styles();
 	print_head_scripts();
 
-	/**
-	 * Fires in head section for a specific admin page.
-	 *
-	 * @since 2.1.0
-	 */
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( "admin_head-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
-	/**
-	 * Fires in head section for all admin pages.
-	 *
-	 * @since 2.1.0
-	 */
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_head' );
 	// END see wp-admin/admin-header.php
 	?>
@@ -288,11 +282,7 @@ function wp_font_library_render_page() {
 	<?php
 	// BEGIN see wp-admin/admin-footer.php
 
-	/**
-	 * Prints scripts or data before the default footer scripts.
-	 *
-	 * @since 1.2.0
-	 */
+	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_footer', '' );
 
 	// Print import map first so it's available for inline scripts
@@ -302,11 +292,7 @@ function wp_font_library_render_page() {
 	wp_script_modules()->print_script_module_preloads();
 	wp_script_modules()->print_script_module_data();
 
-	/**
-	 * Prints scripts or data after the default footer scripts.
-	 *
-	 * @since 2.8.0
-	 */
+	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( "admin_footer-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	// END see wp-admin/admin-footer.php
 	?>

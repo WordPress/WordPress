@@ -1,3 +1,4 @@
+"use strict";
 var wp;
 (wp ||= {}).serverSideRender = (() => {
   var __create = Object.create;
@@ -147,7 +148,9 @@ var wp;
     };
   }
   function useServerSideRender(args) {
-    const [response, setResponse] = (0, import_element.useState)({ status: "idle" });
+    const [response, setResponse] = (0, import_element.useState)({
+      status: "idle"
+    });
     const shouldDebounceRef = (0, import_element.useRef)(false);
     const {
       attributes,
@@ -157,7 +160,7 @@ var wp;
       urlQueryArgs
     } = args;
     let sanitizedAttributes = attributes && (0, import_blocks.__experimentalSanitizeBlockAttributes)(block, attributes);
-    if (skipBlockSupportAttributes) {
+    if (skipBlockSupportAttributes && sanitizedAttributes) {
       sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
     }
     const isPostRequest = "POST" === httpMethod;
@@ -184,12 +187,12 @@ var wp;
                 content: res ? res.rendered : ""
               });
             }).catch((error) => {
-              if (error.name === "AbortError") {
+              if (error instanceof Error && error.name === "AbortError") {
                 return;
               }
               setResponse({
                 status: "error",
-                error: error.message
+                error: error instanceof Error ? error.message : String(error)
               });
             }).finally(() => {
               shouldDebounceRef.current = true;
@@ -213,15 +216,20 @@ var wp;
   function DefaultEmptyResponsePlaceholder({ className }) {
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Placeholder, { className, children: (0, import_i18n.__)("Block rendered as empty.") });
   }
-  function DefaultErrorResponsePlaceholder({ message, className }) {
+  function DefaultErrorResponsePlaceholder({
+    message,
+    className
+  }) {
     const errorMessage = (0, import_i18n.sprintf)(
       // translators: %s: error message describing the problem
       (0, import_i18n.__)("Error loading block: %s"),
-      message
+      message || (0, import_i18n.__)("Unknown error")
     );
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Placeholder, { className, children: errorMessage });
   }
-  function DefaultLoadingResponsePlaceholder({ children }) {
+  function DefaultLoadingResponsePlaceholder({
+    children
+  }) {
     const [showLoader, setShowLoader] = (0, import_element2.useState)(false);
     (0, import_element2.useEffect)(() => {
       const timeout = setTimeout(() => {
@@ -262,7 +270,11 @@ var wp;
       }
     }, [content]);
     if (status === "loading") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoadingResponsePlaceholder, { ...props, children: !!prevContentRef.current && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_element2.RawHTML, { className, children: prevContentRef.current }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoadingResponsePlaceholder, { ...props, children: !!prevContentRef.current && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_element2.RawHTML, {
+        className,
+        // eslint-disable-next-line react-hooks/refs
+        children: prevContentRef.current
+      }) });
     }
     if (status === "success" && !content) {
       return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyResponsePlaceholder, { ...props });
@@ -270,14 +282,15 @@ var wp;
     if (status === "error") {
       return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ErrorResponsePlaceholder, { message: error, ...props });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_element2.RawHTML, { className, children: content });
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_element2.RawHTML, { className, children: content || "" });
   }
   function ServerSideRenderWithPostId({
     urlQueryArgs = EMPTY_OBJECT,
     ...props
   }) {
     const currentPostId = (0, import_data.useSelect)((select) => {
-      const postId = select("core/editor")?.getCurrentPostId();
+      const editorStore = select("core/editor");
+      const postId = editorStore?.getCurrentPostId?.();
       return postId && typeof postId === "number" ? postId : null;
     }, []);
     const newUrlQueryArgs = (0, import_element2.useMemo)(() => {
@@ -299,4 +312,4 @@ var wp;
   var index_default = ServerSideRenderCompat;
   return __toCommonJS(index_exports);
 })();
-if (typeof wp.serverSideRender === 'object' && wp.serverSideRender.default) { wp.serverSideRender = wp.serverSideRender.default; }if(wp.serverSideRender&&typeof wp.serverSideRender==='object'){wp.serverSideRender=Object.assign({},wp.serverSideRender);}
+if (typeof wp.serverSideRender === 'object' && wp.serverSideRender.default) { wp.serverSideRender = wp.serverSideRender.default; }

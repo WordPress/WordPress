@@ -574,93 +574,181 @@ var wp;
   var require_react_is_development = __commonJS({
     "packages/blocks/node_modules/react-is/cjs/react-is.development.js"(exports) {
       "use strict";
-      (function() {
-        function typeOf(object) {
-          if ("object" === typeof object && null !== object) {
-            var $$typeof = object.$$typeof;
-            switch ($$typeof) {
-              case REACT_ELEMENT_TYPE:
-                switch (object = object.type, object) {
-                  case REACT_FRAGMENT_TYPE:
-                  case REACT_PROFILER_TYPE:
-                  case REACT_STRICT_MODE_TYPE:
-                  case REACT_SUSPENSE_TYPE:
-                  case REACT_SUSPENSE_LIST_TYPE:
-                    return object;
-                  default:
-                    switch (object = object && object.$$typeof, object) {
-                      case REACT_CONTEXT_TYPE:
-                      case REACT_FORWARD_REF_TYPE:
-                      case REACT_LAZY_TYPE:
-                      case REACT_MEMO_TYPE:
-                        return object;
-                      case REACT_CONSUMER_TYPE:
-                        return object;
-                      default:
-                        return $$typeof;
-                    }
-                }
-              case REACT_PORTAL_TYPE:
-                return $$typeof;
-            }
+      if (true) {
+        (function() {
+          "use strict";
+          var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
+          var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
+          var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
+          var REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode");
+          var REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
+          var REACT_PROVIDER_TYPE = /* @__PURE__ */ Symbol.for("react.provider");
+          var REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context");
+          var REACT_SERVER_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.server_context");
+          var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
+          var REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense");
+          var REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list");
+          var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
+          var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+          var REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen");
+          var enableScopeAPI = false;
+          var enableCacheElement = false;
+          var enableTransitionTracing = false;
+          var enableLegacyHidden = false;
+          var enableDebugTracing = false;
+          var REACT_MODULE_REFERENCE;
+          {
+            REACT_MODULE_REFERENCE = /* @__PURE__ */ Symbol.for("react.module.reference");
           }
-        }
-        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
-        /* @__PURE__ */ Symbol.for("react.provider");
-        var REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference");
-        exports.ContextConsumer = REACT_CONSUMER_TYPE;
-        exports.ContextProvider = REACT_CONTEXT_TYPE;
-        exports.Element = REACT_ELEMENT_TYPE;
-        exports.ForwardRef = REACT_FORWARD_REF_TYPE;
-        exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.Lazy = REACT_LAZY_TYPE;
-        exports.Memo = REACT_MEMO_TYPE;
-        exports.Portal = REACT_PORTAL_TYPE;
-        exports.Profiler = REACT_PROFILER_TYPE;
-        exports.StrictMode = REACT_STRICT_MODE_TYPE;
-        exports.Suspense = REACT_SUSPENSE_TYPE;
-        exports.SuspenseList = REACT_SUSPENSE_LIST_TYPE;
-        exports.isContextConsumer = function(object) {
-          return typeOf(object) === REACT_CONSUMER_TYPE;
-        };
-        exports.isContextProvider = function(object) {
-          return typeOf(object) === REACT_CONTEXT_TYPE;
-        };
-        exports.isElement = function(object) {
-          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-        };
-        exports.isForwardRef = function(object) {
-          return typeOf(object) === REACT_FORWARD_REF_TYPE;
-        };
-        exports.isFragment = function(object) {
-          return typeOf(object) === REACT_FRAGMENT_TYPE;
-        };
-        exports.isLazy = function(object) {
-          return typeOf(object) === REACT_LAZY_TYPE;
-        };
-        exports.isMemo = function(object) {
-          return typeOf(object) === REACT_MEMO_TYPE;
-        };
-        exports.isPortal = function(object) {
-          return typeOf(object) === REACT_PORTAL_TYPE;
-        };
-        exports.isProfiler = function(object) {
-          return typeOf(object) === REACT_PROFILER_TYPE;
-        };
-        exports.isStrictMode = function(object) {
-          return typeOf(object) === REACT_STRICT_MODE_TYPE;
-        };
-        exports.isSuspense = function(object) {
-          return typeOf(object) === REACT_SUSPENSE_TYPE;
-        };
-        exports.isSuspenseList = function(object) {
-          return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
-        };
-        exports.isValidElementType = function(type) {
-          return "string" === typeof type || "function" === typeof type || type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_OFFSCREEN_TYPE || "object" === typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_CONSUMER_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_CLIENT_REFERENCE || void 0 !== type.getModuleId) ? true : false;
-        };
-        exports.typeOf = typeOf;
-      })();
+          function isValidElementType2(type) {
+            if (typeof type === "string" || typeof type === "function") {
+              return true;
+            }
+            if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden || type === REACT_OFFSCREEN_TYPE || enableScopeAPI || enableCacheElement || enableTransitionTracing) {
+              return true;
+            }
+            if (typeof type === "object" && type !== null) {
+              if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
+              // types supported by any Flight configuration anywhere since
+              // we don't know which Flight build this will end up being used
+              // with.
+              type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== void 0) {
+                return true;
+              }
+            }
+            return false;
+          }
+          function typeOf(object) {
+            if (typeof object === "object" && object !== null) {
+              var $$typeof = object.$$typeof;
+              switch ($$typeof) {
+                case REACT_ELEMENT_TYPE:
+                  var type = object.type;
+                  switch (type) {
+                    case REACT_FRAGMENT_TYPE:
+                    case REACT_PROFILER_TYPE:
+                    case REACT_STRICT_MODE_TYPE:
+                    case REACT_SUSPENSE_TYPE:
+                    case REACT_SUSPENSE_LIST_TYPE:
+                      return type;
+                    default:
+                      var $$typeofType = type && type.$$typeof;
+                      switch ($$typeofType) {
+                        case REACT_SERVER_CONTEXT_TYPE:
+                        case REACT_CONTEXT_TYPE:
+                        case REACT_FORWARD_REF_TYPE:
+                        case REACT_LAZY_TYPE:
+                        case REACT_MEMO_TYPE:
+                        case REACT_PROVIDER_TYPE:
+                          return $$typeofType;
+                        default:
+                          return $$typeof;
+                      }
+                  }
+                case REACT_PORTAL_TYPE:
+                  return $$typeof;
+              }
+            }
+            return void 0;
+          }
+          var ContextConsumer = REACT_CONTEXT_TYPE;
+          var ContextProvider = REACT_PROVIDER_TYPE;
+          var Element = REACT_ELEMENT_TYPE;
+          var ForwardRef = REACT_FORWARD_REF_TYPE;
+          var Fragment = REACT_FRAGMENT_TYPE;
+          var Lazy = REACT_LAZY_TYPE;
+          var Memo = REACT_MEMO_TYPE;
+          var Portal = REACT_PORTAL_TYPE;
+          var Profiler = REACT_PROFILER_TYPE;
+          var StrictMode = REACT_STRICT_MODE_TYPE;
+          var Suspense = REACT_SUSPENSE_TYPE;
+          var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
+          var hasWarnedAboutDeprecatedIsAsyncMode = false;
+          var hasWarnedAboutDeprecatedIsConcurrentMode = false;
+          function isAsyncMode(object) {
+            {
+              if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+                hasWarnedAboutDeprecatedIsAsyncMode = true;
+                console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 18+.");
+              }
+            }
+            return false;
+          }
+          function isConcurrentMode(object) {
+            {
+              if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
+                hasWarnedAboutDeprecatedIsConcurrentMode = true;
+                console["warn"]("The ReactIs.isConcurrentMode() alias has been deprecated, and will be removed in React 18+.");
+              }
+            }
+            return false;
+          }
+          function isContextConsumer(object) {
+            return typeOf(object) === REACT_CONTEXT_TYPE;
+          }
+          function isContextProvider(object) {
+            return typeOf(object) === REACT_PROVIDER_TYPE;
+          }
+          function isElement(object) {
+            return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+          }
+          function isForwardRef(object) {
+            return typeOf(object) === REACT_FORWARD_REF_TYPE;
+          }
+          function isFragment(object) {
+            return typeOf(object) === REACT_FRAGMENT_TYPE;
+          }
+          function isLazy(object) {
+            return typeOf(object) === REACT_LAZY_TYPE;
+          }
+          function isMemo(object) {
+            return typeOf(object) === REACT_MEMO_TYPE;
+          }
+          function isPortal(object) {
+            return typeOf(object) === REACT_PORTAL_TYPE;
+          }
+          function isProfiler(object) {
+            return typeOf(object) === REACT_PROFILER_TYPE;
+          }
+          function isStrictMode(object) {
+            return typeOf(object) === REACT_STRICT_MODE_TYPE;
+          }
+          function isSuspense(object) {
+            return typeOf(object) === REACT_SUSPENSE_TYPE;
+          }
+          function isSuspenseList(object) {
+            return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
+          }
+          exports.ContextConsumer = ContextConsumer;
+          exports.ContextProvider = ContextProvider;
+          exports.Element = Element;
+          exports.ForwardRef = ForwardRef;
+          exports.Fragment = Fragment;
+          exports.Lazy = Lazy;
+          exports.Memo = Memo;
+          exports.Portal = Portal;
+          exports.Profiler = Profiler;
+          exports.StrictMode = StrictMode;
+          exports.Suspense = Suspense;
+          exports.SuspenseList = SuspenseList;
+          exports.isAsyncMode = isAsyncMode;
+          exports.isConcurrentMode = isConcurrentMode;
+          exports.isContextConsumer = isContextConsumer;
+          exports.isContextProvider = isContextProvider;
+          exports.isElement = isElement;
+          exports.isForwardRef = isForwardRef;
+          exports.isFragment = isFragment;
+          exports.isLazy = isLazy;
+          exports.isMemo = isMemo;
+          exports.isPortal = isPortal;
+          exports.isProfiler = isProfiler;
+          exports.isStrictMode = isStrictMode;
+          exports.isSuspense = isSuspense;
+          exports.isSuspenseList = isSuspenseList;
+          exports.isValidElementType = isValidElementType2;
+          exports.typeOf = typeOf;
+        })();
+      }
     }
   });
 
@@ -6735,6 +6823,7 @@ var wp;
 
   // packages/blocks/build-module/api/factory.mjs
   var import_hooks2 = __toESM(require_hooks(), 1);
+  var getBlockTypeWithTransformMetadata = (blockType, transform) => transform.variationName ? { ...blockType, variationName: transform.variationName } : blockType;
   function createBlock(name, attributes = {}, innerBlocks = []) {
     if (!isBlockRegistered(name)) {
       return createBlock("core/missing", {
@@ -6843,16 +6932,14 @@ var wp;
       return [];
     }
     const allBlockTypes = getBlockTypes();
-    const blockTypesWithPossibleFromTransforms = allBlockTypes.filter(
+    const blockTypesWithPossibleFromTransforms = allBlockTypes.flatMap(
       (blockType) => {
         const fromTransforms = getBlockTransforms("from", blockType.name);
-        return !!findTransform(fromTransforms, (transform) => {
-          return isPossibleTransformForSource(
-            transform,
-            "from",
-            blocks
-          );
-        });
+        return fromTransforms.filter(
+          (transform) => isPossibleTransformForSource(transform, "from", blocks)
+        ).map(
+          (transform) => getBlockTypeWithTransformMetadata(blockType, transform)
+        );
       }
     );
     return blockTypesWithPossibleFromTransforms;
@@ -6867,8 +6954,15 @@ var wp;
     const possibleTransforms = transformsTo.filter((transform) => {
       return transform && isPossibleTransformForSource(transform, "to", blocks);
     });
-    const blockNames = possibleTransforms.map((transformation) => transformation.blocks).flat();
-    return blockNames.filter((name) => !!name).map(getBlockType).filter((bt) => !!bt);
+    return possibleTransforms.flatMap((transformation) => {
+      return (transformation.blocks || []).map((name) => {
+        const transformedBlockType = getBlockType(name);
+        return transformedBlockType ? getBlockTypeWithTransformMetadata(
+          transformedBlockType,
+          transformation
+        ) : void 0;
+      });
+    }).filter((bt) => !!bt);
   };
   var isWildcardBlockTransform = (t3) => !!t3 && t3.type === "block" && Array.isArray(t3.blocks) && t3.blocks.includes("*");
   var isContainerGroupBlock = (name) => name === getGroupingBlockName();
@@ -6878,12 +6972,17 @@ var wp;
     }
     const blockTypesForFromTransforms = getBlockTypesForPossibleFromTransforms(blocks);
     const blockTypesForToTransforms = getBlockTypesForPossibleToTransforms(blocks);
-    return [
-      .../* @__PURE__ */ new Set([
-        ...blockTypesForFromTransforms,
-        ...blockTypesForToTransforms
-      ])
-    ];
+    const blockTypesByNameAndVariation = /* @__PURE__ */ new Map();
+    for (const blockType of [
+      ...blockTypesForFromTransforms,
+      ...blockTypesForToTransforms
+    ]) {
+      const key = blockType.variationName ? `${blockType.name}/${blockType.variationName}` : blockType.name;
+      if (!blockTypesByNameAndVariation.has(key)) {
+        blockTypesByNameAndVariation.set(key, blockType);
+      }
+    }
+    return [...blockTypesByNameAndVariation.values()];
   }
   function findTransform(transforms, predicate) {
     const hooks = (0, import_hooks2.createHooks)();
@@ -6945,19 +7044,20 @@ var wp;
     const block = transform.isMultiBlock ? blocks : sourceBlock;
     return transform.isMatch(attributes, block);
   }
-  function switchToBlockType(blocks, name) {
+  function switchToBlockType(blocks, name, variationName) {
     const blocksArray = Array.isArray(blocks) ? blocks : [blocks];
     const isMultiBlock = blocksArray.length > 1;
     const firstBlock = blocksArray[0];
     const sourceName = firstBlock.name;
     const transformationsFrom = getBlockTransforms("from", name);
     const transformationsTo = getBlockTransforms("to", sourceName);
+    const isMatchingVariation = (t3) => variationName ? t3.variationName === variationName : !t3.variationName;
     const transformation = findTransform(
       transformationsTo,
-      (t3) => t3.type === "block" && (isWildcardBlockTransform(t3) || t3.blocks.indexOf(name) !== -1) && (!isMultiBlock || !!t3.isMultiBlock) && maybeCheckTransformIsMatch(t3, blocksArray)
+      (t3) => t3.type === "block" && isMatchingVariation(t3) && (isWildcardBlockTransform(t3) || t3.blocks.indexOf(name) !== -1) && (!isMultiBlock || !!t3.isMultiBlock) && maybeCheckTransformIsMatch(t3, blocksArray)
     ) || findTransform(
       transformationsFrom,
-      (t3) => t3.type === "block" && (isWildcardBlockTransform(t3) || t3.blocks.indexOf(sourceName) !== -1) && (!isMultiBlock || !!t3.isMultiBlock) && maybeCheckTransformIsMatch(t3, blocksArray)
+      (t3) => t3.type === "block" && isMatchingVariation(t3) && (isWildcardBlockTransform(t3) || t3.blocks.indexOf(sourceName) !== -1) && (!isMultiBlock || !!t3.isMultiBlock) && maybeCheckTransformIsMatch(t3, blocksArray)
     );
     if (!transformation) {
       return null;
@@ -9254,9 +9354,6 @@ var wp;
   var import_deprecated10 = __toESM(require_deprecated(), 1);
   var import_dom12 = __toESM(require_dom(), 1);
 
-  // packages/blocks/build-module/api/raw-handling/html-to-blocks.mjs
-  var import_element4 = __toESM(require_element(), 1);
-
   // packages/blocks/build-module/api/raw-handling/get-raw-transforms.mjs
   function getRawTransforms() {
     return getBlockTransforms("from").filter(({ type }) => type === "raw").map((transform) => {
@@ -9281,11 +9378,6 @@ var wp;
         })
       );
       if (!rawTransform) {
-        if (import_element4.Platform.isNative) {
-          return parse2(
-            `<!-- wp:html -->${node.outerHTML}<!-- /wp:html -->`
-          );
-        }
         return createBlock(
           // Should not be hardcoded.
           "core/html",
@@ -10345,7 +10437,7 @@ ${p3}`
   }
 
   // packages/blocks/build-module/api/templates.mjs
-  var import_element5 = __toESM(require_element(), 1);
+  var import_element4 = __toESM(require_element(), 1);
   function doBlocksMatchTemplate(blocks = [], template = []) {
     return blocks.length === template.length && template.every(([name, , innerBlocksTemplate], index) => {
       const block = blocks[index];
@@ -10367,7 +10459,7 @@ ${p3}`
   }
   function normalizeAttribute(definition, value) {
     if (isHTMLAttribute(definition) && Array.isArray(value)) {
-      return (0, import_element5.renderToString)(value);
+      return (0, import_element4.renderToString)(value);
     }
     if (isQueryAttribute(definition) && value) {
       return value.map(
@@ -10438,7 +10530,7 @@ react-is/cjs/react-is.development.js:
    * @license React
    * react-is.development.js
    *
-   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   * Copyright (c) Facebook, Inc. and its affiliates.
    *
    * This source code is licensed under the MIT license found in the
    * LICENSE file in the root directory of this source tree.
@@ -10455,4 +10547,3 @@ is-plain-object/dist/is-plain-object.mjs:
    * Released under the MIT License.
    *)
 */
-if(wp.blocks&&typeof wp.blocks==='object'){wp.blocks=Object.assign({},wp.blocks);}

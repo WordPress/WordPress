@@ -684,6 +684,7 @@
 .wp-block-comment-template.aligncenter {
   margin-left: auto;
   margin-right: auto;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .wp-block-comment-template.alignright {
@@ -1007,7 +1008,8 @@
   height: 100%;
   max-width: none;
   max-height: none;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   outline: none;
   border: none;
   box-shadow: none;
@@ -1321,6 +1323,7 @@ body:not(.editor-styles-wrapper) .wp-block-cover:not(.wp-block-cover:has(.wp-blo
 }
 .wp-block-form-input__label:has(input[type=checkbox]) {
   flex-direction: row;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .wp-block-form-input__label:has(input[type=checkbox]) .wp-block-form-input__label-content {
@@ -1332,6 +1335,7 @@ body:not(.editor-styles-wrapper) .wp-block-cover:not(.wp-block-cover:has(.wp-blo
 }
 
 .wp-block-form-input__label-content {
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -1434,7 +1438,8 @@ textarea.wp-block-form-input__input {
   width: 100%;
   height: 100%;
   flex: 1;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .wp-block-gallery:not(.has-nested-images).columns-1 .blocks-gallery-image, .wp-block-gallery:not(.has-nested-images).columns-1 .blocks-gallery-item,
 .blocks-gallery-grid:not(.has-nested-images).columns-1 .blocks-gallery-image,
@@ -1679,7 +1684,8 @@ figure.wp-block-gallery.has-nested-images {
   width: 100%;
   flex: 1 0 0%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .wp-block-gallery.has-nested-images.columns-1 figure.wp-block-image:not(#individual-image) {
   width: 100%;
@@ -2461,7 +2467,8 @@ ul {
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 /*
@@ -3581,6 +3588,9 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-artist-is-hidden .wp-block-playlist-track__artist {
   display: none;
 }
+.wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-length-is-hidden .wp-block-playlist-track__length {
+  display: none;
+}
 .wp-block-playlist .wp-block-playlist__tracklist.wp-block-playlist__tracklist-show-numbers {
   counter-reset: playlist-track;
 }
@@ -4078,6 +4088,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 
 .wp-block-read-more {
   display: block;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .wp-block-read-more:where(:not([style*=text-decoration])) {
@@ -4215,7 +4226,9 @@ ul.wp-block-rss.is-grid li {
   min-width: 3rem;
   border: 1px solid #949494;
   text-decoration: unset !important;
-  appearance: initial;
+  -webkit-appearance: initial;
+     -moz-appearance: initial;
+          appearance: initial;
 }
 
 :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) {
@@ -4786,6 +4799,7 @@ ul.wp-block-rss.is-grid li {
   box-sizing: border-box;
   color: inherit;
   display: block;
+  width: -moz-max-content;
   width: max-content;
   text-decoration: none;
   cursor: pointer;
@@ -4794,7 +4808,8 @@ ul.wp-block-rss.is-grid li {
   position: relative;
   border: none;
   background: none;
-  appearance: none;
+  -moz-appearance: none;
+       appearance: none;
   -webkit-appearance: none;
   margin: 0;
   padding: var(--wp--preset--spacing--20, 0.5em) var(--wp--preset--spacing--30, 1em);
@@ -5059,7 +5074,8 @@ pre.wp-block-verse {
 }
 @supports (position: sticky) {
   .wp-block-video [poster] {
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 .wp-block-video.aligncenter {
@@ -5260,46 +5276,66 @@ html :where(.has-border-color) {
   border-style: solid;
 }
 
-html :where([style*=border-color]) {
+html :where([style^=border-color],
+[style*=";border-color"],
+[style*="; border-color"]) {
   border-style: solid;
 }
 
-html :where([style*=border-top-color]) {
+html :where([style^=border-top-color],
+[style*=";border-top-color"],
+[style*="; border-top-color"]) {
   border-top-style: solid;
 }
 
-html :where([style*=border-right-color]) {
+html :where([style^=border-right-color],
+[style*=";border-right-color"],
+[style*="; border-right-color"]) {
   /*rtl:ignore*/
   border-right-style: solid;
 }
 
-html :where([style*=border-bottom-color]) {
+html :where([style^=border-bottom-color],
+[style*=";border-bottom-color"],
+[style*="; border-bottom-color"]) {
   border-bottom-style: solid;
 }
 
-html :where([style*=border-left-color]) {
+html :where([style^=border-left-color],
+[style*=";border-left-color"],
+[style*="; border-left-color"]) {
   /*rtl:ignore*/
   border-left-style: solid;
 }
 
-html :where([style*=border-width]) {
+html :where([style^=border-width],
+[style*=";border-width"],
+[style*="; border-width"]) {
   border-style: solid;
 }
 
-html :where([style*=border-top-width]) {
+html :where([style^=border-top-width],
+[style*=";border-top-width"],
+[style*="; border-top-width"]) {
   border-top-style: solid;
 }
 
-html :where([style*=border-right-width]) {
+html :where([style^=border-right-width],
+[style*=";border-right-width"],
+[style*="; border-right-width"]) {
   /*rtl:ignore*/
   border-right-style: solid;
 }
 
-html :where([style*=border-bottom-width]) {
+html :where([style^=border-bottom-width],
+[style*=";border-bottom-width"],
+[style*="; border-bottom-width"]) {
   border-bottom-style: solid;
 }
 
-html :where([style*=border-left-width]) {
+html :where([style^=border-left-width],
+[style*=";border-left-width"],
+[style*="; border-left-width"]) {
   /*rtl:ignore*/
   border-left-style: solid;
 }

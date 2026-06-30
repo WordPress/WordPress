@@ -3293,15 +3293,12 @@ var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
 var import_element = __toESM(require_element(), 1);
 var icon_default = (0, import_element.forwardRef)(
   ({ icon, size = 24, ...props }, ref) => {
-    return (0, import_element.cloneElement)(
-      icon,
-      {
-        width: size,
-        height: size,
-        ...props,
-        ref
-      }
-    );
+    return (0, import_element.cloneElement)(icon, {
+      width: size,
+      height: size,
+      ...props,
+      ref
+    });
   }
 );
 

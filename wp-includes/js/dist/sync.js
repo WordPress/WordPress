@@ -9209,13 +9209,6 @@ var wp;
   function passThru(fn) {
     return ((...args2) => fn(...args2));
   }
-  function yieldToEventLoop(fn) {
-    return function(...args2) {
-      setTimeout(() => {
-        fn.apply(this, args2);
-      }, 0);
-    };
-  }
 
   // packages/sync/build-module/providers/index.mjs
   var import_hooks3 = __toESM(require_hooks(), 1);
@@ -9291,15 +9284,22 @@ var wp;
   var MAX_ROOMS_PER_REQUEST = 50;
   var MAX_SYNC_REQUEST_BODY_SIZE_IN_BYTES = 15 * 1024 * 1024;
   var MIN_SYNC_REQUEST_BODY_SIZE_LIMIT_IN_BYTES = 2 * 1024 * 1024;
-  var POLLING_INTERVAL_IN_MS = (0, import_hooks.applyFilters)(
+  var DEFAULT_POLLING_INTERVAL_IN_MS = 4e3;
+  var DEFAULT_POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = 1e3;
+  function getFilteredPollingInterval(hookName, defaultInterval) {
+    const filteredInterval = (0, import_hooks.applyFilters)(hookName, defaultInterval);
+    if (typeof filteredInterval !== "number" || !Number.isFinite(filteredInterval) || filteredInterval <= 0) {
+      return defaultInterval;
+    }
+    return Math.min(filteredInterval, defaultInterval);
+  }
+  var POLLING_INTERVAL_IN_MS = getFilteredPollingInterval(
     "sync.pollingManager.pollingInterval",
-    4e3
-    // 4 seconds
+    DEFAULT_POLLING_INTERVAL_IN_MS
   );
-  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = (0, import_hooks.applyFilters)(
+  var POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS = getFilteredPollingInterval(
     "sync.pollingManager.pollingIntervalWithCollaborators",
-    1e3
-    // 1 second
+    DEFAULT_POLLING_INTERVAL_WITH_COLLABORATORS_IN_MS
   );
   var POLLING_INTERVAL_BACKGROUND_TAB_IN_MS = 25 * 1e3;
 
@@ -9444,35 +9444,30 @@ var wp;
   function isProtocolMismatchError(error) {
     return error?.code === "rest_sync_protocol_mismatch";
   }
-  function identifyForbiddenRoom(error, rooms) {
-    const message = typeof error.message === "string" ? error.message : "";
-    const sortedRooms = [...rooms].sort((a, b) => b.length - a.length);
-    for (const room of sortedRooms) {
-      if (message.includes(room)) {
-        return room;
-      }
-    }
-    return null;
-  }
   function handleForbiddenError(error, requestedRooms) {
-    const forbiddenRoom = identifyForbiddenRoom(
-      error,
-      requestedRooms.map((r) => r.room)
+    const requestedRoomNames = new Set(
+      requestedRooms.map((room) => room.room)
     );
-    if (forbiddenRoom) {
-      const state = roomStates.get(forbiddenRoom);
-      if (state) {
-        state.log(
-          "Permission denied, unregistering room",
-          { error },
-          "error",
-          true
-          // force
-        );
-        unregisterRoom(forbiddenRoom, { sendDisconnectSignal: false });
+    const forbiddenRooms = Array.isArray(error.data.rooms) ? error.data.rooms.filter((room) => requestedRoomNames.has(room)) : [];
+    if (forbiddenRooms.length > 0) {
+      for (const room of forbiddenRooms) {
+        const state = roomStates.get(room);
+        if (state) {
+          state.log(
+            "Permission denied, unregistering room",
+            { error },
+            "error",
+            true
+            // force
+          );
+          unregisterRoom(room, { sendDisconnectSignal: false });
+        }
       }
       for (const room of requestedRooms) {
-        if (room.room === forbiddenRoom || !roomStates.has(room.room)) {
+        if (forbiddenRooms.includes(room.room)) {
+          continue;
+        }
+        if (!roomStates.has(room.room)) {
           continue;
         }
         const remainingState = roomStates.get(room.room);
@@ -10408,12 +10403,23 @@ var wp;
       // The yjs document's clientID is added once it's available.
       trackedOrigins: /* @__PURE__ */ new Set([LOCAL_EDITOR_ORIGIN])
     });
+    const getUndoStackState = () => ({
+      hasRedo: yUndoManager.canRedo(),
+      hasUndo: yUndoManager.canUndo()
+    });
+    const notifyUndoStackChange = (ydoc) => {
+      undoMetaHandlers.get(ydoc)?.onUndoStackChange?.(getUndoStackState());
+    };
     yUndoManager.on("stack-item-added", (event) => {
       const handlers = undoMetaHandlers.get(event.ydoc);
       if (!handlers) {
         return;
       }
       handlers.addUndoMeta(event.ydoc, event.stackItem.meta);
+      notifyUndoStackChange(event.ydoc);
+    });
+    yUndoManager.on("stack-item-updated", (event) => {
+      notifyUndoStackChange(event.ydoc);
     });
     yUndoManager.on("stack-item-popped", (event) => {
       const handlers = undoMetaHandlers.get(event.ydoc);
@@ -10421,6 +10427,12 @@ var wp;
         return;
       }
       handlers.restoreUndoMeta(event.ydoc, event.stackItem.meta);
+      notifyUndoStackChange(event.ydoc);
+    });
+    yUndoManager.on("stack-cleared", () => {
+      undoMetaHandlers.forEach((handlers) => {
+        handlers.onUndoStackChange?.(getUndoStackState());
+      });
     });
     return {
       /**
@@ -10436,10 +10448,11 @@ var wp;
       /**
        * Add a Yjs map to the scope of the undo manager.
        *
-       * @param {Y.Map< any >} ymap                     The Yjs map to add to the scope.
-       * @param                handlers
-       * @param                handlers.addUndoMeta
-       * @param                handlers.restoreUndoMeta
+       * @param {Y.Map< any >} ymap                       The Yjs map to add to the scope.
+       * @param                handlers                   Handlers for the scoped document.
+       * @param                handlers.addUndoMeta       Handler to add metadata to undo items.
+       * @param                handlers.onUndoStackChange Handler for undo stack changes.
+       * @param                handlers.restoreUndoMeta   Handler to restore metadata from undo items.
        */
       addToScope(ymap, handlers) {
         if (ymap.doc === null) {
@@ -10582,7 +10595,8 @@ var wp;
         onStatusChange: debugWrap(handlers.onStatusChange),
         persistCRDTDoc: debugWrap(handlers.persistCRDTDoc),
         refetchRecord: debugWrap(handlers.refetchRecord),
-        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta)
+        restoreUndoMeta: debugWrap(handlers.restoreUndoMeta),
+        onUndoStackChange: handlers.onUndoStackChange ? debugWrap(handlers.onUndoStackChange) : void 0
       };
       const ydoc = createYjsDoc({ objectType });
       const recordMap = ydoc.getMap(CRDT_RECORD_MAP_KEY);
@@ -10616,8 +10630,8 @@ var wp;
         event.keysChanged.forEach((key) => {
           switch (key) {
             case CRDT_STATE_MAP_SAVED_AT_KEY:
-              const newValue = stateMap.get(CRDT_STATE_MAP_SAVED_AT_KEY);
-              if ("number" === typeof newValue && newValue > now) {
+              const savedAt = stateMap.get(CRDT_STATE_MAP_SAVED_AT_KEY);
+              if ("number" === typeof savedAt && savedAt > now) {
                 log("loadEntity", "refetching record", entityId);
                 void handlers.refetchRecord().catch(() => {
                 });
@@ -10629,10 +10643,11 @@ var wp;
       if (!undoManager) {
         undoManager = createUndoManager();
       }
-      const { addUndoMeta, restoreUndoMeta } = handlers;
+      const { addUndoMeta, onUndoStackChange, restoreUndoMeta } = handlers;
       undoManager.addToScope(recordMap, {
         addUndoMeta,
-        restoreUndoMeta
+        restoreUndoMeta,
+        onUndoStackChange
       });
       let providerResults;
       const entityState = {
@@ -10757,7 +10772,9 @@ var wp;
       const entityId = getEntityId(objectType, objectId);
       log("unloadEntity", "unloading", entityId);
       entityStates.get(entityId)?.unload();
-      updateCRDTDoc(objectType, null, {}, origin, { isSave: true });
+      updateCRDTDoc(objectType, null, {}, origin, {
+        isSave: true
+      });
     }
     function unloadAll() {
       log("unloadAll", "unloading all entities", "all");
@@ -10874,13 +10891,12 @@ var wp;
       });
       handlers.editRecord(changes);
     }
-    async function createPersistedCRDTDoc(objectType, objectId) {
+    function createPersistedCRDTDoc(objectType, objectId) {
       const entityId = getEntityId(objectType, objectId);
       const entityState = entityStates.get(entityId);
       if (!entityState?.ydoc) {
         return null;
       }
-      await new Promise((resolve) => setTimeout(resolve, 0));
       return serializeCrdtDoc(entityState.ydoc);
     }
     const internal = {
@@ -10898,7 +10914,7 @@ var wp;
       },
       unload: debugWrap(unloadEntity),
       unloadAll: debugWrap(unloadAll),
-      update: debugWrap(yieldToEventLoop(updateCRDTDoc))
+      update: debugWrap(updateCRDTDoc)
     };
   }
 
@@ -12065,4 +12081,3 @@ var wp;
   var YJS_VERSION = "13";
   return __toCommonJS(index_exports);
 })();
-if(wp.sync&&typeof wp.sync==='object'){wp.sync=Object.assign({},wp.sync);}

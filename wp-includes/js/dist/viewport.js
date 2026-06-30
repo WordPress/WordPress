@@ -173,14 +173,13 @@ var wp;
     );
     return (0, import_compose2.createHigherOrderComponent)(
       (WrappedComponent) => {
-        const WrappedWithViewport = (props) => {
+        return function WithViewportMatch(props) {
           const queriesResult = useViewPortQueriesResult();
           return (0, import_element.createElement)(WrappedComponent, {
             ...props,
             ...queriesResult
           });
         };
-        return (0, import_compose2.pure)(WrappedWithViewport);
       },
       "withViewportMatch"
     );
@@ -217,4 +216,3 @@ var wp;
   listener_default(BREAKPOINTS, OPERATORS);
   return __toCommonJS(index_exports);
 })();
-if(wp.viewport&&typeof wp.viewport==='object'){wp.viewport=Object.assign({},wp.viewport);}

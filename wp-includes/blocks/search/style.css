@@ -124,7 +124,9 @@
   min-width: 3rem;
   border: 1px solid #949494;
   text-decoration: unset !important;
-  appearance: initial;
+  -webkit-appearance: initial;
+     -moz-appearance: initial;
+          appearance: initial;
 }
 
 :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) {

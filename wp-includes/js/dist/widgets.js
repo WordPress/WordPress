@@ -1468,4 +1468,3 @@ var wp;
   }
   return __toCommonJS(index_exports);
 })();
-if(wp.widgets&&typeof wp.widgets==='object'){wp.widgets=Object.assign({},wp.widgets);}

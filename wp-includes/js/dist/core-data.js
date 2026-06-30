@@ -109,6 +109,27 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/api-fetch
+  var require_api_fetch = __commonJS({
+    "package-external:@wordpress/api-fetch"(exports, module) {
+      module.exports = window.wp.apiFetch;
+    }
+  });
+
+  // package-external:@wordpress/sync
+  var require_sync = __commonJS({
+    "package-external:@wordpress/sync"(exports, module) {
+      module.exports = window.wp.sync;
+    }
+  });
+
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
+    }
+  });
+
   // node_modules/equivalent-key-map/equivalent-key-map.js
   var require_equivalent_key_map = __commonJS({
     "node_modules/equivalent-key-map/equivalent-key-map.js"(exports, module) {
@@ -329,13 +350,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/api-fetch
-  var require_api_fetch = __commonJS({
-    "package-external:@wordpress/api-fetch"(exports, module) {
-      module.exports = window.wp.apiFetch;
-    }
-  });
-
   // package-external:@wordpress/blocks
   var require_blocks = __commonJS({
     "package-external:@wordpress/blocks"(exports, module) {
@@ -350,13 +364,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/sync
-  var require_sync = __commonJS({
-    "package-external:@wordpress/sync"(exports, module) {
-      module.exports = window.wp.sync;
-    }
-  });
-
   // package-external:@wordpress/block-editor
   var require_block_editor = __commonJS({
     "package-external:@wordpress/block-editor"(exports, module) {
@@ -368,13 +375,6 @@ var wp;
   var require_rich_text = __commonJS({
     "package-external:@wordpress/rich-text"(exports, module) {
       module.exports = window.wp.richText;
-    }
-  });
-
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
     }
   });
 
@@ -596,6 +596,77 @@ var wp;
       ([k, v]) => (k === "context" || k === "_fields") && v !== void 0 && v !== null
     );
     return entries.length > 0 ? Object.fromEntries(entries) : void 0;
+  }
+
+  // packages/core-data/build-module/utils/save-crdt-doc.mjs
+  var import_api_fetch = __toESM(require_api_fetch(), 1);
+
+  // packages/core-data/build-module/sync.mjs
+  var import_sync = __toESM(require_sync(), 1);
+
+  // packages/core-data/build-module/lock-unlock.mjs
+  var import_private_apis = __toESM(require_private_apis(), 1);
+  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+    "@wordpress/core-data"
+  );
+
+  // packages/core-data/build-module/sync.mjs
+  var {
+    ConnectionErrorCode,
+    createSyncManager,
+    Delta,
+    CRDT_DOC_META_PERSISTENCE_KEY,
+    CRDT_RECORD_MAP_KEY,
+    LOCAL_EDITOR_ORIGIN,
+    LOCAL_UNDO_IGNORED_ORIGIN,
+    retrySyncConnection
+  } = unlock(import_sync.privateApis);
+  var syncManager;
+  function getSyncManager() {
+    if (syncManager) {
+      return syncManager;
+    }
+    syncManager = createSyncManager();
+    return syncManager;
+  }
+  function hasSyncManager() {
+    return Boolean(syncManager);
+  }
+
+  // packages/core-data/build-module/utils/save-crdt-doc.mjs
+  var SYNC_SAVE_API_PATH = "/wp-sync/v1/save";
+  var saveCRDTDocQueues = /* @__PURE__ */ new Map();
+  async function serializeAndSaveCRDTDoc(objectType, objectId, room) {
+    const serializedDoc = await getSyncManager()?.createPersistedCRDTDoc(
+      objectType,
+      objectId
+    );
+    if (!serializedDoc) {
+      return;
+    }
+    await (0, import_api_fetch.default)({
+      path: SYNC_SAVE_API_PATH,
+      method: "POST",
+      data: {
+        room,
+        doc: serializedDoc
+      }
+    });
+  }
+  async function saveCRDTDoc(objectType, objectId) {
+    const room = `${objectType}:${objectId}`;
+    const previousSave = saveCRDTDocQueues.get(room) || Promise.resolve();
+    const currentSave = previousSave.catch(() => {
+    }).then(() => serializeAndSaveCRDTDoc(objectType, objectId, room));
+    saveCRDTDocQueues.set(room, currentSave);
+    try {
+      await currentSave;
+    } finally {
+      if (saveCRDTDocQueues.get(room) === currentSave) {
+        saveCRDTDocQueues.delete(room);
+      }
+    }
   }
 
   // packages/core-data/build-module/queried-data/actions.mjs
@@ -854,13 +925,13 @@ var wp;
   }
 
   // packages/core-data/build-module/entities.mjs
-  var import_api_fetch = __toESM(require_api_fetch(), 1);
+  var import_api_fetch2 = __toESM(require_api_fetch(), 1);
   var import_blocks4 = __toESM(require_blocks(), 1);
   var import_i18n = __toESM(require_i18n(), 1);
 
   // packages/core-data/build-module/awareness/post-editor-awareness.mjs
   var import_data4 = __toESM(require_data(), 1);
-  var import_sync8 = __toESM(require_sync(), 1);
+  var import_sync9 = __toESM(require_sync(), 1);
   var import_block_editor3 = __toESM(require_block_editor(), 1);
 
   // packages/core-data/build-module/awareness/base-awareness.mjs
@@ -872,7 +943,7 @@ var wp;
   var REMOVAL_DELAY_IN_MS = 5e3;
 
   // packages/core-data/build-module/awareness/typed-awareness.mjs
-  var import_sync = __toESM(require_sync(), 1);
+  var import_sync3 = __toESM(require_sync(), 1);
 
   // packages/core-data/build-module/awareness/utils.mjs
   function getBrowserName() {
@@ -941,7 +1012,7 @@ var wp;
   }
 
   // packages/core-data/build-module/awareness/typed-awareness.mjs
-  var TypedAwareness = class extends import_sync.Awareness {
+  var TypedAwareness = class extends import_sync3.Awareness {
     /**
      * Get the states from an awareness document.
      */
@@ -1228,16 +1299,16 @@ var wp;
 
   // packages/core-data/build-module/awareness/block-lookup.mjs
   var import_data2 = __toESM(require_data(), 1);
-  var import_sync2 = __toESM(require_sync(), 1);
+  var import_sync4 = __toESM(require_sync(), 1);
   var import_block_editor = __toESM(require_block_editor(), 1);
   function getContainingBlockYMap(yType) {
     let current = yType;
     while (current) {
       const parent = current.parent;
-      if (parent instanceof import_sync2.Y.Map && parent.parent instanceof import_sync2.Y.Array && parent.get("clientId") !== void 0 && parent.get("innerBlocks") instanceof import_sync2.Y.Array) {
+      if (parent instanceof import_sync4.Y.Map && parent.parent instanceof import_sync4.Y.Array && parent.get("clientId") !== void 0 && parent.get("innerBlocks") instanceof import_sync4.Y.Array) {
         return parent;
       }
-      current = parent instanceof import_sync2.Y.AbstractType ? parent : null;
+      current = parent instanceof import_sync4.Y.AbstractType ? parent : null;
     }
     return null;
   }
@@ -1246,7 +1317,7 @@ var wp;
     let current = yType;
     while (current) {
       const parentArray = current.parent;
-      if (!parentArray || !(parentArray instanceof import_sync2.Y.Array)) {
+      if (!parentArray || !(parentArray instanceof import_sync4.Y.Array)) {
         return null;
       }
       let index = -1;
@@ -1261,7 +1332,7 @@ var wp;
       }
       path.unshift(index);
       const grandparent = parentArray.parent;
-      if (grandparent instanceof import_sync2.Y.Map && grandparent.get("clientId") !== void 0) {
+      if (grandparent instanceof import_sync4.Y.Map && grandparent.get("clientId") !== void 0) {
         current = grandparent;
       } else {
         break;
@@ -1269,13 +1340,10 @@ var wp;
     }
     return path;
   }
-  function resolveBlockClientIdByPath(path) {
+  function resolveBlockClientIdByPath(path, blocks) {
     if (path.length === 0) {
       return null;
     }
-    const { getBlocks } = (0, import_data2.select)(import_block_editor.store);
-    const postContentBlocks = getPostContentBlocks(getBlocks(), getBlocks);
-    let blocks = postContentBlocks;
     for (let i = 0; i < path.length; i++) {
       const block = blocks[path[i]];
       if (!block) {
@@ -1288,74 +1356,27 @@ var wp;
     }
     return null;
   }
-  function getPostContentBlocks(rootBlocks, getBlocks) {
-    const postContentBlock = findBlockByName(rootBlocks, "core/post-content");
-    if (postContentBlock) {
-      return getBlocks(postContentBlock.clientId);
-    }
-    return rootBlocks;
-  }
-  function findBlockByName(blocks, name) {
-    for (const block of blocks) {
-      if (block.name === name) {
-        return block;
-      }
-      if (block.innerBlocks?.length) {
-        const found = findBlockByName(block.innerBlocks, name);
-        if (found) {
-          return found;
-        }
-      }
-    }
-    return null;
+  function usePostContentBlocks() {
+    return (0, import_data2.useSelect)((select4) => {
+      const { getBlocksByName, getClientIdsTree } = unlock(
+        select4(import_block_editor.store)
+      );
+      const [postContentClientId] = getBlocksByName("core/post-content");
+      return getClientIdsTree(postContentClientId ?? "");
+    }, []);
   }
 
   // packages/core-data/build-module/utils/crdt-utils.mjs
-  var import_sync4 = __toESM(require_sync(), 1);
+  var import_sync5 = __toESM(require_sync(), 1);
   var import_rich_text = __toESM(require_rich_text(), 1);
-
-  // packages/core-data/build-module/sync.mjs
-  var import_sync3 = __toESM(require_sync(), 1);
-
-  // packages/core-data/build-module/lock-unlock.mjs
-  var import_private_apis = __toESM(require_private_apis(), 1);
-  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-    "@wordpress/core-data"
-  );
-
-  // packages/core-data/build-module/sync.mjs
-  var {
-    ConnectionErrorCode,
-    createSyncManager,
-    Delta,
-    CRDT_DOC_META_PERSISTENCE_KEY,
-    CRDT_RECORD_MAP_KEY,
-    LOCAL_EDITOR_ORIGIN,
-    LOCAL_UNDO_IGNORED_ORIGIN,
-    retrySyncConnection
-  } = unlock(import_sync3.privateApis);
-  var syncManager;
-  function getSyncManager() {
-    if (syncManager) {
-      return syncManager;
-    }
-    syncManager = createSyncManager();
-    return syncManager;
-  }
-  function hasSyncManager() {
-    return Boolean(syncManager);
-  }
-
-  // packages/core-data/build-module/utils/crdt-utils.mjs
   function getRootMap(doc, key) {
     return doc.getMap(key);
   }
   function createYMap(partial = {}) {
-    return new import_sync4.Y.Map(Object.entries(partial));
+    return new import_sync5.Y.Map(Object.entries(partial));
   }
   function isYMap(value) {
-    return value instanceof import_sync4.Y.Map;
+    return value instanceof import_sync5.Y.Map;
   }
   function asRichTextOffset(offset) {
     return offset;
@@ -1365,14 +1386,14 @@ var wp;
   }
   function getYTextByAttributeKey(attributes, attributeKey) {
     const directValue = attributes.get(attributeKey);
-    if (directValue instanceof import_sync4.Y.Text) {
+    if (directValue instanceof import_sync5.Y.Text) {
       return directValue;
     }
     let value = attributes;
     for (const pathPart of attributeKey.split(".")) {
-      if (value instanceof import_sync4.Y.Map) {
+      if (value instanceof import_sync5.Y.Map) {
         value = value.get(pathPart);
-      } else if (value instanceof import_sync4.Y.Array) {
+      } else if (value instanceof import_sync5.Y.Array) {
         const index = Number.parseInt(pathPart, 10);
         if (!Number.isSafeInteger(index) || index < 0 || index.toString() !== pathPart) {
           return null;
@@ -1382,12 +1403,12 @@ var wp;
         return null;
       }
     }
-    return value instanceof import_sync4.Y.Text ? value : null;
+    return value instanceof import_sync5.Y.Text ? value : null;
   }
   function findBlockByClientIdInDoc(blockId, ydoc) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
     const blocks = ymap.get("blocks");
-    if (!(blocks instanceof import_sync4.Y.Array)) {
+    if (!(blocks instanceof import_sync5.Y.Array)) {
       return null;
     }
     return findBlockByClientIdInBlocks(blockId, blocks);
@@ -1462,7 +1483,7 @@ var wp;
 
   // packages/core-data/build-module/utils/crdt-user-selections.mjs
   var import_data3 = __toESM(require_data(), 1);
-  var import_sync6 = __toESM(require_sync(), 1);
+  var import_sync7 = __toESM(require_sync(), 1);
   var import_block_editor2 = __toESM(require_block_editor(), 1);
   var SelectionType = /* @__PURE__ */ ((SelectionType2) => {
     SelectionType2["None"] = "none";
@@ -1547,10 +1568,10 @@ var wp;
     }
     const attributes = block.get("attributes");
     const currentYText = attributes ? getYTextByAttributeKey(attributes, selection.attributeKey) : null;
-    if (!(currentYText instanceof import_sync6.Y.Text)) {
+    if (!(currentYText instanceof import_sync7.Y.Text)) {
       return null;
     }
-    const relativePosition = import_sync6.Y.createRelativePositionFromTypeIndex(
+    const relativePosition = import_sync7.Y.createRelativePositionFromTypeIndex(
       currentYText,
       richTextOffsetToHtmlIndex(
         currentYText.toString(),
@@ -1598,7 +1619,7 @@ var wp;
       if (i === path.length - 1) {
         return block;
       }
-      currentBlocks = block.get("innerBlocks") ?? new import_sync6.Y.Array();
+      currentBlocks = block.get("innerBlocks") ?? new import_sync7.Y.Array();
     }
     return null;
   }
@@ -1609,13 +1630,13 @@ var wp;
         return null;
       }
       if (i === path.length - 1) {
-        return import_sync6.Y.createRelativePositionFromTypeIndex(
+        return import_sync7.Y.createRelativePositionFromTypeIndex(
           currentBlocks,
           path[i]
         );
       }
       const block = currentBlocks.get(path[i]);
-      currentBlocks = block?.get("innerBlocks") ?? new import_sync6.Y.Array();
+      currentBlocks = block?.get("innerBlocks") ?? new import_sync7.Y.Array();
     }
     return null;
   }
@@ -1648,7 +1669,7 @@ var wp;
           selection2.cursorEndPosition
         ) && selection1.selectionDirection === selection2.selectionDirection;
       case "whole-block":
-        return import_sync6.Y.compareRelativePositions(
+        return import_sync7.Y.compareRelativePositions(
           selection1.blockPosition,
           selection2.blockPosition
         );
@@ -1657,7 +1678,7 @@ var wp;
     }
   }
   function areCursorPositionsEqual(cursorPosition1, cursorPosition2) {
-    const isRelativePositionEqual = import_sync6.Y.compareRelativePositions(
+    const isRelativePositionEqual = import_sync7.Y.compareRelativePositions(
       cursorPosition1.relativePosition,
       cursorPosition2.relativePosition
     );
@@ -1794,9 +1815,10 @@ var wp;
      * clientIds (e.g. in "Show Template" mode where blocks are cloned).
      *
      * @param selection - The selection state.
+     * @param blocks    - The tree of block-editor store post content blocks.
      * @return The rich-text offset and block client ID, or nulls if not resolvable.
      */
-    convertSelectionStateToAbsolute(selection) {
+    convertSelectionStateToAbsolute(selection, blocks) {
       if (selection.type === SelectionType.None) {
         return {
           richTextOffset: null,
@@ -1805,17 +1827,17 @@ var wp;
         };
       }
       if (selection.type === SelectionType.WholeBlock) {
-        const absolutePos = import_sync8.Y.createAbsolutePositionFromRelativePosition(
+        const absolutePos = import_sync9.Y.createAbsolutePositionFromRelativePosition(
           selection.blockPosition,
           this.doc
         );
         let localClientId2 = null;
-        if (absolutePos && absolutePos.type instanceof import_sync8.Y.Array) {
+        if (absolutePos && absolutePos.type instanceof import_sync9.Y.Array) {
           const parentArray = absolutePos.type;
           const block = parentArray.get(absolutePos.index);
-          if (block instanceof import_sync8.Y.Map) {
+          if (block instanceof import_sync9.Y.Map) {
             const path2 = getBlockPathInYdoc(block);
-            localClientId2 = path2 ? resolveBlockClientIdByPath(path2) : null;
+            localClientId2 = path2 ? resolveBlockClientIdByPath(path2, blocks) : null;
           }
         }
         return {
@@ -1825,7 +1847,7 @@ var wp;
         };
       }
       const cursorPos = "cursorPosition" in selection ? selection.cursorPosition : selection.cursorStartPosition;
-      const absolutePosition = import_sync8.Y.createAbsolutePositionFromRelativePosition(
+      const absolutePosition = import_sync9.Y.createAbsolutePositionFromRelativePosition(
         cursorPos.relativePosition,
         this.doc
       );
@@ -1838,7 +1860,7 @@ var wp;
       }
       const yType = getContainingBlockYMap(absolutePosition.type);
       const path = yType ? getBlockPathInYdoc(yType) : null;
-      const localClientId = path ? resolveBlockClientIdByPath(path) : null;
+      const localClientId = path ? resolveBlockClientIdByPath(path, blocks) : null;
       return {
         richTextOffset: htmlIndexToRichTextOffset(
           absolutePosition.type.toString(),
@@ -1924,7 +1946,7 @@ var wp;
   // packages/core-data/build-module/utils/crdt.mjs
   var import_es63 = __toESM(require_es6(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
-  var import_sync13 = __toESM(require_sync(), 1);
+  var import_sync14 = __toESM(require_sync(), 1);
 
   // node_modules/uuid/dist/stringify.js
   var byteToHex = [];
@@ -1974,7 +1996,7 @@ var wp;
   var import_es62 = __toESM(require_es6(), 1);
   var import_blocks = __toESM(require_blocks(), 1);
   var import_rich_text3 = __toESM(require_rich_text(), 1);
-  var import_sync9 = __toESM(require_sync(), 1);
+  var import_sync10 = __toESM(require_sync(), 1);
 
   // packages/core-data/build-module/utils/crdt-text.mjs
   var import_rich_text2 = __toESM(require_rich_text(), 1);
@@ -2111,7 +2133,7 @@ var wp;
     );
   }
   function createNewYAttributeMap(blockName, attributes) {
-    return new import_sync9.Y.Map(
+    return new import_sync10.Y.Map(
       Object.entries(attributes).map(
         ([attributeName, attributeValue]) => {
           return [
@@ -2135,11 +2157,11 @@ var wp;
       return value;
     }
     if (schema.type === "rich-text") {
-      return new import_sync9.Y.Text(value?.toString() ?? "");
+      return new import_sync10.Y.Text(value?.toString() ?? "");
     }
     if (schema.type === "array" && schema.query && Array.isArray(value)) {
       const query = schema.query;
-      const yArray = new import_sync9.Y.Array();
+      const yArray = new import_sync10.Y.Array();
       yArray.insert(
         0,
         value.map((item) => createYMapFromQuery(query, item))
@@ -2156,7 +2178,7 @@ var wp;
   }
   function createYMapFromQuery(query, obj) {
     if (!isRecord(obj)) {
-      return new import_sync9.Y.Map();
+      return new import_sync10.Y.Map();
     }
     const entries = Object.entries(obj).map(
       ([key, val]) => {
@@ -2164,7 +2186,7 @@ var wp;
         return [key, createYValueFromSchema(subSchema, val)];
       }
     );
-    return new import_sync9.Y.Map(entries);
+    return new import_sync10.Y.Map(entries);
   }
   function createNewYBlock(block) {
     return createYMap(
@@ -2178,7 +2200,7 @@ var wp;
               ];
             }
             case "innerBlocks": {
-              const innerBlocks = new import_sync9.Y.Array();
+              const innerBlocks = new import_sync10.Y.Array();
               if (!Array.isArray(value)) {
                 return [key, innerBlocks];
               }
@@ -2197,7 +2219,7 @@ var wp;
       )
     );
   }
-  function mergeCrdtBlocks(yblocks, incomingBlocks, attributeCursor) {
+  function mergeCrdtBlocks(yblocks, incomingBlocks, attributeCursor, options = {}) {
     if (!serializableBlocksCache.has(incomingBlocks)) {
       serializableBlocksCache.set(
         incomingBlocks,
@@ -2261,7 +2283,7 @@ var wp;
                     incomingAttributeName,
                     currentAttribute
                   );
-                  const isYType = currentAttribute instanceof import_sync9.Y.AbstractType;
+                  const isYType = currentAttribute instanceof import_sync10.Y.AbstractType;
                   const isAttributeChanged = !isExpectedType || isYType || !(0, import_es62.default)(
                     currentAttribute,
                     incomingAttributeValue
@@ -2293,8 +2315,8 @@ var wp;
               let yInnerBlocks = localYBlock.get(
                 incomingBlockProperty
               );
-              if (!(yInnerBlocks instanceof import_sync9.Y.Array)) {
-                yInnerBlocks = new import_sync9.Y.Array();
+              if (!(yInnerBlocks instanceof import_sync10.Y.Array)) {
+                yInnerBlocks = new import_sync10.Y.Array();
                 localYBlock.set(
                   incomingBlockProperty,
                   yInnerBlocks
@@ -2303,11 +2325,21 @@ var wp;
               mergeCrdtBlocks(
                 yInnerBlocks,
                 incomingBlockPropertyValue ?? [],
-                attributeCursor
+                attributeCursor,
+                options
               );
               break;
             }
             case "clientId": {
+              if (options.preserveClientIds) {
+                break;
+              }
+              if (incomingBlockPropertyValue !== localYBlock.get(incomingBlockProperty)) {
+                localYBlock.set(
+                  incomingBlockProperty,
+                  incomingBlockPropertyValue
+                );
+              }
               break;
             }
             default:
@@ -2349,7 +2381,7 @@ var wp;
     }
   }
   function areArrayElementsEqual(newElement, yElement) {
-    if (yElement instanceof import_sync9.Y.Map && isRecord(newElement)) {
+    if (yElement instanceof import_sync10.Y.Map && isRecord(newElement)) {
       return (0, import_es62.default)(newElement, yElement.toJSON());
     }
     return (0, import_es62.default)(newElement, yElement);
@@ -2373,7 +2405,7 @@ var wp;
     for (let i = 0; i < numOfUpdatesNeeded; i++) {
       const currentElement = yArray.get(left + i);
       const newElement = newValue[left + i];
-      if (currentElement instanceof import_sync9.Y.Map && isRecord(newElement)) {
+      if (currentElement instanceof import_sync10.Y.Map && isRecord(newElement)) {
         mergeYMapValues(
           currentElement,
           newElement,
@@ -2414,15 +2446,15 @@ var wp;
   }
   function mergeYValue(schema, newVal, yMap, key, cursorPosition, cursorScope) {
     const currentVal = yMap.get(key);
-    if (schema?.type === "rich-text" && typeof newVal === "string" && currentVal instanceof import_sync9.Y.Text) {
+    if (schema?.type === "rich-text" && typeof newVal === "string" && currentVal instanceof import_sync10.Y.Text) {
       mergeRichTextUpdate(
         currentVal,
         newVal,
         resolveRichTextCursorPosition(cursorPosition, cursorScope, newVal)
       );
-    } else if (schema?.type === "array" && schema.query && Array.isArray(newVal) && currentVal instanceof import_sync9.Y.Array) {
+    } else if (schema?.type === "array" && schema.query && Array.isArray(newVal) && currentVal instanceof import_sync10.Y.Array) {
       mergeYArray(currentVal, newVal, schema, cursorPosition, cursorScope);
-    } else if (schema?.type === "object" && schema.query && isRecord(newVal) && currentVal instanceof import_sync9.Y.Map) {
+    } else if (schema?.type === "object" && schema.query && isRecord(newVal) && currentVal instanceof import_sync10.Y.Map) {
       mergeYMapValues(
         currentVal,
         newVal,
@@ -2494,16 +2526,16 @@ var wp;
   function isExpectedAttributeType(blockName, attributeName, attributeValue) {
     const schema = getBlockAttributeSchema(blockName, attributeName);
     if (schema?.type === "rich-text") {
-      return attributeValue instanceof import_sync9.Y.Text;
+      return attributeValue instanceof import_sync10.Y.Text;
     }
     if (schema?.type === "string") {
       return typeof attributeValue === "string";
     }
     if (schema?.type === "array" && schema.query) {
-      return attributeValue instanceof import_sync9.Y.Array;
+      return attributeValue instanceof import_sync10.Y.Array;
     }
     if (schema?.type === "object" && schema.query) {
-      return attributeValue instanceof import_sync9.Y.Map;
+      return attributeValue instanceof import_sync10.Y.Map;
     }
     return true;
   }
@@ -2523,7 +2555,7 @@ var wp;
   }
   function isDeltaVerificationMatch(blockYText, delta, expectedValue) {
     if (!localDoc) {
-      localDoc = new import_sync9.Y.Doc();
+      localDoc = new import_sync10.Y.Doc();
     }
     const verificationYText = localDoc.getText("verification-text");
     verificationYText.delete(0, verificationYText.length);
@@ -2536,10 +2568,10 @@ var wp;
   var import_data5 = __toESM(require_data(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_blocks2 = __toESM(require_blocks(), 1);
-  var import_sync12 = __toESM(require_sync(), 1);
+  var import_sync13 = __toESM(require_sync(), 1);
 
   // packages/core-data/build-module/utils/block-selection-history.mjs
-  var import_sync11 = __toESM(require_sync(), 1);
+  var import_sync12 = __toESM(require_sync(), 1);
   var SELECTION_HISTORY_DEFAULT_SIZE = 5;
   var YSelectionType = /* @__PURE__ */ ((YSelectionType2) => {
     YSelectionType2["RelativeSelection"] = "RelativeSelection";
@@ -2589,14 +2621,14 @@ var wp;
     if (attributeKey && attributes) {
       changedYText = getYTextByAttributeKey(attributes, attributeKey);
     }
-    if (!(changedYText instanceof import_sync11.Y.Text) || !attributeKey || !clientId) {
+    if (!(changedYText instanceof import_sync12.Y.Text) || !attributeKey || !clientId) {
       return {
         type: "BlockSelection",
         clientId
       };
     }
     const offset = selection.offset ?? 0;
-    const relativePosition = import_sync11.Y.createRelativePositionFromTypeIndex(
+    const relativePosition = import_sync12.Y.createRelativePositionFromTypeIndex(
       changedYText,
       richTextOffsetToHtmlIndex(
         changedYText.toString(),
@@ -2631,7 +2663,7 @@ var wp;
   function convertYSelectionToBlockSelection(ySelection, ydoc) {
     if (ySelection.type === YSelectionType.RelativeSelection) {
       const { relativePosition, attributeKey, clientId } = ySelection;
-      const absolutePosition = import_sync12.Y.createAbsolutePositionFromRelativePosition(
+      const absolutePosition = import_sync13.Y.createAbsolutePositionFromRelativePosition(
         relativePosition,
         ydoc
       );
@@ -2790,8 +2822,8 @@ var wp;
             break;
           }
           let currentBlocks = ymap.get(key);
-          if (!(currentBlocks instanceof import_sync13.Y.Array)) {
-            currentBlocks = new import_sync13.Y.Array();
+          if (!(currentBlocks instanceof import_sync14.Y.Array)) {
+            currentBlocks = new import_sync14.Y.Array();
             ymap.set(key, currentBlocks);
           }
           mergeCrdtBlocks(currentBlocks, newValue, newCursorPosition);
@@ -2805,10 +2837,10 @@ var wp;
           if (key === "title" && !currentValue?.toString() && "Auto Draft" === rawValue) {
             rawValue = "";
           }
-          if (currentValue instanceof import_sync13.Y.Text) {
+          if (currentValue instanceof import_sync14.Y.Text) {
             mergeRichTextUpdate(currentValue, rawValue ?? "");
           } else {
-            const newYText = new import_sync13.Y.Text(rawValue ?? "");
+            const newYText = new import_sync14.Y.Text(rawValue ?? "");
             ymap.set(key, newYText);
           }
           break;
@@ -2861,14 +2893,15 @@ var wp;
   }
   function mergeContentWithoutBlocks(ymap, rawContent, cursorPosition) {
     let currentBlocks = ymap.get("blocks");
-    if (!(currentBlocks instanceof import_sync13.Y.Array)) {
-      currentBlocks = new import_sync13.Y.Array();
+    if (!(currentBlocks instanceof import_sync14.Y.Array)) {
+      currentBlocks = new import_sync14.Y.Array();
       ymap.set("blocks", currentBlocks);
     }
     mergeCrdtBlocks(
       currentBlocks,
       (0, import_blocks3.parse)(rawContent),
-      cursorPosition
+      cursorPosition,
+      { preserveClientIds: true }
     );
   }
   function parseCursorSelection(selection) {
@@ -3023,7 +3056,7 @@ var wp;
       baseURL: "/",
       baseURLParams: {
         // Please also change the preload path when changing this.
-        // @see lib/compat/wordpress-7.0/preload.php
+        // @see lib/compat/wordpress-7.1/preload.php
         _fields: [
           "description",
           "gmt_offset",
@@ -3259,7 +3292,7 @@ var wp;
     if (persistedRecord) {
       const objectType = `postType/${name}`;
       const objectId = persistedRecord.id;
-      const serializedDoc = await getSyncManager()?.createPersistedCRDTDoc(
+      const serializedDoc = getSyncManager()?.createPersistedCRDTDoc(
         objectType,
         objectId
       );
@@ -3273,8 +3306,8 @@ var wp;
     return newEdits;
   };
   async function loadPostTypeEntities() {
-    const postTypesPromise = (0, import_api_fetch.default)({ path: "/wp/v2/types?context=view" });
-    const taxonomiesPromise = window._wpCollaborationEnabled ? (0, import_api_fetch.default)({ path: "/wp/v2/taxonomies?context=view" }) : Promise.resolve({});
+    const postTypesPromise = (0, import_api_fetch2.default)({ path: "/wp/v2/types?context=view" });
+    const taxonomiesPromise = window._wpCollaborationEnabled ? (0, import_api_fetch2.default)({ path: "/wp/v2/taxonomies?context=view" }) : Promise.resolve({});
     const [postTypes, taxonomies] = await Promise.all([
       postTypesPromise,
       taxonomiesPromise
@@ -3322,6 +3355,8 @@ var wp;
         revisionKey: isTemplate && !window?.__experimentalTemplateActivate ? "wp_id" : DEFAULT_ENTITY_KEY
       };
       entity2.syncConfig = {
+        // Save a CRDT document with this entity
+        supportsPersistence: true,
         /**
          * Apply changes from the local editor to the local CRDT document so
          * that those changes can be synced to other peers (via the provider).
@@ -3371,7 +3406,7 @@ var wp;
     });
   }
   async function loadTaxonomyEntities() {
-    const taxonomies = await (0, import_api_fetch.default)({
+    const taxonomies = await (0, import_api_fetch2.default)({
       path: "/wp/v2/taxonomies?context=view"
     });
     return Object.entries(taxonomies ?? {}).map(([name, taxonomy]) => {
@@ -3399,7 +3434,7 @@ var wp;
       supportsPagination: false,
       meta: {}
     };
-    const site = await (0, import_api_fetch.default)({
+    const site = await (0, import_api_fetch2.default)({
       path: entity2.baseURL,
       method: "OPTIONS"
     });
@@ -3877,6 +3912,16 @@ var wp;
   function undoManager(state = (0, import_undo_manager.createUndoManager)()) {
     return state;
   }
+  function syncUndoManagerState(state = { hasRedo: false, hasUndo: false }, action) {
+    switch (action.type) {
+      case "SYNC_UNDO_MANAGER_CHANGE":
+        return {
+          hasRedo: action.hasRedo,
+          hasUndo: action.hasUndo
+        };
+    }
+    return state;
+  }
   function editsReference(state = {}, action) {
     switch (action.type) {
       case "EDIT_ENTITY_RECORD":
@@ -4044,6 +4089,7 @@ var wp;
     themeGlobalStyleRevisions,
     entities,
     editsReference,
+    syncUndoManagerState,
     undoManager,
     embedPreviews,
     userPermissions,
@@ -4179,24 +4225,24 @@ var wp;
     return state.navigationFallbackId;
   }
   var getBlockPatternsForPostType = (0, import_data8.createRegistrySelector)(
-    (select5) => (0, import_data8.createSelector)(
-      (state, postType) => select5(STORE_NAME).getBlockPatterns().filter(
+    (select4) => (0, import_data8.createSelector)(
+      (state, postType) => select4(STORE_NAME).getBlockPatterns().filter(
         ({ postTypes }) => !postTypes || Array.isArray(postTypes) && postTypes.includes(postType)
       ),
-      () => [select5(STORE_NAME).getBlockPatterns()]
+      () => [select4(STORE_NAME).getBlockPatterns()]
     )
   );
   var getEntityRecordsPermissions = (0, import_data8.createRegistrySelector)(
-    (select5) => (0, import_data8.createSelector)(
+    (select4) => (0, import_data8.createSelector)(
       (state, kind, name, ids) => {
         const normalizedIds = Array.isArray(ids) ? ids : [ids];
         return normalizedIds.map((id) => ({
-          delete: select5(STORE_NAME).canUser("delete", {
+          delete: select4(STORE_NAME).canUser("delete", {
             kind,
             name,
             id
           }),
-          update: select5(STORE_NAME).canUser("update", {
+          update: select4(STORE_NAME).canUser("update", {
             kind,
             name,
             id
@@ -4223,9 +4269,9 @@ var wp;
     return value.toString();
   }
   var getHomePage = (0, import_data8.createRegistrySelector)(
-    (select5) => (0, import_data8.createSelector)(
+    (select4) => (0, import_data8.createSelector)(
       () => {
-        const siteData = select5(STORE_NAME).getEntityRecord(
+        const siteData = select4(STORE_NAME).getEntityRecord(
           "root",
           "__unstableBase"
         );
@@ -4236,7 +4282,7 @@ var wp;
         if (homepageId) {
           return { postType: "page", postId: homepageId };
         }
-        const frontPageTemplateId = select5(
+        const frontPageTemplateId = select4(
           STORE_NAME
         ).getDefaultTemplateId({
           slug: "front-page"
@@ -4263,21 +4309,21 @@ var wp;
       ]
     )
   );
-  var getPostsPageId = (0, import_data8.createRegistrySelector)((select5) => () => {
-    const siteData = select5(STORE_NAME).getEntityRecord(
+  var getPostsPageId = (0, import_data8.createRegistrySelector)((select4) => () => {
+    const siteData = select4(STORE_NAME).getEntityRecord(
       "root",
       "__unstableBase"
     );
     return siteData?.show_on_front === "page" ? normalizePageId(siteData.page_for_posts) : null;
   });
   var getTemplateId = (0, import_data8.createRegistrySelector)(
-    (select5) => (state, postType, postId) => {
-      const homepage = unlock(select5(STORE_NAME)).getHomePage();
+    (select4) => (state, postType, postId) => {
+      const homepage = unlock(select4(STORE_NAME)).getHomePage();
       if (!homepage) {
         return;
       }
       if (postType === "page" && postType === homepage?.postType && postId.toString() === homepage?.postId) {
-        const templates = select5(STORE_NAME).getEntityRecords(
+        const templates = select4(STORE_NAME).getEntityRecords(
           "postType",
           "wp_template",
           {
@@ -4292,7 +4338,7 @@ var wp;
           return id;
         }
       }
-      const editedEntity = select5(STORE_NAME).getEditedEntityRecord(
+      const editedEntity = select4(STORE_NAME).getEditedEntityRecord(
         "postType",
         postType,
         postId
@@ -4300,15 +4346,15 @@ var wp;
       if (!editedEntity) {
         return;
       }
-      const postsPageId = unlock(select5(STORE_NAME)).getPostsPageId();
+      const postsPageId = unlock(select4(STORE_NAME)).getPostsPageId();
       if (postType === "page" && postsPageId === postId.toString()) {
-        return select5(STORE_NAME).getDefaultTemplateId({
+        return select4(STORE_NAME).getDefaultTemplateId({
           slug: "home"
         });
       }
       const currentTemplateSlug = editedEntity.template;
       if (currentTemplateSlug) {
-        const currentTemplate = select5(STORE_NAME).getEntityRecords("postType", "wp_template", {
+        const currentTemplate = select4(STORE_NAME).getEntityRecords("postType", "wp_template", {
           per_page: -1
         })?.find(({ slug }) => slug === currentTemplateSlug);
         if (currentTemplate) {
@@ -4321,7 +4367,7 @@ var wp;
       } else {
         slugToCheck = postType === "page" ? "page" : `single-${postType}`;
       }
-      return select5(STORE_NAME).getDefaultTemplateId({
+      return select4(STORE_NAME).getDefaultTemplateId({
         slug: slugToCheck
       });
     }
@@ -4360,8 +4406,8 @@ var wp;
   // packages/core-data/build-module/selectors.mjs
   var EMPTY_OBJECT2 = {};
   var isRequestingEmbedPreview = (0, import_data9.createRegistrySelector)(
-    (select5) => (state, url) => {
-      return select5(STORE_NAME).isResolving("getEmbedPreview", [
+    (select4) => (state, url) => {
+      return select4(STORE_NAME).isResolving("getEmbedPreview", [
         url
       ]);
     }
@@ -4729,9 +4775,15 @@ var wp;
     return void 0;
   }
   function hasUndo(state) {
+    if (getSyncManager()?.undoManager) {
+      return state.syncUndoManagerState.hasUndo;
+    }
     return getUndoManager(state).hasUndo();
   }
   function hasRedo(state) {
+    if (getSyncManager()?.undoManager) {
+      return state.syncUndoManagerState.hasRedo;
+    }
     return getUndoManager(state).hasRedo();
   }
   function getCurrentTheme(state) {
@@ -4788,8 +4840,8 @@ var wp;
     );
   }
   var hasFetchedAutosaves = (0, import_data9.createRegistrySelector)(
-    (select5) => (state, postType, postId) => {
-      return select5(STORE_NAME).hasFinishedResolution("getAutosaves", [
+    (select4) => (state, postType, postId) => {
+      return select4(STORE_NAME).hasFinishedResolution("getAutosaves", [
         postType,
         postId
       ]);
@@ -4943,12 +4995,12 @@ var wp;
     undo: () => undo
   });
   var import_es65 = __toESM(require_es6(), 1);
-  var import_api_fetch3 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch4 = __toESM(require_api_fetch(), 1);
   var import_url3 = __toESM(require_url(), 1);
   var import_deprecated3 = __toESM(require_deprecated(), 1);
 
   // packages/core-data/build-module/batch/default-processor.mjs
-  var import_api_fetch2 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch3 = __toESM(require_api_fetch(), 1);
   var maxItems = null;
   function chunk(arr, chunkSize) {
     const tmp = [...arr];
@@ -4960,7 +5012,7 @@ var wp;
   }
   async function defaultProcessor(requests) {
     if (maxItems === null) {
-      const preflightResponse = await (0, import_api_fetch2.default)({
+      const preflightResponse = await (0, import_api_fetch3.default)({
         path: "/batch/v1",
         method: "OPTIONS"
       });
@@ -4968,7 +5020,7 @@ var wp;
     }
     const results = [];
     for (const batchRequests of chunk(requests, maxItems)) {
-      const batchResponse = await (0, import_api_fetch2.default)({
+      const batchResponse = await (0, import_api_fetch3.default)({
         path: "/batch/v1",
         method: "POST",
         data: {
@@ -5223,7 +5275,7 @@ var wp;
       preview
     };
   }
-  var deleteEntityRecord = (kind, name, recordId, query, { __unstableFetch = import_api_fetch3.default, throwOnError = false } = {}) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
+  var deleteEntityRecord = (kind, name, recordId, query, { __unstableFetch = import_api_fetch4.default, throwOnError = false } = {}) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     logEntityDeprecation(kind, name, "deleteEntityRecord");
     const configs = await resolveSelect2.getEntitiesConfig(kind);
     const entityConfig = configs.find(
@@ -5285,17 +5337,17 @@ var wp;
       dispatch3.__unstableReleaseStoreLock(lock2);
     }
   };
-  var editEntityRecord = (kind, name, recordId, edits, options = {}) => ({ select: select5, dispatch: dispatch3 }) => {
+  var editEntityRecord = (kind, name, recordId, edits, options = {}) => ({ select: select4, dispatch: dispatch3 }) => {
     logEntityDeprecation(kind, name, "editEntityRecord");
-    const entityConfig = select5.getEntityConfig(kind, name);
+    const entityConfig = select4.getEntityConfig(kind, name);
     if (!entityConfig) {
       throw new Error(
         `The entity being edited (${kind}, ${name}) does not have a loaded config.`
       );
     }
     const { mergedEdits = {} } = entityConfig;
-    const record = select5.getRawEntityRecord(kind, name, recordId);
-    const editedRecord = select5.getEditedEntityRecord(
+    const record = select4.getRawEntityRecord(kind, name, recordId);
+    const editedRecord = select4.getEditedEntityRecord(
       kind,
       name,
       recordId
@@ -5331,7 +5383,7 @@ var wp;
       );
     }
     if (!options.undoIgnore) {
-      select5.getUndoManager().addRecord(
+      select4.getUndoManager().addRecord(
         [
           {
             id: { kind, name, recordId },
@@ -5352,15 +5404,15 @@ var wp;
       ...edit
     });
   };
-  var clearEntityRecordEdits = (kind, name, recordId) => ({ select: select5, dispatch: dispatch3 }) => {
-    const entityConfig = select5.getEntityConfig(kind, name);
+  var clearEntityRecordEdits = (kind, name, recordId) => ({ select: select4, dispatch: dispatch3 }) => {
+    const entityConfig = select4.getEntityConfig(kind, name);
     logEntityDeprecation(kind, name, "clearEntityRecordEdits");
     if (!entityConfig) {
       throw new Error(
         `The entity being edited (${kind}, ${name}) does not have a loaded config.`
       );
     }
-    const currentEdits = select5.getEntityRecordEdits(
+    const currentEdits = select4.getEntityRecordEdits(
       kind,
       name,
       recordId
@@ -5383,8 +5435,8 @@ var wp;
       edits: clearedEdits
     });
   };
-  var undo = () => ({ select: select5, dispatch: dispatch3 }) => {
-    const undoRecord = select5.getUndoManager().undo();
+  var undo = () => ({ select: select4, dispatch: dispatch3 }) => {
+    const undoRecord = select4.getUndoManager().undo();
     if (!undoRecord) {
       return;
     }
@@ -5393,8 +5445,8 @@ var wp;
       record: undoRecord
     });
   };
-  var redo = () => ({ select: select5, dispatch: dispatch3 }) => {
-    const redoRecord = select5.getUndoManager().redo();
+  var redo = () => ({ select: select4, dispatch: dispatch3 }) => {
+    const redoRecord = select4.getUndoManager().redo();
     if (!redoRecord) {
       return;
     }
@@ -5403,13 +5455,13 @@ var wp;
       record: redoRecord
     });
   };
-  var __unstableCreateUndoLevel = () => ({ select: select5 }) => {
-    select5.getUndoManager().addRecord();
+  var __unstableCreateUndoLevel = () => ({ select: select4 }) => {
+    select4.getUndoManager().addRecord();
   };
-  var saveEntityRecord = (kind, name, record, options = {}) => async ({ select: select5, resolveSelect: resolveSelect2, dispatch: dispatch3 }) => {
+  var saveEntityRecord = (kind, name, record, options = {}) => async ({ select: select4, resolveSelect: resolveSelect2, dispatch: dispatch3 }) => {
     const {
       isAutosave = false,
-      __unstableFetch = import_api_fetch3.default,
+      __unstableFetch = import_api_fetch4.default,
       __unstableSkipSyncUpdate = false,
       throwOnError = false
     } = options;
@@ -5433,7 +5485,7 @@ var wp;
       for (const [key, value] of Object.entries(record)) {
         if (typeof value === "function") {
           const evaluatedValue = value(
-            select5.getEditedEntityRecord(kind, name, recordId)
+            select4.getEditedEntityRecord(kind, name, recordId)
           );
           dispatch3.editEntityRecord(
             kind,
@@ -5463,7 +5515,7 @@ var wp;
       }
       try {
         const path = `${baseURL}${recordId ? "/" + recordId : ""}`;
-        const persistedRecord = !isNewRecord ? select5.getRawEntityRecord(kind, name, recordId) : {};
+        const persistedRecord = !isNewRecord ? select4.getRawEntityRecord(kind, name, recordId) : {};
         if (isAutosave) {
           const merged = { ...persistedRecord, ...record };
           const data = [
@@ -5617,9 +5669,9 @@ var wp;
     ]);
     return results;
   };
-  var saveEditedEntityRecord = (kind, name, recordId, options) => async ({ select: select5, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
+  var saveEditedEntityRecord = (kind, name, recordId, options) => async ({ select: select4, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     logEntityDeprecation(kind, name, "saveEditedEntityRecord");
-    if (!select5.hasEditsForEntityRecord(kind, name, recordId)) {
+    if (!select4.hasEditsForEntityRecord(kind, name, recordId)) {
       return;
     }
     const configs = await resolveSelect2.getEntitiesConfig(kind);
@@ -5630,7 +5682,7 @@ var wp;
       return;
     }
     const entityIdKey = entityConfig.key || DEFAULT_ENTITY_KEY;
-    const edits = select5.getEntityRecordNonTransientEdits(
+    const edits = select4.getEntityRecordNonTransientEdits(
       kind,
       name,
       recordId
@@ -5638,16 +5690,16 @@ var wp;
     const record = { [entityIdKey]: recordId, ...edits };
     return await dispatch3.saveEntityRecord(kind, name, record, options);
   };
-  var __experimentalSaveSpecifiedEntityEdits = (kind, name, recordId, itemsToSave, options) => async ({ select: select5, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
+  var __experimentalSaveSpecifiedEntityEdits = (kind, name, recordId, itemsToSave, options) => async ({ select: select4, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     logEntityDeprecation(
       kind,
       name,
       "__experimentalSaveSpecifiedEntityEdits"
     );
-    if (!select5.hasEditsForEntityRecord(kind, name, recordId)) {
+    if (!select4.hasEditsForEntityRecord(kind, name, recordId)) {
       return;
     }
-    const edits = select5.getEntityRecordNonTransientEdits(
+    const edits = select4.getEntityRecordNonTransientEdits(
       kind,
       name,
       recordId
@@ -5734,6 +5786,7 @@ var wp;
   // packages/core-data/build-module/private-actions.mjs
   var private_actions_exports = {};
   __export(private_actions_exports, {
+    __unstableNotifySyncUndoManagerChange: () => __unstableNotifySyncUndoManagerChange,
     editMediaEntity: () => editMediaEntity,
     receiveEditorAssets: () => receiveEditorAssets,
     receiveEditorSettings: () => receiveEditorSettings,
@@ -5742,7 +5795,7 @@ var wp;
     setCollaborationSupported: () => setCollaborationSupported,
     setSyncConnectionStatus: () => setSyncConnectionStatus
   });
-  var import_api_fetch4 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch5 = __toESM(require_api_fetch(), 1);
   function receiveRegisteredPostMeta(postType, registeredPostMeta2) {
     return {
       type: "RECEIVE_REGISTERED_POST_META",
@@ -5750,7 +5803,7 @@ var wp;
       registeredPostMeta: registeredPostMeta2
     };
   }
-  var editMediaEntity = (recordId, edits = {}, { __unstableFetch = import_api_fetch4.default, throwOnError = false } = {}) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
+  var editMediaEntity = (recordId, edits = {}, { __unstableFetch = import_api_fetch5.default, throwOnError = false } = {}) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     if (!recordId) {
       return;
     }
@@ -5844,6 +5897,12 @@ var wp;
       config
     };
   }
+  function __unstableNotifySyncUndoManagerChange(state) {
+    return {
+      type: "SYNC_UNDO_MANAGER_CHANGE",
+      ...state
+    };
+  }
   function setSyncConnectionStatus(kind, name, key, status) {
     if (!status) {
       return {
@@ -5899,13 +5958,13 @@ var wp;
   });
   var import_url6 = __toESM(require_url(), 1);
   var import_html_entities2 = __toESM(require_html_entities(), 1);
-  var import_api_fetch8 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch9 = __toESM(require_api_fetch(), 1);
 
   // packages/core-data/build-module/fetch/index.mjs
-  var import_api_fetch7 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch8 = __toESM(require_api_fetch(), 1);
 
   // packages/core-data/build-module/fetch/__experimental-fetch-link-suggestions.mjs
-  var import_api_fetch5 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch6 = __toESM(require_api_fetch(), 1);
   var import_url4 = __toESM(require_url(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
   var import_i18n2 = __toESM(require_i18n(), 1);
@@ -5924,7 +5983,7 @@ var wp;
     const queries2 = [];
     if (!type || type === "post") {
       queries2.push(
-        (0, import_api_fetch5.default)({
+        (0, import_api_fetch6.default)({
           path: (0, import_url4.addQueryArgs)("/wp/v2/search", {
             search,
             page,
@@ -5948,7 +6007,7 @@ var wp;
     }
     if (!type || type === "term") {
       queries2.push(
-        (0, import_api_fetch5.default)({
+        (0, import_api_fetch6.default)({
           path: (0, import_url4.addQueryArgs)("/wp/v2/search", {
             search,
             page,
@@ -5972,7 +6031,7 @@ var wp;
     }
     if (!disablePostFormats && (!type || type === "post-format")) {
       queries2.push(
-        (0, import_api_fetch5.default)({
+        (0, import_api_fetch6.default)({
           path: (0, import_url4.addQueryArgs)("/wp/v2/search", {
             search,
             page,
@@ -5996,7 +6055,7 @@ var wp;
     }
     if (!type || type === "attachment") {
       queries2.push(
-        (0, import_api_fetch5.default)({
+        (0, import_api_fetch6.default)({
           path: (0, import_url4.addQueryArgs)("/wp/v2/media", {
             search,
             page,
@@ -6053,7 +6112,7 @@ var wp;
   }
 
   // packages/core-data/build-module/fetch/__experimental-fetch-url-data.mjs
-  var import_api_fetch6 = __toESM(require_api_fetch(), 1);
+  var import_api_fetch7 = __toESM(require_api_fetch(), 1);
   var import_url5 = __toESM(require_url(), 1);
   var CACHE = /* @__PURE__ */ new Map();
   var fetchUrlData = async (url, options = {}) => {
@@ -6073,7 +6132,7 @@ var wp;
     if (CACHE.has(url)) {
       return CACHE.get(url);
     }
-    return (0, import_api_fetch6.default)({
+    return (0, import_api_fetch7.default)({
       path: (0, import_url5.addQueryArgs)(endpoint, args),
       ...options
     }).then((res) => {
@@ -6085,7 +6144,7 @@ var wp;
 
   // packages/core-data/build-module/fetch/index.mjs
   async function fetchBlockPatterns() {
-    const restPatterns = await (0, import_api_fetch7.default)({
+    const restPatterns = await (0, import_api_fetch8.default)({
       path: "/wp/v2/block-patterns/patterns"
     });
     if (!restPatterns) {
@@ -6113,14 +6172,14 @@ var wp;
       "/wp/v2/users/?who=authors&per_page=100",
       query
     );
-    const users2 = await (0, import_api_fetch8.default)({ path });
+    const users2 = await (0, import_api_fetch9.default)({ path });
     dispatch3.receiveUserQuery(path, users2);
   };
   var getCurrentUser2 = () => async ({ dispatch: dispatch3 }) => {
-    const currentUser2 = await (0, import_api_fetch8.default)({ path: "/wp/v2/users/me" });
+    const currentUser2 = await (0, import_api_fetch9.default)({ path: "/wp/v2/users/me" });
     dispatch3.receiveCurrentUser(currentUser2);
   };
-  var getEntityRecord2 = (kind, name, key = "", query) => async ({ select: select5, dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
+  var getEntityRecord2 = (kind, name, key = "", query) => async ({ select: select4, dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
     const configs = await resolveSelect2.getEntitiesConfig(kind);
     const entityConfig = configs.find(
       (config) => config.name === name && config.kind === kind
@@ -6146,7 +6205,7 @@ var wp;
         };
       }
       if (query !== void 0 && query._fields) {
-        const hasRecord = select5.hasEntityRecord(
+        const hasRecord = select4.hasEntityRecord(
           kind,
           name,
           key,
@@ -6164,7 +6223,7 @@ var wp;
         ...entityConfig.baseURLParams,
         ...query
       });
-      const response = await (0, import_api_fetch8.default)({ path, parse: false });
+      const response = await (0, import_api_fetch9.default)({ path, parse: false });
       const record = await response.json();
       const permissions = getUserPermissionsFromAllowHeader(
         response.headers?.get("allow")
@@ -6240,7 +6299,7 @@ var wp;
               dispatch3.receiveEntityRecords(
                 kind,
                 name,
-                await (0, import_api_fetch8.default)({ path, parse: true }),
+                await (0, import_api_fetch9.default)({ path, parse: true }),
                 query
               );
             },
@@ -6251,19 +6310,19 @@ var wp;
             // persistence. As we add support for syncing additional entity,
             // we'll need to revisit where persisted CRDT documents are stored.
             persistCRDTDoc: () => {
-              resolveSelect2.getEditedEntityRecord(kind, name, key).then((editedRecord) => {
+              if (!entityConfig.syncConfig?.supportsPersistence) {
+                return;
+              }
+              return resolveSelect2.getEditedEntityRecord(kind, name, key).then(async (editedRecord) => {
                 const { meta, status } = editedRecord;
                 if ("auto-draft" === status || !meta) {
                   return;
                 }
                 const entityIdKey = entityConfig.key || DEFAULT_ENTITY_KEY;
-                dispatch3.saveEntityRecord(
-                  kind,
-                  name,
-                  {
-                    [entityIdKey]: editedRecord[entityIdKey]
-                  },
-                  { __unstableSkipSyncUpdate: true }
+                const entityId = editedRecord[entityIdKey];
+                await saveCRDTDoc(
+                  `${kind}/${name}`,
+                  entityId
                 );
               });
             },
@@ -6275,6 +6334,11 @@ var wp;
                   selectionHistory
                 );
               }
+            },
+            onUndoStackChange: (undoState) => {
+              dispatch3.__unstableNotifySyncUndoManagerChange(
+                undoState
+              );
             },
             restoreUndoMeta: (ydoc, meta) => {
               const selectionHistory = meta.get("selectionHistory");
@@ -6351,7 +6415,7 @@ var wp;
       });
       let records = [], meta;
       if (entityConfig.supportsPagination && query.per_page !== -1) {
-        const response = await (0, import_api_fetch8.default)({ path, parse: false });
+        const response = await (0, import_api_fetch9.default)({ path, parse: false });
         records = Object.values(await response.json());
         meta = {
           totalItems: parseInt(
@@ -6365,7 +6429,7 @@ var wp;
         let page = 1;
         let totalPages;
         do {
-          const response = await (0, import_api_fetch8.default)({
+          const response = await (0, import_api_fetch9.default)({
             path: (0, import_url6.addQueryArgs)(path, { page, per_page: 100 }),
             parse: false
           });
@@ -6400,7 +6464,7 @@ var wp;
           page++;
         } while (page <= totalPages);
       } else {
-        records = Object.values(await (0, import_api_fetch8.default)({ path }));
+        records = Object.values(await (0, import_api_fetch9.default)({ path }));
         meta = {
           totalItems: records.length,
           totalPages: 1
@@ -6424,7 +6488,7 @@ var wp;
               dispatch3.receiveEntityRecords(
                 kind,
                 name,
-                await (0, import_api_fetch8.default)({ path, parse: true }),
+                await (0, import_api_fetch9.default)({ path, parse: true }),
                 query
               );
             }
@@ -6509,7 +6573,7 @@ var wp;
   var getThemeSupports2 = forward_resolver_default("getCurrentTheme");
   var getEmbedPreview2 = (url) => async ({ dispatch: dispatch3 }) => {
     try {
-      const embedProxyResponse = await (0, import_api_fetch8.default)({
+      const embedProxyResponse = await (0, import_api_fetch9.default)({
         path: (0, import_url6.addQueryArgs)("/oembed/1.0/proxy", { url })
       });
       dispatch3.receiveEmbedPreview(url, embedProxyResponse);
@@ -6555,7 +6619,7 @@ var wp;
     }
     let response;
     try {
-      response = await (0, import_api_fetch8.default)({
+      response = await (0, import_api_fetch9.default)({
         path: resourcePath,
         method: "OPTIONS",
         parse: false
@@ -6591,7 +6655,7 @@ var wp;
     if (!supports?.autosave) {
       return;
     }
-    const autosaves2 = await (0, import_api_fetch8.default)({
+    const autosaves2 = await (0, import_api_fetch9.default)({
       path: `/${restNamespace}/${restBase}/${postId}/autosaves?context=edit`
     });
     if (autosaves2 && autosaves2.length) {
@@ -6619,7 +6683,7 @@ var wp;
   };
   var __experimentalGetCurrentThemeBaseGlobalStyles2 = () => async ({ resolveSelect: resolveSelect2, dispatch: dispatch3 }) => {
     const currentTheme2 = await resolveSelect2.getCurrentTheme();
-    const themeGlobalStyles = await (0, import_api_fetch8.default)({
+    const themeGlobalStyles = await (0, import_api_fetch9.default)({
       path: `/wp/v2/global-styles/themes/${currentTheme2.stylesheet}?context=view`
     });
     dispatch3.__experimentalReceiveThemeBaseGlobalStyles(
@@ -6629,7 +6693,7 @@ var wp;
   };
   var __experimentalGetCurrentThemeGlobalStylesVariations2 = () => async ({ resolveSelect: resolveSelect2, dispatch: dispatch3 }) => {
     const currentTheme2 = await resolveSelect2.getCurrentTheme();
-    const variations = await (0, import_api_fetch8.default)({
+    const variations = await (0, import_api_fetch9.default)({
       path: `/wp/v2/global-styles/themes/${currentTheme2.stylesheet}/variations?context=view`
     });
     dispatch3.__experimentalReceiveThemeGlobalStyleVariations(
@@ -6646,7 +6710,7 @@ var wp;
     ) : void 0;
     const revisionsURL = record?._links?.["version-history"]?.[0]?.href;
     if (revisionsURL) {
-      const resetRevisions = await (0, import_api_fetch8.default)({
+      const resetRevisions = await (0, import_api_fetch9.default)({
         url: revisionsURL
       });
       const revisions = resetRevisions?.map(
@@ -6671,7 +6735,7 @@ var wp;
     dispatch3({ type: "RECEIVE_BLOCK_PATTERNS", patterns });
   };
   var getBlockPatternCategories2 = () => async ({ dispatch: dispatch3 }) => {
-    const categories = await (0, import_api_fetch8.default)({
+    const categories = await (0, import_api_fetch9.default)({
       path: "/wp/v2/block-patterns/categories"
     });
     dispatch3({ type: "RECEIVE_BLOCK_PATTERN_CATEGORIES", categories });
@@ -6696,8 +6760,8 @@ var wp;
       patternCategories: mappedPatternCategories
     });
   };
-  var getNavigationFallbackId2 = () => async ({ dispatch: dispatch3, select: select5, registry }) => {
-    const fallback = await (0, import_api_fetch8.default)({
+  var getNavigationFallbackId2 = () => async ({ dispatch: dispatch3, select: select4, registry }) => {
+    const fallback = await (0, import_api_fetch9.default)({
       path: (0, import_url6.addQueryArgs)("/wp-block-editor/v1/navigation-fallback", {
         _embed: true
       })
@@ -6708,7 +6772,7 @@ var wp;
       if (!record) {
         return;
       }
-      const existingFallbackEntityRecord = select5.getEntityRecord(
+      const existingFallbackEntityRecord = select4.getEntityRecord(
         "postType",
         "wp_navigation",
         fallback.id
@@ -6729,7 +6793,7 @@ var wp;
     });
   };
   var getDefaultTemplateId2 = (query) => async ({ dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
-    const template = await (0, import_api_fetch8.default)({
+    const template = await (0, import_api_fetch9.default)({
       path: (0, import_url6.addQueryArgs)("/wp/v2/templates/lookup", query)
     });
     await resolveSelect2.getEntitiesConfig("postType");
@@ -6788,7 +6852,7 @@ var wp;
       const meta = {};
       const isPaginated = entityConfig.supportsPagination && query.per_page !== -1;
       try {
-        response = await (0, import_api_fetch8.default)({ path, parse: !isPaginated });
+        response = await (0, import_api_fetch9.default)({ path, parse: !isPaginated });
       } catch {
         return;
       }
@@ -6841,7 +6905,7 @@ var wp;
     }
   };
   getRevisions2.shouldInvalidate = (action, kind, name, recordKey) => action.type === "SAVE_ENTITY_RECORD_FINISH" && name === action.name && kind === action.kind && !action.error && recordKey === action.recordId;
-  var getRevision2 = (kind, name, recordKey, revisionKey, query) => async ({ select: select5, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
+  var getRevision2 = (kind, name, recordKey, revisionKey, query) => async ({ select: select4, dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     const configs = await resolveSelect2.getEntitiesConfig(kind);
     const entityConfig = configs.find(
       (config) => config.name === name && config.kind === kind
@@ -6874,7 +6938,7 @@ var wp;
       { exclusive: false }
     );
     try {
-      if (select5.hasRevision(kind, name, recordKey, revisionKey, query)) {
+      if (select4.hasRevision(kind, name, recordKey, revisionKey, query)) {
         return;
       }
       const path = (0, import_url6.addQueryArgs)(
@@ -6883,7 +6947,7 @@ var wp;
       );
       let record;
       try {
-        record = await (0, import_api_fetch8.default)({ path });
+        record = await (0, import_api_fetch9.default)({ path });
       } catch {
         return;
       }
@@ -6907,7 +6971,7 @@ var wp;
         rest_namespace: restNamespace = "wp/v2",
         rest_base: restBase
       } = await resolveSelect2.getPostType(postType) || {};
-      options = await (0, import_api_fetch8.default)({
+      options = await (0, import_api_fetch9.default)({
         path: `${restNamespace}/${restBase}/?context=edit`,
         method: "OPTIONS"
       });
@@ -6938,19 +7002,19 @@ var wp;
     }
   };
   var getEditorSettings2 = () => async ({ dispatch: dispatch3 }) => {
-    const settings = await (0, import_api_fetch8.default)({
+    const settings = await (0, import_api_fetch9.default)({
       path: "/wp-block-editor/v1/settings"
     });
     dispatch3.receiveEditorSettings(settings);
   };
   var getEditorAssets2 = () => async ({ dispatch: dispatch3 }) => {
-    const assets = await (0, import_api_fetch8.default)({
+    const assets = await (0, import_api_fetch9.default)({
       path: "/wp-block-editor/v1/assets"
     });
     dispatch3.receiveEditorAssets(assets);
   };
   var getViewConfig2 = (kind, name) => async ({ dispatch: dispatch3 }) => {
-    const config = await (0, import_api_fetch8.default)({
+    const config = await (0, import_api_fetch9.default)({
       path: (0, import_url6.addQueryArgs)("/wp/v2/view-config", { kind, name })
     });
     dispatch3.receiveViewConfig(kind, name, config);
@@ -7263,8 +7327,8 @@ var wp;
     "getCachedResolvers"
   ];
   function useQuerySelect(mapQuerySelect, deps) {
-    return (0, import_data10.useSelect)((select5, registry) => {
-      const resolve = (store2) => enrichSelectors(select5(store2));
+    return (0, import_data10.useSelect)((select4, registry) => {
+      const resolve = (store2) => enrichSelectors(select4(store2));
       return mapQuerySelect(resolve, registry);
     }, deps);
   }
@@ -7324,7 +7388,7 @@ var wp;
       [editEntityRecord2, kind, name, recordId, saveEditedEntityRecord2]
     );
     const { editedRecord, hasEdits, edits } = (0, import_data11.useSelect)(
-      (select5) => {
+      (select4) => {
         if (!options.enabled) {
           return {
             editedRecord: EMPTY_OBJECT3,
@@ -7333,17 +7397,17 @@ var wp;
           };
         }
         return {
-          editedRecord: select5(store).getEditedEntityRecord(
+          editedRecord: select4(store).getEditedEntityRecord(
             kind,
             name,
             recordId
           ),
-          hasEdits: select5(store).hasEditsForEntityRecord(
+          hasEdits: select4(store).hasEditsForEntityRecord(
             kind,
             name,
             recordId
           ),
-          edits: select5(store).getEntityRecordNonTransientEdits(
+          edits: select4(store).getEntityRecordNonTransientEdits(
             kind,
             name,
             recordId
@@ -7401,7 +7465,7 @@ var wp;
       [kind, name, queryAsString, options.enabled]
     );
     const { totalItems, totalPages } = (0, import_data12.useSelect)(
-      (select5) => {
+      (select4) => {
         if (!options.enabled) {
           return {
             totalItems: null,
@@ -7409,12 +7473,12 @@ var wp;
           };
         }
         return {
-          totalItems: select5(store).getEntityRecordsTotalItems(
+          totalItems: select4(store).getEntityRecordsTotalItems(
             kind,
             name,
             queryArgs
           ),
-          totalPages: select5(store).getEntityRecordsTotalPages(
+          totalPages: select4(store).getEntityRecordsTotalPages(
             kind,
             name,
             queryArgs
@@ -7439,7 +7503,7 @@ var wp;
   }
   function useEntityRecordsWithPermissions(kind, name, queryArgs = {}, options = { enabled: true }) {
     const entityConfig = (0, import_data12.useSelect)(
-      (select5) => select5(store).getEntityConfig(kind, name),
+      (select4) => select4(store).getEntityConfig(kind, name),
       [kind, name]
     );
     const { records: data, ...ret } = useEntityRecords(
@@ -7469,9 +7533,9 @@ var wp;
       [data, entityConfig?.key]
     );
     const permissions = (0, import_data12.useSelect)(
-      (select5) => {
+      (select4) => {
         const { getEntityRecordsPermissions: getEntityRecordsPermissions2 } = unlock(
-          select5(store)
+          select4(store)
         );
         return getEntityRecordsPermissions2(kind, name, ids);
       },
@@ -7709,11 +7773,11 @@ var wp;
     const providerId = useEntityId(kind, name);
     const id = _id ?? providerId;
     const { content, editedBlocks, meta } = (0, import_data13.useSelect)(
-      (select5) => {
+      (select4) => {
         if (!id) {
           return {};
         }
-        const { getEditedEntityRecord: getEditedEntityRecord3 } = select5(STORE_NAME);
+        const { getEditedEntityRecord: getEditedEntityRecord3 } = select4(STORE_NAME);
         const editedRecord = getEditedEntityRecord3(kind, name, id);
         return {
           editedBlocks: editedRecord.blocks,
@@ -7798,9 +7862,9 @@ var wp;
     const context = (0, import_element7.useContext)(EntityContext);
     const revisionId = context?.revisionId;
     const { value, fullValue } = (0, import_data14.useSelect)(
-      (select5) => {
+      (select4) => {
         if (revisionId) {
-          const revisions = select5(STORE_NAME).getRevisions(
+          const revisions = select4(STORE_NAME).getRevisions(
             kind,
             name,
             id,
@@ -7810,7 +7874,7 @@ var wp;
               _fields: "id,date,author,meta,title.raw,excerpt.raw,content.raw"
             }
           );
-          const entityConfig = select5(STORE_NAME).getEntityConfig(
+          const entityConfig = select4(STORE_NAME).getEntityConfig(
             kind,
             name
           );
@@ -7823,7 +7887,7 @@ var wp;
             fullValue: revision[prop]
           } : {};
         }
-        const { getEntityRecord: getEntityRecord3, getEditedEntityRecord: getEditedEntityRecord3 } = select5(STORE_NAME);
+        const { getEntityRecord: getEntityRecord3, getEditedEntityRecord: getEditedEntityRecord3 } = select4(STORE_NAME);
         const record = getEntityRecord3(kind, name, id);
         const editedRecord = getEditedEntityRecord3(kind, name, id);
         return record && editedRecord ? {
@@ -7870,7 +7934,7 @@ var wp;
     const activeCollaborators = newState ?? awareness.getCurrentState();
     return {
       activeCollaborators,
-      resolveSelection: (selection) => awareness.convertSelectionStateToAbsolute(selection),
+      resolveSelection: (selection, blocks) => awareness.convertSelectionStateToAbsolute(selection, blocks),
       getDebugData: () => awareness.getDebugData(),
       isCurrentCollaboratorDisconnected: activeCollaborators.find((collaborator) => collaborator.isMe)?.isConnected === false
     };
@@ -7907,7 +7971,12 @@ var wp;
     return usePostEditorAwarenessState(postId, postType).activeCollaborators;
   }
   function useResolvedSelection(postId, postType) {
-    return usePostEditorAwarenessState(postId, postType).resolveSelection;
+    const blocks = usePostContentBlocks();
+    const awarenessState = usePostEditorAwarenessState(postId, postType);
+    return (0, import_element8.useCallback)(
+      (selection) => awarenessState.resolveSelection(selection, blocks),
+      [blocks, awarenessState]
+    );
   }
   function useLastPostSave(postId, postType) {
     const [lastSave, setLastSave] = (0, import_element8.useState)(null);
@@ -8129,4 +8198,3 @@ var wp;
   (0, import_data15.register)(store);
   return __toCommonJS(index_exports);
 })();
-if(wp.coreData&&typeof wp.coreData==='object'){wp.coreData=Object.assign({},wp.coreData);}

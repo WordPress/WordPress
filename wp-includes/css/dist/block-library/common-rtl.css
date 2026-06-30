@@ -255,43 +255,63 @@ html :where(.has-border-color) {
   border-style: solid;
 }
 
-html :where([style*=border-color]) {
+html :where([style^=border-color],
+[style*=";border-color"],
+[style*="; border-color"]) {
   border-style: solid;
 }
 
-html :where([style*=border-top-color]) {
+html :where([style^=border-top-color],
+[style*=";border-top-color"],
+[style*="; border-top-color"]) {
   border-top-style: solid;
 }
 
-html :where([style*=border-right-color]) {
+html :where([style^=border-right-color],
+[style*=";border-right-color"],
+[style*="; border-right-color"]) {
   border-right-style: solid;
 }
 
-html :where([style*=border-bottom-color]) {
+html :where([style^=border-bottom-color],
+[style*=";border-bottom-color"],
+[style*="; border-bottom-color"]) {
   border-bottom-style: solid;
 }
 
-html :where([style*=border-left-color]) {
+html :where([style^=border-left-color],
+[style*=";border-left-color"],
+[style*="; border-left-color"]) {
   border-left-style: solid;
 }
 
-html :where([style*=border-width]) {
+html :where([style^=border-width],
+[style*=";border-width"],
+[style*="; border-width"]) {
   border-style: solid;
 }
 
-html :where([style*=border-top-width]) {
+html :where([style^=border-top-width],
+[style*=";border-top-width"],
+[style*="; border-top-width"]) {
   border-top-style: solid;
 }
 
-html :where([style*=border-right-width]) {
+html :where([style^=border-right-width],
+[style*=";border-right-width"],
+[style*="; border-right-width"]) {
   border-right-style: solid;
 }
 
-html :where([style*=border-bottom-width]) {
+html :where([style^=border-bottom-width],
+[style*=";border-bottom-width"],
+[style*="; border-bottom-width"]) {
   border-bottom-style: solid;
 }
 
-html :where([style*=border-left-width]) {
+html :where([style^=border-left-width],
+[style*=";border-left-width"],
+[style*="; border-left-width"]) {
   border-left-style: solid;
 }
 

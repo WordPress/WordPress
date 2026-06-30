@@ -146,7 +146,8 @@
 .edit-post-fullscreen-mode-close-site-icon__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   background: #333;
   aspect-ratio: 1/1;
 }
@@ -224,7 +225,9 @@
   }
 }
 .edit-post-meta-boxes-main__presenter > button {
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   padding: 0;
   border: none;
   outline: none;
@@ -411,7 +414,8 @@
 .edit-template-welcome-guide__image > img {
   display: block;
   max-width: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .edit-post-welcome-guide__heading,
 .edit-template-welcome-guide__heading {

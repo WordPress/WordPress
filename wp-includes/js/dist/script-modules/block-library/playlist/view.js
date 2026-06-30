@@ -769,13 +769,14 @@ function createWaveformContainer({
   waveformColor,
   progressColor,
   buttonColor,
-  height = DEFAULT_WAVEFORM_HEIGHT
+  height = DEFAULT_WAVEFORM_HEIGHT,
+  waveformStyle = "bars"
 }) {
   const container = document.createElement("div");
   container.setAttribute("data-waveform-player", "");
   container.setAttribute("data-url", url);
   container.setAttribute("data-height", String(height));
-  container.setAttribute("data-waveform-style", "bars");
+  container.setAttribute("data-waveform-style", waveformStyle);
   container.setAttribute("data-waveform-color", waveformColor);
   container.setAttribute("data-progress-color", progressColor);
   container.setAttribute("data-button-color", buttonColor);
@@ -823,7 +824,7 @@ function logPlayError(error) {
   }
   console.error("Playlist play error:", error);
 }
-function initWaveformPlayer(element, { src, title, artist, image, autoPlay, onEnded, labels }) {
+function initWaveformPlayer(element, { src, title, artist, image, autoPlay, onEnded, labels, waveformStyle }) {
   const { textColor, waveformColor, progressColor } = getWaveformColors(element);
   const container = createWaveformContainer({
     url: src,
@@ -832,7 +833,8 @@ function initWaveformPlayer(element, { src, title, artist, image, autoPlay, onEn
     artwork: image,
     waveformColor,
     progressColor,
-    buttonColor: textColor
+    buttonColor: textColor,
+    waveformStyle
   });
   element.appendChild(container);
   const instance = new lt(container);
@@ -935,6 +937,7 @@ function initPlayer(ref, track, shouldAutoPlay, context) {
     image: track.image,
     autoPlay: shouldAutoPlay,
     labels,
+    waveformStyle: context.waveformStyle,
     onEnded: () => {
       const currentIndex = context.tracks.findIndex(
         (uniqueId) => uniqueId === context.currentId

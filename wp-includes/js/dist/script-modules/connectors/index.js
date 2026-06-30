@@ -278,6 +278,7 @@ function DefaultConnectorSettings({
             },
             placeholder: (0, import_i18n.__)("Enter your API key"),
             disabled: readOnly || isSaving,
+            autoComplete: "off",
             help: getHelp()
           }
         ),
