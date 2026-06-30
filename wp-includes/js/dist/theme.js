@@ -72,7 +72,8 @@ var wp;
   var import_element = __toESM(require_element(), 1);
   var ThemeContext = (0, import_element.createContext)({
     resolvedSettings: {
-      color: {}
+      color: {},
+      cursor: void 0
     }
   });
 
@@ -4131,21 +4132,24 @@ var wp;
     );
   }
   function useThemeProviderStyles({
-    color = {}
+    color = {},
+    cursor
   } = {}) {
     const { resolvedSettings: inheritedSettings } = (0, import_element2.useContext)(ThemeContext);
     const primary = color.primary ?? inheritedSettings.color?.primary ?? DEFAULT_SEED_COLORS.primary;
     const bg = color.bg ?? inheritedSettings.color?.bg ?? DEFAULT_SEED_COLORS.bg;
+    const cursorControl = cursor?.control ?? inheritedSettings.cursor?.control;
     const resolvedSettings = (0, import_element2.useMemo)(
       () => ({
         color: {
           primary,
           bg
-        }
+        },
+        cursor: cursorControl ? { control: cursorControl } : void 0
       }),
-      [primary, bg]
+      [primary, bg, cursorControl]
     );
-    const themeProviderStyles = (0, import_element2.useMemo)(() => {
+    const colorStyles = (0, import_element2.useMemo)(() => {
       const seeds = {
         ...DEFAULT_SEED_COLORS,
         bg,
@@ -4168,6 +4172,15 @@ var wp;
         computedColorRamps
       });
     }, [primary, bg]);
+    const themeProviderStyles = (0, import_element2.useMemo)(
+      () => ({
+        ...colorStyles,
+        ...cursorControl && {
+          "--wpds-cursor-control": cursorControl
+        }
+      }),
+      [colorStyles, cursorControl]
+    );
     return {
       resolvedSettings,
       themeProviderStyles
@@ -4176,9 +4189,9 @@ var wp;
 
   // packages/theme/build-module/theme-provider.mjs
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='662a5161a8']")) {
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='f4e6e06c6a']")) {
     const style = document.createElement("style");
-    style.setAttribute("data-wp-hash", "662a5161a8");
+    style.setAttribute("data-wp-hash", "f4e6e06c6a");
     style.appendChild(document.createTextNode(".dba930ea7a9438fd__root{display:contents}"));
     document.head.appendChild(style);
   }
@@ -4204,12 +4217,14 @@ var wp;
   var ThemeProvider = ({
     children,
     color = {},
+    cursor,
     isRoot = false,
     density
   }) => {
     const instanceId = (0, import_element3.useId)();
     const { themeProviderStyles, resolvedSettings } = useThemeProviderStyles({
-      color
+      color,
+      cursor
     });
     const contextValue = (0, import_element3.useMemo)(
       () => ({

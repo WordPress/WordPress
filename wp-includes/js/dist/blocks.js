@@ -4931,6 +4931,11 @@ var wp;
       support: ["background", "backgroundPosition"],
       useEngine: true
     },
+    backgroundGradient: {
+      value: ["background", "gradient"],
+      support: ["background", "gradient"],
+      useEngine: true
+    },
     borderColor: {
       value: ["border", "color"],
       support: ["__experimentalBorder", "color"],

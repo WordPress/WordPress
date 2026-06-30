@@ -101,6 +101,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/preferences
+  var require_preferences = __commonJS({
+    "package-external:@wordpress/preferences"(exports, module) {
+      module.exports = window.wp.preferences;
+    }
+  });
+
   // packages/commands/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
@@ -3314,8 +3321,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   var clsx_default = clsx;
 
   // packages/commands/build-module/components/command-menu.mjs
-  var import_data4 = __toESM(require_data(), 1);
-  var import_element2 = __toESM(require_element(), 1);
+  var import_data5 = __toESM(require_data(), 1);
+  var import_element3 = __toESM(require_element(), 1);
   var import_i18n = __toESM(require_i18n(), 1);
   var import_components = __toESM(require_components(), 1);
   var import_keyboard_shortcuts = __toESM(require_keyboard_shortcuts(), 1);
@@ -3406,11 +3413,22 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     }
     return state;
   }
+  function loaderStates(state = {}, action) {
+    switch (action.type) {
+      case "SET_LOADER_LOADING":
+        return {
+          ...state,
+          [action.name]: action.isLoading
+        };
+    }
+    return state;
+  }
   var reducer = (0, import_data.combineReducers)({
     commands,
     commandLoaders,
     isOpen,
-    context
+    context,
+    loaderStates
   });
   var reducer_default = reducer;
 
@@ -3508,13 +3526,30 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   // packages/commands/build-module/store/private-actions.mjs
   var private_actions_exports = {};
   __export(private_actions_exports, {
-    setContext: () => setContext
+    setContext: () => setContext,
+    setLoaderLoading: () => setLoaderLoading
   });
   function setContext(context2) {
     return {
       type: "SET_CONTEXT",
       context: context2
     };
+  }
+  function setLoaderLoading(name, isLoading2) {
+    return {
+      type: "SET_LOADER_LOADING",
+      name,
+      isLoading: isLoading2
+    };
+  }
+
+  // packages/commands/build-module/store/private-selectors.mjs
+  var private_selectors_exports = {};
+  __export(private_selectors_exports, {
+    isLoading: () => isLoading
+  });
+  function isLoading(state) {
+    return Object.values(state.loaderStates).some(Boolean);
   }
 
   // packages/commands/build-module/lock-unlock.mjs
@@ -3533,10 +3568,104 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   });
   (0, import_data3.register)(store);
   unlock(store).registerPrivateActions(private_actions_exports);
+  unlock(store).registerPrivateSelectors(private_selectors_exports);
+
+  // packages/commands/build-module/components/use-recent-commands.mjs
+  var import_data4 = __toESM(require_data(), 1);
+  var import_preferences = __toESM(require_preferences(), 1);
+  var import_element2 = __toESM(require_element(), 1);
+  var MAX_RECENTLY_SAVED = 30;
+  var MAX_RECENTLY_DISPLAYED = 5;
+  var EMPTY_ARRAY = [];
+  var EMPTY_SET = /* @__PURE__ */ new Set();
+  function recordUsage(name) {
+    const current = (0, import_data4.select)(import_preferences.store).get(
+      "core/commands",
+      "recentlyUsed"
+    ) ?? [];
+    const next = [name, ...current.filter((n) => n !== name)].slice(
+      0,
+      MAX_RECENTLY_SAVED
+    );
+    (0, import_data4.dispatch)(import_preferences.store).set("core/commands", "recentlyUsed", next);
+  }
+  function useLoaderCollector(hook, name, filterNames, onResolved) {
+    const { setLoaderLoading: setLoaderLoading2 } = unlock((0, import_data4.useDispatch)(store));
+    const { isLoading: loading, commands: commands2 = [] } = hook({ search: "" }) ?? {};
+    (0, import_element2.useEffect)(() => {
+      setLoaderLoading2(name, loading);
+    }, [setLoaderLoading2, name, loading]);
+    const filtered = filterNames ? commands2.filter((c) => filterNames.has(c.name)) : commands2;
+    (0, import_element2.useEffect)(() => {
+      onResolved(name, filtered);
+    }, [onResolved, name, filtered]);
+    (0, import_element2.useEffect)(() => {
+      return () => onResolved(name, []);
+    }, [onResolved, name]);
+  }
+  function useRecentCommands() {
+    const {
+      contextualCommands,
+      staticCommands,
+      contextualLoaders,
+      staticLoaders,
+      recentlyUsedNames = EMPTY_ARRAY
+    } = (0, import_data4.useSelect)((select) => {
+      const { getCommands: getCommands2, getCommandLoaders: getCommandLoaders2 } = select(store);
+      return {
+        contextualCommands: getCommands2(true),
+        staticCommands: getCommands2(false),
+        contextualLoaders: getCommandLoaders2(true),
+        staticLoaders: getCommandLoaders2(false),
+        recentlyUsedNames: select(import_preferences.store).get(
+          "core/commands",
+          "recentlyUsed"
+        )
+      };
+    }, []);
+    const [resolvedMap, setResolvedMap] = (0, import_element2.useState)(() => /* @__PURE__ */ new Map());
+    const onResolved = (0, import_element2.useCallback)((loaderName, cmds) => {
+      setResolvedMap((prev) => {
+        const prevCmds = prev.get(loaderName);
+        if (prevCmds && prevCmds.length === cmds.length && prevCmds.every((c, i) => c.name === cmds[i].name)) {
+          return prev;
+        }
+        const next = new Map(prev);
+        next.set(loaderName, cmds);
+        return next;
+      });
+    }, []);
+    const { recentNames, recentSet } = (0, import_element2.useMemo)(() => {
+      const names = recentlyUsedNames.slice(0, MAX_RECENTLY_DISPLAYED);
+      return { recentNames: names, recentSet: new Set(names) };
+    }, [recentlyUsedNames]);
+    if (!recentlyUsedNames.length) {
+      return {
+        commands: [],
+        loaders: [],
+        recentSet: EMPTY_SET,
+        onResolved
+      };
+    }
+    const allStaticCommands = [...contextualCommands, ...staticCommands];
+    const loaders = [...contextualLoaders, ...staticLoaders];
+    const allByName = /* @__PURE__ */ new Map();
+    allStaticCommands.forEach((c) => allByName.set(c.name, c));
+    for (const cmds of resolvedMap.values()) {
+      cmds.forEach((c) => {
+        if (!allByName.has(c.name)) {
+          allByName.set(c.name, c);
+        }
+      });
+    }
+    const commands2 = recentNames.map((n) => allByName.get(n)).filter(Boolean);
+    return { commands: commands2, loaders, recentSet, onResolved };
+  }
 
   // packages/commands/build-module/components/command-menu.mjs
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   var { withIgnoreIMEEvents } = unlock(import_components.privateApis);
+  var ITEM_ID_PREFIX = "command-palette-item-";
   var inputLabel = (0, import_i18n.__)("Search commands and settings");
   var CATEGORY_ICONS = {
     view: arrow_right_default
@@ -3549,73 +3678,71 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     workflow: (0, import_i18n.__)("Workflow")
   };
   function isValidIcon(icon) {
-    return !!icon && (typeof icon === "string" || (0, import_element2.isValidElement)(icon) || typeof icon === "function" || icon instanceof import_element2.Component);
+    return !!icon && (typeof icon === "string" || (0, import_element3.isValidElement)(icon) || typeof icon === "function" || icon instanceof import_element3.Component);
   }
-  function CommandMenuLoader({
-    name,
-    search,
-    hook,
-    setLoader,
-    close: close2,
-    category
-  }) {
-    const { isLoading, commands: commands2 = [] } = hook({ search }) ?? {};
-    (0, import_element2.useEffect)(() => {
-      setLoader(name, isLoading);
-    }, [setLoader, name, isLoading]);
+  function CommandItem({ command, search, category, valuePrefix }) {
+    const { close: close2 } = (0, import_data5.useDispatch)(store);
+    const commandCategory = category ?? command.category;
+    const label = command.searchLabel ?? command.label;
+    const value = valuePrefix ? `${valuePrefix}${command.name}` : label;
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      _e.Item,
+      {
+        id: `${ITEM_ID_PREFIX}${value.toLowerCase()}`,
+        value,
+        keywords: valuePrefix ? [...command.keywords ?? [], label] : command.keywords,
+        onSelect: () => {
+          recordUsage(command.name);
+          command.callback({ close: close2 });
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+          import_components.__experimentalHStack,
+          {
+            alignment: "left",
+            className: clsx_default("commands-command-menu__item", {
+              "has-icon": CATEGORY_ICONS[commandCategory] || command.icon
+            }),
+            children: [
+              CATEGORY_ICONS[commandCategory] ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: CATEGORY_ICONS[commandCategory] }) : isValidIcon(command.icon) && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: command.icon }),
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-label", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                import_components.TextHighlight,
+                {
+                  text: command.label,
+                  highlight: search
+                }
+              ) }),
+              CATEGORY_LABELS[commandCategory] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-category", children: CATEGORY_LABELS[commandCategory] })
+            ]
+          }
+        )
+      },
+      command.name
+    );
+  }
+  function CommandMenuLoader({ name, search, hook, category, valuePrefix }) {
+    const { setLoaderLoading: setLoaderLoading2 } = unlock((0, import_data5.useDispatch)(store));
+    const { isLoading: loading, commands: commands2 = [] } = hook({ search }) ?? {};
+    (0, import_element3.useEffect)(() => {
+      setLoaderLoading2(name, loading);
+    }, [setLoaderLoading2, name, loading]);
     if (!commands2.length) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_jsx_runtime18.Fragment, { children: commands2.map((command) => {
-      const commandCategory = command.category ?? category;
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-        _e.Item,
-        {
-          value: command.searchLabel ?? command.label,
-          keywords: command.keywords,
-          onSelect: () => command.callback({ close: close2 }),
-          id: command.name,
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
-            import_components.__experimentalHStack,
-            {
-              alignment: "left",
-              className: clsx_default("commands-command-menu__item", {
-                "has-icon": CATEGORY_ICONS[commandCategory] || command.icon
-              }),
-              children: [
-                CATEGORY_ICONS[commandCategory] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-                  icon_default,
-                  {
-                    icon: CATEGORY_ICONS[commandCategory]
-                  }
-                ),
-                !CATEGORY_ICONS[commandCategory] && isValidIcon(command.icon) && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: command.icon }),
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-label", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-                  import_components.TextHighlight,
-                  {
-                    text: command.label,
-                    highlight: search
-                  }
-                ) }),
-                CATEGORY_LABELS[commandCategory] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-category", children: CATEGORY_LABELS[commandCategory] })
-              ]
-            }
-          )
-        },
-        command.name
-      );
-    }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_jsx_runtime18.Fragment, { children: commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      CommandItem,
+      {
+        command,
+        search,
+        category: command.category ?? category,
+        valuePrefix
+      },
+      command.name
+    )) });
   }
-  function CommandMenuLoaderWrapper({
-    hook,
-    search,
-    setLoader,
-    close: close2,
-    category
-  }) {
-    const currentLoaderRef = (0, import_element2.useRef)(hook);
-    const [key, setKey] = (0, import_element2.useState)(0);
-    (0, import_element2.useEffect)(() => {
+  function CommandMenuLoaderWrapper({ hook, ...props }) {
+    const currentLoaderRef = (0, import_element3.useRef)(hook);
+    const [key, setKey] = (0, import_element3.useState)(0);
+    (0, import_element3.useEffect)(() => {
       if (currentLoaderRef.current !== hook) {
         currentLoaderRef.current = hook;
         setKey((prevKey) => prevKey + 1);
@@ -3625,86 +3752,112 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       CommandMenuLoader,
       {
         hook: currentLoaderRef.current,
-        search,
-        setLoader,
-        close: close2,
-        category
+        ...props
       },
       key
     );
   }
-  function CommandMenuGroup({ isContextual, search, setLoader, close: close2 }) {
-    const { commands: commands2, loaders } = (0, import_data4.useSelect)(
-      (select) => {
-        const { getCommands: getCommands2, getCommandLoaders: getCommandLoaders2 } = select(store);
-        return {
-          commands: getCommands2(isContextual),
-          loaders: getCommandLoaders2(isContextual)
-        };
-      },
-      [isContextual]
-    );
-    if (!commands2.length && !loaders.length) {
-      return null;
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.Group, { children: [
+  function CommandList({ search, commands: commands2, loaders, valuePrefix }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
       commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-        _e.Item,
+        CommandItem,
         {
-          value: command.searchLabel ?? command.label,
-          keywords: command.keywords,
-          onSelect: () => command.callback({ close: close2 }),
-          id: command.name,
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
-            import_components.__experimentalHStack,
-            {
-              alignment: "left",
-              className: clsx_default("commands-command-menu__item", {
-                "has-icon": CATEGORY_ICONS[command.category] || command.icon
-              }),
-              children: [
-                CATEGORY_ICONS[command.category] ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: CATEGORY_ICONS[command.category] }) : command.icon && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { icon: command.icon }),
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-                  import_components.TextHighlight,
-                  {
-                    text: command.label,
-                    highlight: search
-                  }
-                ) }),
-                CATEGORY_LABELS[command.category] && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "commands-command-menu__item-category", children: CATEGORY_LABELS[command.category] })
-              ]
-            }
-          )
+          command,
+          search,
+          valuePrefix
         },
         command.name
       )),
       loaders.map((loader) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
         CommandMenuLoaderWrapper,
         {
-          hook: loader.hook,
+          name: loader.name,
           search,
-          setLoader,
-          close: close2,
-          category: loader.category
+          hook: loader.hook,
+          category: loader.category,
+          valuePrefix
         },
         loader.name
       ))
     ] });
   }
-  function CommandInput({ isOpen: isOpen3, search, setSearch }) {
-    const commandMenuInput = (0, import_element2.useRef)();
+  function RecentLoaderRunner({ hook, name, filterNames, onResolved }) {
+    useLoaderCollector(hook, name, filterNames, onResolved);
+    return null;
+  }
+  function RecentGroup() {
+    const { commands: commands2, loaders, recentSet, onResolved } = useRecentCommands();
+    if (!commands2.length && !loaders.length) {
+      return null;
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.Group, { heading: (0, import_i18n.__)("Recent"), children: [
+      loaders.map((loader) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        RecentLoaderRunner,
+        {
+          name: loader.name,
+          hook: loader.hook,
+          filterNames: recentSet,
+          onResolved
+        },
+        loader.name
+      )),
+      commands2.map((command) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        CommandItem,
+        {
+          command,
+          search: "",
+          valuePrefix: "recent-"
+        },
+        command.name
+      ))
+    ] });
+  }
+  function SuggestionsGroup() {
+    const { commands: commands2, loaders } = (0, import_data5.useSelect)((select) => {
+      const { getCommands: getCommands2, getCommandLoaders: getCommandLoaders2 } = select(store);
+      return {
+        commands: getCommands2(true),
+        loaders: getCommandLoaders2(true)
+      };
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(_e.Group, { heading: (0, import_i18n.__)("Suggestions"), children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(CommandList, { search: "", commands: commands2, loaders }) });
+  }
+  function ResultsGroup({ search }) {
+    const { commands: commands2, contextualCommands, loaders, contextualLoaders } = (0, import_data5.useSelect)((select) => {
+      const { getCommands: getCommands2, getCommandLoaders: getCommandLoaders2 } = select(store);
+      return {
+        commands: getCommands2(false),
+        contextualCommands: getCommands2(true),
+        loaders: getCommandLoaders2(false),
+        contextualLoaders: getCommandLoaders2(true)
+      };
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.Group, { heading: (0, import_i18n.__)("Results"), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        CommandList,
+        {
+          search,
+          commands: commands2,
+          loaders
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        CommandList,
+        {
+          search,
+          commands: contextualCommands,
+          loaders: contextualLoaders
+        }
+      )
+    ] });
+  }
+  function CommandInput({ search, setSearch }) {
+    const commandMenuInput = (0, import_element3.useRef)();
     const _value = P((state) => state.value);
-    const selectedItemId = (0, import_element2.useMemo)(() => {
-      const item = document.querySelector(
-        `[cmdk-item=""][data-value="${_value}"]`
-      );
-      return item?.getAttribute("id");
-    }, [_value]);
-    (0, import_element2.useEffect)(() => {
-      if (isOpen3) {
-        commandMenuInput.current.focus();
-      }
-    }, [isOpen3]);
+    const selectedItemId = _value ? `${ITEM_ID_PREFIX}${_value}` : null;
+    (0, import_element3.useEffect)(() => {
+      commandMenuInput.current.focus();
+    }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       _e.Input,
       {
@@ -3717,15 +3870,17 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     );
   }
   function CommandMenu() {
-    const { registerShortcut } = (0, import_data4.useDispatch)(import_keyboard_shortcuts.store);
-    const [search, setSearch] = (0, import_element2.useState)("");
-    const isOpen3 = (0, import_data4.useSelect)(
-      (select) => select(store).isOpen(),
+    const { registerShortcut } = (0, import_data5.useDispatch)(import_keyboard_shortcuts.store);
+    const [search, setSearch] = (0, import_element3.useState)("");
+    const { isOpen: paletteIsOpen, loadersLoading } = (0, import_data5.useSelect)(
+      (select) => ({
+        isOpen: select(store).isOpen(),
+        loadersLoading: unlock(select(store)).isLoading()
+      }),
       []
     );
-    const { open: open2, close: close2 } = (0, import_data4.useDispatch)(store);
-    const [loaders, setLoaders] = (0, import_element2.useState)({});
-    (0, import_element2.useEffect)(() => {
+    const { open: open2, close: close2 } = (0, import_data5.useDispatch)(store);
+    (0, import_element3.useEffect)(() => {
       registerShortcut({
         name: "core/commands",
         category: "global",
@@ -3744,7 +3899,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           return;
         }
         event.preventDefault();
-        if (isOpen3) {
+        if (paletteIsOpen) {
           close2();
         } else {
           open2();
@@ -3754,21 +3909,13 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         bindGlobal: true
       }
     );
-    const setLoader = (0, import_element2.useCallback)(
-      (name, value) => setLoaders((current) => ({
-        ...current,
-        [name]: value
-      })),
-      []
-    );
     const closeAndReset = () => {
       setSearch("");
       close2();
     };
-    if (!isOpen3) {
+    if (!paletteIsOpen) {
       return false;
     }
-    const isLoading = Object.values(loaders).some(Boolean);
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       import_components.Modal,
       {
@@ -3776,8 +3923,9 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         overlayClassName: "commands-command-menu__overlay",
         onRequestClose: closeAndReset,
         __experimentalHideHeader: true,
+        size: "medium",
         contentLabel: (0, import_i18n.__)("Command palette"),
-        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "commands-command-menu__container", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e, { label: inputLabel, children: [
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "commands-command-menu__container", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e, { label: inputLabel, loop: true, children: [
           /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "commands-command-menu__header", children: [
             /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
               icon_default,
@@ -3790,30 +3938,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
               CommandInput,
               {
                 search,
-                setSearch,
-                isOpen: isOpen3
+                setSearch
               }
             )
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(_e.List, { label: (0, import_i18n.__)("Command suggestions"), children: [
-            search && !isLoading && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(_e.Empty, { children: (0, import_i18n.__)("No results found.") }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-              CommandMenuGroup,
-              {
-                search,
-                setLoader,
-                close: closeAndReset,
-                isContextual: true
-              }
-            ),
-            search && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-              CommandMenuGroup,
-              {
-                search,
-                setLoader,
-                close: closeAndReset
-              }
-            )
+            search && !loadersLoading && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(_e.Empty, { children: (0, import_i18n.__)("No results found.") }),
+            !search && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RecentGroup, {}),
+            !search && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SuggestionsGroup, {}),
+            search && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(ResultsGroup, { search })
           ] })
         ] }) })
       }
@@ -3821,16 +3954,16 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   }
 
   // packages/commands/build-module/hooks/use-command-context.mjs
-  var import_element3 = __toESM(require_element(), 1);
-  var import_data5 = __toESM(require_data(), 1);
+  var import_element4 = __toESM(require_element(), 1);
+  var import_data6 = __toESM(require_data(), 1);
   function useCommandContext(context2) {
-    const { getContext: getContext2 } = (0, import_data5.useSelect)(store);
-    const initialContext = (0, import_element3.useRef)(getContext2());
-    const { setContext: setContext2 } = unlock((0, import_data5.useDispatch)(store));
-    (0, import_element3.useEffect)(() => {
+    const { getContext: getContext2 } = (0, import_data6.useSelect)(store);
+    const initialContext = (0, import_element4.useRef)(getContext2());
+    const { setContext: setContext2 } = unlock((0, import_data6.useDispatch)(store));
+    (0, import_element4.useEffect)(() => {
       setContext2(context2);
     }, [context2, setContext2]);
-    (0, import_element3.useEffect)(() => {
+    (0, import_element4.useEffect)(() => {
       const initialContextRef = initialContext.current;
       return () => setContext2(initialContextRef);
     }, [setContext2]);
@@ -3843,15 +3976,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   });
 
   // packages/commands/build-module/hooks/use-command.mjs
-  var import_element4 = __toESM(require_element(), 1);
-  var import_data6 = __toESM(require_data(), 1);
+  var import_element5 = __toESM(require_element(), 1);
+  var import_data7 = __toESM(require_data(), 1);
   function useCommand(command) {
-    const { registerCommand: registerCommand2, unregisterCommand: unregisterCommand2 } = (0, import_data6.useDispatch)(store);
-    const currentCallbackRef = (0, import_element4.useRef)(command.callback);
-    (0, import_element4.useEffect)(() => {
+    const { registerCommand: registerCommand2, unregisterCommand: unregisterCommand2 } = (0, import_data7.useDispatch)(store);
+    const currentCallbackRef = (0, import_element5.useRef)(command.callback);
+    (0, import_element5.useEffect)(() => {
       currentCallbackRef.current = command.callback;
     }, [command.callback]);
-    (0, import_element4.useEffect)(() => {
+    (0, import_element5.useEffect)(() => {
       if (command.disabled) {
         return;
       }
@@ -3882,9 +4015,9 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     ]);
   }
   function useCommands(commands2) {
-    const { registerCommand: registerCommand2, unregisterCommand: unregisterCommand2 } = (0, import_data6.useDispatch)(store);
-    const currentCallbacksRef = (0, import_element4.useRef)({});
-    (0, import_element4.useEffect)(() => {
+    const { registerCommand: registerCommand2, unregisterCommand: unregisterCommand2 } = (0, import_data7.useDispatch)(store);
+    const currentCallbacksRef = (0, import_element5.useRef)({});
+    (0, import_element5.useEffect)(() => {
       if (!commands2) {
         return;
       }
@@ -3894,7 +4027,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         }
       });
     }, [commands2]);
-    (0, import_element4.useEffect)(() => {
+    (0, import_element5.useEffect)(() => {
       if (!commands2) {
         return;
       }
@@ -3927,11 +4060,11 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   }
 
   // packages/commands/build-module/hooks/use-command-loader.mjs
-  var import_element5 = __toESM(require_element(), 1);
-  var import_data7 = __toESM(require_data(), 1);
+  var import_element6 = __toESM(require_element(), 1);
+  var import_data8 = __toESM(require_data(), 1);
   function useCommandLoader(loader) {
-    const { registerCommandLoader: registerCommandLoader2, unregisterCommandLoader: unregisterCommandLoader2 } = (0, import_data7.useDispatch)(store);
-    (0, import_element5.useEffect)(() => {
+    const { registerCommandLoader: registerCommandLoader2, unregisterCommandLoader: unregisterCommandLoader2 } = (0, import_data8.useDispatch)(store);
+    (0, import_element6.useEffect)(() => {
       if (loader.disabled) {
         return;
       }

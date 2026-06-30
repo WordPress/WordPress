@@ -123,6 +123,10 @@ figure.wp-block-image:not(.wp-block) {
   opacity: 0.1;
 }
 
+.wp-block-image.is-selected .block-editor-media-placeholder {
+  filter: none !important;
+}
+
 .block-editor-block-list__block[data-type="core/image"] .block-editor-block-toolbar .block-editor-url-input__button-modal {
   position: absolute;
   right: 0;

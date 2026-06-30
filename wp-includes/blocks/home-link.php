@@ -5,6 +5,8 @@
  * @package WordPress
  */
 
+require_once __DIR__ . '/navigation-link/shared/build-css-font-sizes.php';
+
 /**
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the home link markup in the front-end.
@@ -60,36 +62,6 @@ function block_core_home_link_build_css_colors( $context ) {
 }
 
 /**
- * Build an array with CSS classes and inline styles defining the font sizes
- * which will be applied to the home link markup in the front-end.
- *
- * @since 6.0.0
- *
- * @param  array $context Home link block context.
- * @return array Font size CSS classes and inline styles.
- */
-function block_core_home_link_build_css_font_sizes( $context ) {
-	// CSS classes.
-	$font_sizes = array(
-		'css_classes'   => array(),
-		'inline_styles' => '',
-	);
-
-	$has_named_font_size  = array_key_exists( 'fontSize', $context );
-	$has_custom_font_size = isset( $context['style']['typography']['fontSize'] );
-
-	if ( $has_named_font_size ) {
-		// Add the font size class.
-		$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
-	} elseif ( $has_custom_font_size ) {
-		// Add the custom font size inline style.
-		$font_sizes['inline_styles'] = sprintf( 'font-size: %s;', $context['style']['typography']['fontSize'] );
-	}
-
-	return $font_sizes;
-}
-
-/**
  * Builds an array with classes and style for the li wrapper
  *
  * @since 6.0.0
@@ -98,12 +70,21 @@ function block_core_home_link_build_css_font_sizes( $context ) {
  * @return string The li wrapper attributes.
  */
 function block_core_home_link_build_li_wrapper_attributes( $context ) {
-	$colors          = block_core_home_link_build_css_colors( $context );
-	$font_sizes      = block_core_home_link_build_css_font_sizes( $context );
-	$classes         = array_merge(
+	$colors = block_core_home_link_build_css_colors( $context );
+	//  The build system prefixes this function with "gutenberg_" to avoid
+	// collisions with the core version. Until this function is backported to
+	// core, we need to guard it's use and only call the prefixed name in
+	//  the plugin.
+	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
+		$font_sizes = gutenberg_block_core_shared_navigation_build_css_font_sizes( $context );
+	} else {
+		$font_sizes = block_core_shared_navigation_build_css_font_sizes( $context );
+	}
+	$classes = array_merge(
 		$colors['css_classes'],
 		$font_sizes['css_classes']
 	);
+
 	$style_attribute = ( $colors['inline_styles'] . $font_sizes['inline_styles'] );
 	$classes[]       = 'wp-block-navigation-item';
 

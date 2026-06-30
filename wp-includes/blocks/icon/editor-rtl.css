@@ -43,6 +43,11 @@
  * React Native specific.
  * These variables do not appear to be used anywhere else.
  */
+.wp-block[data-align=center] > .wp-block-icon {
+  display: flex;
+  justify-content: center;
+}
+
 .wp-block-icon__inserter {
   padding: 0 24px;
   margin: 0 -24px;

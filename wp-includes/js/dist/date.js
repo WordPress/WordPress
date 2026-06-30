@@ -1783,27 +1783,36 @@ var wp;
     });
     return getSettings();
   }
+  var wpZonePacked;
+  function ensureWPTimezone() {
+    if (!import_moment.default.tz.zone(WP_ZONE)) {
+      if (wpZonePacked) {
+        import_moment.default.tz.add(wpZonePacked);
+      } else {
+        setupWPTimezone();
+      }
+    }
+  }
   function setupWPTimezone() {
     const currentTimezone = import_moment.default.tz.zone(settings.timezone.string);
+    let packed;
     if (currentTimezone) {
-      import_moment.default.tz.add(
-        import_moment.default.tz.pack({
-          name: WP_ZONE,
-          abbrs: currentTimezone.abbrs,
-          untils: currentTimezone.untils,
-          offsets: currentTimezone.offsets
-        })
-      );
+      packed = import_moment.default.tz.pack({
+        name: WP_ZONE,
+        abbrs: currentTimezone.abbrs,
+        untils: currentTimezone.untils,
+        offsets: currentTimezone.offsets
+      });
     } else {
-      import_moment.default.tz.add(
-        import_moment.default.tz.pack({
-          name: WP_ZONE,
-          abbrs: [WP_ZONE],
-          untils: [null],
-          offsets: [-settings.timezone.offset * 60 || 0]
-        })
-      );
+      packed = import_moment.default.tz.pack({
+        name: WP_ZONE,
+        abbrs: [WP_ZONE],
+        untils: [null],
+        offsets: [-settings.timezone.offset * 60 || 0]
+      });
     }
+    wpZonePacked = packed;
+    import_moment.default.tz.add(packed);
   }
   var MINUTE_IN_SECONDS = 60;
   var HOUR_IN_MINUTES = 60;
@@ -1987,17 +1996,20 @@ var wp;
     return format(dateFormat, dateMoment);
   }
   function isInTheFuture(dateValue) {
+    ensureWPTimezone();
     const now = import_moment.default.tz(WP_ZONE);
     const momentObject = import_moment.default.tz(dateValue, WP_ZONE);
     return momentObject.isAfter(now);
   }
   function getDate(dateString) {
+    ensureWPTimezone();
     if (!dateString) {
       return import_moment.default.tz(WP_ZONE).toDate();
     }
     return import_moment.default.tz(dateString, WP_ZONE).toDate();
   }
   function humanTimeDiff(from, to) {
+    ensureWPTimezone();
     const fromMoment = import_moment.default.tz(from, WP_ZONE);
     const toMoment = to ? import_moment.default.tz(to, WP_ZONE) : import_moment.default.tz(WP_ZONE);
     return fromMoment.from(toMoment);

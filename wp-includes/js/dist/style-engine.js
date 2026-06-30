@@ -341,24 +341,21 @@ var wp;
     name: "backgroundImage",
     generate: (style, options) => {
       const _backgroundImage = style?.background?.backgroundImage;
-      if (typeof _backgroundImage === "object" && _backgroundImage?.url) {
-        return [
-          {
-            selector: options.selector,
-            key: "backgroundImage",
-            // Passed `url` may already be encoded. To prevent double encoding, decodeURI is executed to revert to the original string.
-            value: `url( '${encodeURI(
-              safeDecodeURI(_backgroundImage.url)
-            )}' )`
-          }
-        ];
+      const gradient2 = getCSSValueFromRawStyle(style?.background?.gradient) || "";
+      if (!_backgroundImage && !gradient2) {
+        return [];
       }
-      return generateRule(
-        style,
-        options,
-        ["background", "backgroundImage"],
-        "backgroundImage"
-      );
+      const backgroundImageValue = typeof _backgroundImage === "object" && _backgroundImage?.url ? `url( '${encodeURI(
+        safeDecodeURI(_backgroundImage.url)
+      )}' )` : getCSSValueFromRawStyle(_backgroundImage);
+      const cssValue = [gradient2, backgroundImageValue].filter(Boolean).join(", ");
+      return !!cssValue ? [
+        {
+          selector: options.selector,
+          key: "backgroundImage",
+          value: cssValue
+        }
+      ] : [];
     }
   };
   var backgroundPosition = {

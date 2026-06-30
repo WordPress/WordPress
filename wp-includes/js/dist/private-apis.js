@@ -62,7 +62,8 @@ var wp;
     "@wordpress/media-utils",
     "@wordpress/upload-media",
     "@wordpress/global-styles-ui",
-    "@wordpress/ui"
+    "@wordpress/ui",
+    "@wordpress/views"
   ];
   var requiredConsent = "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.";
   var __dangerousOptInToUnstableAPIsOnlyForCoreModules = (consent, moduleName) => {

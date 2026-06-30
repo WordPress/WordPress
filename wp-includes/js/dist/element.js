@@ -185,7 +185,7 @@ var wp;
       children: []
     };
   }
-  var createInterpolateElement = (interpolatedString, conversionMap) => {
+  function createInterpolateElement(interpolatedString, conversionMap) {
     indoc = interpolatedString;
     offset = 0;
     output = [];
@@ -199,7 +199,7 @@ var wp;
     do {
     } while (proceed(conversionMap));
     return (0, import_react.createElement)(import_react.Fragment, null, ...output);
-  };
+  }
   var isValidConversionMap = (conversionMap) => {
     const isObject2 = typeof conversionMap === "object" && conversionMap !== null;
     const values = isObject2 && Object.values(conversionMap);

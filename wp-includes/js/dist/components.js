@@ -7334,10 +7334,6 @@ If there's a particular need for this, please submit a feature request at https:
     bottom: "top",
     top: "bottom"
   };
-  var oppositeAlignmentMap = {
-    start: "end",
-    end: "start"
-  };
   function clamp(start, value, end) {
     return max(start, min(value, end));
   }
@@ -7356,9 +7352,9 @@ If there's a particular need for this, please submit a feature request at https:
   function getAxisLength(axis) {
     return axis === "y" ? "height" : "width";
   }
-  var yAxisSides = /* @__PURE__ */ new Set(["top", "bottom"]);
   function getSideAxis(placement) {
-    return yAxisSides.has(getSide(placement)) ? "y" : "x";
+    const firstChar = placement[0];
+    return firstChar === "t" || firstChar === "b" ? "y" : "x";
   }
   function getAlignmentAxis(placement) {
     return getOppositeAxis(getSideAxis(placement));
@@ -7381,7 +7377,7 @@ If there's a particular need for this, please submit a feature request at https:
     return [getOppositeAlignmentPlacement(placement), oppositePlacement, getOppositeAlignmentPlacement(oppositePlacement)];
   }
   function getOppositeAlignmentPlacement(placement) {
-    return placement.replace(/start|end/g, (alignment) => oppositeAlignmentMap[alignment]);
+    return placement.includes("start") ? placement.replace("start", "end") : placement.replace("end", "start");
   }
   var lrPlacement = ["left", "right"];
   var rlPlacement = ["right", "left"];
@@ -7412,7 +7408,8 @@ If there's a particular need for this, please submit a feature request at https:
     return list;
   }
   function getOppositePlacement(placement) {
-    return placement.replace(/left|right|bottom|top/g, (side) => oppositeSideMap[side]);
+    const side = getSide(placement);
+    return oppositeSideMap[side] + placement.slice(side.length);
   }
   function expandPaddingObject(padding2) {
     return {
@@ -7506,89 +7503,6 @@ If there's a particular need for this, please submit a feature request at https:
     }
     return coords;
   }
-  var computePosition = async (reference, floating, config) => {
-    const {
-      placement = "bottom",
-      strategy = "absolute",
-      middleware: middleware2 = [],
-      platform: platform2
-    } = config;
-    const validMiddleware = middleware2.filter(Boolean);
-    const rtl2 = await (platform2.isRTL == null ? void 0 : platform2.isRTL(floating));
-    let rects = await platform2.getElementRects({
-      reference,
-      floating,
-      strategy
-    });
-    let {
-      x: x2,
-      y: y3
-    } = computeCoordsFromPlacement(rects, placement, rtl2);
-    let statefulPlacement = placement;
-    let middlewareData = {};
-    let resetCount = 0;
-    for (let i3 = 0; i3 < validMiddleware.length; i3++) {
-      const {
-        name,
-        fn
-      } = validMiddleware[i3];
-      const {
-        x: nextX,
-        y: nextY,
-        data,
-        reset
-      } = await fn({
-        x: x2,
-        y: y3,
-        initialPlacement: placement,
-        placement: statefulPlacement,
-        strategy,
-        middlewareData,
-        rects,
-        platform: platform2,
-        elements: {
-          reference,
-          floating
-        }
-      });
-      x2 = nextX != null ? nextX : x2;
-      y3 = nextY != null ? nextY : y3;
-      middlewareData = {
-        ...middlewareData,
-        [name]: {
-          ...middlewareData[name],
-          ...data
-        }
-      };
-      if (reset && resetCount <= 50) {
-        resetCount++;
-        if (typeof reset === "object") {
-          if (reset.placement) {
-            statefulPlacement = reset.placement;
-          }
-          if (reset.rects) {
-            rects = reset.rects === true ? await platform2.getElementRects({
-              reference,
-              floating,
-              strategy
-            }) : reset.rects;
-          }
-          ({
-            x: x2,
-            y: y3
-          } = computeCoordsFromPlacement(rects, statefulPlacement, rtl2));
-        }
-        i3 = -1;
-      }
-    }
-    return {
-      x: x2,
-      y: y3,
-      placement: statefulPlacement,
-      strategy,
-      middlewareData
-    };
-  };
   async function detectOverflow(state, options2) {
     var _await$platform$isEle;
     if (options2 === void 0) {
@@ -7645,6 +7559,94 @@ If there's a particular need for this, please submit a feature request at https:
       right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
     };
   }
+  var MAX_RESET_COUNT = 50;
+  var computePosition = async (reference, floating, config) => {
+    const {
+      placement = "bottom",
+      strategy = "absolute",
+      middleware: middleware2 = [],
+      platform: platform2
+    } = config;
+    const platformWithDetectOverflow = platform2.detectOverflow ? platform2 : {
+      ...platform2,
+      detectOverflow
+    };
+    const rtl2 = await (platform2.isRTL == null ? void 0 : platform2.isRTL(floating));
+    let rects = await platform2.getElementRects({
+      reference,
+      floating,
+      strategy
+    });
+    let {
+      x: x2,
+      y: y3
+    } = computeCoordsFromPlacement(rects, placement, rtl2);
+    let statefulPlacement = placement;
+    let resetCount = 0;
+    const middlewareData = {};
+    for (let i3 = 0; i3 < middleware2.length; i3++) {
+      const currentMiddleware = middleware2[i3];
+      if (!currentMiddleware) {
+        continue;
+      }
+      const {
+        name,
+        fn
+      } = currentMiddleware;
+      const {
+        x: nextX,
+        y: nextY,
+        data,
+        reset
+      } = await fn({
+        x: x2,
+        y: y3,
+        initialPlacement: placement,
+        placement: statefulPlacement,
+        strategy,
+        middlewareData,
+        rects,
+        platform: platformWithDetectOverflow,
+        elements: {
+          reference,
+          floating
+        }
+      });
+      x2 = nextX != null ? nextX : x2;
+      y3 = nextY != null ? nextY : y3;
+      middlewareData[name] = {
+        ...middlewareData[name],
+        ...data
+      };
+      if (reset && resetCount < MAX_RESET_COUNT) {
+        resetCount++;
+        if (typeof reset === "object") {
+          if (reset.placement) {
+            statefulPlacement = reset.placement;
+          }
+          if (reset.rects) {
+            rects = reset.rects === true ? await platform2.getElementRects({
+              reference,
+              floating,
+              strategy
+            }) : reset.rects;
+          }
+          ({
+            x: x2,
+            y: y3
+          } = computeCoordsFromPlacement(rects, statefulPlacement, rtl2));
+        }
+        i3 = -1;
+      }
+    }
+    return {
+      x: x2,
+      y: y3,
+      placement: statefulPlacement,
+      strategy,
+      middlewareData
+    };
+  };
   var arrow = (options2) => ({
     name: "arrow",
     options: options2,
@@ -7746,7 +7748,7 @@ If there's a particular need for this, please submit a feature request at https:
           fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl2));
         }
         const placements2 = [initialPlacement, ...fallbackPlacements];
-        const overflow = await detectOverflow(state, detectOverflowOptions);
+        const overflow = await platform2.detectOverflow(state, detectOverflowOptions);
         const overflows = [];
         let overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
         if (checkMainAxis) {
@@ -7895,7 +7897,8 @@ If there's a particular need for this, please submit a feature request at https:
         const {
           x: x2,
           y: y3,
-          placement
+          placement,
+          platform: platform2
         } = state;
         const {
           mainAxis: checkMainAxis = true,
@@ -7918,7 +7921,7 @@ If there's a particular need for this, please submit a feature request at https:
           x: x2,
           y: y3
         };
-        const overflow = await detectOverflow(state, detectOverflowOptions);
+        const overflow = await platform2.detectOverflow(state, detectOverflowOptions);
         const crossAxis = getSideAxis(getSide(placement));
         const mainAxis = getOppositeAxis(crossAxis);
         let mainAxisCoord = coords[mainAxis];
@@ -8041,7 +8044,7 @@ If there's a particular need for this, please submit a feature request at https:
           },
           ...detectOverflowOptions
         } = evaluate(options2, state);
-        const overflow = await detectOverflow(state, detectOverflowOptions);
+        const overflow = await platform2.detectOverflow(state, detectOverflowOptions);
         const side = getSide(placement);
         const alignment = getAlignment(placement);
         const isYAxis = getSideAxis(placement) === "y";
@@ -8142,7 +8145,6 @@ If there's a particular need for this, please submit a feature request at https:
     }
     return value instanceof ShadowRoot || value instanceof getWindow2(value).ShadowRoot;
   }
-  var invalidOverflowDisplayValues = /* @__PURE__ */ new Set(["inline", "contents"]);
   function isOverflowElement(element) {
     const {
       overflow,
@@ -8150,29 +8152,31 @@ If there's a particular need for this, please submit a feature request at https:
       overflowY,
       display
     } = getComputedStyle2(element);
-    return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !invalidOverflowDisplayValues.has(display);
+    return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && display !== "inline" && display !== "contents";
   }
-  var tableElements = /* @__PURE__ */ new Set(["table", "td", "th"]);
   function isTableElement(element) {
-    return tableElements.has(getNodeName(element));
+    return /^(table|td|th)$/.test(getNodeName(element));
   }
-  var topLayerSelectors = [":popover-open", ":modal"];
   function isTopLayer(element) {
-    return topLayerSelectors.some((selector2) => {
-      try {
-        return element.matches(selector2);
-      } catch (_e) {
-        return false;
+    try {
+      if (element.matches(":popover-open")) {
+        return true;
       }
-    });
+    } catch (_e) {
+    }
+    try {
+      return element.matches(":modal");
+    } catch (_e) {
+      return false;
+    }
   }
-  var transformProperties = ["transform", "translate", "scale", "rotate", "perspective"];
-  var willChangeValues = ["transform", "translate", "scale", "rotate", "perspective", "filter"];
-  var containValues = ["paint", "layout", "strict", "content"];
+  var willChangeRe = /transform|translate|scale|rotate|perspective|filter/;
+  var containRe = /paint|layout|strict|content/;
+  var isNotNone = (value) => !!value && value !== "none";
+  var isWebKitValue;
   function isContainingBlock(elementOrCss) {
-    const webkit = isWebKit();
     const css3 = isElement(elementOrCss) ? getComputedStyle2(elementOrCss) : elementOrCss;
-    return transformProperties.some((value) => css3[value] ? css3[value] !== "none" : false) || (css3.containerType ? css3.containerType !== "normal" : false) || !webkit && (css3.backdropFilter ? css3.backdropFilter !== "none" : false) || !webkit && (css3.filter ? css3.filter !== "none" : false) || willChangeValues.some((value) => (css3.willChange || "").includes(value)) || containValues.some((value) => (css3.contain || "").includes(value));
+    return isNotNone(css3.transform) || isNotNone(css3.translate) || isNotNone(css3.scale) || isNotNone(css3.rotate) || isNotNone(css3.perspective) || !isWebKit() && (isNotNone(css3.backdropFilter) || isNotNone(css3.filter)) || willChangeRe.test(css3.willChange || "") || containRe.test(css3.contain || "");
   }
   function getContainingBlock(element) {
     let currentNode = getParentNode(element);
@@ -8187,12 +8191,13 @@ If there's a particular need for this, please submit a feature request at https:
     return null;
   }
   function isWebKit() {
-    if (typeof CSS === "undefined" || !CSS.supports) return false;
-    return CSS.supports("-webkit-backdrop-filter", "none");
+    if (isWebKitValue == null) {
+      isWebKitValue = typeof CSS !== "undefined" && CSS.supports && CSS.supports("-webkit-backdrop-filter", "none");
+    }
+    return isWebKitValue;
   }
-  var lastTraversableNodeNames = /* @__PURE__ */ new Set(["html", "body", "#document"]);
   function isLastTraversableNode(node2) {
-    return lastTraversableNodeNames.has(getNodeName(node2));
+    return /^(html|body|#document)$/.test(getNodeName(node2));
   }
   function getComputedStyle2(element) {
     return getWindow2(element).getComputedStyle(element);
@@ -8246,8 +8251,9 @@ If there's a particular need for this, please submit a feature request at https:
     if (isBody) {
       const frameElement = getFrameElement(win);
       return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? getOverflowAncestors(frameElement) : []);
+    } else {
+      return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
     }
-    return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
   }
   function getFrameElement(win) {
     return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
@@ -8411,7 +8417,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (getNodeName(offsetParent) !== "body" || isOverflowElement(documentElement)) {
         scroll = getNodeScroll(offsetParent);
       }
-      if (isHTMLElement(offsetParent)) {
+      if (isOffsetParentAnElement) {
         const offsetRect = getBoundingClientRect(offsetParent);
         scale2 = getScale(offsetParent);
         offsets.x = offsetRect.x + offsetParent.clientLeft;
@@ -8485,7 +8491,6 @@ If there's a particular need for this, please submit a feature request at https:
       y: y3
     };
   }
-  var absoluteOrFixed = /* @__PURE__ */ new Set(["absolute", "fixed"]);
   function getInnerBoundingClientRect(element, strategy) {
     const clientRect = getBoundingClientRect(element, true, strategy === "fixed");
     const top = clientRect.top + element.clientTop;
@@ -8543,7 +8548,7 @@ If there's a particular need for this, please submit a feature request at https:
       if (!currentNodeIsContaining && computedStyle.position === "fixed") {
         currentContainingBlockComputedStyle = null;
       }
-      const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === "static" && !!currentContainingBlockComputedStyle && absoluteOrFixed.has(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
+      const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === "static" && !!currentContainingBlockComputedStyle && (currentContainingBlockComputedStyle.position === "absolute" || currentContainingBlockComputedStyle.position === "fixed") || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
       if (shouldDropCurrentNode) {
         result = result.filter((ancestor) => ancestor !== currentNode);
       } else {
@@ -8563,20 +8568,23 @@ If there's a particular need for this, please submit a feature request at https:
     } = _ref11;
     const elementClippingAncestors = boundary === "clippingAncestors" ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
     const clippingAncestors = [...elementClippingAncestors, rootBoundary];
-    const firstClippingAncestor = clippingAncestors[0];
-    const clippingRect = clippingAncestors.reduce((accRect, clippingAncestor) => {
-      const rect = getClientRectFromClippingAncestor(element, clippingAncestor, strategy);
-      accRect.top = max(rect.top, accRect.top);
-      accRect.right = min(rect.right, accRect.right);
-      accRect.bottom = min(rect.bottom, accRect.bottom);
-      accRect.left = max(rect.left, accRect.left);
-      return accRect;
-    }, getClientRectFromClippingAncestor(element, firstClippingAncestor, strategy));
+    const firstRect = getClientRectFromClippingAncestor(element, clippingAncestors[0], strategy);
+    let top = firstRect.top;
+    let right = firstRect.right;
+    let bottom = firstRect.bottom;
+    let left = firstRect.left;
+    for (let i3 = 1; i3 < clippingAncestors.length; i3++) {
+      const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i3], strategy);
+      top = max(rect.top, top);
+      right = min(rect.right, right);
+      bottom = min(rect.bottom, bottom);
+      left = max(rect.left, left);
+    }
     return {
-      width: clippingRect.right - clippingRect.left,
-      height: clippingRect.bottom - clippingRect.top,
-      x: clippingRect.left,
-      y: clippingRect.top
+      width: right - left,
+      height: bottom - top,
+      x: left,
+      y: top
     };
   }
   function getDimensions(element) {
@@ -8785,7 +8793,7 @@ If there's a particular need for this, please submit a feature request at https:
       animationFrame = false
     } = options2;
     const referenceEl = unwrapElement(reference);
-    const ancestors = ancestorScroll || ancestorResize ? [...referenceEl ? getOverflowAncestors(referenceEl) : [], ...getOverflowAncestors(floating)] : [];
+    const ancestors = ancestorScroll || ancestorResize ? [...referenceEl ? getOverflowAncestors(referenceEl) : [], ...floating ? getOverflowAncestors(floating) : []] : [];
     ancestors.forEach((ancestor) => {
       ancestorScroll && ancestor.addEventListener("scroll", update, {
         passive: true
@@ -8798,7 +8806,7 @@ If there's a particular need for this, please submit a feature request at https:
     if (elementResize) {
       resizeObserver = new ResizeObserver((_ref11) => {
         let [firstEntry] = _ref11;
-        if (firstEntry && firstEntry.target === referenceEl && resizeObserver) {
+        if (firstEntry && firstEntry.target === referenceEl && resizeObserver && floating) {
           resizeObserver.unobserve(floating);
           cancelAnimationFrame(reobserveFrame);
           reobserveFrame = requestAnimationFrame(() => {
@@ -8811,7 +8819,9 @@ If there's a particular need for this, please submit a feature request at https:
       if (referenceEl && !animationFrame) {
         resizeObserver.observe(referenceEl);
       }
-      resizeObserver.observe(floating);
+      if (floating) {
+        resizeObserver.observe(floating);
+      }
     }
     let frameId;
     let prevRefRect = animationFrame ? getBoundingClientRect(reference) : null;
@@ -23332,9 +23342,9 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/components/build-module/alignment-matrix-control/cell.mjs
   var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='4c2e860238']")) {
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='ae7603bd56']")) {
     const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "4c2e860238");
+    style2.setAttribute("data-wp-hash", "ae7603bd56");
     style2.appendChild(document.createTextNode("._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:pointer;direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}"));
     document.head.appendChild(style2);
   }
@@ -23409,9 +23419,9 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/components/build-module/alignment-matrix-control/index.mjs
   var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='4c2e860238']")) {
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='ae7603bd56']")) {
     const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "4c2e860238");
+    style2.setAttribute("data-wp-hash", "ae7603bd56");
     style2.appendChild(document.createTextNode("._02e2af5803bf5bda__grid-container{aspect-ratio:1;border:1px solid #0000;border-radius:4px;box-sizing:border-box;cursor:pointer;direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);outline:none}.c421f8ed08c23077__grid-row{box-sizing:border-box;display:grid;grid-column:1/-1;grid-template-columns:repeat(3,1fr)}._3af769f755097fdb__cell{align-items:center;appearance:none;border:none;box-sizing:border-box;display:flex;justify-content:center;margin:0;outline:none;padding:0;position:relative}._37ef12d4fb6d6131__point{aspect-ratio:1;border:3px solid;box-sizing:border-box;color:var(--wp-components-color-gray-400,#ccc);contain:strict;display:block;margin:auto;width:6px}._3af769f755097fdb__cell[data-active-item] ._37ef12d4fb6d6131__point{color:var(--wp-components-color-foreground,#1e1e1e);transform:scale(1.6666666667)}._3af769f755097fdb__cell:not([data-active-item]):hover ._37ef12d4fb6d6131__point{color:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9))}._3af769f755097fdb__cell[data-focus-visible] ._37ef12d4fb6d6131__point{outline:1px solid var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));outline-offset:1px}@media not (prefers-reduced-motion){._37ef12d4fb6d6131__point{transition-duration:.12s;transition-property:color,transform;transition-timing-function:linear}}"));
     document.head.appendChild(style2);
   }
@@ -27578,9 +27588,9 @@ This message will only show in development mode. It won't appear in production. 
   var import_element37 = __toESM(require_element(), 1);
   var import_compose8 = __toESM(require_compose(), 1);
   var import_jsx_runtime101 = __toESM(require_jsx_runtime(), 1);
-  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='f35cc94692']")) {
+  if (typeof document !== "undefined" && true && !document.head.querySelector("style[data-wp-hash='e91ec3f005']")) {
     const style2 = document.createElement("style");
-    style2.setAttribute("data-wp-hash", "f35cc94692");
+    style2.setAttribute("data-wp-hash", "e91ec3f005");
     style2.appendChild(document.createTextNode("._8f57b8d483c51fbe__circle-root{border:1px solid var(--wp-components-color-gray-600,#949494);border-radius:50%;box-sizing:border-box;cursor:grab;height:32px;overflow:hidden;width:32px}._8f57b8d483c51fbe__circle-root:active{cursor:grabbing}.b1bae984ac10fcc3__circle-indicator-wrapper{box-sizing:border-box;height:100%;position:relative;width:100%}.b1bae984ac10fcc3__circle-indicator-wrapper:focus-visible{outline:none}._6d2fe0a2cbb31bf0__circle-indicator{background:var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));border-radius:50%;box-sizing:border-box;display:block;height:6px;left:50%;position:absolute;top:4px;transform:translateX(-50%);width:6px}"));
     document.head.appendChild(style2);
   }
@@ -29521,17 +29531,17 @@ This message will only show in development mode. It won't appear in production. 
     isBlock,
     isDeselectable,
     size: size3
-  }) => /* @__PURE__ */ css("background:", COLORS.ui.background, ";border:1px solid transparent;border-radius:", config_values_default.radiusSmall, ";display:inline-flex;min-width:0;position:relative;", toggleGroupControlSize(size3), " ", !isDeselectable && enclosingBorders(isBlock), "@media not ( prefers-reduced-motion ){&[data-indicator-animated]::before{transition-property:transform,border-radius;transition-duration:0.2s;transition-timing-function:ease-out;}}&::before{content:'';position:absolute;pointer-events:none;background:", COLORS.theme.gray[100], ";border:1px solid ", COLORS.theme.gray[700], ";outline:2px solid transparent;outline-offset:-3px;border-radius:", config_values_default.radiusSmall, ";top:-1px;left:-2px;width:calc( calc( var( --selected-width, 0 ) * 1px ) + 2px );height:calc( calc( var( --selected-height, 0 ) * 1px ) + 2px );transform:translateX( calc( var( --selected-left, 0 ) * 1px ) );opacity:min(\n			1,\n			max( 0, var( --selected-width, 0 ), var( --selected-height, 0 ) )\n		);}" + (false ? "" : ";label:toggleGroupControl;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFrQlUiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG5cbmV4cG9ydCBjb25zdCBWaXN1YWxMYWJlbFdyYXBwZXIgPSBzdHlsZWQuZGl2YFxuXHQvLyBNYWtlcyB0aGUgaW5saW5lIGxhYmVsIGJlIHRoZSBjb3JyZWN0IGhlaWdodCwgZXF1aXZhbGVudCB0byBzZXR0aW5nIGxpbmUtaGVpZ2h0OiAwXG5cdGRpc3BsYXk6IGZsZXg7XG5gO1xuIl19 */");
+  }) => /* @__PURE__ */ css("background:", COLORS.ui.background, ";border:1px solid transparent;border-radius:", config_values_default.radiusSmall, ";display:inline-flex;min-width:0;position:relative;", toggleGroupControlSize(size3), " ", !isDeselectable && enclosingBorders(isBlock), "@media not ( prefers-reduced-motion ){&[data-indicator-animated]::before{transition-property:transform,border-radius;transition-duration:0.2s;transition-timing-function:ease-out;}}&::before{content:'';position:absolute;pointer-events:none;background:", COLORS.theme.gray[100], ";border:1px solid ", COLORS.theme.gray[700], ";outline:2px solid transparent;outline-offset:-3px;border-radius:", config_values_default.radiusSmall, ";top:-1px;left:-2px;width:calc( calc( var( --selected-width, 0 ) * 1px ) + 2px );height:calc( calc( var( --selected-height, 0 ) * 1px ) + 2px );transform:translateX( calc( var( --selected-left, 0 ) * 1px ) );opacity:min(\n			1,\n			max( 0, var( --selected-width, 0 ), var( --selected-height, 0 ) )\n		);}" + (false ? "" : ";label:toggleGroupControl;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpQlUiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG4iXX0= */");
   var enclosingBorders = (isBlock) => {
-    const enclosingBorder = /* @__PURE__ */ css("border-color:", COLORS.gray[300], ";" + (false ? "" : ";label:enclosingBorder;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUErRDRCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuXG5leHBvcnQgY29uc3QgVmlzdWFsTGFiZWxXcmFwcGVyID0gc3R5bGVkLmRpdmBcblx0Ly8gTWFrZXMgdGhlIGlubGluZSBsYWJlbCBiZSB0aGUgY29ycmVjdCBoZWlnaHQsIGVxdWl2YWxlbnQgdG8gc2V0dGluZyBsaW5lLWhlaWdodDogMFxuXHRkaXNwbGF5OiBmbGV4O1xuYDtcbiJdfQ== */");
-    return /* @__PURE__ */ css(isBlock && enclosingBorder, " &:hover{border-color:", COLORS.gray[400], ";}&:focus-within{z-index:1;outline:", config_values_default.borderWidthFocus, " solid ", COLORS.ui.borderFocus, ";outline-offset:1px;}" + (false ? "" : ";label:enclosingBorders;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFtRVciLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG5cbmV4cG9ydCBjb25zdCBWaXN1YWxMYWJlbFdyYXBwZXIgPSBzdHlsZWQuZGl2YFxuXHQvLyBNYWtlcyB0aGUgaW5saW5lIGxhYmVsIGJlIHRoZSBjb3JyZWN0IGhlaWdodCwgZXF1aXZhbGVudCB0byBzZXR0aW5nIGxpbmUtaGVpZ2h0OiAwXG5cdGRpc3BsYXk6IGZsZXg7XG5gO1xuIl19 */");
+    const enclosingBorder = /* @__PURE__ */ css("border-color:", COLORS.gray[300], ";" + (false ? "" : ";label:enclosingBorder;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE4RDRCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuIl19 */");
+    return /* @__PURE__ */ css(isBlock && enclosingBorder, " &:hover{border-color:", COLORS.gray[400], ";}&:focus-within{z-index:1;outline:", config_values_default.borderWidthFocus, " solid ", COLORS.ui.borderFocus, ";outline-offset:1px;}" + (false ? "" : ";label:enclosingBorders;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFrRVciLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG4iXX0= */");
   };
   var _ref4 = false ? {
     name: "1k18kha",
     styles: "height:40px"
   } : {
     name: "152dw7p-__unstable-large",
-    styles: "height:40px;label:__unstable-large;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEwRnlCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuXG5leHBvcnQgY29uc3QgVmlzdWFsTGFiZWxXcmFwcGVyID0gc3R5bGVkLmRpdmBcblx0Ly8gTWFrZXMgdGhlIGlubGluZSBsYWJlbCBiZSB0aGUgY29ycmVjdCBoZWlnaHQsIGVxdWl2YWxlbnQgdG8gc2V0dGluZyBsaW5lLWhlaWdodDogMFxuXHRkaXNwbGF5OiBmbGV4O1xuYDtcbiJdfQ== */",
+    styles: "height:40px;label:__unstable-large;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF5RnlCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuIl19 */",
     toString: _EMOTION_STRINGIFIED_CSS_ERROR__10
   };
   var _ref22 = false ? {
@@ -29539,7 +29549,7 @@ This message will only show in development mode. It won't appear in production. 
     styles: "height:36px"
   } : {
     name: "ky6vtv-default",
-    styles: "height:36px;label:default;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1RmMiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG5cbmV4cG9ydCBjb25zdCBWaXN1YWxMYWJlbFdyYXBwZXIgPSBzdHlsZWQuZGl2YFxuXHQvLyBNYWtlcyB0aGUgaW5saW5lIGxhYmVsIGJlIHRoZSBjb3JyZWN0IGhlaWdodCwgZXF1aXZhbGVudCB0byBzZXR0aW5nIGxpbmUtaGVpZ2h0OiAwXG5cdGRpc3BsYXk6IGZsZXg7XG5gO1xuIl19 */",
+    styles: "height:36px;label:default;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFzRmMiLCJmaWxlIjoic3R5bGVzLnRzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBFeHRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT05GSUcsIENPTE9SUyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB0eXBlIHsgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMgfSBmcm9tICcuLi90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCB0b2dnbGVHcm91cENvbnRyb2wgPSAoIHtcblx0aXNCbG9jayxcblx0aXNEZXNlbGVjdGFibGUsXG5cdHNpemUsXG59OiBQaWNrPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wcywgJ2lzQmxvY2snIHwgJ2lzRGVzZWxlY3RhYmxlJyA+ICYge1xuXHRzaXplOiBOb25OdWxsYWJsZTwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdzaXplJyBdID47XG59ICkgPT4gY3NzYFxuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudWkuYmFja2dyb3VuZCB9O1xuXHRib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRtaW4td2lkdGg6IDA7XG5cdHBvc2l0aW9uOiByZWxhdGl2ZTtcblxuXHQkeyB0b2dnbGVHcm91cENvbnRyb2xTaXplKCBzaXplICkgfVxuXHQkeyAhIGlzRGVzZWxlY3RhYmxlICYmIGVuY2xvc2luZ0JvcmRlcnMoIGlzQmxvY2sgKSB9XG5cblx0QG1lZGlhIG5vdCAoIHByZWZlcnMtcmVkdWNlZC1tb3Rpb24gKSB7XG5cdFx0JltkYXRhLWluZGljYXRvci1hbmltYXRlZF06OmJlZm9yZSB7XG5cdFx0XHR0cmFuc2l0aW9uLXByb3BlcnR5OiB0cmFuc2Zvcm0sIGJvcmRlci1yYWRpdXM7XG5cdFx0XHR0cmFuc2l0aW9uLWR1cmF0aW9uOiAwLjJzO1xuXHRcdFx0dHJhbnNpdGlvbi10aW1pbmctZnVuY3Rpb246IGVhc2Utb3V0O1xuXHRcdH1cblx0fVxuXG5cdCY6OmJlZm9yZSB7XG5cdFx0Y29udGVudDogJyc7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHBvaW50ZXItZXZlbnRzOiBub25lO1xuXHRcdGJhY2tncm91bmQ6ICR7IENPTE9SUy50aGVtZS5ncmF5WyAxMDAgXSB9O1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkICR7IENPTE9SUy50aGVtZS5ncmF5WyA3MDAgXSB9O1xuXG5cdFx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0XHRvdXRsaW5lOiAycHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdFx0b3V0bGluZS1vZmZzZXQ6IC0zcHg7XG5cblx0XHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0XHR0b3A6IC0xcHg7XG5cdFx0bGVmdDogLTJweDtcblx0XHR3aWR0aDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICkgKiAxcHggKSArIDJweCApO1xuXHRcdGhlaWdodDogY2FsYyggY2FsYyggdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHR0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1sZWZ0LCAwICkgKiAxcHggKSApO1xuXHRcdC8qIEhpZGUgd2hlbiBkaW1lbnNpb25zIGFyZSB1bnNldCAoMCkgKi9cblx0XHRvcGFjaXR5OiBtaW4oXG5cdFx0XHQxLFxuXHRcdFx0bWF4KCAwLCB2YXIoIC0tc2VsZWN0ZWQtd2lkdGgsIDAgKSwgdmFyKCAtLXNlbGVjdGVkLWhlaWdodCwgMCApIClcblx0XHQpO1xuXHR9XG5gO1xuXG5jb25zdCBlbmNsb3NpbmdCb3JkZXJzID0gKCBpc0Jsb2NrOiBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ2lzQmxvY2snIF0gKSA9PiB7XG5cdGNvbnN0IGVuY2xvc2luZ0JvcmRlciA9IGNzc2Bcblx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyAzMDAgXSB9O1xuXHRgO1xuXG5cdHJldHVybiBjc3NgXG5cdFx0JHsgaXNCbG9jayAmJiBlbmNsb3NpbmdCb3JkZXIgfVxuXG5cdFx0Jjpob3ZlciB7XG5cdFx0XHRib3JkZXItY29sb3I6ICR7IENPTE9SUy5ncmF5WyA0MDAgXSB9O1xuXHRcdH1cblxuXHRcdCY6Zm9jdXMtd2l0aGluIHtcblx0XHRcdHotaW5kZXg6IDE7XG5cdFx0XHRvdXRsaW5lOiAkeyBDT05GSUcuYm9yZGVyV2lkdGhGb2N1cyB9IHNvbGlkXG5cdFx0XHRcdCR7IENPTE9SUy51aS5ib3JkZXJGb2N1cyB9O1xuXHRcdFx0b3V0bGluZS1vZmZzZXQ6IDFweDtcblx0XHR9XG5cdGA7XG59O1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSA9IChcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+XG4pID0+IHtcblx0Y29uc3Qgc3R5bGVzID0ge1xuXHRcdGRlZmF1bHQ6IGNzc2Bcblx0XHRcdGhlaWdodDogMzZweDtcblx0XHRgLFxuXHRcdCdfX3Vuc3RhYmxlLWxhcmdlJzogY3NzYFxuXHRcdFx0aGVpZ2h0OiA0MHB4O1xuXHRcdGAsXG5cdH07XG5cblx0cmV0dXJuIHN0eWxlc1sgc2l6ZSBdO1xufTtcblxuZXhwb3J0IGNvbnN0IGJsb2NrID0gY3NzYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHR3aWR0aDogMTAwJTtcbmA7XG4iXX0= */",
     toString: _EMOTION_STRINGIFIED_CSS_ERROR__10
   };
   var toggleGroupControlSize = (size3) => {
@@ -29554,22 +29564,9 @@ This message will only show in development mode. It won't appear in production. 
     styles: "display:flex;width:100%"
   } : {
     name: "2dfrl8-block",
-    styles: "display:flex;width:100%;label:block;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFrR3dCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuXG5leHBvcnQgY29uc3QgVmlzdWFsTGFiZWxXcmFwcGVyID0gc3R5bGVkLmRpdmBcblx0Ly8gTWFrZXMgdGhlIGlubGluZSBsYWJlbCBiZSB0aGUgY29ycmVjdCBoZWlnaHQsIGVxdWl2YWxlbnQgdG8gc2V0dGluZyBsaW5lLWhlaWdodDogMFxuXHRkaXNwbGF5OiBmbGV4O1xuYDtcbiJdfQ== */",
+    styles: "display:flex;width:100%;label:block;/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFpR3dCIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuIl19 */",
     toString: _EMOTION_STRINGIFIED_CSS_ERROR__10
   };
-  var VisualLabelWrapper = /* @__PURE__ */ createStyled("div", false ? {
-    target: "eakva830"
-  } : {
-    target: "eakva830",
-    label: "VisualLabelWrapper"
-  })(false ? {
-    name: "zjik7",
-    styles: "display:flex"
-  } : {
-    name: "zjik7",
-    styles: "display:flex/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1RzRDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09ORklHLCBDT0xPUlMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgdHlwZSB7IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzIH0gZnJvbSAnLi4vdHlwZXMnO1xuXG5leHBvcnQgY29uc3QgdG9nZ2xlR3JvdXBDb250cm9sID0gKCB7XG5cdGlzQmxvY2ssXG5cdGlzRGVzZWxlY3RhYmxlLFxuXHRzaXplLFxufTogUGljazwgVG9nZ2xlR3JvdXBDb250cm9sUHJvcHMsICdpc0Jsb2NrJyB8ICdpc0Rlc2VsZWN0YWJsZScgPiAmIHtcblx0c2l6ZTogTm9uTnVsbGFibGU8IFRvZ2dsZUdyb3VwQ29udHJvbFByb3BzWyAnc2l6ZScgXSA+O1xufSApID0+IGNzc2Bcblx0YmFja2dyb3VuZDogJHsgQ09MT1JTLnVpLmJhY2tncm91bmQgfTtcblx0Ym9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG5cdGJvcmRlci1yYWRpdXM6ICR7IENPTkZJRy5yYWRpdXNTbWFsbCB9O1xuXHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0bWluLXdpZHRoOiAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cblx0JHsgdG9nZ2xlR3JvdXBDb250cm9sU2l6ZSggc2l6ZSApIH1cblx0JHsgISBpc0Rlc2VsZWN0YWJsZSAmJiBlbmNsb3NpbmdCb3JkZXJzKCBpc0Jsb2NrICkgfVxuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdCZbZGF0YS1pbmRpY2F0b3ItYW5pbWF0ZWRdOjpiZWZvcmUge1xuXHRcdFx0dHJhbnNpdGlvbi1wcm9wZXJ0eTogdHJhbnNmb3JtLCBib3JkZXItcmFkaXVzO1xuXHRcdFx0dHJhbnNpdGlvbi1kdXJhdGlvbjogMC4ycztcblx0XHRcdHRyYW5zaXRpb24tdGltaW5nLWZ1bmN0aW9uOiBlYXNlLW91dDtcblx0XHR9XG5cdH1cblxuXHQmOjpiZWZvcmUge1xuXHRcdGNvbnRlbnQ6ICcnO1xuXHRcdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0XHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0XHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuZ3JheVsgMTAwIF0gfTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCAkeyBDT0xPUlMudGhlbWUuZ3JheVsgNzAwIF0gfTtcblxuXHRcdC8vIFdpbmRvd3MgSGlnaCBDb250cmFzdCBtb2RlIHdpbGwgc2hvdyB0aGlzIG91dGxpbmUsIGJ1dCBub3QgdGhlIGJveC1zaGFkb3cuXG5cdFx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuXHRcdG91dGxpbmUtb2Zmc2V0OiAtM3B4O1xuXG5cdFx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdFx0dG9wOiAtMXB4O1xuXHRcdGxlZnQ6IC0ycHg7XG5cdFx0d2lkdGg6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC13aWR0aCwgMCApICogMXB4ICkgKyAycHggKTtcblx0XHRoZWlnaHQ6IGNhbGMoIGNhbGMoIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSAqIDFweCApICsgMnB4ICk7XG5cdFx0dHJhbnNmb3JtOiB0cmFuc2xhdGVYKCBjYWxjKCB2YXIoIC0tc2VsZWN0ZWQtbGVmdCwgMCApICogMXB4ICkgKTtcblx0XHQvKiBIaWRlIHdoZW4gZGltZW5zaW9ucyBhcmUgdW5zZXQgKDApICovXG5cdFx0b3BhY2l0eTogbWluKFxuXHRcdFx0MSxcblx0XHRcdG1heCggMCwgdmFyKCAtLXNlbGVjdGVkLXdpZHRoLCAwICksIHZhciggLS1zZWxlY3RlZC1oZWlnaHQsIDAgKSApXG5cdFx0KTtcblx0fVxuYDtcblxuY29uc3QgZW5jbG9zaW5nQm9yZGVycyA9ICggaXNCbG9jazogVG9nZ2xlR3JvdXBDb250cm9sUHJvcHNbICdpc0Jsb2NrJyBdICkgPT4ge1xuXHRjb25zdCBlbmNsb3NpbmdCb3JkZXIgPSBjc3NgXG5cdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0YDtcblxuXHRyZXR1cm4gY3NzYFxuXHRcdCR7IGlzQmxvY2sgJiYgZW5jbG9zaW5nQm9yZGVyIH1cblxuXHRcdCY6aG92ZXIge1xuXHRcdFx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNDAwIF0gfTtcblx0XHR9XG5cblx0XHQmOmZvY3VzLXdpdGhpbiB7XG5cdFx0XHR6LWluZGV4OiAxO1xuXHRcdFx0b3V0bGluZTogJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSBzb2xpZFxuXHRcdFx0XHQkeyBDT0xPUlMudWkuYm9yZGVyRm9jdXMgfTtcblx0XHRcdG91dGxpbmUtb2Zmc2V0OiAxcHg7XG5cdFx0fVxuXHRgO1xufTtcblxuZXhwb3J0IGNvbnN0IHRvZ2dsZUdyb3VwQ29udHJvbFNpemUgPSAoXG5cdHNpemU6IE5vbk51bGxhYmxlPCBUb2dnbGVHcm91cENvbnRyb2xQcm9wc1sgJ3NpemUnIF0gPlxuKSA9PiB7XG5cdGNvbnN0IHN0eWxlcyA9IHtcblx0XHRkZWZhdWx0OiBjc3NgXG5cdFx0XHRoZWlnaHQ6IDM2cHg7XG5cdFx0YCxcblx0XHQnX191bnN0YWJsZS1sYXJnZSc6IGNzc2Bcblx0XHRcdGhlaWdodDogNDBweDtcblx0XHRgLFxuXHR9O1xuXG5cdHJldHVybiBzdHlsZXNbIHNpemUgXTtcbn07XG5cbmV4cG9ydCBjb25zdCBibG9jayA9IGNzc2Bcblx0ZGlzcGxheTogZmxleDtcblx0d2lkdGg6IDEwMCU7XG5gO1xuXG5leHBvcnQgY29uc3QgVmlzdWFsTGFiZWxXcmFwcGVyID0gc3R5bGVkLmRpdmBcblx0Ly8gTWFrZXMgdGhlIGlubGluZSBsYWJlbCBiZSB0aGUgY29ycmVjdCBoZWlnaHQsIGVxdWl2YWxlbnQgdG8gc2V0dGluZyBsaW5lLWhlaWdodDogMFxuXHRkaXNwbGF5OiBmbGV4O1xuYDtcbiJdfQ== */",
-    toString: _EMOTION_STRINGIFIED_CSS_ERROR__10
-  });
 
   // packages/components/build-module/toggle-group-control/toggle-group-control/as-radio-group.mjs
   var import_compose20 = __toESM(require_compose(), 1);
@@ -29715,6 +29712,7 @@ This message will only show in development mode. It won't appear in production. 
         ...otherProps,
         ref: forwardedRef,
         role: "group",
+        id: baseId,
         children
       })
     });
@@ -29863,6 +29861,7 @@ This message will only show in development mode. It won't appear in production. 
       isAdaptiveWidth = false,
       isBlock = false,
       isDeselectable = false,
+      id: id3,
       label,
       hideLabelFromVision = false,
       help,
@@ -29872,6 +29871,15 @@ This message will only show in development mode. It won't appear in production. 
       children,
       ...otherProps
     } = useContextSystem(props, "ToggleGroupControl");
+    const {
+      baseControlProps,
+      controlProps
+    } = useBaseControlProps({
+      id: id3,
+      help,
+      label,
+      hideLabelFromVision
+    });
     const normalizedSize = __next40pxDefaultSize && size3 === "default" ? "__unstable-large" : size3;
     const [selectedElement, setSelectedElement] = (0, import_element62.useState)();
     const [controlElement, setControlElement] = (0, import_element62.useState)();
@@ -29896,14 +29904,11 @@ This message will only show in development mode. It won't appear in production. 
       __next40pxDefaultSize,
       __shouldNotWarnDeprecated36pxSize
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime116.jsxs)(base_control_default, {
-      help,
-      children: [!hideLabelFromVision && /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(VisualLabelWrapper, {
-        children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(base_control_default.VisualLabel, {
-          children: label
-        })
-      }), /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(MainControl, {
+    return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(base_control_default, {
+      ...baseControlProps,
+      children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(MainControl, {
         ...otherProps,
+        ...controlProps,
         setSelectedElement,
         className: classes,
         isAdaptiveWidth,
@@ -29913,7 +29918,7 @@ This message will only show in development mode. It won't appear in production. 
         size: normalizedSize,
         value,
         children
-      })]
+      })
     });
   }
   var ToggleGroupControl = contextConnect(UnconnectedToggleGroupControl, "ToggleGroupControl");
@@ -36069,7 +36074,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/palette-edit/index.mjs
-  var import_element113 = __toESM(require_element(), 1);
+  var import_element114 = __toESM(require_element(), 1);
   var import_i18n35 = __toESM(require_i18n(), 1);
   var import_compose43 = __toESM(require_compose(), 1);
 
@@ -36224,10 +36229,11 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/gradient-picker/index.mjs
   var import_i18n34 = __toESM(require_i18n(), 1);
   var import_compose42 = __toESM(require_compose(), 1);
-  var import_element109 = __toESM(require_element(), 1);
+  var import_element110 = __toESM(require_element(), 1);
 
   // packages/components/build-module/custom-gradient-picker/index.mjs
   var import_i18n33 = __toESM(require_i18n(), 1);
+  var import_element109 = __toESM(require_element(), 1);
 
   // packages/components/build-module/custom-gradient-picker/gradient-bar/index.mjs
   var import_element108 = __toESM(require_element(), 1);
@@ -36949,10 +36955,17 @@ This message will only show in development mode. It won't appear in production. 
     const {
       type
     } = gradientAST;
+    const lastLinearOrientationAngle = (0, import_element109.useRef)(Number(HORIZONTAL_GRADIENT_ORIENTATION.value));
+    if (type === "linear-gradient" && gradientAST.orientation) {
+      lastLinearOrientationAngle.current = Number(gradientAST.orientation.value);
+    }
     const onSetLinearGradient = () => {
       onChange(serializeGradient({
         ...gradientAST,
-        orientation: gradientAST.orientation ? void 0 : HORIZONTAL_GRADIENT_ORIENTATION,
+        orientation: {
+          type: "angular",
+          value: `${lastLinearOrientationAngle.current}`
+        },
         type: "linear-gradient"
       }));
     };
@@ -37051,7 +37064,7 @@ This message will only show in development mode. It won't appear in production. 
     value,
     ...additionalProps
   }) {
-    const gradientOptions = (0, import_element109.useMemo)(() => {
+    const gradientOptions = (0, import_element110.useMemo)(() => {
       return gradients.map(({
         gradient,
         name,
@@ -37154,7 +37167,7 @@ This message will only show in development mode. It won't appear in production. 
     headingLevel = 2,
     ...additionalProps
   }) {
-    const clearGradient = (0, import_element109.useCallback)(() => onChange(void 0), [onChange]);
+    const clearGradient = (0, import_element110.useCallback)(() => onChange(void 0), [onChange]);
     return /* @__PURE__ */ (0, import_jsx_runtime176.jsxs)(component_default18, {
       spacing: gradients.length ? 4 : 0,
       children: [!disableCustomGradients && /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(custom_gradient_picker_default, {
@@ -37182,10 +37195,10 @@ This message will only show in development mode. It won't appear in production. 
   var gradient_picker_default = GradientPicker;
 
   // packages/components/build-module/navigable-container/menu.mjs
-  var import_element111 = __toESM(require_element(), 1);
+  var import_element112 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigable-container/container.mjs
-  var import_element110 = __toESM(require_element(), 1);
+  var import_element111 = __toESM(require_element(), 1);
   var import_dom29 = __toESM(require_dom(), 1);
   var import_jsx_runtime177 = __toESM(require_jsx_runtime(), 1);
   var noop10 = () => {
@@ -37200,7 +37213,7 @@ This message will only show in development mode. It won't appear in production. 
     }
     return nextValue;
   }
-  var NavigableContainer = class extends import_element110.Component {
+  var NavigableContainer = class extends import_element111.Component {
     constructor(args) {
       super(args);
       this.onKeyDown = this.onKeyDown.bind(this);
@@ -37325,7 +37338,7 @@ This message will only show in development mode. It won't appear in production. 
     });
   };
   forwardedNavigableContainer.displayName = "NavigableContainer";
-  var container_default = (0, import_element110.forwardRef)(forwardedNavigableContainer);
+  var container_default = (0, import_element111.forwardRef)(forwardedNavigableContainer);
 
   // packages/components/build-module/navigable-container/menu.mjs
   var import_jsx_runtime178 = __toESM(require_jsx_runtime(), 1);
@@ -37367,12 +37380,12 @@ This message will only show in development mode. It won't appear in production. 
       ...rest
     });
   }
-  var NavigableMenu = (0, import_element111.forwardRef)(UnforwardedNavigableMenu);
+  var NavigableMenu = (0, import_element112.forwardRef)(UnforwardedNavigableMenu);
   NavigableMenu.displayName = "NavigableMenu";
   var menu_default2 = NavigableMenu;
 
   // packages/components/build-module/navigable-container/tabbable.mjs
-  var import_element112 = __toESM(require_element(), 1);
+  var import_element113 = __toESM(require_element(), 1);
   var import_jsx_runtime179 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTabbableContainer({
     eventToOffset,
@@ -37399,7 +37412,7 @@ This message will only show in development mode. It won't appear in production. 
       ...props
     });
   }
-  var TabbableContainer = (0, import_element112.forwardRef)(UnforwardedTabbableContainer);
+  var TabbableContainer = (0, import_element113.forwardRef)(UnforwardedTabbableContainer);
   TabbableContainer.displayName = "TabbableContainer";
   var tabbable_default = TabbableContainer;
 
@@ -37671,7 +37684,7 @@ This message will only show in development mode. It won't appear in production. 
     onClose = () => {
     }
   }) {
-    const popoverProps = (0, import_element113.useMemo)(() => ({
+    const popoverProps = (0, import_element114.useMemo)(() => ({
       shift: true,
       offset: 20,
       // Disabling resize as it would otherwise cause the popover to show
@@ -37719,9 +37732,9 @@ This message will only show in development mode. It won't appear in production. 
     isGradient
   }) {
     const value = isGradient ? element.gradient : element.color;
-    const [isEditingColor, setIsEditingColor] = (0, import_element113.useState)(false);
-    const [popoverAnchor, setPopoverAnchor] = (0, import_element113.useState)(null);
-    const popoverProps = (0, import_element113.useMemo)(() => ({
+    const [isEditingColor, setIsEditingColor] = (0, import_element114.useState)(false);
+    const [popoverAnchor, setPopoverAnchor] = (0, import_element114.useState)(null);
+    const popoverProps = (0, import_element114.useMemo)(() => ({
       ...receivedPopoverProps,
       // Use the custom palette color item as the popover anchor.
       anchor: popoverAnchor
@@ -37792,8 +37805,8 @@ This message will only show in development mode. It won't appear in production. 
     popoverProps,
     addColorRef
   }) {
-    const elementsReferenceRef = (0, import_element113.useRef)(void 0);
-    (0, import_element113.useEffect)(() => {
+    const elementsReferenceRef = (0, import_element114.useRef)(void 0);
+    (0, import_element114.useEffect)(() => {
       elementsReferenceRef.current = elements2;
     }, [elements2]);
     const debounceOnChange = (0, import_compose43.useDebounce)((updatedElements) => onChange(deduplicateElementSlugs(updatedElements)), 100);
@@ -37846,13 +37859,13 @@ This message will only show in development mode. It won't appear in production. 
   }) {
     const isGradient = !!gradients;
     const elements2 = isGradient ? gradients : colors;
-    const [isEditing, setIsEditing] = (0, import_element113.useState)(false);
-    const [editingElement, setEditingElement] = (0, import_element113.useState)(null);
+    const [isEditing, setIsEditing] = (0, import_element114.useState)(false);
+    const [editingElement, setEditingElement] = (0, import_element114.useState)(null);
     const isAdding = isEditing && !!editingElement && elements2[editingElement] && !elements2[editingElement].slug;
     const elementsLength = elements2.length;
     const hasElements = elementsLength > 0;
     const debounceOnChange = (0, import_compose43.useDebounce)(onChange, 100);
-    const onSelectPaletteItem = (0, import_element113.useCallback)((value, newEditingElementIndex) => {
+    const onSelectPaletteItem = (0, import_element114.useCallback)((value, newEditingElementIndex) => {
       const selectedElement = newEditingElementIndex === void 0 ? void 0 : elements2[newEditingElementIndex];
       const key = isGradient ? "gradient" : "color";
       if (!!selectedElement && selectedElement[key] === value) {
@@ -37861,7 +37874,7 @@ This message will only show in development mode. It won't appear in production. 
         setIsEditing(true);
       }
     }, [isGradient, elements2]);
-    const addColorRef = (0, import_element113.useRef)(null);
+    const addColorRef = (0, import_element114.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(PaletteEditStyles, {
       children: [/* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(component_default9, {
         children: [/* @__PURE__ */ (0, import_jsx_runtime181.jsx)(PaletteHeading, {
@@ -37993,7 +38006,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/combobox-control/index.mjs
   var import_i18n37 = __toESM(require_i18n(), 1);
-  var import_element117 = __toESM(require_element(), 1);
+  var import_element118 = __toESM(require_element(), 1);
   var import_compose46 = __toESM(require_compose(), 1);
   var import_a11y5 = __toESM(require_a11y(), 1);
 
@@ -38009,7 +38022,7 @@ This message will only show in development mode. It won't appear in production. 
   })("height:38px;padding-left:", space(2), ";padding-right:", space(2), ";", deprecatedDefaultSize, ";" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1QjhDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgRmxleCB9IGZyb20gJy4uL2ZsZXgnO1xuaW1wb3J0IHsgc3BhY2UgfSBmcm9tICcuLi91dGlscy9zcGFjZSc7XG5pbXBvcnQgdHlwZSB7IENvbWJvYm94Q29udHJvbFByb3BzIH0gZnJvbSAnLi90eXBlcyc7XG5cbmNvbnN0IGRlcHJlY2F0ZWREZWZhdWx0U2l6ZSA9ICgge1xuXHRfX25leHQ0MHB4RGVmYXVsdFNpemUsXG59OiBQaWNrPCBDb21ib2JveENvbnRyb2xQcm9wcywgJ19fbmV4dDQwcHhEZWZhdWx0U2l6ZScgPiApID0+XG5cdCEgX19uZXh0NDBweERlZmF1bHRTaXplICYmXG5cdGNzc2Bcblx0XHRoZWlnaHQ6IDI4cHg7IC8vIDMwcHggLSAycHggdmVydGljYWwgYm9yZGVycyBvbiBwYXJlbnQgY29udGFpbmVyXG5cdFx0cGFkZGluZy1sZWZ0OiAkeyBzcGFjZSggMSApIH07XG5cdFx0cGFkZGluZy1yaWdodDogJHsgc3BhY2UoIDEgKSB9O1xuXHRgO1xuXG5leHBvcnQgY29uc3QgSW5wdXRXcmFwcGVyRmxleCA9IHN0eWxlZCggRmxleCApYFxuXHRoZWlnaHQ6IDM4cHg7IC8vIDQwcHggLSAycHggdmVydGljYWwgYm9yZGVycyBvbiBwYXJlbnQgY29udGFpbmVyXG5cdHBhZGRpbmctbGVmdDogJHsgc3BhY2UoIDIgKSB9O1xuXHRwYWRkaW5nLXJpZ2h0OiAkeyBzcGFjZSggMiApIH07XG5cblx0JHsgZGVwcmVjYXRlZERlZmF1bHRTaXplIH1cbmA7XG4iXX0= */"));
 
   // packages/components/build-module/form-token-field/token-input.mjs
-  var import_element114 = __toESM(require_element(), 1);
+  var import_element115 = __toESM(require_element(), 1);
   var import_jsx_runtime182 = __toESM(require_jsx_runtime(), 1);
   function UnForwardedTokenInput(props, ref) {
     const {
@@ -38021,9 +38034,10 @@ This message will only show in development mode. It won't appear in production. 
       onChange,
       onFocus,
       onBlur,
+      "aria-describedby": ariaDescribedBy,
       ...restProps
     } = props;
-    const [hasFocus2, setHasFocus] = (0, import_element114.useState)(false);
+    const [hasFocus2, setHasFocus] = (0, import_element115.useState)(false);
     const size3 = value ? value.length + 1 : 0;
     const onChangeHandler = (event) => {
       if (onChange) {
@@ -38063,10 +38077,10 @@ This message will only show in development mode. It won't appear in production. 
         // - the list of suggestions are rendered in the DOM (`isExpanded`)
         hasFocus2 && selectedSuggestionIndex !== -1 && isExpanded ? `components-form-token-suggestions-${instanceId}-${selectedSuggestionIndex}` : void 0
       ),
-      "aria-describedby": `components-form-token-suggestions-howto-${instanceId}`
+      "aria-describedby": [`components-form-token-suggestions-howto-${instanceId}`, ariaDescribedBy].filter(Boolean).join(" ")
     });
   }
-  var TokenInput = (0, import_element114.forwardRef)(UnForwardedTokenInput);
+  var TokenInput = (0, import_element115.forwardRef)(UnForwardedTokenInput);
   TokenInput.displayName = "TokenInput";
   var token_input_default = TokenInput;
 
@@ -38169,12 +38183,12 @@ This message will only show in development mode. It won't appear in production. 
   var suggestions_list_default = SuggestionsList;
 
   // packages/components/build-module/higher-order/with-focus-outside/index.mjs
-  var import_element115 = __toESM(require_element(), 1);
+  var import_element116 = __toESM(require_element(), 1);
   var import_compose45 = __toESM(require_compose(), 1);
   var import_jsx_runtime184 = __toESM(require_jsx_runtime(), 1);
   var with_focus_outside_default = (0, import_compose45.createHigherOrderComponent)((WrappedComponent) => function WithFocusOutside(props) {
-    const [handleFocusOutside, setHandleFocusOutside] = (0, import_element115.useState)(void 0);
-    const bindFocusOutsideHandler = (0, import_element115.useCallback)((node2) => setHandleFocusOutside(() => node2?.handleFocusOutside ? node2.handleFocusOutside.bind(node2) : void 0), []);
+    const [handleFocusOutside, setHandleFocusOutside] = (0, import_element116.useState)(void 0);
+    const bindFocusOutsideHandler = (0, import_element116.useCallback)((node2) => setHandleFocusOutside(() => node2?.handleFocusOutside ? node2.handleFocusOutside.bind(node2) : void 0), []);
     return /* @__PURE__ */ (0, import_jsx_runtime184.jsx)("div", {
       ...(0, import_compose45.__experimentalUseFocusOutside)(handleFocusOutside),
       children: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(WrappedComponent, {
@@ -38224,7 +38238,7 @@ This message will only show in development mode. It won't appear in production. 
   })(commonPathProps, ";stroke:currentColor;stroke-linecap:round;transform-origin:50% 50%;animation:1.4s linear infinite both ", spinAnimation, ";" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEwQzJDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcywga2V5ZnJhbWVzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuXG4vKipcbiAqIEludGVybmFsIGRlcGVuZGVuY2llc1xuICovXG5pbXBvcnQgeyBDT0xPUlMsIENPTkZJRyB9IGZyb20gJy4uL3V0aWxzJztcblxuY29uc3Qgc3BpbkFuaW1hdGlvbiA9IGtleWZyYW1lc2Bcblx0ZnJvbSB7XG5cdFx0dHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7XG5cdH1cblx0dG8ge1xuXHRcdHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7XG5cdH1cbiBgO1xuXG5leHBvcnQgY29uc3QgU3R5bGVkU3Bpbm5lciA9IHN0eWxlZC5zdmdgXG5cdHdpZHRoOiAkeyBDT05GSUcuc3Bpbm5lclNpemUgfXB4O1xuXHRoZWlnaHQ6ICR7IENPTkZJRy5zcGlubmVyU2l6ZSB9cHg7XG5cdGRpc3BsYXk6IGlubGluZS1ibG9jaztcblx0bWFyZ2luOiA1cHggMTFweCAwO1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cdG92ZXJmbG93OiB2aXNpYmxlO1xuXHRvcGFjaXR5OiAxO1xuXHRiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbmA7XG5cbmNvbnN0IGNvbW1vblBhdGhQcm9wcyA9IGNzc2Bcblx0ZmlsbDogdHJhbnNwYXJlbnQ7XG5cdHN0cm9rZS13aWR0aDogMS41cHg7XG5gO1xuXG5leHBvcnQgY29uc3QgU3Bpbm5lclRyYWNrID0gc3R5bGVkLmNpcmNsZWBcblx0JHsgY29tbW9uUGF0aFByb3BzIH07XG5cdHN0cm9rZTogJHsgQ09MT1JTLmdyYXlbIDMwMCBdIH07XG5gO1xuXG5leHBvcnQgY29uc3QgU3Bpbm5lckluZGljYXRvciA9IHN0eWxlZC5wYXRoYFxuXHQkeyBjb21tb25QYXRoUHJvcHMgfTtcblx0c3Ryb2tlOiBjdXJyZW50Q29sb3I7XG5cdHN0cm9rZS1saW5lY2FwOiByb3VuZDtcblx0dHJhbnNmb3JtLW9yaWdpbjogNTAlIDUwJTtcblx0YW5pbWF0aW9uOiAxLjRzIGxpbmVhciBpbmZpbml0ZSBib3RoICR7IHNwaW5BbmltYXRpb24gfTtcbmA7XG4iXX0= */"));
 
   // packages/components/build-module/spinner/index.mjs
-  var import_element116 = __toESM(require_element(), 1);
+  var import_element117 = __toESM(require_element(), 1);
   var import_jsx_runtime185 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedSpinner({
     className: className2,
@@ -38251,7 +38265,7 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   }
-  var Spinner = (0, import_element116.forwardRef)(UnforwardedSpinner);
+  var Spinner = (0, import_element117.forwardRef)(UnforwardedSpinner);
   Spinner.displayName = "Spinner";
   var spinner_default = Spinner;
 
@@ -38259,7 +38273,7 @@ This message will only show in development mode. It won't appear in production. 
   var import_jsx_runtime186 = __toESM(require_jsx_runtime(), 1);
   var noop11 = () => {
   };
-  var DetectOutside = with_focus_outside_default(class DetectOutsideComponent extends import_element117.Component {
+  var DetectOutside = with_focus_outside_default(class DetectOutsideComponent extends import_element118.Component {
     handleFocusOutside(event) {
       this.props.onFocusOutside(event);
     }
@@ -38295,12 +38309,12 @@ This message will only show in development mode. It won't appear in production. 
     const currentOption = options2.find((option) => option.value === value);
     const currentLabel = currentOption?.label ?? "";
     const instanceId = (0, import_compose46.useInstanceId)(ComboboxControl, "combobox-control");
-    const [selectedSuggestion, setSelectedSuggestion] = (0, import_element117.useState)(currentOption || null);
-    const [isExpanded, setIsExpanded] = (0, import_element117.useState)(false);
-    const [inputHasFocus, setInputHasFocus] = (0, import_element117.useState)(false);
-    const [inputValue, setInputValue] = (0, import_element117.useState)("");
-    const inputContainer = (0, import_element117.useRef)(null);
-    const matchingSuggestions = (0, import_element117.useMemo)(() => {
+    const [selectedSuggestion, setSelectedSuggestion] = (0, import_element118.useState)(currentOption || null);
+    const [isExpanded, setIsExpanded] = (0, import_element118.useState)(false);
+    const [inputHasFocus, setInputHasFocus] = (0, import_element118.useState)(false);
+    const [inputValue, setInputValue] = (0, import_element118.useState)("");
+    const inputContainer = (0, import_element118.useRef)(null);
+    const matchingSuggestions = (0, import_element118.useMemo)(() => {
       const startsWithMatch = [];
       const containsMatch = [];
       const match4 = normalizeTextString(inputValue);
@@ -38399,14 +38413,14 @@ This message will only show in development mode. It won't appear in production. 
     const handleResetStopPropagation = (event) => {
       event.stopPropagation();
     };
-    (0, import_element117.useEffect)(() => {
+    (0, import_element118.useEffect)(() => {
       const hasMatchingSuggestions = matchingSuggestions.length > 0;
       const hasSelectedMatchingSuggestions = getIndexOfMatchingSuggestion(selectedSuggestion, matchingSuggestions) > 0;
       if (hasMatchingSuggestions && !hasSelectedMatchingSuggestions) {
         setSelectedSuggestion(matchingSuggestions[0]);
       }
     }, [matchingSuggestions, selectedSuggestion]);
-    (0, import_element117.useEffect)(() => {
+    (0, import_element118.useEffect)(() => {
       const hasMatchingSuggestions = matchingSuggestions.length > 0;
       if (isExpanded) {
         const message2 = hasMatchingSuggestions ? (0, import_i18n37.sprintf)(
@@ -38448,7 +38462,11 @@ This message will only show in development mode. It won't appear in production. 
                 onClick,
                 isExpanded,
                 selectedSuggestionIndex: getIndexOfMatchingSuggestion(selectedSuggestion, matchingSuggestions),
-                onChange: onInputChange
+                onChange: onInputChange,
+                "aria-describedby": help ? (
+                  // TODO: Refactor `TokenInput` to not use hardcoded IDs.
+                  `components-form-token-input-${instanceId}__help`
+                ) : void 0
               })
             }), isLoading && /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(spinner_default, {}), allowReset && Boolean(value) && !isExpanded && /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(button_default, {
               size: "small",
@@ -38478,7 +38496,7 @@ This message will only show in development mode. It won't appear in production. 
   var combobox_control_default = ComboboxControl;
 
   // packages/components/build-module/composite/legacy/index.mjs
-  var import_element118 = __toESM(require_element(), 1);
+  var import_element119 = __toESM(require_element(), 1);
   var import_compose47 = __toESM(require_compose(), 1);
   var import_deprecated14 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime187 = __toESM(require_jsx_runtime(), 1);
@@ -38539,7 +38557,7 @@ This message will only show in development mode. It won't appear in production. 
     Component9.displayName = displayName;
     return Component9;
   }
-  var UnproxiedCompositeGroup = (0, import_element118.forwardRef)(({
+  var UnproxiedCompositeGroup = (0, import_element119.forwardRef)(({
     role,
     ...props
   }, ref) => {
@@ -38594,10 +38612,10 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/confirm-dialog/component.mjs
   var import_i18n39 = __toESM(require_i18n(), 1);
-  var import_element122 = __toESM(require_element(), 1);
+  var import_element123 = __toESM(require_element(), 1);
 
   // packages/components/build-module/modal/index.mjs
-  var import_element121 = __toESM(require_element(), 1);
+  var import_element122 = __toESM(require_element(), 1);
   var import_compose49 = __toESM(require_compose(), 1);
   var import_i18n38 = __toESM(require_i18n(), 1);
   var import_dom30 = __toESM(require_dom(), 1);
@@ -38635,16 +38653,16 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/modal/use-modal-exit-animation.mjs
   var import_compose48 = __toESM(require_compose(), 1);
-  var import_element119 = __toESM(require_element(), 1);
+  var import_element120 = __toESM(require_element(), 1);
   var import_warning6 = __toESM(require_warning(), 1);
   var FRAME_ANIMATION_DURATION = config_values_default.transitionDuration;
   var FRAME_ANIMATION_DURATION_NUMBER = Number.parseInt(config_values_default.transitionDuration);
   var EXIT_ANIMATION_NAME = "components-modal__disappear-animation";
   function useModalExitAnimation() {
-    const frameRef = (0, import_element119.useRef)(null);
-    const [isAnimatingOut, setIsAnimatingOut] = (0, import_element119.useState)(false);
+    const frameRef = (0, import_element120.useRef)(null);
+    const [isAnimatingOut, setIsAnimatingOut] = (0, import_element120.useState)(false);
     const isReducedMotion = (0, import_compose48.useReducedMotion)();
-    const closeModal = (0, import_element119.useCallback)(() => new Promise((closeModalResolve) => {
+    const closeModal = (0, import_element120.useCallback)(() => new Promise((closeModalResolve) => {
       const frameEl = frameRef.current;
       if (isReducedMotion) {
         closeModalResolve();
@@ -38693,8 +38711,8 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/modal/context.mjs
-  var import_element120 = __toESM(require_element(), 1);
-  var ModalContext = (0, import_element120.createContext)(/* @__PURE__ */ new Set());
+  var import_element121 = __toESM(require_element(), 1);
+  var ModalContext = (0, import_element121.createContext)(/* @__PURE__ */ new Set());
   ModalContext.displayName = "ModalContext";
 
   // packages/components/build-module/modal/index.mjs
@@ -38728,23 +38746,23 @@ This message will only show in development mode. It won't appear in production. 
       headerActions = null,
       __experimentalHideHeader = false
     } = props;
-    const ref = (0, import_element121.useRef)(null);
+    const ref = (0, import_element122.useRef)(null);
     const instanceId = (0, import_compose49.useInstanceId)(Modal);
     const headingId = title ? `components-modal-header-${instanceId}` : aria.labelledby;
     const focusOnMountRef = (0, import_compose49.useFocusOnMount)(focusOnMount === "firstContentElement" ? "firstElement" : focusOnMount);
     const constrainedTabbingRef = (0, import_compose49.useConstrainedTabbing)();
     const focusReturnRef = (0, import_compose49.useFocusReturn)();
-    const contentRef = (0, import_element121.useRef)(null);
-    const childrenContainerRef = (0, import_element121.useRef)(null);
-    const [hasScrolledContent, setHasScrolledContent] = (0, import_element121.useState)(false);
-    const [hasScrollableContent, setHasScrollableContent] = (0, import_element121.useState)(false);
+    const contentRef = (0, import_element122.useRef)(null);
+    const childrenContainerRef = (0, import_element122.useRef)(null);
+    const [hasScrolledContent, setHasScrolledContent] = (0, import_element122.useState)(false);
+    const [hasScrollableContent, setHasScrollableContent] = (0, import_element122.useState)(false);
     let sizeClass;
     if (isFullScreen || size3 === "fill") {
       sizeClass = "is-full-screen";
     } else if (size3) {
       sizeClass = `has-size-${size3}`;
     }
-    const isContentScrollable = (0, import_element121.useCallback)(() => {
+    const isContentScrollable = (0, import_element122.useCallback)(() => {
       if (!contentRef.current) {
         return;
       }
@@ -38755,17 +38773,17 @@ This message will only show in development mode. It won't appear in production. 
         setHasScrollableContent(false);
       }
     }, [contentRef]);
-    (0, import_element121.useEffect)(() => {
+    (0, import_element122.useEffect)(() => {
       modalize(ref.current);
       return () => unmodalize();
     }, []);
-    const onRequestCloseRef = (0, import_element121.useRef)(void 0);
-    (0, import_element121.useEffect)(() => {
+    const onRequestCloseRef = (0, import_element122.useRef)(void 0);
+    (0, import_element122.useEffect)(() => {
       onRequestCloseRef.current = onRequestClose;
     }, [onRequestClose]);
-    const dismissers = (0, import_element121.useContext)(ModalContext);
-    const [nestedDismissers] = (0, import_element121.useState)(() => /* @__PURE__ */ new Set());
-    (0, import_element121.useEffect)(() => {
+    const dismissers = (0, import_element122.useContext)(ModalContext);
+    const [nestedDismissers] = (0, import_element122.useState)(() => /* @__PURE__ */ new Set());
+    (0, import_element122.useEffect)(() => {
       dismissers.add(onRequestCloseRef);
       for (const dismisser of dismissers) {
         if (dismisser !== onRequestCloseRef) {
@@ -38779,7 +38797,7 @@ This message will only show in development mode. It won't appear in production. 
         dismissers.delete(onRequestCloseRef);
       };
     }, [dismissers, nestedDismissers]);
-    (0, import_element121.useEffect)(() => {
+    (0, import_element122.useEffect)(() => {
       const theClass = bodyOpenClassName;
       const oneMore = 1 + (bodyOpenClasses.get(theClass) ?? 0);
       bodyOpenClasses.set(theClass, oneMore);
@@ -38800,7 +38818,7 @@ This message will only show in development mode. It won't appear in production. 
       frameStyle,
       overlayClassname
     } = useModalExitAnimation();
-    (0, import_element121.useLayoutEffect)(() => {
+    (0, import_element122.useLayoutEffect)(() => {
       if (!window.ResizeObserver || !childrenContainerRef.current) {
         return;
       }
@@ -38817,7 +38835,7 @@ This message will only show in development mode. It won't appear in production. 
         closeModal().then(() => onRequestClose(event));
       }
     }
-    const onContentContainerScroll = (0, import_element121.useCallback)((e3) => {
+    const onContentContainerScroll = (0, import_element122.useCallback)((e3) => {
       const scrollY2 = e3?.currentTarget?.scrollTop ?? -1;
       if (!hasScrolledContent && scrollY2 > 0) {
         setHasScrolledContent(true);
@@ -38917,12 +38935,12 @@ This message will only show in development mode. It won't appear in production. 
         })
       })
     );
-    return (0, import_element121.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime188.jsx)(ModalContext.Provider, {
+    return (0, import_element122.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime188.jsx)(ModalContext.Provider, {
       value: nestedDismissers,
       children: modal
     }), document.body);
   }
-  var Modal = (0, import_element121.forwardRef)(UnforwardedModal);
+  var Modal = (0, import_element122.forwardRef)(UnforwardedModal);
   Modal.displayName = "Modal";
   var modal_default = Modal;
 
@@ -38954,22 +38972,22 @@ This message will only show in development mode. It won't appear in production. 
     } = useContextSystem(props, "ConfirmDialog");
     const cx3 = useCx();
     const wrapperClassName = cx3(wrapper2);
-    const cancelButtonRef = (0, import_element122.useRef)(null);
-    const confirmButtonRef = (0, import_element122.useRef)(null);
-    const [isOpen, setIsOpen] = (0, import_element122.useState)();
-    const [shouldSelfClose, setShouldSelfClose] = (0, import_element122.useState)();
-    (0, import_element122.useEffect)(() => {
+    const cancelButtonRef = (0, import_element123.useRef)(null);
+    const confirmButtonRef = (0, import_element123.useRef)(null);
+    const [isOpen, setIsOpen] = (0, import_element123.useState)();
+    const [shouldSelfClose, setShouldSelfClose] = (0, import_element123.useState)();
+    (0, import_element123.useEffect)(() => {
       const isIsOpenSet = typeof isOpenProp !== "undefined";
       setIsOpen(isIsOpenSet ? isOpenProp : true);
       setShouldSelfClose(!isIsOpenSet);
     }, [isOpenProp]);
-    const handleEvent = (0, import_element122.useCallback)((callback) => (event) => {
+    const handleEvent = (0, import_element123.useCallback)((callback) => (event) => {
       callback?.(event);
       if (shouldSelfClose) {
         setIsOpen(false);
       }
     }, [shouldSelfClose, setIsOpen]);
-    const handleEnter = (0, import_element122.useCallback)((event) => {
+    const handleEnter = (0, import_element123.useCallback)((event) => {
       const isConfirmOrCancelButton = event.target === cancelButtonRef.current || event.target === confirmButtonRef.current;
       if (!isConfirmOrCancelButton && event.key === "Enter") {
         handleEvent(onConfirm)(event);
@@ -39025,7 +39043,7 @@ This message will only show in development mode. It won't appear in production. 
   var import_i18n41 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/custom-select-control-v2/custom-select.mjs
-  var import_element123 = __toESM(require_element(), 1);
+  var import_element124 = __toESM(require_element(), 1);
   var import_i18n40 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/custom-select-control-v2/styles.mjs
@@ -39161,7 +39179,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/custom-select-control-v2/custom-select.mjs
   var import_jsx_runtime190 = __toESM(require_jsx_runtime(), 1);
-  var CustomSelectContext = (0, import_element123.createContext)(void 0);
+  var CustomSelectContext = (0, import_element124.createContext)(void 0);
   CustomSelectContext.displayName = "CustomSelectContext";
   function defaultRenderSelectedValue(value) {
     const isValueEmpty2 = Array.isArray(value) ? value.length === 0 : value === void 0 || value === null;
@@ -39186,7 +39204,7 @@ This message will only show in development mode. It won't appear in production. 
     const {
       value: currentValue
     } = useStoreState(store);
-    const computedRenderSelectedValue = (0, import_element123.useMemo)(() => renderSelectedValue ?? defaultRenderSelectedValue, [renderSelectedValue]);
+    const computedRenderSelectedValue = (0, import_element124.useMemo)(() => renderSelectedValue ?? defaultRenderSelectedValue, [renderSelectedValue]);
     return /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(Select22, {
       ...restProps,
       size: size3,
@@ -39206,12 +39224,12 @@ This message will only show in development mode. It won't appear in production. 
       isLegacy = false,
       ...restProps
     } = props;
-    const onSelectPopoverKeyDown = (0, import_element123.useCallback)((e3) => {
+    const onSelectPopoverKeyDown = (0, import_element124.useCallback)((e3) => {
       if (isLegacy) {
         e3.stopPropagation();
       }
     }, [isLegacy]);
-    const contextValue = (0, import_element123.useMemo)(() => ({
+    const contextValue = (0, import_element124.useMemo)(() => ({
       store,
       size: size3
     }), [store, size3]);
@@ -39259,13 +39277,13 @@ This message will only show in development mode. It won't appear in production. 
   var custom_select_default = _CustomSelect;
 
   // packages/components/build-module/custom-select-control-v2/item.mjs
-  var import_element124 = __toESM(require_element(), 1);
+  var import_element125 = __toESM(require_element(), 1);
   var import_jsx_runtime191 = __toESM(require_jsx_runtime(), 1);
   function CustomSelectItem({
     children,
     ...props
   }) {
-    const customSelectContext = (0, import_element124.useContext)(CustomSelectContext);
+    const customSelectContext = (0, import_element125.useContext)(CustomSelectContext);
     return /* @__PURE__ */ (0, import_jsx_runtime191.jsxs)(SelectItem22, {
       store: customSelectContext?.store,
       size: customSelectContext?.size ?? "default",
@@ -39795,10 +39813,10 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/date-time/date/index.mjs
   var import_i18n42 = __toESM(require_i18n(), 1);
   var import_date3 = __toESM(require_date(), 1);
-  var import_element126 = __toESM(require_element(), 1);
+  var import_element127 = __toESM(require_element(), 1);
 
   // packages/components/build-module/date-time/date/use-lilius/index.mjs
-  var import_element125 = __toESM(require_element(), 1);
+  var import_element126 = __toESM(require_element(), 1);
   var Day = /* @__PURE__ */ (function(Day22) {
     Day22[Day22["SUNDAY"] = 0] = "SUNDAY";
     Day22[Day22["MONDAY"] = 1] = "MONDAY";
@@ -39822,27 +39840,27 @@ This message will only show in development mode. It won't appear in production. 
     selected: initialSelected = [],
     numberOfMonths = 1
   } = {}) => {
-    const [viewing, setViewing] = (0, import_element125.useState)(initialViewing);
-    const viewToday = (0, import_element125.useCallback)(() => setViewing(startOfToday()), [setViewing]);
-    const viewMonth = (0, import_element125.useCallback)((month) => setViewing((v3) => setMonth(v3, month)), []);
-    const viewPreviousMonth = (0, import_element125.useCallback)(() => setViewing((v3) => subMonths(v3, 1)), []);
-    const viewNextMonth = (0, import_element125.useCallback)(() => setViewing((v3) => addMonths(v3, 1)), []);
-    const viewYear = (0, import_element125.useCallback)((year) => setViewing((v3) => setYear(v3, year)), []);
-    const viewPreviousYear = (0, import_element125.useCallback)(() => setViewing((v3) => subYears(v3, 1)), []);
-    const viewNextYear = (0, import_element125.useCallback)(() => setViewing((v3) => addYears(v3, 1)), []);
-    const [selected, setSelected] = (0, import_element125.useState)(initialSelected.map(clearTime2));
+    const [viewing, setViewing] = (0, import_element126.useState)(initialViewing);
+    const viewToday = (0, import_element126.useCallback)(() => setViewing(startOfToday()), [setViewing]);
+    const viewMonth = (0, import_element126.useCallback)((month) => setViewing((v3) => setMonth(v3, month)), []);
+    const viewPreviousMonth = (0, import_element126.useCallback)(() => setViewing((v3) => subMonths(v3, 1)), []);
+    const viewNextMonth = (0, import_element126.useCallback)(() => setViewing((v3) => addMonths(v3, 1)), []);
+    const viewYear = (0, import_element126.useCallback)((year) => setViewing((v3) => setYear(v3, year)), []);
+    const viewPreviousYear = (0, import_element126.useCallback)(() => setViewing((v3) => subYears(v3, 1)), []);
+    const viewNextYear = (0, import_element126.useCallback)(() => setViewing((v3) => addYears(v3, 1)), []);
+    const [selected, setSelected] = (0, import_element126.useState)(initialSelected.map(clearTime2));
     const clearSelected = () => setSelected([]);
-    const isSelected2 = (0, import_element125.useCallback)((date) => selected.findIndex((s3) => isEqual(s3, date)) > -1, [selected]);
-    const select = (0, import_element125.useCallback)((date, replaceExisting) => {
+    const isSelected2 = (0, import_element126.useCallback)((date) => selected.findIndex((s3) => isEqual(s3, date)) > -1, [selected]);
+    const select = (0, import_element126.useCallback)((date, replaceExisting) => {
       if (replaceExisting) {
         setSelected(Array.isArray(date) ? date : [date]);
       } else {
         setSelected((selectedItems) => selectedItems.concat(Array.isArray(date) ? date : [date]));
       }
     }, []);
-    const deselect = (0, import_element125.useCallback)((date) => setSelected((selectedItems) => Array.isArray(date) ? selectedItems.filter((s3) => !date.map((d3) => d3.getTime()).includes(s3.getTime())) : selectedItems.filter((s3) => !isEqual(s3, date))), []);
-    const toggle = (0, import_element125.useCallback)((date, replaceExisting) => isSelected2(date) ? deselect(date) : select(date, replaceExisting), [deselect, isSelected2, select]);
-    const selectRange = (0, import_element125.useCallback)((start, end, replaceExisting) => {
+    const deselect = (0, import_element126.useCallback)((date) => setSelected((selectedItems) => Array.isArray(date) ? selectedItems.filter((s3) => !date.map((d3) => d3.getTime()).includes(s3.getTime())) : selectedItems.filter((s3) => !isEqual(s3, date))), []);
+    const toggle = (0, import_element126.useCallback)((date, replaceExisting) => isSelected2(date) ? deselect(date) : select(date, replaceExisting), [deselect, isSelected2, select]);
+    const selectRange = (0, import_element126.useCallback)((start, end, replaceExisting) => {
       if (replaceExisting) {
         setSelected(eachDayOfInterval({
           start,
@@ -39855,13 +39873,13 @@ This message will only show in development mode. It won't appear in production. 
         })));
       }
     }, []);
-    const deselectRange = (0, import_element125.useCallback)((start, end) => {
+    const deselectRange = (0, import_element126.useCallback)((start, end) => {
       setSelected((selectedItems) => selectedItems.filter((s3) => !eachDayOfInterval({
         start,
         end
       }).map((d3) => d3.getTime()).includes(s3.getTime())));
     }, []);
-    const calendar = (0, import_element125.useMemo)(() => eachMonthOfInterval({
+    const calendar = (0, import_element126.useMemo)(() => eachMonthOfInterval({
       start: startOfMonth(viewing),
       end: endOfMonth(addMonths(viewing, numberOfMonths - 1))
     }).map((month) => eachWeekOfInterval({
@@ -40144,9 +40162,9 @@ This message will only show in development mode. It won't appear in production. 
       viewing: startOfDayInConfiguredTimezone(date),
       weekStartsOn
     });
-    const [focusable, setFocusable] = (0, import_element126.useState)(startOfDayInConfiguredTimezone(date));
-    const [isFocusWithinCalendar, setIsFocusWithinCalendar] = (0, import_element126.useState)(false);
-    const [prevCurrentDate, setPrevCurrentDate] = (0, import_element126.useState)(currentDate);
+    const [focusable, setFocusable] = (0, import_element127.useState)(startOfDayInConfiguredTimezone(date));
+    const [isFocusWithinCalendar, setIsFocusWithinCalendar] = (0, import_element127.useState)(false);
+    const [prevCurrentDate, setPrevCurrentDate] = (0, import_element127.useState)(currentDate);
     if (currentDate !== prevCurrentDate) {
       setPrevCurrentDate(currentDate);
       setSelected([startOfDayInConfiguredTimezone(date)]);
@@ -40270,8 +40288,8 @@ This message will only show in development mode. It won't appear in production. 
     onClick,
     onKeyDown
   }) {
-    const ref = (0, import_element126.useRef)(null);
-    (0, import_element126.useEffect)(() => {
+    const ref = (0, import_element127.useRef)(null);
+    (0, import_element127.useEffect)(() => {
       if (ref.current && isFocusable2 && isFocusAllowed) {
         ref.current.focus();
       }
@@ -40316,7 +40334,7 @@ This message will only show in development mode. It won't appear in production. 
   var date_default = DatePicker;
 
   // packages/components/build-module/date-time/time/index.mjs
-  var import_element128 = __toESM(require_element(), 1);
+  var import_element129 = __toESM(require_element(), 1);
   var import_i18n45 = __toESM(require_i18n(), 1);
   var import_date5 = __toESM(require_date(), 1);
 
@@ -40442,7 +40460,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/date-time/time/time-input/index.mjs
   var import_i18n44 = __toESM(require_i18n(), 1);
-  var import_element127 = __toESM(require_element(), 1);
+  var import_element128 = __toESM(require_element(), 1);
   var import_jsx_runtime195 = __toESM(require_jsx_runtime(), 1);
   function TimeInput({
     value: valueProp,
@@ -40490,7 +40508,7 @@ This message will only show in development mode. It won't appear in production. 
     function parseDayPeriod(_hours) {
       return _hours < 12 ? "AM" : "PM";
     }
-    const Wrapper7 = label ? Fieldset : import_element127.Fragment;
+    const Wrapper7 = label ? Fieldset : import_element128.Fragment;
     return /* @__PURE__ */ (0, import_jsx_runtime195.jsxs)(Wrapper7, {
       children: [label && /* @__PURE__ */ (0, import_jsx_runtime195.jsx)(base_control_default.VisualLabel, {
         as: "legend",
@@ -40576,11 +40594,11 @@ This message will only show in development mode. It won't appear in production. 
     dateOrder: dateOrderProp,
     hideLabelFromVision = false
   }) {
-    const [date, setDate] = (0, import_element128.useState)(() => (
+    const [date, setDate] = (0, import_element129.useState)(() => (
       // Truncate the date at the minutes, see: #15495.
       startOfMinute(inputToDate(currentTime ?? /* @__PURE__ */ new Date()))
     ));
-    (0, import_element128.useEffect)(() => {
+    (0, import_element129.useEffect)(() => {
       setDate(startOfMinute(inputToDate(currentTime ?? /* @__PURE__ */ new Date())));
     }, [currentTime]);
     const monthOptions = [{
@@ -40626,7 +40644,7 @@ This message will only show in development mode. It won't appear in production. 
       year,
       minutes,
       hours
-    } = (0, import_element128.useMemo)(() => ({
+    } = (0, import_element129.useMemo)(() => ({
       day: (0, import_date5.date)("d", date),
       month: (0, import_date5.date)("m", date),
       year: (0, import_date5.date)("Y", date),
@@ -40767,7 +40785,7 @@ This message will only show in development mode. It won't appear in production. 
   var time_default = TimePicker;
 
   // packages/components/build-module/date-time/date-time/index.mjs
-  var import_element129 = __toESM(require_element(), 1);
+  var import_element130 = __toESM(require_element(), 1);
 
   // packages/components/build-module/date-time/date-time/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__30() {
@@ -40822,7 +40840,7 @@ This message will only show in development mode. It won't appear in production. 
       })
     });
   }
-  var DateTimePicker = (0, import_element129.forwardRef)(UnforwardedDateTimePicker);
+  var DateTimePicker = (0, import_element130.forwardRef)(UnforwardedDateTimePicker);
   DateTimePicker.displayName = "DateTimePicker";
   var date_time_default = DateTimePicker;
 
@@ -40843,8 +40861,8 @@ This message will only show in development mode. It won't appear in production. 
   };
 
   // packages/components/build-module/disabled/context.mjs
-  var import_element130 = __toESM(require_element(), 1);
-  var Context = (0, import_element130.createContext)(false);
+  var import_element131 = __toESM(require_element(), 1);
+  var Context = (0, import_element131.createContext)(false);
   Context.displayName = "DisabledContext";
   var context_default3 = Context;
 
@@ -40877,7 +40895,7 @@ This message will only show in development mode. It won't appear in production. 
   var disabled_default = Disabled;
 
   // packages/components/build-module/disclosure/index.mjs
-  var import_element131 = __toESM(require_element(), 1);
+  var import_element132 = __toESM(require_element(), 1);
   var import_jsx_runtime199 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedDisclosureContent = ({
     visible,
@@ -40894,12 +40912,12 @@ This message will only show in development mode. It won't appear in production. 
       children
     });
   };
-  var DisclosureContent22 = (0, import_element131.forwardRef)(UnforwardedDisclosureContent);
+  var DisclosureContent22 = (0, import_element132.forwardRef)(UnforwardedDisclosureContent);
   DisclosureContent22.displayName = "DisclosureContent";
 
   // packages/components/build-module/draggable/index.mjs
   var import_compose51 = __toESM(require_compose(), 1);
-  var import_element132 = __toESM(require_element(), 1);
+  var import_element133 = __toESM(require_element(), 1);
   var import_jsx_runtime200 = __toESM(require_jsx_runtime(), 1);
   var dragImageClass = "components-draggable__invisible-drag-image";
   var cloneWrapperClass = "components-draggable__clone";
@@ -40917,8 +40935,8 @@ This message will only show in development mode. It won't appear in production. 
     __experimentalTransferDataType: transferDataType = "text",
     __experimentalDragComponent: dragComponent
   }) {
-    const dragComponentRef = (0, import_element132.useRef)(null);
-    const cleanupRef = (0, import_element132.useRef)(() => {
+    const dragComponentRef = (0, import_element133.useRef)(null);
+    const cleanupRef = (0, import_element133.useRef)(() => {
     });
     function end(event) {
       event.preventDefault();
@@ -41009,7 +41027,7 @@ This message will only show in development mode. It won't appear in production. 
         ownerDocument.removeEventListener("dragover", throttledDragOver);
       };
     }
-    (0, import_element132.useEffect)(() => () => {
+    (0, import_element133.useEffect)(() => () => {
       cleanupRef.current();
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime200.jsxs)(import_jsx_runtime200.Fragment, {
@@ -41030,7 +41048,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/drop-zone/index.mjs
   var import_i18n46 = __toESM(require_i18n(), 1);
-  var import_element133 = __toESM(require_element(), 1);
+  var import_element134 = __toESM(require_element(), 1);
   var import_dom31 = __toESM(require_dom(), 1);
   var import_compose52 = __toESM(require_compose(), 1);
   var import_jsx_runtime201 = __toESM(require_jsx_runtime(), 1);
@@ -41044,9 +41062,9 @@ This message will only show in development mode. It won't appear in production. 
     isEligible = () => true,
     ...restProps
   }) {
-    const [isDraggingOverDocument, setIsDraggingOverDocument] = (0, import_element133.useState)();
-    const [isDraggingOverElement, setIsDraggingOverElement] = (0, import_element133.useState)();
-    const [isActive, setIsActive] = (0, import_element133.useState)();
+    const [isDraggingOverDocument, setIsDraggingOverDocument] = (0, import_element134.useState)();
+    const [isDraggingOverElement, setIsDraggingOverElement] = (0, import_element134.useState)();
+    const [isActive, setIsActive] = (0, import_element134.useState)();
     const ref = (0, import_compose52.__experimentalUseDropZone)({
       onDrop(event) {
         if (!event.dataTransfer) {
@@ -41131,11 +41149,11 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/duotone-picker/duotone-picker.mjs
   var import_es62 = __toESM(require_es6(), 1);
-  var import_element135 = __toESM(require_element(), 1);
+  var import_element136 = __toESM(require_element(), 1);
   var import_i18n48 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/duotone-picker/color-list-picker/index.mjs
-  var import_element134 = __toESM(require_element(), 1);
+  var import_element135 = __toESM(require_element(), 1);
   var import_i18n47 = __toESM(require_i18n(), 1);
   var import_compose53 = __toESM(require_compose(), 1);
   var import_jsx_runtime202 = __toESM(require_jsx_runtime(), 1);
@@ -41147,7 +41165,7 @@ This message will only show in development mode. It won't appear in production. 
     enableAlpha,
     onChange
   }) {
-    const [isOpen, setIsOpen] = (0, import_element134.useState)(false);
+    const [isOpen, setIsOpen] = (0, import_element135.useState)(false);
     const idRoot = (0, import_compose53.useInstanceId)(ColorOption, "color-list-picker-option");
     const labelId = `${idRoot}__label`;
     const contentId = `${idRoot}__content`;
@@ -41290,7 +41308,7 @@ This message will only show in development mode. It won't appear in production. 
     "aria-labelledby": ariaLabelledby,
     ...otherProps
   }) {
-    const [defaultDark, defaultLight] = (0, import_element135.useMemo)(() => getDefaultColors(colorPalette), [colorPalette]);
+    const [defaultDark, defaultLight] = (0, import_element136.useMemo)(() => getDefaultColors(colorPalette), [colorPalette]);
     const isUnset = value === "unset";
     const unsetOptionLabel = (0, import_i18n48.__)("Unset");
     const unsetOption = /* @__PURE__ */ (0, import_jsx_runtime204.jsx)(circular_option_picker_default2.Option, {
@@ -41395,7 +41413,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/external-link/index.mjs
   var import_i18n49 = __toESM(require_i18n(), 1);
-  var import_element136 = __toESM(require_element(), 1);
+  var import_element137 = __toESM(require_element(), 1);
   var import_jsx_runtime206 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedExternalLink(props, ref) {
     const {
@@ -41444,13 +41462,13 @@ This message will only show in development mode. It won't appear in production. 
       })
     );
   }
-  var ExternalLink = (0, import_element136.forwardRef)(UnforwardedExternalLink);
+  var ExternalLink = (0, import_element137.forwardRef)(UnforwardedExternalLink);
   ExternalLink.displayName = "ExternalLink";
   var external_link_default = ExternalLink;
 
   // packages/components/build-module/focal-point-picker/index.mjs
   var import_i18n51 = __toESM(require_i18n(), 1);
-  var import_element137 = __toESM(require_element(), 1);
+  var import_element138 = __toESM(require_element(), 1);
   var import_compose54 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/focal-point-picker/controls.mjs
@@ -41781,8 +41799,8 @@ This message will only show in development mode. It won't appear in production. 
     },
     ...restProps
   }) {
-    const [point, setPoint] = (0, import_element137.useState)(valueProp);
-    const [showGridOverlay, setShowGridOverlay] = (0, import_element137.useState)(false);
+    const [point, setPoint] = (0, import_element138.useState)(valueProp);
+    const [showGridOverlay, setShowGridOverlay] = (0, import_element138.useState)(false);
     const {
       startDrag,
       endDrag,
@@ -41815,9 +41833,9 @@ This message will only show in development mode. It won't appear in production. 
       x: x2,
       y: y3
     } = isDragging2 ? point : valueProp;
-    const dragAreaRef = (0, import_element137.useRef)(null);
-    const [bounds, setBounds] = (0, import_element137.useState)(INITIAL_BOUNDS);
-    const refUpdateBounds = (0, import_element137.useRef)(() => {
+    const dragAreaRef = (0, import_element138.useRef)(null);
+    const [bounds, setBounds] = (0, import_element138.useState)(INITIAL_BOUNDS);
+    const refUpdateBounds = (0, import_element138.useRef)(() => {
       if (!dragAreaRef.current) {
         return;
       }
@@ -41832,7 +41850,7 @@ This message will only show in development mode. It won't appear in production. 
         ...INITIAL_BOUNDS
       });
     });
-    (0, import_element137.useEffect)(() => {
+    (0, import_element138.useEffect)(() => {
       const updateBounds = refUpdateBounds.current;
       if (!dragAreaRef.current) {
         return;
@@ -41980,7 +41998,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/font-size-picker/index.mjs
   var import_i18n55 = __toESM(require_i18n(), 1);
-  var import_element139 = __toESM(require_element(), 1);
+  var import_element140 = __toESM(require_element(), 1);
   var import_compose56 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/font-size-picker/styles.mjs
@@ -42034,7 +42052,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/font-size-picker/font-size-picker-select.mjs
   var import_i18n52 = __toESM(require_i18n(), 1);
-  var import_element138 = __toESM(require_element(), 1);
+  var import_element139 = __toESM(require_element(), 1);
 
   // packages/components/build-module/font-size-picker/utils.mjs
   function isSimpleCssValue(value) {
@@ -42076,7 +42094,7 @@ This message will only show in development mode. It won't appear in production. 
         hint
       };
     })];
-    const selectedOption = (0, import_element138.useMemo)(() => {
+    const selectedOption = (0, import_element139.useMemo)(() => {
       if (value === void 0) {
         return DEFAULT_OPTION;
       }
@@ -42217,7 +42235,7 @@ This message will only show in development mode. It won't appear in production. 
       return fontSizes.find((fontSize) => fontSize.size === value);
     })();
     const isCustomValue2 = !!value && !selectedFontSize;
-    const [userRequestedCustom, setUserRequestedCustom] = (0, import_element139.useState)(isCustomValue2);
+    const [userRequestedCustom, setUserRequestedCustom] = (0, import_element140.useState)(isCustomValue2);
     const resolvedValueForControls = valueMode === "slug" ? selectedFontSize?.size : value;
     let currentPickerType;
     if (!disableCustomFontSizes && userRequestedCustom) {
@@ -42353,12 +42371,12 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   };
-  var FontSizePicker = (0, import_element139.forwardRef)(UnforwardedFontSizePicker);
+  var FontSizePicker = (0, import_element140.forwardRef)(UnforwardedFontSizePicker);
   FontSizePicker.displayName = "FontSizePicker";
   var font_size_picker_default = FontSizePicker;
 
   // packages/components/build-module/form-file-upload/index.mjs
-  var import_element140 = __toESM(require_element(), 1);
+  var import_element141 = __toESM(require_element(), 1);
   var import_jsx_runtime216 = __toESM(require_jsx_runtime(), 1);
   function FormFileUpload({
     accept,
@@ -42369,7 +42387,7 @@ This message will only show in development mode. It won't appear in production. 
     render,
     ...props
   }) {
-    const ref = (0, import_element140.useRef)(null);
+    const ref = (0, import_element141.useRef)(null);
     const openFileDialog = () => {
       ref.current?.click();
     };
@@ -42412,7 +42430,7 @@ This message will only show in development mode. It won't appear in production. 
   var form_file_upload_default = FormFileUpload;
 
   // packages/components/build-module/form-toggle/index.mjs
-  var import_element141 = __toESM(require_element(), 1);
+  var import_element142 = __toESM(require_element(), 1);
   var import_jsx_runtime217 = __toESM(require_jsx_runtime(), 1);
   var noop14 = () => {
   };
@@ -42452,12 +42470,12 @@ This message will only show in development mode. It won't appear in production. 
       })]
     });
   }
-  var FormToggle = (0, import_element141.forwardRef)(UnforwardedFormToggle);
+  var FormToggle = (0, import_element142.forwardRef)(UnforwardedFormToggle);
   FormToggle.displayName = "FormToggle";
   var form_toggle_default = FormToggle;
 
   // packages/components/build-module/form-token-field/index.mjs
-  var import_element142 = __toESM(require_element(), 1);
+  var import_element143 = __toESM(require_element(), 1);
   var import_i18n57 = __toESM(require_i18n(), 1);
   var import_compose58 = __toESM(require_compose(), 1);
   var import_a11y6 = __toESM(require_a11y(), 1);
@@ -42585,32 +42603,32 @@ This message will only show in development mode. It won't appear in production. 
       __next40pxDefaultSize
     });
     const instanceId = (0, import_compose58.useInstanceId)(FormTokenField);
-    const [incompleteTokenValue, setIncompleteTokenValue] = (0, import_element142.useState)("");
-    const [inputOffsetFromEnd, setInputOffsetFromEnd] = (0, import_element142.useState)(0);
-    const [isActive, setIsActive] = (0, import_element142.useState)(false);
-    const [isExpanded, setIsExpanded] = (0, import_element142.useState)(false);
-    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = (0, import_element142.useState)(-1);
-    const [selectedSuggestionScroll, setSelectedSuggestionScroll] = (0, import_element142.useState)(false);
+    const [incompleteTokenValue, setIncompleteTokenValue] = (0, import_element143.useState)("");
+    const [inputOffsetFromEnd, setInputOffsetFromEnd] = (0, import_element143.useState)(0);
+    const [isActive, setIsActive] = (0, import_element143.useState)(false);
+    const [isExpanded, setIsExpanded] = (0, import_element143.useState)(false);
+    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = (0, import_element143.useState)(-1);
+    const [selectedSuggestionScroll, setSelectedSuggestionScroll] = (0, import_element143.useState)(false);
     const prevSuggestions = (0, import_compose58.usePrevious)(suggestions);
     const prevValue = (0, import_compose58.usePrevious)(value);
-    const input = (0, import_element142.useRef)(null);
-    const tokensAndInput = (0, import_element142.useRef)(null);
+    const input = (0, import_element143.useRef)(null);
+    const tokensAndInput = (0, import_element143.useRef)(null);
     const debouncedSpeak = (0, import_compose58.useDebounce)(import_a11y6.speak, 500);
-    (0, import_element142.useEffect)(() => {
+    (0, import_element143.useEffect)(() => {
       if (isActive && !hasFocus2()) {
         focus4();
       }
     }, [isActive]);
-    (0, import_element142.useEffect)(() => {
+    (0, import_element143.useEffect)(() => {
       const suggestionsDidUpdate = !(0, import_is_shallow_equal2.isShallowEqual)(suggestions, prevSuggestions || []);
       if (suggestionsDidUpdate || value !== prevValue) {
         updateSuggestions(suggestionsDidUpdate);
       }
     }, [suggestions, prevSuggestions, value, prevValue]);
-    (0, import_element142.useEffect)(() => {
+    (0, import_element143.useEffect)(() => {
       updateSuggestions();
     }, [incompleteTokenValue]);
-    (0, import_element142.useEffect)(() => {
+    (0, import_element143.useEffect)(() => {
       updateSuggestions();
     }, [__experimentalAutoSelectFirstMatch]);
     if (disabled && isActive) {
@@ -43050,7 +43068,7 @@ This message will only show in development mode. It won't appear in production. 
   var form_token_field_default = FormTokenField;
 
   // packages/components/build-module/guide/index.mjs
-  var import_element143 = __toESM(require_element(), 1);
+  var import_element144 = __toESM(require_element(), 1);
   var import_deprecated17 = __toESM(require_deprecated(), 1);
   var import_i18n59 = __toESM(require_i18n(), 1);
 
@@ -43114,24 +43132,24 @@ This message will only show in development mode. It won't appear in production. 
     onFinish,
     pages = []
   }) {
-    const ref = (0, import_element143.useRef)(null);
-    const [currentPage, setCurrentPage] = (0, import_element143.useState)(0);
-    (0, import_element143.useEffect)(() => {
+    const ref = (0, import_element144.useRef)(null);
+    const [currentPage, setCurrentPage] = (0, import_element144.useState)(0);
+    (0, import_element144.useEffect)(() => {
       const frame2 = ref.current?.querySelector(".components-guide");
       if (frame2 instanceof HTMLElement) {
         frame2.focus();
       }
     }, [currentPage]);
-    (0, import_element143.useEffect)(() => {
-      if (import_element143.Children.count(children)) {
+    (0, import_element144.useEffect)(() => {
+      if (import_element144.Children.count(children)) {
         (0, import_deprecated17.default)("Passing children to <Guide>", {
           since: "5.5",
           alternative: "the `pages` prop"
         });
       }
     }, [children]);
-    if (import_element143.Children.count(children)) {
-      pages = import_element143.Children.map(children, (child) => ({
+    if (import_element144.Children.count(children)) {
+      pages = import_element144.Children.map(children, (child) => ({
         content: child
       })) ?? [];
     }
@@ -43202,11 +43220,11 @@ This message will only show in development mode. It won't appear in production. 
   var guide_default = Guide;
 
   // packages/components/build-module/guide/page.mjs
-  var import_element144 = __toESM(require_element(), 1);
+  var import_element145 = __toESM(require_element(), 1);
   var import_deprecated18 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime223 = __toESM(require_jsx_runtime(), 1);
   function GuidePage(props) {
-    (0, import_element144.useEffect)(() => {
+    (0, import_element145.useEffect)(() => {
       (0, import_deprecated18.default)("<GuidePage>", {
         since: "5.5",
         alternative: "the `pages` prop in <Guide>"
@@ -43219,7 +43237,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/button/deprecated.mjs
   var import_deprecated19 = __toESM(require_deprecated(), 1);
-  var import_element145 = __toESM(require_element(), 1);
+  var import_element146 = __toESM(require_element(), 1);
   var import_jsx_runtime224 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedIconButton({
     label,
@@ -43246,10 +43264,10 @@ This message will only show in development mode. It won't appear in production. 
       })
     );
   }
-  var deprecated_default = (0, import_element145.forwardRef)(UnforwardedIconButton);
+  var deprecated_default = (0, import_element146.forwardRef)(UnforwardedIconButton);
 
   // packages/components/build-module/keyboard-shortcuts/index.mjs
-  var import_element146 = __toESM(require_element(), 1);
+  var import_element147 = __toESM(require_element(), 1);
   var import_compose59 = __toESM(require_compose(), 1);
   var import_jsx_runtime225 = __toESM(require_jsx_runtime(), 1);
   function KeyboardShortcut({
@@ -43272,7 +43290,7 @@ This message will only show in development mode. It won't appear in production. 
     bindGlobal,
     eventName
   }) {
-    const target = (0, import_element146.useRef)(null);
+    const target = (0, import_element147.useRef)(null);
     const element = Object.entries(shortcuts ?? {}).map(([shortcut, callback]) => /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(KeyboardShortcut, {
       shortcut,
       callback,
@@ -43280,7 +43298,7 @@ This message will only show in development mode. It won't appear in production. 
       eventName,
       target
     }, shortcut));
-    if (!import_element146.Children.count(children)) {
+    if (!import_element147.Children.count(children)) {
       return /* @__PURE__ */ (0, import_jsx_runtime225.jsx)(import_jsx_runtime225.Fragment, {
         children: element
       });
@@ -43293,7 +43311,7 @@ This message will only show in development mode. It won't appear in production. 
   var keyboard_shortcuts_default = KeyboardShortcuts;
 
   // packages/components/build-module/menu-group/index.mjs
-  var import_element147 = __toESM(require_element(), 1);
+  var import_element148 = __toESM(require_element(), 1);
   var import_compose60 = __toESM(require_compose(), 1);
   var import_jsx_runtime226 = __toESM(require_jsx_runtime(), 1);
   function MenuGroup3(props) {
@@ -43304,7 +43322,7 @@ This message will only show in development mode. It won't appear in production. 
       hideSeparator
     } = props;
     const instanceId = (0, import_compose60.useInstanceId)(MenuGroup3);
-    if (!import_element147.Children.count(children)) {
+    if (!import_element148.Children.count(children)) {
       return null;
     }
     const labelId = `components-menu-group-label-${instanceId}`;
@@ -43328,7 +43346,7 @@ This message will only show in development mode. It won't appear in production. 
   var menu_group_default = MenuGroup3;
 
   // packages/components/build-module/menu-item/index.mjs
-  var import_element148 = __toESM(require_element(), 1);
+  var import_element149 = __toESM(require_element(), 1);
   var import_jsx_runtime227 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedMenuItem(props, ref) {
     let {
@@ -43357,7 +43375,7 @@ This message will only show in development mode. It won't appear in production. 
       });
     }
     if (icon && typeof icon !== "string") {
-      icon = (0, import_element148.cloneElement)(icon, {
+      icon = (0, import_element149.cloneElement)(icon, {
         className: clsx_default("components-menu-items__item-icon", {
           "has-icon-right": iconPosition === "right"
         })
@@ -43383,7 +43401,7 @@ This message will only show in development mode. It won't appear in production. 
       }), suffix]
     });
   }
-  var MenuItem3 = (0, import_element148.forwardRef)(UnforwardedMenuItem);
+  var MenuItem3 = (0, import_element149.forwardRef)(UnforwardedMenuItem);
   MenuItem3.displayName = "MenuItem";
   var menu_item_default = MenuItem3;
 
@@ -43425,7 +43443,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/navigation/index.mjs
   var import_deprecated20 = __toESM(require_deprecated(), 1);
-  var import_element152 = __toESM(require_element(), 1);
+  var import_element153 = __toESM(require_element(), 1);
   var import_i18n61 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/navigation/constants.mjs
@@ -43433,12 +43451,12 @@ This message will only show in development mode. It won't appear in production. 
   var SEARCH_FOCUS_DELAY = 100;
 
   // packages/components/build-module/navigation/context.mjs
-  var import_element149 = __toESM(require_element(), 1);
+  var import_element150 = __toESM(require_element(), 1);
   var noop17 = () => {
   };
   var defaultIsEmpty = () => false;
   var defaultGetter = () => void 0;
-  var NavigationContext = (0, import_element149.createContext)({
+  var NavigationContext = (0, import_element150.createContext)({
     activeItem: void 0,
     activeMenu: ROOT_MENU,
     setActiveMenu: noop17,
@@ -43457,7 +43475,7 @@ This message will only show in development mode. It won't appear in production. 
     }
   });
   NavigationContext.displayName = "NavigationContext";
-  var useNavigationContext = () => (0, import_element149.useContext)(NavigationContext);
+  var useNavigationContext = () => (0, import_element150.useContext)(NavigationContext);
 
   // packages/components/build-module/navigation/styles/navigation-styles.mjs
   var import_i18n60 = __toESM(require_i18n(), 1);
@@ -43563,12 +43581,12 @@ This message will only show in development mode. It won't appear in production. 
   })(() => (0, import_i18n60.isRTL)() ? "margin-left: auto;" : "margin-right: auto;", " font-size:14px;line-height:20px;color:inherit;" + (false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5hdmlnYXRpb24tc3R5bGVzLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUErTHlDIiwiZmlsZSI6Im5hdmlnYXRpb24tc3R5bGVzLnRzeCIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcblxuLyoqXG4gKiBXb3JkUHJlc3MgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCB7IGlzUlRMIH0gZnJvbSAnQHdvcmRwcmVzcy9pMThuJztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgQ09MT1JTIH0gZnJvbSAnLi4vLi4vdXRpbHMvY29sb3JzLXZhbHVlcyc7XG5pbXBvcnQgQnV0dG9uIGZyb20gJy4uLy4uL2J1dHRvbic7XG5pbXBvcnQgeyBUZXh0IH0gZnJvbSAnLi4vLi4vdGV4dCc7XG5pbXBvcnQgeyBIZWFkaW5nIH0gZnJvbSAnLi4vLi4vaGVhZGluZyc7XG5pbXBvcnQgeyBydGwsIENPTkZJRyB9IGZyb20gJy4uLy4uL3V0aWxzJztcbmltcG9ydCB7IHNwYWNlIH0gZnJvbSAnLi4vLi4vdXRpbHMvc3BhY2UnO1xuXG5leHBvcnQgY29uc3QgTmF2aWdhdGlvblVJID0gc3R5bGVkLmRpdmBcblx0d2lkdGg6IDEwMCU7XG5cdGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG5cdHBhZGRpbmc6IDAgJHsgc3BhY2UoIDQgKSB9O1xuXHRvdmVyZmxvdzogaGlkZGVuO1xuYDtcblxuZXhwb3J0IGNvbnN0IE1lbnVVSSA9IHN0eWxlZC5kaXZgXG5cdG1hcmdpbi10b3A6ICR7IHNwYWNlKCA2ICkgfTtcblx0bWFyZ2luLWJvdHRvbTogJHsgc3BhY2UoIDYgKSB9O1xuXHRkaXNwbGF5OiBmbGV4O1xuXHRmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuXHR1bCB7XG5cdFx0cGFkZGluZzogMDtcblx0XHRtYXJnaW46IDA7XG5cdFx0bGlzdC1zdHlsZTogbm9uZTtcblx0fVxuXHQuY29tcG9uZW50cy1uYXZpZ2F0aW9uX19iYWNrLWJ1dHRvbiB7XG5cdFx0bWFyZ2luLWJvdHRvbTogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5cblx0LmNvbXBvbmVudHMtbmF2aWdhdGlvbl9fZ3JvdXAgKyAuY29tcG9uZW50cy1uYXZpZ2F0aW9uX19ncm91cCB7XG5cdFx0bWFyZ2luLXRvcDogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgTWVudUJhY2tCdXR0b25VSSA9IHN0eWxlZCggQnV0dG9uIClgXG5cdCYuaXMtdGVydGlhcnkge1xuXHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdG9wYWNpdHk6IDAuNztcblxuXHRcdCY6aG92ZXI6bm90KCA6ZGlzYWJsZWQgKSB7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Ym94LXNoYWRvdzogbm9uZTtcblx0XHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdH1cblxuXHRcdCY6YWN0aXZlOm5vdCggOmRpc2FibGVkICkge1xuXHRcdFx0YmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Y29sb3I6IGluaGVyaXQ7XG5cdFx0fVxuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgTWVudVRpdGxlVUkgPSBzdHlsZWQuZGl2YFxuXHRvdmVyZmxvdzogaGlkZGVuO1xuXHR3aWR0aDogMTAwJTtcbmA7XG5cbmV4cG9ydCBjb25zdCBNZW51VGl0bGVTZWFyY2hDb250cm9sV3JhcHBlciA9IHN0eWxlZC5kaXZgXG5cdG1hcmdpbjogMTFweCAwOyAvLyBub24taWRlYWwgaGFyZGNvZGluZyB0byBtYWludGFpbiBzYW1lIGhlaWdodCBhcyBIZWFkaW5nLCBjb3VsZCBiZSBpbXByb3ZlZFxuXHRwYWRkaW5nOiAxcHg7IC8vIHNvIHRoZSBmb2N1cyBib3JkZXIgZG9lc24ndCBnZXQgY3V0IG9mZiBieSB0aGUgb3ZlcmZsb3cgaGlkZGVuIG9uIE1lbnVUaXRsZVVJXG5gO1xuXG5leHBvcnQgY29uc3QgTWVudVRpdGxlQWN0aW9uc1VJID0gc3R5bGVkLnNwYW5gXG5cdGhlaWdodDogJHsgc3BhY2UoIDYgKSB9OyAvLyAyNHB4LCBzYW1lIGhlaWdodCBhcyB0aGUgYnV0dG9ucyBpbnNpZGVcblxuXHQuY29tcG9uZW50cy1idXR0b24uaXMtc21hbGwge1xuXHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdG9wYWNpdHk6IDAuNztcblx0XHRtYXJnaW4tcmlnaHQ6ICR7IHNwYWNlKCAxICkgfTsgLy8gQXZvaWQgaGlkaW5nIHRoZSBmb2N1cyBvdXRsaW5lXG5cdFx0cGFkZGluZzogMDtcblxuXHRcdCY6YWN0aXZlOm5vdCggOmRpc2FibGVkICkge1xuXHRcdFx0YmFja2dyb3VuZDogbm9uZTtcblx0XHRcdG9wYWNpdHk6IDE7XG5cdFx0XHRjb2xvcjogaW5oZXJpdDtcblx0XHR9XG5cdFx0Jjpob3Zlcjpub3QoIDpkaXNhYmxlZCApIHtcblx0XHRcdGJveC1zaGFkb3c6IG5vbmU7XG5cdFx0XHRvcGFjaXR5OiAxO1xuXHRcdFx0Y29sb3I6IGluaGVyaXQ7XG5cdFx0fVxuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgR3JvdXBUaXRsZVVJID0gc3R5bGVkKCBIZWFkaW5nIClgXG5cdG1pbi1oZWlnaHQ6ICR7IHNwYWNlKCAxMiApIH07XG5cdGFsaWduLWl0ZW1zOiBjZW50ZXI7XG5cdGNvbG9yOiBpbmhlcml0O1xuXHRkaXNwbGF5OiBmbGV4O1xuXHRqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG5cdG1hcmdpbi1ib3R0b206ICR7IHNwYWNlKCAyICkgfTtcblx0cGFkZGluZzogJHsgKCkgPT5cblx0XHRpc1JUTCgpXG5cdFx0XHQ/IGAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDQgKSB9ICR7IHNwYWNlKCAxICkgfSAkeyBzcGFjZSggMiApIH1gXG5cdFx0XHQ6IGAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDIgKSB9ICR7IHNwYWNlKCAxICkgfSAkeyBzcGFjZShcblx0XHRcdFx0XHQ0XG5cdFx0XHQgICkgfWAgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtQmFzZVVJID0gc3R5bGVkLmxpYFxuXHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblx0Y29sb3I6IGluaGVyaXQ7XG5cdG1hcmdpbi1ib3R0b206IDA7XG5cblx0PiBidXR0b24sXG5cdD4gYS5jb21wb25lbnRzLWJ1dHRvbixcblx0PiBhIHtcblx0XHR3aWR0aDogMTAwJTtcblx0XHRjb2xvcjogaW5oZXJpdDtcblx0XHRvcGFjaXR5OiAwLjc7XG5cdFx0cGFkZGluZzogJHsgc3BhY2UoIDIgKSB9ICR7IHNwYWNlKCA0ICkgfTsgLyogOHB4IDE2cHggKi9cblx0XHQkeyBydGwoIHsgdGV4dEFsaWduOiAnbGVmdCcgfSwgeyB0ZXh0QWxpZ246ICdyaWdodCcgfSApIH1cblxuXHRcdCY6aG92ZXIsXG5cdFx0Jjpmb2N1czpub3QoIFthcmlhLWRpc2FibGVkPSd0cnVlJ10gKTphY3RpdmUsXG5cdFx0JjphY3RpdmU6bm90KCBbYXJpYS1kaXNhYmxlZD0ndHJ1ZSddICk6YWN0aXZlIHtcblx0XHRcdGNvbG9yOiBpbmhlcml0O1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHQmLmlzLWFjdGl2ZSB7XG5cdFx0YmFja2dyb3VuZC1jb2xvcjogJHsgQ09MT1JTLnRoZW1lLmFjY2VudCB9O1xuXHRcdGNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50SW52ZXJ0ZWQgfTtcblxuXHRcdD4gYnV0dG9uLFxuXHRcdC5jb21wb25lbnRzLWJ1dHRvbjpob3Zlcixcblx0XHQ+IGEge1xuXHRcdFx0Y29sb3I6ICR7IENPTE9SUy50aGVtZS5hY2NlbnRJbnZlcnRlZCB9O1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHQ+IHN2ZyBwYXRoIHtcblx0XHRjb2xvcjogJHsgQ09MT1JTLmdyYXlbIDYwMCBdIH07XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtVUkgPSBzdHlsZWQuZGl2YFxuXHRkaXNwbGF5OiBmbGV4O1xuXHRhbGlnbi1pdGVtczogY2VudGVyO1xuXHRoZWlnaHQ6IGF1dG87XG5cdG1pbi1oZWlnaHQ6IDQwcHg7XG5cdG1hcmdpbjogMDtcblx0cGFkZGluZzogJHsgc3BhY2UoIDEuNSApIH0gJHsgc3BhY2UoIDQgKSB9O1xuXHRmb250LXdlaWdodDogNDAwO1xuXHRsaW5lLWhlaWdodDogMjBweDtcblx0d2lkdGg6IDEwMCU7XG5cdGNvbG9yOiBpbmhlcml0O1xuXHRvcGFjaXR5OiAwLjc7XG5gO1xuXG5leHBvcnQgY29uc3QgSXRlbUljb25VSSA9IHN0eWxlZC5zcGFuYFxuXHRkaXNwbGF5OiBmbGV4O1xuXHRtYXJnaW4tcmlnaHQ6ICR7IHNwYWNlKCAyICkgfTtcbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtQmFkZ2VVSSA9IHN0eWxlZC5zcGFuYFxuXHRtYXJnaW4tbGVmdDogJHsgKCkgPT4gKCBpc1JUTCgpID8gJzAnIDogc3BhY2UoIDIgKSApIH07XG5cdG1hcmdpbi1yaWdodDogJHsgKCkgPT4gKCBpc1JUTCgpID8gc3BhY2UoIDIgKSA6ICcwJyApIH07XG5cdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHRwYWRkaW5nOiAkeyBzcGFjZSggMSApIH0gJHsgc3BhY2UoIDMgKSB9O1xuXHRib3JkZXItcmFkaXVzOiAkeyBDT05GSUcucmFkaXVzU21hbGwgfTtcblxuXHRAa2V5ZnJhbWVzIGZhZGUtaW4ge1xuXHRcdGZyb20ge1xuXHRcdFx0b3BhY2l0eTogMDtcblx0XHR9XG5cdFx0dG8ge1xuXHRcdFx0b3BhY2l0eTogMTtcblx0XHR9XG5cdH1cblxuXHRAbWVkaWEgbm90ICggcHJlZmVycy1yZWR1Y2VkLW1vdGlvbiApIHtcblx0XHRhbmltYXRpb246IGZhZGUtaW4gMjUwbXMgZWFzZS1vdXQ7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBJdGVtVGl0bGVVSSA9IHN0eWxlZCggVGV4dCApYFxuXHQkeyAoKSA9PiAoIGlzUlRMKCkgPyAnbWFyZ2luLWxlZnQ6IGF1dG87JyA6ICdtYXJnaW4tcmlnaHQ6IGF1dG87JyApIH1cblx0Zm9udC1zaXplOiAxNHB4O1xuXHRsaW5lLWhlaWdodDogMjBweDtcblx0Y29sb3I6IGluaGVyaXQ7XG5gO1xuIl19 */"));
 
   // packages/components/build-module/navigation/use-create-navigation-tree.mjs
-  var import_element151 = __toESM(require_element(), 1);
+  var import_element152 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/use-navigation-tree-nodes.mjs
-  var import_element150 = __toESM(require_element(), 1);
+  var import_element151 = __toESM(require_element(), 1);
   function useNavigationTreeNodes() {
-    const [nodes, setNodes] = (0, import_element150.useState)({});
+    const [nodes, setNodes] = (0, import_element151.useState)({});
     const getNode = (key) => nodes[key];
     const addNode = (key, value) => {
       const {
@@ -43611,7 +43629,7 @@ This message will only show in development mode. It won't appear in production. 
       addNode: addMenu,
       removeNode: removeMenu
     } = useNavigationTreeNodes();
-    const [childMenu, setChildMenu] = (0, import_element151.useState)({});
+    const [childMenu, setChildMenu] = (0, import_element152.useState)({});
     const getChildMenu = (menu2) => childMenu[menu2] || [];
     const traverseMenu = (startMenu, callback) => {
       const visited = [];
@@ -43681,8 +43699,8 @@ This message will only show in development mode. It won't appear in production. 
     className: className2,
     onActivateMenu = noop18
   }) {
-    const [menu2, setMenu] = (0, import_element152.useState)(activeMenu);
-    const [slideOrigin, setSlideOrigin] = (0, import_element152.useState)();
+    const [menu2, setMenu] = (0, import_element153.useState)(activeMenu);
+    const [slideOrigin, setSlideOrigin] = (0, import_element153.useState)();
     const navigationTree = useCreateNavigationTree();
     const defaultSlideOrigin = (0, import_i18n61.isRTL)() ? "right" : "left";
     (0, import_deprecated20.default)("wp.components.Navigation (and all subcomponents)", {
@@ -43698,13 +43716,13 @@ This message will only show in development mode. It won't appear in production. 
       setMenu(menuId);
       onActivateMenu(menuId);
     };
-    const isMountedRef = (0, import_element152.useRef)(false);
-    (0, import_element152.useEffect)(() => {
+    const isMountedRef = (0, import_element153.useRef)(false);
+    (0, import_element153.useEffect)(() => {
       if (!isMountedRef.current) {
         isMountedRef.current = true;
       }
     }, []);
-    (0, import_element152.useEffect)(() => {
+    (0, import_element153.useEffect)(() => {
       if (activeMenu !== menu2) {
         setActiveMenu(activeMenu);
       }
@@ -43736,7 +43754,7 @@ This message will only show in development mode. It won't appear in production. 
   var navigation_default = Navigation;
 
   // packages/components/build-module/navigation/back-button/index.mjs
-  var import_element153 = __toESM(require_element(), 1);
+  var import_element154 = __toESM(require_element(), 1);
   var import_i18n62 = __toESM(require_i18n(), 1);
   var import_jsx_runtime230 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedNavigationBackButton({
@@ -43774,20 +43792,20 @@ This message will only show in development mode. It won't appear in production. 
       }), backButtonLabel || parentMenuTitle || (0, import_i18n62.__)("Back")]
     });
   }
-  var NavigationBackButton = (0, import_element153.forwardRef)(UnforwardedNavigationBackButton);
+  var NavigationBackButton = (0, import_element154.forwardRef)(UnforwardedNavigationBackButton);
   NavigationBackButton.displayName = "NavigationBackButton";
   var back_button_default = NavigationBackButton;
 
   // packages/components/build-module/navigation/group/index.mjs
-  var import_element155 = __toESM(require_element(), 1);
+  var import_element156 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/group/context.mjs
-  var import_element154 = __toESM(require_element(), 1);
-  var NavigationGroupContext = (0, import_element154.createContext)({
+  var import_element155 = __toESM(require_element(), 1);
+  var NavigationGroupContext = (0, import_element155.createContext)({
     group: void 0
   });
   NavigationGroupContext.displayName = "NavigationGroupContext";
-  var useNavigationGroupContext = () => (0, import_element154.useContext)(NavigationGroupContext);
+  var useNavigationGroupContext = () => (0, import_element155.useContext)(NavigationGroupContext);
 
   // packages/components/build-module/navigation/group/index.mjs
   var import_jsx_runtime231 = __toESM(require_jsx_runtime(), 1);
@@ -43797,7 +43815,7 @@ This message will only show in development mode. It won't appear in production. 
     className: className2,
     title
   }) {
-    const [groupId] = (0, import_element155.useState)(`group-${++uniqueId}`);
+    const [groupId] = (0, import_element156.useState)(`group-${++uniqueId}`);
     const {
       navigationTree: {
         items
@@ -43856,19 +43874,19 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/navigation/item/base.mjs
-  var import_element158 = __toESM(require_element(), 1);
+  var import_element159 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/item/use-navigation-tree-item.mjs
-  var import_element157 = __toESM(require_element(), 1);
+  var import_element158 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/menu/context.mjs
-  var import_element156 = __toESM(require_element(), 1);
-  var NavigationMenuContext = (0, import_element156.createContext)({
+  var import_element157 = __toESM(require_element(), 1);
+  var NavigationMenuContext = (0, import_element157.createContext)({
     menu: void 0,
     search: ""
   });
   NavigationMenuContext.displayName = "NavigationMenuContext";
-  var useNavigationMenuContext = () => (0, import_element156.useContext)(NavigationMenuContext);
+  var useNavigationMenuContext = () => (0, import_element157.useContext)(NavigationMenuContext);
 
   // packages/components/build-module/navigation/utils.mjs
   var import_remove_accents4 = __toESM(require_remove_accents(), 1);
@@ -43891,7 +43909,7 @@ This message will only show in development mode. It won't appear in production. 
       menu: menu2,
       search
     } = useNavigationMenuContext();
-    (0, import_element157.useEffect)(() => {
+    (0, import_element158.useEffect)(() => {
       const isMenuActive = activeMenu === menu2;
       const isItemVisible = !search || props.title !== void 0 && normalizedSearch(props.title, search);
       addItem(itemId, {
@@ -43917,7 +43935,7 @@ This message will only show in development mode. It won't appear in production. 
       href,
       ...restProps
     } = props;
-    const [itemId] = (0, import_element158.useState)(`item-${++uniqueId2}`);
+    const [itemId] = (0, import_element159.useState)(`item-${++uniqueId2}`);
     useNavigationTreeItem(itemId, props);
     const {
       navigationTree
@@ -44006,10 +44024,10 @@ This message will only show in development mode. It won't appear in production. 
   var item_default2 = NavigationItem;
 
   // packages/components/build-module/navigation/menu/index.mjs
-  var import_element163 = __toESM(require_element(), 1);
+  var import_element164 = __toESM(require_element(), 1);
 
   // packages/components/build-module/navigation/menu/use-navigation-tree-menu.mjs
-  var import_element159 = __toESM(require_element(), 1);
+  var import_element160 = __toESM(require_element(), 1);
   var useNavigationTreeMenu = (props) => {
     const {
       navigationTree: {
@@ -44018,7 +44036,7 @@ This message will only show in development mode. It won't appear in production. 
       }
     } = useNavigationContext();
     const key = props.menu || ROOT_MENU;
-    (0, import_element159.useEffect)(() => {
+    (0, import_element160.useEffect)(() => {
       addMenu(key, {
         ...props,
         menu: key
@@ -44030,11 +44048,11 @@ This message will only show in development mode. It won't appear in production. 
   };
 
   // packages/components/build-module/navigation/menu/menu-title.mjs
-  var import_element162 = __toESM(require_element(), 1);
+  var import_element163 = __toESM(require_element(), 1);
   var import_i18n66 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/navigation/menu/menu-title-search.mjs
-  var import_element161 = __toESM(require_element(), 1);
+  var import_element162 = __toESM(require_element(), 1);
   var import_i18n65 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/higher-order/with-spoken-messages/index.mjs
@@ -44052,7 +44070,7 @@ This message will only show in development mode. It won't appear in production. 
   // packages/components/build-module/search-control/index.mjs
   var import_compose62 = __toESM(require_compose(), 1);
   var import_i18n64 = __toESM(require_i18n(), 1);
-  var import_element160 = __toESM(require_element(), 1);
+  var import_element161 = __toESM(require_element(), 1);
   var import_deprecated21 = __toESM(require_deprecated(), 1);
 
   // packages/components/build-module/search-control/styles.mjs
@@ -44133,7 +44151,7 @@ This message will only show in development mode. It won't appear in production. 
       disabled,
       ...filteredRestProps
     } = restProps;
-    const searchRef = (0, import_element160.useRef)(null);
+    const searchRef = (0, import_element161.useRef)(null);
     const instanceId = (0, import_compose62.useInstanceId)(SearchControl, "components-search-control");
     return /* @__PURE__ */ (0, import_jsx_runtime236.jsx)(StyledInputControl, {
       __next40pxDefaultSize: true,
@@ -44164,7 +44182,7 @@ This message will only show in development mode. It won't appear in production. 
       ...filteredRestProps
     });
   }
-  var SearchControl = (0, import_element160.forwardRef)(UnforwardedSearchControl);
+  var SearchControl = (0, import_element161.forwardRef)(UnforwardedSearchControl);
   SearchControl.displayName = "SearchControl";
   var search_control_default = SearchControl;
 
@@ -44185,8 +44203,8 @@ This message will only show in development mode. It won't appear in production. 
     const {
       menu: menu2
     } = useNavigationMenuContext();
-    const inputRef = (0, import_element161.useRef)(null);
-    (0, import_element161.useEffect)(() => {
+    const inputRef = (0, import_element162.useRef)(null);
+    (0, import_element162.useEffect)(() => {
       const delayedFocus = setTimeout(() => {
         inputRef.current?.focus();
       }, SEARCH_FOCUS_DELAY);
@@ -44194,7 +44212,7 @@ This message will only show in development mode. It won't appear in production. 
         clearTimeout(delayedFocus);
       };
     }, []);
-    (0, import_element161.useEffect)(() => {
+    (0, import_element162.useEffect)(() => {
       if (!search) {
         return;
       }
@@ -44246,11 +44264,11 @@ This message will only show in development mode. It won't appear in production. 
     title,
     titleAction
   }) {
-    const [isSearching, setIsSearching] = (0, import_element162.useState)(false);
+    const [isSearching, setIsSearching] = (0, import_element163.useState)(false);
     const {
       menu: menu2
     } = useNavigationMenuContext();
-    const searchButtonRef = (0, import_element162.useRef)(null);
+    const searchButtonRef = (0, import_element163.useRef)(null);
     if (!title) {
       return null;
     }
@@ -44337,7 +44355,7 @@ This message will only show in development mode. It won't appear in production. 
       title,
       titleAction
     } = props;
-    const [uncontrolledSearch, setUncontrolledSearch] = (0, import_element163.useState)("");
+    const [uncontrolledSearch, setUncontrolledSearch] = (0, import_element164.useState)("");
     useNavigationTreeMenu(props);
     const {
       activeMenu
@@ -44386,7 +44404,7 @@ This message will only show in development mode. It won't appear in production. 
 
   // packages/components/build-module/navigator/navigator/component.mjs
   var import_deprecated22 = __toESM(require_deprecated(), 1);
-  var import_element165 = __toESM(require_element(), 1);
+  var import_element166 = __toESM(require_element(), 1);
   var import_is_shallow_equal3 = __toESM(require_is_shallow_equal(), 1);
   var import_warning7 = __toESM(require_warning(), 1);
 
@@ -44743,7 +44761,7 @@ This message will only show in development mode. It won't appear in production. 
   }
 
   // packages/components/build-module/navigator/context.mjs
-  var import_element164 = __toESM(require_element(), 1);
+  var import_element165 = __toESM(require_element(), 1);
   var initialContextValue = {
     location: {},
     goTo: () => {
@@ -44758,7 +44776,7 @@ This message will only show in development mode. It won't appear in production. 
     },
     params: {}
   };
-  var NavigatorContext = (0, import_element164.createContext)(initialContextValue);
+  var NavigatorContext = (0, import_element165.createContext)(initialContextValue);
   NavigatorContext.displayName = "NavigatorContext";
 
   // packages/components/build-module/navigator/styles.mjs
@@ -44995,7 +45013,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       className: className2,
       ...otherProps
     } = useContextSystem(props, "Navigator");
-    const [routerState, dispatch] = (0, import_element165.useReducer)(routerReducer, initialPathProp, (path) => ({
+    const [routerState, dispatch] = (0, import_element166.useReducer)(routerReducer, initialPathProp, (path) => ({
       screens: [],
       currentLocation: {
         path,
@@ -45005,7 +45023,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       focusSelectors: /* @__PURE__ */ new Map(),
       initialPath: initialPathProp
     }));
-    const methods = (0, import_element165.useMemo)(() => ({
+    const methods = (0, import_element166.useMemo)(() => ({
       // Note: calling goBack calls `goToParent` internally, as it was established
       // that `goBack` should behave like `goToParent`, and `goToParent` should
       // be marked as deprecated.
@@ -45041,14 +45059,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       currentLocation,
       matchedPath
     } = routerState;
-    const navigatorContextValue = (0, import_element165.useMemo)(() => ({
+    const navigatorContextValue = (0, import_element166.useMemo)(() => ({
       location: currentLocation,
       params: matchedPath?.params ?? {},
       match: matchedPath?.id,
       ...methods
     }), [currentLocation, matchedPath, methods]);
     const cx3 = useCx();
-    const classes = (0, import_element165.useMemo)(() => cx3(navigatorWrapper, className2), [className2, cx3]);
+    const classes = (0, import_element166.useMemo)(() => cx3(navigatorWrapper, className2), [className2, cx3]);
     return /* @__PURE__ */ (0, import_jsx_runtime241.jsx)(component_default, {
       ref: forwardedRef,
       className: classes,
@@ -45063,13 +45081,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/navigator/navigator-screen/component.mjs
   var import_dom32 = __toESM(require_dom(), 1);
-  var import_element167 = __toESM(require_element(), 1);
+  var import_element168 = __toESM(require_element(), 1);
   var import_compose64 = __toESM(require_compose(), 1);
   var import_escape_html = __toESM(require_escape_html(), 1);
   var import_warning8 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/navigator/navigator-screen/use-screen-animate-presence.mjs
-  var import_element166 = __toESM(require_element(), 1);
+  var import_element167 = __toESM(require_element(), 1);
   var import_compose63 = __toESM(require_compose(), 1);
   var import_i18n68 = __toESM(require_i18n(), 1);
   var ANIMATION_TIMEOUT_MARGIN = 1.2;
@@ -45083,10 +45101,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }) {
     const isRTL23 = (0, import_i18n68.isRTL)();
     const prefersReducedMotion2 = (0, import_compose63.useReducedMotion)();
-    const [animationStatus, setAnimationStatus] = (0, import_element166.useState)("INITIAL");
+    const [animationStatus, setAnimationStatus] = (0, import_element167.useState)("INITIAL");
     const becameSelected = animationStatus !== "ANIMATING_IN" && animationStatus !== "IN" && isMatch;
     const becameUnselected = animationStatus !== "ANIMATING_OUT" && animationStatus !== "OUT" && !isMatch;
-    (0, import_element166.useLayoutEffect)(() => {
+    (0, import_element167.useLayoutEffect)(() => {
       if (becameSelected) {
         setAnimationStatus(skipAnimation || prefersReducedMotion2 ? "IN" : "ANIMATING_IN");
       } else if (becameUnselected) {
@@ -45102,7 +45120,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     } else if (isAnimatingOut) {
       animationType = "out";
     }
-    const onScreenAnimationEnd = (0, import_element166.useCallback)((e3) => {
+    const onScreenAnimationEnd = (0, import_element167.useCallback)((e3) => {
       onAnimationEnd?.(e3);
       if (isExitAnimation(animationDirection, animationStatus, e3.animationName)) {
         setAnimationStatus("OUT");
@@ -45110,7 +45128,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         setAnimationStatus("IN");
       }
     }, [onAnimationEnd, animationStatus, animationDirection]);
-    (0, import_element166.useEffect)(() => {
+    (0, import_element167.useEffect)(() => {
       let animationTimeout;
       if (isAnimatingOut) {
         animationTimeout = window.setTimeout(() => {
@@ -45150,7 +45168,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     if (!/^\//.test(props.path)) {
       true ? (0, import_warning8.default)("wp.components.Navigator.Screen: the `path` should follow a URL-like scheme; it should start with and be separated by the `/` character.") : void 0;
     }
-    const screenId = (0, import_element167.useId)();
+    const screenId = (0, import_element168.useId)();
     const {
       children,
       className: className2,
@@ -45163,7 +45181,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       match: match4,
       addScreen: addScreen2,
       removeScreen: removeScreen2
-    } = (0, import_element167.useContext)(NavigatorContext);
+    } = (0, import_element168.useContext)(NavigatorContext);
     const {
       isInitial,
       isBack,
@@ -45171,9 +45189,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       skipFocus
     } = location;
     const isMatch = match4 === screenId;
-    const wrapperRef = (0, import_element167.useRef)(null);
+    const wrapperRef = (0, import_element168.useRef)(null);
     const skipAnimationAndFocusRestoration = !!isInitial && !isBack;
-    (0, import_element167.useEffect)(() => {
+    (0, import_element168.useEffect)(() => {
       const screen = {
         id: screenId,
         path: (0, import_escape_html.escapeAttribute)(path)
@@ -45192,12 +45210,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       skipAnimation: skipAnimationAndFocusRestoration
     });
     const cx3 = useCx();
-    const classes = (0, import_element167.useMemo)(() => cx3(navigatorScreen, animationStyles, className2), [className2, cx3, animationStyles]);
-    const locationRef = (0, import_element167.useRef)(location);
-    (0, import_element167.useEffect)(() => {
+    const classes = (0, import_element168.useMemo)(() => cx3(navigatorScreen, animationStyles, className2), [className2, cx3, animationStyles]);
+    const locationRef = (0, import_element168.useRef)(location);
+    (0, import_element168.useEffect)(() => {
       locationRef.current = location;
     }, [location]);
-    (0, import_element167.useEffect)(() => {
+    (0, import_element168.useEffect)(() => {
       const wrapperEl = wrapperRef.current;
       if (skipAnimationAndFocusRestoration || !isMatch || !wrapperEl || locationRef.current.hasRestoredFocus || skipFocus) {
         return;
@@ -45229,11 +45247,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var NavigatorScreen = contextConnect(UnconnectedNavigatorScreen, "Navigator.Screen");
 
   // packages/components/build-module/navigator/navigator-button/hook.mjs
-  var import_element169 = __toESM(require_element(), 1);
+  var import_element170 = __toESM(require_element(), 1);
   var import_escape_html2 = __toESM(require_escape_html(), 1);
 
   // packages/components/build-module/navigator/use-navigator.mjs
-  var import_element168 = __toESM(require_element(), 1);
+  var import_element169 = __toESM(require_element(), 1);
   function useNavigator() {
     const {
       location,
@@ -45241,7 +45259,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       goTo: goTo2,
       goBack,
       goToParent: goToParent2
-    } = (0, import_element168.useContext)(NavigatorContext);
+    } = (0, import_element169.useContext)(NavigatorContext);
     return {
       location,
       goTo: goTo2,
@@ -45265,7 +45283,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       goTo: goTo2
     } = useNavigator();
-    const handleClick = (0, import_element169.useCallback)((e3) => {
+    const handleClick = (0, import_element170.useCallback)((e3) => {
       e3.preventDefault();
       goTo2(escapedPath, {
         focusTargetSelector: cssSelectorForAttribute(attributeName, escapedPath)
@@ -45292,7 +45310,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var NavigatorButton = contextConnect(UnconnectedNavigatorButton, "Navigator.Button");
 
   // packages/components/build-module/navigator/navigator-back-button/hook.mjs
-  var import_element170 = __toESM(require_element(), 1);
+  var import_element171 = __toESM(require_element(), 1);
   function useNavigatorBackButton(props) {
     const {
       onClick,
@@ -45302,7 +45320,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       goBack
     } = useNavigator();
-    const handleClick = (0, import_element170.useCallback)((e3) => {
+    const handleClick = (0, import_element171.useCallback)((e3) => {
       e3.preventDefault();
       goBack();
       onClick?.(e3);
@@ -45456,14 +45474,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/notice/index.mjs
   var import_i18n69 = __toESM(require_i18n(), 1);
-  var import_element171 = __toESM(require_element(), 1);
+  var import_element172 = __toESM(require_element(), 1);
   var import_a11y8 = __toESM(require_a11y(), 1);
   var import_jsx_runtime246 = __toESM(require_jsx_runtime(), 1);
   var noop20 = () => {
   };
   function useSpokenMessage(message2, politeness) {
-    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element171.renderToString)(message2);
-    (0, import_element171.useEffect)(() => {
+    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element172.renderToString)(message2);
+    (0, import_element172.useEffect)(() => {
       if (spokenMessage) {
         (0, import_a11y8.speak)(spokenMessage, politeness);
       }
@@ -45513,7 +45531,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       "is-dismissible": isDismissible
     });
     if (__unstableHTML && typeof children === "string") {
-      children = /* @__PURE__ */ (0, import_jsx_runtime246.jsx)(import_element171.RawHTML, {
+      children = /* @__PURE__ */ (0, import_jsx_runtime246.jsx)(import_element172.RawHTML, {
         children
       });
     }
@@ -45600,7 +45618,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var list_default = NoticeList;
 
   // packages/components/build-module/panel/index.mjs
-  var import_element172 = __toESM(require_element(), 1);
+  var import_element173 = __toESM(require_element(), 1);
 
   // packages/components/build-module/panel/header.mjs
   var import_jsx_runtime248 = __toESM(require_jsx_runtime(), 1);
@@ -45633,13 +45651,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }), children]
     });
   }
-  var Panel = (0, import_element172.forwardRef)(UnforwardedPanel);
+  var Panel = (0, import_element173.forwardRef)(UnforwardedPanel);
   Panel.displayName = "Panel";
   var panel_default = Panel;
 
   // packages/components/build-module/panel/body.mjs
   var import_compose65 = __toESM(require_compose(), 1);
-  var import_element173 = __toESM(require_element(), 1);
+  var import_element174 = __toESM(require_element(), 1);
   var import_jsx_runtime250 = __toESM(require_jsx_runtime(), 1);
   var noop22 = () => {
   };
@@ -45659,7 +45677,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       initial: initialOpen === void 0 ? true : initialOpen,
       fallback: false
     });
-    const nodeRef = (0, import_element173.useRef)(null);
+    const nodeRef = (0, import_element174.useRef)(null);
     const scrollBehavior = (0, import_compose65.useReducedMotion)() ? "auto" : "smooth";
     const handleOnToggle = (event) => {
       event.preventDefault();
@@ -45667,7 +45685,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       setIsOpened(next2);
       onToggle(next2);
     };
-    const scrollAfterOpenRef = (0, import_element173.useRef)(void 0);
+    const scrollAfterOpenRef = (0, import_element174.useRef)(void 0);
     scrollAfterOpenRef.current = scrollAfterOpen;
     use_update_effect_default(() => {
       if (isOpened && scrollAfterOpenRef.current && nodeRef.current?.scrollIntoView) {
@@ -45695,7 +45713,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }) : isOpened && children]
     });
   }
-  var PanelBodyTitle = (0, import_element173.forwardRef)(({
+  var PanelBodyTitle = (0, import_element174.forwardRef)(({
     isOpened,
     icon,
     title,
@@ -45726,12 +45744,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   });
-  var PanelBody = (0, import_element173.forwardRef)(UnforwardedPanelBody);
+  var PanelBody = (0, import_element174.forwardRef)(UnforwardedPanelBody);
   PanelBody.displayName = "PanelBody";
   var body_default = PanelBody;
 
   // packages/components/build-module/panel/row.mjs
-  var import_element174 = __toESM(require_element(), 1);
+  var import_element175 = __toESM(require_element(), 1);
   var import_jsx_runtime251 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedPanelRow({
     className: className2,
@@ -45743,14 +45761,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var PanelRow = (0, import_element174.forwardRef)(UnforwardedPanelRow);
+  var PanelRow = (0, import_element175.forwardRef)(UnforwardedPanelRow);
   PanelRow.displayName = "PanelRow";
   var row_default = PanelRow;
 
   // packages/components/build-module/placeholder/index.mjs
   var import_compose66 = __toESM(require_compose(), 1);
   var import_primitives34 = __toESM(require_primitives(), 1);
-  var import_element175 = __toESM(require_element(), 1);
+  var import_element176 = __toESM(require_element(), 1);
   var import_a11y9 = __toESM(require_a11y(), 1);
   var import_jsx_runtime252 = __toESM(require_jsx_runtime(), 1);
   var PlaceholderIllustration = /* @__PURE__ */ (0, import_jsx_runtime252.jsx)(import_primitives34.SVG, {
@@ -45792,7 +45810,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const fieldsetClasses = clsx_default("components-placeholder__fieldset", {
       "is-column-layout": isColumnLayout
     });
-    (0, import_element175.useEffect)(() => {
+    (0, import_element176.useEffect)(() => {
       if (instructions) {
         (0, import_a11y9.speak)(instructions);
       }
@@ -45821,7 +45839,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/progress-bar/index.mjs
   var import_i18n71 = __toESM(require_i18n(), 1);
-  var import_element176 = __toESM(require_element(), 1);
+  var import_element177 = __toESM(require_element(), 1);
 
   // packages/components/build-module/progress-bar/styles.mjs
   var import_i18n70 = __toESM(require_i18n(), 1);
@@ -45907,7 +45925,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ProgressBar = (0, import_element176.forwardRef)(UnforwardedProgressBar);
+  var ProgressBar = (0, import_element177.forwardRef)(UnforwardedProgressBar);
   ProgressBar.displayName = "ProgressBar";
   var progress_bar_default = ProgressBar;
 
@@ -45951,7 +45969,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/tree-select/index.mjs
-  var import_element177 = __toESM(require_element(), 1);
+  var import_element178 = __toESM(require_element(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
   var import_jsx_runtime254 = __toESM(require_jsx_runtime(), 1);
   function getSelectOptions(tree, level = 0) {
@@ -45971,7 +45989,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       tree = [],
       ...restProps
     } = useDeprecated36pxDefaultSizeProp(props);
-    const options2 = (0, import_element177.useMemo)(() => {
+    const options2 = (0, import_element178.useMemo)(() => {
       return [noOptionLabel && {
         value: "",
         label: noOptionLabel
@@ -46022,7 +46040,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/query-controls/category-select.mjs
-  var import_element178 = __toESM(require_element(), 1);
+  var import_element179 = __toESM(require_element(), 1);
   var import_jsx_runtime256 = __toESM(require_jsx_runtime(), 1);
   function CategorySelect({
     __next40pxDefaultSize,
@@ -46033,7 +46051,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onChange: onChangeProp,
     ...props
   }) {
-    const termsTree = (0, import_element178.useMemo)(() => {
+    const termsTree = (0, import_element179.useMemo)(() => {
       return buildTermsTree(categoriesList);
     }, [categoriesList]);
     return /* @__PURE__ */ (0, import_jsx_runtime256.jsx)(tree_select_default, {
@@ -46152,11 +46170,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var query_controls_default = QueryControls;
 
   // packages/components/build-module/radio-group/radio.mjs
-  var import_element180 = __toESM(require_element(), 1);
+  var import_element181 = __toESM(require_element(), 1);
 
   // packages/components/build-module/radio-group/context.mjs
-  var import_element179 = __toESM(require_element(), 1);
-  var RadioGroupContext = (0, import_element179.createContext)({
+  var import_element180 = __toESM(require_element(), 1);
+  var RadioGroupContext = (0, import_element180.createContext)({
     store: void 0,
     disabled: void 0
   });
@@ -46172,7 +46190,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       store,
       disabled
-    } = (0, import_element180.useContext)(RadioGroupContext);
+    } = (0, import_element181.useContext)(RadioGroupContext);
     const selectedValue = useStoreState(store, "value");
     const isChecked = selectedValue !== void 0 && selectedValue === value;
     maybeWarnDeprecated36pxSize({
@@ -46196,13 +46214,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children: children || value
     });
   }
-  var Radio22 = (0, import_element180.forwardRef)(UnforwardedRadio);
+  var Radio22 = (0, import_element181.forwardRef)(UnforwardedRadio);
   Radio22.displayName = "Radio";
   var radio_default = Radio22;
 
   // packages/components/build-module/radio-group/index.mjs
   var import_deprecated24 = __toESM(require_deprecated(), 1);
-  var import_element181 = __toESM(require_element(), 1);
+  var import_element182 = __toESM(require_element(), 1);
   var import_i18n73 = __toESM(require_i18n(), 1);
   var import_jsx_runtime259 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedRadioGroup({
@@ -46222,7 +46240,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       },
       rtl: (0, import_i18n73.isRTL)()
     });
-    const contextValue = (0, import_element181.useMemo)(() => ({
+    const contextValue = (0, import_element182.useMemo)(() => ({
       store: radioStore,
       disabled
     }), [radioStore, disabled]);
@@ -46244,7 +46262,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var RadioGroup22 = (0, import_element181.forwardRef)(UnforwardedRadioGroup);
+  var RadioGroup22 = (0, import_element182.forwardRef)(UnforwardedRadioGroup);
   RadioGroup22.displayName = "RadioGroup";
   var radio_group_default = RadioGroup22;
 
@@ -46280,6 +46298,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime260.jsxs)("fieldset", {
       id: id3,
+      role: "radiogroup",
       className: clsx_default(className2, "components-radio-control"),
       "aria-describedby": !!help ? generateHelpId(id3) : void 0,
       children: [hideLabelFromVision ? /* @__PURE__ */ (0, import_jsx_runtime260.jsx)(component_default2, {
@@ -46329,7 +46348,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var radio_control_default = RadioControl;
 
   // packages/components/build-module/resizable-box/index.mjs
-  var import_element185 = __toESM(require_element(), 1);
+  var import_element186 = __toESM(require_element(), 1);
 
   // node_modules/re-resizable/lib/index.js
   var React13 = __toESM(require_react());
@@ -47170,14 +47189,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   );
 
   // packages/components/build-module/resizable-box/resize-tooltip/index.mjs
-  var import_element184 = __toESM(require_element(), 1);
+  var import_element185 = __toESM(require_element(), 1);
 
   // packages/components/build-module/resizable-box/resize-tooltip/label.mjs
-  var import_element183 = __toESM(require_element(), 1);
+  var import_element184 = __toESM(require_element(), 1);
   var import_i18n74 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/resizable-box/resize-tooltip/utils.mjs
-  var import_element182 = __toESM(require_element(), 1);
+  var import_element183 = __toESM(require_element(), 1);
   var import_compose68 = __toESM(require_compose(), 1);
   var noop23 = () => {
   };
@@ -47194,16 +47213,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }) {
     const [resizeListener, sizes] = (0, import_compose68.useResizeObserver)();
     const isAxisControlled = !!axis;
-    const [moveX, setMoveX] = (0, import_element182.useState)(false);
-    const [moveY, setMoveY] = (0, import_element182.useState)(false);
+    const [moveX, setMoveX] = (0, import_element183.useState)(false);
+    const [moveY, setMoveY] = (0, import_element183.useState)(false);
     const {
       width,
       height
     } = sizes;
-    const heightRef = (0, import_element182.useRef)(height);
-    const widthRef = (0, import_element182.useRef)(width);
-    const moveTimeoutRef = (0, import_element182.useRef)(void 0);
-    const debounceUnsetMoveXY = (0, import_element182.useCallback)(() => {
+    const heightRef = (0, import_element183.useRef)(height);
+    const widthRef = (0, import_element183.useRef)(width);
+    const moveTimeoutRef = (0, import_element183.useRef)(void 0);
+    const debounceUnsetMoveXY = (0, import_element183.useCallback)(() => {
       const unsetMoveXY = () => {
         if (isAxisControlled) {
           return;
@@ -47216,7 +47235,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
       moveTimeoutRef.current = window.setTimeout(unsetMoveXY, fadeTimeout);
     }, [fadeTimeout, isAxisControlled]);
-    (0, import_element182.useEffect)(() => {
+    (0, import_element183.useEffect)(() => {
       const isRendered = width !== null || height !== null;
       if (!isRendered) {
         return;
@@ -47396,7 +47415,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ForwardedComponent3 = (0, import_element183.forwardRef)(Label3);
+  var ForwardedComponent3 = (0, import_element184.forwardRef)(Label3);
   var label_default = ForwardedComponent3;
 
   // packages/components/build-module/resizable-box/resize-tooltip/index.mjs
@@ -47443,7 +47462,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ForwardedComponent4 = (0, import_element184.forwardRef)(ResizeTooltip);
+  var ForwardedComponent4 = (0, import_element185.forwardRef)(ResizeTooltip);
   var resize_tooltip_default = ForwardedComponent4;
 
   // packages/components/build-module/resizable-box/index.mjs
@@ -47501,12 +47520,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   }
-  var ResizableBox = (0, import_element185.forwardRef)(UnforwardedResizableBox);
+  var ResizableBox = (0, import_element186.forwardRef)(UnforwardedResizableBox);
   ResizableBox.displayName = "ResizableBox";
   var resizable_box_default = ResizableBox;
 
   // packages/components/build-module/responsive-wrapper/index.mjs
-  var import_element186 = __toESM(require_element(), 1);
+  var import_element187 = __toESM(require_element(), 1);
   var import_jsx_runtime264 = __toESM(require_jsx_runtime(), 1);
   function ResponsiveWrapper({
     naturalWidth,
@@ -47514,7 +47533,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     children,
     isInline = false
   }) {
-    if (import_element186.Children.count(children) !== 1) {
+    if (import_element187.Children.count(children) !== 1) {
       return null;
     }
     const TagName59 = isInline ? "span" : "div";
@@ -47525,7 +47544,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     return /* @__PURE__ */ (0, import_jsx_runtime264.jsx)(TagName59, {
       className: "components-responsive-wrapper",
       children: /* @__PURE__ */ (0, import_jsx_runtime264.jsx)("div", {
-        children: (0, import_element186.cloneElement)(children, {
+        children: (0, import_element187.cloneElement)(children, {
           className: clsx_default("components-responsive-wrapper__content", children.props.className),
           style: {
             ...children.props.style,
@@ -47538,7 +47557,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var responsive_wrapper_default = ResponsiveWrapper;
 
   // packages/components/build-module/sandbox/index.mjs
-  var import_element187 = __toESM(require_element(), 1);
+  var import_element188 = __toESM(require_element(), 1);
   var import_compose69 = __toESM(require_compose(), 1);
   var import_jsx_runtime265 = __toESM(require_jsx_runtime(), 1);
   var observeAndResizeJS = function() {
@@ -47616,9 +47635,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onFocus,
     tabIndex
   }) {
-    const ref = (0, import_element187.useRef)(null);
-    const [width, setWidth] = (0, import_element187.useState)(0);
-    const [height, setHeight] = (0, import_element187.useState)(0);
+    const ref = (0, import_element188.useRef)(null);
+    const [width, setWidth] = (0, import_element188.useState)(0);
+    const [height, setHeight] = (0, import_element188.useState)(0);
     function isFrameAccessible() {
       try {
         return !!ref.current?.contentDocument?.body;
@@ -47670,10 +47689,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         })]
       });
       contentDocument.open();
-      contentDocument.write("<!DOCTYPE html>" + (0, import_element187.renderToString)(htmlDoc));
+      contentDocument.write("<!DOCTYPE html>" + (0, import_element188.renderToString)(htmlDoc));
       contentDocument.close();
     }
-    (0, import_element187.useEffect)(() => {
+    (0, import_element188.useEffect)(() => {
       trySandBox();
       function tryNoForceSandBox() {
         trySandBox(false);
@@ -47705,10 +47724,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         defaultView?.removeEventListener("message", checkMessageForResize);
       };
     }, []);
-    (0, import_element187.useEffect)(() => {
+    (0, import_element188.useEffect)(() => {
       trySandBox();
     }, [title, styles3, scripts]);
-    (0, import_element187.useEffect)(() => {
+    (0, import_element188.useEffect)(() => {
       trySandBox(true);
     }, [html, type]);
     return /* @__PURE__ */ (0, import_jsx_runtime265.jsx)("iframe", {
@@ -47726,14 +47745,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/snackbar/index.mjs
   var import_a11y10 = __toESM(require_a11y(), 1);
-  var import_element188 = __toESM(require_element(), 1);
+  var import_element189 = __toESM(require_element(), 1);
   var import_i18n75 = __toESM(require_i18n(), 1);
   var import_warning9 = __toESM(require_warning(), 1);
   var import_jsx_runtime266 = __toESM(require_jsx_runtime(), 1);
   var NOTICE_TIMEOUT = 6e3;
   function useSpokenMessage2(message2, politeness) {
-    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element188.renderToString)(message2);
-    (0, import_element188.useEffect)(() => {
+    const spokenMessage = typeof message2 === "string" ? message2 : (0, import_element189.renderToString)(message2);
+    (0, import_element189.useEffect)(() => {
       if (spokenMessage) {
         (0, import_a11y10.speak)(spokenMessage, politeness);
       }
@@ -47770,17 +47789,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
     }
     useSpokenMessage2(spokenMessage, politeness);
-    const callbacksRef = (0, import_element188.useRef)({
+    const callbacksRef = (0, import_element189.useRef)({
       onDismiss,
       onRemove
     });
-    (0, import_element188.useLayoutEffect)(() => {
+    (0, import_element189.useLayoutEffect)(() => {
       callbacksRef.current = {
         onDismiss,
         onRemove
       };
     });
-    (0, import_element188.useEffect)(() => {
+    (0, import_element189.useEffect)(() => {
       const timeoutHandle = setTimeout(() => {
         if (!explicitDismiss) {
           callbacksRef.current.onDismiss?.();
@@ -47842,13 +47861,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var Snackbar = (0, import_element188.forwardRef)(UnforwardedSnackbar);
+  var Snackbar = (0, import_element189.forwardRef)(UnforwardedSnackbar);
   Snackbar.displayName = "Snackbar";
   var snackbar_default = Snackbar;
 
   // packages/components/build-module/snackbar/list.mjs
   var import_compose70 = __toESM(require_compose(), 1);
-  var import_element189 = __toESM(require_element(), 1);
+  var import_element190 = __toESM(require_element(), 1);
   var import_jsx_runtime267 = __toESM(require_jsx_runtime(), 1);
   var SNACKBAR_VARIANTS = {
     init: {
@@ -47887,7 +47906,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     children,
     onRemove
   }) {
-    const listRef = (0, import_element189.useRef)(null);
+    const listRef = (0, import_element190.useRef)(null);
     const isReducedMotion = (0, import_compose70.useReducedMotion)();
     className2 = clsx_default("components-snackbar-list", className2);
     const removeNotice = (notice) => () => onRemove?.(notice.id);
@@ -47928,7 +47947,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var list_default2 = SnackbarList;
 
   // packages/components/build-module/tab-panel/index.mjs
-  var import_element190 = __toESM(require_element(), 1);
+  var import_element191 = __toESM(require_element(), 1);
   var import_compose71 = __toESM(require_compose(), 1);
   var import_i18n76 = __toESM(require_i18n(), 1);
   var import_jsx_runtime268 = __toESM(require_jsx_runtime(), 1);
@@ -47949,7 +47968,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     onSelect
   }, ref) => {
     const instanceId = (0, import_compose71.useInstanceId)(TabPanel22, "tab-panel");
-    const prependInstanceId = (0, import_element190.useCallback)((tabName) => {
+    const prependInstanceId = (0, import_element191.useCallback)((tabName) => {
       if (typeof tabName === "undefined") {
         return;
       }
@@ -47976,19 +47995,19 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       rtl: (0, import_i18n76.isRTL)()
     });
     const selectedTabName = extractTabName(useStoreState(tabStore, "selectedId"));
-    const setTabStoreSelectedId = (0, import_element190.useCallback)((tabName) => {
+    const setTabStoreSelectedId = (0, import_element191.useCallback)((tabName) => {
       tabStore.setState("selectedId", prependInstanceId(tabName));
     }, [prependInstanceId, tabStore]);
     const selectedTab = tabs.find(({
       name
     }) => name === selectedTabName);
     const previousSelectedTabName = (0, import_compose71.usePrevious)(selectedTabName);
-    (0, import_element190.useEffect)(() => {
+    (0, import_element191.useEffect)(() => {
       if (previousSelectedTabName !== selectedTabName && selectedTabName === initialTabName && !!selectedTabName) {
         onSelect?.(selectedTabName);
       }
     }, [selectedTabName, initialTabName, onSelect, previousSelectedTabName]);
-    (0, import_element190.useLayoutEffect)(() => {
+    (0, import_element191.useLayoutEffect)(() => {
       if (selectedTab) {
         return;
       }
@@ -48005,7 +48024,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     }, [tabs, selectedTab, initialTabName, instanceId, setTabStoreSelectedId]);
-    (0, import_element190.useEffect)(() => {
+    (0, import_element191.useEffect)(() => {
       if (!selectedTab?.disabled) {
         return;
       }
@@ -48046,13 +48065,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var TabPanel22 = (0, import_element190.forwardRef)(UnforwardedTabPanel);
+  var TabPanel22 = (0, import_element191.forwardRef)(UnforwardedTabPanel);
   TabPanel22.displayName = "TabPanel";
   var tab_panel_default = TabPanel22;
 
   // packages/components/build-module/text-control/index.mjs
   var import_compose72 = __toESM(require_compose(), 1);
-  var import_element191 = __toESM(require_element(), 1);
+  var import_element192 = __toESM(require_element(), 1);
   var import_jsx_runtime269 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTextControl(props, ref) {
     const {
@@ -48096,13 +48115,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TextControl = (0, import_element191.forwardRef)(UnforwardedTextControl);
+  var TextControl = (0, import_element192.forwardRef)(UnforwardedTextControl);
   TextControl.displayName = "TextControl";
   var text_control_default = TextControl;
 
   // packages/components/build-module/textarea-control/index.mjs
   var import_compose73 = __toESM(require_compose(), 1);
-  var import_element192 = __toESM(require_element(), 1);
+  var import_element193 = __toESM(require_element(), 1);
 
   // packages/components/build-module/textarea-control/styles/textarea-control-styles.mjs
   var inputStyleNeutral = /* @__PURE__ */ css("box-shadow:0 0 0 transparent;border-radius:", config_values_default.radiusSmall, ";border:", config_values_default.borderWidth, " solid ", COLORS.ui.border, ";@media not ( prefers-reduced-motion ){transition:box-shadow 0.1s linear;}" + (false ? "" : ";label:inputStyleNeutral;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRleHRhcmVhLWNvbnRyb2wtc3R5bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQWM2QiIsImZpbGUiOiJ0ZXh0YXJlYS1jb250cm9sLXN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHsgZm9udCB9IGZyb20gJy4uLy4uL3V0aWxzL2ZvbnQnO1xuaW1wb3J0IHsgQ09MT1JTIH0gZnJvbSAnLi4vLi4vdXRpbHMvY29sb3JzLXZhbHVlcyc7XG5pbXBvcnQgeyBDT05GSUcgfSBmcm9tICcuLi8uLi91dGlscyc7XG5pbXBvcnQgeyBicmVha3BvaW50IH0gZnJvbSAnLi4vLi4vdXRpbHMvYnJlYWtwb2ludCc7XG5cbmNvbnN0IGlucHV0U3R5bGVOZXV0cmFsID0gY3NzYFxuXHRib3gtc2hhZG93OiAwIDAgMCB0cmFuc3BhcmVudDtcblx0Ym9yZGVyLXJhZGl1czogJHsgQ09ORklHLnJhZGl1c1NtYWxsIH07XG5cdGJvcmRlcjogJHsgQ09ORklHLmJvcmRlcldpZHRoIH0gc29saWQgJHsgQ09MT1JTLnVpLmJvcmRlciB9O1xuXG5cdEBtZWRpYSBub3QgKCBwcmVmZXJzLXJlZHVjZWQtbW90aW9uICkge1xuXHRcdHRyYW5zaXRpb246IGJveC1zaGFkb3cgMC4xcyBsaW5lYXI7XG5cdH1cbmA7XG5cbmNvbnN0IGlucHV0U3R5bGVGb2N1cyA9IGNzc2Bcblx0Ym9yZGVyLWNvbG9yOiAkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cdGJveC1zaGFkb3c6IDAgMCAwXG5cdFx0Y2FsYyggJHsgQ09ORklHLmJvcmRlcldpZHRoRm9jdXMgfSAtICR7IENPTkZJRy5ib3JkZXJXaWR0aCB9IClcblx0XHQkeyBDT0xPUlMudGhlbWUuYWNjZW50IH07XG5cblx0Ly8gV2luZG93cyBIaWdoIENvbnRyYXN0IG1vZGUgd2lsbCBzaG93IHRoaXMgb3V0bGluZSwgYnV0IG5vdCB0aGUgYm94LXNoYWRvdy5cblx0b3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuYDtcblxuZXhwb3J0IGNvbnN0IFN0eWxlZFRleHRhcmVhID0gc3R5bGVkLnRleHRhcmVhYFxuXHR3aWR0aDogMTAwJTtcblx0ZGlzcGxheTogYmxvY2s7XG5cdGZvbnQtZmFtaWx5OiAkeyBmb250KCAnZGVmYXVsdC5mb250RmFtaWx5JyApIH07XG5cdGxpbmUtaGVpZ2h0OiAyMHB4O1xuXHRiYWNrZ3JvdW5kOiAkeyBDT0xPUlMudGhlbWUuYmFja2dyb3VuZCB9O1xuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmZvcmVncm91bmQgfTtcblx0cmVzaXplOiB2ZXJ0aWNhbDtcblxuXHQvLyBWZXJ0aWNhbCBwYWRkaW5nIGlzIHRvIG1hdGNoIHRoZSBzdGFuZGFyZCA0MHB4IGNvbnRyb2wgaGVpZ2h0IHdoZW4gcm93cz0xLFxuXHQvLyBpbiBjb25qdW5jdGlvbiB3aXRoIHRoZSAyMHB4IGxpbmUtaGVpZ2h0LlxuXHQvLyBcIlN0YW5kYXJkXCIgbWV0cmljcyBhcmUgMTBweCAxMnB4LCBidXQgc3VidHJhY3RzIDFweCBlYWNoIHRvIGFjY291bnQgZm9yIHRoZSBib3JkZXIgd2lkdGguXG5cdHBhZGRpbmc6IDlweCAxMXB4O1xuXG5cdC8vIE1hdGNoaW5nIHRoZSAyMHB4IGxpbmUtaGVpZ2h0ICsgdGhlIDlweCB0b3AgYW5kIGJvdHRvbSBwYWRkaW5nLlxuXHRtaW4taGVpZ2h0OiAzOHB4O1xuXG5cdCR7IGlucHV0U3R5bGVOZXV0cmFsIH07XG5cblx0LyogRm9udHMgc21hbGxlciB0aGFuIDE2cHggY2F1c2VzIG1vYmlsZSBzYWZhcmkgdG8gem9vbS4gKi9cblx0Zm9udC1zaXplOiAkeyBmb250KCAnbW9iaWxlVGV4dE1pbkZvbnRTaXplJyApIH07XG5cblx0JHsgYnJlYWtwb2ludCggJ3NtYWxsJyApIH0ge1xuXHRcdGZvbnQtc2l6ZTogJHsgZm9udCggJ2RlZmF1bHQuZm9udFNpemUnICkgfTtcblx0fVxuXG5cdCY6Zm9jdXMge1xuXHRcdCR7IGlucHV0U3R5bGVGb2N1cyB9XG5cdH1cblxuXHQvLyBVc2Ugb3BhY2l0eSB0byB3b3JrIGluIHZhcmlvdXMgZWRpdG9yIHN0eWxlcy5cblx0Jjo6LXdlYmtpdC1pbnB1dC1wbGFjZWhvbGRlciB7XG5cdFx0Y29sb3I6ICR7IENPTE9SUy51aS5kYXJrR3JheVBsYWNlaG9sZGVyIH07XG5cdH1cblxuXHQmOjotbW96LXBsYWNlaG9sZGVyIHtcblx0XHRjb2xvcjogJHsgQ09MT1JTLnVpLmRhcmtHcmF5UGxhY2Vob2xkZXIgfTtcblx0fVxuXG5cdCY6LW1zLWlucHV0LXBsYWNlaG9sZGVyIHtcblx0XHRjb2xvcjogJHsgQ09MT1JTLnVpLmRhcmtHcmF5UGxhY2Vob2xkZXIgfTtcblx0fVxuXG5cdC5pcy1kYXJrLXRoZW1lICYge1xuXHRcdCY6Oi13ZWJraXQtaW5wdXQtcGxhY2Vob2xkZXIge1xuXHRcdFx0Y29sb3I6ICR7IENPTE9SUy51aS5saWdodEdyYXlQbGFjZWhvbGRlciB9O1xuXHRcdH1cblxuXHRcdCY6Oi1tb3otcGxhY2Vob2xkZXIge1xuXHRcdFx0Y29sb3I6ICR7IENPTE9SUy51aS5saWdodEdyYXlQbGFjZWhvbGRlciB9O1xuXHRcdH1cblxuXHRcdCY6LW1zLWlucHV0LXBsYWNlaG9sZGVyIHtcblx0XHRcdGNvbG9yOiAkeyBDT0xPUlMudWkubGlnaHRHcmF5UGxhY2Vob2xkZXIgfTtcblx0XHR9XG5cdH1cbmA7XG4iXX0= */");
@@ -48151,12 +48170,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TextareaControl = (0, import_element192.forwardRef)(UnforwardedTextareaControl);
+  var TextareaControl = (0, import_element193.forwardRef)(UnforwardedTextareaControl);
   TextareaControl.displayName = "TextareaControl";
   var textarea_control_default = TextareaControl;
 
   // packages/components/build-module/text-highlight/index.mjs
-  var import_element193 = __toESM(require_element(), 1);
+  var import_element194 = __toESM(require_element(), 1);
   var import_jsx_runtime271 = __toESM(require_jsx_runtime(), 1);
   var TextHighlight = (props) => {
     const {
@@ -48170,7 +48189,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       });
     }
     const regex = new RegExp(`(${escapeRegExp(trimmedHighlightText)})`, "gi");
-    return (0, import_element193.createInterpolateElement)(text.replace(regex, "<mark>$&</mark>"), {
+    return (0, import_element194.createInterpolateElement)(text.replace(regex, "<mark>$&</mark>"), {
       mark: /* @__PURE__ */ (0, import_jsx_runtime271.jsx)("mark", {})
     });
   };
@@ -48195,7 +48214,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var tip_default2 = Tip;
 
   // packages/components/build-module/toggle-control/index.mjs
-  var import_element194 = __toESM(require_element(), 1);
+  var import_element195 = __toESM(require_element(), 1);
   var import_compose74 = __toESM(require_compose(), 1);
   var import_jsx_runtime273 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToggleControl({
@@ -48256,27 +48275,27 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToggleControl = (0, import_element194.forwardRef)(UnforwardedToggleControl);
+  var ToggleControl = (0, import_element195.forwardRef)(UnforwardedToggleControl);
   ToggleControl.displayName = "ToggleControl";
   var toggle_control_default = ToggleControl;
 
   // packages/components/build-module/toolbar/toolbar/index.mjs
-  var import_element201 = __toESM(require_element(), 1);
+  var import_element202 = __toESM(require_element(), 1);
   var import_deprecated25 = __toESM(require_deprecated(), 1);
 
   // packages/components/build-module/toolbar/toolbar-group/index.mjs
-  var import_element199 = __toESM(require_element(), 1);
+  var import_element200 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toolbar/toolbar-button/index.mjs
-  var import_element197 = __toESM(require_element(), 1);
+  var import_element198 = __toESM(require_element(), 1);
 
   // packages/components/build-module/toolbar/toolbar-item/index.mjs
-  var import_element196 = __toESM(require_element(), 1);
+  var import_element197 = __toESM(require_element(), 1);
   var import_warning10 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/toolbar/toolbar-context/index.mjs
-  var import_element195 = __toESM(require_element(), 1);
-  var ToolbarContext = (0, import_element195.createContext)(void 0);
+  var import_element196 = __toESM(require_element(), 1);
+  var ToolbarContext = (0, import_element196.createContext)(void 0);
   ToolbarContext.displayName = "ToolbarContext";
   var toolbar_context_default = ToolbarContext;
 
@@ -48287,7 +48306,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     as: Component9,
     ...props
   }, ref) {
-    const accessibleToolbarStore = (0, import_element196.useContext)(toolbar_context_default);
+    const accessibleToolbarStore = (0, import_element197.useContext)(toolbar_context_default);
     const isRenderProp = typeof children === "function";
     if (!isRenderProp && !Component9) {
       true ? (0, import_warning10.default)("`ToolbarItem` is a generic headless component. You must pass either a `children` prop as a function or an `as` prop as a component. See https://developer.wordpress.org/block-editor/components/toolbar-item/") : void 0;
@@ -48320,7 +48339,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       render
     });
   }
-  var ToolbarItem22 = (0, import_element196.forwardRef)(UnforwardedToolbarItem);
+  var ToolbarItem22 = (0, import_element197.forwardRef)(UnforwardedToolbarItem);
   ToolbarItem22.displayName = "ToolbarItem";
   var toolbar_item_default = ToolbarItem22;
 
@@ -48356,7 +48375,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       title,
       ...restProps
     } = useDeprecatedProps6(props);
-    const accessibleToolbarState = (0, import_element197.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element198.useContext)(toolbar_context_default);
     if (!accessibleToolbarState) {
       return /* @__PURE__ */ (0, import_jsx_runtime276.jsx)(toolbar_button_container_default, {
         className: containerClassName,
@@ -48397,7 +48416,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToolbarButton = (0, import_element197.forwardRef)(UnforwardedToolbarButton);
+  var ToolbarButton = (0, import_element198.forwardRef)(UnforwardedToolbarButton);
   ToolbarButton.displayName = "ToolbarButton";
   var toolbar_button_default = ToolbarButton;
 
@@ -48415,14 +48434,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var toolbar_group_container_default = ToolbarGroupContainer;
 
   // packages/components/build-module/toolbar/toolbar-group/toolbar-group-collapsed.mjs
-  var import_element198 = __toESM(require_element(), 1);
+  var import_element199 = __toESM(require_element(), 1);
   var import_jsx_runtime278 = __toESM(require_jsx_runtime(), 1);
   function ToolbarGroupCollapsed({
     controls = [],
     toggleProps,
     ...props
   }) {
-    const accessibleToolbarState = (0, import_element198.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element199.useContext)(toolbar_context_default);
     const renderDropdownMenu = (internalToggleProps) => /* @__PURE__ */ (0, import_jsx_runtime278.jsx)(dropdown_menu_default, {
       controls,
       toggleProps: {
@@ -48454,7 +48473,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     title,
     ...props
   }) {
-    const accessibleToolbarState = (0, import_element199.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element200.useContext)(toolbar_context_default);
     if ((!controls || !controls.length) && !children) {
       return null;
     }
@@ -48491,7 +48510,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var toolbar_group_default = ToolbarGroup;
 
   // packages/components/build-module/toolbar/toolbar/toolbar-container.mjs
-  var import_element200 = __toESM(require_element(), 1);
+  var import_element201 = __toESM(require_element(), 1);
   var import_i18n77 = __toESM(require_i18n(), 1);
   var import_jsx_runtime280 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToolbarContainer({
@@ -48515,7 +48534,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     );
   }
-  var ToolbarContainer2 = (0, import_element200.forwardRef)(UnforwardedToolbarContainer);
+  var ToolbarContainer2 = (0, import_element201.forwardRef)(UnforwardedToolbarContainer);
   ToolbarContainer2.displayName = "ToolbarContainer";
   var toolbar_container_default = ToolbarContainer2;
 
@@ -48528,7 +48547,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     ...props
   }, ref) {
     const isVariantDefined = variant !== void 0;
-    const contextSystemValue = (0, import_element201.useMemo)(() => {
+    const contextSystemValue = (0, import_element202.useMemo)(() => {
       if (isVariantDefined) {
         return {};
       }
@@ -48571,15 +48590,15 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var Toolbar3 = (0, import_element201.forwardRef)(UnforwardedToolbar);
+  var Toolbar3 = (0, import_element202.forwardRef)(UnforwardedToolbar);
   Toolbar3.displayName = "Toolbar";
   var toolbar_default = Toolbar3;
 
   // packages/components/build-module/toolbar/toolbar-dropdown-menu/index.mjs
-  var import_element202 = __toESM(require_element(), 1);
+  var import_element203 = __toESM(require_element(), 1);
   var import_jsx_runtime282 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedToolbarDropdownMenu(props, ref) {
-    const accessibleToolbarState = (0, import_element202.useContext)(toolbar_context_default);
+    const accessibleToolbarState = (0, import_element203.useContext)(toolbar_context_default);
     if (!accessibleToolbarState) {
       return /* @__PURE__ */ (0, import_jsx_runtime282.jsx)(dropdown_menu_default, {
         ...props
@@ -48597,7 +48616,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var ToolbarDropdownMenu = (0, import_element202.forwardRef)(UnforwardedToolbarDropdownMenu);
+  var ToolbarDropdownMenu = (0, import_element203.forwardRef)(UnforwardedToolbarDropdownMenu);
   ToolbarDropdownMenu.displayName = "ToolbarDropdownMenu";
   var toolbar_dropdown_menu_default = ToolbarDropdownMenu;
 
@@ -48606,7 +48625,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var import_i18n78 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/tools-panel/tools-panel-header/hook.mjs
-  var import_element204 = __toESM(require_element(), 1);
+  var import_element205 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tools-panel/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__39() {
@@ -48668,9 +48687,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var DefaultControlsItem = /* @__PURE__ */ css("color:", COLORS.gray[900], ";&&[aria-disabled='true']{color:", COLORS.gray[700], ";opacity:1;&:hover{color:", COLORS.gray[700], ";}", ResetLabel, "{opacity:0.3;}}" + (false ? "" : ";label:DefaultControlsItem;"), false ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFnSnNDIiwiZmlsZSI6InN0eWxlcy50cyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRXh0ZXJuYWwgZGVwZW5kZW5jaWVzXG4gKi9cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJztcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0JztcblxuLyoqXG4gKiBJbnRlcm5hbCBkZXBlbmRlbmNpZXNcbiAqL1xuaW1wb3J0IHtcblx0U3R5bGVkRmllbGQgYXMgQmFzZUNvbnRyb2xGaWVsZCxcblx0U3R5bGVkSGVscCBhcyBCYXNlQ29udHJvbEhlbHAsXG5cdFdyYXBwZXIgYXMgQmFzZUNvbnRyb2xXcmFwcGVyLFxufSBmcm9tICcuLi9iYXNlLWNvbnRyb2wvc3R5bGVzL2Jhc2UtY29udHJvbC1zdHlsZXMnO1xuaW1wb3J0IHsgQ09MT1JTLCBDT05GSUcsIHJ0bCB9IGZyb20gJy4uL3V0aWxzJztcbmltcG9ydCB7IHNwYWNlIH0gZnJvbSAnLi4vdXRpbHMvc3BhY2UnO1xuXG5jb25zdCB0b29sc1BhbmVsR3JpZCA9IHtcblx0Y29sdW1uczogKCBjb2x1bW5zOiBudW1iZXIgKSA9PiBjc3NgXG5cdFx0Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiAkeyBgcmVwZWF0KCAkeyBjb2x1bW5zIH0sIG1pbm1heCgwLCAxZnIpIClgIH07XG5cdGAsXG5cdHNwYWNpbmc6IGNzc2Bcblx0XHRjb2x1bW4tZ2FwOiAkeyBzcGFjZSggNCApIH07XG5cdFx0cm93LWdhcDogJHsgc3BhY2UoIDQgKSB9O1xuXHRgLFxuXHRpdGVtOiB7XG5cdFx0ZnVsbFdpZHRoOiBjc3NgXG5cdFx0XHRncmlkLWNvbHVtbjogMSAvIC0xO1xuXHRcdGAsXG5cdH0sXG59O1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbCA9ICggY29sdW1uczogbnVtYmVyICkgPT4gY3NzYFxuXHQkeyB0b29sc1BhbmVsR3JpZC5jb2x1bW5zKCBjb2x1bW5zICkgfVxuXHQkeyB0b29sc1BhbmVsR3JpZC5zcGFjaW5nIH1cblxuXHRib3JkZXItdG9wOiAkeyBDT05GSUcuYm9yZGVyV2lkdGggfSBzb2xpZCAkeyBDT0xPUlMuZ3JheVsgMzAwIF0gfTtcblx0bWFyZ2luLXRvcDogLTFweDtcblx0cGFkZGluZzogJHsgc3BhY2UoIDQgKSB9O1xuYDtcblxuLyoqXG4gKiBJdGVtcyBpbmplY3RlZCBpbnRvIGEgVG9vbHNQYW5lbCB2aWEgYSB2aXJ0dWFsIGJ1YmJsaW5nIHNsb3Qgd2lsbCByZXF1aXJlXG4gKiBhbiBpbm5lciBkb20gZWxlbWVudCB0byBiZSBpbmplY3RlZC4gVGhlIGZvbGxvd2luZyBydWxlIGFsbG93cyBmb3IgdGhlXG4gKiBDU1MgZ3JpZCBkaXNwbGF5IHRvIGJlIHJlLWVzdGFibGlzaGVkLlxuICovXG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsV2l0aElubmVyV3JhcHBlciA9ICggY29sdW1uczogbnVtYmVyICkgPT4ge1xuXHRyZXR1cm4gY3NzYFxuXHRcdD4gZGl2Om5vdCggOmZpcnN0LW9mLXR5cGUgKSB7XG5cdFx0XHRkaXNwbGF5OiBncmlkO1xuXHRcdFx0JHsgdG9vbHNQYW5lbEdyaWQuY29sdW1ucyggY29sdW1ucyApIH1cblx0XHRcdCR7IHRvb2xzUGFuZWxHcmlkLnNwYWNpbmcgfVxuXHRcdFx0JHsgdG9vbHNQYW5lbEdyaWQuaXRlbS5mdWxsV2lkdGggfVxuXHRcdH1cblx0YDtcbn07XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSGlkZGVuSW5uZXJXcmFwcGVyID0gY3NzYFxuXHQ+IGRpdjpub3QoIDpmaXJzdC1vZi10eXBlICkge1xuXHRcdGRpc3BsYXk6IG5vbmU7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSGVhZGVyID0gY3NzYFxuXHQkeyB0b29sc1BhbmVsR3JpZC5pdGVtLmZ1bGxXaWR0aCB9XG5cdGdhcDogJHsgc3BhY2UoIDIgKSB9O1xuXG5cdC8qKlxuXHQgKiBUaGUgdGFyZ2V0aW5nIG9mIGRyb3Bkb3duIG1lbnUgY29tcG9uZW50IGNsYXNzZXMgaGVyZSBpcyBhIHRlbXBvcmFyeVxuXHQgKiBtZWFzdXJlIG9ubHkuXG5cdCAqXG5cdCAqIFRoZSBmb2xsb3dpbmcgc3R5bGVzIHNob3VsZCBiZSByZXBsYWNlZCBvbmNlIHRoZSBEcm9wZG93bk1lbnUgaGFzIGJlZW5cblx0ICogcmVmYWN0b3JlZCBhbmQgY2FuIGJlIHRhcmdldGVkIHZpYSBjb21wb25lbnQgaW50ZXJwb2xhdGlvbi5cblx0ICovXG5cdC5jb21wb25lbnRzLWRyb3Bkb3duLW1lbnUge1xuXHRcdG1hcmdpbjogJHsgc3BhY2UoIC0xICkgfSAwO1xuXHRcdGxpbmUtaGVpZ2h0OiAwO1xuXHR9XG5cdCYmJiYgLmNvbXBvbmVudHMtZHJvcGRvd24tbWVudV9fdG9nZ2xlIHtcblx0XHRwYWRkaW5nOiAwO1xuXHRcdG1pbi13aWR0aDogJHsgc3BhY2UoIDYgKSB9O1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbEhlYWRpbmcgPSBjc3NgXG5cdGZvbnQtc2l6ZTogaW5oZXJpdDtcblx0Zm9udC13ZWlnaHQ6ICR7IENPTkZJRy5mb250V2VpZ2h0TWVkaXVtIH07XG5cdGxpbmUtaGVpZ2h0OiBub3JtYWw7XG5cblx0LyogUmVxdWlyZWQgdG8gbWVldCBzcGVjaWZpY2l0eSByZXF1aXJlbWVudHMgdG8gZW5zdXJlIHplcm8gbWFyZ2luICovXG5cdCYmIHtcblx0XHRtYXJnaW46IDA7XG5cdH1cbmA7XG5cbmV4cG9ydCBjb25zdCBUb29sc1BhbmVsSXRlbSA9IGNzc2Bcblx0JHsgdG9vbHNQYW5lbEdyaWQuaXRlbS5mdWxsV2lkdGggfVxuXG5cdC8qIENsZWFyIHNwYWNpbmcgaW4gYW5kIGFyb3VuZCBjb250cm9scyBhZGRlZCBhcyBwYW5lbCBpdGVtcy4gKi9cblx0LyogUmVtb3ZlIHdoZW4gdGhleSBjYW4gYmUgYWRkcmVzc2VkIHZpYSBjb250ZXh0IHN5c3RlbS4gKi9cblx0JiA+IGRpdixcblx0JiA+IGZpZWxkc2V0IHtcblx0XHRwYWRkaW5nLWJvdHRvbTogMDtcblx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHRcdG1heC13aWR0aDogMTAwJTtcblx0fVxuXG5cdC8qIFJlbW92ZSBCYXNlQ29udHJvbCBjb21wb25lbnRzIG1hcmdpbnMgYW5kIGxlYXZlIHNwYWNpbmcgdG8gZ3JpZCBsYXlvdXQgKi9cblx0JiYgJHsgQmFzZUNvbnRyb2xXcmFwcGVyIH0ge1xuXHRcdG1hcmdpbi1ib3R0b206IDA7XG5cblx0XHQvKipcblx0XHQgKiBUbyBtYWludGFpbiBwcm9wZXIgc3BhY2luZyB3aXRoaW4gYSBiYXNlIGNvbnRyb2wsIHRoZSBmaWVsZCdzIGJvdHRvbVxuXHRcdCAqIG1hcmdpbiBzaG91bGQgb25seSBiZSByZW1vdmVkIHdoZW4gdGhlcmUgaXMgbm8gaGVscCB0ZXh0IGluY2x1ZGVkIGFuZFxuXHRcdCAqIGl0IGlzIHRoZXJlZm9yZSB0aGUgbGFzdC1jaGlsZC5cblx0XHQgKi9cblx0XHQkeyBCYXNlQ29udHJvbEZpZWxkIH06bGFzdC1jaGlsZCB7XG5cdFx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHRcdH1cblx0fVxuXG5cdCR7IEJhc2VDb250cm9sSGVscCB9IHtcblx0XHRtYXJnaW4tYm90dG9tOiAwO1xuXHR9XG5gO1xuXG5leHBvcnQgY29uc3QgVG9vbHNQYW5lbEl0ZW1QbGFjZWhvbGRlciA9IGNzc2Bcblx0ZGlzcGxheTogbm9uZTtcbmA7XG5cbmV4cG9ydCBjb25zdCBEcm9wZG93bk1lbnUgPSBjc3NgXG5cdG1pbi13aWR0aDogMjAwcHg7XG5gO1xuXG5leHBvcnQgY29uc3QgUmVzZXRMYWJlbCA9IHN0eWxlZC5zcGFuYFxuXHRjb2xvcjogJHsgQ09MT1JTLnRoZW1lLmFjY2VudERhcmtlcjEwIH07XG5cdGZvbnQtc2l6ZTogMTFweDtcblx0Zm9udC13ZWlnaHQ6ICR7IENPTkZJRy5mb250V2VpZ2h0TWVkaXVtIH07XG5cdGxpbmUtaGVpZ2h0OiAxLjQ7XG5cdCR7IHJ0bCggeyBtYXJnaW5MZWZ0OiBzcGFjZSggMyApIH0gKSB9XG5cdHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG5gO1xuXG5leHBvcnQgY29uc3QgRGVmYXVsdENvbnRyb2xzSXRlbSA9IGNzc2Bcblx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA5MDAgXSB9O1xuXG5cdCYmW2FyaWEtZGlzYWJsZWQ9J3RydWUnXSB7XG5cdFx0Y29sb3I6ICR7IENPTE9SUy5ncmF5WyA3MDAgXSB9O1xuXHRcdG9wYWNpdHk6IDE7XG5cblx0XHQmOmhvdmVyIHtcblx0XHRcdGNvbG9yOiAkeyBDT0xPUlMuZ3JheVsgNzAwIF0gfTtcblx0XHR9XG5cblx0XHQkeyBSZXNldExhYmVsIH0ge1xuXHRcdFx0b3BhY2l0eTogMC4zO1xuXHRcdH1cblx0fVxuYDtcbiJdfQ== */");
 
   // packages/components/build-module/tools-panel/context.mjs
-  var import_element203 = __toESM(require_element(), 1);
+  var import_element204 = __toESM(require_element(), 1);
   var noop25 = () => void 0;
-  var ToolsPanelContext = (0, import_element203.createContext)({
+  var ToolsPanelContext = (0, import_element204.createContext)({
     menuItems: {
       default: {},
       optional: {}
@@ -48686,7 +48705,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     areAllOptionalControlsHidden: true
   });
   ToolsPanelContext.displayName = "ToolsPanelContext";
-  var useToolsPanelContext = () => (0, import_element203.useContext)(ToolsPanelContext);
+  var useToolsPanelContext = () => (0, import_element204.useContext)(ToolsPanelContext);
 
   // packages/components/build-module/tools-panel/tools-panel-header/hook.mjs
   function useToolsPanelHeader(props) {
@@ -48696,16 +48715,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       ...otherProps
     } = useContextSystem(props, "ToolsPanelHeader");
     const cx3 = useCx();
-    const classes = (0, import_element204.useMemo)(() => {
+    const classes = (0, import_element205.useMemo)(() => {
       return cx3(ToolsPanelHeader, className2);
     }, [className2, cx3]);
-    const dropdownMenuClassName = (0, import_element204.useMemo)(() => {
+    const dropdownMenuClassName = (0, import_element205.useMemo)(() => {
       return cx3(DropdownMenu2);
     }, [cx3]);
-    const headingClassName = (0, import_element204.useMemo)(() => {
+    const headingClassName = (0, import_element205.useMemo)(() => {
       return cx3(ToolsPanelHeading);
     }, [cx3]);
-    const defaultControlsItemClassName = (0, import_element204.useMemo)(() => {
+    const defaultControlsItemClassName = (0, import_element205.useMemo)(() => {
       return cx3(DefaultControlsItem);
     }, [cx3]);
     const {
@@ -48896,7 +48915,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var component_default38 = ConnectedToolsPanelHeader;
 
   // packages/components/build-module/tools-panel/tools-panel/hook.mjs
-  var import_element205 = __toESM(require_element(), 1);
+  var import_element206 = __toESM(require_element(), 1);
   var DEFAULT_COLUMNS = 2;
   function emptyMenuItems() {
     return {
@@ -49070,9 +49089,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       __experimentalLastVisibleItemClass,
       ...otherProps
     } = useContextSystem(props, "ToolsPanel");
-    const isResettingRef = (0, import_element205.useRef)(false);
+    const isResettingRef = (0, import_element206.useRef)(false);
     const wasResetting = isResettingRef.current;
-    (0, import_element205.useEffect)(() => {
+    (0, import_element206.useEffect)(() => {
       if (wasResetting) {
         isResettingRef.current = false;
       }
@@ -49080,33 +49099,33 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const [{
       panelItems,
       menuItems
-    }, panelDispatch] = (0, import_element205.useReducer)(panelReducer, void 0, emptyState);
-    const [resetAllFilters, dispatchResetAllFilters] = (0, import_element205.useReducer)(resetAllFiltersReducer, []);
-    const registerPanelItem = (0, import_element205.useCallback)((item2) => {
+    }, panelDispatch] = (0, import_element206.useReducer)(panelReducer, void 0, emptyState);
+    const [resetAllFilters, dispatchResetAllFilters] = (0, import_element206.useReducer)(resetAllFiltersReducer, []);
+    const registerPanelItem = (0, import_element206.useCallback)((item2) => {
       panelDispatch({
         type: "REGISTER_PANEL",
         item: item2
       });
     }, []);
-    const deregisterPanelItem = (0, import_element205.useCallback)((label) => {
+    const deregisterPanelItem = (0, import_element206.useCallback)((label) => {
       panelDispatch({
         type: "UNREGISTER_PANEL",
         label
       });
     }, []);
-    const registerResetAllFilter = (0, import_element205.useCallback)((filter2) => {
+    const registerResetAllFilter = (0, import_element206.useCallback)((filter2) => {
       dispatchResetAllFilters({
         type: "REGISTER",
         filter: filter2
       });
     }, []);
-    const deregisterResetAllFilter = (0, import_element205.useCallback)((filter2) => {
+    const deregisterResetAllFilter = (0, import_element206.useCallback)((filter2) => {
       dispatchResetAllFilters({
         type: "UNREGISTER",
         filter: filter2
       });
     }, []);
-    const flagItemCustomization = (0, import_element205.useCallback)((value, label, group = "default") => {
+    const flagItemCustomization = (0, import_element206.useCallback)((value, label, group = "default") => {
       panelDispatch({
         type: "UPDATE_VALUE",
         group,
@@ -49114,22 +49133,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         value
       });
     }, []);
-    const areAllOptionalControlsHidden = (0, import_element205.useMemo)(() => {
+    const areAllOptionalControlsHidden = (0, import_element206.useMemo)(() => {
       return isMenuItemTypeEmpty(menuItems.default) && !isMenuItemTypeEmpty(menuItems.optional) && Object.values(menuItems.optional).every((isSelected2) => !isSelected2);
     }, [menuItems]);
     const cx3 = useCx();
-    const classes = (0, import_element205.useMemo)(() => {
+    const classes = (0, import_element206.useMemo)(() => {
       const wrapperStyle = hasInnerWrapper && ToolsPanelWithInnerWrapper(DEFAULT_COLUMNS);
       const emptyStyle = areAllOptionalControlsHidden && ToolsPanelHiddenInnerWrapper;
       return cx3(ToolsPanel(DEFAULT_COLUMNS), wrapperStyle, emptyStyle, className2);
     }, [areAllOptionalControlsHidden, className2, cx3, hasInnerWrapper]);
-    const toggleItem = (0, import_element205.useCallback)((label) => {
+    const toggleItem = (0, import_element206.useCallback)((label) => {
       panelDispatch({
         type: "TOGGLE_VALUE",
         label
       });
     }, []);
-    const resetAllItems = (0, import_element205.useCallback)(() => {
+    const resetAllItems = (0, import_element206.useCallback)(() => {
       if (typeof resetAll === "function") {
         isResettingRef.current = true;
         resetAll(resetAllFilters);
@@ -49146,7 +49165,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const firstDisplayedItem = getFirstVisibleItemLabel(panelItems);
     const lastDisplayedItem = getFirstVisibleItemLabel([...panelItems].reverse());
     const hasMenuItems = panelItems.length > 0;
-    const panelContext = (0, import_element205.useMemo)(() => ({
+    const panelContext = (0, import_element206.useMemo)(() => ({
       areAllOptionalControlsHidden,
       deregisterPanelItem,
       deregisterResetAllFilter,
@@ -49207,7 +49226,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tools-panel/tools-panel-item/hook.mjs
   var import_compose75 = __toESM(require_compose(), 1);
-  var import_element206 = __toESM(require_element(), 1);
+  var import_element207 = __toESM(require_element(), 1);
   var noop26 = () => {
   };
   function useToolsPanelItem(props) {
@@ -49237,11 +49256,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       __experimentalFirstVisibleItemClass,
       __experimentalLastVisibleItemClass
     } = useToolsPanelContext();
-    const hasValueCallback = (0, import_element206.useCallback)(hasValue, [panelId]);
-    const resetAllFilterCallback = (0, import_element206.useCallback)(resetAllFilter, [panelId]);
+    const hasValueCallback = (0, import_element207.useCallback)(hasValue, [panelId]);
+    const resetAllFilterCallback = (0, import_element207.useCallback)(resetAllFilter, [panelId]);
     const previousPanelId = (0, import_compose75.usePrevious)(currentPanelId);
     const hasMatchingPanel = currentPanelId === panelId || currentPanelId === null;
-    (0, import_element206.useLayoutEffect)(() => {
+    (0, import_element207.useLayoutEffect)(() => {
       if (hasMatchingPanel && previousPanelId !== null) {
         registerPanelItem({
           hasValue: hasValueCallback,
@@ -49256,7 +49275,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       };
     }, [currentPanelId, hasMatchingPanel, isShownByDefault, label, hasValueCallback, panelId, previousPanelId, registerPanelItem, deregisterPanelItem]);
-    (0, import_element206.useEffect)(() => {
+    (0, import_element207.useEffect)(() => {
       if (hasMatchingPanel) {
         registerResetAllFilter(resetAllFilterCallback);
       }
@@ -49271,13 +49290,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const wasMenuItemChecked = (0, import_compose75.usePrevious)(isMenuItemChecked);
     const isRegistered = menuItems?.[menuGroup]?.[label] !== void 0;
     const isValueSet = hasValue();
-    (0, import_element206.useEffect)(() => {
+    (0, import_element207.useEffect)(() => {
       if (!isShownByDefault && !isValueSet) {
         return;
       }
       flagItemCustomization(isValueSet, label, menuGroup);
     }, [isValueSet, menuGroup, label, flagItemCustomization, isShownByDefault]);
-    (0, import_element206.useEffect)(() => {
+    (0, import_element207.useEffect)(() => {
       if (!isRegistered || isResetting || !hasMatchingPanel) {
         return;
       }
@@ -49290,7 +49309,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }, [hasMatchingPanel, isMenuItemChecked, isRegistered, isResetting, isValueSet, wasMenuItemChecked, onSelect, onDeselect]);
     const isShown = isShownByDefault ? menuItems?.[menuGroup]?.[label] !== void 0 : isMenuItemChecked;
     const cx3 = useCx();
-    const classes = (0, import_element206.useMemo)(() => {
+    const classes = (0, import_element207.useMemo)(() => {
       const shouldApplyPlaceholderStyles = shouldRenderPlaceholder && !isShown;
       const firstItemStyle = firstDisplayedItem === label && __experimentalFirstVisibleItemClass;
       const lastItemStyle = lastDisplayedItem === label && __experimentalLastVisibleItemClass;
@@ -49330,17 +49349,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tree-grid/index.mjs
   var import_dom33 = __toESM(require_dom(), 1);
-  var import_element213 = __toESM(require_element(), 1);
+  var import_element214 = __toESM(require_element(), 1);
   var import_keycodes2 = __toESM(require_keycodes(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index.mjs
-  var import_element208 = __toESM(require_element(), 1);
+  var import_element209 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index-context.mjs
-  var import_element207 = __toESM(require_element(), 1);
-  var RovingTabIndexContext = (0, import_element207.createContext)(void 0);
+  var import_element208 = __toESM(require_element(), 1);
+  var RovingTabIndexContext = (0, import_element208.createContext)(void 0);
   RovingTabIndexContext.displayName = "RovingTabIndexContext";
-  var useRovingTabIndexContext = () => (0, import_element207.useContext)(RovingTabIndexContext);
+  var useRovingTabIndexContext = () => (0, import_element208.useContext)(RovingTabIndexContext);
   var RovingTabIndexProvider = RovingTabIndexContext.Provider;
 
   // packages/components/build-module/tree-grid/roving-tab-index.mjs
@@ -49348,8 +49367,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   function RovingTabIndex({
     children
   }) {
-    const [lastFocusedElement, setLastFocusedElement] = (0, import_element208.useState)();
-    const providerValue = (0, import_element208.useMemo)(() => ({
+    const [lastFocusedElement, setLastFocusedElement] = (0, import_element209.useState)();
+    const providerValue = (0, import_element209.useMemo)(() => ({
       lastFocusedElement,
       setLastFocusedElement
     }), [lastFocusedElement]);
@@ -49363,7 +49382,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var import_jsx_runtime291 = __toESM(require_jsx_runtime(), 1);
 
   // packages/components/build-module/tree-grid/row.mjs
-  var import_element209 = __toESM(require_element(), 1);
+  var import_element210 = __toESM(require_element(), 1);
   var import_jsx_runtime287 = __toESM(require_jsx_runtime(), 1);
   function UnforwardedTreeGridRow({
     children,
@@ -49384,25 +49403,25 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var TreeGridRow = (0, import_element209.forwardRef)(UnforwardedTreeGridRow);
+  var TreeGridRow = (0, import_element210.forwardRef)(UnforwardedTreeGridRow);
   TreeGridRow.displayName = "TreeGridRow";
   var row_default2 = TreeGridRow;
 
   // packages/components/build-module/tree-grid/cell.mjs
-  var import_element212 = __toESM(require_element(), 1);
+  var import_element213 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/item.mjs
-  var import_element211 = __toESM(require_element(), 1);
+  var import_element212 = __toESM(require_element(), 1);
 
   // packages/components/build-module/tree-grid/roving-tab-index-item.mjs
-  var import_element210 = __toESM(require_element(), 1);
+  var import_element211 = __toESM(require_element(), 1);
   var import_jsx_runtime288 = __toESM(require_jsx_runtime(), 1);
-  var RovingTabIndexItem = (0, import_element210.forwardRef)(function UnforwardedRovingTabIndexItem({
+  var RovingTabIndexItem = (0, import_element211.forwardRef)(function UnforwardedRovingTabIndexItem({
     children,
     as: Component9,
     ...props
   }, forwardedRef) {
-    const localRef = (0, import_element210.useRef)(null);
+    const localRef = (0, import_element211.useRef)(null);
     const ref = forwardedRef || localRef;
     const {
       lastFocusedElement,
@@ -49449,7 +49468,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       children
     });
   }
-  var TreeGridItem = (0, import_element211.forwardRef)(UnforwardedTreeGridItem);
+  var TreeGridItem = (0, import_element212.forwardRef)(UnforwardedTreeGridItem);
   TreeGridItem.displayName = "TreeGridItem";
   var item_default3 = TreeGridItem;
 
@@ -49474,7 +49493,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TreeGridCell = (0, import_element212.forwardRef)(UnforwardedTreeGridCell);
+  var TreeGridCell = (0, import_element213.forwardRef)(UnforwardedTreeGridCell);
   TreeGridCell.displayName = "TreeGridCell";
   var cell_default = TreeGridCell;
 
@@ -49498,7 +49517,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     applicationAriaLabel,
     ...props
   }, ref) {
-    const onKeyDown = (0, import_element213.useCallback)((event) => {
+    const onKeyDown = (0, import_element214.useCallback)((event) => {
       const {
         keyCode,
         metaKey,
@@ -49635,18 +49654,18 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   }
-  var TreeGrid = (0, import_element213.forwardRef)(UnforwardedTreeGrid);
+  var TreeGrid = (0, import_element214.forwardRef)(UnforwardedTreeGrid);
   TreeGrid.displayName = "TreeGrid";
   var tree_grid_default = TreeGrid;
 
   // packages/components/build-module/isolated-event-container/index.mjs
-  var import_element214 = __toESM(require_element(), 1);
+  var import_element215 = __toESM(require_element(), 1);
   var import_deprecated26 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime292 = __toESM(require_jsx_runtime(), 1);
   function stopPropagation(event) {
     event.stopPropagation();
   }
-  var IsolatedEventContainer = (0, import_element214.forwardRef)((props, ref) => {
+  var IsolatedEventContainer = (0, import_element215.forwardRef)((props, ref) => {
     (0, import_deprecated26.default)("wp.components.IsolatedEventContainer", {
       since: "5.7"
     });
@@ -49659,7 +49678,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var isolated_event_container_default = IsolatedEventContainer;
 
   // packages/components/build-module/z-stack/component.mjs
-  var import_element215 = __toESM(require_element(), 1);
+  var import_element216 = __toESM(require_element(), 1);
 
   // packages/components/build-module/z-stack/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__40() {
@@ -49715,7 +49734,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const clonedChildren = validChildren.map((child, index2) => {
       const zIndex = isReversed ? childrenLastIndex - index2 : index2;
       const offsetAmount = isLayered ? offset3 * index2 : offset3;
-      const key = (0, import_element215.isValidElement)(child) ? child.key : index2;
+      const key = (0, import_element216.isValidElement)(child) ? child.key : index2;
       return /* @__PURE__ */ (0, import_jsx_runtime293.jsx)(ZStackChildView, {
         offsetAmount,
         zIndex,
@@ -49734,7 +49753,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   var component_default41 = ZStack;
 
   // packages/components/build-module/higher-order/navigate-regions/index.mjs
-  var import_element216 = __toESM(require_element(), 1);
+  var import_element217 = __toESM(require_element(), 1);
   var import_compose76 = __toESM(require_compose(), 1);
   var import_keycodes3 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime294 = __toESM(require_jsx_runtime(), 1);
@@ -49758,8 +49777,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     }]
   };
   function useNavigateRegions(shortcuts = defaultShortcuts) {
-    const ref = (0, import_element216.useRef)(null);
-    const [isFocusingRegions, setIsFocusingRegions] = (0, import_element216.useState)(false);
+    const ref = (0, import_element217.useRef)(null);
+    const [isFocusingRegions, setIsFocusingRegions] = (0, import_element217.useState)(false);
     function focusRegion(offset3) {
       const regions = Array.from(ref.current?.querySelectorAll('[role="region"][tabindex="-1"]') ?? []);
       if (!regions.length) {
@@ -49837,11 +49856,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/higher-order/with-fallback-styles/index.mjs
   var import_es63 = __toESM(require_es6(), 1);
-  var import_element217 = __toESM(require_element(), 1);
+  var import_element218 = __toESM(require_element(), 1);
   var import_compose78 = __toESM(require_compose(), 1);
   var import_jsx_runtime296 = __toESM(require_jsx_runtime(), 1);
   var with_fallback_styles_default = (mapNodeToProps) => (0, import_compose78.createHigherOrderComponent)((WrappedComponent) => {
-    return class WithFallbackStyles extends import_element217.Component {
+    return class WithFallbackStyles extends import_element218.Component {
       constructor(props) {
         super(props);
         this.nodeRef = this.props.node;
@@ -49892,7 +49911,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }, "withFallbackStyles");
 
   // packages/components/build-module/higher-order/with-filters/index.mjs
-  var import_element218 = __toESM(require_element(), 1);
+  var import_element219 = __toESM(require_element(), 1);
   var import_hooks11 = __toESM(require_hooks(), 1);
   var import_compose79 = __toESM(require_compose(), 1);
   var import_jsx_runtime297 = __toESM(require_jsx_runtime(), 1);
@@ -49906,7 +49925,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
           FilteredComponent = (0, import_hooks11.applyFilters)(hookName, OriginalComponent);
         }
       }
-      class FilteredComponentRenderer extends import_element218.Component {
+      class FilteredComponentRenderer extends import_element219.Component {
         constructor(props) {
           super(props);
           ensureFilteredComponent();
@@ -49948,12 +49967,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/higher-order/with-focus-return/index.mjs
-  var import_element219 = __toESM(require_element(), 1);
+  var import_element220 = __toESM(require_element(), 1);
   var import_compose80 = __toESM(require_compose(), 1);
   var import_deprecated27 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime298 = __toESM(require_jsx_runtime(), 1);
   function isComponentLike(object) {
-    return object instanceof import_element219.Component || typeof object === "function";
+    return object instanceof import_element220.Component || typeof object === "function";
   }
   var with_focus_return_default = (0, import_compose80.createHigherOrderComponent)(
     // @ts-expect-error TODO: Reconcile with intended `createHigherOrderComponent` types
@@ -49991,13 +50010,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   };
 
   // packages/components/build-module/higher-order/with-notices/index.mjs
-  var import_element220 = __toESM(require_element(), 1);
+  var import_element221 = __toESM(require_element(), 1);
   var import_compose81 = __toESM(require_compose(), 1);
   var import_jsx_runtime299 = __toESM(require_jsx_runtime(), 1);
   var with_notices_default = (0, import_compose81.createHigherOrderComponent)((OriginalComponent) => {
     function Component9(props, ref) {
-      const [noticeList, setNoticeList] = (0, import_element220.useState)([]);
-      const noticeOperations = (0, import_element220.useMemo)(() => {
+      const [noticeList, setNoticeList] = (0, import_element221.useState)([]);
+      const noticeOperations = (0, import_element221.useMemo)(() => {
         const createNotice = (notice) => {
           const noticeToAdd = notice.id ? notice : {
             ...notice,
@@ -50044,22 +50063,22 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     } = OriginalComponent;
     if (typeof render === "function") {
       isForwardRef = true;
-      return (0, import_element220.forwardRef)(Component9);
+      return (0, import_element221.forwardRef)(Component9);
     }
     return Component9;
   }, "withNotices");
 
   // packages/components/build-module/menu/index.mjs
-  var import_element233 = __toESM(require_element(), 1);
+  var import_element234 = __toESM(require_element(), 1);
   var import_i18n79 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/menu/context.mjs
-  var import_element221 = __toESM(require_element(), 1);
-  var Context2 = (0, import_element221.createContext)(void 0);
+  var import_element222 = __toESM(require_element(), 1);
+  var Context2 = (0, import_element222.createContext)(void 0);
   Context2.displayName = "MenuContext";
 
   // packages/components/build-module/menu/item.mjs
-  var import_element222 = __toESM(require_element(), 1);
+  var import_element223 = __toESM(require_element(), 1);
 
   // packages/components/build-module/menu/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__41() {
@@ -50175,7 +50194,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/menu/item.mjs
   var import_jsx_runtime300 = __toESM(require_jsx_runtime(), 1);
-  var Item22 = (0, import_element222.forwardRef)(function Item32({
+  var Item22 = (0, import_element223.forwardRef)(function Item32({
     prefix: prefix2,
     suffix,
     children,
@@ -50184,7 +50203,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     store,
     ...props
   }, ref) {
-    const menuContext = (0, import_element222.useContext)(Context2);
+    const menuContext = (0, import_element223.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Item can only be rendered inside a Menu component");
     }
@@ -50209,16 +50228,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/checkbox-item.mjs
-  var import_element223 = __toESM(require_element(), 1);
+  var import_element224 = __toESM(require_element(), 1);
   var import_jsx_runtime301 = __toESM(require_jsx_runtime(), 1);
-  var CheckboxItem2 = (0, import_element223.forwardRef)(function CheckboxItem3({
+  var CheckboxItem2 = (0, import_element224.forwardRef)(function CheckboxItem3({
     suffix,
     children,
     disabled = false,
     hideOnClick = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element223.useContext)(Context2);
+    const menuContext = (0, import_element224.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.CheckboxItem can only be rendered inside a Menu component");
     }
@@ -50251,7 +50270,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/radio-item.mjs
-  var import_element224 = __toESM(require_element(), 1);
+  var import_element225 = __toESM(require_element(), 1);
   var import_primitives35 = __toESM(require_primitives(), 1);
   var import_jsx_runtime302 = __toESM(require_jsx_runtime(), 1);
   var radioCheck = /* @__PURE__ */ (0, import_jsx_runtime302.jsx)(import_primitives35.SVG, {
@@ -50263,14 +50282,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       r: 3
     })
   });
-  var RadioItem2 = (0, import_element224.forwardRef)(function RadioItem3({
+  var RadioItem2 = (0, import_element225.forwardRef)(function RadioItem3({
     suffix,
     children,
     disabled = false,
     hideOnClick = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element224.useContext)(Context2);
+    const menuContext = (0, import_element225.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.RadioItem can only be rendered inside a Menu component");
     }
@@ -50303,10 +50322,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/group.mjs
-  var import_element225 = __toESM(require_element(), 1);
+  var import_element226 = __toESM(require_element(), 1);
   var import_jsx_runtime303 = __toESM(require_jsx_runtime(), 1);
-  var Group22 = (0, import_element225.forwardRef)(function Group32(props, ref) {
-    const menuContext = (0, import_element225.useContext)(Context2);
+  var Group22 = (0, import_element226.forwardRef)(function Group32(props, ref) {
+    const menuContext = (0, import_element226.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Group can only be rendered inside a Menu component");
     }
@@ -50318,10 +50337,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/group-label.mjs
-  var import_element226 = __toESM(require_element(), 1);
+  var import_element227 = __toESM(require_element(), 1);
   var import_jsx_runtime304 = __toESM(require_jsx_runtime(), 1);
-  var GroupLabel22 = (0, import_element226.forwardRef)(function Group4(props, ref) {
-    const menuContext = (0, import_element226.useContext)(Context2);
+  var GroupLabel22 = (0, import_element227.forwardRef)(function Group4(props, ref) {
+    const menuContext = (0, import_element227.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.GroupLabel can only be rendered inside a Menu component");
     }
@@ -50343,10 +50362,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/separator.mjs
-  var import_element227 = __toESM(require_element(), 1);
+  var import_element228 = __toESM(require_element(), 1);
   var import_jsx_runtime305 = __toESM(require_jsx_runtime(), 1);
-  var Separator22 = (0, import_element227.forwardRef)(function Separator32(props, ref) {
-    const menuContext = (0, import_element227.useContext)(Context2);
+  var Separator22 = (0, import_element228.forwardRef)(function Separator32(props, ref) {
+    const menuContext = (0, import_element228.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.Separator can only be rendered inside a Menu component");
     }
@@ -50359,10 +50378,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/item-label.mjs
-  var import_element228 = __toESM(require_element(), 1);
+  var import_element229 = __toESM(require_element(), 1);
   var import_jsx_runtime306 = __toESM(require_jsx_runtime(), 1);
-  var ItemLabel2 = (0, import_element228.forwardRef)(function ItemLabel3(props, ref) {
-    const menuContext = (0, import_element228.useContext)(Context2);
+  var ItemLabel2 = (0, import_element229.forwardRef)(function ItemLabel3(props, ref) {
+    const menuContext = (0, import_element229.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.ItemLabel can only be rendered inside a Menu component");
     }
@@ -50374,10 +50393,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/item-help-text.mjs
-  var import_element229 = __toESM(require_element(), 1);
+  var import_element230 = __toESM(require_element(), 1);
   var import_jsx_runtime307 = __toESM(require_jsx_runtime(), 1);
-  var ItemHelpText2 = (0, import_element229.forwardRef)(function ItemHelpText3(props, ref) {
-    const menuContext = (0, import_element229.useContext)(Context2);
+  var ItemHelpText2 = (0, import_element230.forwardRef)(function ItemHelpText3(props, ref) {
+    const menuContext = (0, import_element230.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.ItemHelpText can only be rendered inside a Menu component");
     }
@@ -50389,14 +50408,14 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/trigger-button.mjs
-  var import_element230 = __toESM(require_element(), 1);
+  var import_element231 = __toESM(require_element(), 1);
   var import_jsx_runtime308 = __toESM(require_jsx_runtime(), 1);
-  var TriggerButton = (0, import_element230.forwardRef)(function TriggerButton2({
+  var TriggerButton = (0, import_element231.forwardRef)(function TriggerButton2({
     children,
     disabled = false,
     ...props
   }, ref) {
-    const menuContext = (0, import_element230.useContext)(Context2);
+    const menuContext = (0, import_element231.useContext)(Context2);
     if (!menuContext?.store) {
       throw new Error("Menu.TriggerButton can only be rendered inside a Menu component");
     }
@@ -50413,13 +50432,13 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/submenu-trigger-item.mjs
-  var import_element231 = __toESM(require_element(), 1);
+  var import_element232 = __toESM(require_element(), 1);
   var import_jsx_runtime309 = __toESM(require_jsx_runtime(), 1);
-  var SubmenuTriggerItem = (0, import_element231.forwardRef)(function SubmenuTriggerItem2({
+  var SubmenuTriggerItem = (0, import_element232.forwardRef)(function SubmenuTriggerItem2({
     suffix,
     ...otherProps
   }, ref) {
-    const menuContext = (0, import_element231.useContext)(Context2);
+    const menuContext = (0, import_element232.useContext)(Context2);
     if (!menuContext?.store.parent) {
       throw new Error("Menu.SubmenuTriggerItem can only be rendered inside a nested Menu component");
     }
@@ -50447,23 +50466,23 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/menu/popover.mjs
-  var import_element232 = __toESM(require_element(), 1);
+  var import_element233 = __toESM(require_element(), 1);
   var import_jsx_runtime310 = __toESM(require_jsx_runtime(), 1);
-  var Popover4 = (0, import_element232.forwardRef)(function Popover22({
+  var Popover4 = (0, import_element233.forwardRef)(function Popover22({
     gutter,
     children,
     shift: shift3,
     modal = true,
     ...otherProps
   }, ref) {
-    const menuContext = (0, import_element232.useContext)(Context2);
+    const menuContext = (0, import_element233.useContext)(Context2);
     const appliedPlacementSide = useStoreState(menuContext?.store, "currentPlacement")?.split("-")[0];
-    const hideOnEscape = (0, import_element232.useCallback)((event) => {
+    const hideOnEscape = (0, import_element233.useCallback)((event) => {
       event.preventDefault();
       return true;
     }, []);
     const computedDirection = useStoreState(menuContext?.store, "rtl") ? "rtl" : "ltr";
-    const wrapperProps = (0, import_element232.useMemo)(() => ({
+    const wrapperProps = (0, import_element233.useMemo)(() => ({
       dir: computedDirection,
       style: {
         direction: computedDirection
@@ -50502,7 +50521,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       // From internal components context
       variant
     } = useContextSystem(props, "Menu");
-    const parentContext = (0, import_element233.useContext)(Context2);
+    const parentContext = (0, import_element234.useContext)(Context2);
     const rtl2 = (0, import_i18n79.isRTL)();
     let computedPlacement = placement ?? (parentContext?.store ? "right-start" : "bottom-start");
     if (rtl2) {
@@ -50523,7 +50542,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       },
       rtl: rtl2
     });
-    const contextValue = (0, import_element233.useMemo)(() => ({
+    const contextValue = (0, import_element234.useMemo)(() => ({
       store: menuStore,
       variant
     }), [menuStore, variant]);
@@ -50634,7 +50653,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/theme/index.mjs
-  var import_element234 = __toESM(require_element(), 1);
+  var import_element235 = __toESM(require_element(), 1);
 
   // packages/components/build-module/theme/styles.mjs
   function _EMOTION_STRINGIFIED_CSS_ERROR__42() {
@@ -50754,7 +50773,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     ...props
   }) {
     const cx3 = useCx();
-    const classes = (0, import_element234.useMemo)(() => cx3(...colorVariables(generateThemeVariables({
+    const classes = (0, import_element235.useMemo)(() => cx3(...colorVariables(generateThemeVariables({
       accent,
       background: background2
     })), className2), [accent, background2, className2, cx3]);
@@ -50767,17 +50786,17 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/index.mjs
   var import_compose84 = __toESM(require_compose(), 1);
-  var import_element240 = __toESM(require_element(), 1);
+  var import_element241 = __toESM(require_element(), 1);
   var import_i18n80 = __toESM(require_i18n(), 1);
 
   // packages/components/build-module/tabs/context.mjs
-  var import_element235 = __toESM(require_element(), 1);
-  var TabsContext = (0, import_element235.createContext)(void 0);
+  var import_element236 = __toESM(require_element(), 1);
+  var TabsContext = (0, import_element236.createContext)(void 0);
   TabsContext.displayName = "TabsContext";
-  var useTabsContext = () => (0, import_element235.useContext)(TabsContext);
+  var useTabsContext = () => (0, import_element236.useContext)(TabsContext);
 
   // packages/components/build-module/tabs/tab.mjs
-  var import_element236 = __toESM(require_element(), 1);
+  var import_element237 = __toESM(require_element(), 1);
   var import_warning12 = __toESM(require_warning(), 1);
 
   // packages/components/build-module/tabs/styles.mjs
@@ -50824,7 +50843,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/tab.mjs
   var import_jsx_runtime313 = __toESM(require_jsx_runtime(), 1);
-  var Tab3 = (0, import_element236.forwardRef)(function Tab23({
+  var Tab3 = (0, import_element237.forwardRef)(function Tab23({
     children,
     tabId,
     disabled,
@@ -50857,16 +50876,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/tabs/tablist.mjs
   var import_warning13 = __toESM(require_warning(), 1);
-  var import_element238 = __toESM(require_element(), 1);
+  var import_element239 = __toESM(require_element(), 1);
   var import_compose83 = __toESM(require_compose(), 1);
 
   // packages/components/build-module/tabs/use-track-overflow.mjs
-  var import_element237 = __toESM(require_element(), 1);
+  var import_element238 = __toESM(require_element(), 1);
   var import_compose82 = __toESM(require_compose(), 1);
   function useTrackOverflow(parent, children) {
-    const [first, setFirst] = (0, import_element237.useState)(false);
-    const [last, setLast] = (0, import_element237.useState)(false);
-    const [observer, setObserver] = (0, import_element237.useState)();
+    const [first, setFirst] = (0, import_element238.useState)(false);
+    const [last, setLast] = (0, import_element238.useState)(false);
+    const [observer, setObserver] = (0, import_element238.useState)();
     const callback = (0, import_compose82.useEvent)((entries) => {
       for (const entry of entries) {
         if (entry.target === children.first) {
@@ -50877,7 +50896,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     });
-    (0, import_element237.useEffect)(() => {
+    (0, import_element238.useEffect)(() => {
       if (!parent || !window.IntersectionObserver) {
         return;
       }
@@ -50888,7 +50907,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       setObserver(newObserver);
       return () => newObserver.disconnect();
     }, [callback, parent]);
-    (0, import_element237.useEffect)(() => {
+    (0, import_element238.useEffect)(() => {
       if (!observer) {
         return;
       }
@@ -50919,7 +50938,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   function useScrollRectIntoView(parent, rect, {
     margin = DEFAULT_SCROLL_MARGIN
   } = {}) {
-    (0, import_element238.useLayoutEffect)(() => {
+    (0, import_element239.useLayoutEffect)(() => {
       if (!parent || !rect) {
         return;
       }
@@ -50948,7 +50967,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       }
     }, [margin, parent, rect]);
   }
-  var TabList3 = (0, import_element238.forwardRef)(function TabList22({
+  var TabList3 = (0, import_element239.forwardRef)(function TabList22({
     children,
     ...otherProps
   }, ref) {
@@ -50959,7 +50978,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const activeId = useStoreState(store, "activeId");
     const selectOnMove = useStoreState(store, "selectOnMove");
     const items = useStoreState(store, "items");
-    const [parent, setParent] = (0, import_element238.useState)();
+    const [parent, setParent] = (0, import_element239.useState)();
     const refs = (0, import_compose83.useMergeRefs)([ref, setParent]);
     const selectedItem = store?.item(selectedId);
     const renderedItems = useStoreState(store, "renderedItems");
@@ -51006,10 +51025,10 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   });
 
   // packages/components/build-module/tabs/tabpanel.mjs
-  var import_element239 = __toESM(require_element(), 1);
+  var import_element240 = __toESM(require_element(), 1);
   var import_warning14 = __toESM(require_warning(), 1);
   var import_jsx_runtime315 = __toESM(require_jsx_runtime(), 1);
-  var TabPanel3 = (0, import_element239.forwardRef)(function TabPanel24({
+  var TabPanel3 = (0, import_element240.forwardRef)(function TabPanel24({
     children,
     tabId,
     focusable = true,
@@ -51079,7 +51098,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     const {
       setActiveId
     } = store;
-    (0, import_element240.useEffect)(() => {
+    (0, import_element241.useEffect)(() => {
       requestAnimationFrame(() => {
         const focusedElement = items?.[0]?.element?.ownerDocument.activeElement;
         if (!focusedElement || !items.some((item2) => focusedElement === item2.element)) {
@@ -51090,7 +51109,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       });
     }, [activeId, items, setActiveId]);
-    const contextValue = (0, import_element240.useMemo)(() => ({
+    const contextValue = (0, import_element241.useMemo)(() => ({
       store,
       instanceId
     }), [store, instanceId]);
@@ -55187,7 +55206,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   }
 
   // packages/components/build-module/calendar/date-calendar/index.mjs
-  var import_element242 = __toESM(require_element(), 1);
+  var import_element243 = __toESM(require_element(), 1);
 
   // packages/components/build-module/calendar/utils/day-cell.mjs
   var import_jsx_runtime318 = __toESM(require_jsx_runtime(), 1);
@@ -55344,7 +55363,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/calendar/utils/use-localization-props.mjs
   var import_i18n81 = __toESM(require_i18n(), 1);
-  var import_element241 = __toESM(require_element(), 1);
+  var import_element242 = __toESM(require_element(), 1);
   function isLocaleRTL(localeCode) {
     const localeObj = new Intl.Locale(localeCode);
     if ("getTextInfo" in localeObj) {
@@ -55376,7 +55395,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     timeZone,
     mode: mode2
   }) => {
-    return (0, import_element241.useMemo)(() => {
+    return (0, import_element242.useMemo)(() => {
       const monthNameFormatter = new Intl.DateTimeFormat(locale.code, {
         year: "numeric",
         month: "long",
@@ -55487,7 +55506,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       timeZone,
       mode: "single"
     });
-    const onChange = (0, import_element242.useCallback)((selected2, triggerDate, modifiers, e3) => {
+    const onChange = (0, import_element243.useCallback)((selected2, triggerDate, modifiers, e3) => {
       onSelect?.(selected2 ?? void 0, triggerDate, modifiers, e3);
     }, [onSelect]);
     const [selected, setSelected] = useControlledValue({
@@ -55507,7 +55526,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
   };
 
   // packages/components/build-module/calendar/date-range-calendar/index.mjs
-  var import_element243 = __toESM(require_element(), 1);
+  var import_element244 = __toESM(require_element(), 1);
   var import_jsx_runtime320 = __toESM(require_jsx_runtime(), 1);
   function usePreviewRange({
     selected,
@@ -55517,7 +55536,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     max: max3,
     disabled
   }) {
-    return (0, import_element243.useMemo)(() => {
+    return (0, import_element244.useMemo)(() => {
       if (!hoveredDate || !selected?.from) {
         return;
       }
@@ -55590,7 +55609,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       timeZone,
       mode: "range"
     });
-    const onChange = (0, import_element243.useCallback)((selected2, triggerDate, modifiers2, e3) => {
+    const onChange = (0, import_element244.useCallback)((selected2, triggerDate, modifiers2, e3) => {
       onSelect?.(selected2 ?? void 0, triggerDate, modifiers2, e3);
     }, [onSelect]);
     const [selected, setSelected] = useControlledValue({
@@ -55598,7 +55617,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       value: selectedProp,
       onChange
     });
-    const [hoveredDate, setHoveredDate] = (0, import_element243.useState)(void 0);
+    const [hoveredDate, setHoveredDate] = (0, import_element244.useState)(void 0);
     const previewRange = usePreviewRange({
       selected,
       hoveredDate,
@@ -55607,7 +55626,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       max: max3,
       disabled
     });
-    const modifiers = (0, import_element243.useMemo)(() => {
+    const modifiers = (0, import_element244.useMemo)(() => {
       return {
         preview: previewRange,
         preview_start: previewRange?.from,
@@ -55635,15 +55654,16 @@ The screen with id ${screen.id} will not be added.`) : void 0;
 
   // packages/components/build-module/validated-form-controls/components/checkbox-control.mjs
   var import_compose85 = __toESM(require_compose(), 1);
-  var import_element245 = __toESM(require_element(), 1);
+  var import_element246 = __toESM(require_element(), 1);
 
   // packages/components/build-module/validated-form-controls/control-with-error.mjs
   var import_i18n82 = __toESM(require_i18n(), 1);
-  var import_element244 = __toESM(require_element(), 1);
+  var import_element245 = __toESM(require_element(), 1);
 
   // packages/components/build-module/validated-form-controls/validity-indicator.mjs
   var import_jsx_runtime321 = __toESM(require_jsx_runtime(), 1);
   function ValidityIndicator({
+    id: id3,
     type,
     message: message2
   }) {
@@ -55652,6 +55672,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       invalid: error_default
     };
     return /* @__PURE__ */ (0, import_jsx_runtime321.jsxs)("p", {
+      id: id3,
       className: clsx_default("components-validated-control__indicator", `is-${type}`),
       children: [type === "validating" ? /* @__PURE__ */ (0, import_jsx_runtime321.jsx)(spinner_default, {
         className: "components-validated-control__indicator-spinner"
@@ -55688,11 +55709,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     getValidityTarget,
     children
   }, forwardedRef) {
-    const [errorMessage, setErrorMessage] = (0, import_element244.useState)();
-    const [statusMessage, setStatusMessage] = (0, import_element244.useState)();
-    const [showMessage, setShowMessage] = (0, import_element244.useState)(false);
-    const [isTouched, setIsTouched] = (0, import_element244.useState)(false);
-    (0, import_element244.useEffect)(() => {
+    const [errorMessage, setErrorMessage] = (0, import_element245.useState)();
+    const [statusMessage, setStatusMessage] = (0, import_element245.useState)();
+    const [showMessage, setShowMessage] = (0, import_element245.useState)(false);
+    const [isTouched, setIsTouched] = (0, import_element245.useState)(false);
+    (0, import_element245.useEffect)(() => {
       const validityTarget = getValidityTarget();
       const handler = () => {
         setShowMessage(true);
@@ -55701,7 +55722,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       validityTarget?.addEventListener("invalid", handler);
       return () => validityTarget?.removeEventListener("invalid", handler);
     }, [getValidityTarget]);
-    (0, import_element244.useEffect)(() => {
+    (0, import_element245.useEffect)(() => {
       const validityTarget = getValidityTarget();
       const suppressNativePopover = (event) => {
         event.preventDefault();
@@ -55719,7 +55740,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         radioSibilings.forEach((sibling) => sibling.removeEventListener("invalid", suppressNativePopover));
       };
     }, [getValidityTarget]);
-    (0, import_element244.useEffect)(() => {
+    (0, import_element245.useEffect)(() => {
       const validityTarget = getValidityTarget();
       if (!customValidity?.type) {
         validityTarget?.setCustomValidity("");
@@ -55754,7 +55775,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         }
       }
     }, [customValidity, getValidityTarget]);
-    (0, import_element244.useEffect)(() => {
+    (0, import_element245.useEffect)(() => {
       if (!isTouched || showMessage) {
         return;
       }
@@ -55775,35 +55796,58 @@ The screen with id ${screen.id} will not be added.`) : void 0;
         getValidityTarget()?.setAttribute(VALIDITY_VISIBLE_ATTRIBUTE, "");
       }
     };
-    const message2 = () => {
+    const messageId = (0, import_element245.useId)();
+    const message2 = (() => {
       if (errorMessage) {
         return /* @__PURE__ */ (0, import_jsx_runtime322.jsx)(ValidityIndicator, {
+          id: messageId,
           type: "invalid",
           message: errorMessage
         });
       }
       if (statusMessage?.type) {
         return /* @__PURE__ */ (0, import_jsx_runtime322.jsx)(ValidityIndicator, {
+          id: messageId,
           type: statusMessage.type,
           message: statusMessage.message
         });
       }
       return null;
-    };
+    })();
+    const visibleMessage = showMessage ? message2 : null;
+    (0, import_element245.useEffect)(() => {
+      const target = getValidityTarget();
+      if (!target) {
+        return;
+      }
+      function setDescribedBy(el, shouldAdd) {
+        const ids = (el.getAttribute("aria-describedby") ?? "").split(" ").filter((id3) => id3 && id3 !== messageId);
+        if (shouldAdd) {
+          ids.push(messageId);
+        }
+        if (ids.length) {
+          el.setAttribute("aria-describedby", ids.join(" "));
+        } else {
+          el.removeAttribute("aria-describedby");
+        }
+      }
+      setDescribedBy(target, !!visibleMessage);
+      return () => setDescribedBy(target, false);
+    }, [visibleMessage, messageId, getValidityTarget]);
     return /* @__PURE__ */ (0, import_jsx_runtime322.jsxs)("div", {
       className,
       ref: forwardedRef,
       onBlur,
-      children: [(0, import_element244.cloneElement)(children, {
+      children: [(0, import_element245.cloneElement)(children, {
         label: appendRequiredIndicator(children.props.label, required, markWhenOptional),
         required
       }), /* @__PURE__ */ (0, import_jsx_runtime322.jsx)("div", {
         "aria-live": "polite",
-        children: showMessage && message2()
+        children: visibleMessage
       })]
     });
   }
-  var ControlWithError = (0, import_element244.forwardRef)(UnforwardedControlWithError);
+  var ControlWithError = (0, import_element245.forwardRef)(UnforwardedControlWithError);
   ControlWithError.displayName = "ControlWithError";
 
   // packages/components/build-module/validated-form-controls/components/checkbox-control.mjs
@@ -55814,7 +55858,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element245.useRef)(null);
+    const validityTargetRef = (0, import_element246.useRef)(null);
     const mergedRefs = (0, import_compose85.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime323.jsx)(ControlWithError, {
       required,
@@ -55830,12 +55874,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       )
     });
   };
-  var ValidatedCheckboxControl = (0, import_element245.forwardRef)(UnforwardedValidatedCheckboxControl);
+  var ValidatedCheckboxControl = (0, import_element246.forwardRef)(UnforwardedValidatedCheckboxControl);
   ValidatedCheckboxControl.displayName = "ValidatedCheckboxControl";
 
   // packages/components/build-module/validated-form-controls/components/combobox-control.mjs
   var import_compose86 = __toESM(require_compose(), 1);
-  var import_element246 = __toESM(require_element(), 1);
+  var import_element247 = __toESM(require_element(), 1);
   var import_jsx_runtime324 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedComboboxControl = ({
     required,
@@ -55843,9 +55887,9 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element246.useRef)(null);
+    const validityTargetRef = (0, import_element247.useRef)(null);
     const mergedRefs = (0, import_compose86.useMergeRefs)([forwardedRef, validityTargetRef]);
-    (0, import_element246.useEffect)(() => {
+    (0, import_element247.useEffect)(() => {
       const input = validityTargetRef.current?.querySelector('input[role="combobox"]');
       if (input) {
         input.required = required ?? false;
@@ -55866,11 +55910,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     );
   };
-  var ValidatedComboboxControl = (0, import_element246.forwardRef)(UnforwardedValidatedComboboxControl);
+  var ValidatedComboboxControl = (0, import_element247.forwardRef)(UnforwardedValidatedComboboxControl);
   ValidatedComboboxControl.displayName = "ValidatedComboboxControl";
 
   // packages/components/build-module/validated-form-controls/components/form-token-field.mjs
-  var import_element247 = __toESM(require_element(), 1);
+  var import_element248 = __toESM(require_element(), 1);
   var import_jsx_runtime325 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedFormTokenField = ({
     required,
@@ -55878,7 +55922,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element247.useRef)(null);
+    const validityTargetRef = (0, import_element248.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime325.jsxs)("div", {
       className: "components-validated-control__wrapper-with-error-delegate",
       ref: forwardedRef,
@@ -55906,11 +55950,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var ValidatedFormTokenField = (0, import_element247.forwardRef)(UnforwardedValidatedFormTokenField);
+  var ValidatedFormTokenField = (0, import_element248.forwardRef)(UnforwardedValidatedFormTokenField);
   ValidatedFormTokenField.displayName = "ValidatedFormTokenField";
 
   // packages/components/build-module/validated-form-controls/components/input-control.mjs
-  var import_element248 = __toESM(require_element(), 1);
+  var import_element249 = __toESM(require_element(), 1);
   var import_compose87 = __toESM(require_compose(), 1);
   var import_jsx_runtime326 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedInputControl = ({
@@ -55919,7 +55963,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element248.useRef)(null);
+    const validityTargetRef = (0, import_element249.useRef)(null);
     const mergedRefs = (0, import_compose87.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime326.jsx)(ControlWithError, {
       required,
@@ -55933,11 +55977,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedInputControl = (0, import_element248.forwardRef)(UnforwardedValidatedInputControl);
+  var ValidatedInputControl = (0, import_element249.forwardRef)(UnforwardedValidatedInputControl);
   ValidatedInputControl.displayName = "ValidatedInputControl";
 
   // packages/components/build-module/validated-form-controls/components/number-control.mjs
-  var import_element249 = __toESM(require_element(), 1);
+  var import_element250 = __toESM(require_element(), 1);
   var import_compose88 = __toESM(require_compose(), 1);
   var import_jsx_runtime327 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedNumberControl = ({
@@ -55946,7 +55990,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element249.useRef)(null);
+    const validityTargetRef = (0, import_element250.useRef)(null);
     const mergedRefs = (0, import_compose88.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime327.jsx)(ControlWithError, {
       required,
@@ -55960,12 +56004,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedNumberControl = (0, import_element249.forwardRef)(UnforwardedValidatedNumberControl);
+  var ValidatedNumberControl = (0, import_element250.forwardRef)(UnforwardedValidatedNumberControl);
   ValidatedNumberControl.displayName = "ValidatedNumberControl";
 
   // packages/components/build-module/validated-form-controls/components/radio-control.mjs
   var import_compose89 = __toESM(require_compose(), 1);
-  var import_element250 = __toESM(require_element(), 1);
+  var import_element251 = __toESM(require_element(), 1);
   var import_jsx_runtime328 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedRadioControl = ({
     required,
@@ -55973,7 +56017,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element250.useRef)(null);
+    const validityTargetRef = (0, import_element251.useRef)(null);
     const mergedRefs = (0, import_compose89.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime328.jsx)(ControlWithError, {
       required,
@@ -55986,11 +56030,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedRadioControl = (0, import_element250.forwardRef)(UnforwardedValidatedRadioControl);
+  var ValidatedRadioControl = (0, import_element251.forwardRef)(UnforwardedValidatedRadioControl);
   ValidatedRadioControl.displayName = "ValidatedRadioControl";
 
   // packages/components/build-module/validated-form-controls/components/select-control.mjs
-  var import_element251 = __toESM(require_element(), 1);
+  var import_element252 = __toESM(require_element(), 1);
   var import_compose90 = __toESM(require_compose(), 1);
   var import_jsx_runtime329 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedSelectControl = ({
@@ -55999,7 +56043,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element251.useRef)(null);
+    const validityTargetRef = (0, import_element252.useRef)(null);
     const mergedRefs = (0, import_compose90.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime329.jsx)(ControlWithError, {
       required,
@@ -56013,12 +56057,12 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedSelectControl = (0, import_element251.forwardRef)(UnforwardedValidatedSelectControl);
+  var ValidatedSelectControl = (0, import_element252.forwardRef)(UnforwardedValidatedSelectControl);
   ValidatedSelectControl.displayName = "ValidatedSelectControl";
 
   // packages/components/build-module/validated-form-controls/components/text-control.mjs
   var import_compose91 = __toESM(require_compose(), 1);
-  var import_element252 = __toESM(require_element(), 1);
+  var import_element253 = __toESM(require_element(), 1);
   var import_jsx_runtime330 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedTextControl = ({
     required,
@@ -56026,7 +56070,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element252.useRef)(null);
+    const validityTargetRef = (0, import_element253.useRef)(null);
     const mergedRefs = (0, import_compose91.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime330.jsx)(ControlWithError, {
       required,
@@ -56040,11 +56084,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedTextControl = (0, import_element252.forwardRef)(UnforwardedValidatedTextControl);
+  var ValidatedTextControl = (0, import_element253.forwardRef)(UnforwardedValidatedTextControl);
   ValidatedTextControl.displayName = "ValidatedTextControl";
 
   // packages/components/build-module/validated-form-controls/components/textarea-control.mjs
-  var import_element253 = __toESM(require_element(), 1);
+  var import_element254 = __toESM(require_element(), 1);
   var import_compose92 = __toESM(require_compose(), 1);
   var import_jsx_runtime331 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedTextareaControl = ({
@@ -56053,7 +56097,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element253.useRef)(null);
+    const validityTargetRef = (0, import_element254.useRef)(null);
     const mergedRefs = (0, import_compose92.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime331.jsx)(ControlWithError, {
       required,
@@ -56066,11 +56110,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedTextareaControl = (0, import_element253.forwardRef)(UnforwardedValidatedTextareaControl);
+  var ValidatedTextareaControl = (0, import_element254.forwardRef)(UnforwardedValidatedTextareaControl);
   ValidatedTextareaControl.displayName = "ValidatedTextareaControl";
 
   // packages/components/build-module/validated-form-controls/components/toggle-control.mjs
-  var import_element254 = __toESM(require_element(), 1);
+  var import_element255 = __toESM(require_element(), 1);
   var import_compose93 = __toESM(require_compose(), 1);
   var import_jsx_runtime332 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedToggleControl = ({
@@ -56079,7 +56123,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element254.useRef)(null);
+    const validityTargetRef = (0, import_element255.useRef)(null);
     const mergedRefs = (0, import_compose93.useMergeRefs)([forwardedRef, validityTargetRef]);
     return /* @__PURE__ */ (0, import_jsx_runtime332.jsx)(ControlWithError, {
       required,
@@ -56093,11 +56137,11 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })
     });
   };
-  var ValidatedToggleControl = (0, import_element254.forwardRef)(UnforwardedValidatedToggleControl);
+  var ValidatedToggleControl = (0, import_element255.forwardRef)(UnforwardedValidatedToggleControl);
   ValidatedToggleControl.displayName = "ValidatedToggleControl";
 
   // packages/components/build-module/validated-form-controls/components/toggle-group-control.mjs
-  var import_element255 = __toESM(require_element(), 1);
+  var import_element256 = __toESM(require_element(), 1);
   var import_jsx_runtime333 = __toESM(require_jsx_runtime(), 1);
   var UnforwardedValidatedToggleGroupControl = ({
     required,
@@ -56105,8 +56149,8 @@ The screen with id ${screen.id} will not be added.`) : void 0;
     markWhenOptional,
     ...restProps
   }, forwardedRef) => {
-    const validityTargetRef = (0, import_element255.useRef)(null);
-    const nameAttr = (0, import_element255.useId)();
+    const validityTargetRef = (0, import_element256.useRef)(null);
+    const nameAttr = (0, import_element256.useId)();
     return /* @__PURE__ */ (0, import_jsx_runtime333.jsxs)("div", {
       className: "components-validated-control__wrapper-with-error-delegate",
       children: [/* @__PURE__ */ (0, import_jsx_runtime333.jsx)(ControlWithError, {
@@ -56135,7 +56179,7 @@ The screen with id ${screen.id} will not be added.`) : void 0;
       })]
     });
   };
-  var ValidatedToggleGroupControl = (0, import_element255.forwardRef)(UnforwardedValidatedToggleGroupControl);
+  var ValidatedToggleGroupControl = (0, import_element256.forwardRef)(UnforwardedValidatedToggleGroupControl);
   ValidatedToggleGroupControl.displayName = "ValidatedToggleGroupControl";
 
   // packages/components/build-module/private-apis.mjs

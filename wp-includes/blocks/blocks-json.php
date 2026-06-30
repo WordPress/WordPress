@@ -2875,8 +2875,10 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
+					'backgroundImage' => true,
+					'gradient' => true
 				)
 			),
 			'color' => array(
@@ -3721,6 +3723,7 @@
 		),
 		'supports' => array(
 			'anchor' => true,
+			'html' => false,
 			'className' => false,
 			'splitting' => true,
 			'__experimentalBorder' => array(

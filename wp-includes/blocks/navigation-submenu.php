@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/navigation-link/shared/item-should-render.php';
 require_once __DIR__ . '/navigation-link/shared/render-submenu-icon.php';
+require_once __DIR__ . '/navigation-link/shared/build-css-font-sizes.php';
 
 /**
  * Returns the submenu visibility value with backward compatibility
@@ -50,43 +51,6 @@ function block_core_navigation_submenu_get_submenu_visibility( $context ) {
 }
 
 /**
- * Build an array with CSS classes and inline styles defining the font sizes
- * which will be applied to the navigation markup in the front-end.
- *
- * @since 5.9.0
- *
- * @param  array $context Navigation block context.
- * @return array Font size CSS classes and inline styles.
- */
-function block_core_navigation_submenu_build_css_font_sizes( $context ) {
-	// CSS classes.
-	$font_sizes = array(
-		'css_classes'   => array(),
-		'inline_styles' => '',
-	);
-
-	$has_named_font_size  = array_key_exists( 'fontSize', $context );
-	$has_custom_font_size = isset( $context['style']['typography']['fontSize'] );
-
-	if ( $has_named_font_size ) {
-		// Add the font size class.
-		$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
-	} elseif ( $has_custom_font_size ) {
-		// Add the custom font size inline style.
-		$font_sizes['inline_styles'] = sprintf(
-			'font-size: %s;',
-			wp_get_typography_font_size_value(
-				array(
-					'size' => $context['style']['typography']['fontSize'],
-				)
-			)
-		);
-	}
-
-	return $font_sizes;
-}
-
-/**
  * Renders the `core/navigation-submenu` block.
  *
  * @since 5.9.0
@@ -110,7 +74,15 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$font_sizes      = block_core_navigation_submenu_build_css_font_sizes( $block->context );
+	// The build system prefixes this function with "gutenberg_" to avoid
+	// collisions with the core version. Until this function is backported to
+	// core, we need to guard its use and only call the prefixed name in
+	//  the plugin.
+	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
+		$font_sizes = gutenberg_block_core_shared_navigation_build_css_font_sizes( $block->context );
+	} else {
+		$font_sizes = block_core_shared_navigation_build_css_font_sizes( $block->context );
+	}
 	$style_attribute = $font_sizes['inline_styles'];
 
 	// Render inner blocks first to check if any menu items will actually display.

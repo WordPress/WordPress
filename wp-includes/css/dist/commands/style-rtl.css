@@ -107,10 +107,7 @@
 }
 
 .commands-command-menu {
-  border-radius: 4px;
-  width: calc(100% - 32px);
   margin: auto;
-  max-width: 400px;
   position: relative;
   top: calc(5% + 64px);
 }
@@ -159,7 +156,7 @@
 .commands-command-menu__container [cmdk-input] {
   border: none;
   width: 100%;
-  padding: 16px 4px;
+  padding: 12px 4px;
   outline: none;
   color: #1e1e1e;
   margin: 0;
@@ -175,19 +172,12 @@
   outline: none;
 }
 .commands-command-menu__container [cmdk-item] {
-  border-radius: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 4px 0;
   color: #1e1e1e;
   font-size: 13px;
-}
-.commands-command-menu__container [cmdk-item][aria-selected=true], .commands-command-menu__container [cmdk-item]:active {
-  background: var(--wp-admin-theme-color);
-  color: #fff;
-}
-.commands-command-menu__container [cmdk-item][aria-selected=true] svg, .commands-command-menu__container [cmdk-item]:active svg {
-  fill: #fff;
 }
 .commands-command-menu__container [cmdk-item][aria-disabled=true] {
   color: #949494;
@@ -197,16 +187,27 @@
   fill: #1e1e1e;
 }
 .commands-command-menu__container [cmdk-item] > div {
-  min-height: 40px;
+  border-radius: 2px;
+  min-height: 32px;
   padding: 4px;
   padding-right: 40px;
   padding-left: 16px;
 }
+.commands-command-menu__container [cmdk-item][aria-selected=true] > div, .commands-command-menu__container [cmdk-item]:active > div {
+  background: var(--wp-admin-theme-color);
+  color: #fff;
+}
+.commands-command-menu__container [cmdk-item][aria-selected=true] > div svg, .commands-command-menu__container [cmdk-item]:active > div svg {
+  fill: #fff;
+}
 .commands-command-menu__container [cmdk-item] > .has-icon {
   padding-right: 8px;
 }
+.commands-command-menu__container [cmdk-group]:has([cmdk-group-items]:empty) {
+  display: none;
+}
 .commands-command-menu__container [cmdk-root] > [cmdk-list] {
-  max-height: 368px;
+  max-height: min(328px, 70vh - 48px);
   overflow: auto;
   scroll-padding-top: 8px;
   scroll-padding-bottom: 8px;
@@ -214,14 +215,17 @@
 .commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-group-items]:not(:empty)), .commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-empty]) {
   border-top: 1px solid #ddd;
 }
-.commands-command-menu__container [cmdk-root] > [cmdk-list]:has([cmdk-group-items]:not(:empty)) {
-  padding-top: 8px;
-}
-.commands-command-menu__container [cmdk-root] > [cmdk-list] [cmdk-list-sizer] > [cmdk-group]:last-child [cmdk-group-items]:not(:empty) {
-  padding-bottom: 8px;
-}
 .commands-command-menu__container [cmdk-root] > [cmdk-list] [cmdk-list-sizer] > [cmdk-group] > [cmdk-group-items]:not(:empty) {
-  padding: 0 8px;
+  padding: 0 8px 4px;
+}
+.commands-command-menu__container [cmdk-root] > [cmdk-list] [cmdk-group-heading] {
+  margin-top: 8px;
+  padding: 8px 16px;
+  line-height: 16px;
+  font-size: 11px;
+  font-weight: 499;
+  text-transform: uppercase;
+  color: #1e1e1e;
 }
 .commands-command-menu__container [cmdk-empty] {
   display: flex;

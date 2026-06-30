@@ -523,20 +523,20 @@ var wp;
 
   // packages/dom/build-module/dom/caret-range-from-point.mjs
   function caretRangeFromPoint(doc, x, y) {
+    if (doc.caretPositionFromPoint) {
+      const point = doc.caretPositionFromPoint(x, y);
+      if (!point) {
+        return null;
+      }
+      const range = doc.createRange();
+      range.setStart(point.offsetNode, point.offset);
+      range.collapse(true);
+      return range;
+    }
     if (doc.caretRangeFromPoint) {
       return doc.caretRangeFromPoint(x, y);
     }
-    if (!doc.caretPositionFromPoint) {
-      return null;
-    }
-    const point = doc.caretPositionFromPoint(x, y);
-    if (!point) {
-      return null;
-    }
-    const range = doc.createRange();
-    range.setStart(point.offsetNode, point.offset);
-    range.collapse(true);
-    return range;
+    return null;
   }
 
   // packages/dom/build-module/dom/hidden-caret-range-from-point.mjs

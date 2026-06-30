@@ -1521,6 +1521,7 @@ var wp;
       node.addEventListener("keydown", (event) => {
         if (event.keyCode === import_keycodes.ESCAPE && !event.defaultPrevented && currentOptions.current?.onClose) {
           event.preventDefault();
+          event.stopPropagation();
           currentOptions.current.onClose();
         }
       });

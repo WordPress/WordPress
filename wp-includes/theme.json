@@ -10,6 +10,7 @@
 			"style": false,
 			"width": false
 		},
+		"background": { "gradient": true },
 		"color": {
 			"background": true,
 			"button": true,

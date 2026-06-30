@@ -124,9 +124,6 @@
 }
 
 .block-editor-global-styles-background-panel__inspector-media-replace-container {
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  grid-column: 1/-1;
   position: relative;
 }
 .block-editor-global-styles-background-panel__inspector-media-replace-container.is-open {
@@ -1622,10 +1619,7 @@ iframe[name=editor-canvas] {
 }
 
 .block-editor-fit-text-size-warning {
-  margin: 8px 0 0 0;
-}
-.block-editor-fit-text-size-warning .components-notice__content {
-  margin-right: 0;
+  grid-column: span 2;
 }
 
 .components-font-appearance-control [role=option] {
@@ -3410,6 +3404,40 @@ iframe[name=editor-canvas] {
 .block-editor-url-popover__expand-on-click .text p.description {
   color: #757575;
   font-size: 12px;
+}
+
+/**
+ * ItemGroup-like border styles for the background panel's ToolsPanelItems.
+ * Replicates the separated border of the `ItemGroup` component while
+ * allowing for hidden placeholder items (same approach as the color panel).
+ */
+.block-editor-background-panel__item {
+  padding: 0;
+  max-width: 100%;
+  position: relative;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.block-editor-background-panel__item:nth-child(1 of .block-editor-background-panel__item) {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-top: 1px solid #ddd;
+}
+.block-editor-background-panel__item:nth-last-child(1 of .block-editor-background-panel__item) {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.block-editor-background-panel__item > div,
+.block-editor-background-panel__item > div > button {
+  border-radius: inherit;
+}
+
+.background-block-support-panel {
+  /* Increased specificity required to remove the slot wrapper's row gap */
+}
+.background-block-support-panel.background-block-support-panel .background-block-support-panel__inner-wrapper {
+  row-gap: 0;
 }
 
 .block-editor-content-only-controls__link {

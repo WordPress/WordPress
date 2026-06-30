@@ -166,7 +166,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'ef4ac69a586a1281a620'
+		'version' => '91e28c26a7994ed4332c'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
@@ -177,7 +177,7 @@
 			'wp-i18n',
 			'wp-private-apis'
 		),
-		'version' => '70a0f074705f10920f9a'
+		'version' => 'e973aa806299e3d70144'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
@@ -273,7 +273,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '184e1479cff9c6206281'
+		'version' => '65892b41e8d17dc72ead'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
@@ -300,7 +300,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '61b86a5f5540ba666280'
+		'version' => '21ff0ef0ab8315e42da9'
 	),
 	'workflow/index.js' => array(
 		'dependencies' => array(
@@ -321,6 +321,6 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '13556bc597bbf2a8d620'
+		'version' => '8d5b553b2fcab74a6606'
 	)
 );

@@ -5,6 +5,8 @@
  * @package WordPress
  */
 
+require_once __DIR__ . '/navigation-link/shared/build-css-font-sizes.php';
+
 /**
  * Returns the submenu visibility value with backward compatibility
  * for the deprecated openSubmenusOnClick attribute.
@@ -123,44 +125,6 @@ function block_core_page_list_build_css_colors( $attributes, $context ) {
 
 	return $colors;
 }
-
-/**
- * Build an array with CSS classes and inline styles defining the font sizes
- * which will be applied to the pages markup in the front-end when it is a descendant of navigation.
- *
- * @since 5.8.0
- *
- * @param  array $context Navigation block context.
- * @return array Font size CSS classes and inline styles.
- */
-function block_core_page_list_build_css_font_sizes( $context ) {
-	// CSS classes.
-	$font_sizes = array(
-		'css_classes'   => array(),
-		'inline_styles' => '',
-	);
-
-	$has_named_font_size  = array_key_exists( 'fontSize', $context );
-	$has_custom_font_size = isset( $context['style']['typography']['fontSize'] );
-
-	if ( $has_named_font_size ) {
-		// Add the font size class.
-		$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
-	} elseif ( $has_custom_font_size ) {
-		// Add the custom font size inline style.
-		$font_sizes['inline_styles'] = sprintf(
-			'font-size: %s;',
-			wp_get_typography_font_size_value(
-				array(
-					'size' => $context['style']['typography']['fontSize'],
-				)
-			)
-		);
-	}
-
-	return $font_sizes;
-}
-
 /**
  * Outputs Page list markup from an array of pages with nested children.
  *
@@ -342,12 +306,21 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 		}
 	}
 
-	$colors          = block_core_page_list_build_css_colors( $attributes, $block->context );
-	$font_sizes      = block_core_page_list_build_css_font_sizes( $block->context );
-	$classes         = array_merge(
+	$colors = block_core_page_list_build_css_colors( $attributes, $block->context );
+	// The build system prefixes this function with "gutenberg_" to avoid
+	// collisions with the core version. Until this function is backported to
+	// core, we need to guard its use and only call the prefixed name in
+	// the plugin.
+	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
+		$font_sizes = gutenberg_block_core_shared_navigation_build_css_font_sizes( $block->context );
+	} else {
+		$font_sizes = block_core_shared_navigation_build_css_font_sizes( $block->context );
+	}
+	$classes = array_merge(
 		$colors['css_classes'],
 		$font_sizes['css_classes']
 	);
+
 	$style_attribute = ( $colors['inline_styles'] . $font_sizes['inline_styles'] );
 	$css_classes     = trim( implode( ' ', $classes ) );
 

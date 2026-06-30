@@ -2466,7 +2466,6 @@ ul {
 .wp-block-navigation ul,
 .wp-block-navigation ul li {
   list-style: none;
-  padding: 0;
 }
 .wp-block-navigation .wp-block-navigation-item {
   background-color: inherit;
@@ -2551,6 +2550,10 @@ ul {
 .wp-block-navigation.items-justified-space-between {
   --navigation-layout-justification-setting: space-between;
   --navigation-layout-justify: space-between;
+}
+
+:where(.wp-block-navigation) ul li {
+  padding: 0;
 }
 
 .wp-block-navigation .has-child .wp-block-navigation__submenu-container {
