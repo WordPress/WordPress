@@ -120,9 +120,6 @@ body.js .theme-browser.search-loading {
 .theme-browser .theme .theme-actions .button {
 	float: none;
 	margin-right: 3px;
-	min-height: 32px;
-	line-height: 2.30769231; /* 30px for 32px min-height */
-	padding: 0 12px;
 }
 
 .theme-browser .theme .theme-actions .button.updated-message::before,
@@ -1969,6 +1966,8 @@ body.full-overlay-active {
 .theme-install-overlay .wp-full-overlay-header .button {
 	float: left;
 	margin: 7px 0 0 10px; /* Vertically center 32px button in 45px header */
+	min-height: 32px;
+	line-height: 2.30769231; /* 30px for 32px height with 13px font */
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {
