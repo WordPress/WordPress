@@ -20,14 +20,22 @@
 function wp_render_block_visibility_support( $block_content, $block ) {
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 
-	if ( ! $block_type || ! block_has_support( $block_type, 'visibility', true ) ) {
+	if ( ! $block_type ) {
 		return $block_content;
 	}
 
 	$block_visibility = $block['attrs']['metadata']['blockVisibility'] ?? null;
 
+	// Hide the block whenever the value is boolean false, regardless of the
+	// block's current visibility support. This prevents blocks that previously
+	// supported visibility from unintentionally appearing on the front end
+	// after their support was disabled.
 	if ( false === $block_visibility ) {
 		return '';
+	}
+
+	if ( ! block_has_support( $block_type, 'visibility', true ) ) {
+		return $block_content;
 	}
 
 	if ( is_array( $block_visibility ) && ! empty( $block_visibility ) ) {
