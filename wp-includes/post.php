@@ -6846,6 +6846,29 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
 		}
 	}
 
+	/*
+	 * Delete the source-format companion file. The client-side media flow can
+	 * sideload a source-format original (such as a HEIC file) alongside a
+	 * web-viewable derivative, recording its filename under the 'source_image'
+	 * key. This is kept separate from 'original_image', which continues to
+	 * point at the derivative.
+	 */
+	if ( ! empty( $meta['source_image'] ) && is_string( $meta['source_image'] ) ) {
+		if ( empty( $intermediate_dir ) ) {
+			$intermediate_dir = path_join( $uploadpath['basedir'], dirname( $file ) );
+		}
+
+		$source_image = str_replace( wp_basename( $file ), $meta['source_image'], $file );
+
+		if ( ! empty( $source_image ) ) {
+			$source_image = path_join( $uploadpath['basedir'], $source_image );
+
+			if ( ! wp_delete_file_from_directory( $source_image, $intermediate_dir ) ) {
+				$deleted = false;
+			}
+		}
+	}
+
 	if ( is_array( $backup_sizes ) ) {
 		$del_dir = path_join( $uploadpath['basedir'], dirname( $meta['file'] ) );
 

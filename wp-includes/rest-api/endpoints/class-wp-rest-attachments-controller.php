@@ -25,6 +25,29 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	protected $allow_batch = false;
 
 	/**
+	 * Image size token for the source-format original preserved alongside a
+	 * client-generated derivative (e.g. the HEIC file kept next to its JPEG).
+	 *
+	 * Used both in the `/sideload` route schema and when dispatching the
+	 * sideloaded file to its metadata key, so the two never drift apart.
+	 *
+	 * @since 7.1.0
+	 * @var string
+	 */
+	const IMAGE_SIZE_SOURCE_ORIGINAL = 'source_original';
+
+	/**
+	 * Metadata key holding the basename of the source-format original.
+	 *
+	 * Deliberately specific so it never collides with the generic `original`
+	 * or `original_image` keys other flows write to.
+	 *
+	 * @since 7.1.0
+	 * @var string
+	 */
+	const META_KEY_SOURCE_IMAGE = 'source_image';
+
+	/**
 	 * Registers the routes for attachments.
 	 *
 	 * @since 5.3.0
@@ -98,6 +121,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 									$valid_sizes[] = 'original';
 									$valid_sizes[] = 'scaled';
 									$valid_sizes[] = 'full';
+									// Source-format original (e.g. the HEIC kept alongside its JPEG derivative).
+									$valid_sizes[] = self::IMAGE_SIZE_SOURCE_ORIGINAL;
 
 									$items = is_string( $value ) ? array( $value ) : ( is_array( $value ) ? $value : null );
 									if ( null === $items ) {
@@ -324,6 +349,26 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		// When the client handles image processing (generate_sub_sizes is false),
 		// skip the server-side image editor support check.
 		if ( false === $request['generate_sub_sizes'] ) {
+			$prevent_unsupported_uploads = false;
+		}
+
+		/*
+		 * Always allow still HEIC/HEIF uploads through even if the server's
+		 * image editor doesn't support them. The client-side canvas fallback
+		 * handles processing using the browser's native HEVC decoder.
+		 *
+		 * The '-sequence' variants (multi-frame Live Photos) are deliberately
+		 * excluded: neither the server nor the browser fallback can process
+		 * them yet, so they should fall through to the standard unsupported
+		 * mime-type error rather than be stored unprocessable.
+		 */
+		$still_heic_mime_types = array( 'image/heic', 'image/heif' );
+
+		if (
+			$prevent_unsupported_uploads &&
+			! empty( $files['file']['type'] ) &&
+			in_array( $files['file']['type'], $still_heic_mime_types, true )
+		) {
 			$prevent_unsupported_uploads = false;
 		}
 
@@ -1458,7 +1503,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param string      $data    Supplied file data.
 	 * @param array       $headers HTTP headers from the request.
 	 * @param string|null $time    Optional. Time formatted in 'yyyy/mm'. Default null.
-	 * @return array|WP_Error Data from wp_handle_sideload().
+	 * @return array{ file: non-empty-string, url: non-empty-string, type: non-empty-string }|WP_Error Data from wp_handle_sideload().
 	 */
 	protected function upload_from_data( $data, $headers, $time = null ) {
 		if ( empty( $data ) ) {
@@ -1678,7 +1723,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param array       $files   Data from the `$_FILES` superglobal.
 	 * @param array       $headers HTTP headers from the request.
 	 * @param string|null $time    Optional. Time formatted in 'yyyy/mm'. Default null.
-	 * @return array|WP_Error Data from wp_handle_upload().
+	 * @return array{ file: non-empty-string, url: non-empty-string, type: non-empty-string }|WP_Error Data from wp_handle_upload().
 	 */
 	protected function upload_from_file( $files, $headers, $time = null ) {
 		if ( empty( $files ) ) {
@@ -2173,6 +2218,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$sub_size_data['filesize']  = wp_filesize( $path );
 		} elseif ( 'original' === $image_size ) {
 			$sub_size_data['file'] = wp_basename( $path );
+		} elseif ( self::IMAGE_SIZE_SOURCE_ORIGINAL === $image_size ) {
+			/*
+			 * Source-format original (e.g. the HEIC kept next to its JPEG
+			 * derivative). Record the filename so finalize_item can store it
+			 * under the dedicated source-image meta key.
+			 */
+			$sub_size_data['file'] = wp_basename( $path );
 		} elseif ( 'scaled' === $image_size ) {
 			// Record the current attached file as the original.
 			$current_file = get_attached_file( $attachment_id, true );
@@ -2328,6 +2380,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 			if ( 'original' === $image_size ) {
 				$metadata['original_image'] = $sub_size['file'];
+			} elseif ( self::IMAGE_SIZE_SOURCE_ORIGINAL === $image_size ) {
+				/*
+				 * Source-format original: stored under its own meta key so the
+				 * scaled-sideload flow (which writes 'original_image') cannot
+				 * clobber it. 'original_image' keeps pointing at the
+				 * web-viewable JPEG derivative. Cleanup on attachment delete
+				 * is handled by wp_delete_attachment_files().
+				 */
+				$metadata[ self::META_KEY_SOURCE_IMAGE ] = $sub_size['file'];
 			} elseif ( 'scaled' === $image_size ) {
 				if ( ! empty( $sub_size['original_image'] ) ) {
 					$metadata['original_image'] = $sub_size['original_image'];

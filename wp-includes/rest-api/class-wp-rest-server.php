@@ -1380,7 +1380,7 @@ class WP_REST_Server {
 			$available['image_size_threshold'] = (int) apply_filters( 'big_image_size_threshold', 2560, array( 0, 0 ), '', 0 );
 
 			// Image output formats.
-			$input_formats  = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/heic' );
+			$input_formats  = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/heic', 'image/heif' );
 			$output_formats = array();
 			foreach ( $input_formats as $mime_type ) {
 				/** This filter is documented in wp-includes/media.php */
