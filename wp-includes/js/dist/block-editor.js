@@ -16407,12 +16407,8 @@ var wp;
       const { orientation = "horizontal" } = layout;
       let fallbackGapValue = "0.5em";
       if (globalBlockGapValue) {
-        const processedGlobalGap = getGapCSSValue(
-          globalBlockGapValue,
-          "0.5em"
-        );
-        const gapParts = processedGlobalGap.split(" ");
-        fallbackGapValue = gapParts.length > 1 ? gapParts[1] : gapParts[0];
+        const gapBox = getGapBoxControlValueFromStyle(globalBlockGapValue);
+        fallbackGapValue = getSpacingPresetCssVar(gapBox?.left) || getSpacingPresetCssVar(gapBox?.top) || "0.5em";
       }
       const blockGapValue = style?.spacing?.blockGap && !shouldSkipSerialization(blockName, "spacing", "blockGap") ? getGapCSSValue(style?.spacing?.blockGap, fallbackGapValue) : void 0;
       const justifyContent = justifyContentMap[layout.justifyContent];
@@ -17089,9 +17085,8 @@ var wp;
       }
       let fallbackGapValue = "1.2rem";
       if (globalBlockGapValue) {
-        const processedGap = getGapCSSValue(globalBlockGapValue, "0.5em");
-        const gapParts = processedGap.split(" ");
-        fallbackGapValue = gapParts.length > 1 ? gapParts[1] : gapParts[0];
+        const gapBox = getGapBoxControlValueFromStyle(globalBlockGapValue);
+        fallbackGapValue = getSpacingPresetCssVar(gapBox?.left) || getSpacingPresetCssVar(gapBox?.top) || "1.2rem";
       }
       const blockGapValue = style?.spacing?.blockGap && !shouldSkipSerialization(blockName, "spacing", "blockGap") ? getGapCSSValue(style?.spacing?.blockGap, fallbackGapValue) : void 0;
       let output = "";
@@ -23701,6 +23696,7 @@ var wp;
           const storeBlocks = controlledBlocks.map(
             (block) => cloneBlockWithMapping(block, idMappingRef.current)
           );
+          __unstableMarkNextChangeAsNotPersistent2();
           setHasControlledInnerBlocks2(clientId, true);
           if (subscribedRef.current) {
             pendingChangesRef.current.incoming = storeBlocks;
@@ -23718,12 +23714,13 @@ var wp;
       }
     };
     const unsetControlledBlocks = () => {
-      __unstableMarkNextChangeAsNotPersistent2();
       if (clientId) {
+        __unstableMarkNextChangeAsNotPersistent2();
         setHasControlledInnerBlocks2(clientId, false);
         __unstableMarkNextChangeAsNotPersistent2();
         replaceInnerBlocks2(clientId, []);
       } else {
+        __unstableMarkNextChangeAsNotPersistent2();
         resetBlocks2([]);
       }
     };
@@ -33229,7 +33226,6 @@ var wp;
   // packages/block-editor/build-module/components/inspector-controls/fill.mjs
   var import_jsx_runtime211 = __toESM(require_jsx_runtime(), 1);
   var PATTERN_EDITING_GROUPS = ["content", "list"];
-  var TEMPLATE_PART_GROUPS = ["default", "settings", "advanced"];
   function InspectorControlsFill({
     children,
     group = "default",
@@ -33255,9 +33251,8 @@ var wp;
     }
     if (context[mayDisplayPatternEditingControlsKey]) {
       const isTemplatePart9 = context.name === "core/template-part";
-      const isTemplatePartGroup = TEMPLATE_PART_GROUPS.includes(group);
       const isPatternEditingGroup = PATTERN_EDITING_GROUPS.includes(group);
-      const canShowGroup = isTemplatePart9 && isTemplatePartGroup || isPatternEditingGroup;
+      const canShowGroup = isTemplatePart9 || isPatternEditingGroup;
       if (!canShowGroup) {
         return null;
       }
@@ -59663,7 +59658,7 @@ var wp;
           contentClientIds
         }
       ),
-      !isSectionBlock2 && /* @__PURE__ */ (0, import_jsx_runtime377.jsxs)(import_jsx_runtime377.Fragment, { children: [
+      (!isSectionBlock2 || blockName === "core/template-part") && /* @__PURE__ */ (0, import_jsx_runtime377.jsxs)(import_jsx_runtime377.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime377.jsx)(
           inspector_controls_default.Slot,
           {
@@ -60765,7 +60760,7 @@ var wp;
   function useBlockEditingMode(mode2) {
     const context = useBlockEditContext();
     const { clientId = "" } = context;
-    const { setBlockEditingMode: setBlockEditingMode2, unsetBlockEditingMode: unsetBlockEditingMode2 } = (0, import_data174.useDispatch)(store);
+    const registry = (0, import_data174.useRegistry)();
     const globalBlockEditingMode = (0, import_data174.useSelect)(
       (select3) => (
         // Avoid adding the subscription if not needed!
@@ -60774,15 +60769,21 @@ var wp;
       [clientId]
     );
     (0, import_element217.useEffect)(() => {
-      if (mode2) {
-        setBlockEditingMode2(clientId, mode2);
+      if (!mode2) {
+        return;
       }
+      const {
+        setBlockEditingMode: setBlockEditingMode2,
+        unsetBlockEditingMode: unsetBlockEditingMode2,
+        __unstableMarkNextChangeAsNotPersistent: __unstableMarkNextChangeAsNotPersistent2
+      } = registry.dispatch(store);
+      __unstableMarkNextChangeAsNotPersistent2();
+      setBlockEditingMode2(clientId, mode2);
       return () => {
-        if (mode2) {
-          unsetBlockEditingMode2(clientId);
-        }
+        __unstableMarkNextChangeAsNotPersistent2();
+        unsetBlockEditingMode2(clientId);
       };
-    }, [clientId, mode2, setBlockEditingMode2, unsetBlockEditingMode2]);
+    }, [registry, clientId, mode2]);
     return clientId ? context[blockEditingModeKey] : globalBlockEditingMode;
   }
 

@@ -1192,11 +1192,10 @@ var wp;
       return false;
     }
   }
-  function clearSelection(trigger) {
+  function restoreFocus(trigger) {
     if ("focus" in trigger && typeof trigger.focus === "function") {
       trigger.focus();
     }
-    trigger.ownerDocument?.defaultView?.getSelection()?.removeAllRanges();
   }
   function useUpdatedRef(value) {
     const ref = (0, import_element7.useRef)(value);
@@ -1213,11 +1212,10 @@ var wp;
       const handleClick = async () => {
         const textToCopy = typeof textRef.current === "function" ? textRef.current() : textRef.current || "";
         const success = await copyToClipboard(textToCopy, node);
-        if (!isActive) {
-          return;
-        }
         if (success) {
-          clearSelection(node);
+          if (isActive) {
+            restoreFocus(node);
+          }
           if (onSuccessRef.current) {
             onSuccessRef.current();
           }
@@ -1268,7 +1266,7 @@ var wp;
           return;
         }
         if (success) {
-          clearSelection(trigger);
+          restoreFocus(trigger);
           if (timeout) {
             setHasCopied(true);
             clearTimeout(timeoutId);

@@ -297,7 +297,7 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 	++$block_id;
 
 	$parent_page_id = $attributes['parentPageID'];
-	$is_nested      = $attributes['isNested'];
+	$is_nested      = ! empty( $block->context['core/isInsideSubmenu'] );
 
 	$all_pages = get_pages(
 		array(

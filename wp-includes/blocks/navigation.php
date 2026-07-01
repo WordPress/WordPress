@@ -1355,17 +1355,6 @@ function block_core_navigation_build_css_font_sizes( $attributes ) {
 }
 
 /**
- * Returns the top-level submenu SVG chevron icon.
- *
- * @since 5.9.0
- *
- * @return string
- */
-function block_core_navigation_render_submenu_icon() {
-	return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
-}
-
-/**
  * Filter out empty "null" blocks from the block list.
  * 'parse_blocks' includes a null block with '\n\n' as the content when
  * it encounters whitespace. This is not a bug but rather how the parser

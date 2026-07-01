@@ -1,13 +1,27 @@
+'use strict';
 /*
  * Thickbox 3.1 - One Box To Rule Them All.
  * By Cody Lindley (http://www.codylindley.com)
  * Copyright (c) 2007 cody lindley
  * Licensed under the MIT License: http://www.opensource.org/licenses/mit-license.php
-*/
+ */
+
+/* global thickboxL10n, unescape */
+/* jshint -W018 */
+/* jshint -W038 */
+/* jshint -W040 */
+/* jshint -W069 */
+/* jshint -W097 */
+/* jshint -W098 */
+/* jshint -W109 */
+/* jshint -W116 */
 
 if ( typeof tb_pathToImage != 'string' ) {
 	var tb_pathToImage = thickboxL10n.loadingAnimation;
 }
+
+var imgLoader, TB_PrevCaption, TB_PrevURL, TB_PrevHTML, TB_NextCaption, TB_NextURL,
+	TB_NextHTML, TB_imageCount, TB_FoundURL, TB_TempArray, TB_Counter, TB_WIDTH, TB_HEIGHT;
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
@@ -87,6 +101,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			urlType == '.webp' ||
 			urlType == '.avif'
 		){//code to show images
+			var imgPreloader = new Image();
 
 			TB_PrevCaption = "";
 			TB_PrevURL = "";
@@ -117,7 +132,6 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				}
 			}
 
-			imgPreloader = new Image();
 			imgPreloader.onload = function(){
 			imgPreloader.onload = null;
 
@@ -150,24 +164,26 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 			jQuery("#TB_closeWindowButton").on( 'click', tb_remove );
 
+			// Declared in the function scope (not the blocks below) so the keydown handler can reach them under strict mode.
+			var goPrev = function(){
+				if(jQuery(document).off("click",goPrev)){jQuery(document).off("click",goPrev);}
+				jQuery("#TB_window").remove();
+				jQuery("body").append("<div id='TB_window'></div>");
+				tb_show(TB_PrevCaption, TB_PrevURL, imageGroup);
+				return false;
+			};
+			var goNext = function(){
+				jQuery("#TB_window").remove();
+				jQuery("body").append("<div id='TB_window'></div>");
+				tb_show(TB_NextCaption, TB_NextURL, imageGroup);
+				return false;
+			};
+
 			if (!(TB_PrevHTML === "")) {
-				function goPrev(){
-					if(jQuery(document).off("click",goPrev)){jQuery(document).off("click",goPrev);}
-					jQuery("#TB_window").remove();
-					jQuery("body").append("<div id='TB_window'></div>");
-					tb_show(TB_PrevCaption, TB_PrevURL, imageGroup);
-					return false;
-				}
 				jQuery("#TB_prev").on( 'click', goPrev );
 			}
 
 			if (!(TB_NextHTML === "")) {
-				function goNext(){
-					jQuery("#TB_window").remove();
-					jQuery("body").append("<div id='TB_window'></div>");
-					tb_show(TB_NextCaption, TB_NextURL, imageGroup);
-					return false;
-				}
 				jQuery("#TB_next").on( 'click', goNext );
 
 			}
@@ -201,6 +217,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 			var queryString = url.replace(/^[^\?]+\??/,'');
 			var params = tb_parseQuery( queryString );
+			var ajaxContentW, ajaxContentH;
 
 			TB_WIDTH = (params['width']*1) + 30 || 630; //defaults to 630 if no parameters were added to URL
 			TB_HEIGHT = (params['height']*1) + 40 || 440; //defaults to 440 if no parameters were added to URL
@@ -208,7 +225,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			ajaxContentH = TB_HEIGHT - 45;
 
 			if(url.indexOf('TB_iframe') != -1){// either iframe or ajax window
-					urlNoQuery = url.split('TB_');
+					var urlNoQuery = url.split('TB_');
 					jQuery("#TB_iframeContent").remove();
 					if(params['modal'] != "true"){//iframe no modal
 						jQuery("#TB_window").append("<div id='TB_title'><div id='TB_ajaxWindowTitle'>"+caption+"</div><div id='TB_closeAjaxWindow'><button type='button' id='TB_closeWindowButton'><span class='screen-reader-text'>"+thickboxL10n.close+"</span><span class='tb-close-icon' aria-hidden='true'></span></button></div></div><iframe frameborder='0' hspace='0' allowtransparency='true' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;' >"+thickboxL10n.noiframes+"</iframe>");
@@ -333,8 +350,7 @@ function tb_getPageSize(){
 	var de = document.documentElement;
 	var w = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
 	var h = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight;
-	arrayPageSize = [w,h];
-	return arrayPageSize;
+	return [w,h];
 }
 
 function tb_detectMacXFF() {

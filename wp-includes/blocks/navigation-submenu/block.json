@@ -40,7 +40,14 @@
 		},
 		"isTopLevelItem": {
 			"type": "boolean"
+		},
+		"isParentSubmenu": {
+			"type": "boolean",
+			"default": true
 		}
+	},
+	"providesContext": {
+		"core/isInsideSubmenu": "isParentSubmenu"
 	},
 	"usesContext": [
 		"textColor",

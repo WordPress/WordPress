@@ -4483,7 +4483,14 @@
 			),
 			'isTopLevelItem' => array(
 				'type' => 'boolean'
+			),
+			'isParentSubmenu' => array(
+				'type' => 'boolean',
+				'default' => true
 			)
+		),
+		'providesContext' => array(
+			'core/isInsideSubmenu' => 'isParentSubmenu'
 		),
 		'usesContext' => array(
 			'textColor',
@@ -4572,10 +4579,6 @@
 			'parentPageID' => array(
 				'type' => 'integer',
 				'default' => 0
-			),
-			'isNested' => array(
-				'type' => 'boolean',
-				'default' => false
 			)
 		),
 		'usesContext' => array(
@@ -4592,7 +4595,8 @@
 			'showSubmenuIcon',
 			'style',
 			'openSubmenusOnClick',
-			'submenuVisibility'
+			'submenuVisibility',
+			'core/isInsideSubmenu'
 		),
 		'supports' => array(
 			'anchor' => true,
