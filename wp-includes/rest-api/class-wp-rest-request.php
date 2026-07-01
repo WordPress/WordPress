@@ -588,6 +588,15 @@ class WP_REST_Request implements ArrayAccess {
 	 * @since 4.4.0
 	 *
 	 * @return array Parameter map of key to value.
+	 *
+	 * @phpstan-return array<string, array{
+	 *                                   name: non-empty-string,
+	 *                                   type: non-empty-string,
+	 *                                   size: non-negative-int,
+	 *                                   tmp_name: non-empty-string,
+	 *                                   error: int<0, 8>,
+	 *                                   full_path?: non-empty-string,
+	 *                               }>
 	 */
 	public function get_file_params() {
 		return $this->params['FILES'];
@@ -601,6 +610,15 @@ class WP_REST_Request implements ArrayAccess {
 	 * @since 4.4.0
 	 *
 	 * @param array $params Parameter map of key to value.
+	 *
+	 * @phpstan-param array<string, array{
+	 *                                  name: non-empty-string,
+	 *                                  type: non-empty-string,
+	 *                                  size: non-negative-int,
+	 *                                  tmp_name: non-empty-string,
+	 *                                  error: int<0, 8>,
+	 *                                  full_path?: non-empty-string,
+	 *                              }> $params
 	 */
 	public function set_file_params( $params ) {
 		$this->params['FILES'] = $params;

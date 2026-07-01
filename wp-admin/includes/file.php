@@ -801,6 +801,9 @@ function validate_file_to_edit( $file, $allowed_files = array() ) {
  *     @type string $url  URL of the newly-uploaded file.
  *     @type string $type Mime type of the newly-uploaded file.
  * }
+ *
+ * @phpstan-return array{ file: non-empty-string, url: non-empty-string, type: non-empty-string }
+ *                |array{ error: non-empty-string }
  */
 function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	// The default error handler.
@@ -1094,6 +1097,9 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
  *                               See _wp_handle_upload() for accepted values.
  * @param string|null $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array See _wp_handle_upload() for return value.
+ *
+ * @phpstan-return array{ file: non-empty-string, url: non-empty-string, type: non-empty-string }
+ *                |array{ error: non-empty-string }
  */
 function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	/*
@@ -1121,6 +1127,9 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
  *                               See _wp_handle_upload() for accepted values.
  * @param string|null $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array See _wp_handle_upload() for return value.
+ *
+ * @phpstan-return array{ file: non-empty-string, url: non-empty-string, type: non-empty-string }
+ *                |array{ error: non-empty-string }
  */
 function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	/*

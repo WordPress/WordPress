@@ -2341,6 +2341,14 @@ function win_is_writable( $path ) {
  * @see wp_upload_dir()
  *
  * @return array See wp_upload_dir() for description.
+ * @phpstan-return array{
+ *                     path: non-empty-string,
+ *                     url: non-empty-string,
+ *                     subdir: non-empty-string,
+ *                     basedir: non-empty-string,
+ *                     baseurl: non-empty-string,
+ *                 }
+ *                |array{ error: non-empty-string }
  */
 function wp_get_upload_dir() {
 	return wp_upload_dir( null, false );
@@ -2382,6 +2390,14 @@ function wp_get_upload_dir() {
  *     @type string       $baseurl URL path without subdir.
  *     @type string|false $error   False or error message.
  * }
+ * @phpstan-return array{
+ *                     path: non-empty-string,
+ *                     url: non-empty-string,
+ *                     subdir: non-empty-string,
+ *                     basedir: non-empty-string,
+ *                     baseurl: non-empty-string,
+ *                 }
+ *                |array{ error: non-empty-string }
  */
 function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false ) {
 	static $cache = array(), $tested_paths = array();

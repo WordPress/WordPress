@@ -6911,6 +6911,39 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
  *     @type array  $image_meta Image metadata.
  *     @type int    $filesize   File size of the attachment.
  * }
+ *
+ * @phpstan-return array{
+ *                     width?: int<1, max>,
+ *                     height?: int<1, max>,
+ *                     file?: non-empty-string,
+ *                     filesize?: int<0, max>,
+ *                     original_image?: non-empty-string,
+ *                     source_image?: non-empty-string,
+ *                     sizes?: array<non-empty-string, array{
+ *                                                         file: non-empty-string,
+ *                                                         width: int<1, max>,
+ *                                                         height: int<1, max>,
+ *                                                         'mime-type': non-empty-string,
+ *                                                         filesize?: int<0, max>,
+ *                                                         ...
+ *                                                     }>,
+ *                     image_meta?: array{
+ *                                      aperture: numeric-string|int,
+ *                                      credit: string,
+ *                                      camera: string,
+ *                                      caption: string,
+ *                                      created_timestamp: numeric-string|int,
+ *                                      copyright: string,
+ *                                      focal_length: numeric-string|int,
+ *                                      iso: numeric-string|int,
+ *                                      shutter_speed: numeric-string|int,
+ *                                      title: string,
+ *                                      orientation: numeric-string|int,
+ *                                      keywords: list<string>,
+ *                                      alt: string,
+ *                                  },
+ *                     ...
+ *                 }|false
  */
 function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	$attachment_id = (int) $attachment_id;
