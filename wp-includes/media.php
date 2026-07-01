@@ -16,9 +16,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 4.7.0
  *
+ * @see add_image_size()
+ *
  * @global array $_wp_additional_image_sizes
  *
  * @return array Additional images size data.
+ *
+ * @phpstan-return array<string, array{
+ *                     width: non-negative-int,
+ *                     height: non-negative-int,
+ *                     crop: array{ 'left'|'center'|'right', 'top'|'center'|'bottom' }|bool,
+ *                 }>
  */
 function wp_get_additional_image_sizes() {
 	global $_wp_additional_image_sizes;
@@ -296,6 +304,10 @@ function image_downsize( $id, $size = 'medium' ) {
  *     @type string $0 The x crop position. Accepts 'left', 'center', or 'right'.
  *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
  * }
+ *
+ * @phpstan-param non-negative-int $width
+ * @phpstan-param non-negative-int $height
+ * @phpstan-param array{ 'left'|'center'|'right', 'top'|'center'|'bottom' }|bool $crop
  */
 function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
@@ -908,8 +920,14 @@ function get_intermediate_image_sizes() {
  *
  * @return array[] Associative array of arrays of image sub-size information,
  *                 keyed by image size name.
+ *
+ * @phpstan-return array<string, array{
+ *                     width: non-negative-int,
+ *                     height: non-negative-int,
+ *                     crop: array{ 'left'|'center'|'right', 'top'|'center'|'bottom' }|bool,
+ *                 }>
  */
-function wp_get_registered_image_subsizes() {
+function wp_get_registered_image_subsizes(): array {
 	$additional_sizes = wp_get_additional_image_sizes();
 	$all_sizes        = array();
 
