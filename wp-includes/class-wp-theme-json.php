@@ -757,10 +757,26 @@ class WP_Theme_JSON {
 	 * @param string $base_selector The base selector.
 	 * @param array  $settings The theme settings.
 	 * @param string $block_name The block name.
+	 * @param array|null $block_metadata Metadata about the block to get styles for.
+	 * @param array|null $style_variation Style variation metadata.
 	 * @return array Array of pseudo-selector declarations.
 	 */
-	private static function process_pseudo_selectors( $node, $base_selector, $settings, $block_name ) {
+	private function process_pseudo_selectors( $node, $base_selector, $settings, $block_name, $block_metadata = null, $style_variation = null ) {
 		$pseudo_declarations = array();
+		$add_declarations    = static function ( $selector, $declarations ) use ( &$pseudo_declarations ) {
+			if ( empty( $declarations ) ) {
+				return;
+			}
+
+			if ( isset( $pseudo_declarations[ $selector ] ) ) {
+				$pseudo_declarations[ $selector ] = array_merge(
+					$pseudo_declarations[ $selector ],
+					$declarations
+				);
+			} else {
+				$pseudo_declarations[ $selector ] = $declarations;
+			}
+		};
 
 		if ( ! isset( static::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ] ) ) {
 			return $pseudo_declarations;
@@ -768,9 +784,25 @@ class WP_Theme_JSON {
 
 		foreach ( static::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ] as $pseudo_selector ) {
 			if ( isset( $node[ $pseudo_selector ] ) ) {
-				$combined_selector                         = static::append_to_selector( $base_selector, $pseudo_selector );
-				$declarations                              = static::compute_style_properties( $node[ $pseudo_selector ], $settings, null, null );
-				$pseudo_declarations[ $combined_selector ] = $declarations;
+				$pseudo_node = $node[ $pseudo_selector ];
+
+				if ( is_array( $block_metadata ) ) {
+					$feature_declarations = $this->get_feature_declarations_for_node( $block_metadata, $pseudo_node );
+					$feature_declarations = static::update_paragraph_text_indent_selector( $feature_declarations, $settings, $block_name );
+
+					foreach ( $feature_declarations as $feature_selector => $declarations ) {
+						$target_selector   = is_array( $style_variation )
+							? static::get_block_style_variation_feature_selector( $style_variation, $feature_selector )
+							: $feature_selector;
+						$combined_selector = static::append_to_selector( $target_selector, $pseudo_selector );
+
+						$add_declarations( $combined_selector, $declarations );
+					}
+				}
+
+				$combined_selector = static::append_to_selector( $base_selector, $pseudo_selector );
+				$declarations      = static::compute_style_properties( $pseudo_node, $settings, null, null );
+				$add_declarations( $combined_selector, $declarations );
 			}
 		}
 
@@ -1227,11 +1259,11 @@ class WP_Theme_JSON {
 			return $selector . $to_append;
 		}
 		$new_selectors = array();
-		$selectors     = explode( ',', $selector );
+		$selectors     = static::split_selector_list( $selector );
 		foreach ( $selectors as $sel ) {
 			$new_selectors[] = $sel . $to_append;
 		}
-		return implode( ',', $new_selectors );
+		return implode( ', ', $new_selectors );
 	}
 
 	/**
@@ -1252,11 +1284,170 @@ class WP_Theme_JSON {
 			return $to_prepend . $selector;
 		}
 		$new_selectors = array();
-		$selectors     = explode( ',', $selector );
+		$selectors     = static::split_selector_list( $selector );
 		foreach ( $selectors as $sel ) {
 			$new_selectors[] = $to_prepend . $sel;
 		}
-		return implode( ',', $new_selectors );
+		return implode( ', ', $new_selectors );
+	}
+
+	/**
+	 * Splits a selector list into separate selectors.
+	 *
+	 * While selectors are joined by commas, not all commas separate top-level selectors.
+	 * This method only separates top-level selectors, so some commas may appear inside
+	 * strings, nested selectors, and comments. Leading and trailing CSS whitespace is
+	 * trimmed from the returned list items.
+	 *
+	 * Non-selector content, such as comments, are retained in the list in the same item
+	 * as the selector content they follow.
+	 *
+	 * Example:
+	 *
+	 *     array( '.wp-block' )    === self::split_selector_list( '.wp-block' );
+	 *     array( '.one', '.two' ) === self::split_selector_list( '.one, .two' );
+	 *
+	 *     // Nested selector lists are retained within their containing selector.
+	 *     array( ':is(.a, .b)', 'c' ) === self::split_selector_list( ':is(.a, .b), .c' );
+	 *
+	 *     // Commas within strings do not separate selectors.
+	 *     $selectors   = self::split_selector_list( '[data-label="Save, continue"],.fallback' );
+	 *     $selectors === array( '[data-label="Save, continue"]', '.fallback' )
+	 *
+	 *     array( 'lang(zh, "*-hant")', '.foo' ) === self::split_selector_list( 'lang(zh, "*-hant"), .foo' );
+	 *
+	 *     // Identifiers may contain escaped commas.
+	 *     array( '.foo\,bar', '.baz' ) === self::split_selector_list( '.foo\,bar,.baz' );
+	 *
+	 *     // Comments stay with the selector they follow.
+	 *     array( '.a /* a, the first *\/', '.b' ) === self::split_selector_list( '.a /* a, the first *\/,.b' );
+	 *
+	 * @see https://www.w3.org/TR/selectors/#parse-selector
+	 * @see https://www.w3.org/TR/css-syntax-3/
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param string $selector CSS selector list as a string, e.g. '.wp-block .wp-block-paragraph'.
+	 * @return string[] List of trimmed selectors parsed from input list.
+	 */
+	protected static function split_selector_list( $selector ): array {
+		if ( ! str_contains( $selector, ',' ) ) {
+			// See note on trimming CSS whitespace in main loop.
+			return array( trim( $selector, " \t\n" ) );
+		}
+
+		$selectors         = array();
+		$selector_length   = strlen( $selector );
+		$parentheses_depth = 0;
+		$at                = 0;
+		$was_at            = 0;
+
+		while ( $at < $selector_length ) {
+			$next_at = $at + strcspn( $selector, '/,\'"()<-\\', $at );
+			if ( $next_at >= $selector_length ) {
+				break;
+			}
+
+			$next_cp = $selector[ $next_at ];
+
+			// Escaped syntax characters do not act as delimiters.
+			if ( '\\' === $next_cp ) {
+				$at = min( $next_at + 2, $selector_length );
+				continue;
+			}
+
+			/*
+			 * Start of a parenthesized expression, which maintains a stack of parentheses.
+			 * For the sake of this function, no selector list will be split inside parentheses.
+			 * Therefore it’s possible to jump ahead until this list completes.
+			 */
+			if ( '(' === $next_cp || ')' === $next_cp ) {
+				$parentheses_depth += '(' === $next_cp ? 1 : -1;
+				$at                 = $next_at + 1;
+				continue;
+			}
+
+			// Start of a string, which will be incorporated into the selector in which it’s found.
+			if ( "'" === $next_cp || '"' === $next_cp ) {
+				$end_of_string = $next_at + 1;
+				while ( $end_of_string < $selector_length ) {
+					$end_of_string += strcspn( $selector, "{$next_cp}\\", $end_of_string );
+					if ( $end_of_string >= $selector_length ) {
+						break;
+					}
+
+					$end_cp = $selector[ $end_of_string ];
+
+					// Skip escaped characters.
+					if ( '\\' === $end_cp ) {
+						$end_of_string = $end_of_string + 2;
+						continue;
+					}
+
+					if ( $next_cp === $end_cp ) {
+						++$end_of_string;
+						break;
+					}
+
+					++$end_of_string;
+				}
+
+				$at = $end_of_string;
+				continue;
+			}
+
+			// Start of a comment, which will be incorporated into the selector in which it’s found.
+			if ( '/' === $next_cp && ( $next_at + 1 ) < $selector_length && '*' === $selector[ $next_at + 1 ] ) {
+				$comment_end_at = strpos( $selector, '*/', $next_at + 1 );
+				$is_terminated  = false !== $comment_end_at;
+				$after_comment  = $is_terminated ? $comment_end_at + 2 : strlen( $selector );
+				$at             = $after_comment;
+				continue;
+			}
+
+			// Start of a CDO or CDC, which will be incorporated into the selector in which it’s found.
+			if (
+				( '<' === $next_cp && 0 === substr_compare( $selector, '<!--', $next_at, 4 ) ) ||
+				( '-' === $next_cp && 0 === substr_compare( $selector, '-->', $next_at, 3 ) )
+			) {
+				$at = $next_at + ( '<' === $next_cp ? 4 : 3 );
+				continue;
+			}
+
+			// Everything else is either a comma token or part of a selector.
+			if ( ',' === $next_cp && 0 === $parentheses_depth ) {
+				/**
+				 * Trim each selector so that downstream code doesn’t see whitespace
+				 * as the first character in a selector and get confused.
+				 *
+				 * There is inconsistency in this because comments and other syntax
+				 * are included which are also not part of the selector itself, but
+				 * a tradeoff is made between removing common syntax which carries
+				 * no meaning and rarer syntax which leaves auxiliary information.
+				 *
+				 * > A newline, U+0009 CHARACTER TABULATION, or U+0020 SPACE.
+				 * > Note that U+000D CARRIAGE RETURN and U+000C FORM FEED are
+				 * > not included in this definition, as they are converted
+				 * > to U+000A LINE FEED during preprocessing.
+				 *
+				 * @see https://www.w3.org/TR/css-syntax/#whitespace
+				 * @see https://www.w3.org/TR/css-syntax/#newline
+				 */
+				$selectors[] = trim( substr( $selector, $was_at, $next_at - $was_at ), " \t\n" );
+				$at          = $next_at + 1;
+				$was_at      = $at;
+				continue;
+			}
+
+			$at = $next_at + 1;
+		}
+
+		if ( $was_at < $selector_length ) {
+			// See note on trimming CSS whitespace in main loop.
+			$selectors[] = trim( substr( $selector, $was_at ), " \t\n" );
+		}
+
+		return $selectors;
 	}
 
 	/**
@@ -2137,14 +2328,12 @@ class WP_Theme_JSON {
 			return $selector;
 		}
 
-		$scopes    = explode( ',', $scope );
-		$selectors = explode( ',', $selector );
+		$scopes    = static::split_selector_list( $scope );
+		$selectors = static::split_selector_list( $selector );
 
 		$selectors_scoped = array();
 		foreach ( $scopes as $outer ) {
 			foreach ( $selectors as $inner ) {
-				$outer = trim( $outer );
-				$inner = trim( $inner );
 				if ( ! empty( $outer ) && ! empty( $inner ) ) {
 					$selectors_scoped[] = $outer . ' ' . $inner;
 				} elseif ( empty( $outer ) ) {
@@ -2927,6 +3116,7 @@ class WP_Theme_JSON {
 				if ( $include_variations && isset( $node['variations'] ) ) {
 					foreach ( $node['variations'] as $variation => $node ) {
 						$variation_selectors[] = array(
+							'name'     => $variation,
 							'path'     => array( 'styles', 'blocks', $name, 'variations', $variation ),
 							'selector' => $selectors[ $name ]['styleVariations'][ $variation ],
 						);
@@ -3134,14 +3324,14 @@ class WP_Theme_JSON {
 		$block_elements       = $block_metadata['elements'] ?? array();
 
 		// If there are style variations, generate the declarations for them, including any feature selectors the block may have.
-		$style_variation_declarations    = array();
-		$style_variation_custom_css      = array();
-		$style_variation_responsive_css  = array();
-		$style_variation_layout_metadata = array();
+		$style_variation_declarations          = array();
+		$style_variation_custom_css            = array();
+		$style_variation_responsive_css        = array();
+		$style_variation_responsive_pseudo_css = array();
+		$style_variation_layout_metadata       = array();
 		if ( ! $media_query && ! empty( $block_metadata['variations'] ) ) {
 			foreach ( $block_metadata['variations'] as $style_variation ) {
-				$style_variation_node           = _wp_array_get( $this->theme_json, $style_variation['path'], array() );
-				$clean_style_variation_selector = trim( $style_variation['selector'] );
+				$style_variation_node = _wp_array_get( $this->theme_json, $style_variation['path'], array() );
 
 				// Generate any feature/subfeature style declarations for the current style variation.
 				$variation_declarations = static::get_feature_declarations_for_node( $block_metadata, $style_variation_node );
@@ -3151,24 +3341,7 @@ class WP_Theme_JSON {
 
 				// Combine selectors with style variation's selector and add to overall style variation declarations.
 				foreach ( $variation_declarations as $current_selector => $new_declarations ) {
-					/*
-					 * Clean up any whitespace between comma separated selectors.
-					 * This prevents these spaces breaking compound selectors such as:
-					 * - `.wp-block-list:not(.wp-block-list .wp-block-list)`
-					 * - `.wp-block-image img, .wp-block-image.my-class img`
-					 */
-					$clean_current_selector = preg_replace( '/,\s+/', ',', $current_selector );
-					$shortened_selector     = str_replace( $block_metadata['selector'], '', $clean_current_selector );
-
-					// Prepend the variation selector to the current selector.
-					$split_selectors    = explode( ',', $shortened_selector );
-					$updated_selectors  = array_map(
-						static function ( $split_selector ) use ( $clean_style_variation_selector ) {
-							return $clean_style_variation_selector . $split_selector;
-						},
-						$split_selectors
-					);
-					$combined_selectors = implode( ',', $updated_selectors );
+					$combined_selectors = static::get_block_style_variation_feature_selector( $style_variation, $current_selector );
 
 					// Add the new declarations to the overall results under the modified selector.
 					$style_variation_declarations[ $combined_selectors ] = $new_declarations;
@@ -3185,7 +3358,7 @@ class WP_Theme_JSON {
 				} else {
 					$block_name = null;
 				}
-				$variation_pseudo_declarations = static::process_pseudo_selectors( $style_variation_node, $style_variation['selector'], $settings, $block_name );
+				$variation_pseudo_declarations = $this->process_pseudo_selectors( $style_variation_node, $style_variation['selector'], $settings, $block_name, $block_metadata, $style_variation );
 				$style_variation_declarations  = array_merge( $style_variation_declarations, $variation_pseudo_declarations );
 
 				// Store custom CSS for the style variation.
@@ -3207,7 +3380,8 @@ class WP_Theme_JSON {
 
 				// Store responsive breakpoint CSS for the style variation.
 				// This includes both base properties and feature-level selectors.
-				$variation_responsive_css = '';
+				$variation_responsive_css        = '';
+				$variation_responsive_pseudo_css = '';
 
 				foreach ( array_keys( static::RESPONSIVE_BREAKPOINTS ) as $breakpoint ) {
 					if ( ! isset( $style_variation_node[ $breakpoint ] ) ) {
@@ -3220,27 +3394,7 @@ class WP_Theme_JSON {
 					$breakpoint_feature_declarations = static::get_feature_declarations_for_node( $block_metadata, $breakpoint_node );
 					$breakpoint_feature_declarations = static::update_paragraph_text_indent_selector( $breakpoint_feature_declarations, $settings, $block_name );
 					foreach ( $breakpoint_feature_declarations as $feature_selector => $feature_decl ) {
-						$clean_feature_selector = preg_replace( '/,\s+/', ',', $feature_selector );
-						$shortened_selector     = str_replace( $block_metadata['selector'], '', $clean_feature_selector );
-
-						if ( $block_metadata['selector'] && ! str_contains( $clean_feature_selector, $block_metadata['selector'] ) ) {
-							/*
-							 * Feature selector is block-level (e.g. `.wp-block-button` for
-							 * dimensions/width) — apply the variation class directly to it.
-							 */
-							$feature_element_selector = str_replace( $shortened_selector, '', $clean_style_variation_selector );
-							$combined_selectors       = str_replace( $feature_element_selector, '', $clean_style_variation_selector );
-						} else {
-							// Prepend the variation selector to the current selector.
-							$split_selectors    = explode( ',', $shortened_selector );
-							$updated_selectors  = array_map(
-								static function ( $split_selector ) use ( $clean_style_variation_selector ) {
-									return $clean_style_variation_selector . $split_selector;
-								},
-								$split_selectors
-							);
-							$combined_selectors = implode( ',', $updated_selectors );
-						}
+						$combined_selectors = static::get_block_style_variation_feature_selector( $style_variation, $feature_selector );
 
 						$feature_ruleset           = static::to_ruleset( ':root :where(' . $combined_selectors . ')', $feature_decl );
 						$variation_responsive_css .= $breakpoint_media . '{' . $feature_ruleset . '}';
@@ -3253,13 +3407,13 @@ class WP_Theme_JSON {
 						$variation_responsive_css .= $breakpoint_media . '{' . $base_ruleset . '}';
 					}
 
-					$breakpoint_pseudo_declarations = static::process_pseudo_selectors( $breakpoint_node, $style_variation['selector'], $settings, $block_name );
+					$breakpoint_pseudo_declarations = $this->process_pseudo_selectors( $breakpoint_node, $style_variation['selector'], $settings, $block_name, $block_metadata, $style_variation );
 					foreach ( $breakpoint_pseudo_declarations as $pseudo_selector => $pseudo_declarations ) {
 						if ( empty( $pseudo_declarations ) ) {
 							continue;
 						}
-						$pseudo_ruleset            = static::to_ruleset( ':root :where(' . $pseudo_selector . ')', $pseudo_declarations );
-						$variation_responsive_css .= $breakpoint_media . '{' . $pseudo_ruleset . '}';
+						$pseudo_ruleset                   = static::to_ruleset( ':root :where(' . $pseudo_selector . ')', $pseudo_declarations );
+						$variation_responsive_pseudo_css .= $breakpoint_media . '{' . $pseudo_ruleset . '}';
 					}
 
 					// Process custom CSS for this breakpoint.
@@ -3288,16 +3442,7 @@ class WP_Theme_JSON {
 								continue;
 							}
 
-							$clean_element_selector     = preg_replace( '/,\s+/', ',', $block_elements[ $element_name ] );
-							$shortened_selector         = str_replace( $block_metadata['selector'], '', $clean_element_selector );
-							$split_selectors            = explode( ',', $shortened_selector );
-							$updated_selectors          = array_map(
-								static function ( $split_selector ) use ( $clean_style_variation_selector ) {
-									return $clean_style_variation_selector . $split_selector;
-								},
-								$split_selectors
-							);
-							$variation_element_selector = implode( ',', $updated_selectors );
+							$variation_element_selector = static::get_block_style_variation_feature_selector( $style_variation, $block_elements[ $element_name ] );
 
 							$element_declarations = static::compute_style_properties( $element_node, $settings, null, $this->theme_json );
 							if ( ! empty( $element_declarations ) ) {
@@ -3321,8 +3466,8 @@ class WP_Theme_JSON {
 										continue;
 									}
 
-									$pseudo_selector_ruleset   = static::to_ruleset( ':root :where(' . static::append_to_selector( $variation_element_selector, $pseudo_selector ) . ')', $pseudo_declarations );
-									$variation_responsive_css .= $breakpoint_media . '{' . $pseudo_selector_ruleset . '}';
+									$pseudo_selector_ruleset          = static::to_ruleset( ':root :where(' . static::append_to_selector( $variation_element_selector, $pseudo_selector ) . ')', $pseudo_declarations );
+									$variation_responsive_pseudo_css .= $breakpoint_media . '{' . $pseudo_selector_ruleset . '}';
 								}
 							}
 						}
@@ -3331,6 +3476,9 @@ class WP_Theme_JSON {
 
 				if ( ! empty( $variation_responsive_css ) ) {
 					$style_variation_responsive_css[ $style_variation['selector'] ] = $variation_responsive_css;
+				}
+				if ( ! empty( $variation_responsive_pseudo_css ) ) {
+					$style_variation_responsive_pseudo_css[ $style_variation['selector'] ] = $variation_responsive_pseudo_css;
 				}
 			}
 		}
@@ -3519,6 +3667,13 @@ class WP_Theme_JSON {
 			if ( isset( $style_variation_responsive_css[ $style_variation_selector ] ) ) {
 				$block_rules .= $style_variation_responsive_css[ $style_variation_selector ];
 			}
+		}
+		/*
+		 * Responsive pseudo styles must be output after default pseudo styles
+		 * so viewport state styles win in the cascade.
+		 */
+		foreach ( $style_variation_responsive_pseudo_css as $responsive_pseudo_css ) {
+			$block_rules .= $responsive_pseudo_css;
 		}
 
 		// 7. Generate and append any custom CSS rules.
@@ -5197,7 +5352,7 @@ class WP_Theme_JSON {
 		}
 
 		$limit          = 1;
-		$selector_parts = explode( ',', $block_selector );
+		$selector_parts = static::split_selector_list( $block_selector );
 		$result         = array();
 
 		foreach ( $selector_parts as $part ) {
@@ -5211,7 +5366,52 @@ class WP_Theme_JSON {
 			);
 		}
 
-		return implode( ',', $result );
+		return implode( ', ', $result );
+	}
+
+	/**
+	 * Applies a block style variation class to a feature selector.
+	 *
+	 * Feature selectors can target a different element than the block's root
+	 * selector. For example, the Button block's root selector targets the inner
+	 * link, while its dimensions width selector targets the outer wrapper. Apply
+	 * the variation class directly to the selector that will receive the
+	 * declarations instead of deriving it by subtracting the root selector from
+	 * the feature selector.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array  $style_variation Style variation metadata.
+	 * @param string $feature_selector CSS selector for the feature.
+	 * @return string Feature selector with block style variation selector added.
+	 */
+	protected static function get_block_style_variation_feature_selector( $style_variation, $feature_selector ) {
+		$variation_path = $style_variation['path'] ?? array();
+		$variation_name = $style_variation['name'] ?? ( is_array( $variation_path ) ? end( $variation_path ) : null );
+
+		if ( ! $variation_name ) {
+			return $style_variation['selector'] ?? $feature_selector;
+		}
+
+		$variation_class = ".is-style-$variation_name";
+		$selector_parts  = static::split_selector_list( $feature_selector );
+		$selector_parts  = array_map(
+			static function ( $selector ) use ( $variation_class ) {
+				$prefix = $variation_class . ' ';
+
+				if ( str_starts_with( $selector, $prefix ) ) {
+					return substr( $selector, strlen( $prefix ) );
+				}
+
+				return $selector;
+			},
+			$selector_parts
+		);
+
+		return static::get_block_style_variation_selector(
+			$variation_name,
+			implode( ', ', $selector_parts )
+		);
 	}
 
 	/**
