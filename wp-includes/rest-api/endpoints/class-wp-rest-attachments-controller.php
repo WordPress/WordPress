@@ -1218,6 +1218,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 					$size_data['source_url'] = $image_src[0];
 				}
+				unset( $size_data );
 
 				$full_src = wp_get_attachment_image_src( $post->ID, 'full' );
 
@@ -1302,7 +1303,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		if ( wp_attachment_is_image( $post ) ) {
-			$mime_type = get_post_mime_type( $post );
+			$mime_type = (string) get_post_mime_type( $post );
 
 			/*
 			 * Per-file output format for images, evaluated with the real filename
@@ -1332,6 +1333,53 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			if ( in_array( 'image_save_progressive', $fields, true ) ) {
 				/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
 				$data['image_save_progressive'] = (bool) apply_filters( 'image_save_progressive', false, $mime_type );
+			}
+
+			if ( in_array( 'image_quality', $fields, true ) ) {
+				$filename = get_attached_file( $post->ID );
+
+				/** This filter is documented in wp-includes/media.php */
+				$output_formats = apply_filters(
+					'image_editor_output_format',
+					array( $mime_type => $mime_type ),
+					$filename ? $filename : '',
+					$mime_type
+				);
+				$output_mime    = $output_formats[ $mime_type ] ?? $mime_type;
+
+				$metadata    = wp_get_attachment_metadata( $post->ID, true );
+				$full_width  = max( 0, ( is_array( $metadata ) && isset( $metadata['width'] ) ) ? (int) $metadata['width'] : 0 );
+				$full_height = max( 0, ( is_array( $metadata ) && isset( $metadata['height'] ) ) ? (int) $metadata['height'] : 0 );
+
+				$full_quality = wp_get_image_encode_quality(
+					$output_mime,
+					array(
+						'width'  => $full_width,
+						'height' => $full_height,
+					)
+				);
+
+				$size_quality = array();
+
+				foreach ( wp_get_registered_image_subsizes() as $size_name => $size_data ) {
+					$quality = wp_get_image_encode_quality(
+						$output_mime,
+						array(
+							'width'  => (int) $size_data['width'],
+							'height' => (int) $size_data['height'],
+						)
+					);
+
+					// Only report sizes whose quality diverges from the full-size value.
+					if ( $quality !== $full_quality ) {
+						$size_quality[ $size_name ] = $quality;
+					}
+				}
+
+				$data['image_quality'] = array(
+					'default' => $full_quality,
+					'sizes'   => $size_quality,
+				);
 			}
 		}
 
@@ -1523,6 +1571,35 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'type'        => 'integer',
 			'context'     => array( 'edit' ),
 			'readonly'    => true,
+		);
+
+		// Enumerate the registered sub-sizes so the schema documents exactly which
+		// keys may appear under "sizes".
+		$size_quality_properties = array();
+		foreach ( array_keys( wp_get_registered_image_subsizes() ) as $size_name ) {
+			$size_quality_properties[ $size_name ] = array(
+				'type'    => 'integer',
+				'minimum' => 1,
+				'maximum' => 100,
+			);
+		}
+
+		$schema['properties']['image_quality'] = array(
+			'description' => __( 'Encode quality (1-100) from the wp_editor_set_quality filter, resolved against the output MIME type. The "default" value applies to the full-size image; "sizes" lists per-registered-size overrides where the filtered value differs from "default".' ),
+			'type'        => 'object',
+			'context'     => array( 'edit' ),
+			'readonly'    => true,
+			'properties'  => array(
+				'default' => array(
+					'type'    => 'integer',
+					'minimum' => 1,
+					'maximum' => 100,
+				),
+				'sizes'   => array(
+					'type'       => 'object',
+					'properties' => $size_quality_properties,
+				),
+			),
 		);
 
 		$schema['properties']['image_output_format'] = array(
