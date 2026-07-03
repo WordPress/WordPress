@@ -6869,33 +6869,6 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
 		}
 	}
 
-	/*
-	 * Delete the animated-GIF video companions. When the client-side media flow
-	 * converts an opaque animated GIF to a web-safe video, the converted MP4/WebM
-	 * and a static first-frame JPEG poster are sideloaded alongside the GIF and
-	 * recorded under the 'animated_video' and 'animated_video_poster' keys. These
-	 * are kept separate from 'original_image', which continues to point at the GIF.
-	 */
-	foreach ( array( 'animated_video', 'animated_video_poster' ) as $companion_key ) {
-		if ( empty( $meta[ $companion_key ] ) || ! is_string( $meta[ $companion_key ] ) ) {
-			continue;
-		}
-
-		if ( empty( $intermediate_dir ) ) {
-			$intermediate_dir = path_join( $uploadpath['basedir'], dirname( $file ) );
-		}
-
-		$companion_file = str_replace( wp_basename( $file ), $meta[ $companion_key ], $file );
-
-		if ( ! empty( $companion_file ) ) {
-			$companion_file = path_join( $uploadpath['basedir'], $companion_file );
-
-			if ( ! wp_delete_file_from_directory( $companion_file, $intermediate_dir ) ) {
-				$deleted = false;
-			}
-		}
-	}
-
 	if ( is_array( $backup_sizes ) ) {
 		$del_dir = path_join( $uploadpath['basedir'], dirname( $meta['file'] ) );
 
