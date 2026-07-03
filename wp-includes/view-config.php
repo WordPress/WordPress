@@ -660,11 +660,7 @@ function _wp_get_entity_view_config_post_type_wp_template( $config ) {
 				if ( '' === $plugin_name ) {
 					$plugins         = get_plugins();
 					$plugin_basename = plugin_basename( sanitize_text_field( $template->theme . '.php' ) );
-					if ( isset( $plugins[ $plugin_basename ] ) && isset( $plugins[ $plugin_basename ]['Name'] ) ) {
-						$plugin_name = $plugins[ $plugin_basename ]['Name'];
-					} else {
-						$plugin_name = $template->plugin ?? $template->theme;
-					}
+					$plugin_name     = $plugins[ $plugin_basename ]['Name'] ?? $template->plugin ?? $template->theme;
 				}
 				$author_text = $plugin_name;
 				break;
