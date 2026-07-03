@@ -123,6 +123,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 									$valid_sizes[] = 'full';
 									// Source-format original (e.g. the HEIC kept alongside its JPEG derivative).
 									$valid_sizes[] = self::IMAGE_SIZE_SOURCE_ORIGINAL;
+									// Converted-video companions for an animated GIF (the MP4/WebM and its poster).
+									$valid_sizes[] = 'animated_video';
+									$valid_sizes[] = 'animated_video_poster';
 
 									$items = is_string( $value ) ? array( $value ) : ( is_array( $value ) ? $value : null );
 									if ( null === $items ) {
@@ -2432,6 +2435,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			 * under the dedicated source-image meta key.
 			 */
 			$sub_size_data['file'] = wp_basename( $path );
+		} elseif ( 'animated_video' === $image_size || 'animated_video_poster' === $image_size ) {
+			/*
+			 * Converted-video companion of an animated GIF (the MP4/WebM or
+			 * its static first-frame poster). Record the filename so
+			 * finalize_item can store it under its dedicated meta key.
+			 */
+			$sub_size_data['file'] = wp_basename( $path );
 		} elseif ( 'scaled' === $image_size ) {
 			// Record the current attached file as the original.
 			$current_file = get_attached_file( $attachment_id, true );
@@ -2596,6 +2606,16 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				 * is handled by wp_delete_attachment_files().
 				 */
 				$metadata[ self::META_KEY_SOURCE_IMAGE ] = $sub_size['file'];
+			} elseif ( 'animated_video' === $image_size ) {
+				/*
+				 * Converted-video companion of an animated GIF. Stored under its
+				 * own meta key; 'original_image' keeps pointing at the GIF. Cleanup
+				 * on attachment delete is handled by wp_delete_attachment_files().
+				 */
+				$metadata['animated_video'] = $sub_size['file'];
+			} elseif ( 'animated_video_poster' === $image_size ) {
+				// Static first-frame poster for the converted video.
+				$metadata['animated_video_poster'] = $sub_size['file'];
 			} elseif ( 'scaled' === $image_size ) {
 				if ( ! empty( $sub_size['original_image'] ) ) {
 					$metadata['original_image'] = $sub_size['original_image'];
