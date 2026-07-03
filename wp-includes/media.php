@@ -5040,14 +5040,25 @@ function wp_enqueue_media( $args = array() ) {
 		);
 	}
 
+	$infinite_scrolling = true;
+
+	// A user can opt out of infinite scrolling via their profile's personal options.
+	if ( 'false' === get_user_option( 'infinite_scrolling' ) ) {
+		$infinite_scrolling = false;
+	}
+
 	/**
-	 * Filters whether the Media Library grid has infinite scrolling. Default `false`.
+	 * Filters whether the Media Library grid has infinite scrolling. Default `true`.
+	 *
+	 * This setting respects the current user's "Infinite Scrolling" personal
+	 * option, but a filter callback takes precedence over that preference.
 	 *
 	 * @since 5.8.0
+	 * @since 7.1.0 Changed default to `true` and introduced per-user opt-out of infinite scrolling.
 	 *
-	 * @param bool $infinite Whether the Media Library grid has infinite scrolling.
+	 * @param bool $infinite_scrolling Whether the Media Library grid has infinite scrolling.
 	 */
-	$infinite_scrolling = apply_filters( 'media_library_infinite_scrolling', false );
+	$infinite_scrolling = apply_filters( 'media_library_infinite_scrolling', $infinite_scrolling );
 
 	$settings = array(
 		'tabs'              => $tabs,

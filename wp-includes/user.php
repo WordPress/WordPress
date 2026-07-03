@@ -2245,6 +2245,7 @@ function wp_insert_user( $userdata ) {
 				'description',
 				'rich_editing',
 				'syntax_highlighting',
+				'infinite_scrolling',
 				'comment_shortcuts',
 				'admin_color',
 				'use_ssl',
@@ -2508,6 +2509,8 @@ function wp_insert_user( $userdata ) {
 	$meta['rich_editing'] = empty( $userdata['rich_editing'] ) ? 'true' : $userdata['rich_editing'];
 
 	$meta['syntax_highlighting'] = empty( $userdata['syntax_highlighting'] ) ? 'true' : $userdata['syntax_highlighting'];
+
+	$meta['infinite_scrolling'] = empty( $userdata['infinite_scrolling'] ) ? 'true' : $userdata['infinite_scrolling'];
 
 	$meta['comment_shortcuts'] = empty( $userdata['comment_shortcuts'] ) || 'false' === $userdata['comment_shortcuts'] ? 'false' : 'true';
 
@@ -3019,7 +3022,7 @@ function wp_create_user(
  * @return string[] List of user keys to be populated in wp_update_user().
  */
 function _get_additional_user_keys( $user ) {
-	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale' );
+	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'syntax_highlighting', 'infinite_scrolling', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale' );
 	return array_merge( $keys, array_keys( wp_get_user_contact_methods( $user ) ) );
 }
 
