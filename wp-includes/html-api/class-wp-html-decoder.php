@@ -361,7 +361,7 @@ class WP_HTML_Decoder {
 
 		$name_length = 0;
 		$replacement = $html5_named_character_references->read_token( $text, $name_at, $name_length );
-		if ( false === $replacement ) {
+		if ( null === $replacement ) {
 			return null;
 		}
 
