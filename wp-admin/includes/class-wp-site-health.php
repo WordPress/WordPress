@@ -2322,16 +2322,6 @@ class WP_Site_Health {
 			'test'        => 'file_uploads',
 		);
 
-		if ( ! function_exists( 'ini_get' ) ) {
-			$result['status']       = 'critical';
-			$result['description'] .= sprintf(
-				/* translators: %s: ini_get() */
-				__( 'The %s function has been disabled, some media settings are unavailable because of this.' ),
-				'<code>ini_get()</code>'
-			);
-			return $result;
-		}
-
 		if ( empty( ini_get( 'file_uploads' ) ) ) {
 			$result['status']       = 'critical';
 			$result['description'] .= sprintf(

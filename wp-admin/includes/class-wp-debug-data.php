@@ -387,56 +387,43 @@ class WP_Debug_Data {
 			'debug' => PHP_SAPI,
 		);
 
-		// Some servers disable `ini_set()` and `ini_get()`, we check this before trying to get configuration values.
-		if ( ! function_exists( 'ini_get' ) ) {
-			$fields['ini_get'] = array(
-				'label' => __( 'Server settings' ),
-				'value' => sprintf(
-				/* translators: %s: ini_get() */
-					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
-					'ini_get()'
-				),
-				'debug' => 'ini_get() is disabled',
+		$fields['max_input_variables'] = array(
+			'label' => __( 'PHP max input variables' ),
+			'value' => ini_get( 'max_input_vars' ),
+		);
+		$fields['time_limit']          = array(
+			'label' => __( 'PHP time limit' ),
+			'value' => ini_get( 'max_execution_time' ),
+		);
+
+		if ( WP_Site_Health::get_instance()->php_memory_limit !== ini_get( 'memory_limit' ) ) {
+			$fields['memory_limit']       = array(
+				'label' => __( 'PHP memory limit' ),
+				'value' => WP_Site_Health::get_instance()->php_memory_limit,
+			);
+			$fields['admin_memory_limit'] = array(
+				'label' => __( 'PHP memory limit (only for admin screens)' ),
+				'value' => ini_get( 'memory_limit' ),
 			);
 		} else {
-			$fields['max_input_variables'] = array(
-				'label' => __( 'PHP max input variables' ),
-				'value' => ini_get( 'max_input_vars' ),
-			);
-			$fields['time_limit']          = array(
-				'label' => __( 'PHP time limit' ),
-				'value' => ini_get( 'max_execution_time' ),
-			);
-
-			if ( WP_Site_Health::get_instance()->php_memory_limit !== ini_get( 'memory_limit' ) ) {
-				$fields['memory_limit']       = array(
-					'label' => __( 'PHP memory limit' ),
-					'value' => WP_Site_Health::get_instance()->php_memory_limit,
-				);
-				$fields['admin_memory_limit'] = array(
-					'label' => __( 'PHP memory limit (only for admin screens)' ),
-					'value' => ini_get( 'memory_limit' ),
-				);
-			} else {
-				$fields['memory_limit'] = array(
-					'label' => __( 'PHP memory limit' ),
-					'value' => ini_get( 'memory_limit' ),
-				);
-			}
-
-			$fields['max_input_time']      = array(
-				'label' => __( 'Max input time' ),
-				'value' => ini_get( 'max_input_time' ),
-			);
-			$fields['upload_max_filesize'] = array(
-				'label' => __( 'Upload max filesize' ),
-				'value' => ini_get( 'upload_max_filesize' ),
-			);
-			$fields['php_post_max_size']   = array(
-				'label' => __( 'PHP post max size' ),
-				'value' => ini_get( 'post_max_size' ),
+			$fields['memory_limit'] = array(
+				'label' => __( 'PHP memory limit' ),
+				'value' => ini_get( 'memory_limit' ),
 			);
 		}
+
+		$fields['max_input_time']      = array(
+			'label' => __( 'Max input time' ),
+			'value' => ini_get( 'max_input_time' ),
+		);
+		$fields['upload_max_filesize'] = array(
+			'label' => __( 'Upload max filesize' ),
+			'value' => ini_get( 'upload_max_filesize' ),
+		);
+		$fields['php_post_max_size']   = array(
+			'label' => __( 'PHP post max size' ),
+			'value' => ini_get( 'post_max_size' ),
+		);
 
 		if ( function_exists( 'curl_version' ) ) {
 			$curl = curl_version();
@@ -676,47 +663,35 @@ class WP_Debug_Data {
 			'value' => ( $imagick_version ) ? $imagick_version : __( 'Not available' ),
 		);
 
-		if ( ! function_exists( 'ini_get' ) ) {
-			$fields['ini_get'] = array(
-				'label' => __( 'File upload settings' ),
-				'value' => sprintf(
-				/* translators: %s: ini_get() */
-					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
-					'ini_get()'
-				),
-				'debug' => 'ini_get() is disabled',
-			);
-		} else {
-			// Get the PHP ini directive values.
-			$file_uploads        = ini_get( 'file_uploads' );
-			$post_max_size       = ini_get( 'post_max_size' );
-			$upload_max_filesize = ini_get( 'upload_max_filesize' );
-			$max_file_uploads    = ini_get( 'max_file_uploads' );
-			$effective           = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_filesize ) );
+		// Get the PHP ini directive values.
+		$file_uploads        = ini_get( 'file_uploads' );
+		$post_max_size       = ini_get( 'post_max_size' );
+		$upload_max_filesize = ini_get( 'upload_max_filesize' );
+		$max_file_uploads    = ini_get( 'max_file_uploads' );
+		$effective           = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_filesize ) );
 
-			// Add info in Media section.
-			$fields['file_uploads']        = array(
-				'label' => __( 'File uploads' ),
-				'value' => $file_uploads ? __( 'Enabled' ) : __( 'Disabled' ),
-				'debug' => $file_uploads,
-			);
-			$fields['post_max_size']       = array(
-				'label' => __( 'Max size of post data allowed' ),
-				'value' => $post_max_size,
-			);
-			$fields['upload_max_filesize'] = array(
-				'label' => __( 'Max size of an uploaded file' ),
-				'value' => $upload_max_filesize,
-			);
-			$fields['max_effective_size']  = array(
-				'label' => __( 'Max effective file size' ),
-				'value' => size_format( $effective ),
-			);
-			$fields['max_file_uploads']    = array(
-				'label' => __( 'Max simultaneous file uploads' ),
-				'value' => $max_file_uploads,
-			);
-		}
+		// Add info in Media section.
+		$fields['file_uploads']        = array(
+			'label' => __( 'File uploads' ),
+			'value' => $file_uploads ? __( 'Enabled' ) : __( 'Disabled' ),
+			'debug' => $file_uploads,
+		);
+		$fields['post_max_size']       = array(
+			'label' => __( 'Max size of post data allowed' ),
+			'value' => $post_max_size,
+		);
+		$fields['upload_max_filesize'] = array(
+			'label' => __( 'Max size of an uploaded file' ),
+			'value' => $upload_max_filesize,
+		);
+		$fields['max_effective_size']  = array(
+			'label' => __( 'Max effective file size' ),
+			'value' => size_format( $effective ),
+		);
+		$fields['max_file_uploads']    = array(
+			'label' => __( 'Max simultaneous file uploads' ),
+			'value' => $max_file_uploads,
+		);
 
 		// If Imagick is used as our editor, provide some more information about its limitations.
 		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
@@ -1977,9 +1952,7 @@ class WP_Debug_Data {
 		 * from causing a timeout. The default value is 30 seconds, and some
 		 * hosts do not allow you to read configuration values.
 		 */
-		if ( function_exists( 'ini_get' ) ) {
-			$max_execution_time = ini_get( 'max_execution_time' );
-		}
+		$max_execution_time = ini_get( 'max_execution_time' );
 
 		/*
 		 * The max_execution_time defaults to 0 when PHP runs from cli.
