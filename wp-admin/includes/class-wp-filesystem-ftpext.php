@@ -12,6 +12,14 @@
  * @since 2.5.0
  *
  * @see WP_Filesystem_Base
+ * @phpstan-type Options array{
+ *     hostname: string,
+ *     username: string,
+ *     password: string,
+ *     port: non-negative-int,
+ *     ssl: bool,
+ * }
+ * @phpstan-import-type FileListing from WP_Filesystem_Base
  */
 class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
@@ -22,15 +30,44 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	public $link;
 
 	/**
+	 * @since 7.1.0
+	 * @var array
+	 * @phpstan-var Options
+	 */
+	public $options;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $opt
+	 * @param array $opt {
+	 *     Array of connection options.
+	 *
+	 *     @type string $hostname        Required. FTP server hostname.
+	 *     @type string $username        Required. FTP username.
+	 *     @type string $password        Required. FTP password.
+	 *     @type int    $port            Optional. FTP server port. Default 21.
+	 *     @type string $connection_type Optional. Connection type. Use 'ftps' to enable SSL.
+	 * }
+	 * @phpstan-param array{
+	 *     hostname: non-empty-string,
+	 *     username: non-empty-string,
+	 *     password: string,
+	 *     port?: non-negative-int,
+	 *     connection_type?: 'ftps',
+	 * }|null $opt
 	 */
-	public function __construct( $opt = '' ) {
-		$this->method = 'ftpext';
-		$this->errors = new WP_Error();
+	public function __construct( $opt = null ) {
+		$this->method  = 'ftpext';
+		$this->errors  = new WP_Error();
+		$this->options = array(
+			'port'     => 21,
+			'hostname' => '',
+			'username' => '',
+			'password' => '',
+			'ssl'      => false,
+		);
 
 		// Check if possible to use ftp functions.
 		if ( ! extension_loaded( 'ftp' ) ) {
@@ -43,9 +80,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			define( 'FS_TIMEOUT', 4 * MINUTE_IN_SECONDS );
 		}
 
-		if ( empty( $opt['port'] ) ) {
-			$this->options['port'] = 21;
-		} else {
+		if ( ! is_array( $opt ) ) {
+			$opt = array();
+		}
+
+		if ( ! empty( $opt['port'] ) ) {
 			$this->options['port'] = $opt['port'];
 		}
 
@@ -68,8 +107,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->options['password'] = $opt['password'];
 		}
 
-		$this->options['ssl'] = false;
-
 		if ( isset( $opt['connection_type'] ) && 'ftps' === $opt['connection_type'] ) {
 			$this->options['ssl'] = true;
 		}
@@ -83,6 +120,15 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function connect() {
+		/*
+		 * Bail if the constructor recorded a configuration error. Connection and
+		 * authentication errors are excluded so that a failed connection attempt
+		 * can be retried on the same instance.
+		 */
+		if ( $this->errors->has_errors() && ! array_intersect( array( 'connect', 'auth' ), $this->errors->get_error_codes() ) ) {
+			return false;
+		}
+
 		if ( isset( $this->options['ssl'] ) && $this->options['ssl'] && function_exists( 'ftp_ssl_connect' ) ) {
 			$this->link = @ftp_ssl_connect( $this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT );
 		} else {
@@ -135,6 +181,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *                      or if the file couldn't be retrieved.
 	 */
 	public function get_contents( $file ) {
+		if ( ! $this->link ) {
+			return false;
+		}
+
 		$tempfile   = wp_tempnam( $file );
 		$temphandle = fopen( $tempfile, 'w+' );
 
@@ -168,10 +218,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return array|false File contents in an array on success, false on failure.
+	 * @return string[]|false File contents in an array on success, false on failure.
 	 */
 	public function get_contents_array( $file ) {
-		return explode( "\n", $this->get_contents( $file ) );
+		$contents = $this->get_contents( $file );
+		if ( is_string( $contents ) ) {
+			return explode( "\n", $contents );
+		}
+		return false;
 	}
 
 	/**
@@ -294,7 +348,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string|false Username of the owner on success, false on failure.
+	 * @return string|int<1, max>|false Username of the owner on success, false on failure.
 	 */
 	public function owner( $file ) {
 		$dir = $this->dirlist( $file );
@@ -322,7 +376,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string|false The group on success, false on failure.
+	 * @return string|int<1, max>|false The group on success, false on failure.
 	 */
 	public function group( $file ) {
 		$dir = $this->dirlist( $file );
@@ -465,8 +519,16 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @return bool Whether $path is a directory.
 	 */
 	public function is_dir( $path ) {
-		$cwd    = $this->cwd();
+		$cwd = $this->cwd();
+		if ( false === $cwd ) {
+			return false;
+		}
+
 		$result = @ftp_chdir( $this->link, trailingslashit( $path ) );
+
+		if ( ! $this->link ) {
+			return false;
+		}
 
 		if ( $result && $path === $this->cwd() || $this->cwd() !== $cwd ) {
 			@ftp_chdir( $this->link, $cwd );
@@ -622,6 +684,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *     @type array|false  $files       If a directory and `$recursive` is true, contains another array of files.
 	 *                                     False if unable to list directory contents.
 	 * }
+	 * @phpstan-return FileListing|''
 	 */
 	public function parselisting( $line ) {
 		static $is_windows = null;
@@ -647,15 +710,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				$b['type'] = 'f';
 			}
 
-			$b['size']   = $lucifer[7];
-			$b['month']  = $lucifer[1];
-			$b['day']    = $lucifer[2];
-			$b['year']   = $lucifer[3];
-			$b['hour']   = $lucifer[4];
-			$b['minute'] = $lucifer[5];
-			$b['time']   = mktime( $lucifer[4] + ( strcasecmp( $lucifer[6], 'PM' ) === 0 ? 12 : 0 ), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3] );
-			$b['am/pm']  = $lucifer[6];
-			$b['name']   = $lucifer[8];
+			$b['size'] = $lucifer[7];
+			$b['time'] = mktime( (int) $lucifer[4] + ( strcasecmp( $lucifer[6], 'PM' ) === 0 ? 12 : 0 ), (int) $lucifer[5], 0, (int) $lucifer[1], (int) $lucifer[2], (int) $lucifer[3] );
+			$b['name'] = $lucifer[8];
 		} elseif ( ! $is_windows ) {
 			$lucifer = preg_split( '/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY );
 
@@ -686,26 +743,26 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				$b['size']   = $lucifer[4];
 
 				if ( 8 === $lcount ) {
-					sscanf( $lucifer[5], '%d-%d-%d', $b['year'], $b['month'], $b['day'] );
-					sscanf( $lucifer[6], '%d:%d', $b['hour'], $b['minute'] );
+					sscanf( $lucifer[5], '%d-%d-%d', $year, $month, $day );
+					sscanf( $lucifer[6], '%d:%d', $hour, $minute );
 
-					$b['time'] = mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );
+					$b['time'] = mktime( (int) $hour, (int) $minute, 0, (int) $month, (int) $day, (int) $year );
 					$b['name'] = $lucifer[7];
 				} else {
-					$b['month'] = $lucifer[5];
-					$b['day']   = $lucifer[6];
+					$month = $lucifer[5];
+					$day   = $lucifer[6];
 
 					if ( preg_match( '/([0-9]{2}):([0-9]{2})/', $lucifer[7], $l2 ) ) {
-						$b['year']   = gmdate( 'Y' );
-						$b['hour']   = $l2[1];
-						$b['minute'] = $l2[2];
+						$year   = gmdate( 'Y' );
+						$hour   = $l2[1];
+						$minute = $l2[2];
 					} else {
-						$b['year']   = $lucifer[7];
-						$b['hour']   = 0;
-						$b['minute'] = 0;
+						$year   = $lucifer[7];
+						$hour   = 0;
+						$minute = 0;
 					}
 
-					$b['time'] = strtotime( sprintf( '%d %s %d %02d:%02d', $b['day'], $b['month'], $b['year'], $b['hour'], $b['minute'] ) );
+					$b['time'] = strtotime( sprintf( '%d %s %d %02d:%02d', $day, $month, $year, $hour, $minute ) );
 					$b['name'] = $lucifer[8];
 				}
 			}
@@ -713,10 +770,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		// Replace symlinks formatted as "source -> target" with just the source name.
 		if ( isset( $b['islink'] ) && $b['islink'] ) {
-			$b['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $b['name'] );
+			$b['name'] = (string) preg_replace( '/(\s*->\s*.*)$/', '', $b['name'] );
 		}
 
-		return $b;
+		return $b ?? '';
 	}
 
 	/**
@@ -747,14 +804,19 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *                                             False if not available.
 	 *         @type string|false     $lastmod     Last modified month (3 letters) and day (without leading 0), or
 	 *                                             false if not available.
-	 *         @type string|false     $time        Last modified time, or false if not available.
+	 *         @type int|string|false $time        Last modified time as a Unix timestamp, or false if not available.
 	 *         @type string           $type        Type of resource. 'f' for file, 'd' for directory, 'l' for link.
 	 *         @type array|false      $files       If a directory and `$recursive` is true, contains another array of
 	 *                                             files. False if unable to list directory contents.
 	 *     }
 	 * }
+	 * @phpstan-return array<string, FileListing>|false
 	 */
 	public function dirlist( $path = '.', $include_hidden = true, $recursive = false ) {
+		if ( ! $this->link ) {
+			return false;
+		}
+
 		if ( $this->is_file( $path ) ) {
 			$limit_file = basename( $path );
 			$path       = dirname( $path ) . '/';
@@ -763,11 +825,15 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		$pwd = ftp_pwd( $this->link );
+		if ( ! is_string( $pwd ) ) {
+			return false;
+		}
 
 		if ( ! @ftp_chdir( $this->link, $path ) ) { // Can't change to folder = folder doesn't exist.
 			return false;
 		}
 
+		/** @var string[]|false $list */
 		$list = ftp_rawlist( $this->link, '-a', false );
 
 		@ftp_chdir( $this->link, $pwd );

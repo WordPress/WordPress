@@ -12,6 +12,13 @@
  * @since 2.5.0
  *
  * @see WP_Filesystem_Base
+ * @phpstan-type Options array{
+ *     hostname: string,
+ *     username: string,
+ *     password: string,
+ *     port: non-negative-int,
+ * }
+ * @phpstan-import-type FileListing from WP_Filesystem_Base
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
@@ -22,15 +29,41 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	public $ftp;
 
 	/**
+	 * @since 7.1.0
+	 * @var array
+	 * @phpstan-var Options
+	 */
+	public $options;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $opt
+	 * @param array $opt {
+	 *     Array of connection options.
+	 *
+	 *     @type string $hostname Required. FTP server hostname.
+	 *     @type string $username Required. FTP username.
+	 *     @type string $password Required. FTP password.
+	 *     @type int $port Optional. FTP server port. Default 21.
+	 * }
+	 * @phpstan-param array{
+	 *     hostname: non-empty-string,
+	 *     username: non-empty-string,
+	 *     password: string,
+	 *     port?: non-negative-int,
+	 * }|null $opt
 	 */
-	public function __construct( $opt = '' ) {
-		$this->method = 'ftpsockets';
-		$this->errors = new WP_Error();
+	public function __construct( $opt = null ) {
+		$this->method  = 'ftpsockets';
+		$this->errors  = new WP_Error();
+		$this->options = array(
+			'port'     => 21,
+			'hostname' => '',
+			'username' => '',
+			'password' => '',
+		);
 
 		// Check if possible to use ftp functions.
 		if ( ! require_once ABSPATH . 'wp-admin/includes/class-ftp.php' ) {
@@ -39,9 +72,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$this->ftp = new ftp();
 
-		if ( empty( $opt['port'] ) ) {
-			$this->options['port'] = 21;
-		} else {
+		if ( ! is_array( $opt ) ) {
+			$opt = array();
+		}
+
+		if ( ! empty( $opt['port'] ) ) {
 			$this->options['port'] = (int) $opt['port'];
 		}
 
@@ -73,6 +108,15 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function connect() {
+		/*
+		 * Bail if the constructor recorded a configuration error. Connection and
+		 * authentication errors are excluded so that a failed connection attempt
+		 * can be retried on the same instance.
+		 */
+		if ( $this->errors->has_errors() && ! array_intersect( array( 'connect', 'auth' ), $this->errors->get_error_codes() ) ) {
+			return false;
+		}
+
 		if ( ! $this->ftp ) {
 			return false;
 		}
@@ -179,10 +223,14 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return array|false File contents in an array on success, false on failure.
+	 * @return string[]|false File contents in an array on success, false on failure.
 	 */
 	public function get_contents_array( $file ) {
-		return explode( "\n", $this->get_contents( $file ) );
+		$contents = $this->get_contents( $file );
+		if ( is_string( $contents ) ) {
+			return explode( "\n", $contents );
+		}
+		return false;
 	}
 
 	/**
@@ -221,7 +269,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to.
 
-		$ret = $this->ftp->fput( $file, $temphandle );
+		$ret = (bool) $this->ftp->fput( $file, $temphandle );
 
 		reset_mbstring_encoding();
 
@@ -242,6 +290,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 */
 	public function cwd() {
 		$cwd = $this->ftp->pwd();
+		if ( ! is_string( $cwd ) ) {
+			return false;
+		}
 
 		if ( $cwd ) {
 			$cwd = trailingslashit( $cwd );
@@ -259,7 +310,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function chdir( $dir ) {
-		return $this->ftp->chdir( $dir );
+		return (bool) $this->ftp->chdir( $dir );
 	}
 
 	/**
@@ -295,7 +346,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		}
 
 		// chmod the file or directory.
-		return $this->ftp->chmod( $file, $mode );
+		return (bool) $this->ftp->chmod( $file, $mode );
 	}
 
 	/**
@@ -304,7 +355,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string|false Username of the owner on success, false on failure.
+	 * @return string|int<1, max>|false Username of the owner on success, false on failure.
 	 */
 	public function owner( $file ) {
 		$dir = $this->dirlist( $file );
@@ -332,7 +383,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string|false The group on success, false on failure.
+	 * @return string|int<1, max>|false The group on success, false on failure.
 	 */
 	public function group( $file ) {
 		$dir = $this->dirlist( $file );
@@ -386,7 +437,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @return bool True on success, false on failure.
 	 */
 	public function move( $source, $destination, $overwrite = false ) {
-		return $this->ftp->rename( $source, $destination );
+		return (bool) $this->ftp->rename( $source, $destination );
 	}
 
 	/**
@@ -407,14 +458,14 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		}
 
 		if ( 'f' === $type || $this->is_file( $file ) ) {
-			return $this->ftp->delete( $file );
+			return (bool) $this->ftp->delete( $file );
 		}
 
 		if ( ! $recursive ) {
-			return $this->ftp->rmdir( $file );
+			return (bool) $this->ftp->rmdir( $file );
 		}
 
-		return $this->ftp->mdel( $file );
+		return (bool) $this->ftp->mdel( $file );
 	}
 
 	/**
@@ -477,6 +528,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 */
 	public function is_dir( $path ) {
 		$cwd = $this->cwd();
+		if ( ! $cwd ) {
+			return false;
+		}
 
 		if ( $this->chdir( $path ) ) {
 			$this->chdir( $cwd );
@@ -531,7 +585,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @return int|false Unix timestamp representing modification time, false on failure.
 	 */
 	public function mtime( $file ) {
-		return $this->ftp->mdtm( $file );
+		$modified_time = $this->ftp->mdtm( $file );
+		if ( false === $modified_time ) {
+			return false;
+		}
+		return (int) $modified_time;
 	}
 
 	/**
@@ -543,7 +601,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * @return int|false Size of the file in bytes on success, false on failure.
 	 */
 	public function size( $file ) {
-		return $this->ftp->filesize( $file );
+		$size = $this->ftp->filesize( $file );
+		if ( false === $size ) {
+			return false;
+		}
+		return (int) $size;
 	}
 
 	/**
@@ -640,12 +702,13 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 *                                             False if not available.
 	 *         @type string|false     $lastmod     Last modified month (3 letters) and day (without leading 0), or
 	 *                                             false if not available.
-	 *         @type string|false     $time        Last modified time, or false if not available.
+	 *         @type int|string|false $time        Last modified time as a Unix timestamp, or false if not available.
 	 *         @type string           $type        Type of resource. 'f' for file, 'd' for directory, 'l' for link.
 	 *         @type array|false      $files       If a directory and `$recursive` is true, contains another array of
 	 *                                             files. False if unable to list directory contents.
 	 *     }
 	 * }
+	 * @phpstan-return array<string, FileListing>|false
 	 */
 	public function dirlist( $path = '.', $include_hidden = true, $recursive = false ) {
 		if ( $this->is_file( $path ) ) {
@@ -657,9 +720,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		mbstring_binary_safe_encoding();
 
+		/** @var array<string, FileListing>|false $list */
 		$list = $this->ftp->dirlist( $path );
 
-		if ( empty( $list ) && ! $this->exists( $path ) ) {
+		if ( ! is_array( $list ) || ( empty( $list ) && ! $this->exists( $path ) ) ) {
 
 			reset_mbstring_encoding();
 
@@ -692,12 +756,14 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			}
 
 			// Replace symlinks formatted as "source -> target" with just the source name.
-			if ( $struc['islink'] ) {
-				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
+			if ( $struc['islink'] ?? false ) {
+				$struc['name'] = (string) preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
 			}
 
 			// Add the octal representation of the file permissions.
-			$struc['permsn'] = $this->getnumchmodfromh( $struc['perms'] );
+			if ( isset( $struc['perms'] ) ) {
+				$struc['permsn'] = $this->getnumchmodfromh( $struc['perms'] );
+			}
 
 			$ret[ $struc['name'] ] = $struc;
 		}
