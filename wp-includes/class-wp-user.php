@@ -14,29 +14,32 @@
  * @since 6.8.0 The `user_pass` property is now hashed using bcrypt by default instead of phpass.
  *              Existing passwords may still be hashed using phpass.
  *
- * @property string $nickname
- * @property string $description
- * @property string $user_description
- * @property string $first_name
- * @property string $user_firstname
- * @property string $last_name
- * @property string $user_lastname
- * @property string $user_login
- * @property string $user_pass
- * @property string $user_nicename
- * @property string $user_email
- * @property string $user_url
- * @property string $user_registered
- * @property string $user_activation_key
- * @property string $user_status
- * @property int    $user_level
- * @property string $display_name
- * @property string $spam
- * @property string $deleted
- * @property string $locale
- * @property string $rich_editing
- * @property string $syntax_highlighting
- * @property string $use_ssl
+ * @property string     $nickname
+ * @property string     $description
+ * @property string     $user_description
+ * @property string     $first_name
+ * @property string     $user_firstname
+ * @property string     $last_name
+ * @property string     $user_lastname
+ * @property string     $user_login
+ * @property string     $user_pass
+ * @property string     $user_nicename
+ * @property string     $user_email
+ * @property string     $user_url
+ * @property string     $user_registered
+ * @property string     $user_activation_key
+ * @property string     $user_status
+ * @property int|string $user_level
+ * @property string     $display_name
+ * @property string     $spam
+ * @property string     $deleted
+ * @property string     $locale
+ * @property string     $rich_editing
+ * @property string     $syntax_highlighting
+ * @property string     $use_ssl
+ *
+ * @phpstan-property numeric-string        $user_status
+ * @phpstan-property int|numeric-string|'' $user_level
  */
 #[AllowDynamicProperties]
 class WP_User {
