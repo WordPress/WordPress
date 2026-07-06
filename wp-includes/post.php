@@ -986,6 +986,15 @@ function _wp_relative_upload_path( $path ) {
  *                       correspond to a WP_Post object, an associative array, or a numeric array,
  *                       respectively. Default OBJECT.
  * @return WP_Post[]|array[]|int[] Array of post objects, arrays, or IDs, depending on `$output`.
+ *
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-return (
+ *     $args is array{ fields: 'ids', ... } ? int[] : (
+ *         $output is 'ARRAY_A' ? array<int, array<string, mixed>> : (
+ *             $output is 'ARRAY_N' ? array<int, array<int, mixed>> : WP_Post[]
+ *         )
+ *     )
+ * )
  */
 function get_children( $args = '', $output = OBJECT ) {
 	$kids = array();
@@ -1110,6 +1119,17 @@ function get_extended( $post ) {
  *                                 or 'display'. Default 'raw'.
  * @return WP_Post|array|null Type corresponding to $output on success or null on failure.
  *                            When $output is OBJECT, a `WP_Post` instance is returned.
+ *
+ * @phpstan-param int|numeric-string|WP_Post|null $post
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *             WP_Post|null
+ *         )
+ *     )
+ * )
  */
 function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) ) {
@@ -1119,18 +1139,21 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( $post instanceof WP_Post ) {
 		$_post = $post;
 	} elseif ( is_object( $post ) ) {
+		/** @var stdClass $post */
 		if ( empty( $post->filter ) ) {
 			$_post = sanitize_post( $post, 'raw' );
 			$_post = new WP_Post( $_post );
 		} elseif ( 'raw' === $post->filter ) {
 			$_post = new WP_Post( $post );
 		} elseif ( isset( $post->ID ) ) {
-			$_post = WP_Post::get_instance( $post->ID );
+			$_post = WP_Post::get_instance( (int) $post->ID );
 		} else {
 			$_post = null;
 		}
+	} elseif ( is_numeric( $post ) ) {
+		$_post = WP_Post::get_instance( (int) $post );
 	} else {
-		$_post = WP_Post::get_instance( $post );
+		$_post = null;
 	}
 
 	if ( ! $_post ) {
@@ -1138,6 +1161,9 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	}
 
 	$_post = $_post->filter( $filter );
+	if ( ! $_post ) {
+		return null;
+	}
 
 	if ( ARRAY_A === $output ) {
 		return $_post->to_array();
@@ -1202,6 +1228,13 @@ function get_post_ancestors( $post ) {
  * @param string      $context Optional. How to filter the field. Accepts 'raw', 'edit', 'db',
  *                             or 'display'. Default 'display'.
  * @return int|string|int[] The value of the post field on success, empty string on failure.
+ *
+ * @phpstan-param 'raw'|'edit'|'db'|'display' $context
+ * @phpstan-return (
+ *     $field is 'ID'|'post_parent'|'menu_order' ? int|'' : (
+ *         $field is 'ancestors' ? non-negative-int[]|'' : string
+ *     )
+ * )
  */
 function get_post_field( $field, $post = null, $context = 'display' ) {
 	$post = get_post( $post );
@@ -1642,6 +1675,7 @@ function get_post_type_object( $post_type ) {
  *                               element from the array needs to match; 'and' means all elements
  *                               must match; 'not' means no elements may match. Default 'and'.
  * @return string[]|WP_Post_Type[] An array of post type names or objects.
+ * @phpstan-return ( $output is 'names' ? string[] : WP_Post_Type[] )
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_types;
@@ -2578,6 +2612,10 @@ function is_post_embeddable( $post = null ) {
  *     @type bool       $suppress_filters Whether to suppress filters. Default true.
  * }
  * @return WP_Post[]|int[] Array of post objects or post IDs.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'ids', ... } ? int[] : WP_Post[]
+ * )
  */
 function get_posts( $args = null ) {
 	$defaults = array(
@@ -2916,6 +2954,14 @@ function is_sticky( $post_id = 0 ) {
  *                                      'attribute', or 'js'. Default 'display'.
  * @return object|WP_Post|array The now sanitized post object or array (will be the
  *                              same type as `$post`).
+ *
+ * @phpstan-param stdClass|WP_Post|array<string, mixed> $post
+ * @phpstan-param 'raw'|'edit'|'db'|'display'|'attribute'|'js' $context
+ * @phpstan-return (
+ *     $post is WP_Post ? WP_Post : (
+ *         $post is stdClass ? stdClass : array<string, mixed>
+ *     )
+ * )
  */
 function sanitize_post( $post, $context = 'display' ) {
 	if ( is_object( $post ) ) {
@@ -2927,7 +2973,7 @@ function sanitize_post( $post, $context = 'display' ) {
 			$post->ID = 0;
 		}
 		foreach ( array_keys( get_object_vars( $post ) ) as $field ) {
-			$post->$field = sanitize_post_field( $field, $post->$field, $post->ID, $context );
+			$post->$field = sanitize_post_field( $field, $post->$field, (int) $post->ID, $context );
 		}
 		$post->filter = $context;
 	} elseif ( is_array( $post ) ) {
@@ -2939,7 +2985,7 @@ function sanitize_post( $post, $context = 'display' ) {
 			$post['ID'] = 0;
 		}
 		foreach ( array_keys( $post ) as $field ) {
-			$post[ $field ] = sanitize_post_field( $field, $post[ $field ], $post['ID'], $context );
+			$post[ $field ] = sanitize_post_field( $field, $post[ $field ], (int) $post['ID'], $context );
 		}
 		$post['filter'] = $context;
 	}
@@ -2962,6 +3008,13 @@ function sanitize_post( $post, $context = 'display' ) {
  * @param string $context Optional. How to sanitize the field. Possible values are 'raw', 'edit',
  *                        'db', 'display', 'attribute' and 'js'. Default 'display'.
  * @return mixed Sanitized value.
+ *
+ * @phpstan-param 'raw'|'edit'|'db'|'display'|'attribute'|'js' $context
+ * @phpstan-return (
+ *     $field is 'ID'|'post_parent'|'menu_order' ? int : (
+ *         $field is 'ancestors' ? non-negative-int[] : string
+ *     )
+ * )
  */
 function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 	$int_fields = array( 'ID', 'post_parent', 'menu_order' );
@@ -2972,7 +3025,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 	// Fields which contain arrays of integers.
 	$array_int_fields = array( 'ancestors' );
 	if ( in_array( $field, $array_int_fields, true ) ) {
-		$value = array_map( 'absint', $value );
+		$value = array_map( 'absint', (array) $value );
 		return $value;
 	}
 
@@ -4396,6 +4449,11 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  *                       Default ARRAY_A.
  * @return array|false Array of recent posts, where the type of each element is determined
  *                     by the `$output` parameter. Empty array on failure.
+ *
+ * @phpstan-param 'OBJECT'|'ARRAY_A' $output
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? array<int, array<string, mixed>> : WP_Post[]|false
+ * )
  */
 function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
@@ -4420,6 +4478,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		'suppress_filters' => true,
 	);
 
+	/** @var array{ fields: null, ... } $parsed_args */
 	$parsed_args = wp_parse_args( $args, $defaults );
 
 	$results = get_posts( $parsed_args );
@@ -4427,7 +4486,9 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
 	if ( ARRAY_A === $output ) {
 		foreach ( $results as $key => $result ) {
-			$results[ $key ] = get_object_vars( $result );
+			/** @var array<string, mixed> $object_vars */
+			$object_vars     = get_object_vars( $result );
+			$results[ $key ] = $object_vars;
 		}
 		return $results ? $results : array();
 	}
@@ -4504,6 +4565,10 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * @param bool  $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
  * @param bool  $fire_after_hooks Optional. Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
+ *
+ * @phpstan-return (
+ *     $wp_error is false ? int : int|WP_Error
+ * )
  */
 function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true ) {
 	global $wpdb;
@@ -5229,6 +5294,10 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
  * @param bool         $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
  * @param bool         $fire_after_hooks Optional. Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
+ *
+ * @phpstan-return (
+ *     $wp_error is false ? int : int|WP_Error
+ * )
  */
 function wp_update_post( $postarr = array(), $wp_error = false, $fire_after_hooks = true ) {
 	if ( is_object( $postarr ) ) {
@@ -6132,6 +6201,17 @@ function get_all_page_ids() {
  * @param string      $filter Optional. How the return value should be filtered. Accepts 'raw',
  *                            'edit', 'db', 'display'. Default 'raw'.
  * @return WP_Post|array|null WP_Post or array on success, null on failure.
+ *
+ * @phpstan-param int|numeric-string|WP_Post|null $page
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *             WP_Post|null
+ *         )
+ *     )
+ * )
  */
 function get_page( $page, $output = OBJECT, $filter = 'raw' ) {
 	return get_post( $page, $output, $filter );
@@ -6150,6 +6230,16 @@ function get_page( $page, $output = OBJECT, $filter = 'raw' ) {
  *                                respectively. Default OBJECT.
  * @param string|array $post_type Optional. Post type or array of post types. Default 'page'.
  * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
+ *
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-param string|string[]              $post_type
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *             WP_Post|null
+ *         )
+ *     )
+ * )
  */
 function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
@@ -6164,7 +6254,7 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 		if ( '0' === $cached || 0 === $cached ) {
 			return null;
 		} else {
-			return get_post( $cached, $output );
+			return get_post( (int) $cached, $output );
 		}
 	}
 
@@ -6192,7 +6282,8 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 		AND post_type IN ($post_type_in_string)
 	";
 
-	$pages = $wpdb->get_results( $sql, OBJECT_K );
+	/** @var array<object{ ID: string, post_name: string, post_parent: string, post_type: string }> $pages */
+	$pages = $wpdb->get_results( $sql, OBJECT_K ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The escaping has been applied above via esc_sql().
 
 	$revparts = array_reverse( $parts );
 
@@ -6231,7 +6322,7 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	wp_cache_set_salted( $cache_key, $found_id, 'post-queries', $last_changed );
 
 	if ( $found_id ) {
-		return get_post( $found_id, $output );
+		return get_post( (int) $found_id, $output );
 	}
 
 	return null;
@@ -6650,6 +6741,10 @@ function is_local_attachment( $url ) {
  * @param bool         $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
  * @param bool         $fire_after_hooks Optional. Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The attachment ID on success. The value 0 or WP_Error on failure.
+ *
+ * @phpstan-return (
+ *     $wp_error is false ? int : int|WP_Error
+ * )
  */
 function wp_insert_attachment( $args, $file = false, $parent_post_id = 0, $wp_error = false, $fire_after_hooks = true ) {
 	$defaults = array(
