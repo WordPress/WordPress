@@ -25,7 +25,7 @@
 
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+	exit;
 }
 
 // Strip, trim, kses, special chars for string saves.

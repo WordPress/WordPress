@@ -6,8 +6,9 @@
  * @deprecated 2.1.0
  */
 
+// Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit();
+	exit;
 }
 
 _deprecated_file( basename( __FILE__ ), '2.1.0', WPINC . '/rss.php' );
