@@ -641,7 +641,30 @@ class WP_Theme_JSON {
 	 * @var array
 	 */
 	const VALID_BLOCK_PSEUDO_SELECTORS = array(
-		'core/button' => array( ':hover', ':focus', ':focus-visible', ':active' ),
+		'core/button'          => array( ':hover', ':focus', ':focus-visible', ':active' ),
+		'core/navigation-link' => array( ':hover', ':focus', ':focus-visible', ':active' ),
+	);
+
+	/**
+	 * Custom states for blocks that map to CSS class selectors rather than
+	 * CSS pseudo-selectors. Values use the '-' prefix (e.g. '-current') to
+	 * distinguish them from real CSS pseudo-selectors and breakpoint states.
+	 *
+	 * The CSS selector for each state is defined in the block's block.json
+	 * under `selectors.states`, e.g.:
+	 *
+	 *   "selectors": { "states": { "-current": ".some-css-selector" } }
+	 *
+	 * This constant controls which states are valid in theme.json for a given
+	 * block. Blocks listed here also inherit their VALID_BLOCK_PSEUDO_SELECTORS
+	 * as valid sub-states, producing compound selectors such as
+	 * `.wp-block-navigation-item.current-menu-item:hover`.
+	 *
+	 * @since 7.1.0
+	 * @var array
+	 */
+	const VALID_BLOCK_CUSTOM_STATES = array(
+		'core/navigation-link' => array( '-current' ),
 	);
 
 	/**
@@ -1157,6 +1180,23 @@ class WP_Theme_JSON {
 					$schema_styles_blocks[ $block ][ $pseudo_selector ] = $styles_non_top_level;
 				}
 			}
+
+			// Add custom states for blocks that support them (e.g. '-current' for navigation).
+			if ( isset( static::VALID_BLOCK_CUSTOM_STATES[ $block ] ) ) {
+				foreach ( static::VALID_BLOCK_CUSTOM_STATES[ $block ] as $custom_state ) {
+					$custom_state_schema = $styles_non_top_level;
+					/*
+					 * The same pseudo-selectors valid for the block at the top level
+					 * are also valid within each custom state.
+					 */
+					if ( isset( static::VALID_BLOCK_PSEUDO_SELECTORS[ $block ] ) ) {
+						foreach ( static::VALID_BLOCK_PSEUDO_SELECTORS[ $block ] as $pseudo ) {
+							$custom_state_schema[ $pseudo ] = $styles_non_top_level;
+						}
+					}
+					$schema_styles_blocks[ $block ][ $custom_state ] = $custom_state_schema;
+				}
+			}
 		}
 
 		$block_style_variation_styles             = static::VALID_STYLES;
@@ -1555,6 +1595,11 @@ class WP_Theme_JSON {
 
 			if ( ! empty( $style_selectors ) ) {
 				static::$blocks_metadata[ $block_name ]['styleVariations'] = $style_selectors;
+			}
+
+			// If the block has custom states defined in block.json, store their selectors.
+			if ( ! empty( $block_type->selectors['states'] ) && is_array( $block_type->selectors['states'] ) ) {
+				static::$blocks_metadata[ $block_name ]['states'] = $block_type->selectors['states'];
 			}
 		}
 
@@ -3214,6 +3259,47 @@ class WP_Theme_JSON {
 									'variations'  => $variation_selectors,
 									'css'         => static::append_to_selector( $selector, $pseudo_selector ),
 								);
+							}
+						}
+					}
+				}
+
+				// Handle custom states (e.g. '-current' for navigation).
+				if ( isset( static::VALID_BLOCK_CUSTOM_STATES[ $name ] ) ) {
+					foreach ( static::VALID_BLOCK_CUSTOM_STATES[ $name ] as $custom_state ) {
+						if (
+							isset( $theme_json['styles']['blocks'][ $name ][ $custom_state ] ) &&
+							isset( $selectors[ $name ]['states'][ $custom_state ] )
+						) {
+							$custom_css_selector = $selectors[ $name ]['states'][ $custom_state ];
+							$nodes[]             = array(
+								'name'       => $name,
+								'path'       => array( 'styles', 'blocks', $name, $custom_state ),
+								'selector'   => $custom_css_selector,
+								'selectors'  => $feature_selectors,
+								'elements'   => $selectors[ $name ]['elements'] ?? array(),
+								'duotone'    => $duotone_selector,
+								'variations' => $variation_selectors,
+								'css'        => $custom_css_selector,
+							);
+
+							// Sub-pseudo-selectors within the custom state.
+							if ( isset( static::VALID_BLOCK_PSEUDO_SELECTORS[ $name ] ) ) {
+								foreach ( static::VALID_BLOCK_PSEUDO_SELECTORS[ $name ] as $pseudo ) {
+									if ( isset( $theme_json['styles']['blocks'][ $name ][ $custom_state ][ $pseudo ] ) ) {
+										$compound_css_selector = static::append_to_selector( $custom_css_selector, $pseudo );
+										$nodes[]               = array(
+											'name'       => $name,
+											'path'       => array( 'styles', 'blocks', $name, $custom_state, $pseudo ),
+											'selector'   => $compound_css_selector,
+											'selectors'  => $feature_selectors,
+											'elements'   => $selectors[ $name ]['elements'] ?? array(),
+											'duotone'    => $duotone_selector,
+											'variations' => $variation_selectors,
+											'css'        => $compound_css_selector,
+										);
+									}
+								}
 							}
 						}
 					}
