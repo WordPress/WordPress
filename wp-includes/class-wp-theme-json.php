@@ -3499,23 +3499,6 @@ class WP_Theme_JSON {
 		}
 
 		/*
-		 * Check if we're processing a block pseudo-selector.
-		 * $block_metadata['path'] = array( 'styles', 'blocks', 'core/button', ':hover' );
-		 */
-		$is_processing_block_pseudo = false;
-		$block_pseudo_selector      = null;
-		if ( in_array( 'blocks', $block_metadata['path'], true ) && count( $block_metadata['path'] ) >= 4 ) {
-			$block_name        = static::get_block_name_from_metadata_path( $block_metadata ); // 'core/button'
-			$last_path_element = $block_metadata['path'][ count( $block_metadata['path'] ) - 1 ]; // ':hover'
-
-			if ( isset( static::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ] ) &&
-				in_array( $last_path_element, static::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ], true ) ) {
-				$is_processing_block_pseudo = true;
-				$block_pseudo_selector      = $last_path_element;
-			}
-		}
-
-		/*
 		 * Check for allowed pseudo classes (e.g. ":hover") from the $selector ("a:hover").
 		 * This also resets the array keys.
 		 */
@@ -3544,15 +3527,12 @@ class WP_Theme_JSON {
 			&& in_array( $pseudo_selector, static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ], true )
 		) {
 			$declarations = static::compute_style_properties( $node[ $pseudo_selector ], $settings, null, $this->theme_json, $selector, $use_root_padding );
-		} elseif ( $is_processing_block_pseudo ) {
-			// Process block pseudo-selector styles
-			// For block pseudo-selectors, we need to get the block data first, then access the pseudo-selector
-			$block_name  = static::get_block_name_from_metadata_path( $block_metadata ); // 'core/button'
-			$block_data  = _wp_array_get( $this->theme_json, array( 'styles', 'blocks', $block_name ), array() );
-			$pseudo_data = $block_data[ $block_pseudo_selector ] ?? array();
-
-			$declarations = static::compute_style_properties( $pseudo_data, $settings, null, $this->theme_json, $selector, $use_root_padding );
 		} else {
+			/*
+			 * For block pseudo-selector nodes (e.g. ':hover'), $node has already had any
+			 * feature-selector properties (e.g. writingMode) removed by get_feature_declarations_for_node,
+			 * so those properties are not output twice.
+			 */
 			$declarations = static::compute_style_properties( $node, $settings, null, $this->theme_json, $selector, $use_root_padding );
 		}
 
