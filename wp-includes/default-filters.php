@@ -789,6 +789,9 @@ add_filter( 'rest_wp_navigation_item_schema', array( 'WP_Navigation_Fallback', '
 // Fluid typography.
 add_filter( 'render_block', 'wp_render_typography_support', 10, 2 );
 
+// Inline note markers.
+add_filter( 'render_block', 'wp_strip_inline_note_markers' );
+
 // User preferences.
 add_action( 'init', 'wp_register_persisted_preferences_meta' );
 

@@ -4271,3 +4271,93 @@ function wp_create_initial_comment_meta() {
 		)
 	);
 }
+
+/**
+ * Strips inline note markers from rendered block output.
+ *
+ * Inline notes - notes anchored to a text selection within a block rather than
+ * the whole block - are anchored in raw block content with
+ * `<mark class="wp-note" data-id="N">...</mark>` so the marker survives edits,
+ * but the public HTML should not expose note metadata. This filter unwraps the
+ * marker entirely - dropping the `<mark>` open tag and its matching closer while
+ * keeping the marked text - so nothing leaks to the front end. The raw
+ * `post_content` (and the REST `raw` view, revisions, exports) keeps the marker
+ * so the editor can re-attach it on reload.
+ *
+ * Only note markers are unwrapped: {@see WP_HTML_Tag_Processor::has_class()}
+ * matches the `wp-note` class by exact token, so a `<mark>` a user or plugin
+ * added (e.g. a `core/text-color` highlight, or an unrelated `wp-note-foo`
+ * class) is never flagged and survives byte-for-byte with all of its attributes
+ * intact. A naive regex would be wrong here: a `\bwp-note\b` word boundary also
+ * matches `wp-note-foo`, which is why the class check goes through the HTML API
+ * instead.
+ *
+ * The HTML API has no public token-removal method yet, so an anonymous
+ * {@see WP_HTML_Tag_Processor} subclass unwraps each note `<mark>` and its
+ * matching closer directly on the parsed token stream. Walking tokens - rather
+ * than matching `<mark>` with a regex - means a `</mark>`-looking sequence inside
+ * a comment or attribute value can never be mistaken for a real tag, and a
+ * nesting stack keeps each note opener paired with its own closer so overlapping
+ * notes and any user highlight `<mark>` left intact still resolve correctly.
+ *
+ * The low-level {@see WP_HTML_Tag_Processor} is used deliberately, rather than
+ * the tree-building {@see WP_HTML_Processor}. Note markers live in user-editable
+ * content, so the markup is not guaranteed to be well formed. On certain
+ * ill-formed nesting the tree builder aborts, which would leave note markers -
+ * and their metadata - in the rendered output. Scanning tokens instead removes
+ * every `wp-note` marker it encounters and degrades gracefully: an unbalanced or
+ * stray tag is left exactly as it was rather than corrupting surrounding markup.
+ *
+ * @since 7.1.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @return string Block HTML with `wp-note` markers unwrapped.
+ */
+function wp_strip_inline_note_markers( $block_content ) {
+	if ( ! str_contains( $block_content, 'wp-note' ) ) {
+		return $block_content;
+	}
+
+	/*
+	 * Anonymous subclass exposing token removal, which WP_HTML_Tag_Processor
+	 * does not provide publicly yet. Removing the current token via its bookmark
+	 * span unwraps the `<mark>` (opener or closer) while keeping the text it
+	 * wraps.
+	 */
+	$processor = new class( $block_content ) extends WP_HTML_Tag_Processor {
+		/**
+		 * Removes the current token, keeping any text it wraps.
+		 */
+		public function remove_token(): void {
+			// Always called after next_tag() returned true, so the bookmark is set.
+			$this->set_bookmark( 'here' );
+			$span = $this->bookmarks['here'];
+
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement( $span->start, $span->length, '' );
+		}
+	};
+
+	/*
+	 * Walk every `<mark>`, tracking note nesting on a stack so each note opener
+	 * pairs with its own closer, and unwrap only the note markers.
+	 */
+	$mark_stack = array();
+	$query      = array(
+		'tag_name'    => 'MARK',
+		'tag_closers' => 'visit',
+	);
+	while ( $processor->next_tag( $query ) ) {
+		if ( $processor->is_tag_closer() ) {
+			$is_note = array_pop( $mark_stack );
+		} else {
+			$is_note      = $processor->has_class( 'wp-note' );
+			$mark_stack[] = $is_note;
+		}
+
+		if ( true === $is_note ) {
+			$processor->remove_token();
+		}
+	}
+
+	return $processor->get_updated_html();
+}
