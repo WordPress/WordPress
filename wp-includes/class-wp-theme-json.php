@@ -1296,8 +1296,32 @@ class WP_Theme_JSON {
 	 */
 	protected static function append_to_selector( $selector, $to_append ) {
 		if ( ! str_contains( $selector, ',' ) ) {
-			return $selector . $to_append;
+			return trim( $selector, " \t\n" ) . $to_append;
 		}
+
+		/**
+		 * Check for an opportunity to skip the more-costly selector splitting.
+		 * This should be possible if there are no comments, strings, functions,
+		 * URLs, escapes, or comment declaration openers (CDOs).
+		 *
+		 * Note that this means the fast-path will not apply for selectors like
+		 * the following incomplete list:
+		 *
+		 *  - `[class ~= "wide"]`
+		 *  - `.wp-block:is(.is-style-a, .is-style-b)`
+		 *  - `:nth-child(1)`
+		 *
+		 * These syntax forms all present opportunities where a comma may not
+		 * separate selectors. If none of the start characters are present,
+		 * there should be no way for a comma to mean anything other than a
+		 * comma token. The exception are syntax errors, which are not handled here.
+		 *
+		 * @see https://www.w3.org/TR/css-syntax-3/#parse-comma-separated-list-of-component-values
+		 */
+		if ( strlen( $selector ) === strcspn( $selector, '/\'"(<\\' ) ) {
+			return preg_replace( '~[ \t\n]*,[ \t\n]*~', "{$to_append}, ", trim( $selector, " \t\n" ) ) . $to_append;
+		}
+
 		$new_selectors = array();
 		$selectors     = static::split_selector_list( $selector );
 		foreach ( $selectors as $sel ) {
@@ -1321,8 +1345,32 @@ class WP_Theme_JSON {
 	 */
 	protected static function prepend_to_selector( $selector, $to_prepend ) {
 		if ( ! str_contains( $selector, ',' ) ) {
-			return $to_prepend . $selector;
+			return $to_prepend . trim( $selector, " \t\n" );
 		}
+
+		/**
+		 * Check for an opportunity to skip the more-costly selector splitting.
+		 * This should be possible if there are no comments, strings, functions,
+		 * URLs, escapes, or comment declaration openers (CDOs).
+		 *
+		 * Note that this means the fast-path will not apply for selectors like
+		 * the following incomplete list:
+		 *
+		 *  - `[class ~= "wide"]`
+		 *  - `.wp-block:is(.is-style-a, .is-style-b)`
+		 *  - `:nth-child(1)`
+		 *
+		 * These syntax forms all present opportunities where a comma may not
+		 * separate selectors. If none of the start characters are present,
+		 * there should be no way for a comma to mean anything other than a
+		 * comma token. The exception are syntax errors, which are not handled here.
+		 *
+		 * @see https://www.w3.org/TR/css-syntax-3/#parse-comma-separated-list-of-component-values
+		 */
+		if ( strlen( $selector ) === strcspn( $selector, '/\'"(<\\' ) ) {
+			return $to_prepend . preg_replace( '~[ \t\n]*,[ \t\n]*~', ", {$to_prepend}", trim( $selector, " \t\n" ) );
+		}
+
 		$new_selectors = array();
 		$selectors     = static::split_selector_list( $selector );
 		foreach ( $selectors as $sel ) {
