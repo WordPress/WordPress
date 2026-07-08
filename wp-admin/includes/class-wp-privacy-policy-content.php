@@ -420,10 +420,12 @@ final class WP_Privacy_Policy_Content {
 			</button>
 			</h4>
 			<div id="privacy-settings-accordion-block-<?php echo $i; ?>" class="privacy-settings-accordion-panel privacy-text-box-body" hidden="hidden">
-				<?php
-				echo $removed;
-				echo $section['policy_text'];
-				?>
+				<div class="privacy-text-copy-content">
+					<?php
+					echo $removed;
+					echo $section['policy_text'];
+					?>
+				</div>
 				<?php if ( empty( $section['removed'] ) ) : ?>
 				<div class="privacy-settings-accordion-actions">
 					<span class="success" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
