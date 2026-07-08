@@ -47,7 +47,7 @@ class IXR_Value {
         if (is_int($this->data)) {
             return 'int';
         }
-        if (is_double($this->data)) {
+        if (is_float($this->data)) {
             return 'double';
         }
 
