@@ -1217,7 +1217,7 @@ class WP_HTML_Tag_Processor {
 				return;
 			}
 
-			$name = str_replace( "\x00", "\u{FFFD}", substr( $class, $at, $length ) );
+			$name = substr( $class, $at, $length );
 			if ( $is_quirks ) {
 				$name = strtolower( $name );
 			}
@@ -2261,8 +2261,13 @@ class WP_HTML_Tag_Processor {
 		 *     - HTML 5 spec
 		 *
 		 * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2:ascii-case-insensitive
+		 *
+		 * The tokenizer replaces U+0000 NULL bytes in
+		 * attribute names with U+FFFD.
+		 *
+		 * @see https://html.spec.whatwg.org/#attribute-name-state
 		 */
-		$comparable_name = strtolower( $attribute_name );
+		$comparable_name = strtolower( str_replace( "\x00", "\u{FFFD}", $attribute_name ) );
 
 		// If an attribute is listed many times, only use the first declaration and ignore the rest.
 		if ( ! isset( $this->attributes[ $comparable_name ] ) ) {
@@ -2389,13 +2394,7 @@ class WP_HTML_Tag_Processor {
 		}
 
 		if ( false === $existing_class && isset( $this->attributes['class'] ) ) {
-			$existing_class = WP_HTML_Decoder::decode_attribute(
-				substr(
-					$this->html,
-					$this->attributes['class']->value_starts_at,
-					$this->attributes['class']->value_length
-				)
-			);
+			$existing_class = $this->get_decoded_attribute_value( $this->attributes['class'] );
 		}
 
 		if ( false === $existing_class ) {
@@ -2823,7 +2822,7 @@ class WP_HTML_Tag_Processor {
 		 * attribute values. If any exist, those enqueued class changes must first be flushed out
 		 * into an attribute value update.
 		 */
-		if ( 'class' === $name ) {
+		if ( 'class' === $comparable ) {
 			$this->class_name_updates_to_attributes_updates();
 		}
 
@@ -2854,8 +2853,28 @@ class WP_HTML_Tag_Processor {
 			return true;
 		}
 
-		$raw_value = substr( $this->html, $attribute->value_starts_at, $attribute->value_length );
+		return $this->get_decoded_attribute_value( $attribute );
+	}
 
+	/**
+	 * Decode an attribute value from source.
+	 *
+	 * This method applies the following transformations that the processor defers:
+	 *   - Normalize newlines  (input stream preprocessing)
+	 *   - Replace NULL bytes (tokenization)
+	 *   - Decode character references (tokenization)
+	 *
+	 * @since 7.1.0
+	 * @ignore
+	 *
+	 * @param WP_HTML_Attribute_Token $attribute Attribute token from the input document.
+	 * @return string Decoded attribute value.
+	 */
+	private function get_decoded_attribute_value( WP_HTML_Attribute_Token $attribute ): string {
+		$raw_value = substr( $this->html, $attribute->value_starts_at, $attribute->value_length );
+		$raw_value = str_replace( "\r\n", "\n", $raw_value );
+		$raw_value = str_replace( "\r", "\n", $raw_value );
+		$raw_value = str_replace( "\x00", "\u{FFFD}", $raw_value );
 		return WP_HTML_Decoder::decode_attribute( $raw_value );
 	}
 
@@ -2936,7 +2955,7 @@ class WP_HTML_Tag_Processor {
 			return null;
 		}
 
-		$tag_name = substr( $this->html, $this->tag_name_starts_at, $this->tag_name_length );
+		$tag_name = str_replace( "\x00", "\u{FFFD}", substr( $this->html, $this->tag_name_starts_at, $this->tag_name_length ) );
 
 		if ( self::STATE_MATCHED_TAG === $this->parser_state ) {
 			return strtoupper( $tag_name );
@@ -4798,14 +4817,14 @@ class WP_HTML_Tag_Processor {
 		}
 
 		// Does the tag name match the requested tag name in a case-insensitive manner?
-		if (
-			isset( $this->sought_tag_name ) &&
-			(
-				strlen( $this->sought_tag_name ) !== $this->tag_name_length ||
-				0 !== substr_compare( $this->html, $this->sought_tag_name, $this->tag_name_starts_at, $this->tag_name_length, true )
-			)
-		) {
-			return false;
+		if ( isset( $this->sought_tag_name ) ) {
+			$tag_name = $this->get_tag();
+			if (
+				strlen( $this->sought_tag_name ) !== strlen( $tag_name ) ||
+				0 !== substr_compare( $tag_name, $this->sought_tag_name, 0, null, true )
+			) {
+				return false;
+			}
 		}
 
 		if ( null !== $this->sought_class_name && ! $this->has_class( $this->sought_class_name ) ) {
