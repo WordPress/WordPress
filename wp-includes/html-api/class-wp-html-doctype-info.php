@@ -49,6 +49,8 @@
  * @see https://www.iso.org/standard/16387.html
  *
  * @since 6.7.0
+ * @since 7.1.0 Spec update: missing and empty SYSTEM identifiers are handled
+ *              the same for determining the document mode.
  *
  * @access private
  *
@@ -229,13 +231,9 @@ class WP_HTML_Doctype_Info {
 		 * >
 		 * > The system identifier and public identifier strings must be compared...
 		 * > in an ASCII case-insensitive manner.
-		 * >
-		 * > A system identifier whose value is the empty string is not considered missing
-		 * > for the purposes of the conditions above.
 		 */
-		$system_identifier_is_missing = null === $system_identifier;
-		$public_identifier            = null === $public_identifier ? '' : strtolower( $public_identifier );
-		$system_identifier            = null === $system_identifier ? '' : strtolower( $system_identifier );
+		$public_identifier = null === $public_identifier ? '' : strtolower( $public_identifier );
+		$system_identifier = null === $system_identifier ? '' : strtolower( $system_identifier );
 
 		/*
 		 * > The public identifier is set to…
@@ -335,10 +333,11 @@ class WP_HTML_Doctype_Info {
 		}
 
 		/*
-		 * > The system identifier is missing and the public identifier starts with…
+		 * > The system identifier is missing or the empty string, and the
+		 * > public identifier starts with…
 		 */
 		if (
-			$system_identifier_is_missing && (
+			'' === $system_identifier && (
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 frameset//' ) ||
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 transitional//' )
 			)
@@ -364,10 +363,11 @@ class WP_HTML_Doctype_Info {
 		}
 
 		/*
-		 * > The system identifier is not missing and the public identifier starts with…
+		 * > The system identifier is neither missing nor the empty string, and the
+		 * > public identifier starts with…
 		 */
 		if (
-			! $system_identifier_is_missing && (
+			'' !== $system_identifier && (
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 frameset//' ) ||
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 transitional//' )
 			)
