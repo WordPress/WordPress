@@ -681,6 +681,26 @@ function is_favicon() {
 }
 
 /**
+ * Is the query for a sitemap?
+ *
+ * @since 7.1.0
+ *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
+ * @return bool Whether the query is for a sitemap.
+ */
+function is_sitemap(): bool {
+	global $wp_query;
+
+	if ( ! isset( $wp_query ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '7.1.0' );
+		return false;
+	}
+
+	return $wp_query->is_sitemap();
+}
+
+/**
  * Determines whether the query is for a search.
  *
  * For more information on this and similar theme functions, check out

@@ -411,6 +411,13 @@ class WP_Query {
 	public $is_favicon = false;
 
 	/**
+	 * Signifies whether the current query is for a sitemap.
+	 *
+	 * @since 7.1.0
+	 */
+	public bool $is_sitemap = false;
+
+	/**
 	 * Signifies whether the current query is for the page_for_posts page.
 	 *
 	 * Basically, the homepage if the option isn't set for the static homepage.
@@ -519,6 +526,7 @@ class WP_Query {
 		$this->is_singular          = false;
 		$this->is_robots            = false;
 		$this->is_favicon           = false;
+		$this->is_sitemap           = false;
 		$this->is_posts_page        = false;
 		$this->is_post_type_archive = false;
 	}
@@ -817,6 +825,8 @@ class WP_Query {
 			$this->is_robots = true;
 		} elseif ( ! empty( $query_vars['favicon'] ) ) {
 			$this->is_favicon = true;
+		} elseif ( ! empty( $query_vars['sitemap'] ) ) {
+			$this->is_sitemap = true;
 		}
 
 		if ( ! is_scalar( $query_vars['p'] ) || (int) $query_vars['p'] < 0 ) {
@@ -1040,7 +1050,7 @@ class WP_Query {
 
 		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed
 				|| ( wp_is_serving_rest_request() && $this->is_main_query() )
-				|| $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots || $this->is_favicon ) ) {
+				|| $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots || $this->is_favicon || $this->is_sitemap ) ) {
 			$this->is_home = true;
 		}
 
@@ -4640,6 +4650,17 @@ class WP_Query {
 	 */
 	public function is_favicon() {
 		return (bool) $this->is_favicon;
+	}
+
+	/**
+	 * Determines whether the query is for a sitemap.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return bool Whether the query is for a sitemap.
+	 */
+	public function is_sitemap(): bool {
+		return $this->is_sitemap;
 	}
 
 	/**
