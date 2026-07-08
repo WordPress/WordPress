@@ -464,6 +464,8 @@ add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_user_personal_dat
 add_filter( 'wp_privacy_personal_data_erasers', 'wp_register_comment_personal_data_eraser' );
 add_action( 'init', 'wp_schedule_delete_old_privacy_export_files' );
 add_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
+add_action( 'init', 'wp_schedule_personal_data_cleanup_requests' );
+add_action( 'wp_privacy_personal_data_cleanup_requests', 'wp_privacy_personal_data_cleanup_requests' );
 
 // Cron tasks.
 add_action( 'wp_scheduled_delete', 'wp_scheduled_delete' );
