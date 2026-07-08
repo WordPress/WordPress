@@ -3,7 +3,7 @@
  */
 
 /* global pagenow, ajaxurl, postboxes, wpActiveEditor:true, ajaxWidgets */
-/* global ajaxPopulateWidgets, quickPressLoad,  */
+/* global ajaxPopulateWidgets, quickPressLoad */
 window.wp = window.wp || {};
 window.communityEventsData = window.communityEventsData || {};
 
@@ -137,31 +137,27 @@ jQuery( function($) {
 	 * @return {void}
 	 */
 	window.quickPressLoad = function() {
-		var act = $('#quickpost-action'), t;
+		var act = $( '#quickpost-action' ), t;
 
-		// Enable the submit buttons.
-		$( '#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]' ).prop( 'disabled' , false );
+		// Enable the submit button.
+		$( '#quick-press .submit input[type="submit"]' ).prop( 'disabled', false );
 
-		t = $('#quick-press').on( 'submit', function( e ) {
+		t = $( '#quick-press' ).on( 'submit', function( e ) {
 			e.preventDefault();
 
-			// Show a spinner.
-			$('#dashboard_quick_press #publishing-action .spinner').show();
-
 			// Disable the submit button to prevent duplicate submissions.
-			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
+			$( '#quick-press .submit input[type="submit"]' ).prop( 'disabled', true );
 
 			// Post the entered data to save it.
 			$.post( t.attr( 'action' ), t.serializeArray(), function( data ) {
 				// Replace the form, and prepend the published post.
-				$('#dashboard_quick_press .inside').html( data );
-				$('#quick-press').removeClass('initial-form');
+				$( '#dashboard_quick_press .inside' ).html( data );
 				quickPressLoad();
 				highlightLatestPost();
 
 				// Focus the title to allow for quickly drafting another post.
-				$('#title').trigger( 'focus' );
-			});
+				$( '#title' ).trigger( 'focus');
+			} );
 
 			/**
 			 * Highlights the latest post for one second.
@@ -169,20 +165,26 @@ jQuery( function($) {
 			 * @return {void}
  			 */
 			function highlightLatestPost () {
-				var latestPost = $('.drafts ul li').first();
-				latestPost.css('background', '#fffbe5');
-				setTimeout(function () {
-					latestPost.css('background', 'none');
-				}, 1000);
+				var latestPost = $( '.drafts ul li' ) .first(),
+					errorNotice = $( '#quick-press .notice-error' );
+
+				if ( errorNotice.length ) {
+					return;
+				}
+
+				latestPost.css( 'background', '#fffbe5' );
+				setTimeout( function () {
+					latestPost.css( 'background', 'none' );
+				}, 1000 );
 			}
 		} );
 
 		// Change the QuickPost action to the publish value.
-		$('#publish').on( 'click', function() { act.val( 'post-quickpress-publish' ); } );
+		$( '#publish' ).on( 'click', function() { act.val( 'post-quickpress-publish' ); } );
 
-		$('#quick-press').on( 'click focusin', function() {
+		$( '#quick-press' ).on( 'click focusin', function() {
 			wpActiveEditor = 'content';
-		});
+		} );
 
 		autoResizeTextarea();
 	};

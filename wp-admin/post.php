@@ -96,16 +96,28 @@ switch ( $action ) {
 		$_POST['comment_status'] = get_default_comment_status( $post->post_type );
 		$_POST['ping_status']    = get_default_comment_status( $post->post_type, 'pingback' );
 
-		// Wrap Quick Draft content in the Paragraph block.
-		if ( ! str_contains( $_POST['content'], '<!-- wp:paragraph -->' ) ) {
+		$quickdraft_post_title   = trim( $_POST['post_title'] );
+		$quickdraft_post_content = trim( $_POST['content'] );
+
+		if ( empty( $quickdraft_post_title ) && empty( $quickdraft_post_content ) ) {
+			return wp_dashboard_quick_press( __( 'Cannot create a draft post with empty title and content.' ) );
+		}
+
+		// Wrap Quick Draft content in a Paragraph block.
+		if (
+			use_block_editor_for_post_type( $post->post_type ) &&
+			! empty( $quickdraft_post_content ) &&
+			! str_contains( $quickdraft_post_content, '<!-- wp:paragraph -->' )
+		) {
+			// Note that `edit_post()` reads from the $_POST superglobal by reference.
 			$_POST['content'] = sprintf(
 				'<!-- wp:paragraph -->%s<!-- /wp:paragraph -->',
-				str_replace( array( "\r\n", "\r", "\n" ), '<br />', $_POST['content'] )
+				str_replace( array( "\r\n", "\r", "\n" ), '<br />', $quickdraft_post_content )
 			);
 		}
 
 		edit_post();
-		wp_dashboard_quick_press();
+		wp_dashboard_quick_press( __( 'Draft created successfully.' ), 'success' );
 		exit;
 
 	case 'postajaxpost':

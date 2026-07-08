@@ -541,12 +541,14 @@ function wp_network_dashboard_right_now() {
  * Displays the Quick Draft widget.
  *
  * @since 3.8.0
+ * @since 7.1.0 Added $notice_type parameter.
  *
  * @global int $post_ID
  *
- * @param string|false $error_msg Optional. Error message. Default false.
+ * @param string|false $message     Optional. Error or success message. Default false.
+ * @param string       $notice_type Optional. Admin notice type. Default 'error'.
  */
-function wp_dashboard_quick_press( $error_msg = false ) {
+function wp_dashboard_quick_press( $message = false, $notice_type = 'error' ) {
 	global $post_ID;
 
 	if ( ! current_user_can( 'edit_posts' ) ) {
@@ -578,14 +580,17 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	$post_ID = (int) $post->ID;
 	?>
 
-	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form hide-if-no-js">
+	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="hide-if-no-js">
 
 		<?php
-		if ( $error_msg ) {
+		if ( $message ) {
 			wp_admin_notice(
-				$error_msg,
+				$message,
 				array(
-					'additional_classes' => array( 'error' ),
+					'type'       => $notice_type,
+					'attributes' => array(
+						'role' => 'alert',
+					),
 				)
 			);
 		}
@@ -688,7 +693,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		$the_content = wp_trim_words( $draft->post_content, $draft_length );
 
 		if ( $the_content ) {
-			echo '<p>' . $the_content . '</p>';
+			echo '<p class="draft-content">' . $the_content . '</p>';
 		}
 		echo "</li>\n";
 	}
