@@ -1018,6 +1018,35 @@ body #dashboard-widgets .postbox form .submit {
 	top: 0;
 }
 
+/* On This Day dashboard widget */
+
+#wp_dashboard_on_this_day h3 {
+	font-weight: 600;
+}
+
+#wp_dashboard_on_this_day li {
+	margin: 0;
+	padding: 0;
+}
+
+#wp_dashboard_on_this_day ul ul {
+	margin: 0 18px 0 0;
+	padding: 0;
+	list-style: disc;
+}
+
+#wp_dashboard_on_this_day ul ul li + li {
+	margin-top: 6px;
+}
+
+#wp_dashboard_on_this_day .wp-on-this-day-widget > ul > li + li {
+	margin-top: 16px;
+}
+
+#wp_dashboard_on_this_day .wp-on-this-day-post-author {
+	color: #646970;
+}
+
 /* Browse happy box */
 
 #dashboard-widgets #dashboard_browser_nag.postbox .inside {

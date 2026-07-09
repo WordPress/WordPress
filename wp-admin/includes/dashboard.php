@@ -88,6 +88,13 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
 
+	// On This Day.
+	if ( ! function_exists( 'wp_dashboard_on_this_day_setup' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/dashboard-on-this-day.php';
+	}
+
+	wp_dashboard_on_this_day_setup();
+
 	// WordPress Events and News.
 	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress Events and News' ), 'wp_dashboard_events_news' );
 
