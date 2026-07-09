@@ -2848,6 +2848,14 @@ function untrailingslashit( $value ) {
  *
  * @param mixed $value The value to be stripped.
  * @return mixed Stripped value.
+ *
+ * @phpstan-template T
+ * @phpstan-param T $value
+ * @phpstan-return (
+ *     T is string ? string : (
+ *         T is array ? array<key-of<T>, ( value-of<T> is string ? string : value-of<T> )> : T
+ *     )
+ * )
  */
 function stripslashes_deep( $value ) {
 	return map_deep( $value, 'stripslashes_from_strings_only' );
@@ -2860,6 +2868,10 @@ function stripslashes_deep( $value ) {
  *
  * @param mixed $value The array or string to be stripped.
  * @return mixed The stripped value.
+ *
+ * @phpstan-template T
+ * @phpstan-param T $value
+ * @phpstan-return (T is string ? string : T)
  */
 function stripslashes_from_strings_only( $value ) {
 	return is_string( $value ) ? stripslashes( $value ) : $value;
@@ -5170,6 +5182,10 @@ function sanitize_option( $option, $value ) {
  * @param mixed    $value    The array, object, or scalar.
  * @param callable $callback The function to map onto $value.
  * @return mixed The value with the callback applied to all non-arrays and non-objects inside it.
+ *
+ * @phpstan-template T
+ * @phpstan-param T $value
+ * @phpstan-return (T is array ? array<key-of<T>, mixed> : (T is object ? T : mixed))
  */
 function map_deep( $value, $callback ) {
 	if ( is_array( $value ) ) {
@@ -5811,6 +5827,14 @@ function sanitize_trackback_urls( $to_ping ) {
  *
  * @param string|array $value String or array of data to slash.
  * @return string|array Slashed `$value`, in the same type as supplied.
+ *
+ * @phpstan-template T
+ * @phpstan-param T $value
+ * @phpstan-return (
+ *     T is string ? string : (
+ *         T is array ? array<key-of<T>, ( value-of<T> is string ? string : value-of<T> )> : T
+ *     )
+ * )
  */
 function wp_slash( $value ) {
 	if ( is_array( $value ) ) {
@@ -5834,6 +5858,14 @@ function wp_slash( $value ) {
  *
  * @param string|array $value String or array of data to unslash.
  * @return string|array Unslashed `$value`, in the same type as supplied.
+ *
+ * @phpstan-template T
+ * @phpstan-param T $value
+ * @phpstan-return (
+ *     T is string ? string : (
+ *         T is array ? array<key-of<T>, ( value-of<T> is string ? string : value-of<T> )> : T
+ *     )
+ * )
  */
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );

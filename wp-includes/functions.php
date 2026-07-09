@@ -1289,6 +1289,10 @@ function wp_removable_query_args() {
  *
  * @param array $input_array Array to walk while sanitizing contents.
  * @return array Sanitized $input_array.
+ *
+ * @phpstan-template T of array
+ * @phpstan-param T $input_array
+ * @phpstan-return array<key-of<T>, ( value-of<T> is string ? string : value-of<T> )>
  */
 function add_magic_quotes( $input_array ) {
 	foreach ( (array) $input_array as $k => $v ) {
