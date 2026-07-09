@@ -3274,7 +3274,15 @@ function edit_form_image_editor( $post ) {
 	<?php endif; ?>
 
 		<p>
-			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
+			<label for="attachment_caption"><strong>
+				<?php
+				if ( wp_attachment_is( 'image', $post ) ) {
+					esc_html_e( 'Image Caption' );
+				} else {
+					esc_html_e( 'Short Description' );
+				}
+				?>
+			</strong></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
 		</p>
 
