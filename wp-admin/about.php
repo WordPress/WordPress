@@ -60,6 +60,37 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<a href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
 		</nav>
 
+		<div class="about__section changelog has-subtle-background-color">
+			<div class="column">
+				<h2><?php _e( 'Maintenance Release' ); ?></h2>
+				<p>
+					<?php
+					printf(
+						/* translators: 1: WordPress version number, 2: Plural number of bugs. */
+						_n(
+							'<strong>Version %1$s</strong> addressed %2$s bug.',
+							'<strong>Version %1$s</strong> addressed %2$s bugs.',
+							31
+						),
+						'7.0.1',
+						31
+					);
+					?>
+					<?php
+					printf(
+						/* translators: %s: HelpHub URL. */
+						__( 'For more information, see <a href="%s">the release notes</a>.' ),
+						sprintf(
+							/* translators: %s: WordPress version. */
+							esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
+							sanitize_title( '7.0.1' )
+						)
+					);
+					?>
+				</p>
+			</div>
+		</div>
+
 		<div class="about__section">
 			<div class="column is-left-padding-zero is-right-padding-zero">
 				<h2><?php _e( 'Welcome to WordPress 7.0' ); ?></h2>
