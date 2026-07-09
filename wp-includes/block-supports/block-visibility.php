@@ -44,60 +44,24 @@ function wp_render_block_visibility_support( $block_content, $block ) {
 		if ( ! is_array( $viewport_config ) || empty( $viewport_config ) ) {
 			return $block_content;
 		}
-		/*
-		 * Viewport size definitions are in several places in WordPress packages.
-		 * The following are taken from: https://github.com/WordPress/gutenberg/blob/trunk/packages/base-styles/_breakpoints.scss
-		 * The array is in a future, potential JSON format, and will be centralized
-		 * as the feature is developed.
-		 *
-		 * Viewport sizes as array items are defined sequentially. The first item's size is the max value.
-		 * Each subsequent item starts after the previous size (using > operator), and its size is the max.
-		 * The last item starts after the previous size (using > operator), and it has no max.
-		 */
-		$viewport_sizes = array(
+		$viewport_settings      = wp_get_global_settings( array( 'viewport' ) );
+		$viewport_media_queries = WP_Theme_JSON::get_viewport_media_queries(
+			$viewport_settings,
 			array(
-				'name' => 'Mobile',
-				'slug' => 'mobile',
-				'size' => '480px',
-			),
-			array(
-				'name' => 'Tablet',
-				'slug' => 'tablet',
-				'size' => '782px',
-			),
-			array(
-				'name' => 'Desktop',
-				'slug' => 'desktop',
-				/*
-				 * Note: the last item in the $viewport_sizes array does not technically require a 'size' key,
-				 * as the last item's media query is calculated using `width > previous size`.
-				 * The last item is present for validating the attribute values, and in order to indicate
-				 * that this is the final viewport size, and to calculate the previous media query accordingly.
-				 */
-			),
+				'include_desktop' => true,
+			)
 		);
 
 		/*
-		 * Build media queries from viewport size definitions using the CSS range syntax.
-		 * Could be absorbed into the style engine,
-		 * as well as classname building, and declaration of the display property, if required.
+		 * Viewport media queries are keyed by style-state names (`@mobile`,
+		 * `@tablet`, and `@desktop`). Block visibility metadata and generated
+		 * classes use plain viewport names, so map the keys at this boundary.
 		 */
-		$viewport_media_queries = array();
-		$previous_size          = null;
-		foreach ( $viewport_sizes as $index => $viewport_size ) {
-			// First item: width <= size.
-			if ( 0 === $index ) {
-				$viewport_media_queries[ $viewport_size['slug'] ] = "@media (width <= {$viewport_size['size']})";
-			} elseif ( count( $viewport_sizes ) - 1 === $index && $previous_size ) {
-				// Last item: width > previous size.
-				$viewport_media_queries[ $viewport_size['slug'] ] = "@media (width > $previous_size)";
-			} else {
-				// Middle items: previous size < width <= size.
-				$viewport_media_queries[ $viewport_size['slug'] ] = "@media ({$previous_size} < width <= {$viewport_size['size']})";
-			}
-
-			$previous_size = $viewport_size['size'] ?? null;
+		$block_visibility_media_queries = array();
+		foreach ( $viewport_media_queries as $viewport_state => $media_query ) {
+			$block_visibility_media_queries[ ltrim( $viewport_state, '@' ) ] = $media_query;
 		}
+		$viewport_media_queries = $block_visibility_media_queries;
 
 		$hidden_on = array();
 

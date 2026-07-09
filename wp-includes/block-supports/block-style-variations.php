@@ -154,6 +154,11 @@ function wp_render_block_style_variation_support_styles( $parsed_block ) {
 		),
 	);
 
+	// Ensure variation state styles know about any custom viewport breakpoints.
+	if ( isset( $theme_json['settings']['viewport'] ) ) {
+		$config['settings']['viewport'] = $theme_json['settings']['viewport'];
+	}
+
 	// Turn off filter that excludes block nodes. They are needed here for the variation's inner block types.
 	if ( ! is_admin() ) {
 		remove_filter( 'wp_theme_json_get_style_nodes', 'wp_filter_out_block_nodes' );
