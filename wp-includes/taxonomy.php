@@ -1581,13 +1581,26 @@ function unregister_term_meta( $taxonomy, $meta_key ) {
  *
  * @global bool $_wp_suspend_cache_invalidation
  *
- * @param int|string $term        The term to check. Accepts term ID, slug, or name.
- * @param string     $taxonomy    Optional. The taxonomy name to use.
- * @param int        $parent_term Optional. ID of parent term under which to confine the exists search.
+ * @param int|string|null $term        The term to check. Accepts term ID, slug, or name.
+ * @param string          $taxonomy    Optional. The taxonomy name to use.
+ * @param int             $parent_term Optional. ID of parent term under which to confine the exists search.
  * @return mixed Returns null if the term does not exist.
  *               Returns the term ID if no taxonomy is specified and the term ID exists.
  *               Returns an array of the term ID and the term taxonomy ID if the taxonomy is specified and the pairing exists.
  *               Returns 0 if term ID 0 is passed to the function.
+ *
+ * @phpstan-return (
+ *     $term is null ? null : (
+ *         $term is 0 ? 0 : (
+ *             $taxonomy is '' ? int|null : (
+ *                 array{
+ *                     term_id: numeric-string,
+ *                     term_taxonomy_id: numeric-string,
+ *                 }|null
+ *             )
+ *         )
+ *     )
+ * )
  */
 function term_exists( $term, $taxonomy = '', $parent_term = null ) {
 	global $_wp_suspend_cache_invalidation;
