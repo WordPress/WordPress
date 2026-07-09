@@ -2047,6 +2047,12 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  * }
  * @return bool|int|WP_Error True on success, false if term does not exist. Zero on attempted
  *                           deletion of default Category. WP_Error if the taxonomy does not exist.
+ * @phpstan-param non-empty-string $taxonomy
+ * @phpstan-param string|array{
+ *     default?: positive-int,
+ *     force_default?: bool,
+ * } $args
+ * @phpstan-return bool|WP_Error|0
  */
 function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -2437,6 +2443,17 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
  *     @type int        $term_id          The new term ID.
  *     @type int|string $term_taxonomy_id The new term taxonomy ID. Can be a numeric string.
  * }
+ * @phpstan-param string|array{
+ *     alias_of?: string,
+ *     description?: string|null,
+ *     parent?: non-negative-int,
+ *     slug?: string|null,
+ *     ...
+ * } $args
+ * @phpstan-return array{
+ *     term_id: int,
+ *     term_taxonomy_id: int|numeric-string,
+ * }|WP_Error
  */
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -2622,6 +2639,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		do_action( 'edited_terms', $term_id, $taxonomy );
 	}
 
+	/** @var numeric-string|null $tt_id */
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id ) );
 
 	if ( ! empty( $tt_id ) ) {
@@ -3229,6 +3247,17 @@ function wp_unique_term_slug( $slug, $term ) {
  * }
  * @return array|WP_Error An array containing the `term_id` and `term_taxonomy_id`,
  *                        WP_Error otherwise.
+ * @phpstan-param array{
+ *     alias_of?: string,
+ *     description?: string,
+ *     parent?: non-negative-int,
+ *     slug?: string|null,
+ *     ...
+ * } $args
+ * @phpstan-return array{
+ *     term_id: int,
+ *     term_taxonomy_id: int,
+ * }|WP_Error
  */
 function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	global $wpdb;
