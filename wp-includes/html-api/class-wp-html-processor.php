@@ -135,10 +135,13 @@
  * in the document that the parser had already processed, this parser does not support
  * these situations and will bail.
  *
+ * The parser does not implement the "maybe clone an option into selectedcontent" algorithm.
+ * SELECTEDCONTENT elements may not reflect the actual selected content.
+ *
  * @since 6.4.0
  *
  * @see WP_HTML_Tag_Processor
- * @see https://html.spec.whatwg.org/
+ * @link https://html.spec.whatwg.org/
  * @phpstan-consistent-constructor
  */
 class WP_HTML_Processor extends WP_HTML_Tag_Processor {
@@ -1142,12 +1145,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_CELL:
 					return $this->step_in_cell();
-
-				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT:
-					return $this->step_in_select();
-
-				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE:
-					return $this->step_in_select_in_table();
 
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_TEMPLATE:
 					return $this->step_in_template();
@@ -2681,7 +2678,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > An end tag whose tag name is one of: "address", "article", "aside", "blockquote",
 			 * > "button", "center", "details", "dialog", "dir", "div", "dl", "fieldset",
 			 * > "figcaption", "figure", "footer", "header", "hgroup", "listing", "main",
-			 * > "menu", "nav", "ol", "pre", "search", "section", "summary", "ul"
+			 * > "menu", "nav", "ol", "pre", "search", "section", "select", "summary", "ul"
 			 */
 			case '-ADDRESS':
 			case '-ARTICLE':
@@ -2708,6 +2705,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-PRE':
 			case '-SEARCH':
 			case '-SECTION':
+			case '-SELECT':
 			case '-SUMMARY':
 			case '-UL':
 				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $token_name ) ) {
@@ -3026,6 +3024,28 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > A start tag whose tag name is "input"
 			 */
 			case '+INPUT':
+				/*
+				 * > If the parser was created as part of the HTML fragment parsing algorithm
+				 * > (fragment case) and the context element passed to that algorithm is a
+				 * > select element:
+				 * >   1. Parse error.
+				 * >   2. Ignore the token.
+				 * >   3. Return.
+				 */
+				if ( isset( $this->context_node ) && 'SELECT' === $this->context_node->node_name ) {
+					return $this->step();
+				}
+
+				/*
+				 * > If the stack of open elements has a select element in scope:
+				 * >   1. Parse error.
+				 * >   2. Pop elements from the stack of open elements until a select element
+				 * >      has been popped from the stack.
+				 */
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'SELECT' ) ) {
+					$this->state->stack_of_open_elements->pop_until( 'SELECT' );
+				}
+
 				$this->reconstruct_active_formatting_elements();
 				$this->insert_html_element( $this->state->current_token );
 
@@ -3057,6 +3077,17 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				if ( $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
 					$this->close_a_p_element();
 				}
+
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'SELECT' ) ) {
+					$this->generate_implied_end_tags();
+					/*
+					 * > If the stack of open elements has an option element in scope or has
+					 * > an optgroup element in scope, then this is a parse error.
+					 *
+					 * @todo Indicate a parse error once it's possible.
+					 */
+				}
+
 				$this->insert_html_element( $this->state->current_token );
 				$this->state->frameset_ok = false;
 				return true;
@@ -3143,40 +3174,69 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > A start tag whose tag name is "select"
 			 */
 			case '+SELECT':
+				/*
+				 * > If the parser was created as part of the HTML fragment parsing algorithm
+				 * > (fragment case) and the context element passed to that algorithm is a
+				 * > select element:
+				 * >   1. Parse error.
+				 * >   2. Ignore the token.
+				 */
+				if ( isset( $this->context_node ) && 'SELECT' === $this->context_node->node_name ) {
+					// @todo Indicate a parse error once it's possible.
+					return $this->step();
+				}
+				/*
+				 * > Otherwise, if the stack of open elements has a select element in scope:
+				 * >   1. Parse error.
+				 * >   2. Ignore the token.
+				 * >   3. Pop elements from the stack of open elements until a select element
+				 * >      has been popped from the stack.
+				 */
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'SELECT' ) ) {
+					// @todo Indicate a parse error once it's possible.
+					$this->state->stack_of_open_elements->pop_until( 'SELECT' );
+					return $this->step();
+				}
+
 				$this->reconstruct_active_formatting_elements();
 				$this->insert_html_element( $this->state->current_token );
 				$this->state->frameset_ok = false;
-
-				switch ( $this->state->insertion_mode ) {
-					/*
-					 * > If the insertion mode is one of "in table", "in caption", "in table body", "in row",
-					 * > or "in cell", then switch the insertion mode to "in select in table".
-					 */
-					case WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE:
-					case WP_HTML_Processor_State::INSERTION_MODE_IN_CAPTION:
-					case WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_BODY:
-					case WP_HTML_Processor_State::INSERTION_MODE_IN_ROW:
-					case WP_HTML_Processor_State::INSERTION_MODE_IN_CELL:
-						$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE;
-						break;
-
-					/*
-					 * > Otherwise, switch the insertion mode to "in select".
-					 */
-					default:
-						$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT;
-						break;
-				}
 				return true;
 
 			/*
-			 * > A start tag whose tag name is one of: "optgroup", "option"
+			 * > A start tag whose tag name is "option"
 			 */
-			case '+OPTGROUP':
 			case '+OPTION':
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'SELECT' ) ) {
+					$this->generate_implied_end_tags( 'OPTGROUP' );
+					/*
+					 * > If the stack of open elements has an option element in scope, then this
+					 * > is a parse error.
+					 * @todo Indicate a parse error once it's possible.
+					 */
+				} elseif ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
 					$this->state->stack_of_open_elements->pop();
 				}
+
+				$this->reconstruct_active_formatting_elements();
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			/*
+			 * > A start tag whose tag name is "optgroup"
+			 */
+			case '+OPTGROUP':
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'SELECT' ) ) {
+					$this->generate_implied_end_tags();
+					/*
+					 * > If the stack of open elements has an option element in scope or has an
+					 * > optgroup element in scope, then this is a parse error.
+					 * @todo Indicate a parse error once it's possible.
+					 */
+				} elseif ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
+					$this->state->stack_of_open_elements->pop();
+				}
+
 				$this->reconstruct_active_formatting_elements();
 				$this->insert_html_element( $this->state->current_token );
 				return true;
@@ -4135,249 +4195,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
-	 * Parses next element in the 'in select' insertion mode.
-	 *
-	 * This internal function performs the 'in select' insertion mode
-	 * logic for the generalized WP_HTML_Processor::step() function.
-	 *
-	 * @since 6.7.0
-	 * @ignore
-	 *
-	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
-	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inselect
-	 * @see WP_HTML_Processor::step
-	 *
-	 * @return bool Whether an element was found.
-	 */
-	private function step_in_select(): bool {
-		$token_name = $this->get_token_name();
-		$token_type = $this->get_token_type();
-		$op_sigil   = '#tag' === $token_type ? ( parent::is_tag_closer() ? '-' : '+' ) : '';
-		$op         = "{$op_sigil}{$token_name}";
-
-		switch ( $op ) {
-			/*
-			 * > Any other character token
-			 */
-			case '#text':
-				/*
-				 * > A character token that is U+0000 NULL
-				 *
-				 * If a text node only comprises null bytes then it should be
-				 * entirely ignored and should not return to calling code.
-				 */
-				if ( parent::TEXT_IS_NULL_SEQUENCE === $this->text_node_classification ) {
-					// Parse error: ignore the token.
-					return $this->step();
-				}
-
-				$this->insert_html_element( $this->state->current_token );
-				return true;
-
-			/*
-			 * > A comment token
-			 * > A processing instruction token
-			 */
-			case '#comment':
-			case '#funky-comment':
-			case '#presumptuous-tag':
-			case '#processing-instruction':
-				$this->insert_html_element( $this->state->current_token );
-				return true;
-
-			/*
-			 * > A DOCTYPE token
-			 */
-			case 'html':
-				// Parse error: ignore the token.
-				return $this->step();
-
-			/*
-			 * > A start tag whose tag name is "html"
-			 */
-			case '+HTML':
-				return $this->step_in_body();
-
-			/*
-			 * > A start tag whose tag name is "option"
-			 */
-			case '+OPTION':
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
-					$this->state->stack_of_open_elements->pop();
-				}
-				$this->insert_html_element( $this->state->current_token );
-				return true;
-
-			/*
-			 * > A start tag whose tag name is "optgroup"
-			 * > A start tag whose tag name is "hr"
-			 *
-			 * These rules are identical except for the treatment of the self-closing flag and
-			 * the subsequent pop of the HR void element, all of which is handled elsewhere in the processor.
-			 */
-			case '+OPTGROUP':
-			case '+HR':
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
-					$this->state->stack_of_open_elements->pop();
-				}
-
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTGROUP' ) ) {
-					$this->state->stack_of_open_elements->pop();
-				}
-
-				$this->insert_html_element( $this->state->current_token );
-				return true;
-
-			/*
-			 * > An end tag whose tag name is "optgroup"
-			 */
-			case '-OPTGROUP':
-				$current_node = $this->state->stack_of_open_elements->current_node();
-				if ( $current_node && 'OPTION' === $current_node->node_name ) {
-					foreach ( $this->state->stack_of_open_elements->walk_up( $current_node ) as $parent ) {
-						break;
-					}
-					if ( $parent && 'OPTGROUP' === $parent->node_name ) {
-						$this->state->stack_of_open_elements->pop();
-					}
-				}
-
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTGROUP' ) ) {
-					$this->state->stack_of_open_elements->pop();
-					return true;
-				}
-
-				// Parse error: ignore the token.
-				return $this->step();
-
-			/*
-			 * > An end tag whose tag name is "option"
-			 */
-			case '-OPTION':
-				if ( $this->state->stack_of_open_elements->current_node_is( 'OPTION' ) ) {
-					$this->state->stack_of_open_elements->pop();
-					return true;
-				}
-
-				// Parse error: ignore the token.
-				return $this->step();
-
-			/*
-			 * > An end tag whose tag name is "select"
-			 * > A start tag whose tag name is "select"
-			 *
-			 * > It just gets treated like an end tag.
-			 */
-			case '-SELECT':
-			case '+SELECT':
-				if ( ! $this->state->stack_of_open_elements->has_element_in_select_scope( 'SELECT' ) ) {
-					// Parse error: ignore the token.
-					return $this->step();
-				}
-				$this->state->stack_of_open_elements->pop_until( 'SELECT' );
-				$this->reset_insertion_mode_appropriately();
-				return true;
-
-			/*
-			 * > A start tag whose tag name is one of: "input", "keygen", "textarea"
-			 *
-			 * All three of these tags are considered a parse error when found in this insertion mode.
-			 */
-			case '+INPUT':
-			case '+KEYGEN':
-			case '+TEXTAREA':
-				if ( ! $this->state->stack_of_open_elements->has_element_in_select_scope( 'SELECT' ) ) {
-					// Ignore the token.
-					return $this->step();
-				}
-				$this->state->stack_of_open_elements->pop_until( 'SELECT' );
-				$this->reset_insertion_mode_appropriately();
-				return $this->step( self::REPROCESS_CURRENT_NODE );
-
-			/*
-			 * > A start tag whose tag name is one of: "script", "template"
-			 * > An end tag whose tag name is "template"
-			 */
-			case '+SCRIPT':
-			case '+TEMPLATE':
-			case '-TEMPLATE':
-				return $this->step_in_head();
-		}
-
-		/*
-		 * > Anything else
-		 * >   Parse error: ignore the token.
-		 */
-		return $this->step();
-	}
-
-	/**
-	 * Parses next element in the 'in select in table' insertion mode.
-	 *
-	 * This internal function performs the 'in select in table' insertion mode
-	 * logic for the generalized WP_HTML_Processor::step() function.
-	 *
-	 * @since 6.7.0
-	 * @ignore
-	 *
-	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
-	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-inselectintable
-	 * @see WP_HTML_Processor::step
-	 *
-	 * @return bool Whether an element was found.
-	 */
-	private function step_in_select_in_table(): bool {
-		$token_name = $this->get_token_name();
-		$token_type = $this->get_token_type();
-		$op_sigil   = '#tag' === $token_type ? ( parent::is_tag_closer() ? '-' : '+' ) : '';
-		$op         = "{$op_sigil}{$token_name}";
-
-		switch ( $op ) {
-			/*
-			 * > A start tag whose tag name is one of: "caption", "table", "tbody", "tfoot", "thead", "tr", "td", "th"
-			 */
-			case '+CAPTION':
-			case '+TABLE':
-			case '+TBODY':
-			case '+TFOOT':
-			case '+THEAD':
-			case '+TR':
-			case '+TD':
-			case '+TH':
-				// @todo Indicate a parse error once it's possible.
-				$this->state->stack_of_open_elements->pop_until( 'SELECT' );
-				$this->reset_insertion_mode_appropriately();
-				return $this->step( self::REPROCESS_CURRENT_NODE );
-
-			/*
-			 * > An end tag whose tag name is one of: "caption", "table", "tbody", "tfoot", "thead", "tr", "td", "th"
-			 */
-			case '-CAPTION':
-			case '-TABLE':
-			case '-TBODY':
-			case '-TFOOT':
-			case '-THEAD':
-			case '-TR':
-			case '-TD':
-			case '-TH':
-				// @todo Indicate a parse error once it's possible.
-				if ( ! $this->state->stack_of_open_elements->has_element_in_table_scope( $token_name ) ) {
-					return $this->step();
-				}
-				$this->state->stack_of_open_elements->pop_until( 'SELECT' );
-				$this->reset_insertion_mode_appropriately();
-				return $this->step( self::REPROCESS_CURRENT_NODE );
-		}
-
-		/*
-		 * > Anything else
-		 */
-		return $this->step_in_select();
-	}
-
-	/**
 	 * Parses next element in the 'in template' insertion mode.
 	 *
 	 * This internal function performs the 'in template' insertion mode
@@ -5234,12 +5051,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_CELL:
 					return $this->step_in_cell();
-
-				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT:
-					return $this->step_in_select();
-
-				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE:
-					return $this->step_in_select_in_table();
 
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_TEMPLATE:
 					return $this->step_in_template();
@@ -6138,46 +5949,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 			switch ( $node->node_name ) {
 				/*
-				 * > 4. If node is a `select` element, run these substeps:
-				 * >   1. If _last_ is true, jump to the step below labeled done.
-				 * >   2. Let _ancestor_ be _node_.
-				 * >   3. _Loop_: If _ancestor_ is the first node in the stack of open elements,
-				 * >      jump to the step below labeled done.
-				 * >   4. Let ancestor be the node before ancestor in the stack of open elements.
-				 * >   …
-				 * >   7. Jump back to the step labeled _loop_.
-				 * >   8. _Done_: Switch the insertion mode to "in select" and return.
-				 */
-				case 'SELECT':
-					if ( ! $last ) {
-						foreach ( $this->state->stack_of_open_elements->walk_up( $node ) as $ancestor ) {
-							if ( 'html' !== $ancestor->namespace ) {
-								continue;
-							}
-
-							switch ( $ancestor->node_name ) {
-								/*
-								 * > 5. If _ancestor_ is a `template` node, jump to the step below
-								 * >    labeled _done_.
-								 */
-								case 'TEMPLATE':
-									break 2;
-
-								/*
-								 * > 6. If _ancestor_ is a `table` node, switch the insertion mode to
-								 * >    "in select in table" and return.
-								 */
-								case 'TABLE':
-									$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE;
-									return;
-							}
-						}
-					}
-					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT;
-					return;
-
-				/*
-				 * > 5. If _node_ is a `td` or `th` element and _last_ is false, then switch the
+				 * > 4. If _node_ is a `td` or `th` element and _last_ is false, then switch the
 				 * >    insertion mode to "in cell" and return.
 				 */
 				case 'TD':
@@ -6188,16 +5960,16 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					}
 					break;
 
-					/*
-					* > 6. If _node_ is a `tr` element, then switch the insertion mode to "in row"
-					* >    and return.
-					*/
+				/*
+				* > 5. If _node_ is a `tr` element, then switch the insertion mode to "in row"
+				* >    and return.
+				*/
 				case 'TR':
 					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_ROW;
 					return;
 
 				/*
-				 * > 7. If _node_ is a `tbody`, `thead`, or `tfoot` element, then switch the
+				 * > 6. If _node_ is a `tbody`, `thead`, or `tfoot` element, then switch the
 				 * >    insertion mode to "in table body" and return.
 				 */
 				case 'TBODY':
@@ -6207,7 +5979,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 8. If _node_ is a `caption` element, then switch the insertion mode to
+				 * > 7. If _node_ is a `caption` element, then switch the insertion mode to
 				 * >    "in caption" and return.
 				 */
 				case 'CAPTION':
@@ -6215,7 +5987,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 9. If _node_ is a `colgroup` element, then switch the insertion mode to
+				 * > 8. If _node_ is a `colgroup` element, then switch the insertion mode to
 				 * >    "in column group" and return.
 				 */
 				case 'COLGROUP':
@@ -6223,15 +5995,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 10. If _node_ is a `table` element, then switch the insertion mode to
-				 * >     "in table" and return.
+				 * > 9. If _node_ is a `table` element, then switch the insertion mode to
+				 * >    "in table" and return.
 				 */
 				case 'TABLE':
 					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE;
 					return;
 
 				/*
-				 * > 11. If _node_ is a `template` element, then switch the insertion mode to the
+				 * > 10. If _node_ is a `template` element, then switch the insertion mode to the
 				 * >     current template insertion mode and return.
 				 */
 				case 'TEMPLATE':
@@ -6239,7 +6011,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 12. If _node_ is a `head` element and _last_ is false, then switch the
+				 * > 11. If _node_ is a `head` element and _last_ is false, then switch the
 				 * >     insertion mode to "in head" and return.
 				 */
 				case 'HEAD':
@@ -6250,7 +6022,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					break;
 
 				/*
-				 * > 13. If _node_ is a `body` element, then switch the insertion mode to "in body"
+				 * > 12. If _node_ is a `body` element, then switch the insertion mode to "in body"
 				 * >     and return.
 				 */
 				case 'BODY':
@@ -6258,7 +6030,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 14. If _node_ is a `frameset` element, then switch the insertion mode to
+				 * > 13. If _node_ is a `frameset` element, then switch the insertion mode to
 				 * >     "in frameset" and return. (fragment case)
 				 */
 				case 'FRAMESET':
@@ -6266,7 +6038,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return;
 
 				/*
-				 * > 15. If _node_ is an `html` element, run these substeps:
+				 * > 14. If _node_ is an `html` element, run these substeps:
 				 * >     1. If the head element pointer is null, switch the insertion mode to
 				 * >        "before head" and return. (fragment case)
 				 * >     2. Otherwise, the head element pointer is not null, switch the insertion
@@ -6281,7 +6053,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 
 		/*
-		 * > 16. If _last_ is true, then switch the insertion mode to "in body"
+		 * > 15. If _last_ is true, then switch the insertion mode to "in body"
 		 * >     and return. (fragment case)
 		 *
 		 * This is only reachable if `$last` is true, as per the fragment parsing case.

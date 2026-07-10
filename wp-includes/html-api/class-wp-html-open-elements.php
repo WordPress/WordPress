@@ -281,6 +281,7 @@ class WP_HTML_Open_Elements {
 	 * >   - th
 	 * >   - marquee
 	 * >   - object
+	 * >   - select
 	 * >   - template
 	 * >   - MathML mi
 	 * >   - MathML mo
@@ -312,6 +313,7 @@ class WP_HTML_Open_Elements {
 				'TH',
 				'MARQUEE',
 				'OBJECT',
+				'SELECT',
 				'TEMPLATE',
 
 				'math MI',
@@ -362,6 +364,7 @@ class WP_HTML_Open_Elements {
 				'MARQUEE',
 				'OBJECT',
 				'OL',
+				'SELECT',
 				'TEMPLATE',
 				'UL',
 
@@ -410,6 +413,7 @@ class WP_HTML_Open_Elements {
 				'TH',
 				'MARQUEE',
 				'OBJECT',
+				'SELECT',
 				'TEMPLATE',
 
 				'math MI',
@@ -459,9 +463,8 @@ class WP_HTML_Open_Elements {
 	/**
 	 * Returns whether a particular element is in select scope.
 	 *
-	 * This test differs from the others like it, in that its rules are inverted.
-	 * Instead of arriving at a match when one of any tag in a termination group
-	 * is reached, this one terminates if any other tag is reached.
+	 * The "select scope" concept was removed from the HTML standard along with the
+	 * customizable `<select>` changes, so nothing is ever in select scope.
 	 *
 	 * > The stack of open elements is said to have a particular element in select scope when it has
 	 * > that element in the specific scope consisting of all element types except the following:
@@ -471,24 +474,14 @@ class WP_HTML_Open_Elements {
 	 * @since 6.4.0 Stub implementation (throws).
 	 * @since 6.7.0 Full implementation.
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-select-scope
+	 * @deprecated 7.1.0 This method is no longer part of the HTML standard.
+	 * @ignore
 	 *
 	 * @param string $tag_name Name of tag to check.
-	 * @return bool Whether the given element is in SELECT scope.
+	 * @return bool Always false; select scope no longer exists.
 	 */
 	public function has_element_in_select_scope( string $tag_name ): bool {
-		foreach ( $this->walk_up() as $node ) {
-			if ( $node->node_name === $tag_name ) {
-				return true;
-			}
-
-			if (
-				'OPTION' !== $node->node_name &&
-				'OPTGROUP' !== $node->node_name
-			) {
-				return false;
-			}
-		}
+		_deprecated_function( __METHOD__, '7.1.0' );
 
 		return false;
 	}
@@ -697,6 +690,7 @@ class WP_HTML_Open_Elements {
 			case 'TH':
 			case 'MARQUEE':
 			case 'OBJECT':
+			case 'SELECT':
 			case 'TEMPLATE':
 			case 'math MI':
 			case 'math MO':
@@ -753,6 +747,7 @@ class WP_HTML_Open_Elements {
 			case 'TH':
 			case 'MARQUEE':
 			case 'OBJECT':
+			case 'SELECT':
 			case 'TEMPLATE':
 			case 'math MI':
 			case 'math MO':
