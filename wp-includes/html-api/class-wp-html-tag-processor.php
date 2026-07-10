@@ -316,7 +316,7 @@
  *    invalid. The text for these nodes is the text that a browser would transform into
  *    an HTML comment when parsing. E.g. for `</%post_author>` the text is `%post_author`.
  *  - `DOCTYPE` declarations like `<DOCTYPE html>` which have no closing tag.
- *  - XML Processing instruction nodes like `<?wp __( "Like" ); ?>` (with restrictions [2]).
+ *  - Processing instruction nodes like `<?wp __( "Like" ); ?>` (with restrictions [2]).
  *  - The empty end tag `</>` which is ignored in the browser and DOM.
  *
  * [1]: There are no CDATA sections in HTML. When encountering `<![CDATA[`, everything
@@ -325,12 +325,12 @@
  *      all valid and bogus HTML comments, and then if the comment _would_ have been a
  *      CDATA section _were they to exist_, it will indicate this as the type of comment.
  *
- * [2]: XML allows a broader range of characters in a processing instruction's target name
- *      and disallows "xml" as a name, since it's special. The Tag Processor only recognizes
- *      target names with an ASCII-representable subset of characters. It also exhibits the
- *      same constraint as with CDATA sections, in that `>` cannot exist within the token
- *      since Processing Instructions do not exist within HTML and their syntax transforms
- *      into a bogus comment in the DOM.
+ * [2]: HTML recognizes processing instructions whose target starts with an ASCII letter
+ *      or `_` and continues with ASCII alphanumerics, `-`, or `_`. The reserved `xml`
+ *      and `xml-stylesheet` targets, as well as XML-valid targets with characters
+ *      outside this set, transform into bogus comments in the DOM instead. Processing
+ *      instructions exhibit the same constraint as CDATA sections, in that `>` cannot
+ *      exist within the token since the processing instruction ends at the first `>`.
  *
  * ## Design and limitations
  *
@@ -482,17 +482,18 @@ class WP_HTML_Tag_Processor {
 	/**
 	 * Specifies mode of operation of the parser at any given time.
 	 *
-	 * | State           | Meaning                                                              |
-	 * | ----------------|----------------------------------------------------------------------|
-	 * | *Ready*         | The parser is ready to run.                                          |
-	 * | *Complete*      | There is nothing left to parse.                                      |
-	 * | *Incomplete*    | The HTML ended in the middle of a token; nothing more can be parsed. |
-	 * | *Matched tag*   | Found an HTML tag; it's possible to modify its attributes.           |
-	 * | *Text node*     | Found a #text node; this is plaintext and modifiable.                |
-	 * | *CDATA node*    | Found a CDATA section; this is modifiable.                           |
-	 * | *Comment*       | Found a comment or bogus comment; this is modifiable.                |
-	 * | *Presumptuous*  | Found an empty tag closer: `</>`.                                    |
-	 * | *Funky comment* | Found a tag closer with an invalid tag name; this is modifiable.     |
+	 * | State                    | Meaning                                                              |
+	 * |--------------------------|----------------------------------------------------------------------|
+	 * | *Ready*                  | The parser is ready to run.                                          |
+	 * | *Complete*               | There is nothing left to parse.                                      |
+	 * | *Incomplete*             | The HTML ended in the middle of a token; nothing more can be parsed. |
+	 * | *Matched tag*            | Found an HTML tag; it's possible to modify its attributes.           |
+	 * | *Text node*              | Found a #text node; this is plaintext and modifiable.                |
+	 * | *CDATA node*             | Found a CDATA section; this is modifiable.                           |
+	 * | *Comment*                | Found a comment or bogus comment; this is modifiable.                |
+	 * | *Presumptuous*           | Found an empty tag closer: `</>`.                                    |
+	 * | *Funky comment*          | Found a tag closer with an invalid tag name; this is modifiable.     |
+	 * | *Processing instruction* | Found a processing instruction, e.g. `<?pi-target data>`.            |
 	 *
 	 * @since 6.5.0
 	 *
@@ -506,6 +507,7 @@ class WP_HTML_Tag_Processor {
 	 * @see WP_HTML_Tag_Processor::STATE_DOCTYPE
 	 * @see WP_HTML_Tag_Processor::STATE_PRESUMPTUOUS_TAG
 	 * @see WP_HTML_Tag_Processor::STATE_FUNKY_COMMENT
+	 * @see WP_HTML_Tag_Processor::STATE_PROCESSING_INSTRUCTION
 	 *
 	 * @var string
 	 */
@@ -933,10 +935,11 @@ class WP_HTML_Tag_Processor {
 	 *  - a text node - the plaintext inside tags.
 	 *  - an HTML comment.
 	 *  - a DOCTYPE declaration.
-	 *  - a processing instruction, e.g. `<?xml version="1.0" ?>`.
+	 *  - an HTML processing instruction, e.g. `<?pi …data?>`.
 	 *
 	 * @since 6.5.0
 	 * @since 6.7.0 Recognizes CDATA sections within foreign content.
+	 * @since 7.1.0 Recognizes processing instructions.
 	 *
 	 * @return bool Whether a token was parsed.
 	 */
@@ -2027,9 +2030,18 @@ class WP_HTML_Tag_Processor {
 				return true;
 			}
 
-			/*
-			 * `<?` transitions to a bogus comment state – skip to the nearest >
-			 * See https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
+			/**
+			 * `<?` transitions to the processing instruction open state.
+			 *
+			 * A processing instruction whose target starts with an ASCII letter or `_`,
+			 * continues with ASCII alphanumerics, `-`, or `_`, and is not an ASCII
+			 * case-insensitive match for `xml` or `xml-stylesheet` produces a processing
+			 * instruction node. Anything else transitions to the bogus comment state.
+			 *
+			 * Both forms end at the nearest `>`; a processing instruction cannot
+			 * contain one in the HTML syntax.
+			 *
+			 * @link https://html.spec.whatwg.org/multipage/parsing.html#processing-instruction-open-state
 			 */
 			if ( ! $this->is_closing_tag && '?' === $html[ $at + 1 ] ) {
 				$closer_at = strpos( $html, '>', $at + 2 );
@@ -2037,6 +2049,56 @@ class WP_HTML_Tag_Processor {
 					$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 					return false;
+				}
+
+				$target_at     = $at + 2;
+				$target_length = 0;
+				$first_char    = $html[ $target_at ];
+				if (
+					( 'a' <= $first_char && 'z' >= $first_char ) ||
+					( 'A' <= $first_char && 'Z' >= $first_char ) ||
+					'_' === $first_char
+				) {
+					$target_length = 1 + strspn( $html, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-', $target_at + 1 );
+				}
+
+				/*
+				 * In the processing instruction target state, only whitespace, `?`,
+				 * or `>` may terminate the target; any other character converts the
+				 * token into a bogus comment.
+				 *
+				 * The `xml` and `xml-stylesheet` targets are reserved and disallowed;
+				 * they also convert the token into a bogus comment.
+				 */
+				$is_valid_pi = (
+					0 !== $target_length &&
+					false !== strpos( " \t\f\r\n?>", $html[ $target_at + $target_length ] ) &&
+					! ( 3 === $target_length && 0 === substr_compare( $html, 'xml', $target_at, 3, true ) ) &&
+					! ( 14 === $target_length && 0 === substr_compare( $html, 'xml-stylesheet', $target_at, 14, true ) )
+				);
+
+				if ( $is_valid_pi ) {
+					/*
+					 * The processing instruction data starts after any whitespace
+					 * following the target and ends at the `>`. When the token is
+					 * closed by `?>`, that final `?` is not part of the data.
+					 */
+					$data_at  = $target_at + $target_length;
+					$data_at += strspn( $html, " \t\f\r\n", $data_at );
+
+					$data_length = $closer_at - $data_at;
+					if ( $data_length > 0 && '?' === $html[ $closer_at - 1 ] ) {
+						--$data_length;
+					}
+
+					$this->parser_state         = self::STATE_PROCESSING_INSTRUCTION;
+					$this->tag_name_starts_at   = $target_at;
+					$this->tag_name_length      = $target_length;
+					$this->token_length         = $closer_at + 1 - $this->token_starts_at;
+					$this->text_starts_at       = $data_at;
+					$this->text_length          = $data_length;
+					$this->bytes_already_parsed = $closer_at + 1;
+					return true;
 				}
 
 				$this->parser_state         = self::STATE_COMMENT;
@@ -2047,29 +2109,21 @@ class WP_HTML_Tag_Processor {
 				$this->bytes_already_parsed = $closer_at + 1;
 
 				/*
-				 * Identify a Processing Instruction node were HTML to have them.
+				 * Identify an XML-like Processing Instruction node.
 				 *
-				 * This section must occur after identifying the bogus comment end
-				 * because in an HTML parser it will span to the nearest `>`, even
-				 * if there's no `?>` as would be required in an XML document. It
-				 * is therefore not possible to parse a Processing Instruction node
-				 * containing a `>` in the HTML syntax.
-				 *
-				 * XML allows for more target names, but this code only identifies
-				 * those with ASCII-representable target names. This means that it
-				 * may identify some Processing Instruction nodes as bogus comments,
-				 * but it will not misinterpret the HTML structure. By limiting the
-				 * identification to these target names the Tag Processor can avoid
-				 * the need to start parsing UTF-8 sequences.
+				 * HTML and XML processing instructions have different parsing rules.
+				 * The HTML API recognizes XML-like processing instructions that are
+				 * _not_ HTML processing instructions. The HTML standard transforms
+				 * them to "bogus comments," represented by the HTML API as comments
+				 * with the `COMMENT_AS_PI_NODE_LOOKALIKE` type. This includes the
+				 * special targets `xml` and `xml-stylesheet` which are reserved
+				 * targets not allowed in HTML processing instructions.
 				 *
 				 * > NameStartChar ::= ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] |
 				 *                     [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] |
 				 *                     [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] |
 				 *                     [#x10000-#xEFFFF]
 				 * > NameChar      ::= NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] | [#x203F-#x2040]
-				 *
-				 * @todo Processing instruction nodes in SGML may contain any kind of markup. XML defines a
-				 *       special case with `<?xml ... ?>` syntax, but the `?` is part of the bogus comment.
 				 *
 				 * @see https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-PITarget
 				 */
@@ -2961,6 +3015,14 @@ class WP_HTML_Tag_Processor {
 			return strtoupper( $tag_name );
 		}
 
+		/*
+		 * Processing instruction targets are case-sensitive
+		 * and returned as they appear in the input HTML.
+		 */
+		if ( self::STATE_PROCESSING_INSTRUCTION === $this->parser_state ) {
+			return $tag_name;
+		}
+
 		if (
 			self::STATE_COMMENT === $this->parser_state &&
 			self::COMMENT_AS_PI_NODE_LOOKALIKE === $this->get_comment_type()
@@ -3437,10 +3499,13 @@ class WP_HTML_Tag_Processor {
 	 *  - `#doctype` when matched on a DOCTYPE declaration.
 	 *  - `#presumptuous-tag` when matched on an empty tag closer.
 	 *  - `#funky-comment` when matched on a funky comment.
+	 *  - `#processing-instruction` when matched on a processing instruction.
 	 *
 	 * @since 6.5.0
+	 * @since 7.1.0 Recognizes processing instructions.
 	 *
 	 * @return string|null What kind of token is matched, or null.
+	 * @phpstan-return '#tag'|'#text'|'#cdata-section'|'#comment'|'#doctype'|'#presumptuous-tag'|'#funky-comment'|'#processing-instruction'|null
 	 */
 	public function get_token_type(): ?string {
 		switch ( $this->parser_state ) {
@@ -3497,6 +3562,9 @@ class WP_HTML_Tag_Processor {
 
 			case self::STATE_FUNKY_COMMENT:
 				return '#funky-comment';
+
+			case self::STATE_PROCESSING_INSTRUCTION:
+				return '#processing-instruction';
 		}
 
 		return null;
@@ -3537,7 +3605,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * This differs from {@see ::get_modifiable_text()} in that certain comment
 	 * types in the HTML API cannot allow their entire comment text content to
-	 * be modified. Namely, "bogus comments" of the form `<?not allowed in html>`
+	 * be modified. Namely, "bogus comments" of the form `<?xml not allowed in html>`
 	 * will create a comment whose text content starts with `?`. Note that if
 	 * that character were modified, it would be possible to change the node
 	 * type.
@@ -3707,6 +3775,19 @@ class WP_HTML_Tag_Processor {
 			: substr( $this->html, $this->text_starts_at, $this->text_length );
 
 		/*
+		 * An enqueued processing instruction update holds normalized raw
+		 * syntax spanning from the end of the target through the end of
+		 * the token: a separating space, the data, and the `?>` closer.
+		 * The data is found by skipping the leading whitespace and
+		 * dropping the two bytes of the closer.
+		 *
+		 * @see WP_HTML_Tag_Processor::set_modifiable_text()
+		 */
+		if ( $has_enqueued_update && self::STATE_PROCESSING_INSTRUCTION === $this->parser_state ) {
+			$text = substr( $text, strspn( $text, " \t\f\r\n" ), -2 );
+		}
+
+		/*
 		 * Pre-processing the input stream would normally happen before
 		 * any parsing is done, but deferring it means it's possible to
 		 * skip in most cases. When getting the modifiable text, however
@@ -3719,12 +3800,13 @@ class WP_HTML_Tag_Processor {
 		$text = str_replace( "\r\n", "\n", $text );
 		$text = str_replace( "\r", "\n", $text );
 
-		// Comment data is not decoded.
+		// Comment and processing instruction data is not decoded.
 		if (
 			self::STATE_CDATA_NODE === $this->parser_state ||
 			self::STATE_COMMENT === $this->parser_state ||
 			self::STATE_DOCTYPE === $this->parser_state ||
-			self::STATE_FUNKY_COMMENT === $this->parser_state
+			self::STATE_FUNKY_COMMENT === $this->parser_state ||
+			self::STATE_PROCESSING_INSTRUCTION === $this->parser_state
 		) {
 			return str_replace( "\x00", "\u{FFFD}", $text );
 		}
@@ -3793,7 +3875,11 @@ class WP_HTML_Tag_Processor {
 	 * that escaping strings like `</script>` won’t break the script; in these
 	 * cases, updates will be rejected and it’s up to calling code to perform
 	 * language-specific escaping or workarounds. Similarly, it will not allow
-	 * setting content into a comment which would prematurely terminate the comment.
+	 * setting content into a comment which would prematurely terminate the comment,
+	 * or processing instruction data which cannot be represented: data containing
+	 * a `>`, which would prematurely terminate the processing instruction, or data
+	 * with leading whitespace, which is indistinguishable from the whitespace
+	 * separating the data from its target.
 	 *
 	 * Example:
 	 *
@@ -3831,6 +3917,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.7.0
 	 * @since 6.9.0 Escapes all character references instead of trying to avoid double-escaping.
+	 * @since 7.1.0 Supports setting processing instruction data.
 	 *
 	 * @param string $plaintext_content New text content to represent in the matched token.
 	 * @return bool Whether the text was able to update.
@@ -3862,6 +3949,11 @@ class WP_HTML_Tag_Processor {
 		) {
 			// Check if the text could close the comment.
 			if ( 1 === preg_match( '/--!?>/', $plaintext_content ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					__( 'Comment text cannot contain a comment closer.' ),
+					'7.1.0'
+				);
 				return false;
 			}
 
@@ -3869,6 +3961,55 @@ class WP_HTML_Tag_Processor {
 				$this->text_starts_at,
 				$this->text_length,
 				$plaintext_content
+			);
+
+			return true;
+		}
+
+		// Processing instruction data is not encoded.
+		if ( self::STATE_PROCESSING_INSTRUCTION === $this->parser_state ) {
+			/*
+			 * A processing instruction ends at the first `>` in its
+			 * raw syntax: data containing one cannot be represented.
+			 */
+			if ( str_contains( $plaintext_content, '>' ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					__( 'Processing instruction data cannot contain ">".' ),
+					'7.1.0'
+				);
+				return false;
+			}
+
+			/*
+			 * All whitespace between the target and the data is skipped when
+			 * parsing: data with leading whitespace cannot be represented.
+			 */
+			if ( 0 !== strspn( $plaintext_content, " \t\f\r\n" ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					__( 'Processing instruction data cannot start with whitespace. Try ltrim( $plaintext_content, " \t\f\r\n" ).' ),
+					'7.1.0'
+				);
+				return false;
+			}
+
+			/**
+			 * A single replacement spans from the end of the target through
+			 * the end of the token, normalizing the raw syntax for that
+			 * region into a fixed form: a separating space, the data, and
+			 * the `?>` closer.
+			 *
+			 * {@see self::get_modifiable_text()} performs necessary parsing to
+			 * return the correct processing instruction data based
+			 * on the modifiable text lexical update.
+			 */
+			$data_at = $this->tag_name_starts_at + $this->tag_name_length;
+
+			$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
+				$data_at,
+				$this->token_starts_at + $this->token_length - $data_at,
+				" {$plaintext_content}?>"
 			);
 
 			return true;
@@ -3882,6 +4023,11 @@ class WP_HTML_Tag_Processor {
 			self::STATE_MATCHED_TAG !== $this->parser_state ||
 			'html' !== $this->get_namespace()
 		) {
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'This token does not support setting modifiable text.' ),
+				'7.1.0'
+			);
 			return false;
 		}
 
@@ -3915,6 +4061,11 @@ class WP_HTML_Tag_Processor {
 					false !== stripos( $plaintext_content, '<script' ) ||
 					false !== stripos( $plaintext_content, '</script' )
 				) {
+					_doing_it_wrong(
+						__METHOD__,
+						__( 'SCRIPT text with an unrecognized content type cannot contain a SCRIPT tag. Apply the escaping appropriate for the content type.' ),
+						'7.1.0'
+					);
 					return false;
 				}
 				$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
@@ -3979,6 +4130,11 @@ class WP_HTML_Tag_Processor {
 				return true;
 		}
 
+		_doing_it_wrong(
+			__METHOD__,
+			__( 'Only the SCRIPT, STYLE, TEXTAREA, and TITLE tags support setting modifiable text.' ),
+			'7.1.0'
+		);
 		return false;
 	}
 
@@ -4993,6 +5149,27 @@ class WP_HTML_Tag_Processor {
 	const STATE_FUNKY_COMMENT = 'STATE_WP_FUNKY';
 
 	/**
+	 * Indicates that the parser has found a processing instruction
+	 * and it's possible to read its target and data.
+	 *
+	 * Example:
+	 *
+	 *     <?wp-bit {"just": "kidding"}>
+	 *
+	 * Processing instructions with an allowable target are parsed
+	 * into processing instruction nodes. The reserved `xml` and
+	 * `xml-stylesheet` targets, and targets with characters outside
+	 * an ASCII-representable subset, are turned into bogus comments.
+	 *
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#processing-instruction-open-state
+	 *
+	 * @since 7.1.0
+	 *
+	 * @access private
+	 */
+	const STATE_PROCESSING_INSTRUCTION = 'STATE_PROCESSING_INSTRUCTION';
+
+	/**
 	 * Indicates that a comment was created when encountering abruptly-closed HTML comment.
 	 *
 	 * Example:
@@ -5032,15 +5209,23 @@ class WP_HTML_Tag_Processor {
 
 	/**
 	 * Indicates that a comment would be parsed as a Processing
-	 * Instruction node, were they to exist within HTML.
+	 * Instruction node, were its target allowed within HTML.
 	 *
 	 * Example:
 	 *
-	 *     <?wp __( 'Like' ) ?>
+	 *     <?xml version="1.0" ?>
+	 *     <?wp.like count=5 ?>
 	 *
-	 * This is an HTML comment, but it looks like a CDATA node.
+	 * These are HTML comments, but they look like processing
+	 * instructions. HTML parses processing instructions with
+	 * an allowable target into processing instruction nodes,
+	 * but the reserved `xml` and `xml-stylesheet` targets and
+	 * XML-valid targets with characters outside of the allowed
+	 * set become bogus comments instead.
 	 *
 	 * @since 6.5.0
+	 * @since 7.1.0 Only applies to reserved and XML-specific target names;
+	 *              other processing instructions produce their own token.
 	 */
 	const COMMENT_AS_PI_NODE_LOOKALIKE = 'COMMENT_AS_PI_NODE_LOOKALIKE';
 
@@ -5050,7 +5235,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * Example:
 	 *
-	 *     <?nothing special>
+	 *     <?= nothing special ?>
 	 *     <!{nothing special}>
 	 *
 	 * @since 6.5.0
