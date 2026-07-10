@@ -563,26 +563,6 @@ function default_password_nag() {
 }
 
 /**
- * @since 3.5.0
- * @access private
- */
-function delete_users_add_js() {
-	?>
-<script>
-jQuery( function($) {
-	var submit = $('#submit').prop('disabled', true);
-	$('input[name="delete_option"]').one('change', function() {
-		submit.prop('disabled', false);
-	});
-	$('#reassign_user').focus( function() {
-		$('#delete_option1').prop('checked', true).trigger('change');
-	});
-} );
-</script>
-	<?php
-}
-
-/**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
  *
  * See the {@see 'personal_options'} action.

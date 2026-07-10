@@ -2606,6 +2606,23 @@ body.iframe {
 	display: block;
 }
 
+.delete-and-reassign-users-form legend {
+	margin: 1em 0;
+	line-height: 1.5;
+	float: inline-start;
+}
+
+.delete-and-reassign-users-form fieldset > fieldset,
+.delete-and-reassign-users-form fieldset > ul {
+	clear: both;
+}
+
+.delete-and-reassign-users-form fieldset:has(select[aria-invalid="true"]):not(fieldset:has(fieldset)) {
+	border-right: 4px solid #cc1818;
+	background: #fcf0f0;
+	padding-right: 12px;
+}
+
 .importers {
 	font-size: 16px;
 	width: auto;

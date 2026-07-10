@@ -856,12 +856,15 @@ var tb_pathToImage = "<?php echo esc_js( includes_url( 'js/thickbox/loadingAnima
  * @return bool
  */
 function confirm_delete_users( $users ) {
+	global $wpdb;
+
 	$current_user = wp_get_current_user();
 	if ( ! is_array( $users ) || empty( $users ) ) {
 		return false;
 	}
+
 	?>
-	<h1><?php esc_html_e( 'Users' ); ?></h1>
+	<h1><?php esc_html_e( 'Delete Users' ); ?></h1>
 
 	<?php if ( 1 === count( $users ) ) : ?>
 		<p><?php _e( 'You have chosen to delete the user from all networks and sites.' ); ?></p>
@@ -869,17 +872,15 @@ function confirm_delete_users( $users ) {
 		<p><?php _e( 'You have chosen to delete the following users from all networks and sites.' ); ?></p>
 	<?php endif; ?>
 
-	<form action="users.php?action=dodelete" method="post">
+	<form action="users.php?action=dodelete" method="post" class="delete-and-reassign-users-form">
 	<input type="hidden" name="dodelete" />
 	<?php
 	wp_nonce_field( 'ms-users-delete' );
 	$site_admins = get_super_admins();
-	$admin_out   = '<option value="' . esc_attr( $current_user->ID ) . '">' . $current_user->user_login . '</option>';
 	?>
 	<table class="form-table" role="presentation">
 	<?php
-	$allusers = (array) $_POST['allusers'];
-	foreach ( $allusers as $user_id ) {
+	foreach ( $users as $user_id ) {
 		if ( '' !== $user_id && '0' !== $user_id ) {
 			$delete_user = get_userdata( $user_id );
 
@@ -902,6 +903,7 @@ function confirm_delete_users( $users ) {
 					)
 				);
 			}
+
 			?>
 			<tr>
 				<th scope="row"><?php echo $delete_user->user_login; ?>
@@ -912,60 +914,104 @@ function confirm_delete_users( $users ) {
 
 			if ( ! empty( $blogs ) ) {
 				?>
-				<td><fieldset><p><legend>
+				<td><fieldset><legend>
 				<?php
 				printf(
-					/* translators: %s: User login. */
-					__( 'What should be done with content owned by %s?' ),
-					'<em>' . $delete_user->user_login . '</em>'
+					/* translators: 1: User login, 2: User ID. */
+					__( '%1$s (ID #%2$s): What should be done with the content owned by this user?' ),
+					'<strong>' . $delete_user->user_login . '</strong>',
+					$user_id
 				);
 				?>
-				</legend></p>
+				</legend>
 				<?php
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users(
 						array(
 							'blog_id' => $details->userblog_id,
-							'fields'  => array( 'ID', 'user_login' ),
+							'fields'  => array( 'ID' ),
+							'exclude' => $users,
 						)
 					);
 
-					if ( is_array( $blog_users ) && ! empty( $blog_users ) ) {
-						$user_site     = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
-						$user_dropdown = '<label for="reassign_user" class="screen-reader-text">' .
-								/* translators: Hidden accessibility text. */
-								__( 'Select a user' ) .
-							'</label>';
-						$user_dropdown .= "<select name='blog[$user_id][$key]' id='reassign_user'>";
-						$user_list      = '';
+					$blog_users = wp_list_pluck( $blog_users, 'ID' );
 
-						foreach ( $blog_users as $user ) {
-							if ( ! in_array( (int) $user->ID, $allusers, true ) ) {
-								$user_list .= "<option value='{$user->ID}'>{$user->user_login}</option>";
+					if ( is_array( $blog_users ) && ! empty( $blog_users ) ) {
+						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
+						switch_to_blog( $details->userblog_id );
+						/* This filter is documented in wp-admin/users.php */
+						$user_has_content = (bool) apply_filters( 'users_have_additional_content', false, array( $delete_user->ID ) );
+
+						if ( ! $user_has_content ) {
+							if ( $wpdb->get_var(
+								$wpdb->prepare(
+									"SELECT ID FROM {$wpdb->posts}
+									WHERE post_author = %d
+									LIMIT 1",
+									$delete_user->ID
+								)
+							) ) {
+								$user_has_content = true;
+							} elseif ( $wpdb->get_var(
+								$wpdb->prepare(
+									"SELECT link_id FROM {$wpdb->links}
+									WHERE link_owner = %d
+									LIMIT 1",
+									$delete_user->ID
+								)
+							) ) {
+								$user_has_content = true;
 							}
 						}
+						restore_current_blog();
 
-						if ( '' === $user_list ) {
-							$user_list = $admin_out;
-						}
-
-						$user_dropdown .= $user_list;
-						$user_dropdown .= "</select>\n";
-						?>
-						<ul style="list-style:none;">
-							<li>
+						if ( ! $user_has_content ) {
+							?>
+							<p>
+							<?php
+							/* translators: %s: Link to user's site. */
+							printf( __( 'Site: %s' ), $user_site );
+							?>
+							</p>
+							<input type="hidden" id="delete_option_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID; ?>]" value="delete" required />
+							<p><?php _e( 'This user does not have any content.' ); ?></p>
+							<?php
+						} else {
+							?>
+							<fieldset>
+								<legend>
 								<?php
 								/* translators: %s: Link to user's site. */
 								printf( __( 'Site: %s' ), $user_site );
 								?>
-							</li>
-							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID; ?>]" value="delete" checked="checked" />
-							<?php _e( 'Delete all content.' ); ?></label></li>
-							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID; ?>]" value="reassign" />
-							<?php _e( 'Attribute all content to:' ); ?></label>
-							<?php echo $user_dropdown; ?></li>
-						</ul>
-						<?php
+								</legend>
+								<ul>
+									<li>
+										<input type="radio" id="delete_option_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID; ?>]" value="delete" required />
+										<label for="delete_option_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>"><?php _e( 'Delete all content.' ); ?></label>
+									</li>
+									<li>
+										<input type="radio" id="reassign_option_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID; ?>]" value="reassign" required />
+										<label for="reassign_option_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>"><?php _e( 'Attribute all content to another user.' ); ?></label>
+
+										<label for="reassign_user_<?php echo esc_attr( $details->userblog_id . '_' . $delete_user->ID ); ?>" class="screen-reader-text"><?php _e( 'Select a user to attribute the content to.' ); ?></label>
+										<?php
+										wp_dropdown_users(
+											array(
+												'show_option_none' => __( 'Select a user' ),
+												'name'    => "blog[$user_id][$key]",
+												'include' => $blog_users,
+												'show'    => 'display_name_with_login',
+												'id'      => "reassign_user_{$details->userblog_id}_{$delete_user->ID}",
+											)
+										);
+										?>
+
+									</li>
+								</ul>
+							</fieldset>
+							<?php
+						}
 					}
 				}
 				echo '</fieldset></td></tr>';
@@ -982,7 +1028,7 @@ function confirm_delete_users( $users ) {
 	</table>
 	<?php
 	/** This action is documented in wp-admin/users.php */
-	do_action( 'delete_user_form', $current_user, $allusers );
+	do_action( 'delete_user_form', $current_user, $users );
 
 	if ( 1 === count( $users ) ) :
 		?>
@@ -992,7 +1038,7 @@ function confirm_delete_users( $users ) {
 		<?php
 	endif;
 
-	submit_button( __( 'Confirm Deletion' ), 'primary' );
+	submit_button( __( 'Confirm Deletion' ), 'primary', 'submit', false, array( 'id' => 'confirm-users-deletion' ) );
 	?>
 	</form>
 	<?php

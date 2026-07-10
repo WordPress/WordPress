@@ -56,8 +56,9 @@ if ( isset( $_GET['action'] ) ) {
 
 				$doaction     = $_POST['action'];
 				$userfunction = '';
+				$allusers     = (array) $_POST['allusers'];
 
-				foreach ( (array) $_POST['allusers'] as $user_id ) {
+				foreach ( $allusers as $user_id ) {
 					if ( ! empty( $user_id ) ) {
 						switch ( $doaction ) {
 							case 'delete':
@@ -72,7 +73,7 @@ if ( isset( $_GET['action'] ) ) {
 								require_once ABSPATH . 'wp-admin/admin-header.php';
 
 								echo '<div class="wrap">';
-								confirm_delete_users( $_POST['allusers'] );
+								confirm_delete_users( $allusers );
 								echo '</div>';
 
 								require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -186,6 +187,32 @@ if ( isset( $_GET['action'] ) ) {
 			check_admin_referer( 'ms-users-delete' );
 			if ( ! ( current_user_can( 'manage_network_users' ) && current_user_can( 'delete_users' ) ) ) {
 				wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+			}
+
+			/*
+			 * Validate that every "reassign" choice has a real target before making
+			 * any changes. The confirmation form blocks this client-side, so this is
+			 * a defense-in-depth guard against an invalid reassignment (e.g. content
+			 * reassigned to the non-existent user "-1") when JavaScript is bypassed.
+			 * Bail out entirely so the deletion is all-or-nothing.
+			 */
+			if ( ! empty( $_POST['blog'] ) && is_array( $_POST['blog'] ) && ! empty( $_POST['delete'] ) ) {
+				foreach ( $_POST['blog'] as $id => $blogs ) {
+					foreach ( $blogs as $blogid => $reassign_user_id ) {
+						if ( isset( $_POST['delete'][ $blogid ][ $id ] )
+							&& 'reassign' === $_POST['delete'][ $blogid ][ $id ]
+							&& (int) $reassign_user_id < 1
+						) {
+							wp_redirect(
+								add_query_arg(
+									array( 'error' => 'missing_reassign' ),
+									network_admin_url( 'users.php' )
+								)
+							);
+							exit;
+						}
+					}
+				}
 			}
 
 			if ( ! empty( $_POST['blog'] ) && is_array( $_POST['blog'] ) ) {
@@ -305,6 +332,17 @@ if ( isset( $_REQUEST['updated'] ) && 'true' === $_REQUEST['updated'] && ! empty
 		$message,
 		array(
 			'type'        => 'success',
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
+}
+
+if ( isset( $_REQUEST['error'] ) && 'missing_reassign' === $_REQUEST['error'] ) {
+	wp_admin_notice(
+		__( 'No users were deleted because no user was selected for content reassignment.' ),
+		array(
+			'type'        => 'error',
 			'dismissible' => true,
 			'id'          => 'message',
 		)

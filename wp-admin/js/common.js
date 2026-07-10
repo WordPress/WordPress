@@ -2356,3 +2356,242 @@ $( function( $ ) {
 	// Expose public methods.
 	return pub;
 })();
+
+/**
+ * Validate the delete-and-reassign users form and surface an accessible
+ * error summary instead of disabling the submit button.
+ *
+ * Disabled buttons can't be discovered by assistive technology, so rather
+ * than blocking submission we let the form submit, intercept it when content
+ * decisions are still missing, and present a focusable error summary that
+ * lists how many decisions remain and links straight to each one.
+ *
+ * Shared by both the single-site (wp-admin/users.php) and multisite/network
+ * (confirm_delete_users() in wp-admin/includes/ms.php) deletion forms. The two
+ * differ in markup: single site has one content decision per user, multisite
+ * has one decision per site a user belongs to (several radio groups per
+ * fieldset), and their reassign dropdowns use different "no selection" values.
+ * The logic below works per radio group so it covers both.
+ *
+ * @since 7.1.0
+ */
+(function(){
+	const { _n, sprintf } = wp.i18n;
+	const usersForm = document.querySelector( '.delete-and-reassign-users-form' );
+
+	// Check if the form exists and contains any radio buttons.
+	if ( ! usersForm || ! usersForm.querySelector( 'input[type="radio"]' ) ) {
+		return;
+	}
+
+	const summaryId = 'delete-users-error-summary';
+
+	/**
+	 * Whether a reassign dropdown has no user selected.
+	 *
+	 * The "Select a user" placeholder value differs between the forms: the
+	 * single-site dropdown uses an empty string, the multisite one uses the
+	 * wp_dropdown_users() default of '-1'.
+	 *
+	 * @param {HTMLSelectElement} select The reassign dropdown.
+	 * @return {boolean} True when no real user is selected.
+	 */
+	function hasNoSelectedUser( select ) {
+		return '' === select.value || '-1' === select.value;
+	}
+
+	/**
+	 * Builds a human-readable label for a radio group's decision.
+	 *
+	 * Combines the fieldset legend (the user) with the site context that
+	 * precedes the group on multisite, so each summary entry is identifiable.
+	 *
+	 * @param {HTMLElement} group The radio group (<ul>) element.
+	 * @return {string} The composed label.
+	 */
+	function getDecisionLabel( group ) {
+		const fieldset = group.closest( 'fieldset' );
+		const legend   = fieldset ? fieldset.querySelector( 'legend' ) : null;
+		const parts    = [];
+
+		if ( legend ) {
+			parts.push( legend.textContent.trim() );
+		}
+
+		// On multisite each radio group is preceded by a "Site: …" paragraph.
+		const previous = group.previousElementSibling;
+		if ( previous && previous !== legend && previous.textContent.trim() ) {
+			parts.push( previous.textContent.trim() );
+		}
+
+		return parts.join( ' – ' );
+	}
+
+	// Keep the radio selection in sync with the reassign dropdown.
+	usersForm.querySelectorAll( 'select' ).forEach( function( selectElement ) {
+		selectElement.addEventListener( 'change', function( e ) {
+			const item  = e.target.closest( 'li' );
+			const radio = item ? item.querySelector( 'input[type="radio"]' ) : null;
+			if ( radio ) {
+				radio.checked = ! hasNoSelectedUser( e.target );
+			}
+		});
+	});
+
+	/**
+	 * Returns the radio groups whose content decision is still incomplete.
+	 *
+	 * A decision unit is a single radio group (<ul>), which maps to one user on
+	 * single site and one site-per-user on multisite.
+	 *
+	 * @return {Array} Objects describing each incomplete decision.
+	 */
+	function getIncompleteDecisions() {
+		const incomplete = [];
+
+		usersForm.querySelectorAll( 'fieldset ul' ).forEach( function( group ) {
+			const radios = group.querySelectorAll( 'input[type="radio"]' );
+			if ( ! radios.length ) {
+				return;
+			}
+
+			const checked = group.querySelector( 'input[type="radio"]:checked' );
+
+			// No option chosen yet.
+			if ( ! checked ) {
+				incomplete.push( { target: radios[ 0 ], label: getDecisionLabel( group ) } );
+				return;
+			}
+
+			// "Attribute to another user" chosen, but no user selected.
+			if ( 'reassign' === checked.value ) {
+				const select = group.querySelector( 'select' );
+				if ( select && hasNoSelectedUser( select ) ) {
+					incomplete.push( { target: select, label: getDecisionLabel( group ) } );
+				}
+			}
+		});
+
+		return incomplete;
+	}
+
+	/**
+	 * Builds or refreshes the error summary markup.
+	 *
+	 * @param {Array} incomplete Incomplete decisions from getIncompleteDecisions().
+	 * @return {string} The summary title, for announcing to assistive technology.
+	 */
+	function renderErrorSummary( incomplete ) {
+		let summary = document.getElementById( summaryId );
+
+		if ( ! summary ) {
+			summary = document.createElement( 'div' );
+			summary.id = summaryId;
+			summary.className = 'notice notice-error';
+			summary.setAttribute( 'tabindex', '-1' );
+
+			// The wrapper contains the form on single site and wraps it on
+			// multisite; insert the summary right after the page heading.
+			const wrap    = usersForm.querySelector( '.wrap' ) || usersForm.closest( '.wrap' ) || usersForm;
+			const heading = wrap.querySelector( 'h1' );
+			wrap.insertBefore( summary, heading ? heading.nextSibling : wrap.firstChild );
+		}
+
+		const count = incomplete.length;
+		const title = sprintf(
+			/* translators: %s: Number of content decisions still required. */
+			_n(
+				'%s content decision is still required before you can delete.',
+				'%s content decisions are still required before you can delete.',
+				count
+			),
+			count
+		);
+
+		// Clear any previous markup and invalid states before rebuilding,
+		// so decisions resolved since the last render are no longer flagged.
+		summary.textContent = '';
+		usersForm.querySelectorAll( '[aria-invalid]' ).forEach( function( el ) {
+			el.removeAttribute( 'aria-invalid' );
+		});
+
+		const titleEl = document.createElement( 'p' );
+		const strong  = document.createElement( 'strong' );
+		strong.textContent = title;
+		titleEl.appendChild( strong );
+		summary.appendChild( titleEl );
+
+		const list = document.createElement( 'ul' );
+		incomplete.forEach( function( item ) {
+			const li   = document.createElement( 'li' );
+			const link = document.createElement( 'a' );
+			link.href        = '#' + item.target.id;
+			link.textContent = item.label;
+			link.addEventListener( 'click', function( e ) {
+				e.preventDefault();
+				item.target.focus();
+			});
+			li.appendChild( link );
+			list.appendChild( li );
+
+			item.target.setAttribute( 'aria-invalid', 'true' );
+		});
+		summary.appendChild( list );
+
+		return title;
+	}
+
+	/**
+	 * Removes the error summary and clears invalid states.
+	 */
+	function clearErrorState() {
+		const summary = document.getElementById( summaryId );
+		if ( summary ) {
+			summary.remove();
+		}
+		usersForm.querySelectorAll( '[aria-invalid]' ).forEach( function( el ) {
+			el.removeAttribute( 'aria-invalid' );
+		});
+	}
+
+	/**
+	 * Refreshes the error summary to match the current form state.
+	 *
+	 * @param {boolean} moveFocus Whether to move focus to the summary and
+	 *                            announce it (used on a failed submit).
+	 * @return {number} The number of incomplete decisions.
+	 */
+	function updateSummary( moveFocus ) {
+		const incomplete = getIncompleteDecisions();
+
+		if ( ! incomplete.length ) {
+			clearErrorState();
+			return 0;
+		}
+
+		const title = renderErrorSummary( incomplete );
+
+		if ( moveFocus ) {
+			document.getElementById( summaryId ).focus();
+			if ( window.wp && window.wp.a11y ) {
+				window.wp.a11y.speak( title, 'assertive' );
+			}
+		}
+
+		return incomplete.length;
+	}
+
+	usersForm.addEventListener( 'submit', function( e ) {
+		if ( updateSummary( true ) > 0 ) {
+			e.preventDefault();
+		}
+	});
+
+	// Keep an existing summary current as decisions are resolved, without
+	// stealing focus on every interaction.
+	usersForm.addEventListener( 'change', function() {
+		if ( document.getElementById( summaryId ) ) {
+			updateSummary( false );
+		}
+	});
+})();
