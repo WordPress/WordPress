@@ -98,7 +98,7 @@
 	}
 
 	/**
-	 * Parse date into ISO8601 format.
+	 * Parse date into ISO 8601 format.
 	 *
 	 * @param {Date} date.
 	 */
@@ -306,7 +306,7 @@
 			/**
 			 * Mixin for all content that is time stamped.
 			 *
-			 * This mixin converts between mysql timestamps and JavaScript Dates when syncing a model
+			 * This mixin converts between MySQL timestamps and JavaScript Dates when syncing a model
 			 * to or from the server. For example, a date stored as `2015-12-27T21:22:24` on the server
 			 * gets expanded to `Sun Dec 27 2015 14:22:24 GMT-0700 (MST)` when the model is fetched.
 			 *
@@ -361,7 +361,7 @@
 			 * Build a helper function to retrieve related model.
 			 *
 			 * @param {string} parentModel      The parent model.
-			 * @param {number} modelId          The model ID if the object to request
+			 * @param {number} modelId          The model ID of the object to request.
 			 * @param {string} modelName        The model name to use when constructing the model.
 			 * @param {string} embedSourcePoint Where to check the embedded object for _embed data.
 			 * @param {string} embedCheckField  Which model field to check to see if the model has data.
@@ -423,7 +423,7 @@
 			 */
 			buildCollectionGetter = function( parentModel, collectionName, embedSourcePoint, embedIndex ) {
 				/**
-				 * Returns a promise that resolves to the requested collection
+				 * Returns a promise that resolves to the requested collection.
 				 *
 				 * Uses the embedded data if available, otherwise fetches the
 				 * data from the server.
@@ -467,7 +467,7 @@
 				// Create the new getObjects collection.
 				getObjects = new wp.api.collections[ collectionName ]( properties, classProperties );
 
-				// If we didn’t have embedded getObjects, fetch the getObjects data.
+				// If we don’t have embedded getObjects, fetch the getObjects data.
 				if ( _.isUndefined( getObjects.models[0] ) ) {
 					getObjects.fetch( {
 						success: function( getObjects ) {
@@ -497,7 +497,7 @@
 			 */
 			setHelperParentPost = function( collection, postId ) {
 
-				// Attach post_parent id to the collection.
+				// Attach parent post ID to the collection.
 				_.each( collection.models, function( model ) {
 					model.set( 'parent_post', postId );
 				} );
@@ -754,7 +754,7 @@
 			return model;
 		}
 
-		// Go thru the parsable date fields, if our model contains any of them it gets the TimeStampedMixin.
+		// Go through the parsable date fields. If our model contains any of them, it gets the TimeStampedMixin.
 		_.each( parseableDates, function( theDateKey ) {
 			if ( ! _.isUndefined( model.prototype.args[ theDateKey ] ) ) {
 				hasDate = true;
@@ -1168,7 +1168,7 @@
 				sessionStorage.getItem( 'wp-api-schema-model' + model.get( 'apiRoot' ) + model.get( 'versionString' ) )
 			) {
 
-				// Used a cached copy of the schema model if available.
+				// Use a cached copy of the schema model if available.
 				model.schemaModel.set( model.schemaModel.parse( JSON.parse( sessionStorage.getItem( 'wp-api-schema-model' + model.get( 'apiRoot' ) + model.get( 'versionString' ) ) ) ) );
 			} else {
 				model.schemaModel.fetch( {
@@ -1187,7 +1187,7 @@
 								sessionStorage.setItem( 'wp-api-schema-model' + model.get( 'apiRoot' ) + model.get( 'versionString' ), JSON.stringify( newSchemaModel ) );
 							} catch ( error ) {
 
-								// Fail silently, fixes errors in safari private mode.
+								// Fail silently, to avoid errors in Safari private mode.
 							}
 						}
 					},
@@ -1207,7 +1207,7 @@
 			 * Set up the model and collection name mapping options. As the schema is built, the
 			 * model and collection names will be adjusted if they are found in the mapping object.
 			 *
-			 * Localizing a variable wpApiSettings.mapping will over-ride the default mapping options.
+			 * Localizing a variable wpApiSettings.mapping will override the default mapping options.
 			 *
 			 */
 			mapping = wpApiSettings.mapping || {
@@ -1242,7 +1242,7 @@
 			modelRegex     = new RegExp( '(?:.*[+)]|\/(' + modelEndpoints.join( '|' ) + '))$' );
 
 			/**
-			 * Iterate thru the routes, picking up models and collections to build. Builds two arrays,
+			 * Iterate through the routes, picking up models and collections to build. Builds two arrays,
 			 * one for models and one for collections.
 			 */
 			modelRoutes      = [];
@@ -1288,7 +1288,7 @@
 					parentName = wp.api.utils.extractRoutePart( modelRoute.index, 1, routeModel.get( 'versionString' ), false ),
 					routeEnd   = wp.api.utils.extractRoutePart( modelRoute.index, 1, routeModel.get( 'versionString' ), true );
 
-				// Clear the parent part of the route if it's actually the version string.
+				// Clear the parent part of the route if it is actually the version string.
 				if ( parentName === routeModel.get( 'versionString' ) ) {
 					parentName = '';
 				}
@@ -1304,7 +1304,7 @@
 					modelClassName = mapping.models[ modelClassName ] || modelClassName;
 					loadingObjects.models[ modelClassName ] = wp.api.WPApiBaseModel.extend( {
 
-						// Return a constructed url based on the parent and id.
+						// Return a constructed URL based on the parent and ID.
 						url: function() {
 							var url =
 								routeModel.get( 'apiRoot' ) +
@@ -1347,7 +1347,7 @@
 					modelClassName = mapping.models[ modelClassName ] || modelClassName;
 					loadingObjects.models[ modelClassName ] = wp.api.WPApiBaseModel.extend( {
 
-						// Function that returns a constructed url based on the ID.
+						// Function that returns a constructed URL based on the ID.
 						url: function() {
 							var url = routeModel.get( 'apiRoot' ) +
 								routeModel.get( 'versionString' ) +
@@ -1409,7 +1409,7 @@
 					collectionClassName = mapping.collections[ collectionClassName ] || collectionClassName;
 					loadingObjects.collections[ collectionClassName ] = wp.api.WPApiBaseCollection.extend( {
 
-						// Function that returns a constructed url passed on the parent.
+						// Function that returns a constructed URL passed on the parent.
 						url: function() {
 							return routeModel.get( 'apiRoot' ) + routeModel.get( 'versionString' ) +
 								parentName + '/' +
@@ -1448,7 +1448,7 @@
 					collectionClassName = mapping.collections[ collectionClassName ] || collectionClassName;
 					loadingObjects.collections[ collectionClassName ] = wp.api.WPApiBaseCollection.extend( {
 
-						// For the url of a root level collection, use a string.
+						// For the URL of a root level collection, use a string.
 						url: function() {
 							return routeModel.get( 'apiRoot' ) + routeModel.get( 'versionString' ) + routeName;
 						},
