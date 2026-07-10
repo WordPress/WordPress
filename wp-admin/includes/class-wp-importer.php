@@ -9,10 +9,6 @@
 
 #[AllowDynamicProperties]
 class WP_Importer {
-	/**
-	 * Class Constructor
-	 */
-	public function __construct() {}
 
 	/**
 	 * Returns array with imported permalinks from WordPress database.
