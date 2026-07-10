@@ -40,14 +40,15 @@ function options_general_add_js() {
 			homeURL = ( <?php echo wp_json_encode( get_home_url(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
 
 		$( '#blogname' ).on( 'input', function() {
-			var title = $.trim( $( this ).val() ) || homeURL;
+			var title = $.trim( $( this ).val() ) || homeURL,
+				$siteIcon = $siteName.children();
 
 			// Truncate to 40 characters.
 			if ( 40 < title.length ) {
 				title = title.substring( 0, 40 ) + '\u2026';
 			}
 
-			$siteName.text( title );
+			$siteName.text( title ).prepend( $siteIcon );
 			$siteIconPreview.text( title );
 		});
 
