@@ -364,6 +364,10 @@ td.plugin-title p {
 	margin: 6px 0;
 }
 
+.trimmed-post-excerpt {
+	font-weight: 400;
+}
+
 /* Media file column */
 table.media .column-title .media-icon {
 	float: right;
