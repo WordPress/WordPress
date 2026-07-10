@@ -20,7 +20,7 @@ jQuery( function( $ ) {
 
 	window.tb_position = function() {
 		var width = $( window ).width(),
-			H = $( window ).height() - ( ( 792 < width ) ? 60 : 20 ),
+			H = $( window ).height() - ( ( 792 < width ) ? 60 : 40 ),
 			W = ( 792 < width ) ? 772 : width - 20;
 
 		tbWindow = $( '#TB_window' );

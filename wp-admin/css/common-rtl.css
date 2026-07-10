@@ -2805,7 +2805,7 @@ div.action-links {
 #plugin-information-scrollable {
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
-	height: 100%;
+	height: calc(100% - 67px);
 }
 
 #plugin-information-title {
@@ -3204,11 +3204,6 @@ div.action-links {
 	#plugin-information .fyi h3,
 	#plugin-information .fyi small {
 		display: none;
-	}
-
-	#plugin-information-footer {
-		padding: 12px 16px 0;
-		height: 46px;
 	}
 }
 
