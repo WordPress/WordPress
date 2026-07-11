@@ -990,8 +990,8 @@ function _wp_relative_upload_path( $path ) {
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-return (
  *     $args is array{ fields: 'ids', ... } ? int[] : (
- *         $output is 'ARRAY_A' ? array<int, array<string, mixed>> : (
- *             $output is 'ARRAY_N' ? array<int, array<int, mixed>> : WP_Post[]
+ *         $output is 'ARRAY_A' ? array<int, non-empty-array<string, mixed>> : (
+ *             $output is 'ARRAY_N' ? array<int, non-empty-array<int, mixed>> : WP_Post[]
  *         )
  *     )
  * )
@@ -1040,13 +1040,17 @@ function get_children( $args = '', $output = OBJECT ) {
 	} elseif ( ARRAY_A === $output ) {
 		$weeuns = array();
 		foreach ( (array) $kids as $kid ) {
-			$weeuns[ $kid->ID ] = get_object_vars( $kids[ $kid->ID ] );
+			/** @var non-empty-array<string, mixed> $vars */
+			$vars               = get_object_vars( $kids[ $kid->ID ] );
+			$weeuns[ $kid->ID ] = $vars;
 		}
 		return $weeuns;
 	} elseif ( ARRAY_N === $output ) {
 		$babes = array();
 		foreach ( (array) $kids as $kid ) {
-			$babes[ $kid->ID ] = array_values( get_object_vars( $kids[ $kid->ID ] ) );
+			/** @var non-empty-array<string, mixed> $vars */
+			$vars              = get_object_vars( $kids[ $kid->ID ] );
+			$babes[ $kid->ID ] = array_values( $vars );
 		}
 		return $babes;
 	} else {
@@ -1124,8 +1128,8 @@ function get_extended( $post ) {
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
  * @phpstan-return (
- *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
- *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *     $output is 'ARRAY_A' ? non-empty-array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? non-empty-array<int, mixed>|null : (
  *             WP_Post|null
  *         )
  *     )
@@ -4452,7 +4456,7 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  *
  * @phpstan-param 'OBJECT'|'ARRAY_A' $output
  * @phpstan-return (
- *     $output is 'ARRAY_A' ? array<int, array<string, mixed>> : WP_Post[]|false
+ *     $output is 'ARRAY_A' ? array<int, non-empty-array<string, mixed>> : WP_Post[]|false
  * )
  */
 function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
@@ -4485,12 +4489,13 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
 	if ( ARRAY_A === $output ) {
+		$posts = array();
 		foreach ( $results as $key => $result ) {
-			/** @var array<string, mixed> $object_vars */
-			$object_vars     = get_object_vars( $result );
-			$results[ $key ] = $object_vars;
+			/** @var non-empty-array<string, mixed> $object_vars */
+			$object_vars   = get_object_vars( $result );
+			$posts[ $key ] = $object_vars;
 		}
-		return $results ? $results : array();
+		return $posts;
 	}
 
 	return $results ? $results : false;
@@ -6146,6 +6151,10 @@ function trackback_url_list( $tb_list, $post_id ) {
 		// Get post data.
 		$postdata = get_post( $post_id, ARRAY_A );
 
+		if ( ! $postdata ) {
+			return;
+		}
+
 		// Form an excerpt.
 		$excerpt = strip_tags( $postdata['post_excerpt'] ? $postdata['post_excerpt'] : $postdata['post_content'] );
 
@@ -6206,8 +6215,8 @@ function get_all_page_ids() {
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
  * @phpstan-return (
- *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
- *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *     $output is 'ARRAY_A' ? non-empty-array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? non-empty-array<int, mixed>|null : (
  *             WP_Post|null
  *         )
  *     )
@@ -6234,8 +6243,8 @@ function get_page( $page, $output = OBJECT, $filter = 'raw' ) {
  * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
  * @phpstan-param string|string[]              $post_type
  * @phpstan-return (
- *     $output is 'ARRAY_A' ? array<string, mixed>|null : (
- *         $output is 'ARRAY_N' ? array<int, mixed>|null : (
+ *     $output is 'ARRAY_A' ? non-empty-array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? non-empty-array<int, mixed>|null : (
  *             WP_Post|null
  *         )
  *     )

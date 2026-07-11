@@ -423,6 +423,17 @@ function wp_save_revisioned_meta_fields( $revision_id, $post_id ) {
  *                            respectively. Default OBJECT.
  * @param string      $filter Optional sanitization filter. See sanitize_post(). Default 'raw'.
  * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
+ *
+ * @phpstan-param int|WP_Post $post
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-param 'raw'|'edit'|'db'|'display' $filter
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? non-empty-array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? non-empty-array<int, mixed>|null : (
+ *             WP_Post|null
+ *         )
+ *     )
+ * )
  */
 function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
 	$revision = get_post( $post, OBJECT, $filter );
@@ -438,10 +449,13 @@ function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
 	if ( OBJECT === $output ) {
 		return $revision;
 	} elseif ( ARRAY_A === $output ) {
+		/** @var non-empty-array<string, mixed> $_revision */
 		$_revision = get_object_vars( $revision );
 		return $_revision;
 	} elseif ( ARRAY_N === $output ) {
-		$_revision = array_values( get_object_vars( $revision ) );
+		/** @var non-empty-array<string, mixed> $vars */
+		$vars      = get_object_vars( $revision );
+		$_revision = array_values( $vars );
 		return $_revision;
 	}
 
