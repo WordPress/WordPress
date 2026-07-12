@@ -1198,14 +1198,16 @@ th.action-links {
 	overflow: hidden;
 }
 
-.wp-filter .favorites-form .favorites-username {
+.wp-filter .favorites-form .favorites-username,
+.plugin-install-tab-favorites .favorites-username {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 0.5rem;
 }
 
-.wp-filter .favorites-form .favorites-username input {
+.wp-filter .favorites-form .favorites-username input,
+.plugin-install-tab-favorites .favorites-username input {
 	margin: 0;
 }
 
