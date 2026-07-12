@@ -173,7 +173,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. */
-					_e( 'Toggle extra menu items' );
+					_e( 'Show or hide extra menu items' );
 					?>
 				</span>
 

@@ -1426,7 +1426,7 @@ function do_meta_boxes( $screen, $context, $data_object ) {
 						echo '<button type="button" class="handlediv" aria-expanded="true">';
 						echo '<span class="screen-reader-text">' . sprintf(
 							/* translators: %s: Hidden accessibility text. Meta box title. */
-							__( 'Toggle panel: %s' ),
+							__( 'Show or hide panel: %s' ),
 							$widget_title
 						) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
