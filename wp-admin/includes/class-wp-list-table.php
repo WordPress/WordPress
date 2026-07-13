@@ -1843,6 +1843,8 @@ class WP_List_Table {
 	 * Handles an incoming ajax request (called from admin-ajax.php)
 	 *
 	 * @since 3.1.0
+	 *
+	 * @return never
 	 */
 	public function ajax_response() {
 		$this->prepare_items();

@@ -88,6 +88,8 @@ final class WP_Customize_Nav_Menus {
 	 * Ajax handler for loading available menu items.
 	 *
 	 * @since 4.3.0
+	 *
+	 * @return never
 	 */
 	public function ajax_load_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
@@ -313,6 +315,8 @@ final class WP_Customize_Nav_Menus {
 	 * Ajax handler for searching available menu items.
 	 *
 	 * @since 4.3.0
+	 *
+	 * @return never
 	 */
 	public function ajax_search_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
@@ -995,6 +999,8 @@ final class WP_Customize_Nav_Menus {
 	 * Ajax handler for adding a new auto-draft post.
 	 *
 	 * @since 4.7.0
+	 *
+	 * @return never
 	 */
 	public function ajax_insert_auto_draft_post() {
 		if ( ! check_ajax_referer( 'customize-menus', 'customize-menus-nonce', false ) ) {

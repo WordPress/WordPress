@@ -447,6 +447,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @param string|WP_Error $ajax_message Ajax return.
 	 * @param string          $message      Optional. UI message.
+	 * @return never
 	 */
 	protected function wp_die( $ajax_message, $message = null ) {
 		if ( $this->doing_ajax() ) {
@@ -2427,6 +2428,8 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 * @since 4.7.0 The semantics of this method have changed to update a changeset, optionally to also change the status and other attributes.
+	 *
+	 * @return never
 	 */
 	public function save() {
 		if ( ! is_user_logged_in() ) {
@@ -3386,6 +3389,8 @@ final class WP_Customize_Manager {
 	 * Removes changeset lock when take over request is sent via Ajax.
 	 *
 	 * @since 4.9.0
+	 *
+	 * @return never
 	 */
 	public function handle_override_changeset_lock_request() {
 		if ( ! $this->is_preview() ) {
@@ -3685,6 +3690,8 @@ final class WP_Customize_Manager {
 	 * Refreshes nonces for the current preview.
 	 *
 	 * @since 4.2.0
+	 *
+	 * @return never
 	 */
 	public function refresh_nonces() {
 		if ( ! $this->is_preview() ) {
@@ -3698,6 +3705,8 @@ final class WP_Customize_Manager {
 	 * Deletes a given auto-draft changeset or the autosave revision for a given changeset or delete changeset lock.
 	 *
 	 * @since 4.9.0
+	 *
+	 * @return never
 	 */
 	public function handle_dismiss_autosave_or_lock_request() {
 		// Calls to dismiss_user_auto_draft_changesets() and wp_get_post_autosave() require non-zero get_current_user_id().
@@ -5824,6 +5833,8 @@ final class WP_Customize_Manager {
 	 * Loads themes into the theme browsing/installation UI.
 	 *
 	 * @since 4.9.0
+	 *
+	 * @return never
 	 */
 	public function handle_load_themes_request() {
 		check_ajax_referer( 'switch_themes', 'nonce' );

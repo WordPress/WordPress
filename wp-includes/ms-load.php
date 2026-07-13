@@ -465,6 +465,7 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
  *
  * @param string $domain The requested domain for the error to reference.
  * @param string $path   The requested path for the error to reference.
+ * @return never
  */
 function ms_not_installed( $domain, $path ) {
 	global $wpdb;

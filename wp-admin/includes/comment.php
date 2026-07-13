@@ -294,6 +294,7 @@ function enqueue_comment_hotkeys_js() {
  * @since 2.5.0
  *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
+ * @return never
  */
 function comment_footer_die( $msg ) {
 	echo "<div class='wrap'><p>$msg</p></div>";

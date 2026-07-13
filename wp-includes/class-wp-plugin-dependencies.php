@@ -433,6 +433,8 @@ class WP_Plugin_Dependencies {
 	 * Checks plugin dependencies after a plugin is installed via AJAX.
 	 *
 	 * @since 6.5.0
+	 *
+	 * @return never
 	 */
 	public static function check_plugin_dependencies_during_ajax() {
 		check_ajax_referer( 'updates' );

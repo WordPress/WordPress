@@ -85,6 +85,8 @@ if ( !function_exists( 'graceful_fail' ) ) :
  * @since MU (3.0.0)
  * @deprecated 3.0.0 Use wp_die()
  * @see wp_die()
+ *
+ * @return never
  */
 function graceful_fail( $message ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_die()' );
@@ -268,6 +270,7 @@ function get_most_active_blogs( $num = 10, $display = true ) {
  * @see wp_redirect()
  *
  * @param string $url Optional. Redirect URL. Default empty.
+ * @return never
  */
 function wpmu_admin_do_redirect( $url = '' ) {
 	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_redirect()' );

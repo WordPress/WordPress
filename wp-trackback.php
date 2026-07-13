@@ -24,8 +24,11 @@ wp_set_current_user( 0 );
  * @since 0.71
  *
  * @param int|bool $error         Whether there was an error.
- *                                Default '0'. Accepts '0' or '1', true or false.
+ *                                Default 0. Accepts 0 or 1, true or false.
  * @param string   $error_message Error message if an error occurred. Default empty string.
+ * @return void Never returns if `$error` is truthy, as the function dies after
+ *              sending the error response.
+ * @phpstan-return ( $error is 0|false ? void : never )
  */
 function trackback_response( $error = 0, $error_message = '' ) {
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
