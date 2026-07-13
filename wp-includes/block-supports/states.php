@@ -362,18 +362,24 @@ function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, 
 		return;
 	}
 
-	$compiled = wp_style_engine_get_styles(
+	$compiled     = wp_style_engine_get_styles(
 		wp_normalize_state_style_for_css_output( $style )
 	);
+	$declarations = $compiled['declarations'] ?? array();
+	$text_align   = $style['typography']['textAlign'] ?? null;
+	// Base text alignment is class-based, so state styles need a declaration.
+	if ( is_string( $text_align ) && '' !== trim( $text_align ) ) {
+		$declarations['text-align'] = $text_align;
+	}
 
-	if ( empty( $compiled['declarations'] ) ) {
+	if ( empty( $declarations ) ) {
 		return;
 	}
 
 	$css_rules[] = array(
 		'state'        => $state,
 		'selector'     => $selector,
-		'declarations' => $compiled['declarations'],
+		'declarations' => $declarations,
 	);
 	if ( ! empty( $rules_group ) ) {
 		$css_rules[ count( $css_rules ) - 1 ]['rules_group'] = $rules_group;
