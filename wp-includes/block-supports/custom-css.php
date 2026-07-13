@@ -69,14 +69,14 @@ function wp_render_custom_css_support_styles( $parsed_block ) {
 
 	if ( ! empty( $processed_css ) ) {
 		/**
-		 * Skip CSS that has already been added. Blocks with identical attributes
-		 * share the same class name and processed CSS via {@see wp_unique_id_from_values()},
-		 * so the same style would otherwise be enqueued more than once (e.g. inside
-		 * a Query Loop or when blocks share identical custom CSS).
+		 * Reuse one handle so identical custom CSS is enqueued only once via
+		 * {@see wp_unique_id_from_values()}. Explicitly declare the `wp-block-library`
+		 * dependency so `global-styles` is guaranteed to print after it, preventing
+		 * block default styles from unintentionally overriding global styles.
 		 */
 		$handle = 'wp-block-custom-css';
 		if ( ! wp_style_is( $handle, 'registered' ) ) {
-			wp_register_style( $handle, false, array( 'global-styles' ) );
+			wp_register_style( $handle, false, array( 'wp-block-library', 'global-styles' ) );
 		}
 		$after_styles = wp_styles()->get_data( $handle, 'after' );
 		if ( ! is_array( $after_styles ) ) {
