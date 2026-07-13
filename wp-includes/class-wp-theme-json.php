@@ -5662,11 +5662,22 @@ class WP_Theme_JSON {
 		$selector_parts = static::split_selector_list( $block_selector );
 		$result         = array();
 
+		/*
+		 * Append the variation class to each selector's ancestor: the first
+		 * run of characters before any combinator (whitespace) or pseudo-class
+		 * (`:`). Only the first match is replaced.
+		 *
+		 * Examples ("custom" variation):
+		 * - `.wp-block`              => `.wp-block.is-style-custom`
+		 * - `.wp-block .inner`       => `.wp-block.is-style-custom .inner`
+		 * - `.wp-block:where(.a .b)` => `.wp-block.is-style-custom:where(.a .b)`
+		 * - `:where(.outer .inner)`  => `:where(.outer.is-style-custom .inner)`
+		 */
 		foreach ( $selector_parts as $part ) {
 			$result[] = preg_replace_callback(
-				'/((?::\([^)]+\))?\s*)([^\s:]+)/',
+				'/[^\s:]+/',
 				function ( $matches ) use ( $variation_class ) {
-					return $matches[1] . $matches[2] . $variation_class;
+					return $matches[0] . $variation_class;
 				},
 				$part,
 				$limit
