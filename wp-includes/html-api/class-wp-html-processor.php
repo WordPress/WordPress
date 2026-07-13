@@ -1387,7 +1387,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				break;
 
 			case '#text':
-				$html .= htmlspecialchars( $this->get_modifiable_text(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8' );
+				$html .= self::escape_text_for_serialization( $this->get_modifiable_text() );
 				break;
 
 			// Unlike the `<>` which is interpreted as plaintext, this is ignored entirely.
@@ -1417,10 +1417,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return $html;
 		}
 
-		$tag_name       = str_replace( "\x00", "\u{FFFD}", $this->get_tag() );
+		$tag_name       = $this->get_tag();
 		$in_html        = 'html' === $this->get_namespace();
 		$qualified_name = $in_html ? strtolower( $tag_name ) : $this->get_qualified_tag_name();
-		$qualified_name = str_replace( "\x00", "\u{FFFD}", $qualified_name );
 
 		if ( $this->is_tag_closer() ) {
 			$html .= "</{$qualified_name}>";
@@ -1439,7 +1438,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$seen_attribute_names        = array();
 		foreach ( $attribute_names as $attribute_name ) {
 			$qualified_attribute_name = $this->get_qualified_attribute_name( $attribute_name );
-			$qualified_attribute_name = str_replace( "\x00", "\u{FFFD}", $qualified_attribute_name );
 			$qualified_attribute_name = wp_scrub_utf8( $qualified_attribute_name );
 			/**
 			 * Spaces only appear via the foreign attribute adjustment table.
@@ -1464,11 +1462,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			$value = $this->get_attribute( $attribute_name );
 
 			if ( is_string( $value ) ) {
-				$html .= '="' . htmlspecialchars( $value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5 ) . '"';
+				$html .= '="' . self::escape_text_for_serialization( $value ) . '"';
 			}
 
 			$previous_attribute_was_true = true === $value;
-			$html                        = str_replace( "\x00", "\u{FFFD}", $html );
 		}
 
 		if ( ! $in_html && $this->has_self_closing_flag() ) {
@@ -1517,13 +1514,40 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					break;
 
 				default:
-					$text = htmlspecialchars( $text, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8' );
+					$text = self::escape_text_for_serialization( $text );
 			}
 
 			$html .= "{$text}</{$qualified_name}>";
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Escapes decoded text for HTML serialization.
+	 *
+	 * Use for:
+	 * - Attribute values.
+	 * - Text in ordinary (data-state) elements and in the RCDATA elements
+	 *   (TITLE and TEXTAREA).
+	 * - Text in foreign content (elements not in the HTML namespace).
+	 *
+	 * Do not use for text in the RAWTEXT elements (STYLE, XMP, IFRAME,
+	 * NOEMBED, NOFRAMES), HTML SCRIPT elements, or PLAINTEXT elements,
+	 * whose contents serialize without escaping.
+	 *
+	 * @since 7.1.0
+	 * @ignore
+	 *
+	 * @param string $text Decoded text to escape.
+	 * @return string Escaped text.
+	 */
+	private static function escape_text_for_serialization( string $text ): string {
+		$text = htmlspecialchars( $text, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8' );
+
+		$text = str_replace( "\r", '&#xD;', $text );
+
+		return str_replace( "\x00", "\u{FFFD}", $text );
 	}
 
 	/**
