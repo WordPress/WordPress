@@ -2704,6 +2704,7 @@ function wp_migrate_old_typography_shape( $metadata ) {
  * @since 6.1.0 Added `query_loop_block_query_vars` filter and `parents` support in query.
  * @since 6.7.0 Added support for the `format` property in query.
  * @since 7.0.0 Updated `taxQuery` structure.
+ * @since 7.1.0 Added support for the `excludeCurrent` property in query.
  *
  * @param WP_Block $block Block instance.
  * @param int      $page  Current query's page.
@@ -2748,6 +2749,12 @@ function build_query_vars_from_query_block( $block, $page ) {
 			$excluded_post_ids     = array_map( 'intval', $block->context['query']['exclude'] );
 			$excluded_post_ids     = array_filter( $excluded_post_ids );
 			$query['post__not_in'] = array_merge( $query['post__not_in'], $excluded_post_ids );
+		}
+		if ( ! empty( $block->context['query']['excludeCurrent'] ) ) {
+			$current_post_id = get_the_ID();
+			if ( $current_post_id ) {
+				$query['post__not_in'][] = $current_post_id;
+			}
 		}
 		if (
 			isset( $block->context['query']['perPage'] ) &&
