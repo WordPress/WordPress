@@ -298,7 +298,7 @@
  *    closing the SCRIPT from inside a JavaScript string. E.g. `console.log( '</script>' )`.
  *  - `TITLE` and `TEXTAREA` whose contents are treated as plaintext and then any
  *    character references are decoded. E.g. `1 &lt; 2 < 3` becomes `1 < 2 < 3`.
- *  - `IFRAME`, `NOEMBED`, `NOFRAMES`, `STYLE` whose contents are treated as
+ *  - `IFRAME`, `NOEMBED`, `NOFRAMES`, `STYLE`, `XMP` whose contents are treated as
  *    raw plaintext and left as-is. E.g. `1 &lt; 2 < 3` remains `1 &lt; 2 < 3`.
  *
  * #### Other tokens with modifiable text.
@@ -4075,6 +4075,32 @@ class WP_HTML_Tag_Processor {
 				);
 				return true;
 
+			case 'IFRAME':
+			case 'NOEMBED':
+			case 'NOFRAMES':
+			case 'XMP':
+				$tag_name = $this->get_tag();
+				if ( false !== stripos( $plaintext_content, "</{$tag_name}" ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: HTML tag name. */
+							__( '%s text cannot contain its own closing tag.' ),
+							$tag_name
+						),
+						'7.1.0'
+					);
+					return false;
+				}
+
+				$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
+					$this->text_starts_at,
+					$this->text_length,
+					$plaintext_content
+				);
+
+				return true;
+
 			case 'STYLE':
 				$plaintext_content = preg_replace_callback(
 					'~</(?P<TAG_NAME>style)~i',
@@ -4132,7 +4158,7 @@ class WP_HTML_Tag_Processor {
 
 		_doing_it_wrong(
 			__METHOD__,
-			__( 'Only the SCRIPT, STYLE, TEXTAREA, and TITLE tags support setting modifiable text.' ),
+			__( 'This tag does not support setting modifiable text.' ),
 			'7.1.0'
 		);
 		return false;
