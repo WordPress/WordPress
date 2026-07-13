@@ -4546,13 +4546,16 @@ function get_language_attributes( $doctype = 'html' ) {
 		$attributes[] = 'dir="rtl"';
 	}
 
-	$lang = get_bloginfo( 'language' );
+	$lang      = get_bloginfo( 'language' );
+	$html_type = get_option( 'html_type' );
+
 	if ( $lang ) {
-		if ( 'text/html' === get_option( 'html_type' ) || 'html' === $doctype ) {
+		if ( 'text/html' === $html_type || 'html' === $doctype ) {
 			$attributes[] = 'lang="' . esc_attr( $lang ) . '"';
 		}
 
-		if ( 'text/html' !== get_option( 'html_type' ) || 'xhtml' === $doctype ) {
+		// The $html_type option may be false on a new install on the setup-config.php page.
+		if ( ( $html_type && 'text/html' !== $html_type ) || 'xhtml' === $doctype ) {
 			$attributes[] = 'xml:lang="' . esc_attr( $lang ) . '"';
 		}
 	}

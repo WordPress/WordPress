@@ -95,16 +95,15 @@ function setup_config_display_header( $body_classes = array() ) {
 	$body_classes   = (array) $body_classes;
 	$body_classes[] = 'wp-core-ui';
 	$body_classes[] = 'admin-color-modern';
-	$dir_attr       = '';
+
 	if ( is_rtl() ) {
 		$body_classes[] = 'rtl';
-		$dir_attr       = ' dir="rtl"';
 	}
 
 	header( 'Content-Type: text/html; charset=utf-8' );
 	?>
 <!DOCTYPE html>
-<html<?php echo $dir_attr; ?>>
+<html <?php language_attributes(); ?>>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -134,7 +133,7 @@ switch ( $step ) {
 			$languages = wp_get_available_translations();
 			if ( $languages ) {
 				setup_config_display_header( 'language-chooser' );
-				echo '<h1 class="screen-reader-text">Select a default language</h1>';
+				echo '<h1 class="screen-reader-text">Welcome to WordPress</h1>';
 				echo '<form id="setup" method="post" action="?step=0">';
 				wp_install_language_form( $languages );
 				echo '</form>';

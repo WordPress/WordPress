@@ -323,6 +323,13 @@ body.language-chooser {
 	max-width: 300px;
 }
 
+.language-chooser [for="language"] {
+	display: inline-block;
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
 .language-chooser select {
 	padding: 8px;
 	width: 100%;
