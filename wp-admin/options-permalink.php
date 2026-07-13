@@ -314,7 +314,7 @@ $tag_removed = __( '%s removed from permalink structure' );
 /* translators: %s: Permalink structure tag. */
 $tag_already_used = __( '%s (already used in permalink structure)' );
 ?>
-<h2 class="title"><?php _e( 'Common Settings' ); ?></h2>
+<h2 id="wp-settings-section-common-settings" class="title"><?php _e( 'Common Settings' ); ?></h2>
 <p>
 <?php
 printf(
@@ -405,7 +405,7 @@ printf(
 </tbody>
 </table>
 
-<h2 class="title"><?php _e( 'Optional' ); ?></h2>
+<h2 id="wp-settings-section-optional" class="title"><?php _e( 'Optional' ); ?></h2>
 <p class="permalink-structure-optional-description">
 <?php
 printf(

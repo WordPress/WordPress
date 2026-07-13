@@ -211,7 +211,7 @@ printf(
 <?php do_settings_fields( 'discussion', 'default' ); ?>
 </table>
 
-<h2 class="title"><?php _e( 'Avatars' ); ?></h2>
+<h2 id="wp-settings-section-avatars" class="title"><?php _e( 'Avatars' ); ?></h2>
 
 <p><?php _e( 'An avatar is an image that can be associated with a user across multiple websites. In this area, you can choose to display avatars of users who interact with the site.' ); ?></p>
 
