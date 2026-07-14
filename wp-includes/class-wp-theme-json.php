@@ -3980,7 +3980,12 @@ class WP_Theme_JSON {
 
 		// 7. Generate and append any custom CSS rules.
 		if ( isset( $node['css'] ) && ! $is_root_selector ) {
-			$block_rules .= $this->process_blocks_custom_css( $node['css'], $selector );
+			$css_feature_selector = $block_metadata['selectors']['css'] ?? null;
+			if ( is_array( $css_feature_selector ) ) {
+				$css_feature_selector = $css_feature_selector['root'] ?? null;
+			}
+			$css_selector = is_string( $css_feature_selector ) ? $css_feature_selector : $selector;
+			$block_rules .= $this->process_blocks_custom_css( $node['css'], $css_selector );
 		}
 
 		// 8. Wrap the entire block output in a media query if this is a responsive node.
@@ -5494,10 +5499,10 @@ class WP_Theme_JSON {
 
 		foreach ( $metadata['selectors'] as $feature => $feature_selectors ) {
 			/*
-			 * Skip if this is the block's root selector or the block doesn't
-			 * have any styles for the feature.
+			 * Skip if this is the block's root selector, the custom CSS
+			 * selector, or the block doesn't have any styles for the feature.
 			 */
-			if ( 'root' === $feature || empty( $node[ $feature ] ) ) {
+			if ( 'root' === $feature || 'css' === $feature || empty( $node[ $feature ] ) ) {
 				continue;
 			}
 
