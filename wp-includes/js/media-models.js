@@ -394,8 +394,6 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		this.observers.push( attachments );
 
 		attachments.on( 'add change remove', this._validateHandler, this );
-		attachments.on( 'add', this._addToTotalAttachments, this );
-		attachments.on( 'remove', this._removeFromTotalAttachments, this );
 		attachments.on( 'reset', this._validateAllHandler, this );
 		this.validateAll( attachments );
 		return this;
@@ -491,6 +489,12 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		// when `observe()` calls `validateAll()`.
 		this.reset( [], { silent: true } );
 		this.observe( attachments );
+
+		// Bind total attachment count tracking only to the mirrored query
+		// collection, not to additional observed collections (e.g. selection).
+		// See Trac #65053.
+		attachments.on( 'add', this._addToTotalAttachments, this );
+		attachments.on( 'remove', this._removeFromTotalAttachments, this );
 
 		// Used for the search results.
 		this.trigger( 'attachments:received', this );
