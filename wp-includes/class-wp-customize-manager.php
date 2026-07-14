@@ -5044,14 +5044,14 @@ final class WP_Customize_Manager {
 	public function get_previewable_devices() {
 		$devices = array(
 			'desktop' => array(
-				'label'   => __( 'Enter desktop preview mode' ),
+				'label'   => __( 'Desktop' ),
 				'default' => true,
 			),
 			'tablet'  => array(
-				'label' => __( 'Enter tablet preview mode' ),
+				'label' => __( 'Tablet' ),
 			),
 			'mobile'  => array(
-				'label' => __( 'Enter mobile preview mode' ),
+				'label' => __( 'Mobile' ),
 			),
 		);
 

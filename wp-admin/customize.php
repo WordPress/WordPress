@@ -275,7 +275,7 @@ do_action( 'customize_controls_head' );
 			</button>
 			<?php $previewable_devices = $wp_customize->get_previewable_devices(); ?>
 			<?php if ( ! empty( $previewable_devices ) ) : ?>
-			<div class="devices-wrapper">
+			<div class="devices-wrapper" role="group" aria-label="<?php echo esc_attr_x( 'Responsive Views', 'label for responsive previews group' ); ?>">
 				<div class="devices">
 					<?php foreach ( (array) $previewable_devices as $device => $settings ) : ?>
 						<?php
@@ -289,7 +289,7 @@ do_action( 'customize_controls_head' );
 						}
 						?>
 						<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo esc_attr( $active ); ?>" data-device="<?php echo esc_attr( $device ); ?>">
-							<span class="screen-reader-text"><?php echo esc_html( $settings['label'] ); ?></span>
+							<span class="devices__preview-label"><?php echo esc_html( $settings['label'] ); ?></span>
 						</button>
 					<?php endforeach; ?>
 				</div>
