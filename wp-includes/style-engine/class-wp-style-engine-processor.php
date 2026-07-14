@@ -151,9 +151,23 @@ class WP_Style_Engine_Processor {
 		// Build an array of selectors along with the JSON-ified styles to make comparisons easier.
 		$selectors_json = array();
 		foreach ( $this->css_rules as $rule ) {
-			$declarations = $rule->get_declarations()->get_declarations();
+			$declarations        = $rule->get_declarations()->get_declarations();
+			$declaration_options = $rule->get_declarations()->get_declaration_options();
 			ksort( $declarations );
-			$selectors_json[ $rule->get_selector() ] = wp_json_encode( $declarations );
+			// Declaration options are keyed by property and are part of the rule identity.
+			ksort( $declaration_options );
+			foreach ( $declaration_options as $property => $options ) {
+				if ( is_array( $options ) ) {
+					ksort( $options );
+					$declaration_options[ $property ] = $options;
+				}
+			}
+			$selectors_json[ $rule->get_selector() ] = wp_json_encode(
+				array(
+					'declarations'        => $declarations,
+					'declaration_options' => $declaration_options,
+				)
+			);
 		}
 
 		// Combine selectors that have the same styles.

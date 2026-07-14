@@ -114,16 +114,18 @@ function wp_style_engine_get_styles( $block_styles, $options = array() ) {
  *
  * @since 6.1.0
  * @since 6.6.0 Added support for `$rules_group` in the `$css_rules` array.
+ * @since 7.1.0 Extended `declarations` in `$css_rules` array to accept `WP_Style_Engine_CSS_Declarations` object.
  *
  * @param array $css_rules {
  *     Required. A collection of CSS rules.
  *
  *     @type array ...$0 {
- *         @type string   $rules_group  A parent CSS selector in the case of nested CSS,
- *                                      or a CSS nested @rule, such as `@media (min-width: 80rem)` or `@layer module`.
- *         @type string   $selector     A CSS selector.
- *         @type string[] $declarations An associative array of CSS definitions,
- *                                      e.g. `array( "$property" => "$value", "$property" => "$value" )`.
+ *         @type string                                    $rules_group  A parent CSS selector in the case of nested CSS,
+ *                                                                       or a CSS nested @rule, such as `@media (min-width: 80rem)` or `@layer module`.
+ *         @type string                                    $selector     A CSS selector.
+ *         @type string[]|WP_Style_Engine_CSS_Declarations $declarations An associative array of CSS definitions,
+ *                                                                       e.g. `array( "$property" => "$value", "$property" => "$value" )`,
+ *                                                                       or a WP_Style_Engine_CSS_Declarations object.
  *     }
  * }
  * @param array $options {
@@ -153,16 +155,21 @@ function wp_style_engine_get_stylesheet_from_css_rules( $css_rules, $options = a
 
 	$css_rule_objects = array();
 	foreach ( $css_rules as $css_rule ) {
-		if ( empty( $css_rule['selector'] ) || empty( $css_rule['declarations'] ) || ! is_array( $css_rule['declarations'] ) ) {
+		$declarations = $css_rule['declarations'] ?? null;
+		if (
+			empty( $css_rule['selector'] ) ||
+			empty( $declarations ) ||
+			( ! is_array( $declarations ) && ! $declarations instanceof WP_Style_Engine_CSS_Declarations )
+		) {
 			continue;
 		}
 
 		$rules_group = $css_rule['rules_group'] ?? null;
 		if ( ! empty( $options['context'] ) ) {
-			WP_Style_Engine::store_css_rule( $options['context'], $css_rule['selector'], $css_rule['declarations'], $rules_group );
+			WP_Style_Engine::store_css_rule( $options['context'], $css_rule['selector'], $declarations, $rules_group );
 		}
 
-		$css_rule_objects[] = new WP_Style_Engine_CSS_Rule( $css_rule['selector'], $css_rule['declarations'], $rules_group );
+		$css_rule_objects[] = new WP_Style_Engine_CSS_Rule( $css_rule['selector'], $declarations, $rules_group );
 	}
 
 	if ( empty( $css_rule_objects ) ) {

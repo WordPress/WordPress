@@ -122,12 +122,13 @@ function wp_get_state_declarations_with_background_resets( $declarations ) {
 
 	/*
 	 * When the state sets a solid background-color but no gradient of its own,
-	 * emit `background-image: unset !important` to clear any gradient (whether
-	 * stored as the `background` shorthand or as `background-image`) that was
-	 * applied to the default / normal state via an inline style attribute.
+	 * emit `background-image: unset` to clear any gradient (whether stored as
+	 * the `background` shorthand or as `background-image`) that was applied to
+	 * the default / normal state via an inline style attribute. The declaration
+	 * is marked important when the state rule is registered with the style engine.
 	 */
 	if ( $has_background_color && ! $has_background && ! $has_background_image ) {
-		$declarations['background-image'] = 'unset !important';
+		$declarations['background-image'] = 'unset';
 	}
 
 	return $declarations;
@@ -677,26 +678,49 @@ function wp_render_block_states_support( $block_content, $block ) {
 	 */
 	$style_rules = array();
 	foreach ( $css_rules as $rule ) {
-		$declarations = $rule['declarations'];
-		foreach ( $declarations as $property => $value ) {
-			$declarations[ $property ] = is_string( $value ) && str_contains( $value, '!important' )
-				? $value
-				: $value . ' !important';
+		$declarations                 = $rule['declarations'];
+		$important_declaration_values = wp_get_state_declarations_with_background_resets( $declarations );
+		$important_declarations       = new WP_Style_Engine_CSS_Declarations();
+		foreach ( $important_declaration_values as $property => $value ) {
+			$important_declarations->add_declaration(
+				$property,
+				$value,
+				array(
+					'important' => true,
+				)
+			);
 		}
-		$declarations = wp_get_state_declarations_with_fallback_border_styles( $declarations );
-		$declarations = wp_get_state_declarations_with_background_resets( $declarations );
-		$style_rule   = array(
-			'selector'     => wp_build_state_selector(
-				".$unique_class",
-				$rule['selector'],
-				$rule['state']
-			),
-			'declarations' => $declarations,
+		$selector             = wp_build_state_selector(
+			".$unique_class",
+			$rule['selector'],
+			$rule['state']
+		);
+		$important_style_rule = array(
+			'selector'     => $selector,
+			'declarations' => $important_declarations,
 		);
 		if ( ! empty( $rule['rules_group'] ) ) {
-			$style_rule['rules_group'] = $rule['rules_group'];
+			$important_style_rule['rules_group'] = $rule['rules_group'];
 		}
-		$style_rules[] = $style_rule;
+		$style_rules[] = $important_style_rule;
+
+		$fallback_declarations = wp_get_state_declarations_with_fallback_border_styles( $declarations );
+		foreach ( array_keys( $declarations ) as $property ) {
+			unset( $fallback_declarations[ $property ] );
+		}
+
+		if ( empty( $fallback_declarations ) ) {
+			continue;
+		}
+
+		$fallback_style_rule = array(
+			'selector'     => $selector,
+			'declarations' => $fallback_declarations,
+		);
+		if ( ! empty( $rule['rules_group'] ) ) {
+			$fallback_style_rule['rules_group'] = $rule['rules_group'];
+		}
+		$style_rules[] = $fallback_style_rule;
 	}
 
 	wp_style_engine_get_stylesheet_from_css_rules(

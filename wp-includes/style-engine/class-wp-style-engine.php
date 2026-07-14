@@ -425,15 +425,18 @@ final class WP_Style_Engine {
 	 *
 	 * @since 6.1.0
 	 * @since 6.6.0 Added the `$rules_group` parameter.
+	 * @since 7.1.0 Extended `$css_declarations` parameter to accept `WP_Style_Engine_CSS_Declarations` object.
 	 *
-	 * @param string   $store_name       A valid store key.
-	 * @param string   $css_selector     When a selector is passed, the function will return
-	 *                                   a full CSS rule `$selector { ...rules }`
-	 *                                   otherwise a concatenated string of properties and values.
-	 * @param string[] $css_declarations An associative array of CSS definitions,
-	 *                                   e.g. `array( "$property" => "$value", "$property" => "$value" )`.
-	 * @param string $rules_group        Optional. A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
-	 *                                   such as `@media (min-width: 80rem)` or `@layer module`.
+	 * @param string                                    $store_name       A valid store key.
+	 * @param string                                    $css_selector     When a selector is passed, the function will return
+	 *                                                                    a full CSS rule `$selector { ...rules }`
+	 *                                                                    otherwise a concatenated string of properties and values.
+	 * @param string[]|WP_Style_Engine_CSS_Declarations $css_declarations An associative array of CSS definitions,
+	 *                                                                    e.g. `array( "$property" => "$value", "$property" => "$value" )`,
+	 *                                                                    or a WP_Style_Engine_CSS_Declarations object.
+	 * @param string                                    $rules_group      Optional. A parent CSS selector in the case of nested CSS,
+	 *                                                                    or a CSS nested @rule, such as `@media (min-width: 80rem)`
+	 *                                                                    or `@layer module`.
 	 */
 	public static function store_css_rule( $store_name, $css_selector, $css_declarations, $rules_group = '' ) {
 		if ( empty( $store_name ) || empty( $css_selector ) || empty( $css_declarations ) ) {

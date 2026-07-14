@@ -81,6 +81,7 @@ class WP_Style_Engine_CSS_Rule {
 	 * Sets the declarations.
 	 *
 	 * @since 6.1.0
+	 * @since 7.1.0 Preserves declaration options when declarations are provided as a `WP_Style_Engine_CSS_Declarations` object.
 	 *
 	 * @param string[]|WP_Style_Engine_CSS_Declarations $declarations An array of declarations (property => value pairs),
 	 *                                                                or a WP_Style_Engine_CSS_Declarations object.
@@ -89,15 +90,23 @@ class WP_Style_Engine_CSS_Rule {
 	public function add_declarations( $declarations ) {
 		$is_declarations_object = ! is_array( $declarations );
 		$declarations_array     = $is_declarations_object ? $declarations->get_declarations() : $declarations;
+		$declaration_options    = $is_declarations_object ? $declarations->get_declaration_options() : array();
 
 		if ( null === $this->declarations ) {
 			if ( $is_declarations_object ) {
 				$this->declarations = $declarations;
 				return $this;
 			}
-			$this->declarations = new WP_Style_Engine_CSS_Declarations( $declarations_array );
+			$this->declarations = new WP_Style_Engine_CSS_Declarations();
 		}
-		$this->declarations->add_declarations( $declarations_array );
+
+		foreach ( $declarations_array as $property => $value ) {
+			$this->declarations->add_declaration(
+				$property,
+				$value,
+				$declaration_options[ $property ] ?? array()
+			);
+		}
 
 		return $this;
 	}
