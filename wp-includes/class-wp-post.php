@@ -14,9 +14,41 @@
  *
  * @property string $page_template
  *
- * @property-read int[]    $ancestors
- * @property-read int[]    $post_category
- * @property-read string[] $tags_input
+ * @property-read list<non-negative-int> $ancestors
+ * @property-read list<non-negative-int> $post_category
+ * @property-read list<non-empty-string> $tags_input
+ *
+ * @phpstan-type Data_Array array{
+ *     ID: non-negative-int,
+ *     post_author: numeric-string|'',
+ *     post_date: string,
+ *     post_date_gmt: string,
+ *     post_content: string,
+ *     post_title: string,
+ *     post_excerpt: string,
+ *     post_status: non-empty-string,
+ *     comment_status: non-empty-string,
+ *     ping_status: non-empty-string,
+ *     post_password: string,
+ *     post_name: string,
+ *     to_ping: string,
+ *     pinged: string,
+ *     post_modified: string,
+ *     post_modified_gmt: string,
+ *     post_content_filtered: string,
+ *     post_parent: non-negative-int,
+ *     guid: string,
+ *     menu_order: int,
+ *     post_type: non-empty-string,
+ *     post_mime_type: string,
+ *     comment_count: numeric-string,
+ *     filter: 'raw'|'edit'|'db'|'display'|'attribute'|'js'|'sample'|null,
+ *     ancestors: list<non-negative-int>,
+ *     page_template: string,
+ *     post_category: list<non-negative-int>,
+ *     tags_input: list<non-empty-string>,
+ *     ...
+ * }
  */
 #[AllowDynamicProperties]
 final class WP_Post {
@@ -26,17 +58,19 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var int
+	 * @phpstan-var non-negative-int
 	 */
 	public $ID;
 
 	/**
 	 * ID of post author.
 	 *
-	 * A numeric string, for compatibility reasons.
+	 * A numeric string, for compatibility reasons. May be an empty string for a
+	 * default post that has not yet been assigned an author.
 	 *
 	 * @since 3.5.0
 	 * @var string
-	 * @phpstan-var numeric-string
+	 * @phpstan-var numeric-string|''
 	 */
 	public $post_author = '0';
 
@@ -85,6 +119,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var non-empty-string
 	 */
 	public $post_status = 'publish';
 
@@ -93,6 +128,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var non-empty-string
 	 */
 	public $comment_status = 'open';
 
@@ -101,6 +137,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var non-empty-string
 	 */
 	public $ping_status = 'open';
 
@@ -165,6 +202,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var int
+	 * @phpstan-var non-negative-int
 	 */
 	public $post_parent = 0;
 
@@ -189,6 +227,7 @@ final class WP_Post {
 	 *
 	 * @since 3.5.0
 	 * @var string
+	 * @phpstan-var non-empty-string
 	 */
 	public $post_type = 'post';
 
@@ -216,9 +255,11 @@ final class WP_Post {
 	 *
 	 * Does not correspond to a DB field.
 	 *
+	 * The 'sample' value is set exclusively by {@see get_sample_permalink()} and is read during permalink previewing.
+	 *
 	 * @since 3.5.0
-	 * @var string
-	 * @phpstan-var 'raw'|'edit'|'db'|'display'|'attribute'|'js'
+	 * @var string|null
+	 * @phpstan-var 'raw'|'edit'|'db'|'display'|'attribute'|'js'|'sample'|null
 	 */
 	public $filter;
 
@@ -389,10 +430,9 @@ final class WP_Post {
 	 *
 	 * @return array<string, mixed> Object as array.
 	 *
-	 * @phpstan-return non-empty-array<string, mixed>
+	 * @phpstan-return Data_Array
 	 */
 	public function to_array() {
-		/** @var non-empty-array<string, mixed> $post */
 		$post = get_object_vars( $this );
 
 		foreach ( array( 'ancestors', 'page_template', 'post_category', 'tags_input' ) as $key ) {
@@ -401,6 +441,7 @@ final class WP_Post {
 			}
 		}
 
+		/** @var Data_Array $post */
 		return $post;
 	}
 }

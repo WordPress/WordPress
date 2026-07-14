@@ -625,7 +625,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$post        = new WP_Post( (object) $item );
 
 		if ( empty( $post->post_author ) ) {
-			$post->post_author = get_current_user_id();
+			$post->post_author = (string) get_current_user_id();
 		}
 
 		if ( ! isset( $post->type_label ) ) {

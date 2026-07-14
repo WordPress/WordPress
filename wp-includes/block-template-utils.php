@@ -1739,9 +1739,15 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 	// Required for the WP_Block_Template. Update the post object with the current time.
 	$post->post_modified = current_time( 'mysql' );
 
-	// If the post_author is empty, set it to the current user.
+	/*
+	 * If the post_author is empty, set it to the current user. If it arrived as
+	 * an int (e.g. from a REST controller), normalize it to a string, since the
+	 * resulting object is passed to new WP_Post().
+	 */
 	if ( empty( $post->post_author ) ) {
-		$post->post_author = get_current_user_id();
+		$post->post_author = (string) get_current_user_id();
+	} elseif ( is_int( $post->post_author ) ) {
+		$post->post_author = (string) $post->post_author;
 	}
 
 	if ( 'wp_template_part' === $post->post_type && ! isset( $terms['wp_template_part_area'] ) ) {
