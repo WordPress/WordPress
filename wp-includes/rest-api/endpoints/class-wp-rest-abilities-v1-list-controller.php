@@ -312,6 +312,10 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 							),
 							'additionalProperties' => true,
 						),
+						'public'      => array(
+							'description' => __( 'Whether the ability author intends the ability to be publicly available to clients. Only present when set by the ability author.' ),
+							'type'        => 'boolean',
+						),
 					),
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,

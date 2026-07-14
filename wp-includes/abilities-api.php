@@ -264,9 +264,13 @@ declare( strict_types = 1 );
  *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
  *                                          will have no additional effect on its environment.
  *         }
+ *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
+ *                                                      available to clients. When true, channel-specific exposure
+ *                                                      flags such as `$show_in_rest` default to true. An explicitly
+ *                                                      set channel flag always takes precedence.
  *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
  *                                                      When true, the ability can be invoked via HTTP requests.
- *                                                      Default false.
+ *                                                      Default is the value of `$public` when set, false otherwise.
  *     }
  *     @type string               $ability_class       Optional. Fully-qualified custom class name to instantiate
  *                                                     instead of the default `WP_Ability` class. The custom class

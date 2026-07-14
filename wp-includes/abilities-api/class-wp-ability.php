@@ -160,7 +160,12 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API. Default false.
+	 *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
+	 *                                                      available to clients. When true, channel-specific exposure
+	 *                                                      flags such as `$show_in_rest` default to true. An explicitly
+	 *                                                      set channel flag always takes precedence.
+	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
+	 *                                                      Default is the value of `$public` when set, false otherwise.
 	 *     }
 	 * }
 	 */
@@ -224,7 +229,12 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API. Default false.
+	 *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
+	 *                                                      available to clients. When true, channel-specific exposure
+	 *                                                      flags such as `$show_in_rest` default to true. An explicitly
+	 *                                                      set channel flag always takes precedence.
+	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
+	 *                                                      Default is the value of `$public` when set, false otherwise.
 	 *     }
 	 * }
 	 * @return array<string, mixed> {
@@ -252,7 +262,9 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $show_in_rest Whether to expose this ability in the REST API. Default false.
+	 *         @type bool                     $public       Whether the ability is intended to be publicly available
+	 *                                                      to clients. Only present when provided during registration.
+	 *         @type bool                     $show_in_rest Whether to expose this ability in the REST API.
 	 *     }
 	 * }
 	 * @throws InvalidArgumentException if an argument is invalid.
@@ -322,14 +334,27 @@ class WP_Ability {
 			);
 		}
 
+		if ( isset( $args['meta']['public'] ) && ! is_bool( $args['meta']['public'] ) ) {
+			throw new InvalidArgumentException(
+				__( 'The ability meta should provide a valid `public` boolean.' )
+			);
+		}
+
 		// Set defaults for optional meta.
-		$args['meta']                = wp_parse_args(
+		$args['meta'] = wp_parse_args(
 			$args['meta'] ?? array(),
 			array(
-				'annotations'  => static::$default_annotations,
-				'show_in_rest' => self::DEFAULT_SHOW_IN_REST,
+				'annotations' => static::$default_annotations,
 			)
 		);
+
+		/*
+		 * Resolve `show_in_rest` from most specific to least specific: an explicit
+		 * `show_in_rest` value wins, then the high-level `public` flag seeds the
+		 * default, then the built-in default applies.
+		 */
+		$args['meta']['show_in_rest'] = $args['meta']['show_in_rest'] ?? $args['meta']['public'] ?? self::DEFAULT_SHOW_IN_REST;
+
 		$args['meta']['annotations'] = wp_parse_args(
 			$args['meta']['annotations'],
 			static::$default_annotations
