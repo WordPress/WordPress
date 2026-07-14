@@ -415,7 +415,7 @@ class WP_Theme_JSON {
 	 *              Added support for `dimensions.width` and `dimensions.height`.
 	 *              Added support for `typography.textIndent`.
 	 * @since 7.1.0 Added `viewport` property.
-	 *              Added support for `background.gradient`.
+	 *              Added support for `background.gradient` and `blockVisibility.allowEditing`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -473,6 +473,9 @@ class WP_Theme_JSON {
 		'position'                      => array(
 			'fixed'  => null,
 			'sticky' => null,
+		),
+		'blockVisibility'               => array(
+			'allowEditing' => true,
 		),
 		'spacing'                       => array(
 			'customSpacingSize'   => null,
@@ -1330,7 +1333,9 @@ class WP_Theme_JSON {
 		 */
 		foreach ( $valid_block_names as $block ) {
 			$schema_settings_blocks[ $block ] = static::VALID_SETTINGS;
+			// `viewport` and `blockVisibility` are global-only settings and cannot be set per block for now.
 			unset( $schema_settings_blocks[ $block ]['viewport'] );
+			unset( $schema_settings_blocks[ $block ]['blockVisibility'] );
 			$schema_styles_blocks[ $block ]             = $styles_non_top_level;
 			$schema_styles_blocks[ $block ]['elements'] = $schema_styles_elements;
 
