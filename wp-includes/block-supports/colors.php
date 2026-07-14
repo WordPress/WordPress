@@ -73,6 +73,7 @@ function wp_register_colors_support( $block_type ) {
  *
  * @since 5.6.0
  * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
+ * @since 7.1.0 Suppresses color.gradient when background.gradient is supported and set.
  * @access private
  *
  * @param  WP_Block_Type $block_type       Block type.
@@ -114,7 +115,17 @@ function wp_apply_colors_support( $block_type, $block_attributes ) {
 	}
 
 	// Gradients.
-	if ( $has_gradients_support && ! wp_should_skip_block_supports_serialization( $block_type, 'color', 'gradients' ) ) {
+	// Suppress color.gradient CSS when background.gradient is supported and
+	// explicitly set. background.php owns CSS generation in that case, and
+	// emitting the background shorthand here would conflict with it.
+	$has_background_gradient_support = block_has_support( $block_type, array( 'background', 'gradient' ), false );
+	$has_background_gradient_value   = ! empty( $block_attributes['style']['background']['gradient'] );
+
+	if (
+		$has_gradients_support &&
+		! wp_should_skip_block_supports_serialization( $block_type, 'color', 'gradients' ) &&
+		! ( $has_background_gradient_support && $has_background_gradient_value )
+	) {
 		$preset_gradient_color          = array_key_exists( 'gradient', $block_attributes ) ? "var:preset|gradient|{$block_attributes['gradient']}" : null;
 		$custom_gradient_color          = $block_attributes['style']['color']['gradient'] ?? null;
 		$color_block_styles['gradient'] = $preset_gradient_color ? $preset_gradient_color : $custom_gradient_color;

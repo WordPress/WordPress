@@ -48,6 +48,7 @@ final class WP_Style_Engine {
 	 *  - value_func    => (string) the name of a function to generate a CSS definition array for a particular style object. The output of this function should be `array( "$property" => "$value", ... )`.
 	 *
 	 * @since 6.1.0
+	 * @since 7.1.0 Added `background.gradient` property.
 	 * @var array
 	 */
 	const BLOCK_STYLE_DEFINITIONS_METADATA = array(
@@ -82,6 +83,18 @@ final class WP_Style_Engine {
 					'default' => 'background-attachment',
 				),
 				'path'          => array( 'background', 'backgroundAttachment' ),
+			),
+			'gradient'             => array(
+				'property_keys' => array(
+					'default' => 'background-image',
+				),
+				'css_vars'      => array(
+					'gradient' => '--wp--preset--gradient--$slug',
+				),
+				'path'          => array( 'background', 'gradient' ),
+				'classnames'    => array(
+					'has-background' => true,
+				),
 			),
 		),
 		'color'      => array(
@@ -495,6 +508,13 @@ final class WP_Style_Engine {
 
 				$css_declarations = static::get_css_declarations( $style_value, $style_definition, $options );
 				if ( ! empty( $css_declarations ) ) {
+					/*
+					 * Combine background gradient and background image into a single
+					 * comma-separated background-image value, matching the JS style engine.
+					 */
+					if ( isset( $css_declarations['background-image'] ) && isset( $parsed_styles['declarations']['background-image'] ) ) {
+						$css_declarations['background-image'] = $css_declarations['background-image'] . ', ' . $parsed_styles['declarations']['background-image'];
+					}
 					$parsed_styles['declarations'] = array_merge( $parsed_styles['declarations'], $css_declarations );
 				}
 			}

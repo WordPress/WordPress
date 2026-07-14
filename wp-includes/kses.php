@@ -2553,6 +2553,7 @@ function kses_init() {
  * @since 6.5.0 Added support for `background-repeat`.
  * @since 6.6.0 Added support for `grid-column`, `grid-row`, and `container-type`.
  * @since 6.9.0 Added support for `white-space`.
+ * @since 7.1.0 Extended gradient support to allow any single-level nested function.
  *
  * @param string $css        A string of CSS rules, decoded from an HTML `style` attribute.
  * @param string $deprecated Not used.
@@ -2900,10 +2901,16 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		}
 
 		if ( $found && $gradient_attr ) {
-			$css_value = trim( $parts[1] );
-			if ( preg_match( '/^(repeating-)?(linear|radial|conic)-gradient\(([^()]|rgb[a]?\([^()]*\))*\)$/', $css_value ) ) {
-				// Remove the whole `gradient` bit that was matched above from the CSS.
-				$css_test_string = str_replace( $css_value, '', $css_test_string );
+			/*
+			 * Match every `*-gradient()` in the value, allowing one level of nested functions
+			 * (e.g. rgb(), hsl(), var()). Matching each occurrence, rather than requiring the
+			 * whole value to be a single gradient, lets a gradient combine with a url() image.
+			 */
+			preg_match_all( '/(?:repeating-)?(?:linear|radial|conic)-gradient\((?:[^()]|\([^()]*\))*\)/', $css_test_string, $gradient_matches );
+
+			foreach ( $gradient_matches[0] as $gradient_match ) {
+				// Remove each `gradient()` bit that was matched above from the CSS.
+				$css_test_string = str_replace( $gradient_match, '', $css_test_string );
 			}
 		}
 

@@ -43,6 +43,7 @@ function wp_register_background_support( $block_type ) {
  * @since 6.5.0 Added support for `backgroundPosition` and `backgroundRepeat` output.
  * @since 6.6.0 Removed requirement for `backgroundImage.source`. A file/url is the default.
  * @since 6.7.0 Added support for `backgroundAttachment` output.
+ * @since 7.1.0 Added support for `background.gradient` output.
  *
  * @access private
  *
@@ -51,32 +52,47 @@ function wp_register_background_support( $block_type ) {
  * @return string Filtered block content.
  */
 function wp_render_background_support( $block_content, $block ) {
-	$block_type                   = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$block_attributes             = ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) ? $block['attrs'] : array();
-	$has_background_image_support = block_has_support( $block_type, array( 'background', 'backgroundImage' ), false );
+	$block_type                      = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$block_attributes                = ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) ? $block['attrs'] : array();
+	$has_background_image_support    = block_has_support( $block_type, array( 'background', 'backgroundImage' ), false );
+	$has_background_gradient_support = block_has_support( $block_type, array( 'background', 'gradient' ), false );
 
 	if (
-		! $has_background_image_support ||
-		wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundImage' ) ||
+		( ! $has_background_image_support && ! $has_background_gradient_support ) ||
 		! isset( $block_attributes['style']['background'] )
 	) {
 		return $block_content;
 	}
 
-	$background_styles                         = array();
-	$background_styles['backgroundImage']      = $block_attributes['style']['background']['backgroundImage'] ?? null;
-	$background_styles['backgroundSize']       = $block_attributes['style']['background']['backgroundSize'] ?? null;
-	$background_styles['backgroundPosition']   = $block_attributes['style']['background']['backgroundPosition'] ?? null;
-	$background_styles['backgroundRepeat']     = $block_attributes['style']['background']['backgroundRepeat'] ?? null;
-	$background_styles['backgroundAttachment'] = $block_attributes['style']['background']['backgroundAttachment'] ?? null;
+	// Check serialization skip for each feature individually.
+	$skip_background_image    = ! $has_background_image_support || wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundImage' );
+	$skip_background_gradient = ! $has_background_gradient_support || wp_should_skip_block_supports_serialization( $block_type, 'background', 'gradient' );
 
-	if ( ! empty( $background_styles['backgroundImage'] ) ) {
-		$background_styles['backgroundSize'] = $background_styles['backgroundSize'] ?? 'cover';
+	if ( $skip_background_image && $skip_background_gradient ) {
+		return $block_content;
+	}
 
-		// If the background size is set to `contain` and no position is set, set the position to `center`.
-		if ( 'contain' === $background_styles['backgroundSize'] && ! $background_styles['backgroundPosition'] ) {
-			$background_styles['backgroundPosition'] = '50% 50%';
+	$background_styles = array();
+
+	if ( ! $skip_background_image ) {
+		$background_styles['backgroundImage']      = $block_attributes['style']['background']['backgroundImage'] ?? null;
+		$background_styles['backgroundSize']       = $block_attributes['style']['background']['backgroundSize'] ?? null;
+		$background_styles['backgroundPosition']   = $block_attributes['style']['background']['backgroundPosition'] ?? null;
+		$background_styles['backgroundRepeat']     = $block_attributes['style']['background']['backgroundRepeat'] ?? null;
+		$background_styles['backgroundAttachment'] = $block_attributes['style']['background']['backgroundAttachment'] ?? null;
+
+		if ( ! empty( $background_styles['backgroundImage'] ) ) {
+			$background_styles['backgroundSize'] = $background_styles['backgroundSize'] ?? 'cover';
+
+			// If the background size is set to `contain` and no position is set, set the position to `center`.
+			if ( 'contain' === $background_styles['backgroundSize'] && ! $background_styles['backgroundPosition'] ) {
+				$background_styles['backgroundPosition'] = '50% 50%';
+			}
 		}
+	}
+
+	if ( ! $skip_background_gradient ) {
+		$background_styles['gradient'] = $block_attributes['style']['background']['gradient'] ?? null;
 	}
 
 	$styles = wp_style_engine_get_styles( array( 'background' => $background_styles ) );
