@@ -29,7 +29,14 @@ class WP_Network_Query {
 	 * SQL query clauses.
 	 *
 	 * @since 4.6.0
-	 * @var array
+	 * @var array{
+	 *     select: string,
+	 *     from: string,
+	 *     where: array<string, string>,
+	 *     groupby: string,
+	 *     orderby: string,
+	 *     limits: string
+	 * }
 	 */
 	protected $sql_clauses = array(
 		'select'  => '',
@@ -44,7 +51,7 @@ class WP_Network_Query {
 	 * Query vars set by the user.
 	 *
 	 * @since 4.6.0
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	public $query_vars;
 
@@ -52,7 +59,7 @@ class WP_Network_Query {
 	 * Default values for query vars.
 	 *
 	 * @since 4.6.0
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	public $query_var_defaults;
 
@@ -60,7 +67,7 @@ class WP_Network_Query {
 	 * List of networks located by the query.
 	 *
 	 * @since 4.6.0
-	 * @var array
+	 * @var WP_Network[]|int[]
 	 */
 	public $networks;
 
@@ -69,6 +76,7 @@ class WP_Network_Query {
 	 *
 	 * @since 4.6.0
 	 * @var int
+	 * @phpstan-var non-negative-int
 	 */
 	public $found_networks = 0;
 
@@ -77,6 +85,7 @@ class WP_Network_Query {
 	 *
 	 * @since 4.6.0
 	 * @var int
+	 * @phpstan-var non-negative-int
 	 */
 	public $max_num_pages = 0;
 
