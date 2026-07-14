@@ -248,6 +248,7 @@ class WP_Theme_JSON {
 	 * @since 6.7.0 Added `background-attachment` property.
 	 * @since 7.0.0 Added `dimensions.width` and `dimensions.height`.
 	 *              Added `text-indent` property.
+	 * @since 7.1.0 Added `text-shadow` property.
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
@@ -309,6 +310,7 @@ class WP_Theme_JSON {
 		'--wp--style--root--padding-bottom' => array( 'spacing', 'padding', 'bottom' ),
 		'--wp--style--root--padding-left'   => array( 'spacing', 'padding', 'left' ),
 		'text-decoration'                   => array( 'typography', 'textDecoration' ),
+		'text-shadow'                       => array( 'typography', 'textShadow' ),
 		'text-transform'                    => array( 'typography', 'textTransform' ),
 		'text-indent'                       => array( 'typography', 'textIndent' ),
 		'filter'                            => array( 'filter', 'duotone' ),
@@ -562,6 +564,7 @@ class WP_Theme_JSON {
 	 * @since 6.6.0 Added `background` sub properties to top-level only.
 	 * @since 7.0.0 Added support for `dimensions.width` and `dimensions.height`.
 	 * @since 7.1.0 Added `background.gradient`.
+	 * @since 7.1.0 Added support for `typography.textShadow`.
 	 * @var array
 	 */
 	const VALID_STYLES = array(
@@ -620,6 +623,7 @@ class WP_Theme_JSON {
 			'textColumns'    => null,
 			'textDecoration' => null,
 			'textIndent'     => null,
+			'textShadow'     => null,
 			'textTransform'  => null,
 			'writingMode'    => null,
 		),
