@@ -1160,7 +1160,9 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		// Check if the block has an active style variation with a blockGap value.
 		// Only check the registry if the className contains a variation class to avoid unnecessary lookups.
 		$variation_block_gap_value = null;
-		$block_class_name          = $block['attrs']['className'] ?? '';
+		$block_class_name          = is_string( $block['attrs']['className'] ?? null )
+			? $block['attrs']['className']
+			: '';
 		if ( $block_class_name && str_contains( $block_class_name, 'is-style-' ) && $block_name ) {
 			$styles_registry   = WP_Block_Styles_Registry::get_instance();
 			$registered_styles = $styles_registry->get_registered_styles_for_block( $block_name );
