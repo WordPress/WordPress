@@ -2485,19 +2485,87 @@ class WP_Theme_JSON {
 				continue;
 			}
 
-			$selector = $metadata['selector'];
+			$selector          = $metadata['selector'];
+			$feature_selectors = $metadata['selectors'] ?? array();
+			$node              = _wp_array_get( $this->theme_json, $metadata['path'], array() );
 
-			$node                    = _wp_array_get( $this->theme_json, $metadata['path'], array() );
-			$declarations            = static::compute_preset_vars( $node, $origins );
-			$theme_vars_declarations = static::compute_theme_vars( $node );
-			foreach ( $theme_vars_declarations as $theme_vars_declaration ) {
-				$declarations[] = $theme_vars_declaration;
+			/*
+			 * Group preset declarations by selector. Blocks that define
+			 * feature-level selectors need their preset CSS variables
+			 * output under that feature selector instead of the block's
+			 * root selector.
+			 */
+			$vars_by_selector              = array();
+			$vars_by_selector[ $selector ] = array();
+
+			foreach ( static::PRESETS_METADATA as $preset_metadata ) {
+				if ( empty( $preset_metadata['css_vars'] ) ) {
+					continue;
+				}
+
+				$values_by_slug = static::get_settings_values_by_slug( $node, $preset_metadata, $origins );
+				if ( empty( $values_by_slug ) ) {
+					continue;
+				}
+
+				$target = static::get_feature_selector( $feature_selectors, $preset_metadata['path'][0], $selector );
+
+				if ( ! isset( $vars_by_selector[ $target ] ) ) {
+					$vars_by_selector[ $target ] = array();
+				}
+
+				foreach ( $values_by_slug as $slug => $value ) {
+					$vars_by_selector[ $target ][] = array(
+						'name'  => static::replace_slug_in_string( $preset_metadata['css_vars'], $slug ),
+						'value' => $value,
+					);
+				}
 			}
 
-			$stylesheet .= static::to_ruleset( $selector, $declarations );
+			// Theme vars always use the block's default selector.
+			foreach ( static::compute_theme_vars( $node ) as $theme_var ) {
+				$vars_by_selector[ $selector ][] = $theme_var;
+			}
+
+			foreach ( $vars_by_selector as $rule_selector => $declarations ) {
+				$stylesheet .= static::to_ruleset( $rule_selector, $declarations );
+			}
 		}
 
 		return $stylesheet;
+	}
+
+	/**
+	 * Returns the appropriate selector for a block support feature's
+	 * preset CSS variables.
+	 *
+	 * If the block defines a feature-level selector (as a string or an
+	 * object with a `root` key), that selector is returned. Otherwise,
+	 * the block's default selector is used.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param array<string, string|array<string, string>> $feature_selectors The block's feature selectors map.
+	 * @param string                                      $feature_key       The feature to look up (e.g. 'dimensions').
+	 * @param string                                      $default_selector  Fallback selector.
+	 * @return string The resolved selector.
+	 */
+	private static function get_feature_selector( array $feature_selectors, string $feature_key, string $default_selector ): string {
+		if ( ! isset( $feature_selectors[ $feature_key ] ) ) {
+			return $default_selector;
+		}
+
+		$feature = $feature_selectors[ $feature_key ];
+
+		if ( is_string( $feature ) ) {
+			return $feature;
+		}
+
+		if ( isset( $feature['root'] ) && is_string( $feature['root'] ) ) {
+			return $feature['root'];
+		}
+
+		return $default_selector;
 	}
 
 	/**
@@ -3150,8 +3218,9 @@ class WP_Theme_JSON {
 			}
 
 			$nodes[] = array(
-				'path'     => array( 'settings', 'blocks', $name ),
-				'selector' => $selector,
+				'path'      => array( 'settings', 'blocks', $name ),
+				'selector'  => $selector,
+				'selectors' => $selectors[ $name ]['selectors'] ?? array(),
 			);
 		}
 
