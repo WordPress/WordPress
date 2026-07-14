@@ -78,6 +78,8 @@ function wpmu_signup_stylesheet() {
 		.mu_register input[type="email"],
 			.mu_register #user_name { direction: ltr; }
 		.mu_register #site-language { display: block; }
+		.mu_register label[for="site-language"] { display: inline-flex; align-items: center; }
+		.mu_register label[for="site-language"] .dashicons { margin-left: 0.5em; }
 		.mu_register .prefix_address,
 			.mu_register .suffix_address { font-size: 18px; display: inline-block; direction: ltr; }
 		.mu_register label,
@@ -91,6 +93,7 @@ function wpmu_signup_stylesheet() {
 		.mu_register .signup-options .wp-signup-radio-button { display: block; }
 		.mu_register .privacy-intro .wp-signup-radio-button { margin-right: 0.5em; }
 		.rtl .mu_register .wp-signup-blogname { direction: ltr; text-align: right; }
+		.rtl .mu_register label[for="site-language"] .dashicons { margin-right: 0.5em; margin-left: 0; }
 	</style>
 	<?php
 }
@@ -125,9 +128,9 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	$current_network = get_network();
 	// Site name.
 	if ( ! is_subdomain_install() ) {
-		echo '<label for="blogname">' . __( 'Site Name (subdirectory only):' ) . '</label>';
+		echo '<label for="blogname">' . __( 'Site Name (subdirectory only)' ) . '</label>';
 	} else {
-		echo '<label for="blogname">' . __( 'Site Domain (subdomain only):' ) . '</label>';
+		echo '<label for="blogname">' . __( 'Site Domain (subdomain only)' ) . '</label>';
 	}
 
 	$errmsg_blogname      = $errors->get_error_message( 'blogname' );
@@ -161,7 +164,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 
 	// Site Title.
 	?>
-	<label for="blog_title"><?php _e( 'Site Title:' ); ?></label>
+	<label for="blog_title"><?php _e( 'Site Title' ); ?></label>
 	<?php
 	$errmsg_blog_title      = $errors->get_error_message( 'blog_title' );
 	$errmsg_blog_title_aria = '';
@@ -179,7 +182,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	if ( ! empty( $languages ) ) :
 		?>
 		<p>
-			<label for="site-language"><?php _e( 'Site Language:' ); ?></label>
+			<label for="site-language"><?php _e( 'Site Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label>
 			<?php
 			// Network default.
 			$lang = get_site_option( 'WPLANG' );
@@ -278,7 +281,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 	}
 
 	// Username.
-	echo '<label for="user_name">' . __( 'Username:' ) . '</label>';
+	echo '<label for="user_name">' . __( 'Username' ) . '</label>';
 	$errmsg_username      = $errors->get_error_message( 'user_name' );
 	$errmsg_username_aria = '';
 	if ( $errmsg_username ) {
@@ -291,7 +294,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 
 	<?php
 	// Email address.
-	echo '<label for="user_email">' . __( 'Email&nbsp;Address:' ) . '</label>';
+	echo '<label for="user_email">' . __( 'Email&nbsp;Address' ) . '</label>';
 	$errmsg_email      = $errors->get_error_message( 'user_email' );
 	$errmsg_email_aria = '';
 	if ( $errmsg_email ) {

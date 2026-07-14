@@ -447,11 +447,18 @@ input::-ms-reveal {
 	text-align: center;
 }
 
+.language-switcher form {
+	display: inline-block;
+}
+
 .language-switcher label {
-	margin-left: 0.25em;
+	display: block;
+	margin-bottom: 0.5em;
+	text-align: right;
 }
 
 .language-switcher label .dashicons {
+	margin-right: 0.5em;
 	width: auto;
 	height: auto;
 }

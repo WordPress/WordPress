@@ -248,7 +248,7 @@ if ( ! empty( $messages ) ) {
 		if ( ! empty( $languages ) || ! empty( $translations ) ) :
 			?>
 			<tr class="form-field form-required">
-				<th scope="row"><label for="site-language"><?php _e( 'Site Language' ); ?></label></th>
+				<th scope="row"><label for="site-language"><?php _e( 'Site Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label></th>
 				<td>
 					<?php
 					// Network default.
