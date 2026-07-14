@@ -1508,6 +1508,7 @@ switch ( $action ) {
 		}
 
 		wp_enqueue_script( 'user-profile' );
+		wp_enqueue_script( 'wp-tooltip' );
 		?>
 
 		<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
@@ -1535,7 +1536,34 @@ switch ( $action ) {
 			do_action( 'login_form' );
 
 			?>
-			<p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
+			<?php
+			/**
+			 * Filters the help text shown in the "Remember Me" tooltip on the login form.
+			 *
+			 * Returning an empty string removes the tooltip toggle from the form.
+			 *
+			 * @since 7.1.0
+			 *
+			 * @param string $rememberme_help_text The tooltip help text.
+			 */
+			$rememberme_help_text = apply_filters(
+				'login_remember_me_help_text',
+				__( 'Selecting "Remember Me" reduces the number of times you&#8217;ll be asked to log in using this device. To keep your account secure, use this option only on your personal devices.' )
+			);
+			?>
+			<p class="forgetmenot">
+				<input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> />
+				<label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label>
+				<?php
+				echo wp_get_toggletip(
+					$rememberme_help_text,
+					array(
+						'id'    => 'rememberme-help-toggletip',
+						'label' => __( 'Help' ),
+					)
+				);
+				?>
+			</p>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" />
 				<?php

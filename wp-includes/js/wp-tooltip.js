@@ -1,0 +1,44 @@
+/**
+ * @output wp-admin/js/wp-tooltip.js
+ */
+
+/**
+ * Add focus and hover support for the 'tooltip' type in `wp_tooltip()`.
+ * This script can be made obsolete when support is available for Interest Invokers.
+ */
+(() => {
+
+	const popovers = document.querySelectorAll( '.wp-is-tooltip' );
+	let openTimeout;
+
+	popovers.forEach( function( popover ) {
+		let trigger = popover.querySelector( 'button.wp-tooltip__toggle' );
+		let panel   = popover.querySelector( 'span.wp-tooltip__bubble' );
+
+		// Show Tooltip Function (with delay to prevent flickering).
+		const showTooltip = () => {
+			clearTimeout( openTimeout );
+			openTimeout = setTimeout( () => {
+				// Only show if it's not already open.
+				if ( ! panel.matches( ':popover-open' ) ) {
+					// pass the triggering element so implicit position anchors work.
+					panel.showPopover( { source: trigger } );
+				}
+			}, 300 );
+		};
+		// Hide Tooltip Function.
+		const hideTooltip = () => {
+			clearTimeout( openTimeout );
+			if ( panel.matches( ':popover-open' ) ) {
+				panel.hidePopover();
+			}
+		};
+
+		// Bind Hover and Focus Events.
+		trigger.addEventListener( 'mouseenter', showTooltip );
+		trigger.addEventListener( 'focus', showTooltip );
+
+		trigger.addEventListener( 'mouseleave', hideTooltip );
+		trigger.addEventListener( 'blur', hideTooltip );
+	});
+})();
