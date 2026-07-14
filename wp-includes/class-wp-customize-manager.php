@@ -1933,7 +1933,7 @@ final class WP_Customize_Manager {
 				sprintf(
 					/* translators: %s: customize_messenger_channel */
 					__( 'Unauthorized. You may remove the %s param to preview as frontend.' ),
-					'<code>customize_messenger_channel<code>'
+					'<code>customize_messenger_channel</code>'
 				)
 			);
 			return;
