@@ -71,10 +71,10 @@ final class WP_Abilities_Registry {
 	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
-	 *                                                      available to clients. When true, channel-specific exposure
-	 *                                                      flags such as `$show_in_rest` default to true. An explicitly
-	 *                                                      set channel flag always takes precedence.
+	 *         @type bool                     $public       Optional. Whether the ability is meant to be available
+	 *                                                      to clients such as the REST API, MCP, or AI agents.
+	 *                                                      Seeds the default for per-channel flags like
+	 *                                                      `$show_in_rest`. Defaults to false.
 	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
 	 *                                                      Default is the value of `$public` when set, false otherwise.
 	 *     }
@@ -125,9 +125,10 @@ final class WP_Abilities_Registry {
 		 *         Optional. Additional metadata for the ability.
 		 *
 		 *         @type array<string, bool|string> $annotations  Optional. Annotation metadata for the ability.
-		 *         @type bool                       $public       Optional. Whether the ability is intended to be
-		 *                                                        publicly available to clients. Seeds the default for
-		 *                                                        channel-specific exposure flags like `$show_in_rest`.
+		 *         @type bool                       $public       Optional. Whether the ability is meant to be
+		 *                                                        available to clients such as the REST API, MCP, or AI
+		 *                                                        agents. Seeds the default for per-channel flags like
+		 *                                                        `$show_in_rest`. Defaults to false.
 		 *         @type bool                       $show_in_rest Optional. Whether to expose this ability in the REST API.
 		 *                                                        Default is the value of `$public` when set, false otherwise.
 		 *     }

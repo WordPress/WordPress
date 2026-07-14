@@ -132,12 +132,12 @@ function wp_register_core_abilities(): void {
 				return current_user_can( 'manage_options' );
 			},
 			'meta'                => array(
-				'annotations'  => array(
+				'annotations' => array(
 					'readonly'    => true,
 					'destructive' => false,
 					'idempotent'  => true,
 				),
-				'show_in_rest' => true,
+				'public'      => true,
 			),
 		)
 	);
@@ -256,12 +256,12 @@ function wp_register_core_abilities(): void {
 				return is_user_logged_in();
 			},
 			'meta'                => array(
-				'annotations'  => array(
+				'annotations' => array(
 					'readonly'    => true,
 					'destructive' => false,
 					'idempotent'  => true,
 				),
-				'show_in_rest' => true,
+				'public'      => true,
 			),
 		)
 	);
@@ -342,12 +342,12 @@ function wp_register_core_abilities(): void {
 				return current_user_can( 'manage_options' );
 			},
 			'meta'                => array(
-				'annotations'  => array(
+				'annotations' => array(
 					'readonly'    => true,
 					'destructive' => false,
 					'idempotent'  => true,
 				),
-				'show_in_rest' => true,
+				'public'      => true,
 			),
 		)
 	);

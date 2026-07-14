@@ -313,7 +313,7 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 							'additionalProperties' => true,
 						),
 						'public'      => array(
-							'description' => __( 'Whether the ability author intends the ability to be publicly available to clients. Only present when set by the ability author.' ),
+							'description' => __( 'Whether the ability is meant to be available to clients such as the REST API, MCP, or AI agents. Defaults to false, but individual channel settings such as show_in_rest can override it.' ),
 							'type'        => 'boolean',
 						),
 					),

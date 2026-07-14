@@ -15,7 +15,7 @@
  *  - Define permission checks and execution callbacks.
  *  - Organize abilities into logical categories.
  *  - Validate inputs and outputs using JSON Schema.
- *  - Expose abilities through the REST API.
+ *  - Expose abilities to clients such as the REST API.
  *
  * ## Working with Abilities
  *
@@ -48,7 +48,7 @@
  *                     'required'    => true,
  *                 ),
  *                 'meta'                => array(
- *                     'show_in_rest' => true,
+ *                     'public' => true,
  *                 ),
  *             )
  *         );
@@ -118,10 +118,10 @@ declare( strict_types = 1 );
  *                 'execute_callback'    => 'my_plugin_analyze_text',
  *                 'permission_callback' => 'my_plugin_can_analyze_text',
  *                 'meta'                => array(
- *                     'annotations'   => array(
+ *                     'annotations' => array(
  *                         'readonly' => true,
  *                     ),
- *                     'show_in_rest' => true,
+ *                     'public'      => true,
  *                 ),
  *             )
  *         );
@@ -208,16 +208,24 @@ declare( strict_types = 1 );
  *         return current_user_can( 'edit_posts' );
  *     }
  *
- * ### REST API Integration
+ * ### Client Exposure
  *
- * Abilities can be exposed through the REST API by setting `show_in_rest`
- * to `true` in the meta configuration:
+ * Set the high-level `public` flag to make an ability available to clients
+ * such as the REST API, MCP, or AI agents:
  *
  *     'meta' => array(
- *         'show_in_rest' => true,
+ *         'public' => true,
  *     ),
  *
- * This allows abilities to be invoked via HTTP requests to the WordPress REST API.
+ * The `public` flag seeds the default for each per-channel flag. For the REST
+ * API it seeds `show_in_rest`, which lets the ability be invoked via HTTP
+ * requests. Set a per-channel flag directly to override that default. For
+ * example, keep a public ability out of the REST API:
+ *
+ *     'meta' => array(
+ *         'public'       => true,
+ *         'show_in_rest' => false,
+ *     ),
  *
  * @since 6.9.0
  *
@@ -264,10 +272,10 @@ declare( strict_types = 1 );
  *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
  *                                          will have no additional effect on its environment.
  *         }
- *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
- *                                                      available to clients. When true, channel-specific exposure
- *                                                      flags such as `$show_in_rest` default to true. An explicitly
- *                                                      set channel flag always takes precedence.
+ *         @type bool                     $public       Optional. Whether the ability is meant to be available to
+ *                                                      clients such as the REST API, MCP, or AI agents. Seeds
+ *                                                      the default for per-channel flags like `$show_in_rest`.
+ *                                                      Defaults to false.
  *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
  *                                                      When true, the ability can be invoked via HTTP requests.
  *                                                      Default is the value of `$public` when set, false otherwise.

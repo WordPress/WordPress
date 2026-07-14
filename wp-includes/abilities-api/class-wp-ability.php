@@ -29,6 +29,14 @@ class WP_Ability {
 	protected const DEFAULT_SHOW_IN_REST = false;
 
 	/**
+	 * The default value for the `public` meta.
+	 *
+	 * @since 7.1.0
+	 * @var bool
+	 */
+	protected const DEFAULT_PUBLIC = false;
+
+	/**
 	 * The default ability annotations.
 	 * They are not guaranteed to provide a faithful description of ability behavior.
 	 *
@@ -160,10 +168,10 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
-	 *                                                      available to clients. When true, channel-specific exposure
-	 *                                                      flags such as `$show_in_rest` default to true. An explicitly
-	 *                                                      set channel flag always takes precedence.
+	 *         @type bool                     $public       Optional. Whether the ability is meant to be available
+	 *                                                      to clients such as the REST API, MCP, or AI agents.
+	 *                                                      Seeds the default for per-channel flags like
+	 *                                                      `$show_in_rest`. Defaults to false.
 	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
 	 *                                                      Default is the value of `$public` when set, false otherwise.
 	 *     }
@@ -229,10 +237,10 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  Optional. If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $public       Optional. Whether the ability is intended to be publicly
-	 *                                                      available to clients. When true, channel-specific exposure
-	 *                                                      flags such as `$show_in_rest` default to true. An explicitly
-	 *                                                      set channel flag always takes precedence.
+	 *         @type bool                     $public       Optional. Whether the ability is meant to be available
+	 *                                                      to clients such as the REST API, MCP, or AI agents.
+	 *                                                      Seeds the default for per-channel flags like
+	 *                                                      `$show_in_rest`. Defaults to false.
 	 *         @type bool                     $show_in_rest Optional. Whether to expose this ability in the REST API.
 	 *                                                      Default is the value of `$public` when set, false otherwise.
 	 *     }
@@ -262,8 +270,9 @@ class WP_Ability {
 	 *             @type bool|null $idempotent  If true, calling the ability repeatedly with the same arguments
 	 *                                          will have no additional effect on its environment.
 	 *         }
-	 *         @type bool                     $public       Whether the ability is intended to be publicly available
-	 *                                                      to clients. Only present when provided during registration.
+	 *         @type bool                     $public       Whether the ability is meant to be available to clients
+	 *                                                      such as the REST API, MCP, or AI agents. Defaults to
+	 *                                                      false.
 	 *         @type bool                     $show_in_rest Whether to expose this ability in the REST API.
 	 *     }
 	 * }
@@ -348,17 +357,18 @@ class WP_Ability {
 			)
 		);
 
+		$args['meta']['annotations'] = wp_parse_args(
+			$args['meta']['annotations'],
+			static::$default_annotations
+		);
+
 		/*
 		 * Resolve `show_in_rest` from most specific to least specific: an explicit
 		 * `show_in_rest` value wins, then the high-level `public` flag seeds the
 		 * default, then the built-in default applies.
 		 */
 		$args['meta']['show_in_rest'] = $args['meta']['show_in_rest'] ?? $args['meta']['public'] ?? self::DEFAULT_SHOW_IN_REST;
-
-		$args['meta']['annotations'] = wp_parse_args(
-			$args['meta']['annotations'],
-			static::$default_annotations
-		);
+		$args['meta']['public']       = $args['meta']['public'] ?? self::DEFAULT_PUBLIC;
 
 		return $args;
 	}
