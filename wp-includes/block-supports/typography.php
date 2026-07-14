@@ -358,8 +358,14 @@ function wp_render_typography_support( $block_content, $block ) {
  * }
  * @return array|null An array consisting of `'value'` and `'unit'` properties on success.
  *                    `null` on failure.
+ * @phpstan-param array{
+ *     coerce_to?: string,
+ *     root_size_value?: positive-int,
+ *     acceptable_units?: non-empty-array<non-empty-string>,
+ * } $options
+ * @phpstan-return array{ value: float, unit: non-empty-string }|null
  */
-function wp_get_typography_value_and_unit( $raw_value, $options = array() ) {
+function wp_get_typography_value_and_unit( $raw_value, $options = array() ): ?array {
 	if ( ! is_string( $raw_value ) && ! is_int( $raw_value ) && ! is_float( $raw_value ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
@@ -384,20 +390,26 @@ function wp_get_typography_value_and_unit( $raw_value, $options = array() ) {
 		'acceptable_units' => array( 'rem', 'px', 'em' ),
 	);
 
+	/**
+	 * @var array{
+	 *     coerce_to: string,
+	 *     root_size_value: positive-int,
+	 *     acceptable_units: non-empty-array<non-empty-string>,
+	 * } $options
+	 */
 	$options = wp_parse_args( $options, $defaults );
 
-	$acceptable_units_group = implode( '|', $options['acceptable_units'] );
-	$pattern                = '/^(\d*\.?\d+)(' . $acceptable_units_group . '){1,1}$/';
-
-	preg_match( $pattern, $raw_value, $matches );
-
-	// Bails out if not a number value and a px or rem unit.
-	if ( ! isset( $matches[1] ) || ! isset( $matches[2] ) ) {
+	// Bails out if the raw value can't be parsed.
+	if ( ! preg_match( '/^(\d*\.?\d+)([a-zA-Z]+|%)$/', $raw_value, $matches ) ) {
 		return null;
 	}
 
-	$value = $matches[1];
+	$value = (float) $matches[1];
 	$unit  = $matches[2];
+
+	if ( ! in_array( $unit, $options['acceptable_units'], true ) ) {
+		return null;
+	}
 
 	/*
 	 * Default browser font size. Later, possibly could inject some JS to
@@ -669,7 +681,7 @@ function wp_get_typography_font_size_value( $preset, $settings = array() ) {
 		 * For a - b * log2(), lower values of b will make the curve move towards the minimum faster.
 		 * The scale factor is constrained between min and max values.
 		 */
-		$minimum_font_size_factor     = min( max( 1 - 0.075 * log( $preferred_font_size_in_px, 2 ), $default_minimum_font_size_factor_min ), $default_minimum_font_size_factor_max );
+		$minimum_font_size_factor     = clamp( 1 - 0.075 * log( $preferred_font_size_in_px, 2 ), $default_minimum_font_size_factor_min, $default_minimum_font_size_factor_max );
 		$calculated_minimum_font_size = round( $preferred_size['value'] * $minimum_font_size_factor, 3 );
 
 		// Only use calculated min font size if it's > $minimum_font_size_limit value.
