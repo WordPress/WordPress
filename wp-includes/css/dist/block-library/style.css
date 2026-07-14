@@ -1874,7 +1874,6 @@ h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]) {
 }
 @supports ((-webkit-mask-image: none) or (mask-image: none)) or (-webkit-mask-image: none) {
   .wp-block-image.is-style-circle-mask img {
-    /* stylelint-disable-next-line function-url-quotes -- We need quotes for the data URL to use the SVG inline. */
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
             mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
     mask-mode: alpha;
@@ -3233,7 +3232,17 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .waveform-player {
   font-family: inherit;
   color: inherit;
-  line-height: 1.4;
+  line-height: var(--waveform-line-height, 1.4);
+  --wfp-accent: #71717a;
+  --wfp-button-color: rgba(255, 255, 255, .9);
+  --wfp-text-color: #ffffff;
+  --wfp-text-secondary-color: rgba(255, 255, 255, .6);
+}
+
+.waveform-player.waveform-theme-light {
+  --wfp-button-color: rgba(0, 0, 0, .8);
+  --wfp-text-color: #333333;
+  --wfp-text-secondary-color: rgba(0, 0, 0, .6);
 }
 
 .waveform-player * {
@@ -3243,24 +3252,24 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .waveform-body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--waveform-body-gap, 8px);
 }
 
 .waveform-track {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--waveform-track-gap, 12px);
   position: relative;
 }
 
 .waveform-btn {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
+  width: var(--wfp-btn-size, 36px);
+  height: var(--wfp-btn-size, 36px);
+  min-width: var(--wfp-btn-size, 36px);
   border-radius: 50%;
   border: 2px solid currentColor;
   background: transparent;
-  color: inherit;
+  color: var(--wfp-button-color, inherit);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -3274,6 +3283,25 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .waveform-btn:hover:not(:disabled) {
   opacity: 1;
   transform: scale(1.05);
+}
+
+.waveform-btn-minimal {
+  width: calc(var(--wfp-btn-size, 36px) * 1.1);
+  height: calc(var(--wfp-btn-size, 36px) * 1.1);
+  min-width: calc(var(--wfp-btn-size, 36px) * 1.1);
+  border: none;
+  border-radius: 0;
+  opacity: 0.7;
+}
+
+.waveform-btn-minimal:hover:not(:disabled) {
+  opacity: 1;
+  transform: none;
+}
+
+.waveform-btn.waveform-btn-minimal svg {
+  width: calc(var(--wfp-btn-size, 36px) * 0.94);
+  height: calc(var(--wfp-btn-size, 36px) * 0.94);
 }
 
 .waveform-btn:disabled {
@@ -3290,8 +3318,8 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 
 .waveform-btn svg {
-  width: 16px;
-  height: 16px;
+  width: calc(var(--wfp-btn-size, 36px) * 0.45);
+  height: calc(var(--wfp-btn-size, 36px) * 0.45);
   fill: currentColor;
   display: block;
 }
@@ -3307,6 +3335,10 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   cursor: pointer;
   min-width: 0;
   width: 100%;
+}
+
+.waveform-container:focus-visible {
+  outline: 2px solid currentColor;
 }
 
 .waveform-container canvas {
@@ -3336,13 +3368,15 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 
 .waveform-title {
+  color: var(--wfp-text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
 }
 
-.waveform-subtitle {
+.waveform-artist {
+  color: var(--wfp-text-secondary-color);
   font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
@@ -3350,12 +3384,14 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 
 .waveform-time {
+  color: var(--wfp-text-secondary-color);
   font-size: 11px;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .waveform-bpm {
+  color: var(--wfp-text-secondary-color);
   font-size: 11px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -3413,6 +3449,12 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   z-index: 20;
 }
 
+.waveform-marker.active {
+  width: 4px;
+  background: currentColor;
+  z-index: 10;
+}
+
 .waveform-marker-tooltip {
   position: absolute;
   bottom: calc(100% + 4px);
@@ -3430,8 +3472,50 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   z-index: 1000;
 }
 
-.waveform-marker:hover .waveform-marker-tooltip {
+.waveform-marker:hover .waveform-marker-tooltip, .waveform-marker.show-label .waveform-marker-tooltip {
   opacity: 1;
+}
+
+.waveform-hover-time {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  transform: translate(-50%);
+  background: rgba(0, 0, 0, 0.9019607843);
+  color: #fff;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 1000;
+}
+
+.waveform-seek-handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3490196078);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.waveform-seek-handle.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.waveform-seek-handle.is-active {
+  transform: translate(-50%, -50%) scale(1.25);
 }
 
 .waveform-btn:focus-visible {
@@ -3504,13 +3588,13 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 
 .speed-option.active {
-  background: rgba(168, 85, 247, 0.2);
-  color: #a855f7;
+  background: rgba(255, 255, 255, 0.1607843137);
+  color: #fff;
   font-weight: 600;
 }
 
 .waveform-player.waveform-focused {
-  outline: 2px solid rgba(168, 85, 247, 0.5);
+  outline: 2px solid var(--wfp-accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -3520,8 +3604,22 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 }
 
 .waveform-player:focus-visible {
-  outline: 1px solid rgba(168, 85, 247, 0.3);
+  outline: 1px solid var(--wfp-accent);
   outline-offset: 1px;
+}
+
+.waveform-layout-preview .waveform-meta {
+  display: none !important;
+}
+
+.waveform-layout-preview .waveform-info {
+  justify-content: center;
+}
+
+.waveform-layout-preview .waveform-text {
+  flex: 0 1 auto;
+  align-items: center;
+  text-align: center;
 }
 
 .waveform-player.waveform-focused {
@@ -3560,24 +3658,32 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   .waveform-info {
     font-size: 12px;
   }
-  .waveform-subtitle, .waveform-time, .waveform-bpm {
+  .waveform-artist, .waveform-time, .waveform-bpm {
     font-size: 10px;
   }
 }
-.wp-block-playlist {
-  overflow: hidden;
-  overflow: clip;
+@media (prefers-reduced-motion: reduce) {
+  .waveform-player *, .waveform-player *:before, .waveform-player *:after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 .wp-block-playlist .wp-block-playlist__waveform-player {
   width: 100%;
   margin: var(--wp--preset--spacing--20, 0.625em) 0;
   position: relative;
 }
+.wp-block-playlist .wp-block-playlist__waveform-player:focus-visible {
+  outline: revert;
+  outline-offset: revert;
+}
 .wp-block-playlist .waveform-track {
   height: 100px;
   gap: 0;
 }
 .wp-block-playlist .waveform-btn {
+  border: none;
   border-radius: 0;
   border-end-start-radius: 0.125rem;
   border-start-start-radius: 0.125rem;
@@ -3590,11 +3696,42 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
 .wp-block-playlist .waveform-btn:hover:not(:disabled) {
   transform: none;
 }
+.wp-block-playlist .waveform-btn svg {
+  width: 3rem;
+  height: 3rem;
+}
+.wp-block-playlist .waveform-btn .waveform-icon-pause svg {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+.wp-block-playlist .waveform-player.has-play-button-artwork .waveform-btn {
+  background-image: var(--wp--playlist--play-button-artwork);
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+}
+.wp-block-playlist .waveform-player.has-play-button-artwork .waveform-btn svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+.wp-block-playlist .waveform-player.has-play-button-artwork .waveform-btn svg path {
+  fill: #fff !important;
+}
 .wp-block-playlist .waveform-track.waveform-align-bottom .waveform-btn {
   margin-bottom: 0;
 }
-.wp-block-playlist .waveform-subtitle {
+.wp-block-playlist .waveform-btn:focus-visible,
+.wp-block-playlist .waveform-container:focus-visible {
+  outline: revert;
+  outline-offset: revert;
+}
+.wp-block-playlist .waveform-artist {
   opacity: 0.7;
+}
+.wp-block-playlist .waveform-info,
+.wp-block-playlist .waveform-artist,
+.wp-block-playlist .waveform-title,
+.wp-block-playlist .waveform-time {
+  font-size: inherit;
 }
 .wp-block-playlist .wp-block-playlist__tracklist {
   margin: 0;
@@ -3643,6 +3780,16 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"] {
   margin-right: var(--wp--preset--spacing--20, 0.5em);
   font-size: 0.85em;
   opacity: 0.7;
+}
+.wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__image {
+  flex: 0 0 50px;
+  width: 50px;
+  height: 50px;
+  margin-right: var(--wp--preset--spacing--20, 0.5em);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .wp-block-playlist-track .wp-block-playlist-track__button .wp-block-playlist-track__content {
   flex: 1 1 0;
@@ -5353,15 +5500,11 @@ html :where(img[class*=wp-image-]) {
 }
 
 html :where(.is-position-sticky) {
-  /* stylelint-disable length-zero-no-unit -- 0px is set explicitly so that it can be used in a calc value. */
   --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
-  /* stylelint-enable length-zero-no-unit */
 }
 
 @media screen and (max-width: 600px) {
   html :where(.is-position-sticky) {
-    /* stylelint-disable length-zero-no-unit -- 0px is set explicitly so that it can be used in a calc value. */
     --wp-admin--admin-bar--position-offset: 0px;
-    /* stylelint-enable length-zero-no-unit */
   }
 }

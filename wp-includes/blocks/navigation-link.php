@@ -127,9 +127,12 @@ function block_core_navigation_link_maybe_urldecode( $url ) {
 function render_block_core_navigation_link( $attributes, $content, $block ) {
 	// Check if this navigation item should render based on post status.
 	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
-		if ( ! gutenberg_block_core_shared_navigation_item_should_render( $attributes, $block ) ) {
-			return '';
-		}
+		$should_render = gutenberg_block_core_shared_navigation_item_should_render( $attributes, $block );
+	} else {
+		$should_render = block_core_shared_navigation_item_should_render( $attributes, $block );
+	}
+	if ( ! $should_render ) {
+		return '';
 	}
 
 	// Don't render the block's subtree if it has no label.

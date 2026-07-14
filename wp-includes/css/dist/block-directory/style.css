@@ -143,7 +143,7 @@
 }
 
 .block-directory-compact-list__item-title {
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .block-directory-compact-list__item-author {
@@ -230,7 +230,7 @@
 
 .block-directory-downloadable-block-list-item__title {
   display: block;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .block-directory-downloadable-block-list-item__author {

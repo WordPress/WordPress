@@ -337,15 +337,11 @@ html :where(img[class*=wp-image-]) {
 }
 
 html :where(.is-position-sticky) {
-  /* stylelint-disable length-zero-no-unit -- 0px is set explicitly so that it can be used in a calc value. */
   --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
-  /* stylelint-enable length-zero-no-unit */
 }
 
 @media screen and (max-width: 600px) {
   html :where(.is-position-sticky) {
-    /* stylelint-disable length-zero-no-unit -- 0px is set explicitly so that it can be used in a calc value. */
     --wp-admin--admin-bar--position-offset: 0px;
-    /* stylelint-enable length-zero-no-unit */
   }
 }

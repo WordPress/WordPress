@@ -1574,40 +1574,34 @@ var wp;
   }
   function useMergeRefs(refs) {
     const elementRef = (0, import_element12.useRef)(null);
-    const isAttachedRef = (0, import_element12.useRef)(false);
-    const didElementChangeRef = (0, import_element12.useRef)(false);
-    const previousRefsRef = (0, import_element12.useRef)([]);
+    const attachedRefsRef = (0, import_element12.useRef)([]);
     const currentRefsRef = (0, import_element12.useRef)(refs);
     const cleanupsRef = (0, import_element12.useRef)([]);
     currentRefsRef.current = refs;
     (0, import_element12.useLayoutEffect)(() => {
-      if (didElementChangeRef.current === false && isAttachedRef.current === true) {
-        refs.forEach((ref, index) => {
-          const previousRef = previousRefsRef.current[index];
-          if (ref !== previousRef) {
-            detachRef(previousRef, index, cleanupsRef.current);
-            cleanupsRef.current[index] = assignRef(
-              ref,
-              elementRef.current
-            );
-          }
-        });
+      const element = elementRef.current;
+      if (element === null) {
+        return;
       }
-      previousRefsRef.current = refs;
+      refs.forEach((ref, index) => {
+        const attachedRef = attachedRefsRef.current[index];
+        if (ref !== attachedRef) {
+          detachRef(attachedRef, index, cleanupsRef.current);
+          cleanupsRef.current[index] = assignRef(ref, element);
+        }
+      });
+      attachedRefsRef.current = refs;
     }, refs);
-    (0, import_element12.useLayoutEffect)(() => {
-      didElementChangeRef.current = false;
-    });
     return (0, import_element12.useCallback)((value) => {
       elementRef.current = value;
-      didElementChangeRef.current = true;
-      isAttachedRef.current = value !== null;
       if (value === null) {
-        previousRefsRef.current.forEach((ref, index) => {
+        attachedRefsRef.current.forEach((ref, index) => {
           detachRef(ref, index, cleanupsRef.current);
         });
+        attachedRefsRef.current = [];
       } else {
-        currentRefsRef.current.forEach((ref, index) => {
+        attachedRefsRef.current = currentRefsRef.current;
+        attachedRefsRef.current.forEach((ref, index) => {
           cleanupsRef.current[index] = assignRef(ref, value);
         });
       }

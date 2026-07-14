@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/tab-list",
+	"title": "Tab List",
+	"description": "Display the tab buttons for a tabbed interface.",
+	"category": "design",
+	"textdomain": "default",
+	"parent": [ "core/tabs" ],
+	"usesContext": [ "core/tabs-list" ],
+	"attributes": {
+		"tabs": {
+			"type": "array",
+			"source": "query",
+			"selector": "button",
+			"query": {
+				"label": {
+					"type": "rich-text",
+					"source": "rich-text",
+					"role": "content"
+				}
+			},
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false,
+		"ariaLabel": true,
+		"visibility": false,
+		"lock": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalSkipSerialization": true
+		},
+		"layout": {
+			"default": {
+				"type": "flex",
+				"flexWrap": "wrap"
+			},
+			"allowVerticalAlignment": false,
+			"allowOrientation": false,
+			"allowWrap": false
+		},
+		"spacing": {
+			"padding": true,
+			"blockGap": true,
+			"__experimentalSkipSerialization": [ "padding" ],
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"blockGap": true
+			}
+		}
+	},
+	"selectors": {
+		"border": ".wp-block-tab-list button",
+		"color": {
+			"background": ".wp-block-tab-list button",
+			"text": ".wp-block-tab-list button"
+		},
+		"spacing": {
+			"padding": ".wp-block-tab-list button"
+		}
+	},
+	"style": "wp-block-tab-list"
+}

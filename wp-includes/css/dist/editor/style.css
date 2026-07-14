@@ -252,7 +252,7 @@
 
 .interface-complementary-area h2 {
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #1e1e1e;
   margin-bottom: 1.5em;
 }
@@ -260,7 +260,7 @@
 .interface-complementary-area h3 {
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #1e1e1e;
   margin-bottom: 1.5em;
 }
@@ -653,7 +653,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .font-library-modal .font-library__subtitle {
   text-transform: uppercase;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   font-size: 11px;
 }
 
@@ -704,20 +704,20 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .font-library__page-selection {
   font-size: 11px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   text-transform: uppercase;
 }
 
 @media (min-width: 600px) {
   .font-library__page-selection .font-library__page-selection-trigger {
     font-size: 11px !important;
-    font-weight: 499;
+    font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   }
 }
 .font-library__fonts-title {
   text-transform: uppercase;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -954,7 +954,7 @@ button.font-library__upload-area {
 
 .global-styles-ui-screen-revisions__description .global-styles-ui-screen-revisions__date {
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   font-size: 12px;
 }
 
@@ -1139,13 +1139,13 @@ button.font-library__upload-area {
 .global-styles-ui-subtitle {
   margin-bottom: 0 !important;
   text-transform: uppercase;
-  font-weight: 499 !important;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600) !important;
   font-size: 11px !important;
 }
 
 .global-styles-ui-section-title {
   color: #2f2f2f;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 1.2;
   padding: 16px 16px 0;
   margin: 0;
@@ -1428,7 +1428,6 @@ button.font-library__upload-area {
   min-height: 0;
   box-sizing: border-box;
   scroll-padding-bottom: 64px;
-  /* stylelint-disable-next-line property-no-unknown -- '@container' not globally permitted */
   container: dataviews-wrapper/inline-size;
   display: flex;
   flex-direction: column;
@@ -1491,6 +1490,10 @@ button.font-library__upload-area {
   text-align: center;
 }
 
+.dataviews-loading-more[aria-hidden=true] {
+  visibility: hidden;
+}
+
 @container (max-width: 430px) {
   .dataviews__view-actions,
   .dataviews-filters__container {
@@ -1499,7 +1502,7 @@ button.font-library__upload-area {
 }
 .dataviews-title-field {
   font-size: var(--wpds-typography-font-size-md, 13px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1699,7 +1702,7 @@ button.font-library__upload-area {
 }
 
 .dataviews-filters__summary-chip-container .dataviews-filters__summary-chip .dataviews-filters-__summary-filter-text-name {
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .dataviews-filters__summary-chip-container .dataviews-filters__summary-chip-remove {
@@ -1752,7 +1755,7 @@ button.font-library__upload-area {
 }
 
 .dataviews-filters__search-widget-filter-combobox-list .dataviews-filters__search-widget-filter-combobox-item-value [data-user-value] {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .dataviews-filters__search-widget-listbox {
@@ -1769,8 +1772,8 @@ button.font-library__upload-area {
   padding: var(--wpds-dimension-padding-xs, 4px) var(--wpds-dimension-padding-md, 12px);
   cursor: default;
   min-height: var(--wpds-dimension-size-md, 32px);
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-weight: 400;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   font-size: 13px;
   line-height: 20px;
 }
@@ -1911,7 +1914,7 @@ button.font-library__upload-area {
   margin-right: 12px;
   transition: none;
   border-radius: 2px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -2046,7 +2049,7 @@ button.font-library__upload-area {
 }
 
 .dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -2221,14 +2224,14 @@ button.font-library__upload-area {
 }
 .dataviews-pagination__page-select {
   font-size: 11px;
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   text-transform: uppercase;
 }
 
 @media (min-width: 600px) {
   .dataviews-pagination__page-select .components-select-control__input {
     font-size: 11px !important;
-    font-weight: var(--wpds-typography-font-weight-medium, 499);
+    font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   }
 }
 .dataviews-action-modal {
@@ -2259,7 +2262,6 @@ button.font-library__upload-area {
 
 .dataviews-view-config {
   width: 320px;
-  /* stylelint-disable-next-line property-no-unknown -- the linter needs to be updated to accepted the container-type property */
   container-type: inline-size;
   font-size: var(--wpds-typography-font-size-md, 13px);
   line-height: var(--wpds-typography-line-height-sm, 20px);
@@ -2634,7 +2636,7 @@ button.font-library__upload-area {
 
 .dataviews-view-grid__group-header {
   font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
   margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
   padding: 0 var(--wpds-dimension-padding-2xl, 24px);
@@ -2928,7 +2930,7 @@ div.dataviews-view-list {
 }
 .dataviews-view-list__group-header {
   font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
   margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
   padding: 0 var(--wpds-dimension-padding-2xl, 24px);
@@ -3073,7 +3075,7 @@ div.dataviews-view-list {
   padding-bottom: var(--wpds-dimension-padding-sm, 8px);
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .dataviews-view-table thead th:has(.dataviews-view-table-header-button) {
@@ -3121,7 +3123,7 @@ div.dataviews-view-list {
   padding: var(--wpds-dimension-padding-xs, 4px) var(--wpds-dimension-padding-sm, 8px);
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .dataviews-view-table .dataviews-view-table-header-button:not(:hover) {
@@ -3214,7 +3216,7 @@ div.dataviews-view-list {
 }
 
 .dataviews-view-table__group-header-row .dataviews-view-table__group-header-cell {
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   padding: var(--wpds-dimension-padding-md, 12px) var(--wpds-dimension-padding-2xl, 24px);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
 }
@@ -3395,7 +3397,7 @@ div.dataviews-view-list {
 
 .dataviews-view-picker-grid-group__header {
   font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
   margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
   padding: 0 48px;
@@ -3445,7 +3447,7 @@ div.dataviews-view-list {
 
 .dataviews-view-activity .dataviews-view-activity__group-header {
   font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral-weak, #707070);
   margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
   padding: 0;
@@ -3816,7 +3818,7 @@ div.dataviews-view-list {
 
 .dataviews-view-picker-activity .dataviews-view-picker-activity-group__header {
   font-size: var(--wpds-typography-font-size-lg, 15px);
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral-weak, #707070);
   margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
   padding: 0;
@@ -3858,6 +3860,11 @@ div.dataviews-view-list {
 
 .dataviews-picker-footer__actions {
   align-self: flex-end;
+}
+
+.dataviews-controls__richtext [data-rich-text-placeholder]::after {
+  content: attr(data-rich-text-placeholder);
+  color: color-mix(in srgb, currentColor, transparent 38%);
 }
 
 .dataviews-controls__datetime {
@@ -3936,7 +3943,7 @@ div.dataviews-view-list {
 
 .dataforms-layouts-panel__field-trigger.is-disabled .dataforms-layouts-panel__field-control {
   color: var(--wpds-color-foreground-content-neutral-weak, #707070);
-  font-weight: var(--wpds-typography-font-weight-regular, 400);
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 
 .dataforms-layouts-panel__field-trigger--edit-always .dataforms-layouts-panel__field-trigger-icon {
@@ -4012,7 +4019,7 @@ div.dataviews-view-list {
   padding-inline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
   margin-inline: calc(-1 * var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)));
   word-break: break-word;
-  font-weight: var(--wpds-typography-font-weight-medium, 499);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .dataforms-layouts-panel__field-control > * {
@@ -4131,8 +4138,8 @@ div.dataviews-view-list {
 }
 
 .dataforms-layouts__wrapper {
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-weight: 400;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   font-size: 13px;
   line-height: 20px;
 }
@@ -4351,7 +4358,6 @@ fieldset.fields__media-edit .fields__media-edit-description {
 }
 
 fieldset.fields__media-edit {
-  /* stylelint-disable-next-line property-no-unknown -- '@container' not globally permitted */
   container-type: inline-size;
 }
 
@@ -4591,7 +4597,6 @@ fieldset.fields__media-edit .fields__media-edit-expanded.is-empty .fields__media
 
 fieldset.fields__media-edit .fields__media-edit-expanded.is-multiple:not(.is-empty) {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  /* stylelint-disable-next-line property-no-unknown -- '@container' not globally permitted */
 }
 
 @container (max-width: 500px) {
@@ -4679,7 +4684,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 
 .fields-controls__slug .fields-controls__slug-help .fields-controls__slug-help-slug {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .fields-controls__featured-image-image,
@@ -4845,7 +4850,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 
 .media-editor-preview__file-name {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin-bottom: 8px;
 }
 
@@ -5474,7 +5479,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 
 .media-editor-image-controls__label {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -5520,7 +5525,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 
 .media-editor-keyboard-shortcuts-modal .media-editor-keyboard-shortcuts-modal__shortcut-term {
   background: none;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0 0 0 1rem;
   padding: 0;
   text-align: right;
@@ -5543,7 +5548,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   padding: 0 8px;
   box-sizing: border-box;
   color: #1e1e1e;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -5636,7 +5641,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   height: 14px;
   transform: translateX(-50%);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 14px;
   color: #1e1e1e;
   pointer-events: none;
@@ -5712,7 +5717,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   margin-left: 8px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: none;
+  overflow: hidden;
   max-width: 100px;
   flex-grow: 0;
   flex-shrink: 0;
@@ -5827,21 +5832,21 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   flex-shrink: 0;
 }
 
-.editor-collab-sidebar-panel__more-reply-separator::before, .editor-collab-sidebar-panel__more-reply-separator::after {
+.editor-collab-sidebar-panel__more-reply-separator::before, .editor-collab-sidebar-panel__more-reply-separator::after,
+.editor-collab-sidebar-panel__status-separator::before,
+.editor-collab-sidebar-panel__status-separator::after {
   content: "";
-  display: block;
-  width: 100%;
+  flex: 1;
   height: 1px;
   background-color: #ddd;
-  flex: 1;
 }
 
 .editor-collab-sidebar-panel__more-reply-button {
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .editor-collab-sidebar-panel__deleted-block-notice {
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #757575;
 }
 
@@ -5849,44 +5854,23 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   font-style: italic;
 }
 
-.editor-collab-sidebar-panel__note-form textarea {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  padding: 6px 8px;
-  /* Fonts smaller than 16px causes mobile safari to zoom. */
-  font-size: 16px;
-  /* Override core line-height. To be reviewed. */
-  line-height: normal;
-  box-shadow: 0 0 0 transparent;
+.editor-collab-sidebar-panel__note-form [role=textbox] {
+  line-height: 20px;
+  max-height: 418px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.editor-collab-sidebar-panel__note-form [role=textbox] code {
+  font-family: Menlo, Consolas, monaco, monospace;
+  font-size: 0.9em;
+  padding: 0 2px;
+  background: #f0f0f0;
   border-radius: 2px;
-  border: 1px solid #949494;
 }
-@media not (prefers-reduced-motion) {
-  .editor-collab-sidebar-panel__note-form textarea {
-    transition: box-shadow 0.1s linear;
-  }
-}
-@media (min-width: 600px) {
-  .editor-collab-sidebar-panel__note-form textarea {
-    font-size: 13px;
-    /* Override core line-height. To be reviewed. */
-    line-height: normal;
-  }
-}
-.editor-collab-sidebar-panel__note-form textarea:focus {
-  border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color);
-  outline: 2px solid transparent;
-}
-.editor-collab-sidebar-panel__note-form textarea::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.editor-collab-sidebar-panel__note-form textarea::placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.editor-collab-sidebar-panel__note-form textarea {
-  padding: 9px 11px;
-  line-height: 20px !important;
-  display: block;
+.editor-collab-sidebar-panel__note-form [role=textbox] a:not(.wp-note-mention) {
+  color: var(--wp-admin-theme-color);
+  text-decoration: underline;
 }
 
 .editor-collab-sidebar-panel__skip-to-note,
@@ -5931,7 +5915,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 
 .editor-note-indicator__overflow {
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .show-icon-labels .editor-note-indicator {
@@ -5948,6 +5932,21 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 mark.wp-note {
   border-radius: 1px;
   transition: background-color 0.1s ease-in-out;
+}
+
+.wp-note-mention {
+  display: inline;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--wp-admin-theme-color) 12%, transparent);
+  color: var(--wp-admin-theme-color);
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.editor-collab-sidebar-panel__mention-suggestion .editor-autocompleters__user-avatar {
+  border-radius: 50%;
 }
 
 .editor-avatar {
@@ -6010,7 +6009,7 @@ mark.wp-note {
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   border: 0;
   background-clip: border-box;
 }
@@ -6024,7 +6023,7 @@ mark.wp-note {
 
 .editor-avatar__name {
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 20px;
   color: var(--editor-avatar-name-color, #fff);
   min-width: 0;
@@ -6170,7 +6169,7 @@ mark.wp-note {
 }
 .editor-collaborators-presence__list.components-popover .editor-collaborators-presence__list-header-title {
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 20px;
   display: flex;
   gap: 4px;
@@ -6224,7 +6223,7 @@ mark.wp-note {
 }
 .editor-collaborators-presence__list.components-popover .editor-collaborators-presence__list-item-name {
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 20px;
   color: #1e1e1e;
   overflow: hidden;
@@ -6691,7 +6690,7 @@ mark.wp-note {
 }
 
 .editor-error-boundary {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   margin: auto;
   max-width: 780px;
   padding: 1em;
@@ -6784,7 +6783,7 @@ mark.wp-note {
      object-fit: cover;
 }
 .editor-welcome-guide__heading {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 24px;
   line-height: 1.4;
   margin: 16px 0 16px 0;
@@ -6892,7 +6891,6 @@ mark.wp-note {
   justify-content: center;
   align-items: center;
   min-width: 0;
-  clip-path: inset(-2px);
 }
 @media (max-width: 479px) {
   .editor-header__center > :first-child {
@@ -6901,9 +6899,6 @@ mark.wp-note {
   .editor-header__center > :last-child {
     margin-inline-end: 8px;
   }
-}
-.editor-revisions-header .editor-header__center {
-  clip-path: none;
 }
 
 /**
@@ -7097,7 +7092,7 @@ mark.wp-note {
 }
 .editor-keyboard-shortcut-help-modal__section-title {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .editor-keyboard-shortcut-help-modal__shortcut {
   display: flex;
@@ -7113,7 +7108,7 @@ mark.wp-note {
   display: none;
 }
 .editor-keyboard-shortcut-help-modal__shortcut-term {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0 0 0 1rem;
   text-align: right;
 }
@@ -7280,8 +7275,8 @@ mark.wp-note {
   width: 100%;
 }
 .editor-post-card-panel__title.editor-post-card-panel__title {
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-weight: 499;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   font-size: 13px;
   line-height: 20px;
   margin: 0;
@@ -7382,7 +7377,7 @@ mark.wp-note {
 .editor-post-featured-image__preview {
   width: 100%;
   padding: 0;
-  box-shadow: 0 0 0 0 var(--wp-admin-theme-color);
+  border-color: #ccc;
   overflow: hidden;
   outline-offset: -1px;
   min-height: 40px;
@@ -7406,13 +7401,6 @@ mark.wp-note {
   -o-object-position: 50% 50%;
      object-position: 50% 50%;
   aspect-ratio: 2/1;
-}
-
-.editor-post-featured-image__toggle {
-  box-shadow: inset 0 0 0 1px #ccc;
-}
-.editor-post-featured-image__toggle:focus:not(:disabled) {
-  box-shadow: 0 0 0 currentColor inset, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 
 .editor-post-featured-image__actions:not(.editor-post-featured-image__actions-missing-image) {
@@ -7453,7 +7441,7 @@ mark.wp-note {
 
 .editor-post-last-revision__title {
   width: 100%;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .editor-post-last-revision__title.components-button.has-icon {
@@ -7519,7 +7507,7 @@ mark.wp-note {
   text-wrap: pretty;
   height: auto;
   min-height: 32px;
-  font-weight: 400;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 .editor-post-panel__row-control .components-dropdown {
   max-width: 100%;
@@ -7692,7 +7680,7 @@ mark.wp-note {
 }
 
 .post-publish-panel__postpublish-header {
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .post-publish-panel__postpublish-subheader {
@@ -8158,7 +8146,7 @@ textarea.editor-post-text-editor::placeholder {
 }
 
 .editor-post-url__link-slug {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .editor-post-url__input input.components-input-control__input {
@@ -8195,12 +8183,6 @@ textarea.editor-post-text-editor::placeholder {
 .editor-preview-dropdown .editor-preview-dropdown__toggle.has-icon.has-text {
   padding-right: 4px;
   padding-left: 6px;
-}
-
-.editor-preview-dropdown__button-external {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -8418,11 +8400,6 @@ textarea.editor-post-text-editor::placeholder {
 .editor-style-book.is-button {
   border-radius: 8px;
 }
-.editor-style-book {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
 
 .editor-style-book__iframe {
   display: block;
@@ -8435,6 +8412,12 @@ textarea.editor-post-text-editor::placeholder {
 .editor-style-book__iframe.is-focused {
   outline: calc(2 * var(--wp-admin-border-width-focus)) solid var(--wp-admin-theme-color);
   outline-offset: calc(-2 * var(--wp-admin-border-width-focus));
+}
+
+.editor-style-book__tabs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .editor-style-book__tablist-container {
@@ -8550,7 +8533,7 @@ textarea.editor-post-text-editor::placeholder {
   display: block;
   margin-top: 20px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .editor-text-editor {
@@ -8675,11 +8658,11 @@ textarea.editor-post-text-editor::placeholder {
   padding-left: 24px;
   padding-right: 24px;
 }
-.editor-visual-editor.is-iframed {
+.editor-visual-editor {
   overflow: hidden;
 }
 .editor-visual-editor .components-button {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   padding: 6px 12px;
 }

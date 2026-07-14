@@ -85,6 +85,17 @@
 			"source": "attribute",
 			"selector": "video",
 			"attribute": "poster"
+		},
+		"allowedVideoProviders": {
+			"type": "array",
+			"default": [
+				"youtube",
+				"vimeo",
+				"videopress",
+				"animoto",
+				"tiktok",
+				"wordpress-tv"
+			]
 		}
 	},
 	"usesContext": [ "postId", "postType" ],

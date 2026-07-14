@@ -2929,8 +2929,13 @@ var wp;
       offset: asRichTextOffset(selectionStart.offset)
     } : null;
   }
-  function defaultGetChangesFromCRDTDoc(crdtDoc) {
-    return getRootMap(crdtDoc, CRDT_RECORD_MAP_KEY).toJSON();
+  function defaultGetChangesFromCRDTDoc(crdtDoc, editedRecord) {
+    const docRecord = getRootMap(crdtDoc, CRDT_RECORD_MAP_KEY).toJSON();
+    return Object.fromEntries(
+      Object.entries(docRecord).filter(
+        ([key, newValue]) => haveValuesChanged(editedRecord?.[key], newValue)
+      )
+    );
   }
   function getPostChangesFromCRDTDoc(ydoc, editedRecord, syncedProperties) {
     const ymap = getRootMap(ydoc, CRDT_RECORD_MAP_KEY);
@@ -3319,7 +3324,7 @@ var wp;
     if (persistedRecord) {
       const objectType = `postType/${name}`;
       const objectId = persistedRecord.id;
-      const serializedDoc = getSyncManager()?.createPersistedCRDTDoc(
+      const serializedDoc = await getSyncManager()?.createPersistedCRDTDoc(
         objectType,
         objectId
       );

@@ -82,7 +82,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
             "The result of getSnapshot should be cached to avoid an infinite loop"
           ), didWarnUncachedGetSnapshot = true);
         }
-        cachedValue = useState55({
+        cachedValue = useState56({
           inst: { value, getSnapshot }
         });
         var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
@@ -94,7 +94,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
           },
           [subscribe2, value, getSnapshot]
         );
-        useEffect47(
+        useEffect48(
           function() {
             checkIfSnapshotChanged(inst) && forceUpdate({ inst });
             return subscribe2(function() {
@@ -120,7 +120,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return getSnapshot();
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React84 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState55 = React84.useState, useEffect47 = React84.useEffect, useLayoutEffect5 = React84.useLayoutEffect, useDebugValue2 = React84.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+      var React84 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState56 = React84.useState, useEffect48 = React84.useEffect, useLayoutEffect5 = React84.useLayoutEffect, useDebugValue2 = React84.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
       exports.useSyncExternalStore = void 0 !== React84.useSyncExternalStore ? React84.useSyncExternalStore : shim;
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
@@ -148,14 +148,14 @@ var require_with_selector_development = __commonJS({
         return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React84 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef65 = React84.useRef, useEffect47 = React84.useEffect, useMemo70 = React84.useMemo, useDebugValue2 = React84.useDebugValue;
+      var React84 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef66 = React84.useRef, useEffect48 = React84.useEffect, useMemo71 = React84.useMemo, useDebugValue2 = React84.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe2, getSnapshot, getServerSnapshot, selector2, isEqual) {
-        var instRef = useRef65(null);
+        var instRef = useRef66(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
         } else inst = instRef.current;
-        instRef = useMemo70(
+        instRef = useMemo71(
           function() {
             function memoizedSelector(nextSnapshot) {
               if (!hasMemo) {
@@ -191,7 +191,7 @@ var require_with_selector_development = __commonJS({
           [getSnapshot, getServerSnapshot, selector2, isEqual]
         );
         var value = useSyncExternalStore3(subscribe2, instRef[0], instRef[1]);
-        useEffect47(
+        useEffect48(
           function() {
             inst.hasValue = true;
             inst.value = value;
@@ -816,6 +816,13 @@ var require_date = __commonJS({
 var require_warning = __commonJS({
   "package-external:@wordpress/warning"(exports, module) {
     module.exports = window.wp.warning;
+  }
+});
+
+// package-external:@wordpress/rich-text
+var require_rich_text = __commonJS({
+  "package-external:@wordpress/rich-text"(exports, module) {
+    module.exports = window.wp.richText;
   }
 });
 
@@ -12303,11 +12310,11 @@ function registerStyle(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle("0c5702ddca", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._83ed8a8da5dd50ea__text{margin:0}._14437cfb77831647__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._14437cfb77831647__heading-2xl,._3c78b7fa9b4072dd__heading-xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499)}._3c78b7fa9b4072dd__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.aa58f227716bcde2__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}.aa58f227716bcde2__heading-lg,.fc4da56d8dfe52c4__heading-md{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-sm,20px)}.fc4da56d8dfe52c4__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.a9b78c7c82e8dff7__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._305ff559e52180d5__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._305ff559e52180d5__body-xl,.ca1aa3fc2029e958__body-lg{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}.ca1aa3fc2029e958__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._131101940be12424__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0e8d87a42c1f75fa__body-sm,._131101940be12424__body-md{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}._0e8d87a42c1f75fa__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
+  registerStyle("a495f9d138", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._83ed8a8da5dd50ea__text{margin:0}._14437cfb77831647__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._14437cfb77831647__heading-2xl,._3c78b7fa9b4072dd__heading-xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600)}._3c78b7fa9b4072dd__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.aa58f227716bcde2__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}.aa58f227716bcde2__heading-lg,.fc4da56d8dfe52c4__heading-md{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-sm,20px)}.fc4da56d8dfe52c4__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.a9b78c7c82e8dff7__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-emphasis,600);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._305ff559e52180d5__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._305ff559e52180d5__body-xl,.ca1aa3fc2029e958__body-lg{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}.ca1aa3fc2029e958__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._131101940be12424__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0e8d87a42c1f75fa__body-sm,._131101940be12424__body-md{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-default,400)}._0e8d87a42c1f75fa__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-default,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
 }
 var style_default = { "text": "_83ed8a8da5dd50ea__text", "heading-2xl": "_14437cfb77831647__heading-2xl", "heading-xl": "_3c78b7fa9b4072dd__heading-xl", "heading-lg": "aa58f227716bcde2__heading-lg", "heading-md": "fc4da56d8dfe52c4__heading-md", "heading-sm": "a9b78c7c82e8dff7__heading-sm", "body-xl": "_305ff559e52180d5__body-xl", "body-lg": "ca1aa3fc2029e958__body-lg", "body-md": "_131101940be12424__body-md", "body-sm": "_0e8d87a42c1f75fa__body-sm" };
 if (typeof process === "undefined" || true) {
-  registerStyle("d390e935a7", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
+  registerStyle("af6d9984a6", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
 }
 var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
 var Text = (0, import_element12.forwardRef)(function Text2({ variant = "body-md", render: render4, className, ...props }, ref) {
@@ -12516,7 +12523,7 @@ function registerStyle3(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle3("ed71fae0df", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-medium,499);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);inset-inline-start:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
+  registerStyle3("b74f1ac304", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);inset-inline-start:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
 }
 var style_default3 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "loading-animation": "_5a1d53da6f830c8d__loading-animation" };
 if (typeof process === "undefined" || true) {
@@ -12528,7 +12535,7 @@ if (typeof process === "undefined" || true) {
 }
 var focus_default = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible" };
 if (typeof process === "undefined" || true) {
-  registerStyle3("d390e935a7", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
+  registerStyle3("af6d9984a6", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
 }
 var global_css_defense_default2 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
 var Button3 = (0, import_element14.forwardRef)(
@@ -12677,7 +12684,7 @@ function registerStyle4(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle4("ed71fae0df", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-medium,499);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);inset-inline-start:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
+  registerStyle4("b74f1ac304", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._97b0fc33c028be1a__button,.abbb272e2ce49bd6__is-unstyled{appearance:none;padding:0}._97b0fc33c028be1a__button{--wp-ui-button-font-weight:var(--wpds-typography-font-weight-emphasis,600);--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-strong,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-strong-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 93%,#000));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand-strong,#fff);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-strong-active,#fff);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-strong-disabled,#8d8d8d);--wp-ui-button-padding-block:var(--wpds-dimension-padding-xs,4px);--wp-ui-button-padding-inline:var(--wpds-dimension-padding-md,12px);--wp-ui-button-height:var(--wpds-dimension-size-lg,40px);--wp-ui-button-aspect-ratio:auto;--wp-ui-button-font-size:var(--wpds-typography-font-size-md,13px);--wp-ui-button-min-width:calc(4ch + var(--wp-ui-button-padding-inline)*2);--wp-ui-button-icon-margin:calc((var(--wpds-dimension-size-2xs, 16px) - var(--wpds-dimension-size-sm, 24px))/2);--wp-ui-button-border-color:var(--wp-ui-button-background-color);--wp-ui-button-border-color-active:var(--wp-ui-button-background-color-active);--wp-ui-button-border-color-disabled:var(--wp-ui-button-background-color-disabled);--_gcd-button-font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);--_gcd-button-font-size:var(--wp-ui-button-font-size);--_gcd-button-font-weight:var(--wp-ui-button-font-weight);align-items:center;aspect-ratio:var(--wp-ui-button-aspect-ratio);background-clip:border-box;background-color:var(--wp-ui-button-background-color);border-color:var(--wp-ui-button-border-color);border-radius:var(--wpds-border-radius-sm,2px);border-style:solid;border-width:1px;color:var(--wp-ui-button-foreground-color);display:inline-flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wp-ui-button-font-size);font-weight:var(--wp-ui-button-font-weight);gap:var(--wpds-dimension-gap-sm,8px);justify-content:center;line-height:var(--wpds-typography-line-height-sm,20px);max-width:100%;min-height:var(--wp-ui-button-height);min-width:var(--wp-ui-button-min-width);overflow-wrap:anywhere;padding-block:var(--wp-ui-button-padding-block);padding-inline:var(--wp-ui-button-padding-inline);position:relative;text-align:center;text-decoration:none;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}@media not (prefers-reduced-motion){transition:color .1s ease-out;*{transition:opacity .1s ease-out}}&[href]{cursor:pointer}[href]{color:inherit;text-decoration:inherit}&:not([data-disabled]):is(:hover,:active,:focus){background-color:var(--wp-ui-button-background-color-active);border-color:var(--wp-ui-button-border-color-active);color:var(--wp-ui-button-foreground-color-active)}&[data-disabled]:not(._914b42f315c0e580__is-loading){background-color:var(--wp-ui-button-background-color-disabled);border-color:var(--wp-ui-button-border-color-disabled);color:var(--wp-ui-button-foreground-color-disabled);@media (forced-colors:active){border-bottom-color:GrayText;border-left-color:GrayText;border-right-color:GrayText;border-top-color:GrayText;color:GrayText}}&:before{aspect-ratio:1;border:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid;border-block-end-color:transparent;border-block-start-color:var(--wp-ui-button-foreground-color);border-inline-end-color:var(--wp-ui-button-foreground-color);border-inline-start-color:transparent;border-radius:50%;box-sizing:border-box;content:"";display:block;height:var(--wp-ui-button-font-size);inset-inline-start:50%;opacity:0;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);@media not (prefers-reduced-motion){transition:opacity .1s ease-out}@media (forced-colors:active){border-block-end-style:none;border-bottom-color:ButtonText;border-inline-start-style:none;border-left-color:ButtonText;border-right-color:ButtonText;border-top-color:ButtonText}}}._908205475f9f2a92__is-small{--wp-ui-button-padding-block:0px;--wp-ui-button-padding-inline:var(--wpds-dimension-padding-sm,8px);--wp-ui-button-height:var(--wpds-dimension-size-sm,24px)}._9f6fc6553aeb36fe__icon{margin:var(--wp-ui-button-icon-margin)}.dd460c965226cc77__is-brand{&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-brand-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-brand,var(--wp-admin-theme-color,#3858e9));--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 85%,#000));--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-brand-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal{--wp-ui-button-background-color:var(--wpds-color-background-interactive-brand-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-brand-weak-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 12%,#fff));--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-brand-weak-disabled,#0000)}}.e722a8f96726aa99__is-neutral{&.ad0619a3217c6a5b__is-minimal[aria-pressed=true],&.b50b3358c5fb4d0b__is-solid{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-strong,#2d2d2d);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-strong-active,#1e1e1e);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-strong-disabled,#e6e6e6);--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral-strong,#f0f0f0);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-strong-active,#f0f0f0);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-strong-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline,&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-foreground-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);--wp-ui-button-foreground-color-active:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);--wp-ui-button-foreground-color-disabled:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}&._62d5a778b7b258ee__is-outline{--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);--wp-ui-button-border-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d);--wp-ui-button-border-color-active:var(--wpds-color-stroke-interactive-neutral-active,#6e6e6e);--wp-ui-button-border-color-disabled:var(--wpds-color-stroke-interactive-neutral-disabled,#dbdbdb)}&.ad0619a3217c6a5b__is-minimal:not([aria-pressed=true]){--wp-ui-button-background-color:var(--wpds-color-background-interactive-neutral-weak,#0000);--wp-ui-button-background-color-active:var(--wpds-color-background-interactive-neutral-weak-active,#ededed);--wp-ui-button-background-color-disabled:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000)}}.abbb272e2ce49bd6__is-unstyled{background:none;border:none;min-width:unset}.cf59cf1b69629838__is-compact{--wp-ui-button-height:var(--wpds-dimension-size-md,32px)}._914b42f315c0e580__is-loading:not(.abbb272e2ce49bd6__is-unstyled){color:transparent;&:not([data-disabled]):is(:hover,:active,:focus){color:transparent}@media (forced-colors:active){color:ButtonFace}*{opacity:0}&:before{opacity:1;transition-delay:.05s;@media not (prefers-reduced-motion){animation:_5a1d53da6f830c8d__loading-animation 1s linear infinite}}}}@keyframes _5a1d53da6f830c8d__loading-animation{0%{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(1turn)}}}');
 }
 var style_default4 = { "button": "_97b0fc33c028be1a__button", "is-unstyled": "abbb272e2ce49bd6__is-unstyled", "is-loading": "_914b42f315c0e580__is-loading", "is-small": "_908205475f9f2a92__is-small", "icon": "_9f6fc6553aeb36fe__icon", "is-brand": "dd460c965226cc77__is-brand", "is-outline": "_62d5a778b7b258ee__is-outline", "is-minimal": "ad0619a3217c6a5b__is-minimal", "is-neutral": "e722a8f96726aa99__is-neutral", "is-solid": "b50b3358c5fb4d0b__is-solid", "is-compact": "cf59cf1b69629838__is-compact", "loading-animation": "_5a1d53da6f830c8d__loading-animation" };
 var ButtonIcon = (0, import_element16.forwardRef)(
@@ -13431,7 +13438,7 @@ if (typeof process === "undefined" || true) {
 }
 var style_default9 = { "heading-wrapper": "_626190151275d6d3__heading-wrapper", "header-content": "cab17c7a373cb60d__header-content", "header-trigger-positioner": "dd89d27c4f15912d__header-trigger-positioner", "header-trigger-wrapper": "bcfab5f2448bafef__header-trigger-wrapper", "header-trigger": "_3106f8d2b0330faa__header-trigger", "header": "_5d2dfcb4085c6d0f__header", "content": "e34cf37ccd0d81e0__content", "overflow-visible": "_03cfdbcd710393c9__overflow-visible", "content-inner": "_41bfdbf7b6c087c2__content-inner" };
 if (typeof process === "undefined" || true) {
-  registerStyle9("d390e935a7", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
+  registerStyle9("af6d9984a6", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
 }
 var global_css_defense_default3 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
 if (typeof process === "undefined" || true) {
@@ -14391,7 +14398,7 @@ if (typeof process === "undefined" || true) {
 }
 var resets_default3 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
 if (typeof process === "undefined" || true) {
-  registerStyle13("789467362f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle13("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
 }
 var style_default12 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
 var Positioner = (0, import_element34.forwardRef)(
@@ -14497,7 +14504,7 @@ function registerStyle14(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle14("789467362f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+  registerStyle14("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
 }
 var style_default13 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
 var POPUP_COLOR = { background: "#1e1e1e" };
@@ -14623,7 +14630,7 @@ function registerStyle15(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle15("65cec4cf71", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer compositions{._28cfdc260e755391__icon-button{--wp-ui-button-aspect-ratio:1;--wp-ui-button-padding-inline:0;--wp-ui-button-min-width:unset}.f1c70d719989a85a__icon{margin:-1px}}}");
+  registerStyle15("c5cdafb1bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer compositions{._28cfdc260e755391__icon-button{--wp-ui-button-aspect-ratio:1;--wp-ui-button-padding-inline:0px;--wp-ui-button-min-width:unset}.f1c70d719989a85a__icon{margin:-1px}}}");
 }
 var style_default14 = { "icon-button": "_28cfdc260e755391__icon-button", "icon": "f1c70d719989a85a__icon" };
 var IconButton = (0, import_element37.forwardRef)(
@@ -14967,11 +14974,11 @@ if (typeof process === "undefined" || true) {
 }
 var focus_default3 = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible" };
 if (typeof process === "undefined" || true) {
-  registerStyle17("7e0119b657", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d4250949359b05ce__link{text-decoration-thickness:from-font;text-underline-offset:.2em}.c6055659b8e2cd2c__is-brand,.c6055659b8e2cd2c__is-brand:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9))}.c6055659b8e2cd2c__is-brand:active,.c6055659b8e2cd2c__is-brand:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000))}._92e0dfcaeee15b88__is-neutral,._92e0dfcaeee15b88__is-neutral:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);text-decoration-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d)}._92e0dfcaeee15b88__is-neutral:active,._92e0dfcaeee15b88__is-neutral:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e)}.cf122a9bf1035d42__is-unstyled{--_gcd-a-color:inherit;color:inherit;text-decoration:none}._0cb411afac4c86c7__link-icon{display:inline-block;font-weight:var(--wpds-typography-font-weight-regular,400);line-height:1;margin-inline-start:var(--wpds-dimension-padding-xs,4px);text-decoration:none}._0cb411afac4c86c7__link-icon:after{content:"\\2197"}._0cb411afac4c86c7__link-icon:dir(rtl):after{content:"\\2196"}}}');
+  registerStyle17("e8e6a9be37", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d4250949359b05ce__link{text-decoration-thickness:from-font;text-underline-offset:.2em}.c6055659b8e2cd2c__is-brand,.c6055659b8e2cd2c__is-brand:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9))}.c6055659b8e2cd2c__is-brand:active,.c6055659b8e2cd2c__is-brand:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000))}._92e0dfcaeee15b88__is-neutral,._92e0dfcaeee15b88__is-neutral:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);text-decoration-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d)}._92e0dfcaeee15b88__is-neutral:active,._92e0dfcaeee15b88__is-neutral:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e)}.cf122a9bf1035d42__is-unstyled{--_gcd-a-color:inherit;color:inherit;text-decoration:none}._0cb411afac4c86c7__link-icon{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-padding-xs,4px);text-decoration:none}._0cb411afac4c86c7__link-icon:after{content:"\\2197"}._0cb411afac4c86c7__link-icon:dir(rtl):after{content:"\\2196"}}}');
 }
 var style_default16 = { "link": "d4250949359b05ce__link", "is-brand": "c6055659b8e2cd2c__is-brand", "is-neutral": "_92e0dfcaeee15b88__is-neutral", "is-unstyled": "cf122a9bf1035d42__is-unstyled", "link-icon": "_0cb411afac4c86c7__link-icon" };
 if (typeof process === "undefined" || true) {
-  registerStyle17("d390e935a7", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
+  registerStyle17("af6d9984a6", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-emphasis,600));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
 }
 var global_css_defense_default4 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
 var Link = (0, import_element41.forwardRef)(function Link2({
@@ -14991,7 +14998,7 @@ var Link = (0, import_element41.forwardRef)(function Link2({
       className: clsx_default(
         global_css_defense_default4.a,
         resets_default4["box-sizing"],
-        focus_default3["outset-ring--focus"],
+        focus_default3["outset-ring--focus-except-active"],
         variant !== "unstyled" && style_default16.link,
         variant !== "unstyled" && style_default16[`is-${tone}`],
         variant === "unstyled" && style_default16["is-unstyled"],
@@ -15912,7 +15919,7 @@ function registerStyle25(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle25("7811a8079a", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-md,0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
+  registerStyle25("e53c8c48f6", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
 }
 var style_default24 = { "positioner": "_10450722b9676f78__positioner", "popup": "_84e8f597bcf683b8__popup _380b81b8f79fb10f__dropdown-motion", "surface": "_972134b6cd5808d8__surface", "backdrop": "e4d544aa033f05c6__backdrop", "arrow": "ca05d3eb89321fcd__arrow", "arrow-fill": "_12d8edd9eb946b5f__arrow-fill", "arrow-stroke": "_6ddab482bd929dad__arrow-stroke", "title": "_6d7e4729cd96960e__title" };
 function DefaultArrowSvg(props) {
@@ -16094,7 +16101,7 @@ if (typeof process === "undefined" || true) {
 }
 var resets_default6 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
 if (typeof process === "undefined" || true) {
-  registerStyle26("7811a8079a", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-md,0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
+  registerStyle26("e53c8c48f6", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
 }
 var style_default25 = { "positioner": "_10450722b9676f78__positioner", "popup": "_84e8f597bcf683b8__popup _380b81b8f79fb10f__dropdown-motion", "surface": "_972134b6cd5808d8__surface", "backdrop": "e4d544aa033f05c6__backdrop", "arrow": "ca05d3eb89321fcd__arrow", "arrow-fill": "_12d8edd9eb946b5f__arrow-fill", "arrow-stroke": "_6ddab482bd929dad__arrow-stroke", "title": "_6d7e4729cd96960e__title" };
 var Positioner2 = (0, import_element53.forwardRef)(
@@ -16209,7 +16216,7 @@ function registerStyle27(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle27("7811a8079a", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-md,0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
+  registerStyle27("e53c8c48f6", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
 }
 var style_default26 = { "positioner": "_10450722b9676f78__positioner", "popup": "_84e8f597bcf683b8__popup _380b81b8f79fb10f__dropdown-motion", "surface": "_972134b6cd5808d8__surface", "backdrop": "e4d544aa033f05c6__backdrop", "arrow": "ca05d3eb89321fcd__arrow", "arrow-fill": "_12d8edd9eb946b5f__arrow-fill", "arrow-stroke": "_6ddab482bd929dad__arrow-stroke", "title": "_6d7e4729cd96960e__title" };
 var CLOSE_ATTR = "data-wp-ui-popover-close";
@@ -16350,7 +16357,7 @@ function registerStyle28(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle28("7811a8079a", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-md,0 2px 3px 0 #0000000d,0 4px 5px 0 #0000000a,0 12px 12px 0 #00000008,0 16px 16px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
+  registerStyle28("e53c8c48f6", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._380b81b8f79fb10f__dropdown-motion{--wp-ui-dropdown-slide-distance:4px;--wp-ui-dropdown-slide-duration:var(--wpds-motion-duration-md,200ms);--wp-ui-dropdown-slide-easing:var(--wpds-motion-easing-expressive,cubic-bezier(0.25,0,0,1));--wp-ui-dropdown-fade-duration:var(--wpds-motion-duration-sm,100ms);--wp-ui-dropdown-fade-easing:linear;@media not (prefers-reduced-motion){transition-duration:var(--wp-ui-dropdown-slide-duration),var(--wp-ui-dropdown-fade-duration);transition-property:transform,opacity;transition-timing-function:var(--wp-ui-dropdown-slide-easing),var(--wp-ui-dropdown-fade-easing);will-change:transform,opacity}opacity:1;transform:translate(0);&[data-instant]{transition:none}&[data-ending-style],&[data-starting-style]{opacity:0}&[data-side=bottom][data-ending-style],&[data-side=bottom][data-starting-style]{transform:translateY(calc(var(--wp-ui-dropdown-slide-distance)*-1))}&[data-side=top][data-ending-style],&[data-side=top][data-starting-style]{transform:translateY(var(--wp-ui-dropdown-slide-distance))}&[data-side=left][data-ending-style],&[data-side=left][data-starting-style]{transform:translateX(var(--wp-ui-dropdown-slide-distance))}&[data-side=right][data-ending-style],&[data-side=right][data-starting-style]{transform:translateX(calc(var(--wp-ui-dropdown-slide-distance)*-1))}}}}@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._10450722b9676f78__positioner{z-index:var(--wp-ui-popover-z-index,initial)}._84e8f597bcf683b8__popup{outline:0}._972134b6cd5808d8__surface{--_wp-ui-elevation-md:0 2px 3px rgba(0,0,0,.05),0 4px 5px rgba(0,0,0,.04),0 12px 12px rgba(0,0,0,.03),0 16px 16px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-md);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-md,24px);padding:var(--wpds-dimension-padding-lg,16px)}.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:transparent}@media (forced-colors:active){._972134b6cd5808d8__surface,.e4d544aa033f05c6__backdrop~* ._972134b6cd5808d8__surface{border-color:CanvasText}}.ca05d3eb89321fcd__arrow{display:flex;&[data-side=top]{bottom:-8px;rotate:180deg}&[data-side=bottom]{rotate:0deg;top:-8px}&[data-side=left]{inset-inline-end:-13px;rotate:90deg}&[data-side=right]{inset-inline-start:-13px;rotate:-90deg}}._12d8edd9eb946b5f__arrow-fill{fill:var(--wpds-color-background-surface-neutral-strong,#fff)}._6ddab482bd929dad__arrow-stroke{fill:var(--wpds-color-stroke-surface-neutral,#dbdbdb)}._6d7e4729cd96960e__title{--_gcd-heading-color:var(--wpds-color-foreground-content-neutral,#1e1e1e);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}.e4d544aa033f05c6__backdrop{background-color:rgba(0,0,0,.15);inset:0;opacity:1;position:fixed;z-index:var(--wp-ui-popover-z-index,initial);&[data-ending-style],&[data-starting-style]{opacity:0}@media not (prefers-reduced-motion){transition:opacity var(--wpds-motion-duration-sm,.1s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}}}');
 }
 var style_default27 = { "positioner": "_10450722b9676f78__positioner", "popup": "_84e8f597bcf683b8__popup _380b81b8f79fb10f__dropdown-motion", "surface": "_972134b6cd5808d8__surface", "backdrop": "e4d544aa033f05c6__backdrop", "arrow": "ca05d3eb89321fcd__arrow", "arrow-fill": "_12d8edd9eb946b5f__arrow-fill", "arrow-stroke": "_6ddab482bd929dad__arrow-stroke", "title": "_6d7e4729cd96960e__title" };
 var Title3 = (0, import_element55.forwardRef)(
@@ -16904,11 +16911,11 @@ function Layout({ activeTab, children }) {
 }
 
 // packages/content-types/build-module/post-types/list.mjs
-var import_components59 = __toESM(require_components(), 1);
+var import_components60 = __toESM(require_components(), 1);
 
 // packages/dataviews/build-module/dataviews/index.mjs
-var import_element114 = __toESM(require_element(), 1);
-var import_compose15 = __toESM(require_compose(), 1);
+var import_element116 = __toESM(require_element(), 1);
+var import_compose16 = __toESM(require_compose(), 1);
 
 // packages/dataviews/build-module/components/dataviews-context/index.mjs
 var import_element58 = __toESM(require_element(), 1);
@@ -19710,6 +19717,7 @@ function ViewList(props) {
   } = props;
   const baseId = (0, import_compose6.useInstanceId)(ViewList, "view-list");
   const isDelayedLoading = useDelayedLoading(!!isLoading);
+  const { paginationInfo } = (0, import_element71.useContext)(dataviews_context_default);
   const selectedItem = data?.findLast(
     (item) => selection.includes(getItemId(item))
   );
@@ -19802,6 +19810,7 @@ function ViewList(props) {
   const groupField = view.groupBy?.field ? fields.find((field) => field.id === view.groupBy?.field) : null;
   const dataByGroup = hasData && groupField ? getDataByGroup(data, groupField) : null;
   const isInfiniteScroll = view.infiniteScrollEnabled && !dataByGroup;
+  const hasMoreItems = isInfiniteScroll && (view.startPosition ?? 1) + (view.perPage ?? 0) < paginationInfo.totalItems;
   if (!hasData) {
     return /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
       "div",
@@ -19913,7 +19922,17 @@ function ViewList(props) {
         })
       }
     ),
-    isInfiniteScroll && isLoading && /* @__PURE__ */ (0, import_jsx_runtime103.jsx)("p", { className: "dataviews-loading-more", children: /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(import_components12.Spinner, {}) })
+    (hasMoreItems || isInfiniteScroll && isLoading) && // Keep the spinner's height reserved while loading more so the
+    // scroll position doesn't bounce. Hidden, and silent to a11y,
+    // while idle.
+    /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
+      "p",
+      {
+        className: "dataviews-loading-more",
+        "aria-hidden": !isLoading,
+        children: /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(import_components12.Spinner, {})
+      }
+    )
   ] });
 }
 
@@ -20245,15 +20264,15 @@ var import_components14 = __toESM(require_components(), 1);
 var import_element74 = __toESM(require_element(), 1);
 var import_i18n20 = __toESM(require_i18n(), 1);
 var import_jsx_runtime107 = __toESM(require_jsx_runtime(), 1);
+function hasPaginationControls(view, paginationInfo) {
+  return !view.infiniteScrollEnabled && paginationInfo.totalItems > 0 && paginationInfo.totalPages > 1;
+}
 function DataViewsPagination() {
-  const {
-    view,
-    onChangeView,
-    paginationInfo: { totalItems = 0, totalPages }
-  } = (0, import_element74.useContext)(dataviews_context_default);
-  if (!totalItems || !totalPages || view.infiniteScrollEnabled) {
+  const { view, onChangeView, paginationInfo } = (0, import_element74.useContext)(dataviews_context_default);
+  if (!hasPaginationControls(view, paginationInfo)) {
     return null;
   }
+  const { totalPages } = paginationInfo;
   const currentPage = view.page ?? 1;
   const pageSelectOptions = Array.from(Array(totalPages)).map(
     (_, i2) => {
@@ -20270,7 +20289,7 @@ function DataViewsPagination() {
       };
     }
   );
-  return !!totalItems && totalPages !== 1 && /* @__PURE__ */ (0, import_jsx_runtime107.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime107.jsxs)(
     Stack,
     {
       direction: "row",
@@ -20290,10 +20309,7 @@ function DataViewsPagination() {
             children: (0, import_element74.createInterpolateElement)(
               (0, import_i18n20.sprintf)(
                 // translators: 1: Current page number, 2: Total number of pages.
-                (0, import_i18n20._x)(
-                  "<div>Page</div>%1$s<div>of %2$d</div>",
-                  "paging"
-                ),
+                (0, import_i18n20._x)("<div>Page</div>%1$s<div>of %2$d</div>", "paging"),
                 "<CurrentPage />",
                 totalPages
               ),
@@ -21666,6 +21682,63 @@ function flatten2DArray(array) {
 function reverseArray(array) {
   return array.slice().reverse();
 }
+function noop4(..._) {
+}
+function hasOwnProperty(object, prop) {
+  if (typeof Object.hasOwn === "function") return Object.hasOwn(object, prop);
+  return Object.prototype.hasOwnProperty.call(object, prop);
+}
+function chain(...fns) {
+  return (...args) => {
+    for (const fn of fns) if (typeof fn === "function") fn(...args);
+  };
+}
+function normalizeString(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+function omit(object, keys) {
+  const result = { ...object };
+  for (const key of keys) if (hasOwnProperty(result, key)) delete result[key];
+  return result;
+}
+function pick(object, paths) {
+  const result = {};
+  for (const key of paths) if (hasOwnProperty(object, key)) result[key] = object[key];
+  return result;
+}
+function identity(value) {
+  return value;
+}
+function afterPaint(cb = noop4) {
+  let raf = requestAnimationFrame(() => {
+    raf = requestAnimationFrame(cb);
+  });
+  return () => cancelAnimationFrame(raf);
+}
+function invariant(condition, message2) {
+  if (condition) return;
+  if (typeof message2 !== "string") throw new Error("Invariant failed");
+  throw new Error(message2);
+}
+function getKeys(obj) {
+  return Object.keys(obj);
+}
+function isFalsyBooleanCallback(booleanOrCallback, ...args) {
+  const result = typeof booleanOrCallback === "function" ? booleanOrCallback(...args) : booleanOrCallback;
+  if (result == null) return false;
+  return !result;
+}
+function disabledFromProps(props) {
+  return props.disabled || props["aria-disabled"] === true || props["aria-disabled"] === "true";
+}
+function removeUndefinedValues(obj) {
+  const result = {};
+  for (const key in obj) if (obj[key] !== void 0) result[key] = obj[key];
+  return result;
+}
+function defaultValue(...values) {
+  for (const value of values) if (value !== void 0) return value;
+}
 var canUseDOM = checkIsBrowser();
 function checkIsBrowser() {
   return typeof window !== "undefined" && !!window.document?.createElement;
@@ -21721,9 +21794,9 @@ function isVisible(element) {
 }
 function isTextField(element) {
   try {
-    const isTextInput = element instanceof HTMLInputElement && element.selectionStart !== null;
-    const isTextArea = element.tagName === "TEXTAREA";
-    return isTextInput || isTextArea || false;
+    if (element.tagName === "TEXTAREA") return true;
+    if (element.tagName !== "INPUT") return false;
+    return element.selectionStart !== null;
   } catch (_error) {
     return false;
   }
@@ -21763,17 +21836,27 @@ function getTextboxSelection(element) {
     end
   };
 }
+var allowedPopupRoles = [
+  "dialog",
+  "menu",
+  "listbox",
+  "tree",
+  "grid"
+];
+var itemRoleByPopupRole = {
+  menu: "menuitem",
+  listbox: "option",
+  tree: "treeitem"
+};
 function getPopupRole(element, fallback) {
-  const allowedPopupRoles = [
-    "dialog",
-    "menu",
-    "listbox",
-    "tree",
-    "grid"
-  ];
   const role = element?.getAttribute("role");
   if (role && allowedPopupRoles.indexOf(role) !== -1) return role;
   return fallback;
+}
+function getItemRoleByPopupRole(popupRole) {
+  if (popupRole == null) return;
+  if (!hasOwnProperty(itemRoleByPopupRole, popupRole)) return;
+  return itemRoleByPopupRole[popupRole];
 }
 function getScrollingElement(element) {
   if (!element) return null;
@@ -21789,7 +21872,8 @@ function getScrollingElement(element) {
     const { overflowX } = getComputedStyle(element);
     if (isScrollableOverflow(overflowX)) return element;
   }
-  return getScrollingElement(element.parentElement) || document.scrollingElement || document.body;
+  const doc = getDocument(element);
+  return getScrollingElement(element.parentElement) || doc.scrollingElement || doc.body;
 }
 function setSelectionRange(element, ...args) {
   if (/text|search|password|tel|url/i.test(element.type)) element.setSelectionRange(...args);
@@ -21837,27 +21921,24 @@ function isPortalEvent(event) {
 function isSelfTarget(event) {
   return event.target === event.currentTarget;
 }
+function isActivatableNavigationTarget(element) {
+  if (!isElement2(element)) return false;
+  const target = element;
+  const tagName = target.tagName.toLowerCase();
+  if (tagName === "a") return true;
+  if (tagName === "button" && target.type === "submit") return true;
+  if (tagName === "input" && target.type === "submit") return true;
+  return false;
+}
 function isOpeningInNewTab(event) {
-  const element = event.currentTarget;
-  if (!element) return false;
   const isAppleDevice = isApple();
   if (isAppleDevice && !event.metaKey) return false;
   if (!isAppleDevice && !event.ctrlKey) return false;
-  const tagName = element.tagName.toLowerCase();
-  if (tagName === "a") return true;
-  if (tagName === "button" && element.type === "submit") return true;
-  if (tagName === "input" && element.type === "submit") return true;
-  return false;
+  return isActivatableNavigationTarget(event.currentTarget);
 }
 function isDownloading(event) {
-  const element = event.currentTarget;
-  if (!element) return false;
-  const tagName = element.tagName.toLowerCase();
   if (!event.altKey) return false;
-  if (tagName === "a") return true;
-  if (tagName === "button" && element.type === "submit") return true;
-  if (tagName === "input" && element.type === "submit") return true;
-  return false;
+  return isActivatableNavigationTarget(event.currentTarget);
 }
 function fireBlurEvent(element, eventInit) {
   const event = new FocusEvent("blur", eventInit);
@@ -21882,6 +21963,9 @@ function isFocusEventOutside(event, container) {
   const relatedTarget = event.relatedTarget;
   return !isNode2(relatedTarget) || !contains2(containerElement, relatedTarget);
 }
+function isInputEvent(event) {
+  return event.type === "input";
+}
 function queueBeforeEvent(element, type, callback, timeout) {
   const createTimer = (callback2) => {
     if (timeout) {
@@ -21903,7 +21987,10 @@ function queueBeforeEvent(element, type, callback, timeout) {
     once: true,
     capture: true
   });
-  return cancelTimer;
+  return () => {
+    cancelTimer();
+    element.removeEventListener(type, callSync, true);
+  };
 }
 function addGlobalEventListener(type, listener, options, scope = window) {
   const children = [];
@@ -21957,57 +22044,6 @@ function focusIntoView(element, options) {
     });
   }
 }
-function noop4(..._) {
-}
-function hasOwnProperty(object, prop) {
-  if (typeof Object.hasOwn === "function") return Object.hasOwn(object, prop);
-  return Object.prototype.hasOwnProperty.call(object, prop);
-}
-function chain(...fns) {
-  return (...args) => {
-    for (const fn of fns) if (typeof fn === "function") fn(...args);
-  };
-}
-function normalizeString(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-function omit(object, keys) {
-  const result = { ...object };
-  for (const key of keys) if (hasOwnProperty(result, key)) delete result[key];
-  return result;
-}
-function pick(object, paths) {
-  const result = {};
-  for (const key of paths) if (hasOwnProperty(object, key)) result[key] = object[key];
-  return result;
-}
-function identity(value) {
-  return value;
-}
-function invariant(condition, message2) {
-  if (condition) return;
-  if (typeof message2 !== "string") throw new Error("Invariant failed");
-  throw new Error(message2);
-}
-function getKeys(obj) {
-  return Object.keys(obj);
-}
-function isFalsyBooleanCallback(booleanOrCallback, ...args) {
-  const result = typeof booleanOrCallback === "function" ? booleanOrCallback(...args) : booleanOrCallback;
-  if (result == null) return false;
-  return !result;
-}
-function disabledFromProps(props) {
-  return props.disabled || props["aria-disabled"] === true || props["aria-disabled"] === "true";
-}
-function removeUndefinedValues(obj) {
-  const result = {};
-  for (const key in obj) if (obj[key] !== void 0) result[key] = obj[key];
-  return result;
-}
-function defaultValue(...values) {
-  for (const value of values) if (value !== void 0) return value;
-}
 function createUndoCallback(callback) {
   return async () => {
     const redo = await callback?.();
@@ -22036,7 +22072,6 @@ function createUndoManager({ limit = 100 } = {}) {
   };
   const execute = async (callback, group) => {
     if (!callback) return;
-    while (undoStack.length > limit) undoStack.shift();
     const sameGroup = group === currentGroup;
     currentGroup = group ?? null;
     const nextIndex = sameGroup ? Math.max(0, undoStack.length - 1) : undoStack.length;
@@ -22052,6 +22087,7 @@ function createUndoManager({ limit = 100 } = {}) {
         await callback?.();
       };
     });
+    while (undoStack.length > limit) undoStack.shift();
   };
   return {
     canUndo,
@@ -22067,8 +22103,10 @@ var React82 = __toESM(require_react(), 1);
 var import_react16 = __toESM(require_react(), 1);
 var import_jsx_runtime115 = __toESM(require_jsx_runtime(), 1);
 function setRef(ref, value) {
-  if (typeof ref === "function") ref(value);
-  else if (ref) ref.current = value;
+  if (typeof ref === "function") {
+    const cleanup = ref(value);
+    if (typeof cleanup === "function") return cleanup;
+  } else if (ref) ref.current = value;
 }
 function isValidElementWithRef(element) {
   if (!element) return false;
@@ -22163,7 +22201,20 @@ function useMergeRefs3(...refs) {
   return (0, import_react16.useMemo)(() => {
     if (!refs.some(Boolean)) return;
     return (value) => {
-      for (const ref of refs) setRef(ref, value);
+      const refEffects = [];
+      for (const ref of refs) {
+        if (!ref) continue;
+        const cleanup = setRef(ref, value);
+        refEffects.push({
+          ref,
+          cleanup: typeof cleanup === "function" ? cleanup : void 0
+        });
+      }
+      if (!refEffects.some((effect) => effect.cleanup)) return;
+      return () => {
+        for (const { ref, cleanup } of refEffects) if (cleanup) cleanup();
+        else setRef(ref, null);
+      };
     };
   }, refs);
 }
@@ -22402,22 +22453,6 @@ function supportsDisabledAttribute(tagName) {
   if (!tagName) return true;
   return tagName === "button" || tagName === "input" || tagName === "select" || tagName === "textarea";
 }
-var buttonInputTypes2 = [
-  "button",
-  "color",
-  "file",
-  "image",
-  "reset",
-  "submit"
-];
-function needsSafariTabIndex(tagName, inputType) {
-  if (tagName === "button") return true;
-  if (tagName === "input" && inputType) {
-    if (inputType === "checkbox" || inputType === "radio") return true;
-    return buttonInputTypes2.includes(inputType);
-  }
-  return false;
-}
 function isNativeSubmitControl(element) {
   if (element.tagName === "BUTTON") {
     const { type } = element;
@@ -22599,9 +22634,9 @@ var useFocusable = createHook(function useFocusable2({ focusable: focusable2 = t
     if (!focusable2) return;
     const element = ref.current;
     if (!element) return;
-    const tag = element.tagName.toLowerCase();
-    const type = element.type;
-    setSafariTabIndex(needsSafariTabIndex(tag, type));
+    const { type } = element;
+    const isNativeCheckboxOrRadio = element.tagName === "INPUT" && (type === "checkbox" || type === "radio");
+    setSafariTabIndex(isButton(element) || isNativeCheckboxOrRadio);
   }, [focusable2]);
   const styleProp = props.style;
   const style = (0, import_react17.useMemo)(() => {
@@ -22664,6 +22699,11 @@ var useCommand = createHook(function useCommand2({ clickOnEnter = true, clickOnS
   const activeRef = (0, import_react18.useRef)(false);
   const disabled2 = disabledFromProps(props);
   const [isDuplicate, metadataProps] = useMetadataProps(props, symbol, true);
+  useSafeLayoutEffect(() => {
+    if (!disabled2) return;
+    activeRef.current = false;
+    setActive(false);
+  }, [disabled2]);
   const onKeyDownProp = props.onKeyDown;
   const onKeyDown = useEvent((event) => {
     onKeyDownProp?.(event);
@@ -22704,21 +22744,28 @@ var useCommand = createHook(function useCommand2({ clickOnEnter = true, clickOnS
   const onKeyUpProp = props.onKeyUp;
   const onKeyUp = useEvent((event) => {
     onKeyUpProp?.(event);
-    if (event.defaultPrevented) return;
     if (isDuplicate) return;
+    const isSpace = clickOnSpace && event.key === " ";
+    if (!activeRef.current || !isSpace) return;
+    const nativeClick = isNativeClick(event);
+    activeRef.current = false;
+    if (!nativeClick) setActive(false);
+    if (event.defaultPrevented) return;
+    if (!isSelfTarget(event)) return;
     if (disabled2) return;
     if (event.metaKey) return;
-    const isSpace = clickOnSpace && event.key === " ";
-    if (activeRef.current && isSpace) {
-      activeRef.current = false;
-      if (!isNativeClick(event)) {
-        event.preventDefault();
-        setActive(false);
-        const element = event.currentTarget;
-        const { view, ...eventInit } = event;
-        queueMicrotask(() => fireClickEvent(element, eventInit));
-      }
-    }
+    if (nativeClick) return;
+    event.preventDefault();
+    const element = event.currentTarget;
+    const { view, ...eventInit } = event;
+    queueMicrotask(() => fireClickEvent(element, eventInit));
+  });
+  const onBlurProp = props.onBlur;
+  const onBlur = useEvent((event) => {
+    onBlurProp?.(event);
+    if (!activeRef.current) return;
+    activeRef.current = false;
+    setActive(false);
   });
   props = {
     "data-active": active || void 0,
@@ -22727,7 +22774,8 @@ var useCommand = createHook(function useCommand2({ clickOnEnter = true, clickOnS
     ...props,
     ref: useMergeRefs3(ref, props.ref),
     onKeyDown,
-    onKeyUp
+    onKeyUp,
+    onBlur
   };
   props = useFocusable(props);
   return props;
@@ -22789,57 +22837,6 @@ var CompositeScopedContextProvider = ctx2.ScopedContextProvider;
 var CompositeItemContext = (0, import_react20.createContext)(void 0);
 var CompositeRowContext = (0, import_react20.createContext)(void 0);
 
-// node_modules/@ariakit/react-components/dist/composite/utils.js
-function findFirstEnabledItem(items, excludeId) {
-  return items.find((item) => {
-    if (excludeId) return !item.disabled && item.id !== excludeId;
-    return !item.disabled;
-  });
-}
-function getEnabledItem(store, id) {
-  if (!id) return null;
-  return store.item(id) || null;
-}
-function groupItemsByRows(items) {
-  const rows = [];
-  for (const item of items) {
-    const row = rows.find((currentRow) => currentRow[0]?.rowId === item.rowId);
-    if (row) row.push(item);
-    else rows.push([item]);
-  }
-  return rows;
-}
-function selectTextField(element, collapseToEnd = false) {
-  if (isTextField(element)) element.setSelectionRange(collapseToEnd ? element.value.length : 0, element.value.length);
-  else if (element.isContentEditable) {
-    const selection = getDocument(element).getSelection();
-    selection?.selectAllChildren(element);
-    if (collapseToEnd) selection?.collapseToEnd();
-  }
-}
-var FOCUS_SILENTLY = /* @__PURE__ */ Symbol("FOCUS_SILENTLY");
-function focusSilently(element) {
-  element[FOCUS_SILENTLY] = true;
-  element.focus({ preventScroll: true });
-}
-function silentlyFocused(element) {
-  const isSilentlyFocused = element[FOCUS_SILENTLY];
-  delete element[FOCUS_SILENTLY];
-  return isSilentlyFocused;
-}
-function isItem(store, element, exclude) {
-  if (!element) return false;
-  if (element === exclude) return false;
-  const item = store.item(element.id);
-  if (!item) return false;
-  if (exclude && item.element === exclude) return false;
-  return true;
-}
-
-// node_modules/@ariakit/react-components/dist/composite/composite-item.js
-var import_react21 = __toESM(require_react(), 1);
-var import_jsx_runtime116 = __toESM(require_jsx_runtime(), 1);
-
 // node_modules/@ariakit/store/dist/index.js
 function getInternal(store, key) {
   const internals = store.__unstableInternals;
@@ -22853,6 +22850,20 @@ function hasUpdatedKey(keys, updatedKey) {
   } else if (currentKey === updatedKey) return true;
   return false;
 }
+function isSameValue(value, other) {
+  return value === other || value !== value && other !== other;
+}
+function getCleanupPrevState(prevState, state, stateBeforeCleanup, updatedKey) {
+  let cleanupPrevState;
+  for (const key of getKeys(state)) {
+    if (isSameValue(state[key], stateBeforeCleanup[key])) continue;
+    if (updatedKey !== void 0 && hasUpdatedKey([key], updatedKey)) continue;
+    cleanupPrevState ??= { ...prevState };
+    cleanupPrevState[key] = state[key];
+  }
+  return cleanupPrevState;
+}
+var MAX_REPAIR_PASSES = 100;
 function addKeyedListener(map, keys, listener) {
   if (!keys) return;
   for (const key of keys) {
@@ -22872,6 +22883,133 @@ function deleteKeyedListener(map, keys, listener) {
     if (!listeners) continue;
     listeners.delete(listener);
     if (!listeners.size) map.delete(key);
+  }
+}
+function getFastPathNotifiedListeners(frame) {
+  const notifiedListeners = /* @__PURE__ */ new Set();
+  const currentListener = frame.currentListener;
+  if (!currentListener) return notifiedListeners;
+  for (const listener of frame.keyedListeners) {
+    notifiedListeners.add(listener);
+    if (listener === currentListener) return notifiedListeners;
+  }
+  notifiedListeners.clear();
+  notifiedListeners.add(currentListener);
+  return notifiedListeners;
+}
+function preserveFastPathNotifiedListeners(frame) {
+  frame.notifiedListeners ??= getFastPathNotifiedListeners(frame);
+}
+function hasFastPathPassedListener(frame, listener) {
+  if (!frame.currentListener) return false;
+  let foundCurrentKeyedListener = false;
+  for (const currentListener of frame.keyedListeners) {
+    if (currentListener === frame.currentListener) {
+      foundCurrentKeyedListener = true;
+      continue;
+    }
+    if (!foundCurrentKeyedListener) continue;
+    if (currentListener === listener) return false;
+  }
+  let foundListener = false;
+  for (const currentListener of frame.group.listeners) {
+    if (currentListener === frame.currentListener) return foundListener;
+    if (currentListener === listener) foundListener = true;
+  }
+  return false;
+}
+function preserveFastPathFrames(fastPathFrames, group, listener) {
+  for (const frame of fastPathFrames) {
+    if (frame.group !== group) continue;
+    if (frame.recovering) continue;
+    if (listener && !frame.keyedListeners.has(listener)) continue;
+    preserveFastPathNotifiedListeners(frame);
+    for (const currentListener of frame.group.listeners) {
+      if (currentListener === frame.currentListener) break;
+      if (!hasFastPathPassedListener(frame, currentListener)) continue;
+      frame.notifiedListeners?.add(currentListener);
+    }
+  }
+}
+function preserveFastPathPassedListeners(fastPathFrames, group, listener) {
+  for (const frame of fastPathFrames) {
+    if (frame.group !== group) continue;
+    if (frame.recovering) continue;
+    if (!hasFastPathPassedListener(frame, listener)) continue;
+    preserveFastPathNotifiedListeners(frame);
+    frame.notifiedListeners?.add(listener);
+  }
+}
+function preserveFastPathPassedKeyedListeners({ fastPathFrames, group, keys, listener }) {
+  const wasRegistered = group.listeners.has(listener);
+  for (const frame of fastPathFrames) {
+    if (frame.group !== group) continue;
+    if (frame.recovering) continue;
+    if (!keys.includes(frame.updatedKey)) continue;
+    if (hasFastPathPassedListener(frame, listener)) {
+      preserveFastPathNotifiedListeners(frame);
+      frame.notifiedListeners?.add(listener);
+    } else if (wasRegistered) {
+      preserveFastPathNotifiedListeners(frame);
+      frame.recoverToLive = true;
+    }
+  }
+}
+function clearFastPathNotifiedListener(fastPathFrames, group, listener) {
+  for (const frame of fastPathFrames) {
+    if (frame.group !== group) continue;
+    frame.notifiedListeners?.delete(listener);
+  }
+}
+function addFastPathKeyedListener({ fastPathFrames, group, keys, listener }) {
+  for (const frame of fastPathFrames) {
+    if (frame.group !== group) continue;
+    if (frame.recovering) continue;
+    if (!keys.includes(frame.updatedKey)) continue;
+    frame.keyedListeners.add(listener);
+  }
+}
+function runPendingCleanup(group, listener) {
+  if (!group.disposables.size) return;
+  const cleanup = group.disposables.get(listener);
+  if (!cleanup) return;
+  group.disposables.delete(listener);
+  cleanup();
+}
+function setListenerCleanup(group, listener, cleanup) {
+  const currentCleanup = group.disposables.get(listener);
+  if (!currentCleanup) {
+    group.disposables.set(listener, cleanup);
+    return;
+  }
+  group.disposables.set(listener, () => {
+    currentCleanup();
+    cleanup();
+  });
+}
+function notifyStoreListener(group, listener, state, prevState, getState, updatedKey) {
+  if (group.suspendCounts?.has(listener)) return;
+  const { disposables } = group;
+  const cleanup = disposables.size ? disposables.get(listener) : void 0;
+  if (cleanup) {
+    disposables.delete(listener);
+    const stateBeforeCleanup = state;
+    cleanup();
+    state = getState?.() ?? state;
+    if (state !== stateBeforeCleanup) prevState = getCleanupPrevState(prevState, state, stateBeforeCleanup, updatedKey) ?? prevState;
+  }
+  const result = listener(state, prevState);
+  if (result) setListenerCleanup(group, listener, result);
+}
+function runLiveListeners({ group, getState, prevState, updatedKey, notifiedListeners }) {
+  const allKeysListeners = group.allKeysListeners;
+  for (const listener of group.listeners) {
+    if (notifiedListeners?.has(listener)) continue;
+    if (!allKeysListeners?.has(listener)) {
+      if (!hasUpdatedKey(group.listenerKeys.get(listener), updatedKey)) continue;
+    }
+    notifiedListeners?.add(listener);
+    notifyStoreListener(group, listener, getState(), prevState, getState, updatedKey);
   }
 }
 function createStore(initialState, ...stores) {
@@ -22902,7 +23040,7 @@ function createStore(initialState, ...stores) {
     const instance = /* @__PURE__ */ Symbol();
     instances.add(instance);
     const maybeDestroy = () => {
-      instances.delete(instance);
+      if (!instances.delete(instance)) return;
       if (instances.size) return;
       destroy();
     };
@@ -22920,14 +23058,17 @@ function createStore(initialState, ...stores) {
         }));
         continue;
       }
-      let didSyncInitialState = false;
-      desyncs.push(sync(store, keys, (state2, prevState) => {
+      desyncs.push(subscribe(store, keys, (state2, prevState) => {
         for (const key of keys) {
-          if (didSyncInitialState && state2[key] === prevState[key]) continue;
+          if (state2[key] === prevState[key]) continue;
           setState(key, state2[key], true);
         }
-        didSyncInitialState = true;
       }));
+      for (const key of keys) {
+        const liveState = store?.getState?.();
+        if (!liveState) continue;
+        setState(key, liveState[key], true);
+      }
     }
     const teardowns = [];
     for (const setup2 of setups) teardowns.push(setup2());
@@ -22940,86 +23081,170 @@ function createStore(initialState, ...stores) {
     if (keys) deleteKeyedListener(group.listenersByKey, keys, listener);
     else group.allKeysListeners?.delete(listener);
   };
+  const fastPathFrames = [];
   const registerListener = (keys, listener, group = syncListenerGroup) => {
     const listenerKeysValue = keys ? [...keys] : null;
-    if (group.listeners.has(listener)) deleteListenerIndexes(group, listener, group.listenerKeys.get(listener));
+    const wasRegistered = group.listeners.has(listener);
+    if (!wasRegistered) clearFastPathNotifiedListener(fastPathFrames, group, listener);
+    if (!listenerKeysValue) {
+      if (wasRegistered) preserveFastPathFrames(fastPathFrames, group);
+      preserveFastPathPassedListeners(fastPathFrames, group, listener);
+    } else preserveFastPathPassedKeyedListeners({
+      fastPathFrames,
+      group,
+      keys: listenerKeysValue,
+      listener
+    });
+    if (wasRegistered) {
+      preserveFastPathFrames(fastPathFrames, group, listener);
+      deleteListenerIndexes(group, listener, group.listenerKeys.get(listener));
+    }
     group.listeners.add(listener);
     if (listenerKeysValue) {
       group.listenersByKey ??= /* @__PURE__ */ new Map();
       addKeyedListener(group.listenersByKey, listenerKeysValue, listener);
+      addFastPathKeyedListener({
+        fastPathFrames,
+        group,
+        keys: listenerKeysValue,
+        listener
+      });
     } else {
       group.allKeysListeners ??= /* @__PURE__ */ new Set();
       group.allKeysListeners.add(listener);
     }
     group.listenerKeys.set(listener, listenerKeysValue);
     return () => {
-      group.disposables.get(listener)?.();
+      const cleanup = group.disposables.get(listener);
       group.disposables.delete(listener);
+      preserveFastPathFrames(fastPathFrames, group, listener);
       const currentKeys = group.listenerKeys.get(listener);
       deleteListenerIndexes(group, listener, listenerKeysValue);
       if (currentKeys !== listenerKeysValue) deleteListenerIndexes(group, listener, currentKeys);
       group.listenerKeys.delete(listener);
       group.listeners.delete(listener);
+      cleanup?.();
     };
   };
   const storeSubscribe = (keys, listener) => registerListener(keys, listener);
-  const reconcileInitialCleanup = (group, listener, cleanup) => {
-    if (cleanup) group.disposables.set(listener, cleanup);
-    else group.disposables.delete(listener);
+  const runInitialListener = (group, listener, prevState) => {
+    const shouldSuspend = group.listeners.has(listener);
+    if (shouldSuspend) {
+      group.suspendCounts ??= /* @__PURE__ */ new Map();
+      const count = group.suspendCounts.get(listener) ?? 0;
+      group.suspendCounts.set(listener, count + 1);
+    }
+    let cleanupPrevState;
+    try {
+      const stateBeforeCleanups = state;
+      runPendingCleanup(group, listener);
+      if (state !== stateBeforeCleanups) cleanupPrevState = getCleanupPrevState(prevState, state, stateBeforeCleanups);
+      const cleanup = listener(state, cleanupPrevState ?? prevState);
+      if (cleanup) setListenerCleanup(group, listener, cleanup);
+    } finally {
+      if (shouldSuspend) {
+        const suspendCounts = group.suspendCounts;
+        const count = suspendCounts?.get(listener);
+        if (count && count > 1) suspendCounts?.set(listener, count - 1);
+        else suspendCounts?.delete(listener);
+        if (!suspendCounts?.size) delete group.suspendCounts;
+      }
+    }
   };
   const storeSync = (keys, listener) => {
-    reconcileInitialCleanup(syncListenerGroup, listener, listener(state, state));
+    runInitialListener(syncListenerGroup, listener, state);
     return registerListener(keys, listener);
   };
   const storeBatch = (keys, listener) => {
     if (!batchListenerGroup.listeners.size && !inDispatch) prevStateBatch = state;
-    reconcileInitialCleanup(batchListenerGroup, listener, listener(state, prevStateBatch));
+    runInitialListener(batchListenerGroup, listener, prevStateBatch);
     return registerListener(keys, listener, batchListenerGroup);
   };
   const storePick = (keys) => createStore(pick(state, keys), finalStore);
   const storeOmit = (keys) => createStore(omit(state, keys), finalStore);
   const getState = () => state;
   const runListeners = (group, prevState, updatedKey) => {
-    const { disposables } = group;
     if (!(updatedKey instanceof Set) && !group.allKeysListeners?.size) {
       const keyedListeners = group.listenersByKey?.get(updatedKey);
       if (!keyedListeners) return;
-      for (const listener of keyedListeners) {
-        const cleanup = disposables.size ? disposables.get(listener) : void 0;
-        if (cleanup) cleanup();
-        const result = listener(state, prevState);
-        if (result) disposables.set(listener, result);
-        else if (cleanup) disposables.delete(listener);
+      const frame = {
+        group,
+        keyedListeners,
+        updatedKey,
+        currentListener: null
+      };
+      fastPathFrames.push(frame);
+      try {
+        for (const listener of keyedListeners) {
+          if (frame.notifiedListeners?.has(listener)) continue;
+          frame.currentListener = listener;
+          frame.notifiedListeners?.add(listener);
+          notifyStoreListener(group, listener, state, prevState, getState, updatedKey);
+          if (!group.allKeysListeners?.size && !frame.recoverToLive) continue;
+          const notifiedListeners = frame.notifiedListeners ?? getFastPathNotifiedListeners(frame);
+          frame.notifiedListeners = notifiedListeners;
+          frame.recovering = true;
+          runLiveListeners({
+            group,
+            getState,
+            prevState,
+            updatedKey,
+            notifiedListeners
+          });
+          return;
+        }
+      } finally {
+        fastPathFrames.pop();
       }
       return;
     }
-    const allKeysListeners = group.allKeysListeners;
-    for (const listener of group.listeners) {
-      if (!allKeysListeners?.has(listener)) {
-        if (!hasUpdatedKey(group.listenerKeys.get(listener), updatedKey)) continue;
-      }
-      const cleanup = disposables.size ? disposables.get(listener) : void 0;
-      if (cleanup) cleanup();
-      const result = listener(state, prevState);
-      if (result) disposables.set(listener, result);
-      else if (cleanup) disposables.delete(listener);
-    }
+    runLiveListeners({
+      group,
+      getState,
+      prevState,
+      updatedKey
+    });
   };
   const setState = (key, value, fromStores = false) => {
     if (!hasOwnProperty(state, key)) return;
     const currentValue = state[key];
     const nextValue = typeof value === "function" ? value(currentValue) : value;
-    if (nextValue === currentValue) return;
-    if (!fromStores && stores.length) for (const store of stores) store?.setState?.(key, nextValue);
+    if (isSameValue(nextValue, currentValue)) return;
+    const wasInDispatch = inDispatch;
+    inDispatch = true;
     const prevState = state;
-    state = {
+    const nextState = {
       ...state,
       [key]: nextValue
     };
-    const wasInDispatch = inDispatch;
-    inDispatch = true;
+    state = nextState;
+    let superseded = false;
     try {
-      runListeners(syncListenerGroup, prevState, key);
+      if (!fromStores && stores.length) {
+        for (const store of stores) {
+          store?.setState?.(key, nextValue);
+          if (isSameValue(state[key], nextValue)) continue;
+          superseded = true;
+          break;
+        }
+        if (superseded) {
+          let pass = 0;
+          for (; pass < MAX_REPAIR_PASSES; pass += 1) {
+            let changed = false;
+            for (const store of stores) {
+              const previousValue = state[key];
+              store?.setState?.(key, previousValue);
+              if (!isSameValue(state[key], previousValue)) changed = true;
+            }
+            if (!changed) break;
+          }
+          if (pass === MAX_REPAIR_PASSES) console.warn("Parent stores did not converge after a superseded fan-out; a parent listener may be rewriting this key in a cycle.");
+        }
+      }
+      if (!superseded) runListeners(syncListenerGroup, state === nextState ? prevState : {
+        ...state,
+        [key]: prevState[key]
+      }, key);
     } finally {
       inDispatch = wasInDispatch;
     }
@@ -23118,808 +23343,6 @@ See https://github.com/ariakit/ariakit/pull/2745 for more details.
 If there's a particular need for this, please submit a feature request at https://github.com/ariakit/ariakit
 `);
 }
-
-// node_modules/@ariakit/react-store/dist/index.js
-var React83 = __toESM(require_react(), 1);
-var import_shim2 = __toESM(require_shim(), 1);
-var noopSubscribe = () => () => {
-};
-function useStoreState(store, keyOrSelector = identity) {
-  const storeSubscribe = React83.useCallback((callback) => {
-    if (!store) return noopSubscribe();
-    return subscribe(store, null, callback);
-  }, [store]);
-  const getSnapshot = () => {
-    const key = typeof keyOrSelector === "string" ? keyOrSelector : null;
-    const selector2 = typeof keyOrSelector === "function" ? keyOrSelector : null;
-    const state = store?.getState();
-    if (selector2) return selector2(state);
-    if (!state) return;
-    if (!key) return;
-    if (!hasOwnProperty(state, key)) return;
-    return state[key];
-  };
-  return (0, import_shim2.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
-}
-function useStoreStateObject(store, object) {
-  const objRef = React83.useRef({});
-  const storeSubscribe = React83.useCallback((callback) => {
-    if (!store) return noopSubscribe();
-    return subscribe(store, null, callback);
-  }, [store]);
-  const getSnapshot = () => {
-    const state = store?.getState();
-    let updated = false;
-    const obj = objRef.current;
-    for (const prop in object) {
-      const keyOrSelector = object[prop];
-      if (typeof keyOrSelector === "function") {
-        const value = keyOrSelector(state);
-        if (value !== obj[prop]) {
-          obj[prop] = value;
-          updated = true;
-        }
-      }
-      if (typeof keyOrSelector === "string") {
-        if (!state) continue;
-        if (!hasOwnProperty(state, keyOrSelector)) continue;
-        const value = state[keyOrSelector];
-        if (value !== obj[prop]) {
-          obj[prop] = value;
-          updated = true;
-        }
-      }
-    }
-    if (updated) objRef.current = { ...obj };
-    return objRef.current;
-  };
-  return (0, import_shim2.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
-}
-function useStoreProps(store, props, key, setKey) {
-  const value = hasOwnProperty(props, key) ? props[key] : void 0;
-  const propsRef = useLiveRef({
-    value,
-    setValue: setKey ? props[setKey] : void 0
-  });
-  useSafeLayoutEffect(() => {
-    return sync(store, [key], (state, prev) => {
-      const { value: value2, setValue } = propsRef.current;
-      if (!setValue) return;
-      if (state[key] === prev[key]) return;
-      if (state[key] === value2) return;
-      setValue(state[key]);
-    });
-  }, [store, key]);
-  useSafeLayoutEffect(() => {
-    if (value === void 0) return;
-    store.setState(key, value);
-    return batch(store, [key], () => {
-      if (value === void 0) return;
-      store.setState(key, value);
-    });
-  });
-}
-function useStore2(createStore2, props) {
-  const [store, setStore] = React83.useState(() => createStore2(props));
-  useSafeLayoutEffect(() => init(store), [store]);
-  const useState55 = React83.useCallback((keyOrSelector) => useStoreState(store, keyOrSelector), [store]);
-  return [React83.useMemo(() => ({
-    ...store,
-    useState: useState55
-  }), [store, useState55]), useEvent(() => {
-    setStore((store2) => createStore2({
-      ...props,
-      ...store2.getState()
-    }));
-  })];
-}
-
-// node_modules/@ariakit/react-components/dist/composite/composite-item.js
-var TagName4 = "button";
-function isEditableElement(element) {
-  if (isTextbox(element)) return true;
-  return element.tagName === "INPUT" && !isButton(element);
-}
-function getNextPageOffset(scrollingElement, pageUp = false) {
-  const height = scrollingElement.clientHeight;
-  const { top } = scrollingElement.getBoundingClientRect();
-  const pageSize = Math.max(height * 0.875, height - 40) * 1.5;
-  const pageOffset = pageUp ? height - pageSize + top : pageSize + top;
-  if (scrollingElement.tagName === "HTML") return pageOffset + scrollingElement.scrollTop;
-  return pageOffset;
-}
-function getItemOffset(itemElement, pageUp = false) {
-  const { top } = itemElement.getBoundingClientRect();
-  if (pageUp) return top + itemElement.clientHeight;
-  return top;
-}
-function findNextPageItemId(element, store, next, pageUp = false) {
-  if (!store) return;
-  if (!next) return;
-  const { renderedItems } = store.getState();
-  const scrollingElement = getScrollingElement(element);
-  if (!scrollingElement) return;
-  const nextPageOffset = getNextPageOffset(scrollingElement, pageUp);
-  let id;
-  let prevDifference;
-  for (let i2 = 0; i2 < renderedItems.length; i2 += 1) {
-    const previousId = id;
-    id = next(i2);
-    if (!id) break;
-    if (id === previousId) continue;
-    const itemElement = getEnabledItem(store, id)?.element;
-    if (!itemElement) continue;
-    const difference = getItemOffset(itemElement, pageUp) - nextPageOffset;
-    const absDifference = Math.abs(difference);
-    if (pageUp && difference <= 0 || !pageUp && difference >= 0) {
-      if (prevDifference !== void 0 && prevDifference < absDifference) id = previousId;
-      break;
-    }
-    prevDifference = absDifference;
-  }
-  return id;
-}
-function targetIsAnotherItem(event, store) {
-  if (isSelfTarget(event)) return false;
-  return isItem(store, event.target);
-}
-var useCompositeItem = createHook(function useCompositeItem2({ store, rowId: rowIdProp, preventScrollOnKeyDown = false, moveOnKeyPress = true, tabbable: tabbable4 = false, getItem: getItemProp, "aria-setsize": ariaSetSizeProp, "aria-posinset": ariaPosInSetProp, ...props }) {
-  const context = useCompositeScopedContext();
-  store = store || context;
-  const id = useId5(props.id);
-  const ref = (0, import_react21.useRef)(null);
-  const row = (0, import_react21.useContext)(CompositeRowContext);
-  const trulyDisabled = disabledFromProps(props) && !props.accessibleWhenDisabled;
-  const { rowId, baseElement, isActiveItem, ariaSetSize, ariaPosInSet, isTabbable: isTabbable2 } = useStoreStateObject(store, {
-    rowId(state) {
-      if (rowIdProp) return rowIdProp;
-      if (!state) return;
-      if (!row?.baseElement) return;
-      if (row.baseElement !== state.baseElement) return;
-      return row.id;
-    },
-    baseElement(state) {
-      return state?.baseElement || void 0;
-    },
-    isActiveItem(state) {
-      return !!state && state.activeId === id;
-    },
-    ariaSetSize(state) {
-      if (ariaSetSizeProp != null) return ariaSetSizeProp;
-      if (!state) return;
-      if (!row?.ariaSetSize) return;
-      if (row.baseElement !== state.baseElement) return;
-      return row.ariaSetSize;
-    },
-    ariaPosInSet(state) {
-      if (ariaPosInSetProp != null) return ariaPosInSetProp;
-      if (!state) return;
-      if (!row?.ariaPosInSet) return;
-      if (row.baseElement !== state.baseElement) return;
-      const itemsInRow = state.renderedItems.filter((item) => item.rowId === rowId);
-      return row.ariaPosInSet + itemsInRow.findIndex((item) => item.id === id);
-    },
-    isTabbable(state) {
-      if (!state?.renderedItems.length) return true;
-      if (state.virtualFocus) return false;
-      if (tabbable4) return true;
-      if (state.activeId === null) return false;
-      const item = store?.item(state.activeId);
-      if (item?.disabled) return true;
-      if (!item?.element) return true;
-      return state.activeId === id;
-    }
-  });
-  const getItem = (0, import_react21.useCallback)((item) => {
-    const nextItem = {
-      ...item,
-      id: id || item.id,
-      rowId,
-      disabled: trulyDisabled,
-      children: item.element?.textContent
-    };
-    if (getItemProp) return getItemProp(nextItem);
-    return nextItem;
-  }, [
-    id,
-    rowId,
-    trulyDisabled,
-    getItemProp
-  ]);
-  const onFocusProp = props.onFocus;
-  const hasFocusedComposite = (0, import_react21.useRef)(false);
-  const onFocus = useEvent((event) => {
-    onFocusProp?.(event);
-    if (event.defaultPrevented) return;
-    if (isPortalEvent(event)) return;
-    if (!id) return;
-    if (!store) return;
-    if (targetIsAnotherItem(event, store)) return;
-    const { virtualFocus, baseElement: baseElement2 } = store.getState();
-    store.setActiveId(id);
-    if (isTextbox(event.currentTarget)) selectTextField(event.currentTarget);
-    if (!virtualFocus) return;
-    if (!isSelfTarget(event)) return;
-    if (isEditableElement(event.currentTarget)) return;
-    if (!baseElement2?.isConnected) return;
-    if (isSafari() && event.currentTarget.hasAttribute("data-autofocus")) event.currentTarget.scrollIntoView({
-      block: "nearest",
-      inline: "nearest"
-    });
-    hasFocusedComposite.current = true;
-    if (event.relatedTarget === baseElement2 || isItem(store, event.relatedTarget)) focusSilently(baseElement2);
-    else baseElement2.focus();
-  });
-  const onBlurCaptureProp = props.onBlurCapture;
-  const onBlurCapture = useEvent((event) => {
-    onBlurCaptureProp?.(event);
-    if (event.defaultPrevented) return;
-    if (store?.getState()?.virtualFocus && hasFocusedComposite.current) {
-      hasFocusedComposite.current = false;
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  });
-  const onKeyDownProp = props.onKeyDown;
-  const preventScrollOnKeyDownProp = useBooleanEvent(preventScrollOnKeyDown);
-  const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
-  const onKeyDown = useEvent((event) => {
-    onKeyDownProp?.(event);
-    if (event.defaultPrevented) return;
-    if (!isSelfTarget(event)) return;
-    if (!store) return;
-    const { currentTarget } = event;
-    const state = store.getState();
-    const isGrid2 = !!store.item(id)?.rowId;
-    const isVertical = state.orientation !== "horizontal";
-    const isHorizontal = state.orientation !== "vertical";
-    const canHomeEnd = () => {
-      if (isGrid2) return true;
-      if (isHorizontal) return true;
-      if (!state.baseElement) return true;
-      if (!isTextField(state.baseElement)) return true;
-      return false;
-    };
-    const action = {
-      ArrowUp: (isGrid2 || isVertical) && store.up,
-      ArrowRight: (isGrid2 || isHorizontal) && store.next,
-      ArrowDown: (isGrid2 || isVertical) && store.down,
-      ArrowLeft: (isGrid2 || isHorizontal) && store.previous,
-      Home: () => {
-        if (!canHomeEnd()) return;
-        if (!isGrid2 || event.ctrlKey) return store?.first();
-        return store?.previous(-1);
-      },
-      End: () => {
-        if (!canHomeEnd()) return;
-        if (!isGrid2 || event.ctrlKey) return store?.last();
-        return store?.next(-1);
-      },
-      PageUp: () => {
-        return findNextPageItemId(currentTarget, store, store?.up, true);
-      },
-      PageDown: () => {
-        return findNextPageItemId(currentTarget, store, store?.down);
-      }
-    }[event.key];
-    if (action) {
-      if (isTextbox(currentTarget)) {
-        const selection = getTextboxSelection(currentTarget);
-        const isLeft = isHorizontal && event.key === "ArrowLeft";
-        const isRight = isHorizontal && event.key === "ArrowRight";
-        const isUp = isVertical && event.key === "ArrowUp";
-        const isDown = isVertical && event.key === "ArrowDown";
-        if (isRight || isDown) {
-          const { length: valueLength } = getTextboxValue(currentTarget);
-          if (selection.end !== valueLength) return;
-        } else if ((isLeft || isUp) && selection.start !== 0) return;
-      }
-      const nextId = action();
-      if (preventScrollOnKeyDownProp(event) || nextId !== void 0) {
-        if (!moveOnKeyPressProp(event)) return;
-        event.preventDefault();
-        store.move(nextId);
-      }
-    }
-  });
-  const providerValue = (0, import_react21.useMemo)(() => ({
-    id,
-    baseElement
-  }), [id, baseElement]);
-  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(CompositeItemContext.Provider, {
-    value: providerValue,
-    children: element
-  }), [providerValue]);
-  props = {
-    "data-active-item": isActiveItem || void 0,
-    ...props,
-    id,
-    ref: useMergeRefs3(ref, props.ref),
-    tabIndex: isTabbable2 ? props.tabIndex : -1,
-    onFocus,
-    onBlurCapture,
-    onKeyDown
-  };
-  props = useCommand(props);
-  props = useCollectionItem({
-    store,
-    ...props,
-    getItem,
-    shouldRegisterItem: id ? props.shouldRegisterItem : false
-  });
-  return removeUndefinedValues({
-    ...props,
-    "aria-setsize": ariaSetSize,
-    "aria-posinset": ariaPosInSet
-  });
-});
-var CompositeItem = memo3(forwardRef70(function CompositeItem2(props) {
-  return createElement3(TagName4, useCompositeItem(props));
-}));
-
-// node_modules/@ariakit/react-components/dist/composite/composite.js
-var import_react22 = __toESM(require_react(), 1);
-var import_jsx_runtime117 = __toESM(require_jsx_runtime(), 1);
-var TagName5 = "div";
-function isGrid(items) {
-  return items.some((item) => !!item.rowId);
-}
-function isPrintableKey(event) {
-  const target = event.target;
-  if (target && !isTextField(target)) return false;
-  return event.key.length === 1 && !event.ctrlKey && !event.metaKey;
-}
-function isModifierKey(event) {
-  return event.key === "Shift" || event.key === "Control" || event.key === "Alt" || event.key === "Meta";
-}
-function useKeyboardEventProxy(store, onKeyboardEvent, previousElementRef) {
-  return useEvent((event) => {
-    onKeyboardEvent?.(event);
-    if (event.defaultPrevented) return;
-    if (event.isPropagationStopped()) return;
-    if (!isSelfTarget(event)) return;
-    if (isModifierKey(event)) return;
-    if (isPrintableKey(event)) return;
-    const activeElement2 = getEnabledItem(store, store.getState().activeId)?.element;
-    if (!activeElement2) return;
-    const { view, ...eventInit } = event;
-    if (activeElement2 !== previousElementRef?.current) activeElement2.focus();
-    if (!fireKeyboardEvent(activeElement2, event.type, eventInit)) event.preventDefault();
-    if (event.currentTarget.contains(activeElement2)) event.stopPropagation();
-  });
-}
-function findFirstEnabledItemInTheLastRow(items) {
-  return findFirstEnabledItem(flatten2DArray(reverseArray(groupItemsByRows(items))));
-}
-function withBaseScrollPreserved(store, callback) {
-  const { virtualFocus, baseElement } = store.getState();
-  if (!virtualFocus || !baseElement || !isTextField(baseElement)) {
-    callback();
-    return;
-  }
-  const savedScrollLeft = baseElement.scrollLeft;
-  const savedScrollTop = baseElement.scrollTop;
-  callback();
-  baseElement.scrollLeft = savedScrollLeft;
-  baseElement.scrollTop = savedScrollTop;
-}
-function useScheduleFocus(store) {
-  const [scheduled, setScheduled] = (0, import_react22.useState)(false);
-  const schedule = (0, import_react22.useCallback)(() => setScheduled(true), []);
-  const activeItem = useStoreState(store, (state) => getEnabledItem(store, state.activeId));
-  (0, import_react22.useEffect)(() => {
-    const activeElement2 = activeItem?.element;
-    if (!scheduled) return;
-    if (!activeElement2) return;
-    setScheduled(false);
-    withBaseScrollPreserved(store, () => {
-      activeElement2.focus({ preventScroll: true });
-    });
-  }, [
-    store,
-    activeItem,
-    scheduled
-  ]);
-  return schedule;
-}
-var useComposite = createHook(function useComposite2({ store, composite = true, focusOnMove = composite, moveOnKeyPress = true, ...props }) {
-  const context = useCompositeProviderContext();
-  store = store || context;
-  invariant(store, "Composite must receive a `store` prop or be wrapped in a CompositeProvider component.");
-  const ref = (0, import_react22.useRef)(null);
-  const previousElementRef = (0, import_react22.useRef)(null);
-  const scheduleFocus = useScheduleFocus(store);
-  const moves = useStoreState(store, "moves");
-  const [, setBaseElement] = useTransactionState(composite ? store.setBaseElement : null);
-  (0, import_react22.useEffect)(() => {
-    if (!store) return;
-    if (!moves) return;
-    if (!composite) return;
-    if (!focusOnMove) return;
-    const { activeId: activeId2 } = store.getState();
-    const itemElement = getEnabledItem(store, activeId2)?.element;
-    if (!itemElement) return;
-    withBaseScrollPreserved(store, () => focusIntoView(itemElement));
-  }, [
-    store,
-    moves,
-    composite,
-    focusOnMove
-  ]);
-  useSafeLayoutEffect(() => {
-    if (!store) return;
-    if (!moves) return;
-    if (!composite) return;
-    const { baseElement, activeId: activeId2 } = store.getState();
-    if (!(activeId2 === null)) return;
-    if (!baseElement) return;
-    const previousElement = previousElementRef.current;
-    previousElementRef.current = null;
-    if (previousElement) fireBlurEvent(previousElement, { relatedTarget: baseElement });
-    if (!hasFocus(baseElement)) baseElement.focus();
-  }, [
-    store,
-    moves,
-    composite
-  ]);
-  const activeId = useStoreState(store, "activeId");
-  const virtualFocus = useStoreState(store, "virtualFocus");
-  useSafeLayoutEffect(() => {
-    if (!store) return;
-    if (!composite) return;
-    if (!virtualFocus) return;
-    const previousElement = previousElementRef.current;
-    previousElementRef.current = null;
-    if (!previousElement) return;
-    const relatedTarget = getEnabledItem(store, activeId)?.element || getActiveElement(previousElement);
-    if (relatedTarget === previousElement) return;
-    fireBlurEvent(previousElement, { relatedTarget });
-  }, [
-    store,
-    activeId,
-    virtualFocus,
-    composite
-  ]);
-  const onKeyDownCapture = useKeyboardEventProxy(store, props.onKeyDownCapture, previousElementRef);
-  const onKeyUpCapture = useKeyboardEventProxy(store, props.onKeyUpCapture, previousElementRef);
-  const onFocusCaptureProp = props.onFocusCapture;
-  const onFocusCapture = useEvent((event) => {
-    onFocusCaptureProp?.(event);
-    if (event.defaultPrevented) return;
-    if (!store) return;
-    const { virtualFocus: virtualFocus2 } = store.getState();
-    if (!virtualFocus2) return;
-    const previousActiveElement = event.relatedTarget;
-    const isSilentlyFocused = silentlyFocused(event.currentTarget);
-    if (isSelfTarget(event) && isSilentlyFocused) {
-      event.stopPropagation();
-      previousElementRef.current = previousActiveElement;
-    }
-  });
-  const onFocusProp = props.onFocus;
-  const onFocus = useEvent((event) => {
-    onFocusProp?.(event);
-    if (event.defaultPrevented) return;
-    if (!composite) return;
-    if (!store) return;
-    const { relatedTarget } = event;
-    const { virtualFocus: virtualFocus2 } = store.getState();
-    if (virtualFocus2) {
-      if (isSelfTarget(event) && !isItem(store, relatedTarget)) queueMicrotask(scheduleFocus);
-    } else if (isSelfTarget(event)) store.setActiveId(null);
-  });
-  const onBlurCaptureProp = props.onBlurCapture;
-  const onBlurCapture = useEvent((event) => {
-    onBlurCaptureProp?.(event);
-    if (event.defaultPrevented) return;
-    if (!store) return;
-    const { virtualFocus: virtualFocus2, activeId: activeId2 } = store.getState();
-    if (!virtualFocus2) return;
-    const activeElement2 = getEnabledItem(store, activeId2)?.element;
-    const nextActiveElement = event.relatedTarget;
-    const nextActiveElementIsItem = isItem(store, nextActiveElement);
-    const previousElement = previousElementRef.current;
-    previousElementRef.current = null;
-    if (isSelfTarget(event) && nextActiveElementIsItem) {
-      if (nextActiveElement === activeElement2) {
-        if (previousElement && previousElement !== nextActiveElement) fireBlurEvent(previousElement, event);
-      } else if (activeElement2) fireBlurEvent(activeElement2, event);
-      else if (previousElement) fireBlurEvent(previousElement, event);
-      event.stopPropagation();
-    } else if (!isItem(store, event.target) && activeElement2) fireBlurEvent(activeElement2, event);
-  });
-  const onKeyDownProp = props.onKeyDown;
-  const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
-  const onKeyDown = useEvent((event) => {
-    onKeyDownProp?.(event);
-    if (event.nativeEvent.isComposing) return;
-    if (event.defaultPrevented) return;
-    if (!store) return;
-    if (!isSelfTarget(event)) return;
-    const { orientation, renderedItems, activeId: activeId2 } = store.getState();
-    if (getEnabledItem(store, activeId2)?.element?.isConnected) return;
-    const isVertical = orientation !== "horizontal";
-    const isHorizontal = orientation !== "vertical";
-    const grid = isGrid(renderedItems);
-    if ((event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "Home" || event.key === "End") && isTextField(event.currentTarget)) return;
-    const up = () => {
-      if (grid) return findFirstEnabledItemInTheLastRow(renderedItems)?.id;
-      return store?.last();
-    };
-    const action = {
-      ArrowUp: (grid || isVertical) && up,
-      ArrowRight: (grid || isHorizontal) && store.first,
-      ArrowDown: (grid || isVertical) && store.first,
-      ArrowLeft: (grid || isHorizontal) && store.last,
-      Home: store.first,
-      End: store.last,
-      PageUp: store.first,
-      PageDown: store.last
-    }[event.key];
-    if (action) {
-      const id = action();
-      if (id !== void 0) {
-        if (!moveOnKeyPressProp(event)) return;
-        event.preventDefault();
-        store.move(id);
-      }
-    }
-  });
-  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(CompositeScopedContextProvider, {
-    value: store,
-    children: element
-  }), [store]);
-  props = {
-    "aria-activedescendant": useStoreState(store, (state) => {
-      if (!store) return;
-      if (!composite) return;
-      if (!state.virtualFocus) return;
-      return getEnabledItem(store, state.activeId)?.id;
-    }),
-    ...props,
-    ref: useMergeRefs3(ref, setBaseElement, props.ref),
-    onKeyDownCapture,
-    onKeyUpCapture,
-    onFocusCapture,
-    onFocus,
-    onBlurCapture,
-    onKeyDown
-  };
-  props = useFocusable({
-    focusable: useStoreState(store, (state) => composite && (state.virtualFocus || state.activeId === null)),
-    ...props
-  });
-  return props;
-});
-var Composite6 = forwardRef70(function Composite7(props) {
-  return createElement3(TagName5, useComposite(props));
-});
-
-// node_modules/@ariakit/react-components/dist/disclosure/disclosure-context.js
-var ctx3 = createStoreContext();
-var useDisclosureContext = ctx3.useContext;
-var useDisclosureScopedContext = ctx3.useScopedContext;
-var useDisclosureProviderContext = ctx3.useProviderContext;
-var DisclosureContextProvider = ctx3.ContextProvider;
-var DisclosureScopedContextProvider = ctx3.ScopedContextProvider;
-
-// node_modules/@ariakit/react-components/dist/dialog/dialog-context.js
-var import_react23 = __toESM(require_react(), 1);
-var ctx4 = createStoreContext([DisclosureContextProvider], [DisclosureScopedContextProvider]);
-var useDialogContext = ctx4.useContext;
-var useDialogScopedContext = ctx4.useScopedContext;
-var useDialogProviderContext = ctx4.useProviderContext;
-var DialogContextProvider = ctx4.ContextProvider;
-var DialogScopedContextProvider = ctx4.ScopedContextProvider;
-var DialogHeadingContext = (0, import_react23.createContext)(void 0);
-var DialogDescriptionContext = (0, import_react23.createContext)(void 0);
-
-// node_modules/@ariakit/react-components/dist/disclosure/disclosure-content.js
-var import_react24 = __toESM(require_react(), 1);
-var import_jsx_runtime118 = __toESM(require_jsx_runtime(), 1);
-var import_react_dom4 = __toESM(require_react_dom(), 1);
-var TagName6 = "div";
-function afterTimeout(timeoutMs, cb) {
-  const timeoutId = setTimeout(cb, timeoutMs);
-  return () => clearTimeout(timeoutId);
-}
-function afterPaint(cb) {
-  let raf = requestAnimationFrame(() => {
-    raf = requestAnimationFrame(cb);
-  });
-  return () => cancelAnimationFrame(raf);
-}
-function parseCSSTime(...times) {
-  return times.join(", ").split(", ").reduce((longestTime, currentTimeString) => {
-    const multiplier = currentTimeString.endsWith("ms") ? 1 : 1e3;
-    const currentTime = Number.parseFloat(currentTimeString || "0s") * multiplier;
-    if (currentTime > longestTime) return currentTime;
-    return longestTime;
-  }, 0);
-}
-function isHidden3(mounted, hidden, alwaysVisible) {
-  return !alwaysVisible && hidden !== false && (!mounted || !!hidden);
-}
-var useDisclosureContent = createHook(function useDisclosureContent2({ store, alwaysVisible, ...props }) {
-  const context = useDisclosureProviderContext();
-  store = store || context;
-  invariant(store, "DisclosureContent must receive a `store` prop or be wrapped in a DisclosureProvider component.");
-  const ref = (0, import_react24.useRef)(null);
-  const id = useId5(props.id);
-  const [transition, setTransition] = (0, import_react24.useState)(null);
-  const open = useStoreState(store, "open");
-  const mounted = useStoreState(store, "mounted");
-  const animated = useStoreState(store, "animated");
-  const contentElement = useStoreState(store, "contentElement");
-  const otherElement = useStoreState(store.disclosure, "contentElement");
-  const hasClosedRef = (0, import_react24.useRef)(false);
-  useSafeLayoutEffect(() => {
-    if (!ref.current) return;
-    store?.setContentElement(ref.current);
-  }, [store]);
-  useSafeLayoutEffect(() => {
-    let previousAnimated;
-    store?.setState("animated", (animated2) => {
-      previousAnimated = animated2;
-      return true;
-    });
-    return () => {
-      if (previousAnimated === void 0) return;
-      store?.setState("animated", previousAnimated);
-    };
-  }, [store]);
-  useSafeLayoutEffect(() => {
-    if (!animated) {
-      if (!open) {
-        hasClosedRef.current = true;
-        setTransition(null);
-      } else if (hasClosedRef.current) {
-        hasClosedRef.current = false;
-        setTransition("enter");
-      }
-      return;
-    }
-    if (!contentElement?.isConnected) {
-      setTransition(null);
-      return;
-    }
-    return afterPaint(() => {
-      setTransition(open ? "enter" : mounted ? "leave" : null);
-    });
-  }, [
-    animated,
-    contentElement,
-    open,
-    mounted
-  ]);
-  useSafeLayoutEffect(() => {
-    if (!store) return;
-    if (!animated) return;
-    if (!transition) return;
-    if (!contentElement) return;
-    const stopAnimation = () => store?.setState("animating", false);
-    const stopAnimationSync = () => (0, import_react_dom4.flushSync)(stopAnimation);
-    if (transition === "leave" && open) return;
-    if (transition === "enter" && !open) return;
-    if (typeof animated === "number") return afterTimeout(animated, stopAnimationSync);
-    const { transitionDuration, animationDuration, transitionDelay, animationDelay } = getComputedStyle(contentElement);
-    const { transitionDuration: transitionDuration2 = "0", animationDuration: animationDuration2 = "0", transitionDelay: transitionDelay2 = "0", animationDelay: animationDelay2 = "0" } = otherElement ? getComputedStyle(otherElement) : {};
-    const timeout = parseCSSTime(transitionDelay, animationDelay, transitionDelay2, animationDelay2) + parseCSSTime(transitionDuration, animationDuration, transitionDuration2, animationDuration2);
-    if (!timeout) {
-      if (transition === "enter") store.setState("animated", false);
-      stopAnimation();
-      return;
-    }
-    return afterTimeout(Math.max(timeout - 1e3 / 60, 0), stopAnimationSync);
-  }, [
-    store,
-    animated,
-    contentElement,
-    otherElement,
-    open,
-    transition
-  ]);
-  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(DialogScopedContextProvider, {
-    value: store,
-    children: element
-  }), [store]);
-  const hidden = isHidden3(mounted, props.hidden, alwaysVisible);
-  const styleProp = props.style;
-  const style = (0, import_react24.useMemo)(() => {
-    if (hidden) return {
-      ...styleProp,
-      display: "none"
-    };
-    return styleProp;
-  }, [hidden, styleProp]);
-  props = {
-    "data-open": open || void 0,
-    "data-enter": transition === "enter" || void 0,
-    "data-leave": transition === "leave" || void 0,
-    hidden,
-    ...props,
-    id,
-    ref: useMergeRefs3(id ? store.setContentElement : null, ref, props.ref),
-    style
-  };
-  return removeUndefinedValues(props);
-});
-var DisclosureContentImpl = forwardRef70(function DisclosureContentImpl2(props) {
-  return createElement3(TagName6, useDisclosureContent(props));
-});
-var DisclosureContent = forwardRef70(function DisclosureContent2({ unmountOnHide, ...props }) {
-  const context = useDisclosureProviderContext();
-  if (useStoreState(props.store || context, (state) => !unmountOnHide || state?.mounted) === false) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(DisclosureContentImpl, { ...props });
-});
-
-// node_modules/@ariakit/components/dist/disclosure/disclosure-store.js
-function createDisclosureStore(props = {}) {
-  const store = mergeStore(props.store, omit2(props.disclosure, ["contentElement", "disclosureElement"]));
-  throwOnConflictingProps(props, store);
-  const syncState = store?.getState();
-  const open = defaultValue(props.open, syncState?.open, props.defaultOpen, false);
-  const animated = defaultValue(props.animated, syncState?.animated, false);
-  const disclosure = createStore({
-    open,
-    animated,
-    animating: !!animated && open,
-    mounted: open,
-    contentElement: defaultValue(syncState?.contentElement, null),
-    disclosureElement: defaultValue(syncState?.disclosureElement, null)
-  }, store);
-  setup(disclosure, () => sync(disclosure, ["animated", "animating"], (state) => {
-    if (state.animated) return;
-    disclosure.setState("animating", false);
-  }));
-  setup(disclosure, () => subscribe(disclosure, ["open"], () => {
-    if (!disclosure.getState().animated) return;
-    disclosure.setState("animating", true);
-  }));
-  setup(disclosure, () => sync(disclosure, ["open", "animating"], (state) => {
-    disclosure.setState("mounted", state.open || state.animating);
-  }));
-  return {
-    ...disclosure,
-    disclosure: props.disclosure,
-    setOpen: (value) => disclosure.setState("open", value),
-    show: () => disclosure.setState("open", true),
-    hide: () => disclosure.setState("open", false),
-    toggle: () => disclosure.setState("open", (open2) => !open2),
-    stopAnimation: () => disclosure.setState("animating", false),
-    setContentElement: (value) => disclosure.setState("contentElement", value),
-    setDisclosureElement: (value) => disclosure.setState("disclosureElement", value)
-  };
-}
-
-// node_modules/@ariakit/react-components/dist/disclosure/disclosure-store.js
-function useDisclosureStoreProps(store, update2, props) {
-  useUpdateEffect(update2, [props.store, props.disclosure]);
-  useStoreProps(store, props, "open", "setOpen");
-  useStoreProps(store, props, "mounted", "setMounted");
-  useStoreProps(store, props, "animated");
-  return Object.assign(store, { disclosure: props.disclosure });
-}
-
-// node_modules/@ariakit/react-components/dist/popover/popover-context.js
-var ctx5 = createStoreContext([DialogContextProvider], [DialogScopedContextProvider]);
-var usePopoverContext = ctx5.useContext;
-var usePopoverScopedContext = ctx5.useScopedContext;
-var usePopoverProviderContext = ctx5.useProviderContext;
-var PopoverContextProvider = ctx5.ContextProvider;
-var PopoverScopedContextProvider = ctx5.ScopedContextProvider;
-
-// node_modules/@ariakit/react-components/dist/combobox/combobox-context.js
-var import_react25 = __toESM(require_react(), 1);
-var ComboboxListRoleContext = (0, import_react25.createContext)(void 0);
-var ctx6 = createStoreContext([PopoverContextProvider, CompositeContextProvider], [PopoverScopedContextProvider, CompositeScopedContextProvider]);
-var useComboboxContext = ctx6.useContext;
-var useComboboxScopedContext = ctx6.useScopedContext;
-var useComboboxProviderContext = ctx6.useProviderContext;
-var ComboboxContextProvider = ctx6.ContextProvider;
-var ComboboxScopedContextProvider = ctx6.ScopedContextProvider;
-var ComboboxItemValueContext = (0, import_react25.createContext)(void 0);
-var ComboboxItemCheckedContext = (0, import_react25.createContext)(false);
 
 // node_modules/@ariakit/components/dist/collection/collection-store.js
 function getCommonParent(items) {
@@ -24045,16 +23468,9 @@ function createCollectionStore(props = {}) {
   };
 }
 
-// node_modules/@ariakit/react-components/dist/collection/collection-store.js
-function useCollectionStoreProps(store, update2, props) {
-  useUpdateEffect(update2, [props.store]);
-  useStoreProps(store, props, "items", "setItems");
-  return store;
-}
-
 // node_modules/@ariakit/components/dist/composite/composite-store.js
 var NULL_ITEM = { id: null };
-function findFirstEnabledItem2(items, excludeId) {
+function findFirstEnabledItem(items, excludeId) {
   return items.find((item) => {
     if (excludeId) return !item.disabled && item.id !== excludeId;
     return !item.disabled;
@@ -24069,6 +23485,16 @@ function getEnabledItems(items, excludeId) {
 function getItemsInRow(items, rowId) {
   return items.filter((item) => item.rowId === rowId);
 }
+function findEnabledItemId({ items, fromIndex, step, rowId, excludeId }) {
+  for (let i2 = fromIndex; i2 >= 0 && i2 < items.length; i2 += step) {
+    const item = items[i2];
+    if (!item) continue;
+    if (item.rowId !== rowId) continue;
+    if (item.disabled) continue;
+    if (excludeId != null && item.id === excludeId) continue;
+    return item.id;
+  }
+}
 function flipItems(items, activeId, shouldInsertNullItem = false) {
   const index2 = items.findIndex((item) => item.id === activeId);
   return [
@@ -24077,7 +23503,7 @@ function flipItems(items, activeId, shouldInsertNullItem = false) {
     ...items.slice(0, index2)
   ];
 }
-function groupItemsByRows2(items) {
+function groupItemsByRows(items) {
   const rows = [];
   for (const item of items) {
     const row = rows.find((currentRow) => currentRow[0]?.rowId === item.rowId);
@@ -24103,14 +23529,14 @@ function normalizeRows(rows, activeId, focusShift) {
   for (const row of rows) for (let i2 = 0; i2 < maxLength; i2 += 1) {
     const item = row[i2];
     if (!item || focusShift && item.disabled) {
-      const previousItem = i2 === 0 && focusShift ? findFirstEnabledItem2(row) : row[i2 - 1];
+      const previousItem = i2 === 0 && focusShift ? findFirstEnabledItem(row) : row[i2 - 1];
       row[i2] = previousItem && activeId !== previousItem.id && focusShift ? previousItem : createEmptyItem(previousItem?.rowId);
     }
   }
   return rows;
 }
 function verticalizeItems(items) {
-  const rows = groupItemsByRows2(items);
+  const rows = groupItemsByRows(items);
   const maxLength = getMaxRowLength(rows);
   const verticalized = [];
   for (let i2 = 0; i2 < maxLength; i2 += 1) for (const row of rows) {
@@ -24143,7 +23569,7 @@ function createCompositeStore(props = {}) {
   setup(composite, () => sync(composite, ["renderedItems", "activeId"], (state) => {
     composite.setState("activeId", (activeId2) => {
       if (activeId2 !== void 0) return activeId2;
-      return findFirstEnabledItem2(state.renderedItems)?.id;
+      return findFirstEnabledItem(state.renderedItems)?.id;
     });
   }));
   const getNextId = (direction = "next", options = {}) => {
@@ -24153,12 +23579,37 @@ function createCompositeStore(props = {}) {
     const isNextDirection = direction === "next" || direction === "down";
     const canReverse = isNextDirection ? rtl && !isVerticalDirection : !rtl || isVerticalDirection;
     const canShift = focusShift && !skip;
-    let items = !isVerticalDirection ? renderedItems : flatten2DArray(normalizeRows(groupItemsByRows2(renderedItems), activeId2, canShift));
+    if (!skip && !focusWrap && !includesBaseElement && activeId2 != null) {
+      if (!isVerticalDirection ? true : !canShift && !renderedItems.some((item) => item.rowId != null)) {
+        const activeIndex2 = renderedItems.findIndex((item) => item.id === activeId2);
+        const activeItem2 = renderedItems[activeIndex2];
+        if (activeItem2) {
+          const step = canReverse ? -1 : 1;
+          const nextId = findEnabledItemId({
+            items: renderedItems,
+            fromIndex: activeIndex2 + step,
+            step,
+            rowId: activeItem2.rowId,
+            excludeId: activeId2
+          });
+          if (nextId !== void 0) return nextId;
+          if (!(focusLoop && (isVerticalDirection ? focusLoop !== "horizontal" : focusLoop !== "vertical"))) return void 0;
+          return findEnabledItemId({
+            items: renderedItems,
+            fromIndex: step === 1 ? 0 : renderedItems.length - 1,
+            step,
+            rowId: activeItem2.rowId,
+            excludeId: activeId2
+          });
+        }
+      }
+    }
+    let items = !isVerticalDirection ? renderedItems : flatten2DArray(normalizeRows(groupItemsByRows(renderedItems), activeId2, canShift));
     items = canReverse ? reverseArray(items) : items;
     items = isVerticalDirection ? verticalizeItems(items) : items;
-    if (activeId2 == null) return findFirstEnabledItem2(items)?.id;
+    if (activeId2 == null) return findFirstEnabledItem(items)?.id;
     const activeItem = items.find((item) => item.id === activeId2);
-    if (!activeItem) return findFirstEnabledItem2(items)?.id;
+    if (!activeItem) return findFirstEnabledItem(items)?.id;
     const isGrid2 = items.some((item) => item.rowId);
     const activeIndex = items.indexOf(activeItem);
     const nextItems = items.slice(activeIndex + 1);
@@ -24170,14 +23621,18 @@ function createCompositeStore(props = {}) {
     const canLoop = focusLoop && (isVerticalDirection ? focusLoop !== "horizontal" : focusLoop !== "vertical");
     const canWrap = isGrid2 && focusWrap && (isVerticalDirection ? focusWrap !== "horizontal" : focusWrap !== "vertical");
     const hasNullItem = isNextDirection ? (!isGrid2 || isVerticalDirection) && canLoop && includesBaseElement : isVerticalDirection ? includesBaseElement : false;
-    if (canLoop) return findFirstEnabledItem2(flipItems(canWrap && !hasNullItem ? items : getItemsInRow(items, activeItem.rowId), activeId2, hasNullItem), activeId2)?.id;
+    if (canLoop) return findFirstEnabledItem(flipItems(canWrap && !hasNullItem ? items : getItemsInRow(items, activeItem.rowId), activeId2, hasNullItem), activeId2)?.id;
     if (canWrap) {
-      const nextItem2 = findFirstEnabledItem2(hasNullItem ? nextItemsInRow : nextItems, activeId2);
+      const nextItem2 = findFirstEnabledItem(hasNullItem ? nextItemsInRow : nextItems, activeId2);
       return hasNullItem ? nextItem2?.id || null : nextItem2?.id;
     }
-    const nextItem = findFirstEnabledItem2(nextItemsInRow, activeId2);
+    const nextItem = findFirstEnabledItem(nextItemsInRow, activeId2);
     if (!nextItem && hasNullItem) return null;
     return nextItem?.id;
+  };
+  const getNextIdFromOptions = (direction, options) => {
+    if (typeof options === "number") return getNextId(direction, { skip: options });
+    return getNextId(direction, options);
   };
   return {
     ...collection,
@@ -24189,25 +23644,907 @@ function createCompositeStore(props = {}) {
       composite.setState("activeId", id);
       composite.setState("moves", (moves) => moves + 1);
     },
-    first: () => findFirstEnabledItem2(composite.getState().renderedItems)?.id,
-    last: () => findFirstEnabledItem2(reverseArray(composite.getState().renderedItems))?.id,
-    next: (options) => {
-      if (options !== void 0 && typeof options === "number") options = { skip: options };
-      return getNextId("next", options);
-    },
-    previous: (options) => {
-      if (options !== void 0 && typeof options === "number") options = { skip: options };
-      return getNextId("previous", options);
-    },
-    down: (options) => {
-      if (options !== void 0 && typeof options === "number") options = { skip: options };
-      return getNextId("down", options);
-    },
-    up: (options) => {
-      if (options !== void 0 && typeof options === "number") options = { skip: options };
-      return getNextId("up", options);
-    }
+    first: () => findFirstEnabledItem(composite.getState().renderedItems)?.id,
+    last: () => findFirstEnabledItem(reverseArray(composite.getState().renderedItems))?.id,
+    next: (options) => getNextIdFromOptions("next", options),
+    previous: (options) => getNextIdFromOptions("previous", options),
+    down: (options) => getNextIdFromOptions("down", options),
+    up: (options) => getNextIdFromOptions("up", options)
   };
+}
+
+// node_modules/@ariakit/react-components/dist/composite/utils.js
+var findFirstEnabledItem2 = findFirstEnabledItem;
+var groupItemsByRows2 = groupItemsByRows;
+function getEnabledItem(store, id) {
+  if (!id) return null;
+  return store.item(id) || null;
+}
+function selectTextField(element, collapseToEnd = false) {
+  if (isTextField(element)) element.setSelectionRange(collapseToEnd ? element.value.length : 0, element.value.length);
+  else if (element.isContentEditable) {
+    const selection = getDocument(element).getSelection();
+    selection?.selectAllChildren(element);
+    if (collapseToEnd) selection?.collapseToEnd();
+  }
+}
+var FOCUS_SILENTLY = /* @__PURE__ */ Symbol("FOCUS_SILENTLY");
+function focusSilently(element) {
+  element[FOCUS_SILENTLY] = true;
+  element.focus({ preventScroll: true });
+}
+function silentlyFocused(element) {
+  const isSilentlyFocused = element[FOCUS_SILENTLY];
+  delete element[FOCUS_SILENTLY];
+  return isSilentlyFocused;
+}
+function isItem(store, element, exclude) {
+  if (!element) return false;
+  if (element === exclude) return false;
+  const item = store.item(element.id);
+  if (!item) return false;
+  if (exclude && item.element === exclude) return false;
+  return true;
+}
+
+// node_modules/@ariakit/react-components/dist/composite/composite-item.js
+var import_react21 = __toESM(require_react(), 1);
+var import_jsx_runtime116 = __toESM(require_jsx_runtime(), 1);
+
+// node_modules/@ariakit/react-store/dist/index.js
+var React83 = __toESM(require_react(), 1);
+var import_shim2 = __toESM(require_shim(), 1);
+var noopSubscribe = () => () => {
+};
+function useStoreState(store, keyOrSelector = identity) {
+  const storeSubscribe = React83.useCallback((callback) => {
+    if (!store) return noopSubscribe();
+    return subscribe(store, null, callback);
+  }, [store]);
+  const getSnapshot = () => {
+    const key = typeof keyOrSelector === "string" ? keyOrSelector : null;
+    const selector2 = typeof keyOrSelector === "function" ? keyOrSelector : null;
+    const state = store?.getState();
+    if (selector2) return selector2(state);
+    if (!state) return;
+    if (!key) return;
+    if (!hasOwnProperty(state, key)) return;
+    return state[key];
+  };
+  return (0, import_shim2.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
+}
+function useStoreStateObject(store, object) {
+  const objRef = React83.useRef({});
+  const storeSubscribe = React83.useCallback((callback) => {
+    if (!store) return noopSubscribe();
+    return subscribe(store, null, callback);
+  }, [store]);
+  const getSnapshot = () => {
+    const state = store?.getState();
+    let updated = false;
+    const obj = objRef.current;
+    for (const prop in object) {
+      const keyOrSelector = object[prop];
+      if (typeof keyOrSelector === "function") {
+        const value = keyOrSelector(state);
+        if (!Object.is(value, obj[prop])) {
+          obj[prop] = value;
+          updated = true;
+        }
+      }
+      if (typeof keyOrSelector === "string") {
+        if (!state) continue;
+        if (!hasOwnProperty(state, keyOrSelector)) continue;
+        const value = state[keyOrSelector];
+        if (!Object.is(value, obj[prop])) {
+          obj[prop] = value;
+          updated = true;
+        }
+      }
+    }
+    if (updated) objRef.current = { ...obj };
+    return objRef.current;
+  };
+  return (0, import_shim2.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
+}
+function useStoreProps(store, props, key, setKey) {
+  const value = hasOwnProperty(props, key) ? props[key] : void 0;
+  const propsRef = useLiveRef({
+    value,
+    setValue: setKey ? props[setKey] : void 0
+  });
+  useSafeLayoutEffect(() => {
+    return sync(store, [key], (state, prev) => {
+      const { value: value2, setValue } = propsRef.current;
+      if (!setValue) return;
+      if (state[key] === prev[key]) return;
+      if (state[key] === value2) return;
+      setValue(state[key]);
+    });
+  }, [store, key]);
+  useSafeLayoutEffect(() => {
+    if (value === void 0) return;
+    store.setState(key, value);
+    return batch(store, [key], () => {
+      if (value === void 0) return;
+      store.setState(key, value);
+    });
+  });
+}
+function useStore2(createStore2, props) {
+  const [store, setStore] = React83.useState(() => createStore2(props));
+  useSafeLayoutEffect(() => init(store), [store]);
+  const useState56 = React83.useCallback((keyOrSelector) => useStoreState(store, keyOrSelector), [store]);
+  return [React83.useMemo(() => ({
+    ...store,
+    useState: useState56
+  }), [store, useState56]), useEvent(() => {
+    setStore((store2) => createStore2({
+      ...props,
+      ...store2.getState()
+    }));
+  })];
+}
+
+// node_modules/@ariakit/react-components/dist/composite/composite-item.js
+var TagName4 = "button";
+function isEditableElement(element) {
+  if (isTextbox(element)) return true;
+  return element.tagName === "INPUT" && !isButton(element);
+}
+function getNextPageOffset(scrollingElement, pageUp = false) {
+  const height = scrollingElement.clientHeight;
+  const { top } = scrollingElement.getBoundingClientRect();
+  const pageSize = Math.max(height * 0.875, height - 40) * 1.5;
+  const pageOffset = pageUp ? height - pageSize + top : pageSize + top;
+  if (scrollingElement.tagName === "HTML") return pageOffset + scrollingElement.scrollTop;
+  return pageOffset;
+}
+function getItemOffset(itemElement, pageUp = false) {
+  const { top } = itemElement.getBoundingClientRect();
+  if (pageUp) return top + itemElement.clientHeight;
+  return top;
+}
+function findNextPageItemId(element, store, next, pageUp = false) {
+  if (!store) return;
+  if (!next) return;
+  const { renderedItems } = store.getState();
+  const scrollingElement = getScrollingElement(element);
+  if (!scrollingElement) return;
+  const nextPageOffset = getNextPageOffset(scrollingElement, pageUp);
+  let id;
+  let prevDifference;
+  for (let i2 = 0; i2 < renderedItems.length; i2 += 1) {
+    const previousId = id;
+    id = next(i2);
+    if (!id) break;
+    if (id === previousId) continue;
+    const itemElement = getEnabledItem(store, id)?.element;
+    if (!itemElement) continue;
+    const difference = getItemOffset(itemElement, pageUp) - nextPageOffset;
+    const absDifference = Math.abs(difference);
+    if (pageUp && difference <= 0 || !pageUp && difference >= 0) {
+      if (prevDifference !== void 0 && prevDifference < absDifference) id = previousId;
+      break;
+    }
+    prevDifference = absDifference;
+  }
+  return id;
+}
+function targetIsAnotherItem(event, store) {
+  if (isSelfTarget(event)) return false;
+  return isItem(store, event.target);
+}
+var useCompositeItem = createHook(function useCompositeItem2({ store, rowId: rowIdProp, preventScrollOnKeyDown = false, moveOnKeyPress = true, tabbable: tabbable4 = false, getItem: getItemProp, "aria-setsize": ariaSetSizeProp, "aria-posinset": ariaPosInSetProp, ...props }) {
+  const context = useCompositeScopedContext();
+  store = store || context;
+  const id = useId5(props.id);
+  const ref = (0, import_react21.useRef)(null);
+  const row = (0, import_react21.useContext)(CompositeRowContext);
+  const trulyDisabled = disabledFromProps(props) && !props.accessibleWhenDisabled;
+  const shouldRegisterItem = props.shouldRegisterItem;
+  const getRowId = (state) => {
+    if (rowIdProp) return rowIdProp;
+    if (!state) return;
+    if (!row?.baseElement) return;
+    if (row.baseElement !== state.baseElement) return;
+    return row.id;
+  };
+  const { rowId, baseElement, isActiveItem, ariaSetSize, ariaPosInSet, isTabbable: isTabbable2 } = useStoreStateObject(store, {
+    rowId: getRowId,
+    baseElement(state) {
+      return state?.baseElement || void 0;
+    },
+    isActiveItem(state) {
+      return !!state && state.activeId === id;
+    },
+    ariaSetSize(state) {
+      if (ariaSetSizeProp != null) return ariaSetSizeProp;
+      if (!state) return;
+      if (!row?.ariaSetSize) return;
+      if (row.baseElement !== state.baseElement) return;
+      return row.ariaSetSize;
+    },
+    ariaPosInSet(state) {
+      if (ariaPosInSetProp != null) return ariaPosInSetProp;
+      if (!state) return;
+      if (!row?.ariaPosInSet) return;
+      if (row.baseElement !== state.baseElement) return;
+      const rowId2 = getRowId(state);
+      const itemsInRow = state.renderedItems.filter((item) => item.rowId === rowId2);
+      return row.ariaPosInSet + itemsInRow.findIndex((item) => item.id === id);
+    },
+    isTabbable(state) {
+      if (!state?.renderedItems.length) return true;
+      if (state.virtualFocus) return false;
+      if (tabbable4) return true;
+      if (state.activeId === null) return false;
+      const item = store?.item(state.activeId);
+      if (item?.disabled) return true;
+      if (!item?.element) return true;
+      return state.activeId === id;
+    }
+  });
+  const getItem = (0, import_react21.useCallback)((item) => {
+    const nextItem = {
+      ...item,
+      id: id || item.id,
+      rowId,
+      disabled: trulyDisabled,
+      children: item.element?.textContent
+    };
+    if (getItemProp) return getItemProp(nextItem);
+    return nextItem;
+  }, [
+    id,
+    rowId,
+    trulyDisabled,
+    getItemProp
+  ]);
+  const onFocusProp = props.onFocus;
+  const hasFocusedComposite = (0, import_react21.useRef)(false);
+  const cancelScheduledFocusRedirectRef = (0, import_react21.useRef)(null);
+  const onFocus = useEvent((event) => {
+    onFocusProp?.(event);
+    if (event.defaultPrevented) return;
+    if (isPortalEvent(event)) return;
+    if (!id) return;
+    if (!store) return;
+    if (targetIsAnotherItem(event, store)) return;
+    const { virtualFocus, baseElement: baseElement2 } = store.getState();
+    store.setActiveId(id);
+    if (isTextbox(event.currentTarget)) selectTextField(event.currentTarget);
+    if (!virtualFocus) return;
+    if (!isSelfTarget(event)) return;
+    if (isEditableElement(event.currentTarget)) return;
+    const redirectFocusToBaseElement = (currentTarget2, relatedTarget2, baseElement3) => {
+      if (isSafari() && currentTarget2.hasAttribute("data-autofocus")) currentTarget2.scrollIntoView({
+        block: "nearest",
+        inline: "nearest"
+      });
+      hasFocusedComposite.current = true;
+      if (relatedTarget2 === baseElement3 || isItem(store, relatedTarget2)) focusSilently(baseElement3);
+      else baseElement3.focus();
+    };
+    if (baseElement2?.isConnected) {
+      redirectFocusToBaseElement(event.currentTarget, event.relatedTarget, baseElement2);
+      return;
+    }
+    if (shouldRegisterItem === false) return;
+    const { currentTarget, relatedTarget } = event;
+    const cancelScheduledFocusRedirect = () => {
+      cancelScheduledFocusRedirectRef.current?.();
+      cancelScheduledFocusRedirectRef.current = null;
+    };
+    cancelScheduledFocusRedirect();
+    cancelScheduledFocusRedirectRef.current = subscribe(store, null, () => {
+      if (getActiveElement(currentTarget) !== currentTarget) {
+        cancelScheduledFocusRedirect();
+        return;
+      }
+      const state = store.getState();
+      const nextBaseElement = state.baseElement;
+      if (!nextBaseElement?.isConnected) return;
+      cancelScheduledFocusRedirect();
+      if (!state.virtualFocus) return;
+      redirectFocusToBaseElement(currentTarget, relatedTarget, nextBaseElement);
+    });
+  });
+  const onBlurCaptureProp = props.onBlurCapture;
+  const onBlurCapture = useEvent((event) => {
+    onBlurCaptureProp?.(event);
+    if (event.defaultPrevented) return;
+    if (store?.getState()?.virtualFocus && hasFocusedComposite.current) {
+      hasFocusedComposite.current = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  });
+  const onKeyDownProp = props.onKeyDown;
+  const preventScrollOnKeyDownProp = useBooleanEvent(preventScrollOnKeyDown);
+  const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
+  const onKeyDown = useEvent((event) => {
+    onKeyDownProp?.(event);
+    if (event.defaultPrevented) return;
+    if (!isSelfTarget(event)) return;
+    if (!store) return;
+    const { currentTarget } = event;
+    const state = store.getState();
+    const isGrid2 = !!store.item(id)?.rowId;
+    const isVertical = state.orientation !== "horizontal";
+    const isHorizontal = state.orientation !== "vertical";
+    const canHomeEnd = () => {
+      if (isGrid2) return true;
+      if (isHorizontal) return true;
+      if (!state.baseElement) return true;
+      if (!isTextField(state.baseElement)) return true;
+      return false;
+    };
+    const action = {
+      ArrowUp: (isGrid2 || isVertical) && store.up,
+      ArrowRight: (isGrid2 || isHorizontal) && store.next,
+      ArrowDown: (isGrid2 || isVertical) && store.down,
+      ArrowLeft: (isGrid2 || isHorizontal) && store.previous,
+      Home: () => {
+        if (!canHomeEnd()) return;
+        if (!isGrid2 || event.ctrlKey) return store?.first();
+        return store?.previous(-1);
+      },
+      End: () => {
+        if (!canHomeEnd()) return;
+        if (!isGrid2 || event.ctrlKey) return store?.last();
+        return store?.next(-1);
+      },
+      PageUp: () => {
+        return findNextPageItemId(currentTarget, store, store?.up, true);
+      },
+      PageDown: () => {
+        return findNextPageItemId(currentTarget, store, store?.down);
+      }
+    }[event.key];
+    if (action) {
+      if (isTextbox(currentTarget)) {
+        const selection = getTextboxSelection(currentTarget);
+        const isLeft = isHorizontal && event.key === "ArrowLeft";
+        const isRight = isHorizontal && event.key === "ArrowRight";
+        const isUp = isVertical && event.key === "ArrowUp";
+        const isDown = isVertical && event.key === "ArrowDown";
+        if (isRight || isDown) {
+          const { length: valueLength } = getTextboxValue(currentTarget);
+          if (selection.end !== valueLength) return;
+        } else if ((isLeft || isUp) && selection.start !== 0) return;
+      }
+      const nextId = action();
+      if (preventScrollOnKeyDownProp(event) || nextId !== void 0) {
+        if (!moveOnKeyPressProp(event)) return;
+        event.preventDefault();
+        store.move(nextId);
+      }
+    }
+  });
+  const providerValue = (0, import_react21.useMemo)(() => ({
+    id,
+    baseElement
+  }), [id, baseElement]);
+  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(CompositeItemContext.Provider, {
+    value: providerValue,
+    children: element
+  }), [providerValue]);
+  props = {
+    "data-active-item": isActiveItem || void 0,
+    ...props,
+    id,
+    ref: useMergeRefs3(ref, props.ref),
+    tabIndex: isTabbable2 ? props.tabIndex : -1,
+    onFocus,
+    onBlurCapture,
+    onKeyDown
+  };
+  props = useCommand(props);
+  props = useCollectionItem({
+    store,
+    ...props,
+    getItem,
+    shouldRegisterItem: id ? shouldRegisterItem : false
+  });
+  return removeUndefinedValues({
+    ...props,
+    "aria-setsize": ariaSetSize,
+    "aria-posinset": ariaPosInSet
+  });
+});
+var CompositeItem = memo3(forwardRef70(function CompositeItem2(props) {
+  return createElement3(TagName4, useCompositeItem(props));
+}));
+
+// node_modules/@ariakit/react-components/dist/composite/composite.js
+var import_react22 = __toESM(require_react(), 1);
+var import_jsx_runtime117 = __toESM(require_jsx_runtime(), 1);
+var TagName5 = "div";
+function isGrid(items) {
+  return items.some((item) => !!item.rowId);
+}
+function isPrintableKey(event) {
+  const target = event.target;
+  if (target && !isTextField(target)) return false;
+  return event.key.length === 1 && !event.ctrlKey && !event.metaKey;
+}
+function isModifierKey(event) {
+  return event.key === "Shift" || event.key === "Control" || event.key === "Alt" || event.key === "Meta";
+}
+function useKeyboardEventProxy(store, onKeyboardEvent, previousElementRef) {
+  return useEvent((event) => {
+    onKeyboardEvent?.(event);
+    if (event.defaultPrevented) return;
+    if (event.isPropagationStopped()) return;
+    if (!isSelfTarget(event)) return;
+    if (isModifierKey(event)) return;
+    if (isPrintableKey(event)) return;
+    const activeElement2 = getEnabledItem(store, store.getState().activeId)?.element;
+    if (!activeElement2) return;
+    const { view, ...eventInit } = event;
+    if (activeElement2 !== previousElementRef?.current) activeElement2.focus();
+    if (!fireKeyboardEvent(activeElement2, event.type, eventInit)) event.preventDefault();
+    if (event.currentTarget.contains(activeElement2)) event.stopPropagation();
+  });
+}
+function findFirstEnabledItemInTheLastRow(items) {
+  return findFirstEnabledItem2(flatten2DArray(reverseArray(groupItemsByRows2(items))));
+}
+function withBaseScrollPreserved(store, callback) {
+  const { virtualFocus, baseElement } = store.getState();
+  if (!virtualFocus || !baseElement || !isTextField(baseElement)) {
+    callback();
+    return;
+  }
+  const savedScrollLeft = baseElement.scrollLeft;
+  const savedScrollTop = baseElement.scrollTop;
+  callback();
+  baseElement.scrollLeft = savedScrollLeft;
+  baseElement.scrollTop = savedScrollTop;
+}
+function useScheduleFocus(store) {
+  const [scheduled, setScheduled] = (0, import_react22.useState)(false);
+  const schedule = (0, import_react22.useCallback)(() => setScheduled(true), []);
+  const activeItem = useStoreState(store, (state) => scheduled ? getEnabledItem(store, state.activeId) : null);
+  (0, import_react22.useEffect)(() => {
+    const activeElement2 = activeItem?.element;
+    if (!scheduled) return;
+    if (!activeElement2) return;
+    setScheduled(false);
+    withBaseScrollPreserved(store, () => {
+      activeElement2.focus({ preventScroll: true });
+    });
+  }, [
+    store,
+    activeItem,
+    scheduled
+  ]);
+  return schedule;
+}
+var CompositeFocusOnMove = memo3(function CompositeFocusOnMove2({ store, focusOnMove, previousElementRef }) {
+  const moves = useStoreState(store, "moves");
+  const baseElement = useStoreState(store, "baseElement");
+  (0, import_react22.useEffect)(() => {
+    if (!moves) return;
+    if (!focusOnMove) return;
+    const { activeId } = store.getState();
+    const itemElement = getEnabledItem(store, activeId)?.element;
+    if (!itemElement) return;
+    withBaseScrollPreserved(store, () => focusIntoView(itemElement));
+  }, [
+    store,
+    moves,
+    focusOnMove
+  ]);
+  useSafeLayoutEffect(() => {
+    if (!moves) return;
+    if (!baseElement) return;
+    const { activeId } = store.getState();
+    if (!(activeId === null)) return;
+    const previousElement = previousElementRef.current;
+    previousElementRef.current = null;
+    if (previousElement) fireBlurEvent(previousElement, { relatedTarget: baseElement });
+    if (!hasFocus(baseElement)) baseElement.focus();
+  }, [
+    store,
+    moves,
+    baseElement
+  ]);
+  return null;
+});
+var useComposite = createHook(function useComposite2({ store, composite = true, focusOnMove = composite, moveOnKeyPress = true, ...props }) {
+  const context = useCompositeProviderContext();
+  store = store || context;
+  invariant(store, "Composite must receive a `store` prop or be wrapped in a CompositeProvider component.");
+  const ref = (0, import_react22.useRef)(null);
+  const previousElementRef = (0, import_react22.useRef)(null);
+  const scheduleFocus = useScheduleFocus(store);
+  const [, setBaseElement] = useTransactionState(composite ? store.setBaseElement : null);
+  const virtualFocus = useStoreState(store, "virtualFocus");
+  const activeId = useStoreState(store, (state) => state.virtualFocus ? state.activeId : null);
+  useSafeLayoutEffect(() => {
+    if (!store) return;
+    if (!composite) return;
+    if (!virtualFocus) return;
+    const previousElement = previousElementRef.current;
+    previousElementRef.current = null;
+    if (!previousElement) return;
+    const relatedTarget = getEnabledItem(store, activeId)?.element || getActiveElement(previousElement);
+    if (relatedTarget === previousElement) return;
+    fireBlurEvent(previousElement, { relatedTarget });
+  }, [
+    store,
+    activeId,
+    virtualFocus,
+    composite
+  ]);
+  const onKeyDownCapture = useKeyboardEventProxy(store, props.onKeyDownCapture, previousElementRef);
+  const onKeyUpCapture = useKeyboardEventProxy(store, props.onKeyUpCapture, previousElementRef);
+  const onFocusCaptureProp = props.onFocusCapture;
+  const onFocusCapture = useEvent((event) => {
+    onFocusCaptureProp?.(event);
+    if (event.defaultPrevented) return;
+    if (!store) return;
+    const { virtualFocus: virtualFocus2 } = store.getState();
+    if (!virtualFocus2) return;
+    const previousActiveElement = event.relatedTarget;
+    const isSilentlyFocused = silentlyFocused(event.currentTarget);
+    if (isSelfTarget(event) && isSilentlyFocused) {
+      event.stopPropagation();
+      previousElementRef.current = previousActiveElement;
+    }
+  });
+  const onFocusProp = props.onFocus;
+  const onFocus = useEvent((event) => {
+    onFocusProp?.(event);
+    if (event.defaultPrevented) return;
+    if (!composite) return;
+    if (!store) return;
+    const { relatedTarget } = event;
+    const { virtualFocus: virtualFocus2 } = store.getState();
+    if (virtualFocus2) {
+      if (isSelfTarget(event) && !isItem(store, relatedTarget)) queueMicrotask(scheduleFocus);
+    } else if (isSelfTarget(event)) store.setActiveId(null);
+  });
+  const onBlurCaptureProp = props.onBlurCapture;
+  const onBlurCapture = useEvent((event) => {
+    onBlurCaptureProp?.(event);
+    if (event.defaultPrevented) return;
+    if (!store) return;
+    const { virtualFocus: virtualFocus2, activeId: activeId2 } = store.getState();
+    if (!virtualFocus2) return;
+    const activeElement2 = getEnabledItem(store, activeId2)?.element;
+    const nextActiveElement = event.relatedTarget;
+    const nextActiveElementIsItem = isItem(store, nextActiveElement);
+    const previousElement = previousElementRef.current;
+    previousElementRef.current = null;
+    if (isSelfTarget(event) && nextActiveElementIsItem) {
+      if (nextActiveElement === activeElement2) {
+        if (previousElement && previousElement !== nextActiveElement) fireBlurEvent(previousElement, event);
+      } else if (activeElement2) fireBlurEvent(activeElement2, event);
+      else if (previousElement) fireBlurEvent(previousElement, event);
+      event.stopPropagation();
+    } else if (!isItem(store, event.target) && activeElement2) fireBlurEvent(activeElement2, event);
+  });
+  const onKeyDownProp = props.onKeyDown;
+  const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
+  const onKeyDown = useEvent((event) => {
+    onKeyDownProp?.(event);
+    if (event.nativeEvent.isComposing) return;
+    if (event.defaultPrevented) return;
+    if (!store) return;
+    if (!isSelfTarget(event)) return;
+    const { orientation, renderedItems, activeId: activeId2, rtl } = store.getState();
+    if (getEnabledItem(store, activeId2)?.element?.isConnected) return;
+    const isVertical = orientation !== "horizontal";
+    const isHorizontal = orientation !== "vertical";
+    const grid = isGrid(renderedItems);
+    if ((event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "Home" || event.key === "End") && isTextField(event.currentTarget)) return;
+    const up = () => {
+      if (grid) return findFirstEnabledItemInTheLastRow(renderedItems)?.id;
+      return store?.last();
+    };
+    const action = {
+      ArrowUp: (grid || isVertical) && up,
+      ArrowRight: (grid || isHorizontal) && (rtl ? store.last : store.first),
+      ArrowDown: (grid || isVertical) && store.first,
+      ArrowLeft: (grid || isHorizontal) && (rtl ? store.first : store.last),
+      Home: store.first,
+      End: store.last,
+      PageUp: store.first,
+      PageDown: store.last
+    }[event.key];
+    if (action) {
+      const id = action();
+      if (id !== void 0) {
+        if (!moveOnKeyPressProp(event)) return;
+        event.preventDefault();
+        store.move(id);
+      }
+    }
+  });
+  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime117.jsxs)(CompositeScopedContextProvider, {
+    value: store,
+    children: [element, composite && /* @__PURE__ */ (0, import_jsx_runtime117.jsx)(CompositeFocusOnMove, {
+      store,
+      focusOnMove,
+      previousElementRef
+    })]
+  }), [
+    store,
+    composite,
+    focusOnMove
+  ]);
+  props = {
+    "aria-activedescendant": useStoreState(store, (state) => {
+      if (!store) return;
+      if (!composite) return;
+      if (!state.virtualFocus) return;
+      return getEnabledItem(store, state.activeId)?.id;
+    }),
+    ...props,
+    ref: useMergeRefs3(ref, setBaseElement, props.ref),
+    onKeyDownCapture,
+    onKeyUpCapture,
+    onFocusCapture,
+    onFocus,
+    onBlurCapture,
+    onKeyDown
+  };
+  props = useFocusable({
+    focusable: useStoreState(store, (state) => composite && (state.virtualFocus || state.activeId === null)),
+    ...props
+  });
+  return props;
+});
+var Composite6 = forwardRef70(function Composite7(props) {
+  return createElement3(TagName5, useComposite(props));
+});
+
+// node_modules/@ariakit/react-components/dist/disclosure/disclosure-context.js
+var ctx3 = createStoreContext();
+var useDisclosureContext = ctx3.useContext;
+var useDisclosureScopedContext = ctx3.useScopedContext;
+var useDisclosureProviderContext = ctx3.useProviderContext;
+var DisclosureContextProvider = ctx3.ContextProvider;
+var DisclosureScopedContextProvider = ctx3.ScopedContextProvider;
+
+// node_modules/@ariakit/react-components/dist/dialog/dialog-context.js
+var import_react23 = __toESM(require_react(), 1);
+var ctx4 = createStoreContext([DisclosureContextProvider], [DisclosureScopedContextProvider]);
+var useDialogContext = ctx4.useContext;
+var useDialogScopedContext = ctx4.useScopedContext;
+var useDialogProviderContext = ctx4.useProviderContext;
+var DialogContextProvider = ctx4.ContextProvider;
+var DialogScopedContextProvider = ctx4.ScopedContextProvider;
+var DialogHeadingContext = (0, import_react23.createContext)(void 0);
+var DialogDescriptionContext = (0, import_react23.createContext)(void 0);
+
+// node_modules/@ariakit/react-components/dist/disclosure/disclosure-content.js
+var import_react24 = __toESM(require_react(), 1);
+var import_jsx_runtime118 = __toESM(require_jsx_runtime(), 1);
+var import_react_dom4 = __toESM(require_react_dom(), 1);
+var TagName6 = "div";
+function afterTimeout(timeoutMs, cb) {
+  const timeoutId = setTimeout(cb, timeoutMs);
+  return () => clearTimeout(timeoutId);
+}
+function parseCSSTime(time) {
+  const value = time?.trim() || "0s";
+  const multiplier = value.endsWith("ms") ? 1 : 1e3;
+  const parsed = Number.parseFloat(value) * multiplier;
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+function getEndTime(names, delays, durations) {
+  const nameList = names.split(",");
+  const delayList = delays.split(",");
+  const durationList = durations.split(",");
+  let endTime = 0;
+  for (const [index2, name] of nameList.entries()) {
+    if (name.trim() === "none") continue;
+    const delay = parseCSSTime(delayList[index2 % delayList.length]);
+    const duration = parseCSSTime(durationList[index2 % durationList.length]);
+    endTime = Math.max(endTime, delay + duration);
+  }
+  return endTime;
+}
+function getElementEndTime(element) {
+  const { transitionProperty, transitionDuration, transitionDelay, animationName, animationDuration, animationDelay } = getComputedStyle(element);
+  return Math.max(getEndTime(transitionProperty, transitionDelay, transitionDuration), getEndTime(animationName, animationDelay, animationDuration));
+}
+function isHidden3(mounted, hidden, alwaysVisible) {
+  return !alwaysVisible && hidden !== false && (!mounted || !!hidden);
+}
+var useDisclosureContent = createHook(function useDisclosureContent2({ store, alwaysVisible, unstable_otherElementRef: otherElementRef, ...props }) {
+  const context = useDisclosureProviderContext();
+  store = store || context;
+  invariant(store, "DisclosureContent must receive a `store` prop or be wrapped in a DisclosureProvider component.");
+  const ref = (0, import_react24.useRef)(null);
+  const id = useId5(props.id);
+  const [transition, setTransition] = (0, import_react24.useState)(null);
+  const open = useStoreState(store, "open");
+  const mounted = useStoreState(store, "mounted");
+  const animated = useStoreState(store, "animated");
+  const contentElement = useStoreState(store, "contentElement");
+  const otherElement = useStoreState(store.disclosure, "contentElement");
+  const hasClosedRef = (0, import_react24.useRef)(false);
+  useSafeLayoutEffect(() => {
+    if (!ref.current) return;
+    store?.setContentElement(ref.current);
+  }, [store]);
+  useSafeLayoutEffect(() => {
+    let previousAnimated;
+    store?.setState("animated", (animated2) => {
+      previousAnimated = animated2;
+      return true;
+    });
+    return () => {
+      if (previousAnimated === void 0) return;
+      store?.setState("animated", previousAnimated);
+    };
+  }, [store]);
+  useSafeLayoutEffect(() => {
+    if (!animated) {
+      if (!open) {
+        hasClosedRef.current = true;
+        setTransition(null);
+      } else if (hasClosedRef.current) {
+        hasClosedRef.current = false;
+        setTransition("enter");
+      }
+      return;
+    }
+    if (!contentElement?.isConnected) {
+      setTransition(null);
+      return;
+    }
+    return afterPaint(() => {
+      setTransition(open ? "enter" : mounted ? "leave" : null);
+    });
+  }, [
+    animated,
+    contentElement,
+    open,
+    mounted
+  ]);
+  useSafeLayoutEffect(() => {
+    if (!store) return;
+    if (!animated) return;
+    if (!transition) return;
+    if (!contentElement) return;
+    const stopAnimation = () => store?.setState("animating", false);
+    const stopAnimationSync = () => (0, import_react_dom4.flushSync)(stopAnimation);
+    if (transition === "leave" && open) return;
+    if (transition === "enter" && !open) return;
+    if (typeof animated === "number") return afterTimeout(animated, stopAnimationSync);
+    const elements = [contentElement];
+    if (otherElement) elements.push(otherElement);
+    const relatedElement = otherElementRef?.current;
+    if (relatedElement) elements.push(relatedElement);
+    const timeout = Math.max(...elements.map(getElementEndTime));
+    if (!timeout) {
+      if (transition === "enter") store.setState("animated", false);
+      stopAnimation();
+      return;
+    }
+    return afterTimeout(Math.max(timeout - 1e3 / 60, 0), stopAnimationSync);
+  }, [
+    store,
+    animated,
+    contentElement,
+    otherElement,
+    otherElementRef,
+    open,
+    transition
+  ]);
+  props = useWrapElement(props, (element) => /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(DialogScopedContextProvider, {
+    value: store,
+    children: element
+  }), [store]);
+  const hidden = isHidden3(mounted, props.hidden, alwaysVisible);
+  const styleProp = props.style;
+  const style = (0, import_react24.useMemo)(() => {
+    if (hidden) return {
+      ...styleProp,
+      display: "none"
+    };
+    return styleProp;
+  }, [hidden, styleProp]);
+  props = {
+    "data-open": open || void 0,
+    "data-enter": transition === "enter" || void 0,
+    "data-leave": transition === "leave" || void 0,
+    hidden,
+    ...props,
+    id,
+    ref: useMergeRefs3(id ? store.setContentElement : null, ref, props.ref),
+    style
+  };
+  return removeUndefinedValues(props);
+});
+var DisclosureContentImpl = forwardRef70(function DisclosureContentImpl2(props) {
+  return createElement3(TagName6, useDisclosureContent(props));
+});
+var DisclosureContent = forwardRef70(function DisclosureContent2({ unmountOnHide, ...props }) {
+  const context = useDisclosureProviderContext();
+  if (useStoreState(props.store || context, (state) => !unmountOnHide || state?.mounted) === false) return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(DisclosureContentImpl, { ...props });
+});
+
+// node_modules/@ariakit/components/dist/disclosure/disclosure-store.js
+function createDisclosureStore(props = {}) {
+  const store = mergeStore(props.store, omit2(props.disclosure, ["contentElement", "disclosureElement"]));
+  throwOnConflictingProps(props, store);
+  const syncState = store?.getState();
+  const open = defaultValue(props.open, syncState?.open, props.defaultOpen, false);
+  const animated = defaultValue(props.animated, syncState?.animated, false);
+  const disclosure = createStore({
+    open,
+    animated,
+    animating: !!animated && open,
+    mounted: open,
+    contentElement: defaultValue(syncState?.contentElement, null),
+    disclosureElement: defaultValue(syncState?.disclosureElement, null)
+  }, store);
+  setup(disclosure, () => sync(disclosure, ["animated", "animating"], (state) => {
+    if (state.animated) return;
+    disclosure.setState("animating", false);
+  }));
+  setup(disclosure, () => subscribe(disclosure, ["open"], () => {
+    if (!disclosure.getState().animated) return;
+    disclosure.setState("animating", true);
+  }));
+  setup(disclosure, () => sync(disclosure, ["open", "animating"], (state) => {
+    disclosure.setState("mounted", state.open || state.animating);
+  }));
+  return {
+    ...disclosure,
+    disclosure: props.disclosure,
+    setOpen: (value) => disclosure.setState("open", value),
+    show: () => disclosure.setState("open", true),
+    hide: () => disclosure.setState("open", false),
+    toggle: () => disclosure.setState("open", (open2) => !open2),
+    stopAnimation: () => disclosure.setState("animating", false),
+    setContentElement: (value) => disclosure.setState("contentElement", value),
+    setDisclosureElement: (value) => disclosure.setState("disclosureElement", value)
+  };
+}
+
+// node_modules/@ariakit/react-components/dist/disclosure/disclosure-store.js
+function useDisclosureStoreProps(store, update2, props) {
+  useUpdateEffect(update2, [props.store, props.disclosure]);
+  useStoreProps(store, props, "open", "setOpen");
+  useStoreProps(store, props, "mounted", "setMounted");
+  useStoreProps(store, props, "animated");
+  return Object.assign(store, { disclosure: props.disclosure });
+}
+
+// node_modules/@ariakit/react-components/dist/popover/popover-context.js
+var ctx5 = createStoreContext([DialogContextProvider], [DialogScopedContextProvider]);
+var usePopoverContext = ctx5.useContext;
+var usePopoverScopedContext = ctx5.useScopedContext;
+var usePopoverProviderContext = ctx5.useProviderContext;
+var PopoverContextProvider = ctx5.ContextProvider;
+var PopoverScopedContextProvider = ctx5.ScopedContextProvider;
+
+// node_modules/@ariakit/react-components/dist/combobox/combobox-context.js
+var import_react25 = __toESM(require_react(), 1);
+var ComboboxListRoleContext = (0, import_react25.createContext)(void 0);
+var ctx6 = createStoreContext([PopoverContextProvider, CompositeContextProvider], [PopoverScopedContextProvider, CompositeScopedContextProvider]);
+var useComboboxContext = ctx6.useContext;
+var useComboboxScopedContext = ctx6.useScopedContext;
+var useComboboxProviderContext = ctx6.useProviderContext;
+var ComboboxContextProvider = ctx6.ContextProvider;
+var ComboboxScopedContextProvider = ctx6.ScopedContextProvider;
+var ComboboxItemValueContext = (0, import_react25.createContext)(void 0);
+var ComboboxItemCheckedContext = (0, import_react25.createContext)(false);
+
+// node_modules/@ariakit/react-components/dist/collection/collection-store.js
+function useCollectionStoreProps(store, update2, props) {
+  useUpdateEffect(update2, [props.store]);
+  useStoreProps(store, props, "items", "setItems");
+  return store;
 }
 
 // node_modules/@ariakit/react-components/dist/composite/composite-store.js
@@ -24373,11 +24710,11 @@ function isFirstItemAutoSelected(items, activeValue, autoSelect) {
 function hasCompletionString(value, activeValue) {
   if (!activeValue) return false;
   if (value == null) return false;
-  value = normalizeString(value);
-  return activeValue.length > value.length && activeValue.toLowerCase().indexOf(value.toLowerCase()) === 0;
-}
-function isInputEvent(event) {
-  return event.type === "input";
+  const normalizedValue = normalizeString(value);
+  const normalizedActiveValue = normalizeString(activeValue);
+  if (normalizedValue.length !== value.length) return false;
+  if (normalizedActiveValue.length !== activeValue.length) return false;
+  return normalizedActiveValue.length > normalizedValue.length && normalizedActiveValue.toLowerCase().startsWith(normalizedValue.toLowerCase());
 }
 function isAriaAutoCompleteValue(value) {
   return value === "inline" || value === "list" || value === "both" || value === "none";
@@ -24479,7 +24816,6 @@ var useCombobox = createHook(function useCombobox2({ store, focusable: focusable
     autoSelect,
     storeValue
   ]);
-  const scrollingElementRef = (0, import_react27.useRef)(null);
   const getAutoSelectIdProp = useEvent(getAutoSelectId);
   const autoSelectIdRef = (0, import_react27.useRef)(null);
   const autoSelectMovedRef = (0, import_react27.useRef)(void 0);
@@ -24490,7 +24826,6 @@ var useCombobox = createHook(function useCombobox2({ store, focusable: focusable
     if (!contentElement) return;
     const scrollingElement = getScrollingElement(contentElement);
     if (!scrollingElement) return;
-    scrollingElementRef.current = scrollingElement;
     const onUserScroll = () => {
       canAutoSelectRef.current = false;
       userScrolledRef.current = true;
@@ -24629,12 +24964,12 @@ var useCombobox = createHook(function useCombobox2({ store, focusable: focusable
       }
     }
     if (setValueOnChangeProp(event)) {
-      const isSameValue = value2 === store.getState().value;
+      const isSameValue2 = value2 === store.getState().value;
       store.setValue(value2);
       queueMicrotask(() => {
         setSelectionRange(currentTarget, selectionStart, selectionEnd);
       });
-      if (inline4 && autoSelect && isSameValue) forceValueUpdate();
+      if (inline4 && autoSelect && isSameValue2) forceValueUpdate();
     }
     if (showOnChangeProp(event)) store.show();
     if (!autoSelect || !canAutoSelectRef.current) store.setActiveId(null);
@@ -24690,7 +25025,6 @@ var useCombobox = createHook(function useCombobox2({ store, focusable: focusable
   const onBlur = useEvent((event) => {
     canAutoSelectRef.current = false;
     onBlurProp?.(event);
-    if (event.defaultPrevented) return;
   });
   const id = useId5(props.id);
   const ariaAutoComplete = isAriaAutoCompleteValue(autoComplete) ? autoComplete : void 0;
@@ -24746,11 +25080,7 @@ function isSelected(storeValue, itemValue) {
   return storeValue === itemValue;
 }
 function getItemRole(popupRole) {
-  return {
-    menu: "menuitem",
-    listbox: "option",
-    tree: "treeitem"
-  }[popupRole] ?? "option";
+  return getItemRoleByPopupRole(popupRole) ?? "option";
 }
 var useComboboxItem = createHook(function useComboboxItem2({ store, value, hideOnClick, setValueOnClick, selectValueOnClick = true, resetValueOnSelect, focusOnHover = false, moveOnKeyPress = true, getItem: getItemProp, ...props }) {
   const context = useComboboxScopedContext();
@@ -24805,7 +25135,10 @@ var useComboboxItem = createHook(function useComboboxItem2({ store, value, hideO
     const baseElement = store?.getState().baseElement;
     if (!baseElement) return;
     if (hasFocus(baseElement)) return;
-    if (event.key.length === 1 || event.key === "Backspace" || event.key === "Delete") {
+    const printable = event.key.length === 1 && !event.ctrlKey && !event.metaKey;
+    const paste = (!isApple() ? event.ctrlKey : event.metaKey) && event.key.toLowerCase() === "v";
+    const deleteKey = event.key === "Backspace" || event.key === "Delete";
+    if (printable || paste || deleteKey) {
       queueMicrotask(() => baseElement.focus());
       if (isTextField(baseElement)) store?.setValue(baseElement.value);
     }
@@ -24861,35 +25194,78 @@ function normalizeValue(value) {
 function getOffsets(string, values) {
   const offsets = [];
   for (const value of values) {
+    if (!value) continue;
     let pos = 0;
     const length = value.length;
-    while (string.indexOf(value, pos) !== -1) {
-      const index2 = string.indexOf(value, pos);
-      if (index2 !== -1) offsets.push([index2, length]);
+    let index2 = string.indexOf(value, pos);
+    while (index2 !== -1) {
+      offsets.push([index2, length]);
       pos = index2 + 1;
+      index2 = string.indexOf(value, pos);
     }
   }
   return offsets;
 }
-function filterOverlappingOffsets(offsets) {
-  return offsets.filter(([offset4, length], i2, arr) => {
-    return !arr.some(([o2, l2], j2) => j2 !== i2 && o2 <= offset4 && o2 + l2 >= offset4 + length);
-  });
+function mergeOverlappingOffsets(offsets) {
+  offsets.sort(([a2], [b2]) => a2 - b2);
+  const merged = [];
+  for (const [offset4, length] of offsets) {
+    const last = merged[merged.length - 1];
+    if (last && offset4 < last[0] + last[1]) last[1] = Math.max(last[1], offset4 + length - last[0]);
+    else merged.push([offset4, length]);
+  }
+  return merged;
 }
-function sortOffsets(offsets) {
-  return offsets.sort(([a2], [b2]) => a2 - b2);
+function getNormalizedIndexes(itemValue) {
+  const starts = [];
+  const ends = [];
+  let index2 = 0;
+  for (const char of itemValue) {
+    const normalizedLength = normalizeValue(char).length;
+    for (let i2 = 0; i2 < normalizedLength; i2 += 1) {
+      starts.push(i2 === 0 ? index2 : -1);
+      ends.push(index2);
+    }
+    index2 += char.length;
+  }
+  starts.push(itemValue.length);
+  ends.push(itemValue.length);
+  let nextBoundary = itemValue.length;
+  for (let i2 = starts.length - 1; i2 >= 0; i2 -= 1) {
+    const start = starts[i2];
+    if (start == null) continue;
+    if (start === -1) starts[i2] = nextBoundary;
+    else nextBoundary = start;
+  }
+  return {
+    starts,
+    ends
+  };
+}
+function toOriginalOffsets(itemValue, normalizedOffsets) {
+  if (!normalizedOffsets.length) return normalizedOffsets;
+  const { starts, ends } = getNormalizedIndexes(itemValue);
+  const offsets = [];
+  for (const [normalizedOffset, normalizedLength] of normalizedOffsets) {
+    const start = starts[normalizedOffset];
+    const end = ends[normalizedOffset + normalizedLength];
+    if (start == null || end == null) continue;
+    if (end <= start) continue;
+    offsets.push([start, end - start]);
+  }
+  return offsets;
 }
 function splitValue(itemValue, userValue) {
   if (!itemValue) return itemValue;
   if (!userValue) return itemValue;
-  const userValues = toArray(userValue).filter(Boolean).map(normalizeValue);
+  const userValues = toArray(userValue).map(normalizeValue);
   const parts = [];
   const span = (value, autocomplete = false) => /* @__PURE__ */ (0, import_jsx_runtime120.jsx)("span", {
     "data-autocomplete-value": autocomplete ? "" : void 0,
     "data-user-value": autocomplete ? void 0 : "",
     children: value
   }, parts.length);
-  const offsets = sortOffsets(filterOverlappingOffsets(getOffsets(normalizeValue(itemValue), new Set(userValues))));
+  const offsets = toOriginalOffsets(itemValue, mergeOverlappingOffsets(getOffsets(normalizeValue(itemValue), new Set(userValues))));
   const firstEntry = offsets[0];
   if (!firstEntry) {
     parts.push(span(itemValue, true));
@@ -28451,10 +28827,14 @@ function DataViewsFooter() {
   const isRefreshing = !!isLoading && hasInitiallyLoaded && !!data?.length;
   const isDelayedRefreshing = useDelayedLoading(!!isRefreshing);
   const hasBulkActions = useSomeItemHasAPossibleBulkAction(actions, data) && [LAYOUT_TABLE, LAYOUT_GRID].includes(view.type);
-  if (!isRefreshing && (!totalItems || !totalPages || totalPages <= 1 && !hasBulkActions)) {
+  const hasPagination = hasPaginationControls(view, {
+    totalItems,
+    totalPages
+  });
+  if (!totalItems || !hasBulkActions && !hasPagination) {
     return null;
   }
-  return (!!totalItems || isRefreshing) && /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime133.jsx)(
     "div",
     {
       className: "dataviews-footer",
@@ -28618,7 +28998,6 @@ function SortFieldControl() {
   return /* @__PURE__ */ (0, import_jsx_runtime135.jsx)(
     import_components29.SelectControl,
     {
-      __next40pxDefaultSize: true,
       label: (0, import_i18n36.__)("Sort by"),
       value: view.sort?.field,
       options: orderOptions,
@@ -29017,7 +29396,6 @@ function RelativeDateControl({
         /* @__PURE__ */ (0, import_jsx_runtime138.jsx)(
           import_components32.__experimentalNumberControl,
           {
-            __next40pxDefaultSize: true,
             className: "dataviews-controls__relative-date-number",
             spinControls: "none",
             min: 1,
@@ -29031,7 +29409,6 @@ function RelativeDateControl({
           import_components32.SelectControl,
           {
             className: "dataviews-controls__relative-date-unit",
-            __next40pxDefaultSize: true,
             label: (0, import_i18n37.__)("Unit"),
             value: unit,
             options,
@@ -29193,7 +29570,6 @@ function CalendarDateTimeControl({
           ValidatedInputControl,
           {
             ref: inputControlRef,
-            __next40pxDefaultSize: true,
             required: !!isValid2?.required,
             customValidity: getCustomValidity(isValid2, validity),
             type: "datetime-local",
@@ -29265,6 +29641,7 @@ var import_components34 = __toESM(require_components(), 1);
 var import_element100 = __toESM(require_element(), 1);
 var import_i18n39 = __toESM(require_i18n(), 1);
 var import_date4 = __toESM(require_date(), 1);
+import { speak as speak3 } from "@wordpress/a11y";
 var import_jsx_runtime140 = __toESM(require_jsx_runtime(), 1);
 var { DateCalendar: DateCalendar2, DateRangeCalendar } = unlock3(import_components34.privateApis);
 var DATE_PRESETS = [
@@ -29415,6 +29792,11 @@ function ValidatedDateControl({
       validateRefs();
     }
   }, [isTouched, isValid2, validity, validateRefs]);
+  (0, import_element100.useEffect)(() => {
+    if (isTouched && customValidity?.message) {
+      speak3(customValidity.message);
+    }
+  }, [isTouched, customValidity?.message]);
   const onBlur = (event) => {
     if (isTouched) {
       return;
@@ -29425,7 +29807,7 @@ function ValidatedDateControl({
   };
   return /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)("div", { onBlur, children: [
     children,
-    /* @__PURE__ */ (0, import_jsx_runtime140.jsx)("div", { "aria-live": "polite", children: customValidity && /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
+    customValidity && /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(
       "p",
       {
         className: clsx_default(
@@ -29445,7 +29827,7 @@ function ValidatedDateControl({
           customValidity.message
         ]
       }
-    ) })
+    )
   ] });
 }
 function CalendarDateControl({
@@ -29586,7 +29968,6 @@ function CalendarDateControl({
             /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
               import_components34.__experimentalInputControl,
               {
-                __next40pxDefaultSize: true,
                 ref: validityTargetRef,
                 type: "date",
                 label: (0, import_i18n39.__)("Date"),
@@ -29800,7 +30181,6 @@ function CalendarDateRangeControl({
                   /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
                     import_components34.__experimentalInputControl,
                     {
-                      __next40pxDefaultSize: true,
                       ref: fromInputRef,
                       type: "date",
                       label: (0, import_i18n39.__)("From"),
@@ -29816,7 +30196,6 @@ function CalendarDateRangeControl({
                   /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
                     import_components34.__experimentalInputControl,
                     {
-                      __next40pxDefaultSize: true,
                       ref: toInputRef,
                       type: "date",
                       label: (0, import_i18n39.__)("To"),
@@ -29938,7 +30317,6 @@ function Select({
       help: description,
       options: elements,
       onChange: onChangeControl,
-      __next40pxDefaultSize: true,
       hideLabelFromVision,
       multiple: isMultiple,
       disabled: disabled2
@@ -30010,8 +30388,7 @@ function ValidatedText({
       disabled: disabled2,
       pattern: isValid2.pattern ? isValid2.pattern.constraint : void 0,
       minLength: isValid2.minLength ? isValid2.minLength.constraint : void 0,
-      maxLength: isValid2.maxLength ? isValid2.maxLength.constraint : void 0,
-      __next40pxDefaultSize: true
+      maxLength: isValid2.maxLength ? isValid2.maxLength.constraint : void 0
     }
   );
 }
@@ -30139,7 +30516,6 @@ function BetweenControls({
             value: min2,
             max: max2 ? Number(max2) - step : void 0,
             onChange: onChangeMin,
-            __next40pxDefaultSize: true,
             hideLabelFromVision,
             step
           }
@@ -30151,7 +30527,6 @@ function BetweenControls({
             value: max2,
             min: min2 ? Number(min2) + step : void 0,
             onChange: onChangeMax,
-            __next40pxDefaultSize: true,
             hideLabelFromVision,
             step
           }
@@ -30226,7 +30601,6 @@ function ValidatedNumber({
       help: description,
       value,
       onChange: onChangeControl,
-      __next40pxDefaultSize: true,
       hideLabelFromVision,
       step,
       min: isValid2.min ? isValid2.min.constraint : void 0,
@@ -30401,11 +30775,442 @@ function Textarea({
   );
 }
 
-// packages/dataviews/build-module/components/dataform-controls/toggle-group.mjs
+// packages/dataviews/build-module/components/dataform-controls/richtext/index.mjs
+var import_element109 = __toESM(require_element(), 1);
+
+// packages/dataviews/build-module/components/dataform-controls/richtext/control.mjs
 var import_components44 = __toESM(require_components(), 1);
+var import_compose14 = __toESM(require_compose(), 1);
 var import_element108 = __toESM(require_element(), 1);
+var import_rich_text2 = __toESM(require_rich_text(), 1);
+
+// packages/dataviews/build-module/components/dataform-controls/richtext/utils.mjs
+var EMPTY_ARRAY6 = [];
+function getAllowedFormats({
+  allowedFormats,
+  disableFormats
+}) {
+  if (disableFormats) {
+    return EMPTY_ARRAY6;
+  }
+  return allowedFormats;
+}
+
+// packages/dataviews/build-module/components/dataform-controls/richtext/format-edit.mjs
+var import_rich_text = __toESM(require_rich_text(), 1);
 var import_jsx_runtime154 = __toESM(require_jsx_runtime(), 1);
-var { ValidatedToggleGroupControl } = unlock3(import_components44.privateApis);
+var import_react32 = __toESM(require_react(), 1);
+var EMPTY_CONTEXT = {};
+function Edit({
+  onChange,
+  onFocus,
+  value,
+  forwardedRef,
+  settings,
+  isVisible: isVisible2
+}) {
+  const { name, edit: EditFunction } = settings;
+  if (!EditFunction) {
+    return null;
+  }
+  const activeFormat = (0, import_rich_text.getActiveFormat)(value, name);
+  const isActive = activeFormat !== void 0;
+  const activeObject = (0, import_rich_text.getActiveObject)(value);
+  const isObjectActive = activeObject !== void 0 && activeObject.type === name;
+  return /* @__PURE__ */ (0, import_jsx_runtime154.jsx)(
+    EditFunction,
+    {
+      isActive,
+      isVisible: isVisible2,
+      activeAttributes: isActive ? activeFormat.attributes || {} : {},
+      isObjectActive,
+      activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
+      value,
+      onChange,
+      onFocus,
+      contentRef: forwardedRef,
+      context: EMPTY_CONTEXT
+    },
+    name
+  );
+}
+function FormatEdit({
+  formatTypes,
+  ...props
+}) {
+  return formatTypes.map((settings) => /* @__PURE__ */ (0, import_react32.createElement)(Edit, { settings, ...props, key: settings.name }));
+}
+
+// packages/dataviews/build-module/components/dataform-controls/richtext/control.mjs
+var import_jsx_runtime155 = __toESM(require_jsx_runtime(), 1);
+var {
+  ValidatedContentEditableControl: RichTextControlShell,
+  withIgnoreIMEEvents
+} = unlock3(import_components44.privateApis);
+var {
+  useRichText,
+  KeyboardShortcutContext,
+  InputEventContext,
+  shortcutsListener,
+  inputEventsListener
+} = unlock3(import_rich_text2.privateApis);
+var EMPTY_COMPLETERS = [];
+function RichTextControl({
+  label,
+  value: attrValue,
+  onChange,
+  placeholder,
+  id,
+  clientId,
+  className,
+  hideLabelFromVision,
+  help,
+  disabled: disabled2,
+  required,
+  markWhenOptional,
+  customValidity,
+  allowedFormats,
+  disableFormats,
+  withoutInteractiveFormatting,
+  preserveWhiteSpace,
+  disableLineBreaks,
+  focusOnMount,
+  completers = EMPTY_COMPLETERS
+}) {
+  const [selection, setSelection] = (0, import_element108.useState)({
+    start: void 0,
+    end: void 0
+  });
+  const [isSelected2, setIsSelected] = (0, import_element108.useState)(false);
+  const anchorRef = (0, import_element108.useRef)(void 0);
+  const inputEvents = (0, import_element108.useRef)(/* @__PURE__ */ new Set());
+  const keyboardShortcuts = (0, import_element108.useRef)(
+    /* @__PURE__ */ new Set()
+  );
+  const popoverSlotRef = (0, import_element108.useRef)(null);
+  const [popoverContainer, setPopoverContainer] = (0, import_element108.useState)(null);
+  const popoverContainerRef = (0, import_compose14.useRefEffect)((element) => {
+    setPopoverContainer(element.ownerDocument.body);
+  }, []);
+  const blurDeselectTimeoutRef = (0, import_element108.useRef)();
+  const stopPopoverFocusTrackingRef = (0, import_element108.useRef)(
+    void 0
+  );
+  (0, import_element108.useEffect)(
+    () => () => {
+      clearTimeout(blurDeselectTimeoutRef.current);
+      stopPopoverFocusTrackingRef.current?.();
+    },
+    []
+  );
+  function isFocusInField(ownerDocument2) {
+    const active = ownerDocument2.activeElement;
+    return !!(active && (anchorRef.current?.contains(active) || popoverSlotRef.current?.contains(active)));
+  }
+  function trackPopoverFocusOut(ownerDocument2) {
+    stopPopoverFocusTrackingRef.current?.();
+    function onDocumentFocusOut() {
+      clearTimeout(blurDeselectTimeoutRef.current);
+      blurDeselectTimeoutRef.current = setTimeout(() => {
+        if (isFocusInField(ownerDocument2)) {
+          return;
+        }
+        stopPopoverFocusTrackingRef.current?.();
+        setIsSelected(false);
+      }, 0);
+    }
+    ownerDocument2.addEventListener("focusout", onDocumentFocusOut);
+    stopPopoverFocusTrackingRef.current = () => {
+      ownerDocument2.removeEventListener("focusout", onDocumentFocusOut);
+      stopPopoverFocusTrackingRef.current = void 0;
+    };
+  }
+  function onEditableFocus() {
+    clearTimeout(blurDeselectTimeoutRef.current);
+    stopPopoverFocusTrackingRef.current?.();
+    setIsSelected(true);
+  }
+  function onEditableBlur(event) {
+    clearTimeout(blurDeselectTimeoutRef.current);
+    const { ownerDocument: ownerDocument2 } = event.currentTarget;
+    blurDeselectTimeoutRef.current = setTimeout(() => {
+      if (isFocusInField(ownerDocument2)) {
+        trackPopoverFocusOut(ownerDocument2);
+        return;
+      }
+      setIsSelected(false);
+    }, 0);
+  }
+  const adjustedAllowedFormats = getAllowedFormats({
+    allowedFormats,
+    disableFormats
+  });
+  const {
+    value,
+    onChange: onRichTextChange,
+    ref: richTextRef,
+    formatTypes,
+    getValue
+  } = useRichText({
+    value: attrValue,
+    onChange,
+    selectionStart: selection.start,
+    selectionEnd: selection.end,
+    onSelectionChange: (start, end) => setSelection({ start, end }),
+    __unstableIsSelected: isSelected2,
+    preserveWhiteSpace: !!preserveWhiteSpace,
+    placeholder,
+    __unstableDisableFormats: disableFormats,
+    allowedFormats: adjustedAllowedFormats,
+    withoutInteractiveFormatting,
+    __unstableFormatTypeHandlerContext: (0, import_element108.useMemo)(
+      () => ({
+        richTextIdentifier: id,
+        blockClientId: clientId
+      }),
+      [id, clientId]
+    )
+  });
+  function onFocus() {
+    anchorRef.current?.focus();
+  }
+  const eventListenersPropsRef = (0, import_element108.useRef)({
+    keyboardShortcuts,
+    inputEvents
+  });
+  const inputRulePropsRef = (0, import_element108.useRef)({
+    formatTypes,
+    getValue,
+    onChange: onRichTextChange
+  });
+  (0, import_element108.useInsertionEffect)(() => {
+    inputRulePropsRef.current = {
+      formatTypes,
+      getValue,
+      onChange: onRichTextChange
+    };
+  });
+  const enterRef = (0, import_compose14.useRefEffect)(
+    (element) => {
+      if (disabled2) {
+        return;
+      }
+      const onKeyDown = withIgnoreIMEEvents((event) => {
+        if (event.key !== "Enter" || event.defaultPrevented || event.metaKey || event.ctrlKey) {
+          return;
+        }
+        event.preventDefault();
+        if (disableLineBreaks) {
+          return;
+        }
+        const { getValue: getCurrentValue2, onChange: handleChange } = inputRulePropsRef.current;
+        const current = getCurrentValue2();
+        handleChange(
+          (0, import_rich_text2.insert)(
+            current,
+            "\n",
+            current.start ?? current.text.length,
+            current.end ?? current.text.length
+          )
+        );
+      });
+      element.addEventListener("keydown", onKeyDown);
+      return () => element.removeEventListener("keydown", onKeyDown);
+    },
+    [disableLineBreaks, disabled2]
+  );
+  const eventListenersRef = (0, import_compose14.useRefEffect)(
+    (element) => {
+      if (!isSelected2) {
+        return;
+      }
+      const cleanupShortcuts = shortcutsListener(
+        eventListenersPropsRef
+      )(element);
+      const cleanupInputEvents = inputEventsListener(
+        eventListenersPropsRef
+      )(element);
+      function onFormatInput(event) {
+        if (event.inputType !== "insertText" && event.type !== "compositionend") {
+          return;
+        }
+        const {
+          formatTypes: types,
+          getValue: getCurrentValue2,
+          onChange: handleChange
+        } = inputRulePropsRef.current;
+        const current = getCurrentValue2();
+        const transformed = types.reduce(
+          (accumulator, {
+            __unstableInputRule
+          }) => __unstableInputRule ? __unstableInputRule(accumulator) : accumulator,
+          current
+        );
+        if (transformed !== current) {
+          handleChange({
+            ...transformed,
+            activeFormats: current.activeFormats
+          });
+        }
+      }
+      element.addEventListener("input", onFormatInput);
+      element.addEventListener("compositionend", onFormatInput);
+      return () => {
+        cleanupShortcuts();
+        cleanupInputEvents();
+        element.removeEventListener("input", onFormatInput);
+        element.removeEventListener("compositionend", onFormatInput);
+      };
+    },
+    [isSelected2]
+  );
+  const unusedContentRef = (0, import_element108.useRef)(null);
+  const {
+    ref: autocompleteRef,
+    "aria-activedescendant": autocompleteActiveDescendant,
+    "aria-autocomplete": autocompleteAriaAutocomplete,
+    ...autocompleteRest
+  } = (0, import_components44.__unstableUseAutocompleteProps)({
+    completers,
+    record: value,
+    onChange: onRichTextChange,
+    // This control's completers insert their completion into the value;
+    // none replace the whole value, so the required `onReplace` is a
+    // no-op here.
+    onReplace: () => {
+    },
+    contentRef: unusedContentRef
+  });
+  const autocompleteProps = {
+    ...autocompleteRest,
+    "aria-activedescendant": autocompleteActiveDescendant ?? void 0,
+    "aria-autocomplete": autocompleteAriaAutocomplete
+  };
+  const focusOnMountRef = (0, import_compose14.useRefEffect)(
+    (element) => {
+      if (focusOnMount && !disabled2) {
+        element.focus();
+      }
+    },
+    [focusOnMount, disabled2]
+  );
+  const editableRef = (0, import_compose14.useMergeRefs)([
+    richTextRef,
+    anchorRef,
+    eventListenersRef,
+    enterRef,
+    focusOnMountRef,
+    popoverContainerRef,
+    autocompleteRef
+  ]);
+  return (
+    /*
+     * The provider scopes every slot/fill rendered by this field — most
+     * importantly the format popovers, which land in the `Popover.Slot`
+     * below. That containment is what the blur handling above checks to
+     * decide whether focus is still within the field's own UI. A format
+     * popover using a custom `__unstableSlotName` would portal to the
+     * body-level fallback container instead and deselect the field;
+     * `core/link` (and every other core format) uses the default slot.
+     */
+    /* @__PURE__ */ (0, import_jsx_runtime155.jsxs)(import_components44.SlotFillProvider, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(
+        RichTextControlShell,
+        {
+          label,
+          id,
+          className: clsx_default("dataviews-controls__richtext", className),
+          placeholder,
+          hideLabelFromVision,
+          help,
+          disabled: disabled2,
+          required,
+          markWhenOptional,
+          customValidity,
+          value: value.text,
+          "aria-multiline": !disableLineBreaks,
+          ...autocompleteProps,
+          ref: editableRef,
+          onFocus: onEditableFocus,
+          onBlur: onEditableBlur
+        }
+      ),
+      isSelected2 && !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(KeyboardShortcutContext.Provider, { value: keyboardShortcuts, children: /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(InputEventContext.Provider, { value: inputEvents, children: /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(
+        FormatEdit,
+        {
+          value,
+          onChange: onRichTextChange,
+          onFocus,
+          formatTypes,
+          forwardedRef: anchorRef,
+          isVisible: true
+        }
+      ) }) }),
+      popoverContainer && (0, import_element108.createPortal)(
+        /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(import_components44.Popover.Slot, { ref: popoverSlotRef }),
+        popoverContainer
+      )
+    ] })
+  );
+}
+
+// packages/dataviews/build-module/components/dataform-controls/richtext/index.mjs
+var import_jsx_runtime156 = __toESM(require_jsx_runtime(), 1);
+function RichText({
+  data,
+  field,
+  onChange,
+  hideLabelFromVision,
+  markWhenOptional,
+  config,
+  validity
+}) {
+  const {
+    className,
+    clientId,
+    allowedFormats,
+    disableFormats,
+    withoutInteractiveFormatting,
+    preserveWhiteSpace,
+    disableLineBreaks
+  } = config || {};
+  const disabled2 = field.isDisabled({ item: data, field });
+  const { label, placeholder, description, id, setValue, isValid: isValid2 } = field;
+  const value = field.getValue({ item: data }) ?? "";
+  const onChangeControl = (0, import_element109.useCallback)(
+    (newValue) => onChange(setValue({ item: data, value: newValue })),
+    [data, onChange, setValue]
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
+    RichTextControl,
+    {
+      label,
+      value,
+      onChange: onChangeControl,
+      placeholder,
+      id,
+      hideLabelFromVision,
+      help: description,
+      disabled: disabled2,
+      required: !!isValid2.required,
+      markWhenOptional,
+      customValidity: getCustomValidity(isValid2, validity),
+      className,
+      clientId,
+      allowedFormats,
+      disableFormats,
+      withoutInteractiveFormatting,
+      preserveWhiteSpace,
+      disableLineBreaks
+    }
+  );
+}
+
+// packages/dataviews/build-module/components/dataform-controls/toggle-group.mjs
+var import_components45 = __toESM(require_components(), 1);
+var import_element110 = __toESM(require_element(), 1);
+var import_jsx_runtime157 = __toESM(require_jsx_runtime(), 1);
+var { ValidatedToggleGroupControl } = unlock3(import_components45.privateApis);
 function ToggleGroup({
   data,
   field,
@@ -30417,7 +31222,7 @@ function ToggleGroup({
   const { getValue, setValue, isValid: isValid2 } = field;
   const disabled2 = field.isDisabled({ item: data, field });
   const value = getValue({ item: data });
-  const onChangeControl = (0, import_element108.useCallback)(
+  const onChangeControl = (0, import_element110.useCallback)(
     (newValue) => onChange(setValue({ item: data, value: newValue })),
     [data, onChange, setValue]
   );
@@ -30426,13 +31231,13 @@ function ToggleGroup({
     getElements: field.getElements
   });
   if (isLoading) {
-    return /* @__PURE__ */ (0, import_jsx_runtime154.jsx)(import_components44.Spinner, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(import_components45.Spinner, {});
   }
   if (elements.length === 0) {
     return null;
   }
   const selectedOption = elements.find((el) => el.value === value);
-  return /* @__PURE__ */ (0, import_jsx_runtime154.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
     ValidatedToggleGroupControl,
     {
       required: !!field.isValid?.required,
@@ -30444,8 +31249,8 @@ function ToggleGroup({
       onChange: onChangeControl,
       value,
       hideLabelFromVision,
-      children: elements.map((el) => /* @__PURE__ */ (0, import_jsx_runtime154.jsx)(
-        import_components44.__experimentalToggleGroupControlOption,
+      children: elements.map((el) => /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+        import_components45.__experimentalToggleGroupControlOption,
         {
           label: el.label,
           value: el.value,
@@ -30458,10 +31263,10 @@ function ToggleGroup({
 }
 
 // packages/dataviews/build-module/components/dataform-controls/array.mjs
-var import_components45 = __toESM(require_components(), 1);
-var import_element109 = __toESM(require_element(), 1);
-var import_jsx_runtime155 = __toESM(require_jsx_runtime(), 1);
-var { ValidatedFormTokenField } = unlock3(import_components45.privateApis);
+var import_components46 = __toESM(require_components(), 1);
+var import_element111 = __toESM(require_element(), 1);
+var import_jsx_runtime158 = __toESM(require_jsx_runtime(), 1);
+var { ValidatedFormTokenField } = unlock3(import_components46.privateApis);
 function ArrayControl({
   data,
   field,
@@ -30477,7 +31282,7 @@ function ArrayControl({
     elements: field.elements,
     getElements: field.getElements
   });
-  const arrayValueAsElements = (0, import_element109.useMemo)(
+  const arrayValueAsElements = (0, import_element111.useMemo)(
     () => Array.isArray(value) ? value.map((token) => {
       const element = elements?.find(
         (suggestion) => suggestion.value === token
@@ -30486,7 +31291,7 @@ function ArrayControl({
     }) : [],
     [value, elements]
   );
-  const onChangeControl = (0, import_element109.useCallback)(
+  const onChangeControl = (0, import_element111.useCallback)(
     (tokens) => {
       const valueTokens = tokens.map((token) => {
         if (typeof token === "object" && "value" in token) {
@@ -30499,9 +31304,9 @@ function ArrayControl({
     [onChange, setValue, data]
   );
   if (isLoading) {
-    return /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(import_components45.Spinner, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(import_components46.Spinner, {});
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime155.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(
     ValidatedFormTokenField,
     {
       required: !!isValid2?.required,
@@ -30540,9 +31345,9 @@ function ArrayControl({
           const element = elements.find(
             (el) => el.value === item
           );
-          return /* @__PURE__ */ (0, import_jsx_runtime155.jsx)("span", { children: element?.label || item });
+          return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)("span", { children: element?.label || item });
         }
-        return /* @__PURE__ */ (0, import_jsx_runtime155.jsx)("span", { children: item });
+        return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)("span", { children: item });
       }
     }
   );
@@ -30707,35 +31512,35 @@ var w = function(r3) {
 };
 
 // packages/dataviews/build-module/components/dataform-controls/color.mjs
-var import_components46 = __toESM(require_components(), 1);
-var import_element110 = __toESM(require_element(), 1);
+var import_components47 = __toESM(require_components(), 1);
+var import_element112 = __toESM(require_element(), 1);
 var import_i18n41 = __toESM(require_i18n(), 1);
-var import_jsx_runtime156 = __toESM(require_jsx_runtime(), 1);
-var { ValidatedInputControl: ValidatedInputControl3 } = unlock3(import_components46.privateApis);
+var import_jsx_runtime159 = __toESM(require_jsx_runtime(), 1);
+var { ValidatedInputControl: ValidatedInputControl3 } = unlock3(import_components47.privateApis);
 var ColorPickerDropdown = ({
   color,
   onColorChange,
   disabled: disabled2
 }) => {
   const validColor = color && w(color).isValid() ? color : "#ffffff";
-  return /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
-    import_components46.Dropdown,
+  return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+    import_components47.Dropdown,
     {
       className: "dataviews-controls__color-picker-dropdown",
       popoverProps: { resize: false },
-      renderToggle: ({ onToggle }) => /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
-        import_components46.Button,
+      renderToggle: ({ onToggle }) => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        import_components47.Button,
         {
           onClick: onToggle,
           "aria-label": (0, import_i18n41.__)("Open color picker"),
           size: "small",
           disabled: disabled2,
           accessibleWhenDisabled: true,
-          icon: () => /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(import_components46.ColorIndicator, { colorValue: validColor })
+          icon: () => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_components47.ColorIndicator, { colorValue: validColor })
         }
       ),
-      renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(import_components46.__experimentalDropdownContentWrapper, { paddingSize: "none", children: /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
-        import_components46.ColorPicker,
+      renderContent: () => /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_components47.__experimentalDropdownContentWrapper, { paddingSize: "none", children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+        import_components47.ColorPicker,
         {
           color: validColor,
           onChange: onColorChange,
@@ -30756,19 +31561,19 @@ function Color({
   const { label, placeholder, description, setValue, isValid: isValid2 } = field;
   const disabled2 = field.isDisabled({ item: data, field });
   const value = field.getValue({ item: data }) || "";
-  const handleColorChange = (0, import_element110.useCallback)(
+  const handleColorChange = (0, import_element112.useCallback)(
     (newColor) => {
       onChange(setValue({ item: data, value: newColor }));
     },
     [data, onChange, setValue]
   );
-  const handleInputChange = (0, import_element110.useCallback)(
+  const handleInputChange = (0, import_element112.useCallback)(
     (newValue) => {
       onChange(setValue({ item: data, value: newValue || "" }));
     },
     [data, onChange, setValue]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
     ValidatedInputControl3,
     {
       required: !!field.isValid?.required,
@@ -30782,7 +31587,7 @@ function Color({
       hideLabelFromVision,
       type: "text",
       disabled: disabled2,
-      prefix: /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(import_components46.__experimentalInputControlPrefixWrapper, { variant: "control", children: /* @__PURE__ */ (0, import_jsx_runtime156.jsx)(
+      prefix: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(import_components47.__experimentalInputControlPrefixWrapper, { variant: "control", children: /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
         ColorPickerDropdown,
         {
           color: value,
@@ -30795,10 +31600,10 @@ function Color({
 }
 
 // packages/dataviews/build-module/components/dataform-controls/password.mjs
-var import_components47 = __toESM(require_components(), 1);
-var import_element111 = __toESM(require_element(), 1);
+var import_components48 = __toESM(require_components(), 1);
+var import_element113 = __toESM(require_element(), 1);
 var import_i18n42 = __toESM(require_i18n(), 1);
-var import_jsx_runtime157 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime160 = __toESM(require_jsx_runtime(), 1);
 function Password({
   data,
   field,
@@ -30807,12 +31612,12 @@ function Password({
   markWhenOptional,
   validity
 }) {
-  const [isVisible2, setIsVisible] = (0, import_element111.useState)(false);
+  const [isVisible2, setIsVisible] = (0, import_element113.useState)(false);
   const disabled2 = field.isDisabled({ item: data, field });
-  const toggleVisibility = (0, import_element111.useCallback)(() => {
+  const toggleVisibility = (0, import_element113.useCallback)(() => {
     setIsVisible((prev) => !prev);
   }, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
     ValidatedText,
     {
       ...{
@@ -30823,8 +31628,8 @@ function Password({
         markWhenOptional,
         validity,
         type: isVisible2 ? "text" : "password",
-        suffix: /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(import_components47.__experimentalInputControlSuffixWrapper, { variant: "control", children: /* @__PURE__ */ (0, import_jsx_runtime157.jsx)(
-          import_components47.Button,
+        suffix: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(import_components48.__experimentalInputControlSuffixWrapper, { variant: "control", children: /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
+          import_components48.Button,
           {
             icon: isVisible2 ? unseen_default : seen_default,
             onClick: toggleVisibility,
@@ -30845,7 +31650,7 @@ function hasElements(field) {
 }
 
 // packages/dataviews/build-module/components/dataform-controls/index.mjs
-var import_jsx_runtime158 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime161 = __toESM(require_jsx_runtime(), 1);
 var FORM_CONTROLS = {
   adaptiveSelect: AdaptiveSelect,
   array: ArrayControl,
@@ -30865,6 +31670,7 @@ var FORM_CONTROLS = {
   text: Text3,
   toggle: Toggle,
   textarea: Textarea,
+  richtext: RichText,
   toggleGroup: ToggleGroup
 };
 function isEditConfig(value) {
@@ -30877,7 +31683,7 @@ function createConfiguredControl(config) {
     return null;
   }
   return function ConfiguredControl(props) {
-    return /* @__PURE__ */ (0, import_jsx_runtime158.jsx)(BaseControlType, { ...props, config: controlConfig });
+    return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(BaseControlType, { ...props, config: controlConfig });
   };
 }
 function getControl(field, fallback) {
@@ -30975,13 +31781,13 @@ function RenderFromElements({
 }
 
 // packages/dataviews/build-module/field-types/utils/render-default.mjs
-var import_jsx_runtime159 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime162 = __toESM(require_jsx_runtime(), 1);
 function render({
   item,
   field
 }) {
   if (field.hasElements) {
-    return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(RenderFromElements, { item, field });
+    return /* @__PURE__ */ (0, import_jsx_runtime162.jsx)(RenderFromElements, { item, field });
   }
   return field.getValueFormatted({ item, field });
 }
@@ -31698,17 +32504,17 @@ var telephone_default = {
 
 // packages/dataviews/build-module/field-types/color.mjs
 var import_i18n48 = __toESM(require_i18n(), 1);
-var import_jsx_runtime160 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime163 = __toESM(require_jsx_runtime(), 1);
 function render3({ item, field }) {
   if (field.hasElements) {
-    return /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(RenderFromElements, { item, field });
+    return /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(RenderFromElements, { item, field });
   }
   const value = get_value_formatted_default_default({ item, field });
   if (!value || !w(value).isValid()) {
     return value;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime160.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime160.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
       "div",
       {
         style: {
@@ -31721,7 +32527,7 @@ function render3({ item, field }) {
         }
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime160.jsx)("span", { children: value })
+    /* @__PURE__ */ (0, import_jsx_runtime163.jsx)("span", { children: value })
   ] });
 }
 function isValidCustom6(item, field) {
@@ -31989,7 +32795,7 @@ function normalizeFields(fields) {
 }
 
 // packages/dataviews/build-module/hooks/use-data.mjs
-var import_element112 = __toESM(require_element(), 1);
+var import_element114 = __toESM(require_element(), 1);
 function useData({
   view,
   data: shownData,
@@ -31999,34 +32805,34 @@ function useData({
   selection
 }) {
   const isInfiniteScrollEnabled = view.infiniteScrollEnabled;
-  const [hasInitiallyLoaded, setHasInitiallyLoaded] = (0, import_element112.useState)(
+  const [hasInitiallyLoaded, setHasInitiallyLoaded] = (0, import_element114.useState)(
     !isLoading
   );
-  (0, import_element112.useEffect)(() => {
+  (0, import_element114.useEffect)(() => {
     if (!isLoading) {
       setHasInitiallyLoaded(true);
     }
   }, [isLoading]);
-  const previousDataRef = (0, import_element112.useRef)(shownData);
-  const previousPaginationInfoRef = (0, import_element112.useRef)(paginationInfo);
-  (0, import_element112.useEffect)(() => {
+  const previousDataRef = (0, import_element114.useRef)(shownData);
+  const previousPaginationInfoRef = (0, import_element114.useRef)(paginationInfo);
+  (0, import_element114.useEffect)(() => {
     if (!isLoading) {
       previousDataRef.current = shownData;
       previousPaginationInfoRef.current = paginationInfo;
     }
   }, [shownData, isLoading, paginationInfo]);
-  const [visibleEntries, setVisibleEntries] = (0, import_element112.useState)([]);
-  const positionMapRef = (0, import_element112.useRef)(/* @__PURE__ */ new Map());
-  const allLoadedRecordsRef = (0, import_element112.useRef)([]);
-  const prevViewParamsRef = (0, import_element112.useRef)({
+  const [visibleEntries, setVisibleEntries] = (0, import_element114.useState)([]);
+  const positionMapRef = (0, import_element114.useRef)(/* @__PURE__ */ new Map());
+  const allLoadedRecordsRef = (0, import_element114.useRef)([]);
+  const prevViewParamsRef = (0, import_element114.useRef)({
     search: void 0,
     filters: void 0,
     perPage: void 0
   });
-  const scrollDirectionRef = (0, import_element112.useRef)(void 0);
-  const prevStartPositionRef = (0, import_element112.useRef)(void 0);
-  const hasInitializedRef = (0, import_element112.useRef)(false);
-  const allLoadedRecords = (0, import_element112.useMemo)(() => {
+  const scrollDirectionRef = (0, import_element114.useRef)(void 0);
+  const prevStartPositionRef = (0, import_element114.useRef)(void 0);
+  const hasInitializedRef = (0, import_element114.useRef)(false);
+  const allLoadedRecords = (0, import_element114.useMemo)(() => {
     if (view.startPosition !== void 0 && prevStartPositionRef.current !== void 0) {
       if (view.startPosition < prevStartPositionRef.current) {
         scrollDirectionRef.current = "up";
@@ -32148,8 +32954,8 @@ function useData({
 }
 
 // packages/dataviews/build-module/hooks/use-infinite-scroll.mjs
-var import_element113 = __toESM(require_element(), 1);
-var import_compose14 = __toESM(require_compose(), 1);
+var import_element115 = __toESM(require_element(), 1);
+var import_compose15 = __toESM(require_compose(), 1);
 function captureAnchorElement(container, anchorElementRef, direction) {
   const containerRect = container.getBoundingClientRect();
   const centerY = containerRect.top + containerRect.height / 2;
@@ -32171,6 +32977,7 @@ function captureAnchorElement(container, anchorElementRef, direction) {
   anchorElementRef.current = {
     posinset,
     viewportOffset: anchorRect.top - containerRect.top,
+    scrollTop: container.scrollTop,
     direction
   };
   return true;
@@ -32183,18 +32990,18 @@ function useInfiniteScroll({
   containerRef,
   setVisibleEntries
 }) {
-  const anchorElementRef = (0, import_element113.useRef)(null);
-  const viewRef = (0, import_element113.useRef)(view);
-  const isLoadingRef = (0, import_element113.useRef)(isLoading);
-  const onChangeViewRef = (0, import_element113.useRef)(onChangeView);
-  const totalItemsRef = (0, import_element113.useRef)(paginationInfo.totalItems);
-  (0, import_element113.useLayoutEffect)(() => {
+  const anchorElementRef = (0, import_element115.useRef)(null);
+  const viewRef = (0, import_element115.useRef)(view);
+  const isLoadingRef = (0, import_element115.useRef)(isLoading);
+  const onChangeViewRef = (0, import_element115.useRef)(onChangeView);
+  const totalItemsRef = (0, import_element115.useRef)(paginationInfo.totalItems);
+  (0, import_element115.useLayoutEffect)(() => {
     viewRef.current = view;
     isLoadingRef.current = isLoading;
     onChangeViewRef.current = onChangeView;
     totalItemsRef.current = paginationInfo.totalItems;
   }, [view, isLoading, onChangeView, paginationInfo.totalItems]);
-  const intersectionObserverCallback = (0, import_element113.useCallback)(
+  const intersectionObserverCallback = (0, import_element115.useCallback)(
     (entries) => {
       if (!setVisibleEntries) {
         return;
@@ -32226,7 +33033,7 @@ function useInfiniteScroll({
     },
     [setVisibleEntries]
   );
-  (0, import_element113.useLayoutEffect)(() => {
+  (0, import_element115.useLayoutEffect)(() => {
     const container = containerRef.current;
     const anchor = anchorElementRef.current;
     if (!container || !view.infiniteScrollEnabled || !anchor || isLoading) {
@@ -32239,17 +33046,17 @@ function useInfiniteScroll({
       const containerRect = container.getBoundingClientRect();
       const anchorRect = anchorElement.getBoundingClientRect();
       const currentOffset = anchorRect.top - containerRect.top;
-      const scrollAdjustment = currentOffset - anchor.viewportOffset;
+      const scrollAdjustment = currentOffset - anchor.viewportOffset + (container.scrollTop - anchor.scrollTop);
       if (Math.abs(scrollAdjustment) > 1) {
         container.scrollTop += scrollAdjustment;
       }
     }
     anchorElementRef.current = null;
   }, [containerRef, isLoading, view.infiniteScrollEnabled]);
-  const intersectionObserverRef = (0, import_element113.useRef)(
+  const intersectionObserverRef = (0, import_element115.useRef)(
     null
   );
-  (0, import_element113.useEffect)(() => {
+  (0, import_element115.useEffect)(() => {
     if (!view.infiniteScrollEnabled || !intersectionObserverCallback) {
       if (intersectionObserverRef.current) {
         intersectionObserverRef.current.disconnect();
@@ -32268,14 +33075,14 @@ function useInfiniteScroll({
       }
     };
   }, [view.infiniteScrollEnabled, intersectionObserverCallback]);
-  (0, import_element113.useEffect)(() => {
+  (0, import_element115.useEffect)(() => {
     if (!view.infiniteScrollEnabled || !containerRef.current) {
       return;
     }
     let lastScrollTop = 0;
     const BOTTOM_THRESHOLD = 600;
     const TOP_THRESHOLD = 800;
-    const handleScroll = (0, import_compose14.throttle)((event) => {
+    const handleScroll = (0, import_compose15.throttle)((event) => {
       const currentView = viewRef.current;
       const totalItems = totalItemsRef.current;
       const target = event.target;
@@ -32328,10 +33135,10 @@ function useInfiniteScroll({
 }
 
 // packages/dataviews/build-module/dataviews/index.mjs
-var import_jsx_runtime161 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime164 = __toESM(require_jsx_runtime(), 1);
 var defaultGetItemId = (item) => item.id;
 var defaultIsItemClickable = () => true;
-var EMPTY_ARRAY6 = [];
+var EMPTY_ARRAY7 = [];
 var DEFAULT_LAYOUTS = { table: {}, grid: {}, list: {} };
 var dataViewsLayouts = VIEW_LAYOUTS.filter(
   (viewLayout) => !viewLayout.isPicker
@@ -32341,10 +33148,10 @@ function DefaultUI({
   search = true,
   searchLabel = void 0
 }) {
-  const { view } = (0, import_element114.useContext)(dataviews_context_default);
+  const { view } = (0, import_element116.useContext)(dataviews_context_default);
   const isInfiniteScroll = view.infiniteScrollEnabled;
-  return /* @__PURE__ */ (0, import_jsx_runtime161.jsxs)(import_jsx_runtime161.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime161.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(import_jsx_runtime164.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(
       Stack,
       {
         direction: "row",
@@ -32355,7 +33162,7 @@ function DefaultUI({
         }),
         gap: "xs",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime161.jsxs)(
+          /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(
             Stack,
             {
               direction: "row",
@@ -32363,21 +33170,21 @@ function DefaultUI({
               gap: "sm",
               className: "dataviews__search",
               children: [
-                search && /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(dataviews_search_default, { label: searchLabel }),
-                /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(toggle_default, {})
+                search && /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(dataviews_search_default, { label: searchLabel }),
+                /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(toggle_default, {})
               ]
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime161.jsxs)(Stack, { direction: "row", gap: "xs", style: { flexShrink: 0 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(dataviews_view_config_default, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(Stack, { direction: "row", gap: "xs", style: { flexShrink: 0 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(dataviews_view_config_default, {}),
             header
           ] })
         ]
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(filters_toggled_default, { className: "dataviews-filters__container" }),
-    /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(DataViewsLayout, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(DataViewsFooter, {})
+    /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(filters_toggled_default, { className: "dataviews-filters__container" }),
+    /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(DataViewsLayout, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(DataViewsFooter, {})
   ] });
 }
 function DataViews({
@@ -32386,7 +33193,7 @@ function DataViews({
   fields,
   search = true,
   searchLabel = void 0,
-  actions = EMPTY_ARRAY6,
+  actions = EMPTY_ARRAY7,
   data,
   getItemId = defaultGetItemId,
   getItemLevel,
@@ -32404,7 +33211,7 @@ function DataViews({
   empty,
   onReset
 }) {
-  const [selectionState, setSelectionState] = (0, import_element114.useState)([]);
+  const [selectionState, setSelectionState] = (0, import_element116.useState)([]);
   const isUncontrolled = selectionProperty === void 0 || onChangeSelection === void 0;
   const selection = isUncontrolled ? selectionState : selectionProperty;
   const {
@@ -32420,9 +33227,9 @@ function DataViews({
     selection,
     paginationInfo
   });
-  const containerRef = (0, import_element114.useRef)(null);
-  const [containerWidth, setContainerWidth] = (0, import_element114.useState)(0);
-  const resizeObserverRef = (0, import_compose15.useResizeObserver)(
+  const containerRef = (0, import_element116.useRef)(null);
+  const [containerWidth, setContainerWidth] = (0, import_element116.useState)(0);
+  const resizeObserverRef = (0, import_compose16.useResizeObserver)(
     (resizeObserverEntries) => {
       setContainerWidth(
         resizeObserverEntries[0].borderBoxSize[0].inlineSize
@@ -32430,7 +33237,7 @@ function DataViews({
     },
     { box: "border-box" }
   );
-  const [openedFilter, setOpenedFilter] = (0, import_element114.useState)(null);
+  const [openedFilter, setOpenedFilter] = (0, import_element116.useState)(null);
   function setSelectionWithChange(value) {
     const newValue = typeof value === "function" ? value(selection) : value;
     if (isUncontrolled) {
@@ -32440,8 +33247,8 @@ function DataViews({
       onChangeSelection(newValue);
     }
   }
-  const _fields = (0, import_element114.useMemo)(() => normalizeFields(fields), [fields]);
-  const _selection = (0, import_element114.useMemo)(() => {
+  const _fields = (0, import_element116.useMemo)(() => normalizeFields(fields), [fields]);
+  const _selection = (0, import_element116.useMemo)(() => {
     if (view.infiniteScrollEnabled) {
       return selection;
     }
@@ -32450,13 +33257,13 @@ function DataViews({
     );
   }, [selection, data, getItemId, view.infiniteScrollEnabled]);
   const filters = use_filters_default(_fields, view);
-  const hasPrimaryOrLockedFilters = (0, import_element114.useMemo)(
+  const hasPrimaryOrLockedFilters = (0, import_element116.useMemo)(
     () => (filters || []).some(
       (filter) => filter.isPrimary || filter.isLocked
     ),
     [filters]
   );
-  const [isShowingFilter, setIsShowingFilter] = (0, import_element114.useState)(
+  const [isShowingFilter, setIsShowingFilter] = (0, import_element116.useState)(
     hasPrimaryOrLockedFilters
   );
   const { intersectionObserver } = useInfiniteScroll({
@@ -32467,12 +33274,12 @@ function DataViews({
     containerRef,
     setVisibleEntries
   });
-  (0, import_element114.useEffect)(() => {
+  (0, import_element116.useEffect)(() => {
     if (hasPrimaryOrLockedFilters && !isShowingFilter) {
       setIsShowingFilter(true);
     }
   }, [hasPrimaryOrLockedFilters, isShowingFilter]);
-  const defaultLayouts3 = (0, import_element114.useMemo)(
+  const defaultLayouts3 = (0, import_element116.useMemo)(
     () => Object.fromEntries(
       Object.entries(defaultLayoutsProperty).filter(([layoutType]) => {
         return dataViewsLayouts.some(
@@ -32488,7 +33295,7 @@ function DataViews({
   if (!defaultLayouts3[view.type]) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(
     dataviews_context_default.Provider,
     {
       value: {
@@ -32521,7 +33328,7 @@ function DataViews({
         onReset,
         intersectionObserver
       },
-      children: /* @__PURE__ */ (0, import_jsx_runtime161.jsx)("div", { className: "dataviews-wrapper", children: children ?? /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime164.jsx)("div", { className: "dataviews-wrapper", children: children ?? /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(
         DefaultUI,
         {
           header,
@@ -32546,12 +33353,12 @@ DataViewsSubComponents.Footer = DataViewsFooter;
 var dataviews_default = DataViewsSubComponents;
 
 // packages/dataviews/build-module/dataform/index.mjs
-var import_element126 = __toESM(require_element(), 1);
+var import_element128 = __toESM(require_element(), 1);
 
 // packages/dataviews/build-module/components/dataform-context/index.mjs
-var import_element115 = __toESM(require_element(), 1);
-var import_jsx_runtime162 = __toESM(require_jsx_runtime(), 1);
-var DataFormContext = (0, import_element115.createContext)({
+var import_element117 = __toESM(require_element(), 1);
+var import_jsx_runtime165 = __toESM(require_jsx_runtime(), 1);
+var DataFormContext = (0, import_element117.createContext)({
   fields: []
 });
 DataFormContext.displayName = "DataFormContext";
@@ -32559,16 +33366,16 @@ function DataFormProvider({
   fields,
   children
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime162.jsx)(DataFormContext.Provider, { value: { fields }, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(DataFormContext.Provider, { value: { fields }, children });
 }
 var dataform_context_default = DataFormContext;
 
 // packages/dataviews/build-module/components/dataform-layouts/data-form-layout.mjs
-var import_element125 = __toESM(require_element(), 1);
+var import_element127 = __toESM(require_element(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/regular/index.mjs
-var import_element116 = __toESM(require_element(), 1);
-var import_components48 = __toESM(require_components(), 1);
+var import_element118 = __toESM(require_element(), 1);
+var import_components49 = __toESM(require_components(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/normalize-form.mjs
 var import_i18n49 = __toESM(require_i18n(), 1);
@@ -32689,15 +33496,15 @@ function normalizeForm(form) {
 var normalize_form_default = normalizeForm;
 
 // packages/dataviews/build-module/components/dataform-layouts/regular/index.mjs
-var import_jsx_runtime163 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime166 = __toESM(require_jsx_runtime(), 1);
 function Header4({ title }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
     Stack,
     {
       direction: "column",
       className: "dataforms-layouts-regular__header",
       gap: "lg",
-      children: /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(Stack, { direction: "row", align: "center", children: /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(import_components48.__experimentalHeading, { level: 2, size: 13, children: title }) })
+      children: /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(Stack, { direction: "row", align: "center", children: /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(import_components49.__experimentalHeading, { level: 2, size: 13, children: title }) })
     }
   );
 }
@@ -32709,9 +33516,9 @@ function FormRegularField({
   markWhenOptional,
   validity
 }) {
-  const { fields } = (0, import_element116.useContext)(dataform_context_default);
+  const { fields } = (0, import_element118.useContext)(dataform_context_default);
   const layout = field.layout;
-  const form = (0, import_element116.useMemo)(
+  const form = (0, import_element118.useMemo)(
     () => ({
       layout: DEFAULT_LAYOUT,
       fields: !!field.children ? field.children : []
@@ -32719,9 +33526,9 @@ function FormRegularField({
     [field]
   );
   if (!!field.children) {
-    return /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(import_jsx_runtime163.Fragment, { children: [
-      !hideLabelFromVision && field.label && /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(Header4, { title: field.label }),
-      /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(import_jsx_runtime166.Fragment, { children: [
+      !hideLabelFromVision && field.label && /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(Header4, { title: field.label }),
+      /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
         DataFormLayout,
         {
           data,
@@ -32740,30 +33547,30 @@ function FormRegularField({
     return null;
   }
   if (labelPosition === "side") {
-    return /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(
       Stack,
       {
         direction: "row",
         className: "dataforms-layouts-regular__field",
         gap: "sm",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
             "div",
             {
               className: clsx_default(
                 "dataforms-layouts-regular__field-label",
                 `dataforms-layouts-regular__field-label--label-position-${labelPosition}`
               ),
-              children: /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(import_components48.BaseControl.VisualLabel, { children: fieldDefinition.label })
+              children: /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(import_components49.BaseControl.VisualLabel, { children: fieldDefinition.label })
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime163.jsx)("div", { className: "dataforms-layouts-regular__field-control", children: fieldDefinition.readOnly === true ? /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime166.jsx)("div", { className: "dataforms-layouts-regular__field-control", children: fieldDefinition.readOnly === true ? /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
             fieldDefinition.render,
             {
               item: data,
               field: fieldDefinition
             }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+          ) : /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
             fieldDefinition.Edit,
             {
               data,
@@ -32779,16 +33586,16 @@ function FormRegularField({
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime163.jsx)("div", { className: "dataforms-layouts-regular__field", children: fieldDefinition.readOnly === true ? /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(import_jsx_runtime163.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime163.jsxs)(import_jsx_runtime163.Fragment, { children: [
-    !hideLabelFromVision && labelPosition !== "none" && /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(import_components48.BaseControl.VisualLabel, { children: fieldDefinition.label }),
-    /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime166.jsx)("div", { className: "dataforms-layouts-regular__field", children: fieldDefinition.readOnly === true ? /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(import_jsx_runtime166.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(import_jsx_runtime166.Fragment, { children: [
+    !hideLabelFromVision && labelPosition !== "none" && /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(import_components49.BaseControl.VisualLabel, { children: fieldDefinition.label }),
+    /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
       fieldDefinition.render,
       {
         item: data,
         field: fieldDefinition
       }
     )
-  ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime163.jsx)(
+  ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
     fieldDefinition.Edit,
     {
       data,
@@ -32803,15 +33610,15 @@ function FormRegularField({
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/modal.mjs
 var import_deepmerge2 = __toESM(require_cjs(), 1);
-var import_components51 = __toESM(require_components(), 1);
-var import_element121 = __toESM(require_element(), 1);
-var import_compose17 = __toESM(require_compose(), 1);
+var import_components52 = __toESM(require_components(), 1);
+var import_element123 = __toESM(require_element(), 1);
+var import_compose18 = __toESM(require_compose(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/summary-button.mjs
-var import_components50 = __toESM(require_components(), 1);
+var import_components51 = __toESM(require_components(), 1);
 var import_i18n50 = __toESM(require_i18n(), 1);
-var import_compose16 = __toESM(require_compose(), 1);
-var import_element117 = __toESM(require_element(), 1);
+var import_compose17 = __toESM(require_compose(), 1);
+var import_element119 = __toESM(require_element(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/utils/get-label-classname.mjs
 function getLabelClassName(labelPosition, showError) {
@@ -32824,16 +33631,16 @@ function getLabelClassName(labelPosition, showError) {
 var get_label_classname_default = getLabelClassName;
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/utils/get-label-content.mjs
-var import_components49 = __toESM(require_components(), 1);
-var import_jsx_runtime164 = __toESM(require_jsx_runtime(), 1);
+var import_components50 = __toESM(require_components(), 1);
+var import_jsx_runtime167 = __toESM(require_jsx_runtime(), 1);
 function getLabelContent(showError, errorMessage, fieldLabel) {
-  return showError ? /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(tooltip_exports.Root, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(
+  return showError ? /* @__PURE__ */ (0, import_jsx_runtime167.jsxs)(tooltip_exports.Root, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
       tooltip_exports.Trigger,
       {
-        render: /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)("span", { className: "dataforms-layouts-panel__field-label-error-content", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(import_components49.Icon, { icon: error_default, size: 16 }),
-          /* @__PURE__ */ (0, import_jsx_runtime164.jsxs)(VisuallyHidden, { children: [
+        render: /* @__PURE__ */ (0, import_jsx_runtime167.jsxs)("span", { className: "dataforms-layouts-panel__field-label-error-content", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(import_components50.Icon, { icon: error_default, size: 16 }),
+          /* @__PURE__ */ (0, import_jsx_runtime167.jsxs)(VisuallyHidden, { children: [
             errorMessage,
             ": "
           ] }),
@@ -32841,7 +33648,7 @@ function getLabelContent(showError, errorMessage, fieldLabel) {
         ] })
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime164.jsx)(tooltip_exports.Popup, { children: errorMessage })
+    /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(tooltip_exports.Popup, { children: errorMessage })
   ] }) : fieldLabel;
 }
 var get_label_content_default = getLabelContent;
@@ -32882,7 +33689,7 @@ function getFirstValidationError(validity) {
 var get_first_validation_error_default = getFirstValidationError;
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/summary-button.mjs
-var import_jsx_runtime165 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime168 = __toESM(require_jsx_runtime(), 1);
 function SummaryButton({
   data,
   field,
@@ -32907,7 +33714,7 @@ function SummaryButton({
       "dataforms-layouts-panel__field-trigger--edit-always": editVisibility === "always"
     }
   );
-  const controlId = (0, import_compose16.useInstanceId)(
+  const controlId = (0, import_compose17.useInstanceId)(
     SummaryButton,
     "dataforms-layouts-panel__field-control"
   );
@@ -32920,8 +33727,8 @@ function SummaryButton({
     (0, import_i18n50._x)("Edit %s", "field"),
     fieldLabel || ""
   );
-  const rowRef = (0, import_element117.useRef)(null);
-  const editButtonRef = (0, import_element117.useRef)(null);
+  const rowRef = (0, import_element119.useRef)(null);
+  const editButtonRef = (0, import_element119.useRef)(null);
   const handleRowClick = (event) => {
     if (!isOpen && event.detail < 2 && !editButtonRef.current?.contains(event.target) && rowRef.current?.ownerDocument.defaultView?.getSelection()?.toString()) {
       return;
@@ -32934,7 +33741,7 @@ function SummaryButton({
       onClick();
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime168.jsxs)(
     "div",
     {
       ref: rowRef,
@@ -32942,30 +33749,30 @@ function SummaryButton({
       onClick: !disabled2 ? handleRowClick : void 0,
       onKeyDown: !disabled2 ? handleKeyDown : void 0,
       children: [
-        labelPosition !== "none" && /* @__PURE__ */ (0, import_jsx_runtime165.jsx)("span", { className: labelClassName, children: labelContent }),
-        labelPosition === "none" && showError && /* @__PURE__ */ (0, import_jsx_runtime165.jsxs)(tooltip_exports.Root, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+        labelPosition !== "none" && /* @__PURE__ */ (0, import_jsx_runtime168.jsx)("span", { className: labelClassName, children: labelContent }),
+        labelPosition === "none" && showError && /* @__PURE__ */ (0, import_jsx_runtime168.jsxs)(tooltip_exports.Root, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
             tooltip_exports.Trigger,
             {
-              render: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+              render: /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
                 "span",
                 {
                   className: "dataforms-layouts-panel__field-label-error-content",
                   role: "img",
                   "aria-label": errorMessage,
-                  children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(import_components50.Icon, { icon: error_default, size: 16 })
+                  children: /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(import_components51.Icon, { icon: error_default, size: 16 })
                 }
               )
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(tooltip_exports.Popup, { children: errorMessage })
+          /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(tooltip_exports.Popup, { children: errorMessage })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
           "span",
           {
             id: `${controlId}`,
             className: "dataforms-layouts-panel__field-control",
-            children: summaryFields.length > 1 ? /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+            children: summaryFields.length > 1 ? /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
               "span",
               {
                 style: {
@@ -32975,11 +33782,11 @@ function SummaryButton({
                   width: "100%",
                   gap: "2px"
                 },
-                children: summaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                children: summaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
                   "span",
                   {
                     style: { width: "100%" },
-                    children: /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+                    children: /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
                       summaryField.render,
                       {
                         item: data,
@@ -32990,7 +33797,7 @@ function SummaryButton({
                   summaryField.id
                 ))
               }
-            ) : summaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
+            ) : summaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
               summaryField.render,
               {
                 item: data,
@@ -33000,8 +33807,8 @@ function SummaryButton({
             ))
           }
         ),
-        !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime165.jsx)(
-          import_components50.Button,
+        !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
+          import_components51.Button,
           {
             ref: editButtonRef,
             className: "dataforms-layouts-panel__field-trigger-icon",
@@ -33021,7 +33828,7 @@ function SummaryButton({
 // packages/dataviews/build-module/hooks/use-form-validity.mjs
 var import_deepmerge = __toESM(require_cjs(), 1);
 var import_es62 = __toESM(require_es6(), 1);
-var import_element118 = __toESM(require_element(), 1);
+var import_element120 = __toESM(require_element(), 1);
 var import_i18n51 = __toESM(require_i18n(), 1);
 function isFormValid(formValidity) {
   if (!formValidity) {
@@ -33443,11 +34250,11 @@ function getFormFieldValue(formField, item) {
   };
 }
 function useFormValidity(item, fields, form) {
-  const [formValidity, setFormValidity] = (0, import_element118.useState)();
-  const customCounterRef = (0, import_element118.useRef)({});
-  const elementsCounterRef = (0, import_element118.useRef)({});
-  const previousValuesRef = (0, import_element118.useRef)({});
-  const validate = (0, import_element118.useCallback)(() => {
+  const [formValidity, setFormValidity] = (0, import_element120.useState)();
+  const customCounterRef = (0, import_element120.useRef)({});
+  const elementsCounterRef = (0, import_element120.useRef)({});
+  const previousValuesRef = (0, import_element120.useRef)({});
+  const validate = (0, import_element120.useCallback)(() => {
     const promiseHandler = {
       customCounterRef,
       elementsCounterRef,
@@ -33505,7 +34312,7 @@ function useFormValidity(item, fields, form) {
       return validity;
     });
   }, [item, fields, form]);
-  (0, import_element118.useEffect)(() => {
+  (0, import_element120.useEffect)(() => {
     validate();
   }, [validate]);
   return {
@@ -33516,9 +34323,9 @@ function useFormValidity(item, fields, form) {
 var use_form_validity_default = useFormValidity;
 
 // packages/dataviews/build-module/hooks/use-report-validity.mjs
-var import_element119 = __toESM(require_element(), 1);
+var import_element121 = __toESM(require_element(), 1);
 function useReportValidity(ref, shouldReport) {
-  (0, import_element119.useEffect)(() => {
+  (0, import_element121.useEffect)(() => {
     if (shouldReport && ref.current) {
       const inputs = ref.current.querySelectorAll(
         "input, textarea, select"
@@ -33531,7 +34338,7 @@ function useReportValidity(ref, shouldReport) {
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/utils/use-field-from-form-field.mjs
-var import_element120 = __toESM(require_element(), 1);
+var import_element122 = __toESM(require_element(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/get-summary-fields.mjs
 function extractSummaryIds(summary) {
@@ -33572,7 +34379,7 @@ var getFieldDefinition = (field, fields) => {
   return fieldDefinition;
 };
 function useFieldFromFormField(field) {
-  const { fields } = (0, import_element120.useContext)(dataform_context_default);
+  const { fields } = (0, import_element122.useContext)(dataform_context_default);
   const layout = field.layout;
   const summaryFields = getSummaryFields(layout.summary, fields);
   const fieldDefinition = getFieldDefinition(field, fields);
@@ -33593,7 +34400,7 @@ function useFieldFromFormField(field) {
 var use_field_from_form_field_default = useFieldFromFormField;
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/modal.mjs
-var import_jsx_runtime166 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime169 = __toESM(require_jsx_runtime(), 1);
 function ModalContent({
   data,
   field,
@@ -33604,14 +34411,14 @@ function ModalContent({
 }) {
   const { openAs } = field.layout;
   const { applyLabel, cancelLabel } = openAs;
-  const { fields } = (0, import_element121.useContext)(dataform_context_default);
-  const [changes, setChanges] = (0, import_element121.useState)({});
-  const modalData = (0, import_element121.useMemo)(() => {
+  const { fields } = (0, import_element123.useContext)(dataform_context_default);
+  const [changes, setChanges] = (0, import_element123.useState)({});
+  const modalData = (0, import_element123.useMemo)(() => {
     return (0, import_deepmerge2.default)(data, changes, {
       arrayMerge: (target, source) => source
     });
   }, [data, changes]);
-  const form = (0, import_element121.useMemo)(
+  const form = (0, import_element123.useMemo)(
     () => ({
       layout: DEFAULT_LAYOUT,
       fields: !!field.children ? field.children : (
@@ -33646,12 +34453,12 @@ function ModalContent({
       })
     );
   };
-  const focusOnMountRef = (0, import_compose17.useFocusOnMount)("firstInputElement");
-  const contentRef = (0, import_element121.useRef)(null);
-  const mergedRef = (0, import_compose17.useMergeRefs)([focusOnMountRef, contentRef]);
+  const focusOnMountRef = (0, import_compose18.useFocusOnMount)("firstInputElement");
+  const contentRef = (0, import_element123.useRef)(null);
+  const mergedRef = (0, import_compose18.useMergeRefs)([focusOnMountRef, contentRef]);
   useReportValidity(contentRef, touched);
-  return /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(
-    import_components51.Modal,
+  return /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(
+    import_components52.Modal,
     {
       className: "dataforms-layouts-panel__modal",
       onRequestClose: onClose,
@@ -33659,14 +34466,14 @@ function ModalContent({
       title: fieldLabel,
       size: "medium",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime166.jsx)("div", { ref: mergedRef, children: /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime169.jsx)("div", { ref: mergedRef, children: /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
           DataFormLayout,
           {
             data: modalData,
             form,
             onChange: handleOnChange,
             validity,
-            children: (FieldLayout, childField, childFieldValidity, markWhenOptional) => /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
+            children: (FieldLayout, childField, childFieldValidity, markWhenOptional) => /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
               FieldLayout,
               {
                 data: modalData,
@@ -33680,16 +34487,16 @@ function ModalContent({
             )
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(
           Stack,
           {
             direction: "row",
             className: "dataforms-layouts-panel__modal-footer",
             gap: "md",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(import_components51.__experimentalSpacer, { style: { flex: 1 } }),
-              /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
-                import_components51.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(import_components52.__experimentalSpacer, { style: { flex: 1 } }),
+              /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
+                import_components52.Button,
                 {
                   variant: "tertiary",
                   onClick: onClose,
@@ -33697,8 +34504,8 @@ function ModalContent({
                   children: cancelLabel
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
-                import_components51.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
+                import_components52.Button,
                 {
                   variant: "primary",
                   onClick: onApply,
@@ -33719,8 +34526,8 @@ function PanelModal({
   onChange,
   validity
 }) {
-  const [touched, setTouched] = (0, import_element121.useState)(false);
-  const [isOpen, setIsOpen] = (0, import_element121.useState)(false);
+  const [touched, setTouched] = (0, import_element123.useState)(false);
+  const [isOpen, setIsOpen] = (0, import_element123.useState)(false);
   const { fieldDefinition, fieldLabel, summaryFields } = use_field_from_form_field_default(field);
   if (!fieldDefinition) {
     return null;
@@ -33729,8 +34536,8 @@ function PanelModal({
     setIsOpen(false);
     setTouched(true);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime166.jsxs)(import_jsx_runtime166.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime169.jsxs)(import_jsx_runtime169.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
       SummaryButton,
       {
         data,
@@ -33744,7 +34551,7 @@ function PanelModal({
         isOpen
       }
     ),
-    isOpen && /* @__PURE__ */ (0, import_jsx_runtime166.jsx)(
+    isOpen && /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(
       ModalContent,
       {
         data,
@@ -33760,26 +34567,26 @@ function PanelModal({
 var modal_default = PanelModal;
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/dropdown.mjs
-var import_components52 = __toESM(require_components(), 1);
+var import_components53 = __toESM(require_components(), 1);
 var import_i18n52 = __toESM(require_i18n(), 1);
-var import_element122 = __toESM(require_element(), 1);
-var import_compose18 = __toESM(require_compose(), 1);
-var import_jsx_runtime167 = __toESM(require_jsx_runtime(), 1);
+var import_element124 = __toESM(require_element(), 1);
+var import_compose19 = __toESM(require_compose(), 1);
+var import_jsx_runtime170 = __toESM(require_jsx_runtime(), 1);
 function DropdownHeader({
   title,
   onClose
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
     Stack,
     {
       direction: "column",
       className: "dataforms-layouts-panel__dropdown-header",
       gap: "lg",
-      children: /* @__PURE__ */ (0, import_jsx_runtime167.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", children: [
-        title && /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(import_components52.__experimentalHeading, { level: 2, size: 13, children: title }),
-        /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(import_components52.__experimentalSpacer, { style: { flex: 1 } }),
-        onClose && /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
-          import_components52.Button,
+      children: /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(Stack, { direction: "row", gap: "sm", align: "center", children: [
+        title && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(import_components53.__experimentalHeading, { level: 2, size: 13, children: title }),
+        /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(import_components53.__experimentalSpacer, { style: { flex: 1 } }),
+        onClose && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+          import_components53.Button,
           {
             label: (0, import_i18n52.__)("Close"),
             icon: close_small_default,
@@ -33795,9 +34602,9 @@ function DropdownContentWithValidation({
   touched,
   children
 }) {
-  const ref = (0, import_element122.useRef)(null);
+  const ref = (0, import_element124.useRef)(null);
   useReportValidity(ref, touched);
-  return /* @__PURE__ */ (0, import_jsx_runtime167.jsx)("div", { ref, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)("div", { ref, children });
 }
 function PanelDropdown({
   data,
@@ -33805,11 +34612,11 @@ function PanelDropdown({
   onChange,
   validity
 }) {
-  const [touched, setTouched] = (0, import_element122.useState)(false);
-  const [popoverAnchor, setPopoverAnchor] = (0, import_element122.useState)(
+  const [touched, setTouched] = (0, import_element124.useState)(false);
+  const [popoverAnchor, setPopoverAnchor] = (0, import_element124.useState)(
     null
   );
-  const popoverProps = (0, import_element122.useMemo)(
+  const popoverProps = (0, import_element124.useMemo)(
     () => ({
       // Anchor the popover to the middle of the entire row so that it doesn't
       // move around when the label changes.
@@ -33820,10 +34627,10 @@ function PanelDropdown({
     }),
     [popoverAnchor]
   );
-  const [dialogRef, dialogProps] = (0, import_compose18.__experimentalUseDialog)({
+  const [dialogRef, dialogProps] = (0, import_compose19.__experimentalUseDialog)({
     focusOnMount: "firstInputElement"
   });
-  const form = (0, import_element122.useMemo)(
+  const form = (0, import_element124.useMemo)(
     () => ({
       layout: DEFAULT_LAYOUT,
       fields: !!field.children ? field.children : (
@@ -33833,7 +34640,7 @@ function PanelDropdown({
     }),
     [field]
   );
-  const formValidity = (0, import_element122.useMemo)(() => {
+  const formValidity = (0, import_element124.useMemo)(() => {
     if (validity === void 0) {
       return void 0;
     }
@@ -33846,13 +34653,13 @@ function PanelDropdown({
   if (!fieldDefinition) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
     "div",
     {
       ref: setPopoverAnchor,
       className: "dataforms-layouts-panel__field-dropdown-anchor",
-      children: /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
-        import_components52.Dropdown,
+      children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+        import_components53.Dropdown,
         {
           contentClassName: "dataforms-layouts-panel__field-dropdown",
           popoverProps,
@@ -33862,7 +34669,7 @@ function PanelDropdown({
               setTouched(true);
             }
           },
-          renderToggle: ({ isOpen, onToggle }) => /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+          renderToggle: ({ isOpen, onToggle }) => /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
             SummaryButton,
             {
               data,
@@ -33876,22 +34683,22 @@ function PanelDropdown({
               onClick: onToggle
             }
           ),
-          renderContent: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(DropdownContentWithValidation, { touched, children: /* @__PURE__ */ (0, import_jsx_runtime167.jsxs)("div", { ref: dialogRef, ...dialogProps, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+          renderContent: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(DropdownContentWithValidation, { touched, children: /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)("div", { ref: dialogRef, ...dialogProps, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
               DropdownHeader,
               {
                 title: fieldLabel,
                 onClose
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
               DataFormLayout,
               {
                 data,
                 form,
                 onChange,
                 validity: formValidity,
-                children: (FieldLayout, childField, childFieldValidity, markWhenOptional) => /* @__PURE__ */ (0, import_jsx_runtime167.jsx)(
+                children: (FieldLayout, childField, childFieldValidity, markWhenOptional) => /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
                   FieldLayout,
                   {
                     data,
@@ -33914,7 +34721,7 @@ function PanelDropdown({
 var dropdown_default = PanelDropdown;
 
 // packages/dataviews/build-module/components/dataform-layouts/panel/index.mjs
-var import_jsx_runtime168 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime171 = __toESM(require_jsx_runtime(), 1);
 function FormPanelField({
   data,
   field,
@@ -33923,7 +34730,7 @@ function FormPanelField({
 }) {
   const layout = field.layout;
   if (layout.openAs.type === "modal") {
-    return /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
       modal_default,
       {
         data,
@@ -33933,7 +34740,7 @@ function FormPanelField({
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
     dropdown_default,
     {
       data,
@@ -33945,11 +34752,11 @@ function FormPanelField({
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/card/index.mjs
-var import_element123 = __toESM(require_element(), 1);
+var import_element125 = __toESM(require_element(), 1);
 
 // packages/dataviews/build-module/components/dataform-layouts/validation-badge.mjs
 var import_i18n53 = __toESM(require_i18n(), 1);
-var import_jsx_runtime169 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime172 = __toESM(require_jsx_runtime(), 1);
 function countInvalidFields(validity) {
   if (!validity) {
     return 0;
@@ -33978,7 +34785,7 @@ function ValidationBadge({
   if (invalidCount === 0) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime169.jsx)(Badge, { intent: "high", children: (0, import_i18n53.sprintf)(
+  return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Badge, { intent: "high", children: (0, import_i18n53.sprintf)(
     /* translators: %d: Number of fields that need attention */
     (0, import_i18n53._n)(
       "%d field needs attention",
@@ -33990,7 +34797,7 @@ function ValidationBadge({
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/card/index.mjs
-var import_jsx_runtime170 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime173 = __toESM(require_jsx_runtime(), 1);
 function isSummaryFieldVisible(summaryField, summaryConfig, isOpen) {
   if (!summaryConfig || Array.isArray(summaryConfig) && summaryConfig.length === 0) {
     return false;
@@ -34031,17 +34838,17 @@ function HeaderContent({
   );
   const hasBadge = touched && layout.isCollapsible;
   const hasSummary = visibleSummaryFields.length > 0 && layout.withHeader;
-  return /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime173.jsxs)(
     Stack,
     {
       align: "center",
       justify: "space-between",
       className: "dataforms-layouts-card__field-header-content",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(card_exports.Title, { children: label }),
-        (hasBadge || hasSummary) && /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(collapsible_card_exports.HeaderDescription, { className: "dataforms-layouts-card__field-header-content-description", children: [
-          hasBadge && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ValidationBadge, { validity }),
-          hasSummary && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)("div", { className: "dataforms-layouts-card__field-summary", children: visibleSummaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(card_exports.Title, { children: label }),
+        (hasBadge || hasSummary) && /* @__PURE__ */ (0, import_jsx_runtime173.jsxs)(collapsible_card_exports.HeaderDescription, { className: "dataforms-layouts-card__field-header-content-description", children: [
+          hasBadge && /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(ValidationBadge, { validity }),
+          hasSummary && /* @__PURE__ */ (0, import_jsx_runtime173.jsx)("div", { className: "dataforms-layouts-card__field-summary", children: visibleSummaryFields.map((summaryField) => /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
             summaryField.render,
             {
               item: data,
@@ -34065,9 +34872,9 @@ function BodyContent({
   withHeader
 }) {
   if (field.children) {
-    return /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(import_jsx_runtime170.Fragment, { children: [
-      field.description && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)("div", { className: "dataforms-layouts-card__field-description", children: field.description }),
-      /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime173.jsxs)(import_jsx_runtime173.Fragment, { children: [
+      field.description && /* @__PURE__ */ (0, import_jsx_runtime173.jsx)("div", { className: "dataforms-layouts-card__field-description", children: field.description }),
+      /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
         DataFormLayout,
         {
           data,
@@ -34082,7 +34889,7 @@ function BodyContent({
   if (!SingleFieldLayout) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
     SingleFieldLayout,
     {
       data,
@@ -34102,10 +34909,10 @@ function FormCardField({
   markWhenOptional,
   validity
 }) {
-  const { fields } = (0, import_element123.useContext)(dataform_context_default);
+  const { fields } = (0, import_element125.useContext)(dataform_context_default);
   const layout = field.layout;
-  const contentRef = (0, import_element123.useRef)(null);
-  const form = (0, import_element123.useMemo)(
+  const contentRef = (0, import_element125.useRef)(null);
+  const form = (0, import_element125.useMemo)(
     () => ({
       layout: DEFAULT_LAYOUT,
       fields: field.children ?? []
@@ -34113,18 +34920,18 @@ function FormCardField({
     [field]
   );
   const { isOpened, isCollapsible } = layout;
-  const [isOpen, setIsOpen] = (0, import_element123.useState)(isOpened);
-  const [touched, setTouched] = (0, import_element123.useState)(false);
-  (0, import_element123.useEffect)(() => {
+  const [isOpen, setIsOpen] = (0, import_element125.useState)(isOpened);
+  const [touched, setTouched] = (0, import_element125.useState)(false);
+  (0, import_element125.useEffect)(() => {
     setIsOpen(isOpened);
   }, [isOpened]);
-  const handleOpenChange = (0, import_element123.useCallback)((open) => {
+  const handleOpenChange = (0, import_element125.useCallback)((open) => {
     if (!open) {
       setTouched(true);
     }
     setIsOpen(open);
   }, []);
-  const handleBlur = (0, import_element123.useCallback)(() => {
+  const handleBlur = (0, import_element125.useCallback)(() => {
     setTouched(true);
   }, []);
   useReportValidity(
@@ -34145,7 +34952,7 @@ function FormCardField({
     label = fieldDefinition.label;
     withHeader = !!label && layout.withHeader;
   }
-  const bodyContent = /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+  const bodyContent = /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
     BodyContent,
     {
       data,
@@ -34158,7 +34965,7 @@ function FormCardField({
       withHeader
     }
   );
-  const headerContent = /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+  const headerContent = /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
     HeaderContent,
     {
       data,
@@ -34171,15 +34978,15 @@ function FormCardField({
     }
   );
   if (withHeader && isCollapsible) {
-    return /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime173.jsxs)(
       collapsible_card_exports.Root,
       {
         className: "dataforms-layouts-card__field",
         open: isOpen,
         onOpenChange: handleOpenChange,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(collapsible_card_exports.Header, { children: headerContent }),
-          /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(collapsible_card_exports.Header, { children: headerContent }),
+          /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
             collapsible_card_exports.Content,
             {
               ref: contentRef,
@@ -34191,27 +34998,27 @@ function FormCardField({
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime170.jsxs)(card_exports.Root, { className: "dataforms-layouts-card__field", children: [
-    withHeader && /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(card_exports.Header, { children: headerContent }),
-    /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(card_exports.Content, { ref: contentRef, onBlur: handleBlur, children: bodyContent })
+  return /* @__PURE__ */ (0, import_jsx_runtime173.jsxs)(card_exports.Root, { className: "dataforms-layouts-card__field", children: [
+    withHeader && /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(card_exports.Header, { children: headerContent }),
+    /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(card_exports.Content, { ref: contentRef, onBlur: handleBlur, children: bodyContent })
   ] });
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/row/index.mjs
-var import_components53 = __toESM(require_components(), 1);
-var import_jsx_runtime171 = __toESM(require_jsx_runtime(), 1);
+var import_components54 = __toESM(require_components(), 1);
+var import_jsx_runtime174 = __toESM(require_jsx_runtime(), 1);
 function Header5({ title }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
     Stack,
     {
       direction: "column",
       className: "dataforms-layouts-row__header",
       gap: "lg",
-      children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(Stack, { direction: "row", align: "center", children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(import_components53.__experimentalHeading, { level: 2, size: 13, children: title }) })
+      children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(Stack, { direction: "row", align: "center", children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(import_components54.__experimentalHeading, { level: 2, size: 13, children: title }) })
     }
   );
 }
-var EMPTY_WRAPPER = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(import_jsx_runtime171.Fragment, { children });
+var EMPTY_WRAPPER = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(import_jsx_runtime174.Fragment, { children });
 function FormRowField({
   data,
   field,
@@ -34226,9 +35033,9 @@ function FormRowField({
       layout: DEFAULT_LAYOUT,
       fields: field.children
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime171.jsxs)("div", { className: "dataforms-layouts-row__field", children: [
-      !hideLabelFromVision && field.label && /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(Header5, { title: field.label }),
-      /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(Stack, { direction: "row", align: layout.alignment, gap: "lg", children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime174.jsxs)("div", { className: "dataforms-layouts-row__field", children: [
+      !hideLabelFromVision && field.label && /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(Header5, { title: field.label }),
+      /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(Stack, { direction: "row", align: layout.alignment, gap: "lg", children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
         DataFormLayout,
         {
           data,
@@ -34236,12 +35043,12 @@ function FormRowField({
           onChange,
           validity: validity?.children,
           as: EMPTY_WRAPPER,
-          children: (FieldLayout, childField, childFieldValidity) => /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
+          children: (FieldLayout, childField, childFieldValidity) => /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
             "div",
             {
               className: "dataforms-layouts-row__field-control",
               style: layout.styles[childField.id],
-              children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
                 FieldLayout,
                 {
                   data,
@@ -34263,7 +35070,7 @@ function FormRowField({
   if (!RegularLayout) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(import_jsx_runtime171.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)("div", { className: "dataforms-layouts-row__field-control", children: /* @__PURE__ */ (0, import_jsx_runtime171.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(import_jsx_runtime174.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)("div", { className: "dataforms-layouts-row__field-control", children: /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
     RegularLayout,
     {
       data,
@@ -34276,28 +35083,28 @@ function FormRowField({
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/details/index.mjs
-var import_element124 = __toESM(require_element(), 1);
+var import_element126 = __toESM(require_element(), 1);
 var import_i18n54 = __toESM(require_i18n(), 1);
-var import_jsx_runtime172 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime175 = __toESM(require_jsx_runtime(), 1);
 function FormDetailsField({
   data,
   field,
   onChange,
   validity
 }) {
-  const { fields } = (0, import_element124.useContext)(dataform_context_default);
-  const detailsRef = (0, import_element124.useRef)(null);
-  const contentRef = (0, import_element124.useRef)(null);
-  const [touched, setTouched] = (0, import_element124.useState)(false);
-  const [isOpen, setIsOpen] = (0, import_element124.useState)(false);
-  const form = (0, import_element124.useMemo)(
+  const { fields } = (0, import_element126.useContext)(dataform_context_default);
+  const detailsRef = (0, import_element126.useRef)(null);
+  const contentRef = (0, import_element126.useRef)(null);
+  const [touched, setTouched] = (0, import_element126.useState)(false);
+  const [isOpen, setIsOpen] = (0, import_element126.useState)(false);
+  const form = (0, import_element126.useMemo)(
     () => ({
       layout: DEFAULT_LAYOUT,
       fields: field.children ?? []
     }),
     [field]
   );
-  (0, import_element124.useEffect)(() => {
+  (0, import_element126.useEffect)(() => {
     const details = detailsRef.current;
     if (!details) {
       return;
@@ -34315,7 +35122,7 @@ function FormDetailsField({
     };
   }, []);
   useReportValidity(contentRef, isOpen && touched);
-  const handleBlur = (0, import_element124.useCallback)(() => {
+  const handleBlur = (0, import_element126.useCallback)(() => {
     setTouched(true);
   }, []);
   if (!field.children) {
@@ -34325,17 +35132,17 @@ function FormDetailsField({
   const summaryField = summaryFieldId ? fields.find((fieldDef) => fieldDef.id === summaryFieldId) : void 0;
   let summaryContent;
   if (summaryField && summaryField.render) {
-    summaryContent = /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(summaryField.render, { item: data, field: summaryField });
+    summaryContent = /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(summaryField.render, { item: data, field: summaryField });
   } else {
     summaryContent = field.label || (0, import_i18n54.__)("More details");
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime172.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime175.jsxs)(
     "details",
     {
       ref: detailsRef,
       className: "dataforms-layouts-details__details",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime172.jsx)("summary", { className: "dataforms-layouts-details__summary", children: /* @__PURE__ */ (0, import_jsx_runtime172.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime175.jsx)("summary", { className: "dataforms-layouts-details__summary", children: /* @__PURE__ */ (0, import_jsx_runtime175.jsxs)(
           Stack,
           {
             direction: "row",
@@ -34344,17 +35151,17 @@ function FormDetailsField({
             className: "dataforms-layouts-details__summary-content",
             children: [
               summaryContent,
-              touched && /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ValidationBadge, { validity })
+              touched && /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(ValidationBadge, { validity })
             ]
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(
           "div",
           {
             ref: contentRef,
             className: "dataforms-layouts-details__content",
             onBlur: handleBlur,
-            children: /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(
               DataFormLayout,
               {
                 data,
@@ -34371,12 +35178,12 @@ function FormDetailsField({
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/index.mjs
-var import_jsx_runtime173 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime176 = __toESM(require_jsx_runtime(), 1);
 var FORM_FIELD_LAYOUTS = [
   {
     type: "regular",
     component: FormRegularField,
-    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
+    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
       Stack,
       {
         direction: "column",
@@ -34389,7 +35196,7 @@ var FORM_FIELD_LAYOUTS = [
   {
     type: "panel",
     component: FormPanelField,
-    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
+    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
       Stack,
       {
         direction: "column",
@@ -34402,7 +35209,7 @@ var FORM_FIELD_LAYOUTS = [
   {
     type: "card",
     component: FormCardField,
-    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
+    wrapper: ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
       Stack,
       {
         direction: "column",
@@ -34418,13 +35225,13 @@ var FORM_FIELD_LAYOUTS = [
     wrapper: ({
       children,
       layout
-    }) => /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
+    }) => /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
       Stack,
       {
         direction: "column",
         className: "dataforms-layouts__wrapper",
         gap: "lg",
-        children: /* @__PURE__ */ (0, import_jsx_runtime173.jsx)("div", { className: "dataforms-layouts-row__field", children: /* @__PURE__ */ (0, import_jsx_runtime173.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime176.jsx)("div", { className: "dataforms-layouts-row__field", children: /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
           Stack,
           {
             direction: "row",
@@ -34446,8 +35253,8 @@ function getFormFieldLayout(type) {
 }
 
 // packages/dataviews/build-module/components/dataform-layouts/data-form-layout.mjs
-var import_jsx_runtime174 = __toESM(require_jsx_runtime(), 1);
-var DEFAULT_WRAPPER = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(Stack, { direction: "column", className: "dataforms-layouts__wrapper", gap: "lg", children });
+var import_jsx_runtime177 = __toESM(require_jsx_runtime(), 1);
+var DEFAULT_WRAPPER = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(Stack, { direction: "column", className: "dataforms-layouts__wrapper", gap: "lg", children });
 function DataFormLayout({
   data,
   form,
@@ -34456,8 +35263,8 @@ function DataFormLayout({
   children,
   as
 }) {
-  const { fields: fieldDefinitions } = (0, import_element125.useContext)(dataform_context_default);
-  const markWhenOptional = (0, import_element125.useMemo)(() => {
+  const { fields: fieldDefinitions } = (0, import_element127.useContext)(dataform_context_default);
+  const markWhenOptional = (0, import_element127.useMemo)(() => {
     const requiredCount = fieldDefinitions.filter(
       (f2) => !!f2.isValid?.required
     ).length;
@@ -34470,7 +35277,7 @@ function DataFormLayout({
     );
   }
   const Wrapper = as ?? getFormFieldLayout(form.layout.type)?.wrapper ?? DEFAULT_WRAPPER;
-  return /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(Wrapper, { layout: form.layout, children: form.fields.map((formField) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(Wrapper, { layout: form.layout, children: form.fields.map((formField) => {
     const FieldLayout = getFormFieldLayout(formField.layout.type)?.component;
     if (!FieldLayout) {
       return null;
@@ -34487,7 +35294,7 @@ function DataFormLayout({
         markWhenOptional
       );
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime174.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(
       FieldLayout,
       {
         data,
@@ -34502,7 +35309,7 @@ function DataFormLayout({
 }
 
 // packages/dataviews/build-module/dataform/index.mjs
-var import_jsx_runtime175 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime178 = __toESM(require_jsx_runtime(), 1);
 function DataForm({
   data,
   form,
@@ -34510,15 +35317,15 @@ function DataForm({
   onChange,
   validity
 }) {
-  const normalizedForm = (0, import_element126.useMemo)(() => normalize_form_default(form), [form]);
-  const normalizedFields = (0, import_element126.useMemo)(
+  const normalizedForm = (0, import_element128.useMemo)(() => normalize_form_default(form), [form]);
+  const normalizedFields = (0, import_element128.useMemo)(
     () => normalizeFields(fields),
     [fields]
   );
   if (!form.fields) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(DataFormProvider, { fields: normalizedFields, children: /* @__PURE__ */ (0, import_jsx_runtime175.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(DataFormProvider, { fields: normalizedFields, children: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(
     DataFormLayout,
     {
       data,
@@ -34531,7 +35338,7 @@ function DataForm({
 
 // packages/content-types/build-module/post-types/list.mjs
 var import_core_data9 = __toESM(require_core_data(), 1);
-var import_element135 = __toESM(require_element(), 1);
+var import_element137 = __toESM(require_element(), 1);
 var import_i18n68 = __toESM(require_i18n(), 1);
 import { useNavigate as useNavigate3, useSearch } from "@wordpress/route";
 
@@ -34612,7 +35419,7 @@ function dequal(foo, bar) {
 }
 
 // packages/views/build-module/use-view.mjs
-var import_element127 = __toESM(require_element(), 1);
+var import_element129 = __toESM(require_element(), 1);
 var import_data6 = __toESM(require_data(), 1);
 var import_preferences = __toESM(require_preferences(), 1);
 
@@ -34754,18 +35561,18 @@ function useView(config) {
     [preferenceKey]
   );
   const { set: set3 } = (0, import_data6.useDispatch)(import_preferences.store);
-  const baseView = (0, import_element127.useMemo)(
+  const baseView = (0, import_element129.useMemo)(
     () => persistedView ?? defaultView ?? {},
     [persistedView, defaultView]
   );
   const page = Number(queryParams?.page ?? baseView.page ?? 1);
   const search = queryParams?.search ?? baseView.search ?? "";
-  const combinedOverrides = (0, import_element127.useMemo)(() => {
+  const combinedOverrides = (0, import_element129.useMemo)(() => {
     const rawDefaults = config.defaultLayouts?.[baseView.type];
     const layoutTypeDefaults = !rawDefaults || rawDefaults === true ? {} : rawDefaults;
     return { ...layoutTypeDefaults, ...activeViewOverrides };
   }, [config.defaultLayouts, baseView.type, activeViewOverrides]);
-  const view = (0, import_element127.useMemo)(() => {
+  const view = (0, import_element129.useMemo)(() => {
     return mergeActiveViewOverrides(
       {
         ...baseView,
@@ -34777,7 +35584,7 @@ function useView(config) {
     );
   }, [baseView, page, search, combinedOverrides, defaultView]);
   const isModified = !!persistedView;
-  const updateView = (0, import_element127.useCallback)(
+  const updateView = (0, import_element129.useCallback)(
     (newView) => {
       const urlParams = {
         page: newView?.page,
@@ -34820,7 +35627,7 @@ function useView(config) {
       preferenceKey
     ]
   );
-  const resetToDefault = (0, import_element127.useCallback)(() => {
+  const resetToDefault = (0, import_element129.useCallback)(() => {
     set3("core/views", preferenceKey, void 0);
   }, [preferenceKey, set3]);
   return {
@@ -34998,21 +35805,21 @@ var deactivateAction = createStatusAction({
 var deactivate_default = deactivateAction;
 
 // packages/content-types/build-module/post-types/actions/delete.mjs
-var import_components54 = __toESM(require_components(), 1);
+var import_components55 = __toESM(require_components(), 1);
 var import_core_data4 = __toESM(require_core_data(), 1);
 var import_data10 = __toESM(require_data(), 1);
-var import_element129 = __toESM(require_element(), 1);
+var import_element131 = __toESM(require_element(), 1);
 var import_i18n57 = __toESM(require_i18n(), 1);
 var import_notices2 = __toESM(require_notices(), 1);
 
 // packages/content-types/build-module/utils/use-maybe-invalidate-content-type-cache.mjs
-var import_element128 = __toESM(require_element(), 1);
+var import_element130 = __toESM(require_element(), 1);
 var import_core_data3 = __toESM(require_core_data(), 1);
 var import_data9 = __toESM(require_data(), 1);
 var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
 function useMaybeInvalidateContentTypeCache() {
   const registry = (0, import_data9.useRegistry)();
-  return (0, import_element128.useCallback)(
+  return (0, import_element130.useCallback)(
     (prev, next, entityName) => {
       if ((0, import_is_shallow_equal.isShallowEqual)([...prev].sort(), [...next].sort())) {
         return;
@@ -35030,13 +35837,13 @@ function useMaybeInvalidateContentTypeCache() {
 }
 
 // packages/content-types/build-module/post-types/actions/delete.mjs
-var import_jsx_runtime176 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime179 = __toESM(require_jsx_runtime(), 1);
 function DeletePostTypeModal({
   items,
   closeModal,
   onActionPerformed
 }) {
-  const [isDeleting, setIsDeleting] = (0, import_element129.useState)(false);
+  const [isDeleting, setIsDeleting] = (0, import_element131.useState)(false);
   const { deleteEntityRecord } = (0, import_data10.useDispatch)(import_core_data4.store);
   const { createSuccessNotice, createErrorNotice } = (0, import_data10.useDispatch)(import_notices2.store);
   const maybeInvalidateCache = useMaybeInvalidateContentTypeCache();
@@ -35122,8 +35929,8 @@ function DeletePostTypeModal({
     setIsDeleting(false);
     closeModal?.();
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime176.jsxs)(Stack, { direction: "column", gap: "md", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(Text, { children: items.length > 1 ? (0, import_i18n57.sprintf)(
+  return /* @__PURE__ */ (0, import_jsx_runtime179.jsxs)(Stack, { direction: "column", gap: "md", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(Text, { children: items.length > 1 ? (0, import_i18n57.sprintf)(
       /* translators: %d: number of post types to delete. */
       (0, import_i18n57._n)(
         "Are you sure you want to delete %d post type?",
@@ -35136,9 +35943,9 @@ function DeletePostTypeModal({
       (0, import_i18n57.__)('Are you sure you want to delete "%s"?'),
       items[0].title.raw
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime176.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
-        import_components54.Button,
+    /* @__PURE__ */ (0, import_jsx_runtime179.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(
+        import_components55.Button,
         {
           __next40pxDefaultSize: true,
           variant: "tertiary",
@@ -35148,8 +35955,8 @@ function DeletePostTypeModal({
           children: (0, import_i18n57.__)("Cancel")
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime176.jsx)(
-        import_components54.Button,
+      /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(
+        import_components55.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -35177,27 +35984,27 @@ var deletePostTypeAction = {
 var delete_default = deletePostTypeAction;
 
 // packages/content-types/build-module/post-types/actions/duplicate.mjs
-var import_components56 = __toESM(require_components(), 1);
+var import_components57 = __toESM(require_components(), 1);
 var import_core_data7 = __toESM(require_core_data(), 1);
 var import_data13 = __toESM(require_data(), 1);
-var import_element132 = __toESM(require_element(), 1);
+var import_element134 = __toESM(require_element(), 1);
 var import_i18n62 = __toESM(require_i18n(), 1);
 var import_notices3 = __toESM(require_notices(), 1);
 
 // packages/content-types/build-module/post-types/fields/general.mjs
 var import_core_data6 = __toESM(require_core_data(), 1);
 var import_data12 = __toESM(require_data(), 1);
-var import_element131 = __toESM(require_element(), 1);
+var import_element133 = __toESM(require_element(), 1);
 var import_i18n61 = __toESM(require_i18n(), 1);
 var import_url4 = __toESM(require_url(), 1);
 
 // packages/content-types/build-module/utils/fields.mjs
-var import_components55 = __toESM(require_components(), 1);
+var import_components56 = __toESM(require_components(), 1);
 var import_i18n58 = __toESM(require_i18n(), 1);
 var import_url3 = __toESM(require_url(), 1);
-var import_jsx_runtime177 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime180 = __toESM(require_jsx_runtime(), 1);
 var { ValidatedInputControl: ValidatedInputControl4, ValidatedToggleControl: ValidatedToggleControl2 } = unlock2(
-  import_components55.privateApis
+  import_components56.privateApis
 );
 function getCustomValidity2(validity) {
   if (validity?.required?.message) {
@@ -35326,7 +36133,7 @@ var statusField = {
     validity
   }) => {
     const isActive = field.getValue({ item: data }) === "publish";
-    return /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(
       ValidatedToggleControl2,
       {
         label: (0, import_i18n58.__)("Active"),
@@ -35350,7 +36157,7 @@ var statusField = {
   ],
   render: ({ item }) => {
     const isActive = item.status === "publish";
-    return /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(Badge, { intent: isActive ? "stable" : "draft", children: isActive ? (0, import_i18n58.__)("Active") : (0, import_i18n58.__)("Inactive") });
+    return /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(Badge, { intent: isActive ? "stable" : "draft", children: isActive ? (0, import_i18n58.__)("Active") : (0, import_i18n58.__)("Inactive") });
   },
   enableSorting: false
 };
@@ -35383,10 +36190,9 @@ function SlugEdit({
       handleChange(trimmed);
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime177.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(
     ValidatedInputControl4,
     {
-      __next40pxDefaultSize: true,
       required: !!isValid2.required,
       markWhenOptional,
       customValidity: getCustomValidity2(validity),
@@ -35404,7 +36210,7 @@ function SlugEdit({
 
 // packages/content-types/build-module/utils/overflowing-badges.mjs
 var import_i18n59 = __toESM(require_i18n(), 1);
-var import_jsx_runtime178 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime181 = __toESM(require_jsx_runtime(), 1);
 var DEFAULT_MAX = 3;
 function OverflowingBadges({
   items,
@@ -35422,24 +36228,24 @@ function OverflowingBadges({
     (0, import_i18n59._n)("%d more item", "%d more items", hidden.length),
     hidden.length
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime178.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(
     Stack,
     {
       direction: "row",
       wrap: "wrap",
       gap: "xs",
       align: "center",
-      render: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)("span", {}),
+      render: /* @__PURE__ */ (0, import_jsx_runtime181.jsx)("span", {}),
       children: [
-        visible.map((item) => /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(Badge, { children: item.label }, item.key)),
-        hidden.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(tooltip_exports.Provider, { delay: 0, children: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(tooltip_exports.Root, { children: /* @__PURE__ */ (0, import_jsx_runtime178.jsxs)(popover_exports.Root, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(
+        visible.map((item) => /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(Badge, { children: item.label }, item.key)),
+        hidden.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(tooltip_exports.Provider, { delay: 0, children: /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(tooltip_exports.Root, { children: /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(popover_exports.Root, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(
             tooltip_exports.Trigger,
             {
-              render: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(
+              render: /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(
                 popover_exports.Trigger,
                 {
-                  render: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(
+                  render: /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(
                     Button4,
                     {
                       variant: "outline",
@@ -35462,11 +36268,11 @@ function OverflowingBadges({
               )
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime178.jsxs)(popover_exports.Popup, { style: { maxWidth: 320 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(popover_exports.Title, {}), children: popoverTitle }),
-            /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(Stack, { direction: "row", wrap: "wrap", gap: "xs", children: hidden.map((item) => /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(Badge, { children: item.label }, item.key)) })
+          /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(popover_exports.Popup, { style: { maxWidth: 320 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(VisuallyHidden, { render: /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(popover_exports.Title, {}), children: popoverTitle }),
+            /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(Stack, { direction: "row", wrap: "wrap", gap: "xs", children: hidden.map((item) => /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(Badge, { children: item.label }, item.key)) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime178.jsx)(tooltip_exports.Popup, { children: moreLabel })
+          /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(tooltip_exports.Popup, { children: moreLabel })
         ] }) }) })
       ]
     }
@@ -35476,7 +36282,7 @@ function OverflowingBadges({
 // packages/content-types/build-module/post-types/utils.mjs
 var import_core_data5 = __toESM(require_core_data(), 1);
 var import_data11 = __toESM(require_data(), 1);
-var import_element130 = __toESM(require_element(), 1);
+var import_element132 = __toESM(require_element(), 1);
 var import_i18n60 = __toESM(require_i18n(), 1);
 
 // packages/content-types/build-module/utils/form-data.mjs
@@ -35712,7 +36518,7 @@ function usePublicTaxonomies() {
     (select2) => select2(import_core_data5.store).getTaxonomies({ per_page: -1 }),
     []
   );
-  return (0, import_element130.useMemo)(() => {
+  return (0, import_element132.useMemo)(() => {
     return taxonomies?.filter((t2) => !!t2.visibility?.public).sort((a2, b2) => {
       const aIsCore = CORE_TAXONOMY_SLUGS.includes(a2.slug);
       const bIsCore = CORE_TAXONOMY_SLUGS.includes(b2.slug);
@@ -35725,7 +36531,7 @@ function usePublicTaxonomies() {
 }
 
 // packages/content-types/build-module/post-types/fields/general.mjs
-var import_jsx_runtime179 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime182 = __toESM(require_jsx_runtime(), 1);
 var SUPPORT_LABELS = {
   title: (0, import_i18n61.__)("Title"),
   editor: (0, import_i18n61.__)("Editor"),
@@ -35784,9 +36590,9 @@ var countField = {
   render: ({ item }) => {
     const count = item.count;
     if (item.status !== "publish" || !count) {
-      return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", { "aria-hidden": "true", children: "—" });
+      return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", { "aria-hidden": "true", children: "—" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
       Link,
       {
         href: (0, import_url4.addQueryArgs)("edit.php", {
@@ -35823,9 +36629,9 @@ var supportsField = {
   render: ({ item }) => {
     const features = item.config.supports;
     if (!features || features.length === 0) {
-      return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", { "aria-hidden": "true", children: "—" });
+      return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", { "aria-hidden": "true", children: "—" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
       OverflowingBadges,
       {
         items: features.map((f2) => ({
@@ -35844,17 +36650,17 @@ function useSlugField(originalSlug, currentValue) {
     []
   );
   const showRenameWarning = originalSlug !== void 0 && currentValue !== originalSlug;
-  return (0, import_element131.useMemo)(
+  return (0, import_element133.useMemo)(
     () => ({
       id: "slug",
       label: (0, import_i18n61.__)("Post type key"),
       type: "text",
       enableGlobalSearch: true,
-      description: /* @__PURE__ */ (0, import_jsx_runtime179.jsxs)(Stack, { direction: "column", gap: "sm", render: /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", {}), children: [
-        showRenameWarning && /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(notice_exports.Root, { intent: "warning", render: /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", {}), children: /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(notice_exports.Description, { children: (0, import_i18n61.__)(
+      description: /* @__PURE__ */ (0, import_jsx_runtime182.jsxs)(Stack, { direction: "column", gap: "sm", render: /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", {}), children: [
+        showRenameWarning && /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(notice_exports.Root, { intent: "warning", render: /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", {}), children: /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(notice_exports.Description, { children: (0, import_i18n61.__)(
           "Changing the key renames the post type — existing posts may become inaccessible until a migration updates the database."
         ) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", { children: (0, import_i18n61.__)(
+        /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", { children: (0, import_i18n61.__)(
           "Lower case letters, numbers, underscores, and dashes only. Maximum length: 20 characters."
         ) })
       ] }),
@@ -35893,7 +36699,7 @@ function useSlugField(originalSlug, currentValue) {
 }
 function useTaxonomiesField() {
   const publicTaxonomies = usePublicTaxonomies();
-  return (0, import_element131.useMemo)(() => {
+  return (0, import_element133.useMemo)(() => {
     const elements = (publicTaxonomies ?? []).map((tax) => ({
       value: tax.slug,
       label: tax.name
@@ -35920,9 +36726,9 @@ function useTaxonomiesField() {
       render: ({ item }) => {
         const slugs = item.config.taxonomies;
         if (!slugs || slugs.length === 0) {
-          return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)("span", { "aria-hidden": "true", children: "—" });
+          return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("span", { "aria-hidden": "true", children: "—" });
         }
-        return /* @__PURE__ */ (0, import_jsx_runtime179.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
           OverflowingBadges,
           {
             items: slugs.map((s2) => ({
@@ -35967,7 +36773,7 @@ var generalForm = {
 };
 
 // packages/content-types/build-module/post-types/actions/duplicate.mjs
-var import_jsx_runtime180 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime183 = __toESM(require_jsx_runtime(), 1);
 var SLUG_MAX_LENGTH2 = 20;
 var duplicateForm = {
   layout: { type: "regular" },
@@ -35988,7 +36794,7 @@ function DuplicatePostTypeModal({
   onActionPerformed
 }) {
   const source = items[0];
-  const [data, setData] = (0, import_element132.useState)(() => ({
+  const [data, setData] = (0, import_element134.useState)(() => ({
     ...source,
     id: void 0,
     status: "draft",
@@ -36001,9 +36807,9 @@ function DuplicatePostTypeModal({
     },
     slug: buildCopySlug(source.slug)
   }));
-  const [isDuplicating, setIsDuplicating] = (0, import_element132.useState)(false);
+  const [isDuplicating, setIsDuplicating] = (0, import_element134.useState)(false);
   const slugField = useSlugField(void 0, data.slug);
-  const fields = (0, import_element132.useMemo)(
+  const fields = (0, import_element134.useMemo)(
     () => [
       pluralLabelField,
       singularLabelField,
@@ -36050,8 +36856,8 @@ function DuplicatePostTypeModal({
       setIsDuplicating(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime180.jsxs)(Stack, { direction: "column", gap: "md", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime183.jsxs)(Stack, { direction: "column", gap: "md", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime183.jsx)(
       DataForm,
       {
         data,
@@ -36063,9 +36869,9 @@ function DuplicatePostTypeModal({
         )
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime180.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(
-        import_components56.Button,
+    /* @__PURE__ */ (0, import_jsx_runtime183.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime183.jsx)(
+        import_components57.Button,
         {
           __next40pxDefaultSize: true,
           variant: "tertiary",
@@ -36075,8 +36881,8 @@ function DuplicatePostTypeModal({
           children: (0, import_i18n62.__)("Cancel")
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime180.jsx)(
-        import_components56.Button,
+      /* @__PURE__ */ (0, import_jsx_runtime183.jsx)(
+        import_components57.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -36126,9 +36932,9 @@ var view_posts_default = viewPostsAction;
 var import_i18n65 = __toESM(require_i18n(), 1);
 
 // packages/content-types/build-module/utils/labels.mjs
-var import_components57 = __toESM(require_components(), 1);
+var import_components58 = __toESM(require_components(), 1);
 var import_i18n64 = __toESM(require_i18n(), 1);
-var import_jsx_runtime181 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime184 = __toESM(require_jsx_runtime(), 1);
 var LABELS_ACTIONS_FIELD_ID = "__labels_actions";
 function createLabelsActionsField(options) {
   const { labelKeys, deriveLabels: deriveLabels3, helpText } = options;
@@ -36143,11 +36949,11 @@ function createLabelsActionsField(options) {
     const hasOverrides = labelKeys.some(
       (key) => key !== "singular_name" && (currentLabels[key] ?? "") !== ""
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(Stack, { direction: "column", gap: "md", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(Text, { variant: "body-md", children: helpText }),
-      /* @__PURE__ */ (0, import_jsx_runtime181.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(
-          import_components57.Button,
+    return /* @__PURE__ */ (0, import_jsx_runtime184.jsxs)(Stack, { direction: "column", gap: "md", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(Text, { variant: "body-md", children: helpText }),
+      /* @__PURE__ */ (0, import_jsx_runtime184.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+          import_components58.Button,
           {
             __next40pxDefaultSize: true,
             variant: "secondary",
@@ -36166,8 +36972,8 @@ function createLabelsActionsField(options) {
             children: (0, import_i18n64.__)("Auto-fill labels")
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime181.jsx)(
-          import_components57.Button,
+        /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+          import_components58.Button,
           {
             __next40pxDefaultSize: true,
             size: "compact",
@@ -36372,12 +37178,12 @@ var labelsForm = {
 };
 
 // packages/content-types/build-module/post-types/actions/edit.mjs
-var import_element133 = __toESM(require_element(), 1);
+var import_element135 = __toESM(require_element(), 1);
 var import_i18n66 = __toESM(require_i18n(), 1);
 import { useNavigate as useNavigate2 } from "@wordpress/route";
 function useEditPostTypeAction() {
   const navigate = useNavigate2();
-  return (0, import_element133.useMemo)(
+  return (0, import_element135.useMemo)(
     () => ({
       id: "edit-post-type",
       label: (0, import_i18n66.__)("Edit"),
@@ -36396,23 +37202,23 @@ function useEditPostTypeAction() {
 }
 
 // packages/content-types/build-module/post-types/actions/quick-edit.mjs
-var import_components58 = __toESM(require_components(), 1);
+var import_components59 = __toESM(require_components(), 1);
 var import_core_data8 = __toESM(require_core_data(), 1);
 var import_data14 = __toESM(require_data(), 1);
-var import_element134 = __toESM(require_element(), 1);
+var import_element136 = __toESM(require_element(), 1);
 var import_i18n67 = __toESM(require_i18n(), 1);
 var import_notices4 = __toESM(require_notices(), 1);
-var import_jsx_runtime182 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime185 = __toESM(require_jsx_runtime(), 1);
 function QuickEditPostTypeModal({
   items,
   closeModal
 }) {
   const item = items[0];
-  const [data, setData] = (0, import_element134.useState)(item);
-  const [isSaving, setIsSaving] = (0, import_element134.useState)(false);
+  const [data, setData] = (0, import_element136.useState)(item);
+  const [isSaving, setIsSaving] = (0, import_element136.useState)(false);
   const slugField = useSlugField(item.slug, data.slug);
   const taxonomiesField = useTaxonomiesField();
-  const fields = (0, import_element134.useMemo)(
+  const fields = (0, import_element136.useMemo)(
     () => [
       pluralLabelField,
       singularLabelField,
@@ -36464,7 +37270,7 @@ function QuickEditPostTypeModal({
       setIsSaving(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime182.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime185.jsxs)(
     "form",
     {
       onSubmit: (event) => {
@@ -36472,7 +37278,7 @@ function QuickEditPostTypeModal({
         onSave();
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime182.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime185.jsxs)(
           Stack,
           {
             className: "dataviews-action-modal__quick-edit-post-type-header",
@@ -36480,9 +37286,9 @@ function QuickEditPostTypeModal({
             justify: "space-between",
             align: "center",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("h2", {}), children: (0, import_i18n67.__)("Quick edit post type") }),
-              /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
-                import_components58.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime185.jsx)("h2", {}), children: (0, import_i18n67.__)("Quick edit post type") }),
+              /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
+                import_components59.Button,
                 {
                   size: "small",
                   icon: close_small_default,
@@ -36493,7 +37299,7 @@ function QuickEditPostTypeModal({
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime182.jsx)("div", { className: "dataviews-action-modal__quick-edit-post-type-content", children: /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime185.jsx)("div", { className: "dataviews-action-modal__quick-edit-post-type-content", children: /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
           DataForm,
           {
             data,
@@ -36505,15 +37311,15 @@ function QuickEditPostTypeModal({
             )
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime182.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime185.jsxs)(
           Stack,
           {
             className: "dataviews-action-modal__quick-edit-post-type-footer",
             direction: "row",
             gap: "sm",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
-                import_components58.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
+                import_components59.Button,
                 {
                   __next40pxDefaultSize: true,
                   variant: "secondary",
@@ -36521,8 +37327,8 @@ function QuickEditPostTypeModal({
                   children: (0, import_i18n67.__)("Cancel")
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime182.jsx)(
-                import_components58.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
+                import_components59.Button,
                 {
                   __next40pxDefaultSize: true,
                   variant: "primary",
@@ -36551,7 +37357,7 @@ var quickEditPostTypeAction = {
 var quick_edit_default = quickEditPostTypeAction;
 
 // packages/content-types/build-module/post-types/list.mjs
-var import_jsx_runtime183 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime186 = __toESM(require_jsx_runtime(), 1);
 var defaultLayouts = {
   table: {}
 };
@@ -36571,7 +37377,7 @@ var DEFAULT_VIEW = {
 function PostTypesList() {
   const navigate = useNavigate3();
   const searchParams = useSearch({ from: POST_TYPES_PATH });
-  const handleQueryParamsChange = (0, import_element135.useCallback)(
+  const handleQueryParamsChange = (0, import_element137.useCallback)(
     (params) => {
       navigate({
         search: {
@@ -36591,7 +37397,7 @@ function PostTypesList() {
     onChangeQueryParams: handleQueryParamsChange
   });
   const editAction = useEditPostTypeAction();
-  const postTypeActions = (0, import_element135.useMemo)(
+  const postTypeActions = (0, import_element137.useMemo)(
     () => [
       editAction,
       quick_edit_default,
@@ -36605,7 +37411,7 @@ function PostTypesList() {
   );
   const slugField = useSlugField();
   const taxonomiesField = useTaxonomiesField();
-  const fields = (0, import_element135.useMemo)(
+  const fields = (0, import_element137.useMemo)(
     () => [
       titleField,
       taxonomiesField,
@@ -36619,7 +37425,7 @@ function PostTypesList() {
     ],
     [slugField, taxonomiesField]
   );
-  const queryArgs = (0, import_element135.useMemo)(() => {
+  const queryArgs = (0, import_element137.useMemo)(() => {
     const statusFilter = view.filters?.find(
       (filter) => filter.field === "status"
     );
@@ -36638,18 +37444,18 @@ function PostTypesList() {
     POST_TYPE_ENTITY,
     queryArgs
   );
-  const data = (0, import_element135.useMemo)(
+  const data = (0, import_element137.useMemo)(
     () => (records ?? []).map(toFormData),
     [records]
   );
-  const paginationInfo = (0, import_element135.useMemo)(
+  const paginationInfo = (0, import_element137.useMemo)(
     () => ({
       totalItems: totalItems ?? 0,
       totalPages: totalPages ?? 0
     }),
     [totalItems, totalPages]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime183.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(
     dataviews_default,
     {
       data,
@@ -36666,8 +37472,8 @@ function PostTypesList() {
       onClickItem: (item) => navigate({
         to: `${POST_TYPES_PATH}/${item.id}`
       }),
-      header: /* @__PURE__ */ (0, import_jsx_runtime183.jsx)(
-        import_components59.Button,
+      header: /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(
+        import_components60.Button,
         {
           variant: "primary",
           size: "compact",
@@ -36683,15 +37489,15 @@ function PostTypesList() {
 }
 
 // packages/content-types/build-module/post-types/edit.mjs
-var import_components60 = __toESM(require_components(), 1);
-var import_compose19 = __toESM(require_compose(), 1);
+var import_components61 = __toESM(require_components(), 1);
+var import_compose20 = __toESM(require_compose(), 1);
 var import_core_data10 = __toESM(require_core_data(), 1);
 var import_data15 = __toESM(require_data(), 1);
-var import_element136 = __toESM(require_element(), 1);
+var import_element138 = __toESM(require_element(), 1);
 var import_i18n69 = __toESM(require_i18n(), 1);
 var import_notices5 = __toESM(require_notices(), 1);
 import { useNavigate as useNavigate4, useParams } from "@wordpress/route";
-var import_jsx_runtime184 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime187 = __toESM(require_jsx_runtime(), 1);
 function PostTypeEdit() {
   const { id } = useParams({ from: `${POST_TYPES_PATH}/$id` });
   const navigate = useNavigate4();
@@ -36729,7 +37535,7 @@ function PostTypeEdit() {
       "Edit this post type. Expand the Labels section to adjust labels."
     )
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(PostTypePage, { ...postTypePageProps }, id);
+  return /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(PostTypePage, { ...postTypePageProps }, id);
 }
 function PostTypePage({
   isAddMode,
@@ -36739,12 +37545,12 @@ function PostTypePage({
   subTitle,
   onSaved
 }) {
-  const [data, setData] = (0, import_element136.useState)(initialData);
-  const [isSaving, setIsSaving] = (0, import_element136.useState)(false);
+  const [data, setData] = (0, import_element138.useState)(initialData);
+  const [isSaving, setIsSaving] = (0, import_element138.useState)(false);
   const originalSlug = !isAddMode ? initialData.slug : void 0;
   const slugField = useSlugField(originalSlug, data.slug);
   const taxonomiesField = useTaxonomiesField();
-  const fields = (0, import_element136.useMemo)(
+  const fields = (0, import_element138.useMemo)(
     () => [
       // General
       pluralLabelField,
@@ -36786,7 +37592,7 @@ function PostTypePage({
     ],
     [slugField, taxonomiesField]
   );
-  const form = (0, import_element136.useMemo)(
+  const form = (0, import_element138.useMemo)(
     () => ({
       layout: { type: "card", isCollapsible: true },
       fields: [
@@ -36818,7 +37624,7 @@ function PostTypePage({
     []
   );
   const { validity, isValid: isValid2 } = use_form_validity_default(data, fields, form);
-  const formId = (0, import_compose19.useInstanceId)(PostTypePage, "post-type-form");
+  const formId = (0, import_compose20.useInstanceId)(PostTypePage, "post-type-form");
   const { saveEntityRecord } = (0, import_data15.useDispatch)(import_core_data10.store);
   const { createSuccessNotice, createErrorNotice } = (0, import_data15.useDispatch)(import_notices5.store);
   const maybeInvalidateCache = useMaybeInvalidateContentTypeCache();
@@ -36866,11 +37672,11 @@ function PostTypePage({
       setIsSaving(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
     page_default,
     {
       ariaLabel: title,
-      breadcrumbs: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+      breadcrumbs: /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
         breadcrumbs_default,
         {
           items: [
@@ -36880,8 +37686,8 @@ function PostTypePage({
         }
       ),
       subTitle,
-      actions: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
-        import_components60.Button,
+      actions: /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
+        import_components61.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -36894,13 +37700,13 @@ function PostTypePage({
           children: isAddMode ? (0, import_i18n69.__)("Create") : (0, import_i18n69.__)("Save")
         }
       ),
-      children: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
         Stack,
         {
           direction: "column",
           gap: "md",
           className: "post-type-form",
-          render: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+          render: /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
             "form",
             {
               id: formId,
@@ -36910,7 +37716,7 @@ function PostTypePage({
               }
             }
           ),
-          children: /* @__PURE__ */ (0, import_jsx_runtime184.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
             DataForm,
             {
               data,
@@ -36932,9 +37738,9 @@ function PostTypePage({
 }
 
 // packages/content-types/build-module/taxonomies/list.mjs
-var import_components64 = __toESM(require_components(), 1);
+var import_components65 = __toESM(require_components(), 1);
 var import_core_data16 = __toESM(require_core_data(), 1);
-var import_element143 = __toESM(require_element(), 1);
+var import_element145 = __toESM(require_element(), 1);
 var import_i18n82 = __toESM(require_i18n(), 1);
 import { useNavigate as useNavigate6, useSearch as useSearch2 } from "@wordpress/route";
 
@@ -37011,19 +37817,19 @@ var deactivateAction2 = createStatusAction({
 var deactivate_default2 = deactivateAction2;
 
 // packages/content-types/build-module/taxonomies/actions/delete.mjs
-var import_components61 = __toESM(require_components(), 1);
+var import_components62 = __toESM(require_components(), 1);
 var import_core_data11 = __toESM(require_core_data(), 1);
 var import_data16 = __toESM(require_data(), 1);
-var import_element137 = __toESM(require_element(), 1);
+var import_element139 = __toESM(require_element(), 1);
 var import_i18n72 = __toESM(require_i18n(), 1);
 var import_notices6 = __toESM(require_notices(), 1);
-var import_jsx_runtime185 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime188 = __toESM(require_jsx_runtime(), 1);
 function DeleteTaxonomyModal({
   items,
   closeModal,
   onActionPerformed
 }) {
-  const [isDeleting, setIsDeleting] = (0, import_element137.useState)(false);
+  const [isDeleting, setIsDeleting] = (0, import_element139.useState)(false);
   const { deleteEntityRecord } = (0, import_data16.useDispatch)(import_core_data11.store);
   const { createSuccessNotice, createErrorNotice } = (0, import_data16.useDispatch)(import_notices6.store);
   const maybeInvalidateCache = useMaybeInvalidateContentTypeCache();
@@ -37109,8 +37915,8 @@ function DeleteTaxonomyModal({
     setIsDeleting(false);
     closeModal?.();
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime185.jsxs)(Stack, { direction: "column", gap: "md", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(Text, { children: items.length > 1 ? (0, import_i18n72.sprintf)(
+  return /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(Stack, { direction: "column", gap: "md", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(Text, { children: items.length > 1 ? (0, import_i18n72.sprintf)(
       /* translators: %d: number of taxonomies to delete. */
       (0, import_i18n72._n)(
         "Are you sure you want to delete %d taxonomy?",
@@ -37123,9 +37929,9 @@ function DeleteTaxonomyModal({
       (0, import_i18n72.__)('Are you sure you want to delete "%s"?'),
       items[0].title.raw
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime185.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
-        import_components61.Button,
+    /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+        import_components62.Button,
         {
           __next40pxDefaultSize: true,
           variant: "tertiary",
@@ -37135,8 +37941,8 @@ function DeleteTaxonomyModal({
           children: (0, import_i18n72.__)("Cancel")
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime185.jsx)(
-        import_components61.Button,
+      /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+        import_components62.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -37164,24 +37970,24 @@ var deleteTaxonomyAction = {
 var delete_default2 = deleteTaxonomyAction;
 
 // packages/content-types/build-module/taxonomies/actions/duplicate.mjs
-var import_components62 = __toESM(require_components(), 1);
+var import_components63 = __toESM(require_components(), 1);
 var import_core_data14 = __toESM(require_core_data(), 1);
 var import_data19 = __toESM(require_data(), 1);
-var import_element140 = __toESM(require_element(), 1);
+var import_element142 = __toESM(require_element(), 1);
 var import_i18n75 = __toESM(require_i18n(), 1);
 var import_notices7 = __toESM(require_notices(), 1);
 
 // packages/content-types/build-module/taxonomies/fields/general.mjs
 var import_core_data13 = __toESM(require_core_data(), 1);
 var import_data18 = __toESM(require_data(), 1);
-var import_element139 = __toESM(require_element(), 1);
+var import_element141 = __toESM(require_element(), 1);
 var import_i18n74 = __toESM(require_i18n(), 1);
 var import_url6 = __toESM(require_url(), 1);
 
 // packages/content-types/build-module/taxonomies/utils.mjs
 var import_core_data12 = __toESM(require_core_data(), 1);
 var import_data17 = __toESM(require_data(), 1);
-var import_element138 = __toESM(require_element(), 1);
+var import_element140 = __toESM(require_element(), 1);
 var import_i18n73 = __toESM(require_i18n(), 1);
 var BLANK_RECORD2 = {
   slug: "",
@@ -37378,7 +38184,7 @@ function usePublicPostTypes() {
     (select2) => select2(import_core_data12.store).getPostTypes({ per_page: -1 }),
     []
   );
-  return (0, import_element138.useMemo)(() => {
+  return (0, import_element140.useMemo)(() => {
     return postTypes?.filter(({ viewable }) => viewable).sort((a2, b2) => {
       if (a2.slug === "post") {
         return -1;
@@ -37392,7 +38198,7 @@ function usePublicPostTypes() {
 }
 
 // packages/content-types/build-module/taxonomies/fields/general.mjs
-var import_jsx_runtime186 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime189 = __toESM(require_jsx_runtime(), 1);
 var descriptionField2 = createDescriptionField(
   (0, import_i18n74.__)(
     "Optional summary of the taxonomy. Shown in admin UIs that surface taxonomy details."
@@ -37414,17 +38220,17 @@ function useSlugField2(originalSlug, currentValue) {
     []
   );
   const showRenameWarning = originalSlug !== void 0 && currentValue !== originalSlug;
-  return (0, import_element139.useMemo)(
+  return (0, import_element141.useMemo)(
     () => ({
       id: "slug",
       label: (0, import_i18n74.__)("Taxonomy key"),
       type: "text",
       enableGlobalSearch: true,
-      description: /* @__PURE__ */ (0, import_jsx_runtime186.jsxs)(Stack, { direction: "column", gap: "sm", render: /* @__PURE__ */ (0, import_jsx_runtime186.jsx)("span", {}), children: [
-        showRenameWarning && /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(notice_exports.Root, { intent: "warning", render: /* @__PURE__ */ (0, import_jsx_runtime186.jsx)("span", {}), children: /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(notice_exports.Description, { children: (0, import_i18n74.__)(
+      description: /* @__PURE__ */ (0, import_jsx_runtime189.jsxs)(Stack, { direction: "column", gap: "sm", render: /* @__PURE__ */ (0, import_jsx_runtime189.jsx)("span", {}), children: [
+        showRenameWarning && /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(notice_exports.Root, { intent: "warning", render: /* @__PURE__ */ (0, import_jsx_runtime189.jsx)("span", {}), children: /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(notice_exports.Description, { children: (0, import_i18n74.__)(
           "Changing the key renames the taxonomy — existing terms may become inaccessible until a migration updates the database."
         ) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime186.jsx)("span", { children: (0, import_i18n74.__)(
+        /* @__PURE__ */ (0, import_jsx_runtime189.jsx)("span", { children: (0, import_i18n74.__)(
           "Lower case letters, numbers, underscores, and dashes only. Maximum length: 32 characters."
         ) })
       ] }),
@@ -37463,7 +38269,7 @@ function useSlugField2(originalSlug, currentValue) {
 }
 function useObjectTypeField() {
   const publicPostTypes = usePublicPostTypes();
-  return (0, import_element139.useMemo)(() => {
+  return (0, import_element141.useMemo)(() => {
     const elements = (publicPostTypes ?? []).map((pt) => ({
       value: pt.slug,
       label: pt.name
@@ -37490,9 +38296,9 @@ function useObjectTypeField() {
       render: ({ item }) => {
         const slugs = item.config.object_type;
         if (!slugs || slugs.length === 0) {
-          return /* @__PURE__ */ (0, import_jsx_runtime186.jsx)("span", { "aria-hidden": "true", children: "—" });
+          return /* @__PURE__ */ (0, import_jsx_runtime189.jsx)("span", { "aria-hidden": "true", children: "—" });
         }
-        return /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(
           OverflowingBadges,
           {
             items: slugs.map((s2) => ({
@@ -37515,13 +38321,13 @@ var countField2 = {
   render: ({ item }) => {
     const count = item.count;
     if (item.status !== "publish" || !count) {
-      return /* @__PURE__ */ (0, import_jsx_runtime186.jsx)("span", { "aria-hidden": "true", children: "—" });
+      return /* @__PURE__ */ (0, import_jsx_runtime189.jsx)("span", { "aria-hidden": "true", children: "—" });
     }
     const postType = item.config.object_type?.[0];
     if (!postType) {
       return count;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime186.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(
       Link,
       {
         href: (0, import_url6.addQueryArgs)("edit-tags.php", {
@@ -37557,7 +38363,7 @@ var generalFormFields = [
 ];
 
 // packages/content-types/build-module/taxonomies/actions/duplicate.mjs
-var import_jsx_runtime187 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime190 = __toESM(require_jsx_runtime(), 1);
 var SLUG_MAX_LENGTH4 = 32;
 var duplicateForm2 = {
   layout: { type: "regular" },
@@ -37578,7 +38384,7 @@ function DuplicateTaxonomyModal({
   onActionPerformed
 }) {
   const source = items[0];
-  const [data, setData] = (0, import_element140.useState)(() => ({
+  const [data, setData] = (0, import_element142.useState)(() => ({
     ...source,
     id: void 0,
     status: "draft",
@@ -37591,9 +38397,9 @@ function DuplicateTaxonomyModal({
     },
     slug: buildCopySlug2(source.slug)
   }));
-  const [isDuplicating, setIsDuplicating] = (0, import_element140.useState)(false);
+  const [isDuplicating, setIsDuplicating] = (0, import_element142.useState)(false);
   const slugField = useSlugField2(void 0, data.slug);
-  const fields = (0, import_element140.useMemo)(
+  const fields = (0, import_element142.useMemo)(
     () => [
       pluralLabelField,
       singularLabelField,
@@ -37640,8 +38446,8 @@ function DuplicateTaxonomyModal({
       setIsDuplicating(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime187.jsxs)(Stack, { direction: "column", gap: "md", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime190.jsxs)(Stack, { direction: "column", gap: "md", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
       DataForm,
       {
         data,
@@ -37653,9 +38459,9 @@ function DuplicateTaxonomyModal({
         )
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime187.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
-        import_components62.Button,
+    /* @__PURE__ */ (0, import_jsx_runtime190.jsxs)(Stack, { direction: "row", justify: "flex-end", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+        import_components63.Button,
         {
           __next40pxDefaultSize: true,
           variant: "tertiary",
@@ -37665,8 +38471,8 @@ function DuplicateTaxonomyModal({
           children: (0, import_i18n75.__)("Cancel")
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime187.jsx)(
-        import_components62.Button,
+      /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+        import_components63.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -37993,12 +38799,12 @@ var visibilityFormFields = [
 ];
 
 // packages/content-types/build-module/taxonomies/actions/edit.mjs
-var import_element141 = __toESM(require_element(), 1);
+var import_element143 = __toESM(require_element(), 1);
 var import_i18n80 = __toESM(require_i18n(), 1);
 import { useNavigate as useNavigate5 } from "@wordpress/route";
 function useEditTaxonomyAction() {
   const navigate = useNavigate5();
-  return (0, import_element141.useMemo)(
+  return (0, import_element143.useMemo)(
     () => ({
       id: "edit-taxonomy",
       label: (0, import_i18n80.__)("Edit"),
@@ -38017,23 +38823,23 @@ function useEditTaxonomyAction() {
 }
 
 // packages/content-types/build-module/taxonomies/actions/quick-edit.mjs
-var import_components63 = __toESM(require_components(), 1);
+var import_components64 = __toESM(require_components(), 1);
 var import_core_data15 = __toESM(require_core_data(), 1);
 var import_data20 = __toESM(require_data(), 1);
-var import_element142 = __toESM(require_element(), 1);
+var import_element144 = __toESM(require_element(), 1);
 var import_i18n81 = __toESM(require_i18n(), 1);
 var import_notices8 = __toESM(require_notices(), 1);
-var import_jsx_runtime188 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime191 = __toESM(require_jsx_runtime(), 1);
 function QuickEditTaxonomyModal({
   items,
   closeModal
 }) {
   const item = items[0];
-  const [data, setData] = (0, import_element142.useState)(item);
-  const [isSaving, setIsSaving] = (0, import_element142.useState)(false);
+  const [data, setData] = (0, import_element144.useState)(item);
+  const [isSaving, setIsSaving] = (0, import_element144.useState)(false);
   const slugField = useSlugField2(item.slug, data.slug);
   const objectTypeField = useObjectTypeField();
-  const fields = (0, import_element142.useMemo)(
+  const fields = (0, import_element144.useMemo)(
     () => [
       pluralLabelField,
       singularLabelField,
@@ -38084,7 +38890,7 @@ function QuickEditTaxonomyModal({
       setIsSaving(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime191.jsxs)(
     "form",
     {
       onSubmit: (event) => {
@@ -38092,7 +38898,7 @@ function QuickEditTaxonomyModal({
         onSave();
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime191.jsxs)(
           Stack,
           {
             className: "dataviews-action-modal__quick-edit-taxonomy-header",
@@ -38100,9 +38906,9 @@ function QuickEditTaxonomyModal({
             justify: "space-between",
             align: "center",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)("h2", {}), children: (0, import_i18n81.__)("Quick edit taxonomy") }),
-              /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
-                import_components63.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime191.jsx)(Text, { variant: "heading-sm", render: /* @__PURE__ */ (0, import_jsx_runtime191.jsx)("h2", {}), children: (0, import_i18n81.__)("Quick edit taxonomy") }),
+              /* @__PURE__ */ (0, import_jsx_runtime191.jsx)(
+                import_components64.Button,
                 {
                   size: "small",
                   icon: close_small_default,
@@ -38113,7 +38919,7 @@ function QuickEditTaxonomyModal({
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime188.jsx)("div", { className: "dataviews-action-modal__quick-edit-taxonomy-content", children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime191.jsx)("div", { className: "dataviews-action-modal__quick-edit-taxonomy-content", children: /* @__PURE__ */ (0, import_jsx_runtime191.jsx)(
           DataForm,
           {
             data,
@@ -38125,15 +38931,15 @@ function QuickEditTaxonomyModal({
             )
           }
         ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime191.jsxs)(
           Stack,
           {
             className: "dataviews-action-modal__quick-edit-taxonomy-footer",
             direction: "row",
             gap: "sm",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
-                import_components63.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime191.jsx)(
+                import_components64.Button,
                 {
                   __next40pxDefaultSize: true,
                   variant: "secondary",
@@ -38141,8 +38947,8 @@ function QuickEditTaxonomyModal({
                   children: (0, import_i18n81.__)("Cancel")
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
-                import_components63.Button,
+              /* @__PURE__ */ (0, import_jsx_runtime191.jsx)(
+                import_components64.Button,
                 {
                   __next40pxDefaultSize: true,
                   variant: "primary",
@@ -38171,7 +38977,7 @@ var quickEditTaxonomyAction = {
 var quick_edit_default2 = quickEditTaxonomyAction;
 
 // packages/content-types/build-module/taxonomies/list.mjs
-var import_jsx_runtime189 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime192 = __toESM(require_jsx_runtime(), 1);
 var defaultLayouts2 = {
   table: {}
 };
@@ -38190,7 +38996,7 @@ var DEFAULT_VIEW2 = {
 function TaxonomiesList() {
   const navigate = useNavigate6();
   const searchParams = useSearch2({ from: TAXONOMIES_PATH });
-  const handleQueryParamsChange = (0, import_element143.useCallback)(
+  const handleQueryParamsChange = (0, import_element145.useCallback)(
     (params) => {
       navigate({
         search: {
@@ -38210,7 +39016,7 @@ function TaxonomiesList() {
     onChangeQueryParams: handleQueryParamsChange
   });
   const editAction = useEditTaxonomyAction();
-  const taxonomyActions = (0, import_element143.useMemo)(
+  const taxonomyActions = (0, import_element145.useMemo)(
     () => [
       editAction,
       quick_edit_default2,
@@ -38224,7 +39030,7 @@ function TaxonomiesList() {
   );
   const slugField = useSlugField2();
   const objectTypeField = useObjectTypeField();
-  const fields = (0, import_element143.useMemo)(
+  const fields = (0, import_element145.useMemo)(
     () => [
       titleField,
       objectTypeField,
@@ -38236,7 +39042,7 @@ function TaxonomiesList() {
     ],
     [slugField, objectTypeField]
   );
-  const queryArgs = (0, import_element143.useMemo)(() => {
+  const queryArgs = (0, import_element145.useMemo)(() => {
     const statusFilter = view.filters?.find(
       (filter) => filter.field === "status"
     );
@@ -38259,18 +39065,18 @@ function TaxonomiesList() {
     TAXONOMY_ENTITY,
     queryArgs
   );
-  const data = (0, import_element143.useMemo)(
+  const data = (0, import_element145.useMemo)(
     () => (records ?? []).map(toFormData2),
     [records]
   );
-  const paginationInfo = (0, import_element143.useMemo)(
+  const paginationInfo = (0, import_element145.useMemo)(
     () => ({
       totalItems: totalItems ?? 0,
       totalPages: totalPages ?? 0
     }),
     [totalItems, totalPages]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime192.jsx)(
     dataviews_default,
     {
       data,
@@ -38287,8 +39093,8 @@ function TaxonomiesList() {
       onClickItem: (item) => navigate({
         to: `${TAXONOMIES_PATH}/${item.id}`
       }),
-      header: /* @__PURE__ */ (0, import_jsx_runtime189.jsx)(
-        import_components64.Button,
+      header: /* @__PURE__ */ (0, import_jsx_runtime192.jsx)(
+        import_components65.Button,
         {
           variant: "primary",
           size: "compact",
@@ -38304,15 +39110,15 @@ function TaxonomiesList() {
 }
 
 // packages/content-types/build-module/taxonomies/edit.mjs
-var import_components65 = __toESM(require_components(), 1);
-var import_compose20 = __toESM(require_compose(), 1);
+var import_components66 = __toESM(require_components(), 1);
+var import_compose21 = __toESM(require_compose(), 1);
 var import_core_data17 = __toESM(require_core_data(), 1);
 var import_data21 = __toESM(require_data(), 1);
-var import_element144 = __toESM(require_element(), 1);
+var import_element146 = __toESM(require_element(), 1);
 var import_i18n83 = __toESM(require_i18n(), 1);
 var import_notices9 = __toESM(require_notices(), 1);
 import { useNavigate as useNavigate7, useParams as useParams2 } from "@wordpress/route";
-var import_jsx_runtime190 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime193 = __toESM(require_jsx_runtime(), 1);
 function TaxonomyEdit() {
   const { id } = useParams2({ from: `${TAXONOMIES_PATH}/$id` });
   const navigate = useNavigate7();
@@ -38350,7 +39156,7 @@ function TaxonomyEdit() {
       "Edit this taxonomy. Expand the Labels section to adjust labels."
     )
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(TaxonomyPage, { ...taxonomyPageProps }, id);
+  return /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(TaxonomyPage, { ...taxonomyPageProps }, id);
 }
 function TaxonomyPage({
   isAddMode,
@@ -38360,12 +39166,12 @@ function TaxonomyPage({
   subTitle,
   onSaved
 }) {
-  const [data, setData] = (0, import_element144.useState)(initialData);
-  const [isSaving, setIsSaving] = (0, import_element144.useState)(false);
+  const [data, setData] = (0, import_element146.useState)(initialData);
+  const [isSaving, setIsSaving] = (0, import_element146.useState)(false);
   const originalSlug = !isAddMode ? initialData.slug : void 0;
   const slugField = useSlugField2(originalSlug, data.slug);
   const objectTypeField = useObjectTypeField();
-  const fields = (0, import_element144.useMemo)(
+  const fields = (0, import_element146.useMemo)(
     () => [
       // General
       pluralLabelField,
@@ -38410,7 +39216,7 @@ function TaxonomyPage({
     ],
     [slugField, objectTypeField]
   );
-  const form = (0, import_element144.useMemo)(
+  const form = (0, import_element146.useMemo)(
     () => ({
       layout: { type: "card", isCollapsible: true },
       fields: [
@@ -38465,7 +39271,7 @@ function TaxonomyPage({
     []
   );
   const { validity, isValid: isValid2 } = use_form_validity_default(data, fields, form);
-  const formId = (0, import_compose20.useInstanceId)(TaxonomyPage, "taxonomy-form");
+  const formId = (0, import_compose21.useInstanceId)(TaxonomyPage, "taxonomy-form");
   const { saveEntityRecord } = (0, import_data21.useDispatch)(import_core_data17.store);
   const { createSuccessNotice, createErrorNotice } = (0, import_data21.useDispatch)(import_notices9.store);
   const maybeInvalidateCache = useMaybeInvalidateContentTypeCache();
@@ -38513,11 +39319,11 @@ function TaxonomyPage({
       setIsSaving(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
     page_default,
     {
       ariaLabel: title,
-      breadcrumbs: /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+      breadcrumbs: /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
         breadcrumbs_default,
         {
           items: [
@@ -38527,8 +39333,8 @@ function TaxonomyPage({
         }
       ),
       subTitle,
-      actions: /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
-        import_components65.Button,
+      actions: /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
+        import_components66.Button,
         {
           __next40pxDefaultSize: true,
           variant: "primary",
@@ -38541,13 +39347,13 @@ function TaxonomyPage({
           children: isAddMode ? (0, import_i18n83.__)("Create") : (0, import_i18n83.__)("Save")
         }
       ),
-      children: /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
         Stack,
         {
           direction: "column",
           gap: "md",
           className: "taxonomy-form",
-          render: /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+          render: /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
             "form",
             {
               id: formId,
@@ -38557,7 +39363,7 @@ function TaxonomyPage({
               }
             }
           ),
-          children: /* @__PURE__ */ (0, import_jsx_runtime190.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime193.jsx)(
             DataForm,
             {
               data,

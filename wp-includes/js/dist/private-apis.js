@@ -66,6 +66,7 @@ var wp;
     "@wordpress/media-editor",
     "@wordpress/media-utils",
     "@wordpress/upload-media",
+    "@wordpress/global-styles-engine",
     "@wordpress/global-styles-ui",
     "@wordpress/ui",
     "@wordpress/views",

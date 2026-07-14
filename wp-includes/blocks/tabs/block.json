@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/tabs",
+	"title": "Tabs",
+	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
+	"category": "design",
+	"textdomain": "default",
+	"allowedBlocks": [ "core/tab-list", "core/tab-panels" ],
+	"attributes": {
+		"activeTabIndex": {
+			"type": "number",
+			"default": 0
+		},
+		"editorActiveTabIndex": {
+			"type": "number",
+			"role": "local"
+		}
+	},
+	"supports": {
+		"align": true,
+		"anchor": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"__experimentalDefaultControls": {
+				"text": true,
+				"background": true
+			}
+		},
+		"layout": {
+			"allowEditing": false
+		},
+		"html": false,
+		"interactivity": true,
+		"spacing": {
+			"blockGap": true,
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"usesContext": [ "core/tabs-list", "core/tabs-id" ],
+	"style": "wp-block-tabs",
+	"viewScriptModule": "@wordpress/block-library/tabs/view"
+}

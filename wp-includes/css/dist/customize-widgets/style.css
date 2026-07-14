@@ -217,7 +217,7 @@
 }
 .customize-widgets-keyboard-shortcut-help-modal__section-title {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .customize-widgets-keyboard-shortcut-help-modal__shortcut {
   display: flex;
@@ -233,7 +233,7 @@
   display: none;
 }
 .customize-widgets-keyboard-shortcut-help-modal__shortcut-term {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0 0 0 1rem;
   text-align: right;
 }
@@ -283,7 +283,7 @@
 }
 .wrap .customize-widgets-welcome-guide__heading {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .customize-widgets-welcome-guide__text {
   line-height: 1.7;

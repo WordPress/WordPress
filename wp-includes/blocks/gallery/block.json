@@ -4,7 +4,7 @@
 	"name": "core/gallery",
 	"title": "Gallery",
 	"category": "media",
-	"usesContext": [ "galleryId" ],
+	"usesContext": [ "galleryId", "postId", "postType" ],
 	"allowedBlocks": [ "core/image" ],
 	"description": "Display multiple images in a rich gallery.",
 	"keywords": [ "images", "photos" ],
@@ -60,6 +60,9 @@
 				"type": "number"
 			},
 			"default": []
+		},
+		"dynamicContent": {
+			"type": "object"
 		},
 		"navigationButtonType": {
 			"type": "string",
@@ -139,8 +142,10 @@
 		"spacing": {
 			"margin": true,
 			"padding": true,
-			"blockGap": [ "horizontal", "vertical" ],
-			"__experimentalSkipSerialization": [ "blockGap" ],
+			"blockGap": {
+				"sides": [ "horizontal", "vertical" ],
+				"__experimentalDefault": "var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )"
+			},
 			"__experimentalDefaultControls": {
 				"blockGap": true,
 				"margin": false,

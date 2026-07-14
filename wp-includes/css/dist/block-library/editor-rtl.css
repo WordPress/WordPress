@@ -104,7 +104,7 @@
 }
 .block-library-utils__media-control .block-library-utils__media-control__replace-flow button.components-button {
   color: #1e1e1e;
-  box-shadow: inset 0 0 0 1px #ccc;
+  border-color: #ccc;
   width: 100%;
   display: block;
   height: 40px;
@@ -112,9 +112,6 @@
 }
 .block-library-utils__media-control .block-library-utils__media-control__replace-flow button.components-button:hover {
   color: var(--wp-admin-theme-color);
-}
-.block-library-utils__media-control .block-library-utils__media-control__replace-flow button.components-button:focus {
-  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 
 .block-library-utils__media-control__inspector-media-replace-title {
@@ -713,9 +710,6 @@ html :where(.wp-block-column) {
 :root :where(figure.wp-block-gallery) > .blocks-gallery-caption {
   flex: 0 0 100%;
 }
-:root :where(figure.wp-block-gallery) > .blocks-gallery-media-placeholder-wrapper {
-  flex-basis: 100%;
-}
 :root :where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label {
   display: none;
 }
@@ -792,6 +786,27 @@ html :where(.wp-block-column) {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+.wp-block-gallery__source-settings {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wp-block-gallery__source-settings .wp-block-gallery__source-description {
+  margin: 0;
+  color: #757575;
+  font-size: 12px;
+}
+.wp-block-gallery__source-settings .components-button {
+  justify-content: center;
+  width: 100%;
+}
+
+.wp-block-gallery__source-notice {
+  grid-column: 1/-1;
+  margin: 0;
 }
 
 /**
@@ -920,16 +935,33 @@ html :where(.wp-block-column) {
   justify-content: center;
 }
 
-.wp-block-icon__inserter {
-  padding: 0 24px;
-  margin: 0 -24px;
+.wp-block-icon__inserter-sidebar {
+  padding-bottom: 24px;
+}
+@media (min-width: 782px) {
+  .wp-block-icon__inserter-sidebar {
+    overflow-x: visible;
+    overflow-y: auto;
+    position: absolute;
+    top: 72px;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    padding-top: 24px;
+    padding-inline: 24px;
+  }
 }
 
-.wp-block-icon__inserter-header {
-  align-items: center;
+@media (min-width: 782px) {
+  .wp-block-icon__inserter-panel {
+    margin-inline-start: 280px;
+  }
+}
+
+.wp-block-icon__inserter-loading {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  justify-content: center;
+  padding: 24px;
 }
 
 .wp-block-icon__inserter-grid-icons-list {
@@ -951,6 +983,11 @@ html :where(.wp-block-column) {
 .wp-block-icon__inserter-grid-icons-list-item-icon {
   padding: 12px;
 }
+.wp-block-icon__inserter-grid-icons-list-item-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
 
 .wp-block-icon__inserter-grid-icons-list-item-title {
   font-size: 12px;
@@ -958,6 +995,7 @@ html :where(.wp-block-column) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 .wp-block-icon__toolbar-content {
@@ -1181,8 +1219,8 @@ figure.wp-block-image:not(.wp-block) {
   position: relative;
   font-size: 13px;
   text-transform: uppercase;
-  font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #757575;
   display: inline-flex;
   white-space: nowrap;
@@ -1382,7 +1420,7 @@ figure.wp-block-image:not(.wp-block) {
   align-items: center;
   min-width: 96px;
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 .wp-block-navigation.is-selected .wp-block-navigation-placeholder__preview {
   display: none;
@@ -1476,7 +1514,7 @@ figure.wp-block-image:not(.wp-block) {
 .wp-block-navigation-placeholder__actions {
   display: flex;
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   gap: 6px;
   align-items: center;
 }
@@ -1616,8 +1654,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   grid-column: span 2;
 }
 .wp-block-navigation__overlay-menu-preview.open {
-  box-shadow: inset 0 0 0 1px #e0e0e0;
-  outline: 1px solid transparent;
+  border-color: #e0e0e0;
   background-color: #fff;
 }
 
@@ -1828,7 +1865,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 .link-control-transform__subheading {
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #1e1e1e;
   margin-bottom: 1.5em;
 }
@@ -1924,8 +1961,8 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   font-size: 13px;
   position: relative;
   text-transform: uppercase;
-  font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #757575;
   border-radius: 4px;
   background: #fff;
@@ -2018,6 +2055,12 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 .wp-block-playlist li.block-list-appender.block-list-appender {
   position: initial;
   margin-top: var(--wp--preset--spacing--30, 1em);
+}
+
+.wp-block-playlist__waveform-color-controls {
+  display: grid;
+  grid-column: 1/-1;
+  row-gap: 0;
 }
 
 .wp-block-post-excerpt .wp-block-post-excerpt__excerpt.is-inline {
@@ -2492,7 +2535,7 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
   color: #757575;
   text-transform: uppercase;
   font-size: 11px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   display: block;
 }
 

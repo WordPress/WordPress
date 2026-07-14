@@ -159,7 +159,7 @@ var wp;
       httpMethod = "GET",
       urlQueryArgs
     } = args;
-    let sanitizedAttributes = attributes && (0, import_blocks.__experimentalSanitizeBlockAttributes)(block, attributes);
+    let sanitizedAttributes = attributes && (0, import_blocks.sanitizeBlockAttributes)(block, attributes);
     if (skipBlockSupportAttributes && sanitizedAttributes) {
       sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
     }

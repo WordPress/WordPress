@@ -25,6 +25,7 @@ return array(
 	'separator',
 	'social-links',
 	'spacer',
+	'tab-panels',
 	'table',
 	'terms-query',
 	'text-columns',

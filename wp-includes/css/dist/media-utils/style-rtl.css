@@ -199,8 +199,8 @@
   padding: 0 16px;
   width: 100%;
   container-type: inline-size;
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-weight: 400;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   font-size: 12px;
   line-height: 16px;
 }
@@ -385,7 +385,7 @@
 .media-upload-modal__upload-status__popover .media-upload-modal__upload-status__header h3 {
   margin: 0;
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .media-upload-modal__upload-status__popover .media-upload-modal__upload-status__list {
   max-height: 200px;

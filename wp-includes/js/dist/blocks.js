@@ -570,6 +570,62 @@ var wp;
     }
   });
 
+  // node_modules/fast-deep-equal/es6/index.js
+  var require_es6 = __commonJS({
+    "node_modules/fast-deep-equal/es6/index.js"(exports, module) {
+      "use strict";
+      module.exports = function equal(a2, b3) {
+        if (a2 === b3) return true;
+        if (a2 && b3 && typeof a2 == "object" && typeof b3 == "object") {
+          if (a2.constructor !== b3.constructor) return false;
+          var length, i2, keys;
+          if (Array.isArray(a2)) {
+            length = a2.length;
+            if (length != b3.length) return false;
+            for (i2 = length; i2-- !== 0; )
+              if (!equal(a2[i2], b3[i2])) return false;
+            return true;
+          }
+          if (a2 instanceof Map && b3 instanceof Map) {
+            if (a2.size !== b3.size) return false;
+            for (i2 of a2.entries())
+              if (!b3.has(i2[0])) return false;
+            for (i2 of a2.entries())
+              if (!equal(i2[1], b3.get(i2[0]))) return false;
+            return true;
+          }
+          if (a2 instanceof Set && b3 instanceof Set) {
+            if (a2.size !== b3.size) return false;
+            for (i2 of a2.entries())
+              if (!b3.has(i2[0])) return false;
+            return true;
+          }
+          if (ArrayBuffer.isView(a2) && ArrayBuffer.isView(b3)) {
+            length = a2.length;
+            if (length != b3.length) return false;
+            for (i2 = length; i2-- !== 0; )
+              if (a2[i2] !== b3[i2]) return false;
+            return true;
+          }
+          if (a2.constructor === RegExp) return a2.source === b3.source && a2.flags === b3.flags;
+          if (a2.valueOf !== Object.prototype.valueOf) return a2.valueOf() === b3.valueOf();
+          if (a2.toString !== Object.prototype.toString) return a2.toString() === b3.toString();
+          keys = Object.keys(a2);
+          length = keys.length;
+          if (length !== Object.keys(b3).length) return false;
+          for (i2 = length; i2-- !== 0; )
+            if (!Object.prototype.hasOwnProperty.call(b3, keys[i2])) return false;
+          for (i2 = length; i2-- !== 0; ) {
+            var key = keys[i2];
+            if (!equal(a2[key], b3[key])) return false;
+          }
+          return true;
+        }
+        return a2 !== a2 && b3 !== b3;
+      };
+    }
+  });
+
   // packages/blocks/node_modules/react-is/cjs/react-is.development.js
   var require_react_is_development = __commonJS({
     "packages/blocks/node_modules/react-is/cjs/react-is.development.js"(exports) {
@@ -799,62 +855,6 @@ var wp;
     }
   });
 
-  // node_modules/fast-deep-equal/es6/index.js
-  var require_es6 = __commonJS({
-    "node_modules/fast-deep-equal/es6/index.js"(exports, module) {
-      "use strict";
-      module.exports = function equal(a2, b3) {
-        if (a2 === b3) return true;
-        if (a2 && b3 && typeof a2 == "object" && typeof b3 == "object") {
-          if (a2.constructor !== b3.constructor) return false;
-          var length, i2, keys;
-          if (Array.isArray(a2)) {
-            length = a2.length;
-            if (length != b3.length) return false;
-            for (i2 = length; i2-- !== 0; )
-              if (!equal(a2[i2], b3[i2])) return false;
-            return true;
-          }
-          if (a2 instanceof Map && b3 instanceof Map) {
-            if (a2.size !== b3.size) return false;
-            for (i2 of a2.entries())
-              if (!b3.has(i2[0])) return false;
-            for (i2 of a2.entries())
-              if (!equal(i2[1], b3.get(i2[0]))) return false;
-            return true;
-          }
-          if (a2 instanceof Set && b3 instanceof Set) {
-            if (a2.size !== b3.size) return false;
-            for (i2 of a2.entries())
-              if (!b3.has(i2[0])) return false;
-            return true;
-          }
-          if (ArrayBuffer.isView(a2) && ArrayBuffer.isView(b3)) {
-            length = a2.length;
-            if (length != b3.length) return false;
-            for (i2 = length; i2-- !== 0; )
-              if (a2[i2] !== b3[i2]) return false;
-            return true;
-          }
-          if (a2.constructor === RegExp) return a2.source === b3.source && a2.flags === b3.flags;
-          if (a2.valueOf !== Object.prototype.valueOf) return a2.valueOf() === b3.valueOf();
-          if (a2.toString !== Object.prototype.toString) return a2.toString() === b3.toString();
-          keys = Object.keys(a2);
-          length = keys.length;
-          if (length !== Object.keys(b3).length) return false;
-          for (i2 = length; i2-- !== 0; )
-            if (!Object.prototype.hasOwnProperty.call(b3, keys[i2])) return false;
-          for (i2 = length; i2-- !== 0; ) {
-            var key = keys[i2];
-            if (!equal(a2[key], b3[key])) return false;
-          }
-          return true;
-        }
-        return a2 !== a2 && b3 !== b3;
-      };
-    }
-  });
-
   // package-external:@wordpress/html-entities
   var require_html_entities = __commonJS({
     "package-external:@wordpress/html-entities"(exports, module) {
@@ -892,6 +892,7 @@ var wp;
     __unstableSerializeAndClean: () => __unstableSerializeAndClean,
     children: () => children_default,
     cloneBlock: () => cloneBlock,
+    cloneSanitizedBlock: () => cloneSanitizedBlock,
     createBlock: () => createBlock,
     createBlocksFromInnerBlocksTemplate: () => createBlocksFromInnerBlocksTemplate,
     doBlocksMatchTemplate: () => doBlocksMatchTemplate,
@@ -940,6 +941,7 @@ var wp;
     registerBlockStyle: () => registerBlockStyle,
     registerBlockType: () => registerBlockType,
     registerBlockVariation: () => registerBlockVariation,
+    sanitizeBlockAttributes: () => sanitizeBlockAttributes,
     serialize: () => serialize,
     serializeRawBlock: () => serializeRawBlock,
     setCategories: () => setCategories2,
@@ -2036,7 +2038,7 @@ var wp;
   function isBlockRegistered(name) {
     return getBlockType(name) !== void 0;
   }
-  function __experimentalSanitizeBlockAttributes(name, attributes) {
+  function sanitizeBlockAttributes(name, attributes) {
     const blockType = getBlockType(name);
     if (void 0 === blockType) {
       throw new Error(`Block type '${name}' is not registered.`);
@@ -2073,6 +2075,13 @@ var wp;
       },
       {}
     );
+  }
+  function __experimentalSanitizeBlockAttributes(name, attributes) {
+    (0, import_deprecated.default)("__experimentalSanitizeBlockAttributes", {
+      since: "7.1",
+      alternative: "sanitizeBlockAttributes"
+    });
+    return sanitizeBlockAttributes(name, attributes);
   }
   function getBlockAttributesNamesByRole(name, role) {
     const attributes = getBlockType(name)?.attributes;
@@ -2430,6 +2439,7 @@ var wp;
     isMatchingSearchTerm: () => isMatchingSearchTerm
   });
   var import_remove_accents = __toESM(require_remove_accents(), 1);
+  var import_es6 = __toESM(require_es6(), 1);
   var import_data4 = __toESM(require_data(), 1);
   var import_rich_text2 = __toESM(require_rich_text(), 1);
   var import_deprecated3 = __toESM(require_deprecated(), 1);
@@ -2648,16 +2658,27 @@ var wp;
       state.blockVariations[blockName]
     ]
   );
-  function getActiveBlockVariation(state, blockName, attributes, scope) {
+  function getActiveBlockVariation(state, blockName, attributes, scope, innerContent) {
     const variations = getBlockVariations2(state, blockName, scope);
     if (!variations) {
       return variations;
+    }
+    if (innerContent) {
+      const innerContentMatch = variations.find(
+        (variation) => variation.innerContent && (0, import_es6.default)(variation.innerContent, innerContent)
+      );
+      if (innerContentMatch) {
+        return innerContentMatch;
+      }
     }
     const blockType = getBlockType2(state, blockName);
     const attributeKeys = Object.keys(blockType?.attributes || {});
     let match;
     let maxMatchedAttributes = 0;
     for (const variation of variations) {
+      if (variation.innerContent) {
+        continue;
+      }
       if (Array.isArray(variation.isActive)) {
         const definedAttributes = variation.isActive.filter(
           (attribute) => {
@@ -3199,6 +3220,7 @@ var wp;
 
   // packages/blocks/build-module/api/factory.mjs
   var import_hooks2 = __toESM(require_hooks(), 1);
+  var import_deprecated6 = __toESM(require_deprecated(), 1);
   var import_warning3 = __toESM(require_warning(), 1);
   var getBlockTypeWithTransformMetadata = (blockType, transform) => transform.variationName ? { ...blockType, variationName: transform.variationName } : blockType;
   function createBlock(name, attributes = {}, innerBlocks = [], innerContent) {
@@ -3209,10 +3231,7 @@ var wp;
         originalUndelimitedContent: ""
       });
     }
-    const sanitizedAttributes = __experimentalSanitizeBlockAttributes(
-      name,
-      attributes
-    );
+    const sanitizedAttributes = sanitizeBlockAttributes(name, attributes);
     const clientId = v4_default();
     const block = {
       clientId,
@@ -3237,19 +3256,21 @@ var wp;
       const innerBlockTemplate = Array.isArray(innerBlock) ? innerBlock : [
         innerBlock.name,
         innerBlock.attributes,
-        innerBlock.innerBlocks
+        innerBlock.innerBlocks,
+        innerBlock.innerContent
       ];
-      const [name, attributes, innerBlocks = []] = innerBlockTemplate;
+      const [name, attributes, innerBlocks = [], innerContent] = innerBlockTemplate;
       return createBlock(
         name,
         attributes,
         createBlocksFromInnerBlocksTemplate(
           innerBlocks
-        )
+        ),
+        innerContent
       );
     });
   }
-  function __experimentalCloneSanitizedBlock(block, mergeAttributes = {}, newInnerBlocks) {
+  function cloneSanitizedBlock(block, mergeAttributes = {}, newInnerBlocks) {
     const { name } = block;
     if (!isBlockRegistered(name)) {
       return createBlock("core/missing", {
@@ -3259,7 +3280,7 @@ var wp;
       });
     }
     const clientId = v4_default();
-    const sanitizedAttributes = __experimentalSanitizeBlockAttributes(name, {
+    const sanitizedAttributes = sanitizeBlockAttributes(name, {
       ...block.attributes,
       ...mergeAttributes
     });
@@ -3268,9 +3289,16 @@ var wp;
       clientId,
       attributes: sanitizedAttributes,
       innerBlocks: newInnerBlocks || block.innerBlocks.map(
-        (innerBlock) => __experimentalCloneSanitizedBlock(innerBlock)
+        (innerBlock) => cloneSanitizedBlock(innerBlock)
       )
     };
+  }
+  function __experimentalCloneSanitizedBlock(block, mergeAttributes = {}, newInnerBlocks) {
+    (0, import_deprecated6.default)("__experimentalCloneSanitizedBlock", {
+      since: "7.1",
+      alternative: "cloneSanitizedBlock"
+    });
+    return cloneSanitizedBlock(block, mergeAttributes, newInnerBlocks);
   }
   function cloneBlock(block, mergeAttributes = {}, newInnerBlocks) {
     const clientId = v4_default();
@@ -3511,7 +3539,7 @@ var wp;
   var import_hooks3 = __toESM(require_hooks(), 1);
   var import_is_shallow_equal = __toESM(require_is_shallow_equal(), 1);
   var import_autop = __toESM(require_autop(), 1);
-  var import_deprecated6 = __toESM(require_deprecated(), 1);
+  var import_deprecated7 = __toESM(require_deprecated(), 1);
 
   // packages/blocks/build-module/api/parser/serialize-raw-block.mjs
   function serializeRawBlock(rawBlock, options = {}) {
@@ -3634,7 +3662,7 @@ var wp;
           return accumulator;
         }
         if (attributeSchema.__experimentalRole === "local") {
-          (0, import_deprecated6.default)("__experimentalRole attribute", {
+          (0, import_deprecated7.default)("__experimentalRole attribute", {
             since: "6.7",
             version: "6.8",
             alternative: "role attribute",
@@ -4488,8 +4516,8 @@ var wp;
   );
 
   // packages/blocks/build-module/api/validation/index.mjs
-  var import_es6 = __toESM(require_es6(), 1);
-  var import_deprecated7 = __toESM(require_deprecated(), 1);
+  var import_es62 = __toESM(require_es6(), 1);
+  var import_deprecated8 = __toESM(require_deprecated(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
 
   // packages/blocks/build-module/api/validation/logger.mjs
@@ -4679,7 +4707,7 @@ var wp;
       return actualDiff.length === 0 && expectedDiff.length === 0;
     },
     style: (actual, expected) => {
-      return (0, import_es6.default)(
+      return (0, import_es62.default)(
         ...[actual, expected].map(getStyleProperties)
       );
     },
@@ -4868,7 +4896,7 @@ var wp;
     return [isValid, logger.getItems()];
   }
   function isValidBlockContent(blockTypeOrName, attributes, originalBlockContent) {
-    (0, import_deprecated7.default)("isValidBlockContent introduces opportunity for data loss", {
+    (0, import_deprecated8.default)("isValidBlockContent introduces opportunity for data loss", {
       since: "12.6",
       plugin: "Gutenberg",
       alternative: "validateBlock"
@@ -4927,11 +4955,11 @@ var wp;
     }
     if (name && name.indexOf("core-embed/") === 0) {
       const providerSlug = name.substring(11);
-      const deprecated12 = {
+      const deprecated13 = {
         speaker: "speaker-deck",
         polldaddy: "crowdsignal"
       };
-      newAttributes.providerNameSlug = providerSlug in deprecated12 ? deprecated12[providerSlug] : providerSlug;
+      newAttributes.providerNameSlug = providerSlug in deprecated13 ? deprecated13[providerSlug] : providerSlug;
       if (!["amazon-kindle", "wordpress"].includes(providerSlug)) {
         newAttributes.responsive = true;
       }
@@ -5154,16 +5182,16 @@ var wp;
   var import_rich_text3 = __toESM(require_rich_text(), 1);
 
   // packages/blocks/build-module/api/node.mjs
-  var import_deprecated9 = __toESM(require_deprecated(), 1);
+  var import_deprecated10 = __toESM(require_deprecated(), 1);
 
   // packages/blocks/build-module/api/children.mjs
   var import_element3 = __toESM(require_element(), 1);
-  var import_deprecated8 = __toESM(require_deprecated(), 1);
+  var import_deprecated9 = __toESM(require_deprecated(), 1);
   function getSerializeCapableElement(children) {
     return children;
   }
   function getChildrenArray(children) {
-    (0, import_deprecated8.default)("wp.blocks.children.getChildrenArray", {
+    (0, import_deprecated9.default)("wp.blocks.children.getChildrenArray", {
       since: "6.1",
       version: "6.3",
       link: "https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/"
@@ -5171,7 +5199,7 @@ var wp;
     return children;
   }
   function concat(...blockNodes) {
-    (0, import_deprecated8.default)("wp.blocks.children.concat", {
+    (0, import_deprecated9.default)("wp.blocks.children.concat", {
       since: "6.1",
       version: "6.3",
       alternative: "wp.richText.concat",
@@ -5193,7 +5221,7 @@ var wp;
     return result;
   }
   function fromDOM22(domNodes) {
-    (0, import_deprecated8.default)("wp.blocks.children.fromDOM", {
+    (0, import_deprecated9.default)("wp.blocks.children.fromDOM", {
       since: "6.1",
       version: "6.3",
       alternative: "wp.richText.create",
@@ -5209,7 +5237,7 @@ var wp;
     return result;
   }
   function toHTML(children) {
-    (0, import_deprecated8.default)("wp.blocks.children.toHTML", {
+    (0, import_deprecated9.default)("wp.blocks.children.toHTML", {
       since: "6.1",
       version: "6.3",
       alternative: "wp.richText.toHTMLString",
@@ -5219,7 +5247,7 @@ var wp;
     return (0, import_element3.renderToString)(element);
   }
   function matcher(selector) {
-    (0, import_deprecated8.default)("wp.blocks.children.matcher", {
+    (0, import_deprecated9.default)("wp.blocks.children.matcher", {
       since: "6.1",
       version: "6.3",
       alternative: "html source",
@@ -5246,7 +5274,7 @@ var wp;
 
   // packages/blocks/build-module/api/node.mjs
   function isNodeOfType(node, type) {
-    (0, import_deprecated9.default)("wp.blocks.node.isNodeOfType", {
+    (0, import_deprecated10.default)("wp.blocks.node.isNodeOfType", {
       since: "6.1",
       version: "6.3",
       link: "https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/"
@@ -5262,7 +5290,7 @@ var wp;
     return result;
   }
   function fromDOM2(domNode) {
-    (0, import_deprecated9.default)("wp.blocks.node.fromDOM", {
+    (0, import_deprecated10.default)("wp.blocks.node.fromDOM", {
       since: "6.1",
       version: "6.3",
       alternative: "wp.richText.create",
@@ -5285,7 +5313,7 @@ var wp;
     };
   }
   function toHTML2(node) {
-    (0, import_deprecated9.default)("wp.blocks.node.toHTML", {
+    (0, import_deprecated10.default)("wp.blocks.node.toHTML", {
       since: "6.1",
       version: "6.3",
       alternative: "wp.richText.toHTMLString",
@@ -5294,7 +5322,7 @@ var wp;
     return toHTML([node]);
   }
   function matcher2(selector) {
-    (0, import_deprecated9.default)("wp.blocks.node.matcher", {
+    (0, import_deprecated10.default)("wp.blocks.node.matcher", {
       since: "6.1",
       version: "6.3",
       alternative: "html source",
@@ -5796,7 +5824,7 @@ var wp;
   }
 
   // packages/blocks/build-module/api/raw-handling/index.mjs
-  var import_deprecated10 = __toESM(require_deprecated(), 1);
+  var import_deprecated11 = __toESM(require_deprecated(), 1);
   var import_dom13 = __toESM(require_dom(), 1);
 
   // packages/blocks/build-module/api/raw-handling/get-raw-transforms.mjs
@@ -8121,7 +8149,7 @@ ${p3}`
 
   // packages/blocks/build-module/api/raw-handling/index.mjs
   function deprecatedGetPhrasingContentSchema(context) {
-    (0, import_deprecated10.default)("wp.blocks.getPhrasingContentSchema", {
+    (0, import_deprecated11.default)("wp.blocks.getPhrasingContentSchema", {
       since: "5.6",
       alternative: "wp.dom.getPhrasingContentSchema"
     });
@@ -8248,9 +8276,9 @@ ${p3}`
   });
 
   // packages/blocks/build-module/deprecated.mjs
-  var import_deprecated11 = __toESM(require_deprecated(), 1);
+  var import_deprecated12 = __toESM(require_deprecated(), 1);
   function withBlockContentContext(OriginalComponent) {
-    (0, import_deprecated11.default)("wp.blocks.withBlockContentContext", {
+    (0, import_deprecated12.default)("wp.blocks.withBlockContentContext", {
       since: "6.1"
     });
     return OriginalComponent;

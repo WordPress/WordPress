@@ -251,7 +251,7 @@ function wp_font_library_render_page() {
 			html {
 				background: #f1f1f1;
 				color: #444;
-				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+				font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 				font-size: 13px;
 				line-height: 1.4em;
 			}

@@ -19,6 +19,7 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
 					'backgroundImage' => true
 				)
@@ -2214,6 +2215,17 @@
 				'source' => 'attribute',
 				'selector' => 'video',
 				'attribute' => 'poster'
+			),
+			'allowedVideoProviders' => array(
+				'type' => 'array',
+				'default' => array(
+					'youtube',
+					'vimeo',
+					'videopress',
+					'animoto',
+					'tiktok',
+					'wordpress-tv'
+				)
 			)
 		),
 		'usesContext' => array(
@@ -2639,7 +2651,9 @@
 		'title' => 'Gallery',
 		'category' => 'media',
 		'usesContext' => array(
-			'galleryId'
+			'galleryId',
+			'postId',
+			'postType'
 		),
 		'allowedBlocks' => array(
 			'core/image'
@@ -2705,6 +2719,9 @@
 				'default' => array(
 					
 				)
+			),
+			'dynamicContent' => array(
+				'type' => 'object'
 			),
 			'navigationButtonType' => array(
 				'type' => 'string',
@@ -2797,11 +2814,11 @@
 				'margin' => true,
 				'padding' => true,
 				'blockGap' => array(
-					'horizontal',
-					'vertical'
-				),
-				'__experimentalSkipSerialization' => array(
-					'blockGap'
+					'sides' => array(
+						'horizontal',
+						'vertical'
+					),
+					'__experimentalDefault' => 'var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )'
 				),
 				'__experimentalDefaultControls' => array(
 					'blockGap' => true,
@@ -3366,7 +3383,7 @@
 			)
 		),
 		'selectors' => array(
-			'dimensions' => '.wp-block-image img',
+			'dimensions' => '.wp-block-image img, .wp-block-image .components-placeholder',
 			'border' => '.wp-block-image img, .wp-block-image .wp-block-image__crop-area, .wp-block-image .components-placeholder',
 			'shadow' => '.wp-block-image img, .wp-block-image .wp-block-image__crop-area, .wp-block-image .components-placeholder',
 			'filter' => array(
@@ -4793,6 +4810,7 @@
 				'full'
 			),
 			'splitting' => true,
+			'editableRoot' => true,
 			'anchor' => true,
 			'className' => false,
 			'__experimentalBorder' => array(
@@ -4872,6 +4890,184 @@
 				'type' => 'string'
 			)
 		)
+	),
+	'playlist' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/playlist',
+		'title' => 'Playlist',
+		'category' => 'media',
+		'description' => 'Embed a simple playlist.',
+		'keywords' => array(
+			'music',
+			'sound'
+		),
+		'textdomain' => 'default',
+		'allowedBlocks' => array(
+			'core/playlist-track'
+		),
+		'attributes' => array(
+			'type' => array(
+				'type' => 'string',
+				'default' => 'audio'
+			),
+			'order' => array(
+				'type' => 'string',
+				'default' => 'asc'
+			),
+			'showTracklist' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'showImages' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'showPlayButtonArtwork' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'showArtists' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'showNumbers' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'showTrackLength' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'waveformStyle' => array(
+				'type' => 'string',
+				'enum' => array(
+					'bars',
+					'mirror',
+					'line',
+					'blocks',
+					'dots',
+					'seekbar'
+				),
+				'default' => 'bars'
+			),
+			'waveformColor' => array(
+				'type' => 'string'
+			),
+			'waveformGradient' => array(
+				'type' => 'string'
+			),
+			'waveformBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'waveformBackgroundGradient' => array(
+				'type' => 'string'
+			),
+			'caption' => array(
+				'type' => 'string'
+			)
+		),
+		'providesContext' => array(
+			'showArtists' => 'showArtists',
+			'showImages' => 'showImages'
+		),
+		'supports' => array(
+			'anchor' => true,
+			'align' => true,
+			'color' => array(
+				'gradients' => true,
+				'link' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			)
+		),
+		'editorStyle' => 'wp-block-playlist-editor',
+		'style' => 'wp-block-playlist'
+	),
+	'playlist-track' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/playlist-track',
+		'title' => 'Playlist track',
+		'category' => 'media',
+		'parent' => array(
+			'core/playlist'
+		),
+		'description' => 'Playlist track.',
+		'keywords' => array(
+			'music',
+			'sound'
+		),
+		'textdomain' => 'default',
+		'usesContext' => array(
+			'showArtists',
+			'showImages'
+		),
+		'attributes' => array(
+			'blob' => array(
+				'type' => 'string',
+				'role' => 'local'
+			),
+			'id' => array(
+				'type' => 'number'
+			),
+			'src' => array(
+				'type' => 'string'
+			),
+			'type' => array(
+				'type' => 'string',
+				'default' => 'audio'
+			),
+			'album' => array(
+				'type' => 'string'
+			),
+			'artist' => array(
+				'type' => 'string'
+			),
+			'image' => array(
+				'type' => 'string'
+			),
+			'imageAlt' => array(
+				'type' => 'string'
+			),
+			'length' => array(
+				'type' => 'string'
+			),
+			'title' => array(
+				'type' => 'string'
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'interactivity' => array(
+				'clientNavigation' => true
+			),
+			'reusable' => false
+		),
+		'style' => 'wp-block-playlist-track'
 	),
 	'post-author' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5325,6 +5521,7 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
 					'backgroundImage' => true
 				)
@@ -5742,7 +5939,8 @@
 			'templateSlug',
 			'previewPostType',
 			'enhancedPagination',
-			'postType'
+			'postType',
+			'postId'
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -6140,8 +6338,10 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
+					'backgroundImage' => true,
+					'gradient' => true
 				)
 			),
 			'color' => array(
@@ -6240,7 +6440,8 @@
 					),
 					'format' => array(
 						
-					)
+					),
+					'excludeCurrent' => null
 				)
 			),
 			'tagName' => array(
@@ -6256,7 +6457,8 @@
 			)
 		),
 		'usesContext' => array(
-			'templateSlug'
+			'templateSlug',
+			'postType'
 		),
 		'providesContext' => array(
 			'queryId' => 'queryId',
@@ -6748,8 +6950,10 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
+					'backgroundImage' => true,
+					'gradient' => true
 				)
 			),
 			'__experimentalBorder' => array(
@@ -7651,6 +7855,189 @@
 		'editorStyle' => 'wp-block-spacer-editor',
 		'style' => 'wp-block-spacer'
 	),
+	'tab-list' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/tab-list',
+		'title' => 'Tab List',
+		'description' => 'Display the tab buttons for a tabbed interface.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'parent' => array(
+			'core/tabs'
+		),
+		'usesContext' => array(
+			'core/tabs-list'
+		),
+		'attributes' => array(
+			'tabs' => array(
+				'type' => 'array',
+				'source' => 'query',
+				'selector' => 'button',
+				'query' => array(
+					'label' => array(
+						'type' => 'rich-text',
+						'source' => 'rich-text',
+						'role' => 'content'
+					)
+				),
+				'default' => array(
+					
+				)
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'ariaLabel' => true,
+			'visibility' => false,
+			'lock' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'__experimentalSkipSerialization' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalSkipSerialization' => true
+			),
+			'layout' => array(
+				'default' => array(
+					'type' => 'flex',
+					'flexWrap' => 'wrap'
+				),
+				'allowVerticalAlignment' => false,
+				'allowOrientation' => false,
+				'allowWrap' => false
+			),
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true,
+				'__experimentalSkipSerialization' => array(
+					'padding'
+				),
+				'__experimentalDefaultControls' => array(
+					'padding' => true,
+					'blockGap' => true
+				)
+			)
+		),
+		'selectors' => array(
+			'border' => '.wp-block-tab-list button',
+			'color' => array(
+				'background' => '.wp-block-tab-list button',
+				'text' => '.wp-block-tab-list button'
+			),
+			'spacing' => array(
+				'padding' => '.wp-block-tab-list button'
+			)
+		),
+		'style' => 'wp-block-tab-list'
+	),
+	'tab-panel' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/tab-panel',
+		'title' => 'Tab Panel',
+		'description' => 'Content for a tab in a tabbed interface.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'attributes' => array(
+			'label' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'parent' => array(
+			'core/tab-panels'
+		),
+		'usesContext' => array(
+			'core/tabs-id'
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'layout' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			),
+			'visibility' => false
+		),
+		'providesContext' => array(
+			'core/tab-label' => 'label'
+		),
+		'style' => 'wp-block-tab-panel'
+	),
+	'tab-panels' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/tab-panels',
+		'title' => 'Tab Panels',
+		'description' => 'Container for tab panel content in a tabbed interface.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'parent' => array(
+			'core/tabs'
+		),
+		'allowedBlocks' => array(
+			'core/tab-panel'
+		),
+		'supports' => array(
+			'html' => false,
+			'visibility' => false,
+			'lock' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'heading' => true,
+				'link' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'spacing' => array(
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
+			),
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
+			)
+		)
+	),
 	'table' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -7885,6 +8272,61 @@
 		),
 		'editorStyle' => 'wp-block-table-editor',
 		'style' => 'wp-block-table'
+	),
+	'tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/tabs',
+		'title' => 'Tabs',
+		'description' => 'Display content in a tabbed interface to help users navigate detailed content with ease.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'allowedBlocks' => array(
+			'core/tab-list',
+			'core/tab-panels'
+		),
+		'attributes' => array(
+			'activeTabIndex' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'editorActiveTabIndex' => array(
+				'type' => 'number',
+				'role' => 'local'
+			)
+		),
+		'supports' => array(
+			'align' => true,
+			'anchor' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'__experimentalDefaultControls' => array(
+					'text' => true,
+					'background' => true
+				)
+			),
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'html' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
+			)
+		),
+		'usesContext' => array(
+			'core/tabs-list',
+			'core/tabs-id'
+		),
+		'style' => 'wp-block-tabs',
+		'viewScriptModule' => '@wordpress/block-library/tabs/view'
 	),
 	'tag-cloud' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -8140,9 +8582,6 @@
 			'taxonomy'
 		),
 		'attributes' => array(
-			'textAlign' => array(
-				'type' => 'string'
-			),
 			'level' => array(
 				'type' => 'number',
 				'default' => 0
@@ -8177,6 +8616,7 @@
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
+				'textAlign' => true,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,
 				'__experimentalFontStyle' => true,
@@ -8402,8 +8842,10 @@
 			'background' => array(
 				'backgroundImage' => true,
 				'backgroundSize' => true,
+				'gradient' => true,
 				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
+					'backgroundImage' => true,
+					'gradient' => true
 				)
 			),
 			'color' => array(

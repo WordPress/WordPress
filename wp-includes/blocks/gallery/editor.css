@@ -99,9 +99,6 @@
 :root :where(figure.wp-block-gallery) > .blocks-gallery-caption {
   flex: 0 0 100%;
 }
-:root :where(figure.wp-block-gallery) > .blocks-gallery-media-placeholder-wrapper {
-  flex-basis: 100%;
-}
 :root :where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label {
   display: none;
 }
@@ -178,4 +175,25 @@
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+.wp-block-gallery__source-settings {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wp-block-gallery__source-settings .wp-block-gallery__source-description {
+  margin: 0;
+  color: #757575;
+  font-size: 12px;
+}
+.wp-block-gallery__source-settings .components-button {
+  justify-content: center;
+  width: 100%;
+}
+
+.wp-block-gallery__source-notice {
+  grid-column: 1/-1;
+  margin: 0;
 }

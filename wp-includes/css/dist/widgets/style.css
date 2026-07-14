@@ -125,16 +125,16 @@
 }
 .wp-block-legacy-widget__edit-form .wp-block-legacy-widget__edit-form-title {
   color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0 0 12px 0;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside {
   border: none;
   box-shadow: none;
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside p {
   margin: 8px 0;
@@ -224,7 +224,7 @@
 }
 
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview, .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3, .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview {
@@ -233,7 +233,7 @@
 }
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3 {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 4px 0;
 }
 .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview p {
@@ -246,7 +246,7 @@
 
 .interface-complementary-area .wp-block-legacy-widget-inspector-card__name {
   margin: 0 0 5px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .is-selected .wp-block-legacy-widget__container {
@@ -259,9 +259,9 @@
 }
 
 .wp-block-widget-group .widget-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 
 .wp-block-widget-group__placeholder .block-editor-inserter {
@@ -269,6 +269,6 @@
 }
 
 .is-dark-theme .wp-block-widget-group__placeholder .block-editor-button-block-appender {
-  box-shadow: inset 0 0 0 1px #1e1e1e;
+  border-color: currentColor;
   color: #1e1e1e;
 }

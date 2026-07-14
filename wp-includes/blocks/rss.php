@@ -97,7 +97,7 @@ function render_block_core_rss( $attributes ) {
 			$excerpt = esc_attr( wp_trim_words( $excerpt, $attributes['excerptLength'], ' [&hellip;]' ) );
 
 			// Change existing [...] to [&hellip;].
-			if ( '[...]' === substr( $excerpt, -5 ) ) {
+			if ( str_ends_with( $excerpt, '[...]' ) ) {
 				$excerpt = substr( $excerpt, 0, -5 ) . '[&hellip;]';
 			}
 

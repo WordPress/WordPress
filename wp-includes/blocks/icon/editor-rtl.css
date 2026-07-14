@@ -43,21 +43,88 @@
  * React Native specific.
  * These variables do not appear to be used anywhere else.
  */
+/**
+ * Typography
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/**
+ * Creates a checkerboard pattern background to indicate transparency.
+ * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
+ */
 .wp-block[data-align=center] > .wp-block-icon {
   display: flex;
   justify-content: center;
 }
 
-.wp-block-icon__inserter {
-  padding: 0 24px;
-  margin: 0 -24px;
+.wp-block-icon__inserter-sidebar {
+  padding-bottom: 24px;
+}
+@media (min-width: 782px) {
+  .wp-block-icon__inserter-sidebar {
+    overflow-x: visible;
+    overflow-y: auto;
+    position: absolute;
+    top: 72px;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    padding-top: 24px;
+    padding-inline: 24px;
+  }
 }
 
-.wp-block-icon__inserter-header {
-  align-items: center;
+@media (min-width: 782px) {
+  .wp-block-icon__inserter-panel {
+    margin-inline-start: 280px;
+  }
+}
+
+.wp-block-icon__inserter-loading {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  justify-content: center;
+  padding: 24px;
 }
 
 .wp-block-icon__inserter-grid-icons-list {
@@ -79,6 +146,11 @@
 .wp-block-icon__inserter-grid-icons-list-item-icon {
   padding: 12px;
 }
+.wp-block-icon__inserter-grid-icons-list-item-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
 
 .wp-block-icon__inserter-grid-icons-list-item-title {
   font-size: 12px;
@@ -86,6 +158,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 .wp-block-icon__toolbar-content {

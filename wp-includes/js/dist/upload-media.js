@@ -1108,7 +1108,7 @@ var wp;
       if (parentId) {
         const parentItem = select2.getItem(parentId);
         if (parentItem) {
-          const isOptionalCompanion = item.additionalData?.image_size === "animated-video" || item.additionalData?.image_size === "animated-video-poster";
+          const isOptionalCompanion = item.additionalData?.image_size === "animated_video" || item.additionalData?.image_size === "animated_video_poster";
           if (select2.hasPendingItemsByParentId(parentId)) {
             if (parentItem.operations && parentItem.operations.length > 0) {
               dispatch.processItem(parentId);
@@ -1644,7 +1644,8 @@ var wp;
       tileHeight: height,
       outputWidth: width,
       outputHeight: height,
-      rotation
+      rotation,
+      exifOrientation: rotation === 0 ? getUnappliedExifOrientation(buffer) : 1
     };
   }
   function parseGridImage(r, buffer, gridItemId, locations, allAssoc, properties, irefBox, idatOffset) {
@@ -1737,8 +1738,129 @@ var wp;
       tileHeight,
       outputWidth,
       outputHeight,
-      rotation
+      rotation,
+      exifOrientation: rotation === 0 ? getUnappliedExifOrientation(buffer) : 1
     };
+  }
+  function readTiffOrientation(payload) {
+    if (payload.length < 8) {
+      return 1;
+    }
+    const view = new DataView(
+      payload.buffer,
+      payload.byteOffset,
+      payload.byteLength
+    );
+    let tiffStart = 0;
+    const firstWord = view.getUint16(0);
+    if (firstWord !== 18761 && firstWord !== 19789) {
+      tiffStart = view.getUint32(0) + 4;
+    }
+    if (tiffStart + 8 > payload.length) {
+      return 1;
+    }
+    const byteOrder = view.getUint16(tiffStart);
+    let little;
+    if (byteOrder === 18761) {
+      little = true;
+    } else if (byteOrder === 19789) {
+      little = false;
+    } else {
+      return 1;
+    }
+    const ifd0 = tiffStart + view.getUint32(tiffStart + 4, little);
+    if (ifd0 + 2 > payload.length) {
+      return 1;
+    }
+    const entryCount = view.getUint16(ifd0, little);
+    for (let i = 0; i < entryCount; i++) {
+      const entry = ifd0 + 2 + i * 12;
+      if (entry + 12 > payload.length) {
+        break;
+      }
+      if (view.getUint16(entry, little) === 274) {
+        const value = view.getUint16(entry + 8, little);
+        return value >= 1 && value <= 8 ? value : 1;
+      }
+    }
+    return 1;
+  }
+  function findMeta(r) {
+    const metaBox = findBox(r, 0, r.view.byteLength, "meta");
+    if (!metaBox) {
+      return null;
+    }
+    const start = metaBox.offset + metaBox.headerSize + 4;
+    const end = metaBox.offset + metaBox.size;
+    return { box: metaBox, children: findBoxes(r, start, end) };
+  }
+  function parseExifOrientation(buffer) {
+    try {
+      const r = new Reader(buffer);
+      const meta = findMeta(r);
+      if (!meta) {
+        return 1;
+      }
+      const iinfBox = meta.children.find((b) => b.type === "iinf");
+      const ilocBox = meta.children.find((b) => b.type === "iloc");
+      if (!iinfBox || !ilocBox) {
+        return 1;
+      }
+      const itemTypes = parseIinf(r, iinfBox);
+      let exifItemId;
+      for (const [id, type] of itemTypes) {
+        if (type === "Exif") {
+          exifItemId = id;
+          break;
+        }
+      }
+      if (exifItemId === void 0) {
+        return 1;
+      }
+      const loc = parseIloc(r, ilocBox).get(exifItemId);
+      if (!loc || loc.extents.length === 0) {
+        return 1;
+      }
+      const idatBox = meta.children.find((b) => b.type === "idat");
+      const idatOffset = idatBox ? idatBox.offset + idatBox.headerSize : 0;
+      return readTiffOrientation(readItemData(buffer, loc, idatOffset));
+    } catch {
+      return 1;
+    }
+  }
+  function hasNativeTransform(r) {
+    const meta = findMeta(r);
+    if (!meta) {
+      return false;
+    }
+    const iprp = meta.children.find((b) => b.type === "iprp");
+    if (!iprp) {
+      return false;
+    }
+    const ipco = findBox(
+      r,
+      iprp.offset + iprp.headerSize,
+      iprp.offset + iprp.size,
+      "ipco"
+    );
+    if (!ipco) {
+      return false;
+    }
+    const start = ipco.offset + ipco.headerSize;
+    const end = ipco.offset + ipco.size;
+    return Boolean(
+      findBox(r, start, end, "irot") || findBox(r, start, end, "imir")
+    );
+  }
+  function getUnappliedExifOrientation(buffer) {
+    try {
+      if (hasNativeTransform(new Reader(buffer))) {
+        return 1;
+      }
+    } catch {
+      return 1;
+    }
+    return parseExifOrientation(buffer);
   }
 
   // packages/upload-media/build-module/canvas-utils.mjs
@@ -1828,7 +1950,10 @@ var wp;
               frame.close();
             }
           }
-          const outputCanvas = applyRotation(canvas, heicData.rotation);
+          const outputCanvas = heicData.rotation !== 0 ? applyRotation(canvas, heicData.rotation) : applyExifOrientation(
+            canvas,
+            heicData.exifOrientation
+          );
           const jpegBlob = await outputCanvas.convertToBlob({
             type: "image/jpeg",
             quality
@@ -1860,6 +1985,43 @@ var wp;
     ctx.rotate(-rotation * Math.PI / 180);
     ctx.drawImage(source, -source.width / 2, -source.height / 2);
     return rotated;
+  }
+  function applyExifOrientation(source, orientation) {
+    if (orientation <= 1 || orientation > 8) {
+      return source;
+    }
+    const { width: sw, height: sh } = source;
+    const swap = orientation >= 5;
+    const out = new OffscreenCanvas(swap ? sh : sw, swap ? sw : sh);
+    const ctx = out.getContext("2d");
+    if (!ctx) {
+      return source;
+    }
+    switch (orientation) {
+      case 2:
+        ctx.transform(-1, 0, 0, 1, sw, 0);
+        break;
+      case 3:
+        ctx.transform(-1, 0, 0, -1, sw, sh);
+        break;
+      case 4:
+        ctx.transform(1, 0, 0, -1, 0, sh);
+        break;
+      case 5:
+        ctx.transform(0, 1, 1, 0, 0, 0);
+        break;
+      case 6:
+        ctx.transform(0, 1, -1, 0, sh, 0);
+        break;
+      case 7:
+        ctx.transform(0, -1, -1, 0, sh, sw);
+        break;
+      case 8:
+        ctx.transform(0, -1, 1, 0, 0, sw);
+        break;
+    }
+    ctx.drawImage(source, 0, 0);
+    return out;
   }
   function decodeHevcFrame(codec, description, width, height, data) {
     return new Promise((resolve, reject) => {
@@ -2381,7 +2543,7 @@ var wp;
   function isValidImageFormat(format) {
     return VALID_IMAGE_FORMATS.includes(format);
   }
-  async function getTranscodeImageOperation(file, outputMimeType, interlaced = false) {
+  async function getTranscodeImageOperation(file, outputMimeType, interlaced = false, quality = DEFAULT_OUTPUT_QUALITY) {
     if (file.type === "image/png" && outputMimeType === "image/jpeg") {
       const blobUrl = (0, import_blob.createBlobURL)(file);
       try {
@@ -2403,7 +2565,7 @@ var wp;
       OperationType.TranscodeImage,
       {
         outputFormat: formatPart,
-        outputQuality: DEFAULT_OUTPUT_QUALITY,
+        outputQuality: quality,
         interlaced
       }
     ];
@@ -2663,7 +2825,8 @@ var wp;
           // smartCrop
           addSuffix,
           item.abortController?.signal,
-          scaledSuffix
+          scaledSuffix,
+          args.quality
         );
         measure({
           measureName: `ResizeCrop ${item.file.name}`,
@@ -2837,7 +3000,7 @@ var wp;
           parentId: item.parentId,
           additionalData: {
             post: item.additionalData?.post,
-            image_size: "animated-video-poster",
+            image_size: "animated_video_poster",
             convert_format: false
           },
           operations: [
@@ -2897,7 +3060,7 @@ var wp;
           parentId: item.id,
           additionalData: {
             post: attachment.id,
-            image_size: "original-heic",
+            image_size: "source_original",
             convert_format: false
           },
           operations: [OperationType.Upload]
@@ -2911,7 +3074,7 @@ var wp;
           parentId: item.id,
           additionalData: {
             post: attachment.id,
-            image_size: "animated-video",
+            image_size: "animated_video",
             convert_format: false
           },
           operations: [
@@ -2925,49 +3088,73 @@ var wp;
           ]
         });
       }
+      let exifOrientation = attachment.exif_orientation || 1;
+      const sourceType = item.sourceFile.type;
+      const isHeifFamily = sourceType === "image/avif" || sourceType === "image/heif";
+      let needsClientRotation = false;
+      if (isHeifFamily) {
+        exifOrientation = getUnappliedExifOrientation(
+          await item.sourceFile.arrayBuffer()
+        );
+        needsClientRotation = exifOrientation !== 1;
+      }
+      let rotatedSource;
       {
-        const needsRotation = attachment.exif_orientation && attachment.exif_orientation !== 1 && !item.file.name.includes("-scaled");
-        if (needsRotation && attachment.id) {
+        const needsRotation = exifOrientation !== 1 && !item.file.name.includes("-scaled");
+        if ((needsRotation || needsClientRotation) && attachment.id) {
           try {
-            const rotatedFile = await vipsRotateImage(
+            rotatedSource = await vipsRotateImage(
               item.id,
               item.sourceFile,
-              attachment.exif_orientation,
+              exifOrientation,
               item.abortController?.signal
             );
-            dispatch.addSideloadItem({
-              file: rotatedFile,
-              batchId: v4_default(),
-              parentId: item.id,
-              additionalData: {
-                post: attachment.id,
-                image_size: "original",
-                convert_format: false
-              },
-              operations: [OperationType.Upload]
-            });
           } catch {
             console.warn(
               "Failed to rotate image, continuing with thumbnails"
             );
           }
         }
+        if (needsRotation && rotatedSource && attachment.id) {
+          dispatch.addSideloadItem({
+            file: rotatedSource,
+            batchId: v4_default(),
+            parentId: item.id,
+            additionalData: {
+              post: attachment.id,
+              image_size: "original",
+              convert_format: false
+            },
+            operations: [OperationType.Upload]
+          });
+        }
       }
       if (!item.parentId && attachment.missing_image_sizes && attachment.missing_image_sizes.length > 0) {
         const allImageSizes = settings.allImageSizes || {};
         const sizesToGenerate = attachment.missing_image_sizes;
-        const thumbnailSource = item.sourceFile;
+        const thumbnailSource = needsClientRotation && rotatedSource ? rotatedSource : item.sourceFile;
         const file = attachment.filename ? renameFile(thumbnailSource, attachment.filename) : thumbnailSource;
         const batchId = v4_default();
         const isUltraHdr = ultraHdrItems.has(item.id);
         const outputMimeType = attachment.image_output_format;
         const interlaced = attachment.image_save_progressive ?? false;
+        const imageQuality = attachment.image_quality;
+        const fallbackQuality = settings.imageQuality ?? DEFAULT_OUTPUT_QUALITY;
+        const defaultQuality = typeof imageQuality?.default === "number" ? imageQuality.default / 100 : fallbackQuality;
+        const qualityForSize = (sizeName) => {
+          const sized = imageQuality?.sizes?.[sizeName];
+          if (typeof sized === "number") {
+            return sized / 100;
+          }
+          return defaultQuality;
+        };
         let thumbnailTranscodeOperation = null;
         if (!isUltraHdr && outputMimeType) {
           thumbnailTranscodeOperation = await getTranscodeImageOperation(
             thumbnailSource,
             outputMimeType,
-            interlaced
+            interlaced,
+            defaultQuality
           );
         }
         const dimensionGroups = /* @__PURE__ */ new Map();
@@ -2989,11 +3176,21 @@ var wp;
         }
         for (const [, names] of dimensionGroups) {
           const imageSize = allImageSizes[names[0]];
+          const sizeQuality = qualityForSize(names[0]);
           const thumbnailOperations = [
-            [OperationType.ResizeCrop, { resize: imageSize }]
+            [
+              OperationType.ResizeCrop,
+              { resize: imageSize, quality: sizeQuality }
+            ]
           ];
           if (!isUltraHdr && thumbnailTranscodeOperation) {
-            thumbnailOperations.push(thumbnailTranscodeOperation);
+            thumbnailOperations.push([
+              thumbnailTranscodeOperation[0],
+              {
+                ...thumbnailTranscodeOperation[1],
+                outputQuality: sizeQuality
+              }
+            ]);
           }
           thumbnailOperations.push(OperationType.Upload);
           const imageSizeParam = names.length === 1 ? names[0] : names;
@@ -3027,7 +3224,8 @@ var wp;
                       width: bigImageSizeThreshold,
                       height: bigImageSizeThreshold
                     },
-                    isThresholdResize: true
+                    isThresholdResize: true,
+                    quality: defaultQuality
                   }
                 ]
               ];

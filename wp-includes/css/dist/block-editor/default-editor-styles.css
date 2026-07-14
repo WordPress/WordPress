@@ -50,7 +50,7 @@
  * a theme.json file, or has toggled off "Use theme styles" in preferences.
  */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 18px;
   line-height: 1.5;
   --wp--style--block-gap: 2em;

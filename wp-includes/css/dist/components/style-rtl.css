@@ -167,6 +167,7 @@
   min-height: 36px;
   text-align: right;
   width: 100%;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 .components-autocomplete__result.components-button:focus:not(:disabled) {
   box-shadow: inset 0 0 0 1px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
@@ -238,7 +239,7 @@
   border-radius: 0;
   display: inline-flex;
   color: #1e1e1e;
-  box-shadow: inset 0 0 0 1px #1e1e1e;
+  border-color: #1e1e1e;
 }
 .components-button-group .components-button + .components-button {
   margin-right: -1px;
@@ -253,9 +254,6 @@
   position: relative;
   z-index: 1;
 }
-.components-button-group .components-button.is-primary {
-  box-shadow: inset 0 0 0 1px #1e1e1e;
-}
 
 /**
  * For easier testing of potential regressions, you can use a Button variant matrix
@@ -263,41 +261,38 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/test/storybook-playwright/README.md
  */
+.components-button:focus:is(a) {
+  box-shadow: none;
+}
+.components-button:focus:not(:active) {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+}
 .components-button {
   display: inline-flex;
   text-decoration: none;
   font-family: inherit;
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0;
-  border: 0;
   cursor: var(--wpds-cursor-control, pointer);
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   background: none;
-}
-@media not (prefers-reduced-motion) {
-  .components-button {
-    transition: box-shadow 0.1s linear;
-  }
-}
-.components-button {
   height: 36px;
   align-items: center;
   box-sizing: border-box;
   padding: 4px 12px;
   border-radius: 2px;
   color: var(--wp-components-color-foreground, var(--wpds-color-foreground-content-neutral, #1e1e1e));
+  border: 1px solid transparent;
 }
 .components-button.is-next-40px-default-size {
   height: 40px;
 }
 .components-button[aria-expanded=true], .components-button:hover:not(:disabled, [aria-disabled=true]) {
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-}
-.components-button:focus:not(:active) {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button {
   /**
@@ -310,7 +305,6 @@
   color: var(--wp-components-color-accent-inverted, var(--wpds-color-foreground-interactive-brand-strong, #fff));
   text-decoration: none;
   text-shadow: none;
-  outline: 1px solid transparent;
 }
 .components-button.is-primary:hover:not(:disabled) {
   background: var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6));
@@ -318,20 +312,11 @@
 }
 .components-button.is-primary:active:not(:disabled) {
   background: var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
-  border-color: var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
   color: var(--wp-components-color-accent-inverted, var(--wpds-color-foreground-interactive-brand-strong, #fff));
-}
-.components-button.is-primary:focus:not(:active) {
-  box-shadow: inset 0 0 0 1px var(--wp-components-color-background, var(--wpds-color-background-surface-neutral-strong, #fff)), 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button.is-primary:disabled, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary[aria-disabled=true], .components-button.is-primary[aria-disabled=true]:enabled, .components-button.is-primary[aria-disabled=true]:active:enabled {
   color: rgba(255, 255, 255, 0.4);
   background: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-  border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-  outline: none;
-}
-.components-button.is-primary:disabled:focus:enabled, .components-button.is-primary:disabled:active:enabled:focus:enabled, .components-button.is-primary[aria-disabled=true]:focus:enabled, .components-button.is-primary[aria-disabled=true]:enabled:focus:enabled, .components-button.is-primary[aria-disabled=true]:active:enabled:focus:enabled {
-  box-shadow: inset 0 0 0 1px var(--wp-components-color-background, var(--wpds-color-background-surface-neutral-strong, #fff)), 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button.is-primary.is-busy, .components-button.is-primary.is-busy:disabled, .components-button.is-primary.is-busy[aria-disabled=true] {
   color: var(--wp-components-color-accent-inverted, var(--wpds-color-foreground-interactive-brand-strong, #fff));
@@ -339,18 +324,11 @@
   /* stylelint-disable -- Disable reason: This function call looks nicer when each argument is on its own line. */
   background-image: linear-gradient(45deg, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 33%, var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6)) 33%, var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6)) 70%, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 70%);
   /* stylelint-enable */
-  border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-button {
   /**
    * Secondary and tertiary buttons.
    */
-}
-.components-button.is-secondary, .components-button.is-tertiary {
-  outline: 1px solid transparent;
-}
-.components-button.is-secondary:active:not(:disabled), .components-button.is-tertiary:active:not(:disabled) {
-  box-shadow: none;
 }
 .components-button.is-secondary:disabled, .components-button.is-secondary[aria-disabled=true], .components-button.is-secondary[aria-disabled=true]:hover, .components-button.is-tertiary:disabled, .components-button.is-tertiary[aria-disabled=true], .components-button.is-tertiary[aria-disabled=true]:hover {
   color: #949494;
@@ -362,23 +340,30 @@
    * Secondary button style.
    */
 }
+@media not (prefers-reduced-motion) {
+  .components-button.is-secondary {
+    transition: border-color 0.1s linear;
+  }
+}
 .components-button.is-secondary {
-  box-shadow: inset 0 0 0 1px var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)), 0 0 0 currentColor;
-  outline: 1px solid transparent;
+  border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   white-space: nowrap;
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   background: transparent;
 }
+.components-button.is-secondary:active:not(:disabled) {
+  border-color: transparent;
+}
 .components-button.is-secondary:hover:not(:disabled, [aria-disabled=true], .is-pressed) {
-  box-shadow: inset 0 0 0 1px var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
+  border-color: var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
   color: var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
   background: color-mix(in srgb, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 4%, transparent);
 }
-.components-button.is-secondary:disabled:not(:focus), .components-button.is-secondary[aria-disabled=true]:not(:focus), .components-button.is-secondary[aria-disabled=true]:hover:not(:focus) {
-  box-shadow: inset 0 0 0 1px var(--wpds-color-stroke-interactive-neutral-disabled, #dbdbdb);
-}
 .components-button.is-secondary:focus:not(:active) {
-  box-shadow: 0 0 0 currentColor inset, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+}
+.components-button.is-secondary:disabled:not(:focus), .components-button.is-secondary[aria-disabled=true]:not(:focus), .components-button.is-secondary[aria-disabled=true]:hover:not(:focus) {
+  border-color: var(--wpds-color-stroke-interactive-neutral-disabled, #dbdbdb);
 }
 .components-button {
   /**
@@ -400,10 +385,6 @@
 p + .components-button.is-tertiary {
   margin-right: -6px;
 }
-.components-button.is-tertiary:disabled:not(:focus), .components-button.is-tertiary[aria-disabled=true]:not(:focus), .components-button.is-tertiary[aria-disabled=true]:hover:not(:focus) {
-  box-shadow: none;
-  outline: none;
-}
 .components-button {
   /**
    * Destructive buttons.
@@ -419,9 +400,6 @@ p + .components-button.is-tertiary {
 }
 .components-button.is-destructive:not(.is-primary):not(.is-secondary):not(.is-tertiary):not(.is-link):hover:not(:disabled, [aria-disabled=true]) {
   color: rgb(112.7368421053, 13.2631578947, 13.2631578947);
-}
-.components-button.is-destructive:not(.is-primary):not(.is-secondary):not(.is-tertiary):not(.is-link):focus:not(:active) {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) #cc1818;
 }
 .components-button.is-destructive:not(.is-primary):not(.is-secondary):not(.is-tertiary):not(.is-link):active:not(:disabled, [aria-disabled=true]) {
   background: #ccc;
@@ -443,13 +421,12 @@ p + .components-button.is-tertiary {
 .components-button.is-link {
   margin: 0;
   padding: 0;
-  box-shadow: none;
   border: 0;
   border-radius: 0;
   background: none;
   outline: none;
   text-align: right;
-  font-weight: 400;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -465,14 +442,12 @@ p + .components-button.is-tertiary {
 .components-button.is-link {
   height: auto;
 }
-.components-button.is-link:focus {
+.components-button.is-link:focus:not(:active) {
   border-radius: 2px;
+  text-decoration: none;
 }
 .components-button.is-link:disabled, .components-button.is-link[aria-disabled=true] {
   color: #949494;
-}
-.components-button:focus {
-  outline: 3px solid transparent;
 }
 .components-button:not(:disabled, [aria-disabled=true]):active {
   color: var(--wp-components-color-foreground, var(--wpds-color-foreground-content-neutral, #1e1e1e));
@@ -534,6 +509,10 @@ p + .components-button.is-tertiary {
   padding-left: 8px;
   padding-right: 12px;
 }
+.components-button.has-icon:not(.has-text) svg,
+.components-button.has-icon:not(.has-text) .dashicon {
+  margin-inline: -1px;
+}
 .components-button.is-pressed, .components-button.is-pressed:hover {
   color: var(--wp-components-color-foreground-inverted, var(--wpds-color-background-surface-neutral, #fcfcfc));
 }
@@ -546,15 +525,6 @@ p + .components-button.is-tertiary {
 .components-button.is-pressed:disabled:not(.is-primary):not(.is-secondary):not(.is-tertiary), .components-button.is-pressed[aria-disabled=true]:not(.is-primary):not(.is-secondary):not(.is-tertiary) {
   color: var(--wp-components-color-foreground-inverted, var(--wpds-color-background-surface-neutral, #fcfcfc));
   background: #949494;
-}
-.components-button.is-pressed:focus:not(:active) {
-  box-shadow: inset 0 0 0 1px var(--wp-components-color-background, var(--wpds-color-background-surface-neutral-strong, #fff)), 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-}
-.components-button.is-pressed:focus {
-  outline: 2px solid transparent;
-}
-.components-button:focus:active {
-  outline: none;
 }
 .components-button svg {
   fill: currentColor;
@@ -580,7 +550,7 @@ p + .components-button.is-tertiary {
   color: var(--wp-components-color-foreground, var(--wpds-color-foreground-content-neutral, #1e1e1e));
   background-color: var(--wp-components-color-background, var(--wpds-color-background-surface-neutral-strong, #fff));
   font-size: 13px;
-  font-weight: 400;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   z-index: 0;
 }
 .components-calendar *,
@@ -959,7 +929,7 @@ p + .components-button.is-tertiary {
   margin-left: 12px;
   transition: none;
   border-radius: 2px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -1172,7 +1142,6 @@ svg.components-checkbox-control__indeterminate {
   left: 1px;
   border-radius: 50%;
   z-index: -1;
-  /* stylelint-disable-next-line function-url-quotes -- We need quotes for the data URL to use the SVG inline. */
   background: url('data:image/svg+xml,%3Csvg width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M6 8V6H4v2h2zM8 8V6h2v2H8zM10 16H8v-2h2v2zM12 16v-2h2v2h-2zM12 18v-2h-2v2H8v2h2v-2h2zM14 18v2h-2v-2h2zM16 18h-2v-2h2v2z" fill="%23555D65"/%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M18 18h2v-2h-2v-2h2v-2h-2v-2h2V8h-2v2h-2V8h-2v2h2v2h-2v2h2v2h2v2zm-2-4v-2h2v2h-2z" fill="%23555D65"/%3E%3Cpath d="M18 18v2h-2v-2h2z" fill="%23555D65"/%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M8 10V8H6v2H4v2h2v2H4v2h2v2H4v2h2v2H4v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2v2h-2V4h-2v2h-2V4h-2v2h-2V4h-2v2h2v2h-2v2H8zm0 2v-2H6v2h2zm2 0v-2h2v2h-2zm0 2v-2H8v2H6v2h2v2H6v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h-2v2h-2V6h-2v2h-2v2h2v2h-2v2h-2z" fill="%23555D65"/%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M4 0H2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2H8V0H6v2H4V0zm0 4V2H2v2h2zm2 0V2h2v2H6zm0 2V4H4v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2H8v2H6z" fill="%23555D65"/%3E%3C/svg%3E');
 }
 
@@ -1300,7 +1269,7 @@ input.components-combobox-control__input[type=text]:focus {
 }
 
 .components-combobox-control__suggestions-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -1549,7 +1518,7 @@ input.components-combobox-control__input[type=text]:focus {
 }
 
 .components-drop-zone__content-text {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
 
@@ -1588,7 +1557,7 @@ input.components-combobox-control__input[type=text]:focus {
 
 .components-dropdown-menu__menu {
   width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   line-height: 1.4;
 }
@@ -1599,7 +1568,7 @@ input.components-combobox-control__input[type=text]:focus {
   outline: none;
   cursor: var(--wpds-cursor-control, pointer);
   white-space: nowrap;
-  font-weight: 400;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 .components-dropdown-menu__menu .components-dropdown-menu__menu-item.has-separator,
 .components-dropdown-menu__menu .components-menu-item.has-separator {
@@ -1708,7 +1677,7 @@ input.components-combobox-control__input[type=text]:focus {
   line-height: 1;
   display: inline-block;
   margin-inline-start: var(--wpds-dimension-padding-xs, 4px);
-  font-weight: var(--wpds-typography-font-weight-regular, 400);
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 
 .components-form-toggle {
@@ -1846,7 +1815,7 @@ input.components-combobox-control__input[type=text]:focus {
 }
 
 .components-form-token-field__input-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -2206,14 +2175,14 @@ input.components-combobox-control__input[type=text]:focus {
   color: #757575;
   text-transform: uppercase;
   font-size: 11px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   white-space: nowrap;
 }
 
 .components-menu-item__button,
 .components-menu-item__button.components-button {
   width: 100%;
-  font-weight: 400;
+  font-weight: var(--wpds-typography-font-weight-default, 400);
 }
 .components-menu-item__button[role=menuitemradio] .components-menu-item__item:only-child, .components-menu-item__button[role=menuitemcheckbox] .components-menu-item__item:only-child,
 .components-menu-item__button.components-button[role=menuitemradio] .components-menu-item__item:only-child,
@@ -2499,7 +2468,7 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-modal__header .components-modal__header-heading {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .components-modal__header h1 {
   line-height: 1;
@@ -2693,13 +2662,10 @@ input.components-combobox-control__input[type=text]:focus {
 .components-panel__body-toggle.components-button {
   position: relative;
   padding: 16px 16px 16px 48px;
-  outline: none;
   width: 100%;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   text-align: right;
   color: #1e1e1e;
-  border: none;
-  box-shadow: none;
 }
 @media not (prefers-reduced-motion) {
   .components-panel__body-toggle.components-button {
@@ -2710,7 +2676,7 @@ input.components-combobox-control__input[type=text]:focus {
   height: auto;
 }
 .components-panel__body-toggle.components-button:focus {
-  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  outline-offset: calc(var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) * -1);
   border-radius: 0;
 }
 .components-panel__body-toggle.components-button .components-panel__arrow {
@@ -2796,7 +2762,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 .components-placeholder__instructions,
 .components-placeholder__label,
 .components-placeholder__fieldset {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   letter-spacing: initial;
   line-height: initial;
@@ -2805,7 +2771,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 
 .components-placeholder__label {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   align-items: center;
   display: flex;
 }
@@ -2837,7 +2803,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 .components-placeholder__fieldset p,
 .components-placeholder__fieldset form p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
 
@@ -2847,7 +2813,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 
 .components-placeholder__input[type=url] {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -3109,7 +3075,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   border: 0;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
 
@@ -3429,7 +3395,7 @@ body.lockscroll {
 }
 
 .components-snackbar {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(16px) saturate(180%);
@@ -3525,7 +3491,7 @@ body.lockscroll {
   cursor: var(--wpds-cursor-control, pointer);
   padding: 3px var(--wpds-dimension-padding-lg, 16px);
   margin-right: 0;
-  font-weight: var(--wpds-typography-font-weight-regular, 400);
+  font-weight: var(--wpds-typography-font-weight-default, 400);
   color: var(--wpds-color-foreground-interactive-neutral, #1e1e1e);
 }
 .components-tab-panel__tabs-item:disabled, .components-tab-panel__tabs-item[aria-disabled=true] {
@@ -3616,7 +3582,7 @@ body.lockscroll {
   margin: 0;
   background: var(--wp-components-color-background, var(--wpds-color-background-surface-neutral-strong, #fff));
   color: var(--wp-components-color-foreground, var(--wpds-color-foreground-content-neutral, #1e1e1e));
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
   font-size: 16px;
@@ -3869,9 +3835,9 @@ body.lockscroll {
 }
 .components-toolbar__control.components-button[data-subscript]::after {
   content: attr(data-subscript);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   line-height: 12px;
   position: absolute;
   left: 8px;
@@ -3952,7 +3918,7 @@ div.components-toolbar > div + div.has-left-divider::before {
 
 .components-tooltip {
   background: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   border-radius: var(--wpds-border-radius-md, 4px);
   color: #f0f0f0;
   text-align: center;
@@ -3994,6 +3960,10 @@ div.components-toolbar > div + div.has-left-divider::before {
   --wp-components-color-accent: #cc1818;
   border-color: #cc1818;
 }
+.components-validated-control__wrapper-with-error-delegate:has(input:invalid[data-validity-visible]) .components-validated-control__content-editable [role=textbox] {
+  --wp-components-color-accent: #cc1818;
+  border-color: #cc1818;
+}
 
 .components-validated-control__error-delegate {
   position: absolute;
@@ -4009,7 +3979,7 @@ div.components-toolbar > div + div.has-left-divider::before {
   align-items: flex-start;
   gap: 4px;
   margin: 8px 0 0;
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 12px;
   line-height: 16px;
   color: var(--wp-components-color-gray-700, var(--wpds-color-foreground-content-neutral-weak, #707070));

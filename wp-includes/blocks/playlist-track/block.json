@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/playlist-track",
+	"title": "Playlist track",
+	"category": "media",
+	"parent": [ "core/playlist" ],
+	"description": "Playlist track.",
+	"keywords": [ "music", "sound" ],
+	"textdomain": "default",
+	"usesContext": [ "showArtists", "showImages" ],
+	"attributes": {
+		"blob": {
+			"type": "string",
+			"role": "local"
+		},
+		"id": {
+			"type": "number"
+		},
+		"src": {
+			"type": "string"
+		},
+		"type": {
+			"type": "string",
+			"default": "audio"
+		},
+		"album": {
+			"type": "string"
+		},
+		"artist": {
+			"type": "string"
+		},
+		"image": {
+			"type": "string"
+		},
+		"imageAlt": {
+			"type": "string"
+		},
+		"length": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false,
+		"interactivity": {
+			"clientNavigation": true
+		},
+		"reusable": false
+	},
+	"style": "wp-block-playlist-track"
+}

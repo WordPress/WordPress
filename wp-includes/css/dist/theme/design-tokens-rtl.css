@@ -105,8 +105,10 @@
   --wpds-color-background-thumb-brand: #3858e9;
   /* Background color for thumbs with a brand tone and normal emphasis (eg. slider thumb and filled track) that are hovered, focused, or active. */
   --wpds-color-background-thumb-brand-active: #3858e9;
-  /* Background color for thumbs with normal emphasis (eg. slider thumb and filled track), in their disabled state, regardless of the tone. */
-  --wpds-color-background-thumb-neutral-disabled: #dbdbdb;
+  /* Background color for thumbs with a brand tone and normal emphasis (eg. slider thumb and filled track), in their disabled state. */
+  --wpds-color-background-thumb-brand-disabled: #dbdbdb;
+  /* Background color for thumbs with a neutral tone and weak emphasis (eg. scrollbar thumb), in their disabled state. */
+  --wpds-color-background-thumb-neutral-weak-disabled: #dbdbdb;
   /* Foreground color for content like text with normal emphasis. */
   --wpds-color-foreground-content-neutral: #1e1e1e;
   /* Foreground color for content like text with weak emphasis. */
@@ -145,6 +147,8 @@
   --wpds-color-foreground-interactive-neutral-strong-disabled: #8d8d8d;
   /* Foreground color for interactive elements with neutral tone and weak emphasis. */
   --wpds-color-foreground-interactive-neutral-weak: #707070;
+  /* Foreground color for interactive elements with neutral tone and weak emphasis that are hovered, focused, or active. */
+  --wpds-color-foreground-interactive-neutral-weak-active: #1e1e1e;
   /* Foreground color for interactive elements with neutral tone and weak emphasis, in their disabled state. */
   --wpds-color-foreground-interactive-neutral-weak-disabled: #8d8d8d;
   /* Foreground color for interactive elements with brand tone and normal emphasis. */
@@ -283,18 +287,6 @@
   --wpds-dimension-surface-width-xl: 720px;
   /* 2x extra large surface width */
   --wpds-dimension-surface-width-2xl: 960px;
-  /* For sections and containers that group related content and controls, which may overlap other content. Example: Preview Frame. */
-  --wpds-elevation-xs: 0px 1px 1px 0px #00000008, 0px 1px 2px 0px #00000005,
-  	0px 3px 3px 0px #00000005, 0px 4px 4px 0px #00000003;
-  /* For components that provide contextual feedback without being intrusive. Generally non-interruptive. Example: Tooltips, Snackbar. */
-  --wpds-elevation-sm: 0px 1px 2px 0px #0000000d, 0px 2px 3px 0px #0000000a,
-  	0px 6px 6px 0px #00000008, 0px 8px 8px 0px #00000005;
-  /* For components that offer additional actions. Example: Menus, Command Palette */
-  --wpds-elevation-md: 0px 2px 3px 0px #0000000d, 0px 4px 5px 0px #0000000a,
-  	0px 12px 12px 0px #00000008, 0px 16px 16px 0px #00000005;
-  /* For components that confirm decisions or handle necessary interruptions. Example: Modals. */
-  --wpds-elevation-lg: 0px 5px 15px 0px #00000014, 0px 15px 27px 0px #00000012,
-  	0px 30px 36px 0px #0000000a, 0px 50px 43px 0px #00000005;
   /* Micro-delays and transition offsets */
   --wpds-motion-duration-xs: 50ms;
   /* Micro-interactions like focus rings and state changes */
@@ -345,10 +337,10 @@
   --wpds-typography-line-height-xl: 32px;
   /* 2X large line height */
   --wpds-typography-line-height-2xl: 40px;
-  /* Regular font weight for body text */
-  --wpds-typography-font-weight-regular: 400;
-  /* Medium font weight for emphasis and headings */
-  --wpds-typography-font-weight-medium: 499;
+  /* Baseline text weight for body copy and UI text */
+  --wpds-typography-font-weight-default: 400;
+  /* Elevated text weight for labels, controls, and headings */
+  --wpds-typography-font-weight-emphasis: 600;
 }
 
 @media (min-resolution: 192dpi) {

@@ -44,6 +44,7 @@ function block_core_latest_posts_get_excerpt_length() {
  */
 function render_block_core_latest_posts( $attributes ) {
 	global $post, $block_core_latest_posts_excerpt_length;
+	static $rendering_stack = array();
 
 	$args = array(
 		'posts_per_page'      => $attributes['postsToShow'],
@@ -64,18 +65,23 @@ function render_block_core_latest_posts( $attributes ) {
 		$args['author'] = $attributes['selectedAuthor'];
 	}
 
-	$query        = new WP_Query();
-	$recent_posts = $query->query( $args );
+	$query = new WP_Query( $args );
 
 	if ( isset( $attributes['displayFeaturedImage'] ) && $attributes['displayFeaturedImage'] ) {
 		update_post_thumbnail_cache( $query );
 	}
 
 	$list_items_markup = '';
+	// Snapshot the current global post so it can be restored after the loop.
+	// We use have_posts()/the_post() rather than foreach so that setup_postdata()
+	// is called for each post, establishing the correct global context for
+	// do_blocks() and other filters that run during full-content rendering.
+	$previous_post = $post ?? null;
 
-	foreach ( $recent_posts as $post ) {
-		$post_link = esc_url( get_permalink( $post ) );
-		$title     = get_the_title( $post );
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_link = esc_url( get_permalink() );
+		$title     = get_the_title();
 
 		if ( ! $title ) {
 			$title = __( '(no title)' );
@@ -83,7 +89,7 @@ function render_block_core_latest_posts( $attributes ) {
 
 		$list_items_markup .= '<li>';
 
-		if ( $attributes['displayFeaturedImage'] && has_post_thumbnail( $post ) ) {
+		if ( $attributes['displayFeaturedImage'] && has_post_thumbnail() ) {
 			$image_style = '';
 			if ( isset( $attributes['featuredImageSizeWidth'] ) ) {
 				$image_style .= sprintf( 'max-width:%spx;', $attributes['featuredImageSizeWidth'] );
@@ -98,7 +104,7 @@ function render_block_core_latest_posts( $attributes ) {
 			}
 
 			$featured_image = get_the_post_thumbnail(
-				$post,
+				null,
 				$attributes['featuredImageSizeSlug'],
 				array(
 					'style' => esc_attr( $image_style ),
@@ -126,7 +132,7 @@ function render_block_core_latest_posts( $attributes ) {
 		);
 
 		if ( isset( $attributes['displayAuthor'] ) && $attributes['displayAuthor'] ) {
-			$author_display_name = get_the_author_meta( 'display_name', $post->post_author );
+			$author_display_name = get_the_author_meta( 'display_name' );
 
 			/* translators: byline. %s: author. */
 			$byline = sprintf( __( 'by %s' ), $author_display_name );
@@ -142,15 +148,15 @@ function render_block_core_latest_posts( $attributes ) {
 		if ( isset( $attributes['displayPostDate'] ) && $attributes['displayPostDate'] ) {
 			$list_items_markup .= sprintf(
 				'<time datetime="%1$s" class="wp-block-latest-posts__post-date">%2$s</time>',
-				esc_attr( get_the_date( 'c', $post ) ),
-				get_the_date( '', $post )
+				esc_attr( get_the_date( 'c' ) ),
+				get_the_date( '' )
 			);
 		}
 
 		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
 			&& isset( $attributes['displayPostContentRadio'] ) && 'excerpt' === $attributes['displayPostContentRadio'] ) {
 
-			$trimmed_excerpt = get_the_excerpt( $post );
+			$trimmed_excerpt = get_the_excerpt();
 
 			/*
 			 * Adds a "Read more" link with screen reader text.
@@ -170,7 +176,7 @@ function render_block_core_latest_posts( $attributes ) {
 				}
 			}
 
-			if ( post_password_required( $post ) ) {
+			if ( post_password_required() ) {
 				$trimmed_excerpt = __( 'This content is password protected.' );
 			}
 
@@ -183,19 +189,43 @@ function render_block_core_latest_posts( $attributes ) {
 		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
 			&& isset( $attributes['displayPostContentRadio'] ) && 'full_post' === $attributes['displayPostContentRadio'] ) {
 
-			$post_content = html_entity_decode( $post->post_content, ENT_QUOTES, get_option( 'blog_charset' ) );
-
-			if ( post_password_required( $post ) ) {
+			if ( post_password_required() ) {
 				$post_content = __( 'This content is password protected.' );
+			} else {
+				$post_id      = get_the_ID();
+				$post_content = get_post_field( 'post_content', $post_id, 'raw' );
+				// Check if we're already rendering this post to prevent infinite recursion.
+				if ( in_array( $post_id, $rendering_stack, true ) ) {
+					$post_content = '';
+				} else {
+					$rendering_stack[] = $post_id;
+
+					try {
+						// Run through the actions that are typically taken on the_content.
+						$post_content = _wp_apply_block_content_filters( $post_content, 'latest-posts' );
+					} finally {
+						array_pop( $rendering_stack );
+					}
+				}
 			}
 
+			$post_content       = str_replace( ']]>', ']]&gt;', $post_content );
 			$list_items_markup .= sprintf(
 				'<div class="wp-block-latest-posts__post-full-content">%1$s</div>',
-				wp_kses_post( $post_content )
+				$post_content
 			);
 		}
 
 		$list_items_markup .= "</li>\n";
+	}
+
+	// Restore the post context that was active before this secondary query.
+	// wp_reset_postdata() is intentionally not used here: when this block is
+	// rendered inside another post's content (e.g. via do_blocks()), it would
+	// restore to the main query post rather than the outer rendering post.
+	$post = $previous_post;
+	if ( $previous_post instanceof WP_Post ) {
+		setup_postdata( $previous_post );
 	}
 
 	remove_filter( 'excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20 );

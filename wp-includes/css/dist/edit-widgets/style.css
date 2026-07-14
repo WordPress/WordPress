@@ -251,7 +251,7 @@
 
 .interface-complementary-area h2 {
   font-size: 13px;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #1e1e1e;
   margin-bottom: 1.5em;
 }
@@ -259,7 +259,7 @@
 .interface-complementary-area h3 {
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 499;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: #1e1e1e;
   margin-bottom: 1.5em;
 }
@@ -547,7 +547,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   margin-right: auto;
 }
 .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   margin: 0;
   height: 48px;
   position: relative;
@@ -736,7 +736,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 }
 .edit-widgets-keyboard-shortcut-help-modal__section-title {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .edit-widgets-keyboard-shortcut-help-modal__shortcut {
   display: flex;
@@ -752,7 +752,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
   display: none;
 }
 .edit-widgets-keyboard-shortcut-help-modal__shortcut-term {
-  font-weight: 600;
+  font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   margin: 0 0 0 1rem;
   text-align: right;
 }
@@ -844,7 +844,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
      object-fit: cover;
 }
 .edit-widgets-welcome-guide__heading {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 24px;
   line-height: 1.4;
   margin: 16px 0 16px 0;
@@ -866,7 +866,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 
 .edit-widgets-block-editor {
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -881,7 +881,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
   height: 100%;
 }
 .edit-widgets-block-editor .components-button {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
 .edit-widgets-block-editor .components-button.is-tertiary, .edit-widgets-block-editor .components-button.has-icon {

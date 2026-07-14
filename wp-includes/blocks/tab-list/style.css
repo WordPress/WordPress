@@ -1,0 +1,35 @@
+:where(.wp-block-tab-list button) {
+  box-sizing: border-box;
+  color: inherit;
+  display: block;
+  width: -moz-max-content;
+  width: max-content;
+  text-decoration: none;
+  cursor: pointer;
+  flex-basis: inherit !important;
+  flex-grow: inherit !important;
+  position: relative;
+  border: none;
+  background: none;
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: var(--wp--preset--spacing--20, 0.5em) var(--wp--preset--spacing--30, 1em);
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+}
+:where(.wp-block-tab-list button)[aria-selected=true]::before {
+  content: "";
+  position: absolute;
+  border-bottom: 2px solid currentColor;
+  pointer-events: none;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}

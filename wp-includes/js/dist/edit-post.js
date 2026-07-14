@@ -73,13 +73,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/hooks
-  var require_hooks = __commonJS({
-    "package-external:@wordpress/hooks"(exports, module) {
-      module.exports = window.wp.hooks;
-    }
-  });
-
   // package-external:@wordpress/widgets
   var require_widgets = __commonJS({
     "package-external:@wordpress/widgets"(exports, module) {
@@ -382,6 +375,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/hooks
+  var require_hooks = __commonJS({
+    "package-external:@wordpress/hooks"(exports, module) {
+      module.exports = window.wp.hooks;
+    }
+  });
+
   // package-external:@wordpress/keycodes
   var require_keycodes = __commonJS({
     "package-external:@wordpress/keycodes"(exports, module) {
@@ -407,15 +407,14 @@ var wp;
     reinitializeEditor: () => reinitializeEditor,
     store: () => store
   });
-  var import_blocks3 = __toESM(require_blocks(), 1);
+  var import_blocks2 = __toESM(require_blocks(), 1);
   var import_block_library2 = __toESM(require_block_library(), 1);
   var import_deprecated4 = __toESM(require_deprecated(), 1);
   var import_element29 = __toESM(require_element(), 1);
-  var import_data26 = __toESM(require_data(), 1);
+  var import_data25 = __toESM(require_data(), 1);
   var import_preferences11 = __toESM(require_preferences(), 1);
-  var import_hooks2 = __toESM(require_hooks(), 1);
   var import_widgets = __toESM(require_widgets(), 1);
-  var import_editor20 = __toESM(require_editor(), 1);
+  var import_editor19 = __toESM(require_editor(), 1);
   var import_core_data9 = __toESM(require_core_data(), 1);
   var import_api_fetch2 = __toESM(require_api_fetch(), 1);
 
@@ -8940,7 +8939,7 @@ var wp;
   }
   var resets_default = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle3("789467362f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+    registerStyle3("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
   }
   var style_default2 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
   var Positioner = (0, import_element13.forwardRef)(
@@ -9046,7 +9045,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle4("789467362f", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--wpds-elevation-sm,0 1px 2px 0 #0000000d,0 2px 3px 0 #0000000a,0 6px 6px 0 #00000008,0 8px 8px 0 #00000005);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
+    registerStyle4("19fcc06039", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._480b748dd3510e64__positioner{z-index:var(--wp-ui-tooltip-z-index,initial)}._50096b232db7709d__popup{--_wp-ui-elevation-sm:0 1px 2px rgba(0,0,0,.05),0 2px 3px rgba(0,0,0,.04),0 6px 6px rgba(0,0,0,.03),0 8px 8px rgba(0,0,0,.02);background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border-radius:var(--wpds-border-radius-md,4px);box-shadow:var(--_wp-ui-elevation-sm);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);line-height:1.4;padding:var(--wpds-dimension-padding-xs,4px) var(--wpds-dimension-padding-sm,8px);@media (forced-colors:active){border-bottom-color:CanvasText;border-bottom-style:solid;border-bottom-width:1px;border-left-color:CanvasText;border-left-style:solid;border-left-width:1px;border-right-color:CanvasText;border-right-style:solid;border-right-width:1px;border-top-color:CanvasText;border-top-style:solid;border-top-width:1px}}}}');
   }
   var style_default3 = { "positioner": "_480b748dd3510e64__positioner", "popup": "_50096b232db7709d__popup" };
   var POPUP_COLOR = { background: "#1e1e1e" };
@@ -9216,9 +9215,9 @@ var wp;
   var navigable_region_default = NavigableRegion;
 
   // packages/edit-post/build-module/components/layout/index.mjs
-  var import_editor18 = __toESM(require_editor(), 1);
-  var import_data25 = __toESM(require_data(), 1);
-  var import_block_editor2 = __toESM(require_block_editor(), 1);
+  var import_editor17 = __toESM(require_editor(), 1);
+  var import_data24 = __toESM(require_data(), 1);
+  var import_block_editor = __toESM(require_block_editor(), 1);
 
   // packages/global-styles-engine/build-module/utils/common.mjs
   var import_style_engine = __toESM(require_style_engine(), 1);
@@ -9566,25 +9565,17 @@ var wp;
       post_type: postType.slug
     });
     const buttonLabel = postType?.labels?.view_items ?? (0, import_i18n.__)("Back");
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "edit-post-fullscreen-mode-close__view-mode-toggle", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
-        import_components.Button,
-        {
-          __next40pxDefaultSize: true,
-          className: "edit-post-fullscreen-mode-close",
-          href: buttonHref,
-          label: buttonLabel,
-          showTooltip,
-          tooltipPosition: "bottom"
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "edit-post-fullscreen-mode-close__back-icon", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
-        import_components.Icon,
-        {
-          icon: icon ?? ((0, import_i18n.isRTL)() ? chevron_right_default : chevron_left_default)
-        }
-      ) })
-    ] });
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+      import_components.Button,
+      {
+        size: "compact",
+        href: buttonHref,
+        label: buttonLabel,
+        showTooltip,
+        tooltipPosition: "bottom",
+        icon: icon ?? ((0, import_i18n.isRTL)() ? chevron_right_default : chevron_left_default)
+      }
+    );
   }
   var fullscreen_mode_close_default = FullscreenModeClose;
 
@@ -11004,41 +10995,13 @@ var wp;
     });
   }
 
-  // packages/edit-post/build-module/components/layout/use-should-iframe.mjs
-  var import_editor15 = __toESM(require_editor(), 1);
-  var import_data22 = __toESM(require_data(), 1);
-  var import_blocks2 = __toESM(require_blocks(), 1);
-  var import_block_editor = __toESM(require_block_editor(), 1);
-  var isGutenbergPlugin = false ? true : false;
-  function useShouldIframe() {
-    return (0, import_data22.useSelect)((select3) => {
-      const { getCurrentPostType, getDeviceType } = select3(import_editor15.store);
-      const { getClientIdsWithDescendants, getBlockName } = select3(import_block_editor.store);
-      const { getBlockType } = select3(import_blocks2.store);
-      return (
-        // If the Gutenberg plugin is active, we ALWAYS use the iframe for
-        // consistency across the post and site editor. We plan on enforcing
-        // the iframe in the future, so Gutenberg both serves as way for us
-        // to warn plugin developers and for plugin developers to test their
-        // blocks easily. Before GB v22.5, we only enforced it for
-        // block-based themes (classic themes used the same rules as core).
-        isGutenbergPlugin || // We also still want to iframe all the special
-        // editor features and modes such as device previews, zoom out, and
-        // template/pattern editing.
-        getDeviceType() !== "Desktop" || ["wp_template", "wp_block"].includes(getCurrentPostType()) || unlock2(select3(import_block_editor.store)).isZoomOut() || // Finally, still iframe the editor if all present blocks are v3
-        // (which means they are marked as iframe-compatible).
-        [...new Set(getClientIdsWithDescendants().map(getBlockName))].map(getBlockType).filter(Boolean).every((blockType) => blockType.apiVersion >= 3)
-      );
-    }, []);
-  }
-
   // packages/edit-post/build-module/hooks/use-navigate-to-entity-record.mjs
   var import_element26 = __toESM(require_element(), 1);
-  var import_data23 = __toESM(require_data(), 1);
-  var import_editor16 = __toESM(require_editor(), 1);
+  var import_data22 = __toESM(require_data(), 1);
+  var import_editor15 = __toESM(require_editor(), 1);
   var import_core_data6 = __toESM(require_core_data(), 1);
   function useNavigateToEntityRecord(initialPostId, initialPostType, defaultRenderingMode) {
-    const registry = (0, import_data23.useRegistry)();
+    const registry = (0, import_data22.useRegistry)();
     const [postHistory, dispatch2] = (0, import_element26.useReducer)(
       (historyState, { type, post: post2, previousRenderingMode: previousRenderingMode2, selectedBlockClientId }) => {
         if (type === "push") {
@@ -11064,9 +11027,9 @@ var wp;
       ]
     );
     const { post, previousRenderingMode } = postHistory[postHistory.length - 1];
-    const { getRenderingMode } = (0, import_data23.useSelect)(import_editor16.store);
-    const { setRenderingMode } = (0, import_data23.useDispatch)(import_editor16.store);
-    const { editEntityRecord } = (0, import_data23.useDispatch)(import_core_data6.store);
+    const { getRenderingMode } = (0, import_data22.useSelect)(import_editor15.store);
+    const { setRenderingMode } = (0, import_data22.useDispatch)(import_editor15.store);
+    const { editEntityRecord } = (0, import_data22.useDispatch)(import_core_data6.store);
     const onNavigateToEntityRecord = (0, import_element26.useCallback)(
       (params) => {
         const entityEdits = registry.select(import_core_data6.store).getEntityRecordEdits("postType", post.postType, post.postId);
@@ -11131,8 +11094,8 @@ var wp;
   }
 
   // packages/edit-post/build-module/components/meta-boxes/use-meta-box-initialization.mjs
-  var import_data24 = __toESM(require_data(), 1);
-  var import_editor17 = __toESM(require_editor(), 1);
+  var import_data23 = __toESM(require_data(), 1);
+  var import_editor16 = __toESM(require_editor(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
   var import_element27 = __toESM(require_element(), 1);
   var useMetaBoxInitialization = (enabled) => {
@@ -11141,12 +11104,12 @@ var wp;
       isCollaborationEnabled,
       hasIncompatibleMetaBoxes,
       hasActiveMetaBoxes
-    } = (0, import_data24.useSelect)(
+    } = (0, import_data23.useSelect)(
       (select3) => {
         const {
           __unstableIsEditorReady,
           isCollaborationEnabledForCurrentPost
-        } = unlock2(select3(import_editor17.store));
+        } = unlock2(select3(import_editor16.store));
         return {
           isEnabledAndEditorReady: enabled && __unstableIsEditorReady(),
           isCollaborationEnabled: isCollaborationEnabledForCurrentPost(),
@@ -11156,9 +11119,9 @@ var wp;
       },
       [enabled]
     );
-    const { setCollaborationSupported } = unlock2((0, import_data24.useDispatch)(import_core_data7.store));
-    const { updateEditorSettings } = (0, import_data24.useDispatch)(import_editor17.store);
-    const { initializeMetaBoxes: initializeMetaBoxes2 } = (0, import_data24.useDispatch)(store);
+    const { setCollaborationSupported } = unlock2((0, import_data23.useDispatch)(import_core_data7.store));
+    const { updateEditorSettings } = (0, import_data23.useDispatch)(import_editor16.store);
+    const { initializeMetaBoxes: initializeMetaBoxes2 } = (0, import_data23.useDispatch)(store);
     (0, import_element27.useEffect)(() => {
       if (isEnabledAndEditorReady) {
         initializeMetaBoxes2();
@@ -11184,7 +11147,7 @@ var wp;
   var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
   var { useCommandContext } = unlock2(import_commands2.privateApis);
   var { useDrag } = unlock2(import_components9.privateApis);
-  var { Editor, FullscreenMode, UploadProgressSnackbar } = unlock2(import_editor18.privateApis);
+  var { Editor, FullscreenMode, UploadProgressSnackbar } = unlock2(import_editor17.privateApis);
   var { BlockKeyboardShortcuts } = unlock2(import_block_library.privateApis);
   var DESIGN_POST_TYPES = [
     "wp_template",
@@ -11193,7 +11156,7 @@ var wp;
     "wp_navigation"
   ];
   function useEditorStyles(settings) {
-    const { hasThemeStyleSupport } = (0, import_data25.useSelect)((select3) => {
+    const { hasThemeStyleSupport } = (0, import_data24.useSelect)((select3) => {
       return {
         hasThemeStyleSupport: select3(store).isFeatureActive("themeStyles")
       };
@@ -11226,8 +11189,8 @@ var wp;
       hasThemeStyleSupport
     ]);
   }
-  function MetaBoxesMain({ isLegacy }) {
-    const [isOpen, openHeight, hasAnyVisible] = (0, import_data25.useSelect)((select3) => {
+  function MetaBoxesMain() {
+    const [isOpen, openHeight, hasAnyVisible] = (0, import_data24.useSelect)((select3) => {
       const { get } = select3(import_preferences10.store);
       const { isMetaBoxLocationVisible: isMetaBoxLocationVisible2 } = select3(store);
       return [
@@ -11236,7 +11199,7 @@ var wp;
         isMetaBoxLocationVisible2("normal") || isMetaBoxLocationVisible2("advanced") || isMetaBoxLocationVisible2("side")
       ];
     }, []);
-    const { set: setPreference } = (0, import_data25.useDispatch)(import_preferences10.store);
+    const { set: setPreference } = (0, import_data24.useDispatch)(import_preferences10.store);
     const isShort = (0, import_compose2.useMediaQuery)("(max-height: 549px)");
     const [{ min: min2 = 0, max: max2 }, setHeightConstraints] = (0, import_element28.useState)(() => ({}));
     const effectSizeConstraints = (0, import_compose2.useRefEffect)((node) => {
@@ -11341,16 +11304,13 @@ var wp;
       "div",
       {
         className: "edit-post-layout__metaboxes edit-post-meta-boxes-main__liner",
-        hidden: !isLegacy && !isOpen,
+        hidden: !isOpen,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(MetaBoxes, { location: "normal" }),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(MetaBoxes, { location: "advanced" })
         ]
       }
     );
-    if (isLegacy) {
-      return contents;
-    }
     const isAutoHeight = openHeight === void 0;
     const usedOpenHeight = isShort ? "auto" : openHeight;
     const usedHeight = isOpen ? usedOpenHeight : min2;
@@ -11423,8 +11383,7 @@ var wp;
     initialEdits
   }) {
     useCommands();
-    const shouldIframe = useShouldIframe();
-    const { createErrorNotice } = (0, import_data25.useDispatch)(import_notices3.store);
+    const { createErrorNotice } = (0, import_data24.useDispatch)(import_notices3.store);
     const {
       currentPost: { postId: currentPostId, postType: currentPostType },
       onNavigateToEntityRecord,
@@ -11446,7 +11405,7 @@ var wp;
       showMetaBoxes,
       isWelcomeGuideVisible,
       templateId
-    } = (0, import_data25.useSelect)(
+    } = (0, import_data24.useSelect)(
       (select3) => {
         const { get } = select3(import_preferences10.store);
         const { isFeatureActive: isFeatureActive2, hasMetaBoxes: hasMetaBoxes2 } = select3(store);
@@ -11460,10 +11419,10 @@ var wp;
           name: "wp_template"
         });
         const { getBlockSelectionStart, isZoomOut } = unlock2(
-          select3(import_block_editor2.store)
+          select3(import_block_editor.store)
         );
         const { getEditorMode: getEditorMode2, getDefaultRenderingMode } = unlock2(
-          select3(import_editor18.store)
+          select3(import_editor17.store)
         );
         const isNotDesignPostType = !DESIGN_POST_TYPES.includes(currentPostType);
         const isDirectlyEditingPattern = currentPostType === "wp_block" && !onNavigateToPreviousEntityRecord;
@@ -11528,7 +11487,7 @@ var wp;
         )
       );
     }
-    const { createSuccessNotice } = (0, import_data25.useDispatch)(import_notices3.store);
+    const { createSuccessNotice } = (0, import_data24.useDispatch)(import_notices3.store);
     const onActionPerformed = (0, import_element28.useCallback)(
       (actionId, items) => {
         switch (actionId) {
@@ -11581,7 +11540,7 @@ var wp;
       };
     }, [initialPostType, initialPostId]);
     const backButton = (0, import_compose2.useViewportMatch)("medium") && isFullscreenActive ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(back_button_default, { initialPost }) : null;
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_components9.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(tooltip_exports.Provider, { children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_editor18.ErrorBoundary, { canCopyContent: true, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_components9.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(tooltip_exports.Provider, { children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_editor17.ErrorBoundary, { canCopyContent: true, children: [
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(WelcomeGuide, { postType: currentPostType }),
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { ...navigateRegionsProps, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
         Editor,
@@ -11593,26 +11552,20 @@ var wp;
           templateId,
           className,
           forceIsDirty: hasActiveMetaboxes,
-          disableIframe: !shouldIframe,
           autoFocus: !isWelcomeGuideVisible,
           onActionPerformed,
           extraSidebarPanels: showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(MetaBoxes, { location: "side" }),
-          extraContent: !isDistractionFree && showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            MetaBoxesMain,
-            {
-              isLegacy: !shouldIframe
-            }
-          ),
+          extraContent: !isDistractionFree && showMetaBoxes && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(MetaBoxesMain, {}),
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor18.PostLockedModal, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor17.PostLockedModal, {}),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(EditorInitialization, {}),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(FullscreenMode, { isActive: isFullscreenActive }),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(BrowserURL, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor18.UnsavedChangesWarning, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor18.AutosaveMonitor, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor18.LocalAutosaveMonitor, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor17.UnsavedChangesWarning, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor17.AutosaveMonitor, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor17.LocalAutosaveMonitor, {}),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(keyboard_shortcuts_default, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor18.EditorKeyboardShortcutsRegister, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_editor17.EditorKeyboardShortcutsRegister, {}),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(BlockKeyboardShortcuts, {}),
             currentPostType === "wp_block" && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(InitPatternModal, {}),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_plugins.PluginArea, { onError: onPluginAreaError }),
@@ -11628,11 +11581,11 @@ var wp;
   var layout_default = Layout;
 
   // packages/edit-post/build-module/deprecated.mjs
-  var import_editor19 = __toESM(require_editor(), 1);
+  var import_editor18 = __toESM(require_editor(), 1);
   var import_url6 = __toESM(require_url(), 1);
   var import_deprecated3 = __toESM(require_deprecated(), 1);
   var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
-  var { PluginPostExcerpt } = unlock2(import_editor19.privateApis);
+  var { PluginPostExcerpt } = unlock2(import_editor18.privateApis);
   var isSiteEditor = (0, import_url6.getPath)(window.location.href)?.includes(
     "site-editor.php"
   );
@@ -11647,56 +11600,56 @@ var wp;
       return null;
     }
     deprecateSlot("PluginBlockSettingsMenuItem");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginBlockSettingsMenuItem, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginBlockSettingsMenuItem, { ...props });
   }
   function PluginDocumentSettingPanel(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginDocumentSettingPanel");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginDocumentSettingPanel, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginDocumentSettingPanel, { ...props });
   }
   function PluginMoreMenuItem(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginMoreMenuItem");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginMoreMenuItem, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginMoreMenuItem, { ...props });
   }
   function PluginPrePublishPanel(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginPrePublishPanel");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginPrePublishPanel, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginPrePublishPanel, { ...props });
   }
   function PluginPostPublishPanel(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginPostPublishPanel");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginPostPublishPanel, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginPostPublishPanel, { ...props });
   }
   function PluginPostStatusInfo(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginPostStatusInfo");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginPostStatusInfo, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginPostStatusInfo, { ...props });
   }
   function PluginSidebar(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginSidebar");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginSidebar, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginSidebar, { ...props });
   }
   function PluginSidebarMoreMenuItem(props) {
     if (isSiteEditor) {
       return null;
     }
     deprecateSlot("PluginSidebarMoreMenuItem");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor19.PluginSidebarMoreMenuItem, { ...props });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_editor18.PluginSidebarMoreMenuItem, { ...props });
   }
   function __experimentalPluginPostExcerpt() {
     if (isSiteEditor) {
@@ -11715,7 +11668,7 @@ var wp;
   var {
     BackButton: __experimentalMainDashboardButton,
     registerCoreBlockBindingsSources
-  } = unlock2(import_editor20.privateApis);
+  } = unlock2(import_editor19.privateApis);
   var { enablePreloadMultiUse, clearPreloadedData } = unlock2(
     import_api_fetch2.default.privateApis
   );
@@ -11723,22 +11676,13 @@ var wp;
     const isMediumOrBigger = window.matchMedia("(min-width: 782px)").matches;
     const target = document.getElementById(id);
     const root = (0, import_element29.createRoot)(target);
-    (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core/edit-post", {
+    (0, import_data25.dispatch)(import_preferences11.store).setDefaults("core/edit-post", {
       fullscreenMode: true,
       themeStyles: true,
       welcomeGuide: true,
       welcomeGuideTemplate: true
     });
-    const collaborationNotificationPreferenceDefaults = (0, import_hooks2.applyFilters)(
-      "editor.CollaborationNotificationPreferenceDefaults",
-      {
-        showCollaborationJoinNotifications: true,
-        showCollaborationLeaveNotifications: true,
-        showCollaborationPostSaveNotifications: true
-      },
-      "core/edit-post"
-    );
-    (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core", {
+    (0, import_data25.dispatch)(import_preferences11.store).setDefaults("core", {
       allowRightClickOverrides: true,
       editorMode: "visual",
       editorTool: "edit",
@@ -11752,19 +11696,19 @@ var wp;
       enableChoosePatternModal: true,
       isPublishSidebarEnabled: true,
       showCollaborationCursor: false,
-      showCollaborationJoinNotifications: collaborationNotificationPreferenceDefaults.showCollaborationJoinNotifications,
-      showCollaborationLeaveNotifications: collaborationNotificationPreferenceDefaults.showCollaborationLeaveNotifications,
-      showCollaborationPostSaveNotifications: collaborationNotificationPreferenceDefaults.showCollaborationPostSaveNotifications
+      showCollaborationJoinNotifications: true,
+      showCollaborationLeaveNotifications: true,
+      showCollaborationPostSaveNotifications: true
     });
     if (window.__clientSideMediaProcessing) {
-      (0, import_data26.dispatch)(import_preferences11.store).setDefaults("core/media", {
+      (0, import_data25.dispatch)(import_preferences11.store).setDefaults("core/media", {
         requireApproval: true,
         optimizeOnUpload: true
       });
     }
-    (0, import_data26.dispatch)(import_blocks3.store).reapplyBlockTypeFilters();
-    if (isMediumOrBigger && (0, import_data26.select)(import_preferences11.store).get("core", "showListViewByDefault") && !(0, import_data26.select)(import_preferences11.store).get("core", "distractionFree")) {
-      (0, import_data26.dispatch)(import_editor20.store).setIsListViewOpened(true);
+    (0, import_data25.dispatch)(import_blocks2.store).reapplyBlockTypeFilters();
+    if (isMediumOrBigger && (0, import_data25.select)(import_preferences11.store).get("core", "showListViewByDefault") && !(0, import_data25.select)(import_preferences11.store).get("core", "distractionFree")) {
+      (0, import_data25.dispatch)(import_editor19.store).setIsListViewOpened(true);
     }
     (0, import_block_library2.registerCoreBlocks)();
     registerCoreBlockBindingsSources();
@@ -11804,13 +11748,13 @@ var wp;
     preloadedResolutions.finally(() => {
       clearPreloadedData();
       if (postType && postId) {
-        const post = (0, import_data26.select)(import_core_data9.store).getEntityRecord(
+        const post = (0, import_data25.select)(import_core_data9.store).getEntityRecord(
           "postType",
           postType,
           postId
         );
         if (post) {
-          (0, import_data26.dispatch)(import_editor20.store).setupEditor(
+          (0, import_data25.dispatch)(import_editor19.store).setupEditor(
             post,
             initialEdits,
             settings.template
@@ -11832,8 +11776,8 @@ var wp;
     return root;
   }
   async function preloadResolutions(postType, postId) {
-    const core = (0, import_data26.resolveSelect)(import_core_data9.store);
-    const coreSelect = (0, import_data26.select)(import_core_data9.store);
+    const core = (0, import_data25.resolveSelect)(import_core_data9.store);
+    const coreSelect = (0, import_data25.select)(import_core_data9.store);
     try {
       await Promise.all([
         core.getCurrentUser(),
@@ -11859,6 +11803,15 @@ var wp;
           kind: "postType",
           name: "wp_template"
         }),
+        // The DataForm-based inspector requests the entity form config
+        // when the document sidebar mounts. The args must match the
+        // `useViewConfig` call in `@wordpress/views` exactly for the
+        // resolution (and its preload entry) to be shared.
+        ...postType && window?.__experimentalDataFormInspector ? [
+          unlock2(core).getViewConfig("postType", postType, {
+            fields: "form"
+          })
+        ] : [],
         // Per-post resolvers. `getPostType` and `getEditedEntityRecord`
         // are shorthand/forward-resolver aliases with their own
         // resolution metadata, so they need separate kicks.

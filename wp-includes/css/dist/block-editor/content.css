@@ -468,7 +468,7 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   justify-content: center;
   overflow: hidden;
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #000;
   font-weight: normal;
 }
@@ -618,18 +618,13 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   width: 100%;
   height: auto;
   color: #1e1e1e;
-  box-shadow: inset 0 0 0 1px #1e1e1e;
+  border-color: currentColor;
 }
 .is-dark-theme .block-editor-button-block-appender {
   color: rgba(255, 255, 255, 0.65);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 .block-editor-button-block-appender:hover {
   color: var(--wp-admin-theme-color);
-  box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
-}
-.block-editor-button-block-appender:focus {
-  box-shadow: inset 0 0 0 2px var(--wp-admin-theme-color);
 }
 .block-editor-button-block-appender:active {
   color: #000;
@@ -826,7 +821,7 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   position: fixed;
   left: 0;
   right: 0;
-  top: calc(-1 * var(--wp-block-editor-iframe-zoom-out-scroll-top, 0));
+  top: calc(-1 * var(--wp-block-editor-iframe-zoom-out-scroll-top, 0px));
   bottom: 0;
   overflow-y: var(--wp-block-editor-iframe-zoom-out-overflow-behavior, scroll);
 }
@@ -834,12 +829,12 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   transform: translateX(calc((var(--wp-block-editor-iframe-zoom-out-scale-container-width) - var(--wp-block-editor-iframe-zoom-out-container-width, 100vw)) / 2 / var(--wp-block-editor-iframe-zoom-out-scale, 1)));
   scale: var(--wp-block-editor-iframe-zoom-out-scale, 1);
   background-color: var(--wp-editor-canvas-background);
-  margin-bottom: calc(-1 * calc(calc(var(--wp-block-editor-iframe-zoom-out-content-height) * (1 - var(--wp-block-editor-iframe-zoom-out-scale, 1))) + calc(2 * var(--wp-block-editor-iframe-zoom-out-frame-size, 0) / var(--wp-block-editor-iframe-zoom-out-scale, 1)) + 2px));
-  padding-top: calc(var(--wp-block-editor-iframe-zoom-out-frame-size, 0) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
-  padding-bottom: calc(var(--wp-block-editor-iframe-zoom-out-frame-size, 0) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
+  margin-bottom: calc(-1 * calc(calc(var(--wp-block-editor-iframe-zoom-out-content-height) * (1 - var(--wp-block-editor-iframe-zoom-out-scale, 1))) + calc(2 * var(--wp-block-editor-iframe-zoom-out-frame-size, 0px) / var(--wp-block-editor-iframe-zoom-out-scale, 1)) + 2px));
+  padding-top: calc(var(--wp-block-editor-iframe-zoom-out-frame-size, 0px) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
+  padding-bottom: calc(var(--wp-block-editor-iframe-zoom-out-frame-size, 0px) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
 }
 .block-editor-iframe__html.is-zoomed-out body {
-  min-height: calc((var(--wp-block-editor-iframe-zoom-out-inner-height) - calc(2 * var(--wp-block-editor-iframe-zoom-out-frame-size, 0) / var(--wp-block-editor-iframe-zoom-out-scale, 1))) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
+  min-height: calc((var(--wp-block-editor-iframe-zoom-out-inner-height) - calc(2 * var(--wp-block-editor-iframe-zoom-out-frame-size, 0px) / var(--wp-block-editor-iframe-zoom-out-scale, 1))) / var(--wp-block-editor-iframe-zoom-out-scale, 1));
 }
 .block-editor-iframe__html.is-zoomed-out body > .is-root-container:not(.wp-block-post-content) {
   flex: 1;
@@ -929,7 +924,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 1em;
   border: 1px solid #1e1e1e;
   border-radius: 2px;
@@ -937,7 +932,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 .block-editor-warning .block-editor-warning__message {
   line-height: 1.4;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   color: #1e1e1e;
   margin: 0;

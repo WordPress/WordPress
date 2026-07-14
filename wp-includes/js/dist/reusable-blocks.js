@@ -59,6 +59,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/deprecated
+  var require_deprecated = __commonJS({
+    "package-external:@wordpress/deprecated"(exports, module) {
+      module.exports = window.wp.deprecated;
+    }
+  });
+
   // package-external:@wordpress/element
   var require_element = __commonJS({
     "package-external:@wordpress/element"(exports, module) {
@@ -129,7 +136,14 @@ var wp;
   var import_block_editor = __toESM(require_block_editor(), 1);
   var import_blocks = __toESM(require_blocks(), 1);
   var import_i18n = __toESM(require_i18n(), 1);
+  var import_deprecated = __toESM(require_deprecated(), 1);
   var __experimentalConvertBlockToStatic = (clientId) => ({ registry }) => {
+    (0, import_deprecated.default)(
+      "wp.data.dispatch( 'core/reusable-blocks' ).__experimentalConvertBlockToStatic",
+      {
+        since: "7.1"
+      }
+    );
     const oldBlock = registry.select(import_block_editor.store).getBlock(clientId);
     const reusableBlock = registry.select("core").getEditedEntityRecord(
       "postType",
@@ -142,6 +156,12 @@ var wp;
     registry.dispatch(import_block_editor.store).replaceBlocks(oldBlock.clientId, newBlocks);
   };
   var __experimentalConvertBlocksToReusable = (clientIds, title, syncType) => async ({ registry, dispatch }) => {
+    (0, import_deprecated.default)(
+      "wp.data.dispatch( 'core/reusable-blocks' ).__experimentalConvertBlocksToReusable",
+      {
+        since: "7.1"
+      }
+    );
     const meta = syncType === "unsynced" ? {
       wp_pattern_sync_status: syncType
     } : void 0;
@@ -167,6 +187,12 @@ var wp;
     );
   };
   var __experimentalDeleteReusableBlock = (id) => async ({ registry }) => {
+    (0, import_deprecated.default)(
+      "wp.data.dispatch( 'core/reusable-blocks' ).__experimentalDeleteReusableBlock",
+      {
+        since: "7.1"
+      }
+    );
     const reusableBlock = registry.select("core").getEditedEntityRecord("postType", "wp_block", id);
     if (!reusableBlock) {
       return;
@@ -184,6 +210,12 @@ var wp;
     await registry.dispatch("core").deleteEntityRecord("postType", "wp_block", id);
   };
   function __experimentalSetEditingReusableBlock(clientId, isEditing) {
+    (0, import_deprecated.default)(
+      "wp.data.dispatch( 'core/reusable-blocks' ).__experimentalSetEditingReusableBlock",
+      {
+        since: "7.1"
+      }
+    );
     return {
       type: "SET_EDITING_REUSABLE_BLOCK",
       clientId,
@@ -211,7 +243,14 @@ var wp;
   __export(selectors_exports, {
     __experimentalIsEditingReusableBlock: () => __experimentalIsEditingReusableBlock
   });
+  var import_deprecated2 = __toESM(require_deprecated(), 1);
   function __experimentalIsEditingReusableBlock(state, clientId) {
+    (0, import_deprecated2.default)(
+      "wp.data.select( 'core/reusable-blocks' ).__experimentalIsEditingReusableBlock",
+      {
+        since: "7.1"
+      }
+    );
     return state.isEditingReusableBlock[clientId];
   }
 
@@ -226,6 +265,7 @@ var wp;
 
   // packages/reusable-blocks/build-module/components/reusable-blocks-menu-items/index.mjs
   var import_block_editor4 = __toESM(require_block_editor(), 1);
+  var import_deprecated3 = __toESM(require_deprecated(), 1);
 
   // packages/reusable-blocks/build-module/components/reusable-blocks-menu-items/reusable-block-convert-button.mjs
   var import_blocks2 = __toESM(require_blocks(), 1);
@@ -482,6 +522,9 @@ var wp;
   // packages/reusable-blocks/build-module/components/reusable-blocks-menu-items/index.mjs
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   function ReusableBlocksMenuItems({ rootClientId }) {
+    (0, import_deprecated3.default)("wp.reusableBlocks.ReusableBlocksMenuItems", {
+      since: "7.1"
+    });
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_block_editor4.BlockSettingsMenuControls, { children: ({ onClose, selectedClientIds }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_jsx_runtime4.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
         ReusableBlockConvertButton,

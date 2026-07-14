@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/tab-panel",
+	"title": "Tab Panel",
+	"description": "Content for a tab in a tabbed interface.",
+	"category": "design",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"parent": [ "core/tab-panels" ],
+	"usesContext": [ "core/tabs-id" ],
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"layout": true,
+		"spacing": {
+			"blockGap": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"visibility": false
+	},
+	"providesContext": {
+		"core/tab-label": "label"
+	},
+	"style": "wp-block-tab-panel"
+}

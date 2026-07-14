@@ -685,7 +685,7 @@ var wp;
       }
       return;
     }
-    if (!container.isContentEditable) {
+    if (container.contentEditable !== "true") {
       return;
     }
     const range = scrollIfNoRange(

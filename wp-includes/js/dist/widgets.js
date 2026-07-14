@@ -230,7 +230,6 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       import_components.SelectControl,
       {
-        __next40pxDefaultSize: true,
         label: (0, import_i18n.__)("Legacy widget"),
         value: selectedId ?? "",
         options: [
@@ -1330,15 +1329,9 @@ var wp;
             );
           },
           __experimentalConvert(blocks) {
-            let innerBlocks = [
-              ...blocks.map((block) => {
-                return (0, import_blocks3.createBlock)(
-                  block.name,
-                  block.attributes,
-                  block.innerBlocks
-                );
-              })
-            ];
+            let innerBlocks = blocks.map(
+              (block) => (0, import_blocks3.cloneSanitizedBlock)(block)
+            );
             const firstHeadingBlock = innerBlocks[0].name === "core/heading" ? innerBlocks[0] : null;
             innerBlocks = innerBlocks.filter(
               (block) => block !== firstHeadingBlock
