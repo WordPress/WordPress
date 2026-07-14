@@ -3104,8 +3104,7 @@
 		'attributes' => array(
 			'content' => array(
 				'type' => 'string',
-				'source' => 'raw',
-				'role' => 'content'
+				'role' => 'local'
 			)
 		),
 		'supports' => array(
@@ -3115,6 +3114,7 @@
 			'interactivity' => array(
 				'clientNavigation' => true
 			),
+			'listView' => true,
 			'customCSS' => false,
 			'visibility' => false
 		),
@@ -3136,6 +3136,18 @@
 			'icon' => array(
 				'type' => 'string',
 				'role' => 'content'
+			),
+			'flipHorizontal' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'flipVertical' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'rotation' => array(
+				'type' => 'number',
+				'default' => 0
 			)
 		),
 		'supports' => array(
@@ -3354,6 +3366,7 @@
 			)
 		),
 		'selectors' => array(
+			'dimensions' => '.wp-block-image img',
 			'border' => '.wp-block-image img, .wp-block-image .wp-block-image__crop-area, .wp-block-image .components-placeholder',
 			'shadow' => '.wp-block-image img, .wp-block-image .wp-block-image__crop-area, .wp-block-image .components-placeholder',
 			'filter' => array(
@@ -3491,14 +3504,6 @@
 				'type' => 'boolean',
 				'default' => false
 			),
-			'postLayout' => array(
-				'type' => 'string',
-				'default' => 'list'
-			),
-			'columns' => array(
-				'type' => 'number',
-				'default' => 3
-			),
 			'order' => array(
 				'type' => 'string',
 				'default' => 'desc'
@@ -3540,6 +3545,7 @@
 			'anchor' => true,
 			'align' => true,
 			'html' => false,
+			'layout' => true,
 			'color' => array(
 				'gradients' => true,
 				'link' => true,
@@ -3551,7 +3557,13 @@
 			),
 			'spacing' => array(
 				'margin' => true,
-				'padding' => true
+				'padding' => true,
+				'blockGap' => array(
+					'__experimentalDefault' => '1.25em'
+				),
+				'__experimentalDefaultControls' => array(
+					'blockGap' => true
+				)
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -4406,7 +4418,7 @@
 		),
 		'selectors' => array(
 			'states' => array(
-				'@current' => '.wp-block-navigation .current-menu-item'
+				'-current' => '.wp-block-navigation .current-menu-item'
 			)
 		),
 		'editorStyle' => 'wp-block-navigation-link-editor',
@@ -4514,7 +4526,14 @@
 			),
 			'isTopLevelItem' => array(
 				'type' => 'boolean'
+			),
+			'isParentSubmenu' => array(
+				'type' => 'boolean',
+				'default' => true
 			)
+		),
+		'providesContext' => array(
+			'core/isInsideSubmenu' => 'isParentSubmenu'
 		),
 		'usesContext' => array(
 			'textColor',
@@ -4603,10 +4622,6 @@
 			'parentPageID' => array(
 				'type' => 'integer',
 				'default' => 0
-			),
-			'isNested' => array(
-				'type' => 'boolean',
-				'default' => false
 			)
 		),
 		'usesContext' => array(
@@ -4623,7 +4638,8 @@
 			'showSubmenuIcon',
 			'style',
 			'openSubmenusOnClick',
-			'submenuVisibility'
+			'submenuVisibility',
+			'core/isInsideSubmenu'
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -5633,6 +5649,7 @@
 			)
 		),
 		'selectors' => array(
+			'dimensions' => '.wp-block-post-featured-image img',
 			'border' => '.wp-block-post-featured-image img, .wp-block-post-featured-image .block-editor-media-placeholder, .wp-block-post-featured-image .wp-block-post-featured-image__overlay',
 			'shadow' => '.wp-block-post-featured-image img, .wp-block-post-featured-image .components-placeholder',
 			'filter' => array(
@@ -6110,9 +6127,6 @@
 				'source' => 'rich-text',
 				'selector' => 'cite',
 				'role' => 'content'
-			),
-			'textAlign' => array(
-				'type' => 'string'
 			)
 		),
 		'supports' => array(
@@ -6149,6 +6163,7 @@
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
+				'textAlign' => true,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,
 				'__experimentalFontStyle' => true,
@@ -7005,6 +7020,10 @@
 				'default' => array(
 					
 				)
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'supports' => array(
@@ -8507,6 +8526,12 @@
 				'selector' => 'video',
 				'attribute' => 'src',
 				'role' => 'content'
+			),
+			'width' => array(
+				'type' => 'number'
+			),
+			'height' => array(
+				'type' => 'number'
 			),
 			'playsInline' => array(
 				'type' => 'boolean',

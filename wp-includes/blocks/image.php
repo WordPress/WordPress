@@ -390,7 +390,6 @@ function block_core_image_print_lightbox_overlay() {
 							data-wp-bind--style="state.imgStyles"
 							data-wp-bind--src="state.enlargedSrc"
 							data-wp-bind--srcset="state.enlargedSrcset"
-							data-wp-bind--srcset="state.enlargedSrcset"
 							sizes="100vw"
 						>
 					</figure>

@@ -200,12 +200,23 @@ function render_block_core_latest_posts( $attributes ) {
 
 	remove_filter( 'excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20 );
 
+	$layout             = $attributes['layout'] ?? array();
+	$legacy_layout_type = (
+		isset( $attributes['postLayout'] ) &&
+		'grid' === $attributes['postLayout']
+	) ? 'grid' : 'default';
+	$layout_type        = $layout['type'] ?? $legacy_layout_type;
+	$column_count       = $layout['columnCount'] ?? ( $attributes['columns'] ?? null );
+
 	$classes = array( 'wp-block-latest-posts__list' );
-	if ( isset( $attributes['postLayout'] ) && 'grid' === $attributes['postLayout'] ) {
+	if ( 'grid' === $layout_type ) {
 		$classes[] = 'is-grid';
 	}
-	if ( isset( $attributes['columns'] ) && 'grid' === $attributes['postLayout'] ) {
-		$classes[] = 'columns-' . $attributes['columns'];
+	if ( 'grid' === $layout_type && ! empty( $column_count ) ) {
+		$classes[] = sanitize_title( 'columns-' . $column_count );
+	}
+	if ( 'grid' === $layout_type && ! empty( $column_count ) && ! empty( $layout['minimumColumnWidth'] ) ) {
+		$classes[] = 'has-native-responsive-grid';
 	}
 	if ( isset( $attributes['displayPostDate'] ) && $attributes['displayPostDate'] ) {
 		$classes[] = 'has-dates';

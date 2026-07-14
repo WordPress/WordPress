@@ -259,7 +259,7 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 	++$block_id;
 
 	$parent_page_id = $attributes['parentPageID'];
-	$is_nested      = $attributes['isNested'];
+	$is_nested      = ! empty( $block->context['core/isInsideSubmenu'] );
 
 	$all_pages = get_pages(
 		array(
@@ -309,7 +309,7 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 		$colors['css_classes']
 	);
 
-	$style_attribute = ( $colors['inline_styles'] );
+	$style_attribute = $colors['inline_styles'];
 	$css_classes     = trim( implode( ' ', $classes ) );
 
 	$nested_pages = block_core_page_list_nest_pages( $top_level_pages, $pages_with_children );

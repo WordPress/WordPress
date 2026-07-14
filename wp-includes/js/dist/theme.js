@@ -31,6 +31,13 @@ var wp;
   ));
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
+  // package-external:@wordpress/deprecated
+  var require_deprecated = __commonJS({
+    "package-external:@wordpress/deprecated"(exports, module) {
+      module.exports = window.wp.deprecated;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -45,6 +52,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/compose
+  var require_compose = __commonJS({
+    "package-external:@wordpress/compose"(exports, module) {
+      module.exports = window.wp.compose;
+    }
+  });
+
   // vendor-external:react/jsx-runtime
   var require_jsx_runtime = __commonJS({
     "vendor-external:react/jsx-runtime"(exports, module) {
@@ -55,8 +69,12 @@ var wp;
   // packages/theme/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
+    ThemeProvider: () => ThemeProvider,
     privateApis: () => privateApis
   });
+
+  // packages/theme/build-module/private-apis.mjs
+  var import_deprecated = __toESM(require_deprecated(), 1);
 
   // packages/theme/build-module/lock-unlock.mjs
   var import_private_apis = __toESM(require_private_apis(), 1);
@@ -67,13 +85,15 @@ var wp;
 
   // packages/theme/build-module/theme-provider.mjs
   var import_element3 = __toESM(require_element(), 1);
+  var import_compose = __toESM(require_compose(), 1);
 
   // packages/theme/build-module/context.mjs
   var import_element = __toESM(require_element(), 1);
   var ThemeContext = (0, import_element.createContext)({
     resolvedSettings: {
       color: {},
-      cursor: void 0
+      cursor: void 0,
+      cornerRadius: void 0
     }
   });
 
@@ -3002,64 +3022,74 @@ var wp;
 
   // packages/theme/build-module/prebuilt/ts/color-tokens.mjs
   var color_tokens_default = {
-    "primary-bgFill1": ["bg-interactive-brand-strong"],
+    transparent: [
+      "background-interactive-brand-weak",
+      "background-interactive-brand-weak-disabled",
+      "background-interactive-error",
+      "background-interactive-error-disabled",
+      "background-interactive-error-weak",
+      "background-interactive-error-weak-disabled",
+      "background-interactive-neutral-weak",
+      "background-interactive-neutral-weak-disabled"
+    ],
+    "primary-bgFill1": ["background-interactive-brand-strong"],
     "primary-fgFill": [
-      "fg-interactive-brand-strong",
-      "fg-interactive-brand-strong-active"
+      "foreground-interactive-brand-strong",
+      "foreground-interactive-brand-strong-active"
     ],
-    "primary-bgFill2": ["bg-interactive-brand-strong-active"],
-    "primary-surface4": ["bg-interactive-brand-weak-active"],
-    "primary-fgSurface3": [
-      "fg-interactive-brand",
-      "fg-interactive-brand-active"
-    ],
+    "primary-bgFill2": ["background-interactive-brand-strong-active"],
+    "primary-surface4": ["background-interactive-brand-weak-active"],
+    "primary-fgSurface4": ["foreground-interactive-brand-active"],
+    "primary-fgSurface3": ["foreground-interactive-brand"],
     "primary-stroke3": [
-      "bg-thumb-brand",
-      "bg-thumb-brand-active",
-      "stroke-focus-brand",
+      "background-thumb-brand",
+      "background-thumb-brand-active",
+      "stroke-focus",
       "stroke-interactive-brand",
       "stroke-surface-brand-strong"
     ],
     "primary-stroke4": ["stroke-interactive-brand-active"],
     "primary-stroke1": ["stroke-surface-brand"],
-    "primary-surface1": ["bg-surface-brand"],
-    "info-surface2": ["bg-surface-info-weak"],
-    "info-surface4": ["bg-surface-info"],
-    "info-fgSurface4": ["fg-content-info"],
-    "info-fgSurface3": ["fg-content-info-weak"],
+    "primary-surface1": ["background-surface-brand"],
+    "info-surface2": ["background-surface-info-weak"],
+    "info-surface4": ["background-surface-info"],
+    "info-fgSurface4": ["foreground-content-info"],
+    "info-fgSurface3": ["foreground-content-info-weak"],
     "info-stroke3": ["stroke-surface-info-strong"],
     "info-stroke1": ["stroke-surface-info"],
-    "success-surface2": ["bg-surface-success-weak"],
-    "success-surface4": ["bg-surface-success"],
-    "success-fgSurface4": ["fg-content-success"],
-    "success-fgSurface3": ["fg-content-success-weak"],
+    "success-surface2": ["background-surface-success-weak"],
+    "success-surface4": ["background-surface-success"],
+    "success-fgSurface4": ["foreground-content-success"],
+    "success-fgSurface3": ["foreground-content-success-weak"],
     "success-stroke3": ["stroke-surface-success-strong"],
     "success-stroke1": ["stroke-surface-success"],
-    "warning-surface2": ["bg-surface-warning-weak"],
-    "warning-surface4": ["bg-surface-warning"],
-    "warning-fgSurface4": ["fg-content-warning"],
-    "warning-fgSurface3": ["fg-content-warning-weak"],
+    "warning-surface2": ["background-surface-warning-weak"],
+    "warning-surface4": ["background-surface-warning"],
+    "warning-fgSurface4": ["foreground-content-warning"],
+    "warning-fgSurface3": ["foreground-content-warning-weak"],
     "warning-stroke3": ["stroke-surface-warning-strong"],
     "warning-stroke1": ["stroke-surface-warning"],
-    "error-bgFill1": ["bg-interactive-error-strong"],
+    "error-bgFill1": ["background-interactive-error-strong"],
     "error-fgFill": [
-      "fg-interactive-error-strong",
-      "fg-interactive-error-strong-active"
+      "foreground-interactive-error-strong",
+      "foreground-interactive-error-strong-active"
     ],
-    "error-bgFill2": ["bg-interactive-error-strong-active"],
+    "error-bgFill2": ["background-interactive-error-strong-active"],
     "error-surface2": [
-      "bg-interactive-error-active",
-      "bg-surface-error-weak"
+      "background-interactive-error-active",
+      "background-surface-error-weak"
     ],
     "error-surface4": [
-      "bg-interactive-error-weak-active",
-      "bg-surface-error"
+      "background-interactive-error-weak-active",
+      "background-surface-error"
     ],
-    "error-fgSurface4": ["fg-content-error"],
+    "error-fgSurface4": [
+      "foreground-content-error",
+      "foreground-interactive-error-active"
+    ],
     "error-fgSurface3": [
-      "fg-content-error-weak",
-      "fg-interactive-error",
-      "fg-interactive-error-active"
+      "foreground-content-error-weak",
+      "foreground-interactive-error"
     ],
     "error-stroke3": [
       "stroke-interactive-error",
@@ -3068,55 +3098,71 @@ var wp;
     ],
     "error-stroke4": ["stroke-interactive-error-active"],
     "error-stroke1": ["stroke-surface-error"],
-    "bg-surface2": ["bg-surface-neutral"],
-    "bg-surface5": ["bg-interactive-neutral-strong-disabled"],
-    "bg-surface4": ["bg-interactive-neutral-weak-active"],
-    "bg-surface3": ["bg-surface-neutral-strong"],
+    "bg-surface2": ["background-surface-neutral"],
+    "bg-surface5": [
+      "background-interactive-brand-strong-disabled",
+      "background-interactive-error-strong-disabled",
+      "background-interactive-neutral-strong-disabled"
+    ],
+    "bg-surface4": ["background-interactive-neutral-weak-active"],
+    "bg-surface3": ["background-surface-neutral-strong"],
     "bg-fgSurface4": [
-      "fg-content-neutral",
-      "fg-interactive-neutral",
-      "fg-interactive-neutral-active"
+      "foreground-content-neutral",
+      "foreground-interactive-neutral",
+      "foreground-interactive-neutral-active"
     ],
     "bg-fgSurface3": [
-      "fg-content-neutral-weak",
-      "fg-interactive-neutral-weak"
+      "foreground-content-neutral-weak",
+      "foreground-interactive-neutral-weak"
     ],
     "bg-fgSurface2": [
-      "fg-interactive-neutral-disabled",
-      "fg-interactive-neutral-strong-disabled",
-      "fg-interactive-neutral-weak-disabled"
+      "foreground-interactive-brand-disabled",
+      "foreground-interactive-brand-strong-disabled",
+      "foreground-interactive-error-disabled",
+      "foreground-interactive-error-strong-disabled",
+      "foreground-interactive-neutral-disabled",
+      "foreground-interactive-neutral-strong-disabled",
+      "foreground-interactive-neutral-weak-disabled"
     ],
     "bg-stroke3": [
-      "bg-thumb-neutral-weak",
+      "background-thumb-neutral-weak",
       "stroke-interactive-neutral",
       "stroke-surface-neutral-strong"
     ],
     "bg-stroke4": [
-      "bg-thumb-neutral-weak-active",
+      "background-thumb-neutral-weak-active",
       "stroke-interactive-neutral-active",
       "stroke-interactive-neutral-strong"
     ],
     "bg-stroke2": [
-      "bg-thumb-neutral-disabled",
-      "bg-track-neutral",
+      "background-thumb-neutral-disabled",
+      "background-track-neutral",
+      "stroke-interactive-brand-disabled",
+      "stroke-interactive-error-disabled",
       "stroke-interactive-neutral-disabled",
       "stroke-surface-neutral"
     ],
-    "bg-stroke1": ["bg-track-neutral-weak", "stroke-surface-neutral-weak"],
-    "bg-bgFillInverted2": ["bg-interactive-neutral-strong-active"],
-    "bg-bgFillInverted1": ["bg-interactive-neutral-strong"],
-    "bg-fgFillInverted": [
-      "fg-interactive-neutral-strong",
-      "fg-interactive-neutral-strong-active"
+    "bg-stroke1": [
+      "background-track-neutral-weak",
+      "stroke-surface-neutral-weak"
     ],
-    "bg-surface1": ["bg-surface-neutral-weak"],
-    "caution-surface2": ["bg-surface-caution-weak"],
-    "caution-surface4": ["bg-surface-caution"],
-    "caution-fgSurface4": ["fg-content-caution"],
-    "caution-fgSurface3": ["fg-content-caution-weak"]
+    "bg-bgFillInverted2": ["background-interactive-neutral-strong-active"],
+    "bg-bgFillInverted1": ["background-interactive-neutral-strong"],
+    "bg-fgFillInverted": [
+      "foreground-interactive-neutral-strong",
+      "foreground-interactive-neutral-strong-active"
+    ],
+    "bg-surface1": ["background-surface-neutral-weak"],
+    "caution-surface2": ["background-surface-caution-weak"],
+    "caution-surface4": ["background-surface-caution"],
+    "caution-fgSurface4": ["foreground-content-caution"],
+    "caution-fgSurface3": ["foreground-content-caution-weak"],
+    "caution-stroke3": ["stroke-surface-caution-strong"],
+    "caution-stroke1": ["stroke-surface-caution"]
   };
 
   // packages/theme/build-module/color-ramps/lib/color-utils.mjs
+  var ALLOWED_SEED_COLOR_SPACES = [srgb_default];
   function getColorString(color) {
     ColorSpace.register(srgb_default);
     const rgbRounded = serialize(to(color, srgb_default));
@@ -3125,6 +3171,24 @@ var wp;
   function getContrast(colorA, colorB) {
     ColorSpace.register(srgb_default);
     return contrastWCAG21(colorA, colorB);
+  }
+  function assertValidSeedColor(seed) {
+    ALLOWED_SEED_COLOR_SPACES.forEach(
+      (space) => ColorSpace.register(space)
+    );
+    let spaceId;
+    try {
+      ({ spaceId } = parse(seed));
+    } catch {
+      throw new Error(
+        `Unsupported seed color "${seed}": expected a hex value, an \`rgb()\`/\`rgba()\` string, or a CSS named color.`
+      );
+    }
+    if (!ALLOWED_SEED_COLOR_SPACES.some((space) => space.id === spaceId)) {
+      throw new Error(
+        `Unsupported seed color "${seed}": expected a hex value, an \`rgb()\`/\`rgba()\` string, or a CSS named color, but received a \`${spaceId}\` color.`
+      );
+    }
   }
   function clampToGamut(c) {
     ColorSpace.register(srgb_default);
@@ -3592,6 +3656,7 @@ var wp;
     pinLightness,
     rescaleToFitContrastTargets = true
   } = {}) {
+    assertValidSeedColor(seedArg);
     let seed;
     try {
       seed = clampToGamut(seedArg);
@@ -4004,23 +4069,23 @@ var wp;
     ],
     [
       "--wp-components-color-accent-inverted",
-      "var(--wpds-color-fg-interactive-brand-strong, #fff)"
+      "var(--wpds-color-foreground-interactive-brand-strong, #fff)"
     ],
     [
       "--wp-components-color-background",
-      "var(--wpds-color-bg-surface-neutral-strong, #fff)"
+      "var(--wpds-color-background-surface-neutral-strong, #fff)"
     ],
     [
       "--wp-components-color-foreground",
-      "var(--wpds-color-fg-content-neutral, #1e1e1e)"
+      "var(--wpds-color-foreground-content-neutral, #1e1e1e)"
     ],
     [
       "--wp-components-color-foreground-inverted",
-      "var(--wpds-color-bg-surface-neutral, #fcfcfc)"
+      "var(--wpds-color-background-surface-neutral, #fcfcfc)"
     ],
     [
       "--wp-components-color-gray-100",
-      "var(--wpds-color-bg-surface-neutral, #fcfcfc)"
+      "var(--wpds-color-background-surface-neutral, #fcfcfc)"
     ],
     [
       "--wp-components-color-gray-200",
@@ -4040,11 +4105,11 @@ var wp;
     ],
     [
       "--wp-components-color-gray-700",
-      "var(--wpds-color-fg-content-neutral-weak, #707070)"
+      "var(--wpds-color-foreground-content-neutral-weak, #707070)"
     ],
     [
       "--wp-components-color-gray-800",
-      "var(--wpds-color-fg-content-neutral, #1e1e1e)"
+      "var(--wpds-color-foreground-content-neutral, #1e1e1e)"
     ]
   ];
   function customRgbFormat(color) {
@@ -4111,21 +4176,24 @@ var wp;
   }
   function useThemeProviderStyles({
     color = {},
-    cursor
+    cursor,
+    cornerRadius
   } = {}) {
     const { resolvedSettings: inheritedSettings } = (0, import_element2.useContext)(ThemeContext);
     const primary = color.primary ?? inheritedSettings.color?.primary ?? DEFAULT_SEED_COLORS.primary;
     const background = color.background ?? inheritedSettings.color?.background ?? DEFAULT_SEED_COLORS.background;
     const cursorControl = cursor?.control ?? inheritedSettings.cursor?.control;
+    const cornerRadiusPreset = cornerRadius ?? inheritedSettings.cornerRadius ?? "subtle";
     const resolvedSettings = (0, import_element2.useMemo)(
       () => ({
         color: {
           primary,
           background
         },
-        cursor: cursorControl ? { control: cursorControl } : void 0
+        cursor: cursorControl ? { control: cursorControl } : void 0,
+        cornerRadius: cornerRadiusPreset
       }),
-      [primary, background, cursorControl]
+      [primary, background, cursorControl, cornerRadiusPreset]
     );
     const colorStyles = (0, import_element2.useMemo)(() => {
       const seeds = {
@@ -4251,63 +4319,112 @@ var wp;
     registerStyle("f4e6e06c6a", ".dba930ea7a9438fd__root{display:contents}");
   }
   var style_default = { "root": "dba930ea7a9438fd__root" };
-  function cssObjectToText(values) {
-    return Object.entries(values).map(([key, value]) => `${key}: ${value};`).join("");
-  }
-  function generateCSSSelector({
-    instanceId,
-    isRoot
-  }) {
-    const rootSel = `[data-wpds-root-provider="true"]`;
-    const instanceIdSel = `[data-wpds-theme-provider-id="${instanceId}"]`;
-    const selectors = [];
-    if (isRoot) {
-      selectors.push(
-        `:root:has(.${style_default.root}${rootSel}${instanceIdSel})`
-      );
-    }
-    selectors.push(`.${style_default.root}.${style_default.root}${instanceIdSel}`);
-    return selectors.join(",");
-  }
+  var rootProviderCountByDocument = /* @__PURE__ */ new WeakMap();
   var ThemeProvider = ({
     children,
     color = {},
     cursor,
+    cornerRadius,
     isRoot = false
   }) => {
-    const instanceId = (0, import_element3.useId)();
     const { themeProviderStyles, resolvedSettings } = useThemeProviderStyles({
       color,
-      cursor
+      cursor,
+      cornerRadius
     });
+    const cornerRadiusPreset = resolvedSettings.cornerRadius ?? "subtle";
     const contextValue = (0, import_element3.useMemo)(
       () => ({
         resolvedSettings
       }),
       [resolvedSettings]
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-      themeProviderStyles ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `${generateCSSSelector({
-        instanceId,
-        isRoot
-      })} {${cssObjectToText(themeProviderStyles)}}` }) : null,
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        "div",
-        {
-          "data-wpds-theme-provider-id": instanceId,
-          "data-wpds-root-provider": isRoot,
-          className: style_default.root,
-          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeContext.Provider, { value: contextValue, children })
+    const wrapperRef = (0, import_element3.useRef)(null);
+    (0, import_compose.useIsomorphicLayoutEffect)(() => {
+      if (!isRoot) {
+        return;
+      }
+      const doc = wrapperRef.current?.ownerDocument;
+      if (!doc) {
+        return;
+      }
+      const root = doc.documentElement;
+      if (true) {
+        const active = rootProviderCountByDocument.get(doc) ?? 0;
+        if (active > 0) {
+          console.warn(
+            "ThemeProvider: More than one root provider (`isRoot`) is mounted on the same document. Their forwarded document-level styles conflict, and unmounting one can reset the others. Render a single root provider per document."
+          );
         }
-      )
-    ] });
+        rootProviderCountByDocument.set(doc, active + 1);
+      }
+      const previous = /* @__PURE__ */ new Map();
+      const applied = [];
+      for (const [rawKey, rawValue] of Object.entries(
+        themeProviderStyles
+      )) {
+        if (!rawKey.startsWith("--") || rawValue === null || rawValue === void 0) {
+          continue;
+        }
+        previous.set(rawKey, root.style.getPropertyValue(rawKey));
+        root.style.setProperty(rawKey, String(rawValue));
+        applied.push(rawKey);
+      }
+      return () => {
+        if (true) {
+          const active = rootProviderCountByDocument.get(doc) ?? 1;
+          if (active <= 1) {
+            rootProviderCountByDocument.delete(doc);
+          } else {
+            rootProviderCountByDocument.set(doc, active - 1);
+          }
+        }
+        for (const key of applied) {
+          const prev = previous.get(key);
+          if (prev) {
+            root.style.setProperty(key, prev);
+          } else {
+            root.style.removeProperty(key);
+          }
+        }
+      };
+    }, [isRoot, themeProviderStyles]);
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      "div",
+      {
+        ref: wrapperRef,
+        "data-wpds-root-provider": isRoot || void 0,
+        "data-wpds-corner-radius": cornerRadiusPreset,
+        className: style_default.root,
+        style: themeProviderStyles,
+        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeContext.Provider, { value: contextValue, children })
+      }
+    );
   };
 
   // packages/theme/build-module/private-apis.mjs
+  function warnPrivateApi(apiName, options = {}) {
+    (0, import_deprecated.default)(`\`privateApis.${apiName}\` from \`@wordpress/theme\``, {
+      since: "7.1",
+      version: "7.3",
+      ...options
+    });
+  }
   var privateApis = {};
   lock(privateApis, {
-    ThemeProvider,
-    useThemeProviderStyles
+    get ThemeProvider() {
+      warnPrivateApi("ThemeProvider", {
+        alternative: "`ThemeProvider` from `@wordpress/theme`"
+      });
+      return ThemeProvider;
+    },
+    get useThemeProviderStyles() {
+      warnPrivateApi("useThemeProviderStyles", {
+        alternative: "`ThemeProvider` from `@wordpress/theme` for supported theming use cases",
+        hint: "`useThemeProviderStyles` has no public replacement."
+      });
+      return useThemeProviderStyles;
+    }
   });
   return __toCommonJS(index_exports);
 })();

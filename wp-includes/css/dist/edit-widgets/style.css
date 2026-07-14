@@ -68,6 +68,12 @@
  * Focus styles.
  */
 /**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
  * Applies editor left position to the selector passed as argument
  */
 /**
@@ -186,6 +192,12 @@
  * Focus styles.
  */
 /**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
  * Applies editor left position to the selector passed as argument
  */
 /**
@@ -281,12 +293,7 @@
 }
 
 @media (min-width: 782px) {
-  body.js.is-fullscreen-mode {
-    margin-top: -32px;
-    height: calc(100% + 32px);
-  }
-  body.js.is-fullscreen-mode #adminmenumain,
-  body.js.is-fullscreen-mode #wpadminbar {
+  body.js.is-fullscreen-mode #adminmenumain {
     display: none;
   }
   body.js.is-fullscreen-mode #wpcontent,
@@ -322,7 +329,7 @@ html.interface-interface-skeleton__html-container {
     top: 32px;
   }
   .is-fullscreen-mode .interface-interface-skeleton {
-    top: 0;
+    top: var(--wp-admin--admin-bar--height, 0);
   }
 }
 .interface-interface-skeleton__editor {
@@ -504,7 +511,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     top: 32px;
   }
   .is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus, .is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within {
-    top: 0;
+    top: var(--wp-admin--admin-bar--height, 0);
   }
 }
 .interface-pinned-items {

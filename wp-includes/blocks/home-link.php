@@ -73,7 +73,7 @@ function block_core_home_link_build_li_wrapper_attributes( $context ) {
 		$colors['css_classes']
 	);
 
-	$style_attribute = ( $colors['inline_styles'] );
+	$style_attribute = $colors['inline_styles'];
 	$classes[]       = 'wp-block-navigation-item';
 
 	if ( is_front_page() ) {

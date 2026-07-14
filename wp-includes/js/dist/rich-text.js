@@ -239,8 +239,12 @@ var wp;
     if (format1.type !== format2.type) {
       return false;
     }
-    const attributes1 = format1.attributes;
-    const attributes2 = format2.attributes;
+    let attributes1 = format1.attributes;
+    let attributes2 = format2.attributes;
+    if (format1.unregisteredAttributes || format2.unregisteredAttributes) {
+      attributes1 = { ...attributes1, ...format1.unregisteredAttributes };
+      attributes2 = { ...attributes2, ...format2.unregisteredAttributes };
+    }
     if (attributes1 === attributes2) {
       return true;
     }
@@ -813,13 +817,18 @@ var wp;
     if (formatType.contentEditable === false) {
       delete unregisteredAttributes.contenteditable;
     }
-    return {
+    const format = {
       formatType,
       type: formatType.name,
-      tagName,
-      attributes: registeredAttributes,
-      unregisteredAttributes
+      tagName
     };
+    if (Object.keys(registeredAttributes).length) {
+      format.attributes = registeredAttributes;
+    }
+    if (Object.keys(unregisteredAttributes).length) {
+      format.unregisteredAttributes = unregisteredAttributes;
+    }
+    return format;
   }
   var RichTextData = class _RichTextData {
     #value;

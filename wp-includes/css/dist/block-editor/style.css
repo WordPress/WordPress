@@ -68,6 +68,12 @@
  * Focus styles.
  */
 /**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
  * Applies editor left position to the selector passed as argument
  */
 /**
@@ -1519,14 +1525,22 @@ iframe[name=editor-canvas] {
   background: linear-gradient(-45deg, transparent 48%, #ddd 48%, #ddd 52%, transparent 52%);
 }
 
+.block-editor-panel-color-gradient-settings__contrast-notice {
+  margin-top: 16px;
+}
+
 /**
 * The following styles replicate the separated border of the
 * `ItemGroup` component but allows for hidden items. This is because
 * to maintain the order of `ToolsPanel` controls, each `ToolsPanelItem`
 * must at least render a placeholder which would otherwise interfere
 * with the `:last-child` styles.
+*
+* Applied via the shared `block-editor-color-gradient-item` class on
+* color/gradient dropdown items across the Color, Background, and
+* Typography panels.
 */
-.block-editor-tools-panel-color-gradient-settings__item {
+.block-editor-color-gradient-item {
   padding: 0;
   max-width: 100%;
   position: relative;
@@ -1534,18 +1548,17 @@ iframe[name=editor-canvas] {
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 }
-.block-editor-tools-panel-color-gradient-settings__item:nth-child(1 of .block-editor-tools-panel-color-gradient-settings__item) {
-  margin-top: 24px;
+.block-editor-color-gradient-item:nth-child(1 of .block-editor-color-gradient-item) {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   border-top: 1px solid #ddd;
 }
-.block-editor-tools-panel-color-gradient-settings__item:nth-last-child(1 of .block-editor-tools-panel-color-gradient-settings__item) {
+.block-editor-color-gradient-item:nth-last-child(1 of .block-editor-color-gradient-item) {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 }
-.block-editor-tools-panel-color-gradient-settings__item > div,
-.block-editor-tools-panel-color-gradient-settings__item > div > button {
+.block-editor-color-gradient-item > div,
+.block-editor-color-gradient-item > div > button {
   border-radius: inherit;
 }
 
@@ -1568,6 +1581,9 @@ iframe[name=editor-canvas] {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - 44px);
+}
+.block-editor-tools-panel-color-gradient-settings__dropdown > button.has-contrast-warning .block-editor-panel-color-gradient-settings__color-name {
+  max-width: calc(100% - 72px);
 }
 
 .block-editor-panel-color-gradient-settings__dropdown {
@@ -1599,6 +1615,19 @@ iframe[name=editor-canvas] {
   .block-editor-panel-color-gradient-settings__reset {
     opacity: 1;
   }
+}
+.block-editor-panel-color-gradient-settings__dropdown.has-contrast-warning + .block-editor-panel-color-gradient-settings__reset {
+  right: 28px;
+}
+
+.block-editor-panel-color-gradient-settings__contrast-warning {
+  position: absolute;
+  right: 0;
+  top: 8px;
+  margin: auto 8px auto;
+}
+.block-editor-panel-color-gradient-settings__contrast-warning.block-editor-panel-color-gradient-settings__contrast-warning {
+  border-radius: 2px;
 }
 
 .block-editor-date-format-picker {
@@ -2870,6 +2899,23 @@ iframe[name=editor-canvas] {
 .block-editor-list-view-leaf.is-selected .block-editor-list-view-block-select-button__image:not(:only-child) {
   box-shadow: 0 0 0 2px var(--wp-admin-theme-color);
 }
+.block-editor-list-view-leaf.is-disabled {
+  opacity: 0.2;
+}
+@media not (prefers-reduced-motion) {
+  .block-editor-list-view-leaf.is-disabled {
+    transition: opacity 0.1s linear;
+  }
+}
+.block-editor-list-view-leaf.is-disabled:hover {
+  opacity: 0.2;
+}
+.block-editor-list-view-leaf.is-disabled .block-editor-list-view__expander {
+  cursor: default;
+}
+.block-editor-list-view-leaf.is-disabled .block-editor-list-view-block-select-button:hover {
+  color: inherit;
+}
 
 .block-editor-list-view-draggable-chip {
   opacity: 0.8;
@@ -3412,33 +3458,6 @@ iframe[name=editor-canvas] {
   font-size: 12px;
 }
 
-/**
- * ItemGroup-like border styles for the background panel's ToolsPanelItems.
- * Replicates the separated border of the `ItemGroup` component while
- * allowing for hidden placeholder items (same approach as the color panel).
- */
-.block-editor-background-panel__item {
-  padding: 0;
-  max-width: 100%;
-  position: relative;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
-.block-editor-background-panel__item:nth-child(1 of .block-editor-background-panel__item) {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  border-top: 1px solid #ddd;
-}
-.block-editor-background-panel__item:nth-last-child(1 of .block-editor-background-panel__item) {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-.block-editor-background-panel__item > div,
-.block-editor-background-panel__item > div > button {
-  border-radius: inherit;
-}
-
 .background-block-support-panel {
   /* Increased specificity required to remove the slot wrapper's row gap */
 }
@@ -3653,15 +3672,12 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 .color-block-support-panel.color-block-support-panel .color-block-support-panel__inner-wrapper {
   row-gap: 0;
 }
-.color-block-support-panel {
-  /**
-   * After converting PanelColorGradientSettings to render as a ToolsPanel
-   * we need to remove the top margin when wrapping inner content due to
-   * rendering via SlotFills.
-   */
+
+.elements-block-support-panel {
+  /* Increased specificity required to remove the slot wrapper's row gap */
 }
-.color-block-support-panel .block-editor-tools-panel-color-gradient-settings__item.first {
-  margin-top: 0;
+.elements-block-support-panel.elements-block-support-panel .elements-block-support-panel__inner-wrapper {
+  row-gap: 0;
 }
 
 .dimensions-block-support-panel .single-column {
@@ -4392,15 +4408,24 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
   width: 100%;
 }
 
+.block-editor-inserter__media-mobile-screen {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
 .block-editor-inserter__media-panel {
-  min-height: 100%;
   padding: 0 16px;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 @media (min-width: 782px) {
   .block-editor-inserter__media-panel {
     padding: 0;
+    flex: 0 1 auto;
+    min-height: 100%;
   }
 }
 .block-editor-inserter__media-panel .block-editor-inserter__media-panel-spinner {
@@ -4419,6 +4444,65 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
     padding: 16px 24px 16px;
   }
 }
+.block-editor-inserter__media-panel .block-editor-inserter__no-results {
+  flex-grow: 1;
+}
+.block-editor-inserter__media-panel .block-editor-inserter__media-panel-attach.components-button {
+  justify-content: center;
+  padding: 16px;
+}
+.block-editor-inserter__media-panel .block-editor-inserter__media-panel-attach {
+  flex-shrink: 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+@media (min-width: 782px) {
+  .block-editor-inserter__media-panel .block-editor-inserter__media-panel-attach {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
+.block-editor-inserter__media-panel .block-editor-inserter__media-panel-results {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+}
+.block-editor-inserter__media-panel .block-editor-inserter__media-panel-results.is-loading .block-editor-inserter__media-list {
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media not (prefers-reduced-motion) {
+  .block-editor-inserter__media-panel .block-editor-inserter__media-panel-results.is-loading .block-editor-inserter__media-list {
+    opacity: 1;
+    animation: inserter-media-panel-pulse 1s ease-in-out infinite;
+  }
+}
+.block-editor-inserter__media-panel.has-attach-footer .block-editor-inserter__media-list {
+  padding-bottom: 0;
+}
+
+@keyframes inserter-media-panel-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.block-editor-inserter__media-panel-detach-modal {
+  z-index: 1000001;
+}
+.block-editor-inserter__media-panel-detach-modal p {
+  margin-top: 0;
+}
+
+.block-editor-inserter__media-panel-detach-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
 
 .block-editor-inserter__media-list__list-item {
   position: relative;
@@ -4434,7 +4518,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 .block-editor-inserter__media-list__list-item.is-hovered .block-editor-inserter__media-list__item-preview > * {
   outline-color: rgba(0, 0, 0, 0.3);
 }
-.block-editor-inserter__media-list__list-item.is-hovered .block-editor-inserter__media-list__item-preview-options > button {
+.block-editor-inserter__media-list__list-item.is-hovered .block-editor-inserter__media-list__item-preview-options > button, .block-editor-inserter__media-list__list-item:focus-within .block-editor-inserter__media-list__item-preview-options > button {
   display: block;
 }
 .block-editor-inserter__media-list__list-item .block-editor-inserter__media-list__item-preview-options {

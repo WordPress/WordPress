@@ -16,7 +16,7 @@
  */
 function render_block_core_tag_cloud( $attributes ) {
 	$smallest_font_size = $attributes['smallestFontSize'];
-	$unit               = ( preg_match( '/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m ) ? $m['unit'] : 'pt' );
+	$unit               = preg_match( '/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m ) ? $m['unit'] : 'pt';
 
 	$args      = array(
 		'echo'       => false,

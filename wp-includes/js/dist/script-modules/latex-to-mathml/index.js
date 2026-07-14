@@ -13,16 +13,16 @@ var ParseError = class _ParseError {
       } else {
         error += " at position " + (start + 1) + ": ";
       }
-      const underlined = input.slice(start, end).replace(/[^]/g, "$&\u0332");
+      const underlined = input.slice(start, end).replace(/[^]/g, "$&̲");
       let left;
       if (start > 15) {
-        left = "\u2026" + input.slice(start - 15, start);
+        left = "…" + input.slice(start - 15, start);
       } else {
         left = input.slice(0, start);
       }
       let right;
       if (end + 15 < input.length) {
-        right = input.slice(end, end + 15) + "\u2026";
+        right = input.slice(end, end + 15) + "…";
       } else {
         right = input.slice(end);
       }
@@ -532,52 +532,52 @@ var estimatedWidth = (node) => {
 };
 var stretchyCodePoint = {
   widehat: "^",
-  widecheck: "\u02C7",
+  widecheck: "ˇ",
   widetilde: "~",
-  wideparen: "\u23DC",
+  wideparen: "⏜",
   // \u23dc
   utilde: "~",
-  overleftarrow: "\u2190",
-  underleftarrow: "\u2190",
-  xleftarrow: "\u2190",
-  overrightarrow: "\u2192",
-  underrightarrow: "\u2192",
-  xrightarrow: "\u2192",
-  underbrace: "\u23DF",
-  overbrace: "\u23DE",
-  overgroup: "\u23E0",
-  overparen: "\u23DC",
-  undergroup: "\u23E1",
-  underparen: "\u23DD",
-  overleftrightarrow: "\u2194",
-  underleftrightarrow: "\u2194",
-  xleftrightarrow: "\u2194",
-  Overrightarrow: "\u21D2",
-  xRightarrow: "\u21D2",
-  overleftharpoon: "\u21BC",
-  xleftharpoonup: "\u21BC",
-  overrightharpoon: "\u21C0",
-  xrightharpoonup: "\u21C0",
-  xLeftarrow: "\u21D0",
-  xLeftrightarrow: "\u21D4",
-  xhookleftarrow: "\u21A9",
-  xhookrightarrow: "\u21AA",
-  xmapsto: "\u21A6",
-  xrightharpoondown: "\u21C1",
-  xleftharpoondown: "\u21BD",
-  xtwoheadleftarrow: "\u219E",
-  xtwoheadrightarrow: "\u21A0",
+  overleftarrow: "←",
+  underleftarrow: "←",
+  xleftarrow: "←",
+  overrightarrow: "→",
+  underrightarrow: "→",
+  xrightarrow: "→",
+  underbrace: "⏟",
+  overbrace: "⏞",
+  overgroup: "⏠",
+  overparen: "⏜",
+  undergroup: "⏡",
+  underparen: "⏝",
+  overleftrightarrow: "↔",
+  underleftrightarrow: "↔",
+  xleftrightarrow: "↔",
+  Overrightarrow: "⇒",
+  xRightarrow: "⇒",
+  overleftharpoon: "↼",
+  xleftharpoonup: "↼",
+  overrightharpoon: "⇀",
+  xrightharpoonup: "⇀",
+  xLeftarrow: "⇐",
+  xLeftrightarrow: "⇔",
+  xhookleftarrow: "↩",
+  xhookrightarrow: "↪",
+  xmapsto: "↦",
+  xrightharpoondown: "⇁",
+  xleftharpoondown: "↽",
+  xtwoheadleftarrow: "↞",
+  xtwoheadrightarrow: "↠",
   xlongequal: "=",
-  xrightleftarrows: "\u21C4",
-  yields: "\u2192",
-  yieldsLeft: "\u2190",
-  mesomerism: "\u2194",
-  longrightharpoonup: "\u21C0",
-  longleftharpoondown: "\u21BD",
-  eqrightharpoonup: "\u21C0",
-  eqleftharpoondown: "\u21BD",
-  "\\cdrightarrow": "\u2192",
-  "\\cdleftarrow": "\u2190",
+  xrightleftarrows: "⇄",
+  yields: "→",
+  yieldsLeft: "←",
+  mesomerism: "↔",
+  longrightharpoonup: "⇀",
+  longleftharpoondown: "↽",
+  eqrightharpoonup: "⇀",
+  eqleftharpoondown: "↽",
+  "\\cdrightarrow": "→",
+  "\\cdleftarrow": "←",
   "\\cdlongequal": "="
 };
 var mathMLnode = function(label) {
@@ -643,652 +643,652 @@ var punct = "punct";
 var rel = "rel";
 var spacing = "spacing";
 var textord = "textord";
-defineSymbol(math, rel, "\u2261", "\\equiv", true);
-defineSymbol(math, rel, "\u227A", "\\prec", true);
-defineSymbol(math, rel, "\u227B", "\\succ", true);
-defineSymbol(math, rel, "\u223C", "\\sim", true);
-defineSymbol(math, rel, "\u27C2", "\\perp", true);
-defineSymbol(math, rel, "\u2AAF", "\\preceq", true);
-defineSymbol(math, rel, "\u2AB0", "\\succeq", true);
-defineSymbol(math, rel, "\u2243", "\\simeq", true);
-defineSymbol(math, rel, "\u224C", "\\backcong", true);
+defineSymbol(math, rel, "≡", "\\equiv", true);
+defineSymbol(math, rel, "≺", "\\prec", true);
+defineSymbol(math, rel, "≻", "\\succ", true);
+defineSymbol(math, rel, "∼", "\\sim", true);
+defineSymbol(math, rel, "⟂", "\\perp", true);
+defineSymbol(math, rel, "⪯", "\\preceq", true);
+defineSymbol(math, rel, "⪰", "\\succeq", true);
+defineSymbol(math, rel, "≃", "\\simeq", true);
+defineSymbol(math, rel, "≌", "\\backcong", true);
 defineSymbol(math, rel, "|", "\\mid", true);
-defineSymbol(math, rel, "\u226A", "\\ll", true);
-defineSymbol(math, rel, "\u226B", "\\gg", true);
-defineSymbol(math, rel, "\u224D", "\\asymp", true);
-defineSymbol(math, rel, "\u2225", "\\parallel");
-defineSymbol(math, rel, "\u2323", "\\smile", true);
-defineSymbol(math, rel, "\u2291", "\\sqsubseteq", true);
-defineSymbol(math, rel, "\u2292", "\\sqsupseteq", true);
-defineSymbol(math, rel, "\u2250", "\\doteq", true);
-defineSymbol(math, rel, "\u2322", "\\frown", true);
-defineSymbol(math, rel, "\u220B", "\\ni", true);
-defineSymbol(math, rel, "\u220C", "\\notni", true);
-defineSymbol(math, rel, "\u221D", "\\propto", true);
-defineSymbol(math, rel, "\u22A2", "\\vdash", true);
-defineSymbol(math, rel, "\u22A3", "\\dashv", true);
-defineSymbol(math, rel, "\u220B", "\\owns");
-defineSymbol(math, rel, "\u2258", "\\arceq", true);
-defineSymbol(math, rel, "\u2259", "\\wedgeq", true);
-defineSymbol(math, rel, "\u225A", "\\veeeq", true);
-defineSymbol(math, rel, "\u225B", "\\stareq", true);
-defineSymbol(math, rel, "\u225D", "\\eqdef", true);
-defineSymbol(math, rel, "\u225E", "\\measeq", true);
-defineSymbol(math, rel, "\u225F", "\\questeq", true);
-defineSymbol(math, rel, "\u2260", "\\ne", true);
-defineSymbol(math, rel, "\u2260", "\\neq");
-defineSymbol(math, rel, "\u2A75", "\\eqeq", true);
-defineSymbol(math, rel, "\u2A76", "\\eqeqeq", true);
-defineSymbol(math, rel, "\u2237", "\\dblcolon", true);
-defineSymbol(math, rel, "\u2254", "\\coloneqq", true);
-defineSymbol(math, rel, "\u2255", "\\eqqcolon", true);
-defineSymbol(math, rel, "\u2239", "\\eqcolon", true);
-defineSymbol(math, rel, "\u2A74", "\\Coloneqq", true);
+defineSymbol(math, rel, "≪", "\\ll", true);
+defineSymbol(math, rel, "≫", "\\gg", true);
+defineSymbol(math, rel, "≍", "\\asymp", true);
+defineSymbol(math, rel, "∥", "\\parallel");
+defineSymbol(math, rel, "⌣", "\\smile", true);
+defineSymbol(math, rel, "⊑", "\\sqsubseteq", true);
+defineSymbol(math, rel, "⊒", "\\sqsupseteq", true);
+defineSymbol(math, rel, "≐", "\\doteq", true);
+defineSymbol(math, rel, "⌢", "\\frown", true);
+defineSymbol(math, rel, "∋", "\\ni", true);
+defineSymbol(math, rel, "∌", "\\notni", true);
+defineSymbol(math, rel, "∝", "\\propto", true);
+defineSymbol(math, rel, "⊢", "\\vdash", true);
+defineSymbol(math, rel, "⊣", "\\dashv", true);
+defineSymbol(math, rel, "∋", "\\owns");
+defineSymbol(math, rel, "≘", "\\arceq", true);
+defineSymbol(math, rel, "≙", "\\wedgeq", true);
+defineSymbol(math, rel, "≚", "\\veeeq", true);
+defineSymbol(math, rel, "≛", "\\stareq", true);
+defineSymbol(math, rel, "≝", "\\eqdef", true);
+defineSymbol(math, rel, "≞", "\\measeq", true);
+defineSymbol(math, rel, "≟", "\\questeq", true);
+defineSymbol(math, rel, "≠", "\\ne", true);
+defineSymbol(math, rel, "≠", "\\neq");
+defineSymbol(math, rel, "⩵", "\\eqeq", true);
+defineSymbol(math, rel, "⩶", "\\eqeqeq", true);
+defineSymbol(math, rel, "∷", "\\dblcolon", true);
+defineSymbol(math, rel, "≔", "\\coloneqq", true);
+defineSymbol(math, rel, "≕", "\\eqqcolon", true);
+defineSymbol(math, rel, "∹", "\\eqcolon", true);
+defineSymbol(math, rel, "⩴", "\\Coloneqq", true);
 defineSymbol(math, punct, ".", "\\ldotp");
-defineSymbol(math, punct, "\xB7", "\\cdotp");
+defineSymbol(math, punct, "·", "\\cdotp");
 defineSymbol(math, textord, "#", "\\#");
 defineSymbol(text, textord, "#", "\\#");
 defineSymbol(math, textord, "&", "\\&");
 defineSymbol(text, textord, "&", "\\&");
-defineSymbol(math, textord, "\u2135", "\\aleph", true);
-defineSymbol(math, textord, "\u2200", "\\forall", true);
-defineSymbol(math, textord, "\u210F", "\\hbar", true);
-defineSymbol(math, textord, "\u2203", "\\exists", true);
-defineSymbol(math, bin, "\u2207", "\\nabla", true);
-defineSymbol(math, textord, "\u266D", "\\flat", true);
-defineSymbol(math, textord, "\u2113", "\\ell", true);
-defineSymbol(math, textord, "\u266E", "\\natural", true);
-defineSymbol(math, textord, "\u212B", "\\Angstrom", true);
-defineSymbol(text, textord, "\u212B", "\\Angstrom", true);
-defineSymbol(math, textord, "\u2663", "\\clubsuit", true);
-defineSymbol(math, textord, "\u2667", "\\varclubsuit", true);
-defineSymbol(math, textord, "\u2118", "\\wp", true);
-defineSymbol(math, textord, "\u266F", "\\sharp", true);
-defineSymbol(math, textord, "\u2662", "\\diamondsuit", true);
-defineSymbol(math, textord, "\u2666", "\\vardiamondsuit", true);
-defineSymbol(math, textord, "\u211C", "\\Re", true);
-defineSymbol(math, textord, "\u2661", "\\heartsuit", true);
-defineSymbol(math, textord, "\u2665", "\\varheartsuit", true);
-defineSymbol(math, textord, "\u2111", "\\Im", true);
-defineSymbol(math, textord, "\u2660", "\\spadesuit", true);
-defineSymbol(math, textord, "\u2664", "\\varspadesuit", true);
-defineSymbol(math, textord, "\u2640", "\\female", true);
-defineSymbol(math, textord, "\u2642", "\\male", true);
-defineSymbol(math, textord, "\xA7", "\\S", true);
-defineSymbol(text, textord, "\xA7", "\\S");
-defineSymbol(math, textord, "\xB6", "\\P", true);
-defineSymbol(text, textord, "\xB6", "\\P");
-defineSymbol(text, textord, "\u263A", "\\smiley", true);
-defineSymbol(math, textord, "\u263A", "\\smiley", true);
-defineSymbol(math, textord, "\u2020", "\\dag");
-defineSymbol(text, textord, "\u2020", "\\dag");
-defineSymbol(text, textord, "\u2020", "\\textdagger");
-defineSymbol(math, textord, "\u2021", "\\ddag");
-defineSymbol(text, textord, "\u2021", "\\ddag");
-defineSymbol(text, textord, "\u2021", "\\textdaggerdbl");
-defineSymbol(math, close, "\u23B1", "\\rmoustache", true);
-defineSymbol(math, open, "\u23B0", "\\lmoustache", true);
-defineSymbol(math, close, "\u27EF", "\\rgroup", true);
-defineSymbol(math, open, "\u27EE", "\\lgroup", true);
-defineSymbol(math, bin, "\u2213", "\\mp", true);
-defineSymbol(math, bin, "\u2296", "\\ominus", true);
-defineSymbol(math, bin, "\u228E", "\\uplus", true);
-defineSymbol(math, bin, "\u2293", "\\sqcap", true);
-defineSymbol(math, bin, "\u2217", "\\ast");
-defineSymbol(math, bin, "\u2294", "\\sqcup", true);
-defineSymbol(math, bin, "\u25EF", "\\bigcirc", true);
-defineSymbol(math, bin, "\u2219", "\\bullet", true);
-defineSymbol(math, bin, "\u2021", "\\ddagger");
-defineSymbol(math, bin, "\u2240", "\\wr", true);
-defineSymbol(math, bin, "\u2A3F", "\\amalg");
+defineSymbol(math, textord, "ℵ", "\\aleph", true);
+defineSymbol(math, textord, "∀", "\\forall", true);
+defineSymbol(math, textord, "ℏ", "\\hbar", true);
+defineSymbol(math, textord, "∃", "\\exists", true);
+defineSymbol(math, bin, "∇", "\\nabla", true);
+defineSymbol(math, textord, "♭", "\\flat", true);
+defineSymbol(math, textord, "ℓ", "\\ell", true);
+defineSymbol(math, textord, "♮", "\\natural", true);
+defineSymbol(math, textord, "Å", "\\Angstrom", true);
+defineSymbol(text, textord, "Å", "\\Angstrom", true);
+defineSymbol(math, textord, "♣", "\\clubsuit", true);
+defineSymbol(math, textord, "♧", "\\varclubsuit", true);
+defineSymbol(math, textord, "℘", "\\wp", true);
+defineSymbol(math, textord, "♯", "\\sharp", true);
+defineSymbol(math, textord, "♢", "\\diamondsuit", true);
+defineSymbol(math, textord, "♦", "\\vardiamondsuit", true);
+defineSymbol(math, textord, "ℜ", "\\Re", true);
+defineSymbol(math, textord, "♡", "\\heartsuit", true);
+defineSymbol(math, textord, "♥", "\\varheartsuit", true);
+defineSymbol(math, textord, "ℑ", "\\Im", true);
+defineSymbol(math, textord, "♠", "\\spadesuit", true);
+defineSymbol(math, textord, "♤", "\\varspadesuit", true);
+defineSymbol(math, textord, "♀", "\\female", true);
+defineSymbol(math, textord, "♂", "\\male", true);
+defineSymbol(math, textord, "§", "\\S", true);
+defineSymbol(text, textord, "§", "\\S");
+defineSymbol(math, textord, "¶", "\\P", true);
+defineSymbol(text, textord, "¶", "\\P");
+defineSymbol(text, textord, "☺", "\\smiley", true);
+defineSymbol(math, textord, "☺", "\\smiley", true);
+defineSymbol(math, textord, "†", "\\dag");
+defineSymbol(text, textord, "†", "\\dag");
+defineSymbol(text, textord, "†", "\\textdagger");
+defineSymbol(math, textord, "‡", "\\ddag");
+defineSymbol(text, textord, "‡", "\\ddag");
+defineSymbol(text, textord, "‡", "\\textdaggerdbl");
+defineSymbol(math, close, "⎱", "\\rmoustache", true);
+defineSymbol(math, open, "⎰", "\\lmoustache", true);
+defineSymbol(math, close, "⟯", "\\rgroup", true);
+defineSymbol(math, open, "⟮", "\\lgroup", true);
+defineSymbol(math, bin, "∓", "\\mp", true);
+defineSymbol(math, bin, "⊖", "\\ominus", true);
+defineSymbol(math, bin, "⊎", "\\uplus", true);
+defineSymbol(math, bin, "⊓", "\\sqcap", true);
+defineSymbol(math, bin, "∗", "\\ast");
+defineSymbol(math, bin, "⊔", "\\sqcup", true);
+defineSymbol(math, bin, "◯", "\\bigcirc", true);
+defineSymbol(math, bin, "∙", "\\bullet", true);
+defineSymbol(math, bin, "‡", "\\ddagger");
+defineSymbol(math, bin, "≀", "\\wr", true);
+defineSymbol(math, bin, "⨿", "\\amalg");
 defineSymbol(math, bin, "&", "\\And");
-defineSymbol(math, bin, "\u2AFD", "\\sslash", true);
-defineSymbol(math, rel, "\u27F5", "\\longleftarrow", true);
-defineSymbol(math, rel, "\u21D0", "\\Leftarrow", true);
-defineSymbol(math, rel, "\u27F8", "\\Longleftarrow", true);
-defineSymbol(math, rel, "\u27F6", "\\longrightarrow", true);
-defineSymbol(math, rel, "\u21D2", "\\Rightarrow", true);
-defineSymbol(math, rel, "\u27F9", "\\Longrightarrow", true);
-defineSymbol(math, rel, "\u2194", "\\leftrightarrow", true);
-defineSymbol(math, rel, "\u27F7", "\\longleftrightarrow", true);
-defineSymbol(math, rel, "\u21D4", "\\Leftrightarrow", true);
-defineSymbol(math, rel, "\u27FA", "\\Longleftrightarrow", true);
-defineSymbol(math, rel, "\u21A4", "\\mapsfrom", true);
-defineSymbol(math, rel, "\u21A6", "\\mapsto", true);
-defineSymbol(math, rel, "\u27FC", "\\longmapsto", true);
-defineSymbol(math, rel, "\u2197", "\\nearrow", true);
-defineSymbol(math, rel, "\u21A9", "\\hookleftarrow", true);
-defineSymbol(math, rel, "\u21AA", "\\hookrightarrow", true);
-defineSymbol(math, rel, "\u2198", "\\searrow", true);
-defineSymbol(math, rel, "\u21BC", "\\leftharpoonup", true);
-defineSymbol(math, rel, "\u21C0", "\\rightharpoonup", true);
-defineSymbol(math, rel, "\u2199", "\\swarrow", true);
-defineSymbol(math, rel, "\u21BD", "\\leftharpoondown", true);
-defineSymbol(math, rel, "\u21C1", "\\rightharpoondown", true);
-defineSymbol(math, rel, "\u2196", "\\nwarrow", true);
-defineSymbol(math, rel, "\u21CC", "\\rightleftharpoons", true);
-defineSymbol(math, mathord, "\u21AF", "\\lightning", true);
-defineSymbol(math, mathord, "\u220E", "\\QED", true);
-defineSymbol(math, mathord, "\u2030", "\\permil", true);
-defineSymbol(text, textord, "\u2030", "\\permil");
-defineSymbol(math, mathord, "\u2609", "\\astrosun", true);
-defineSymbol(math, mathord, "\u263C", "\\sun", true);
-defineSymbol(math, mathord, "\u263E", "\\leftmoon", true);
-defineSymbol(math, mathord, "\u263D", "\\rightmoon", true);
-defineSymbol(math, mathord, "\u2295", "\\Earth");
-defineSymbol(math, rel, "\u226E", "\\nless", true);
-defineSymbol(math, rel, "\u2A87", "\\lneq", true);
-defineSymbol(math, rel, "\u2268", "\\lneqq", true);
-defineSymbol(math, rel, "\u2268\uFE00", "\\lvertneqq");
-defineSymbol(math, rel, "\u22E6", "\\lnsim", true);
-defineSymbol(math, rel, "\u2A89", "\\lnapprox", true);
-defineSymbol(math, rel, "\u2280", "\\nprec", true);
-defineSymbol(math, rel, "\u22E0", "\\npreceq", true);
-defineSymbol(math, rel, "\u22E8", "\\precnsim", true);
-defineSymbol(math, rel, "\u2AB9", "\\precnapprox", true);
-defineSymbol(math, rel, "\u2241", "\\nsim", true);
-defineSymbol(math, rel, "\u2224", "\\nmid", true);
-defineSymbol(math, rel, "\u2224", "\\nshortmid");
-defineSymbol(math, rel, "\u22AC", "\\nvdash", true);
-defineSymbol(math, rel, "\u22AD", "\\nvDash", true);
-defineSymbol(math, rel, "\u22EA", "\\ntriangleleft");
-defineSymbol(math, rel, "\u22EC", "\\ntrianglelefteq", true);
-defineSymbol(math, rel, "\u2284", "\\nsubset", true);
-defineSymbol(math, rel, "\u2285", "\\nsupset", true);
-defineSymbol(math, rel, "\u228A", "\\subsetneq", true);
-defineSymbol(math, rel, "\u228A\uFE00", "\\varsubsetneq");
-defineSymbol(math, rel, "\u2ACB", "\\subsetneqq", true);
-defineSymbol(math, rel, "\u2ACB\uFE00", "\\varsubsetneqq");
-defineSymbol(math, rel, "\u226F", "\\ngtr", true);
-defineSymbol(math, rel, "\u2A88", "\\gneq", true);
-defineSymbol(math, rel, "\u2269", "\\gneqq", true);
-defineSymbol(math, rel, "\u2269\uFE00", "\\gvertneqq");
-defineSymbol(math, rel, "\u22E7", "\\gnsim", true);
-defineSymbol(math, rel, "\u2A8A", "\\gnapprox", true);
-defineSymbol(math, rel, "\u2281", "\\nsucc", true);
-defineSymbol(math, rel, "\u22E1", "\\nsucceq", true);
-defineSymbol(math, rel, "\u22E9", "\\succnsim", true);
-defineSymbol(math, rel, "\u2ABA", "\\succnapprox", true);
-defineSymbol(math, rel, "\u2246", "\\ncong", true);
-defineSymbol(math, rel, "\u2226", "\\nparallel", true);
-defineSymbol(math, rel, "\u2226", "\\nshortparallel");
-defineSymbol(math, rel, "\u22AF", "\\nVDash", true);
-defineSymbol(math, rel, "\u22EB", "\\ntriangleright");
-defineSymbol(math, rel, "\u22ED", "\\ntrianglerighteq", true);
-defineSymbol(math, rel, "\u228B", "\\supsetneq", true);
-defineSymbol(math, rel, "\u228B", "\\varsupsetneq");
-defineSymbol(math, rel, "\u2ACC", "\\supsetneqq", true);
-defineSymbol(math, rel, "\u2ACC\uFE00", "\\varsupsetneqq");
-defineSymbol(math, rel, "\u22AE", "\\nVdash", true);
-defineSymbol(math, rel, "\u2AB5", "\\precneqq", true);
-defineSymbol(math, rel, "\u2AB6", "\\succneqq", true);
-defineSymbol(math, bin, "\u22B4", "\\unlhd");
-defineSymbol(math, bin, "\u22B5", "\\unrhd");
-defineSymbol(math, rel, "\u219A", "\\nleftarrow", true);
-defineSymbol(math, rel, "\u219B", "\\nrightarrow", true);
-defineSymbol(math, rel, "\u21CD", "\\nLeftarrow", true);
-defineSymbol(math, rel, "\u21CF", "\\nRightarrow", true);
-defineSymbol(math, rel, "\u21AE", "\\nleftrightarrow", true);
-defineSymbol(math, rel, "\u21CE", "\\nLeftrightarrow", true);
-defineSymbol(math, rel, "\u25B3", "\\vartriangle");
-defineSymbol(math, textord, "\u210F", "\\hslash");
-defineSymbol(math, textord, "\u25BD", "\\triangledown");
-defineSymbol(math, textord, "\u25CA", "\\lozenge");
-defineSymbol(math, textord, "\u24C8", "\\circledS");
-defineSymbol(math, textord, "\xAE", "\\circledR", true);
-defineSymbol(text, textord, "\xAE", "\\circledR");
-defineSymbol(text, textord, "\xAE", "\\textregistered");
-defineSymbol(math, textord, "\u2221", "\\measuredangle", true);
-defineSymbol(math, textord, "\u2204", "\\nexists");
-defineSymbol(math, textord, "\u2127", "\\mho");
-defineSymbol(math, textord, "\u2132", "\\Finv", true);
-defineSymbol(math, textord, "\u2141", "\\Game", true);
-defineSymbol(math, textord, "\u2035", "\\backprime");
-defineSymbol(math, textord, "\u2036", "\\backdprime");
-defineSymbol(math, textord, "\u2037", "\\backtrprime");
-defineSymbol(math, textord, "\u25B2", "\\blacktriangle");
-defineSymbol(math, textord, "\u25BC", "\\blacktriangledown");
-defineSymbol(math, textord, "\u25A0", "\\blacksquare");
-defineSymbol(math, textord, "\u29EB", "\\blacklozenge");
-defineSymbol(math, textord, "\u2605", "\\bigstar");
-defineSymbol(math, textord, "\u2222", "\\sphericalangle", true);
-defineSymbol(math, textord, "\u2201", "\\complement", true);
-defineSymbol(math, textord, "\xF0", "\\eth", true);
-defineSymbol(text, textord, "\xF0", "\xF0");
-defineSymbol(math, textord, "\u2571", "\\diagup");
-defineSymbol(math, textord, "\u2572", "\\diagdown");
-defineSymbol(math, textord, "\u25A1", "\\square");
-defineSymbol(math, textord, "\u25A1", "\\Box");
-defineSymbol(math, textord, "\u25CA", "\\Diamond");
-defineSymbol(math, textord, "\xA5", "\\yen", true);
-defineSymbol(text, textord, "\xA5", "\\yen", true);
-defineSymbol(math, textord, "\u2713", "\\checkmark", true);
-defineSymbol(text, textord, "\u2713", "\\checkmark");
-defineSymbol(math, textord, "\u2717", "\\ballotx", true);
-defineSymbol(text, textord, "\u2717", "\\ballotx");
-defineSymbol(text, textord, "\u2022", "\\textbullet");
-defineSymbol(math, textord, "\u2136", "\\beth", true);
-defineSymbol(math, textord, "\u2138", "\\daleth", true);
-defineSymbol(math, textord, "\u2137", "\\gimel", true);
-defineSymbol(math, textord, "\u03DD", "\\digamma", true);
-defineSymbol(math, textord, "\u03F0", "\\varkappa");
-defineSymbol(math, open, "\u231C", "\\ulcorner", true);
-defineSymbol(math, close, "\u231D", "\\urcorner", true);
-defineSymbol(math, open, "\u231E", "\\llcorner", true);
-defineSymbol(math, close, "\u231F", "\\lrcorner", true);
-defineSymbol(math, rel, "\u2266", "\\leqq", true);
-defineSymbol(math, rel, "\u2A7D", "\\leqslant", true);
-defineSymbol(math, rel, "\u2A95", "\\eqslantless", true);
-defineSymbol(math, rel, "\u2272", "\\lesssim", true);
-defineSymbol(math, rel, "\u2A85", "\\lessapprox", true);
-defineSymbol(math, rel, "\u224A", "\\approxeq", true);
-defineSymbol(math, bin, "\u22D6", "\\lessdot");
-defineSymbol(math, rel, "\u22D8", "\\lll", true);
-defineSymbol(math, rel, "\u2276", "\\lessgtr", true);
-defineSymbol(math, rel, "\u22DA", "\\lesseqgtr", true);
-defineSymbol(math, rel, "\u2A8B", "\\lesseqqgtr", true);
-defineSymbol(math, rel, "\u2251", "\\doteqdot");
-defineSymbol(math, rel, "\u2253", "\\risingdotseq", true);
-defineSymbol(math, rel, "\u2252", "\\fallingdotseq", true);
-defineSymbol(math, rel, "\u223D", "\\backsim", true);
-defineSymbol(math, rel, "\u22CD", "\\backsimeq", true);
-defineSymbol(math, rel, "\u2AC5", "\\subseteqq", true);
-defineSymbol(math, rel, "\u22D0", "\\Subset", true);
-defineSymbol(math, rel, "\u228F", "\\sqsubset", true);
-defineSymbol(math, rel, "\u227C", "\\preccurlyeq", true);
-defineSymbol(math, rel, "\u22DE", "\\curlyeqprec", true);
-defineSymbol(math, rel, "\u227E", "\\precsim", true);
-defineSymbol(math, rel, "\u2AB7", "\\precapprox", true);
-defineSymbol(math, rel, "\u22B2", "\\vartriangleleft");
-defineSymbol(math, rel, "\u22B4", "\\trianglelefteq");
-defineSymbol(math, rel, "\u22A8", "\\vDash", true);
-defineSymbol(math, rel, "\u22AB", "\\VDash", true);
-defineSymbol(math, rel, "\u22AA", "\\Vvdash", true);
-defineSymbol(math, rel, "\u2323", "\\smallsmile");
-defineSymbol(math, rel, "\u2322", "\\smallfrown");
-defineSymbol(math, rel, "\u224F", "\\bumpeq", true);
-defineSymbol(math, rel, "\u224E", "\\Bumpeq", true);
-defineSymbol(math, rel, "\u2267", "\\geqq", true);
-defineSymbol(math, rel, "\u2A7E", "\\geqslant", true);
-defineSymbol(math, rel, "\u2A96", "\\eqslantgtr", true);
-defineSymbol(math, rel, "\u2273", "\\gtrsim", true);
-defineSymbol(math, rel, "\u2A86", "\\gtrapprox", true);
-defineSymbol(math, bin, "\u22D7", "\\gtrdot");
-defineSymbol(math, rel, "\u22D9", "\\ggg", true);
-defineSymbol(math, rel, "\u2277", "\\gtrless", true);
-defineSymbol(math, rel, "\u22DB", "\\gtreqless", true);
-defineSymbol(math, rel, "\u2A8C", "\\gtreqqless", true);
-defineSymbol(math, rel, "\u2256", "\\eqcirc", true);
-defineSymbol(math, rel, "\u2257", "\\circeq", true);
-defineSymbol(math, rel, "\u225C", "\\triangleq", true);
-defineSymbol(math, rel, "\u223C", "\\thicksim");
-defineSymbol(math, rel, "\u2248", "\\thickapprox");
-defineSymbol(math, rel, "\u2AC6", "\\supseteqq", true);
-defineSymbol(math, rel, "\u22D1", "\\Supset", true);
-defineSymbol(math, rel, "\u2290", "\\sqsupset", true);
-defineSymbol(math, rel, "\u227D", "\\succcurlyeq", true);
-defineSymbol(math, rel, "\u22DF", "\\curlyeqsucc", true);
-defineSymbol(math, rel, "\u227F", "\\succsim", true);
-defineSymbol(math, rel, "\u2AB8", "\\succapprox", true);
-defineSymbol(math, rel, "\u22B3", "\\vartriangleright");
-defineSymbol(math, rel, "\u22B5", "\\trianglerighteq");
-defineSymbol(math, rel, "\u22A9", "\\Vdash", true);
-defineSymbol(math, rel, "\u2223", "\\shortmid");
-defineSymbol(math, rel, "\u2225", "\\shortparallel");
-defineSymbol(math, rel, "\u226C", "\\between", true);
-defineSymbol(math, rel, "\u22D4", "\\pitchfork", true);
-defineSymbol(math, rel, "\u221D", "\\varpropto");
-defineSymbol(math, rel, "\u25C0", "\\blacktriangleleft");
-defineSymbol(math, rel, "\u2234", "\\therefore", true);
-defineSymbol(math, rel, "\u220D", "\\backepsilon");
-defineSymbol(math, rel, "\u25B6", "\\blacktriangleright");
-defineSymbol(math, rel, "\u2235", "\\because", true);
-defineSymbol(math, rel, "\u22D8", "\\llless");
-defineSymbol(math, rel, "\u22D9", "\\gggtr");
-defineSymbol(math, bin, "\u22B2", "\\lhd");
-defineSymbol(math, bin, "\u22B3", "\\rhd");
-defineSymbol(math, rel, "\u2242", "\\eqsim", true);
-defineSymbol(math, rel, "\u2251", "\\Doteq", true);
-defineSymbol(math, rel, "\u297D", "\\strictif", true);
-defineSymbol(math, rel, "\u297C", "\\strictfi", true);
-defineSymbol(math, bin, "\u2214", "\\dotplus", true);
-defineSymbol(math, bin, "\u2216", "\\smallsetminus");
-defineSymbol(math, bin, "\u22D2", "\\Cap", true);
-defineSymbol(math, bin, "\u22D3", "\\Cup", true);
-defineSymbol(math, bin, "\u2A5E", "\\doublebarwedge", true);
-defineSymbol(math, bin, "\u229F", "\\boxminus", true);
-defineSymbol(math, bin, "\u229E", "\\boxplus", true);
-defineSymbol(math, bin, "\u29C4", "\\boxslash", true);
-defineSymbol(math, bin, "\u22C7", "\\divideontimes", true);
-defineSymbol(math, bin, "\u22C9", "\\ltimes", true);
-defineSymbol(math, bin, "\u22CA", "\\rtimes", true);
-defineSymbol(math, bin, "\u22CB", "\\leftthreetimes", true);
-defineSymbol(math, bin, "\u22CC", "\\rightthreetimes", true);
-defineSymbol(math, bin, "\u22CF", "\\curlywedge", true);
-defineSymbol(math, bin, "\u22CE", "\\curlyvee", true);
-defineSymbol(math, bin, "\u229D", "\\circleddash", true);
-defineSymbol(math, bin, "\u229B", "\\circledast", true);
-defineSymbol(math, bin, "\u22BA", "\\intercal", true);
-defineSymbol(math, bin, "\u22D2", "\\doublecap");
-defineSymbol(math, bin, "\u22D3", "\\doublecup");
-defineSymbol(math, bin, "\u22A0", "\\boxtimes", true);
-defineSymbol(math, bin, "\u22C8", "\\bowtie", true);
-defineSymbol(math, bin, "\u22C8", "\\Join");
-defineSymbol(math, bin, "\u27D5", "\\leftouterjoin", true);
-defineSymbol(math, bin, "\u27D6", "\\rightouterjoin", true);
-defineSymbol(math, bin, "\u27D7", "\\fullouterjoin", true);
-defineSymbol(math, bin, "\u2238", "\\dotminus", true);
-defineSymbol(math, bin, "\u27D1", "\\wedgedot", true);
-defineSymbol(math, bin, "\u27C7", "\\veedot", true);
-defineSymbol(math, bin, "\u2A62", "\\doublebarvee", true);
-defineSymbol(math, bin, "\u2A63", "\\veedoublebar", true);
-defineSymbol(math, bin, "\u2A5F", "\\wedgebar", true);
-defineSymbol(math, bin, "\u2A60", "\\wedgedoublebar", true);
-defineSymbol(math, bin, "\u2A54", "\\Vee", true);
-defineSymbol(math, bin, "\u2A53", "\\Wedge", true);
-defineSymbol(math, bin, "\u2A43", "\\barcap", true);
-defineSymbol(math, bin, "\u2A42", "\\barcup", true);
-defineSymbol(math, bin, "\u2A48", "\\capbarcup", true);
-defineSymbol(math, bin, "\u2A40", "\\capdot", true);
-defineSymbol(math, bin, "\u2A47", "\\capovercup", true);
-defineSymbol(math, bin, "\u2A46", "\\cupovercap", true);
-defineSymbol(math, bin, "\u2A4D", "\\closedvarcap", true);
-defineSymbol(math, bin, "\u2A4C", "\\closedvarcup", true);
-defineSymbol(math, bin, "\u2A2A", "\\minusdot", true);
-defineSymbol(math, bin, "\u2A2B", "\\minusfdots", true);
-defineSymbol(math, bin, "\u2A2C", "\\minusrdots", true);
-defineSymbol(math, bin, "\u22BB", "\\Xor", true);
-defineSymbol(math, bin, "\u22BC", "\\Nand", true);
-defineSymbol(math, bin, "\u22BD", "\\Nor", true);
-defineSymbol(math, bin, "\u22BD", "\\barvee");
-defineSymbol(math, bin, "\u2AF4", "\\interleave", true);
-defineSymbol(math, bin, "\u29E2", "\\shuffle", true);
-defineSymbol(math, bin, "\u2AF6", "\\threedotcolon", true);
-defineSymbol(math, bin, "\u2982", "\\typecolon", true);
-defineSymbol(math, bin, "\u223E", "\\invlazys", true);
-defineSymbol(math, bin, "\u2A4B", "\\twocaps", true);
-defineSymbol(math, bin, "\u2A4A", "\\twocups", true);
-defineSymbol(math, bin, "\u2A4E", "\\Sqcap", true);
-defineSymbol(math, bin, "\u2A4F", "\\Sqcup", true);
-defineSymbol(math, bin, "\u2A56", "\\veeonvee", true);
-defineSymbol(math, bin, "\u2A55", "\\wedgeonwedge", true);
-defineSymbol(math, bin, "\u29D7", "\\blackhourglass", true);
-defineSymbol(math, bin, "\u29C6", "\\boxast", true);
-defineSymbol(math, bin, "\u29C8", "\\boxbox", true);
-defineSymbol(math, bin, "\u29C7", "\\boxcircle", true);
-defineSymbol(math, bin, "\u229C", "\\circledequal", true);
-defineSymbol(math, bin, "\u29B7", "\\circledparallel", true);
-defineSymbol(math, bin, "\u29B6", "\\circledvert", true);
-defineSymbol(math, bin, "\u29B5", "\\circlehbar", true);
-defineSymbol(math, bin, "\u27E1", "\\concavediamond", true);
-defineSymbol(math, bin, "\u27E2", "\\concavediamondtickleft", true);
-defineSymbol(math, bin, "\u27E3", "\\concavediamondtickright", true);
-defineSymbol(math, bin, "\u22C4", "\\diamond", true);
-defineSymbol(math, bin, "\u29D6", "\\hourglass", true);
-defineSymbol(math, bin, "\u27E0", "\\lozengeminus", true);
-defineSymbol(math, bin, "\u233D", "\\obar", true);
-defineSymbol(math, bin, "\u29B8", "\\obslash", true);
-defineSymbol(math, bin, "\u2A38", "\\odiv", true);
-defineSymbol(math, bin, "\u29C1", "\\ogreaterthan", true);
-defineSymbol(math, bin, "\u29C0", "\\olessthan", true);
-defineSymbol(math, bin, "\u29B9", "\\operp", true);
-defineSymbol(math, bin, "\u2A37", "\\Otimes", true);
-defineSymbol(math, bin, "\u2A36", "\\otimeshat", true);
-defineSymbol(math, bin, "\u22C6", "\\star", true);
-defineSymbol(math, bin, "\u25B3", "\\triangle", true);
-defineSymbol(math, bin, "\u2A3A", "\\triangleminus", true);
-defineSymbol(math, bin, "\u2A39", "\\triangleplus", true);
-defineSymbol(math, bin, "\u2A3B", "\\triangletimes", true);
-defineSymbol(math, bin, "\u27E4", "\\whitesquaretickleft", true);
-defineSymbol(math, bin, "\u27E5", "\\whitesquaretickright", true);
-defineSymbol(math, bin, "\u2A33", "\\smashtimes", true);
-defineSymbol(math, rel, "\u21E2", "\\dashrightarrow", true);
-defineSymbol(math, rel, "\u21E0", "\\dashleftarrow", true);
-defineSymbol(math, rel, "\u21C7", "\\leftleftarrows", true);
-defineSymbol(math, rel, "\u21C6", "\\leftrightarrows", true);
-defineSymbol(math, rel, "\u21DA", "\\Lleftarrow", true);
-defineSymbol(math, rel, "\u219E", "\\twoheadleftarrow", true);
-defineSymbol(math, rel, "\u21A2", "\\leftarrowtail", true);
-defineSymbol(math, rel, "\u21AB", "\\looparrowleft", true);
-defineSymbol(math, rel, "\u21CB", "\\leftrightharpoons", true);
-defineSymbol(math, rel, "\u21B6", "\\curvearrowleft", true);
-defineSymbol(math, rel, "\u21BA", "\\circlearrowleft", true);
-defineSymbol(math, rel, "\u21B0", "\\Lsh", true);
-defineSymbol(math, rel, "\u21C8", "\\upuparrows", true);
-defineSymbol(math, rel, "\u21BF", "\\upharpoonleft", true);
-defineSymbol(math, rel, "\u21C3", "\\downharpoonleft", true);
-defineSymbol(math, rel, "\u22B6", "\\origof", true);
-defineSymbol(math, rel, "\u22B7", "\\imageof", true);
-defineSymbol(math, rel, "\u22B8", "\\multimap", true);
-defineSymbol(math, rel, "\u21AD", "\\leftrightsquigarrow", true);
-defineSymbol(math, rel, "\u21C9", "\\rightrightarrows", true);
-defineSymbol(math, rel, "\u21C4", "\\rightleftarrows", true);
-defineSymbol(math, rel, "\u21A0", "\\twoheadrightarrow", true);
-defineSymbol(math, rel, "\u21A3", "\\rightarrowtail", true);
-defineSymbol(math, rel, "\u21AC", "\\looparrowright", true);
-defineSymbol(math, rel, "\u21B7", "\\curvearrowright", true);
-defineSymbol(math, rel, "\u21BB", "\\circlearrowright", true);
-defineSymbol(math, rel, "\u21B1", "\\Rsh", true);
-defineSymbol(math, rel, "\u21CA", "\\downdownarrows", true);
-defineSymbol(math, rel, "\u21BE", "\\upharpoonright", true);
-defineSymbol(math, rel, "\u21C2", "\\downharpoonright", true);
-defineSymbol(math, rel, "\u21DD", "\\rightsquigarrow", true);
-defineSymbol(math, rel, "\u21DD", "\\leadsto");
-defineSymbol(math, rel, "\u21DB", "\\Rrightarrow", true);
-defineSymbol(math, rel, "\u21BE", "\\restriction");
-defineSymbol(math, textord, "\u2018", "`");
+defineSymbol(math, bin, "⫽", "\\sslash", true);
+defineSymbol(math, rel, "⟵", "\\longleftarrow", true);
+defineSymbol(math, rel, "⇐", "\\Leftarrow", true);
+defineSymbol(math, rel, "⟸", "\\Longleftarrow", true);
+defineSymbol(math, rel, "⟶", "\\longrightarrow", true);
+defineSymbol(math, rel, "⇒", "\\Rightarrow", true);
+defineSymbol(math, rel, "⟹", "\\Longrightarrow", true);
+defineSymbol(math, rel, "↔", "\\leftrightarrow", true);
+defineSymbol(math, rel, "⟷", "\\longleftrightarrow", true);
+defineSymbol(math, rel, "⇔", "\\Leftrightarrow", true);
+defineSymbol(math, rel, "⟺", "\\Longleftrightarrow", true);
+defineSymbol(math, rel, "↤", "\\mapsfrom", true);
+defineSymbol(math, rel, "↦", "\\mapsto", true);
+defineSymbol(math, rel, "⟼", "\\longmapsto", true);
+defineSymbol(math, rel, "↗", "\\nearrow", true);
+defineSymbol(math, rel, "↩", "\\hookleftarrow", true);
+defineSymbol(math, rel, "↪", "\\hookrightarrow", true);
+defineSymbol(math, rel, "↘", "\\searrow", true);
+defineSymbol(math, rel, "↼", "\\leftharpoonup", true);
+defineSymbol(math, rel, "⇀", "\\rightharpoonup", true);
+defineSymbol(math, rel, "↙", "\\swarrow", true);
+defineSymbol(math, rel, "↽", "\\leftharpoondown", true);
+defineSymbol(math, rel, "⇁", "\\rightharpoondown", true);
+defineSymbol(math, rel, "↖", "\\nwarrow", true);
+defineSymbol(math, rel, "⇌", "\\rightleftharpoons", true);
+defineSymbol(math, mathord, "↯", "\\lightning", true);
+defineSymbol(math, mathord, "∎", "\\QED", true);
+defineSymbol(math, mathord, "‰", "\\permil", true);
+defineSymbol(text, textord, "‰", "\\permil");
+defineSymbol(math, mathord, "☉", "\\astrosun", true);
+defineSymbol(math, mathord, "☼", "\\sun", true);
+defineSymbol(math, mathord, "☾", "\\leftmoon", true);
+defineSymbol(math, mathord, "☽", "\\rightmoon", true);
+defineSymbol(math, mathord, "⊕", "\\Earth");
+defineSymbol(math, rel, "≮", "\\nless", true);
+defineSymbol(math, rel, "⪇", "\\lneq", true);
+defineSymbol(math, rel, "≨", "\\lneqq", true);
+defineSymbol(math, rel, "≨︀", "\\lvertneqq");
+defineSymbol(math, rel, "⋦", "\\lnsim", true);
+defineSymbol(math, rel, "⪉", "\\lnapprox", true);
+defineSymbol(math, rel, "⊀", "\\nprec", true);
+defineSymbol(math, rel, "⋠", "\\npreceq", true);
+defineSymbol(math, rel, "⋨", "\\precnsim", true);
+defineSymbol(math, rel, "⪹", "\\precnapprox", true);
+defineSymbol(math, rel, "≁", "\\nsim", true);
+defineSymbol(math, rel, "∤", "\\nmid", true);
+defineSymbol(math, rel, "∤", "\\nshortmid");
+defineSymbol(math, rel, "⊬", "\\nvdash", true);
+defineSymbol(math, rel, "⊭", "\\nvDash", true);
+defineSymbol(math, rel, "⋪", "\\ntriangleleft");
+defineSymbol(math, rel, "⋬", "\\ntrianglelefteq", true);
+defineSymbol(math, rel, "⊄", "\\nsubset", true);
+defineSymbol(math, rel, "⊅", "\\nsupset", true);
+defineSymbol(math, rel, "⊊", "\\subsetneq", true);
+defineSymbol(math, rel, "⊊︀", "\\varsubsetneq");
+defineSymbol(math, rel, "⫋", "\\subsetneqq", true);
+defineSymbol(math, rel, "⫋︀", "\\varsubsetneqq");
+defineSymbol(math, rel, "≯", "\\ngtr", true);
+defineSymbol(math, rel, "⪈", "\\gneq", true);
+defineSymbol(math, rel, "≩", "\\gneqq", true);
+defineSymbol(math, rel, "≩︀", "\\gvertneqq");
+defineSymbol(math, rel, "⋧", "\\gnsim", true);
+defineSymbol(math, rel, "⪊", "\\gnapprox", true);
+defineSymbol(math, rel, "⊁", "\\nsucc", true);
+defineSymbol(math, rel, "⋡", "\\nsucceq", true);
+defineSymbol(math, rel, "⋩", "\\succnsim", true);
+defineSymbol(math, rel, "⪺", "\\succnapprox", true);
+defineSymbol(math, rel, "≆", "\\ncong", true);
+defineSymbol(math, rel, "∦", "\\nparallel", true);
+defineSymbol(math, rel, "∦", "\\nshortparallel");
+defineSymbol(math, rel, "⊯", "\\nVDash", true);
+defineSymbol(math, rel, "⋫", "\\ntriangleright");
+defineSymbol(math, rel, "⋭", "\\ntrianglerighteq", true);
+defineSymbol(math, rel, "⊋", "\\supsetneq", true);
+defineSymbol(math, rel, "⊋", "\\varsupsetneq");
+defineSymbol(math, rel, "⫌", "\\supsetneqq", true);
+defineSymbol(math, rel, "⫌︀", "\\varsupsetneqq");
+defineSymbol(math, rel, "⊮", "\\nVdash", true);
+defineSymbol(math, rel, "⪵", "\\precneqq", true);
+defineSymbol(math, rel, "⪶", "\\succneqq", true);
+defineSymbol(math, bin, "⊴", "\\unlhd");
+defineSymbol(math, bin, "⊵", "\\unrhd");
+defineSymbol(math, rel, "↚", "\\nleftarrow", true);
+defineSymbol(math, rel, "↛", "\\nrightarrow", true);
+defineSymbol(math, rel, "⇍", "\\nLeftarrow", true);
+defineSymbol(math, rel, "⇏", "\\nRightarrow", true);
+defineSymbol(math, rel, "↮", "\\nleftrightarrow", true);
+defineSymbol(math, rel, "⇎", "\\nLeftrightarrow", true);
+defineSymbol(math, rel, "△", "\\vartriangle");
+defineSymbol(math, textord, "ℏ", "\\hslash");
+defineSymbol(math, textord, "▽", "\\triangledown");
+defineSymbol(math, textord, "◊", "\\lozenge");
+defineSymbol(math, textord, "Ⓢ", "\\circledS");
+defineSymbol(math, textord, "®", "\\circledR", true);
+defineSymbol(text, textord, "®", "\\circledR");
+defineSymbol(text, textord, "®", "\\textregistered");
+defineSymbol(math, textord, "∡", "\\measuredangle", true);
+defineSymbol(math, textord, "∄", "\\nexists");
+defineSymbol(math, textord, "℧", "\\mho");
+defineSymbol(math, textord, "Ⅎ", "\\Finv", true);
+defineSymbol(math, textord, "⅁", "\\Game", true);
+defineSymbol(math, textord, "‵", "\\backprime");
+defineSymbol(math, textord, "‶", "\\backdprime");
+defineSymbol(math, textord, "‷", "\\backtrprime");
+defineSymbol(math, textord, "▲", "\\blacktriangle");
+defineSymbol(math, textord, "▼", "\\blacktriangledown");
+defineSymbol(math, textord, "■", "\\blacksquare");
+defineSymbol(math, textord, "⧫", "\\blacklozenge");
+defineSymbol(math, textord, "★", "\\bigstar");
+defineSymbol(math, textord, "∢", "\\sphericalangle", true);
+defineSymbol(math, textord, "∁", "\\complement", true);
+defineSymbol(math, textord, "ð", "\\eth", true);
+defineSymbol(text, textord, "ð", "ð");
+defineSymbol(math, textord, "╱", "\\diagup");
+defineSymbol(math, textord, "╲", "\\diagdown");
+defineSymbol(math, textord, "□", "\\square");
+defineSymbol(math, textord, "□", "\\Box");
+defineSymbol(math, textord, "◊", "\\Diamond");
+defineSymbol(math, textord, "¥", "\\yen", true);
+defineSymbol(text, textord, "¥", "\\yen", true);
+defineSymbol(math, textord, "✓", "\\checkmark", true);
+defineSymbol(text, textord, "✓", "\\checkmark");
+defineSymbol(math, textord, "✗", "\\ballotx", true);
+defineSymbol(text, textord, "✗", "\\ballotx");
+defineSymbol(text, textord, "•", "\\textbullet");
+defineSymbol(math, textord, "ℶ", "\\beth", true);
+defineSymbol(math, textord, "ℸ", "\\daleth", true);
+defineSymbol(math, textord, "ℷ", "\\gimel", true);
+defineSymbol(math, textord, "ϝ", "\\digamma", true);
+defineSymbol(math, textord, "ϰ", "\\varkappa");
+defineSymbol(math, open, "⌜", "\\ulcorner", true);
+defineSymbol(math, close, "⌝", "\\urcorner", true);
+defineSymbol(math, open, "⌞", "\\llcorner", true);
+defineSymbol(math, close, "⌟", "\\lrcorner", true);
+defineSymbol(math, rel, "≦", "\\leqq", true);
+defineSymbol(math, rel, "⩽", "\\leqslant", true);
+defineSymbol(math, rel, "⪕", "\\eqslantless", true);
+defineSymbol(math, rel, "≲", "\\lesssim", true);
+defineSymbol(math, rel, "⪅", "\\lessapprox", true);
+defineSymbol(math, rel, "≊", "\\approxeq", true);
+defineSymbol(math, bin, "⋖", "\\lessdot");
+defineSymbol(math, rel, "⋘", "\\lll", true);
+defineSymbol(math, rel, "≶", "\\lessgtr", true);
+defineSymbol(math, rel, "⋚", "\\lesseqgtr", true);
+defineSymbol(math, rel, "⪋", "\\lesseqqgtr", true);
+defineSymbol(math, rel, "≑", "\\doteqdot");
+defineSymbol(math, rel, "≓", "\\risingdotseq", true);
+defineSymbol(math, rel, "≒", "\\fallingdotseq", true);
+defineSymbol(math, rel, "∽", "\\backsim", true);
+defineSymbol(math, rel, "⋍", "\\backsimeq", true);
+defineSymbol(math, rel, "⫅", "\\subseteqq", true);
+defineSymbol(math, rel, "⋐", "\\Subset", true);
+defineSymbol(math, rel, "⊏", "\\sqsubset", true);
+defineSymbol(math, rel, "≼", "\\preccurlyeq", true);
+defineSymbol(math, rel, "⋞", "\\curlyeqprec", true);
+defineSymbol(math, rel, "≾", "\\precsim", true);
+defineSymbol(math, rel, "⪷", "\\precapprox", true);
+defineSymbol(math, rel, "⊲", "\\vartriangleleft");
+defineSymbol(math, rel, "⊴", "\\trianglelefteq");
+defineSymbol(math, rel, "⊨", "\\vDash", true);
+defineSymbol(math, rel, "⊫", "\\VDash", true);
+defineSymbol(math, rel, "⊪", "\\Vvdash", true);
+defineSymbol(math, rel, "⌣", "\\smallsmile");
+defineSymbol(math, rel, "⌢", "\\smallfrown");
+defineSymbol(math, rel, "≏", "\\bumpeq", true);
+defineSymbol(math, rel, "≎", "\\Bumpeq", true);
+defineSymbol(math, rel, "≧", "\\geqq", true);
+defineSymbol(math, rel, "⩾", "\\geqslant", true);
+defineSymbol(math, rel, "⪖", "\\eqslantgtr", true);
+defineSymbol(math, rel, "≳", "\\gtrsim", true);
+defineSymbol(math, rel, "⪆", "\\gtrapprox", true);
+defineSymbol(math, bin, "⋗", "\\gtrdot");
+defineSymbol(math, rel, "⋙", "\\ggg", true);
+defineSymbol(math, rel, "≷", "\\gtrless", true);
+defineSymbol(math, rel, "⋛", "\\gtreqless", true);
+defineSymbol(math, rel, "⪌", "\\gtreqqless", true);
+defineSymbol(math, rel, "≖", "\\eqcirc", true);
+defineSymbol(math, rel, "≗", "\\circeq", true);
+defineSymbol(math, rel, "≜", "\\triangleq", true);
+defineSymbol(math, rel, "∼", "\\thicksim");
+defineSymbol(math, rel, "≈", "\\thickapprox");
+defineSymbol(math, rel, "⫆", "\\supseteqq", true);
+defineSymbol(math, rel, "⋑", "\\Supset", true);
+defineSymbol(math, rel, "⊐", "\\sqsupset", true);
+defineSymbol(math, rel, "≽", "\\succcurlyeq", true);
+defineSymbol(math, rel, "⋟", "\\curlyeqsucc", true);
+defineSymbol(math, rel, "≿", "\\succsim", true);
+defineSymbol(math, rel, "⪸", "\\succapprox", true);
+defineSymbol(math, rel, "⊳", "\\vartriangleright");
+defineSymbol(math, rel, "⊵", "\\trianglerighteq");
+defineSymbol(math, rel, "⊩", "\\Vdash", true);
+defineSymbol(math, rel, "∣", "\\shortmid");
+defineSymbol(math, rel, "∥", "\\shortparallel");
+defineSymbol(math, rel, "≬", "\\between", true);
+defineSymbol(math, rel, "⋔", "\\pitchfork", true);
+defineSymbol(math, rel, "∝", "\\varpropto");
+defineSymbol(math, rel, "◀", "\\blacktriangleleft");
+defineSymbol(math, rel, "∴", "\\therefore", true);
+defineSymbol(math, rel, "∍", "\\backepsilon");
+defineSymbol(math, rel, "▶", "\\blacktriangleright");
+defineSymbol(math, rel, "∵", "\\because", true);
+defineSymbol(math, rel, "⋘", "\\llless");
+defineSymbol(math, rel, "⋙", "\\gggtr");
+defineSymbol(math, bin, "⊲", "\\lhd");
+defineSymbol(math, bin, "⊳", "\\rhd");
+defineSymbol(math, rel, "≂", "\\eqsim", true);
+defineSymbol(math, rel, "≑", "\\Doteq", true);
+defineSymbol(math, rel, "⥽", "\\strictif", true);
+defineSymbol(math, rel, "⥼", "\\strictfi", true);
+defineSymbol(math, bin, "∔", "\\dotplus", true);
+defineSymbol(math, bin, "∖", "\\smallsetminus");
+defineSymbol(math, bin, "⋒", "\\Cap", true);
+defineSymbol(math, bin, "⋓", "\\Cup", true);
+defineSymbol(math, bin, "⩞", "\\doublebarwedge", true);
+defineSymbol(math, bin, "⊟", "\\boxminus", true);
+defineSymbol(math, bin, "⊞", "\\boxplus", true);
+defineSymbol(math, bin, "⧄", "\\boxslash", true);
+defineSymbol(math, bin, "⋇", "\\divideontimes", true);
+defineSymbol(math, bin, "⋉", "\\ltimes", true);
+defineSymbol(math, bin, "⋊", "\\rtimes", true);
+defineSymbol(math, bin, "⋋", "\\leftthreetimes", true);
+defineSymbol(math, bin, "⋌", "\\rightthreetimes", true);
+defineSymbol(math, bin, "⋏", "\\curlywedge", true);
+defineSymbol(math, bin, "⋎", "\\curlyvee", true);
+defineSymbol(math, bin, "⊝", "\\circleddash", true);
+defineSymbol(math, bin, "⊛", "\\circledast", true);
+defineSymbol(math, bin, "⊺", "\\intercal", true);
+defineSymbol(math, bin, "⋒", "\\doublecap");
+defineSymbol(math, bin, "⋓", "\\doublecup");
+defineSymbol(math, bin, "⊠", "\\boxtimes", true);
+defineSymbol(math, bin, "⋈", "\\bowtie", true);
+defineSymbol(math, bin, "⋈", "\\Join");
+defineSymbol(math, bin, "⟕", "\\leftouterjoin", true);
+defineSymbol(math, bin, "⟖", "\\rightouterjoin", true);
+defineSymbol(math, bin, "⟗", "\\fullouterjoin", true);
+defineSymbol(math, bin, "∸", "\\dotminus", true);
+defineSymbol(math, bin, "⟑", "\\wedgedot", true);
+defineSymbol(math, bin, "⟇", "\\veedot", true);
+defineSymbol(math, bin, "⩢", "\\doublebarvee", true);
+defineSymbol(math, bin, "⩣", "\\veedoublebar", true);
+defineSymbol(math, bin, "⩟", "\\wedgebar", true);
+defineSymbol(math, bin, "⩠", "\\wedgedoublebar", true);
+defineSymbol(math, bin, "⩔", "\\Vee", true);
+defineSymbol(math, bin, "⩓", "\\Wedge", true);
+defineSymbol(math, bin, "⩃", "\\barcap", true);
+defineSymbol(math, bin, "⩂", "\\barcup", true);
+defineSymbol(math, bin, "⩈", "\\capbarcup", true);
+defineSymbol(math, bin, "⩀", "\\capdot", true);
+defineSymbol(math, bin, "⩇", "\\capovercup", true);
+defineSymbol(math, bin, "⩆", "\\cupovercap", true);
+defineSymbol(math, bin, "⩍", "\\closedvarcap", true);
+defineSymbol(math, bin, "⩌", "\\closedvarcup", true);
+defineSymbol(math, bin, "⨪", "\\minusdot", true);
+defineSymbol(math, bin, "⨫", "\\minusfdots", true);
+defineSymbol(math, bin, "⨬", "\\minusrdots", true);
+defineSymbol(math, bin, "⊻", "\\Xor", true);
+defineSymbol(math, bin, "⊼", "\\Nand", true);
+defineSymbol(math, bin, "⊽", "\\Nor", true);
+defineSymbol(math, bin, "⊽", "\\barvee");
+defineSymbol(math, bin, "⫴", "\\interleave", true);
+defineSymbol(math, bin, "⧢", "\\shuffle", true);
+defineSymbol(math, bin, "⫶", "\\threedotcolon", true);
+defineSymbol(math, bin, "⦂", "\\typecolon", true);
+defineSymbol(math, bin, "∾", "\\invlazys", true);
+defineSymbol(math, bin, "⩋", "\\twocaps", true);
+defineSymbol(math, bin, "⩊", "\\twocups", true);
+defineSymbol(math, bin, "⩎", "\\Sqcap", true);
+defineSymbol(math, bin, "⩏", "\\Sqcup", true);
+defineSymbol(math, bin, "⩖", "\\veeonvee", true);
+defineSymbol(math, bin, "⩕", "\\wedgeonwedge", true);
+defineSymbol(math, bin, "⧗", "\\blackhourglass", true);
+defineSymbol(math, bin, "⧆", "\\boxast", true);
+defineSymbol(math, bin, "⧈", "\\boxbox", true);
+defineSymbol(math, bin, "⧇", "\\boxcircle", true);
+defineSymbol(math, bin, "⊜", "\\circledequal", true);
+defineSymbol(math, bin, "⦷", "\\circledparallel", true);
+defineSymbol(math, bin, "⦶", "\\circledvert", true);
+defineSymbol(math, bin, "⦵", "\\circlehbar", true);
+defineSymbol(math, bin, "⟡", "\\concavediamond", true);
+defineSymbol(math, bin, "⟢", "\\concavediamondtickleft", true);
+defineSymbol(math, bin, "⟣", "\\concavediamondtickright", true);
+defineSymbol(math, bin, "⋄", "\\diamond", true);
+defineSymbol(math, bin, "⧖", "\\hourglass", true);
+defineSymbol(math, bin, "⟠", "\\lozengeminus", true);
+defineSymbol(math, bin, "⌽", "\\obar", true);
+defineSymbol(math, bin, "⦸", "\\obslash", true);
+defineSymbol(math, bin, "⨸", "\\odiv", true);
+defineSymbol(math, bin, "⧁", "\\ogreaterthan", true);
+defineSymbol(math, bin, "⧀", "\\olessthan", true);
+defineSymbol(math, bin, "⦹", "\\operp", true);
+defineSymbol(math, bin, "⨷", "\\Otimes", true);
+defineSymbol(math, bin, "⨶", "\\otimeshat", true);
+defineSymbol(math, bin, "⋆", "\\star", true);
+defineSymbol(math, bin, "△", "\\triangle", true);
+defineSymbol(math, bin, "⨺", "\\triangleminus", true);
+defineSymbol(math, bin, "⨹", "\\triangleplus", true);
+defineSymbol(math, bin, "⨻", "\\triangletimes", true);
+defineSymbol(math, bin, "⟤", "\\whitesquaretickleft", true);
+defineSymbol(math, bin, "⟥", "\\whitesquaretickright", true);
+defineSymbol(math, bin, "⨳", "\\smashtimes", true);
+defineSymbol(math, rel, "⇢", "\\dashrightarrow", true);
+defineSymbol(math, rel, "⇠", "\\dashleftarrow", true);
+defineSymbol(math, rel, "⇇", "\\leftleftarrows", true);
+defineSymbol(math, rel, "⇆", "\\leftrightarrows", true);
+defineSymbol(math, rel, "⇚", "\\Lleftarrow", true);
+defineSymbol(math, rel, "↞", "\\twoheadleftarrow", true);
+defineSymbol(math, rel, "↢", "\\leftarrowtail", true);
+defineSymbol(math, rel, "↫", "\\looparrowleft", true);
+defineSymbol(math, rel, "⇋", "\\leftrightharpoons", true);
+defineSymbol(math, rel, "↶", "\\curvearrowleft", true);
+defineSymbol(math, rel, "↺", "\\circlearrowleft", true);
+defineSymbol(math, rel, "↰", "\\Lsh", true);
+defineSymbol(math, rel, "⇈", "\\upuparrows", true);
+defineSymbol(math, rel, "↿", "\\upharpoonleft", true);
+defineSymbol(math, rel, "⇃", "\\downharpoonleft", true);
+defineSymbol(math, rel, "⊶", "\\origof", true);
+defineSymbol(math, rel, "⊷", "\\imageof", true);
+defineSymbol(math, rel, "⊸", "\\multimap", true);
+defineSymbol(math, rel, "↭", "\\leftrightsquigarrow", true);
+defineSymbol(math, rel, "⇉", "\\rightrightarrows", true);
+defineSymbol(math, rel, "⇄", "\\rightleftarrows", true);
+defineSymbol(math, rel, "↠", "\\twoheadrightarrow", true);
+defineSymbol(math, rel, "↣", "\\rightarrowtail", true);
+defineSymbol(math, rel, "↬", "\\looparrowright", true);
+defineSymbol(math, rel, "↷", "\\curvearrowright", true);
+defineSymbol(math, rel, "↻", "\\circlearrowright", true);
+defineSymbol(math, rel, "↱", "\\Rsh", true);
+defineSymbol(math, rel, "⇊", "\\downdownarrows", true);
+defineSymbol(math, rel, "↾", "\\upharpoonright", true);
+defineSymbol(math, rel, "⇂", "\\downharpoonright", true);
+defineSymbol(math, rel, "⇝", "\\rightsquigarrow", true);
+defineSymbol(math, rel, "⇝", "\\leadsto");
+defineSymbol(math, rel, "⇛", "\\Rrightarrow", true);
+defineSymbol(math, rel, "↾", "\\restriction");
+defineSymbol(math, textord, "‘", "`");
 defineSymbol(math, textord, "$", "\\$");
 defineSymbol(text, textord, "$", "\\$");
 defineSymbol(text, textord, "$", "\\textdollar");
-defineSymbol(math, textord, "\xA2", "\\cent");
-defineSymbol(text, textord, "\xA2", "\\cent");
+defineSymbol(math, textord, "¢", "\\cent");
+defineSymbol(text, textord, "¢", "\\cent");
 defineSymbol(math, textord, "%", "\\%");
 defineSymbol(text, textord, "%", "\\%");
 defineSymbol(math, textord, "_", "\\_");
 defineSymbol(text, textord, "_", "\\_");
 defineSymbol(text, textord, "_", "\\textunderscore");
-defineSymbol(text, textord, "\u2423", "\\textvisiblespace", true);
-defineSymbol(math, textord, "\u2220", "\\angle", true);
-defineSymbol(math, textord, "\u221E", "\\infty", true);
-defineSymbol(math, textord, "\u2032", "\\prime");
-defineSymbol(math, textord, "\u2033", "\\dprime");
-defineSymbol(math, textord, "\u2034", "\\trprime");
-defineSymbol(math, textord, "\u2057", "\\qprime");
-defineSymbol(math, textord, "\u25B3", "\\triangle");
-defineSymbol(text, textord, "\u0391", "\\Alpha", true);
-defineSymbol(text, textord, "\u0392", "\\Beta", true);
-defineSymbol(text, textord, "\u0393", "\\Gamma", true);
-defineSymbol(text, textord, "\u0394", "\\Delta", true);
-defineSymbol(text, textord, "\u0395", "\\Epsilon", true);
-defineSymbol(text, textord, "\u0396", "\\Zeta", true);
-defineSymbol(text, textord, "\u0397", "\\Eta", true);
-defineSymbol(text, textord, "\u0398", "\\Theta", true);
-defineSymbol(text, textord, "\u0399", "\\Iota", true);
-defineSymbol(text, textord, "\u039A", "\\Kappa", true);
-defineSymbol(text, textord, "\u039B", "\\Lambda", true);
-defineSymbol(text, textord, "\u039C", "\\Mu", true);
-defineSymbol(text, textord, "\u039D", "\\Nu", true);
-defineSymbol(text, textord, "\u039E", "\\Xi", true);
-defineSymbol(text, textord, "\u039F", "\\Omicron", true);
-defineSymbol(text, textord, "\u03A0", "\\Pi", true);
-defineSymbol(text, textord, "\u03A1", "\\Rho", true);
-defineSymbol(text, textord, "\u03A3", "\\Sigma", true);
-defineSymbol(text, textord, "\u03A4", "\\Tau", true);
-defineSymbol(text, textord, "\u03A5", "\\Upsilon", true);
-defineSymbol(text, textord, "\u03A6", "\\Phi", true);
-defineSymbol(text, textord, "\u03A7", "\\Chi", true);
-defineSymbol(text, textord, "\u03A8", "\\Psi", true);
-defineSymbol(text, textord, "\u03A9", "\\Omega", true);
-defineSymbol(math, mathord, "\u0391", "\\Alpha", true);
-defineSymbol(math, mathord, "\u0392", "\\Beta", true);
-defineSymbol(math, mathord, "\u0393", "\\Gamma", true);
-defineSymbol(math, mathord, "\u0394", "\\Delta", true);
-defineSymbol(math, mathord, "\u0395", "\\Epsilon", true);
-defineSymbol(math, mathord, "\u0396", "\\Zeta", true);
-defineSymbol(math, mathord, "\u0397", "\\Eta", true);
-defineSymbol(math, mathord, "\u0398", "\\Theta", true);
-defineSymbol(math, mathord, "\u0399", "\\Iota", true);
-defineSymbol(math, mathord, "\u039A", "\\Kappa", true);
-defineSymbol(math, mathord, "\u039B", "\\Lambda", true);
-defineSymbol(math, mathord, "\u039C", "\\Mu", true);
-defineSymbol(math, mathord, "\u039D", "\\Nu", true);
-defineSymbol(math, mathord, "\u039E", "\\Xi", true);
-defineSymbol(math, mathord, "\u039F", "\\Omicron", true);
-defineSymbol(math, mathord, "\u03A0", "\\Pi", true);
-defineSymbol(math, mathord, "\u03A1", "\\Rho", true);
-defineSymbol(math, mathord, "\u03A3", "\\Sigma", true);
-defineSymbol(math, mathord, "\u03A4", "\\Tau", true);
-defineSymbol(math, mathord, "\u03A5", "\\Upsilon", true);
-defineSymbol(math, mathord, "\u03A6", "\\Phi", true);
-defineSymbol(math, mathord, "\u03A7", "\\Chi", true);
-defineSymbol(math, mathord, "\u03A8", "\\Psi", true);
-defineSymbol(math, mathord, "\u03A9", "\\Omega", true);
-defineSymbol(math, open, "\xAC", "\\neg", true);
-defineSymbol(math, open, "\xAC", "\\lnot");
-defineSymbol(math, textord, "\u22A4", "\\top");
-defineSymbol(math, textord, "\u22A5", "\\bot");
-defineSymbol(math, textord, "\u2205", "\\emptyset");
-defineSymbol(math, textord, "\u2300", "\\varnothing");
-defineSymbol(math, mathord, "\u03B1", "\\alpha", true);
-defineSymbol(math, mathord, "\u03B2", "\\beta", true);
-defineSymbol(math, mathord, "\u03B3", "\\gamma", true);
-defineSymbol(math, mathord, "\u03B4", "\\delta", true);
-defineSymbol(math, mathord, "\u03F5", "\\epsilon", true);
-defineSymbol(math, mathord, "\u03B6", "\\zeta", true);
-defineSymbol(math, mathord, "\u03B7", "\\eta", true);
-defineSymbol(math, mathord, "\u03B8", "\\theta", true);
-defineSymbol(math, mathord, "\u03B9", "\\iota", true);
-defineSymbol(math, mathord, "\u03BA", "\\kappa", true);
-defineSymbol(math, mathord, "\u03BB", "\\lambda", true);
-defineSymbol(math, mathord, "\u03BC", "\\mu", true);
-defineSymbol(math, mathord, "\u03BD", "\\nu", true);
-defineSymbol(math, mathord, "\u03BE", "\\xi", true);
-defineSymbol(math, mathord, "\u03BF", "\\omicron", true);
-defineSymbol(math, mathord, "\u03C0", "\\pi", true);
-defineSymbol(math, mathord, "\u03C1", "\\rho", true);
-defineSymbol(math, mathord, "\u03C3", "\\sigma", true);
-defineSymbol(math, mathord, "\u03C4", "\\tau", true);
-defineSymbol(math, mathord, "\u03C5", "\\upsilon", true);
-defineSymbol(math, mathord, "\u03D5", "\\phi", true);
-defineSymbol(math, mathord, "\u03C7", "\\chi", true);
-defineSymbol(math, mathord, "\u03C8", "\\psi", true);
-defineSymbol(math, mathord, "\u03C9", "\\omega", true);
-defineSymbol(math, mathord, "\u03B5", "\\varepsilon", true);
-defineSymbol(math, mathord, "\u03D1", "\\vartheta", true);
-defineSymbol(math, mathord, "\u03D6", "\\varpi", true);
-defineSymbol(math, mathord, "\u03F1", "\\varrho", true);
-defineSymbol(math, mathord, "\u03C2", "\\varsigma", true);
-defineSymbol(math, mathord, "\u03C6", "\\varphi", true);
-defineSymbol(math, mathord, "\u03D8", "\\Coppa", true);
-defineSymbol(math, mathord, "\u03D9", "\\coppa", true);
-defineSymbol(math, mathord, "\u03D9", "\\varcoppa", true);
-defineSymbol(math, mathord, "\u03DE", "\\Koppa", true);
-defineSymbol(math, mathord, "\u03DF", "\\koppa", true);
-defineSymbol(math, mathord, "\u03E0", "\\Sampi", true);
-defineSymbol(math, mathord, "\u03E1", "\\sampi", true);
-defineSymbol(math, mathord, "\u03DA", "\\Stigma", true);
-defineSymbol(math, mathord, "\u03DB", "\\stigma", true);
-defineSymbol(math, mathord, "\u2AEB", "\\Bot");
-defineSymbol(math, bin, "\u2217", "\u2217", true);
+defineSymbol(text, textord, "␣", "\\textvisiblespace", true);
+defineSymbol(math, textord, "∠", "\\angle", true);
+defineSymbol(math, textord, "∞", "\\infty", true);
+defineSymbol(math, textord, "′", "\\prime");
+defineSymbol(math, textord, "″", "\\dprime");
+defineSymbol(math, textord, "‴", "\\trprime");
+defineSymbol(math, textord, "⁗", "\\qprime");
+defineSymbol(math, textord, "△", "\\triangle");
+defineSymbol(text, textord, "Α", "\\Alpha", true);
+defineSymbol(text, textord, "Β", "\\Beta", true);
+defineSymbol(text, textord, "Γ", "\\Gamma", true);
+defineSymbol(text, textord, "Δ", "\\Delta", true);
+defineSymbol(text, textord, "Ε", "\\Epsilon", true);
+defineSymbol(text, textord, "Ζ", "\\Zeta", true);
+defineSymbol(text, textord, "Η", "\\Eta", true);
+defineSymbol(text, textord, "Θ", "\\Theta", true);
+defineSymbol(text, textord, "Ι", "\\Iota", true);
+defineSymbol(text, textord, "Κ", "\\Kappa", true);
+defineSymbol(text, textord, "Λ", "\\Lambda", true);
+defineSymbol(text, textord, "Μ", "\\Mu", true);
+defineSymbol(text, textord, "Ν", "\\Nu", true);
+defineSymbol(text, textord, "Ξ", "\\Xi", true);
+defineSymbol(text, textord, "Ο", "\\Omicron", true);
+defineSymbol(text, textord, "Π", "\\Pi", true);
+defineSymbol(text, textord, "Ρ", "\\Rho", true);
+defineSymbol(text, textord, "Σ", "\\Sigma", true);
+defineSymbol(text, textord, "Τ", "\\Tau", true);
+defineSymbol(text, textord, "Υ", "\\Upsilon", true);
+defineSymbol(text, textord, "Φ", "\\Phi", true);
+defineSymbol(text, textord, "Χ", "\\Chi", true);
+defineSymbol(text, textord, "Ψ", "\\Psi", true);
+defineSymbol(text, textord, "Ω", "\\Omega", true);
+defineSymbol(math, mathord, "Α", "\\Alpha", true);
+defineSymbol(math, mathord, "Β", "\\Beta", true);
+defineSymbol(math, mathord, "Γ", "\\Gamma", true);
+defineSymbol(math, mathord, "Δ", "\\Delta", true);
+defineSymbol(math, mathord, "Ε", "\\Epsilon", true);
+defineSymbol(math, mathord, "Ζ", "\\Zeta", true);
+defineSymbol(math, mathord, "Η", "\\Eta", true);
+defineSymbol(math, mathord, "Θ", "\\Theta", true);
+defineSymbol(math, mathord, "Ι", "\\Iota", true);
+defineSymbol(math, mathord, "Κ", "\\Kappa", true);
+defineSymbol(math, mathord, "Λ", "\\Lambda", true);
+defineSymbol(math, mathord, "Μ", "\\Mu", true);
+defineSymbol(math, mathord, "Ν", "\\Nu", true);
+defineSymbol(math, mathord, "Ξ", "\\Xi", true);
+defineSymbol(math, mathord, "Ο", "\\Omicron", true);
+defineSymbol(math, mathord, "Π", "\\Pi", true);
+defineSymbol(math, mathord, "Ρ", "\\Rho", true);
+defineSymbol(math, mathord, "Σ", "\\Sigma", true);
+defineSymbol(math, mathord, "Τ", "\\Tau", true);
+defineSymbol(math, mathord, "Υ", "\\Upsilon", true);
+defineSymbol(math, mathord, "Φ", "\\Phi", true);
+defineSymbol(math, mathord, "Χ", "\\Chi", true);
+defineSymbol(math, mathord, "Ψ", "\\Psi", true);
+defineSymbol(math, mathord, "Ω", "\\Omega", true);
+defineSymbol(math, open, "¬", "\\neg", true);
+defineSymbol(math, open, "¬", "\\lnot");
+defineSymbol(math, textord, "⊤", "\\top");
+defineSymbol(math, textord, "⊥", "\\bot");
+defineSymbol(math, textord, "∅", "\\emptyset");
+defineSymbol(math, textord, "⌀", "\\varnothing");
+defineSymbol(math, mathord, "α", "\\alpha", true);
+defineSymbol(math, mathord, "β", "\\beta", true);
+defineSymbol(math, mathord, "γ", "\\gamma", true);
+defineSymbol(math, mathord, "δ", "\\delta", true);
+defineSymbol(math, mathord, "ϵ", "\\epsilon", true);
+defineSymbol(math, mathord, "ζ", "\\zeta", true);
+defineSymbol(math, mathord, "η", "\\eta", true);
+defineSymbol(math, mathord, "θ", "\\theta", true);
+defineSymbol(math, mathord, "ι", "\\iota", true);
+defineSymbol(math, mathord, "κ", "\\kappa", true);
+defineSymbol(math, mathord, "λ", "\\lambda", true);
+defineSymbol(math, mathord, "μ", "\\mu", true);
+defineSymbol(math, mathord, "ν", "\\nu", true);
+defineSymbol(math, mathord, "ξ", "\\xi", true);
+defineSymbol(math, mathord, "ο", "\\omicron", true);
+defineSymbol(math, mathord, "π", "\\pi", true);
+defineSymbol(math, mathord, "ρ", "\\rho", true);
+defineSymbol(math, mathord, "σ", "\\sigma", true);
+defineSymbol(math, mathord, "τ", "\\tau", true);
+defineSymbol(math, mathord, "υ", "\\upsilon", true);
+defineSymbol(math, mathord, "ϕ", "\\phi", true);
+defineSymbol(math, mathord, "χ", "\\chi", true);
+defineSymbol(math, mathord, "ψ", "\\psi", true);
+defineSymbol(math, mathord, "ω", "\\omega", true);
+defineSymbol(math, mathord, "ε", "\\varepsilon", true);
+defineSymbol(math, mathord, "ϑ", "\\vartheta", true);
+defineSymbol(math, mathord, "ϖ", "\\varpi", true);
+defineSymbol(math, mathord, "ϱ", "\\varrho", true);
+defineSymbol(math, mathord, "ς", "\\varsigma", true);
+defineSymbol(math, mathord, "φ", "\\varphi", true);
+defineSymbol(math, mathord, "Ϙ", "\\Coppa", true);
+defineSymbol(math, mathord, "ϙ", "\\coppa", true);
+defineSymbol(math, mathord, "ϙ", "\\varcoppa", true);
+defineSymbol(math, mathord, "Ϟ", "\\Koppa", true);
+defineSymbol(math, mathord, "ϟ", "\\koppa", true);
+defineSymbol(math, mathord, "Ϡ", "\\Sampi", true);
+defineSymbol(math, mathord, "ϡ", "\\sampi", true);
+defineSymbol(math, mathord, "Ϛ", "\\Stigma", true);
+defineSymbol(math, mathord, "ϛ", "\\stigma", true);
+defineSymbol(math, mathord, "⫫", "\\Bot");
+defineSymbol(math, bin, "∗", "∗", true);
 defineSymbol(math, bin, "+", "+");
-defineSymbol(math, bin, "\u2217", "*");
-defineSymbol(math, bin, "\u2044", "/", true);
-defineSymbol(math, bin, "\u2044", "\u2044");
-defineSymbol(math, bin, "\u2212", "-", true);
-defineSymbol(math, bin, "\u22C5", "\\cdot", true);
-defineSymbol(math, bin, "\u2218", "\\circ", true);
-defineSymbol(math, bin, "\xF7", "\\div", true);
-defineSymbol(math, bin, "\xB1", "\\pm", true);
-defineSymbol(math, bin, "\xD7", "\\times", true);
-defineSymbol(math, bin, "\u2229", "\\cap", true);
-defineSymbol(math, bin, "\u222A", "\\cup", true);
-defineSymbol(math, bin, "\u2216", "\\setminus", true);
-defineSymbol(math, bin, "\u2227", "\\land");
-defineSymbol(math, bin, "\u2228", "\\lor");
-defineSymbol(math, bin, "\u2227", "\\wedge", true);
-defineSymbol(math, bin, "\u2228", "\\vee", true);
-defineSymbol(math, open, "\u27E6", "\\llbracket", true);
-defineSymbol(math, close, "\u27E7", "\\rrbracket", true);
-defineSymbol(math, open, "\u27E8", "\\langle", true);
-defineSymbol(math, open, "\u27EA", "\\lAngle", true);
-defineSymbol(math, open, "\u2989", "\\llangle", true);
+defineSymbol(math, bin, "∗", "*");
+defineSymbol(math, bin, "⁄", "/", true);
+defineSymbol(math, bin, "⁄", "⁄");
+defineSymbol(math, bin, "−", "-", true);
+defineSymbol(math, bin, "⋅", "\\cdot", true);
+defineSymbol(math, bin, "∘", "\\circ", true);
+defineSymbol(math, bin, "÷", "\\div", true);
+defineSymbol(math, bin, "±", "\\pm", true);
+defineSymbol(math, bin, "×", "\\times", true);
+defineSymbol(math, bin, "∩", "\\cap", true);
+defineSymbol(math, bin, "∪", "\\cup", true);
+defineSymbol(math, bin, "∖", "\\setminus", true);
+defineSymbol(math, bin, "∧", "\\land");
+defineSymbol(math, bin, "∨", "\\lor");
+defineSymbol(math, bin, "∧", "\\wedge", true);
+defineSymbol(math, bin, "∨", "\\vee", true);
+defineSymbol(math, open, "⟦", "\\llbracket", true);
+defineSymbol(math, close, "⟧", "\\rrbracket", true);
+defineSymbol(math, open, "⟨", "\\langle", true);
+defineSymbol(math, open, "⟪", "\\lAngle", true);
+defineSymbol(math, open, "⦉", "\\llangle", true);
 defineSymbol(math, open, "|", "\\lvert");
-defineSymbol(math, open, "\u2016", "\\lVert", true);
+defineSymbol(math, open, "‖", "\\lVert", true);
 defineSymbol(math, textord, "!", "\\oc");
 defineSymbol(math, textord, "?", "\\wn");
-defineSymbol(math, textord, "\u2193", "\\shpos");
-defineSymbol(math, textord, "\u2195", "\\shift");
-defineSymbol(math, textord, "\u2191", "\\shneg");
+defineSymbol(math, textord, "↓", "\\shpos");
+defineSymbol(math, textord, "↕", "\\shift");
+defineSymbol(math, textord, "↑", "\\shneg");
 defineSymbol(math, close, "?", "?");
 defineSymbol(math, close, "!", "!");
-defineSymbol(math, close, "\u203C", "\u203C");
-defineSymbol(math, close, "\u27E9", "\\rangle", true);
-defineSymbol(math, close, "\u27EB", "\\rAngle", true);
-defineSymbol(math, close, "\u298A", "\\rrangle", true);
+defineSymbol(math, close, "‼", "‼");
+defineSymbol(math, close, "⟩", "\\rangle", true);
+defineSymbol(math, close, "⟫", "\\rAngle", true);
+defineSymbol(math, close, "⦊", "\\rrangle", true);
 defineSymbol(math, close, "|", "\\rvert");
-defineSymbol(math, close, "\u2016", "\\rVert");
-defineSymbol(math, open, "\u2983", "\\lBrace", true);
-defineSymbol(math, close, "\u2984", "\\rBrace", true);
+defineSymbol(math, close, "‖", "\\rVert");
+defineSymbol(math, open, "⦃", "\\lBrace", true);
+defineSymbol(math, close, "⦄", "\\rBrace", true);
 defineSymbol(math, rel, "=", "\\equal", true);
 defineSymbol(math, rel, ":", ":");
-defineSymbol(math, rel, "\u2248", "\\approx", true);
-defineSymbol(math, rel, "\u2245", "\\cong", true);
-defineSymbol(math, rel, "\u2265", "\\ge");
-defineSymbol(math, rel, "\u2265", "\\geq", true);
-defineSymbol(math, rel, "\u2190", "\\gets");
+defineSymbol(math, rel, "≈", "\\approx", true);
+defineSymbol(math, rel, "≅", "\\cong", true);
+defineSymbol(math, rel, "≥", "\\ge");
+defineSymbol(math, rel, "≥", "\\geq", true);
+defineSymbol(math, rel, "←", "\\gets");
 defineSymbol(math, rel, ">", "\\gt", true);
-defineSymbol(math, rel, "\u2208", "\\in", true);
-defineSymbol(math, rel, "\u2209", "\\notin", true);
-defineSymbol(math, rel, "\uE020", "\\@not");
-defineSymbol(math, rel, "\u2282", "\\subset", true);
-defineSymbol(math, rel, "\u2283", "\\supset", true);
-defineSymbol(math, rel, "\u2286", "\\subseteq", true);
-defineSymbol(math, rel, "\u2287", "\\supseteq", true);
-defineSymbol(math, rel, "\u2288", "\\nsubseteq", true);
-defineSymbol(math, rel, "\u2288", "\\nsubseteqq");
-defineSymbol(math, rel, "\u2289", "\\nsupseteq", true);
-defineSymbol(math, rel, "\u2289", "\\nsupseteqq");
-defineSymbol(math, rel, "\u22A8", "\\models");
-defineSymbol(math, rel, "\u2190", "\\leftarrow", true);
-defineSymbol(math, rel, "\u2264", "\\le");
-defineSymbol(math, rel, "\u2264", "\\leq", true);
+defineSymbol(math, rel, "∈", "\\in", true);
+defineSymbol(math, rel, "∉", "\\notin", true);
+defineSymbol(math, rel, "", "\\@not");
+defineSymbol(math, rel, "⊂", "\\subset", true);
+defineSymbol(math, rel, "⊃", "\\supset", true);
+defineSymbol(math, rel, "⊆", "\\subseteq", true);
+defineSymbol(math, rel, "⊇", "\\supseteq", true);
+defineSymbol(math, rel, "⊈", "\\nsubseteq", true);
+defineSymbol(math, rel, "⊈", "\\nsubseteqq");
+defineSymbol(math, rel, "⊉", "\\nsupseteq", true);
+defineSymbol(math, rel, "⊉", "\\nsupseteqq");
+defineSymbol(math, rel, "⊨", "\\models");
+defineSymbol(math, rel, "←", "\\leftarrow", true);
+defineSymbol(math, rel, "≤", "\\le");
+defineSymbol(math, rel, "≤", "\\leq", true);
 defineSymbol(math, rel, "<", "\\lt", true);
-defineSymbol(math, rel, "\u2192", "\\rightarrow", true);
-defineSymbol(math, rel, "\u2192", "\\to");
-defineSymbol(math, rel, "\u2271", "\\ngeq", true);
-defineSymbol(math, rel, "\u2271", "\\ngeqq");
-defineSymbol(math, rel, "\u2271", "\\ngeqslant");
-defineSymbol(math, rel, "\u2270", "\\nleq", true);
-defineSymbol(math, rel, "\u2270", "\\nleqq");
-defineSymbol(math, rel, "\u2270", "\\nleqslant");
-defineSymbol(math, rel, "\u2AEB", "\\Perp", true);
-defineSymbol(math, spacing, "\xA0", "\\ ");
-defineSymbol(math, spacing, "\xA0", "\\space");
-defineSymbol(math, spacing, "\xA0", "\\nobreakspace");
-defineSymbol(text, spacing, "\xA0", "\\ ");
-defineSymbol(text, spacing, "\xA0", " ");
-defineSymbol(text, spacing, "\xA0", "\\space");
-defineSymbol(text, spacing, "\xA0", "\\nobreakspace");
+defineSymbol(math, rel, "→", "\\rightarrow", true);
+defineSymbol(math, rel, "→", "\\to");
+defineSymbol(math, rel, "≱", "\\ngeq", true);
+defineSymbol(math, rel, "≱", "\\ngeqq");
+defineSymbol(math, rel, "≱", "\\ngeqslant");
+defineSymbol(math, rel, "≰", "\\nleq", true);
+defineSymbol(math, rel, "≰", "\\nleqq");
+defineSymbol(math, rel, "≰", "\\nleqslant");
+defineSymbol(math, rel, "⫫", "\\Perp", true);
+defineSymbol(math, spacing, " ", "\\ ");
+defineSymbol(math, spacing, " ", "\\space");
+defineSymbol(math, spacing, " ", "\\nobreakspace");
+defineSymbol(text, spacing, " ", "\\ ");
+defineSymbol(text, spacing, " ", " ");
+defineSymbol(text, spacing, " ", "\\space");
+defineSymbol(text, spacing, " ", "\\nobreakspace");
 defineSymbol(math, spacing, null, "\\nobreak");
 defineSymbol(math, spacing, null, "\\allowbreak");
 defineSymbol(math, punct, ",", ",");
 defineSymbol(text, punct, ":", ":");
 defineSymbol(math, punct, ";", ";");
-defineSymbol(math, bin, "\u22BC", "\\barwedge");
-defineSymbol(math, bin, "\u22BB", "\\veebar");
-defineSymbol(math, bin, "\u2299", "\\odot", true);
-defineSymbol(math, bin, "\u2295\uFE0E", "\\oplus");
-defineSymbol(math, bin, "\u2297", "\\otimes", true);
-defineSymbol(math, textord, "\u2202", "\\partial", true);
-defineSymbol(math, bin, "\u2298", "\\oslash", true);
-defineSymbol(math, bin, "\u229A", "\\circledcirc", true);
-defineSymbol(math, bin, "\u22A1", "\\boxdot", true);
-defineSymbol(math, bin, "\u25B3", "\\bigtriangleup");
-defineSymbol(math, bin, "\u25BD", "\\bigtriangledown");
-defineSymbol(math, bin, "\u2020", "\\dagger");
-defineSymbol(math, bin, "\u22C4", "\\diamond");
-defineSymbol(math, bin, "\u25C3", "\\triangleleft");
-defineSymbol(math, bin, "\u25B9", "\\triangleright");
+defineSymbol(math, bin, "⊼", "\\barwedge");
+defineSymbol(math, bin, "⊻", "\\veebar");
+defineSymbol(math, bin, "⊙", "\\odot", true);
+defineSymbol(math, bin, "⊕︎", "\\oplus");
+defineSymbol(math, bin, "⊗", "\\otimes", true);
+defineSymbol(math, textord, "∂", "\\partial", true);
+defineSymbol(math, bin, "⊘", "\\oslash", true);
+defineSymbol(math, bin, "⊚", "\\circledcirc", true);
+defineSymbol(math, bin, "⊡", "\\boxdot", true);
+defineSymbol(math, bin, "△", "\\bigtriangleup");
+defineSymbol(math, bin, "▽", "\\bigtriangledown");
+defineSymbol(math, bin, "†", "\\dagger");
+defineSymbol(math, bin, "⋄", "\\diamond");
+defineSymbol(math, bin, "◃", "\\triangleleft");
+defineSymbol(math, bin, "▹", "\\triangleright");
 defineSymbol(math, open, "{", "\\{");
 defineSymbol(text, textord, "{", "\\{");
 defineSymbol(text, textord, "{", "\\textbraceleft");
@@ -1303,187 +1303,187 @@ defineSymbol(math, close, "]", "\\rbrack", true);
 defineSymbol(text, textord, "]", "\\rbrack", true);
 defineSymbol(math, open, "(", "\\lparen", true);
 defineSymbol(math, close, ")", "\\rparen", true);
-defineSymbol(math, open, "\u2987", "\\llparenthesis", true);
-defineSymbol(math, close, "\u2988", "\\rrparenthesis", true);
+defineSymbol(math, open, "⦇", "\\llparenthesis", true);
+defineSymbol(math, close, "⦈", "\\rrparenthesis", true);
 defineSymbol(text, textord, "<", "\\textless", true);
 defineSymbol(text, textord, ">", "\\textgreater", true);
-defineSymbol(math, open, "\u230A", "\\lfloor", true);
-defineSymbol(math, close, "\u230B", "\\rfloor", true);
-defineSymbol(math, open, "\u2308", "\\lceil", true);
-defineSymbol(math, close, "\u2309", "\\rceil", true);
+defineSymbol(math, open, "⌊", "\\lfloor", true);
+defineSymbol(math, close, "⌋", "\\rfloor", true);
+defineSymbol(math, open, "⌈", "\\lceil", true);
+defineSymbol(math, close, "⌉", "\\rceil", true);
 defineSymbol(math, textord, "\\", "\\backslash");
 defineSymbol(math, textord, "|", "|");
 defineSymbol(math, textord, "|", "\\vert");
 defineSymbol(text, textord, "|", "\\textbar", true);
-defineSymbol(math, textord, "\u2016", "\\|");
-defineSymbol(math, textord, "\u2016", "\\Vert");
-defineSymbol(text, textord, "\u2016", "\\textbardbl");
+defineSymbol(math, textord, "‖", "\\|");
+defineSymbol(math, textord, "‖", "\\Vert");
+defineSymbol(text, textord, "‖", "\\textbardbl");
 defineSymbol(text, textord, "~", "\\textasciitilde");
 defineSymbol(text, textord, "\\", "\\textbackslash");
 defineSymbol(text, textord, "^", "\\textasciicircum");
-defineSymbol(math, rel, "\u2191", "\\uparrow", true);
-defineSymbol(math, rel, "\u21D1", "\\Uparrow", true);
-defineSymbol(math, rel, "\u2193", "\\downarrow", true);
-defineSymbol(math, rel, "\u21D3", "\\Downarrow", true);
-defineSymbol(math, rel, "\u2195", "\\updownarrow", true);
-defineSymbol(math, rel, "\u21D5", "\\Updownarrow", true);
-defineSymbol(math, op, "\u2210", "\\coprod");
-defineSymbol(math, op, "\u22C1", "\\bigvee");
-defineSymbol(math, op, "\u22C0", "\\bigwedge");
-defineSymbol(math, op, "\u2A04", "\\biguplus");
-defineSymbol(math, op, "\u2A04", "\\bigcupplus");
-defineSymbol(math, op, "\u2A03", "\\bigcupdot");
-defineSymbol(math, op, "\u2A07", "\\bigdoublevee");
-defineSymbol(math, op, "\u2A08", "\\bigdoublewedge");
-defineSymbol(math, op, "\u22C2", "\\bigcap");
-defineSymbol(math, op, "\u22C3", "\\bigcup");
-defineSymbol(math, op, "\u222B", "\\int");
-defineSymbol(math, op, "\u222B", "\\intop");
-defineSymbol(math, op, "\u222C", "\\iint");
-defineSymbol(math, op, "\u222D", "\\iiint");
-defineSymbol(math, op, "\u220F", "\\prod");
-defineSymbol(math, op, "\u2211", "\\sum");
-defineSymbol(math, op, "\u2A02", "\\bigotimes");
-defineSymbol(math, op, "\u2A01", "\\bigoplus");
-defineSymbol(math, op, "\u2A00", "\\bigodot");
-defineSymbol(math, op, "\u2A09", "\\bigtimes");
-defineSymbol(math, op, "\u222E", "\\oint");
-defineSymbol(math, op, "\u222F", "\\oiint");
-defineSymbol(math, op, "\u2230", "\\oiiint");
-defineSymbol(math, op, "\u2231", "\\intclockwise");
-defineSymbol(math, op, "\u2232", "\\varointclockwise");
-defineSymbol(math, op, "\u2A0C", "\\iiiint");
-defineSymbol(math, op, "\u2A0D", "\\intbar");
-defineSymbol(math, op, "\u2A0E", "\\intBar");
-defineSymbol(math, op, "\u2A0F", "\\fint");
-defineSymbol(math, op, "\u2A12", "\\rppolint");
-defineSymbol(math, op, "\u2A13", "\\scpolint");
-defineSymbol(math, op, "\u2A15", "\\pointint");
-defineSymbol(math, op, "\u2A16", "\\sqint");
-defineSymbol(math, op, "\u2A17", "\\intlarhk");
-defineSymbol(math, op, "\u2A18", "\\intx");
-defineSymbol(math, op, "\u2A19", "\\intcap");
-defineSymbol(math, op, "\u2A1A", "\\intcup");
-defineSymbol(math, op, "\u2A05", "\\bigsqcap");
-defineSymbol(math, op, "\u2A06", "\\bigsqcup");
-defineSymbol(math, op, "\u222B", "\\smallint");
-defineSymbol(text, inner, "\u2026", "\\textellipsis");
-defineSymbol(math, inner, "\u2026", "\\mathellipsis");
-defineSymbol(text, inner, "\u2026", "\\ldots", true);
-defineSymbol(math, inner, "\u2026", "\\ldots", true);
-defineSymbol(math, inner, "\u22F0", "\\iddots", true);
-defineSymbol(math, inner, "\u22EF", "\\@cdots", true);
-defineSymbol(math, inner, "\u22F1", "\\ddots", true);
-defineSymbol(math, textord, "\u22EE", "\\varvdots");
-defineSymbol(text, textord, "\u22EE", "\\varvdots");
-defineSymbol(math, accent, "\u02CA", "\\acute");
+defineSymbol(math, rel, "↑", "\\uparrow", true);
+defineSymbol(math, rel, "⇑", "\\Uparrow", true);
+defineSymbol(math, rel, "↓", "\\downarrow", true);
+defineSymbol(math, rel, "⇓", "\\Downarrow", true);
+defineSymbol(math, rel, "↕", "\\updownarrow", true);
+defineSymbol(math, rel, "⇕", "\\Updownarrow", true);
+defineSymbol(math, op, "∐", "\\coprod");
+defineSymbol(math, op, "⋁", "\\bigvee");
+defineSymbol(math, op, "⋀", "\\bigwedge");
+defineSymbol(math, op, "⨄", "\\biguplus");
+defineSymbol(math, op, "⨄", "\\bigcupplus");
+defineSymbol(math, op, "⨃", "\\bigcupdot");
+defineSymbol(math, op, "⨇", "\\bigdoublevee");
+defineSymbol(math, op, "⨈", "\\bigdoublewedge");
+defineSymbol(math, op, "⋂", "\\bigcap");
+defineSymbol(math, op, "⋃", "\\bigcup");
+defineSymbol(math, op, "∫", "\\int");
+defineSymbol(math, op, "∫", "\\intop");
+defineSymbol(math, op, "∬", "\\iint");
+defineSymbol(math, op, "∭", "\\iiint");
+defineSymbol(math, op, "∏", "\\prod");
+defineSymbol(math, op, "∑", "\\sum");
+defineSymbol(math, op, "⨂", "\\bigotimes");
+defineSymbol(math, op, "⨁", "\\bigoplus");
+defineSymbol(math, op, "⨀", "\\bigodot");
+defineSymbol(math, op, "⨉", "\\bigtimes");
+defineSymbol(math, op, "∮", "\\oint");
+defineSymbol(math, op, "∯", "\\oiint");
+defineSymbol(math, op, "∰", "\\oiiint");
+defineSymbol(math, op, "∱", "\\intclockwise");
+defineSymbol(math, op, "∲", "\\varointclockwise");
+defineSymbol(math, op, "⨌", "\\iiiint");
+defineSymbol(math, op, "⨍", "\\intbar");
+defineSymbol(math, op, "⨎", "\\intBar");
+defineSymbol(math, op, "⨏", "\\fint");
+defineSymbol(math, op, "⨒", "\\rppolint");
+defineSymbol(math, op, "⨓", "\\scpolint");
+defineSymbol(math, op, "⨕", "\\pointint");
+defineSymbol(math, op, "⨖", "\\sqint");
+defineSymbol(math, op, "⨗", "\\intlarhk");
+defineSymbol(math, op, "⨘", "\\intx");
+defineSymbol(math, op, "⨙", "\\intcap");
+defineSymbol(math, op, "⨚", "\\intcup");
+defineSymbol(math, op, "⨅", "\\bigsqcap");
+defineSymbol(math, op, "⨆", "\\bigsqcup");
+defineSymbol(math, op, "∫", "\\smallint");
+defineSymbol(text, inner, "…", "\\textellipsis");
+defineSymbol(math, inner, "…", "\\mathellipsis");
+defineSymbol(text, inner, "…", "\\ldots", true);
+defineSymbol(math, inner, "…", "\\ldots", true);
+defineSymbol(math, inner, "⋰", "\\iddots", true);
+defineSymbol(math, inner, "⋯", "\\@cdots", true);
+defineSymbol(math, inner, "⋱", "\\ddots", true);
+defineSymbol(math, textord, "⋮", "\\varvdots");
+defineSymbol(text, textord, "⋮", "\\varvdots");
+defineSymbol(math, accent, "ˊ", "\\acute");
 defineSymbol(math, accent, "`", "\\grave");
-defineSymbol(math, accent, "\xA8", "\\ddot");
-defineSymbol(math, accent, "\u2026", "\\dddot");
-defineSymbol(math, accent, "\u2026.", "\\ddddot");
+defineSymbol(math, accent, "¨", "\\ddot");
+defineSymbol(math, accent, "…", "\\dddot");
+defineSymbol(math, accent, "….", "\\ddddot");
 defineSymbol(math, accent, "~", "\\tilde");
-defineSymbol(math, accent, "\u203E", "\\bar");
-defineSymbol(math, accent, "\u02D8", "\\breve");
-defineSymbol(math, accent, "\u02C7", "\\check");
+defineSymbol(math, accent, "‾", "\\bar");
+defineSymbol(math, accent, "˘", "\\breve");
+defineSymbol(math, accent, "ˇ", "\\check");
 defineSymbol(math, accent, "^", "\\hat");
-defineSymbol(math, accent, "\u2192", "\\vec");
-defineSymbol(math, accent, "\u02D9", "\\dot");
-defineSymbol(math, accent, "\u02DA", "\\mathring");
-defineSymbol(math, mathord, "\u0131", "\\imath", true);
-defineSymbol(math, mathord, "\u0237", "\\jmath", true);
-defineSymbol(math, textord, "\u0131", "\u0131");
-defineSymbol(math, textord, "\u0237", "\u0237");
-defineSymbol(text, textord, "\u0131", "\\i", true);
-defineSymbol(text, textord, "\u0237", "\\j", true);
-defineSymbol(text, textord, "\xDF", "\\ss", true);
-defineSymbol(text, textord, "\xE6", "\\ae", true);
-defineSymbol(text, textord, "\u0153", "\\oe", true);
-defineSymbol(text, textord, "\xF8", "\\o", true);
-defineSymbol(math, mathord, "\xF8", "\\o", true);
-defineSymbol(text, textord, "\xC6", "\\AE", true);
-defineSymbol(text, textord, "\u0152", "\\OE", true);
-defineSymbol(text, textord, "\xD8", "\\O", true);
-defineSymbol(math, mathord, "\xD8", "\\O", true);
-defineSymbol(text, accent, "\u02CA", "\\'");
-defineSymbol(text, accent, "\u02CB", "\\`");
-defineSymbol(text, accent, "\u02C6", "\\^");
-defineSymbol(text, accent, "\u02DC", "\\~");
-defineSymbol(text, accent, "\u02C9", "\\=");
-defineSymbol(text, accent, "\u02D8", "\\u");
-defineSymbol(text, accent, "\u02D9", "\\.");
-defineSymbol(text, accent, "\xB8", "\\c");
-defineSymbol(text, accent, "\u02DA", "\\r");
-defineSymbol(text, accent, "\u02C7", "\\v");
-defineSymbol(text, accent, "\xA8", '\\"');
-defineSymbol(text, accent, "\u02DD", "\\H");
-defineSymbol(math, accent, "\u02CA", "\\'");
-defineSymbol(math, accent, "\u02CB", "\\`");
-defineSymbol(math, accent, "\u02C6", "\\^");
-defineSymbol(math, accent, "\u02DC", "\\~");
-defineSymbol(math, accent, "\u02C9", "\\=");
-defineSymbol(math, accent, "\u02D8", "\\u");
-defineSymbol(math, accent, "\u02D9", "\\.");
-defineSymbol(math, accent, "\xB8", "\\c");
-defineSymbol(math, accent, "\u02DA", "\\r");
-defineSymbol(math, accent, "\u02C7", "\\v");
-defineSymbol(math, accent, "\xA8", '\\"');
-defineSymbol(math, accent, "\u02DD", "\\H");
+defineSymbol(math, accent, "→", "\\vec");
+defineSymbol(math, accent, "˙", "\\dot");
+defineSymbol(math, accent, "˚", "\\mathring");
+defineSymbol(math, mathord, "ı", "\\imath", true);
+defineSymbol(math, mathord, "ȷ", "\\jmath", true);
+defineSymbol(math, textord, "ı", "ı");
+defineSymbol(math, textord, "ȷ", "ȷ");
+defineSymbol(text, textord, "ı", "\\i", true);
+defineSymbol(text, textord, "ȷ", "\\j", true);
+defineSymbol(text, textord, "ß", "\\ss", true);
+defineSymbol(text, textord, "æ", "\\ae", true);
+defineSymbol(text, textord, "œ", "\\oe", true);
+defineSymbol(text, textord, "ø", "\\o", true);
+defineSymbol(math, mathord, "ø", "\\o", true);
+defineSymbol(text, textord, "Æ", "\\AE", true);
+defineSymbol(text, textord, "Œ", "\\OE", true);
+defineSymbol(text, textord, "Ø", "\\O", true);
+defineSymbol(math, mathord, "Ø", "\\O", true);
+defineSymbol(text, accent, "ˊ", "\\'");
+defineSymbol(text, accent, "ˋ", "\\`");
+defineSymbol(text, accent, "ˆ", "\\^");
+defineSymbol(text, accent, "˜", "\\~");
+defineSymbol(text, accent, "ˉ", "\\=");
+defineSymbol(text, accent, "˘", "\\u");
+defineSymbol(text, accent, "˙", "\\.");
+defineSymbol(text, accent, "¸", "\\c");
+defineSymbol(text, accent, "˚", "\\r");
+defineSymbol(text, accent, "ˇ", "\\v");
+defineSymbol(text, accent, "¨", '\\"');
+defineSymbol(text, accent, "˝", "\\H");
+defineSymbol(math, accent, "ˊ", "\\'");
+defineSymbol(math, accent, "ˋ", "\\`");
+defineSymbol(math, accent, "ˆ", "\\^");
+defineSymbol(math, accent, "˜", "\\~");
+defineSymbol(math, accent, "ˉ", "\\=");
+defineSymbol(math, accent, "˘", "\\u");
+defineSymbol(math, accent, "˙", "\\.");
+defineSymbol(math, accent, "¸", "\\c");
+defineSymbol(math, accent, "˚", "\\r");
+defineSymbol(math, accent, "ˇ", "\\v");
+defineSymbol(math, accent, "¨", '\\"');
+defineSymbol(math, accent, "˝", "\\H");
 var ligatures = {
   "--": true,
   "---": true,
   "``": true,
   "''": true
 };
-defineSymbol(text, textord, "\u2013", "--", true);
-defineSymbol(text, textord, "\u2013", "\\textendash");
-defineSymbol(text, textord, "\u2014", "---", true);
-defineSymbol(text, textord, "\u2014", "\\textemdash");
-defineSymbol(text, textord, "\u2018", "`", true);
-defineSymbol(text, textord, "\u2018", "\\textquoteleft");
-defineSymbol(text, textord, "\u2019", "'", true);
-defineSymbol(text, textord, "\u2019", "\\textquoteright");
-defineSymbol(text, textord, "\u201C", "``", true);
-defineSymbol(text, textord, "\u201C", "\\textquotedblleft");
-defineSymbol(text, textord, "\u201D", "''", true);
-defineSymbol(text, textord, "\u201D", "\\textquotedblright");
-defineSymbol(math, textord, "\xB0", "\\degree", true);
-defineSymbol(text, textord, "\xB0", "\\degree");
-defineSymbol(text, textord, "\xB0", "\\textdegree", true);
-defineSymbol(math, textord, "\xA3", "\\pounds");
-defineSymbol(math, textord, "\xA3", "\\mathsterling", true);
-defineSymbol(text, textord, "\xA3", "\\pounds");
-defineSymbol(text, textord, "\xA3", "\\textsterling", true);
-defineSymbol(math, textord, "\u2720", "\\maltese");
-defineSymbol(text, textord, "\u2720", "\\maltese");
-defineSymbol(math, textord, "\u20AC", "\\euro", true);
-defineSymbol(text, textord, "\u20AC", "\\euro", true);
-defineSymbol(text, textord, "\u20AC", "\\texteuro");
-defineSymbol(math, textord, "\xA9", "\\copyright", true);
-defineSymbol(text, textord, "\xA9", "\\textcopyright");
-defineSymbol(math, textord, "\u2300", "\\diameter", true);
-defineSymbol(text, textord, "\u2300", "\\diameter");
-defineSymbol(math, textord, "\u{1D6E4}", "\\varGamma");
-defineSymbol(math, textord, "\u{1D6E5}", "\\varDelta");
-defineSymbol(math, textord, "\u{1D6E9}", "\\varTheta");
-defineSymbol(math, textord, "\u{1D6EC}", "\\varLambda");
-defineSymbol(math, textord, "\u{1D6EF}", "\\varXi");
-defineSymbol(math, textord, "\u{1D6F1}", "\\varPi");
-defineSymbol(math, textord, "\u{1D6F4}", "\\varSigma");
-defineSymbol(math, textord, "\u{1D6F6}", "\\varUpsilon");
-defineSymbol(math, textord, "\u{1D6F7}", "\\varPhi");
-defineSymbol(math, textord, "\u{1D6F9}", "\\varPsi");
-defineSymbol(math, textord, "\u{1D6FA}", "\\varOmega");
-defineSymbol(text, textord, "\u{1D6E4}", "\\varGamma");
-defineSymbol(text, textord, "\u{1D6E5}", "\\varDelta");
-defineSymbol(text, textord, "\u{1D6E9}", "\\varTheta");
-defineSymbol(text, textord, "\u{1D6EC}", "\\varLambda");
-defineSymbol(text, textord, "\u{1D6EF}", "\\varXi");
-defineSymbol(text, textord, "\u{1D6F1}", "\\varPi");
-defineSymbol(text, textord, "\u{1D6F4}", "\\varSigma");
-defineSymbol(text, textord, "\u{1D6F6}", "\\varUpsilon");
-defineSymbol(text, textord, "\u{1D6F7}", "\\varPhi");
-defineSymbol(text, textord, "\u{1D6F9}", "\\varPsi");
-defineSymbol(text, textord, "\u{1D6FA}", "\\varOmega");
+defineSymbol(text, textord, "–", "--", true);
+defineSymbol(text, textord, "–", "\\textendash");
+defineSymbol(text, textord, "—", "---", true);
+defineSymbol(text, textord, "—", "\\textemdash");
+defineSymbol(text, textord, "‘", "`", true);
+defineSymbol(text, textord, "‘", "\\textquoteleft");
+defineSymbol(text, textord, "’", "'", true);
+defineSymbol(text, textord, "’", "\\textquoteright");
+defineSymbol(text, textord, "“", "``", true);
+defineSymbol(text, textord, "“", "\\textquotedblleft");
+defineSymbol(text, textord, "”", "''", true);
+defineSymbol(text, textord, "”", "\\textquotedblright");
+defineSymbol(math, textord, "°", "\\degree", true);
+defineSymbol(text, textord, "°", "\\degree");
+defineSymbol(text, textord, "°", "\\textdegree", true);
+defineSymbol(math, textord, "£", "\\pounds");
+defineSymbol(math, textord, "£", "\\mathsterling", true);
+defineSymbol(text, textord, "£", "\\pounds");
+defineSymbol(text, textord, "£", "\\textsterling", true);
+defineSymbol(math, textord, "✠", "\\maltese");
+defineSymbol(text, textord, "✠", "\\maltese");
+defineSymbol(math, textord, "€", "\\euro", true);
+defineSymbol(text, textord, "€", "\\euro", true);
+defineSymbol(text, textord, "€", "\\texteuro");
+defineSymbol(math, textord, "©", "\\copyright", true);
+defineSymbol(text, textord, "©", "\\textcopyright");
+defineSymbol(math, textord, "⌀", "\\diameter", true);
+defineSymbol(text, textord, "⌀", "\\diameter");
+defineSymbol(math, textord, "𝛤", "\\varGamma");
+defineSymbol(math, textord, "𝛥", "\\varDelta");
+defineSymbol(math, textord, "𝛩", "\\varTheta");
+defineSymbol(math, textord, "𝛬", "\\varLambda");
+defineSymbol(math, textord, "𝛯", "\\varXi");
+defineSymbol(math, textord, "𝛱", "\\varPi");
+defineSymbol(math, textord, "𝛴", "\\varSigma");
+defineSymbol(math, textord, "𝛶", "\\varUpsilon");
+defineSymbol(math, textord, "𝛷", "\\varPhi");
+defineSymbol(math, textord, "𝛹", "\\varPsi");
+defineSymbol(math, textord, "𝛺", "\\varOmega");
+defineSymbol(text, textord, "𝛤", "\\varGamma");
+defineSymbol(text, textord, "𝛥", "\\varDelta");
+defineSymbol(text, textord, "𝛩", "\\varTheta");
+defineSymbol(text, textord, "𝛬", "\\varLambda");
+defineSymbol(text, textord, "𝛯", "\\varXi");
+defineSymbol(text, textord, "𝛱", "\\varPi");
+defineSymbol(text, textord, "𝛴", "\\varSigma");
+defineSymbol(text, textord, "𝛶", "\\varUpsilon");
+defineSymbol(text, textord, "𝛷", "\\varPhi");
+defineSymbol(text, textord, "𝛹", "\\varPsi");
+defineSymbol(text, textord, "𝛺", "\\varOmega");
 var mathTextSymbols = '0123456789/@."';
 for (let i = 0; i < mathTextSymbols.length; i++) {
   const ch = mathTextSymbols.charAt(i);
@@ -1500,7 +1500,7 @@ for (let i = 0; i < letters.length; i++) {
   defineSymbol(math, mathord, ch, ch);
   defineSymbol(text, textord, ch, ch);
 }
-var narrow = "\xC7\xD0\xDE\xE7\xFE\u2102\u210D\u2115\u2119\u211A\u211D\u2124\u210E\u210F\u210A\u210B\u210C\u2110\u2111\u2112\u2113\u2118\u211B\u211C\u212C\u2130\u2131\u2133\u212D\u2128";
+var narrow = "ÇÐÞçþℂℍℕℙℚℝℤℎℏℊℋℌℐℑℒℓ℘ℛℜℬℰℱℳℭℨ";
 for (let i = 0; i < narrow.length; i++) {
   const ch = narrow.charAt(i);
   defineSymbol(math, mathord, ch, ch);
@@ -1554,8 +1554,8 @@ for (let i = 0; i < 10; i++) {
   defineSymbol(math, mathord, wideChar, wideChar);
   defineSymbol(text, textord, wideChar, wideChar);
 }
-var openDelims = "([{\u230A\u2308\u27E8\u27EE\u23B0\u27E6\u2983";
-var closeDelims = ")]}\u230B\u2309\u27E9\u27EF\u23B1\u27E6\u2984";
+var openDelims = "([{⌊⌈⟨⟮⎰⟦⦃";
+var closeDelims = ")]}⌋⌉⟩⟯⎱⟦⦄";
 function setLineBreaks(expression, wrapMode, isDisplayMode) {
   const mtrs = [];
   let mrows = [];
@@ -1596,7 +1596,7 @@ function setLineBreaks(expression, wrapMode, isDisplayMode) {
           mrows.push(element);
           block = [node];
         }
-      } else if (level === 0 && wrapMode === "tex" && ch !== "\u2207") {
+      } else if (level === 0 && wrapMode === "tex" && ch !== "∇") {
         const next = i < expression.length - 1 ? expression[i + 1] : null;
         let glueIsFreeOfNobreak = true;
         if (!(next && next.type === "mtext" && next.attributes.linebreak && next.attributes.linebreak === "nobreak")) {
@@ -1694,11 +1694,11 @@ var consolidateText = (mrow) => {
     if (newRow.children[i].type === "mtext") {
       const mtext = newRow.children[i];
       if (mtext.children[0].text.charAt(0) === " ") {
-        mtext.children[0].text = "\xA0" + mtext.children[0].text.slice(1);
+        mtext.children[0].text = " " + mtext.children[0].text.slice(1);
       }
       const L = mtext.children[0].text.length;
       if (L > 0 && mtext.children[0].text.charAt(L - 1) === " ") {
-        mtext.children[0].text = mtext.children[0].text.slice(0, -1) + "\xA0";
+        mtext.children[0].text = mtext.children[0].text.slice(0, -1) + " ";
       }
       for (const [key, value] of Object.entries(mrow.attributes)) {
         mtext.attributes[key] = value;
@@ -1736,7 +1736,7 @@ function isNumberPunctuation(group) {
     return child instanceof TextNode2 && child.text === ".";
   } else if (group.type === "mtext" && group.children.length === 1) {
     const child = group.children[0];
-    return child instanceof TextNode2 && child.text === "\u2008";
+    return child instanceof TextNode2 && child.text === " ";
   } else if (group.type === "mo" && group.children.length === 1 && group.getAttribute("separator") === "true" && group.getAttribute("lspace") === "0em" && group.getAttribute("rspace") === "0em") {
     const child = group.children[0];
     return child instanceof TextNode2 && child.text === ",";
@@ -1894,8 +1894,8 @@ function buildMathML(tree, texExpression, style, settings) {
   }
   return math2;
 }
-var smalls = "aceg\u0131\u0237mnopqrsuvwxyz\u03B1\u03B3\u03B5\u03B7\u03B9\u03BA\u03BC\u03BD\u03BF\u03C0\u03C1\u03C2\u03C3\u03C4\u03C5\u03C7\u03C9\u03D5\u{1D41A}\u{1D41C}\u{1D41E}\u{1D420}\u{1D426}\u{1D427}\u{1D428}\u{1D429}\u{1D42A}\u{1D42B}\u{1D42C}\u{1D42E}\u{1D42F}\u{1D430}\u{1D431}\u{1D432}\u{1D433}";
-var talls = "ABCDEFGHIJKLMNOPQRSTUVWXYZbdfhklt\u0391\u0392\u0393\u0394\u0395\u0396\u0397\u0398\u0399\u039A\u039B\u039C\u039D\u039E\u039F\u03A0\u03A1\u03A3\u03A4\u03A5\u03A6\u03A7\u03A8\u03A9\u03B2\u03B4\u03BB\u03B6\u03C6\u03B8\u03C8\u{1D400}\u{1D401}\u{1D402}\u{1D403}\u{1D404}\u{1D405}\u{1D406}\u{1D407}\u{1D408}\u{1D409}\u{1D40A}\u{1D40B}\u{1D40C}\u{1D40D}\u{1D40E}\u{1D40F}\u{1D410}\u{1D411}\u{1D412}\u{1D413}\u{1D414}\u{1D415}\u{1D416}\u{1D417}\u{1D418}\u{1D419}\u{1D41B}\u{1D41D}\u{1D41F}\u{1D421}\u{1D424}\u{1D425}\u{1D42D}";
+var smalls = "acegıȷmnopqrsuvwxyzαγεηικμνοπρςστυχωϕ𝐚𝐜𝐞𝐠𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐮𝐯𝐰𝐱𝐲𝐳";
+var talls = "ABCDEFGHIJKLMNOPQRSTUVWXYZbdfhkltΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩβδλζφθψ𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐛𝐝𝐟𝐡𝐤𝐥𝐭";
 var longSmalls = /* @__PURE__ */ new Set([
   "\\alpha",
   "\\gamma",
@@ -1995,17 +1995,17 @@ var needWebkitShift = /* @__PURE__ */ new Set([
   "\\v"
 ]);
 var combiningChar = {
-  "\\`": "\u0300",
-  "\\'": "\u0301",
-  "\\^": "\u0302",
-  "\\~": "\u0303",
-  "\\=": "\u0304",
-  "\\u": "\u0306",
-  "\\.": "\u0307",
-  '\\"': "\u0308",
-  "\\r": "\u030A",
-  "\\H": "\u030B",
-  "\\v": "\u030C"
+  "\\`": "̀",
+  "\\'": "́",
+  "\\^": "̂",
+  "\\~": "̃",
+  "\\=": "̄",
+  "\\u": "̆",
+  "\\.": "̇",
+  '\\"': "̈",
+  "\\r": "̊",
+  "\\H": "̋",
+  "\\v": "̌"
 };
 defineFunction({
   type: "accent",
@@ -3175,32 +3175,32 @@ var delimiters = [
   "\\lbrace",
   "\\}",
   "\\rbrace",
-  "\u2987",
+  "⦇",
   "\\llparenthesis",
-  "\u2988",
+  "⦈",
   "\\rrparenthesis",
   "\\lfloor",
   "\\rfloor",
-  "\u230A",
-  "\u230B",
+  "⌊",
+  "⌋",
   "\\lceil",
   "\\rceil",
-  "\u2308",
-  "\u2309",
+  "⌈",
+  "⌉",
   "<",
   ">",
   "\\langle",
-  "\u27E8",
+  "⟨",
   "\\rangle",
-  "\u27E9",
+  "⟩",
   "\\lAngle",
-  "\u27EA",
+  "⟪",
   "\\rAngle",
-  "\u27EB",
+  "⟫",
   "\\llangle",
-  "\u2989",
+  "⦉",
   "\\rrangle",
-  "\u298A",
+  "⦊",
   "\\lt",
   "\\gt",
   "\\lvert",
@@ -3209,27 +3209,27 @@ var delimiters = [
   "\\rVert",
   "\\lgroup",
   "\\rgroup",
-  "\u27EE",
-  "\u27EF",
+  "⟮",
+  "⟯",
   "\\lmoustache",
   "\\rmoustache",
-  "\u23B0",
-  "\u23B1",
+  "⎰",
+  "⎱",
   "\\llbracket",
   "\\rrbracket",
-  "\u27E6",
-  "\u27E6",
+  "⟦",
+  "⟦",
   "\\lBrace",
   "\\rBrace",
-  "\u2983",
-  "\u2984",
+  "⦃",
+  "⦄",
   "/",
   "\\backslash",
   "|",
   "\\vert",
   "\\|",
   "\\Vert",
-  "\u2016",
+  "‖",
   "\\uparrow",
   "\\Uparrow",
   "\\downarrow",
@@ -3245,10 +3245,10 @@ function checkDelimiter(delim, context) {
   const symDelim = checkSymbolNodeType(delim);
   if (symDelim && delimiters.includes(symDelim.text)) {
     if (["<", "\\lt"].includes(symDelim.text)) {
-      symDelim.text = "\u27E8";
+      symDelim.text = "⟨";
     }
     if ([">", "\\gt"].includes(symDelim.text)) {
-      symDelim.text = "\u27E9";
+      symDelim.text = "⟩";
     }
     return symDelim;
   } else if (symDelim) {
@@ -3388,7 +3388,7 @@ defineFunction({
     const rightNode = new mathMLTree.MathNode("mo", [makeText(group.right, group.mode)]);
     rightNode.setAttribute("fence", "true");
     rightNode.setAttribute("form", "postfix");
-    if (group.right === "\u2216" || group.right.indexOf("arrow") > -1) {
+    if (group.right === "∖" || group.right.indexOf("arrow") > -1) {
       rightNode.setAttribute("stretchy", "true");
     }
     if (group.body.length > 0) {
@@ -3869,7 +3869,7 @@ function recreateArgStr(context) {
   return str;
 }
 defineMacro("\\surd", "\\sqrt{\\vphantom{|}}");
-defineMacro("\u2295", "\\oplus");
+defineMacro("⊕", "\\oplus");
 defineMacro("\\long", "");
 defineMacro("\\bgroup", "{");
 defineMacro("\\egroup", "}");
@@ -3881,7 +3881,7 @@ defineMacro("\\Bbbk", "\\Bbb{k}");
 defineMacro("\\mathstrut", "\\vphantom{(}");
 defineMacro("\\underbar", "\\underline{\\text{#1}}");
 defineMacro("\\vdots", "{\\varvdots\\rule{0pt}{15pt}}");
-defineMacro("\u22EE", "\\vdots");
+defineMacro("⋮", "\\vdots");
 defineMacro("\\arraystretch", "1");
 defineMacro("\\arraycolsep", "6pt");
 defineMacro("\\substack", "\\begin{subarray}{c}#1\\end{subarray}");
@@ -4090,7 +4090,7 @@ defineMacro("\\minuscolon", "\\eqcolon");
 defineMacro("\\minuscoloncolon", "\\Eqcolon");
 defineMacro("\\coloncolonapprox", "\\Colonapprox");
 defineMacro("\\coloncolonsim", "\\Colonsim");
-defineMacro("\\notni", "\\mathrel{\\char`\u220C}");
+defineMacro("\\notni", "\\mathrel{\\char`∌}");
 defineMacro("\\limsup", "\\DOTSB\\operatorname*{lim\\,sup}");
 defineMacro("\\liminf", "\\DOTSB\\operatorname*{lim\\,inf}");
 defineMacro("\\injlim", "\\DOTSB\\operatorname*{inj\\,lim}");
@@ -4195,7 +4195,7 @@ defineMacro("\\coh", `{\\mkern5mu\\rule{}{0.7em}\\mathrlap{\\smash{\\raise2mu{\\
 {\\smash{\\lower4mu{\\char"2323}}}\\mkern5mu}`);
 defineMacro("\\incoh", `{\\mkern5mu\\rule{}{0.7em}\\mathrlap{\\smash{\\raise2mu{\\char"2323}}}
 {\\smash{\\lower4mu{\\char"2322}}}\\mkern5mu}`);
-defineMacro("\\standardstate", "\\text{\\tiny\\char`\u29B5}");
+defineMacro("\\standardstate", "\\text{\\tiny\\char`⦵}");
 defineMacro("\\ce", function(context) {
   return chemParse(context.consumeArgs(1)[0], "ce");
 });
@@ -5963,9 +5963,9 @@ var texify = {
     switch (a) {
       case "->":
         return "\\yields";
-      case "\u2192":
+      case "→":
         return "\\yields";
-      case "\u27F6":
+      case "⟶":
         return "\\yields";
       case "<-":
         return "\\yieldsLeft";
@@ -5975,7 +5975,7 @@ var texify = {
         return "\\yieldsLeftRight";
       case "<=>":
         return "\\equilibrium";
-      case "\u21CC":
+      case "⇌":
         return "\\equilibrium";
       case "<=>>":
         return "\\equilibriumRight";
@@ -7115,7 +7115,7 @@ var mathmlBuilder$6 = (group, style) => {
     for (let i = 1; i < mathGroup.children.length; i++) {
       mi2.children[0].text += mathGroup.children[i].type === "mn" ? mathGroup.children[i].children[0].text : mathGroup.children[i].children[0].children[0].text;
     }
-    const bogus = new mathMLTree.MathNode("mtext", new mathMLTree.TextNode("\u200B"));
+    const bogus = new mathMLTree.MathNode("mtext", new mathMLTree.TextNode("​"));
     return new mathMLTree.MathNode("mrow", [bogus, mi2]);
   }
   let canConsolidate = mathGroup.children[0].type === "mo";
@@ -7139,7 +7139,7 @@ var mathmlBuilder$6 = (group, style) => {
     mi.children.push(mathGroup.children[i].children[0]);
   }
   if (mi.attributes.mathvariant && mi.attributes.mathvariant === "normal") {
-    const bogus = new mathMLTree.MathNode("mtext", new mathMLTree.TextNode("\u200B"));
+    const bogus = new mathMLTree.MathNode("mtext", new mathMLTree.TextNode("​"));
     return new mathMLTree.MathNode("mrow", [bogus, mi]);
   }
   return mi;
@@ -7859,13 +7859,13 @@ defineFunction({
 });
 var spaceCharacter = function(width) {
   if (width >= 0.05555 && width <= 0.05556) {
-    return "\u200A";
+    return " ";
   } else if (width >= 0.1666 && width <= 0.1667) {
-    return "\u2009";
+    return " ";
   } else if (width >= 0.2222 && width <= 0.2223) {
-    return "\u2005";
+    return " ";
   } else if (width >= 0.2777 && width <= 0.2778) {
-    return "\u2005\u200A";
+    return "  ";
   } else {
     return "";
   }
@@ -8041,7 +8041,7 @@ function mathmlBuilder$3(group, style) {
     if (group.isCharacterBox || inner2[0].type === "mathord") {
       node = inner2[0];
       node.type = "mi";
-      if (node.children.length === 1 && node.children[0].text && node.children[0].text === "\u2207") {
+      if (node.children.length === 1 && node.children[0].text && node.children[0].text === "∇") {
         node.setAttribute("mathvariant", "normal");
       }
     } else {
@@ -8294,9 +8294,9 @@ defineFunction({
       if (body[0].text.charAt(0) === "\\") {
         body[0].text = symbols.math[body[0].text].replace;
       }
-      body[0].text = body[0].text.slice(0, 1) + "\u0338" + body[0].text.slice(1);
+      body[0].text = body[0].text.slice(0, 1) + "̸" + body[0].text.slice(1);
     } else {
-      const notNode = { type: "textord", mode: "math", text: "\u0338" };
+      const notNode = { type: "textord", mode: "math", text: "̸" };
       const kernNode = { type: "kern", mode: "math", dimension: { number: -0.6, unit: "em" } };
       body = [notNode, kernNode, args[0]];
     }
@@ -8343,7 +8343,7 @@ var mathmlBuilder$2 = (group, style) => {
   } else {
     node = new MathNode("mi", [new TextNode2(group.name.slice(1))]);
     if (!group.parentIsSupSub) {
-      const operator = new MathNode("mo", [makeText("\u2061", "text")]);
+      const operator = new MathNode("mo", [makeText("⁡", "text")]);
       const row = [node, operator];
       if (group.needsLeadingSpace) {
         const lead = new MathNode("mspace");
@@ -8361,23 +8361,23 @@ var mathmlBuilder$2 = (group, style) => {
   return node;
 };
 var singleCharBigOps = {
-  "\u220F": "\\prod",
-  "\u2210": "\\coprod",
-  "\u2211": "\\sum",
-  "\u22C0": "\\bigwedge",
-  "\u22C1": "\\bigvee",
-  "\u22C2": "\\bigcap",
-  "\u22C3": "\\bigcup",
-  "\u2A00": "\\bigodot",
-  "\u2A01": "\\bigoplus",
-  "\u2A02": "\\bigotimes",
-  "\u2A04": "\\biguplus",
-  "\u2A05": "\\bigsqcap",
-  "\u2A06": "\\bigsqcup",
-  "\u2A03": "\\bigcupdot",
-  "\u2A07": "\\bigdoublevee",
-  "\u2A08": "\\bigdoublewedge",
-  "\u2A09": "\\bigtimes"
+  "∏": "\\prod",
+  "∐": "\\coprod",
+  "∑": "\\sum",
+  "⋀": "\\bigwedge",
+  "⋁": "\\bigvee",
+  "⋂": "\\bigcap",
+  "⋃": "\\bigcup",
+  "⨀": "\\bigodot",
+  "⨁": "\\bigoplus",
+  "⨂": "\\bigotimes",
+  "⨄": "\\biguplus",
+  "⨅": "\\bigsqcap",
+  "⨆": "\\bigsqcup",
+  "⨃": "\\bigcupdot",
+  "⨇": "\\bigdoublevee",
+  "⨈": "\\bigdoublewedge",
+  "⨉": "\\bigtimes"
 };
 defineFunction({
   type: "op",
@@ -8402,18 +8402,18 @@ defineFunction({
     "\\bigsqcup",
     "\\bigtimes",
     "\\smallint",
-    "\u220F",
-    "\u2210",
-    "\u2211",
-    "\u22C0",
-    "\u22C1",
-    "\u22C2",
-    "\u22C3",
-    "\u2A00",
-    "\u2A01",
-    "\u2A02",
-    "\u2A04",
-    "\u2A06"
+    "∏",
+    "∐",
+    "∑",
+    "⋀",
+    "⋁",
+    "⋂",
+    "⋃",
+    "⨀",
+    "⨁",
+    "⨂",
+    "⨄",
+    "⨆"
   ],
   props: {
     numArgs: 0
@@ -8462,26 +8462,26 @@ defineFunction({
   mathmlBuilder: mathmlBuilder$2
 });
 var singleCharIntegrals = {
-  "\u222B": "\\int",
-  "\u222C": "\\iint",
-  "\u222D": "\\iiint",
-  "\u222E": "\\oint",
-  "\u222F": "\\oiint",
-  "\u2230": "\\oiiint",
-  "\u2231": "\\intclockwise",
-  "\u2232": "\\varointclockwise",
-  "\u2A0C": "\\iiiint",
-  "\u2A0D": "\\intbar",
-  "\u2A0E": "\\intBar",
-  "\u2A0F": "\\fint",
-  "\u2A12": "\\rppolint",
-  "\u2A13": "\\scpolint",
-  "\u2A15": "\\pointint",
-  "\u2A16": "\\sqint",
-  "\u2A17": "\\intlarhk",
-  "\u2A18": "\\intx",
-  "\u2A19": "\\intcap",
-  "\u2A1A": "\\intcup"
+  "∫": "\\int",
+  "∬": "\\iint",
+  "∭": "\\iiint",
+  "∮": "\\oint",
+  "∯": "\\oiint",
+  "∰": "\\oiiint",
+  "∱": "\\intclockwise",
+  "∲": "\\varointclockwise",
+  "⨌": "\\iiiint",
+  "⨍": "\\intbar",
+  "⨎": "\\intBar",
+  "⨏": "\\fint",
+  "⨒": "\\rppolint",
+  "⨓": "\\scpolint",
+  "⨕": "\\pointint",
+  "⨖": "\\sqint",
+  "⨗": "\\intlarhk",
+  "⨘": "\\intx",
+  "⨙": "\\intcap",
+  "⨚": "\\intcup"
 };
 defineFunction({
   type: "op",
@@ -8586,26 +8586,26 @@ defineFunction({
     "\\intx",
     "\\intcap",
     "\\intcup",
-    "\u222B",
-    "\u222C",
-    "\u222D",
-    "\u222E",
-    "\u222F",
-    "\u2230",
-    "\u2231",
-    "\u2232",
-    "\u2A0C",
-    "\u2A0D",
-    "\u2A0E",
-    "\u2A0F",
-    "\u2A12",
-    "\u2A13",
-    "\u2A15",
-    "\u2A16",
-    "\u2A17",
-    "\u2A18",
-    "\u2A19",
-    "\u2A1A"
+    "∫",
+    "∬",
+    "∭",
+    "∮",
+    "∯",
+    "∰",
+    "∱",
+    "∲",
+    "⨌",
+    "⨍",
+    "⨎",
+    "⨏",
+    "⨒",
+    "⨓",
+    "⨕",
+    "⨖",
+    "⨗",
+    "⨘",
+    "⨙",
+    "⨚"
   ],
   props: {
     numArgs: 0
@@ -8680,7 +8680,7 @@ var mathmlBuilder$1 = (group, style) => {
     if (group.parentIsSupSub) {
       return new mathMLTree.MathNode("mrow", expression);
     } else {
-      const operator = new mathMLTree.MathNode("mo", [makeText("\u2061", "text")]);
+      const operator = new mathMLTree.MathNode("mo", [makeText("⁡", "text")]);
       return mathMLTree.newDocumentFragment([expression[0], operator]);
     }
   }
@@ -8694,7 +8694,7 @@ var mathmlBuilder$1 = (group, style) => {
     wrapper = new mathMLTree.MathNode("mrow", expression);
   }
   if (!group.parentIsSupSub) {
-    const operator = new mathMLTree.MathNode("mo", [makeText("\u2061", "text")]);
+    const operator = new mathMLTree.MathNode("mo", [makeText("⁡", "text")]);
     const fragment = [wrapper, operator];
     if (group.needsLeadingSpace) {
       const space = new mathMLTree.MathNode("mspace");
@@ -9238,7 +9238,7 @@ defineFunctionBuilders({
     }
     let node = new mathMLTree.MathNode(nodeType, children);
     if (appendApplyFunction) {
-      const operator = new mathMLTree.MathNode("mo", [makeText("\u2061", "text")]);
+      const operator = new mathMLTree.MathNode("mo", [makeText("⁡", "text")]);
       if (needsLeadingSpace) {
         const space = new mathMLTree.MathNode("mspace");
         space.setAttribute("width", "0.1667em");
@@ -9411,59 +9411,59 @@ var bbb = Object.freeze({
   Z: 8394
 });
 var bold = Object.freeze({
-  "\u03F5": 119527,
+  "ϵ": 119527,
   // lunate epsilon
-  "\u03D1": 119564,
+  "ϑ": 119564,
   // vartheta
-  "\u03F0": 119534,
+  "ϰ": 119534,
   // varkappa
-  "\u03C6": 119577,
+  "φ": 119577,
   // varphi
-  "\u03F1": 119535,
+  "ϱ": 119535,
   // varrho
-  "\u03D6": 119563
+  "ϖ": 119563
   // varpi
 });
 var boldItalic = Object.freeze({
-  "\u03F5": 119643,
+  "ϵ": 119643,
   // lunate epsilon
-  "\u03D1": 119680,
+  "ϑ": 119680,
   // vartheta
-  "\u03F0": 119650,
+  "ϰ": 119650,
   // varkappa
-  "\u03C6": 119693,
+  "φ": 119693,
   // varphi
-  "\u03F1": 119651,
+  "ϱ": 119651,
   // varrho
-  "\u03D6": 119679
+  "ϖ": 119679
   // varpi
 });
 var boldsf = Object.freeze({
-  "\u03F5": 119701,
+  "ϵ": 119701,
   // lunate epsilon
-  "\u03D1": 119738,
+  "ϑ": 119738,
   // vartheta
-  "\u03F0": 119708,
+  "ϰ": 119708,
   // varkappa
-  "\u03C6": 119751,
+  "φ": 119751,
   // varphi
-  "\u03F1": 119709,
+  "ϱ": 119709,
   // varrho
-  "\u03D6": 119737
+  "ϖ": 119737
   // varpi
 });
 var bisf = Object.freeze({
-  "\u03F5": 119759,
+  "ϵ": 119759,
   // lunate epsilon
-  "\u03D1": 119796,
+  "ϑ": 119796,
   // vartheta
-  "\u03F0": 119766,
+  "ϰ": 119766,
   // varkappa
-  "\u03C6": 119809,
+  "φ": 119809,
   // varphi
-  "\u03F1": 119767,
+  "ϱ": 119767,
   // varrho
-  "\u03D6": 119795
+  "ϖ": 119795
   // varpi
 });
 var offset = Object.freeze({
@@ -9616,7 +9616,7 @@ var offset = Object.freeze({
       return 119627;
     },
     "bold-italic": (ch) => {
-      return ch === "\u03D5" ? 119678 : 119685;
+      return ch === "ϕ" ? 119678 : 119685;
     },
     "script": (ch) => {
       return 0;
@@ -9743,36 +9743,36 @@ var offset = Object.freeze({
 });
 var variantChar = (ch, variant) => {
   const codePoint = ch.codePointAt(0);
-  const block = 64 < codePoint && codePoint < 91 ? "upperCaseLatin" : 96 < codePoint && codePoint < 123 ? "lowerCaseLatin" : 912 < codePoint && codePoint < 938 ? "upperCaseGreek" : 944 < codePoint && codePoint < 970 || ch === "\u03D5" ? "lowerCaseGreek" : 120545 < codePoint && codePoint < 120572 || bold[ch] ? "varGreek" : 47 < codePoint && codePoint < 58 ? "numeral" : "other";
+  const block = 64 < codePoint && codePoint < 91 ? "upperCaseLatin" : 96 < codePoint && codePoint < 123 ? "lowerCaseLatin" : 912 < codePoint && codePoint < 938 ? "upperCaseGreek" : 944 < codePoint && codePoint < 970 || ch === "ϕ" ? "lowerCaseGreek" : 120545 < codePoint && codePoint < 120572 || bold[ch] ? "varGreek" : 47 < codePoint && codePoint < 58 ? "numeral" : "other";
   return block === "other" ? ch : String.fromCodePoint(codePoint + offset[block][variant](ch));
 };
 var smallCaps = Object.freeze({
-  a: "\u1D00",
-  b: "\u0299",
-  c: "\u1D04",
-  d: "\u1D05",
-  e: "\u1D07",
-  f: "\uA730",
-  g: "\u0262",
-  h: "\u029C",
-  i: "\u026A",
-  j: "\u1D0A",
-  k: "\u1D0B",
-  l: "\u029F",
-  m: "\u1D0D",
-  n: "\u0274",
-  o: "\u1D0F",
-  p: "\u1D18",
-  q: "\u01EB",
-  r: "\u0280",
+  a: "ᴀ",
+  b: "ʙ",
+  c: "ᴄ",
+  d: "ᴅ",
+  e: "ᴇ",
+  f: "ꜰ",
+  g: "ɢ",
+  h: "ʜ",
+  i: "ɪ",
+  j: "ᴊ",
+  k: "ᴋ",
+  l: "ʟ",
+  m: "ᴍ",
+  n: "ɴ",
+  o: "ᴏ",
+  p: "ᴘ",
+  q: "ǫ",
+  r: "ʀ",
   s: "s",
-  t: "\u1D1B",
-  u: "\u1D1C",
-  v: "\u1D20",
-  w: "\u1D21",
+  t: "ᴛ",
+  u: "ᴜ",
+  v: "ᴠ",
+  w: "ᴡ",
   x: "x",
-  y: "\u028F",
-  z: "\u1D22"
+  y: "ʏ",
+  z: "ᴢ"
 });
 var numberRegEx = /^\d(?:[\d,.]*\d)?$/;
 var latinRegEx = /[A-Ba-z]/;
@@ -9882,7 +9882,7 @@ defineFunctionBuilders({
   mathmlBuilder(group, style) {
     let node;
     if (Object.prototype.hasOwnProperty.call(regularSpace, group.text)) {
-      node = new mathMLTree.MathNode("mtext", [new mathMLTree.TextNode("\xA0")]);
+      node = new mathMLTree.MathNode("mtext", [new mathMLTree.TextNode(" ")]);
     } else if (Object.prototype.hasOwnProperty.call(cssSpace, group.text)) {
       node = new mathMLTree.MathNode("mo");
       if (group.text === "\\nobreak") {
@@ -10005,16 +10005,16 @@ defineFunction({
     return node;
   }
 });
-var makeVerb = (group) => group.body.replace(/ /g, group.star ? "\u2423" : "\xA0");
+var makeVerb = (group) => group.body.replace(/ /g, group.star ? "␣" : " ");
 var functions = _functions;
 var spaceRegexString = "[ \r\n	]";
 var controlWordRegexString = "\\\\[a-zA-Z@]+";
 var controlSymbolRegexString = "\\\\[^\uD800-\uDFFF]";
 var controlWordWhitespaceRegexString = `(${controlWordRegexString})${spaceRegexString}*`;
 var controlSpaceRegexString = "\\\\(\n|[ \r	]+\n?)[ \r	]*";
-var combiningDiacriticalMarkString = "[\u0300-\u036F]";
+var combiningDiacriticalMarkString = "[̀-ͯ]";
 var combiningDiacriticalMarksEndRegex = new RegExp(`${combiningDiacriticalMarkString}+$`);
-var tokenRegexString = `(${spaceRegexString}+)|${controlSpaceRegexString}|([!-\\[\\]-\u2027\u202A-\uD7FF\uF900-\uFFFF]${combiningDiacriticalMarkString}*|[\uD800-\uDBFF][\uDC00-\uDFFF]${combiningDiacriticalMarkString}*|\\\\verb\\*([^]).*?\\4|\\\\verb([^*a-zA-Z]).*?\\5|${controlWordWhitespaceRegexString}|${controlSymbolRegexString})`;
+var tokenRegexString = `(${spaceRegexString}+)|${controlSpaceRegexString}|([!-\\[\\]-‧‪-퟿豈-￿]${combiningDiacriticalMarkString}*|[\uD800-\uDBFF][\uDC00-\uDFFF]${combiningDiacriticalMarkString}*|\\\\verb\\*([^]).*?\\4|\\\\verb([^*a-zA-Z]).*?\\5|${controlWordWhitespaceRegexString}|${controlSymbolRegexString})`;
 var Lexer = class {
   constructor(input, settings) {
     this.input = input;
@@ -10507,470 +10507,470 @@ var MacroExpander = class {
 };
 var unicodeSubRegEx = /^[₊₋₌₍₎₀₁₂₃₄₅₆₇₈₉ₐₑₕᵢⱼₖₗₘₙₒₚᵣₛₜᵤᵥₓᵦᵧᵨᵩᵪ]/;
 var uSubsAndSups = Object.freeze({
-  "\u208A": "+",
-  "\u208B": "-",
-  "\u208C": "=",
-  "\u208D": "(",
-  "\u208E": ")",
-  "\u2080": "0",
-  "\u2081": "1",
-  "\u2082": "2",
-  "\u2083": "3",
-  "\u2084": "4",
-  "\u2085": "5",
-  "\u2086": "6",
-  "\u2087": "7",
-  "\u2088": "8",
-  "\u2089": "9",
-  "\u2090": "a",
-  "\u2091": "e",
-  "\u2095": "h",
-  "\u1D62": "i",
-  "\u2C7C": "j",
-  "\u2096": "k",
-  "\u2097": "l",
-  "\u2098": "m",
-  "\u2099": "n",
-  "\u2092": "o",
-  "\u209A": "p",
-  "\u1D63": "r",
-  "\u209B": "s",
-  "\u209C": "t",
-  "\u1D64": "u",
-  "\u1D65": "v",
-  "\u2093": "x",
-  "\u1D66": "\u03B2",
-  "\u1D67": "\u03B3",
-  "\u1D68": "\u03C1",
-  "\u1D69": "\u03D5",
-  "\u1D6A": "\u03C7",
-  "\u207A": "+",
-  "\u207B": "-",
-  "\u207C": "=",
-  "\u207D": "(",
-  "\u207E": ")",
-  "\u2070": "0",
-  "\xB9": "1",
-  "\xB2": "2",
-  "\xB3": "3",
-  "\u2074": "4",
-  "\u2075": "5",
-  "\u2076": "6",
-  "\u2077": "7",
-  "\u2078": "8",
-  "\u2079": "9",
-  "\u1D2C": "A",
-  "\u1D2E": "B",
-  "\u1D30": "D",
-  "\u1D31": "E",
-  "\u1D33": "G",
-  "\u1D34": "H",
-  "\u1D35": "I",
-  "\u1D36": "J",
-  "\u1D37": "K",
-  "\u1D38": "L",
-  "\u1D39": "M",
-  "\u1D3A": "N",
-  "\u1D3C": "O",
-  "\u1D3E": "P",
-  "\u1D3F": "R",
-  "\u1D40": "T",
-  "\u1D41": "U",
-  "\u2C7D": "V",
-  "\u1D42": "W",
-  "\u1D43": "a",
-  "\u1D47": "b",
-  "\u1D9C": "c",
-  "\u1D48": "d",
-  "\u1D49": "e",
-  "\u1DA0": "f",
-  "\u1D4D": "g",
-  "\u02B0": "h",
-  "\u2071": "i",
-  "\u02B2": "j",
-  "\u1D4F": "k",
-  "\u02E1": "l",
-  "\u1D50": "m",
-  "\u207F": "n",
-  "\u1D52": "o",
-  "\u1D56": "p",
-  "\u02B3": "r",
-  "\u02E2": "s",
-  "\u1D57": "t",
-  "\u1D58": "u",
-  "\u1D5B": "v",
-  "\u02B7": "w",
-  "\u02E3": "x",
-  "\u02B8": "y",
-  "\u1DBB": "z",
-  "\u1D5D": "\u03B2",
-  "\u1D5E": "\u03B3",
-  "\u1D5F": "\u03B4",
-  "\u1D60": "\u03D5",
-  "\u1D61": "\u03C7",
-  "\u1DBF": "\u03B8"
+  "₊": "+",
+  "₋": "-",
+  "₌": "=",
+  "₍": "(",
+  "₎": ")",
+  "₀": "0",
+  "₁": "1",
+  "₂": "2",
+  "₃": "3",
+  "₄": "4",
+  "₅": "5",
+  "₆": "6",
+  "₇": "7",
+  "₈": "8",
+  "₉": "9",
+  "ₐ": "a",
+  "ₑ": "e",
+  "ₕ": "h",
+  "ᵢ": "i",
+  "ⱼ": "j",
+  "ₖ": "k",
+  "ₗ": "l",
+  "ₘ": "m",
+  "ₙ": "n",
+  "ₒ": "o",
+  "ₚ": "p",
+  "ᵣ": "r",
+  "ₛ": "s",
+  "ₜ": "t",
+  "ᵤ": "u",
+  "ᵥ": "v",
+  "ₓ": "x",
+  "ᵦ": "β",
+  "ᵧ": "γ",
+  "ᵨ": "ρ",
+  "ᵩ": "ϕ",
+  "ᵪ": "χ",
+  "⁺": "+",
+  "⁻": "-",
+  "⁼": "=",
+  "⁽": "(",
+  "⁾": ")",
+  "⁰": "0",
+  "¹": "1",
+  "²": "2",
+  "³": "3",
+  "⁴": "4",
+  "⁵": "5",
+  "⁶": "6",
+  "⁷": "7",
+  "⁸": "8",
+  "⁹": "9",
+  "ᴬ": "A",
+  "ᴮ": "B",
+  "ᴰ": "D",
+  "ᴱ": "E",
+  "ᴳ": "G",
+  "ᴴ": "H",
+  "ᴵ": "I",
+  "ᴶ": "J",
+  "ᴷ": "K",
+  "ᴸ": "L",
+  "ᴹ": "M",
+  "ᴺ": "N",
+  "ᴼ": "O",
+  "ᴾ": "P",
+  "ᴿ": "R",
+  "ᵀ": "T",
+  "ᵁ": "U",
+  "ⱽ": "V",
+  "ᵂ": "W",
+  "ᵃ": "a",
+  "ᵇ": "b",
+  "ᶜ": "c",
+  "ᵈ": "d",
+  "ᵉ": "e",
+  "ᶠ": "f",
+  "ᵍ": "g",
+  "ʰ": "h",
+  "ⁱ": "i",
+  "ʲ": "j",
+  "ᵏ": "k",
+  "ˡ": "l",
+  "ᵐ": "m",
+  "ⁿ": "n",
+  "ᵒ": "o",
+  "ᵖ": "p",
+  "ʳ": "r",
+  "ˢ": "s",
+  "ᵗ": "t",
+  "ᵘ": "u",
+  "ᵛ": "v",
+  "ʷ": "w",
+  "ˣ": "x",
+  "ʸ": "y",
+  "ᶻ": "z",
+  "ᵝ": "β",
+  "ᵞ": "γ",
+  "ᵟ": "δ",
+  "ᵠ": "ϕ",
+  "ᵡ": "χ",
+  "ᶿ": "θ"
 });
 var asciiFromScript = Object.freeze({
-  "\u{1D49C}": "A",
-  "\u212C": "B",
-  "\u{1D49E}": "C",
-  "\u{1D49F}": "D",
-  "\u2130": "E",
-  "\u2131": "F",
-  "\u{1D4A2}": "G",
-  "\u210B": "H",
-  "\u2110": "I",
-  "\u{1D4A5}": "J",
-  "\u{1D4A6}": "K",
-  "\u2112": "L",
-  "\u2133": "M",
-  "\u{1D4A9}": "N",
-  "\u{1D4AA}": "O",
-  "\u{1D4AB}": "P",
-  "\u{1D4AC}": "Q",
-  "\u211B": "R",
-  "\u{1D4AE}": "S",
-  "\u{1D4AF}": "T",
-  "\u{1D4B0}": "U",
-  "\u{1D4B1}": "V",
-  "\u{1D4B2}": "W",
-  "\u{1D4B3}": "X",
-  "\u{1D4B4}": "Y",
-  "\u{1D4B5}": "Z"
+  "𝒜": "A",
+  "ℬ": "B",
+  "𝒞": "C",
+  "𝒟": "D",
+  "ℰ": "E",
+  "ℱ": "F",
+  "𝒢": "G",
+  "ℋ": "H",
+  "ℐ": "I",
+  "𝒥": "J",
+  "𝒦": "K",
+  "ℒ": "L",
+  "ℳ": "M",
+  "𝒩": "N",
+  "𝒪": "O",
+  "𝒫": "P",
+  "𝒬": "Q",
+  "ℛ": "R",
+  "𝒮": "S",
+  "𝒯": "T",
+  "𝒰": "U",
+  "𝒱": "V",
+  "𝒲": "W",
+  "𝒳": "X",
+  "𝒴": "Y",
+  "𝒵": "Z"
 });
 var unicodeAccents = {
-  "\u0301": { text: "\\'", math: "\\acute" },
-  "\u0300": { text: "\\`", math: "\\grave" },
-  "\u0308": { text: '\\"', math: "\\ddot" },
-  "\u0303": { text: "\\~", math: "\\tilde" },
-  "\u0304": { text: "\\=", math: "\\bar" },
-  "\u0306": { text: "\\u", math: "\\breve" },
-  "\u030C": { text: "\\v", math: "\\check" },
-  "\u0302": { text: "\\^", math: "\\hat" },
-  "\u0307": { text: "\\.", math: "\\dot" },
-  "\u030A": { text: "\\r", math: "\\mathring" },
-  "\u030B": { text: "\\H" },
-  "\u0327": { text: "\\c" }
+  "́": { text: "\\'", math: "\\acute" },
+  "̀": { text: "\\`", math: "\\grave" },
+  "̈": { text: '\\"', math: "\\ddot" },
+  "̃": { text: "\\~", math: "\\tilde" },
+  "̄": { text: "\\=", math: "\\bar" },
+  "̆": { text: "\\u", math: "\\breve" },
+  "̌": { text: "\\v", math: "\\check" },
+  "̂": { text: "\\^", math: "\\hat" },
+  "̇": { text: "\\.", math: "\\dot" },
+  "̊": { text: "\\r", math: "\\mathring" },
+  "̋": { text: "\\H" },
+  "̧": { text: "\\c" }
 };
 var unicodeSymbols = {
-  "\xE1": "a\u0301",
-  "\xE0": "a\u0300",
-  "\xE4": "a\u0308",
-  "\u01DF": "a\u0308\u0304",
-  "\xE3": "a\u0303",
-  "\u0101": "a\u0304",
-  "\u0103": "a\u0306",
-  "\u1EAF": "a\u0306\u0301",
-  "\u1EB1": "a\u0306\u0300",
-  "\u1EB5": "a\u0306\u0303",
-  "\u01CE": "a\u030C",
-  "\xE2": "a\u0302",
-  "\u1EA5": "a\u0302\u0301",
-  "\u1EA7": "a\u0302\u0300",
-  "\u1EAB": "a\u0302\u0303",
-  "\u0227": "a\u0307",
-  "\u01E1": "a\u0307\u0304",
-  "\xE5": "a\u030A",
-  "\u01FB": "a\u030A\u0301",
-  "\u1E03": "b\u0307",
-  "\u0107": "c\u0301",
-  "\u010D": "c\u030C",
-  "\u0109": "c\u0302",
-  "\u010B": "c\u0307",
-  "\u010F": "d\u030C",
-  "\u1E0B": "d\u0307",
-  "\xE9": "e\u0301",
-  "\xE8": "e\u0300",
-  "\xEB": "e\u0308",
-  "\u1EBD": "e\u0303",
-  "\u0113": "e\u0304",
-  "\u1E17": "e\u0304\u0301",
-  "\u1E15": "e\u0304\u0300",
-  "\u0115": "e\u0306",
-  "\u011B": "e\u030C",
-  "\xEA": "e\u0302",
-  "\u1EBF": "e\u0302\u0301",
-  "\u1EC1": "e\u0302\u0300",
-  "\u1EC5": "e\u0302\u0303",
-  "\u0117": "e\u0307",
-  "\u1E1F": "f\u0307",
-  "\u01F5": "g\u0301",
-  "\u1E21": "g\u0304",
-  "\u011F": "g\u0306",
-  "\u01E7": "g\u030C",
-  "\u011D": "g\u0302",
-  "\u0121": "g\u0307",
-  "\u1E27": "h\u0308",
-  "\u021F": "h\u030C",
-  "\u0125": "h\u0302",
-  "\u1E23": "h\u0307",
-  "\xED": "i\u0301",
-  "\xEC": "i\u0300",
-  "\xEF": "i\u0308",
-  "\u1E2F": "i\u0308\u0301",
-  "\u0129": "i\u0303",
-  "\u012B": "i\u0304",
-  "\u012D": "i\u0306",
-  "\u01D0": "i\u030C",
-  "\xEE": "i\u0302",
-  "\u01F0": "j\u030C",
-  "\u0135": "j\u0302",
-  "\u1E31": "k\u0301",
-  "\u01E9": "k\u030C",
-  "\u013A": "l\u0301",
-  "\u013E": "l\u030C",
-  "\u1E3F": "m\u0301",
-  "\u1E41": "m\u0307",
-  "\u0144": "n\u0301",
-  "\u01F9": "n\u0300",
-  "\xF1": "n\u0303",
-  "\u0148": "n\u030C",
-  "\u1E45": "n\u0307",
-  "\xF3": "o\u0301",
-  "\xF2": "o\u0300",
-  "\xF6": "o\u0308",
-  "\u022B": "o\u0308\u0304",
-  "\xF5": "o\u0303",
-  "\u1E4D": "o\u0303\u0301",
-  "\u1E4F": "o\u0303\u0308",
-  "\u022D": "o\u0303\u0304",
-  "\u014D": "o\u0304",
-  "\u1E53": "o\u0304\u0301",
-  "\u1E51": "o\u0304\u0300",
-  "\u014F": "o\u0306",
-  "\u01D2": "o\u030C",
-  "\xF4": "o\u0302",
-  "\u1ED1": "o\u0302\u0301",
-  "\u1ED3": "o\u0302\u0300",
-  "\u1ED7": "o\u0302\u0303",
-  "\u022F": "o\u0307",
-  "\u0231": "o\u0307\u0304",
-  "\u0151": "o\u030B",
-  "\u1E55": "p\u0301",
-  "\u1E57": "p\u0307",
-  "\u0155": "r\u0301",
-  "\u0159": "r\u030C",
-  "\u1E59": "r\u0307",
-  "\u015B": "s\u0301",
-  "\u1E65": "s\u0301\u0307",
-  "\u0161": "s\u030C",
-  "\u1E67": "s\u030C\u0307",
-  "\u015D": "s\u0302",
-  "\u1E61": "s\u0307",
-  "\u1E97": "t\u0308",
-  "\u0165": "t\u030C",
-  "\u1E6B": "t\u0307",
-  "\xFA": "u\u0301",
-  "\xF9": "u\u0300",
-  "\xFC": "u\u0308",
-  "\u01D8": "u\u0308\u0301",
-  "\u01DC": "u\u0308\u0300",
-  "\u01D6": "u\u0308\u0304",
-  "\u01DA": "u\u0308\u030C",
-  "\u0169": "u\u0303",
-  "\u1E79": "u\u0303\u0301",
-  "\u016B": "u\u0304",
-  "\u1E7B": "u\u0304\u0308",
-  "\u016D": "u\u0306",
-  "\u01D4": "u\u030C",
-  "\xFB": "u\u0302",
-  "\u016F": "u\u030A",
-  "\u0171": "u\u030B",
-  "\u1E7D": "v\u0303",
-  "\u1E83": "w\u0301",
-  "\u1E81": "w\u0300",
-  "\u1E85": "w\u0308",
-  "\u0175": "w\u0302",
-  "\u1E87": "w\u0307",
-  "\u1E98": "w\u030A",
-  "\u1E8D": "x\u0308",
-  "\u1E8B": "x\u0307",
-  "\xFD": "y\u0301",
-  "\u1EF3": "y\u0300",
-  "\xFF": "y\u0308",
-  "\u1EF9": "y\u0303",
-  "\u0233": "y\u0304",
-  "\u0177": "y\u0302",
-  "\u1E8F": "y\u0307",
-  "\u1E99": "y\u030A",
-  "\u017A": "z\u0301",
-  "\u017E": "z\u030C",
-  "\u1E91": "z\u0302",
-  "\u017C": "z\u0307",
-  "\xC1": "A\u0301",
-  "\xC0": "A\u0300",
-  "\xC4": "A\u0308",
-  "\u01DE": "A\u0308\u0304",
-  "\xC3": "A\u0303",
-  "\u0100": "A\u0304",
-  "\u0102": "A\u0306",
-  "\u1EAE": "A\u0306\u0301",
-  "\u1EB0": "A\u0306\u0300",
-  "\u1EB4": "A\u0306\u0303",
-  "\u01CD": "A\u030C",
-  "\xC2": "A\u0302",
-  "\u1EA4": "A\u0302\u0301",
-  "\u1EA6": "A\u0302\u0300",
-  "\u1EAA": "A\u0302\u0303",
-  "\u0226": "A\u0307",
-  "\u01E0": "A\u0307\u0304",
-  "\xC5": "A\u030A",
-  "\u01FA": "A\u030A\u0301",
-  "\u1E02": "B\u0307",
-  "\u0106": "C\u0301",
-  "\u010C": "C\u030C",
-  "\u0108": "C\u0302",
-  "\u010A": "C\u0307",
-  "\u010E": "D\u030C",
-  "\u1E0A": "D\u0307",
-  "\xC9": "E\u0301",
-  "\xC8": "E\u0300",
-  "\xCB": "E\u0308",
-  "\u1EBC": "E\u0303",
-  "\u0112": "E\u0304",
-  "\u1E16": "E\u0304\u0301",
-  "\u1E14": "E\u0304\u0300",
-  "\u0114": "E\u0306",
-  "\u011A": "E\u030C",
-  "\xCA": "E\u0302",
-  "\u1EBE": "E\u0302\u0301",
-  "\u1EC0": "E\u0302\u0300",
-  "\u1EC4": "E\u0302\u0303",
-  "\u0116": "E\u0307",
-  "\u1E1E": "F\u0307",
-  "\u01F4": "G\u0301",
-  "\u1E20": "G\u0304",
-  "\u011E": "G\u0306",
-  "\u01E6": "G\u030C",
-  "\u011C": "G\u0302",
-  "\u0120": "G\u0307",
-  "\u1E26": "H\u0308",
-  "\u021E": "H\u030C",
-  "\u0124": "H\u0302",
-  "\u1E22": "H\u0307",
-  "\xCD": "I\u0301",
-  "\xCC": "I\u0300",
-  "\xCF": "I\u0308",
-  "\u1E2E": "I\u0308\u0301",
-  "\u0128": "I\u0303",
-  "\u012A": "I\u0304",
-  "\u012C": "I\u0306",
-  "\u01CF": "I\u030C",
-  "\xCE": "I\u0302",
-  "\u0130": "I\u0307",
-  "\u0134": "J\u0302",
-  "\u1E30": "K\u0301",
-  "\u01E8": "K\u030C",
-  "\u0139": "L\u0301",
-  "\u013D": "L\u030C",
-  "\u1E3E": "M\u0301",
-  "\u1E40": "M\u0307",
-  "\u0143": "N\u0301",
-  "\u01F8": "N\u0300",
-  "\xD1": "N\u0303",
-  "\u0147": "N\u030C",
-  "\u1E44": "N\u0307",
-  "\xD3": "O\u0301",
-  "\xD2": "O\u0300",
-  "\xD6": "O\u0308",
-  "\u022A": "O\u0308\u0304",
-  "\xD5": "O\u0303",
-  "\u1E4C": "O\u0303\u0301",
-  "\u1E4E": "O\u0303\u0308",
-  "\u022C": "O\u0303\u0304",
-  "\u014C": "O\u0304",
-  "\u1E52": "O\u0304\u0301",
-  "\u1E50": "O\u0304\u0300",
-  "\u014E": "O\u0306",
-  "\u01D1": "O\u030C",
-  "\xD4": "O\u0302",
-  "\u1ED0": "O\u0302\u0301",
-  "\u1ED2": "O\u0302\u0300",
-  "\u1ED6": "O\u0302\u0303",
-  "\u022E": "O\u0307",
-  "\u0230": "O\u0307\u0304",
-  "\u0150": "O\u030B",
-  "\u1E54": "P\u0301",
-  "\u1E56": "P\u0307",
-  "\u0154": "R\u0301",
-  "\u0158": "R\u030C",
-  "\u1E58": "R\u0307",
-  "\u015A": "S\u0301",
-  "\u1E64": "S\u0301\u0307",
-  "\u0160": "S\u030C",
-  "\u1E66": "S\u030C\u0307",
-  "\u015C": "S\u0302",
-  "\u1E60": "S\u0307",
-  "\u0164": "T\u030C",
-  "\u1E6A": "T\u0307",
-  "\xDA": "U\u0301",
-  "\xD9": "U\u0300",
-  "\xDC": "U\u0308",
-  "\u01D7": "U\u0308\u0301",
-  "\u01DB": "U\u0308\u0300",
-  "\u01D5": "U\u0308\u0304",
-  "\u01D9": "U\u0308\u030C",
-  "\u0168": "U\u0303",
-  "\u1E78": "U\u0303\u0301",
-  "\u016A": "U\u0304",
-  "\u1E7A": "U\u0304\u0308",
-  "\u016C": "U\u0306",
-  "\u01D3": "U\u030C",
-  "\xDB": "U\u0302",
-  "\u016E": "U\u030A",
-  "\u0170": "U\u030B",
-  "\u1E7C": "V\u0303",
-  "\u1E82": "W\u0301",
-  "\u1E80": "W\u0300",
-  "\u1E84": "W\u0308",
-  "\u0174": "W\u0302",
-  "\u1E86": "W\u0307",
-  "\u1E8C": "X\u0308",
-  "\u1E8A": "X\u0307",
-  "\xDD": "Y\u0301",
-  "\u1EF2": "Y\u0300",
-  "\u0178": "Y\u0308",
-  "\u1EF8": "Y\u0303",
-  "\u0232": "Y\u0304",
-  "\u0176": "Y\u0302",
-  "\u1E8E": "Y\u0307",
-  "\u0179": "Z\u0301",
-  "\u017D": "Z\u030C",
-  "\u1E90": "Z\u0302",
-  "\u017B": "Z\u0307",
-  "\u03AC": "\u03B1\u0301",
-  "\u1F70": "\u03B1\u0300",
-  "\u1FB1": "\u03B1\u0304",
-  "\u1FB0": "\u03B1\u0306",
-  "\u03AD": "\u03B5\u0301",
-  "\u1F72": "\u03B5\u0300",
-  "\u03AE": "\u03B7\u0301",
-  "\u1F74": "\u03B7\u0300",
-  "\u03AF": "\u03B9\u0301",
-  "\u1F76": "\u03B9\u0300",
-  "\u03CA": "\u03B9\u0308",
-  "\u0390": "\u03B9\u0308\u0301",
-  "\u1FD2": "\u03B9\u0308\u0300",
-  "\u1FD1": "\u03B9\u0304",
-  "\u1FD0": "\u03B9\u0306",
-  "\u03CC": "\u03BF\u0301",
-  "\u1F78": "\u03BF\u0300",
-  "\u03CD": "\u03C5\u0301",
-  "\u1F7A": "\u03C5\u0300",
-  "\u03CB": "\u03C5\u0308",
-  "\u03B0": "\u03C5\u0308\u0301",
-  "\u1FE2": "\u03C5\u0308\u0300",
-  "\u1FE1": "\u03C5\u0304",
-  "\u1FE0": "\u03C5\u0306",
-  "\u03CE": "\u03C9\u0301",
-  "\u1F7C": "\u03C9\u0300",
-  "\u038E": "\u03A5\u0301",
-  "\u1FEA": "\u03A5\u0300",
-  "\u03AB": "\u03A5\u0308",
-  "\u1FE9": "\u03A5\u0304",
-  "\u1FE8": "\u03A5\u0306",
-  "\u038F": "\u03A9\u0301",
-  "\u1FFA": "\u03A9\u0300"
+  "á": "á",
+  "à": "à",
+  "ä": "ä",
+  "ǟ": "ǟ",
+  "ã": "ã",
+  "ā": "ā",
+  "ă": "ă",
+  "ắ": "ắ",
+  "ằ": "ằ",
+  "ẵ": "ẵ",
+  "ǎ": "ǎ",
+  "â": "â",
+  "ấ": "ấ",
+  "ầ": "ầ",
+  "ẫ": "ẫ",
+  "ȧ": "ȧ",
+  "ǡ": "ǡ",
+  "å": "å",
+  "ǻ": "ǻ",
+  "ḃ": "ḃ",
+  "ć": "ć",
+  "č": "č",
+  "ĉ": "ĉ",
+  "ċ": "ċ",
+  "ď": "ď",
+  "ḋ": "ḋ",
+  "é": "é",
+  "è": "è",
+  "ë": "ë",
+  "ẽ": "ẽ",
+  "ē": "ē",
+  "ḗ": "ḗ",
+  "ḕ": "ḕ",
+  "ĕ": "ĕ",
+  "ě": "ě",
+  "ê": "ê",
+  "ế": "ế",
+  "ề": "ề",
+  "ễ": "ễ",
+  "ė": "ė",
+  "ḟ": "ḟ",
+  "ǵ": "ǵ",
+  "ḡ": "ḡ",
+  "ğ": "ğ",
+  "ǧ": "ǧ",
+  "ĝ": "ĝ",
+  "ġ": "ġ",
+  "ḧ": "ḧ",
+  "ȟ": "ȟ",
+  "ĥ": "ĥ",
+  "ḣ": "ḣ",
+  "í": "í",
+  "ì": "ì",
+  "ï": "ï",
+  "ḯ": "ḯ",
+  "ĩ": "ĩ",
+  "ī": "ī",
+  "ĭ": "ĭ",
+  "ǐ": "ǐ",
+  "î": "î",
+  "ǰ": "ǰ",
+  "ĵ": "ĵ",
+  "ḱ": "ḱ",
+  "ǩ": "ǩ",
+  "ĺ": "ĺ",
+  "ľ": "ľ",
+  "ḿ": "ḿ",
+  "ṁ": "ṁ",
+  "ń": "ń",
+  "ǹ": "ǹ",
+  "ñ": "ñ",
+  "ň": "ň",
+  "ṅ": "ṅ",
+  "ó": "ó",
+  "ò": "ò",
+  "ö": "ö",
+  "ȫ": "ȫ",
+  "õ": "õ",
+  "ṍ": "ṍ",
+  "ṏ": "ṏ",
+  "ȭ": "ȭ",
+  "ō": "ō",
+  "ṓ": "ṓ",
+  "ṑ": "ṑ",
+  "ŏ": "ŏ",
+  "ǒ": "ǒ",
+  "ô": "ô",
+  "ố": "ố",
+  "ồ": "ồ",
+  "ỗ": "ỗ",
+  "ȯ": "ȯ",
+  "ȱ": "ȱ",
+  "ő": "ő",
+  "ṕ": "ṕ",
+  "ṗ": "ṗ",
+  "ŕ": "ŕ",
+  "ř": "ř",
+  "ṙ": "ṙ",
+  "ś": "ś",
+  "ṥ": "ṥ",
+  "š": "š",
+  "ṧ": "ṧ",
+  "ŝ": "ŝ",
+  "ṡ": "ṡ",
+  "ẗ": "ẗ",
+  "ť": "ť",
+  "ṫ": "ṫ",
+  "ú": "ú",
+  "ù": "ù",
+  "ü": "ü",
+  "ǘ": "ǘ",
+  "ǜ": "ǜ",
+  "ǖ": "ǖ",
+  "ǚ": "ǚ",
+  "ũ": "ũ",
+  "ṹ": "ṹ",
+  "ū": "ū",
+  "ṻ": "ṻ",
+  "ŭ": "ŭ",
+  "ǔ": "ǔ",
+  "û": "û",
+  "ů": "ů",
+  "ű": "ű",
+  "ṽ": "ṽ",
+  "ẃ": "ẃ",
+  "ẁ": "ẁ",
+  "ẅ": "ẅ",
+  "ŵ": "ŵ",
+  "ẇ": "ẇ",
+  "ẘ": "ẘ",
+  "ẍ": "ẍ",
+  "ẋ": "ẋ",
+  "ý": "ý",
+  "ỳ": "ỳ",
+  "ÿ": "ÿ",
+  "ỹ": "ỹ",
+  "ȳ": "ȳ",
+  "ŷ": "ŷ",
+  "ẏ": "ẏ",
+  "ẙ": "ẙ",
+  "ź": "ź",
+  "ž": "ž",
+  "ẑ": "ẑ",
+  "ż": "ż",
+  "Á": "Á",
+  "À": "À",
+  "Ä": "Ä",
+  "Ǟ": "Ǟ",
+  "Ã": "Ã",
+  "Ā": "Ā",
+  "Ă": "Ă",
+  "Ắ": "Ắ",
+  "Ằ": "Ằ",
+  "Ẵ": "Ẵ",
+  "Ǎ": "Ǎ",
+  "Â": "Â",
+  "Ấ": "Ấ",
+  "Ầ": "Ầ",
+  "Ẫ": "Ẫ",
+  "Ȧ": "Ȧ",
+  "Ǡ": "Ǡ",
+  "Å": "Å",
+  "Ǻ": "Ǻ",
+  "Ḃ": "Ḃ",
+  "Ć": "Ć",
+  "Č": "Č",
+  "Ĉ": "Ĉ",
+  "Ċ": "Ċ",
+  "Ď": "Ď",
+  "Ḋ": "Ḋ",
+  "É": "É",
+  "È": "È",
+  "Ë": "Ë",
+  "Ẽ": "Ẽ",
+  "Ē": "Ē",
+  "Ḗ": "Ḗ",
+  "Ḕ": "Ḕ",
+  "Ĕ": "Ĕ",
+  "Ě": "Ě",
+  "Ê": "Ê",
+  "Ế": "Ế",
+  "Ề": "Ề",
+  "Ễ": "Ễ",
+  "Ė": "Ė",
+  "Ḟ": "Ḟ",
+  "Ǵ": "Ǵ",
+  "Ḡ": "Ḡ",
+  "Ğ": "Ğ",
+  "Ǧ": "Ǧ",
+  "Ĝ": "Ĝ",
+  "Ġ": "Ġ",
+  "Ḧ": "Ḧ",
+  "Ȟ": "Ȟ",
+  "Ĥ": "Ĥ",
+  "Ḣ": "Ḣ",
+  "Í": "Í",
+  "Ì": "Ì",
+  "Ï": "Ï",
+  "Ḯ": "Ḯ",
+  "Ĩ": "Ĩ",
+  "Ī": "Ī",
+  "Ĭ": "Ĭ",
+  "Ǐ": "Ǐ",
+  "Î": "Î",
+  "İ": "İ",
+  "Ĵ": "Ĵ",
+  "Ḱ": "Ḱ",
+  "Ǩ": "Ǩ",
+  "Ĺ": "Ĺ",
+  "Ľ": "Ľ",
+  "Ḿ": "Ḿ",
+  "Ṁ": "Ṁ",
+  "Ń": "Ń",
+  "Ǹ": "Ǹ",
+  "Ñ": "Ñ",
+  "Ň": "Ň",
+  "Ṅ": "Ṅ",
+  "Ó": "Ó",
+  "Ò": "Ò",
+  "Ö": "Ö",
+  "Ȫ": "Ȫ",
+  "Õ": "Õ",
+  "Ṍ": "Ṍ",
+  "Ṏ": "Ṏ",
+  "Ȭ": "Ȭ",
+  "Ō": "Ō",
+  "Ṓ": "Ṓ",
+  "Ṑ": "Ṑ",
+  "Ŏ": "Ŏ",
+  "Ǒ": "Ǒ",
+  "Ô": "Ô",
+  "Ố": "Ố",
+  "Ồ": "Ồ",
+  "Ỗ": "Ỗ",
+  "Ȯ": "Ȯ",
+  "Ȱ": "Ȱ",
+  "Ő": "Ő",
+  "Ṕ": "Ṕ",
+  "Ṗ": "Ṗ",
+  "Ŕ": "Ŕ",
+  "Ř": "Ř",
+  "Ṙ": "Ṙ",
+  "Ś": "Ś",
+  "Ṥ": "Ṥ",
+  "Š": "Š",
+  "Ṧ": "Ṧ",
+  "Ŝ": "Ŝ",
+  "Ṡ": "Ṡ",
+  "Ť": "Ť",
+  "Ṫ": "Ṫ",
+  "Ú": "Ú",
+  "Ù": "Ù",
+  "Ü": "Ü",
+  "Ǘ": "Ǘ",
+  "Ǜ": "Ǜ",
+  "Ǖ": "Ǖ",
+  "Ǚ": "Ǚ",
+  "Ũ": "Ũ",
+  "Ṹ": "Ṹ",
+  "Ū": "Ū",
+  "Ṻ": "Ṻ",
+  "Ŭ": "Ŭ",
+  "Ǔ": "Ǔ",
+  "Û": "Û",
+  "Ů": "Ů",
+  "Ű": "Ű",
+  "Ṽ": "Ṽ",
+  "Ẃ": "Ẃ",
+  "Ẁ": "Ẁ",
+  "Ẅ": "Ẅ",
+  "Ŵ": "Ŵ",
+  "Ẇ": "Ẇ",
+  "Ẍ": "Ẍ",
+  "Ẋ": "Ẋ",
+  "Ý": "Ý",
+  "Ỳ": "Ỳ",
+  "Ÿ": "Ÿ",
+  "Ỹ": "Ỹ",
+  "Ȳ": "Ȳ",
+  "Ŷ": "Ŷ",
+  "Ẏ": "Ẏ",
+  "Ź": "Ź",
+  "Ž": "Ž",
+  "Ẑ": "Ẑ",
+  "Ż": "Ż",
+  "ά": "ά",
+  "ὰ": "ὰ",
+  "ᾱ": "ᾱ",
+  "ᾰ": "ᾰ",
+  "έ": "έ",
+  "ὲ": "ὲ",
+  "ή": "ή",
+  "ὴ": "ὴ",
+  "ί": "ί",
+  "ὶ": "ὶ",
+  "ϊ": "ϊ",
+  "ΐ": "ΐ",
+  "ῒ": "ῒ",
+  "ῑ": "ῑ",
+  "ῐ": "ῐ",
+  "ό": "ό",
+  "ὸ": "ὸ",
+  "ύ": "ύ",
+  "ὺ": "ὺ",
+  "ϋ": "ϋ",
+  "ΰ": "ΰ",
+  "ῢ": "ῢ",
+  "ῡ": "ῡ",
+  "ῠ": "ῠ",
+  "ώ": "ώ",
+  "ὼ": "ὼ",
+  "Ύ": "Ύ",
+  "Ὺ": "Ὺ",
+  "Ϋ": "Ϋ",
+  "Ῡ": "Ῡ",
+  "Ῠ": "Ῠ",
+  "Ώ": "Ώ",
+  "Ὼ": "Ὼ"
 };
 var binLeftCancellers = ["bin", "op", "open", "punct", "rel"];
 var sizeRegEx = /([-+]?) *(\d+(?:\.\d*)?|\.\d+) *([a-z]{2})/;
@@ -11412,7 +11412,7 @@ var Parser = class _Parser {
   consumeSpaces() {
     while (true) {
       const ch = this.fetch().text;
-      if (ch === " " || ch === "\xA0" || ch === "\uFE0E") {
+      if (ch === " " || ch === " " || ch === "︎") {
         this.consume();
       } else {
         break;
@@ -11663,9 +11663,9 @@ var Parser = class _Parser {
     if (match) {
       text2 = text2.substring(0, match.index);
       if (text2 === "i") {
-        text2 = "\u0131";
+        text2 = "ı";
       } else if (text2 === "j") {
-        text2 = "\u0237";
+        text2 = "ȷ";
       }
     }
     let symbol;

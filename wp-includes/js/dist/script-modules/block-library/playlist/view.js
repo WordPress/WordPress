@@ -881,14 +881,14 @@ var { state } = store(
     state: {
       playlists: {},
       get isCurrentTrack() {
-        const { currentId, uniqueId } = getContext();
-        return currentId === uniqueId;
+        const { currentId, trackId } = getContext();
+        return currentId === trackId;
       }
     },
     actions: {
       changeTrack() {
         const context = getContext();
-        context.currentId = context.uniqueId;
+        context.currentId = context.trackId;
       }
     },
     callbacks: {
@@ -940,7 +940,7 @@ function initPlayer(ref, track, shouldAutoPlay, context) {
     waveformStyle: context.waveformStyle,
     onEnded: () => {
       const currentIndex = context.tracks.findIndex(
-        (uniqueId) => uniqueId === context.currentId
+        (trackId) => trackId === context.currentId
       );
       const nextTrack = context.tracks[currentIndex + 1];
       if (nextTrack) {

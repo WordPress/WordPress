@@ -97,10 +97,12 @@ var wp;
   // packages/upload-media/build-module/index.mjs
   var index_exports = {};
   __export(index_exports, {
+    ErrorCode: () => ErrorCode,
     MediaUploadProvider: () => provider_default,
     UploadError: () => UploadError,
     clearFeatureDetectionCache: () => clearFeatureDetectionCache,
     detectClientSideMediaSupport: () => detectClientSideMediaSupport,
+    getErrorMessage: () => getErrorMessage,
     isClientSideMediaSupported: () => isClientSideMediaSupported,
     isHeicCanvasSupported: () => isHeicCanvasSupported,
     store: () => store
@@ -147,6 +149,7 @@ var wp;
     OperationType2["ResizeCrop"] = "RESIZE_CROP";
     OperationType2["Rotate"] = "ROTATE";
     OperationType2["TranscodeImage"] = "TRANSCODE_IMAGE";
+    OperationType2["TranscodeGif"] = "TRANSCODE_GIF";
     OperationType2["ThumbnailGeneration"] = "THUMBNAIL_GENERATION";
     OperationType2["Finalize"] = "FINALIZE";
     OperationType2["DetectUltraHdr"] = "DETECT_ULTRAHDR";
@@ -411,6 +414,7 @@ var wp;
   __export(private_selectors_exports, {
     getActiveImageProcessingCount: () => getActiveImageProcessingCount,
     getActiveUploadCount: () => getActiveUploadCount,
+    getActiveVideoProcessingCount: () => getActiveVideoProcessingCount,
     getAllItems: () => getAllItems,
     getBlobUrls: () => getBlobUrls,
     getFailedItems: () => getFailedItems,
@@ -418,6 +422,7 @@ var wp;
     getItemProgress: () => getItemProgress,
     getPendingImageProcessing: () => getPendingImageProcessing,
     getPendingUploads: () => getPendingUploads,
+    getPendingVideoProcessing: () => getPendingVideoProcessing,
     hasPendingItemsByParentId: () => hasPendingItemsByParentId,
     isBatchUploaded: () => isBatchUploaded,
     isPaused: () => isPaused
@@ -456,10 +461,21 @@ var wp;
       (item) => item.currentOperation === OperationType.ResizeCrop || item.currentOperation === OperationType.Rotate
     ).length;
   }
+  function getActiveVideoProcessingCount(state) {
+    return state.queue.filter(
+      (item) => item.currentOperation === OperationType.TranscodeGif
+    ).length;
+  }
   function getPendingImageProcessing(state) {
     return state.queue.filter((item) => {
       const nextOperation = Array.isArray(item.operations?.[0]) ? item.operations[0][0] : item.operations?.[0];
       return (nextOperation === OperationType.ResizeCrop || nextOperation === OperationType.Rotate) && item.currentOperation !== OperationType.ResizeCrop && item.currentOperation !== OperationType.Rotate;
+    });
+  }
+  function getPendingVideoProcessing(state) {
+    return state.queue.filter((item) => {
+      const nextOperation = Array.isArray(item.operations?.[0]) ? item.operations[0][0] : item.operations?.[0];
+      return nextOperation === OperationType.TranscodeGif && item.currentOperation !== OperationType.TranscodeGif;
     });
   }
   function getFailedItems(state) {
@@ -621,6 +637,22 @@ var wp;
   function getFileBasename(name) {
     return name.includes(".") ? name.split(".").slice(0, -1).join(".") : name;
   }
+  function isAnimatedGif(buffer) {
+    const view = new Uint8Array(buffer);
+    if (view.length < 4 || view[0] !== 71 || view[1] !== 73 || view[2] !== 70 || view[3] !== 56) {
+      return false;
+    }
+    let frameCount = 0;
+    for (let i = 0; i < view.length - 2; i++) {
+      if (view[i] === 0 && view[i + 1] === 33 && view[i + 2] === 249) {
+        frameCount++;
+        if (frameCount > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   // packages/upload-media/build-module/store/utils/index.mjs
   var vipsModulePromise;
@@ -755,7 +787,110 @@ var wp;
     }
   }
 
+  // packages/upload-media/build-module/store/utils/video-conversion.mjs
+  var UNSUPPORTED_ERROR_PREFIX = "Unsupported";
+  function isUnsupportedConversionError(error) {
+    return error instanceof Error && error.message.startsWith(UNSUPPORTED_ERROR_PREFIX);
+  }
+  var videoConversionModulePromise;
+  var videoConversionModule;
+  function loadVideoConversionModule() {
+    if (!videoConversionModulePromise) {
+      videoConversionModulePromise = import("@wordpress/video-conversion/worker").then((mod) => {
+        videoConversionModule = mod;
+        return mod;
+      }).catch((error) => {
+        videoConversionModulePromise = void 0;
+        throw error;
+      });
+    }
+    return videoConversionModulePromise;
+  }
+  async function convertGifToVideo(id, file, outputMimeType, maxDimensions) {
+    const { convertGifToVideo: convert } = await loadVideoConversionModule();
+    const buffer = await convert(id, file, outputMimeType, maxDimensions);
+    const ext = outputMimeType === "video/webm" ? "webm" : "mp4";
+    const fileName = `${getFileBasename(file.name)}.${ext}`;
+    return new File(
+      [new Blob([buffer], { type: outputMimeType })],
+      fileName,
+      { type: outputMimeType }
+    );
+  }
+  async function cancelGifToVideoOperations(id) {
+    const mod = videoConversionModule ?? (videoConversionModulePromise ? await videoConversionModulePromise.catch(() => void 0) : void 0);
+    if (!mod) {
+      return false;
+    }
+    return mod.cancelGifToVideoOperations(id);
+  }
+  function terminateVideoConversionWorker() {
+    if (videoConversionModule) {
+      videoConversionModule.terminateVideoConversionWorker();
+      return;
+    }
+    if (videoConversionModulePromise) {
+      void videoConversionModulePromise.then((mod) => mod.terminateVideoConversionWorker()).catch(() => {
+      });
+    }
+  }
+
+  // packages/upload-media/build-module/store/utils/debug-logger.mjs
+  function isDebugEnabled() {
+    return true;
+  }
+  function debug(message, ...args) {
+    if (!isDebugEnabled()) {
+      return;
+    }
+    console.debug(`[upload-media] ${message}`, ...args);
+  }
+  function measure(options) {
+    if (!isDebugEnabled()) {
+      return;
+    }
+    const {
+      measureName,
+      startTime,
+      endTime = performance.now(),
+      tooltipText,
+      properties
+    } = options;
+    const detail = {
+      devtools: {
+        dataType: "track-entry",
+        track: "Upload Media",
+        tooltipText,
+        properties: properties?.map(([key, value]) => ({
+          key,
+          value
+        }))
+      }
+    };
+    try {
+      performance.measure(measureName, {
+        start: startTime,
+        end: endTime,
+        detail
+      });
+    } catch {
+    }
+  }
+
   // packages/upload-media/build-module/upload-error.mjs
+  var ErrorCode = /* @__PURE__ */ ((ErrorCode2) => {
+    ErrorCode2["EMPTY_FILE"] = "EMPTY_FILE";
+    ErrorCode2["SIZE_ABOVE_LIMIT"] = "SIZE_ABOVE_LIMIT";
+    ErrorCode2["MIME_TYPE_NOT_SUPPORTED"] = "MIME_TYPE_NOT_SUPPORTED";
+    ErrorCode2["MIME_TYPE_NOT_ALLOWED_FOR_USER"] = "MIME_TYPE_NOT_ALLOWED_FOR_USER";
+    ErrorCode2["HEIC_DECODE_ERROR"] = "HEIC_DECODE_ERROR";
+    ErrorCode2["IMAGE_TRANSCODING_ERROR"] = "IMAGE_TRANSCODING_ERROR";
+    ErrorCode2["IMAGE_ROTATION_ERROR"] = "IMAGE_ROTATION_ERROR";
+    ErrorCode2["MEDIA_TRANSCODING_ERROR"] = "MEDIA_TRANSCODING_ERROR";
+    ErrorCode2["GIF_TRANSCODING_ERROR"] = "GIF_TRANSCODING_ERROR";
+    ErrorCode2["GENERAL"] = "GENERAL";
+    return ErrorCode2;
+  })(ErrorCode || {});
   var UploadError = class extends Error {
     code;
     file;
@@ -781,7 +916,7 @@ var wp;
     });
     if (file.type && !isAllowedType) {
       throw new UploadError({
-        code: "MIME_TYPE_NOT_SUPPORTED",
+        code: ErrorCode.MIME_TYPE_NOT_SUPPORTED,
         message: (0, import_i18n2.sprintf)(
           // translators: %s: file name.
           (0, import_i18n2.__)("%s: Sorry, this file type is not supported here."),
@@ -825,7 +960,7 @@ var wp;
     );
     if (file.type && !isAllowedMimeTypeForUser) {
       throw new UploadError({
-        code: "MIME_TYPE_NOT_ALLOWED_FOR_USER",
+        code: ErrorCode.MIME_TYPE_NOT_ALLOWED_FOR_USER,
         message: (0, import_i18n3.sprintf)(
           // translators: %s: file name.
           (0, import_i18n3.__)(
@@ -843,7 +978,7 @@ var wp;
   function validateFileSize(file, maxUploadFileSize) {
     if (file.size <= 0) {
       throw new UploadError({
-        code: "EMPTY_FILE",
+        code: ErrorCode.EMPTY_FILE,
         message: (0, import_i18n4.sprintf)(
           // translators: %s: file name.
           (0, import_i18n4.__)("%s: This file is empty."),
@@ -854,7 +989,7 @@ var wp;
     }
     if (maxUploadFileSize && file.size > maxUploadFileSize) {
       throw new UploadError({
-        code: "SIZE_ABOVE_LIMIT",
+        code: ErrorCode.SIZE_ABOVE_LIMIT,
         message: (0, import_i18n4.sprintf)(
           // translators: %s: file name.
           (0, import_i18n4.__)(
@@ -932,12 +1067,17 @@ var wp;
       }
       item.abortController?.abort();
       await vipsCancelOperations(id);
+      await cancelGifToVideoOperations(id);
       if (!silent) {
         const { onError } = item;
         onError?.(error ?? new Error("Upload cancelled"));
         if (!onError && error && !item.parentId) {
           console.error("Upload cancelled", error);
         }
+      } else {
+        debug(
+          `Item cancelled: ${item.file.name} (item ${id}): ${error instanceof Error ? error.message : error}`
+        );
       }
       const { currentOperation, parentId, batchId } = item;
       dispatch({
@@ -957,17 +1097,23 @@ var wp;
           dispatch.processItem(pending.id);
         }
       }
+      if (currentOperation === OperationType.TranscodeGif) {
+        for (const pending of select2.getPendingVideoProcessing()) {
+          dispatch.processItem(pending.id);
+        }
+      }
       if (currentOperation === OperationType.ResizeCrop || currentOperation === OperationType.Rotate || currentOperation === OperationType.TranscodeImage) {
         maybeRecycleVipsWorker(select2.getActiveImageProcessingCount());
       }
       if (parentId) {
         const parentItem = select2.getItem(parentId);
         if (parentItem) {
+          const isOptionalCompanion = item.additionalData?.image_size === "animated-video" || item.additionalData?.image_size === "animated-video-poster";
           if (select2.hasPendingItemsByParentId(parentId)) {
             if (parentItem.operations && parentItem.operations.length > 0) {
               dispatch.processItem(parentId);
             }
-          } else if (parentItem.subSizes && parentItem.subSizes.length > 0) {
+          } else if (parentItem.subSizes && parentItem.subSizes.length > 0 || isOptionalCompanion) {
             if (parentItem.operations && parentItem.operations.length > 0) {
               dispatch.processItem(parentId);
             }
@@ -978,10 +1124,10 @@ var wp;
               mediaDelete(parentAttachmentId).catch(() => {
               });
             }
-            dispatch.cancelItem(
+            await dispatch.cancelItem(
               parentId,
               new UploadError({
-                code: error instanceof UploadError && error.code || "UPLOAD_ERROR",
+                code: error instanceof UploadError && error.code || ErrorCode.GENERAL,
                 message: error?.message || (0, import_i18n5.__)("The image could not be uploaded."),
                 file: parentItem.file,
                 cause: error instanceof Error ? error : void 0
@@ -991,6 +1137,7 @@ var wp;
         }
       }
       if (batchId && select2.isBatchUploaded(batchId)) {
+        debug(`Batch completed: ${batchId}`);
         item.onBatchSuccess?.();
       }
     };
@@ -1081,6 +1228,7 @@ var wp;
     revokeBlobUrls: () => revokeBlobUrls,
     rotateItem: () => rotateItem,
     sideloadItem: () => sideloadItem,
+    transcodeGifItem: () => transcodeGifItem,
     transcodeImageItem: () => transcodeImageItem,
     updateItemProgress: () => updateItemProgress,
     updateSettings: () => updateSettings,
@@ -2053,6 +2201,12 @@ var wp;
           return;
         }
       }
+      if (operation === OperationType.TranscodeGif) {
+        const activeCount = select2.getActiveVideoProcessingCount();
+        if (activeCount >= 1) {
+          return;
+        }
+      }
       if (attachment) {
         const isHeicUrl = attachment.url && /\.hei[cf]$/i.test(attachment.url);
         if (!isHeicUrl) {
@@ -2120,6 +2274,12 @@ var wp;
             operationArgs
           );
           break;
+        case OperationType.TranscodeGif:
+          dispatch.transcodeGifItem(
+            item.id,
+            operationArgs
+          );
+          break;
         case OperationType.Upload:
           if (item.parentId) {
             dispatch.sideloadItem(id);
@@ -2180,6 +2340,7 @@ var wp;
       });
       if (select2.getAllItems().length === 0) {
         terminateVipsWorker();
+        terminateVideoConversionWorker();
       }
     };
   }
@@ -2201,6 +2362,12 @@ var wp;
       }
       if (previousOperation === OperationType.ResizeCrop || previousOperation === OperationType.Rotate) {
         const pendingItems = select2.getPendingImageProcessing();
+        for (const pendingItem of pendingItems) {
+          dispatch.processItem(pendingItem.id);
+        }
+      }
+      if (previousOperation === OperationType.TranscodeGif) {
+        const pendingItems = select2.getPendingVideoProcessing();
         for (const pendingItem of pendingItems) {
           dispatch.processItem(pendingItem.id);
         }
@@ -2250,6 +2417,41 @@ var wp;
       const { file } = item;
       const operations = [];
       const settings = select2.getSettings();
+      if (file.type === "image/gif" && settings.gifConvert !== false && typeof ImageDecoder !== "undefined" && typeof VideoEncoder !== "undefined") {
+        let isAnimated = false;
+        try {
+          isAnimated = isAnimatedGif(await file.arrayBuffer());
+        } catch {
+          isAnimated = false;
+        }
+        if (isAnimated) {
+          let hasTransparency = false;
+          const blobUrl = (0, import_blob.createBlobURL)(file);
+          try {
+            hasTransparency = await vipsHasTransparency(blobUrl);
+          } catch {
+            hasTransparency = true;
+          } finally {
+            (0, import_blob.revokeBlobURL)(blobUrl);
+          }
+          if (!hasTransparency) {
+            operations.push(
+              OperationType.Upload,
+              OperationType.ThumbnailGeneration,
+              OperationType.Finalize
+            );
+            dispatch({
+              type: Type.AddOperations,
+              id,
+              operations
+            });
+            dispatch.finishOperation(id, {
+              animatedGifFile: item.file
+            });
+            return;
+          }
+        }
+      }
       let heicJpeg = null;
       const isImage = file.type.startsWith("image/");
       const isVipsSupported = CLIENT_SIDE_SUPPORTED_MIME_TYPES.includes(
@@ -2282,7 +2484,7 @@ var wp;
           dispatch.cancelItem(
             id,
             new UploadError({
-              code: "HEIC_DECODE_ERROR",
+              code: ErrorCode.HEIC_DECODE_ERROR,
               message: "This browser cannot decode HEIC images and the server does not support them either. Please convert to JPEG before uploading.",
               file
             })
@@ -2358,21 +2560,35 @@ var wp;
       if (!item) {
         return;
       }
+      const startTime = performance.now();
+      let finished = false;
+      const finishUpload = (attachment) => {
+        if (finished) {
+          return;
+        }
+        finished = true;
+        measure({
+          measureName: `Upload ${item.file.name}`,
+          startTime,
+          tooltipText: item.file.name,
+          properties: [
+            ["Item ID", item.id],
+            ["File name", item.file.name]
+          ]
+        });
+        dispatch.finishOperation(id, { attachment });
+      };
       select2.getSettings().mediaUpload({
         filesList: [item.file],
         additionalData: item.additionalData,
         signal: item.abortController?.signal,
         onFileChange: ([attachment]) => {
           if (attachment && !(0, import_blob.isBlobURL)(attachment.url)) {
-            dispatch.finishOperation(id, {
-              attachment
-            });
+            finishUpload(attachment);
           }
         },
         onSuccess: ([attachment]) => {
-          dispatch.finishOperation(id, {
-            attachment
-          });
+          finishUpload(attachment);
         },
         onError: (error) => {
           dispatch.cancelItem(id, error);
@@ -2392,12 +2608,22 @@ var wp;
         dispatch.finishOperation(id, {});
         return;
       }
+      const startTime = performance.now();
       mediaSideload({
         file: item.file,
         attachmentId: post,
         additionalData,
         signal: item.abortController?.signal,
         onSuccess: (subSize) => {
+          measure({
+            measureName: `Sideload ${item.file.name}`,
+            startTime,
+            tooltipText: item.file.name,
+            properties: [
+              ["Item ID", item.id],
+              ["File name", item.file.name]
+            ]
+          });
           if (item.parentId) {
             dispatch({
               type: Type.AccumulateSubSize,
@@ -2425,6 +2651,7 @@ var wp;
         });
         return;
       }
+      const startTime = performance.now();
       const addSuffix = Boolean(item.parentId);
       const scaledSuffix = Boolean(args.isThresholdResize);
       try {
@@ -2438,6 +2665,15 @@ var wp;
           item.abortController?.signal,
           scaledSuffix
         );
+        measure({
+          measureName: `ResizeCrop ${item.file.name}`,
+          startTime,
+          tooltipText: item.file.name,
+          properties: [
+            ["Item ID", item.id],
+            ["File name", item.file.name]
+          ]
+        });
         const blobUrl = (0, import_blob.createBlobURL)(file);
         dispatch({
           type: Type.CacheBlobUrl,
@@ -2454,7 +2690,7 @@ var wp;
         dispatch.cancelItem(
           id,
           new UploadError({
-            code: "IMAGE_TRANSCODING_ERROR",
+            code: ErrorCode.IMAGE_TRANSCODING_ERROR,
             message: (0, import_i18n6.__)(
               "The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading."
             ),
@@ -2477,6 +2713,7 @@ var wp;
         });
         return;
       }
+      const startTime = performance.now();
       try {
         const file = await vipsRotateImage(
           item.id,
@@ -2484,6 +2721,15 @@ var wp;
           args.orientation,
           item.abortController?.signal
         );
+        measure({
+          measureName: `Rotate ${item.file.name}`,
+          startTime,
+          tooltipText: item.file.name,
+          properties: [
+            ["Item ID", item.id],
+            ["File name", item.file.name]
+          ]
+        });
         const blobUrl = (0, import_blob.createBlobURL)(file);
         dispatch({
           type: Type.CacheBlobUrl,
@@ -2500,7 +2746,7 @@ var wp;
         dispatch.cancelItem(
           id,
           new UploadError({
-            code: "IMAGE_ROTATION_ERROR",
+            code: ErrorCode.IMAGE_ROTATION_ERROR,
             message: (0, import_i18n6.__)(
               "The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading."
             ),
@@ -2523,6 +2769,7 @@ var wp;
         });
         return;
       }
+      const startTime = performance.now();
       const outputMimeType = `image/${args.outputFormat}`;
       const quality = args.outputQuality ?? DEFAULT_OUTPUT_QUALITY;
       const interlaced = args.interlaced ?? false;
@@ -2534,6 +2781,15 @@ var wp;
           quality,
           interlaced
         );
+        measure({
+          measureName: `Transcode ${item.file.name}`,
+          startTime,
+          tooltipText: item.file.name,
+          properties: [
+            ["Item ID", item.id],
+            ["File name", item.file.name]
+          ]
+        });
         const blobUrl = (0, import_blob.createBlobURL)(file);
         dispatch({
           type: Type.CacheBlobUrl,
@@ -2550,11 +2806,74 @@ var wp;
         dispatch.cancelItem(
           id,
           new UploadError({
-            code: "MEDIA_TRANSCODING_ERROR",
+            code: ErrorCode.MEDIA_TRANSCODING_ERROR,
             message: "Image could not be transcoded to the target format",
             file: item.file,
             cause: error instanceof Error ? error : void 0
           })
+        );
+      }
+    };
+  }
+  function transcodeGifItem(id, args) {
+    return async ({ select: select2, dispatch }) => {
+      const item = select2.getItem(id);
+      if (!item) {
+        return;
+      }
+      const outputFormat = args?.outputFormat ?? "mp4";
+      const outputMimeType = `video/${outputFormat}`;
+      const gifFile = item.file;
+      try {
+        const file = await convertGifToVideo(
+          item.id,
+          gifFile,
+          outputMimeType
+        );
+        dispatch.finishOperation(id, { file });
+        dispatch.addSideloadItem({
+          file: gifFile,
+          batchId: v4_default(),
+          parentId: item.parentId,
+          additionalData: {
+            post: item.additionalData?.post,
+            image_size: "animated-video-poster",
+            convert_format: false
+          },
+          operations: [
+            [
+              OperationType.TranscodeImage,
+              {
+                outputFormat: "jpeg",
+                outputQuality: DEFAULT_OUTPUT_QUALITY,
+                interlaced: false
+              }
+            ],
+            OperationType.Upload
+          ]
+        });
+      } catch (error) {
+        if (isUnsupportedConversionError(error)) {
+          dispatch.cancelItem(
+            id,
+            new Error("Animated GIF conversion unsupported"),
+            true
+          );
+          return;
+        }
+        console.error(
+          "[video-conversion] GIF to video conversion failed:",
+          error
+        );
+        dispatch.cancelItem(
+          id,
+          new UploadError({
+            code: ErrorCode.GIF_TRANSCODING_ERROR,
+            message: "Animated GIF could not be converted to video",
+            file: item.file,
+            cause: error instanceof Error ? error : void 0
+          }),
+          true
         );
       }
     };
@@ -2582,6 +2901,28 @@ var wp;
             convert_format: false
           },
           operations: [OperationType.Upload]
+        });
+      }
+      if (item.animatedGifFile && attachment.id) {
+        const outputFormat = settings.videoOutputFormat === "video/webm" ? "webm" : "mp4";
+        dispatch.addSideloadItem({
+          file: item.animatedGifFile,
+          batchId: v4_default(),
+          parentId: item.id,
+          additionalData: {
+            post: attachment.id,
+            image_size: "animated-video",
+            convert_format: false
+          },
+          operations: [
+            [
+              OperationType.TranscodeGif,
+              {
+                outputFormat
+              }
+            ],
+            OperationType.Upload
+          ]
         });
       }
       {
@@ -2841,5 +3182,102 @@ var wp;
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children });
   });
   var provider_default = MediaUploadProvider;
+
+  // packages/upload-media/build-module/error-messages.mjs
+  var import_i18n7 = __toESM(require_i18n(), 1);
+  function getErrorMessage(code, fileName) {
+    const messages = {
+      [ErrorCode.EMPTY_FILE]: {
+        title: (0, import_i18n7.__)("Empty file"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('"%s" is empty.'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Please choose a different file.")
+      },
+      [ErrorCode.SIZE_ABOVE_LIMIT]: {
+        title: (0, import_i18n7.__)("File too large"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('"%s" exceeds the maximum upload size.'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Please reduce the file size and try again.")
+      },
+      [ErrorCode.MIME_TYPE_NOT_SUPPORTED]: {
+        title: (0, import_i18n7.__)("Unsupported file type"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('"%s" is not a supported file type.'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Please upload a different file format.")
+      },
+      [ErrorCode.MIME_TYPE_NOT_ALLOWED_FOR_USER]: {
+        title: (0, import_i18n7.__)("File type not allowed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('You are not allowed to upload "%s".'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Please contact your site administrator.")
+      },
+      [ErrorCode.HEIC_DECODE_ERROR]: {
+        title: (0, import_i18n7.__)("HEIC decode failed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('Failed to decode HEIC file "%s".'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Try converting the image to JPEG or PNG first.")
+      },
+      [ErrorCode.IMAGE_TRANSCODING_ERROR]: {
+        title: (0, import_i18n7.__)("Image processing failed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('Failed to process "%s".'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("The image may be corrupted. Try a different file.")
+      },
+      [ErrorCode.IMAGE_ROTATION_ERROR]: {
+        title: (0, import_i18n7.__)("Image rotation failed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('Failed to rotate "%s".'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("The image may be corrupted. Try a different file.")
+      },
+      [ErrorCode.MEDIA_TRANSCODING_ERROR]: {
+        title: (0, import_i18n7.__)("Media processing failed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('Failed to convert "%s" to the target format.'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("The file may be corrupted. Try a different file.")
+      },
+      [ErrorCode.GENERAL]: {
+        title: (0, import_i18n7.__)("Upload failed"),
+        description: (0, import_i18n7.sprintf)(
+          /* translators: %s: file name */
+          (0, import_i18n7.__)('Failed to upload "%s".'),
+          fileName
+        ),
+        action: (0, import_i18n7.__)("Please try again.")
+      }
+    };
+    return messages[code] || {
+      title: (0, import_i18n7.__)("Upload failed"),
+      description: (0, import_i18n7.sprintf)(
+        /* translators: %s: file name */
+        (0, import_i18n7.__)('Failed to upload "%s".'),
+        fileName
+      ),
+      action: (0, import_i18n7.__)("Please try again.")
+    };
+  }
   return __toCommonJS(index_exports);
 })();

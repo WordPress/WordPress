@@ -1558,6 +1558,64 @@ function register_block_core_navigation() {
 add_action( 'init', 'register_block_core_navigation' );
 
 /**
+ * Adds the Navigation block state class to inner list containers.
+ *
+ * State block support adds the generated `wp-states-*` class to the outer
+ * block wrapper. The Navigation block renders its menu items inside an inner
+ * `wp-block-navigation__container` list, so the same state class is also needed
+ * there for state styles to apply directly to the menu list.
+ *
+ * Currently this is required as a workaround because of how difficult it is for nav
+ * child blocks to inherit styles through the complex responsive nav block html. The
+ * bug in https://github.com/WordPress/gutenberg/issues/62690 also prevents inheritance.
+ *
+ * @since 7.1.0
+ *
+ * @param string $block_content The block content.
+ * @param array  $block         The full block, including name and attributes.
+ * @return string The updated block content.
+ */
+function block_core_navigation_add_state_class_to_container( $block_content, $block ) {
+	if ( 'core/navigation' !== ( $block['blockName'] ?? null ) || empty( $block_content ) ) {
+		return $block_content;
+	}
+
+	$processor = new WP_HTML_Tag_Processor( $block_content );
+	if ( ! $processor->next_tag() ) {
+		return $block_content;
+	}
+
+	$class_attribute = $processor->get_attribute( 'class' );
+	if ( ! is_string( $class_attribute ) || ! preg_match( '/\bwp-states-[a-f0-9]{8}\b/', $class_attribute, $matches ) ) {
+		return $block_content;
+	}
+
+	$state_class = $matches[0];
+	while ( $processor->next_tag() ) {
+		// Custom overlay content can include nested Navigation blocks.
+		// Avoid applying the outer Navigation state class to an inner nav block.
+		if ( $processor->has_class( 'wp-block-navigation' ) && ! $processor->has_class( 'wp-block-navigation__container' ) ) {
+			break;
+		}
+
+		if ( ! $processor->has_class( 'wp-block-navigation__container' ) ) {
+			continue;
+		}
+
+		$class_attribute = $processor->get_attribute( 'class' );
+		if ( is_string( $class_attribute ) && preg_match( '/\bwp-states-[a-f0-9]{8}\b/', $class_attribute ) ) {
+			continue;
+		}
+
+		$processor->add_class( $state_class );
+	}
+
+	return $processor->get_updated_html();
+}
+
+add_filter( 'render_block', 'block_core_navigation_add_state_class_to_container', 11, 2 );
+
+/**
  * Filter that changes the parsed attribute values of navigation blocks contain typographic presets to contain the values directly.
  *
  * @since 5.9.0

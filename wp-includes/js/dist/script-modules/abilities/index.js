@@ -3908,7 +3908,7 @@ var require_core = __commonJS({
       constructor(opts = {}) {
         this.schemas = {};
         this.refs = {};
-        this.formats = {};
+        this.formats = /* @__PURE__ */ Object.create(null);
         this._compilations = /* @__PURE__ */ new Set();
         this._loading = {};
         this._cache = /* @__PURE__ */ new Map();
@@ -4712,6 +4712,7 @@ var require_pattern = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
+    var util_1 = require_util();
     var codegen_1 = require_codegen();
     var error = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must match pattern "${schemaCode}"`,
@@ -4724,10 +4725,18 @@ var require_pattern = __commonJS({
       $data: true,
       error,
       code(cxt) {
-        const { data, $data, schema, schemaCode, it } = cxt;
+        const { gen, data, $data, schema, schemaCode, it } = cxt;
         const u = it.opts.unicodeRegExp ? "u" : "";
-        const regExp = $data ? (0, codegen_1._)`(new RegExp(${schemaCode}, ${u}))` : (0, code_1.usePattern)(cxt, schema);
-        cxt.fail$data((0, codegen_1._)`!${regExp}.test(${data})`);
+        if ($data) {
+          const { regExp } = it.opts.code;
+          const regExpCode = regExp.code === "new RegExp" ? (0, codegen_1._)`new RegExp` : (0, util_1.useFunc)(gen, regExp);
+          const valid = gen.let("valid");
+          gen.try(() => gen.assign(valid, (0, codegen_1._)`${regExpCode}(${schemaCode}, ${u}).test(${data})`), () => gen.assign(valid, false));
+          cxt.fail$data((0, codegen_1._)`!${valid}`);
+        } else {
+          const regExp = (0, code_1.usePattern)(cxt, schema);
+          cxt.fail$data((0, codegen_1._)`!${regExp}.test(${data})`);
+        }
       }
     };
     exports.default = def;
@@ -7444,7 +7453,15 @@ var ajv = new import_ajv_draft_04.default({
   allowUnionTypes: true
   // Allow anyOf without explicit type
 });
-(0, import_ajv_formats.default)(ajv, ["date-time", "email", "hostname", "ipv4", "ipv6", "uuid"]);
+(0, import_ajv_formats.default)(ajv, [
+  "date-time",
+  "email",
+  "hostname",
+  "ipv4",
+  "ipv6",
+  "uri",
+  "uuid"
+]);
 function formatAjvError(ajvError, param) {
   const instancePath = ajvError.instancePath ? ajvError.instancePath.replace(/\//g, "][").replace(/^\]\[/, "[") + "]" : "";
   const fullParam = param + instancePath;
@@ -7470,7 +7487,8 @@ function formatAjvError(ajvError, param) {
         uuid: `${fullParam} is not a valid UUID.`,
         ipv4: `${fullParam} is not a valid IP address.`,
         ipv6: `${fullParam} is not a valid IP address.`,
-        hostname: `${fullParam} is not a valid hostname.`
+        hostname: `${fullParam} is not a valid hostname.`,
+        uri: `${fullParam} is not a valid URI.`
       };
       return formatMessages[format] || `Invalid ${format}.`;
     case "minimum":

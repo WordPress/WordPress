@@ -11,6 +11,13 @@ var { actions } = store(
           (item) => item.id === id
         );
         return accordionItem ? accordionItem.isOpen : false;
+      },
+      get isHidden() {
+        const { id, accordionItems } = getContext();
+        const accordionItem = accordionItems.find(
+          (item) => item.id === id
+        );
+        return accordionItem?.isOpen ? null : "until-found";
       }
     },
     actions: {
@@ -63,6 +70,22 @@ var { actions } = store(
         window.setTimeout(() => {
           targetElement.scrollIntoView();
         }, 0);
+      },
+      handleBeforeMatch: () => {
+        const context = getContext();
+        const { id, autoclose, accordionItems } = context;
+        const accordionItem = accordionItems.find(
+          (item) => item.id === id
+        );
+        if (accordionItem) {
+          if (autoclose) {
+            accordionItems.forEach((item) => {
+              item.isOpen = item.id === id;
+            });
+          } else {
+            accordionItem.isOpen = true;
+          }
+        }
       }
     },
     callbacks: {

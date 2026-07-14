@@ -1229,14 +1229,8 @@ var wp;
           return;
         }
         const action = shiftKey ? "findPrevious" : "findNext";
-        const nextElement = import_dom.focus.tabbable[action](
-          /** @type {HTMLElement} */
-          target
-        ) || null;
-        if (
-          /** @type {HTMLElement} */
-          target.contains(nextElement)
-        ) {
+        const nextElement = import_dom.focus.tabbable[action](target) || null;
+        if (target.contains(nextElement)) {
           event.preventDefault();
           nextElement?.focus();
           return;
@@ -1450,31 +1444,34 @@ var wp;
   var origin = null;
   function useFocusReturn(onFocusReturn) {
     const ref = (0, import_element10.useRef)(null);
-    const focusedBeforeMount = (0, import_element10.useRef)(null);
-    const onFocusReturnRef = (0, import_element10.useRef)(onFocusReturn);
+    const focusedBeforeMountRef = (0, import_element10.useRef)(null);
+    const onFocusReturnRef = (0, import_element10.useRef)(
+      onFocusReturn
+    );
     (0, import_element10.useEffect)(() => {
       onFocusReturnRef.current = onFocusReturn;
     }, [onFocusReturn]);
     return (0, import_element10.useCallback)((node) => {
       if (node) {
         ref.current = node;
-        if (focusedBeforeMount.current) {
+        if (focusedBeforeMountRef.current) {
           return;
         }
         const activeDocument = node.ownerDocument.activeElement instanceof window.HTMLIFrameElement ? node.ownerDocument.activeElement.contentDocument : node.ownerDocument;
-        focusedBeforeMount.current = activeDocument?.activeElement ?? null;
-      } else if (focusedBeforeMount.current) {
+        focusedBeforeMountRef.current = activeDocument?.activeElement ?? null;
+      } else if (focusedBeforeMountRef.current) {
         const isFocused = ref.current?.contains(
-          ref.current?.ownerDocument.activeElement
+          ref.current?.ownerDocument.activeElement ?? null
         );
         if (ref.current?.isConnected && !isFocused) {
-          origin ??= focusedBeforeMount.current;
+          origin ??= focusedBeforeMountRef.current;
           return;
         }
         if (onFocusReturnRef.current) {
           onFocusReturnRef.current();
         } else {
-          (!focusedBeforeMount.current.isConnected ? origin : focusedBeforeMount.current)?.focus();
+          const elementToFocus = !focusedBeforeMountRef.current.isConnected ? origin : focusedBeforeMountRef.current;
+          elementToFocus?.focus();
         }
         origin = null;
       }
@@ -1730,7 +1727,11 @@ var wp;
   var use_isomorphic_layout_effect_default = useIsomorphicLayoutEffect;
 
   // packages/compose/build-module/hooks/use-dragging/index.mjs
-  function useDragging({ onDragStart, onDragMove, onDragEnd }) {
+  function useDragging({
+    onDragStart,
+    onDragMove,
+    onDragEnd
+  }) {
     const [isDragging, setIsDragging] = (0, import_element16.useState)(false);
     const eventsRef = (0, import_element16.useRef)({
       onDragStart,
@@ -1742,26 +1743,27 @@ var wp;
       eventsRef.current.onDragMove = onDragMove;
       eventsRef.current.onDragEnd = onDragEnd;
     }, [onDragStart, onDragMove, onDragEnd]);
-    const onMouseMove = (0, import_element16.useCallback)(
-      (event) => eventsRef.current.onDragMove && eventsRef.current.onDragMove(event),
-      []
+    const onMouseMove = (0, import_element16.useCallback)((event) => {
+      eventsRef.current.onDragMove?.(event);
+    }, []);
+    const endDrag = (0, import_element16.useCallback)(
+      function endDrag2(event) {
+        eventsRef.current.onDragEnd?.(event);
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", endDrag2);
+        setIsDragging(false);
+      },
+      [onMouseMove]
     );
-    const endDrag = (0, import_element16.useCallback)((event) => {
-      if (eventsRef.current.onDragEnd) {
-        eventsRef.current.onDragEnd(event);
-      }
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", endDrag);
-      setIsDragging(false);
-    }, []);
-    const startDrag = (0, import_element16.useCallback)((event) => {
-      if (eventsRef.current.onDragStart) {
-        eventsRef.current.onDragStart(event);
-      }
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", endDrag);
-      setIsDragging(true);
-    }, []);
+    const startDrag = (0, import_element16.useCallback)(
+      (event) => {
+        eventsRef.current.onDragStart?.(event);
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", endDrag);
+        setIsDragging(true);
+      },
+      [onMouseMove, endDrag]
+    );
     (0, import_element16.useEffect)(() => {
       return () => {
         if (isDragging) {
@@ -1769,7 +1771,7 @@ var wp;
           document.removeEventListener("mouseup", endDrag);
         }
       };
-    }, [isDragging]);
+    }, [isDragging, onMouseMove, endDrag]);
     return {
       startDrag,
       endDrag,
@@ -1818,7 +1820,6 @@ var wp;
     bindGlobal = false,
     eventName = "keydown",
     isDisabled = false,
-    // This is important for performance considerations.
     target
   } = {}) {
     const currentCallbackRef = (0, import_element17.useRef)(callback);
@@ -1834,8 +1835,6 @@ var wp;
           // We were passing `document` here previously, so to successfully cast it to Element we must cast it first to `unknown`.
           // Not sure if this is a mistake but it was the behavior previous to the addition of types so we're just doing what's
           // necessary to maintain the existing behavior.
-          /** @type {Element} */
-          /** @type {unknown} */
           document
         )
       );
@@ -2034,10 +2033,7 @@ var wp;
     ">=": (breakpointValue, width) => width >= breakpointValue,
     "<": (breakpointValue, width) => width < breakpointValue
   };
-  var ViewportMatchWidthContext = (0, import_element21.createContext)(
-    /** @type {null | number} */
-    null
-  );
+  var ViewportMatchWidthContext = (0, import_element21.createContext)(null);
   ViewportMatchWidthContext.displayName = "ViewportMatchWidthContext";
   var useViewportMatch = (breakpoint, operator = ">=", view = typeof window !== "undefined" ? window : void 0) => {
     const simulatedWidth = (0, import_element21.useContext)(ViewportMatchWidthContext);
@@ -2186,18 +2182,11 @@ var wp;
   function useWarnOnChange(object, prefix = "Change detection") {
     const previousValues = usePrevious(object);
     Object.entries(previousValues ?? []).forEach(([key, value]) => {
-      if (value !== object[
-        /** @type {keyof typeof object} */
-        key
-      ]) {
+      if (value !== object[key]) {
         console.warn(
           `${prefix}: ${key} key changed:`,
           value,
-          object[
-            /** @type {keyof typeof object} */
-            key
-          ]
-          /* eslint-enable jsdoc/check-types */
+          object[key]
         );
       }
     });
@@ -2321,10 +2310,7 @@ var wp;
         }
         function onDragEnter(event) {
           event.preventDefault();
-          if (element.contains(
-            /** @type {Node} */
-            event.relatedTarget
-          )) {
+          if (element.contains(event.relatedTarget)) {
             return;
           }
           if (_onDragEnter) {
@@ -2423,14 +2409,16 @@ var wp;
   function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
     const initWindowSize = options?.initWindowSize ?? DEFAULT_INIT_WINDOW_SIZE;
     const useWindowing = options?.useWindowing ?? true;
-    const [fixedListWindow, setFixedListWindow] = (0, import_element28.useState)({
-      visibleItems: initWindowSize,
-      start: 0,
-      end: initWindowSize,
-      itemInView: (index) => {
-        return index >= 0 && index <= initWindowSize;
+    const [fixedListWindow, setFixedListWindow] = (0, import_element28.useState)(
+      {
+        visibleItems: initWindowSize,
+        start: 0,
+        end: initWindowSize,
+        itemInView: (index) => {
+          return index >= 0 && index <= initWindowSize;
+        }
       }
-    });
+    );
     (0, import_element28.useLayoutEffect)(() => {
       if (!useWindowing) {
         return;

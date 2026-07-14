@@ -68,6 +68,12 @@
  * Focus styles.
  */
 /**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
  * Applies editor left position to the selector passed as argument
  */
 /**
@@ -842,6 +848,13 @@ html :where(.wp-block-column) {
   left: 0;
 }
 
+.block-library-html__edit-code {
+  margin: 16px;
+}
+.block-library-html__edit-code .block-library-html__edit-code-button {
+  justify-content: center;
+}
+
 @media (min-width: 600px) {
   .block-library-html__modal:not(.is-full-screen) {
     height: 9999rem;
@@ -968,6 +981,10 @@ figure.wp-block-image:not(.wp-block) {
 
 .wp-block-image {
   position: relative;
+}
+.wp-block-image.is-transient:not(.alignwide):not(.alignfull) {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .wp-block-image .is-applying img, .wp-block-image.is-transient img {
   opacity: 0.3;
@@ -2367,25 +2384,6 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 
 .blocks-table__placeholder-input {
   width: 112px;
-}
-
-.wp-block-tab-list > .block-editor-block-list__layout {
-  display: contents;
-}
-.wp-block-tab-list .block-editor-block-list__block:has(> .wp-block-tab) {
-  display: contents;
-}
-
-.wp-block-tab.is-selected {
-  outline-offset: 2px;
-}
-
-.block-editor-block-preview__live-content:has(.wp-block-tab) {
-  flex-basis: inherit !important;
-  flex-grow: inherit !important;
-}
-.block-editor-block-preview__live-content:has(.wp-block-tab) .wp-block-tab {
-  flex-basis: 100% !important;
 }
 
 .block-editor-template-part__selection-modal {

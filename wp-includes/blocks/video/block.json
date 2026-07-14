@@ -67,6 +67,12 @@
 			"attribute": "src",
 			"role": "content"
 		},
+		"width": {
+			"type": "number"
+		},
+		"height": {
+			"type": "number"
+		},
 		"playsInline": {
 			"type": "boolean",
 			"source": "attribute",

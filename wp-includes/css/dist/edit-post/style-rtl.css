@@ -68,6 +68,12 @@
  * Focus styles.
  */
 /**
+ * Standard focus rings for the WordPress Design System.
+ *
+ * Apply `outset-ring__focus` inside the relevant pseudo-class at the call site,
+ * e.g. `&:focus { @include outset-ring__focus(); }`.
+ */
+/**
  * Applies editor left position to the selector passed as argument
  */
 /**
@@ -109,8 +115,11 @@
 .edit-post-fullscreen-mode-close__view-mode-toggle {
   top: 0;
   right: 0;
-  height: 64px;
-  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
   z-index: 100;
 }
 .edit-post-fullscreen-mode-close__view-mode-toggle .components-button {
@@ -130,26 +139,8 @@
 .edit-post-fullscreen-mode-close__view-mode-toggle .components-button:focus {
   box-shadow: none;
 }
-.edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__view-mode-toggle-icon svg,
-.edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__view-mode-toggle-icon img {
-  background: #1e1e1e;
-  display: block;
-}
-
-.edit-post-fullscreen-mode-close-site-icon__icon {
-  fill: currentColor;
-  width: 100%;
-  height: 100%;
-  padding: 12px;
-}
-
-.edit-post-fullscreen-mode-close-site-icon__image {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  background: #333;
-  aspect-ratio: 1/1;
+.edit-post-fullscreen-mode-close__view-mode-toggle:hover .edit-post-fullscreen-mode-close__back-icon {
+  color: var(--wp-admin-theme-color);
 }
 
 .edit-post-fullscreen-mode-close.components-button:focus {
@@ -169,35 +160,15 @@
 
 .edit-post-fullscreen-mode-close__back-icon {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: hsl(0, 0%, 80%);
   pointer-events: none;
 }
 .edit-post-fullscreen-mode-close__back-icon svg {
   fill: currentColor;
-}
-.edit-post-fullscreen-mode-close__back-icon.has-site-icon {
-  background-color: hsla(0, 0%, 100%, 0.6);
-  backdrop-filter: saturate(180%) blur(15px);
-}
-
-/**
- *  Show icon label overrides.
- */
-.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon {
-  width: 64px;
-}
-.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon svg {
-  display: block;
-}
-.show-icon-labels .editor-header .edit-post-fullscreen-mode-close.has-icon::after {
-  content: none;
 }
 
 .edit-post-meta-boxes-main {
@@ -446,57 +417,6 @@
   fill: #fff;
 }
 
-body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-}
-body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle .edit-post-fullscreen-mode-close__back-icon {
-  top: auto;
-  right: auto;
-  width: 32px;
-  height: 32px;
-  background: transparent;
-}
-body.has-admin-bar-in-editor .edit-post-fullscreen-mode-close__view-mode-toggle:hover .edit-post-fullscreen-mode-close__back-icon {
-  color: var(--wp-admin-theme-color);
-}
-body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header:has(> .editor-header__back-button) {
-  grid-template-columns: 32px minmax(0, max-content) minmax(min-content, 1fr) 64px;
-}
-body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header:has(> .editor-header__back-button):has(> .editor-header__center) {
-  grid-template-columns: 32px min-content 1fr min-content 64px;
-}
-body.has-admin-bar-in-editor.is-fullscreen-mode .editor-header__back-button {
-  padding-right: 8px;
-}
-@media (min-width: 782px) {
-  body.has-admin-bar-in-editor.is-fullscreen-mode {
-    margin-top: 0;
-    height: 100%;
-  }
-  body.has-admin-bar-in-editor.is-fullscreen-mode #wpadminbar {
-    display: block;
-  }
-  body.has-admin-bar-in-editor.is-fullscreen-mode .interface-interface-skeleton,
-  body.has-admin-bar-in-editor.is-fullscreen-mode .editor-post-publish-panel,
-  body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus,
-  body.has-admin-bar-in-editor.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within {
-    top: var(--wp-admin--admin-bar--height, 0);
-  }
-  body.has-admin-bar-in-editor.is-fullscreen-mode .block-editor__container {
-    min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0));
-  }
-  body.has-admin-bar-in-editor.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) {
-    --wp-admin--admin-bar--height: 0;
-  }
-  body.has-admin-bar-in-editor.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) #wpadminbar {
-    display: none;
-  }
-}
-
 body.js.block-editor-page {
   background: #fff;
 }
@@ -527,6 +447,14 @@ body.js.block-editor-page ul#adminmenu > li.current > a.current::after {
 body.js.block-editor-page .media-frame select.attachment-filters:last-of-type {
   width: auto;
   max-width: 100%;
+}
+@media (min-width: 782px) {
+  body.js.block-editor-page.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) {
+    --wp-admin--admin-bar--height: 0;
+  }
+  body.js.block-editor-page.is-fullscreen-mode:has(.editor-editor-interface.is-distraction-free) #wpadminbar {
+    display: none;
+  }
 }
 
 .block-editor-page #wpwrap {
@@ -559,10 +487,7 @@ body.js.block-editor-page .media-frame select.attachment-filters:last-of-type {
 }
 @media (min-width: 782px) {
   .block-editor__container {
-    min-height: calc(100vh - 32px);
-  }
-  body.is-fullscreen-mode .block-editor__container {
-    min-height: 100vh;
+    min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0));
   }
 }
 .block-editor__container img {

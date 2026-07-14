@@ -3988,7 +3988,7 @@ function applySearchMiddleware({
 }
 
 // node_modules/@tanstack/router-core/dist/esm/link.js
-var preloadWarning = "Error preloading route! \u261D\uFE0F";
+var preloadWarning = "Error preloading route! ☝️";
 
 // node_modules/@tanstack/router-core/dist/esm/route.js
 var BaseRoute = class {

@@ -61,11 +61,11 @@ var wp;
         if (a === b) return true;
         if (a && b && typeof a == "object" && typeof b == "object") {
           if (a.constructor !== b.constructor) return false;
-          var length3, i, keys2;
+          var length2, i, keys2;
           if (Array.isArray(a)) {
-            length3 = a.length;
-            if (length3 != b.length) return false;
-            for (i = length3; i-- !== 0; )
+            length2 = a.length;
+            if (length2 != b.length) return false;
+            for (i = length2; i-- !== 0; )
               if (!equal(a[i], b[i])) return false;
             return true;
           }
@@ -84,9 +84,9 @@ var wp;
             return true;
           }
           if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
-            length3 = a.length;
-            if (length3 != b.length) return false;
-            for (i = length3; i-- !== 0; )
+            length2 = a.length;
+            if (length2 != b.length) return false;
+            for (i = length2; i-- !== 0; )
               if (a[i] !== b[i]) return false;
             return true;
           }
@@ -94,11 +94,11 @@ var wp;
           if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
           if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
           keys2 = Object.keys(a);
-          length3 = keys2.length;
-          if (length3 !== Object.keys(b).length) return false;
-          for (i = length3; i-- !== 0; )
+          length2 = keys2.length;
+          if (length2 !== Object.keys(b).length) return false;
+          for (i = length2; i-- !== 0; )
             if (!Object.prototype.hasOwnProperty.call(b, keys2[i])) return false;
-          for (i = length3; i-- !== 0; ) {
+          for (i = length2; i-- !== 0; ) {
             var key = keys2[i];
             if (!equal(a[key], b[key])) return false;
           }
@@ -269,6 +269,14 @@ var wp;
     }
   };
   var from = Array.from;
+  var every = (arr, f) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (!f(arr[i], i, arr)) {
+        return false;
+      }
+    }
+    return true;
+  };
   var some = (arr, f) => {
     for (let i = 0; i < arr.length; i++) {
       if (f(arr[i], i, arr)) {
@@ -474,7 +482,7 @@ var wp;
   var trimLeftRegex = /^\s*/g;
   var trimLeft = (s) => s.replace(trimLeftRegex, "");
   var fromCamelCaseRegex = /([A-Z])/g;
-  var fromCamelCase = (s, separator) => trimLeft(s.replace(fromCamelCaseRegex, (match) => `${separator}${toLowerCase(match)}`));
+  var fromCamelCase = (s, separator) => trimLeft(s.replace(fromCamelCaseRegex, (match2) => `${separator}${toLowerCase(match2)}`));
   var _encodeUtf8Polyfill = (str) => {
     const encodedString = unescape(encodeURIComponent(str));
     const len = encodedString.length;
@@ -819,7 +827,7 @@ var wp;
   var errorIntegerOutOfRange = create3("Integer out of Range");
   var Decoder = class {
     /**
-     * @param {Uint8Array} uint8Array Binary data to decode
+     * @param {Uint8Array<Buf>} uint8Array Binary data to decode
      */
     constructor(uint8Array) {
       this.arr = uint8Array;
@@ -1113,7 +1121,12 @@ var wp;
   }
   var varStorage = _localStorage;
 
+  // node_modules/lib0/trait/equality.js
+  var EqualityTraitSymbol = /* @__PURE__ */ Symbol("Equality");
+  var equals = (a, b) => a === b || !!a?.[EqualityTraitSymbol]?.(b) || false;
+
   // node_modules/lib0/object.js
+  var isObject = (o) => typeof o === "object";
   var assign = Object.assign;
   var keys = Object.keys;
   var forEach = (obj, f) => {
@@ -1121,7 +1134,6 @@ var wp;
       f(obj[key], key);
     }
   };
-  var length2 = (obj) => keys(obj).length;
   var size = (obj) => keys(obj).length;
   var isEmpty = (obj) => {
     for (const _k in obj) {
@@ -1129,7 +1141,7 @@ var wp;
     }
     return true;
   };
-  var every = (obj, f) => {
+  var every2 = (obj, f) => {
     for (const key in obj) {
       if (!f(obj[key], key)) {
         return false;
@@ -1138,7 +1150,7 @@ var wp;
     return true;
   };
   var hasProperty = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
-  var equalFlat = (a, b) => a === b || size(a) === size(b) && every(a, (val, key) => (val !== void 0 || hasProperty(b, key)) && b[key] === val);
+  var equalFlat = (a, b) => a === b || size(a) === size(b) && every2(a, (val, key) => (val !== void 0 || hasProperty(b, key)) && equals(b[key], val));
   var freeze = Object.freeze;
   var deepFreeze = (o) => {
     for (const key in o) {
@@ -1163,16 +1175,15 @@ var wp;
     }
   };
   var id = (a) => a;
-  var equalityStrict = (a, b) => a === b;
   var equalityDeep = (a, b) => {
-    if (a == null || b == null) {
-      return equalityStrict(a, b);
-    }
-    if (a.constructor !== b.constructor) {
-      return false;
-    }
     if (a === b) {
       return true;
+    }
+    if (a == null || b == null || a.constructor !== b.constructor && (a.constructor || Object) !== (b.constructor || Object)) {
+      return false;
+    }
+    if (a[EqualityTraitSymbol] != null) {
+      return a[EqualityTraitSymbol](b);
     }
     switch (a.constructor) {
       case ArrayBuffer:
@@ -1212,8 +1223,9 @@ var wp;
         }
         break;
       }
+      case void 0:
       case Object:
-        if (length2(a) !== length2(b)) {
+        if (size(a) !== size(b)) {
           return false;
         }
         for (const key in a) {
@@ -1295,7 +1307,7 @@ var wp;
 
   // node_modules/lib0/buffer.js
   var createUint8ArrayFromLen = (len) => new Uint8Array(len);
-  var createUint8ArrayViewFromArrayBuffer = (buffer, byteOffset, length3) => new Uint8Array(buffer, byteOffset, length3);
+  var createUint8ArrayViewFromArrayBuffer = (buffer, byteOffset, length2) => new Uint8Array(buffer, byteOffset, length2);
   var toBase64Browser = (bytes) => {
     let s = "";
     for (let i = 0; i < bytes.byteLength; i++) {
@@ -1337,15 +1349,770 @@ var wp;
   };
   var create5 = (left, right) => new Pair(left, right);
 
+  // node_modules/lib0/prng.js
+  var bool = (gen) => gen.next() >= 0.5;
+  var int53 = (gen, min2, max2) => floor(gen.next() * (max2 + 1 - min2) + min2);
+  var int32 = (gen, min2, max2) => floor(gen.next() * (max2 + 1 - min2) + min2);
+  var int31 = (gen, min2, max2) => int32(gen, min2, max2);
+  var letter = (gen) => fromCharCode(int31(gen, 97, 122));
+  var word = (gen, minLen = 0, maxLen = 20) => {
+    const len = int31(gen, minLen, maxLen);
+    let str = "";
+    for (let i = 0; i < len; i++) {
+      str += letter(gen);
+    }
+    return str;
+  };
+  var oneOf = (gen, array) => array[int31(gen, 0, array.length - 1)];
+
+  // node_modules/lib0/schema.js
+  var schemaSymbol = /* @__PURE__ */ Symbol("0schema");
+  var ValidationError = class {
+    constructor() {
+      this._rerrs = [];
+    }
+    /**
+     * @param {string?} path
+     * @param {string} expected
+     * @param {string} has
+     * @param {string?} message
+     */
+    extend(path, expected, has, message = null) {
+      this._rerrs.push({ path, expected, has, message });
+    }
+    toString() {
+      const s = [];
+      for (let i = this._rerrs.length - 1; i > 0; i--) {
+        const r = this._rerrs[i];
+        s.push(repeat(" ", (this._rerrs.length - i) * 2) + `${r.path != null ? `[${r.path}] ` : ""}${r.has} doesn't match ${r.expected}. ${r.message}`);
+      }
+      return s.join("\n");
+    }
+  };
+  var shapeExtends = (a, b) => {
+    if (a === b) return true;
+    if (a == null || b == null || a.constructor !== b.constructor) return false;
+    if (a[EqualityTraitSymbol]) return equals(a, b);
+    if (isArray(a)) {
+      return every(
+        a,
+        (aitem) => some(b, (bitem) => shapeExtends(aitem, bitem))
+      );
+    } else if (isObject(a)) {
+      return every2(
+        a,
+        (aitem, akey) => shapeExtends(aitem, b[akey])
+      );
+    }
+    return false;
+  };
+  var Schema = class {
+    // this.shape must not be defined on Schema. Otherwise typecheck on metatypes (e.g. $$object) won't work as expected anymore
+    /**
+     * If true, the more things are added to the shape the more objects this schema will accept (e.g.
+     * union). By default, the more objects are added, the the fewer objects this schema will accept.
+     * @protected
+     */
+    static _dilutes = false;
+    /**
+     * @param {Schema<any>} other
+     */
+    extends(other) {
+      let [a, b] = [
+        /** @type {any} */
+        this.shape,
+        /** @type {any} */
+        other.shape
+      ];
+      if (
+        /** @type {typeof Schema<any>} */
+        this.constructor._dilutes
+      ) [b, a] = [a, b];
+      return shapeExtends(a, b);
+    }
+    /**
+     * Overwrite this when necessary. By default, we only check the `shape` property which every shape
+     * should have.
+     * @param {Schema<any>} other
+     */
+    equals(other) {
+      return this.constructor === other.constructor && equalityDeep(this.shape, other.shape);
+    }
+    [schemaSymbol]() {
+      return true;
+    }
+    /**
+     * @param {object} other
+     */
+    [EqualityTraitSymbol](other) {
+      return this.equals(
+        /** @type {any} */
+        other
+      );
+    }
+    /**
+     * Use `schema.validate(obj)` with a typed parameter that is already of typed to be an instance of
+     * Schema. Validate will check the structure of the parameter and return true iff the instance
+     * really is an instance of Schema.
+     *
+     * @param {T} o
+     * @return {boolean}
+     */
+    validate(o) {
+      return this.check(o);
+    }
+    /* c8 ignore start */
+    /**
+     * Similar to validate, but this method accepts untyped parameters.
+     *
+     * @param {any} _o
+     * @param {ValidationError} [_err]
+     * @return {_o is T}
+     */
+    check(_o, _err) {
+      methodUnimplemented();
+    }
+    /* c8 ignore stop */
+    /**
+     * @type {Schema<T?>}
+     */
+    get nullable() {
+      return $union(this, $null);
+    }
+    /**
+     * @type {$Optional<Schema<T>>}
+     */
+    get optional() {
+      return new $Optional(
+        /** @type {Schema<T>} */
+        this
+      );
+    }
+    /**
+     * Cast a variable to a specific type. Returns the casted value, or throws an exception otherwise.
+     * Use this if you know that the type is of a specific type and you just want to convince the type
+     * system.
+     *
+     * **Do not rely on these error messages!**
+     * Performs an assertion check only if not in a production environment.
+     *
+     * @template OO
+     * @param {OO} o
+     * @return {Extract<OO, T> extends never ? T : (OO extends Array<never> ? T : Extract<OO,T>)}
+     */
+    cast(o) {
+      assert(o, this);
+      return (
+        /** @type {any} */
+        o
+      );
+    }
+    /**
+     * EXPECTO PATRONUM!! 🪄
+     * This function protects against type errors. Though it may not work in the real world.
+     *
+     * "After all this time?"
+     * "Always." - Snape, talking about type safety
+     *
+     * Ensures that a variable is a a specific type. Returns the value, or throws an exception if the assertion check failed.
+     * Use this if you know that the type is of a specific type and you just want to convince the type
+     * system.
+     *
+     * Can be useful when defining lambdas: `s.lambda(s.$number, s.$void).expect((n) => n + 1)`
+     *
+     * **Do not rely on these error messages!**
+     * Performs an assertion check if not in a production environment.
+     *
+     * @param {T} o
+     * @return {o extends T ? T : never}
+     */
+    expect(o) {
+      assert(o, this);
+      return o;
+    }
+  };
+  var $ConstructedBy = class extends Schema {
+    /**
+     * @param {C} c
+     * @param {((o:Instance<C>)=>boolean)|null} check
+     */
+    constructor(c, check) {
+      super();
+      this.shape = c;
+      this._c = check;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is C extends ((...args:any[]) => infer T) ? T : (C extends (new (...args:any[]) => any) ? InstanceType<C> : never)} o
+     */
+    check(o, err = void 0) {
+      const c = o?.constructor === this.shape && (this._c == null || this._c(o));
+      !c && err?.extend(null, this.shape.name, o?.constructor.name, o?.constructor !== this.shape ? "Constructor match failed" : "Check failed");
+      return c;
+    }
+  };
+  var $constructedBy = (c, check = null) => new $ConstructedBy(c, check);
+  var $$constructedBy = $constructedBy($ConstructedBy);
+  var $Custom = class extends Schema {
+    /**
+     * @param {(o:any) => boolean} check
+     */
+    constructor(check) {
+      super();
+      this.shape = check;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} err
+     * @return {o is any}
+     */
+    check(o, err) {
+      const c = this.shape(o);
+      !c && err?.extend(null, "custom prop", o?.constructor.name, "failed to check custom prop");
+      return c;
+    }
+  };
+  var $custom = (check) => new $Custom(check);
+  var $$custom = $constructedBy($Custom);
+  var $Literal = class extends Schema {
+    /**
+     * @param {Array<T>} literals
+     */
+    constructor(literals) {
+      super();
+      this.shape = literals;
+    }
+    /**
+     *
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is T}
+     */
+    check(o, err) {
+      const c = this.shape.some((a) => a === o);
+      !c && err?.extend(null, this.shape.join(" | "), o.toString());
+      return c;
+    }
+  };
+  var $literal = (...literals) => new $Literal(literals);
+  var $$literal = $constructedBy($Literal);
+  var _regexEscape = (
+    /** @type {any} */
+    RegExp.escape || /** @type {(str:string) => string} */
+    ((str) => str.replace(/[().|&,$^[\]]/g, (s) => "\\" + s))
+  );
+  var _schemaStringTemplateToRegex = (s) => {
+    if ($string.check(s)) {
+      return [_regexEscape(s)];
+    }
+    if ($$literal.check(s)) {
+      return (
+        /** @type {Array<string|number>} */
+        s.shape.map((v) => v + "")
+      );
+    }
+    if ($$number.check(s)) {
+      return ["[+-]?\\d+.?\\d*"];
+    }
+    if ($$string.check(s)) {
+      return [".*"];
+    }
+    if ($$union.check(s)) {
+      return s.shape.map(_schemaStringTemplateToRegex).flat(1);
+    }
+    unexpectedCase();
+  };
+  var $StringTemplate = class extends Schema {
+    /**
+     * @param {T} shape
+     */
+    constructor(shape) {
+      super();
+      this.shape = shape;
+      this._r = new RegExp("^" + shape.map(_schemaStringTemplateToRegex).map((opts) => `(${opts.join("|")})`).join("") + "$");
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is CastStringTemplateArgsToTemplate<T>}
+     */
+    check(o, err) {
+      const c = this._r.exec(o) != null;
+      !c && err?.extend(null, this._r.toString(), o.toString(), "String doesn't match string template.");
+      return c;
+    }
+  };
+  var $$stringTemplate = $constructedBy($StringTemplate);
+  var isOptionalSymbol = /* @__PURE__ */ Symbol("optional");
+  var $Optional = class extends Schema {
+    /**
+     * @param {S} shape
+     */
+    constructor(shape) {
+      super();
+      this.shape = shape;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is (Unwrap<S>|undefined)}
+     */
+    check(o, err) {
+      const c = o === void 0 || this.shape.check(o);
+      !c && err?.extend(null, "undefined (optional)", "()");
+      return c;
+    }
+    get [isOptionalSymbol]() {
+      return true;
+    }
+  };
+  var $$optional = $constructedBy($Optional);
+  var $Never = class extends Schema {
+    /**
+     * @param {any} _o
+     * @param {ValidationError} [err]
+     * @return {_o is never}
+     */
+    check(_o, err) {
+      err?.extend(null, "never", typeof _o);
+      return false;
+    }
+  };
+  var $never = new $Never();
+  var $$never = $constructedBy($Never);
+  var $Object = class _$Object extends Schema {
+    /**
+     * @param {S} shape
+     * @param {boolean} partial
+     */
+    constructor(shape, partial = false) {
+      super();
+      this.shape = shape;
+      this._isPartial = partial;
+    }
+    static _dilutes = true;
+    /**
+     * @type {Schema<Partial<$ObjectToType<S>>>}
+     */
+    get partial() {
+      return new _$Object(this.shape, true);
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} err
+     * @return {o is $ObjectToType<S>}
+     */
+    check(o, err) {
+      if (o == null) {
+        err?.extend(null, "object", "null");
+        return false;
+      }
+      return every2(this.shape, (vv, vk) => {
+        const c = this._isPartial && !hasProperty(o, vk) || vv.check(o[vk], err);
+        !c && err?.extend(vk.toString(), vv.toString(), typeof o[vk], "Object property does not match");
+        return c;
+      });
+    }
+  };
+  var $object = (def) => (
+    /** @type {any} */
+    new $Object(def)
+  );
+  var $$object = $constructedBy($Object);
+  var $objectAny = $custom((o) => o != null && (o.constructor === Object || o.constructor == null));
+  var $Record = class extends Schema {
+    /**
+     * @param {Keys} keys
+     * @param {Values} values
+     */
+    constructor(keys2, values) {
+      super();
+      this.shape = {
+        keys: keys2,
+        values
+      };
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} err
+     * @return {o is { [key in Unwrap<Keys>]: Unwrap<Values> }}
+     */
+    check(o, err) {
+      return o != null && every2(o, (vv, vk) => {
+        const ck = this.shape.keys.check(vk, err);
+        !ck && err?.extend(vk + "", "Record", typeof o, ck ? "Key doesn't match schema" : "Value doesn't match value");
+        return ck && this.shape.values.check(vv, err);
+      });
+    }
+  };
+  var $record = (keys2, values) => new $Record(keys2, values);
+  var $$record = $constructedBy($Record);
+  var $Tuple = class extends Schema {
+    /**
+     * @param {S} shape
+     */
+    constructor(shape) {
+      super();
+      this.shape = shape;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} err
+     * @return {o is { [K in keyof S]: S[K] extends Schema<infer Type> ? Type : never }}
+     */
+    check(o, err) {
+      return o != null && every2(this.shape, (vv, vk) => {
+        const c = (
+          /** @type {Schema<any>} */
+          vv.check(o[vk], err)
+        );
+        !c && err?.extend(vk.toString(), "Tuple", typeof vv);
+        return c;
+      });
+    }
+  };
+  var $tuple = (...def) => new $Tuple(def);
+  var $$tuple = $constructedBy($Tuple);
+  var $Array = class extends Schema {
+    /**
+     * @param {Array<S>} v
+     */
+    constructor(v) {
+      super();
+      this.shape = v.length === 1 ? v[0] : new $Union(v);
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is Array<S extends Schema<infer T> ? T : never>} o
+     */
+    check(o, err) {
+      const c = isArray(o) && every(o, (oi) => this.shape.check(oi));
+      !c && err?.extend(null, "Array", "");
+      return c;
+    }
+  };
+  var $array = (...def) => new $Array(def);
+  var $$array = $constructedBy($Array);
+  var $arrayAny = $custom((o) => isArray(o));
+  var $InstanceOf = class extends Schema {
+    /**
+     * @param {new (...args:any) => T} constructor
+     * @param {((o:T) => boolean)|null} check
+     */
+    constructor(constructor, check) {
+      super();
+      this.shape = constructor;
+      this._c = check;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} err
+     * @return {o is T}
+     */
+    check(o, err) {
+      const c = o instanceof this.shape && (this._c == null || this._c(o));
+      !c && err?.extend(null, this.shape.name, o?.constructor.name);
+      return c;
+    }
+  };
+  var $instanceOf = (c, check = null) => new $InstanceOf(c, check);
+  var $$instanceOf = $constructedBy($InstanceOf);
+  var $$schema = $instanceOf(Schema);
+  var $Lambda = class extends Schema {
+    /**
+     * @param {Args} args
+     */
+    constructor(args2) {
+      super();
+      this.len = args2.length - 1;
+      this.args = $tuple(...args2.slice(-1));
+      this.res = args2[this.len];
+    }
+    /**
+     * @param {any} f
+     * @param {ValidationError} err
+     * @return {f is _LArgsToLambdaDef<Args>}
+     */
+    check(f, err) {
+      const c = f.constructor === Function && f.length <= this.len;
+      !c && err?.extend(null, "function", typeof f);
+      return c;
+    }
+  };
+  var $$lambda = $constructedBy($Lambda);
+  var $function = $custom((o) => typeof o === "function");
+  var $Intersection = class extends Schema {
+    /**
+     * @param {T} v
+     */
+    constructor(v) {
+      super();
+      this.shape = v;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is Intersect<UnwrapArray<T>>}
+     */
+    check(o, err) {
+      const c = every(this.shape, (check) => check.check(o, err));
+      !c && err?.extend(null, "Intersectinon", typeof o);
+      return c;
+    }
+  };
+  var $$intersect = $constructedBy($Intersection, (o) => o.shape.length > 0);
+  var $Union = class extends Schema {
+    static _dilutes = true;
+    /**
+     * @param {Array<Schema<S>>} v
+     */
+    constructor(v) {
+      super();
+      this.shape = v;
+    }
+    /**
+     * @param {any} o
+     * @param {ValidationError} [err]
+     * @return {o is S}
+     */
+    check(o, err) {
+      const c = some(this.shape, (vv) => vv.check(o, err));
+      err?.extend(null, "Union", typeof o);
+      return c;
+    }
+  };
+  var $union = (...schemas) => schemas.findIndex(($s) => $$union.check($s)) >= 0 ? $union(...schemas.map(($s) => $($s)).map(($s) => $$union.check($s) ? $s.shape : [$s]).flat(1)) : schemas.length === 1 ? schemas[0] : new $Union(schemas);
+  var $$union = (
+    /** @type {Schema<$Union<any>>} */
+    $constructedBy($Union)
+  );
+  var _t = () => true;
+  var $any = $custom(_t);
+  var $$any = (
+    /** @type {Schema<Schema<any>>} */
+    $constructedBy($Custom, (o) => o.shape === _t)
+  );
+  var $bigint = $custom((o) => typeof o === "bigint");
+  var $$bigint = (
+    /** @type {Schema<Schema<BigInt>>} */
+    $custom((o) => o === $bigint)
+  );
+  var $symbol = $custom((o) => typeof o === "symbol");
+  var $$symbol = (
+    /** @type {Schema<Schema<Symbol>>} */
+    $custom((o) => o === $symbol)
+  );
+  var $number = $custom((o) => typeof o === "number");
+  var $$number = (
+    /** @type {Schema<Schema<number>>} */
+    $custom((o) => o === $number)
+  );
+  var $string = $custom((o) => typeof o === "string");
+  var $$string = (
+    /** @type {Schema<Schema<string>>} */
+    $custom((o) => o === $string)
+  );
+  var $boolean = $custom((o) => typeof o === "boolean");
+  var $$boolean = (
+    /** @type {Schema<Schema<Boolean>>} */
+    $custom((o) => o === $boolean)
+  );
+  var $undefined = $literal(void 0);
+  var $$undefined = (
+    /** @type {Schema<Schema<undefined>>} */
+    $constructedBy($Literal, (o) => o.shape.length === 1 && o.shape[0] === void 0)
+  );
+  var $void = $literal(void 0);
+  var $null = $literal(null);
+  var $$null = (
+    /** @type {Schema<Schema<null>>} */
+    $constructedBy($Literal, (o) => o.shape.length === 1 && o.shape[0] === null)
+  );
+  var $uint8Array = $constructedBy(Uint8Array);
+  var $$uint8Array = (
+    /** @type {Schema<Schema<Uint8Array>>} */
+    $constructedBy($ConstructedBy, (o) => o.shape === Uint8Array)
+  );
+  var $primitive = $union($number, $string, $null, $undefined, $bigint, $boolean, $symbol);
+  var $json = (() => {
+    const $jsonArr = (
+      /** @type {$Array<$any>} */
+      $array($any)
+    );
+    const $jsonRecord = (
+      /** @type {$Record<$string,$any>} */
+      $record($string, $any)
+    );
+    const $json2 = $union($number, $string, $null, $boolean, $jsonArr, $jsonRecord);
+    $jsonArr.shape = $json2;
+    $jsonRecord.shape.values = $json2;
+    return $json2;
+  })();
+  var $ = (o) => {
+    if ($$schema.check(o)) {
+      return (
+        /** @type {any} */
+        o
+      );
+    } else if ($objectAny.check(o)) {
+      const o2 = {};
+      for (const k in o) {
+        o2[k] = $(o[k]);
+      }
+      return (
+        /** @type {any} */
+        $object(o2)
+      );
+    } else if ($arrayAny.check(o)) {
+      return (
+        /** @type {any} */
+        $union(...o.map($))
+      );
+    } else if ($primitive.check(o)) {
+      return (
+        /** @type {any} */
+        $literal(o)
+      );
+    } else if ($function.check(o)) {
+      return (
+        /** @type {any} */
+        $constructedBy(
+          /** @type {any} */
+          o
+        )
+      );
+    }
+    unexpectedCase();
+  };
+  var assert = production ? () => {
+  } : (o, schema) => {
+    const err = new ValidationError();
+    if (!schema.check(o, err)) {
+      throw create3(`Expected value to be of type ${schema.constructor.name}.
+${err.toString()}`);
+    }
+  };
+  var PatternMatcher = class {
+    /**
+     * @param {Schema<State>} [$state]
+     */
+    constructor($state) {
+      this.patterns = [];
+      this.$state = $state;
+    }
+    /**
+     * @template P
+     * @template R
+     * @param {P} pattern
+     * @param {(o:NoInfer<Unwrap<ReadSchema<P>>>,s:State)=>R} handler
+     * @return {PatternMatcher<State,Patterns|Pattern<Unwrap<ReadSchema<P>>,R>>}
+     */
+    if(pattern, handler) {
+      this.patterns.push({ if: $(pattern), h: handler });
+      return this;
+    }
+    /**
+     * @template R
+     * @param {(o:any,s:State)=>R} h
+     */
+    else(h) {
+      return this.if($any, h);
+    }
+    /**
+     * @return {State extends undefined
+     *   ? <In extends Unwrap<Patterns['if']>>(o:In,state?:undefined)=>PatternMatchResult<Patterns,In>
+     *   : <In extends Unwrap<Patterns['if']>>(o:In,state:State)=>PatternMatchResult<Patterns,In>}
+     */
+    done() {
+      return (
+        /** @type {any} */
+        (o, s) => {
+          for (let i = 0; i < this.patterns.length; i++) {
+            const p = this.patterns[i];
+            if (p.if.check(o)) {
+              return p.h(o, s);
+            }
+          }
+          throw create3("Unhandled pattern");
+        }
+      );
+    }
+  };
+  var match = (state) => new PatternMatcher(
+    /** @type {any} */
+    state
+  );
+  var _random = (
+    /** @type {any} */
+    match(
+      /** @type {Schema<prng.PRNG>} */
+      $any
+    ).if($$number, (_o, gen) => int53(gen, MIN_SAFE_INTEGER, MAX_SAFE_INTEGER)).if($$string, (_o, gen) => word(gen)).if($$boolean, (_o, gen) => bool(gen)).if($$bigint, (_o, gen) => BigInt(int53(gen, MIN_SAFE_INTEGER, MAX_SAFE_INTEGER))).if($$union, (o, gen) => random(gen, oneOf(gen, o.shape))).if($$object, (o, gen) => {
+      const res = {};
+      for (const k in o.shape) {
+        let prop = o.shape[k];
+        if ($$optional.check(prop)) {
+          if (bool(gen)) {
+            continue;
+          }
+          prop = prop.shape;
+        }
+        res[k] = _random(prop, gen);
+      }
+      return res;
+    }).if($$array, (o, gen) => {
+      const arr = [];
+      const n = int32(gen, 0, 42);
+      for (let i = 0; i < n; i++) {
+        arr.push(random(gen, o.shape));
+      }
+      return arr;
+    }).if($$literal, (o, gen) => {
+      return oneOf(gen, o.shape);
+    }).if($$null, (o, gen) => {
+      return null;
+    }).if($$lambda, (o, gen) => {
+      const res = random(gen, o.res);
+      return () => res;
+    }).if($$any, (o, gen) => random(gen, oneOf(gen, [
+      $number,
+      $string,
+      $null,
+      $undefined,
+      $bigint,
+      $boolean,
+      $array($number),
+      $record($union("a", "b", "c"), $number)
+    ]))).if($$record, (o, gen) => {
+      const res = {};
+      const keysN = int53(gen, 0, 3);
+      for (let i = 0; i < keysN; i++) {
+        const key = random(gen, o.shape.keys);
+        const val = random(gen, o.shape.values);
+        res[key] = val;
+      }
+      return res;
+    }).done()
+  );
+  var random = (gen, schema) => (
+    /** @type {any} */
+    _random($(schema), gen)
+  );
+
   // node_modules/lib0/dom.js
   var doc = (
     /** @type {Document} */
     typeof document !== "undefined" ? document : {}
   );
+  var $fragment = $custom((el) => el.nodeType === DOCUMENT_FRAGMENT_NODE);
   var domParser = (
     /** @type {DOMParser} */
     typeof DOMParser !== "undefined" ? new DOMParser() : null
   );
+  var $element = $custom((el) => el.nodeType === ELEMENT_NODE);
+  var $text = $custom((el) => el.nodeType === TEXT_NODE);
   var mapToStyleString = (m) => map(m, (value, key) => `${key}:${value};`).join("");
   var ELEMENT_NODE = doc.ELEMENT_NODE;
   var TEXT_NODE = doc.TEXT_NODE;
@@ -1354,6 +2121,7 @@ var wp;
   var DOCUMENT_NODE = doc.DOCUMENT_NODE;
   var DOCUMENT_TYPE_NODE = doc.DOCUMENT_TYPE_NODE;
   var DOCUMENT_FRAGMENT_NODE = doc.DOCUMENT_FRAGMENT_NODE;
+  var $node = $custom((el) => el.nodeType === DOCUMENT_NODE);
 
   // node_modules/lib0/symbol.js
   var create6 = Symbol;
@@ -1590,11 +2358,11 @@ var wp;
     sortAndMergeDeleteSet(merged);
     return merged;
   };
-  var addToDeleteSet = (ds, client, clock, length3) => {
+  var addToDeleteSet = (ds, client, clock, length2) => {
     setIfUndefined(ds.clients, client, () => (
       /** @type {Array<DeleteItem>} */
       []
-    )).push(new DeleteItem(clock, length3));
+    )).push(new DeleteItem(clock, length2));
   };
   var createDeleteSet = () => new DeleteSet();
   var createDeleteSetFromStructStore = (ss) => {
@@ -5112,12 +5880,12 @@ var wp;
     }
     return typeListInsertGenericsAfter(transaction, parent, n, content);
   };
-  var typeListDelete = (transaction, parent, index, length3) => {
-    if (length3 === 0) {
+  var typeListDelete = (transaction, parent, index, length2) => {
+    if (length2 === 0) {
       return;
     }
     const startIndex = index;
-    const startLength = length3;
+    const startLength = length2;
     const marker = findMarker(parent, index);
     let n = parent._start;
     if (marker !== null) {
@@ -5132,24 +5900,24 @@ var wp;
         index -= n.length;
       }
     }
-    while (length3 > 0 && n !== null) {
+    while (length2 > 0 && n !== null) {
       if (!n.deleted) {
-        if (length3 < n.length) {
-          getItemCleanStart(transaction, createID(n.id.client, n.id.clock + length3));
+        if (length2 < n.length) {
+          getItemCleanStart(transaction, createID(n.id.client, n.id.clock + length2));
         }
         n.delete(transaction);
-        length3 -= n.length;
+        length2 -= n.length;
       }
       n = n.right;
     }
-    if (length3 > 0) {
+    if (length2 > 0) {
       throw lengthExceeded();
     }
     if (parent._searchMarker) {
       updateMarkerChanges(
         parent._searchMarker,
         startIndex,
-        -startLength + length3
+        -startLength + length2
         /* in case we remove the above exception */
       );
     }
@@ -5389,13 +6157,13 @@ var wp;
      * @param {number} index Index at which to start deleting elements
      * @param {number} length The number of elements to remove. Defaults to 1.
      */
-    delete(index, length3 = 1) {
+    delete(index, length2 = 1) {
       if (this.doc !== null) {
         transact(this.doc, (transaction) => {
-          typeListDelete(transaction, this, index, length3);
+          typeListDelete(transaction, this, index, length2);
         });
       } else {
-        this._prelimContent.splice(index, length3);
+        this._prelimContent.splice(index, length2);
       }
     }
     /**
@@ -5886,12 +6654,12 @@ var wp;
     currPos.forward();
     insertNegatedAttributes(transaction, parent, currPos, negatedAttributes);
   };
-  var formatText = (transaction, parent, currPos, length3, attributes) => {
+  var formatText = (transaction, parent, currPos, length2, attributes) => {
     const doc2 = transaction.doc;
     const ownClientId = doc2.clientID;
     minimizeAttributeChanges(currPos, attributes);
     const negatedAttributes = insertAttributes(transaction, parent, currPos, attributes);
-    iterationLoop: while (currPos.right !== null && (length3 > 0 || negatedAttributes.size > 0 && (currPos.right.deleted || currPos.right.content.constructor === ContentFormat))) {
+    iterationLoop: while (currPos.right !== null && (length2 > 0 || negatedAttributes.size > 0 && (currPos.right.deleted || currPos.right.content.constructor === ContentFormat))) {
       if (!currPos.right.deleted) {
         switch (currPos.right.content.constructor) {
           case ContentFormat: {
@@ -5904,7 +6672,7 @@ var wp;
               if (equalAttrs(attr, value)) {
                 negatedAttributes.delete(key);
               } else {
-                if (length3 === 0) {
+                if (length2 === 0) {
                   break iterationLoop;
                 }
                 negatedAttributes.set(key, value);
@@ -5916,18 +6684,18 @@ var wp;
             break;
           }
           default:
-            if (length3 < currPos.right.length) {
-              getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length3));
+            if (length2 < currPos.right.length) {
+              getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length2));
             }
-            length3 -= currPos.right.length;
+            length2 -= currPos.right.length;
             break;
         }
       }
       currPos.forward();
     }
-    if (length3 > 0) {
+    if (length2 > 0) {
       let newlines = "";
-      for (; length3 > 0; length3--) {
+      for (; length2 > 0; length2--) {
         newlines += "\n";
       }
       currPos.right = new Item(createID(ownClientId, getState(doc2.store, ownClientId)), currPos.left, currPos.left && currPos.left.lastId, currPos.right, currPos.right && currPos.right.id, parent, null, new ContentString(newlines));
@@ -6096,20 +6864,20 @@ var wp;
       }
     });
   };
-  var deleteText = (transaction, currPos, length3) => {
-    const startLength = length3;
+  var deleteText = (transaction, currPos, length2) => {
+    const startLength = length2;
     const startAttrs = copy(currPos.currentAttributes);
     const start = currPos.right;
-    while (length3 > 0 && currPos.right !== null) {
+    while (length2 > 0 && currPos.right !== null) {
       if (currPos.right.deleted === false) {
         switch (currPos.right.content.constructor) {
           case ContentType:
           case ContentEmbed:
           case ContentString:
-            if (length3 < currPos.right.length) {
-              getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length3));
+            if (length2 < currPos.right.length) {
+              getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length2));
             }
-            length3 -= currPos.right.length;
+            length2 -= currPos.right.length;
             currPos.right.delete(transaction);
             break;
         }
@@ -6125,7 +6893,7 @@ var wp;
       (currPos.left || currPos.right).parent
     );
     if (parent._searchMarker) {
-      updateMarkerChanges(parent._searchMarker, currPos.index, -startLength + length3);
+      updateMarkerChanges(parent._searchMarker, currPos.index, -startLength + length2);
     }
     return currPos;
   };
@@ -6646,17 +7414,17 @@ var wp;
      *
      * @public
      */
-    delete(index, length3) {
-      if (length3 === 0) {
+    delete(index, length2) {
+      if (length2 === 0) {
         return;
       }
       const y = this.doc;
       if (y !== null) {
         transact(y, (transaction) => {
-          deleteText(transaction, findPosition(transaction, this, index, true), length3);
+          deleteText(transaction, findPosition(transaction, this, index, true), length2);
         });
       } else {
-        this._pending.push(() => this.delete(index, length3));
+        this._pending.push(() => this.delete(index, length2));
       }
     }
     /**
@@ -6669,8 +7437,8 @@ var wp;
      *
      * @public
      */
-    format(index, length3, attributes) {
-      if (length3 === 0) {
+    format(index, length2, attributes) {
+      if (length2 === 0) {
         return;
       }
       const y = this.doc;
@@ -6680,10 +7448,10 @@ var wp;
           if (pos.right === null) {
             return;
           }
-          formatText(transaction, this, pos, length3, attributes);
+          formatText(transaction, this, pos, length2, attributes);
         });
       } else {
-        this._pending.push(() => this.format(index, length3, attributes));
+        this._pending.push(() => this.format(index, length2, attributes));
       }
     }
     /**
@@ -7034,13 +7802,13 @@ var wp;
      * @param {number} index Index at which to start deleting elements
      * @param {number} [length=1] The number of elements to remove. Defaults to 1.
      */
-    delete(index, length3 = 1) {
+    delete(index, length2 = 1) {
       if (this.doc !== null) {
         transact(this.doc, (transaction) => {
-          typeListDelete(transaction, this, index, length3);
+          typeListDelete(transaction, this, index, length2);
         });
       } else {
-        this._prelimContent.splice(index, length3);
+        this._prelimContent.splice(index, length2);
       }
     }
     /**
@@ -7534,9 +8302,9 @@ var wp;
      * @param {ID} id
      * @param {number} length
      */
-    constructor(id2, length3) {
+    constructor(id2, length2) {
       this.id = id2;
-      this.length = length3;
+      this.length = length2;
     }
     /**
      * @type {boolean}
@@ -10782,6 +11550,7 @@ var wp;
         entityState.unload();
       }
       entityStates.clear();
+      undoManager = void 0;
       for (const [, collectionState] of [...collectionStates]) {
         collectionState.unload();
       }
@@ -10918,7 +11687,7 @@ var wp;
     };
   }
 
-  // packages/sync/node_modules/diff/libesm/diff/base.js
+  // node_modules/diff/libesm/diff/base.js
   var Diff = class {
     diff(oldStr, newStr, options = {}) {
       let callback;
@@ -11120,7 +11889,7 @@ var wp;
     }
   };
 
-  // packages/sync/node_modules/diff/libesm/diff/character.js
+  // node_modules/diff/libesm/diff/character.js
   var CharacterDiff = class extends Diff {
   };
   var characterDiff = new CharacterDiff();
@@ -11128,7 +11897,7 @@ var wp;
     return characterDiff.diff(oldStr, newStr, options);
   }
 
-  // packages/sync/node_modules/diff/libesm/diff/line.js
+  // node_modules/diff/libesm/diff/line.js
   var LineDiff = class extends Diff {
     constructor() {
       super(...arguments);
@@ -11276,7 +12045,7 @@ var wp;
   // packages/sync/build-module/quill-delta/Op.mjs
   var Op;
   ((Op2) => {
-    function length3(op) {
+    function length2(op) {
       if (typeof op.delete === "number") {
         return op.delete;
       } else if (typeof op.retain === "number") {
@@ -11286,7 +12055,7 @@ var wp;
       }
       return typeof op.insert === "string" ? op.insert.length : 1;
     }
-    Op2.length = length3;
+    Op2.length = length2;
   })(Op || (Op = {}));
   var Op_default = Op;
 
@@ -11303,34 +12072,34 @@ var wp;
     hasNext() {
       return this.peekLength() < Infinity;
     }
-    next(length3) {
-      if (!length3) {
-        length3 = Infinity;
+    next(length2) {
+      if (!length2) {
+        length2 = Infinity;
       }
       const nextOp = this.ops[this.index];
       if (nextOp) {
         const offset = this.offset;
         const opLength = Op_default.length(nextOp);
-        if (length3 >= opLength - offset) {
-          length3 = opLength - offset;
+        if (length2 >= opLength - offset) {
+          length2 = opLength - offset;
           this.index += 1;
           this.offset = 0;
         } else {
-          this.offset += length3;
+          this.offset += length2;
         }
         if (typeof nextOp.delete === "number") {
-          return { delete: length3 };
+          return { delete: length2 };
         }
         const retOp = {};
         if (nextOp.attributes) {
           retOp.attributes = nextOp.attributes;
         }
         if (typeof nextOp.retain === "number") {
-          retOp.retain = length3;
+          retOp.retain = length2;
         } else if (typeof nextOp.retain === "object" && nextOp.retain !== null) {
           retOp.retain = nextOp.retain;
         } else if (typeof nextOp.insert === "string") {
-          retOp.insert = nextOp.insert.substr(offset, length3);
+          retOp.insert = nextOp.insert.substr(offset, length2);
         } else {
           retOp.insert = nextOp.insert;
         }
@@ -11441,17 +12210,17 @@ var wp;
       }
       return this.push(newOp);
     }
-    delete(length3) {
-      if (length3 <= 0) {
+    delete(length2) {
+      if (length2 <= 0) {
         return this;
       }
-      return this.push({ delete: length3 });
+      return this.push({ delete: length2 });
     }
-    retain(length3, attributes) {
-      if (typeof length3 === "number" && length3 <= 0) {
+    retain(length2, attributes) {
+      if (typeof length2 === "number" && length2 <= 0) {
         return this;
       }
-      const newOp = { retain: length3 };
+      const newOp = { retain: length2 };
       if (attributes !== null && attributes !== void 0 && typeof attributes === "object" && Object.keys(attributes).length > 0) {
         newOp.attributes = attributes;
       }
@@ -11532,18 +12301,18 @@ var wp;
       return this.ops.reduce(predicate, initialValue);
     }
     changeLength() {
-      return this.reduce((length3, elem) => {
+      return this.reduce((length2, elem) => {
         if (elem.insert) {
-          return length3 + Op_default.length(elem);
+          return length2 + Op_default.length(elem);
         } else if (elem.delete) {
-          return length3 - elem.delete;
+          return length2 - elem.delete;
         }
-        return length3;
+        return length2;
       }, 0);
     }
     length() {
-      return this.reduce((length3, elem) => {
-        return length3 + Op_default.length(elem);
+      return this.reduce((length2, elem) => {
+        return length2 + Op_default.length(elem);
       }, 0);
     }
     slice(start = 0, end = Infinity) {
@@ -11584,16 +12353,16 @@ var wp;
         } else if (thisIter.peekType() === "delete") {
           delta.push(thisIter.next());
         } else {
-          const length3 = Math.min(
+          const length2 = Math.min(
             thisIter.peekLength(),
             otherIter.peekLength()
           );
-          const thisOp = thisIter.next(length3);
-          const otherOp = otherIter.next(length3);
+          const thisOp = thisIter.next(length2);
+          const otherOp = otherIter.next(length2);
           if (otherOp.retain) {
             const newOp = {};
             if (typeof thisOp.retain === "number") {
-              newOp.retain = typeof otherOp.retain === "number" ? length3 : otherOp.retain;
+              newOp.retain = typeof otherOp.retain === "number" ? length2 : otherOp.retain;
             } else if (typeof otherOp.retain === "number") {
               if (thisOp.retain === null || thisOp.retain === void 0) {
                 newOp.insert = thisOp.insert;
@@ -11696,8 +12465,8 @@ var wp;
           inverted.retain(op.retain);
           return baseIndex + op.retain;
         } else if (op.delete || typeof op.retain === "number") {
-          const length3 = op.delete || op.retain;
-          const slice = base.slice(baseIndex, baseIndex + length3);
+          const length2 = op.delete || op.retain;
+          const slice = base.slice(baseIndex, baseIndex + length2);
           slice.forEach((baseOp) => {
             if (op.delete) {
               inverted.push(baseOp);
@@ -11711,7 +12480,7 @@ var wp;
               );
             }
           });
-          return baseIndex + length3;
+          return baseIndex + length2;
         } else if (typeof op.retain === "object" && op.retain !== null) {
           const slice = base.slice(baseIndex, baseIndex + 1);
           const baseOp = new Iterator(slice.ops).next();
@@ -11745,12 +12514,12 @@ var wp;
         } else if (otherIter.peekType() === "insert") {
           delta.push(otherIter.next());
         } else {
-          const length3 = Math.min(
+          const length2 = Math.min(
             thisIter.peekLength(),
             otherIter.peekLength()
           );
-          const thisOp = thisIter.next(length3);
-          const otherOp = otherIter.next(length3);
+          const thisOp = thisIter.next(length2);
+          const otherOp = otherIter.next(length2);
           if (thisOp.delete) {
             continue;
           } else if (otherOp.delete) {
@@ -11758,7 +12527,7 @@ var wp;
           } else {
             const thisData = thisOp.retain;
             const otherData = otherOp.retain;
-            let transformedData = typeof otherData === "object" && otherData !== null ? otherData : length3;
+            let transformedData = typeof otherData === "object" && otherData !== null ? otherData : length2;
             if (typeof thisData === "object" && thisData !== null && typeof otherData === "object" && otherData !== null) {
               const embedType = Object.keys(thisData)[0];
               if (embedType === Object.keys(otherData)[0]) {
@@ -11792,16 +12561,16 @@ var wp;
       const thisIter = new Iterator(this.ops);
       let offset = 0;
       while (thisIter.hasNext() && offset <= index) {
-        const length3 = thisIter.peekLength();
+        const length2 = thisIter.peekLength();
         const nextType = thisIter.peekType();
         thisIter.next();
         if (nextType === "delete") {
-          index -= Math.min(length3, index - offset);
+          index -= Math.min(length2, index - offset);
           continue;
         } else if (nextType === "insert" && (offset < index || !priority)) {
-          index += length3;
+          index += length2;
         }
-        offset += length3;
+        offset += length2;
       }
       return index;
     }
@@ -12026,21 +12795,21 @@ var wp;
     convertChangesToDelta(changes, thisIter, otherIter) {
       const retDelta = new _Delta();
       changes.forEach((component) => {
-        let length3 = component.count ?? 0;
-        while (length3 > 0) {
+        let length2 = component.count ?? 0;
+        while (length2 > 0) {
           let opLength = 0;
           if (component.added) {
-            opLength = Math.min(otherIter.peekLength(), length3);
+            opLength = Math.min(otherIter.peekLength(), length2);
             retDelta.push(otherIter.next(opLength));
           } else if (component.removed) {
-            opLength = Math.min(length3, thisIter.peekLength());
+            opLength = Math.min(length2, thisIter.peekLength());
             thisIter.next(opLength);
             retDelta.delete(opLength);
           } else {
             opLength = Math.min(
               thisIter.peekLength(),
               otherIter.peekLength(),
-              length3
+              length2
             );
             const thisOp = thisIter.next(opLength);
             const otherOp = otherIter.next(opLength);
@@ -12056,7 +12825,7 @@ var wp;
               retDelta.push(otherOp).delete(opLength);
             }
           }
-          length3 -= opLength;
+          length2 -= opLength;
         }
       });
       return retDelta;

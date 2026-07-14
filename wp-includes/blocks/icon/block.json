@@ -11,6 +11,18 @@
 		"icon": {
 			"type": "string",
 			"role": "content"
+		},
+		"flipHorizontal": {
+			"type": "boolean",
+			"default": false
+		},
+		"flipVertical": {
+			"type": "boolean",
+			"default": false
+		},
+		"rotation": {
+			"type": "number",
+			"default": 0
 		}
 	},
 	"supports": {

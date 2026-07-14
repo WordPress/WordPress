@@ -94,24 +94,17 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/notices
-  var require_notices = __commonJS({
-    "package-external:@wordpress/notices"(exports, module) {
-      module.exports = window.wp.notices;
+  // vendor-external:react
+  var require_react = __commonJS({
+    "vendor-external:react"(exports, module) {
+      module.exports = window.React;
     }
   });
 
-  // package-external:@wordpress/compose
-  var require_compose = __commonJS({
-    "package-external:@wordpress/compose"(exports, module) {
-      module.exports = window.wp.compose;
-    }
-  });
-
-  // package-external:@wordpress/html-entities
-  var require_html_entities = __commonJS({
-    "package-external:@wordpress/html-entities"(exports, module) {
-      module.exports = window.wp.htmlEntities;
+  // package-external:@wordpress/a11y
+  var require_a11y = __commonJS({
+    "package-external:@wordpress/a11y"(exports, module) {
+      module.exports = window.wp.a11y;
     }
   });
 
@@ -122,17 +115,31 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/compose
+  var require_compose = __commonJS({
+    "package-external:@wordpress/compose"(exports, module) {
+      module.exports = window.wp.compose;
+    }
+  });
+
+  // package-external:@wordpress/notices
+  var require_notices = __commonJS({
+    "package-external:@wordpress/notices"(exports, module) {
+      module.exports = window.wp.notices;
+    }
+  });
+
+  // package-external:@wordpress/html-entities
+  var require_html_entities = __commonJS({
+    "package-external:@wordpress/html-entities"(exports, module) {
+      module.exports = window.wp.htmlEntities;
+    }
+  });
+
   // package-external:@wordpress/url
   var require_url = __commonJS({
     "package-external:@wordpress/url"(exports, module) {
       module.exports = window.wp.url;
-    }
-  });
-
-  // package-external:@wordpress/a11y
-  var require_a11y = __commonJS({
-    "package-external:@wordpress/a11y"(exports, module) {
-      module.exports = window.wp.a11y;
     }
   });
 
@@ -340,19 +347,729 @@ var wp;
 
   // packages/patterns/build-module/components/create-pattern-modal.mjs
   var import_components3 = __toESM(require_components(), 1);
+
+  // node_modules/clsx/dist/clsx.mjs
+  function r(e) {
+    var t, f, n = "";
+    if ("string" == typeof e || "number" == typeof e) n += e;
+    else if ("object" == typeof e) if (Array.isArray(e)) {
+      var o = e.length;
+      for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+    } else for (f in e) e[f] && (n && (n += " "), n += f);
+    return n;
+  }
+  function clsx() {
+    for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+    return n;
+  }
+  var clsx_default = clsx;
+
+  // node_modules/@base-ui/utils/useRefWithInit.mjs
+  var React = __toESM(require_react(), 1);
+  var UNINITIALIZED = {};
+  function useRefWithInit(init, initArg) {
+    const ref = React.useRef(UNINITIALIZED);
+    if (ref.current === UNINITIALIZED) {
+      ref.current = init(initArg);
+    }
+    return ref;
+  }
+
+  // node_modules/@base-ui/utils/warn.mjs
+  var set;
+  if (true) {
+    set = /* @__PURE__ */ new Set();
+  }
+  function warn(...messages) {
+    if (true) {
+      const messageKey = messages.join(" ");
+      if (!set.has(messageKey)) {
+        set.add(messageKey);
+        console.warn(`Base UI: ${messageKey}`);
+      }
+    }
+  }
+
+  // node_modules/@base-ui/react/internals/useRenderElement.mjs
+  var React4 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/useMergedRefs.mjs
+  function useMergedRefs(a, b, c, d) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChange(forkRef, a, b, c, d)) {
+      update(forkRef, [a, b, c, d]);
+    }
+    return forkRef.callback;
+  }
+  function useMergedRefsN(refs) {
+    const forkRef = useRefWithInit(createForkRef).current;
+    if (didChangeN(forkRef, refs)) {
+      update(forkRef, refs);
+    }
+    return forkRef.callback;
+  }
+  function createForkRef() {
+    return {
+      callback: null,
+      cleanup: null,
+      refs: []
+    };
+  }
+  function didChange(forkRef, a, b, c, d) {
+    return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c || forkRef.refs[3] !== d;
+  }
+  function didChangeN(forkRef, newRefs) {
+    return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index) => ref !== newRefs[index]);
+  }
+  function update(forkRef, refs) {
+    forkRef.refs = refs;
+    if (refs.every((ref) => ref == null)) {
+      forkRef.callback = null;
+      return;
+    }
+    forkRef.callback = (instance) => {
+      if (forkRef.cleanup) {
+        forkRef.cleanup();
+        forkRef.cleanup = null;
+      }
+      if (instance != null) {
+        const cleanupCallbacks = Array(refs.length).fill(null);
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
+          if (ref == null) {
+            continue;
+          }
+          switch (typeof ref) {
+            case "function": {
+              const refCleanup = ref(instance);
+              if (typeof refCleanup === "function") {
+                cleanupCallbacks[i] = refCleanup;
+              }
+              break;
+            }
+            case "object": {
+              ref.current = instance;
+              break;
+            }
+            default:
+          }
+        }
+        forkRef.cleanup = () => {
+          for (let i = 0; i < refs.length; i += 1) {
+            const ref = refs[i];
+            if (ref == null) {
+              continue;
+            }
+            switch (typeof ref) {
+              case "function": {
+                const cleanupCallback = cleanupCallbacks[i];
+                if (typeof cleanupCallback === "function") {
+                  cleanupCallback();
+                } else {
+                  ref(null);
+                }
+                break;
+              }
+              case "object": {
+                ref.current = null;
+                break;
+              }
+              default:
+            }
+          }
+        };
+      }
+    };
+  }
+
+  // node_modules/@base-ui/utils/getReactElementRef.mjs
+  var React3 = __toESM(require_react(), 1);
+
+  // node_modules/@base-ui/utils/reactVersion.mjs
+  var React2 = __toESM(require_react(), 1);
+  var majorVersion = parseInt(React2.version, 10);
+  function isReactVersionAtLeast(reactVersionToCheck) {
+    return majorVersion >= reactVersionToCheck;
+  }
+
+  // node_modules/@base-ui/utils/getReactElementRef.mjs
+  function getReactElementRef(element) {
+    if (!/* @__PURE__ */ React3.isValidElement(element)) {
+      return null;
+    }
+    const reactElement = element;
+    const propsWithRef = reactElement.props;
+    return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+  }
+
+  // node_modules/@base-ui/utils/mergeObjects.mjs
+  function mergeObjects(a, b) {
+    if (a && !b) {
+      return a;
+    }
+    if (!a && b) {
+      return b;
+    }
+    if (a || b) {
+      return {
+        ...a,
+        ...b
+      };
+    }
+    return void 0;
+  }
+
+  // node_modules/@base-ui/utils/empty.mjs
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
+
+  // node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
+  function getStateAttributesProps(state, customMapping) {
+    const props = {};
+    for (const key in state) {
+      const value = state[key];
+      if (customMapping?.hasOwnProperty(key)) {
+        const customProps = customMapping[key](value);
+        if (customProps != null) {
+          Object.assign(props, customProps);
+        }
+        continue;
+      }
+      if (value === true) {
+        props[`data-${key.toLowerCase()}`] = "";
+      } else if (value) {
+        props[`data-${key.toLowerCase()}`] = value.toString();
+      }
+    }
+    return props;
+  }
+
+  // node_modules/@base-ui/react/utils/resolveClassName.mjs
+  function resolveClassName(className, state) {
+    return typeof className === "function" ? className(state) : className;
+  }
+
+  // node_modules/@base-ui/react/utils/resolveStyle.mjs
+  function resolveStyle(style, state) {
+    return typeof style === "function" ? style(state) : style;
+  }
+
+  // node_modules/@base-ui/react/merge-props/mergeProps.mjs
+  var EMPTY_PROPS = {};
+  function mergeProps(a, b, c, d, e) {
+    if (!c && !d && !e && !a) {
+      return createInitialMergedProps(b);
+    }
+    let merged = createInitialMergedProps(a);
+    if (b) {
+      merged = mergeInto(merged, b);
+    }
+    if (c) {
+      merged = mergeInto(merged, c);
+    }
+    if (d) {
+      merged = mergeInto(merged, d);
+    }
+    if (e) {
+      merged = mergeInto(merged, e);
+    }
+    return merged;
+  }
+  function mergePropsN(props) {
+    if (props.length === 0) {
+      return EMPTY_PROPS;
+    }
+    if (props.length === 1) {
+      return createInitialMergedProps(props[0]);
+    }
+    let merged = createInitialMergedProps(props[0]);
+    for (let i = 1; i < props.length; i += 1) {
+      merged = mergeInto(merged, props[i]);
+    }
+    return merged;
+  }
+  function createInitialMergedProps(inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return {
+        ...resolvePropsGetter(inputProps, EMPTY_PROPS)
+      };
+    }
+    return copyInitialProps(inputProps);
+  }
+  function mergeInto(merged, inputProps) {
+    if (isPropsGetter(inputProps)) {
+      return resolvePropsGetter(inputProps, merged);
+    }
+    return mutablyMergeInto(merged, inputProps);
+  }
+  function copyInitialProps(inputProps) {
+    const copiedProps = {
+      ...inputProps
+    };
+    for (const propName in copiedProps) {
+      const propValue = copiedProps[propName];
+      if (isEventHandler(propName, propValue)) {
+        copiedProps[propName] = wrapEventHandler(propValue);
+      }
+    }
+    return copiedProps;
+  }
+  function mutablyMergeInto(mergedProps, externalProps) {
+    if (!externalProps) {
+      return mergedProps;
+    }
+    for (const propName in externalProps) {
+      const externalPropValue = externalProps[propName];
+      switch (propName) {
+        case "style": {
+          mergedProps[propName] = mergeObjects(mergedProps.style, externalPropValue);
+          break;
+        }
+        case "className": {
+          mergedProps[propName] = mergeClassNames(mergedProps.className, externalPropValue);
+          break;
+        }
+        default: {
+          if (isEventHandler(propName, externalPropValue)) {
+            mergedProps[propName] = mergeEventHandlers(mergedProps[propName], externalPropValue);
+          } else {
+            mergedProps[propName] = externalPropValue;
+          }
+        }
+      }
+    }
+    return mergedProps;
+  }
+  function isEventHandler(key, value) {
+    const code0 = key.charCodeAt(0);
+    const code1 = key.charCodeAt(1);
+    const code2 = key.charCodeAt(2);
+    return code0 === 111 && code1 === 110 && code2 >= 65 && code2 <= 90 && (typeof value === "function" || typeof value === "undefined");
+  }
+  function isPropsGetter(inputProps) {
+    return typeof inputProps === "function";
+  }
+  function resolvePropsGetter(inputProps, previousProps) {
+    if (isPropsGetter(inputProps)) {
+      return inputProps(previousProps);
+    }
+    return inputProps ?? EMPTY_PROPS;
+  }
+  function mergeEventHandlers(ourHandler, theirHandler) {
+    if (!theirHandler) {
+      return ourHandler;
+    }
+    if (!ourHandler) {
+      return wrapEventHandler(theirHandler);
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        const baseUIEvent = event;
+        makeEventPreventable(baseUIEvent);
+        const result2 = theirHandler(...args);
+        if (!baseUIEvent.baseUIHandlerPrevented) {
+          ourHandler?.(...args);
+        }
+        return result2;
+      }
+      const result = theirHandler(...args);
+      ourHandler?.(...args);
+      return result;
+    };
+  }
+  function wrapEventHandler(handler) {
+    if (!handler) {
+      return handler;
+    }
+    return (...args) => {
+      const event = args[0];
+      if (isSyntheticEvent(event)) {
+        makeEventPreventable(event);
+      }
+      return handler(...args);
+    };
+  }
+  function makeEventPreventable(event) {
+    event.preventBaseUIHandler = () => {
+      event.baseUIHandlerPrevented = true;
+    };
+    return event;
+  }
+  function mergeClassNames(ourClassName, theirClassName) {
+    if (theirClassName) {
+      if (ourClassName) {
+        return theirClassName + " " + ourClassName;
+      }
+      return theirClassName;
+    }
+    return ourClassName;
+  }
+  function isSyntheticEvent(event) {
+    return event != null && typeof event === "object" && "nativeEvent" in event;
+  }
+
+  // node_modules/@base-ui/react/internals/useRenderElement.mjs
+  var import_react = __toESM(require_react(), 1);
+  function useRenderElement(element, componentProps, params = {}) {
+    const renderProp = componentProps.render;
+    const outProps = useRenderElementProps(componentProps, params);
+    if (params.enabled === false) {
+      return null;
+    }
+    const state = params.state ?? EMPTY_OBJECT;
+    return evaluateRenderProp(element, renderProp, outProps, state);
+  }
+  function useRenderElementProps(componentProps, params = {}) {
+    const {
+      className: classNameProp,
+      style: styleProp,
+      render: renderProp
+    } = componentProps;
+    const {
+      state = EMPTY_OBJECT,
+      ref,
+      props,
+      stateAttributesMapping,
+      enabled = true
+    } = params;
+    const className = enabled ? resolveClassName(classNameProp, state) : void 0;
+    const style = enabled ? resolveStyle(styleProp, state) : void 0;
+    const stateProps = enabled ? getStateAttributesProps(state, stateAttributesMapping) : EMPTY_OBJECT;
+    const resolvedProps = enabled && props ? resolveRenderFunctionProps(props) : void 0;
+    const outProps = enabled ? mergeObjects(stateProps, resolvedProps) ?? {} : EMPTY_OBJECT;
+    if (typeof document !== "undefined") {
+      if (!enabled) {
+        useMergedRefs(null, null);
+      } else if (Array.isArray(ref)) {
+        outProps.ref = useMergedRefsN([outProps.ref, getReactElementRef(renderProp), ...ref]);
+      } else {
+        outProps.ref = useMergedRefs(outProps.ref, getReactElementRef(renderProp), ref);
+      }
+    }
+    if (!enabled) {
+      return EMPTY_OBJECT;
+    }
+    if (className !== void 0) {
+      outProps.className = mergeClassNames(outProps.className, className);
+    }
+    if (style !== void 0) {
+      outProps.style = mergeObjects(outProps.style, style);
+    }
+    return outProps;
+  }
+  function resolveRenderFunctionProps(props) {
+    if (Array.isArray(props)) {
+      return mergePropsN(props);
+    }
+    return mergeProps(void 0, props);
+  }
+  var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+  var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
+  var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+  function evaluateRenderProp(element, render, props, state) {
+    if (render) {
+      if (typeof render === "function") {
+        if (true) {
+          warnIfRenderPropLooksLikeComponent(render);
+        }
+        return render(props, state);
+      }
+      const mergedProps = mergeProps(props, render.props);
+      mergedProps.ref = props.ref;
+      let newElement = render;
+      if (newElement?.$$typeof === REACT_LAZY_TYPE) {
+        const children = React4.Children.toArray(render);
+        newElement = children[0];
+      }
+      if (true) {
+        if (!/* @__PURE__ */ React4.isValidElement(newElement)) {
+          throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
+        }
+      }
+      return /* @__PURE__ */ React4.cloneElement(newElement, mergedProps);
+    }
+    if (element) {
+      if (typeof element === "string") {
+        return renderTag(element, props);
+      }
+    }
+    throw new Error(true ? "Base UI: Render element or function are not defined." : formatErrorMessage_default(8));
+  }
+  function warnIfRenderPropLooksLikeComponent(renderFn) {
+    const functionName = renderFn.name;
+    if (functionName.length === 0) {
+      return;
+    }
+    if (!COMPONENT_IDENTIFIER_PATTERN.test(functionName)) {
+      return;
+    }
+    if (!LOWERCASE_CHARACTER_PATTERN.test(functionName)) {
+      return;
+    }
+    warn(`The \`render\` prop received a function named \`${functionName}\` that starts with an uppercase letter.`, "This usually means a React component was passed directly as `render={Component}`.", "Base UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.", "If this is an intentional render callback, rename it to start with a lowercase letter.", "Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.", "https://base-ui.com/r/invalid-render-prop");
+  }
+  function renderTag(Tag, props) {
+    if (Tag === "button") {
+      return /* @__PURE__ */ (0, import_react.createElement)("button", {
+        type: "button",
+        ...props,
+        key: props.key
+      });
+    }
+    if (Tag === "img") {
+      return /* @__PURE__ */ (0, import_react.createElement)("img", {
+        alt: "",
+        ...props,
+        key: props.key
+      });
+    }
+    return /* @__PURE__ */ React4.createElement(Tag, props);
+  }
+
+  // node_modules/@base-ui/react/use-render/useRender.mjs
+  function useRender(params) {
+    return useRenderElement(params.defaultTagName ?? "div", params, params);
+  }
+
+  // packages/ui/build-module/text/text.mjs
+  var import_element2 = __toESM(require_element(), 1);
+  var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
+  function getRuntime() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash(targetDocument, hash) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style of targetDocument.head.querySelectorAll(
+      `style[${STYLE_HASH_ATTRIBUTE}]`
+    )) {
+      if (style.getAttribute(STYLE_HASH_ATTRIBUTE) === hash) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle(targetDocument, hash, css) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash)) {
+      return;
+    }
+    if (documentContainsStyleHash(targetDocument, hash)) {
+      injectedStyles.add(hash);
+      return;
+    }
+    const style = targetDocument.createElement("style");
+    style.setAttribute(STYLE_HASH_ATTRIBUTE, hash);
+    style.appendChild(targetDocument.createTextNode(css));
+    targetDocument.head.appendChild(style);
+    injectedStyles.add(hash);
+  }
+  function registerDocument(targetDocument) {
+    const runtime = getRuntime();
+    runtime.documents.set(
+      targetDocument,
+      (runtime.documents.get(targetDocument) ?? 0) + 1
+    );
+    for (const [hash, css] of runtime.styles) {
+      injectStyle(targetDocument, hash, css);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
+  function registerStyle(hash, css) {
+    const runtime = getRuntime();
+    runtime.styles.set(hash, css);
+    for (const targetDocument of runtime.documents.keys()) {
+      injectStyle(targetDocument, hash, css);
+    }
+  }
+  if (typeof process === "undefined" || true) {
+    registerStyle("0c5702ddca", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._83ed8a8da5dd50ea__text{margin:0}._14437cfb77831647__heading-2xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-2xl,32px);--_gcd-p-line-height:var(--wpds-typography-line-height-2xl,40px);font-size:var(--wpds-typography-font-size-2xl,32px);line-height:var(--wpds-typography-line-height-2xl,40px)}._14437cfb77831647__heading-2xl,._3c78b7fa9b4072dd__heading-xl{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499)}._3c78b7fa9b4072dd__heading-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-md,24px)}.aa58f227716bcde2__heading-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-lg,15px)}.aa58f227716bcde2__heading-lg,.fc4da56d8dfe52c4__heading-md{font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-sm,20px)}.fc4da56d8dfe52c4__heading-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px)}.a9b78c7c82e8dff7__heading-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-medium,499);--_gcd-p-font-size:var(--wpds-typography-font-size-xs,11px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-family:var(--wpds-typography-font-family-heading,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-xs,11px);font-weight:var(--wpds-typography-font-weight-medium,499);line-height:var(--wpds-typography-line-height-xs,16px);text-transform:uppercase}._305ff559e52180d5__body-xl{--_gcd-heading-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-xl,20px);--_gcd-p-line-height:var(--wpds-typography-line-height-xl,32px);font-size:var(--wpds-typography-font-size-xl,20px);line-height:var(--wpds-typography-line-height-xl,32px)}._305ff559e52180d5__body-xl,.ca1aa3fc2029e958__body-lg{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}.ca1aa3fc2029e958__body-lg{--_gcd-heading-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-lg,15px);--_gcd-p-line-height:var(--wpds-typography-line-height-md,24px);font-size:var(--wpds-typography-font-size-lg,15px);line-height:var(--wpds-typography-line-height-md,24px)}._131101940be12424__body-md{--_gcd-heading-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-md,13px);--_gcd-p-line-height:var(--wpds-typography-line-height-sm,20px);font-size:var(--wpds-typography-font-size-md,13px);line-height:var(--wpds-typography-line-height-sm,20px)}._0e8d87a42c1f75fa__body-sm,._131101940be12424__body-md{font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-weight:var(--wpds-typography-font-weight-regular,400)}._0e8d87a42c1f75fa__body-sm{--_gcd-heading-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-heading-font-weight:var(--wpds-typography-font-weight-regular,400);--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);font-size:var(--wpds-typography-font-size-sm,12px);line-height:var(--wpds-typography-line-height-xs,16px)}}}');
+  }
+  var style_default = { "text": "_83ed8a8da5dd50ea__text", "heading-2xl": "_14437cfb77831647__heading-2xl", "heading-xl": "_3c78b7fa9b4072dd__heading-xl", "heading-lg": "aa58f227716bcde2__heading-lg", "heading-md": "fc4da56d8dfe52c4__heading-md", "heading-sm": "a9b78c7c82e8dff7__heading-sm", "body-xl": "_305ff559e52180d5__body-xl", "body-lg": "ca1aa3fc2029e958__body-lg", "body-md": "_131101940be12424__body-md", "body-sm": "_0e8d87a42c1f75fa__body-sm" };
+  if (typeof process === "undefined" || true) {
+    registerStyle("d390e935a7", "._6defc79820e382c6__button{box-sizing:var(--_gcd-button-box-sizing,border-box);font-family:var(--_gcd-button-font-family,inherit);font-size:var(--_gcd-button-font-size,inherit);font-weight:var(--_gcd-button-font-weight,inherit)}.d2cff2e5dea83bd1__input{box-sizing:var(--_gcd-input-box-sizing,border-box);font-family:var(--_gcd-input-font-family,inherit);font-size:var(--_gcd-input-font-size,inherit);font-weight:var(--_gcd-input-font-weight,inherit);margin:var(--_gcd-input-margin,0);&:is(textarea,[type=text],[type=password],[type=color],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){background-color:var(--_gcd-input-background-color,transparent);border:var(--_gcd-input-border,none);border-radius:var(--_gcd-input-border-radius,0);box-shadow:var(--_gcd-input-box-shadow,0 0 0 transparent);color:var(--_gcd-input-color,var(--wpds-color-foreground-interactive-neutral,#1e1e1e));&:focus{border-color:var(--_gcd-input-border-color-focus,var(--wp-admin-theme-color));box-shadow:var(--_gcd-input-box-shadow-focus,none);outline:var(--_gcd-input-outline-focus,none)}&:disabled{background:var(--_gcd-input-background-disabled,transparent);border-color:var(--_gcd-input-border-color-disabled,transparent);box-shadow:var(--_gcd-input-box-shadow-disabled,none);color:var(--_gcd-input-color-disabled,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}&::placeholder{color:var(--_gcd-input-placeholder-color,var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d))}}&:is(textarea,[type=text],[type=password],[type=date],[type=datetime],[type=datetime-local],[type=email],[type=month],[type=number],[type=search],[type=tel],[type=time],[type=url],[type=week]){line-height:var(--_gcd-input-line-height,inherit);min-height:var(--_gcd-input-min-height,auto);padding:var(--_gcd-input-padding,0)}}._547d86373d02e108__textarea{box-sizing:var(--_gcd-textarea-box-sizing,border-box);overflow:var(--_gcd-textarea-overflow,auto);resize:var(--_gcd-textarea-resize,block)}._8c15fd0ed9f28ba4__div{outline:var(--_gcd-div-outline,0 solid transparent)}p._43cec3e1eec1066d__p{font-size:var(--_gcd-p-font-size,13px);line-height:var(--_gcd-p-line-height,1.5);margin:var(--_gcd-p-margin,0)}:is(h1,h2,h3,h4,h5,h6).e97669c6d9a38497__heading{color:var(--_gcd-heading-color,var(--wpds-color-foreground-content-neutral,#1e1e1e));font-size:var(--_gcd-heading-font-size,inherit);font-weight:var(--_gcd-heading-font-weight,var(--wpds-typography-font-weight-medium,499));margin:var(--_gcd-heading-margin,0)}._2c0831b0499dbd6e__a,._2c0831b0499dbd6e__a:is(:hover,:focus,:active){border-radius:var(--_gcd-a-border-radius,0);box-shadow:var(--_gcd-a-box-shadow,none);color:var(--_gcd-a-color,inherit);outline:var(--_gcd-a-outline,0 solid transparent);transition:var(--_gcd-a-transition,none)}");
+  }
+  var global_css_defense_default = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
+  var Text = (0, import_element2.forwardRef)(function Text2({ variant = "body-md", render, className, ...props }, ref) {
+    const element = useRender({
+      render,
+      defaultTagName: "span",
+      ref,
+      props: mergeProps(props, {
+        className: clsx_default(
+          style_default.text,
+          global_css_defense_default.heading,
+          global_css_defense_default.p,
+          style_default[variant],
+          className
+        )
+      })
+    });
+    return element;
+  });
+
+  // packages/icons/build-module/library/symbol.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var symbol_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-1 1.4l-5.6 5.6c-.1.1-.3.1-.4 0l-5.6-5.6c-.1-.1-.1-.3 0-.4l5.6-5.6s.1-.1.2-.1.1 0 .2.1l5.6 5.6c.1.1.1.3 0 .4zm-16.6-.4L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z" }) });
+
+  // packages/ui/build-module/stack/stack.mjs
+  var import_element3 = __toESM(require_element(), 1);
+  var STYLE_HASH_ATTRIBUTE2 = "data-wp-hash";
+  function getRuntime2() {
+    const globalScope = globalThis;
+    if (globalScope.__wpStyleRuntime) {
+      return globalScope.__wpStyleRuntime;
+    }
+    globalScope.__wpStyleRuntime = {
+      documents: /* @__PURE__ */ new Map(),
+      styles: /* @__PURE__ */ new Map(),
+      injectedStyles: /* @__PURE__ */ new WeakMap()
+    };
+    if (typeof document !== "undefined") {
+      registerDocument2(document);
+    }
+    return globalScope.__wpStyleRuntime;
+  }
+  function documentContainsStyleHash2(targetDocument, hash) {
+    if (!targetDocument.head) {
+      return false;
+    }
+    for (const style of targetDocument.head.querySelectorAll(
+      `style[${STYLE_HASH_ATTRIBUTE2}]`
+    )) {
+      if (style.getAttribute(STYLE_HASH_ATTRIBUTE2) === hash) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function injectStyle2(targetDocument, hash, css) {
+    if (!targetDocument.head) {
+      return;
+    }
+    const runtime = getRuntime2();
+    let injectedStyles = runtime.injectedStyles.get(targetDocument);
+    if (!injectedStyles) {
+      injectedStyles = /* @__PURE__ */ new Set();
+      runtime.injectedStyles.set(targetDocument, injectedStyles);
+    }
+    if (injectedStyles.has(hash)) {
+      return;
+    }
+    if (documentContainsStyleHash2(targetDocument, hash)) {
+      injectedStyles.add(hash);
+      return;
+    }
+    const style = targetDocument.createElement("style");
+    style.setAttribute(STYLE_HASH_ATTRIBUTE2, hash);
+    style.appendChild(targetDocument.createTextNode(css));
+    targetDocument.head.appendChild(style);
+    injectedStyles.add(hash);
+  }
+  function registerDocument2(targetDocument) {
+    const runtime = getRuntime2();
+    runtime.documents.set(
+      targetDocument,
+      (runtime.documents.get(targetDocument) ?? 0) + 1
+    );
+    for (const [hash, css] of runtime.styles) {
+      injectStyle2(targetDocument, hash, css);
+    }
+    return () => {
+      const count = runtime.documents.get(targetDocument);
+      if (count === void 0) {
+        return;
+      }
+      if (count <= 1) {
+        runtime.documents.delete(targetDocument);
+        return;
+      }
+      runtime.documents.set(targetDocument, count - 1);
+    };
+  }
+  function registerStyle2(hash, css) {
+    const runtime = getRuntime2();
+    runtime.styles.set(hash, css);
+    for (const targetDocument of runtime.documents.keys()) {
+      injectStyle2(targetDocument, hash, css);
+    }
+  }
+  if (typeof process === "undefined" || true) {
+    registerStyle2("32aba35fe1", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._19ce0419607e1896__stack{display:flex}}}");
+  }
+  var style_default2 = { "stack": "_19ce0419607e1896__stack" };
+  var gapTokens = {
+    xs: "var(--wpds-dimension-gap-xs, 4px)",
+    sm: "var(--wpds-dimension-gap-sm, 8px)",
+    md: "var(--wpds-dimension-gap-md, 12px)",
+    lg: "var(--wpds-dimension-gap-lg, 16px)",
+    xl: "var(--wpds-dimension-gap-xl, 24px)",
+    "2xl": "var(--wpds-dimension-gap-2xl, 32px)",
+    "3xl": "var(--wpds-dimension-gap-3xl, 40px)"
+  };
+  var Stack = (0, import_element3.forwardRef)(function Stack2({ direction, gap, align, justify, wrap, render, ...props }, ref) {
+    const style = {
+      gap: gap && gapTokens[gap],
+      alignItems: align,
+      justifyContent: justify,
+      flexDirection: direction,
+      flexWrap: wrap
+    };
+    const element = useRender({
+      render,
+      ref,
+      props: mergeProps(props, { style, className: style_default2.stack })
+    });
+    return element;
+  });
+
+  // packages/patterns/build-module/components/create-pattern-modal.mjs
   var import_i18n3 = __toESM(require_i18n(), 1);
-  var import_element4 = __toESM(require_element(), 1);
+  var import_element6 = __toESM(require_element(), 1);
   var import_data5 = __toESM(require_data(), 1);
   var import_notices = __toESM(require_notices(), 1);
   var import_core_data3 = __toESM(require_core_data(), 1);
 
   // packages/patterns/build-module/components/category-selector.mjs
   var import_i18n2 = __toESM(require_i18n(), 1);
-  var import_element2 = __toESM(require_element(), 1);
+  var import_element4 = __toESM(require_element(), 1);
   var import_components2 = __toESM(require_components(), 1);
   var import_compose = __toESM(require_compose(), 1);
   var import_html_entities = __toESM(require_html_entities(), 1);
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var unescapeString = (arg) => {
     return (0, import_html_entities.decodeEntities)(arg);
   };
@@ -362,9 +1079,9 @@ var wp;
     onChange,
     categoryMap
   }) {
-    const [search, setSearch] = (0, import_element2.useState)("");
+    const [search, setSearch] = (0, import_element4.useState)("");
     const debouncedSearch = (0, import_compose.useDebounce)(setSearch, 500);
-    const suggestions = (0, import_element2.useMemo)(() => {
+    const suggestions = (0, import_element4.useMemo)(() => {
       return Array.from(categoryMap.values()).map((category) => unescapeString(category.label)).filter((category) => {
         if (search !== "") {
           return category.toLowerCase().includes(search.toLowerCase());
@@ -383,7 +1100,7 @@ var wp;
       }, []);
       onChange(uniqueTerms);
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
       import_components2.FormTokenField,
       {
         className: "patterns-menu-items__convert-modal-categories",
@@ -402,7 +1119,7 @@ var wp;
   // packages/patterns/build-module/private-hooks.mjs
   var import_data4 = __toESM(require_data(), 1);
   var import_core_data2 = __toESM(require_core_data(), 1);
-  var import_element3 = __toESM(require_element(), 1);
+  var import_element5 = __toESM(require_element(), 1);
   function useAddPatternCategory() {
     const { saveEntityRecord, invalidateResolution } = (0, import_data4.useDispatch)(import_core_data2.store);
     const { corePatternCategories, userPatternCategories } = (0, import_data4.useSelect)(
@@ -415,7 +1132,7 @@ var wp;
       },
       []
     );
-    const categoryMap = (0, import_element3.useMemo)(() => {
+    const categoryMap = (0, import_element5.useMemo)(() => {
       const uniqueCategories = /* @__PURE__ */ new Map();
       userPatternCategories.forEach((category) => {
         uniqueCategories.set(category.label.toLowerCase(), {
@@ -462,7 +1179,7 @@ var wp;
   }
 
   // packages/patterns/build-module/components/create-pattern-modal.mjs
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   function CreatePatternModal({
     className = "patterns-menu-items__convert-modal",
     modalTitle,
@@ -472,7 +1189,7 @@ var wp;
       (select) => select(import_core_data3.store).getPostType(PATTERN_TYPES.user)?.labels?.add_new_item,
       []
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       import_components3.Modal,
       {
         title: modalTitle || defaultModalTitle,
@@ -480,7 +1197,7 @@ var wp;
         overlayClassName: className,
         focusOnMount: "firstContentElement",
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(CreatePatternModalContents, { ...restProps })
+        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(CreatePatternModalContents, { ...restProps })
       }
     );
   }
@@ -494,10 +1211,10 @@ var wp;
     defaultSyncType = PATTERN_SYNC_TYPES.full,
     defaultTitle = ""
   }) {
-    const [syncType, setSyncType] = (0, import_element4.useState)(defaultSyncType);
-    const [categoryTerms, setCategoryTerms] = (0, import_element4.useState)(defaultCategories);
-    const [title, setTitle] = (0, import_element4.useState)(defaultTitle);
-    const [isSaving, setIsSaving] = (0, import_element4.useState)(false);
+    const [syncType, setSyncType] = (0, import_element6.useState)(defaultSyncType);
+    const [categoryTerms, setCategoryTerms] = (0, import_element6.useState)(defaultCategories);
+    const [title, setTitle] = (0, import_element6.useState)(defaultTitle);
+    const [isSaving, setIsSaving] = (0, import_element6.useState)(false);
     const { createPattern: createPattern2 } = unlock((0, import_data5.useDispatch)(store));
     const { createErrorNotice } = (0, import_data5.useDispatch)(import_notices.store);
     const { categoryMap, findOrCreateTerm } = useAddPatternCategory();
@@ -534,26 +1251,25 @@ var wp;
         setTitle("");
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       "form",
       {
         onSubmit: (event) => {
           event.preventDefault();
           onCreate(title, syncType);
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_components3.__experimentalVStack, { spacing: "5", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
             import_components3.TextControl,
             {
               label: (0, import_i18n3.__)("Name"),
               value: title,
               onChange: setTitle,
               placeholder: (0, import_i18n3.__)("My pattern"),
-              className: "patterns-create-modal__name-input",
-              __next40pxDefaultSize: true
+              className: "patterns-create-modal__name-input"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
             CategorySelector,
             {
               categoryTerms,
@@ -561,7 +1277,7 @@ var wp;
               categoryMap
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
             import_components3.ToggleControl,
             {
               label: (0, import_i18n3._x)("Synced", "pattern (singular)"),
@@ -576,8 +1292,8 @@ var wp;
               }
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_components3.__experimentalHStack, { justify: "right", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
               import_components3.Button,
               {
                 __next40pxDefaultSize: true,
@@ -589,7 +1305,7 @@ var wp;
                 children: (0, import_i18n3.__)("Cancel")
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
               import_components3.Button,
               {
                 __next40pxDefaultSize: true,
@@ -611,7 +1327,7 @@ var wp;
   var import_data6 = __toESM(require_data(), 1);
   var import_i18n4 = __toESM(require_i18n(), 1);
   var import_notices2 = __toESM(require_notices(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   function getTermLabels(pattern, categories) {
     if (pattern.type !== PATTERN_TYPES.user) {
       return categories.core?.filter(
@@ -668,7 +1384,7 @@ var wp;
     if (!pattern) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       CreatePatternModal,
       {
         modalTitle: (0, import_i18n4.__)("Duplicate pattern"),
@@ -684,11 +1400,11 @@ var wp;
   var import_components4 = __toESM(require_components(), 1);
   var import_core_data5 = __toESM(require_core_data(), 1);
   var import_data7 = __toESM(require_data(), 1);
-  var import_element5 = __toESM(require_element(), 1);
+  var import_element7 = __toESM(require_element(), 1);
   var import_html_entities2 = __toESM(require_html_entities(), 1);
   var import_i18n5 = __toESM(require_i18n(), 1);
   var import_notices3 = __toESM(require_notices(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   function RenamePatternModal({
     onClose,
     onError,
@@ -697,8 +1413,8 @@ var wp;
     ...props
   }) {
     const originalName = (0, import_html_entities2.decodeEntities)(pattern.title);
-    const [name, setName] = (0, import_element5.useState)(originalName);
-    const [isSaving, setIsSaving] = (0, import_element5.useState)(false);
+    const [name, setName] = (0, import_element7.useState)(originalName);
+    const [isSaving, setIsSaving] = (0, import_element7.useState)(false);
     const {
       editEntityRecord,
       __experimentalSaveSpecifiedEntityEdits: saveSpecifiedEntityEdits
@@ -744,7 +1460,7 @@ var wp;
       onClose?.();
       setName("");
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       import_components4.Modal,
       {
         title: (0, import_i18n5.__)("Rename"),
@@ -752,19 +1468,18 @@ var wp;
         onRequestClose: onClose,
         focusOnMount: "firstContentElement",
         size: "small",
-        children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("form", { onSubmit: onRename, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_components4.__experimentalVStack, { spacing: "5", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("form", { onSubmit: onRename, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
             import_components4.TextControl,
             {
-              __next40pxDefaultSize: true,
               label: (0, import_i18n5.__)("Name"),
               value: name,
               onChange: setName,
               required: true
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_components4.__experimentalHStack, { justify: "right", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Stack, { gap: "sm", justify: "end", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
               import_components4.Button,
               {
                 __next40pxDefaultSize: true,
@@ -773,7 +1488,7 @@ var wp;
                 children: (0, import_i18n5.__)("Cancel")
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
               import_components4.Button,
               {
                 __next40pxDefaultSize: true,
@@ -794,15 +1509,8 @@ var wp;
   // packages/patterns/build-module/components/pattern-convert-button.mjs
   var import_blocks2 = __toESM(require_blocks(), 1);
   var import_block_editor3 = __toESM(require_block_editor(), 1);
-  var import_element6 = __toESM(require_element(), 1);
+  var import_element8 = __toESM(require_element(), 1);
   var import_components5 = __toESM(require_components(), 1);
-
-  // packages/icons/build-module/library/symbol.mjs
-  var import_primitives = __toESM(require_primitives(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var symbol_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives.Path, { d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-1 1.4l-5.6 5.6c-.1.1-.3.1-.4 0l-5.6-5.6c-.1-.1-.1-.3 0-.4l5.6-5.6s.1-.1.2-.1.1 0 .2.1l5.6 5.6c.1.1.1.3 0 .4zm-16.6-.4L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z" }) });
-
-  // packages/patterns/build-module/components/pattern-convert-button.mjs
   var import_data8 = __toESM(require_data(), 1);
   var import_core_data6 = __toESM(require_core_data(), 1);
   var import_i18n6 = __toESM(require_i18n(), 1);
@@ -816,7 +1524,7 @@ var wp;
     const { createSuccessNotice } = (0, import_data8.useDispatch)(import_notices4.store);
     const { replaceBlocks, updateBlockAttributes } = (0, import_data8.useDispatch)(import_block_editor3.store);
     const { setEditingPattern: setEditingPattern2 } = unlock((0, import_data8.useDispatch)(store));
-    const [isModalOpen, setIsModalOpen] = (0, import_element6.useState)(false);
+    const [isModalOpen, setIsModalOpen] = (0, import_element8.useState)(false);
     const { getBlockAttributes } = (0, import_data8.useSelect)(import_block_editor3.store);
     const canConvert = (0, import_data8.useSelect)(
       (select) => {
@@ -861,7 +1569,7 @@ var wp;
       [clientIds, rootClientId]
     );
     const { getBlocksByClientId } = (0, import_data8.useSelect)(import_block_editor3.store);
-    const getContent = (0, import_element6.useCallback)(
+    const getContent = (0, import_element8.useCallback)(
       () => (0, import_blocks2.serialize)(getBlocksByClientId(clientIds)),
       [getBlocksByClientId, clientIds]
     );
@@ -939,13 +1647,13 @@ var wp;
   var import_i18n7 = __toESM(require_i18n(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data9 = __toESM(require_data(), 1);
-  var import_element7 = __toESM(require_element(), 1);
+  var import_element9 = __toESM(require_element(), 1);
   var import_block_editor4 = __toESM(require_block_editor(), 1);
   var import_url = __toESM(require_url(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function PatternsManageButton({ clientId, onClose }) {
-    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element7.useState)(false);
+    const [showConfirmDialog, setShowConfirmDialog] = (0, import_element9.useState)(false);
     const {
       attributes,
       canDetach,
@@ -1062,7 +1770,7 @@ var wp;
   var import_components7 = __toESM(require_components(), 1);
   var import_core_data8 = __toESM(require_core_data(), 1);
   var import_data10 = __toESM(require_data(), 1);
-  var import_element8 = __toESM(require_element(), 1);
+  var import_element10 = __toESM(require_element(), 1);
   var import_html_entities3 = __toESM(require_html_entities(), 1);
   var import_i18n8 = __toESM(require_i18n(), 1);
   var import_notices5 = __toESM(require_notices(), 1);
@@ -1076,11 +1784,11 @@ var wp;
     onSuccess,
     ...props
   }) {
-    const id = (0, import_element8.useId)();
-    const textControlRef = (0, import_element8.useRef)();
-    const [name, setName] = (0, import_element8.useState)((0, import_html_entities3.decodeEntities)(category.name));
-    const [isSaving, setIsSaving] = (0, import_element8.useState)(false);
-    const [validationMessage, setValidationMessage] = (0, import_element8.useState)(false);
+    const id = (0, import_element10.useId)();
+    const textControlRef = (0, import_element10.useRef)();
+    const [name, setName] = (0, import_element10.useState)((0, import_html_entities3.decodeEntities)(category.name));
+    const [isSaving, setIsSaving] = (0, import_element10.useState)(false);
+    const [validationMessage, setValidationMessage] = (0, import_element10.useState)(false);
     const validationMessageId = validationMessage ? `patterns-rename-pattern-category-modal__validation-message-${id}` : void 0;
     const { saveEntityRecord, invalidateResolution } = (0, import_data10.useDispatch)(import_core_data8.store);
     const { createErrorNotice, createSuccessNotice } = (0, import_data10.useDispatch)(import_notices5.store);
@@ -1152,13 +1860,12 @@ var wp;
         title: (0, import_i18n8.__)("Rename"),
         onRequestClose,
         ...props,
-        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("form", { onSubmit: onSave, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_components7.__experimentalVStack, { spacing: "5", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_components7.__experimentalVStack, { spacing: "2", children: [
+        children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("form", { onSubmit: onSave, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { direction: "column", gap: "lg", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { direction: "column", gap: "sm", children: [
             /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
               import_components7.TextControl,
               {
                 ref: textControlRef,
-                __next40pxDefaultSize: true,
                 label: (0, import_i18n8.__)("Name"),
                 value: name,
                 onChange,
@@ -1175,7 +1882,7 @@ var wp;
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_components7.__experimentalHStack, { justify: "right", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Stack, { gap: "sm", justify: "end", children: [
             /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
               import_components7.Button,
               {
@@ -1203,7 +1910,7 @@ var wp;
   }
 
   // packages/patterns/build-module/components/pattern-overrides-controls.mjs
-  var import_element10 = __toESM(require_element(), 1);
+  var import_element12 = __toESM(require_element(), 1);
   var import_block_editor6 = __toESM(require_block_editor(), 1);
   var import_components9 = __toESM(require_components(), 1);
   var import_i18n10 = __toESM(require_i18n(), 1);
@@ -1211,7 +1918,7 @@ var wp;
   // packages/patterns/build-module/components/allow-overrides-modal.mjs
   var import_components8 = __toESM(require_components(), 1);
   var import_i18n9 = __toESM(require_i18n(), 1);
-  var import_element9 = __toESM(require_element(), 1);
+  var import_element11 = __toESM(require_element(), 1);
   var import_a11y2 = __toESM(require_a11y(), 1);
   var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function AllowOverridesModal({
@@ -1220,8 +1927,8 @@ var wp;
     onClose,
     onSave
   }) {
-    const [editedBlockName, setEditedBlockName] = (0, import_element9.useState)(initialName);
-    const descriptionId = (0, import_element9.useId)();
+    const [editedBlockName, setEditedBlockName] = (0, import_element11.useState)(initialName);
+    const descriptionId = (0, import_element11.useId)();
     const isNameValid = !!editedBlockName.trim();
     const handleSubmit = () => {
       if (editedBlockName !== initialName) {
@@ -1253,14 +1960,13 @@ var wp;
               }
               handleSubmit();
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_components8.__experimentalVStack, { spacing: "6", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_components8.__experimentalText, { id: descriptionId, children: (0, import_i18n9.__)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { direction: "column", gap: "xl", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Text, { id: descriptionId, children: (0, import_i18n9.__)(
                 "Overrides are changes you make to a block within a synced pattern instance. Use overrides to customize a synced pattern instance to suit its new context. Name this block to specify an override."
               ) }),
               /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                 import_components8.TextControl,
                 {
-                  __next40pxDefaultSize: true,
                   value: editedBlockName,
                   label: (0, import_i18n9.__)("Name"),
                   help: (0, import_i18n9.__)(
@@ -1270,7 +1976,7 @@ var wp;
                   onChange: setEditedBlockName
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_components8.__experimentalHStack, { justify: "right", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { gap: "sm", justify: "end", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                   import_components8.Button,
                   {
@@ -1298,7 +2004,7 @@ var wp;
     );
   }
   function DisallowOverridesModal({ onClose, onSave }) {
-    const descriptionId = (0, import_element9.useId)();
+    const descriptionId = (0, import_element11.useId)();
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       import_components8.Modal,
       {
@@ -1314,11 +2020,11 @@ var wp;
               onSave();
               onClose();
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_components8.__experimentalVStack, { spacing: "6", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_components8.__experimentalText, { id: descriptionId, children: (0, import_i18n9.__)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { direction: "column", gap: "xl", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Text, { id: descriptionId, children: (0, import_i18n9.__)(
                 "Are you sure you want to disable overrides? Disabling overrides will revert all applied overrides for this block throughout instances of this pattern."
               ) }),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_components8.__experimentalHStack, { justify: "right", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Stack, { gap: "sm", justify: "end", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                   import_components8.Button,
                   {
@@ -1352,9 +2058,9 @@ var wp;
     setAttributes,
     name: blockName
   }) {
-    const controlId = (0, import_element10.useId)();
-    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element10.useState)(false);
-    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element10.useState)(false);
+    const controlId = (0, import_element12.useId)();
+    const [showAllowOverridesModal, setShowAllowOverridesModal] = (0, import_element12.useState)(false);
+    const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0, import_element12.useState)(false);
     const hasName = !!attributes.metadata?.name;
     const defaultBindings = attributes.metadata?.bindings?.__default;
     const hasOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;

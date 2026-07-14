@@ -435,13 +435,30 @@ var wp;
   var import_data15 = __toESM(require_data(), 1);
 
   // packages/core-data/build-module/reducer.mjs
-  var import_es64 = __toESM(require_es6(), 1);
+  var import_es65 = __toESM(require_es6(), 1);
   var import_compose2 = __toESM(require_compose(), 1);
   var import_data7 = __toESM(require_data(), 1);
   var import_undo_manager = __toESM(require_undo_manager(), 1);
 
-  // packages/core-data/build-module/utils/conservative-map-item.mjs
+  // packages/core-data/build-module/utils/clear-unchanged-edits.mjs
   var import_es6 = __toESM(require_es6(), 1);
+  function clearUnchangedEdits(edits, persistedRecord) {
+    if (!persistedRecord) {
+      return edits;
+    }
+    return Object.fromEntries(
+      Object.entries(edits).map(([key, value]) => {
+        const persisted = persistedRecord[key]?.raw ?? persistedRecord[key];
+        return [
+          key,
+          (0, import_es6.default)(value, persisted) ? void 0 : value
+        ];
+      })
+    );
+  }
+
+  // packages/core-data/build-module/utils/conservative-map-item.mjs
+  var import_es62 = __toESM(require_es6(), 1);
   function conservativeMapItem(item, nextItem) {
     if (!item) {
       return nextItem;
@@ -449,7 +466,7 @@ var wp;
     let hasChanges = false;
     const result = {};
     for (const key in nextItem) {
-      if ((0, import_es6.default)(item[key], nextItem[key])) {
+      if ((0, import_es62.default)(item[key], nextItem[key])) {
         result[key] = item[key];
       } else {
         hasChanges = true;
@@ -1944,7 +1961,7 @@ var wp;
   }
 
   // packages/core-data/build-module/utils/crdt.mjs
-  var import_es63 = __toESM(require_es6(), 1);
+  var import_es64 = __toESM(require_es6(), 1);
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_sync14 = __toESM(require_sync(), 1);
 
@@ -1993,7 +2010,7 @@ var wp;
   var v4_default = v4;
 
   // packages/core-data/build-module/utils/crdt-blocks.mjs
-  var import_es62 = __toESM(require_es6(), 1);
+  var import_es63 = __toESM(require_es6(), 1);
   var import_blocks = __toESM(require_blocks(), 1);
   var import_rich_text3 = __toESM(require_rich_text(), 1);
   var import_sync10 = __toESM(require_sync(), 1);
@@ -2122,7 +2139,7 @@ var wp;
       innerBlocks: null,
       clientId: null
     };
-    const res = (0, import_es62.default)(
+    const res = (0, import_es63.default)(
       Object.assign({}, gblock, overwrites),
       Object.assign({}, yblockAsJson, overwrites)
     );
@@ -2284,7 +2301,7 @@ var wp;
                     currentAttribute
                   );
                   const isYType = currentAttribute instanceof import_sync10.Y.AbstractType;
-                  const isAttributeChanged = !isExpectedType || isYType || !(0, import_es62.default)(
+                  const isAttributeChanged = !isExpectedType || isYType || !(0, import_es63.default)(
                     currentAttribute,
                     incomingAttributeValue
                   );
@@ -2343,7 +2360,7 @@ var wp;
               break;
             }
             default:
-              if (!(0, import_es62.default)(
+              if (!(0, import_es63.default)(
                 incomingYBlock[incomingBlockProperty],
                 localYBlock.get(incomingBlockProperty)
               )) {
@@ -2382,9 +2399,9 @@ var wp;
   }
   function areArrayElementsEqual(newElement, yElement) {
     if (yElement instanceof import_sync10.Y.Map && isRecord(newElement)) {
-      return (0, import_es62.default)(newElement, yElement.toJSON());
+      return (0, import_es63.default)(newElement, yElement.toJSON());
     }
-    return (0, import_es62.default)(newElement, yElement);
+    return (0, import_es63.default)(newElement, yElement);
   }
   function mergeYArray(yArray, newValue, schema, cursorPosition, cursorScope) {
     if (!schema.query) {
@@ -2464,7 +2481,7 @@ var wp;
       );
     } else {
       const newYValue = createYValueFromSchema(schema, newVal);
-      if (newYValue !== newVal || !(0, import_es62.default)(currentVal, newVal)) {
+      if (newYValue !== newVal || !(0, import_es63.default)(currentVal, newVal)) {
         yMap.set(key, newYValue);
       }
     }
@@ -3024,7 +3041,7 @@ var wp;
     return void 0;
   }
   function haveValuesChanged(currentValue, newValue) {
-    return !(0, import_es63.default)(currentValue, newValue);
+    return !(0, import_es64.default)(currentValue, newValue);
   }
   function updateMapValue(map, key, currentValue, newValue) {
     if (void 0 === newValue) {
@@ -3256,6 +3273,16 @@ var wp;
       plural: "icons",
       key: "name",
       supportsPagination: false
+    },
+    {
+      label: (0, import_i18n.__)("Icon Collections"),
+      name: "iconCollection",
+      kind: "root",
+      baseURL: "/wp/v2/icon-collections",
+      baseURLParams: { context: "view" },
+      plural: "iconCollections",
+      key: "slug",
+      supportsPagination: false
     }
   ];
   var deprecatedEntities = {
@@ -3400,7 +3427,8 @@ var wp;
          */
         getPersistedCRDTDoc: (record) => {
           return record?.meta?.[POST_META_KEY_FOR_CRDT_DOC_PERSISTENCE] || null;
-        }
+        },
+        shouldSync: () => !(Array.isArray(window._wpCollaborationDisabledPostTypes) && window._wpCollaborationDisabledPostTypes.includes(name))
       };
       return entity2;
     });
@@ -3706,18 +3734,21 @@ var wp;
       const { record } = action;
       let newState = state;
       record.forEach(({ id: { kind, name, recordId }, changes }) => {
+        const persistedRecord = state?.queriedData?.items?.default?.[recordId];
+        const edits = Object.fromEntries(
+          Object.entries(changes).map(([key, value]) => [
+            key,
+            action.type === "UNDO" ? value.from : value.to
+          ])
+        );
         newState = reducer(newState, {
           type: "EDIT_ENTITY_RECORD",
           kind,
           name,
           recordId,
-          edits: Object.entries(changes).reduce(
-            (acc, [key, value]) => {
-              acc[key] = action.type === "UNDO" ? value.from : value.to;
-              return acc;
-            },
-            {}
-          )
+          // Clear edits matching the persisted record so the entity is
+          // no longer dirty after undoing back to its saved state.
+          edits: clearUnchangedEdits(edits, persistedRecord)
         });
       });
       return newState;
@@ -3763,12 +3794,12 @@ var wp;
                       // Edits are the "raw" attribute values, but records may have
                       // objects with more properties, so we use `get` here for the
                       // comparison.
-                      !(0, import_es64.default)(
+                      !(0, import_es65.default)(
                         edits[key],
                         record[key]?.raw ?? record[key]
                       ) && // Sometimes the server alters the sent value which means
                       // we need to also remove the edits before the api request.
-                      (!action.persistedEdits || !(0, import_es64.default)(
+                      (!action.persistedEdits || !(0, import_es65.default)(
                         edits[key],
                         action.persistedEdits[key]
                       ))
@@ -4071,11 +4102,16 @@ var wp;
   }
   function viewConfigs(state = {}, action) {
     switch (action.type) {
-      case "RECEIVE_VIEW_CONFIG":
+      case "RECEIVE_VIEW_CONFIG": {
+        const key = `${action.kind}/${action.name}`;
         return {
           ...state,
-          [`${action.kind}/${action.name}`]: action.config
+          [key]: {
+            ...state[key],
+            ...action.config
+          }
         };
+      }
     }
     return state;
   }
@@ -4994,7 +5030,6 @@ var wp;
     saveEntityRecord: () => saveEntityRecord,
     undo: () => undo
   });
-  var import_es65 = __toESM(require_es6(), 1);
   var import_api_fetch4 = __toESM(require_api_fetch(), 1);
   var import_url3 = __toESM(require_url(), 1);
   var import_deprecated3 = __toESM(require_deprecated(), 1);
@@ -5362,12 +5397,7 @@ var wp;
       recordId,
       // Clear edits when they are equal to their persisted counterparts
       // so that the property is not considered dirty.
-      edits: Object.keys(edits).reduce((acc, key) => {
-        const recordValue = record[key];
-        const value = editsWithMerges[key];
-        acc[key] = (0, import_es65.default)(recordValue, value) ? void 0 : value;
-        return acc;
-      }, {})
+      edits: clearUnchangedEdits(editsWithMerges, record)
     };
     if (entityConfig.syncConfig) {
       const objectType = `${kind}/${name}`;
@@ -5887,6 +5917,10 @@ var wp;
     dispatch3({ type: "SET_COLLABORATION_SUPPORTED", supported });
     if (!supported && hasSyncManager()) {
       getSyncManager().unloadAll();
+      dispatch3.__unstableNotifySyncUndoManagerChange({
+        hasUndo: false,
+        hasRedo: false
+      });
     }
   };
   function receiveViewConfig(kind, name, config) {
@@ -6256,7 +6290,8 @@ var wp;
             blocks: recordWithTransients.blocks
           });
         }
-        void getSyncManager()?.load(
+        const syncManager2 = select4?.isCollaborationSupported?.() === false ? void 0 : getSyncManager();
+        void syncManager2?.load(
           entityConfig.syncConfig,
           objectType,
           objectId,
@@ -7013,9 +7048,14 @@ var wp;
     });
     dispatch3.receiveEditorAssets(assets);
   };
-  var getViewConfig2 = (kind, name) => async ({ dispatch: dispatch3 }) => {
+  var getViewConfig2 = (kind, name, options = {}) => async ({ dispatch: dispatch3 }) => {
+    const query = { kind, name };
+    const fields = get_normalized_comma_separable_default(options.fields);
+    if (fields?.length) {
+      query._fields = fields.join(",");
+    }
     const config = await (0, import_api_fetch9.default)({
-      path: (0, import_url6.addQueryArgs)("/wp/v2/view-config", { kind, name })
+      path: (0, import_url6.addQueryArgs)("/wp/v2/view-config", query)
     });
     dispatch3.receiveViewConfig(kind, name, config);
   };
@@ -7234,12 +7274,232 @@ var wp;
   }
 
   // packages/core-data/build-module/hooks/use-entity-record.mjs
-  var import_data11 = __toESM(require_data(), 1);
+  var import_data10 = __toESM(require_data(), 1);
   var import_deprecated4 = __toESM(require_deprecated(), 1);
   var import_element3 = __toESM(require_element(), 1);
 
+  // packages/core-data/build-module/hooks/constants.mjs
+  var Status = /* @__PURE__ */ ((Status2) => {
+    Status2["Idle"] = "IDLE";
+    Status2["Resolving"] = "RESOLVING";
+    Status2["Error"] = "ERROR";
+    Status2["Success"] = "SUCCESS";
+    return Status2;
+  })(Status || {});
+
+  // packages/core-data/build-module/hooks/utils.mjs
+  function getResolutionStatus(resolutionStatus) {
+    let status;
+    switch (resolutionStatus) {
+      case "resolving":
+        status = Status.Resolving;
+        break;
+      case "finished":
+        status = Status.Success;
+        break;
+      case "error":
+        status = Status.Error;
+        break;
+      default:
+        status = Status.Idle;
+    }
+    return {
+      status,
+      isResolving: status === Status.Resolving,
+      hasStarted: status !== Status.Idle,
+      hasResolved: status === Status.Success || status === Status.Error
+    };
+  }
+
+  // packages/core-data/build-module/hooks/use-entity-record.mjs
+  var EMPTY_OBJECT3 = {};
+  function useEntityRecord(kind, name, recordId, options = { enabled: true }) {
+    const { editEntityRecord: editEntityRecord2, saveEditedEntityRecord: saveEditedEntityRecord2 } = (0, import_data10.useDispatch)(store);
+    const mutations = (0, import_element3.useMemo)(
+      () => ({
+        edit: (record2, editOptions = {}) => editEntityRecord2(kind, name, recordId, record2, editOptions),
+        save: (saveOptions = {}) => saveEditedEntityRecord2(kind, name, recordId, {
+          throwOnError: true,
+          ...saveOptions
+        })
+      }),
+      [editEntityRecord2, kind, name, recordId, saveEditedEntityRecord2]
+    );
+    const { record, editedRecord, hasEdits, edits, ...resolution } = (0, import_data10.useSelect)(
+      (select4) => {
+        if (!options.enabled) {
+          return {
+            record: null,
+            editedRecord: EMPTY_OBJECT3,
+            hasEdits: false,
+            edits: EMPTY_OBJECT3,
+            ...getResolutionStatus()
+          };
+        }
+        const storeSelectors = select4(store);
+        const resolutionStatus = storeSelectors.getResolutionState(
+          "getEntityRecord",
+          [kind, name, recordId]
+        )?.status;
+        return {
+          record: storeSelectors.getEntityRecord(
+            kind,
+            name,
+            recordId
+          ) ?? null,
+          editedRecord: storeSelectors.getEditedEntityRecord(
+            kind,
+            name,
+            recordId
+          ),
+          hasEdits: storeSelectors.hasEditsForEntityRecord(
+            kind,
+            name,
+            recordId
+          ),
+          edits: storeSelectors.getEntityRecordNonTransientEdits(
+            kind,
+            name,
+            recordId
+          ),
+          ...getResolutionStatus(resolutionStatus)
+        };
+      },
+      [kind, name, recordId, options.enabled]
+    );
+    return {
+      record,
+      editedRecord,
+      hasEdits,
+      edits,
+      ...resolution,
+      ...mutations
+    };
+  }
+  function useDeprecatedEntityRecord(kind, name, recordId, options) {
+    (0, import_deprecated4.default)(`wp.data.__experimentalUseEntityRecord`, {
+      alternative: "wp.data.useEntityRecord",
+      since: "6.1"
+    });
+    return useEntityRecord(kind, name, recordId, options);
+  }
+
+  // packages/core-data/build-module/hooks/use-entity-records.mjs
+  var import_url7 = __toESM(require_url(), 1);
+  var import_deprecated5 = __toESM(require_deprecated(), 1);
+  var import_data11 = __toESM(require_data(), 1);
+  var import_element4 = __toESM(require_element(), 1);
+  var EMPTY_ARRAY = [];
+  function useEntityRecords(kind, name, queryArgs = {}, options = { enabled: true }) {
+    const queryAsString = (0, import_url7.addQueryArgs)("", queryArgs);
+    const { records, totalItems, totalPages, ...rest } = (0, import_data11.useSelect)(
+      (select4) => {
+        if (!options.enabled) {
+          return {
+            // Avoiding returning a new reference on every execution.
+            records: EMPTY_ARRAY,
+            totalItems: null,
+            totalPages: null,
+            ...getResolutionStatus()
+          };
+        }
+        const storeSelectors = select4(store);
+        const resolutionStatus = storeSelectors.getResolutionState(
+          "getEntityRecords",
+          [kind, name, queryArgs]
+        )?.status;
+        return {
+          records: storeSelectors.getEntityRecords(
+            kind,
+            name,
+            queryArgs
+          ),
+          totalItems: storeSelectors.getEntityRecordsTotalItems(
+            kind,
+            name,
+            queryArgs
+          ),
+          totalPages: storeSelectors.getEntityRecordsTotalPages(
+            kind,
+            name,
+            queryArgs
+          ),
+          ...getResolutionStatus(resolutionStatus)
+        };
+      },
+      [kind, name, queryAsString, options.enabled]
+    );
+    return {
+      records,
+      totalItems,
+      totalPages,
+      ...rest
+    };
+  }
+  function useDeprecatedEntityRecords(kind, name, queryArgs, options) {
+    (0, import_deprecated5.default)(`wp.data.__experimentalUseEntityRecords`, {
+      alternative: "wp.data.useEntityRecords",
+      since: "6.1"
+    });
+    return useEntityRecords(kind, name, queryArgs, options);
+  }
+  function useEntityRecordsWithPermissions(kind, name, queryArgs = {}, options = { enabled: true }) {
+    const entityConfig = (0, import_data11.useSelect)(
+      (select4) => select4(store).getEntityConfig(kind, name),
+      [kind, name]
+    );
+    const { records: data, ...ret } = useEntityRecords(
+      kind,
+      name,
+      {
+        ...queryArgs,
+        // If _fields is provided, we need to include _links in the request for permission caching to work.
+        ...queryArgs._fields ? {
+          _fields: [
+            .../* @__PURE__ */ new Set([
+              ...get_normalized_comma_separable_default(
+                queryArgs._fields
+              ) || [],
+              "_links"
+            ])
+          ].join()
+        } : {}
+      },
+      options
+    );
+    const ids = (0, import_element4.useMemo)(
+      () => data?.map(
+        // @ts-ignore
+        (record) => record[entityConfig?.key ?? "id"]
+      ) ?? [],
+      [data, entityConfig?.key]
+    );
+    const permissions = (0, import_data11.useSelect)(
+      (select4) => {
+        const { getEntityRecordsPermissions: getEntityRecordsPermissions2 } = unlock(
+          select4(store)
+        );
+        return getEntityRecordsPermissions2(kind, name, ids);
+      },
+      [ids, kind, name]
+    );
+    const dataWithPermissions = (0, import_element4.useMemo)(
+      () => data?.map((record, index) => ({
+        // @ts-ignore
+        ...record,
+        permissions: permissions[index]
+      })) ?? [],
+      [data, permissions]
+    );
+    return { records: dataWithPermissions, ...ret };
+  }
+
+  // packages/core-data/build-module/hooks/use-resource-permissions.mjs
+  var import_deprecated6 = __toESM(require_deprecated(), 1);
+  var import_warning = __toESM(require_warning(), 1);
+
   // packages/core-data/build-module/hooks/use-query-select.mjs
-  var import_data10 = __toESM(require_data(), 1);
+  var import_data12 = __toESM(require_data(), 1);
 
   // node_modules/memize/dist/index.js
   function memize(fn, options) {
@@ -7309,15 +7569,6 @@ var wp;
     return memoized;
   }
 
-  // packages/core-data/build-module/hooks/constants.mjs
-  var Status = /* @__PURE__ */ ((Status2) => {
-    Status2["Idle"] = "IDLE";
-    Status2["Resolving"] = "RESOLVING";
-    Status2["Error"] = "ERROR";
-    Status2["Success"] = "SUCCESS";
-    return Status2;
-  })(Status || {});
-
   // packages/core-data/build-module/hooks/use-query-select.mjs
   var META_SELECTORS = [
     "getIsResolving",
@@ -7327,7 +7578,7 @@ var wp;
     "getCachedResolvers"
   ];
   function useQuerySelect(mapQuerySelect, deps) {
-    return (0, import_data10.useSelect)((select4, registry) => {
+    return (0, import_data12.useSelect)((select4, registry) => {
       const resolve = (store2) => enrichSelectors(select4(store2));
       return mapQuerySelect(resolve, registry);
     }, deps);
@@ -7345,27 +7596,9 @@ var wp;
             selectorName,
             args
           )?.status;
-          let status;
-          switch (resolutionStatus) {
-            case "resolving":
-              status = Status.Resolving;
-              break;
-            case "finished":
-              status = Status.Success;
-              break;
-            case "error":
-              status = Status.Error;
-              break;
-            case void 0:
-              status = Status.Idle;
-              break;
-          }
           return {
             data,
-            status,
-            isResolving: status === Status.Resolving,
-            hasStarted: status !== Status.Idle,
-            hasResolved: status === Status.Success || status === Status.Error
+            ...getResolutionStatus(resolutionStatus)
           };
         }
       });
@@ -7373,188 +7606,7 @@ var wp;
     return resolvers;
   }));
 
-  // packages/core-data/build-module/hooks/use-entity-record.mjs
-  var EMPTY_OBJECT3 = {};
-  function useEntityRecord(kind, name, recordId, options = { enabled: true }) {
-    const { editEntityRecord: editEntityRecord2, saveEditedEntityRecord: saveEditedEntityRecord2 } = (0, import_data11.useDispatch)(store);
-    const mutations = (0, import_element3.useMemo)(
-      () => ({
-        edit: (record2, editOptions = {}) => editEntityRecord2(kind, name, recordId, record2, editOptions),
-        save: (saveOptions = {}) => saveEditedEntityRecord2(kind, name, recordId, {
-          throwOnError: true,
-          ...saveOptions
-        })
-      }),
-      [editEntityRecord2, kind, name, recordId, saveEditedEntityRecord2]
-    );
-    const { editedRecord, hasEdits, edits } = (0, import_data11.useSelect)(
-      (select4) => {
-        if (!options.enabled) {
-          return {
-            editedRecord: EMPTY_OBJECT3,
-            hasEdits: false,
-            edits: EMPTY_OBJECT3
-          };
-        }
-        return {
-          editedRecord: select4(store).getEditedEntityRecord(
-            kind,
-            name,
-            recordId
-          ),
-          hasEdits: select4(store).hasEditsForEntityRecord(
-            kind,
-            name,
-            recordId
-          ),
-          edits: select4(store).getEntityRecordNonTransientEdits(
-            kind,
-            name,
-            recordId
-          )
-        };
-      },
-      [kind, name, recordId, options.enabled]
-    );
-    const { data: record, ...querySelectRest } = useQuerySelect(
-      (query) => {
-        if (!options.enabled) {
-          return {
-            data: null
-          };
-        }
-        return query(store).getEntityRecord(kind, name, recordId);
-      },
-      [kind, name, recordId, options.enabled]
-    );
-    return {
-      record,
-      editedRecord,
-      hasEdits,
-      edits,
-      ...querySelectRest,
-      ...mutations
-    };
-  }
-  function useDeprecatedEntityRecord(kind, name, recordId, options) {
-    (0, import_deprecated4.default)(`wp.data.__experimentalUseEntityRecord`, {
-      alternative: "wp.data.useEntityRecord",
-      since: "6.1"
-    });
-    return useEntityRecord(kind, name, recordId, options);
-  }
-
-  // packages/core-data/build-module/hooks/use-entity-records.mjs
-  var import_url7 = __toESM(require_url(), 1);
-  var import_deprecated5 = __toESM(require_deprecated(), 1);
-  var import_data12 = __toESM(require_data(), 1);
-  var import_element4 = __toESM(require_element(), 1);
-  var EMPTY_ARRAY = [];
-  function useEntityRecords(kind, name, queryArgs = {}, options = { enabled: true }) {
-    const queryAsString = (0, import_url7.addQueryArgs)("", queryArgs);
-    const { data: records, ...rest } = useQuerySelect(
-      (query) => {
-        if (!options.enabled) {
-          return {
-            // Avoiding returning a new reference on every execution.
-            data: EMPTY_ARRAY
-          };
-        }
-        return query(store).getEntityRecords(kind, name, queryArgs);
-      },
-      [kind, name, queryAsString, options.enabled]
-    );
-    const { totalItems, totalPages } = (0, import_data12.useSelect)(
-      (select4) => {
-        if (!options.enabled) {
-          return {
-            totalItems: null,
-            totalPages: null
-          };
-        }
-        return {
-          totalItems: select4(store).getEntityRecordsTotalItems(
-            kind,
-            name,
-            queryArgs
-          ),
-          totalPages: select4(store).getEntityRecordsTotalPages(
-            kind,
-            name,
-            queryArgs
-          )
-        };
-      },
-      [kind, name, queryAsString, options.enabled]
-    );
-    return {
-      records,
-      totalItems,
-      totalPages,
-      ...rest
-    };
-  }
-  function useDeprecatedEntityRecords(kind, name, queryArgs, options) {
-    (0, import_deprecated5.default)(`wp.data.__experimentalUseEntityRecords`, {
-      alternative: "wp.data.useEntityRecords",
-      since: "6.1"
-    });
-    return useEntityRecords(kind, name, queryArgs, options);
-  }
-  function useEntityRecordsWithPermissions(kind, name, queryArgs = {}, options = { enabled: true }) {
-    const entityConfig = (0, import_data12.useSelect)(
-      (select4) => select4(store).getEntityConfig(kind, name),
-      [kind, name]
-    );
-    const { records: data, ...ret } = useEntityRecords(
-      kind,
-      name,
-      {
-        ...queryArgs,
-        // If _fields is provided, we need to include _links in the request for permission caching to work.
-        ...queryArgs._fields ? {
-          _fields: [
-            .../* @__PURE__ */ new Set([
-              ...get_normalized_comma_separable_default(
-                queryArgs._fields
-              ) || [],
-              "_links"
-            ])
-          ].join()
-        } : {}
-      },
-      options
-    );
-    const ids = (0, import_element4.useMemo)(
-      () => data?.map(
-        // @ts-ignore
-        (record) => record[entityConfig?.key ?? "id"]
-      ) ?? [],
-      [data, entityConfig?.key]
-    );
-    const permissions = (0, import_data12.useSelect)(
-      (select4) => {
-        const { getEntityRecordsPermissions: getEntityRecordsPermissions2 } = unlock(
-          select4(store)
-        );
-        return getEntityRecordsPermissions2(kind, name, ids);
-      },
-      [ids, kind, name]
-    );
-    const dataWithPermissions = (0, import_element4.useMemo)(
-      () => data?.map((record, index) => ({
-        // @ts-ignore
-        ...record,
-        permissions: permissions[index]
-      })) ?? [],
-      [data, permissions]
-    );
-    return { records: dataWithPermissions, ...ret };
-  }
-
   // packages/core-data/build-module/hooks/use-resource-permissions.mjs
-  var import_deprecated6 = __toESM(require_deprecated(), 1);
-  var import_warning = __toESM(require_warning(), 1);
   function useResourcePermissions(resource, id) {
     const isEntity = typeof resource === "object";
     const resourceAsString = isEntity ? JSON.stringify(resource) : resource;

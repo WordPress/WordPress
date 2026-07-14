@@ -42,6 +42,10 @@
 		"query": {
 			"type": "object",
 			"default": {}
+		},
+		"tagName": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

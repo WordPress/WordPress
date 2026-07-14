@@ -13,6 +13,15 @@
   box-sizing: border-box;
   fill: currentColor;
 }
+.wp-block-icon svg.is-flip-horizontal {
+  transform: scaleX(-1);
+}
+.wp-block-icon svg.is-flip-vertical {
+  transform: scaleY(-1);
+}
+.wp-block-icon svg.is-flip-horizontal.is-flip-vertical {
+  transform: scaleX(-1) scaleY(-1);
+}
 
 :where(.wp-block-icon) svg {
   width: 100%;
