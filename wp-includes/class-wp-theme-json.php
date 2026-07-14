@@ -248,7 +248,7 @@ class WP_Theme_JSON {
 	 * @since 6.7.0 Added `background-attachment` property.
 	 * @since 7.0.0 Added `dimensions.width` and `dimensions.height`.
 	 *              Added `text-indent` property.
-	 * @since 7.1.0 Added `text-shadow` property.
+	 * @since 7.1.0 Added `min-width` and `text-shadow`.
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
@@ -295,6 +295,7 @@ class WP_Theme_JSON {
 		'margin-bottom'                     => array( 'spacing', 'margin', 'bottom' ),
 		'margin-left'                       => array( 'spacing', 'margin', 'left' ),
 		'min-height'                        => array( 'dimensions', 'minHeight' ),
+		'min-width'                         => array( 'dimensions', 'minWidth' ),
 		'outline-color'                     => array( 'outline', 'color' ),
 		'outline-offset'                    => array( 'outline', 'offset' ),
 		'outline-style'                     => array( 'outline', 'style' ),
@@ -417,7 +418,7 @@ class WP_Theme_JSON {
 	 *              Added support for `dimensions.width` and `dimensions.height`.
 	 *              Added support for `typography.textIndent`.
 	 * @since 7.1.0 Added `viewport` property.
-	 *              Added support for `background.gradient` and `blockVisibility.allowEditing`.
+	 *              Added support for `background.gradient`, `dimensions.minWidth` and `blockVisibility.allowEditing`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -460,6 +461,7 @@ class WP_Theme_JSON {
 			'dimensionSizes'      => null,
 			'height'              => null,
 			'minHeight'           => null,
+			'minWidth'            => null,
 			'width'               => null,
 		),
 		'layout'                        => array(
@@ -563,8 +565,8 @@ class WP_Theme_JSON {
 	 * @since 6.5.0 Added support for `dimensions.aspectRatio`.
 	 * @since 6.6.0 Added `background` sub properties to top-level only.
 	 * @since 7.0.0 Added support for `dimensions.width` and `dimensions.height`.
-	 * @since 7.1.0 Added `background.gradient`.
-	 * @since 7.1.0 Added support for `typography.textShadow`.
+	 * @since 7.1.0 Added support for `background.gradient`,`dimensions.minWidth`,
+	 *              and `typography.textShadow`.
 	 * @var array
 	 */
 	const VALID_STYLES = array(
@@ -595,6 +597,7 @@ class WP_Theme_JSON {
 			'aspectRatio' => null,
 			'height'      => null,
 			'minHeight'   => null,
+			'minWidth'    => null,
 			'width'       => null,
 		),
 		'filter'     => array(
@@ -1035,6 +1038,7 @@ class WP_Theme_JSON {
 	 * @since 6.5.0 Added `background.backgroundSize` and `dimensions.aspectRatio`.
 	 * @since 7.0.0 Added `dimensions.width` and `dimensions.height`.
 	 * @since 7.1.0 Added `background.gradient`.
+	 *              Added `dimensions.minWidth`.
 	 * @var array
 	 */
 	const APPEARANCE_TOOLS_OPT_INS = array(
@@ -1052,6 +1056,7 @@ class WP_Theme_JSON {
 		array( 'dimensions', 'aspectRatio' ),
 		array( 'dimensions', 'height' ),
 		array( 'dimensions', 'minHeight' ),
+		array( 'dimensions', 'minWidth' ),
 		array( 'dimensions', 'width' ),
 		array( 'position', 'sticky' ),
 		array( 'spacing', 'blockGap' ),
