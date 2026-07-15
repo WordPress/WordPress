@@ -1,38 +1,36 @@
 <?php
-
 /**
- * REST API: WP_REST_Icons_Controller class
+ * REST API: WP_REST_Icon_Collections_Controller class
  *
  * @package    WordPress
  * @subpackage REST_API
- * @since      7.0.0
+ * @since      7.1.0
  */
 
 /**
  * Controller which provides a REST endpoint for the editor to read registered
- * icons. Icons are grouped into collections (the default one being `core`).
+ * icon collections.
  *
- * @since 7.0.0
+ * @since 7.1.0
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Icons_Controller extends WP_REST_Controller {
+class WP_REST_Icon_Collections_Controller extends WP_REST_Controller {
 
 	/**
 	 * Constructs the controller.
 	 *
-	 * @since 7.0.0
+	 * @since 7.1.0
 	 */
 	public function __construct() {
 		$this->namespace = 'wp/v2';
-		$this->rest_base = 'icons';
+		$this->rest_base = 'icon-collections';
 	}
 
 	/**
 	 * Registers the routes for the objects of the controller.
 	 *
-	 * @since 7.0.0
-	 * @since 7.1.0 Added the `/icons/<collection>` collection-scoped route.
+	 * @since 7.1.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -51,31 +49,11 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<collection>[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?)',
+			'/' . $this->rest_base . '/(?P<slug>[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?)',
 			array(
 				'args'   => array(
-					'collection' => array(
+					'slug' => array(
 						'description' => __( 'Icon collection slug.' ),
-						'type'        => 'string',
-					),
-				),
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
-		);
-
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<name>[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?/[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?)',
-			array(
-				'args'   => array(
-					'name' => array(
-						'description' => __( 'Icon name.' ),
 						'type'        => 'string',
 					),
 				),
@@ -93,9 +71,9 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks whether a given request has permission to read icons.
+	 * Checks whether a given request has permission to read icon collections.
 	 *
-	 * @since 7.0.0
+	 * @since 7.1.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
@@ -116,15 +94,15 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 
 		return new WP_Error(
 			'rest_cannot_view',
-			__( 'Sorry, you are not allowed to view the registered icons.' ),
+			__( 'Sorry, you are not allowed to view the registered icon collections.' ),
 			array( 'status' => rest_authorization_required_code() )
 		);
 	}
 
 	/**
-	 * Checks if a given request has access to read a specific icon.
+	 * Checks if a given request has access to read a specific icon collection.
 	 *
-	 * @since 7.0.0
+	 * @since 7.1.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
@@ -139,105 +117,83 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves all icons, optionally scoped to a collection.
+	 * Retrieves all icon collections.
 	 *
-	 * @since 7.0.0
-	 * @since 7.1.0 Supports filtering by collection.
+	 * @since 7.1.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$collection = $request->get_param( 'collection' );
-
-		if ( null !== $collection && ! WP_Icon_Collections_Registry::get_instance()->is_registered( $collection ) ) {
-			return new WP_Error(
-				'rest_icon_collection_not_found',
-				sprintf(
-					/* translators: %s: Icon collection slug. */
-					__( 'Icon collection not found: "%s".' ),
-					$collection
-				),
-				array( 'status' => 404 )
-			);
-		}
-
-		$response = array();
-		$search   = $request->get_param( 'search' );
-		$icons    = WP_Icons_Registry::get_instance()->get_registered_icons( $search );
-
-		foreach ( $icons as $icon ) {
-			if ( null !== $collection && ( ! isset( $icon['collection'] ) || $icon['collection'] !== $collection ) ) {
-				continue;
-			}
-			$prepared_icon = $this->prepare_item_for_response( $icon, $request );
-			$response[]    = $this->prepare_response_for_collection( $prepared_icon );
+		$response    = array();
+		$collections = WP_Icon_Collections_Registry::get_instance()->get_all_registered();
+		foreach ( $collections as $collection ) {
+			$prepared_collection = $this->prepare_item_for_response( $collection, $request );
+			$response[]          = $this->prepare_response_for_collection( $prepared_collection );
 		}
 		return rest_ensure_response( $response );
 	}
 
 	/**
-	 * Retrieves a specific icon.
+	 * Retrieves a specific icon collection.
 	 *
-	 * @since 7.0.0
+	 * @since 7.1.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-		$icon = $this->get_icon( $request['name'] );
-		if ( is_wp_error( $icon ) ) {
-			return $icon;
+		$collection = $this->get_icon_collection( $request['slug'] );
+		if ( is_wp_error( $collection ) ) {
+			return $collection;
 		}
 
-		$data = $this->prepare_item_for_response( $icon, $request );
+		$data = $this->prepare_item_for_response( $collection, $request );
 		return rest_ensure_response( $data );
 	}
 
 	/**
-	 * Retrieves a specific icon from the registry.
+	 * Retrieves a specific icon collection from the registry.
 	 *
-	 * @since 7.0.0
+	 * @since 7.1.0
 	 *
-	 * @param string $name Icon name.
-	 * @return array|WP_Error Icon data on success, or WP_Error object on failure.
+	 * @param string $slug Icon collection slug.
+	 * @return array|WP_Error Icon collection data on success, or WP_Error object on failure.
 	 */
-	public function get_icon( $name ) {
-		$registry = WP_Icons_Registry::get_instance();
-		$icon     = $registry->get_registered_icon( $name );
+	public function get_icon_collection( $slug ) {
+		$registry   = WP_Icon_Collections_Registry::get_instance();
+		$collection = $registry->get_registered( $slug );
 
-		if ( null === $icon ) {
+		if ( null === $collection ) {
 			return new WP_Error(
-				'rest_icon_not_found',
+				'rest_icon_collection_not_found',
 				sprintf(
-					// translators: %s is the name of any user-provided name
-					__( 'Icon not found: "%s".' ),
-					$name
+					/* translators: %s: Icon collection slug. */
+					__( 'Icon collection not found: "%s".' ),
+					$slug
 				),
 				array( 'status' => 404 )
 			);
 		}
 
-		return $icon;
+		return $collection;
 	}
 
 	/**
-	 * Prepare a raw icon before it gets output in a REST API response.
+	 * Prepares a raw icon collection before it gets output in a REST API response.
 	 *
-	 * @since 7.0.0
-	 * @since 7.1.0 Added the `collection` field.
+	 * @since 7.1.0
 	 *
-	 * @param array           $item    Raw icon as registered, before any changes.
+	 * @param array           $item    Raw icon collection as registered, before any changes.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		$fields = $this->get_fields_for_response( $request );
 		$keys   = array(
-			'name'       => 'name',
-			'label'      => 'label',
-			'content'    => 'content',
-			'collection' => 'collection',
+			'slug'        => 'slug',
+			'label'       => 'label',
+			'description' => 'description',
 		);
 		$data   = array();
 		foreach ( $keys as $item_key => $rest_key ) {
@@ -253,10 +209,9 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the icon schema, conforming to JSON Schema.
+	 * Retrieves the icon collection schema, conforming to JSON Schema.
 	 *
-	 * @since 7.0.0
-	 * @since 7.1.0 Added the `collection` property.
+	 * @since 7.1.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -267,29 +222,23 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'icon',
+			'title'      => 'icon-collection',
 			'type'       => 'object',
 			'properties' => array(
-				'name'       => array(
-					'description' => __( 'The icon name.' ),
+				'slug'        => array(
+					'description' => __( 'The icon collection slug.' ),
 					'type'        => 'string',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'label'      => array(
-					'description' => __( 'The icon label.' ),
+				'label'       => array(
+					'description' => __( 'The icon collection label.' ),
 					'type'        => 'string',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'content'    => array(
-					'description' => __( 'The icon content (SVG markup).' ),
-					'type'        => 'string',
-					'readonly'    => true,
-					'context'     => array( 'view', 'edit', 'embed' ),
-				),
-				'collection' => array(
-					'description' => __( 'The slug of the collection this icon belongs to.' ),
+				'description' => array(
+					'description' => __( 'The icon collection description.' ),
 					'type'        => 'string',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
@@ -303,21 +252,15 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the query params for the icons collection.
+	 * Retrieves the query params for the icon collections collection.
 	 *
-	 * @since 7.0.0
-	 * @since 7.1.0 Added the `collection` parameter.
+	 * @since 7.1.0
 	 *
 	 * @return array Collection parameters.
 	 */
 	public function get_collection_params() {
 		$query_params                       = parent::get_collection_params();
 		$query_params['context']['default'] = 'view';
-		$query_params['collection']         = array(
-			'description' => __( 'Limit results to icons belonging to the given collection slug.' ),
-			'type'        => 'string',
-			'pattern'     => '^[a-z0-9]([a-z0-9_-]*[a-z0-9])?$',
-		);
 		return $query_params;
 	}
 }
