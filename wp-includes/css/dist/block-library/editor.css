@@ -995,10 +995,7 @@ html :where(.wp-block-column) {
 .wp-block-icon__inserter-grid-icons-list-item-title {
   font-size: 12px;
   padding: 4px 4px 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .wp-block-icon__toolbar-content {
@@ -2056,11 +2053,6 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
   padding: 16px;
 }
 
-.wp-block-playlist li.block-list-appender.block-list-appender {
-  position: initial;
-  margin-top: var(--wp--preset--spacing--30, 1em);
-}
-
 .wp-block-playlist__waveform-color-controls {
   display: grid;
   grid-column: 1/-1;
@@ -2372,6 +2364,13 @@ html[dir=rtl] .has-drop-cap:not(:focus)::first-letter {
 .block-library-spacer__resize-container.resize-horizontal {
   margin-bottom: 0;
   height: 100% !important;
+}
+
+@media (min-width: 600px) {
+  .wp-block-tab-list__mover-button {
+    width: 24px;
+    min-width: 0 !important;
+  }
 }
 
 .wp-block[data-align=left] > .wp-block-table, .wp-block[data-align=right] > .wp-block-table, .wp-block[data-align=center] > .wp-block-table {

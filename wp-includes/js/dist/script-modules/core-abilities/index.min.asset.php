@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('wp-api-fetch', 'wp-url'), 'module_dependencies' => array(array('id' => '@wordpress/abilities', 'import' => 'static')), 'version' => 'ed8d088084da397754c1');
+<?php return array('dependencies' => array('wp-api-fetch', 'wp-url'), 'module_dependencies' => array(array('id' => '@wordpress/abilities', 'import' => 'static')), 'version' => '012760fd849397dd0031');

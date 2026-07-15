@@ -1776,6 +1776,7 @@ button.font-library__upload-area {
   font-weight: var(--wpds-typography-font-weight-default, 400);
   font-size: 13px;
   line-height: 20px;
+  color: var(--wpds-color-foreground-interactive-neutral, #1e1e1e);
 }
 
 .dataviews-filters__search-widget-listitem:last-child {
@@ -1784,6 +1785,7 @@ button.font-library__upload-area {
 
 .dataviews-filters__search-widget-listitem:hover, .dataviews-filters__search-widget-listitem[data-active-item], .dataviews-filters__search-widget-listitem:focus {
   background-color: var(--wpds-color-background-interactive-brand-weak-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 12%, white));
+  color: var(--wpds-color-foreground-interactive-neutral-active, #1e1e1e);
 }
 
 .dataviews-filters__search-widget-listitem:hover .dataviews-filters__search-widget-listitem-single-selection, .dataviews-filters__search-widget-listitem[data-active-item] .dataviews-filters__search-widget-listitem-single-selection, .dataviews-filters__search-widget-listitem:focus .dataviews-filters__search-widget-listitem-single-selection {
@@ -1806,6 +1808,10 @@ button.font-library__upload-area {
   background: var(--wpds-color-background-interactive-brand-strong-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 93%, black));
 }
 
+.dataviews-filters__search-widget-listitem:hover .dataviews-filters__search-widget-listitem-description, .dataviews-filters__search-widget-listitem[data-active-item] .dataviews-filters__search-widget-listitem-description, .dataviews-filters__search-widget-listitem:focus .dataviews-filters__search-widget-listitem-description {
+  color: var(--wpds-color-foreground-interactive-neutral-weak-active, #1e1e1e);
+}
+
 .dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-value {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1819,7 +1825,7 @@ button.font-library__upload-area {
   text-overflow: ellipsis;
   font-size: var(--wpds-typography-font-size-sm, 12px);
   line-height: 16px;
-  color: var(--wpds-color-foreground-content-neutral-weak, #707070);
+  color: var(--wpds-color-foreground-interactive-neutral-weak, #707070);
 }
 
 .dataviews-filters__search-widget-listitem .dataviews-filters__search-widget-listitem-single-selection {
@@ -2932,7 +2938,7 @@ div.dataviews-view-list {
   font-size: var(--wpds-typography-font-size-lg, 15px);
   font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   color: var(--wpds-color-foreground-content-neutral, #1e1e1e);
-  margin: 0 0 var(--wpds-dimension-gap-sm, 8px) 0;
+  margin: 0 0 var(--wpds-dimension-gap-lg, 16px) 0;
   padding: 0 var(--wpds-dimension-padding-2xl, 24px);
 }
 

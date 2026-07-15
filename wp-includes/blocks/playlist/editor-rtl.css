@@ -1,8 +1,3 @@
-.wp-block-playlist li.block-list-appender.block-list-appender {
-  position: initial;
-  margin-top: var(--wp--preset--spacing--30, 1em);
-}
-
 .wp-block-playlist__waveform-color-controls {
   display: grid;
   grid-column: 1/-1;

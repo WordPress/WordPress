@@ -117,16 +117,11 @@ async function initializeAbilities() {
     console.error("Failed to fetch abilities:", error);
   }
 }
-var initializePromise = null;
-function initialize() {
-  if (!initializePromise) {
-    initializePromise = (async () => {
-      await initializeCategories();
-      await initializeAbilities();
-    })();
-  }
-  return initializePromise;
+async function initialize() {
+  await initializeCategories();
+  await initializeAbilities();
 }
+var ready = initialize();
 export {
-  initialize
+  ready
 };

@@ -81332,7 +81332,11 @@ var wp;
 
   // packages/block-editor/build-module/components/inspector-controls-tabs/styles-tab.mjs
   var import_jsx_runtime445 = __toESM(require_jsx_runtime(), 1);
-  function SectionStyleControls({ blockName, clientId, contentClientIds }) {
+  function SectionStyleControls({
+    blockName,
+    clientId,
+    contentClientIds
+  }) {
     const settings2 = useBlockSettings(blockName);
     const { updateBlockAttributes: updateBlockAttributes2 } = (0, import_data172.useDispatch)(store);
     const { hasButtons, hasHeading } = (0, import_data172.useSelect)(
@@ -82000,56 +82004,79 @@ var wp;
       showAdvancedControls && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(advanced_controls_panel_default, {}) })
     ] });
   }
-  function StyleStateInspectorSlots({ blockName, selectedBlockStyleState: selectedBlockStyleState2 }) {
+  function StyleStateInspectorSlots({
+    blockName,
+    clientId,
+    contentClientIds,
+    isSectionBlock: isSectionBlock2,
+    selectedBlockStyleState: selectedBlockStyleState2
+  }) {
     const borderPanelLabel = useBorderPanelLabel({ blockName });
     const showLayoutControls = hasViewportBlockStyleState(selectedBlockStyleState2) && !hasPseudoBlockStyleState(selectedBlockStyleState2);
+    const showSectionStyleControls = isSectionBlock2 && blockName !== "core/template-part";
     return /* @__PURE__ */ (0, import_jsx_runtime451.jsxs)(import_jsx_runtime451.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
+      showSectionStyleControls && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(BlockStyleStateProvider, { value: selectedBlockStyleState2, children: /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+        SectionStyleControls,
         {
-          group: "typography",
-          label: (0, import_i18n212.__)("Typography")
+          blockName,
+          clientId,
+          contentClientIds
         }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
-        {
-          group: "color",
-          label: (0, import_i18n212.__)("Color"),
-          className: "color-block-support-panel__inner-wrapper"
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
-        {
-          group: "background",
-          label: (0, import_i18n212.__)("Background"),
-          className: "background-block-support-panel__inner-wrapper"
-        }
-      ),
-      showLayoutControls && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
-        {
-          group: "layout",
-          label: (0, import_i18n212.__)("Layout")
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
-        {
-          group: "dimensions",
-          label: (0, import_i18n212.__)("Dimensions")
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(inspector_controls_default.Slot, { group: "border", label: borderPanelLabel }),
-      /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
-        inspector_controls_default.Slot,
-        {
-          group: "elements",
-          label: (0, import_i18n212.__)("Elements"),
-          className: "elements-block-support-panel__inner-wrapper"
-        }
-      )
+      ) }),
+      !showSectionStyleControls && /* @__PURE__ */ (0, import_jsx_runtime451.jsxs)(import_jsx_runtime451.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "typography",
+            label: (0, import_i18n212.__)("Typography")
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "color",
+            label: (0, import_i18n212.__)("Color"),
+            className: "color-block-support-panel__inner-wrapper"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "background",
+            label: (0, import_i18n212.__)("Background"),
+            className: "background-block-support-panel__inner-wrapper"
+          }
+        ),
+        showLayoutControls && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "layout",
+            label: (0, import_i18n212.__)("Layout")
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "dimensions",
+            label: (0, import_i18n212.__)("Dimensions")
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "border",
+            label: borderPanelLabel
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+          inspector_controls_default.Slot,
+          {
+            group: "elements",
+            label: (0, import_i18n212.__)("Elements"),
+            className: "elements-block-support-panel__inner-wrapper"
+          }
+        )
+      ] })
     ] });
   }
   function BlockInspector() {
@@ -82328,10 +82355,13 @@ var wp;
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(BlockInspectorPreTabsSlot, {}),
-      isEditingStyleState && !isSectionBlock2 && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
+      isEditingStyleState && /* @__PURE__ */ (0, import_jsx_runtime451.jsx)(
         StyleStateInspectorSlots,
         {
           blockName,
+          clientId: renderedBlockClientId,
+          contentClientIds,
+          isSectionBlock: isSectionBlock2,
           selectedBlockStyleState: selectedBlockStyleState2
         }
       ),

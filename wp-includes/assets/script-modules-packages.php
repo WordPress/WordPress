@@ -211,7 +211,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '1e8b284f8ef6746e1032'
+		'version' => 'fb445bf351657f44f1d0'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
@@ -224,7 +224,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'ed8d088084da397754c1'
+		'version' => '012760fd849397dd0031'
 	),
 	'dashboard-init/index.js' => array(
 		'dependencies' => array(
@@ -382,9 +382,9 @@
 			),
 			array(
 				'id' => '@wordpress/core-abilities',
-				'import' => 'static'
+				'import' => 'dynamic'
 			)
 		),
-		'version' => '29988b33dda5ec9dc56b'
+		'version' => '9e09ede3195f2f51bc49'
 	)
 );

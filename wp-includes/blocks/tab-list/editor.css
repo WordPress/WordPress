@@ -1,4 +1,7 @@
 /**
+ * Typography
+ */
+/**
  * SCSS Variables.
  *
  * Please use variables from this sheet to ensure consistency across the UI.
@@ -42,9 +45,6 @@
 /**
  * React Native specific.
  * These variables do not appear to be used anywhere else.
- */
-/**
- * Typography
  */
 /**
  * Breakpoints & Media Queries
@@ -93,75 +93,9 @@
  * Creates a checkerboard pattern background to indicate transparency.
  * @param {String} $size - The size of the squares in the checkerboard pattern. Default is 12px.
  */
-.wp-block[data-align=center] > .wp-block-icon {
-  display: flex;
-  justify-content: center;
-}
-
-.wp-block-icon__inserter-sidebar {
-  padding-bottom: 24px;
-}
-@media (min-width: 782px) {
-  .wp-block-icon__inserter-sidebar {
-    overflow-x: visible;
-    overflow-y: auto;
-    position: absolute;
-    top: 72px;
-    right: 0;
-    bottom: 0;
-    width: 280px;
-    padding-top: 24px;
-    padding-inline: 24px;
+@media (min-width: 600px) {
+  .wp-block-tab-list__mover-button {
+    width: 24px;
+    min-width: 0 !important;
   }
-}
-
-@media (min-width: 782px) {
-  .wp-block-icon__inserter-panel {
-    margin-inline-start: 280px;
-  }
-}
-
-.wp-block-icon__inserter-loading {
-  display: flex;
-  justify-content: center;
-  padding: 24px;
-}
-
-.wp-block-icon__inserter-grid-icons-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-
-.wp-block-icon__inserter-grid-no-results {
-  display: flex;
-  justify-content: center;
-}
-
-.wp-block-icon__inserter-grid-icons-list-item {
-  display: flex;
-  flex-direction: column;
-  height: auto !important;
-}
-
-.wp-block-icon__inserter-grid-icons-list-item-icon {
-  padding: 12px;
-}
-.wp-block-icon__inserter-grid-icons-list-item-icon svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-.wp-block-icon__inserter-grid-icons-list-item-title {
-  font-size: 12px;
-  padding: 4px 4px 8px;
-  overflow-wrap: break-word;
-}
-
-.wp-block-icon__toolbar-content {
-  width: 250px;
-}
-
-.wp-block-icon__placeholder {
-  backdrop-filter: blur(100px);
 }

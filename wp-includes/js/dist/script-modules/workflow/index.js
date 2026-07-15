@@ -2552,7 +2552,6 @@ var search_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primiti
 
 // packages/workflow/build-module/components/workflow-menu.mjs
 import { executeAbility, store as abilitiesStore } from "@wordpress/abilities";
-import { initialize as initializeCoreAbilities } from "@wordpress/core-abilities";
 
 // packages/workflow/build-module/lock-unlock.mjs
 var import_private_apis = __toESM(require_private_apis(), 1);
@@ -2647,7 +2646,7 @@ function WorkflowMenu() {
   );
   (0, import_element2.useEffect)(() => {
     if (isOpen) {
-      initializeCoreAbilities();
+      import("@wordpress/core-abilities");
     }
   }, [isOpen]);
   const closeAndReset = () => {

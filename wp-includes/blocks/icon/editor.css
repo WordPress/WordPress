@@ -155,10 +155,7 @@
 .wp-block-icon__inserter-grid-icons-list-item-title {
   font-size: 12px;
   padding: 4px 4px 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .wp-block-icon__toolbar-content {
