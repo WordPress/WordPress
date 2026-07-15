@@ -2562,7 +2562,7 @@ function compression_test() {
  *
  * @param string       $text             Optional. The text of the button. Defaults to 'Save Changes'.
  * @param string       $type             Optional. The type and CSS class(es) of the button. Core values
- *                                       include 'primary', 'small', and 'large'. Default 'primary'.
+ *                                       include 'primary', 'small', 'compact' and 'large'. Default 'primary'.
  * @param string       $name             Optional. The HTML name of the submit button. If no `id` attribute
  *                                       is given in the `$other_attributes` parameter, `$name` will be used
  *                                       as the button's `id`. Default 'submit'.
@@ -2586,7 +2586,7 @@ function submit_button( $text = '', $type = 'primary', $name = 'submit', $wrap =
  *
  * @param string       $text             Optional. The text of the button. Defaults to 'Save Changes'.
  * @param string       $type             Optional. The type and CSS class(es) of the button. Core values
- *                                       include 'primary', 'small', and 'large'. Default 'primary large'.
+ *                                       include 'primary', 'small', 'compact' and 'large'. Default 'primary large'.
  * @param string       $name             Optional. The HTML name of the submit button. If no `id` attribute
  *                                       is given in the `$other_attributes` parameter, `$name` will be used
  *                                       as the button's `id`. Default 'submit'.
@@ -2605,7 +2605,7 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 		$type = explode( ' ', $type );
 	}
 
-	$button_shorthand = array( 'primary', 'small', 'large' );
+	$button_shorthand = array( 'primary', 'small', 'large', 'compact' );
 	$classes          = array( 'button' );
 
 	foreach ( $type as $t ) {

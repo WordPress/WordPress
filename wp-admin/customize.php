@@ -198,7 +198,7 @@ do_action( 'customize_controls_head' );
 			<?php if ( $compatible_wp && $compatible_php ) : ?>
 				<?php $save_text = $wp_customize->is_theme_active() ? __( 'Publish' ) : __( 'Activate &amp; Publish' ); ?>
 				<div id="customize-save-button-wrapper" class="customize-save-button-wrapper" >
-					<?php submit_button( $save_text, 'primary button-compact save', 'save', false ); ?>
+					<?php submit_button( $save_text, 'primary compact save', 'save', false ); ?>
 					<button id="publish-settings" class="publish-settings button-primary button-compact button dashicons dashicons-admin-generic" aria-label="<?php esc_attr_e( 'Publish Settings' ); ?>" aria-expanded="false" disabled></button>
 				</div>
 			<?php else : ?>
