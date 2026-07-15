@@ -1,1 +1,0 @@
-<?php return array('dependencies' => array('wp-core-data', 'wp-data', 'wp-i18n', 'wp-notices'), 'module_dependencies' => array(array('id' => '@wordpress/content-types', 'import' => 'static'), array('id' => '@wordpress/route', 'import' => 'static')), 'version' => '150d8260c4f0a612b613');
