@@ -1809,9 +1809,23 @@ function get_the_password_form( $post = 0 ) {
 		);
 	}
 
+	$button_class         = '';
+	$button_wrapper_open  = '';
+	$button_wrapper_close = '';
+
+	if ( wp_is_block_theme() ) {
+		$button_class         = ' class="wp-block-button__link ' . wp_theme_get_element_class_name( 'button' ) . '"';
+		$button_wrapper_open  = '<span class="wp-block-button">';
+		$button_wrapper_close = '</span>';
+
+		if ( wp_style_is( 'wp-block-button', 'registered' ) ) {
+			wp_enqueue_style( 'wp-block-button' );
+		}
+	}
+
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form' . $class . '" method="post">' . $redirect_field . $invalid_password_html . '
 	<p>' . __( 'This content is password-protected. To view it, please enter the password below.' ) . '</p>
-	<p><label for="' . $field_id . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $field_id . '" type="password" spellcheck="false" required size="20"' . $aria . ' /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
+	<p><label for="' . $field_id . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $field_id . '" type="password" spellcheck="false" required size="20"' . $aria . ' /></label> ' . $button_wrapper_open . '<input type="submit" name="Submit"' . $button_class . ' value="' . esc_attr_x( 'Enter', 'post password form' ) . '" />' . $button_wrapper_close . '</p></form>
 	';
 
 	/**
