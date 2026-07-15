@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects Highlight 1.13.3
+ * jQuery UI Effects Highlight 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors

@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Checkboxradio 1.13.3
+ * jQuery UI Checkboxradio 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -38,7 +38,7 @@
 "use strict";
 
 $.widget( "ui.checkboxradio", [ $.ui.formResetMixin, {
-	version: "1.13.3",
+	version: "1.14.2",
 	options: {
 		disabled: null,
 		label: null,
@@ -156,7 +156,7 @@ $.widget( "ui.checkboxradio", [ $.ui.formResetMixin, {
 	_getRadioGroup: function() {
 		var group;
 		var name = this.element[ 0 ].name;
-		var nameSelector = "input[name='" + $.escapeSelector( name ) + "']";
+		var nameSelector = "input[name='" + CSS.escape( name ) + "']";
 
 		if ( !name ) {
 			return $( [] );
@@ -168,7 +168,7 @@ $.widget( "ui.checkboxradio", [ $.ui.formResetMixin, {
 
 			// Not inside a form, check all inputs that also are not inside a form
 			group = $( nameSelector ).filter( function() {
-				return $( this )._form().length === 0;
+				return $( $( this ).prop( "form" ) ).length === 0;
 			} );
 		}
 

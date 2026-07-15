@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Dialog 1.13.3
+ * jQuery UI Dialog 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -31,8 +31,6 @@
 			"../focusable",
 			"../keycode",
 			"../position",
-			"../safe-active-element",
-			"../safe-blur",
 			"../tabbable",
 			"../unique-id",
 			"../version",
@@ -47,7 +45,7 @@
 "use strict";
 
 $.widget( "ui.dialog", {
-	version: "1.13.3",
+	version: "1.14.2",
 	options: {
 		appendTo: "body",
 		autoOpen: true,
@@ -83,6 +81,7 @@ $.widget( "ui.dialog", {
 		resizable: true,
 		show: null,
 		title: null,
+		uiDialogTitleHeadingLevel: 0,
 		width: 300,
 
 		// Callbacks
@@ -229,7 +228,7 @@ $.widget( "ui.dialog", {
 			// Hiding a focused element doesn't trigger blur in WebKit
 			// so in case we have nothing to focus on, explicitly blur the active element
 			// https://bugs.webkit.org/show_bug.cgi?id=47182
-			$.ui.safeBlur( $.ui.safeActiveElement( this.document[ 0 ] ) );
+			$( this.document[ 0 ].activeElement ).trigger( "blur" );
 		}
 
 		this._hide( this.uiDialog, this.options.hide, function() {
@@ -273,7 +272,7 @@ $.widget( "ui.dialog", {
 		}
 
 		this._isOpen = true;
-		this.opener = $( $.ui.safeActiveElement( this.document[ 0 ] ) );
+		this.opener = $( this.document[ 0 ].activeElement );
 
 		this._size();
 		this._position();
@@ -329,7 +328,7 @@ $.widget( "ui.dialog", {
 	},
 
 	_restoreTabbableFocus: function() {
-		var activeElement = $.ui.safeActiveElement( this.document[ 0 ] ),
+		var activeElement = this.document[ 0 ].activeElement,
 			isActive = this.uiDialog[ 0 ] === activeElement ||
 				$.contains( this.uiDialog[ 0 ], activeElement );
 		if ( !isActive ) {
@@ -340,11 +339,6 @@ $.widget( "ui.dialog", {
 	_keepFocus: function( event ) {
 		event.preventDefault();
 		this._restoreTabbableFocus();
-
-		// support: IE
-		// IE <= 8 doesn't prevent moving focus even with event.preventDefault()
-		// so we check again later
-		this._delay( this._restoreTabbableFocus );
 	},
 
 	_createWrapper: function() {
@@ -354,7 +348,8 @@ $.widget( "ui.dialog", {
 
 				// Setting tabIndex makes the div focusable
 				tabIndex: -1,
-				role: "dialog"
+				role: "dialog",
+				"aria-modal": this.options.modal ? "true" : null
 			} )
 			.appendTo( this._appendTo() );
 
@@ -427,9 +422,6 @@ $.widget( "ui.dialog", {
 			}
 		} );
 
-		// Support: IE
-		// Use type="button" to prevent enter keypresses in textboxes from closing the
-		// dialog in IE (#9312)
 		this.uiDialogTitlebarClose = $( "<button type='button'></button>" )
 			.button( {
 				label: $( "<a>" ).text( this.options.closeText ).html(),
@@ -446,7 +438,13 @@ $.widget( "ui.dialog", {
 			}
 		} );
 
-		uiDialogTitle = $( "<span>" ).uniqueId().prependTo( this.uiDialogTitlebar );
+		var uiDialogHeadingLevel = Number.isInteger( this.options.uiDialogTitleHeadingLevel ) &&
+			this.options.uiDialogTitleHeadingLevel > 0 &&
+			this.options.uiDialogTitleHeadingLevel <= 6 ?
+			"h" + this.options.uiDialogTitleHeadingLevel : "span";
+
+		uiDialogTitle = $( "<" + uiDialogHeadingLevel + ">" )
+			.uniqueId().prependTo( this.uiDialogTitlebar );
 		this._addClass( uiDialogTitle, "ui-dialog-title" );
 		this._title( uiDialogTitle );
 
@@ -772,6 +770,10 @@ $.widget( "ui.dialog", {
 		if ( key === "title" ) {
 			this._title( this.uiDialogTitlebar.find( ".ui-dialog-title" ) );
 		}
+
+		if ( key === "modal" ) {
+			uiDialog.attr( "aria-modal", value ? "true" : null );
+		}
 	},
 
 	_size: function() {
@@ -857,8 +859,6 @@ $.widget( "ui.dialog", {
 			return;
 		}
 
-		var jqMinor = $.fn.jquery.substring( 0, 4 );
-
 		// We use a delay in case the overlay is created from an
 		// event that we're going to be cancelling (#2804)
 		var isOpening = true;
@@ -880,18 +880,6 @@ $.widget( "ui.dialog", {
 				if ( !instance._allowInteraction( event ) ) {
 					event.preventDefault();
 					instance._focusTabbable();
-
-					// Support: jQuery >=3.4 <3.7 only
-					// In jQuery 3.4-3.6, there are multiple issues with focus/blur
-					// trigger chains or when triggering is done on a hidden element
-					// at least once.
-					// Trigger focus in a delay in addition if needed to avoid the issues.
-					// See https://github.com/jquery/jquery/issues/4382
-					// See https://github.com/jquery/jquery/issues/4856
-					// See https://github.com/jquery/jquery/issues/4950
-					if ( jqMinor === "3.4." || jqMinor === "3.5." || jqMinor === "3.6." ) {
-						instance._delay( instance._restoreTabbableFocus );
-					}
 				}
 			}.bind( this ) );
 		}
@@ -930,7 +918,7 @@ $.widget( "ui.dialog", {
 
 // DEPRECATED
 // TODO: switch return back to widget declaration at top of file when this is removed
-if ( $.uiBackCompat !== false ) {
+if ( $.uiBackCompat === true ) {
 
 	// Backcompat for dialogClass option
 	$.widget( "ui.dialog", $.ui.dialog, {

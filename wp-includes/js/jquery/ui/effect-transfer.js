@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects Transfer 1.13.3
+ * jQuery UI Effects Transfer 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -33,7 +33,7 @@
 "use strict";
 
 var effect;
-if ( $.uiBackCompat !== false ) {
+if ( $.uiBackCompat === true ) {
 	effect = $.effects.define( "transfer", function( options, done ) {
 		$( this ).transfer( options, done );
 	} );

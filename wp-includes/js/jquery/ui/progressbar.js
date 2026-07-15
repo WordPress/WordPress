@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Progressbar 1.13.3
+ * jQuery UI Progressbar 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -9,9 +9,7 @@
 
 //>>label: Progressbar
 //>>group: Widgets
-/* eslint-disable max-len */
 //>>description: Displays a status indicator for loading state, standard percentage, and other progress indicators.
-/* eslint-enable max-len */
 //>>docs: https://api.jqueryui.com/progressbar/
 //>>demos: https://jqueryui.com/progressbar/
 //>>css.structure: ../../themes/base/core.css
@@ -38,7 +36,7 @@
 "use strict";
 
 return $.widget( "ui.progressbar", {
-	version: "1.13.3",
+	version: "1.14.2",
 	options: {
 		classes: {
 			"ui-progressbar": "ui-corner-all",
