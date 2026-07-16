@@ -673,13 +673,22 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	 * @since 7.0.0 Only restricts contents which risk prematurely closing the STYLE element,
 	 *              either through a STYLE end tag or a prefix of one which might become a
 	 *              full end tag when combined with the contents of other styles.
+	 * @since 7.1.0 Rejects non-string values with a WP_Error instead of a fatal error.
 	 *
 	 * @see WP_Customize_Custom_CSS_Setting::validate()
 	 *
-	 * @param string $css CSS to validate.
+	 * @param mixed $css CSS to validate.
 	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
 	 */
 	protected function validate_custom_css( $css ) {
+		if ( ! is_string( $css ) ) {
+			return new WP_Error(
+				'rest_custom_css_invalid_type',
+				__( 'CSS must be a string.' ),
+				array( 'status' => 400 )
+			);
+		}
+
 		$length = strlen( $css );
 		for (
 			$at = strcspn( $css, '<' );
