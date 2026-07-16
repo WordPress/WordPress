@@ -1936,7 +1936,6 @@ final class WP_Customize_Manager {
 					'<code>customize_messenger_channel</code>'
 				)
 			);
-			return;
 		}
 
 		$this->prepare_controls();
@@ -3166,7 +3165,6 @@ final class WP_Customize_Manager {
 					'code'    => 'non_existent_changeset',
 				)
 			);
-			return;
 		}
 
 		if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->delete_post, $changeset_post_id ) ) {
@@ -3197,7 +3195,6 @@ final class WP_Customize_Manager {
 					'code'    => 'changeset_already_trashed',
 				)
 			);
-			return;
 		}
 
 		$r = $this->trash_changeset_post( $changeset_post_id );
