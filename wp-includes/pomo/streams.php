@@ -314,7 +314,7 @@ if ( ! class_exists( 'POMO_CachedFileReader', false ) ) :
 			parent::__construct();
 			$this->_str = file_get_contents( $filename );
 			if ( false === $this->_str ) {
-				return false;
+				return;
 			}
 			$this->_pos = 0;
 		}
