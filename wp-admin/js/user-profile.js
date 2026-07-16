@@ -21,7 +21,7 @@
 		originalFormContent,
 		$passwordWrapper,
 		successTimeout,
-		isMac = window.navigator.platform ? window.navigator.platform.indexOf( 'Mac' ) !== -1 : false, 
+		isMac = window.navigator.platform ? window.navigator.platform.indexOf( 'Mac' ) !== -1 : false,
 		ua = navigator.userAgent.toLowerCase(),
 		isSafari = window.safari !== 'undefined' && typeof window.safari === 'object',
 		isFirefox = ua.indexOf( 'firefox' ) !== -1;
@@ -59,11 +59,6 @@
 
 		// Once zxcvbn loads, passwords strength is known.
 		$( '#pw-weak-text-label' ).text( __( 'Confirm use of weak password' ) );
-
-		// Focus the password field if not the install screen.
-		if ( 'mailserver_pass' !== $pass1.prop('id' ) && ! $('#weblog_title').length ) {
-			$( $pass1 ).trigger( 'focus' );
-		}
 	}
 
 	function bindPass1() {
@@ -407,7 +402,7 @@
 	 *
 	 * @param {KeyboardEvent} e The keydown event object.
 	 *
-	 * @return {boolean} True if Caps Lock is on, false otherwise. 
+	 * @return {boolean} True if Caps Lock is on, false otherwise.
 	 */
 	function isCapsLockOn( event ) {
 		return event.getModifierState( 'CapsLock' );
