@@ -442,6 +442,15 @@ function rest_api_loaded() {
 		return;
 	}
 
+	// Short-circuit before define()/die() if a REST dispatch is already in flight.
+	// serve_request() enforces this too; guarding here avoids the trailing die().
+	if ( isset( $GLOBALS['wp_rest_server'] )
+		&& $GLOBALS['wp_rest_server'] instanceof WP_REST_Server
+		&& $GLOBALS['wp_rest_server']->is_dispatching()
+	) {
+		return;
+	}
+
 	// Return an error message if query_var is not a string.
 	if ( ! is_string( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
 		$rest_type_error = new WP_Error(
