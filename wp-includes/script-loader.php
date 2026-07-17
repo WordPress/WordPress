@@ -1721,6 +1721,7 @@ function wp_default_styles( $styles ) {
 
 	// Only add CONTENT styles here that should be enqueued in the iframe!
 	$wp_edit_blocks_dependencies = array(
+		'wp-theme',
 		'wp-base-styles',
 		'wp-components',
 		/*
@@ -1761,8 +1762,9 @@ function wp_default_styles( $styles ) {
 		'block-editor'         => array( 'wp-components', 'wp-preferences' ),
 		'block-library'        => array(),
 		'block-directory'      => array(),
+		'theme'                => array(),
 		'base-styles'          => array(),
-		'components'           => array(),
+		'components'           => array( 'wp-theme' ),
 		'commands'             => array( 'wp-components' ),
 		'edit-post'            => array(
 			'wp-components',
@@ -1829,6 +1831,10 @@ function wp_default_styles( $styles ) {
 			$path = "/wp-includes/css/dist/base-styles/admin-schemes$suffix.css";
 		}
 
+		if ( 'theme' === $package ) {
+			$path = "/wp-includes/css/dist/theme/design-tokens$suffix.css";
+		}
+
 		$styles->add( $handle, $path, $dependencies );
 		$styles->add_data( $handle, 'path', ABSPATH . $path );
 	}
@@ -1872,6 +1878,7 @@ function wp_default_styles( $styles ) {
 		'wp-reset-editor-styles',
 		'wp-editor-classic-layout-styles',
 		'wp-block-library-theme',
+		'wp-theme',
 		'wp-edit-blocks',
 		'wp-block-editor',
 		'wp-block-library',
