@@ -283,6 +283,12 @@ class WP_REST_Server {
 	 * @return null|false Null if not served and a HEAD request, false otherwise.
 	 */
 	public function serve_request( $path = null ) {
+		// Refuse to start a fresh top-level REST cycle while another dispatch
+		// is already in flight. Internal sub-requests must use dispatch().
+		if ( $this->is_dispatching() ) {
+			return false;
+		}
+
 		/* @var WP_User|null $current_user */
 		global $current_user;
 
@@ -1749,6 +1755,7 @@ class WP_REST_Server {
 		foreach ( $requests as $single_request ) {
 			if ( is_wp_error( $single_request ) ) {
 				$has_error    = true;
+				$matches[]    = $single_request;
 				$validation[] = $single_request;
 				continue;
 			}
