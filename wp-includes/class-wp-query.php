@@ -2401,12 +2401,16 @@ class WP_Query {
 		}
 
 		if ( ! empty( $q['author__not_in'] ) ) {
-			if ( is_array( $q['author__not_in'] ) ) {
-				$q['author__not_in'] = array_unique( array_map( 'absint', $q['author__not_in'] ) );
-				sort( $q['author__not_in'] );
+			$author__not_in_id_list = wp_parse_id_list( $q['author__not_in'] );
+			if ( count( $author__not_in_id_list ) > 0 ) {
+				sort( $author__not_in_id_list );
+				$where .= sprintf(
+					" AND {$wpdb->posts}.post_author NOT IN (%s) ",
+					implode( ',', $author__not_in_id_list )
+				);
+				/** Update the query var for stable cache key generation in {@see self::generate_cache_key()}. */
+				$q['author__not_in'] = $author__not_in_id_list;
 			}
-			$author__not_in = implode( ',', (array) $q['author__not_in'] );
-			$where         .= " AND {$wpdb->posts}.post_author NOT IN ($author__not_in) ";
 		} elseif ( ! empty( $q['author__in'] ) ) {
 			if ( is_array( $q['author__in'] ) ) {
 				$q['author__in'] = array_unique( array_map( 'absint', $q['author__in'] ) );
