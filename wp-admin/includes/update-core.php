@@ -900,8 +900,12 @@ $_old_files = array(
 	// 7.0.2
 	'wp-includes/collaboration',
 	'wp-includes/collaboration.php',
-	'wp-includes/js/dist/sync.js'.
-	'wp-includes/js/dist/sync.min.js',
+	/*
+	 * Added back in 7.1.
+	 *
+	 * 'wp-includes/js/dist/sync.js',
+	 * 'wp-includes/js/dist/sync.min.js',
+	 */
 );
 
 /**
