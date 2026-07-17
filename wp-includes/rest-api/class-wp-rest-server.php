@@ -1750,6 +1750,7 @@ class WP_REST_Server {
 		foreach ( $requests as $single_request ) {
 			if ( is_wp_error( $single_request ) ) {
 				$has_error    = true;
+				$matches[]    = $single_request;
 				$validation[] = $single_request;
 				continue;
 			}
