@@ -5021,12 +5021,15 @@ function wp_parse_args( $args, $defaults = array() ) {
  *
  * @since 5.1.0
  *
- * @param array|string $input_list List of values.
- * @return array Array of values.
+ * @param mixed[]|string $input_list List of values.
+ * @return array Array of values. A string is split into a list, while an array
+ *               keeps its keys, so the result is not necessarily a list.
+ * @phpstan-return ( $input_list is string ? list<string> : array<scalar> )
  */
-function wp_parse_list( $input_list ) {
+function wp_parse_list( $input_list ): array {
 	if ( ! is_array( $input_list ) ) {
-		return preg_split( '/[\s,]+/', $input_list, -1, PREG_SPLIT_NO_EMPTY );
+		$parsed_list = preg_split( '/[\s,]+/', $input_list, -1, PREG_SPLIT_NO_EMPTY );
+		return is_array( $parsed_list ) ? $parsed_list : array();
 	}
 
 	// Validate all entries of the list are scalar.
@@ -5041,10 +5044,13 @@ function wp_parse_list( $input_list ) {
  * @since 3.0.0
  * @since 5.1.0 Refactored to use wp_parse_list().
  *
- * @param array|string $input_list List of IDs.
- * @return int[] Sanitized array of IDs.
+ * @param mixed[]|string $input_list List of IDs.
+ * @return int[] Sanitized array of IDs. May include zero. Keys are preserved
+ *               from the input and `array_unique()` may leave gaps, so the
+ *               result is not necessarily a list.
+ * @phpstan-return array<non-negative-int>
  */
-function wp_parse_id_list( $input_list ) {
+function wp_parse_id_list( $input_list ): array {
 	$input_list = wp_parse_list( $input_list );
 
 	return array_unique( array_map( 'absint', $input_list ) );
@@ -5056,13 +5062,27 @@ function wp_parse_id_list( $input_list ) {
  * @since 4.7.0
  * @since 5.1.0 Refactored to use wp_parse_list().
  *
- * @param array|string $input_list List of slugs.
- * @return string[] Sanitized array of slugs.
+ * @param mixed[]|string $input_list List of slugs.
+ * @return string[] Sanitized array of slugs. May include an empty string. Keys
+ *                  are preserved from the input and `array_unique()` may leave
+ *                  gaps, so the result is not necessarily a list.
  */
-function wp_parse_slug_list( $input_list ) {
+function wp_parse_slug_list( $input_list ): array {
 	$input_list = wp_parse_list( $input_list );
 
-	return array_unique( array_map( 'sanitize_title', $input_list ) );
+	return array_unique(
+		array_map(
+			'sanitize_title',
+			array_map(
+				/*
+				 * Cast booleans, integers, and floats to strings. Non-scalar types
+				 * (including null) have already been filtered out by wp_parse_list().
+				 */
+				'strval',
+				$input_list
+			)
+		)
+	);
 }
 
 /**
