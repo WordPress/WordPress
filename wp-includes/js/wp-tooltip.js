@@ -8,7 +8,7 @@
  */
 (() => {
 
-	const popovers = /** @type {NodeListOf<HTMLDivElement>} */ ( document.querySelectorAll( '.wp-is-tooltip' ) );
+	const popovers = /** @type {NodeListOf<HTMLSpanElement>} */ ( document.querySelectorAll( '.wp-is-tooltip' ) );
 
 	/** @type {ReturnType<typeof setTimeout>} */
 	let openTimeout;

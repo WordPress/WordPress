@@ -430,13 +430,14 @@ function wp_get_toggletip( $content, $args ) {
 	$args['type'] = 'toggletip';
 	return wp_get_tooltip_helper( $content, $args );
 }
+
 /**
  * Retrieves the markup for an accessible tooltip or toggletip.
  *
  * Returns a button and either a hover/focus triggered tooltip popover or an action
  * triggered toggle tip. Enqueue the `wp-tooltip` style and script where it is used.
  * Tooltips are used to show the accessible name of a control.
- * Toggletips are be used for longer supporting text explaining context.
+ * Toggletips are used for longer supporting text explaining context.
  *
  * @since 7.1.0
  *
@@ -474,7 +475,6 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 		'icon'        => 'dashicons-editor-help',
 		'class'       => '',
 		'type'        => 'tooltip',
-		'attributes'  => array(),
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -488,18 +488,24 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 
 	$icon = '' !== $args['icon'] ? ' ' . $args['icon'] : '';
 
+	/*
+	 * The markup only uses phrasing content so it is valid when nested
+	 * in a phrasing context. Sectioning content (e.g. `div`, `dialog`) will
+	 * cause the parser to close an open `p`, creating an empty and breaking
+	 * the layout. See #65660.
+	 */
 	if ( 'tooltip' === $args['type'] ) {
 		// Tooltips are only used to visually display labels.
 		$label  = wp_strip_all_tags( $content, true );
 		$markup = sprintf(
-			'<div class="%1$s">' .
+			'<span class="%1$s">' .
 				'<button type="button" class="wp-tooltip__toggle" popovertarget="%2$s" aria-label="%3$s">' .
 					'<span class="dashicons%4$s" aria-hidden="true"></span>' .
 				'</button>' .
 				'<span popover="hint" id="%2$s" class="wp-tooltip__bubble" role="tooltip">' .
 					'<span id="%2$s-text" class="wp-tooltip__text">%5$s</span>' .
 				'</span>' .
-			'</div>',
+			'</span>',
 			esc_attr( $classes ),
 			esc_attr( $id ),
 			esc_attr( $label ),
@@ -507,18 +513,23 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 			esc_html( $content ),
 		);
 	} else {
+		/*
+		 * A `span` with `role="dialog"` is used instead of a `dialog` element to keep the
+		 * markup as phrasing content. The `aria-label`, `tabindex`, and `autofocus`
+		 * attributes reproduce the accessible name and focus handling of the native element.
+		 */
 		$markup = sprintf(
-			'<div class="%1$s">' .
+			'<span class="%1$s">' .
 				'<button type="button" class="wp-tooltip__toggle" popovertarget="%2$s" aria-label="%3$s" aria-haspopup="dialog">' .
 					'<span class="dashicons%4$s" aria-hidden="true"></span>' .
 				'</button>' .
-				'<dialog popover="auto" id="%2$s" class="wp-tooltip__bubble" autofocus>' .
+				'<span popover="auto" id="%2$s" class="wp-tooltip__bubble" role="dialog" aria-label="%3$s" tabindex="-1" autofocus>' .
 					'<span id="%2$s-text" class="wp-tooltip__text">%5$s</span>' .
 					'<button type="button" class="wp-tooltip__close" popovertarget="%2$s" popovertargetaction="hide" aria-label="%6$s">' .
 						'<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>' .
 					'</button>' .
-				'</dialog>' .
-			'</div>',
+				'</span>' .
+			'</span>',
 			esc_attr( $classes ),
 			esc_attr( $id ),
 			esc_attr( $args['label'] ),
