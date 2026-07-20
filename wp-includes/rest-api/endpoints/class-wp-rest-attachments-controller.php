@@ -2413,14 +2413,23 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			);
 		}
 
-		// 'original' size: should match original attachment dimensions.
+		/*
+		 * 'original' size: the full-size image that replaces the main file (see
+		 * sideload_item()/finalize_item()). The endpoint expects any EXIF
+		 * orientation to be applied to the image already, which can swap width
+		 * and height, so the dimensions must match the stored dimensions or be
+		 * their transpose.
+		 */
 		if ( 'original' === $image_size ) {
 			$metadata = wp_get_attachment_metadata( $attachment_id, true );
 			if ( is_array( $metadata ) && isset( $metadata['width'], $metadata['height'] ) ) {
 				$expected_width  = (int) $metadata['width'];
 				$expected_height = (int) $metadata['height'];
 
-				if ( $width !== $expected_width || $height !== $expected_height ) {
+				$matches_dimensions    = $width === $expected_width && $height === $expected_height;
+				$transposes_dimensions = $width === $expected_height && $height === $expected_width;
+
+				if ( ! $matches_dimensions && ! $transposes_dimensions ) {
 					return new WP_Error(
 						'rest_upload_dimension_mismatch',
 						sprintf(
@@ -2665,8 +2674,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$sub_size_data['file']      = wp_basename( $path );
 			$sub_size_data['mime_type'] = $type;
 			$sub_size_data['filesize']  = wp_filesize( $path );
-		} elseif ( 'original' === $image_size ) {
-			$sub_size_data['file'] = wp_basename( $path );
 		} elseif ( self::IMAGE_SIZE_SOURCE_ORIGINAL === $image_size ) {
 			/*
 			 * Source-format original (e.g. the HEIC kept next to its JPEG
@@ -2681,8 +2688,16 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			 * finalize_item can store it under its dedicated meta key.
 			 */
 			$sub_size_data['file'] = wp_basename( $path );
-		} elseif ( 'scaled' === $image_size ) {
-			// Record the current attached file as the original.
+		} elseif ( 'scaled' === $image_size || 'original' === $image_size ) {
+			/*
+			 * 'scaled' and 'original' both replace the attachment's main file
+			 * with the supplied image and keep the file being replaced as
+			 * `original_image`, which is the untouched upload. A 'scaled'
+			 * image is downsized and an 'original' image has any EXIF
+			 * orientation already applied. This is the same swap WordPress
+			 * makes when it scales or rotates an image on upload; see
+			 * _wp_image_meta_replace_original().
+			 */
 			$current_file = get_attached_file( $attachment_id, true );
 
 			if ( ! $current_file ) {
@@ -2695,19 +2710,19 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 			$sub_size_data['original_image'] = wp_basename( $current_file );
 
-			// Validate the scaled image before updating the attached file.
+			// Validate the supplied image before updating the attached file.
 			$size     = wp_getimagesize( $path );
 			$filesize = wp_filesize( $path );
 
 			if ( ! $size || ! $filesize ) {
 				return new WP_Error(
 					'rest_sideload_invalid_image',
-					__( 'Unable to read the scaled image file.' ),
+					__( 'Unable to read the sideloaded image file.' ),
 					array( 'status' => 500 )
 				);
 			}
 
-			// Update the attached file to point to the scaled version.
+			// Update the attached file to point to the supplied image.
 			// This writes to _wp_attached_file meta, not _wp_attachment_metadata.
 			if (
 				get_attached_file( $attachment_id, true ) !== $path &&
@@ -2834,8 +2849,39 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				continue;
 			}
 
-			if ( 'original' === $image_size ) {
-				$metadata['original_image'] = $sub_size['file'];
+			if ( 'original' === $image_size || 'scaled' === $image_size ) {
+				// Skip malformed entries so a bad payload cannot blank out the
+				// main file metadata.
+				if ( empty( $sub_size['file'] ) ) {
+					continue;
+				}
+
+				/*
+				 * Record the supplied full-size image (from sideload_item()) as
+				 * the main file, keeping the current attached file as
+				 * `original_image`. A 'scaled' image is downsized and an
+				 * 'original' image is rotated; both have any EXIF orientation
+				 * already applied by the client.
+				 */
+				if ( ! empty( $sub_size['original_image'] ) ) {
+					$metadata['original_image'] = $sub_size['original_image'];
+				}
+				$metadata['width']    = $sub_size['width'] ?? 0;
+				$metadata['height']   = $sub_size['height'] ?? 0;
+				$metadata['filesize'] = $sub_size['filesize'] ?? 0;
+				$metadata['file']     = $sub_size['file'];
+
+				/*
+				 * The supplied image has its orientation applied already, so
+				 * reset the stored value (from the upload) to 1, as
+				 * wp_create_image_subsizes() does for both its scale and rotate
+				 * paths. Otherwise exif_orientation would still report the
+				 * pre-rotation value and the client would rotate the image
+				 * again on a re-fetch.
+				 */
+				if ( ! empty( $metadata['image_meta']['orientation'] ) ) {
+					$metadata['image_meta']['orientation'] = 1;
+				}
 			} elseif ( self::IMAGE_SIZE_SOURCE_ORIGINAL === $image_size ) {
 				/*
 				 * Source-format original: stored under its own meta key so the
@@ -2855,14 +2901,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			} elseif ( 'animated_video_poster' === $image_size ) {
 				// Static first-frame poster for the converted video.
 				$metadata['animated_video_poster'] = $sub_size['file'];
-			} elseif ( 'scaled' === $image_size ) {
-				if ( ! empty( $sub_size['original_image'] ) ) {
-					$metadata['original_image'] = $sub_size['original_image'];
-				}
-				$metadata['width']    = $sub_size['width'] ?? 0;
-				$metadata['height']   = $sub_size['height'] ?? 0;
-				$metadata['filesize'] = $sub_size['filesize'] ?? 0;
-				$metadata['file']     = $sub_size['file'] ?? '';
 			} else {
 				$metadata['sizes'] = $metadata['sizes'] ?? array();
 
