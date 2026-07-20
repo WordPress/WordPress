@@ -6608,17 +6608,6 @@ function wp_set_client_side_media_processing_flag(): void {
 	if ( null !== $chromium_version && $chromium_version >= 137 ) {
 		wp_add_inline_script( 'wp-block-editor', 'window.__documentIsolationPolicy = true;', 'before' );
 	}
-
-	/*
-	 * Register the @wordpress/vips/worker script module as a dynamic dependency
-	 * of the wp-upload-media classic script. This ensures it is included in the
-	 * import map so that the dynamic import() in upload-media.js can resolve it.
-	 */
-	wp_scripts()->add_data(
-		'wp-upload-media',
-		'module_dependencies',
-		array( '@wordpress/vips/worker' )
-	);
 }
 
 /**
