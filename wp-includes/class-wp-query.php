@@ -2825,11 +2825,11 @@ class WP_Query {
 		if ( $this->is_comment_feed && ! $this->is_singular ) {
 			if ( $this->is_archive || $this->is_search ) {
 				$cjoin    = "JOIN {$wpdb->posts} ON ( {$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID ) $join ";
-				$cwhere   = "WHERE comment_approved = '1' $where";
+				$cwhere   = "WHERE comment_approved = '1' AND {$wpdb->comments}.comment_type != 'note' $where";
 				$cgroupby = "{$wpdb->comments}.comment_id";
 			} else { // Other non-singular, e.g. front.
 				$cjoin    = "JOIN {$wpdb->posts} ON ( {$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID )";
-				$cwhere   = "WHERE ( post_status = 'publish' OR ( post_status = 'inherit' AND post_type = 'attachment' ) ) AND comment_approved = '1'";
+				$cwhere   = "WHERE ( post_status = 'publish' OR ( post_status = 'inherit' AND post_type = 'attachment' ) ) AND comment_approved = '1' AND {$wpdb->comments}.comment_type != 'note'";
 				$cgroupby = '';
 			}
 
@@ -3487,7 +3487,7 @@ class WP_Query {
 			$cjoin = apply_filters_ref_array( 'comment_feed_join', array( '', &$this ) );
 
 			/** This filter is documented in wp-includes/class-wp-query.php */
-			$cwhere = apply_filters_ref_array( 'comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'", &$this ) );
+			$cwhere = apply_filters_ref_array( 'comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1' AND {$wpdb->comments}.comment_type != 'note'", &$this ) );
 
 			/** This filter is documented in wp-includes/class-wp-query.php */
 			$cgroupby = apply_filters_ref_array( 'comment_feed_groupby', array( '', &$this ) );
