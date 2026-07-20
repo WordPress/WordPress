@@ -1384,6 +1384,20 @@ class WP_REST_Server {
 
 			/** This filter is documented in wp-admin/includes/image.php */
 			$available['image_size_threshold'] = (int) apply_filters( 'big_image_size_threshold', 2560, array( 0, 0 ), '', 0 );
+
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			$available['image_strip_meta'] = (bool) apply_filters( 'image_strip_meta', true );
+
+			/*
+			 * On the server, this filter receives the decoded image's actual bit depth.
+			 * The client path never decodes the image on the server, so the filter is
+			 * applied with 16 (the maximum depth the client encoder can produce) as
+			 * both the value and the current depth. The client caps its output bit
+			 * depth at the filtered value, so a plugin lowering it (e.g. to 8) takes
+			 * effect on client-generated images too.
+			 */
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			$available['image_max_bit_depth'] = (int) apply_filters( 'image_max_bit_depth', 16, 16 );
 		}
 
 		$response = new WP_REST_Response( $available );
