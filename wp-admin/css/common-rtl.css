@@ -1083,6 +1083,8 @@ th.action-links {
 	box-shadow: none;
 	border-bottom: 4px solid var(--wp-admin-theme-color);
 	color: #1d2327;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .filter-links li > a:hover,
