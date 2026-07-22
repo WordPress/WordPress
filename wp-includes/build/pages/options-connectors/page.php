@@ -283,7 +283,7 @@ function wp_options_connectors_render_page() {
 	// BEGIN see wp-admin/admin-footer.php
 
 	/** This action is documented in wp-admin/admin-footer.php */
-	do_action( 'admin_footer', '' );
+	do_action( 'admin_footer', $hook_suffix );
 
 	// Print import map first so it's available for inline scripts
 	wp_script_modules()->print_import_map();

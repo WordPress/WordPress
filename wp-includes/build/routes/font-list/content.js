@@ -8983,6 +8983,10 @@ function isInWordPressEnvironment() {
   return typeof wp?.components === "object" && wp.components !== null;
 }
 var cachedSlot = null;
+function ensureSlotIsAccessible(element) {
+  element.setAttribute("aria-hidden", "false");
+  return element;
+}
 function createSlot(ownerDocument2) {
   const element = ownerDocument2.createElement("div");
   element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
@@ -9004,19 +9008,19 @@ function getWpCompatOverlaySlot() {
     return void 0;
   }
   if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
-    return cachedSlot;
+    return ensureSlotIsAccessible(cachedSlot);
   }
   const existing = ownerDocument2.querySelector(
     `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
   );
   if (existing instanceof HTMLDivElement) {
-    cachedSlot = existing;
-    return existing;
+    cachedSlot = ensureSlotIsAccessible(existing);
+    return cachedSlot;
   }
   if (cachedSlot?.isConnected) {
     cachedSlot.remove();
   }
-  cachedSlot = createSlot(ownerDocument2);
+  cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
   return cachedSlot;
 }
 
@@ -10109,6 +10113,49 @@ var PRESET_METADATA = [
     classes: []
   }
 ];
+function getResolvedRefValue(ruleValue, tree) {
+  if (!ruleValue || !tree) {
+    return ruleValue;
+  }
+  if (typeof ruleValue === "object" && "ref" in ruleValue && ruleValue?.ref) {
+    const resolvedRuleValue = (0, import_style_engine.getCSSValueFromRawStyle)(
+      getValueFromObjectPath(tree, ruleValue.ref)
+    );
+    if (typeof resolvedRuleValue === "object" && resolvedRuleValue !== null && "ref" in resolvedRuleValue && resolvedRuleValue?.ref) {
+      return void 0;
+    }
+    if (resolvedRuleValue === void 0) {
+      return ruleValue;
+    }
+    return resolvedRuleValue;
+  }
+  return ruleValue;
+}
+function getResolvedThemeFilePath(file, themeFileURIs) {
+  if (!file || !themeFileURIs || !Array.isArray(themeFileURIs)) {
+    return file;
+  }
+  const uri = themeFileURIs.find(
+    (themeFileUri) => themeFileUri?.name === file
+  );
+  if (!uri?.href) {
+    return file;
+  }
+  return uri?.href;
+}
+function getResolvedValue(ruleValue, tree) {
+  if (!ruleValue || !tree) {
+    return ruleValue;
+  }
+  const resolvedValue = getResolvedRefValue(ruleValue, tree);
+  if (typeof resolvedValue === "object" && resolvedValue !== null && "url" in resolvedValue && resolvedValue?.url) {
+    resolvedValue.url = getResolvedThemeFilePath(
+      resolvedValue.url,
+      tree?._links?.["wp:theme-file"]
+    );
+  }
+  return resolvedValue;
+}
 function findInPresetsBy(settings, blockName, presetPath = [], presetProperty = "slug", presetValueValue) {
   const orderedPresetsByOrigin = [
     blockName ? getValueFromObjectPath(settings, [
@@ -10628,6 +10675,363 @@ function getResponsiveMediaQueries(configOrSettings) {
   return mediaQueries;
 }
 
+// packages/global-styles-engine/build-module/variation.mjs
+function getVariationStyle(globalStyles, name2, variation, { resolveRefs = true } = {}) {
+  if (!globalStyles?.styles?.blocks?.[name2]?.variations?.[variation]) {
+    return void 0;
+  }
+  const replaceRefs = (variationStyles) => {
+    Object.keys(variationStyles).forEach((key) => {
+      const value = variationStyles[key];
+      if (typeof value === "object" && value !== null) {
+        if (value.ref !== void 0) {
+          if (typeof value.ref !== "string" || value.ref.trim() === "") {
+            delete variationStyles[key];
+          } else {
+            const refValue = getValueFromObjectPath(
+              globalStyles,
+              value.ref
+            );
+            if (refValue !== void 0 && refValue !== null) {
+              variationStyles[key] = refValue;
+            } else {
+              delete variationStyles[key];
+            }
+          }
+        } else {
+          replaceRefs(value);
+          if (Object.keys(value).length === 0) {
+            delete variationStyles[key];
+          }
+        }
+      }
+    });
+  };
+  const styles = JSON.parse(
+    JSON.stringify(
+      globalStyles.styles.blocks[name2].variations[variation]
+    )
+  );
+  if (resolveRefs) {
+    replaceRefs(styles);
+  }
+  return styles;
+}
+
+// packages/global-styles-engine/build-module/resolve-style.mjs
+var DEFAULT_STATE_VALUE = "default";
+function isDefaultBlockStyleState(selectedState) {
+  const viewport = selectedState?.viewport;
+  const pseudoState = selectedState?.pseudoState;
+  return (!viewport || viewport === DEFAULT_STATE_VALUE) && (!pseudoState || pseudoState === DEFAULT_STATE_VALUE);
+}
+function getStyleStatePath(selectedState) {
+  if (isDefaultBlockStyleState(selectedState)) {
+    return [];
+  }
+  return [selectedState.viewport, selectedState.pseudoState].filter(
+    (state) => !!state && state !== DEFAULT_STATE_VALUE
+  );
+}
+function getStyleForState(style, selectedState) {
+  const path = getStyleStatePath(selectedState);
+  if (!path.length) {
+    return style;
+  }
+  return getValueFromObjectPath(style, path);
+}
+var TREE_STRUCTURAL_KEYS = /* @__PURE__ */ new Set(["blocks", "variations", "css"]);
+var EMPTY_INHERITANCE = Object.freeze({
+  value: {},
+  sources: {}
+});
+var SOURCE_DESCRIPTORS = {
+  root: { layer: "root" },
+  element: { layer: "element" },
+  block: { layer: "block" },
+  blockVariation: { layer: "blockVariation" }
+};
+function createSourceDescriptor(type) {
+  const descriptor = SOURCE_DESCRIPTORS[type];
+  if (!descriptor) {
+    return null;
+  }
+  return { ...descriptor };
+}
+function createContribution(styles, source) {
+  if (!styles || !source) {
+    return null;
+  }
+  return { styles, source };
+}
+function getPathKey(path) {
+  return path.join(".");
+}
+function getSourceForPath(source) {
+  return { ...source };
+}
+function isExplicitEmpty(value) {
+  if (value === "" || value === null) {
+    return true;
+  }
+  if (typeof value === "object" && !Array.isArray(value) && Object.keys(value).length === 0) {
+    return true;
+  }
+  return false;
+}
+function isRefObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value) && typeof value.ref === "string";
+}
+function pickLayerRootContribution(layer) {
+  if (!layer || typeof layer !== "object" || Array.isArray(layer)) {
+    return null;
+  }
+  const contribution = {};
+  for (const key of Object.keys(layer)) {
+    if (TREE_STRUCTURAL_KEYS.has(key)) {
+      continue;
+    }
+    if (key === "elements") {
+      if (layer.elements && typeof layer.elements === "object") {
+        contribution.elements = layer.elements;
+      }
+      continue;
+    }
+    if (isExplicitEmpty(layer[key])) {
+      continue;
+    }
+    contribution[key] = layer[key];
+  }
+  return Object.keys(contribution).length === 0 ? null : contribution;
+}
+var ATOMIC_OBJECT_KEYS = /* @__PURE__ */ new Set(["backgroundImage"]);
+function deepMergeDroppingEmpties(target, source, globalStyles, sourceMetadata, sources, path = []) {
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return target;
+  }
+  for (const key of Object.keys(source)) {
+    let sourceValue = source[key];
+    if (isExplicitEmpty(sourceValue)) {
+      continue;
+    }
+    if (isRefObject(sourceValue)) {
+      if (sourceValue.ref.trim() === "") {
+        continue;
+      }
+      const resolved = getValueFromObjectPath(
+        globalStyles,
+        sourceValue.ref
+      );
+      if (resolved === void 0 || resolved === null || isRefObject(resolved)) {
+        continue;
+      }
+      sourceValue = resolved;
+    }
+    const nextPath = [...path, key];
+    if (!ATOMIC_OBJECT_KEYS.has(key) && sourceValue !== null && typeof sourceValue === "object" && !Array.isArray(sourceValue) && !isRefObject(sourceValue)) {
+      const existing = target[key] && typeof target[key] === "object" && !Array.isArray(target[key]) ? target[key] : {};
+      target[key] = deepMergeDroppingEmpties(
+        { ...existing },
+        sourceValue,
+        globalStyles,
+        sourceMetadata,
+        sources,
+        nextPath
+      );
+    } else {
+      target[key] = ATOMIC_OBJECT_KEYS.has(key) && sourceValue !== null && typeof sourceValue === "object" && !Array.isArray(sourceValue) ? { ...sourceValue } : sourceValue;
+      if (sourceMetadata && sources) {
+        sources[getPathKey(nextPath)] = getSourceForPath(sourceMetadata);
+      }
+    }
+  }
+  return target;
+}
+function getStateSlice(layerObject, selectedState) {
+  if (!layerObject) {
+    return null;
+  }
+  const slice = getStyleForState(layerObject, selectedState);
+  return slice && typeof slice === "object" && !Array.isArray(slice) ? slice : null;
+}
+var NON_CASCADING_ROOT_PREFIXES = [
+  "color.background",
+  "color.gradient",
+  "background",
+  "spacing",
+  "dimensions",
+  "border",
+  "shadow",
+  "filter"
+];
+function isNonCascadingRootPath(pathKey) {
+  if (pathKey.startsWith("elements.")) {
+    return false;
+  }
+  return NON_CASCADING_ROOT_PREFIXES.some(
+    (prefix) => pathKey === prefix || pathKey.startsWith(`${prefix}.`)
+  );
+}
+function deleteAtPath(target, pathSegments) {
+  if (!target || typeof target !== "object") {
+    return;
+  }
+  const [head2, ...rest] = pathSegments;
+  if (rest.length === 0) {
+    delete target[head2];
+    return;
+  }
+  const child = target[head2];
+  if (child && typeof child === "object") {
+    deleteAtPath(child, rest);
+    if (Object.keys(child).length === 0) {
+      delete target[head2];
+    }
+  }
+}
+function dropNonCascadingRootLeaves(value, sources) {
+  for (const pathKey of Object.keys(sources)) {
+    if (sources[pathKey].layer === "root" && isNonCascadingRootPath(pathKey)) {
+      deleteAtPath(value, pathKey.split("."));
+      delete sources[pathKey];
+    }
+  }
+}
+function resolveThemeFileBackgroundImage(value, globalStyles, links) {
+  const image = value?.background?.backgroundImage;
+  if (!image) {
+    return;
+  }
+  const resolved = getResolvedValue(image, {
+    ...globalStyles,
+    _links: links ?? void 0
+  });
+  if (resolved !== void 0) {
+    value.background.backgroundImage = resolved;
+  }
+}
+function computeResolvedStyle(globalStyles, {
+  blockName,
+  variationName = null,
+  elements: elements2 = null,
+  viewport = null,
+  pseudoState = null
+} = {}) {
+  if (!globalStyles || !globalStyles.styles) {
+    return EMPTY_INHERITANCE;
+  }
+  if (!blockName) {
+    return EMPTY_INHERITANCE;
+  }
+  const styles = globalStyles.styles;
+  const selectedState = { viewport, pseudoState };
+  const root = styles;
+  const block = styles.blocks?.[blockName] ?? null;
+  const elementLayers = (elements2 ?? []).map((elementName) => styles.elements?.[elementName] ?? null).filter((layer) => !!layer);
+  const variation = variationName ? getVariationStyle(globalStyles, blockName, variationName) ?? null : null;
+  const contributions = [
+    createContribution(
+      pickLayerRootContribution(root),
+      createSourceDescriptor("root")
+    ),
+    ...elementLayers.map(
+      (layer) => createContribution(
+        pickLayerRootContribution(layer),
+        createSourceDescriptor("element")
+      )
+    ),
+    block ? createContribution(
+      pickLayerRootContribution(block),
+      createSourceDescriptor("block")
+    ) : null,
+    variation ? createContribution(
+      pickLayerRootContribution(variation),
+      createSourceDescriptor("blockVariation")
+    ) : null
+  ];
+  if (!isDefaultBlockStyleState(selectedState)) {
+    contributions.push(
+      createContribution(
+        pickLayerRootContribution(
+          getStateSlice(root, selectedState)
+        ),
+        createSourceDescriptor("root")
+      ),
+      ...elementLayers.map(
+        (layer) => createContribution(
+          pickLayerRootContribution(
+            getStateSlice(layer, selectedState)
+          ),
+          createSourceDescriptor("element")
+        )
+      ),
+      block ? createContribution(
+        pickLayerRootContribution(
+          getStateSlice(block, selectedState)
+        ),
+        createSourceDescriptor("block")
+      ) : null,
+      variation ? createContribution(
+        pickLayerRootContribution(
+          getStateSlice(variation, selectedState)
+        ),
+        createSourceDescriptor("blockVariation")
+      ) : null
+    );
+  }
+  const filteredContributions = contributions.filter(
+    Boolean
+  );
+  if (filteredContributions.length === 0) {
+    return EMPTY_INHERITANCE;
+  }
+  const sources = {};
+  const value = filteredContributions.reduce(
+    (mergedValue, contribution) => deepMergeDroppingEmpties(
+      mergedValue,
+      contribution.styles,
+      globalStyles,
+      contribution.source,
+      sources
+    ),
+    {}
+  );
+  dropNonCascadingRootLeaves(value, sources);
+  resolveThemeFileBackgroundImage(
+    value,
+    globalStyles,
+    globalStyles._links ?? null
+  );
+  return { value, sources };
+}
+var NO_LINKS = {};
+var memo = /* @__PURE__ */ new WeakMap();
+function resolveStyle2(globalStyles, context = {}) {
+  const styleData = globalStyles?.styles;
+  if (!styleData || typeof styleData !== "object") {
+    return computeResolvedStyle(globalStyles, context);
+  }
+  let byLinks = memo.get(styleData);
+  if (!byLinks) {
+    byLinks = /* @__PURE__ */ new WeakMap();
+    memo.set(styleData, byLinks);
+  }
+  const linksKey = globalStyles?._links ?? NO_LINKS;
+  let inner = byLinks.get(linksKey);
+  if (!inner) {
+    inner = /* @__PURE__ */ new Map();
+    byLinks.set(linksKey, inner);
+  }
+  const sliceKey = `${context.elements?.join(",") ?? ""}:${context.viewport ?? ""}:${context.pseudoState ?? ""}`;
+  const key = (context.blockName || "") + "" + (context.variationName || "") + "" + sliceKey;
+  if (inner.has(key)) {
+    return inner.get(key);
+  }
+  const result = computeResolvedStyle(globalStyles, context);
+  inner.set(key, result);
+  return result;
+}
+
 // packages/global-styles-engine/build-module/lock-unlock.mjs
 var import_private_apis2 = __toESM(require_private_apis(), 1);
 var { lock: lock2, unlock: unlock2 } = (0, import_private_apis2.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
@@ -10640,7 +11044,9 @@ var privateApis = {};
 lock2(privateApis, {
   getResponsiveMediaQueries,
   getViewportBreakpoints,
-  getViewportBreakpointValueInPixels
+  getViewportBreakpointValueInPixels,
+  resolveStyle: resolveStyle2,
+  getVariationStyle
 });
 
 // packages/global-styles-ui/build-module/provider.mjs

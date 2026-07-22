@@ -5751,7 +5751,8 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   overflow: hidden;
 }
 
-.editor-collab-sidebar-panel__thread {
+.editor-collab-sidebar-panel__thread,
+.editor-collab-sidebar-panel__add-note {
   position: relative;
   padding: 16px;
   border-radius: 8px;
@@ -5760,16 +5761,19 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   overflow: hidden;
   width: auto;
 }
-.editor-collab-sidebar-panel__thread.is-selected {
+.editor-collab-sidebar-panel__thread.is-selected,
+.editor-collab-sidebar-panel__add-note.is-selected {
   background-color: #fff;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 5px rgba(0, 0, 0, 0.04), 0 12px 12px rgba(0, 0, 0, 0.03), 0 16px 16px rgba(0, 0, 0, 0.02);
   z-index: 1;
 }
-.editor-collab-sidebar-panel__thread:focus {
+.editor-collab-sidebar-panel__thread:focus,
+.editor-collab-sidebar-panel__add-note:focus {
   outline: var(--wp-admin-border-width-focus) solid var(--wp-admin-theme-color);
   outline-offset: calc(-1 * var(--wp-admin-border-width-focus));
 }
-.editor-collab-sidebar-panel__thread.is-floating {
+.editor-collab-sidebar-panel__thread.is-floating,
+.editor-collab-sidebar-panel__add-note.is-floating {
   left: 16px;
   right: 16px;
   position: absolute;
@@ -5874,7 +5878,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   background: #f0f0f0;
   border-radius: 2px;
 }
-.editor-collab-sidebar-panel__note-form [role=textbox] a:not(.wp-note-mention) {
+.editor-collab-sidebar-panel__note-form [role=textbox] a {
   color: var(--wp-admin-theme-color);
   text-decoration: underline;
 }
@@ -5942,13 +5946,17 @@ mark.wp-note {
 
 .wp-note-mention {
   display: inline;
-  padding: 0 4px;
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--wp-admin-theme-color) 12%, transparent);
-  color: var(--wp-admin-theme-color);
+  padding: 0 var(--wpds-dimension-padding-xs, 4px);
+  border-radius: var(--wpds-border-radius-sm, 2px);
+  background: var(--wpds-color-background-surface-brand, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 9%, white));
+  color: var(--wpds-color-foreground-interactive-brand, var(--wp-admin-theme-color, #3858e9));
   font-weight: var(--wpds-typography-font-weight-emphasis, 600);
   white-space: nowrap;
-  text-decoration: none;
+}
+@media (forced-colors: active) {
+  .wp-note-mention {
+    border: 1px solid;
+  }
 }
 
 .editor-collab-sidebar-panel__mention-suggestion .editor-autocompleters__user-avatar {
@@ -6620,8 +6628,14 @@ mark.wp-note {
   isolation: isolate;
 }
 
-.editor-editor-interface .editor-notices {
-  padding: var(--wpds-dimension-padding-md, 12px);
+.editor-notices.notices-inline-notices-wrapper,
+.editor-notices .components-notice-list {
+  gap: 0;
+}
+
+.editor-notices .components-notice {
+  border-top-width: 0;
+  border-inline-width: 0;
 }
 
 .editor-visual-editor {
@@ -8191,9 +8205,13 @@ textarea.editor-post-text-editor::placeholder {
   padding-left: 6px;
 }
 
+.editor-preview-dropdown.is-responsive-editing .editor-preview-dropdown__toggle {
+  color: var(--wp-block-synced-color);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .editor-resizable-editor:not(.is-resizing) {
-    transition: width 0.2s ease-out;
+    transition: width 0.2s ease-out, height 0.2s ease-out;
   }
 }
 
@@ -8699,4 +8717,28 @@ textarea.editor-post-text-editor::placeholder {
 .editor-push-changes-to-global-styles-control .components-button {
   justify-content: center;
   width: 100%;
+}
+
+.editor-push-changes-to-global-styles-modal p {
+  margin-top: 0;
+}
+
+.editor-push-changes-to-global-styles-modal .dataviews-layout__container {
+  overflow-x: hidden;
+}
+@media (max-width: 600px) {
+  .editor-push-changes-to-global-styles-modal .dataviews-layout__container {
+    overflow-x: auto;
+  }
+}
+.editor-push-changes-to-global-styles-modal .components-modal__content {
+  padding-bottom: 0;
+}
+.editor-push-changes-to-global-styles-modal .dataviews-footer {
+  padding-bottom: 24px;
+}
+
+.editor-push-changes-to-global-styles-modal__value {
+  color: #1e1e1e;
+  overflow-wrap: anywhere;
 }

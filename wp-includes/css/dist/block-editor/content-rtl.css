@@ -416,14 +416,6 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   }
 }
 
-.block-editor-block-list__block:not(.is-selected):not(.has-child-selected) .block-editor-default-block-appender {
-  display: none;
-}
-.block-editor-block-list__block:not(.is-selected):not(.has-child-selected) .block-editor-default-block-appender .block-editor-inserter__toggle {
-  opacity: 0;
-  transform: scale(0);
-}
-
 .block-editor-block-list__block .block-editor-block-list__block-html-textarea {
   display: block;
   margin: 0;
@@ -629,10 +621,10 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   color: #000;
 }
 
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender), .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender), .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender), .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender) {
   pointer-events: none;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child::after {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender)::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender)::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender)::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender)::after {
   content: "";
   position: absolute;
   top: 0;
@@ -642,28 +634,28 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
   pointer-events: none;
   border: 1px dashed currentColor;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter {
   opacity: 0;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter:focus-within, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter:focus-within, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter:focus-within, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter:focus-within {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter:focus-within, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter:focus-within, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter:focus-within, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender) .block-editor-inserter:focus-within {
   opacity: 1;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child.is-drag-over::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child.is-drag-over::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child.is-drag-over::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child.is-drag-over::after {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over::after, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over::after {
   border: none;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child.is-drag-over .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child.is-drag-over .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child.is-drag-over .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child.is-drag-over .block-editor-inserter {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-constrained.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-inserter, .block-editor-block-list__block:not(.is-selected) > .is-layout-flow.wp-block-group__inner-container > .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-inserter {
   visibility: visible;
 }
-.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__block > .block-list-appender:only-child::after {
+.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__block > .block-list-appender:only-child:has(.block-editor-button-block-appender)::after {
   border: none;
 }
-.block-list-appender:only-child.is-drag-over .block-editor-button-block-appender {
+.block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-button-block-appender {
   background-color: var(--wp-admin-theme-color);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
   color: rgba(255, 255, 255, 0.65);
 }
 @media not (prefers-reduced-motion) {
-  .block-list-appender:only-child.is-drag-over .block-editor-button-block-appender {
+  .block-list-appender:only-child:has(.block-editor-button-block-appender).is-drag-over .block-editor-button-block-appender {
     transition: background-color 0.2s ease-in-out;
   }
 }

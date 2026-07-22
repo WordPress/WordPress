@@ -157,6 +157,13 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/theme
+  var require_theme = __commonJS({
+    "package-external:@wordpress/theme"(exports, module) {
+      module.exports = window.wp.theme;
+    }
+  });
+
   // package-external:@wordpress/private-apis
   var require_private_apis = __commonJS({
     "package-external:@wordpress/private-apis"(exports, module) {
@@ -4101,12 +4108,14 @@ var wp;
 
   // packages/edit-widgets/build-module/components/notices/index.mjs
   var import_notices2 = __toESM(require_notices(), 1);
+  var import_theme = __toESM(require_theme(), 1);
   var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
   function Notices() {
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_jsx_runtime39.Fragment, { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_theme.ThemeProvider, { cornerRadius: "none", children: [
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
         import_notices2.InlineNotices,
         {
+          className: "edit-widgets-notices",
           pinnedNoticesClassName: "edit-widgets-notices__pinned",
           dismissibleNoticesClassName: "edit-widgets-notices__dismissible"
         }

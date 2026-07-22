@@ -88,7 +88,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '0bebcdac79313f8ed604'
+		'version' => 'fb8db6c2fefd8246fa86'
 	),
 	'block-library/query/view.js' => array(
 		'dependencies' => array(
@@ -164,7 +164,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '66dddf07eec0100be606'
+		'version' => '4b0281842169241e3d0e'
 	),
 	'connectors/index.js' => array(
 		'dependencies' => array(
@@ -211,7 +211,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'fb445bf351657f44f1d0'
+		'version' => '2fe152df83cad8d59403'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
@@ -342,7 +342,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => 'd8cfb0be4d36afcd40f6'
+		'version' => '4d3627c45251ceb4f9a2'
 	),
 	'vips/loader.js' => array(
 		'dependencies' => array(
@@ -360,7 +360,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => 'dfc83d3328327c911b78'
+		'version' => '685442d334b2d3e70832'
 	),
 	'workflow/index.js' => array(
 		'dependencies' => array(

@@ -44,7 +44,10 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 	$has_height   = array_key_exists( 'height', $attributes ) && null !== $attributes['height'] && '' !== $attributes['height'];
 
 	if ( ! empty( $attributes['aspectRatio'] ) ) {
-		$extra_styles .= esc_attr( safecss_filter_attr( 'aspect-ratio:' . $attributes['aspectRatio'] ) ) . ';';
+		// If there's no non-default value set, let the image's width and height attributes determine its intrinsic aspect ratio.
+		if ( 'auto' !== $attributes['aspectRatio'] ) {
+			$extra_styles .= esc_attr( safecss_filter_attr( 'aspect-ratio:' . $attributes['aspectRatio'] ) ) . ';';
+		}
 		$extra_styles .= 'width:100%;';
 	}
 

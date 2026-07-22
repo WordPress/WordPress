@@ -6,6 +6,8 @@
   --wfp-button-color: rgba(255, 255, 255, .9);
   --wfp-text-color: #ffffff;
   --wfp-text-secondary-color: rgba(255, 255, 255, .6);
+  --wfp-btn-artwork-color: rgba(255, 255, 255, .9);
+  --wfp-btn-artwork-scrim: rgba(0, 0, 0, .5);
 }
 
 .waveform-player.waveform-theme-light {
@@ -35,7 +37,7 @@
   width: var(--wfp-btn-size, 36px);
   height: var(--wfp-btn-size, 36px);
   min-width: var(--wfp-btn-size, 36px);
-  border-radius: 50%;
+  border-radius: var(--wfp-btn-radius, 50%);
   border: 2px solid currentColor;
   background: transparent;
   color: var(--wfp-button-color, inherit);
@@ -91,6 +93,41 @@
   height: calc(var(--wfp-btn-size, 36px) * 0.45);
   fill: currentColor;
   display: block;
+}
+
+.waveform-btn-has-artwork {
+  --wfp-btn-size: 64px;
+  --wfp-btn-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  color: var(--wfp-btn-artwork-color);
+}
+
+.waveform-btn > .waveform-btn-artwork {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.waveform-btn-has-artwork:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--wfp-btn-artwork-scrim);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.waveform-btn-has-artwork > :not(.waveform-btn-artwork) {
+  position: relative;
+  z-index: 2;
 }
 
 .waveform-icon-play svg {
@@ -417,9 +454,9 @@
 
 @media (max-width: 480px) {
   .waveform-btn {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: var(--wfp-btn-size, 32px);
+    height: var(--wfp-btn-size, 32px);
+    min-width: var(--wfp-btn-size, 32px);
   }
   .waveform-container {
     min-height: 50px;
@@ -437,6 +474,9 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+.wp-block-playlist {
+  box-sizing: border-box;
 }
 .wp-block-playlist .wp-block-playlist__waveform-player {
   width: 100%;

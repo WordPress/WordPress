@@ -188,7 +188,7 @@ var wp;
             },
             [subscribe3, value, getSnapshot]
           );
-          useEffect71(
+          useEffect70(
             function() {
               checkIfSnapshotChanged(inst) && forceUpdate({ inst });
               return subscribe3(function() {
@@ -214,7 +214,7 @@ var wp;
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React61 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is2, useState88 = React61.useState, useEffect71 = React61.useEffect, useLayoutEffect11 = React61.useLayoutEffect, useDebugValue2 = React61.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        var React61 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is2, useState88 = React61.useState, useEffect70 = React61.useEffect, useLayoutEffect11 = React61.useLayoutEffect, useDebugValue2 = React61.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
         exports.useSyncExternalStore = void 0 !== React61.useSyncExternalStore ? React61.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
@@ -242,7 +242,7 @@ var wp;
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React61 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is2, useSyncExternalStore3 = shim.useSyncExternalStore, useRef77 = React61.useRef, useEffect71 = React61.useEffect, useMemo95 = React61.useMemo, useDebugValue2 = React61.useDebugValue;
+        var React61 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is2, useSyncExternalStore3 = shim.useSyncExternalStore, useRef77 = React61.useRef, useEffect70 = React61.useEffect, useMemo95 = React61.useMemo, useDebugValue2 = React61.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe3, getSnapshot, getServerSnapshot, selector2, isEqual2) {
           var instRef = useRef77(null);
           if (null === instRef.current) {
@@ -285,7 +285,7 @@ var wp;
             [getSnapshot, getServerSnapshot, selector2, isEqual2]
           );
           var value = useSyncExternalStore3(subscribe3, instRef[0], instRef[1]);
-          useEffect71(
+          useEffect70(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -12381,6 +12381,10 @@ var wp;
     return typeof wp?.components === "object" && wp.components !== null;
   }
   var cachedSlot = null;
+  function ensureSlotIsAccessible(element) {
+    element.setAttribute("aria-hidden", "false");
+    return element;
+  }
   function createSlot(ownerDocument2) {
     const element = ownerDocument2.createElement("div");
     element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
@@ -12402,19 +12406,19 @@ var wp;
       return void 0;
     }
     if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
-      return cachedSlot;
+      return ensureSlotIsAccessible(cachedSlot);
     }
     const existing = ownerDocument2.querySelector(
       `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
     );
     if (existing instanceof HTMLDivElement) {
-      cachedSlot = existing;
-      return existing;
+      cachedSlot = ensureSlotIsAccessible(existing);
+      return cachedSlot;
     }
     if (cachedSlot?.isConnected) {
       cachedSlot.remove();
     }
-    cachedSlot = createSlot(ownerDocument2);
+    cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
     return cachedSlot;
   }
 
@@ -20623,6 +20627,363 @@ var wp;
     return [styles, updatedConfig.settings];
   }
 
+  // packages/global-styles-engine/build-module/variation.mjs
+  function getVariationStyle(globalStyles, name2, variation, { resolveRefs = true } = {}) {
+    if (!globalStyles?.styles?.blocks?.[name2]?.variations?.[variation]) {
+      return void 0;
+    }
+    const replaceRefs = (variationStyles) => {
+      Object.keys(variationStyles).forEach((key) => {
+        const value = variationStyles[key];
+        if (typeof value === "object" && value !== null) {
+          if (value.ref !== void 0) {
+            if (typeof value.ref !== "string" || value.ref.trim() === "") {
+              delete variationStyles[key];
+            } else {
+              const refValue = getValueFromObjectPath(
+                globalStyles,
+                value.ref
+              );
+              if (refValue !== void 0 && refValue !== null) {
+                variationStyles[key] = refValue;
+              } else {
+                delete variationStyles[key];
+              }
+            }
+          } else {
+            replaceRefs(value);
+            if (Object.keys(value).length === 0) {
+              delete variationStyles[key];
+            }
+          }
+        }
+      });
+    };
+    const styles = JSON.parse(
+      JSON.stringify(
+        globalStyles.styles.blocks[name2].variations[variation]
+      )
+    );
+    if (resolveRefs) {
+      replaceRefs(styles);
+    }
+    return styles;
+  }
+
+  // packages/global-styles-engine/build-module/resolve-style.mjs
+  var DEFAULT_STATE_VALUE = "default";
+  function isDefaultBlockStyleState(selectedState) {
+    const viewport = selectedState?.viewport;
+    const pseudoState = selectedState?.pseudoState;
+    return (!viewport || viewport === DEFAULT_STATE_VALUE) && (!pseudoState || pseudoState === DEFAULT_STATE_VALUE);
+  }
+  function getStyleStatePath(selectedState) {
+    if (isDefaultBlockStyleState(selectedState)) {
+      return [];
+    }
+    return [selectedState.viewport, selectedState.pseudoState].filter(
+      (state) => !!state && state !== DEFAULT_STATE_VALUE
+    );
+  }
+  function getStyleForState(style, selectedState) {
+    const path = getStyleStatePath(selectedState);
+    if (!path.length) {
+      return style;
+    }
+    return getValueFromObjectPath(style, path);
+  }
+  var TREE_STRUCTURAL_KEYS = /* @__PURE__ */ new Set(["blocks", "variations", "css"]);
+  var EMPTY_INHERITANCE = Object.freeze({
+    value: {},
+    sources: {}
+  });
+  var SOURCE_DESCRIPTORS = {
+    root: { layer: "root" },
+    element: { layer: "element" },
+    block: { layer: "block" },
+    blockVariation: { layer: "blockVariation" }
+  };
+  function createSourceDescriptor(type) {
+    const descriptor = SOURCE_DESCRIPTORS[type];
+    if (!descriptor) {
+      return null;
+    }
+    return { ...descriptor };
+  }
+  function createContribution(styles, source) {
+    if (!styles || !source) {
+      return null;
+    }
+    return { styles, source };
+  }
+  function getPathKey(path) {
+    return path.join(".");
+  }
+  function getSourceForPath(source) {
+    return { ...source };
+  }
+  function isExplicitEmpty(value) {
+    if (value === "" || value === null) {
+      return true;
+    }
+    if (typeof value === "object" && !Array.isArray(value) && Object.keys(value).length === 0) {
+      return true;
+    }
+    return false;
+  }
+  function isRefObject(value) {
+    return value !== null && typeof value === "object" && !Array.isArray(value) && typeof value.ref === "string";
+  }
+  function pickLayerRootContribution(layer) {
+    if (!layer || typeof layer !== "object" || Array.isArray(layer)) {
+      return null;
+    }
+    const contribution = {};
+    for (const key of Object.keys(layer)) {
+      if (TREE_STRUCTURAL_KEYS.has(key)) {
+        continue;
+      }
+      if (key === "elements") {
+        if (layer.elements && typeof layer.elements === "object") {
+          contribution.elements = layer.elements;
+        }
+        continue;
+      }
+      if (isExplicitEmpty(layer[key])) {
+        continue;
+      }
+      contribution[key] = layer[key];
+    }
+    return Object.keys(contribution).length === 0 ? null : contribution;
+  }
+  var ATOMIC_OBJECT_KEYS = /* @__PURE__ */ new Set(["backgroundImage"]);
+  function deepMergeDroppingEmpties(target, source, globalStyles, sourceMetadata, sources, path = []) {
+    if (!source || typeof source !== "object" || Array.isArray(source)) {
+      return target;
+    }
+    for (const key of Object.keys(source)) {
+      let sourceValue = source[key];
+      if (isExplicitEmpty(sourceValue)) {
+        continue;
+      }
+      if (isRefObject(sourceValue)) {
+        if (sourceValue.ref.trim() === "") {
+          continue;
+        }
+        const resolved = getValueFromObjectPath(
+          globalStyles,
+          sourceValue.ref
+        );
+        if (resolved === void 0 || resolved === null || isRefObject(resolved)) {
+          continue;
+        }
+        sourceValue = resolved;
+      }
+      const nextPath = [...path, key];
+      if (!ATOMIC_OBJECT_KEYS.has(key) && sourceValue !== null && typeof sourceValue === "object" && !Array.isArray(sourceValue) && !isRefObject(sourceValue)) {
+        const existing = target[key] && typeof target[key] === "object" && !Array.isArray(target[key]) ? target[key] : {};
+        target[key] = deepMergeDroppingEmpties(
+          { ...existing },
+          sourceValue,
+          globalStyles,
+          sourceMetadata,
+          sources,
+          nextPath
+        );
+      } else {
+        target[key] = ATOMIC_OBJECT_KEYS.has(key) && sourceValue !== null && typeof sourceValue === "object" && !Array.isArray(sourceValue) ? { ...sourceValue } : sourceValue;
+        if (sourceMetadata && sources) {
+          sources[getPathKey(nextPath)] = getSourceForPath(sourceMetadata);
+        }
+      }
+    }
+    return target;
+  }
+  function getStateSlice(layerObject, selectedState) {
+    if (!layerObject) {
+      return null;
+    }
+    const slice = getStyleForState(layerObject, selectedState);
+    return slice && typeof slice === "object" && !Array.isArray(slice) ? slice : null;
+  }
+  var NON_CASCADING_ROOT_PREFIXES = [
+    "color.background",
+    "color.gradient",
+    "background",
+    "spacing",
+    "dimensions",
+    "border",
+    "shadow",
+    "filter"
+  ];
+  function isNonCascadingRootPath(pathKey) {
+    if (pathKey.startsWith("elements.")) {
+      return false;
+    }
+    return NON_CASCADING_ROOT_PREFIXES.some(
+      (prefix2) => pathKey === prefix2 || pathKey.startsWith(`${prefix2}.`)
+    );
+  }
+  function deleteAtPath(target, pathSegments) {
+    if (!target || typeof target !== "object") {
+      return;
+    }
+    const [head2, ...rest] = pathSegments;
+    if (rest.length === 0) {
+      delete target[head2];
+      return;
+    }
+    const child = target[head2];
+    if (child && typeof child === "object") {
+      deleteAtPath(child, rest);
+      if (Object.keys(child).length === 0) {
+        delete target[head2];
+      }
+    }
+  }
+  function dropNonCascadingRootLeaves(value, sources) {
+    for (const pathKey of Object.keys(sources)) {
+      if (sources[pathKey].layer === "root" && isNonCascadingRootPath(pathKey)) {
+        deleteAtPath(value, pathKey.split("."));
+        delete sources[pathKey];
+      }
+    }
+  }
+  function resolveThemeFileBackgroundImage(value, globalStyles, links) {
+    const image = value?.background?.backgroundImage;
+    if (!image) {
+      return;
+    }
+    const resolved = getResolvedValue(image, {
+      ...globalStyles,
+      _links: links ?? void 0
+    });
+    if (resolved !== void 0) {
+      value.background.backgroundImage = resolved;
+    }
+  }
+  function computeResolvedStyle(globalStyles, {
+    blockName,
+    variationName = null,
+    elements: elements2 = null,
+    viewport = null,
+    pseudoState = null
+  } = {}) {
+    if (!globalStyles || !globalStyles.styles) {
+      return EMPTY_INHERITANCE;
+    }
+    if (!blockName) {
+      return EMPTY_INHERITANCE;
+    }
+    const styles = globalStyles.styles;
+    const selectedState = { viewport, pseudoState };
+    const root = styles;
+    const block = styles.blocks?.[blockName] ?? null;
+    const elementLayers = (elements2 ?? []).map((elementName) => styles.elements?.[elementName] ?? null).filter((layer) => !!layer);
+    const variation = variationName ? getVariationStyle(globalStyles, blockName, variationName) ?? null : null;
+    const contributions = [
+      createContribution(
+        pickLayerRootContribution(root),
+        createSourceDescriptor("root")
+      ),
+      ...elementLayers.map(
+        (layer) => createContribution(
+          pickLayerRootContribution(layer),
+          createSourceDescriptor("element")
+        )
+      ),
+      block ? createContribution(
+        pickLayerRootContribution(block),
+        createSourceDescriptor("block")
+      ) : null,
+      variation ? createContribution(
+        pickLayerRootContribution(variation),
+        createSourceDescriptor("blockVariation")
+      ) : null
+    ];
+    if (!isDefaultBlockStyleState(selectedState)) {
+      contributions.push(
+        createContribution(
+          pickLayerRootContribution(
+            getStateSlice(root, selectedState)
+          ),
+          createSourceDescriptor("root")
+        ),
+        ...elementLayers.map(
+          (layer) => createContribution(
+            pickLayerRootContribution(
+              getStateSlice(layer, selectedState)
+            ),
+            createSourceDescriptor("element")
+          )
+        ),
+        block ? createContribution(
+          pickLayerRootContribution(
+            getStateSlice(block, selectedState)
+          ),
+          createSourceDescriptor("block")
+        ) : null,
+        variation ? createContribution(
+          pickLayerRootContribution(
+            getStateSlice(variation, selectedState)
+          ),
+          createSourceDescriptor("blockVariation")
+        ) : null
+      );
+    }
+    const filteredContributions = contributions.filter(
+      Boolean
+    );
+    if (filteredContributions.length === 0) {
+      return EMPTY_INHERITANCE;
+    }
+    const sources = {};
+    const value = filteredContributions.reduce(
+      (mergedValue, contribution) => deepMergeDroppingEmpties(
+        mergedValue,
+        contribution.styles,
+        globalStyles,
+        contribution.source,
+        sources
+      ),
+      {}
+    );
+    dropNonCascadingRootLeaves(value, sources);
+    resolveThemeFileBackgroundImage(
+      value,
+      globalStyles,
+      globalStyles._links ?? null
+    );
+    return { value, sources };
+  }
+  var NO_LINKS = {};
+  var memo2 = /* @__PURE__ */ new WeakMap();
+  function resolveStyle2(globalStyles, context = {}) {
+    const styleData = globalStyles?.styles;
+    if (!styleData || typeof styleData !== "object") {
+      return computeResolvedStyle(globalStyles, context);
+    }
+    let byLinks = memo2.get(styleData);
+    if (!byLinks) {
+      byLinks = /* @__PURE__ */ new WeakMap();
+      memo2.set(styleData, byLinks);
+    }
+    const linksKey = globalStyles?._links ?? NO_LINKS;
+    let inner = byLinks.get(linksKey);
+    if (!inner) {
+      inner = /* @__PURE__ */ new Map();
+      byLinks.set(linksKey, inner);
+    }
+    const sliceKey = `${context.elements?.join(",") ?? ""}:${context.viewport ?? ""}:${context.pseudoState ?? ""}`;
+    const key = (context.blockName || "") + "" + (context.variationName || "") + "" + sliceKey;
+    if (inner.has(key)) {
+      return inner.get(key);
+    }
+    const result = computeResolvedStyle(globalStyles, context);
+    inner.set(key, result);
+    return result;
+  }
+
   // packages/global-styles-engine/build-module/lock-unlock.mjs
   var import_private_apis3 = __toESM(require_private_apis(), 1);
   var { lock: lock3, unlock: unlock3 } = (0, import_private_apis3.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
@@ -20635,7 +20996,9 @@ var wp;
   lock3(privateApis2, {
     getResponsiveMediaQueries,
     getViewportBreakpoints,
-    getViewportBreakpointValueInPixels
+    getViewportBreakpointValueInPixels,
+    resolveStyle: resolveStyle2,
+    getVariationStyle
   });
 
   // packages/edit-site/build-module/components/block-editor/use-navigate-to-entity-record.mjs
@@ -27097,7 +27460,7 @@ var wp;
     Role.displayName = render4.displayName || render4.name;
     return Role;
   }
-  function memo4(Component, propsAreEqual) {
+  function memo5(Component, propsAreEqual) {
     return React59.memo(Component, propsAreEqual);
   }
   function createElement5(Type, props) {
@@ -28801,7 +29164,7 @@ If there's a particular need for this, please submit a feature request at https:
       "aria-posinset": ariaPosInSet
     });
   });
-  var CompositeItem = memo4(forwardRef43(function CompositeItem2(props) {
+  var CompositeItem = memo5(forwardRef43(function CompositeItem2(props) {
     return createElement5(TagName4, useCompositeItem(props));
   }));
 
@@ -28870,7 +29233,7 @@ If there's a particular need for this, please submit a feature request at https:
     ]);
     return schedule2;
   }
-  var CompositeFocusOnMove = memo4(function CompositeFocusOnMove2({ store: store2, focusOnMove, previousElementRef }) {
+  var CompositeFocusOnMove = memo5(function CompositeFocusOnMove2({ store: store2, focusOnMove, previousElementRef }) {
     const moves = useStoreState(store2, "moves");
     const baseElement = useStoreState(store2, "baseElement");
     (0, import_react23.useEffect)(() => {
@@ -29444,7 +29807,7 @@ If there's a particular need for this, please submit a feature request at https:
     };
     return removeUndefinedValues(props);
   });
-  var CompositeHover = memo4(forwardRef43(function CompositeHover2(props) {
+  var CompositeHover = memo5(forwardRef43(function CompositeHover2(props) {
     return createElement5(TagName8, useCompositeHover(props));
   }));
 
@@ -29928,7 +30291,7 @@ If there's a particular need for this, please submit a feature request at https:
     });
     return props;
   });
-  var ComboboxItem = memo4(forwardRef43(function ComboboxItem2(props) {
+  var ComboboxItem = memo5(forwardRef43(function ComboboxItem2(props) {
     return createElement5(TagName10, useComboboxItem(props));
   }));
 
@@ -30062,7 +30425,7 @@ If there's a particular need for this, please submit a feature request at https:
     };
     return removeUndefinedValues(props);
   });
-  var ComboboxLabel = memo4(forwardRef43(function ComboboxLabel2(props) {
+  var ComboboxLabel = memo5(forwardRef43(function ComboboxLabel2(props) {
     return createElement5(TagName12, useComboboxLabel(props));
   }));
 
@@ -35635,60 +35998,7 @@ If there's a particular need for this, please submit a feature request at https:
     const keyboardShortcuts = (0, import_element108.useRef)(
       /* @__PURE__ */ new Set()
     );
-    const popoverSlotRef = (0, import_element108.useRef)(null);
-    const [popoverContainer, setPopoverContainer] = (0, import_element108.useState)(null);
-    const popoverContainerRef = (0, import_compose16.useRefEffect)((element) => {
-      setPopoverContainer(element.ownerDocument.body);
-    }, []);
-    const blurDeselectTimeoutRef = (0, import_element108.useRef)();
-    const stopPopoverFocusTrackingRef = (0, import_element108.useRef)(
-      void 0
-    );
-    (0, import_element108.useEffect)(
-      () => () => {
-        clearTimeout(blurDeselectTimeoutRef.current);
-        stopPopoverFocusTrackingRef.current?.();
-      },
-      []
-    );
-    function isFocusInField(ownerDocument2) {
-      const active = ownerDocument2.activeElement;
-      return !!(active && (anchorRef.current?.contains(active) || popoverSlotRef.current?.contains(active)));
-    }
-    function trackPopoverFocusOut(ownerDocument2) {
-      stopPopoverFocusTrackingRef.current?.();
-      function onDocumentFocusOut() {
-        clearTimeout(blurDeselectTimeoutRef.current);
-        blurDeselectTimeoutRef.current = setTimeout(() => {
-          if (isFocusInField(ownerDocument2)) {
-            return;
-          }
-          stopPopoverFocusTrackingRef.current?.();
-          setIsSelected(false);
-        }, 0);
-      }
-      ownerDocument2.addEventListener("focusout", onDocumentFocusOut);
-      stopPopoverFocusTrackingRef.current = () => {
-        ownerDocument2.removeEventListener("focusout", onDocumentFocusOut);
-        stopPopoverFocusTrackingRef.current = void 0;
-      };
-    }
-    function onEditableFocus() {
-      clearTimeout(blurDeselectTimeoutRef.current);
-      stopPopoverFocusTrackingRef.current?.();
-      setIsSelected(true);
-    }
-    function onEditableBlur(event) {
-      clearTimeout(blurDeselectTimeoutRef.current);
-      const { ownerDocument: ownerDocument2 } = event.currentTarget;
-      blurDeselectTimeoutRef.current = setTimeout(() => {
-        if (isFocusInField(ownerDocument2)) {
-          trackPopoverFocusOut(ownerDocument2);
-          return;
-        }
-        setIsSelected(false);
-      }, 0);
-    }
+    const focusOutside = (0, import_compose16.__experimentalUseFocusOutside)(() => setIsSelected(false));
     const adjustedAllowedFormats = getAllowedFormats({
       allowedFormats,
       disableFormats
@@ -35812,28 +36122,18 @@ If there's a particular need for this, please submit a feature request at https:
       },
       [isSelected2]
     );
-    const unusedContentRef = (0, import_element108.useRef)(null);
-    const {
-      ref: autocompleteRef,
-      "aria-activedescendant": autocompleteActiveDescendant,
-      "aria-autocomplete": autocompleteAriaAutocomplete,
-      ...autocompleteRest
-    } = (0, import_components61.__unstableUseAutocompleteProps)({
-      completers,
-      record: value,
-      onChange: onRichTextChange,
-      // This control's completers insert their completion into the value;
-      // none replace the whole value, so the required `onReplace` is a
-      // no-op here.
-      onReplace: () => {
-      },
-      contentRef: unusedContentRef
-    });
-    const autocompleteProps = {
-      ...autocompleteRest,
-      "aria-activedescendant": autocompleteActiveDescendant ?? void 0,
-      "aria-autocomplete": autocompleteAriaAutocomplete
-    };
+    const { ref: autocompleteRef, ...autocompleteProps } = (0, import_components61.__unstableUseAutocompleteProps)(
+      {
+        completers,
+        record: value,
+        onChange: onRichTextChange,
+        // This control's completers insert their completion into the value;
+        // none replace the whole value, so the required `onReplace` is a
+        // no-op here.
+        onReplace: () => {
+        }
+      }
+    );
     const focusOnMountRef = (0, import_compose16.useRefEffect)(
       (element) => {
         if (focusOnMount && !disabled2) {
@@ -35848,57 +36148,62 @@ If there's a particular need for this, please submit a feature request at https:
       eventListenersRef,
       enterRef,
       focusOnMountRef,
-      popoverContainerRef,
       autocompleteRef
     ]);
     return (
-      /*
-       * The provider scopes every slot/fill rendered by this field — most
-       * importantly the format popovers, which land in the `Popover.Slot`
-       * below. That containment is what the blur handling above checks to
-       * decide whether focus is still within the field's own UI. A format
-       * popover using a custom `__unstableSlotName` would portal to the
-       * body-level fallback container instead and deselect the field;
-       * `core/link` (and every other core format) uses the default slot.
-       */
-      /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(import_components61.SlotFillProvider, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
-          RichTextControlShell,
-          {
-            label,
-            id,
-            className: clsx_default("dataviews-controls__richtext", className),
-            placeholder,
-            hideLabelFromVision,
-            help,
-            disabled: disabled2,
-            required,
-            markWhenOptional,
-            customValidity,
-            value: value.text,
-            "aria-multiline": !disableLineBreaks,
-            ...autocompleteProps,
-            ref: editableRef,
-            onFocus: onEditableFocus,
-            onBlur: onEditableBlur
-          }
-        ),
-        isSelected2 && !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(KeyboardShortcutContext.Provider, { value: keyboardShortcuts, children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(InputEventContext.Provider, { value: inputEvents, children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
-          FormatEdit,
-          {
-            value,
-            onChange: onRichTextChange,
-            onFocus,
-            formatTypes,
-            forwardedRef: anchorRef,
-            isVisible: true
-          }
-        ) }) }),
-        popoverContainer && (0, import_element108.createPortal)(
-          /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(import_components61.Popover.Slot, { ref: popoverSlotRef }),
-          popoverContainer
-        )
-      ] })
+      // Focus boundary for the field's selection: `onFocus` selects on entry;
+      // the spread `useFocusOutside` handlers deselect once focus leaves.
+      /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+        "div",
+        {
+          ...focusOutside,
+          onFocus: (event) => {
+            setIsSelected(true);
+            focusOutside.onFocus(event);
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime188.jsxs)(import_components61.SlotFillProvider, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+              RichTextControlShell,
+              {
+                label,
+                id,
+                className: clsx_default(
+                  "dataviews-controls__richtext",
+                  className
+                ),
+                placeholder,
+                hideLabelFromVision,
+                help,
+                disabled: disabled2,
+                required,
+                markWhenOptional,
+                customValidity,
+                value: value.text,
+                "aria-multiline": !disableLineBreaks,
+                ...autocompleteProps,
+                ref: editableRef
+              }
+            ),
+            isSelected2 && !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+              KeyboardShortcutContext.Provider,
+              {
+                value: keyboardShortcuts,
+                children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(InputEventContext.Provider, { value: inputEvents, children: /* @__PURE__ */ (0, import_jsx_runtime188.jsx)(
+                  FormatEdit,
+                  {
+                    value,
+                    onChange: onRichTextChange,
+                    onFocus,
+                    formatTypes,
+                    forwardedRef: anchorRef,
+                    isVisible: true
+                  }
+                ) })
+              }
+            )
+          ] })
+        }
+      )
     );
   }
 
@@ -53218,11 +53523,11 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/edit-site/build-module/components/site-editor-routes/styles.mjs
   var import_jsx_runtime289 = __toESM(require_jsx_runtime(), 1);
   var { useLocation: useLocation20, useHistory: useHistory13 } = unlock(import_router20.privateApis);
-  var { StyleBookPreview } = unlock(import_editor24.privateApis);
-  function StylesPreviewArea({ siteData }) {
+  var { StyleBookPreview, useGlobalStyles: useGlobalStyles3 } = unlock(import_editor24.privateApis);
+  function StyleBookPreviewArea({ siteData }) {
     const { path, query } = useLocation20();
     const history = useHistory13();
-    const isStylebook = query.preview === "stylebook";
+    const { user: userConfig } = useGlobalStyles3();
     const section = query.section ?? "/";
     const onChangeSection = (updatedSection) => {
       history.navigate(
@@ -53231,15 +53536,20 @@ If there's a particular need for this, please submit a feature request at https:
         })
       );
     };
-    if (isStylebook) {
-      return /* @__PURE__ */ (0, import_jsx_runtime289.jsx)(
-        StyleBookPreview,
-        {
-          path: section,
-          onPathChange: onChangeSection,
-          settings: siteData.editorSettings
-        }
-      );
+    return /* @__PURE__ */ (0, import_jsx_runtime289.jsx)(
+      StyleBookPreview,
+      {
+        path: section,
+        onPathChange: onChangeSection,
+        settings: siteData.editorSettings,
+        userConfig
+      }
+    );
+  }
+  function StylesPreviewArea({ siteData }) {
+    const { query } = useLocation20();
+    if (query.preview === "stylebook") {
+      return /* @__PURE__ */ (0, import_jsx_runtime289.jsx)(StyleBookPreviewArea, { siteData });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime289.jsx)(EditSiteEditor, {});
   }
@@ -55180,10 +55490,10 @@ If there's a particular need for this, please submit a feature request at https:
   var import_element175 = __toESM(require_element(), 1);
   var import_block_editor24 = __toESM(require_block_editor(), 1);
   var import_editor29 = __toESM(require_editor(), 1);
-  var { useGlobalStyles: useGlobalStyles3 } = unlock(import_editor29.privateApis);
+  var { useGlobalStyles: useGlobalStyles4 } = unlock(import_editor29.privateApis);
   var { globalStylesDataKey } = unlock(import_block_editor24.privateApis);
   function usePatternSettings() {
-    const { merged: mergedConfig } = useGlobalStyles3();
+    const { merged: mergedConfig } = useGlobalStyles4();
     const storedSettings = (0, import_data69.useSelect)((select4) => {
       const { getSettings: getSettings7 } = unlock(select4(store));
       return getSettings7();

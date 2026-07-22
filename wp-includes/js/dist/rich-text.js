@@ -2342,7 +2342,7 @@ var wp;
         };
         selectionSnapshot = void 0;
       } else {
-        applyRecord(record.current, { domOnly: true });
+        applyRecord(record.current);
       }
       onSelectionChange(record.current.start, record.current.end);
       window.queueMicrotask(handleSelectionChange);

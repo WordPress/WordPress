@@ -147,7 +147,7 @@ var wp;
             },
             [subscribe2, value, getSnapshot]
           );
-          useEffect37(
+          useEffect36(
             function() {
               checkIfSnapshotChanged(inst) && forceUpdate({ inst });
               return subscribe2(function() {
@@ -173,7 +173,7 @@ var wp;
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React49 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState43 = React49.useState, useEffect37 = React49.useEffect, useLayoutEffect6 = React49.useLayoutEffect, useDebugValue2 = React49.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        var React49 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState43 = React49.useState, useEffect36 = React49.useEffect, useLayoutEffect6 = React49.useLayoutEffect, useDebugValue2 = React49.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
         exports.useSyncExternalStore = void 0 !== React49.useSyncExternalStore ? React49.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
@@ -201,7 +201,7 @@ var wp;
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React49 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef51 = React49.useRef, useEffect37 = React49.useEffect, useMemo43 = React49.useMemo, useDebugValue2 = React49.useDebugValue;
+        var React49 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef51 = React49.useRef, useEffect36 = React49.useEffect, useMemo43 = React49.useMemo, useDebugValue2 = React49.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe2, getSnapshot, getServerSnapshot, selector2, isEqual) {
           var instRef = useRef51(null);
           if (null === instRef.current) {
@@ -244,7 +244,7 @@ var wp;
             [getSnapshot, getServerSnapshot, selector2, isEqual]
           );
           var value = useSyncExternalStore3(subscribe2, instRef[0], instRef[1]);
-          useEffect37(
+          useEffect36(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -10154,6 +10154,10 @@ var wp;
     return typeof wp?.components === "object" && wp.components !== null;
   }
   var cachedSlot = null;
+  function ensureSlotIsAccessible(element) {
+    element.setAttribute("aria-hidden", "false");
+    return element;
+  }
   function createSlot(ownerDocument2) {
     const element = ownerDocument2.createElement("div");
     element.setAttribute(WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE, "");
@@ -10175,19 +10179,19 @@ var wp;
       return void 0;
     }
     if (cachedSlot && cachedSlot.ownerDocument === ownerDocument2 && cachedSlot.isConnected) {
-      return cachedSlot;
+      return ensureSlotIsAccessible(cachedSlot);
     }
     const existing = ownerDocument2.querySelector(
       `[${WP_COMPAT_OVERLAY_SLOT_ATTRIBUTE}]`
     );
     if (existing instanceof HTMLDivElement) {
-      cachedSlot = existing;
-      return existing;
+      cachedSlot = ensureSlotIsAccessible(existing);
+      return cachedSlot;
     }
     if (cachedSlot?.isConnected) {
       cachedSlot.remove();
     }
-    cachedSlot = createSlot(ownerDocument2);
+    cachedSlot = ensureSlotIsAccessible(createSlot(ownerDocument2));
     return cachedSlot;
   }
 
@@ -24704,60 +24708,7 @@ If there's a particular need for this, please submit a feature request at https:
     const keyboardShortcuts = (0, import_element69.useRef)(
       /* @__PURE__ */ new Set()
     );
-    const popoverSlotRef = (0, import_element69.useRef)(null);
-    const [popoverContainer, setPopoverContainer] = (0, import_element69.useState)(null);
-    const popoverContainerRef = (0, import_compose12.useRefEffect)((element) => {
-      setPopoverContainer(element.ownerDocument.body);
-    }, []);
-    const blurDeselectTimeoutRef = (0, import_element69.useRef)();
-    const stopPopoverFocusTrackingRef = (0, import_element69.useRef)(
-      void 0
-    );
-    (0, import_element69.useEffect)(
-      () => () => {
-        clearTimeout(blurDeselectTimeoutRef.current);
-        stopPopoverFocusTrackingRef.current?.();
-      },
-      []
-    );
-    function isFocusInField(ownerDocument2) {
-      const active = ownerDocument2.activeElement;
-      return !!(active && (anchorRef.current?.contains(active) || popoverSlotRef.current?.contains(active)));
-    }
-    function trackPopoverFocusOut(ownerDocument2) {
-      stopPopoverFocusTrackingRef.current?.();
-      function onDocumentFocusOut() {
-        clearTimeout(blurDeselectTimeoutRef.current);
-        blurDeselectTimeoutRef.current = setTimeout(() => {
-          if (isFocusInField(ownerDocument2)) {
-            return;
-          }
-          stopPopoverFocusTrackingRef.current?.();
-          setIsSelected(false);
-        }, 0);
-      }
-      ownerDocument2.addEventListener("focusout", onDocumentFocusOut);
-      stopPopoverFocusTrackingRef.current = () => {
-        ownerDocument2.removeEventListener("focusout", onDocumentFocusOut);
-        stopPopoverFocusTrackingRef.current = void 0;
-      };
-    }
-    function onEditableFocus() {
-      clearTimeout(blurDeselectTimeoutRef.current);
-      stopPopoverFocusTrackingRef.current?.();
-      setIsSelected(true);
-    }
-    function onEditableBlur(event) {
-      clearTimeout(blurDeselectTimeoutRef.current);
-      const { ownerDocument: ownerDocument2 } = event.currentTarget;
-      blurDeselectTimeoutRef.current = setTimeout(() => {
-        if (isFocusInField(ownerDocument2)) {
-          trackPopoverFocusOut(ownerDocument2);
-          return;
-        }
-        setIsSelected(false);
-      }, 0);
-    }
+    const focusOutside = (0, import_compose12.__experimentalUseFocusOutside)(() => setIsSelected(false));
     const adjustedAllowedFormats = getAllowedFormats({
       allowedFormats,
       disableFormats
@@ -24881,28 +24832,18 @@ If there's a particular need for this, please submit a feature request at https:
       },
       [isSelected2]
     );
-    const unusedContentRef = (0, import_element69.useRef)(null);
-    const {
-      ref: autocompleteRef,
-      "aria-activedescendant": autocompleteActiveDescendant,
-      "aria-autocomplete": autocompleteAriaAutocomplete,
-      ...autocompleteRest
-    } = (0, import_components42.__unstableUseAutocompleteProps)({
-      completers,
-      record: value,
-      onChange: onRichTextChange,
-      // This control's completers insert their completion into the value;
-      // none replace the whole value, so the required `onReplace` is a
-      // no-op here.
-      onReplace: () => {
-      },
-      contentRef: unusedContentRef
-    });
-    const autocompleteProps = {
-      ...autocompleteRest,
-      "aria-activedescendant": autocompleteActiveDescendant ?? void 0,
-      "aria-autocomplete": autocompleteAriaAutocomplete
-    };
+    const { ref: autocompleteRef, ...autocompleteProps } = (0, import_components42.__unstableUseAutocompleteProps)(
+      {
+        completers,
+        record: value,
+        onChange: onRichTextChange,
+        // This control's completers insert their completion into the value;
+        // none replace the whole value, so the required `onReplace` is a
+        // no-op here.
+        onReplace: () => {
+        }
+      }
+    );
     const focusOnMountRef = (0, import_compose12.useRefEffect)(
       (element) => {
         if (focusOnMount && !disabled2) {
@@ -24917,57 +24858,62 @@ If there's a particular need for this, please submit a feature request at https:
       eventListenersRef,
       enterRef,
       focusOnMountRef,
-      popoverContainerRef,
       autocompleteRef
     ]);
     return (
-      /*
-       * The provider scopes every slot/fill rendered by this field — most
-       * importantly the format popovers, which land in the `Popover.Slot`
-       * below. That containment is what the blur handling above checks to
-       * decide whether focus is still within the field's own UI. A format
-       * popover using a custom `__unstableSlotName` would portal to the
-       * body-level fallback container instead and deselect the field;
-       * `core/link` (and every other core format) uses the default slot.
-       */
-      /* @__PURE__ */ (0, import_jsx_runtime111.jsxs)(import_components42.SlotFillProvider, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
-          RichTextControlShell,
-          {
-            label,
-            id,
-            className: clsx_default("dataviews-controls__richtext", className),
-            placeholder,
-            hideLabelFromVision,
-            help,
-            disabled: disabled2,
-            required,
-            markWhenOptional,
-            customValidity,
-            value: value.text,
-            "aria-multiline": !disableLineBreaks,
-            ...autocompleteProps,
-            ref: editableRef,
-            onFocus: onEditableFocus,
-            onBlur: onEditableBlur
-          }
-        ),
-        isSelected2 && !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(KeyboardShortcutContext.Provider, { value: keyboardShortcuts, children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(InputEventContext.Provider, { value: inputEvents, children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
-          FormatEdit,
-          {
-            value,
-            onChange: onRichTextChange,
-            onFocus,
-            formatTypes,
-            forwardedRef: anchorRef,
-            isVisible: true
-          }
-        ) }) }),
-        popoverContainer && (0, import_element69.createPortal)(
-          /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(import_components42.Popover.Slot, { ref: popoverSlotRef }),
-          popoverContainer
-        )
-      ] })
+      // Focus boundary for the field's selection: `onFocus` selects on entry;
+      // the spread `useFocusOutside` handlers deselect once focus leaves.
+      /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
+        "div",
+        {
+          ...focusOutside,
+          onFocus: (event) => {
+            setIsSelected(true);
+            focusOutside.onFocus(event);
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime111.jsxs)(import_components42.SlotFillProvider, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
+              RichTextControlShell,
+              {
+                label,
+                id,
+                className: clsx_default(
+                  "dataviews-controls__richtext",
+                  className
+                ),
+                placeholder,
+                hideLabelFromVision,
+                help,
+                disabled: disabled2,
+                required,
+                markWhenOptional,
+                customValidity,
+                value: value.text,
+                "aria-multiline": !disableLineBreaks,
+                ...autocompleteProps,
+                ref: editableRef
+              }
+            ),
+            isSelected2 && !disabled2 && /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
+              KeyboardShortcutContext.Provider,
+              {
+                value: keyboardShortcuts,
+                children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(InputEventContext.Provider, { value: inputEvents, children: /* @__PURE__ */ (0, import_jsx_runtime111.jsx)(
+                  FormatEdit,
+                  {
+                    value,
+                    onChange: onRichTextChange,
+                    onFocus,
+                    formatTypes,
+                    forwardedRef: anchorRef,
+                    isVisible: true
+                  }
+                ) })
+              }
+            )
+          ] })
+        }
+      )
     );
   }
 
