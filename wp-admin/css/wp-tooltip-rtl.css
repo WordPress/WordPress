@@ -4,7 +4,6 @@
 .wp-tooltip {
 	display: inline-flex;
 	align-items: center;
-	vertical-align: middle;
 }
 
 /* Toggle and close buttons. */
@@ -23,14 +22,14 @@
 	cursor: pointer;
 }
 
-.wp-tooltip .wp-tooltip__toggle:hover,
-.wp-tooltip .wp-tooltip__toggle:focus,
+.wp-tooltip:not(:has(button[aria-disabled="true"],button[disabled])) .wp-tooltip__toggle:hover,
+.wp-tooltip:not(:has(button[aria-disabled="true"],button[disabled])) .wp-tooltip__toggle:focus,
 .wp-tooltip .wp-tooltip__close:hover,
 .wp-tooltip .wp-tooltip__close:focus {
 	color: var(--wp-admin-theme-color, #3858e9);
 }
 
-.wp-tooltip .wp-tooltip__toggle:focus,
+.wp-tooltip:not(:has(button[aria-disabled="true"],button[disabled])) .wp-tooltip__toggle:focus,
 .wp-tooltip .wp-tooltip__close:focus {
 	outline: 2px solid transparent;
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);

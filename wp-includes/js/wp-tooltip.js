@@ -14,8 +14,9 @@
 	let openTimeout;
 
 	popovers.forEach( function( popover ) {
-		const trigger = /** @type {HTMLButtonElement|null} */ ( popover.querySelector( 'button.wp-tooltip__toggle' ) );
+		const trigger = /** @type {HTMLButtonElement|HTMLAnchorElement|null} */ ( popover.querySelector( '.wp-tooltip__toggle' ) );
 		const panel   = /** @type {HTMLSpanElement|null} */ ( popover.querySelector( 'span.wp-tooltip__bubble' ) );
+
 		if ( ! trigger || ! panel ) {
 			return;
 		}
