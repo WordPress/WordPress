@@ -183,7 +183,15 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
  *     @type string $order   How to order retrieved comments. Default 'ASC'.
  * }
  * @return WP_Comment[]|int[]|int The approved comments, or number of comments if `$count`
- *                                argument is true.
+ *                                argument is true. An empty array is returned when `$post_id`
+ *                                is falsey, even when `$count` is true.
+ * @phpstan-return (
+ *     $post_id is 0 ? array{} : (
+ *         $args is array{ count: true, ... } ? non-negative-int : (
+ *             $args is array{ fields: 'ids', ... } ? non-negative-int[] : array<int, WP_Comment>
+ *         )
+ *     )
+ * )
  */
 function get_approved_comments( $post_id, $args = array() ) {
 	if ( ! $post_id ) {
@@ -209,6 +217,8 @@ function get_approved_comments( $post_id, $args = array() ) {
  * comment variable will be used, if it is set.
  *
  * @since 2.0.0
+ * @since 7.1.0 Only numeric values are now treated as comment IDs; other unrecognized values
+ *              return null instead of being cast to an integer ID.
  *
  * @global WP_Comment $comment Global comment object.
  *
@@ -217,6 +227,12 @@ function get_approved_comments( $post_id, $args = array() ) {
  *                                       correspond to a WP_Comment object, an associative array, or a numeric array,
  *                                       respectively. Default OBJECT.
  * @return WP_Comment|array|null Depends on $output value.
+ * @phpstan-param 'OBJECT'|'ARRAY_A'|'ARRAY_N' $output
+ * @phpstan-return (
+ *     $output is 'ARRAY_A' ? non-empty-array<string, mixed>|null : (
+ *         $output is 'ARRAY_N' ? non-empty-list<mixed>|null : WP_Comment|null
+ *     )
+ * )
  */
 function get_comment( $comment = null, $output = OBJECT ) {
 	if ( empty( $comment ) && isset( $GLOBALS['comment'] ) ) {
@@ -227,8 +243,10 @@ function get_comment( $comment = null, $output = OBJECT ) {
 		$_comment = $comment;
 	} elseif ( is_object( $comment ) ) {
 		$_comment = new WP_Comment( $comment );
+	} elseif ( is_numeric( $comment ) ) {
+		$_comment = WP_Comment::get_instance( (int) $comment );
 	} else {
-		$_comment = WP_Comment::get_instance( $comment );
+		$_comment = null;
 	}
 
 	if ( ! $_comment ) {
@@ -267,6 +285,11 @@ function get_comment( $comment = null, $output = OBJECT ) {
  * @param string|array $args Optional. Array or string of arguments. See WP_Comment_Query::__construct()
  *                           for information on accepted arguments. Default empty string.
  * @return WP_Comment[]|int[]|int List of comments or number of found comments if `$count` argument is true.
+ * @phpstan-return (
+ *     $args is array{ count: true, ... } ? non-negative-int : (
+ *         $args is array{ fields: 'ids', ... } ? non-negative-int[] : array<int, WP_Comment>
+ *     )
+ * )
  */
 function get_comments( $args = '' ) {
 	$query = new WP_Comment_Query();
@@ -519,6 +542,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
  *               - true values are returned as '1'
  *               - numbers are returned as strings
  *               Arrays and objects retain their original type.
+ * @phpstan-param int|numeric-string $comment_id
  */
 function get_comment_meta( $comment_id, $key = '', $single = false ) {
 	return get_metadata( 'comment', $comment_id, $key, $single );
