@@ -959,6 +959,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.5.0
 	 * @since 6.9.0 Adds flips capability and editable fields for the newly-created attachment post.
+	 * @since 7.1.0 Applies EXIF orientation correction before image modifications.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
@@ -1063,6 +1064,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				array( 'status' => 500 )
 			);
 		}
+
+		// Apply any unapplied EXIF orientation so edits run in the upright frame the client previewed.
+		$image_editor->maybe_exif_rotate();
 
 		foreach ( $modifiers as $modifier ) {
 			$args = $modifier['args'];
