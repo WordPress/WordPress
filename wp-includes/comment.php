@@ -2462,25 +2462,46 @@ function wp_new_comment_notify_moderator( $comment_id ) {
 /**
  * Sends a notification of a new comment to the post author.
  *
- * @since 4.4.0
- *
  * Uses the {@see 'notify_post_author'} filter to determine whether the post author
  * should be notified when a new comment is added, overriding site setting.
+ *
+ * @since 4.4.0
+ * @since 7.1.0 The comment approval status is now checked before the
+ *              {@see 'notify_post_author'} filter, and invalid comment IDs
+ *              return false without firing the filter.
  *
  * @param int $comment_id Comment ID.
  * @return bool True on success, false on failure.
  */
 function wp_new_comment_notify_postauthor( $comment_id ) {
 	$comment = get_comment( $comment_id );
-	$is_note = ( $comment && 'note' === $comment->comment_type );
+	if ( ! ( $comment instanceof WP_Comment ) ) {
+		return false;
+	}
+	$comment_id = (int) $comment->comment_ID;
+	$is_note    = ( 'note' === $comment->comment_type );
 
-	$maybe_notify = $is_note ? get_option( 'wp_notes_notify', 1 ) : get_option( 'comments_notify' );
+	/*
+	 * Determine the default notification behavior. Notes are eligible regardless
+	 * of approval status, based on the 'wp_notes_notify' option. Other comments
+	 * are only eligible once approved, based on the 'comments_notify' option.
+	 */
+	if ( $is_note ) {
+		$maybe_notify = (bool) get_option( 'wp_notes_notify', 1 );
+	} elseif ( '1' !== $comment->comment_approved ) {
+		$maybe_notify = false;
+	} else {
+		$maybe_notify = (bool) get_option( 'comments_notify' );
+	}
 
 	/**
-	 * Filters whether to send the post author new comment notification emails,
-	 * overriding the site setting.
+	 * Filters whether to send the post author new comment and note notification emails,
+	 * overriding the site settings and defaults. By default, notifications are sent for
+	 * all notes and for approved comments.
 	 *
 	 * @since 4.4.0
+	 * @since 7.1.0 Comment approval status is checked before this filter,
+	 *              and the filter no longer fires for invalid comment IDs.
 	 *
 	 * @param bool $maybe_notify Whether to notify the post author about the new comment.
 	 * @param int  $comment_id   The ID of the comment for the notification.
@@ -2493,13 +2514,6 @@ function wp_new_comment_notify_postauthor( $comment_id ) {
 	 */
 	if ( ! $maybe_notify ) {
 		return false;
-	}
-
-	// Send notifications for approved comments and all notes.
-	if (
-		! isset( $comment->comment_approved ) ||
-		( '1' !== $comment->comment_approved && ! $is_note ) ) {
-			return false;
 	}
 
 	return wp_notify_postauthor( $comment_id );
