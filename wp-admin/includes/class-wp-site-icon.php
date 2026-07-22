@@ -60,6 +60,9 @@ class WP_Site_Icon {
 		 */
 		180,
 
+		// High-density (2x) site icon for the admin bar and post embeds.
+		64,
+
 		// Our regular Favicon.
 		32,
 	);
