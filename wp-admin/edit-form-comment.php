@@ -221,12 +221,15 @@ $comment_threading_enabled = get_option( 'thread_comments' );
 if ( $comment_threading_enabled ) {
 	$max_thread_depth = (int) get_option( 'thread_comments_depth' );
 
+	// Pending comments may be nested under pending parents, but approved comments require publicly visible parents.
+	$parent_statuses = '1' === $comment->comment_approved ? 'approve' : array( 'approve', 'hold' );
+
 	// Limit the number of comments to keep memory usage and the size of the dropdown reasonable on busy posts.
 	$post_comments = get_comments(
 		array(
 			'post_id' => $comment->comment_post_ID,
 			'type'    => 'comment',
-			'status'  => array( 'approve', 'hold' ),
+			'status'  => $parent_statuses,
 			'orderby' => 'comment_date_gmt',
 			'order'   => 'DESC',
 			'number'  => 100,
