@@ -501,6 +501,7 @@ code {
 	border-bottom-width: 0;
 }
 
+.widefat th,
 .widefat td {
 	vertical-align: top;
 }

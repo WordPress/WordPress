@@ -191,7 +191,7 @@ window.wp = window.wp || {};
 	 */
 	setBulk : function(){
 		var te = '', type = this.type, c = true;
-		var checkedPosts = $( 'tbody th.check-column input[type="checkbox"]:checked' );
+		var checkedPosts = $( 'tbody .check-column input[type="checkbox"]:checked' );
 		var categories = {};
 		this.revert();
 
@@ -207,7 +207,7 @@ window.wp = window.wp || {};
 		 *
 		 * Get the selected posts based on the checked checkboxes in the post table.
 		 */
-		$( 'tbody th.check-column input[type="checkbox"]' ).each( function() {
+		$( 'tbody .check-column input[type="checkbox"]' ).each( function() {
 
 			// If the checkbox for a post is selected, add the post to the edit list.
 			if ( $(this).prop('checked') ) {
