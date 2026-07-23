@@ -40,7 +40,10 @@
  * key by key (an associative array merges member by member, a nested `null`
  * deletes just that leaf, a scalar replaces just that value), while `set()`
  * swaps the whole value. A nested `null` deletes just the leaf it names in
- * every case. Each patch also declares the configuration schema
+ * every case. A patch value whose shape does not match the current value —
+ * an associative array where a list lives, or the reverse — is rejected with
+ * a notice rather than merged, and an empty array under `merge()` is a
+ * no-op. Each patch also declares the configuration schema
  * version it was written against (currently 1), so a future WordPress release
  * that changes the configuration shape can migrate existing patches forward
  * instead of breaking them.
@@ -308,6 +311,12 @@ class WP_View_Config_Data {
 	 * stops inheriting core's future additions to it — but it's useful when a
 	 * contributor needs to pin a list to an exact set of members.
 	 *
+	 * The shape rule applies here too: a patch value whose shape does not match
+	 * the current value — an associative array where a list lives, or a
+	 * non-empty list where an associative value lives — is rejected with a
+	 * notice and leaves the current value unchanged. An empty array is exempt,
+	 * so replacing a list with an empty list still clears it.
+	 *
 	 * A patch that declares an unsupported schema version is rejected and does
 	 * not change anything.
 	 *
@@ -353,6 +362,13 @@ class WP_View_Config_Data {
 	 * - default_view will be updated so the search string is 'new search' and the newField is appended to the list of fields.
 	 * - default_layouts will be updated so that newField is appended to the badgeFields.
 	 * - view_list will be updated so that the view with slug 'table' has its title changed to 'New title'.
+	 *
+	 * A patch value only merges into a current value of the same shape: an
+	 * associative array where a list lives, or a non-empty list where an
+	 * associative value lives, is rejected with a notice and leaves the current
+	 * value unchanged. An empty array merges nothing and is a no-op — clear a
+	 * list with replace() and an empty list, or reset a key to its default with
+	 * a top-level `null`.
 	 *
 	 * A patch that declares an unsupported schema version is rejected and does
 	 * not change anything.
@@ -477,6 +493,15 @@ class WP_View_Config_Data {
 	 * $replace_lists flag is carried down through associative nesting so that,
 	 * under replace(), every list reached along the way is swapped wholesale.
 	 *
+	 * An array in $incoming only merges into a current value of the same shape.
+	 * A non-empty mismatch — an associative array where a list lives, or a
+	 * non-empty list where an associative value lives — is reported with
+	 * _doing_it_wrong() and leaves the current value unchanged, so a malformed
+	 * patch cannot silently destroy configuration. An empty array is
+	 * shape-ambiguous and merges nothing, so it is a no-op: clearing a list is
+	 * spelled replace() with an empty list, and resetting a key is spelled
+	 * `null`.
+	 *
 	 * @since 7.1.0
 	 *
 	 * @param mixed $current       The current value.
@@ -493,6 +518,18 @@ class WP_View_Config_Data {
 
 		// Numerical indexed arrays are expected to be lists (sequential integer keys starting at 0).
 		if ( array_is_list( $incoming ) ) {
+			// A non-empty list only lands where a list (or nothing) lives, under
+			// merge() and replace() alike. An empty array is shape-ambiguous and
+			// exempt, so replace() with an empty list can still clear a list.
+			if ( array() !== $incoming && is_array( $current ) && ! array_is_list( $current ) && array() !== $current ) {
+				_doing_it_wrong(
+					__METHOD__,
+					esc_html__( 'A view configuration patch value must match the shape of the value it patches: a list merges into a list, and an associative array into an associative array.' ),
+					'7.1.0'
+				);
+				return $current;
+			}
+
 			// replace() takes an incoming list as-is; merge() merges it by member identity.
 			if ( $replace_lists ) {
 				// As-is except for nulls: a list swapped in wholesale has no
@@ -500,6 +537,13 @@ class WP_View_Config_Data {
 				// set()), so a null member is dropped rather than stored.
 				return $this->strip_nulls( $incoming );
 			}
+
+			// An empty list has no members to merge, and an empty array is
+			// shape-ambiguous, so merging one is a no-op rather than a reset.
+			if ( array() === $incoming ) {
+				return $current;
+			}
+
 			return $this->merge_list_by_identity(
 				is_array( $current ) && array_is_list( $current ) ? $current : array(),
 				$incoming
@@ -507,6 +551,15 @@ class WP_View_Config_Data {
 		}
 
 		// Consider any other array as associative (keys are strings).
+		if ( is_array( $current ) && array_is_list( $current ) && array() !== $current ) {
+			_doing_it_wrong(
+				__METHOD__,
+				esc_html__( 'A view configuration patch value must match the shape of the value it patches: a list merges into a list, and an associative array into an associative array.' ),
+				'7.1.0'
+			);
+			return $current;
+		}
+
 		$result = is_array( $current ) && ! array_is_list( $current ) ? $current : array();
 		foreach ( $incoming as $key => $value ) {
 			// A null patch value deletes the property.
@@ -603,7 +656,9 @@ class WP_View_Config_Data {
 	 * A member of the incoming list whose identity matches one already present
 	 * merges into it in place, keeping its position; an unmatched member is
 	 * appended to the end, except a literal `null`, which carries no identity
-	 * and holds nothing to merge and so is dropped. A matched member's contents
+	 * and holds nothing to merge and so is dropped. An appended member has no
+	 * existing leaf for a nested `null` to delete (the same rationale as set()),
+	 * so its nulls are stripped rather than stored. A matched member's contents
 	 * merge recursively with the same rules (merge_properties), so the
 	 * identity-aware merge applies at
 	 * any nesting level: each key named by the patch is substituted while the
@@ -639,7 +694,9 @@ class WP_View_Config_Data {
 				}
 			}
 			if ( null === $index ) {
-				$result[] = $item;
+				// An appended member has no existing leaf for a nested null to
+				// delete, so nulls are dropped rather than stored.
+				$result[] = $this->strip_nulls( $item );
 				continue;
 			}
 
