@@ -1768,6 +1768,26 @@ class WP_List_Table {
 	protected function column_cb( $item ) {}
 
 	/**
+	 * Returns a clean, human-readable label for the primary column's row header.
+	 *
+	 * Used as the `aria-label` attribute value on the `<th scope="row">` element,
+	 * giving screen readers a concise cell name instead of computing it from
+	 * the full cell content (which may include row action links, excerpts, etc.).
+	 *
+	 * Subclasses should override this method to return the item's primary
+	 * identifier (e.g. post title, plugin name, username). Return an empty string
+	 * to omit the attribute.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param object|array $item The current item.
+	 * @return string The aria-label value, or an empty string.
+	 */
+	protected function get_primary_column_aria_label( $item ) {
+		return '';
+	}
+
+	/**
 	 * Generates the columns for a single row of the table.
 	 *
 	 * @since 3.1.0
@@ -1796,9 +1816,9 @@ class WP_List_Table {
 			$attributes = "class='$classes' $data";
 
 			if ( 'cb' === $column_name ) {
-				echo '<th scope="row" class="check-column">';
+				echo '<td class="check-column">';
 				echo $this->column_cb( $item );
-				echo '</th>';
+				echo '</td>';
 			} elseif ( method_exists( $this, '_column_' . $column_name ) ) {
 				echo call_user_func(
 					array( $this, '_column_' . $column_name ),
@@ -1807,16 +1827,29 @@ class WP_List_Table {
 					$data,
 					$primary
 				);
-			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
-				echo "<td $attributes>";
-				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo '</td>';
 			} else {
-				echo "<td $attributes>";
-				echo $this->column_default( $item, $column_name );
+				$is_primary = ( $primary === $column_name );
+				$tag        = $is_primary ? 'th' : 'td';
+				$scope      = $is_primary ? ' scope="row"' : '';
+
+				$aria_label = '';
+				if ( $is_primary ) {
+					$label = $this->get_primary_column_aria_label( $item );
+					if ( '' !== $label ) {
+						$aria_label = ' aria-label="' . esc_attr( $label ) . '"';
+					}
+				}
+
+				echo "<$tag $attributes$scope$aria_label>";
+
+				if ( method_exists( $this, 'column_' . $column_name ) ) {
+					echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+				} else {
+					echo $this->column_default( $item, $column_name );
+				}
+
 				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo '</td>';
+				echo "</$tag>";
 			}
 		}
 	}

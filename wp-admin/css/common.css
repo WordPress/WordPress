@@ -514,6 +514,7 @@ code {
 }
 
 .widefat th,
+.widefat tbody td.check-column,
 .widefat thead td,
 .widefat tfoot td {
 	text-align: left;
@@ -521,6 +522,7 @@ code {
 	font-size: 14px;
 }
 
+.widefat td.check-column input,
 .widefat th input,
 .updates-table td input,
 .widefat thead td input,
@@ -536,12 +538,14 @@ code {
 	vertical-align: top;
 }
 
-.widefat tbody th.check-column {
+.widefat tbody th.check-column,
+.widefat tbody td.check-column {
 	padding: 9px 0 22px;
 }
 
 .widefat thead td.check-column,
 .widefat tbody th.check-column,
+.widefat tbody td.check-column,
 .updates-table tbody td.check-column,
 .widefat tfoot td.check-column {
 	padding: 11px 0 0 3px;

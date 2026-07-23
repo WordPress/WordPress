@@ -940,11 +940,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 			switch ( $column_name ) {
 				case 'cb':
-					echo '<th scope="row" class="check-column">';
+					echo '<td class="check-column">';
 
 					$this->column_cb( $item );
 
-					echo '</th>';
+					echo '</td>';
 					break;
 
 				case 'name':
@@ -966,11 +966,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 						}
 					}
 
-					echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $item->display( 'Name' ) . $active_theme_label . '</strong>';
+					echo "<th scope='row' class='theme-title column-primary{$extra_classes}' aria-label='" . esc_attr( $item->display( 'Name' ) ) . "'><strong>" . $item->display( 'Name' ) . $active_theme_label . '</strong>';
 
 					$this->column_name( $item );
 
-					echo '</td>';
+					echo '</th>';
 					break;
 
 				case 'description':

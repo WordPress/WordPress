@@ -1114,10 +1114,28 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param string  $primary
 	 */
 	protected function _column_title( $post, $classes, $data, $primary ) {
-		echo '<td class="' . $classes . ' page-title" ', $data, '>';
+		$aria_label = $this->get_primary_column_aria_label( $post );
+		$aria_attr  = ( '' !== $aria_label ) ? ' aria-label="' . esc_attr( $aria_label ) . '"' : '';
+		echo '<th scope="row" class="' . $classes . ' page-title" ', $data, $aria_attr, '>';
 		echo $this->column_title( $post );
 		echo $this->handle_row_actions( $post, 'title', $primary );
-		echo '</td>';
+		echo '</th>';
+	}
+
+	/**
+	 * Returns a clean label for the primary (title) column's row header `aria-label`.
+	 *
+	 * Provides screen readers with just the post title as the row header name,
+	 * preventing them from computing the name from the full cell content
+	 * (which includes row action links, post states, and possibly an excerpt).
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param WP_Post $item The current post object.
+	 * @return string The post title, or 'no title' if no title.
+	 */
+	protected function get_primary_column_aria_label( $item ) {
+		return isset( $item->post_title ) && ! empty( $item->post_title ) ? $item->post_title : __( 'no title' );
 	}
 
 	/**

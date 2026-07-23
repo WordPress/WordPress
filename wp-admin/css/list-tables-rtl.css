@@ -223,11 +223,13 @@
 	background-color: #fcf9e8;
 }
 
-#the-comment-list .unapproved th.check-column {
+#the-comment-list .unapproved th.check-column,
+#the-comment-list .unapproved td.check-column {
 	border-right: 4px solid #d63638;
 }
 
-#the-comment-list .unapproved th.check-column input {
+#the-comment-list .unapproved th.check-column input,
+#the-comment-list .unapproved td.check-column input {
 	margin-right: 4px;
 }
 
@@ -1222,11 +1224,13 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 ------------------------------------------------------------------------------*/
 
 .plugins tbody th.check-column,
+.plugins tbody td.check-column,
 .plugins tbody {
 	padding: 8px 2px 0 0;
 }
 
-.plugins tbody th.check-column input[type=checkbox] {
+.plugins tbody th.check-column input[type=checkbox],
+.plugins tbody td.check-column input[type=checkbox] {
 	margin-top: 4px;
 }
 
@@ -1236,7 +1240,8 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugins thead td.check-column,
 .plugins tfoot td.check-column,
-.plugins .inactive th.check-column {
+.plugins .inactive th.check-column,
+.plugins .inactive td.check-column {
 	padding-right: 6px;
 }
 
@@ -1326,6 +1331,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 }
 
 .plugins .active th.check-column,
+.plugins .active td.check-column,
 .plugin-update-tr.active td {
 	border-right: 4px solid var(--wp-admin-theme-color);
 }
@@ -1411,7 +1417,8 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	text-decoration: underline;
 }
 
-.plugins tr.paused th.check-column {
+.plugins tr.paused th.check-column,
+.plugins tr.paused td.check-column {
 	border-right: 4px solid #b32d2e;
 }
 
@@ -1910,7 +1917,8 @@ div.action-links,
 	}
 
 	.wp-list-table th.column-primary ~ th,
-	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column) {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column),
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) th.column-primary ~ td:not(.check-column) {
 		display: none;
 	}
 
@@ -1919,7 +1927,8 @@ div.action-links,
 	}
 
 	/* Checkboxes need to show */
-	.wp-list-table tr th.check-column {
+	.wp-list-table tr th.check-column,
+	.wp-list-table tr td.check-column {
 		display: table-cell;
 	}
 
@@ -1937,11 +1946,13 @@ div.action-links,
 		width: auto !important; /* needs to override some columns that are more specifically targeted */
 	}
 
-	.wp-list-table td.column-primary {
+	.wp-list-table td.column-primary,
+	.wp-list-table th.column-primary {
 		padding-left: 50px; /* space for toggle button */
 	}
 
-	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column) {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td.column-primary ~ td:not(.check-column),
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) th.column-primary ~ td:not(.check-column) {
 		padding: 3px 35% 3px 8px;
 	}
 
@@ -2270,12 +2281,14 @@ div.action-links,
 	}
 
 	.plugins tr.active + tr.inactive th.check-column,
+	.plugins tr.active + tr.inactive td.check-column,
 	.plugins tr.active + tr.inactive td.column-description,
 	.plugins .plugin-update-tr:before {
 		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	}
 
 	.plugins tr.active + tr.inactive th.check-column,
+	.plugins tr.active + tr.inactive td.check-column,
 	.plugins tr.active + tr.inactive td {
 		border-top: none;
 	}
@@ -2310,13 +2323,15 @@ div.action-links,
 		line-height: 1.5;
 	}
 
-	.plugins tbody th.check-column {
+	.plugins tbody th.check-column,
+	.plugins tbody td.check-column {
 		padding: 8px 5px 0 0;
 	}
 
 	.plugins thead td.check-column,
 	.plugins tfoot td.check-column,
-	.plugins .inactive th.check-column {
+	.plugins .inactive th.check-column,
+	.plugins .inactive td.check-column {
 		padding-right: 9px;
 	}
 

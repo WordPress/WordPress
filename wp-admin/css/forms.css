@@ -1967,7 +1967,8 @@ table.form-table td .updated p {
 		margin-left: 0;
 	}
 
-	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column) {
+	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column),
+	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) th.column-primary:not(.check-column) {
 		display: table-cell;
 	}
 

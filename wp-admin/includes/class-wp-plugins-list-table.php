@@ -1233,12 +1233,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 			switch ( $column_name ) {
 				case 'cb':
-					echo "<th scope='row' class='check-column'>$checkbox</th>";
+					echo "<td class='check-column'>$checkbox</td>";
 					break;
 				case 'name':
-					echo "<td class='plugin-title column-primary'><strong>$plugin_name</strong>";
+					echo "<th scope='row' class='plugin-title column-primary' aria-label='" . esc_attr( $plugin_name ) . "'><strong>$plugin_name</strong>";
 					echo $this->row_actions( $actions, true );
-					echo '</td>';
+					echo '</th>';
 					break;
 				case 'description':
 					$classes = 'column-description desc';
