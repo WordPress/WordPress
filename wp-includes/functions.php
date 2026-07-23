@@ -5034,9 +5034,13 @@ function wp_parse_args( $args, $defaults = array() ) {
  * @since 5.1.0
  *
  * @param mixed[]|string $input_list List of values.
- * @return array Array of values. A string is split into a list, while an array
+ * @return array Array of scalar values. A string is split into a list, while an array
  *               keeps its keys, so the result is not necessarily a list.
- * @phpstan-return ( $input_list is string ? list<string> : array<scalar> )
+ * @phpstan-return (
+ *     $input_list is string ? list<string> : (
+ *         $input_list is array<string> ? array<string> : array<scalar>
+ *     )
+ * )
  */
 function wp_parse_list( $input_list ): array {
 	if ( ! is_array( $input_list ) ) {
