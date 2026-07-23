@@ -80,7 +80,7 @@ class WP_REST_Abilities_V1_Run_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function execute_ability( $request ) {
-		$ability = wp_get_ability( $request['name'] );
+		$ability = wp_has_ability( $request['name'] ) ? wp_get_ability( $request['name'] ) : null;
 		if ( ! $ability ) {
 			return new WP_Error(
 				'rest_ability_not_found',
@@ -141,7 +141,7 @@ class WP_REST_Abilities_V1_Run_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has execution permission, WP_Error object otherwise.
 	 */
 	public function check_ability_permissions( $request ) {
-		$ability = wp_get_ability( $request['name'] );
+		$ability = wp_has_ability( $request['name'] ) ? wp_get_ability( $request['name'] ) : null;
 		if ( ! $ability || ! $ability->get_meta_item( 'show_in_rest' ) ) {
 			return new WP_Error(
 				'rest_ability_not_found',
@@ -239,7 +239,7 @@ class WP_REST_Abilities_V1_Run_Controller extends WP_REST_Controller {
 	 * @return mixed Coerced input, or the raw input when it cannot be safely coerced.
 	 */
 	public function sanitize_input_for_ability( $input, $request ) {
-		$ability = wp_get_ability( $request['name'] );
+		$ability = wp_has_ability( $request['name'] ) ? wp_get_ability( $request['name'] ) : null;
 		if ( ! $ability instanceof WP_Ability ) {
 			return $input;
 		}
