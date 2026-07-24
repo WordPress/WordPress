@@ -641,6 +641,14 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'tmp_name' => $tmp_file,
 		);
 
+		$size_check = self::check_upload_size( $file_array );
+		if ( is_wp_error( $size_check ) ) {
+			if ( file_exists( $tmp_file ) ) {
+				wp_delete_file( $tmp_file );
+			}
+			return $size_check;
+		}
+
 		$attachment_id = media_handle_sideload( $file_array, $post_id );
 
 		if ( is_wp_error( $attachment_id ) ) {
