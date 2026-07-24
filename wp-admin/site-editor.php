@@ -211,19 +211,21 @@ $preload_paths = array(
 	array( '/wp/v2/settings', 'OPTIONS' ),
 	// Used by getBlockPatternCategories in useBlockEditorSettings.
 	'/wp/v2/block-patterns/categories',
-	// @see packages/core-data/src/entities.js
+	/**
+	 * The preloaded URL must exactly match the request the client makes,
+	 * including the field order.
+	 * @link https://github.com/WordPress/gutenberg/blob/trunk/packages/core-data/src/entities.js
+	 */
 	'/?_fields=' . implode(
 		',',
 		array(
 			'description',
 			'gmt_offset',
 			'home',
+			'image_max_bit_depth',
 			'image_sizes',
 			'image_size_threshold',
-			'image_output_formats',
-			'jpeg_interlaced',
-			'png_interlaced',
-			'gif_interlaced',
+			'image_strip_meta',
 			'name',
 			'site_icon',
 			'site_icon_url',
