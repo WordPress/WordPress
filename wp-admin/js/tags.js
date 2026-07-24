@@ -59,8 +59,10 @@ jQuery( function($) {
 							nextFocus = prevFocus;
 						}
 					}
-
-					tr.fadeOut('normal', function(){ tr.remove(); });
+					tr.fadeOut('normal', function() {
+						tr.remove();
+						updateTableNavCount();
+					});
 
 					/**
 					 * Removes the term from the parent box and the tag cloud.
@@ -73,7 +75,7 @@ jQuery( function($) {
 					$('a.tag-link-' + data.match(/tag_ID=(\d+)/)[1]).remove();
 					nextFocus.trigger( 'focus' );
 					message = wp.i18n.__( 'The selected tag has been deleted.' );
-			
+
 				} else if ( '-1' == r ) {
 					message = wp.i18n.__( 'Sorry, you are not allowed to do that.' );
 					$('#ajax-response').empty().append('<div class="notice notice-error"><p>' + message + '</p></div>');
@@ -101,6 +103,53 @@ jQuery( function($) {
 		tr.children().css( 'backgroundColor', '' );
 		tr.css( 'pointer-events', '' );
 		tr.find( ':input, a' ).prop( 'disabled', false ).removeAttr( 'tabindex' );
+	}
+
+	/**
+	 * Updates the item count and table navigation after a tag is added or removed.
+	 *
+	 * Tags are added and removed client-side, but the item count, the `.tablenav`
+	 * regions, the search box, and the empty-state row are otherwise only
+	 * reconciled by PHP on a full page reload. This keeps them in sync.
+	 *
+	 * @param {string} [action] Pass 'add' when a tag was added. Any other value,
+	 *                          including none, is treated as a removal.
+	 *
+	 * @return {void}
+	 */
+	function updateTableNavCount( action ) {
+		var $displayingNum = $( '.tablenav-pages .displaying-num' ),
+			currentCount   = parseInt( $displayingNum.first().text().replace( /[^0-9]/g, '' ), 10 ) || 0,
+			itemCount      = ( 'add' === action ) ? currentCount + 1 : Math.max( currentCount - 1, 0 ),
+			formattedCount = itemCount.toLocaleString();
+
+		$displayingNum.text(
+			wp.i18n.sprintf(
+				/* translators: %s: Number of items. */
+				wp.i18n._n( '%s item', '%s items', itemCount ),
+				formattedCount
+			)
+		);
+
+		if ( itemCount < 1 ) {
+			// No tags remain: show the empty-state row and hide the navigation.
+			var $list = $( '#the-list' );
+
+ 			if ( ! $list.find( 'tr.no-items' ).length ) {
+ 				var colspan = $list.closest( 'table' ).find( 'thead > tr' ).first().children( ':not(.hidden)' ).length;
+ 				$list.append(
+ 					'<tr class="no-items"><td class="colspanchange" colspan="' + colspan + '">' +
+ 					wp.i18n.__( 'No tags found.' ) +
+ 					'</td></tr>'
+ 				);
+ 			}
+			$( '.tablenav > *' ).hide();
+			$( 'p.search-box' ).hide();
+		} else {
+			$( '#the-list' ).find( 'tr.no-items' ).remove();
+			$( '.tablenav > *' ).show();
+			$( 'p.search-box' ).show();
+		}
 	}
 
 	/**
@@ -192,6 +241,8 @@ jQuery( function($) {
 			}
 
 			$('input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):visible, textarea:visible', form).val('');
+
+			updateTableNavCount( 'add' );
 		});
 
 		return false;
