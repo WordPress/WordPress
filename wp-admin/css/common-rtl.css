@@ -524,6 +524,13 @@ code {
 	font-size: 14px;
 }
 
+.widefat td .notice ul li,
+.widefat th .notice ul li {
+	font-size: 13px;
+	line-height: 1.54;
+	margin: 0.5em 0;
+}
+
 .widefat td.check-column input,
 .widefat th input,
 .updates-table td input,
