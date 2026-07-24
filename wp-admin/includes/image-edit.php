@@ -151,12 +151,17 @@ function wp_image_editor( $post_id, $msg = false ) {
 							<label for="imgedit-scale-width-<?php echo $post_id; ?>" class="screen-reader-text">
 							<?php
 							/* translators: Hidden accessibility text. */
-							_e( 'scale height' );
+							_e( 'Width' );
 							?>
 							</label>
 							<input type="number" step="1" min="0" max="<?php echo $meta['width'] ?? ''; ?>" aria-describedby="imgedit-scale-warn-<?php echo $post_id; ?>"  id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" value="<?php echo $meta['width'] ?? 0; ?>" />
 							<span class="imgedit-separator" aria-hidden="true">&times;</span>
-							<label for="imgedit-scale-height-<?php echo $post_id; ?>" class="screen-reader-text"><?php _e( 'scale height' ); ?></label>
+							<label for="imgedit-scale-height-<?php echo $post_id; ?>" class="screen-reader-text">
+							<?php
+							/* translators: Hidden accessibility text. */
+							_e( 'Height' );
+							?>
+							</label>
 							<input type="number" step="1" min="0" max="<?php echo $meta['height'] ?? ''; ?>" aria-describedby="imgedit-scale-warn-<?php echo $post_id; ?>" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" value="<?php echo $meta['height'] ?? 0; ?>" />
 							<button id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary"><?php echo esc_html_x( 'Scale', 'verb' ); ?></button>
 							</div>
