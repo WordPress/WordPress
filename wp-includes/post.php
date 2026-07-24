@@ -4053,6 +4053,22 @@ function _reset_front_page_settings_for_post( $post_id ) {
 }
 
 /**
+ * Resets the Privacy Policy page ID option when the Privacy Policy page
+ * is permanently deleted, to prevent uncached database queries for a
+ * non-existent page.
+ *
+ * @since 7.1.0
+ * @access private
+ *
+ * @param int $post_id The ID of the post being deleted.
+ */
+function _reset_privacy_policy_page_for_post( int $post_id ): void {
+	if ( 'page' === get_post_type( $post_id ) && ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post_id ) ) {
+		update_option( 'wp_page_for_privacy_policy', 0 );
+	}
+}
+
+/**
  * Moves a post or page to the Trash
  *
  * If Trash is disabled, the post or page is permanently deleted.

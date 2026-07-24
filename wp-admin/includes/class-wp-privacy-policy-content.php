@@ -329,6 +329,12 @@ final class WP_Privacy_Policy_Content {
 		$current_screen = get_current_screen();
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
+		// If the privacy policy page has been deleted, reset the option and bail.
+		if ( $policy_page_id && ! get_post( $policy_page_id ) ) {
+			update_option( 'wp_page_for_privacy_policy', 0 );
+			return;
+		}
+
 		if ( 'post' !== $current_screen->base || $policy_page_id !== $post->ID ) {
 			return;
 		}

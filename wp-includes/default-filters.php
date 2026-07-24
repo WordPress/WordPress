@@ -590,6 +590,7 @@ add_action( 'transition_post_status', '__clear_multi_author_cache' );
 add_action( 'init', 'create_initial_post_types', 0 ); // Highest priority.
 add_action( 'admin_menu', '_add_post_type_submenus' );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
+add_action( 'before_delete_post', '_reset_privacy_policy_page_for_post' );
 add_action( 'wp_trash_post', '_reset_front_page_settings_for_post' );
 add_action( 'change_locale', 'create_initial_post_types' );
 
