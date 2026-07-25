@@ -1294,7 +1294,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		$widget_options[ $widget_id ]           = wp_widget_rss_process( $_POST['widget-rss'][ $number ] );
 		$widget_options[ $widget_id ]['number'] = $number;
 
-		// Title is optional. If black, fill it if possible.
+		// Title is optional. If blank, fill it if possible.
 		if ( ! $widget_options[ $widget_id ]['title'] && isset( $_POST['widget-rss'][ $number ]['title'] ) ) {
 			$rss = fetch_feed( $widget_options[ $widget_id ]['url'] );
 			if ( is_wp_error( $rss ) ) {
