@@ -158,9 +158,10 @@ if ( ! CUSTOM_TAGS ) {
 			'popover' => true,
 		),
 		'dialog'     => array(
-			'closedby' => true,
-			'open'     => true,
-			'popover'  => true,
+			'closedby'  => true,
+			'open'      => true,
+			'popover'   => true,
+			'autofocus' => true,
 		),
 		'dl'         => array(),
 		'dt'         => array(),
