@@ -4580,7 +4580,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 				this.toolbar.set( 'filters', Filters.render() );
 			}
 		}
-		
+
 		/*
 		 * Feels odd to bring the global media library switcher into the Attachment browser view.
 		 * Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
@@ -4598,7 +4598,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 			}).render() );
 
 			// DateFilter is a <select>, a label element needs to be rendered before.
-			this.toolbar.set( 'dateFilter', new wp.media.view.Label({
+			this.toolbar.set( 'dateFilterLabel', new wp.media.view.Label({
 				value: l10n.filterByDate,
 				attributes: {
 					'for': 'media-attachment-date-filters'
