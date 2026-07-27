@@ -176,7 +176,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		}
 
 		if ( ! $recursive || ! $this->is_dir( $file ) ) {
-			$current_mode = fileperms( $file ) & 0777 | 0644;
+			$current_mode = fileperms( $file ) & 0777;
 
 			/*
 			 * fileperms() populates the stat cache, so have to clear it
