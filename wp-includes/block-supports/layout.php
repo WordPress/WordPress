@@ -955,9 +955,24 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 function wp_render_layout_support_flag( $block_content, $block ) {
 	static $global_styles = null;
 
-	$block_type               = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$block_supports_layout    = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
-	$style_attr               = $block['attrs']['style'] ?? array();
+	$block_type            = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$block_supports_layout = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
+	$style_attr            = $block['attrs']['style'] ?? array();
+	/*
+	 * A block with no layout support and no style attribute at all cannot
+	 * produce layout output, so return before resolving global settings.
+	 *
+	 * Resolving settings is not read-only: on a cold cache it queries the
+	 * user's `wp_global_styles` post, which fires `the_posts`. A callback on
+	 * that hook that renders blocks re-enters this filter, and the content it
+	 * renders at that point is the global styles post itself, which parses to a
+	 * single block with no name and no attributes. Without this return that
+	 * block resolves settings again and the recursion has no base case.
+	 */
+	if ( ! $block_supports_layout && empty( $style_attr ) ) {
+		return $block_content;
+	}
+
 	$global_settings          = wp_get_global_settings();
 	$viewport_settings        = $global_settings['viewport'] ?? null;
 	$responsive_media_queries = WP_Theme_JSON::get_viewport_media_queries( $viewport_settings );
