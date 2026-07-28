@@ -182,12 +182,17 @@ if ( ! function_exists( 'twenty_twenty_one_post_title' ) ) {
 	 * Adds a title to posts and pages that are missing titles.
 	 *
 	 * @since Twenty Twenty-One 1.0
+	 * @since Twenty Twenty-One 2.9 Only applies the filter on the front end.
 	 *
 	 * @param string $title The title.
 	 * @return string
 	 */
 	function twenty_twenty_one_post_title( $title ) {
-		return '' === $title ? esc_html_x( 'Untitled', 'Added to posts and pages that are missing titles', 'twentytwentyone' ) : $title;
+		if ( is_admin() ) {
+			return $title;
+		}
+
+		return '' === $title ? esc_html_x( 'Untitled', 'Added on the front end to posts and pages that are missing titles', 'twentytwentyone' ) : $title;
 	}
 }
 add_filter( 'the_title', 'twenty_twenty_one_post_title' );
