@@ -1784,7 +1784,7 @@ class WP_List_Table {
 	 * identifier (e.g. post title, plugin name, username). Return an empty string
 	 * to omit the attribute.
 	 *
-	 * @since 6.9.0
+	 * @since 7.1.0
 	 *
 	 * @param object|array $item The current item.
 	 * @return string The aria-label value, or an empty string.

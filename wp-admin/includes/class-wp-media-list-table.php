@@ -932,4 +932,23 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		return $this->row_actions( $actions );
 	}
+
+	/**
+	 * Returns a clean label for the primary (File) column's row header `aria-label`.
+	 *
+	 * Provides screen readers with just the attachment title as the row header
+	 * name, preventing them from computing the name from the full cell content.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param WP_Post $post The current WP_Post object.
+	 * @return string The attachment title.
+	 */
+	protected function get_primary_column_aria_label( $post ) {
+		// The title may contain HTML. The printed aria-label uses esc_attr() later.
+		$attachment_title = html_entity_decode( _draft_or_post_title( $post ), ENT_QUOTES, get_bloginfo( 'charset' ) );
+		$attachment_title = wp_strip_all_tags( $attachment_title );
+
+		return $attachment_title;
+	}
 }

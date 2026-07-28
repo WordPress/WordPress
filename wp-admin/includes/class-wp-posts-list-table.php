@@ -1129,7 +1129,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * preventing them from computing the name from the full cell content
 	 * (which includes row action links, post states, and possibly an excerpt).
 	 *
-	 * @since 6.9.0
+	 * @since 7.1.0
 	 *
 	 * @param WP_Post $item The current post object.
 	 * @return string The post title, or 'no title' if no title.
@@ -1215,7 +1215,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					/* translators: %s: Parent post title. */
 					esc_html( sprintf( __( 'Child of %s' ), wp_strip_all_tags( $parent_title ) ) )
 				);
-				$hierarchy_nolink  = sprintf(
+				$hierarchy_nolink = sprintf(
 					'<span id="%1$s" class="screen-reader-text"> (%2$s)</span>',
 					esc_attr( $hierarchy_id ),
 					/* translators: %s: Parent post title. */

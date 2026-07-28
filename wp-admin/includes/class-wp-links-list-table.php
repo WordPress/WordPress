@@ -364,4 +364,22 @@ class WP_Links_List_Table extends WP_List_Table {
 
 		return $this->row_actions( $actions );
 	}
+
+	/**
+	 * Returns a clean label for the primary (Name) column's row header `aria-label`.
+	 *
+	 * Provides screen readers with just the link name as the row header name,
+	 * preventing them from computing the name from the full cell content.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param object $link The current link object.
+	 * @return string The link name.
+	 */
+	protected function get_primary_column_aria_label( $link ) {
+		$link_name = html_entity_decode( $link->link_name, ENT_QUOTES, get_bloginfo( 'charset' ) );
+		$link_name = wp_strip_all_tags( $link_name );
+
+		return $link_name;
+	}
 }
