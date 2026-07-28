@@ -4,7 +4,12 @@
  *
  * This pattern is used only to reference a dynamic image URL.
  * It does not appear in the inserter.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'    => __( 'Heading and bird image', 'twentytwentytwo' ),
 	'inserter' => false,

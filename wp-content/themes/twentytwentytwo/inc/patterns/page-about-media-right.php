@@ -1,7 +1,12 @@
 <?php
 /**
  * About page with media on the right
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'About page with media on the right', 'twentytwentytwo' ),
 	'categories' => array( 'twentytwentytwo_pages' ),

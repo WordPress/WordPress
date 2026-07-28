@@ -1,7 +1,12 @@
 <?php
 /**
  * Video with header and details block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Video with header and details', 'twentytwentytwo' ),
 	'categories' => array( 'featured', 'columns' ),

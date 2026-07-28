@@ -1,7 +1,12 @@
 <?php
 /**
  * Logo, navigation, and social links header with black background block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Logo, navigation, and social links header with background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),

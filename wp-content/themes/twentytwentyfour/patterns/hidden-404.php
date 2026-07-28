@@ -3,7 +3,12 @@
  * Title: 404
  * Slug: twentytwentyfour/hidden-404
  * Inserter: no
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
 
 <!-- wp:heading {"level":1} -->

@@ -3,7 +3,12 @@
  * Title: Comments
  * Slug: twentytwentyfour/hidden-comments
  * Inserter: no
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
 
 <!-- wp:comments {"className":"wp-block-comments-query-loop"} -->

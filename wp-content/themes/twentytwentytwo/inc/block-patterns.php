@@ -2,6 +2,8 @@
 /**
  * Twenty Twenty-Two: Block Patterns
  *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
  * @since Twenty Twenty-Two 1.0
  */
 

@@ -1,7 +1,12 @@
 <?php
 /**
  * List of events block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'List of events', 'twentytwentytwo' ),
 	'categories' => array( 'featured', 'text' ),

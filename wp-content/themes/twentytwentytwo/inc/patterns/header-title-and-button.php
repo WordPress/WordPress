@@ -1,7 +1,12 @@
 <?php
 /**
  * Title and button header block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Title and button header', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),

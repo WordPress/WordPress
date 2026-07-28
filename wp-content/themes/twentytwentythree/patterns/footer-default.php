@@ -5,8 +5,14 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Description: Footer with site title and powered by WordPress.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Three
+ * @since Twenty Twenty-Three 1.0
  */
+
 ?>
+
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
 	<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|40"}}},"layout":{"type":"flex","justifyContent":"space-between"}} -->

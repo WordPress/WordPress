@@ -1,7 +1,12 @@
 <?php
 /**
  * Layered images with duotone block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Layered images with duotone', 'twentytwentytwo' ),
 	'categories' => array( 'featured', 'gallery' ),

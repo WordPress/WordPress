@@ -1,7 +1,12 @@
 <?php
 /**
  * Image with caption block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Image with caption', 'twentytwentytwo' ),
 	'categories' => array( 'featured', 'columns', 'gallery' ),

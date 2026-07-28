@@ -3,8 +3,14 @@
  * Title: Sidebar
  * Slug: twentytwentyfour/hidden-sidebar
  * Inserter: no
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
+
 <!-- wp:group {"style":{"spacing":{"blockGap":"36px","padding":{"right":"0","left":"0"}}},"layout":{"type":"default"}} -->
 <div class="wp-block-group" style="padding-right:0;padding-left:0">
 	<!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->

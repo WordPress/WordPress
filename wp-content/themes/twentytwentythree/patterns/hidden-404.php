@@ -3,8 +3,14 @@
  * Title: Hidden 404
  * Slug: twentytwentythree/hidden-404
  * Inserter: no
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Three
+ * @since Twenty Twenty-Three 1.0
  */
+
 ?>
+
 <!-- wp:spacer {"height":"var(--wp--preset--spacing--30)"} -->
 <div style="height:var(--wp--preset--spacing--30)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->

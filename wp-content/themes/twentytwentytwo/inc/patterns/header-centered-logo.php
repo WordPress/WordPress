@@ -1,7 +1,12 @@
 <?php
 /**
  * Header with centered logo block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Header with centered logo', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),

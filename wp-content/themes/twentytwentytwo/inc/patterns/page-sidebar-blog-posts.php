@@ -1,7 +1,12 @@
 <?php
 /**
  * Blog posts with left sidebar block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Blog posts with left sidebar', 'twentytwentytwo' ),
 	'categories' => array( 'twentytwentytwo_pages' ),

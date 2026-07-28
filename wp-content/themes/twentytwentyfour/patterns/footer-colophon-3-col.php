@@ -5,7 +5,12 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Description: A footer section with a colophon and 3 columns.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
 
 <!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->

@@ -5,7 +5,12 @@
  * Categories: team, about
  * Viewport width: 1400
  * Description: A team section, with a heading, a paragraph, and 4 columns for team members.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
 
 <!-- wp:group {"metadata":{"name":"<?php echo esc_html_x( 'Team members', 'Name of team pattern', 'twentytwentyfour' ); ?>"},"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"},"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->

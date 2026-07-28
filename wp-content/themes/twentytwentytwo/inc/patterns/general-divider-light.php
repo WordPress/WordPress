@@ -1,7 +1,12 @@
 <?php
 /**
  * Divider with image and color (light) block pattern
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Two
+ * @since Twenty Twenty-Two 1.0
  */
+
 return array(
 	'title'      => __( 'Divider with image and color (light)', 'twentytwentytwo' ),
 	'categories' => array( 'featured' ),

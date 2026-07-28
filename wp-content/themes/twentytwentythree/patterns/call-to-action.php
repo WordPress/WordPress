@@ -6,8 +6,14 @@
  * Keywords: Call to action
  * Block Types: core/buttons
  * Description: Left-aligned text with a CTA button and a separator.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Three
+ * @since Twenty Twenty-Three 1.0
  */
+
 ?>
+
 <!-- wp:columns {"align":"wide"} -->
 <div class="wp-block-columns alignwide">
 	<!-- wp:column -->

@@ -4,7 +4,8 @@
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Twenty Twenty-Four
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
  * @since Twenty Twenty-Four 1.0
  */
 

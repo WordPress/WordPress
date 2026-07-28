@@ -8,7 +8,12 @@
  * Post Types: page, wp_template
  * Viewport width: 1400
  * Description: A portfolio home page with a description and a 4-column post section with only feature images.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Four
+ * @since Twenty Twenty-Four 1.0
  */
+
 ?>
 
 <!-- wp:pattern {"slug":"twentytwentyfour/hidden-portfolio-hero"} /-->
