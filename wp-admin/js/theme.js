@@ -16,6 +16,30 @@ themes = wp.themes = wp.themes || {};
 themes.data = _wpThemeSettings;
 l10n = themes.data.l10n;
 
+/**
+ * Announces to screen readers the theme shown after previous/next navigation.
+ *
+ * @since 7.1.0
+ *
+ * @param {Object} model The theme model.
+ * @return {void}
+ */
+themes.announceThemeDebounced = _.debounce( function( model ) {
+	var name;
+
+	if ( ! model ) {
+		return;
+	}
+
+	name = model.get( 'name' ) || model.get( 'id' );
+
+	if ( ! name ) {
+		return;
+	}
+
+	wp.a11y.speak( l10n.themeViewed.replace( '%s', name ) );
+}, 500 );
+
 // Shortcut for isInstall check.
 themes.isInstall = !! themes.data.settings.isInstall;
 
@@ -549,6 +573,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 			preview.render();
 			this.setNavButtonsState();
 			$( '.next-theme' ).trigger( 'focus' );
+			themes.announceThemeDebounced( self.current );
 		})
 		.listenTo( preview, 'theme:previous', function() {
 
@@ -579,6 +604,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 			preview.render();
 			this.setNavButtonsState();
 			$( '.previous-theme' ).trigger( 'focus' );
+			themes.announceThemeDebounced( self.current );
 		});
 
 		this.listenTo( preview, 'preview:close', function() {
@@ -769,6 +795,9 @@ themes.view.Details = wp.Backbone.View.extend({
 				}
 			});
 		}
+
+		// Cancel any pending navigation announcement.
+		themes.announceThemeDebounced.cancel();
 	},
 
 	// Handles .disabled classes for next/previous buttons.
@@ -909,7 +938,7 @@ themes.view.Preview = themes.view.Details.extend({
 		'click .devices button': 'previewDevice',
 		'click .previous-theme': 'previousTheme',
 		'click .next-theme': 'nextTheme',
-		'keyup': 'keyEvent',
+		'keydown': 'keyEvent',
 		'click .theme-install': 'installTheme'
 	},
 
@@ -967,6 +996,9 @@ themes.view.Preview = themes.view.Details.extend({
 		this.trigger( 'preview:close' );
 		this.undelegateEvents();
 		this.unbind();
+
+		// Cancel any pending navigation announcement.
+		themes.announceThemeDebounced.cancel();
 		return false;
 	},
 
@@ -1012,18 +1044,20 @@ themes.view.Preview = themes.view.Details.extend({
 			this.close();
 		}
 
-		// Return if Ctrl + Shift or Shift key pressed
-		if ( event.shiftKey || ( event.ctrlKey && event.shiftKey ) ) {
+		// Arrow key navigation requires Alt key to avoid interfering with screen reader navigation.
+		if ( ! event.altKey ) {
 			return;
 		}
 
 		// The right arrow key, next theme.
 		if ( event.keyCode === 39 ) {
-			_.once( this.nextTheme() );
+			event.preventDefault();
+			this.nextTheme();
 		}
 
 		// The left arrow key, previous theme.
 		if ( event.keyCode === 37 ) {
+			event.preventDefault();
 			this.previousTheme();
 		}
 	},
@@ -1111,7 +1145,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		} );
 
 		// Bind keyboard events.
-		$( 'body' ).on( 'keyup', function( event ) {
+		$( 'body' ).on( 'keydown.wp-themes', function( event ) {
 			if ( ! self.overlay ) {
 				return;
 			}
@@ -1121,24 +1155,26 @@ themes.view.Themes = wp.Backbone.View.extend({
 				return;
 			}
 
-			// Return if Ctrl + Shift or Shift key pressed
-			if ( event.shiftKey || ( event.ctrlKey && event.shiftKey ) ) {
-				return;
-			}
-
-			// Pressing the right arrow key fires a theme:next event.
-			if ( event.keyCode === 39 ) {
-				self.overlay.nextTheme();
-			}
-
-			// Pressing the left arrow key fires a theme:previous event.
-			if ( event.keyCode === 37 ) {
-				self.overlay.previousTheme();
-			}
-
 			// Pressing the escape key fires a theme:collapse event.
 			if ( event.keyCode === 27 ) {
 				self.overlay.collapse( event );
+			}
+
+			// Arrow key navigation requires Alt key to avoid interfering with screen reader navigation.
+			if ( ! event.altKey ) {
+				return;
+			}
+
+			// Pressing Alt + right arrow key fires a theme:next event.
+			if ( event.keyCode === 39 ) {
+				event.preventDefault();
+				self.overlay.nextTheme();
+			}
+
+			// Pressing Alt + left arrow key fires a theme:previous event.
+			if ( event.keyCode === 37 ) {
+				event.preventDefault();
+				self.overlay.previousTheme();
 			}
 		});
 	},
@@ -1322,7 +1358,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', nextModel.cid );
-
+			themes.announceThemeDebounced( nextModel );
 		}
 	},
 
@@ -1357,7 +1393,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', previousModel.cid );
-
+			themes.announceThemeDebounced( previousModel );
 		}
 	},
 

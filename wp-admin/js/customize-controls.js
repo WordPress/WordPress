@@ -1701,6 +1701,7 @@
 		filtersHeight: 0,
 		headerContainer: null,
 		updateCountDebounced: null,
+		announceThemeDebounced: null,
 
 		/**
 		 * wp.customize.ThemesSection
@@ -1724,6 +1725,13 @@
 			section.$body = $( document.body );
 			api.Section.prototype.initialize.call( section, id, options );
 			section.updateCountDebounced = _.debounce( section.updateCount, 500 );
+			section.announceThemeDebounced = _.debounce( function( name ) {
+				if ( ! name ) {
+					return;
+				}
+
+				wp.a11y.speak( api.settings.l10n.announceThemeDetails.replace( '%s', name ) );
+			}, 500 );
 		},
 
 		/**
@@ -1777,13 +1785,20 @@
 					return;
 				}
 
+				// Require the alt key for arrow events.
+				if ( 27 !== event.keyCode && ! event.altKey ) {
+					return;
+				}
+
 				// Pressing the right arrow key fires a theme:next event.
 				if ( 39 === event.keyCode ) {
+					event.preventDefault(); // Prevent browser from triggering history shortcuts.
 					section.nextTheme();
 				}
 
 				// Pressing the left arrow key fires a theme:previous event.
 				if ( 37 === event.keyCode ) {
+					event.preventDefault(); // Prevent browser from triggering history shortcuts.
 					section.previousTheme();
 				}
 
@@ -2602,7 +2617,8 @@
 			section.$body.addClass( 'modal-open' );
 			section.containFocus( section.overlay );
 			section.updateLimits();
-			wp.a11y.speak( api.settings.l10n.announceThemeDetails.replace( '%s', theme.name ) );
+
+			section.announceThemeDebounced( theme.name );
 			if ( callback ) {
 				callback();
 			}
@@ -2620,6 +2636,8 @@
 			section.$body.removeClass( 'modal-open' );
 			section.overlay.fadeOut( 'fast' );
 			api.control( section.params.action + '_theme_' + section.currentTheme ).container.find( '.theme' ).focus();
+			// Cancel any pending navigation announcement.
+			section.announceThemeDebounced.cancel();
 		},
 
 		/**

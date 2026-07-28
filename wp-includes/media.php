@@ -5189,6 +5189,8 @@ function wp_enqueue_media( $args = array() ) {
 		'mediaFound'                  => __( 'Number of media items found: %d' ),
 		'noMedia'                     => __( 'No media items found.' ),
 		'noMediaTryNewSearch'         => __( 'No media items found. Try a different search.' ),
+		/* translators: %s: Media item title or file name. */
+		'mediaItemViewed'             => __( 'Viewing media item: %s' ),
 
 		// Library Details.
 		'attachmentDetails'           => __( 'Attachment details' ),

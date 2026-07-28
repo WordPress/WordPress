@@ -131,9 +131,10 @@ $parent_file = 'themes.php';
 if ( current_user_can( 'switch_themes' ) ) {
 	$help_overview = '<p>' . __( 'This screen is used for managing your installed themes. Aside from the default theme(s) included with your WordPress installation, themes are designed and developed by third parties.' ) . '</p>' .
 		'<p>' . __( 'From this screen you can:' ) . '</p>' .
-		'<ul><li>' . __( 'Hover or tap to see Activate and Live Preview buttons' ) . '</li>' .
-		'<li>' . __( 'Click on the theme to see the theme name, version, author, description, tags, and the Delete link' ) . '</li>' .
-		'<li>' . __( 'Click Customize for the active theme or Live Preview for any other theme to see a live preview' ) . '</li></ul>' .
+		'<ul><li>' . __( 'Hover or tap to see Activate and Live Preview buttons.' ) . '</li>' .
+		'<li>' . __( 'Click Customize for the active theme or Live Preview for any other theme to see a live preview.' ) . '</li>' .
+		'<li>' . __( 'Click on a theme to open the Theme Details dialog and see the theme name, version, author, description, tags, and the Delete link.' ) . '</li>' .
+		'<li>' . __( 'Use the buttons at the top of the dialog, or <code>alt</code>/<code>option</code> plus the left or right arrow keys on your keyboard, to navigate between themes quickly.' ) . '</li></ul>' .
 		'<p>' . __( 'The active theme is displayed highlighted as the first theme.' ) . '</p>' .
 		'<p>' . __( 'The search for installed themes will search for terms in their name, description, author, or tag.' ) . ' <span id="live-search-desc">' . __( 'The search results will be updated as you type.' ) . '</span></p>';
 
@@ -236,6 +237,8 @@ wp_localize_script(
 			/* translators: %d: Number of themes. */
 			'themesFound'   => __( 'Number of Themes found: %d' ),
 			'noThemesFound' => __( 'No themes found. Try a different search.' ),
+			/* translators: %s: Theme name. */
+			'themeViewed'   => __( 'Theme details: %s' ),
 		),
 	)
 );

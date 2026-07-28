@@ -4959,7 +4959,7 @@ final class WP_Customize_Manager {
 				/* translators: %d: Number of themes being displayed, which cannot currently consider singular vs. plural forms. */
 				'announceThemeCount'   => __( 'Displaying %d themes' ),
 				/* translators: %s: Theme name. */
-				'announceThemeDetails' => __( 'Showing details for theme: %s' ),
+				'announceThemeDetails' => __( 'Theme details: %s' ),
 			),
 		);
 

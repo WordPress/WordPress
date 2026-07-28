@@ -67,6 +67,8 @@ wp_localize_script(
 			/* translators: %d: Number of themes. */
 			'themesFound'         => __( 'Number of Themes found: %d' ),
 			'noThemesFound'       => __( 'No themes found. Try a different search.' ),
+			/* translators: %s: Theme name. */
+			'themeViewed'         => __( 'Theme details: %s' ),
 			'collapseSidebar'     => __( 'Collapse Sidebar' ),
 			'expandSidebar'       => __( 'Expand Sidebar' ),
 			/* translators: Hidden accessibility text. */
