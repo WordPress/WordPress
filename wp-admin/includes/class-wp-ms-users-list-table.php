@@ -502,7 +502,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			}
 
 			?>
-			<tr class="<?php echo trim( $class ); ?>">
+			<tr id="user-<?php echo (int) $user->ID; ?>" class="<?php echo trim( $class ); ?>">
 				<?php $this->single_row_columns( $user ); ?>
 			</tr>
 			<?php
