@@ -443,6 +443,7 @@ ul#adminmenu > li.current > a.current:after {
 #collapse-button:hover,
 #collapse-button:focus {
   color: #fff;
+  background: #567958;
 }
 
 /* Admin Bar */

@@ -375,12 +375,13 @@ ul#adminmenu > li.current > a.current:after {
 /* Admin Menu: collapse button */
 
 #collapse-button {
-    color: variables.$menu-collapse-text;
+	color: variables.$menu-collapse-text;
 }
 
 #collapse-button:hover,
 #collapse-button:focus {
-    color: variables.$menu-submenu-focus-text;
+	color: variables.$menu-highlight-text;
+	background: variables.$menu-highlight-background;
 }
 
 /* Admin Bar */

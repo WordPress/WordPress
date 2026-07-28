@@ -471,12 +471,14 @@ ul#adminmenu > li.current > a.current:after {
 	cursor: pointer;
 }
 
-#collapse-button:hover {
+#collapse-button:hover,
+#collapse-button:focus {
 	color: #72aee6;
+	box-shadow: inset -4px 0 0 0 currentColor;
+	transition: box-shadow .1s linear;
 }
 
 #collapse-button:focus {
-	color: #72aee6;
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 	outline-offset: -1px;
