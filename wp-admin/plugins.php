@@ -193,7 +193,7 @@ if ( $action ) {
 			// Go back to "sandbox" scope so we get the same errors as before.
 			plugin_sandbox_scrape( $plugin );
 			/** This action is documented in wp-admin/includes/plugin.php */
-			do_action( "activate_{$plugin}" );
+			do_action( "activate_{$plugin}", is_network_admin() );
 			exit;
 
 		case 'deactivate':
