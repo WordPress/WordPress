@@ -74,6 +74,9 @@
 .wp-block-cover.is-transient .wp-block-cover__inner-container {
   z-index: 2;
 }
+.wp-block-cover.is-transient .components-spinner {
+  z-index: 3;
+}
 .wp-block-cover .components-spinner {
   position: absolute;
   top: 50%;

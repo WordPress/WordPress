@@ -2915,7 +2915,7 @@ var wp;
   var import_data13 = __toESM(require_data(), 1);
   var import_core_data8 = __toESM(require_core_data(), 1);
   var import_element11 = __toESM(require_element(), 1);
-  var import_block_editor8 = __toESM(require_block_editor(), 1);
+  var import_block_editor9 = __toESM(require_block_editor(), 1);
   var import_patterns = __toESM(require_patterns(), 1);
   var import_preferences4 = __toESM(require_preferences(), 1);
   var import_block_library = __toESM(require_block_library(), 1);
@@ -2927,14 +2927,22 @@ var wp;
   var import_data11 = __toESM(require_data(), 1);
   var import_i18n6 = __toESM(require_i18n(), 1);
   var import_core_data6 = __toESM(require_core_data(), 1);
+  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var { usesNativeUndo } = unlock(import_block_editor7.privateApis);
   function KeyboardShortcuts() {
     const { redo, undo } = (0, import_data11.useDispatch)(import_core_data6.store);
     const { saveEditedWidgetAreas: saveEditedWidgetAreas2 } = (0, import_data11.useDispatch)(store2);
     (0, import_keyboard_shortcuts.useShortcut)("core/edit-widgets/undo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       undo();
       event.preventDefault();
     });
     (0, import_keyboard_shortcuts.useShortcut)("core/edit-widgets/redo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       redo();
       event.preventDefault();
     });
@@ -3035,10 +3043,10 @@ var wp;
 
   // packages/edit-widgets/build-module/hooks/use-last-selected-widget-area.mjs
   var import_data12 = __toESM(require_data(), 1);
-  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var import_block_editor8 = __toESM(require_block_editor(), 1);
   var import_core_data7 = __toESM(require_core_data(), 1);
   var useLastSelectedWidgetArea = () => (0, import_data12.useSelect)((select) => {
-    const { getBlockSelectionEnd, getBlockName } = select(import_block_editor7.store);
+    const { getBlockSelectionEnd, getBlockName } = select(import_block_editor8.store);
     const selectionEndClientId = getBlockSelectionEnd();
     if (getBlockName(selectionEndClientId) === "core/widget-area") {
       return selectionEndClientId;
@@ -3064,7 +3072,7 @@ var wp;
 
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.mjs
   var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
-  var { ExperimentalBlockEditorProvider } = unlock(import_block_editor8.privateApis);
+  var { ExperimentalBlockEditorProvider } = unlock(import_block_editor9.privateApis);
   var { PatternsMenuItems } = unlock(import_patterns.privateApis);
   var { BlockKeyboardShortcuts } = unlock(import_block_library.privateApis);
   var EMPTY_ARRAY2 = [];
@@ -3170,14 +3178,14 @@ var wp;
   // packages/edit-widgets/build-module/components/sidebar/index.mjs
   var import_element13 = __toESM(require_element(), 1);
   var import_i18n8 = __toESM(require_i18n(), 1);
-  var import_block_editor10 = __toESM(require_block_editor(), 1);
+  var import_block_editor11 = __toESM(require_block_editor(), 1);
   var import_components11 = __toESM(require_components(), 1);
   var import_data15 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/components/sidebar/widget-areas.mjs
   var import_data14 = __toESM(require_data(), 1);
   var import_element12 = __toESM(require_element(), 1);
-  var import_block_editor9 = __toESM(require_block_editor(), 1);
+  var import_block_editor10 = __toESM(require_block_editor(), 1);
   var import_components10 = __toESM(require_components(), 1);
   var import_i18n7 = __toESM(require_i18n(), 1);
   var import_url = __toESM(require_url(), 1);
@@ -3208,7 +3216,7 @@ var wp;
       description = selectedWidgetArea.description;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("div", { className: "edit-widgets-widget-areas", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "edit-widgets-widget-areas__top-container", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_block_editor9.BlockIcon, { icon: block_default_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_block_editor10.BlockIcon, { icon: block_default_default }),
       /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
           "p",
@@ -3307,7 +3315,7 @@ var wp;
             {
               tabId: BLOCK_INSPECTOR_IDENTIFIER,
               focusable: false,
-              children: hasSelectedNonAreaBlock ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_block_editor10.BlockInspector, {}) : (
+              children: hasSelectedNonAreaBlock ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(import_block_editor11.BlockInspector, {}) : (
                 // Pretend that Widget Areas are part of the UI by not
                 // showing the Block Inspector when one is selected.
                 /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { className: "block-editor-block-inspector__no-blocks", children: (0, import_i18n8.__)("No block selected.") })
@@ -3325,7 +3333,7 @@ var wp;
       isGeneralSidebarOpen,
       selectedWidgetAreaBlock
     } = (0, import_data15.useSelect)((select) => {
-      const { getSelectedBlock, getBlock, getBlockParentsByBlockName } = select(import_block_editor10.store);
+      const { getSelectedBlock, getBlock, getBlockParentsByBlockName } = select(import_block_editor11.store);
       const { getActiveComplementaryArea: getActiveComplementaryArea2 } = select(store);
       const selectedBlock = getSelectedBlock();
       const activeArea = getActiveComplementaryArea2(store2.name);
@@ -3390,14 +3398,14 @@ var wp;
 
   // packages/edit-widgets/build-module/components/layout/interface.mjs
   var import_compose12 = __toESM(require_compose(), 1);
-  var import_block_editor17 = __toESM(require_block_editor(), 1);
+  var import_block_editor18 = __toESM(require_block_editor(), 1);
   var import_element23 = __toESM(require_element(), 1);
   var import_data28 = __toESM(require_data(), 1);
   var import_i18n18 = __toESM(require_i18n(), 1);
   var import_preferences8 = __toESM(require_preferences(), 1);
 
   // packages/edit-widgets/build-module/components/header/index.mjs
-  var import_block_editor12 = __toESM(require_block_editor(), 1);
+  var import_block_editor13 = __toESM(require_block_editor(), 1);
   var import_data22 = __toESM(require_data(), 1);
   var import_element19 = __toESM(require_element(), 1);
   var import_i18n16 = __toESM(require_i18n(), 1);
@@ -3409,7 +3417,7 @@ var wp;
   var import_data18 = __toESM(require_data(), 1);
   var import_i18n11 = __toESM(require_i18n(), 1);
   var import_components14 = __toESM(require_components(), 1);
-  var import_block_editor11 = __toESM(require_block_editor(), 1);
+  var import_block_editor12 = __toESM(require_block_editor(), 1);
   var import_element16 = __toESM(require_element(), 1);
   var import_compose6 = __toESM(require_compose(), 1);
 
@@ -3507,7 +3515,7 @@ var wp;
       [setIsInserterOpened2, isInserterOpen]
     );
     return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
-      import_block_editor11.NavigableToolbar,
+      import_block_editor12.NavigableToolbar,
       {
         className: "edit-widgets-header-toolbar",
         "aria-label": (0, import_i18n11.__)("Document tools"),
@@ -4080,7 +4088,7 @@ var wp;
         ),
         /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(document_tools_default, {}),
         hasFixedToolbar && isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_block_editor12.BlockToolbar, { hideDragHandle: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }) }),
           /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
             import_components19.Popover.Slot,
             {
@@ -4100,7 +4108,7 @@ var wp;
   var header_default = Header;
 
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-content/index.mjs
-  var import_block_editor13 = __toESM(require_block_editor(), 1);
+  var import_block_editor14 = __toESM(require_block_editor(), 1);
   var import_compose9 = __toESM(require_compose(), 1);
   var import_data23 = __toESM(require_data(), 1);
   var import_element20 = __toESM(require_element(), 1);
@@ -4143,17 +4151,17 @@ var wp;
     }, [blockEditorSettings, hasThemeStyles]);
     return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "edit-widgets-block-editor", children: [
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(notices_default, {}),
-      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(import_block_editor13.BlockTools, { children: [
+      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockToolbar, { hideDragHandle: true }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(import_block_editor14.BlockTools, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(keyboard_shortcuts_default, {}),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-          import_block_editor13.__unstableEditorStyles,
+          import_block_editor14.__unstableEditorStyles,
           {
             styles,
             scope: ":where(.editor-styles-wrapper)"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor13.BlockList, { className: "edit-widgets-main-block-list" }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_block_editor14.BlockList, { className: "edit-widgets-main-block-list" }) }) })
       ] })
     ] });
   }
@@ -4162,14 +4170,14 @@ var wp;
   var import_data27 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.mjs
-  var import_block_editor15 = __toESM(require_block_editor(), 1);
+  var import_block_editor16 = __toESM(require_block_editor(), 1);
   var import_compose10 = __toESM(require_compose(), 1);
   var import_element21 = __toESM(require_element(), 1);
   var import_data25 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/hooks/use-widget-library-insertion-point.mjs
   var import_data24 = __toESM(require_data(), 1);
-  var import_block_editor14 = __toESM(require_block_editor(), 1);
+  var import_block_editor15 = __toESM(require_block_editor(), 1);
   var import_core_data11 = __toESM(require_core_data(), 1);
   var useWidgetLibraryInsertionPoint = () => {
     const firstRootId = (0, import_data24.useSelect)((select) => {
@@ -4188,7 +4196,7 @@ var wp;
           getBlockSelectionEnd,
           getBlockOrder,
           getBlockIndex
-        } = select(import_block_editor14.store);
+        } = select(import_block_editor15.store);
         const insertionPoint = select(store2).__experimentalGetInsertionPoint();
         if (insertionPoint.rootClientId) {
           return insertionPoint;
@@ -4222,7 +4230,7 @@ var wp;
     }, [setIsInserterOpened2]);
     const libraryRef = (0, import_element21.useRef)();
     return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "edit-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
-      import_block_editor15.__experimentalLibrary,
+      import_block_editor16.__experimentalLibrary,
       {
         showInserterHelpPanel: true,
         shouldFocusBlock: isMobileViewport,
@@ -4235,7 +4243,7 @@ var wp;
   }
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/list-view-sidebar.mjs
-  var import_block_editor16 = __toESM(require_block_editor(), 1);
+  var import_block_editor17 = __toESM(require_block_editor(), 1);
   var import_components20 = __toESM(require_components(), 1);
   var import_compose11 = __toESM(require_compose(), 1);
   var import_data26 = __toESM(require_data(), 1);
@@ -4286,7 +4294,7 @@ var wp;
               {
                 className: "edit-widgets-editor__list-view-panel-content",
                 ref: (0, import_compose11.useMergeRefs)([focusOnMountRef, setDropZoneElement]),
-                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_block_editor16.__experimentalListView, { dropZoneElement })
+                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_block_editor17.__experimentalListView, { dropZoneElement })
               }
             )
           ]
@@ -4378,7 +4386,7 @@ var wp;
             blockEditorSettings
           }
         ) }),
-        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_block_editor17.BlockBreadcrumb, { rootLabelText: (0, import_i18n18.__)("Widgets") }) })
+        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_block_editor18.BlockBreadcrumb, { rootLabelText: (0, import_i18n18.__)("Widgets") }) })
       }
     );
   }

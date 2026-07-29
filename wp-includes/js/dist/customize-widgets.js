@@ -297,7 +297,7 @@ var wp;
   var import_core_data = __toESM(require_core_data(), 1);
   var import_data12 = __toESM(require_data(), 1);
   var import_element14 = __toESM(require_element(), 1);
-  var import_block_editor8 = __toESM(require_block_editor(), 1);
+  var import_block_editor9 = __toESM(require_block_editor(), 1);
   var import_media_utils = __toESM(require_media_utils(), 1);
   var import_preferences3 = __toESM(require_preferences(), 1);
   var import_block_library = __toESM(require_block_library(), 1);
@@ -1989,12 +1989,20 @@ var wp;
   var import_keycodes4 = __toESM(require_keycodes(), 1);
   var import_data10 = __toESM(require_data(), 1);
   var import_i18n9 = __toESM(require_i18n(), 1);
+  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var { usesNativeUndo } = unlock(import_block_editor7.privateApis);
   function KeyboardShortcuts({ undo, redo, save }) {
     (0, import_keyboard_shortcuts4.useShortcut)("core/customize-widgets/undo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       undo();
       event.preventDefault();
     });
     (0, import_keyboard_shortcuts4.useShortcut)("core/customize-widgets/redo", (event) => {
+      if (usesNativeUndo(event)) {
+        return;
+      }
       redo();
       event.preventDefault();
     });
@@ -2059,13 +2067,13 @@ var wp;
 
   // packages/customize-widgets/build-module/components/block-appender/index.mjs
   var import_element13 = __toESM(require_element(), 1);
-  var import_block_editor7 = __toESM(require_block_editor(), 1);
+  var import_block_editor8 = __toESM(require_block_editor(), 1);
   var import_data11 = __toESM(require_data(), 1);
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   function BlockAppender(props) {
     const ref = (0, import_element13.useRef)();
     const isBlocksListEmpty = (0, import_data11.useSelect)(
-      (select) => select(import_block_editor7.store).getBlockCount() === 0
+      (select) => select(import_block_editor8.store).getBlockCount() === 0
     );
     (0, import_element13.useEffect)(() => {
       if (isBlocksListEmpty && ref.current) {
@@ -2075,13 +2083,13 @@ var wp;
         }
       }
     }, [isBlocksListEmpty]);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_block_editor7.ButtonBlockAppender, { ...props, ref });
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_block_editor8.ButtonBlockAppender, { ...props, ref });
   }
 
   // packages/customize-widgets/build-module/components/sidebar-block-editor/index.mjs
   var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
   var { ExperimentalBlockCanvas: BlockCanvas } = unlock(
-    import_block_editor8.privateApis
+    import_block_editor9.privateApis
   );
   var { BlockKeyboardShortcuts } = unlock(import_block_library.privateApis);
   function SidebarBlockEditor({
@@ -2171,24 +2179,24 @@ var wp;
             isFixedToolbarActive: isFixedToolbarActive || !isMediumViewport
           }
         ),
-        (isFixedToolbarActive || !isMediumViewport) && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor8.BlockToolbar, { hideDragHandle: true }),
+        (isFixedToolbarActive || !isMediumViewport) && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor9.BlockToolbar, { hideDragHandle: true }),
         /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           BlockCanvas,
           {
             shouldIframe: false,
             styles: settings.defaultEditorStyles,
             height: "100%",
-            children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor8.BlockList, { renderAppender: BlockAppender })
+            children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor9.BlockList, { renderAppender: BlockAppender })
           }
         ),
         (0, import_element14.createPortal)(
           // This is a temporary hack to prevent button component inside <BlockInspector>
           // from submitting form when type="button" is not specified.
-          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("form", { onSubmit: (event) => event.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor8.BlockInspector, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("form", { onSubmit: (event) => event.preventDefault(), children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor9.BlockInspector, {}) }),
           inspector.contentContainer[0]
         )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor8.__unstableBlockSettingsMenuFirstItem, { children: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_block_editor9.__unstableBlockSettingsMenuFirstItem, { children: ({ onClose }) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         block_inspector_button_default,
         {
           inspector,
@@ -2229,10 +2237,10 @@ var wp;
   // packages/customize-widgets/build-module/components/customize-widgets/use-clear-selected-block.mjs
   var import_element16 = __toESM(require_element(), 1);
   var import_data13 = __toESM(require_data(), 1);
-  var import_block_editor9 = __toESM(require_block_editor(), 1);
+  var import_block_editor10 = __toESM(require_block_editor(), 1);
   function useClearSelectedBlock(sidebarControl, popoverRef) {
-    const { hasSelectedBlock, hasMultiSelection } = (0, import_data13.useSelect)(import_block_editor9.store);
-    const { clearSelectedBlock } = (0, import_data13.useDispatch)(import_block_editor9.store);
+    const { hasSelectedBlock, hasMultiSelection } = (0, import_data13.useSelect)(import_block_editor10.store);
+    const { clearSelectedBlock } = (0, import_data13.useDispatch)(import_block_editor10.store);
     (0, import_element16.useEffect)(() => {
       if (popoverRef.current && sidebarControl) {
         let handleClearSelectedBlock = function(element) {
@@ -2871,7 +2879,7 @@ var wp;
   }
 
   // packages/customize-widgets/build-module/filters/move-to-sidebar.mjs
-  var import_block_editor10 = __toESM(require_block_editor(), 1);
+  var import_block_editor11 = __toESM(require_block_editor(), 1);
   var import_compose4 = __toESM(require_compose(), 1);
   var import_data16 = __toESM(require_data(), 1);
   var import_hooks2 = __toESM(require_hooks(), 1);
@@ -2887,7 +2895,7 @@ var wp;
       const clientId = props.clientId;
       const canInsertBlockInSidebar = (0, import_data16.useSelect)(
         (select) => {
-          return select(import_block_editor10.store).canInsertBlockType(
+          return select(import_block_editor11.store).canInsertBlockType(
             blockName,
             ""
           );
@@ -2895,10 +2903,10 @@ var wp;
         [blockName]
       );
       const block = (0, import_data16.useSelect)(
-        (select) => select(import_block_editor10.store).getBlock(clientId),
+        (select) => select(import_block_editor11.store).getBlock(clientId),
         [clientId]
       );
-      const { removeBlock } = (0, import_data16.useDispatch)(import_block_editor10.store);
+      const { removeBlock } = (0, import_data16.useDispatch)(import_block_editor11.store);
       const [, focusWidget] = useFocusControl();
       function moveToSidebar(sidebarControlId) {
         const newSidebarControl = sidebarControls.find(
@@ -2922,7 +2930,7 @@ var wp;
       }
       return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_jsx_runtime22.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(BlockEdit, { ...props }, "edit"),
-        hasMultipleSidebars && canInsertBlockInSidebar && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_block_editor10.BlockControls, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+        hasMultipleSidebars && canInsertBlockInSidebar && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_block_editor11.BlockControls, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
           import_widgets4.MoveToWidgetArea,
           {
             widgetAreas: sidebarControls.map(

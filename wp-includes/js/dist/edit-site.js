@@ -19493,9 +19493,7 @@ var wp;
                     const classSelectorToUse = `.has-${kebabCase(
                       slug
                     )}-${classSuffix}`;
-                    const selectorToUse = blockSelector.split(",").map(
-                      (selector2) => `${selector2}${classSelectorToUse}`
-                    ).join(",");
+                    const selectorToUse = blockSelector ? `:where(${blockSelector})${classSelectorToUse}` : classSelectorToUse;
                     const value = `var(--wp--preset--${cssVarInfix}--${kebabCase(
                       slug
                     )})`;

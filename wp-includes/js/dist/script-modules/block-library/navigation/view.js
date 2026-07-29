@@ -50,6 +50,11 @@ var { state, actions } = store(
       get menuOpenedBy() {
         const ctx = getContext();
         return ctx.type === "overlay" ? ctx.overlayOpenedBy : ctx.submenuOpenedBy;
+      },
+      get isSubmenuOpen() {
+        const ctx = getContext();
+        const isOverlayOpen = Object.values(ctx.overlayOpenedBy || {}).filter(Boolean).length > 0;
+        return isOverlayOpen || state.isMenuOpen;
       }
     },
     actions: {
@@ -57,9 +62,8 @@ var { state, actions } = store(
         if (event?.pointerType === "touch") {
           return;
         }
-        const { type, overlayOpenedBy } = getContext();
-        if (type === "submenu" && // Only open on hover if the overlay is closed.
-        Object.values(overlayOpenedBy || {}).filter(Boolean).length === 0) {
+        const { type } = getContext();
+        if (type === "submenu") {
           actions.openMenu("hover");
         }
       },
@@ -67,9 +71,8 @@ var { state, actions } = store(
         if (event?.pointerType === "touch") {
           return;
         }
-        const { type, overlayOpenedBy } = getContext();
-        if (type === "submenu" && // Only close on hover if the overlay is closed.
-        Object.values(overlayOpenedBy || {}).filter(Boolean).length === 0) {
+        const { type } = getContext();
+        if (type === "submenu") {
           actions.closeMenu("hover");
         }
       },

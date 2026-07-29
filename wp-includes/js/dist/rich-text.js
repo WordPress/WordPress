@@ -1761,7 +1761,7 @@ var wp;
     if (activeElement === element) {
       return true;
     }
-    if (!activeElement || !activeElement.isContentEditable || !element.isContentEditable || !activeElement.contains(element)) {
+    if (!activeElement || activeElement.contentEditable !== "true" || element.contentEditable !== "true" || !activeElement.contains(element)) {
       return false;
     }
     const selection = ownerDocument.defaultView.getSelection();

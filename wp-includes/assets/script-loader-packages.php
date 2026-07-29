@@ -104,7 +104,7 @@
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => '77626afea4a1cac03204'
+		'version' => 'b1292aac86a5d819f737'
 	),
 	'block-library.js' => array(
 		'dependencies' => array(
@@ -150,7 +150,7 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => 'd24e08348f91bcfce1b7'
+		'version' => '97b70e2d8d72d9b83b4e'
 	),
 	'block-serialization-default-parser.js' => array(
 		'dependencies' => array(
@@ -183,7 +183,7 @@
 			'wp-shortcode',
 			'wp-warning'
 		),
-		'version' => 'dc4bdf700024000fd427'
+		'version' => '524509cfc84da30a4133'
 	),
 	'commands.js' => array(
 		'dependencies' => array(
@@ -224,7 +224,7 @@
 			'wp-theme',
 			'wp-warning'
 		),
-		'version' => 'd54375c07776a218ee99'
+		'version' => 'd5254b2fdf63282d09f7'
 	),
 	'compose.js' => array(
 		'dependencies' => array(
@@ -306,7 +306,7 @@
 			'wp-theme',
 			'wp-widgets'
 		),
-		'version' => 'f28ae391ffd39b8db426'
+		'version' => '05ff2e24b332f5dc0ea1'
 	),
 	'data.js' => array(
 		'dependencies' => array(
@@ -346,7 +346,7 @@
 		'dependencies' => array(
 			'wp-deprecated'
 		),
-		'version' => '22d969bde5c7182cdd2f'
+		'version' => 'e13e9a880cb4f091f98e'
 	),
 	'dom-ready.js' => array(
 		'dependencies' => array(
@@ -396,7 +396,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '4aeb2f3aa372be39adb2'
+		'version' => '823ecf7905c05ce03022'
 	),
 	'edit-site.js' => array(
 		'dependencies' => array(
@@ -446,7 +446,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'c33d508cfc124b1b3e2d'
+		'version' => '64590e045eedae65347d'
 	),
 	'edit-widgets.js' => array(
 		'dependencies' => array(
@@ -487,7 +487,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'b6608ebdd73ddae5a250'
+		'version' => '9d38df85a4b408821722'
 	),
 	'editor.js' => array(
 		'dependencies' => array(
@@ -537,7 +537,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'cf691bc72eeac5643913'
+		'version' => '2f1a5efaa6f78167e6c7'
 	),
 	'element.js' => array(
 		'dependencies' => array(
@@ -794,7 +794,7 @@
 			'wp-keycodes',
 			'wp-private-apis'
 		),
-		'version' => '1c4b61567c93d486f1dc'
+		'version' => '9f145f4a11c41d022c83'
 	),
 	'router.js' => array(
 		'dependencies' => array(

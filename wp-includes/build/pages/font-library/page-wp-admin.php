@@ -87,9 +87,10 @@ function wp_get_font_library_wp_admin_menu_items() {
  */
 function wp_font_library_wp_admin_preload_data() {
 	// Define paths to preload - same for all pages
-	// Please also change packages/core-data/src/entities.js when changing this.
+	// This must exactly match the _fields list in packages/core-data/src/entities.js,
+	// same fields in the same order, or the preload is never consumed.
 	$preload_paths = array(
-		'/?_fields=description,gmt_offset,home,image_sizes,image_size_threshold,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
+		'/?_fields=description,gmt_offset,home,image_max_bit_depth,image_sizes,image_size_threshold,image_strip_meta,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
 		array( '/wp/v2/settings', 'OPTIONS' ),
 	);
 
@@ -269,23 +270,23 @@ function wp_font_library_wp_admin_render_page() {
 		#wpwrap {
 			overflow-y: auto;
 		}
-		body {
+		body.js {
 			background: #fff;
 		}
 
 		/* Reset wp-admin padding */
-		#wpcontent {
+		body.js #wpcontent {
 			padding-inline-start: 0;
 		}
-		#wpbody-content {
+		body.js #wpbody-content {
 			padding-bottom: 0;
 		}
 
 		/* Hide legacy admin elements */
-		#wpbody-content > div:not(.boot-layout-container):not(#screen-meta) {
+		body.js #wpbody-content > div:not(.boot-layout-container):not(#screen-meta) {
 			display: none;
 		}
-		#wpfooter {
+		body.js #wpfooter {
 			display: none;
 		}
 

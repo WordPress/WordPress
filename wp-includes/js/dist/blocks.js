@@ -8267,11 +8267,13 @@ ${p3}`
   // packages/blocks/build-module/api/index.mjs
   var fieldsKey = /* @__PURE__ */ Symbol("fields");
   var formKey = /* @__PURE__ */ Symbol("form");
+  var editableRootKey = /* @__PURE__ */ Symbol("editableRoot");
   var privateApis = {};
   lock(privateApis, {
     isContentBlock,
     fieldsKey,
     formKey,
+    editableRootKey,
     parseRawBlock
   });
 

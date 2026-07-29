@@ -1250,7 +1250,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 			)
 		) ) {
 			$tags->set_attribute( 'data-wp-on--click', 'actions.toggleMenuOnClick' );
-			$tags->set_attribute( 'data-wp-bind--aria-expanded', 'state.isMenuOpen' );
+			$tags->set_attribute( 'data-wp-bind--aria-expanded', 'state.isSubmenuOpen' );
 			// The `aria-expanded` attribute for SSR is already added in the submenu block.
 		}
 		// Add directives to the submenu.

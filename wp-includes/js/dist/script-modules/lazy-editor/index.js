@@ -1344,9 +1344,7 @@ function getPresetsClasses(blockSelector = "*", blockPresets = {}) {
                   const classSelectorToUse = `.has-${kebabCase(
                     slug
                   )}-${classSuffix}`;
-                  const selectorToUse = blockSelector.split(",").map(
-                    (selector) => `${selector}${classSelectorToUse}`
-                  ).join(",");
+                  const selectorToUse = blockSelector ? `:where(${blockSelector})${classSelectorToUse}` : classSelectorToUse;
                   const value = `var(--wp--preset--${cssVarInfix}--${kebabCase(
                     slug
                   )})`;

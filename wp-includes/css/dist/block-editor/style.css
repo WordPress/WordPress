@@ -164,9 +164,6 @@
 .block-editor-global-styles-background-panel__image-tools-panel-item button.components-button:hover {
   color: var(--wp-admin-theme-color);
 }
-.block-editor-global-styles-background-panel__image-tools-panel-item button.components-button:focus {
-  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-}
 .block-editor-global-styles-background-panel__image-tools-panel-item .block-editor-global-styles-background-panel__loading {
   height: 100%;
   position: absolute;
