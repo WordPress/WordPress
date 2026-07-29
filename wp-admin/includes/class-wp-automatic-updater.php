@@ -1785,9 +1785,6 @@ Thanks! -- The WordPress Team"
 			'Cache-Control' => 'no-cache',
 		);
 
-		/** This filter is documented in wp-includes/class-wp-http-streams.php */
-		$sslverify = apply_filters( 'https_local_ssl_verify', false );
-
 		// Include Basic auth in the loopback request.
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
 			$headers['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
@@ -1804,7 +1801,10 @@ Thanks! -- The WordPress Team"
 		$needle_start = "###### wp_scraping_result_start:$scrape_key ######";
 		$needle_end   = "###### wp_scraping_result_end:$scrape_key ######";
 		$url          = add_query_arg( $scrape_params, home_url( '/' ) );
-		$response     = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
+
+		/** This filter is documented in wp-includes/class-wp-http-streams.php */
+		$sslverify = apply_filters( 'https_local_ssl_verify', false, $url );
+		$response  = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $response ) ) {
 			if ( $is_debug ) {
