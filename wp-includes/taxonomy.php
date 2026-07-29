@@ -2632,11 +2632,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		$slug = sanitize_title( $slug, $term_id );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_terms', $term_id, $taxonomy );
+		do_action( 'edit_terms', $term_id, $taxonomy, $args );
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_terms', $term_id, $taxonomy );
+		do_action( 'edited_terms', $term_id, $taxonomy, $args );
 	}
 
 	/** @var numeric-string|null $tt_id */
@@ -3494,7 +3494,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	do_action( "edit_{$taxonomy}", $term_id, $tt_id, $args );
 
 	/** This filter is documented in wp-includes/taxonomy.php */
-	$term_id = apply_filters( 'term_id_filter', $term_id, $tt_id );
+	$term_id = apply_filters( 'term_id_filter', $term_id, $tt_id, $args );
 
 	clean_term_cache( $term_id, $taxonomy );
 
@@ -4249,11 +4249,11 @@ function _update_post_term_count( $terms, $taxonomy ) {
 		do_action( 'update_term_count', $tt_id, $taxonomy->name, $count );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_term_taxonomy', $tt_id, $taxonomy->name );
+		do_action( 'edit_term_taxonomy', $tt_id, $taxonomy->name, array() );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $tt_id ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_term_taxonomy', $tt_id, $taxonomy->name );
+		do_action( 'edited_term_taxonomy', $tt_id, $taxonomy->name, array() );
 	}
 }
 
@@ -4279,11 +4279,11 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 		do_action( 'update_term_count', $term, $taxonomy->name, $count );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_term_taxonomy', $term, $taxonomy->name );
+		do_action( 'edit_term_taxonomy', $term, $taxonomy->name, array() );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
+		do_action( 'edited_term_taxonomy', $term, $taxonomy->name, array() );
 	}
 }
 
