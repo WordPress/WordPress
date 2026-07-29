@@ -2913,10 +2913,20 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 	template:  wp.template('attachment'),
 
 	attributes: function() {
+		var ariaLabel = this.model.get( 'title' );
+
+		if ( ! ariaLabel ) {
+			if ( this.model.get( 'uploading' ) ) {
+				ariaLabel = wp.i18n.__( 'uploading…' );
+			} else {
+				ariaLabel = wp.i18n.__( '(no title)' );
+			}
+		}
+
 		return {
 			'tabIndex':     0,
 			'role':         'checkbox',
-			'aria-label':   this.model.get( 'title' ) || wp.i18n.__( 'uploading…' ),
+			'aria-label':   ariaLabel,
 			'aria-checked': false,
 			'data-id':      this.model.get( 'id' )
 		};
