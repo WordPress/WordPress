@@ -28,7 +28,11 @@
 	color: var(--wp-admin-theme-color, #3858e9);
 }
 
-.wp-tooltip:not(:has(button[aria-disabled="true"],button[disabled])) .wp-tooltip__toggle:focus,
+/*
+ * `:where()` keeps the wrapper out of the specificity total, so buttons
+ * passed into a tooltip keep control of their own focus ring.
+ */
+:where(.wp-tooltip:not(:has(button[aria-disabled="true"],button[disabled]))) .wp-tooltip__toggle:focus,
 .wp-tooltip .wp-tooltip__close:focus {
 	outline: 2px solid transparent;
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
