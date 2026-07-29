@@ -113,7 +113,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 
 		$number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 2;
 		$title  = ! empty( $instance['title'] ) ? $instance['title'] : $format_string;
-		$title  = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		$ephemera = new WP_Query(
 			array(

@@ -99,7 +99,7 @@ get_header(); ?>
 										 *
 										 * @since Twenty Eleven 1.0
 										 *
-										 * @param int The width for the image attachment size in pixels. Default 848.
+										 * @param int $size The width for the image attachment size in pixels. Default 848.
 										 */
 										$attachment_size = apply_filters( 'twentyeleven_attachment_size', 848 );
 										echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) );

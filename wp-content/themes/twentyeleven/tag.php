@@ -30,7 +30,7 @@ get_header(); ?>
 						 *
 						 * @since Twenty Eleven 1.0
 						 *
-						 * @param string The default tag description.
+						 * @param string $tag_archive_meta The default tag description.
 						 */
 						echo apply_filters( 'tag_archive_meta', '<div class="tag-archive-meta">' . $tag_description . '</div>' );
 					}

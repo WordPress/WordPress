@@ -581,7 +581,7 @@ function twentytwentyone_the_html_classes() {
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
-	 * @param string The list of classes. Default empty string.
+	 * @param string $classes The list of classes. Default empty string.
 	 */
 	$classes = apply_filters( 'twentytwentyone_html_classes', '' );
 	if ( ! $classes ) {

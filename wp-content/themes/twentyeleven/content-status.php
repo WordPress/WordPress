@@ -39,7 +39,7 @@
 				 *
 				 * @since Twenty Eleven 1.0
 				 *
-				 * @param int The height and width avatar dimensions in pixels. Default 65.
+				 * @param int $size The height and width avatar dimensions in pixels. Default 65.
 				 */
 				echo get_avatar( get_the_author_meta( 'ID' ), apply_filters( 'twentyeleven_status_avatar', 65 ) );
 				?>
