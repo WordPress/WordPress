@@ -40,6 +40,15 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 $wp_list_table->prepare_items();
 
+/**
+ * WP_Plugin_Install_List_Table::prepare_items() populates these globals, which
+ * are used throughout the rest of this file.
+ *
+ * @global string $tab   The current tab of the Install Plugins screen.
+ * @global int    $paged The current page number of the plugins list.
+ */
+global $tab, $paged;
+
 $total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
 
 if ( $pagenum > $total_pages && $total_pages > 0 ) {
@@ -169,7 +178,7 @@ if ( 'upload' !== $tab ) {
 	<div class="upload-plugin-wrap">
 		<?php
 		/** This action is documented in wp-admin/plugin-install.php */
-		do_action( 'install_plugins_upload' );
+		do_action( 'install_plugins_upload', $paged );
 		?>
 	</div>
 	<?php
