@@ -782,6 +782,8 @@ class WP_Ability {
 		 */
 		do_action( 'wp_ability_invoked', $this->name, $input, $this );
 
+		$pre_execute_sentinel = new WP_Filter_Sentinel();
+
 		/**
 		 * Filters whether to short-circuit ability execution.
 		 *
@@ -804,8 +806,7 @@ class WP_Ability {
 		 * @param mixed      $input        The raw input passed to `execute()`.
 		 * @param WP_Ability $ability      The ability instance.
 		 */
-		$pre_execute_sentinel = new WP_Filter_Sentinel();
-		$pre                  = apply_filters( 'wp_pre_execute_ability', $pre_execute_sentinel, $this->name, $input, $this );
+		$pre = apply_filters( 'wp_pre_execute_ability', $pre_execute_sentinel, $this->name, $input, $this );
 		if ( $pre !== $pre_execute_sentinel ) {
 			return $pre;
 		}

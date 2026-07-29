@@ -939,7 +939,7 @@ function confirm_delete_users( $users ) {
 					if ( is_array( $blog_users ) && ! empty( $blog_users ) ) {
 						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
 						switch_to_blog( $details->userblog_id );
-						/* This filter is documented in wp-admin/users.php */
+						/** This filter is documented in wp-admin/users.php */
 						$user_has_content = (bool) apply_filters( 'users_have_additional_content', false, array( $delete_user->ID ) );
 
 						if ( ! $user_has_content ) {
