@@ -120,11 +120,7 @@ final class WP_Customize_Selective_Refresh {
 	 * @return WP_Customize_Partial|null The partial, if set. Otherwise null.
 	 */
 	public function get_partial( $id ) {
-		if ( isset( $this->partials[ $id ] ) ) {
-			return $this->partials[ $id ];
-		} else {
-			return null;
-		}
+		return $this->partials[ $id ] ?? null;
 	}
 
 	/**
