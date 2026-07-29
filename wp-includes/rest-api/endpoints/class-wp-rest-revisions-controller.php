@@ -911,7 +911,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	protected function prepare_excerpt_response( $excerpt, $post ) {
 
 		/** This filter is documented in wp-includes/post-template.php */
-		$excerpt = apply_filters( 'the_excerpt', $excerpt, $post );
+		$excerpt = apply_filters( 'the_excerpt', $excerpt );
 
 		if ( empty( $excerpt ) ) {
 			return '';

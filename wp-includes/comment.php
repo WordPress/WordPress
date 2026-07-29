@@ -3149,7 +3149,7 @@ function do_trackbacks( $post ) {
 
 	if ( empty( $post->post_excerpt ) ) {
 		/** This filter is documented in wp-includes/post-template.php */
-		$excerpt = apply_filters( 'the_content', $post->post_content, $post->ID );
+		$excerpt = apply_filters( 'the_content', $post->post_content );
 	} else {
 		/** This filter is documented in wp-includes/post-template.php */
 		$excerpt = apply_filters( 'the_excerpt', $post->post_excerpt );
