@@ -718,6 +718,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 * @var WP_HTML_Attribute_Token[]
+	 * @phpstan-var array<non-empty-string, WP_HTML_Attribute_Token>
 	 */
 	private $attributes = array();
 
@@ -2957,6 +2958,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @param string $prefix Prefix of requested attribute names.
 	 * @return array|null List of attribute names, or `null` when no tag opener is matched.
+	 * @phpstan-return list<non-empty-string>|null
 	 */
 	public function get_attribute_names_with_prefix( $prefix ): ?array {
 		if (

@@ -17,9 +17,19 @@ final class WP_Interactivity_API {
 	 * Holds the mapping of directive attribute names to their processor methods.
 	 *
 	 * @since 6.5.0
-	 * @var array
+	 * @var array<string, string>
+	 * @phpstan-var array{
+	 *     'data-wp-interactive': 'data_wp_interactive_processor',
+	 *     'data-wp-router-region': 'data_wp_router_region_processor',
+	 *     'data-wp-context': 'data_wp_context_processor',
+	 *     'data-wp-bind': 'data_wp_bind_processor',
+	 *     'data-wp-class': 'data_wp_class_processor',
+	 *     'data-wp-style': 'data_wp_style_processor',
+	 *     'data-wp-text': 'data_wp_text_processor',
+	 *     'data-wp-each': 'data_wp_each_processor',
+	 * }
 	 */
-	private static $directive_processors = array(
+	private static array $directive_processors = array(
 		'data-wp-interactive'   => 'data_wp_interactive_processor',
 		'data-wp-router-region' => 'data_wp_router_region_processor',
 		'data-wp-context'       => 'data_wp_context_processor',
@@ -99,8 +109,17 @@ final class WP_Interactivity_API {
 	 *
 	 * This is only available during directive processing, otherwise it is `null`.
 	 *
+	 * An entry is the namespace the directive defined. It is `false` instead when
+	 * the directive did not define a usable one — the attribute was empty, or its
+	 * JSON held no `namespace`, or the namespace did not match the accepted
+	 * characters — and no enclosing `data-wp-interactive` was in effect to inherit
+	 * from. An entry is pushed either way, because one is popped for every closing
+	 * tag regardless of what the directive contained, so `false` is what stands in
+	 * for "no namespace here" and keeps the stack balanced.
+	 *
 	 * @since 6.6.0
-	 * @var array<string>|null
+	 * @var array<string|false>|null
+	 * @phpstan-var list<string|false>|null
 	 */
 	private $namespace_stack = null;
 
@@ -752,32 +771,54 @@ final class WP_Interactivity_API {
 
 	/**
 	 * Parse the directive name to extract the following parts:
-	 * - Prefix: The main directive name without "data-wp-".
+	 * - Prefix: The main directive name without "data-wp-". It cannot begin with a hyphen.
 	 * - Suffix: An optional suffix used during directive processing, extracted after the first double hyphen "--".
 	 * - Unique ID: An optional unique identifier, extracted after the first triple hyphen "---".
 	 *
 	 * This function has an equivalent version for the client side.
-	 * See `parseDirectiveName` in https://github.com/WordPress/gutenberg/blob/trunk/packages/interactivity/src/vdom.ts.:
+	 * See `parseDirectiveName` in https://github.com/WordPress/gutenberg/blob/trunk/packages/interactivity/src/vdom.ts:
 	 *
-	 * See examples in the function unit tests `test_parse_directive_name`.
+	 * An empty suffix or unique ID is normalized to null, but the string "0" is preserved. The
+	 * client's `|| null` discards only the empty string, since every non-empty string is truthy in
+	 * JavaScript. Do not use empty() for these checks: it would discard "0" and diverge from the
+	 * client.
+	 *
+	 * @see Tests_Interactivity_API_WpInteractivityAPI::test_parse_directive_name() for examples in the test inputs.
 	 *
 	 * @since 6.9.0
 	 *
 	 * @param string $directive_name The directive attribute name.
-	 * @return array An array containing the directive prefix, optional suffix, and optional unique ID.
+	 * @return array|null An array containing the directive prefix, optional suffix, and optional unique ID, or null if the directive name cannot be parsed.
+	 * @phpstan-return array{
+	 *     prefix: non-empty-string,
+	 *     suffix: non-empty-string|null,
+	 *     unique_id: non-empty-string|null,
+	 * }|null
 	 */
 	private function parse_directive_name( string $directive_name ): ?array {
 		// Remove the first 8 characters (assumes "data-wp-" prefix)
-		$name = substr( $directive_name, 8 );
+		$name = (string) substr( $directive_name, 8 );
 
-		// Check for invalid characters (anything not a-z, 0-9, -, or _)
-		if ( preg_match( '/[^a-z0-9\-_]/i', $name ) ) {
+		// Ensure the name only contains valid characters (anything a-z, A-Z, 0-9, -, or _).
+		if ( 1 !== preg_match( '/^[a-zA-Z0-9\-_]+$/', $name ) ) {
 			return null;
 		}
 
-		// Find the first occurrence of '--' to separate the prefix
+		// Find the first occurrence of '--' to separate the prefix.
 		$suffix_index = strpos( $name, '--' );
 
+		/*
+		 * A prefix cannot begin with a hyphen, so a name which does is not a directive at all. This
+		 * covers both a lone leading hyphen, as in "data-wp--bind", and a leading double hyphen, as
+		 * in "data-wp---foo", where treating the hyphens as a suffix separator would instead leave
+		 * the prefix empty. It also covers "data-wp----unique-id", where only a unique ID is supplied
+		 * without any prefix or suffix.
+		 */
+		if ( 0 === $suffix_index || '-' === $name[0] ) {
+			return null;
+		}
+
+		// Without a '--' the whole name is the prefix. (This naturally also means there is no unique ID after '---'.)
 		if ( false === $suffix_index ) {
 			return array(
 				'prefix'    => $name,
@@ -790,33 +831,34 @@ final class WP_Interactivity_API {
 		$remaining = substr( $name, $suffix_index );
 
 		// If remaining starts with '---' but not '----', it's a unique_id
-		if ( '---' === substr( $remaining, 0, 3 ) && '-' !== ( $remaining[3] ?? '' ) ) {
+		if ( 3 === strspn( $remaining, '-' ) ) {
+			$unique_id = (string) substr( $remaining, 3 );
 			return array(
 				'prefix'    => $prefix,
 				'suffix'    => null,
-				'unique_id' => '---' !== $remaining ? substr( $remaining, 3 ) : null,
+				'unique_id' => '' === $unique_id ? null : $unique_id,
 			);
 		}
 
 		// Otherwise, remove the first two dashes for a potential suffix
-		$suffix = substr( $remaining, 2 );
+		$suffix = (string) substr( $remaining, 2 );
 
 		// Look for '---' in the suffix for a unique_id
 		$unique_id_index = strpos( $suffix, '---' );
 
 		if ( false !== $unique_id_index && '-' !== ( $suffix[ $unique_id_index + 3 ] ?? '' ) ) {
-			$unique_id = substr( $suffix, $unique_id_index + 3 );
-			$suffix    = substr( $suffix, 0, $unique_id_index );
+			$unique_id = (string) substr( $suffix, $unique_id_index + 3 );
+			$suffix    = (string) substr( $suffix, 0, $unique_id_index );
 			return array(
 				'prefix'    => $prefix,
-				'suffix'    => empty( $suffix ) ? null : $suffix,
-				'unique_id' => empty( $unique_id ) ? null : $unique_id,
+				'suffix'    => '' === $suffix ? null : $suffix,
+				'unique_id' => '' === $unique_id ? null : $unique_id,
 			);
 		}
 
 		return array(
 			'prefix'    => $prefix,
-			'suffix'    => empty( $suffix ) ? null : $suffix,
+			'suffix'    => '' === $suffix ? null : $suffix,
 			'unique_id' => null,
 		);
 	}
@@ -846,6 +888,7 @@ final class WP_Interactivity_API {
 	 * @param string|null $default_namespace Optional. The default namespace if none is explicitly defined.
 	 * @return array An array containing the namespace in the first item and the JSON, the reference path, or null on the
 	 *               second item.
+	 * @phpstan-return array{ 0: string|null, 1: mixed }
 	 */
 	private function extract_directive_value( $directive_value, $default_namespace = null ): array {
 		if ( empty( $directive_value ) || is_bool( $directive_value ) ) {
@@ -878,17 +921,46 @@ final class WP_Interactivity_API {
 	 * @param WP_Interactivity_API_Directives_Processor $p      The directives processor instance.
 	 * @param string                                    $prefix The directive prefix to filter by.
 	 * @return array An array of entries containing the directive namespace, value, suffix, and unique ID.
+	 * @phpstan-return list<array{
+	 *     namespace: string|null,
+	 *     value: mixed,
+	 *     suffix: string|null,
+	 *     unique_id: string|null,
+	 * }>
 	 */
-	private function get_directive_entries( WP_Interactivity_API_Directives_Processor $p, string $prefix ) {
+	private function get_directive_entries( WP_Interactivity_API_Directives_Processor $p, string $prefix ): array {
 		$directive_attributes = $p->get_attribute_names_with_prefix( 'data-wp-' . $prefix );
-		$entries              = array();
+		if ( null === $directive_attributes ) {
+			return array();
+		}
+
+		$entries = array();
 		foreach ( $directive_attributes as $attribute_name ) {
-			[ 'prefix' => $attr_prefix, 'suffix' => $suffix, 'unique_id' => $unique_id] = $this->parse_directive_name( $attribute_name );
+			$parsed_directive = $this->parse_directive_name( $attribute_name );
+			if ( null === $parsed_directive ) {
+				continue;
+			}
+
+			[ 'prefix' => $attr_prefix, 'suffix' => $suffix, 'unique_id' => $unique_id ] = $parsed_directive;
 			// Ensure it is the desired directive.
 			if ( $prefix !== $attr_prefix ) {
 				continue;
 			}
-			list( $namespace, $value ) = $this->extract_directive_value( $p->get_attribute( $attribute_name ), end( $this->namespace_stack ) );
+			$attribute_value = $p->get_attribute( $attribute_name );
+			if ( null === $attribute_value ) {
+				continue;
+			}
+			/*
+			 * The namespace stack can hold false, which data_wp_interactive_processor() pushes for a
+			 * `data-wp-interactive` whose namespace is invalid and which has no enclosing one to inherit. Only a
+			 * string names a store, so anything else counts as no default namespace at all.
+			 */
+			$default_namespace = array_last( $this->namespace_stack ?? array() );
+			if ( ! is_string( $default_namespace ) ) {
+				$default_namespace = null;
+			}
+
+			list( $namespace, $value ) = $this->extract_directive_value( $attribute_value, $default_namespace );
 			$entries[]                 = array(
 				'namespace' => $namespace,
 				'value'     => $value,
@@ -1002,6 +1074,15 @@ final class WP_Interactivity_API {
 				continue;
 			}
 
+			/*
+			 * A context with no namespace has nothing to be stored under, so the inherited context is left as it
+			 * is. Using the namespace as an array key regardless would coerce null to an empty string, which PHP
+			 * 8.5 deprecates, and would store the context where no reference can address it anyway.
+			 */
+			if ( null === $entry['namespace'] ) {
+				continue;
+			}
+
 			$context = array_replace_recursive(
 				$context,
 				array( $entry['namespace'] => is_array( $entry['value'] ) ? $entry['value'] : array() )
@@ -1017,16 +1098,19 @@ final class WP_Interactivity_API {
 	 * associated reference.
 	 *
 	 * @since 6.5.0
+	 * @since 7.1.0 An object is resolved to whatever it serializes to for the client, a number is formatted by the
+	 *              JSON encoder, and a value which cannot be sent to the client is rejected rather than passed to
+	 *              WP_HTML_Tag_Processor::set_attribute().
 	 *
-	 * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
-	 * @param string                                    $mode            Whether the processing is entering or exiting the tag.
+	 * @param WP_Interactivity_API_Directives_Processor $p    The directives processor instance.
+	 * @param string                                    $mode Whether the processing is entering or exiting the tag.
 	 */
-	private function data_wp_bind_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
+	private function data_wp_bind_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ): void {
 		if ( 'enter' === $mode ) {
 			$entries = $this->get_directive_entries( $p, 'bind' );
 			foreach ( $entries as $entry ) {
 				if ( empty( $entry['suffix'] ) || null !== $entry['unique_id'] ) {
-						continue;
+					continue;
 				}
 
 				// Skip if the suffix is an event handler.
@@ -1044,6 +1128,97 @@ final class WP_Interactivity_API {
 				}
 
 				$result = $this->evaluate( $entry );
+
+				/*
+				 * An object is resolved to whatever it serializes to. When the reference points to a value stored
+				 * in state or context, that is the value the client receives for it when the store is hydrated.
+				 * A derived state closure is never serialized, so there the client value comes from the derived
+				 * state's client-side implementation instead; the resolution is still applied so that both origins
+				 * behave the same. Round-tripping through the JSON encoder rather than calling
+				 * JsonSerializable::jsonSerialize() directly keeps this resolution identical to the client's,
+				 * including for an object which serializes to another serializable object. When the encoding fails
+				 * the object is left in place, to be reported as a usage error below. Note that it rarely does
+				 * fail: wp_json_encode() retries through _wp_json_sanity_check(), which rebuilds the object from
+				 * its public properties and so ignores jsonSerialize() altogether. An object whose serialized form
+				 * JSON cannot represent therefore resolves to whatever that rebuild encodes to, which is what the
+				 * client is sent for it as well.
+				 *
+				 * A throwing JsonSerializable::jsonSerialize() is caught for the same reason the value is checked
+				 * at all: a binding must not be able to abort the render. An exception escaping here would leave
+				 * `$context_stack` and `$namespace_stack` unrestored for every later `process_directives()` call
+				 * on this instance, so the object is treated as one which failed to encode.
+				 */
+				if ( is_object( $result ) ) {
+					try {
+						$encoded = wp_json_encode( $result );
+					} catch ( Throwable $e ) {
+						$encoded = false;
+					}
+					if ( false !== $encoded ) {
+						$result = json_decode( $encoded );
+					}
+				}
+
+				/*
+				 * Only a value which can be sent to the client may be stored in an attribute value. Strings and
+				 * booleans are passed in as-is, numbers are formatted, and everything else is rejected as a usage
+				 * error.
+				 *
+				 * An object which does not serialize to a scalar is rejected even when it defines `__toString()`,
+				 * which PHP would otherwise coerce for the string parameters of the escaping functions. Its string
+				 * representation is not what the client evaluates this reference to, whether that is the form
+				 * serialized into the store or the return value of a derived state's client-side implementation,
+				 * so the two could disagree once the directive is evaluated during hydration.
+				 */
+				if ( null !== $result ) {
+					if ( ! is_scalar( $result ) ) {
+						_doing_it_wrong(
+							__METHOD__,
+							sprintf(
+								/* translators: %s: The attribute name. */
+								__( 'Attempted to bind a non-scalar value to the "%s" attribute. Ensure the state/context property or the derived state closure resolves to a string, number, or boolean.' ),
+								esc_html( $entry['suffix'] )
+							),
+							'7.1.0'
+						);
+						$result = null;
+					} elseif ( is_int( $result ) || is_float( $result ) ) {
+						/*
+						 * A number is formatted by the JSON encoder rather than cast to string, so that the
+						 * attribute value matches the number the client receives for this same reference. Casting
+						 * a float is locale-dependent before PHP 8.0, and rounds to `precision` rather than to the
+						 * encoder's `serialize_precision`.
+						 *
+						 * This closes the cases which differ in practice, not every one. A float written in
+						 * exponent notation still disagrees, since PHP encodes 1e25 as `1.0e+25` where JavaScript
+						 * renders it as `1e+25`, as does negative zero, and an integer above the range JavaScript
+						 * can represent exactly is rounded once it reaches the client. Casting diverged on all
+						 * three as well, so none is a regression.
+						 */
+						$encoded = wp_json_encode( $result );
+						if ( JSON_ERROR_INF_OR_NAN === json_last_error() ) {
+							/*
+							 * The encoder only rejects INF and NAN, of which JSON can represent neither. When such
+							 * a value is stored in state, the store itself also fails to encode in its entirety,
+							 * and the client is sent an empty script tag in place of all of its state; only
+							 * removing the value from the state resolves that. A derived state closure returning
+							 * one never reaches the store, so there only the binding itself is affected.
+							 */
+							_doing_it_wrong(
+								__METHOD__,
+								sprintf(
+									/* translators: %s: The attribute name. */
+									__( 'Attempted to bind a non-finite number to the "%s" attribute. Ensure the state/context property or the derived state closure resolves to a finite number or a string.' ),
+									esc_html( $entry['suffix'] )
+								),
+								'7.1.0'
+							);
+							$result = null;
+						} else {
+							$result = $encoded;
+						}
+					}
+				}
 
 				if (
 					null !== $result &&
