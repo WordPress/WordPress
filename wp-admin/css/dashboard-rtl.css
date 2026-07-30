@@ -725,11 +725,19 @@ body #dashboard-widgets .postbox form .submit {
 	margin: 0;
 }
 
+#dashboard_right_now #wp-version-message {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+#dashboard_right_now #wp-version {
+	flex: 1;
+}
+
 #dashboard_right_now #wp-version-message .button {
-	float: left;
-	position: relative;
-	top: -5px;
-	margin-right: 5px;
+	margin-right: auto;
 }
 
 #dashboard_right_now p.search-engines-info {
