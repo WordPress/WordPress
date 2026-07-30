@@ -1031,9 +1031,8 @@ select#media-attachment-date-filters {
 .wp-core-ui .attachment:focus,
 .wp-core-ui .selected.attachment:focus,
 .wp-core-ui .attachment.details:focus {
-	box-shadow:
-		inset 0 0 2px 3px #fff,
-		inset 0 0 0 7px var(--wp-admin-theme-color, #3858e9);
+	/* Keep this box-shadow consistent between media.css and media-views.css. */
+	box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -6px;
@@ -1399,7 +1398,11 @@ select#media-attachment-date-filters {
 }
 
 .attachment.new-media {
-	outline: 2px dotted #c3c4c7;
+	/* Dotted outline for the first added item when Infinite scrolling is disabled. */
+	/* Contrast ratio must be at least 3:1 against the #dcdcde background for added items when Infinite scrolling is disabled. */
+	outline: 2px dotted #757575;
+	/* Prevent the border from being obscured by adjacent items. */
+	outline-offset: -2px;
 }
 
 /**

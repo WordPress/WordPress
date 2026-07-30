@@ -528,7 +528,8 @@ border color while dragging a file over the uploader drop area */
 .media-frame.mode-grid .attachment:focus,
 .media-frame.mode-grid .selected.attachment:focus,
 .media-frame.mode-grid .attachment.details:focus {
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
+	/* Keep this box-shadow consistent between media.css and media-views.css. */
+	box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -6px;
