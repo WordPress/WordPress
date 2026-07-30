@@ -193,10 +193,10 @@ class WP_REST_View_Config_Controller extends WP_REST_Controller {
 		}
 
 		if ( isset( $schema['oneOf'] ) || isset( $schema['anyOf'] ) ) {
-			$branches = isset( $schema['oneOf'] ) ? $schema['oneOf'] : $schema['anyOf'];
+			$branches = $schema['oneOf'] ?? $schema['anyOf'];
 			if ( array() === $value ) {
 				foreach ( $branches as $branch ) {
-					if ( is_array( $branch ) && in_array( 'object', (array) ( isset( $branch['type'] ) ? $branch['type'] : array() ), true ) ) {
+					if ( is_array( $branch ) && in_array( 'object', (array) ( $branch['type'] ?? array() ), true ) ) {
 						return (object) array();
 					}
 				}
@@ -204,7 +204,7 @@ class WP_REST_View_Config_Controller extends WP_REST_Controller {
 			return $value;
 		}
 
-		$types = (array) ( isset( $schema['type'] ) ? $schema['type'] : array() );
+		$types = (array) ( $schema['type'] ?? array() );
 
 		if ( in_array( 'array', $types, true ) && isset( $schema['items'] ) ) {
 			foreach ( $value as $index => $item ) {
