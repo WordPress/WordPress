@@ -769,6 +769,8 @@ th.sorted a span {
 	text-align: center;
 	line-height: 1.84615384;
 	text-decoration: none;
+	/* This border is needed for the focus style, which will change the border color. */
+	border: 1px solid transparent;
 }
 
 .view-switch a:before {
@@ -778,6 +780,11 @@ th.sorted a span {
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.view-switch a:focus {
+	/* This focus style already inherits box-shadow and outline from the regular links focus style. */
+	border-color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .view-switch a:hover:before,
