@@ -1182,7 +1182,7 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 		}
 		$attachment_url = wp_get_attachment_image_url( $site_icon_id, $size_data );
 		if ( $attachment_url ) {
-			$url = $attachment_url;
+			$url = is_ssl() ? set_url_scheme( $attachment_url, 'https' ) : $attachment_url;
 		}
 	}
 
