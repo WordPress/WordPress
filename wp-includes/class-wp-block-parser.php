@@ -342,7 +342,7 @@ class WP_Block_Parser {
 	 * @param int|null              $last_offset  Last byte offset into document if continuing form earlier output.
 	 */
 	public function add_inner_block( WP_Block_Parser_Block $block, $token_start, $token_length, $last_offset = null ) {
-		$parent                       = $this->stack[ count( $this->stack ) - 1 ];
+		$parent                       = $this->stack[ array_key_last( $this->stack ) ];
 		$parent->block->innerBlocks[] = (array) $block;
 		$html                         = substr( $this->document, $parent->prev_offset, $token_start - $parent->prev_offset );
 

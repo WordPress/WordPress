@@ -3994,7 +3994,7 @@ class WP_Theme_JSON {
 		 */
 		$is_processing_element = in_array( 'elements', $block_metadata['path'], true );
 
-		$current_element = $is_processing_element ? $block_metadata['path'][ count( $block_metadata['path'] ) - 1 ] : null;
+		$current_element = $is_processing_element ? array_last( $block_metadata['path'] ) : null;
 
 		$element_pseudo_allowed = array();
 
@@ -4688,7 +4688,7 @@ class WP_Theme_JSON {
 			 * Get a reference to element name from path.
 			 * $metadata['path'] = array( 'styles', 'elements', 'link' );
 			 */
-			$current_element = $metadata['path'][ count( $metadata['path'] ) - 1 ];
+			$current_element = array_last( $metadata['path'] );
 
 			/*
 			 * $output is stripped of pseudo selectors. Re-add and process them

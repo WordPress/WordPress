@@ -128,7 +128,7 @@ function wp_ajax_ajax_tag_search() {
 
 	if ( str_contains( $search, ',' ) ) {
 		$search = explode( ',', $search );
-		$search = $search[ count( $search ) - 1 ];
+		$search = array_last( $search );
 	}
 
 	$search = trim( $search );

@@ -2430,11 +2430,13 @@ class WP_Query {
 
 		if ( '' !== $query_vars['author_name'] ) {
 			if ( str_contains( $query_vars['author_name'], '/' ) ) {
-				$query_vars['author_name'] = explode( '/', $query_vars['author_name'] );
-				if ( $query_vars['author_name'][ count( $query_vars['author_name'] ) - 1 ] ) {
-					$query_vars['author_name'] = $query_vars['author_name'][ count( $query_vars['author_name'] ) - 1 ]; // No trailing slash.
+				$author_name_parts = explode( '/', $query_vars['author_name'] );
+				$last_part         = array_last( $author_name_parts );
+
+				if ( $last_part ) {
+					$query_vars['author_name'] = $last_part; // No trailing slash.
 				} else {
-					$query_vars['author_name'] = $query_vars['author_name'][ count( $query_vars['author_name'] ) - 2 ]; // There was a trailing slash.
+					$query_vars['author_name'] = $author_name_parts[ count( $author_name_parts ) - 2 ]; // There was a trailing slash.
 				}
 			}
 			$query_vars['author_name'] = sanitize_title_for_query( $query_vars['author_name'] );
