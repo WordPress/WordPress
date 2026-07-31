@@ -175,14 +175,14 @@ else :
 </tr>
 <?php endif; ?>
 <tr>
-<th scope="row"><label for="posts_per_page"><?php _e( 'Blog pages show at most' ); ?></label></th>
+<th scope="row"><label for="posts_per_page"><?php _e( 'Number of recent posts shown on archive pages' ); ?></label></th>
 <td>
-<input name="posts_per_page" type="number" step="1" min="1" id="posts_per_page" value="<?php form_option( 'posts_per_page' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?>
+<input name="posts_per_page" type="number" step="1" min="1" id="posts_per_page" value="<?php form_option( 'posts_per_page' ); ?>" class="small-text" />
 </td>
 </tr>
 <tr>
-<th scope="row"><label for="posts_per_rss"><?php _e( 'Syndication feeds show the most recent' ); ?></label></th>
-<td><input name="posts_per_rss" type="number" step="1" min="1" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
+<th scope="row"><label for="posts_per_rss"><?php _e( 'Number of recent items shown in syndication feeds' ); ?></label></th>
+<td><input name="posts_per_rss" type="number" step="1" min="1" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /></td>
 </tr>
 
 <?php $rss_use_excerpt_title = __( 'For each post in a feed, include' ); ?>
