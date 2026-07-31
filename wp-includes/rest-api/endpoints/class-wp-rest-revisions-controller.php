@@ -595,14 +595,29 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
+	 * @since 7.1.0 The global post is now restored to its previous value before returning.
 	 *
-	 * @global WP_Post $post Global post object.
+	 * @global WP_Post|null $post Global post object.
 	 *
 	 * @param WP_Post         $item    Post revision object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
+		/*
+		 * Save the previous global post so it can be restored before returning.
+		 * Preparing the revision sets up the global post and post data, which
+		 * must not leak into the rest of the request (e.g. the autosaves endpoint
+		 * is preloaded in the block editor, where a leaked global post can cause
+		 * the editor to be initialized with the wrong post).
+		 *
+		 * Note that $post is intentionally not declared as a global here. It must
+		 * remain local to this method so that a filter which reassigns the global
+		 * post while the response is being prepared (for example on 'the_content')
+		 * cannot change which post the remaining fields are read from.
+		 */
+		$previous_post = isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ? $GLOBALS['post'] : null;
+
 		// Restores the more descriptive, specific name for use within this method.
 		$post = $item;
 
@@ -613,7 +628,11 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-revisions-controller.php */
-			return apply_filters( 'rest_prepare_revision', new WP_REST_Response( array() ), $post, $request );
+			$response = apply_filters( 'rest_prepare_revision', new WP_REST_Response( array() ), $post, $request );
+
+			$this->restore_post_data( $previous_post );
+
+			return $response;
 		}
 
 		$fields = $this->get_fields_for_response( $request );
@@ -717,7 +736,55 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		 * @param WP_Post          $post     The original revision object.
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
-		return apply_filters( 'rest_prepare_revision', $response, $post, $request );
+		$response = apply_filters( 'rest_prepare_revision', $response, $post, $request );
+
+		$this->restore_post_data( $previous_post );
+
+		return $response;
+	}
+
+	/**
+	 * Restores the global post to its previous value after preparing a revision.
+	 *
+	 * Preparing a revision overwrites the global post and post data via
+	 * setup_postdata(). This restores the global post that was in place
+	 * beforehand so the change does not leak into the rest of the request.
+	 *
+	 * Only the global post is guaranteed to be restored. When there was no
+	 * previous global post and the main query has no post either, which is the
+	 * usual state during a REST request, wp_reset_postdata() has nothing to
+	 * restore from, so the remaining globals set by setup_postdata() (such as
+	 * $id, $authordata and $pages) are left describing the revision. Clearing
+	 * those would mean unsetting each one by hand, which is beyond what is
+	 * needed to keep the global post from leaking.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param WP_Post|null $previous_post The global post to restore, or null if there was none.
+	 */
+	private function restore_post_data( ?WP_Post $previous_post ): void {
+		if ( $previous_post ) {
+			$GLOBALS['post'] = $previous_post;
+			setup_postdata( $previous_post );
+			return;
+		}
+
+		/*
+		 * There was no global post to restore, so clear the revision's post data.
+		 * This runs before clearing the global post because wp_reset_postdata()
+		 * repopulates it from the main query whenever that query has a post. Note
+		 * that it is a no-op when the main query has no post, in which case only
+		 * the global post below is cleared.
+		 */
+		wp_reset_postdata();
+
+		/*
+		 * Assigned rather than unset so that any `global $post` binding made before
+		 * this request keeps pointing at the global. Unsetting removes the entry from
+		 * the symbol table, which detaches those bindings, and a later write through
+		 * one of them would no longer be visible to get_post().
+		 */
+		$GLOBALS['post'] = null;
 	}
 
 	/**
