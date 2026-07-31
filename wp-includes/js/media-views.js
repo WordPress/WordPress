@@ -4695,6 +4695,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 					text: l10n.deletePermanently,
 					controller: this.controller,
 					priority: -55,
+					size: '',
 					click: function() {
 						var removed = [],
 							destroy = [],

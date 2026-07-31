@@ -61,7 +61,7 @@ span.wp-media-buttons-icon:before {
 .media-modal .delete-attachment,
 .media-modal .trash-attachment,
 .media-modal .untrash-attachment,
-.wp-core-ui .button-link-delete {
+.wp-core-ui .button-link.button-link-delete {
   color: #cc1818;
 }
 
@@ -71,9 +71,9 @@ span.wp-media-buttons-icon:before {
 .media-modal .delete-attachment:focus,
 .media-modal .trash-attachment:focus,
 .media-modal .untrash-attachment:focus,
-.wp-core-ui .button-link-delete:hover,
-.wp-core-ui .button-link-delete:focus {
-  color: rgb(230.6842105263, 48.3157894737, 48.3157894737);
+.wp-core-ui .button-link.button-link-delete:hover,
+.wp-core-ui .button-link.button-link-delete:focus {
+  color: rgb(158.3684210526, 18.6315789474, 18.6315789474);
 }
 
 /* Forms */
@@ -142,32 +142,33 @@ input[type=radio]:focus {
 /* Core UI */
 .wp-core-ui {
   /* Default button - theme color border and text (matches secondary) */
+  /* Exclude .button-link without increasing specificity. */
 }
-.wp-core-ui .button {
+.wp-core-ui .button:where(:not(.button-link)) {
   background: transparent;
   border: 1px solid var(--wp-admin-theme-color);
   border-radius: 2px;
   color: var(--wp-admin-theme-color);
 }
-.wp-core-ui .button:hover {
+.wp-core-ui .button:where(:not(.button-link)):hover {
   background: rgba(var(--wp-admin-theme-color--rgb), 0.04);
   border-color: var(--wp-admin-theme-color-darker-20);
   color: var(--wp-admin-theme-color-darker-20);
 }
-.wp-core-ui .button:focus {
+.wp-core-ui .button:where(:not(.button-link)):focus {
   background: transparent;
   border-color: var(--wp-admin-theme-color);
   color: var(--wp-admin-theme-color);
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color);
   outline: 1px solid transparent;
 }
-.wp-core-ui .button:active {
+.wp-core-ui .button:where(:not(.button-link)):active {
   background: rgba(var(--wp-admin-theme-color--rgb), 0.08);
   border-color: var(--wp-admin-theme-color-darker-20);
   color: var(--wp-admin-theme-color-darker-20);
   box-shadow: none;
 }
-.wp-core-ui .button:disabled, .wp-core-ui .button.disabled {
+.wp-core-ui .button:where(:not(.button-link)):disabled, .wp-core-ui .button:where(:not(.button-link)).disabled {
   background: transparent;
   border-color: #dddddd;
   color: #949494;

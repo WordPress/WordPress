@@ -223,6 +223,7 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button[aria-disabled="true"],
 .wp-core-ui .button-secondary[aria-disabled="true"] {
+	color: #8a8a8a !important;
 	cursor: default;
 }
 
