@@ -2073,7 +2073,7 @@ class WP_HTML_Tag_Processor {
 				 */
 				$is_valid_pi = (
 					0 !== $target_length &&
-					false !== strpos( " \t\f\r\n?>", $html[ $target_at + $target_length ] ) &&
+					str_contains( " \t\f\r\n?>", $html[ $target_at + $target_length ] ) &&
 					! ( 3 === $target_length && 0 === substr_compare( $html, 'xml', $target_at, 3, true ) ) &&
 					! ( 14 === $target_length && 0 === substr_compare( $html, 'xml-stylesheet', $target_at, 14, true ) )
 				);
