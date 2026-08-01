@@ -333,7 +333,6 @@
 .media-toolbar-secondary {
 	float: right;
 	height: 100%;
-	position: relative;
 	display: grid;
 	grid-template-columns: repeat( 2, 1fr );
 	grid-template-rows: repeat( 2, 1fr );
@@ -1310,6 +1309,7 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 
 .attachments-browser .media-toolbar-secondary {
 	max-width: 66%;
+	position: relative;
 }
 
 .uploader-inline .close {
