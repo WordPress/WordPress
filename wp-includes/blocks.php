@@ -43,6 +43,11 @@ function remove_block_asset_path_prefix( $asset_handle_or_path ) {
  * @param int    $index      Optional. Index of the asset when multiple items passed.
  *                           Default 0.
  * @return string Generated asset name for the block's field.
+ *
+ * @phpstan-param non-falsy-string $block_name
+ * @phpstan-param 'editorScript'|'editorStyle'|'script'|'style'|'viewScript'|'viewScriptModule'|'viewStyle' $field_name
+ * @phpstan-param int<0, max> $index
+ * @phpstan-return non-falsy-string
  */
 function generate_block_asset_handle( $block_name, $field_name, $index = 0 ) {
 	if ( str_starts_with( $block_name, 'core/' ) ) {
@@ -86,6 +91,8 @@ function generate_block_asset_handle( $block_name, $field_name, $index = 0 ) {
  *
  * @param string $path A normalized path to a block asset.
  * @return string|false The URL to the block asset or false on failure.
+ *
+ * @phpstan-return non-falsy-string|false
  */
 function get_block_asset_url( $path ) {
 	if ( empty( $path ) ) {
@@ -102,6 +109,7 @@ function get_block_asset_url( $path ) {
 		return includes_url( str_replace( $wpinc_path_norm, '', $path ) );
 	}
 
+	/** @var array<string, string> $template_paths_norm */
 	static $template_paths_norm = array();
 
 	$template = get_template();
@@ -128,11 +136,12 @@ function get_block_asset_url( $path ) {
 }
 
 /**
- * Finds a script module ID for the selected block metadata field. It detects
- * when a path to file was provided and optionally finds a corresponding asset
- * file with details necessary to register the script module under with an
- * automatically generated module ID. It returns unprocessed script module
- * ID otherwise.
+ * Finds a script module ID for the selected block metadata field.
+ *
+ * Detects when a path to a file was provided and optionally finds a
+ * corresponding asset file with details necessary to register the script
+ * module with an automatically generated module ID. It returns the
+ * unprocessed script module ID otherwise.
  *
  * @since 6.5.0
  *
@@ -141,6 +150,21 @@ function get_block_asset_url( $path ) {
  * @param int    $index      Optional. Index of the script module ID to register when multiple
  *                           items passed. Default 0.
  * @return string|false Script module ID or false on failure.
+ *
+ * @phpstan-param array{
+ *     name?: non-falsy-string,
+ *     file: non-falsy-string|null,
+ *     version?: string,
+ *     supports?: array{
+ *         interactivity?: bool|array{interactive?: bool, clientNavigation?: bool, ...},
+ *         ...
+ *     },
+ *     viewScriptModule?: string|list<string>,
+ *     ...
+ * } $metadata
+ * @phpstan-param 'viewScriptModule' $field_name
+ * @phpstan-param int<0, max> $index
+ * @phpstan-return non-falsy-string|false
  */
 function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 	if ( empty( $metadata[ $field_name ] ) ) {
@@ -170,6 +194,7 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 	$module_path_norm = wp_normalize_path( realpath( $path . '/' . $module_path ) );
 	$module_uri       = get_block_asset_url( $module_path_norm );
 
+	/** @var array{ dependencies?: list<non-falsy-string|array{id: non-falsy-string, import?: 'static'|'dynamic'}>, version?: string|false|null, ... } $module_asset */
 	$module_asset        = ! empty( $module_asset_path ) ? require $module_asset_path : array();
 	$module_dependencies = $module_asset['dependencies'] ?? array();
 	$block_version       = $metadata['version'] ?? false;
@@ -206,10 +231,13 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 }
 
 /**
- * Finds a script handle for the selected block metadata field. It detects
- * when a path to file was provided and optionally finds a corresponding asset
- * file with details necessary to register the script under automatically
- * generated handle name. It returns unprocessed script handle otherwise.
+ * Finds a script handle for the selected block metadata field.
+ *
+ * Detects when a path to a file was provided and optionally finds a
+ * corresponding asset file with details necessary to register the script. The
+ * handle is taken from the asset file when it provides one, and is otherwise
+ * generated automatically. It returns the unprocessed script handle when a
+ * handle rather than a path was given.
  *
  * @since 5.5.0
  * @since 6.1.0 Added `$index` parameter.
@@ -221,6 +249,20 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
  *                           Default 0.
  * @return string|false Script handle provided directly or created through
  *                      script's registration, or false on failure.
+ *
+ * @phpstan-param array{
+ *     name?: non-falsy-string,
+ *     file: non-falsy-string|null,
+ *     version?: string,
+ *     textdomain?: string,
+ *     editorScript?: string|list<string>,
+ *     script?: string|list<string>,
+ *     viewScript?: string|list<string>,
+ *     ...
+ * } $metadata
+ * @phpstan-param 'editorScript'|'script'|'viewScript' $field_name
+ * @phpstan-param int<0, max> $index
+ * @phpstan-return non-falsy-string|false
  */
 function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	if ( empty( $metadata[ $field_name ] ) ) {
@@ -247,6 +289,7 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	);
 
 	// Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
+	/** @var array{ handle?: non-falsy-string, dependencies?: list<non-falsy-string>, version?: string|false|null, ... } $script_asset */
 	$script_asset  = ! empty( $script_asset_path ) ? require $script_asset_path : array();
 	$script_handle = $script_asset['handle'] ??
 		generate_block_asset_handle( $metadata['name'], $field_name, $index );
@@ -283,9 +326,13 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 }
 
 /**
- * Finds a style handle for the block metadata field. It detects when a path
- * to file was provided and registers the style under automatically
- * generated handle name. It returns unprocessed style handle otherwise.
+ * Finds a style handle for the block metadata field.
+ *
+ * Detects when a path to a file was provided and registers the style under an
+ * automatically generated handle name. It returns the unprocessed style handle
+ * otherwise, except for the first style of a core block, which is instead
+ * registered from the block's own stylesheet when separate core block assets
+ * are loaded. Core blocks accept only handles, not paths.
  *
  * @since 5.5.0
  * @since 6.1.0 Added `$index` parameter.
@@ -296,6 +343,19 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
  *                           Default 0.
  * @return string|false Style handle provided directly or created through
  *                      style's registration, or false on failure.
+ *
+ * @phpstan-param array{
+ *     name?: non-falsy-string,
+ *     file: non-falsy-string|null,
+ *     version?: string,
+ *     editorStyle?: string|list<string>,
+ *     style?: string|list<string>,
+ *     viewStyle?: string|list<string>,
+ *     ...
+ * } $metadata
+ * @phpstan-param 'editorStyle'|'style'|'viewStyle' $field_name
+ * @phpstan-param int<0, max> $index
+ * @phpstan-return non-falsy-string|false
  */
 function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	if ( empty( $metadata[ $field_name ] ) ) {
@@ -2778,7 +2838,7 @@ function build_query_vars_from_query_block( $block, $page ) {
 			if ( 'only' === $block->context['query']['sticky'] ) {
 				/*
 				 * Passing an empty array to post__in will return have_posts() as true (and all posts will be returned).
-				 * Logic should be used before hand to determine if WP_Query should be used in the event that the array
+				 * Logic should be used beforehand to determine if WP_Query should be used in the event that the array
 				 * being passed to post__in is empty.
 				 *
 				 * @see https://core.trac.wordpress.org/ticket/28099
