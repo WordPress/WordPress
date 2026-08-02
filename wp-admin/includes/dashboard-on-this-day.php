@@ -114,10 +114,19 @@ function wp_dashboard_on_this_day() {
 					<ul>
 						<?php foreach ( $year_posts as $year_post ) : ?>
 							<?php
-							$title = get_the_title( $year_post );
+							$title            = get_the_title( $year_post );
+							$no_title_excerpt = '';
 
 							if ( '' === trim( $title ) ) {
 								$title = __( '(no title)' );
+
+								if ( current_user_can( 'read_post', $year_post->ID ) && ! post_password_required( $year_post ) ) {
+									$excerpt = get_the_excerpt( $year_post );
+
+									if ( is_string( $excerpt ) && '' !== $excerpt ) {
+										$no_title_excerpt = wp_trim_words( $excerpt, 15 );
+									}
+								}
 							}
 
 							$author_id   = (int) $year_post->post_author;
@@ -125,7 +134,14 @@ function wp_dashboard_on_this_day() {
 							$show_author = '' !== trim( $author_name ) && get_current_user_id() !== $author_id;
 							?>
 							<li>
-								<a href="<?php echo esc_url( get_permalink( $year_post ) ); ?>"><?php echo esc_html( $title ); ?></a>
+								<a href="<?php echo esc_url( get_permalink( $year_post ) ); ?>">
+									<?php echo esc_html( $title ); ?>
+									<?php
+									if ( '' !== $no_title_excerpt ) {
+										echo esc_html( $no_title_excerpt );
+									}
+									?>
+								</a>
 								<?php if ( $show_author ) : ?>
 									<?php
 									echo '<span class="wp-on-this-day-post-author">' . esc_html(
