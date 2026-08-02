@@ -603,7 +603,7 @@ if ( current_user_can( 'create_users' ) ) {
 					<input type="password" name="pass1" id="pass1" class="regular-text ltr" autocomplete="new-password" spellcheck="false" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 					<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 				</div>
-				<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
+				<button type="button" class="button wp-hide-pw user-new-password-toggle hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 					<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
