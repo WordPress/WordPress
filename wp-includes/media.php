@@ -4716,9 +4716,9 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 	$attached_file = get_attached_file( $attachment->ID );
 
-	if ( isset( $meta['filesize'] ) ) {
-		$bytes = $meta['filesize'];
-	} elseif ( file_exists( $attached_file ) ) {
+	if ( isset( $meta['filesize'] ) && is_numeric( $meta['filesize'] ) && (int) $meta['filesize'] > 0 ) {
+		$bytes = (int) $meta['filesize'];
+	} elseif ( is_string( $attached_file ) && '' !== $attached_file && is_readable( $attached_file ) ) {
 		$bytes = wp_filesize( $attached_file );
 	} else {
 		$bytes = '';
