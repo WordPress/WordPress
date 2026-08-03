@@ -569,8 +569,8 @@ class WP_Duotone {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @param string $duotone_attr The duotone attribute from a block.
 	 * @param string|string[] $duotone_attr The duotone attribute from a block.
+	 * @return bool True if the duotone preset present and valid.
 	 */
 	private static function is_preset( $duotone_attr ) {
 		if ( ! is_string( $duotone_attr ) ) {
