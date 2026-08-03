@@ -451,6 +451,16 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 6px 0 0;
 }
 
+/* Match the spacing the grid view toolbar gets from
+   `.attachments-browser .media-toolbar` in media-views.css, so the Media
+   Library filter bar is consistent in both modes. The grid view toolbar is
+   excluded so that rule stays the single source of its own padding: media.css
+   is printed after media-views.css here, so an unscoped rule would override
+   it. */
+.upload-php .wp-filter:not(.media-toolbar) {
+	padding: 12px 16px;
+}
+
 /**
  * Media Library grid view
  */
