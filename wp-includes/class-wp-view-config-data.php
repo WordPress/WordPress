@@ -121,9 +121,9 @@ class WP_View_Config_Data {
 	 * Applies the entity view configuration filter and returns the result.
 	 *
 	 * Exposes the container through the dynamic
-	 * `get_entity_view_config_{$kind}_{$name}` filter so that core and third
-	 * parties can provide the configuration for a specific entity, then
-	 * reconciles the filtered container back into a plain configuration array,
+	 * `get_entity_view_config_{$kind}_{$name}` filter (with the dynamic portions
+	 * lowercased), so that core and third parties can provide the configuration for a specific entity,
+	 * then reconciles the filtered container back into a plain configuration array,
 	 * limited to the documented configuration keys.
 	 *
 	 * @since 7.1.0
@@ -137,7 +137,9 @@ class WP_View_Config_Data {
 		 * Filters the view configuration for a given entity.
 		 *
 		 * The dynamic portions of the hook name, `$kind` and `$name`, refer to the
-		 * entity kind (e.g. `postType`) and the entity name (e.g. `page`).
+		 * entity kind (e.g. `postType`) and the entity name (e.g. `page`),
+		 * lowercased — so the `postType`/`page` entity maps to the
+		 * `get_entity_view_config_posttype_page` hook.
 		 *
 		 * Callbacks receive a WP_View_Config_Data object and change the
 		 * configuration through its methods. Each write method takes the schema
@@ -183,7 +185,7 @@ class WP_View_Config_Data {
 		 * }
 		 */
 		apply_filters(
-			"get_entity_view_config_{$kind}_{$name}",
+			wp_get_entity_view_config_hook_name( $kind, $name ),
 			$this,
 			array(
 				'kind' => $kind,
