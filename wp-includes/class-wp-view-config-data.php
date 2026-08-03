@@ -355,13 +355,13 @@ class WP_View_Config_Data {
 	 *
 	 * ```php
 	 * array(
-	 *   'default_view' => array( 'search' => 'new search', 'fields' => array( 'newField' ) ),
+	 *   'default_view' => array( 'titleField' => 'newTitleField', 'fields' => array( 'newField' ) ),
 	 *   'default_layouts' => array( 'grid' => array( 'layout' => array( 'badgeFields' => array( 'newField' ) ) ) ),
 	 *   'view_list' => array( array( 'slug' => 'table', 'title' => 'New title' ) ),
 	 * )
 	 * ```
 	 *
-	 * - default_view will be updated so the search string is 'new search' and the newField is appended to the list of fields.
+	 * - default_view will be updated so the titleField is 'newTitleField' and the newField is appended to the list of fields.
 	 * - default_layouts will be updated so that newField is appended to the badgeFields.
 	 * - view_list will be updated so that the view with slug 'table' has its title changed to 'New title'.
 	 *
