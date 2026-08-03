@@ -1977,6 +1977,11 @@ body.full-overlay-active {
 	line-height: 2.30769231; /* 30px for 32px height with 13px font */
 }
 
+.theme-install-overlay .wp-full-overlay-header .button.updating-message:before,
+.theme-install-overlay .wp-full-overlay-header .button.updated-message:before {
+	line-height: 1.5; /* 30px (20px * 1.5) - matches the button above */
+}
+
 .theme-install-overlay .wp-full-overlay-sidebar {
 	background: #f0f0f1;
 	border-left: 1px solid #dcdcde;
