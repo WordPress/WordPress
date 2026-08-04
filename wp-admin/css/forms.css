@@ -1493,7 +1493,7 @@ table.form-table td .updated p {
 	border-left: 4px solid #fff;
 }
 
-.privacy_requests tbody th {
+.privacy_requests tbody td.check-column {
 	border-left: 4px solid #fff;
 	background: #fff;
 	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
@@ -1515,7 +1515,8 @@ table.form-table td .updated p {
 	margin: 0 0 5px;
 }
 
-.privacy_requests tbody td {
+.privacy_requests tbody td:not(.check-column),
+.privacy_requests tbody th {
 	background: #fff;
 	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
@@ -1529,16 +1530,14 @@ table.form-table td .updated p {
 	white-space: normal;
 }
 
-.privacy_requests .status-request-confirmed th,
-.privacy_requests .status-request-confirmed td {
+.privacy_requests tr.status-request-confirmed td.check-column {
 	background-color: #fff;
-	border-left-color: #72aee6;
+	border-left-color: #3858e9;
 }
 
-.privacy_requests .status-request-failed th,
-.privacy_requests .status-request-failed td {
+.privacy_requests tr.status-request-failed td.check-column {
 	background-color: #f6f7f7;
-	border-left-color: #d63638;
+	border-left-color: #cc1818;
 }
 
 .privacy_requests .export_personal_data_failed a {
@@ -1971,11 +1970,6 @@ table.form-table td .updated p {
 	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column),
 	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) th.column-primary:not(.check-column) {
 		display: table-cell;
-	}
-
-	.wp-list-table.privacy_requests.widefat th input,
-	.wp-list-table.privacy_requests.widefat thead td input {
-		margin-left: 5px;
 	}
 
 	.wp-privacy-request-form-field input[type="text"] {
