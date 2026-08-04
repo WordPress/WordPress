@@ -820,10 +820,12 @@ function wp_restore_image( $post_id ) {
 	$restored         = false;
 	$msg              = new stdClass();
 
-	if ( ! is_array( $backup_sizes ) ) {
+	if ( ! is_array( $meta ) || ! is_array( $backup_sizes ) ) {
 		$msg->error = __( 'Cannot load image metadata.' );
 		return $msg;
 	}
+
+	$meta['sizes'] ??= array();
 
 	$parts         = pathinfo( $file );
 	$suffix        = time() . rand( 100, 999 );
@@ -982,6 +984,8 @@ function wp_save_image( $post_id ) {
 		$return->error = esc_js( __( 'Image data does not exist. Please re-upload the image.' ) );
 		return $return;
 	}
+
+	$meta['sizes'] ??= array();
 
 	if ( ! is_array( $backup_sizes ) ) {
 		$backup_sizes = array();

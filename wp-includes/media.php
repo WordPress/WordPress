@@ -4814,7 +4814,10 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			}
 
 			$response = array_merge( $response, $sizes['full'] );
-		} elseif ( $meta['sizes']['full']['file'] ) {
+		} elseif (
+			! empty( $meta['sizes']['full']['file'] ) &&
+			isset( $meta['sizes']['full']['width'], $meta['sizes']['full']['height'] )
+		) {
 			$sizes['full'] = array(
 				'url'         => esc_url_raw( $base_url . $meta['sizes']['full']['file'] ),
 				'height'      => $meta['sizes']['full']['height'],

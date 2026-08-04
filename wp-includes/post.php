@@ -7048,6 +7048,8 @@ function wp_delete_attachment_files( $post_id, $meta, $backup_sizes, $file ) {
  *
  * @since 2.1.0
  * @since 6.0.0 The `$filesize` value was added to the returned array.
+ * @since 7.1.0 `false` is now returned if the metadata is not an array, and when the result is
+ *              filtered the `sizes` key is always an array when present.
  *
  * @param int  $attachment_id Attachment post ID. Defaults to global $post.
  * @param bool $unfiltered    Optional. If true, filters are not run. Default false.
@@ -7111,7 +7113,7 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 
 	$data = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 
-	if ( ! $data ) {
+	if ( ! is_array( $data ) || ! $data ) {
 		return false;
 	}
 
@@ -7127,7 +7129,17 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	 * @param array $data          Array of meta data for the given attachment.
 	 * @param int   $attachment_id Attachment post ID.
 	 */
-	return apply_filters( 'wp_get_attachment_metadata', $data, $attachment_id );
+	$data = apply_filters( 'wp_get_attachment_metadata', $data, $attachment_id );
+
+	if ( ! is_array( $data ) ) {
+		return false;
+	}
+
+	if ( array_key_exists( 'sizes', $data ) && ! is_array( $data['sizes'] ) ) {
+		$data['sizes'] = array();
+	}
+
+	return $data;
 }
 
 /**
