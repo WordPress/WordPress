@@ -631,11 +631,40 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		/*
+		 * Cap the download at the same size the site would accept as a direct
+		 * upload. check_upload_size() only applies on multisite, so without a
+		 * ceiling here a single site has no limit at all on this path: the
+		 * `upload_max_filesize` and `post_max_size` directives bound a request
+		 * body, not a fetch the server makes itself.
+		 *
+		 * When `wp_max_upload_size` returns 0, no ceiling is applied.
+		 */
+		$max_size = (int) wp_max_upload_size();
+
+		/*
 		 * Download the remote file with WordPress's HTTP API, which validates
 		 * the host and blocks requests to private or local addresses. This is
 		 * the same primitive core's media_sideload_image() relies on.
+		 *
+		 * `limit_response_size` stops the transfer once the limit is passed,
+		 * so an oversized remote file is never written to disk in full. One
+		 * byte over the ceiling is enough to fail the size check below.
 		 */
+		$limit_response_size = static function ( $args ) use ( $max_size ) {
+			$args['limit_response_size'] = $max_size + 1;
+			return $args;
+		};
+
+		if ( $max_size > 0 ) {
+			add_filter( 'http_request_args', $limit_response_size );
+		}
+
 		$tmp_file = download_url( $url );
+
+		if ( $max_size > 0 ) {
+			remove_filter( 'http_request_args', $limit_response_size );
+		}
+
 		if ( is_wp_error( $tmp_file ) ) {
 			return $tmp_file;
 		}
@@ -651,6 +680,19 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				wp_delete_file( $tmp_file );
 			}
 			return $size_check;
+		}
+
+		if ( $max_size > 0 && wp_filesize( $tmp_file ) > $max_size ) {
+			if ( file_exists( $tmp_file ) ) {
+				wp_delete_file( $tmp_file );
+			}
+
+			return new WP_Error(
+				'rest_upload_file_too_big',
+				/* translators: %s: Maximum allowed file size in kilobytes. */
+				sprintf( __( 'This file is too big. Files must be less than %s KB in size.' ), number_format( $max_size / KB_IN_BYTES ) ),
+				array( 'status' => 400 )
+			);
 		}
 
 		$attachment_id = media_handle_sideload( $file_array, $post_id );
