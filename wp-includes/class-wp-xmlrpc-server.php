@@ -6440,23 +6440,32 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 1.5.0
 	 *
 	 * @param array $args {
-	 *     Method arguments. Note: arguments must be ordered as documented.
+	 *     Method arguments. Note: top-level arguments must be ordered as documented.
 	 *
 	 *     @type int    $0 Blog ID (unused).
 	 *     @type string $1 Username.
 	 *     @type string $2 Password.
-	 *     @type array  $3 Data.
+	 *     @type array  $3 {
+	 *         Data for the file to upload.
+	 *
+	 *         @type string $name    File name. Sanitized with sanitize_file_name().
+	 *         @type string $type    Optional. File MIME type, stored as the attachment's
+	 *                               post MIME type. Default empty string.
+	 *         @type string $bits    Optional. File contents. Default empty string.
+	 *         @type int    $post_id Optional. ID of the post to attach the file to.
+	 *                               Default 0.
+	 *     }
 	 * }
 	 * @return array|IXR_Error
 	 */
 	public function mw_newMediaObject( $args ) {
+		if ( ! $this->minimum_args( $args, 4 ) ) {
+			return $this->error;
+		}
+
 		$username = $this->escape( $args[1] );
 		$password = $this->escape( $args[2] );
 		$data     = $args[3];
-
-		$name = sanitize_file_name( $data['name'] );
-		$type = $data['type'];
-		$bits = $data['bits'];
 
 		$user = $this->login( $username, $password );
 		if ( ! $user ) {
@@ -6470,6 +6479,25 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->error = new IXR_Error( 401, __( 'Sorry, you are not allowed to upload files.' ) );
 			return $this->error;
 		}
+
+		if (
+			! is_array( $data ) ||
+			! is_string( $data['name'] ?? null ) ||
+			! is_string( $data['type'] ?? '' ) ||
+			! is_string( $data['bits'] ?? '' )
+		) {
+			return new IXR_Error( 400, __( 'Invalid attachment data.' ) );
+		}
+
+		$name = sanitize_file_name( $data['name'] );
+
+		// A name consisting only of characters the sanitizer strips leaves nothing to write to.
+		if ( '' === $name ) {
+			return new IXR_Error( 400, __( 'Invalid attachment data.' ) );
+		}
+
+		$type = $data['type'] ?? '';
+		$bits = $data['bits'] ?? '';
 
 		if ( is_multisite() && upload_is_user_over_quota( false ) ) {
 			$this->error = new IXR_Error(
