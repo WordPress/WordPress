@@ -459,6 +459,10 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			// Disable server-side EXIF rotation so the client can handle it.
 			// This preserves the original orientation value in the metadata.
 			add_filter( 'wp_image_maybe_exif_rotate', '__return_false', 100 );
+			// Disable server-side "big image" downscaling; the client supplies its
+			// own scaled version via the sideload endpoint. Scaling here would
+			// create a conflicting "-scaled" file and orphan the full-size upload.
+			add_filter( 'big_image_size_threshold', '__return_false', 100 );
 		}
 
 		// Handle convert_format parameter.
@@ -691,6 +695,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		remove_filter( 'fallback_intermediate_image_sizes', '__return_empty_array', 100 );
 		remove_filter( 'wp_image_maybe_exif_rotate', '__return_false', 100 );
 		remove_filter( 'image_editor_output_format', '__return_empty_array', 100 );
+		remove_filter( 'big_image_size_threshold', '__return_false', 100 );
 	}
 
 	/**
