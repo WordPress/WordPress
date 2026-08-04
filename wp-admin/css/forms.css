@@ -1572,7 +1572,7 @@ table.form-table td .updated p {
 	margin: 1.5em 0;
 }
 
-.wp-privacy-request-form input {
+.wp-privacy-request-form input[type="text"] {
 	margin: 0;
 }
 

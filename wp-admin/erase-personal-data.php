@@ -126,9 +126,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<th scope="row">
 						<?php _e( 'Confirmation email' ); ?>
 					</th>
-					<td>
+					<td>	
+						<input type="checkbox" name="send_confirmation_email" id="send_confirmation_email" value="1" checked="checked" />
 						<label for="send_confirmation_email">
-							<input type="checkbox" name="send_confirmation_email" id="send_confirmation_email" value="1" checked="checked" />
 							<?php _e( 'Send personal data erasure confirmation email.' ); ?>
 						</label>
 					</td>
