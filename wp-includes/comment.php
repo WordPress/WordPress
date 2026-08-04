@@ -2557,6 +2557,193 @@ function wp_new_comment_via_rest_notify_postauthor( $comment ) {
 }
 
 /**
+ * Extracts the mentioned user IDs from note content.
+ *
+ * Mentions are stored as chips carrying the `wp-note-mention` class plus a
+ * `user-N` class token holding the mentioned user's ID:
+ * `<span class="wp-note-mention user-N">@Name</span>`. Only elements that
+ * carry both classes are treated as mentions.
+ *
+ * @since 7.1.0
+ *
+ * @param string $content Note (comment) content, as stored.
+ * @return int[] Unique, positive mentioned user IDs.
+ * @phpstan-return list<positive-int>
+ */
+function wp_get_note_mentioned_user_ids( string $content ): array {
+	if ( ! str_contains( $content, 'wp-note-mention' ) ) {
+		return array();
+	}
+
+	$user_ids  = array();
+	$processor = new WP_HTML_Tag_Processor( $content );
+	while (
+		$processor->next_tag(
+			array(
+				'tag_name'   => 'SPAN',
+				'class_name' => 'wp-note-mention',
+			)
+		)
+	) {
+		foreach ( $processor->class_list() as $class_name ) {
+			if ( 1 === preg_match( '/^user-(\d+)$/', $class_name, $matches ) ) {
+				$user_id = (int) $matches[1];
+				if ( $user_id > 0 ) {
+					$user_ids[] = $user_id;
+				}
+				break;
+			}
+		}
+	}
+
+	return array_values( array_unique( $user_ids, SORT_NUMERIC ) );
+}
+
+/**
+ * Notifies mentioned users about a new note.
+ *
+ * Runs on {@see 'rest_insert_comment'} alongside the post author notification.
+ * The recipient set is the users mentioned in this note, minus the note's own
+ * author (a user is not notified about their own note) and the post author,
+ * who is already notified about every note by
+ * {@see wp_new_comment_via_rest_notify_postauthor()}.
+ *
+ * Only fires when a note is created, not when an existing one is edited, so
+ * correcting a note does not re-notify everyone who already received it.
+ *
+ * @since 7.1.0
+ *
+ * @param WP_Comment|null $comment  The note that was just inserted. (May only be null as an edge case.)
+ * @param mixed           $request  The REST request. Unused.
+ * @param bool            $creating Whether this is a create (true) or update (false).
+ */
+function wp_notify_note_mentions( ?WP_Comment $comment, $request = null, bool $creating = true ): void {
+	if ( ! $creating || ! $comment ) {
+		return;
+	}
+
+	if ( 'note' !== $comment->comment_type ) {
+		return;
+	}
+
+	// Share the single user-facing notes notification preference.
+	if ( ! get_option( 'wp_notes_notify', 1 ) ) {
+		return;
+	}
+
+	$mentioned = wp_get_note_mentioned_user_ids( $comment->comment_content );
+
+	$author_id       = (int) $comment->user_id;
+	$comment_post_id = (int) $comment->comment_post_ID;
+	$post            = $comment_post_id ? get_post( $comment_post_id ) : null;
+	$post_author_id  = $post ? (int) $post->post_author : 0;
+
+	/*
+	 * The recipient set is bounded and small (one note's mentions), so emails
+	 * are sent synchronously here. If notification volume ever warrants it,
+	 * the right fix is to offload delivery to a background queue rather than
+	 * throttle within the request.
+	 */
+	foreach ( $mentioned as $user_id ) {
+		// Never notify the author about their own note.
+		if ( $user_id === $author_id ) {
+			continue;
+		}
+
+		// The post author is already notified of every note.
+		if ( $user_id === $post_author_id ) {
+			continue;
+		}
+
+		$user = get_userdata( $user_id );
+		if ( ! $user || empty( $user->user_email ) ) {
+			continue;
+		}
+
+		/*
+		 * Only notify users who can actually read the note. Notes are
+		 * internal: WP_REST_Comments_Controller::check_read_permission()
+		 * only exposes a note to its author or to users who can edit it, so
+		 * the email audience is held to the same bar. A plain read_post
+		 * check would leak note content to, for example, subscribers on a
+		 * public post, who cannot see the note in the editor.
+		 */
+		if ( ! user_can( $user_id, 'edit_comment', $comment->comment_ID ) ) {
+			continue;
+		}
+
+		wp_send_note_notification( $user, $comment, $post );
+	}
+}
+
+/**
+ * Sends a single note mention notification email.
+ *
+ * The email is composed in the recipient's locale, matching how other
+ * user-directed notifications are composed, and links to the post editor the
+ * same way the post author's note notification does.
+ *
+ * @since 7.1.0
+ *
+ * @param WP_User      $user    The recipient.
+ * @param WP_Comment   $comment The note that triggered the notification.
+ * @param WP_Post|null $post    The post the note belongs to.
+ * @return bool Whether the email was accepted for delivery by {@see wp_mail()}.
+ */
+function wp_send_note_notification( WP_User $user, WP_Comment $comment, ?WP_Post $post ): bool {
+	$switched_locale = switch_to_user_locale( $user->ID );
+
+	/*
+	 * The site title and the post title are escaped on the way into the database,
+	 * and note content is stored as HTML. Both are reversed once here for the
+	 * plain text arena of emails. Decoding a second time would go too far and
+	 * resolve entities the author meant to be read literally.
+	 */
+	$blogname    = wp_specialchars_decode( get_bloginfo( 'name', 'display' ), ENT_QUOTES );
+	$post_title  = $post ? wp_specialchars_decode( get_the_title( $post ), ENT_QUOTES ) : '';
+	$author_name = $comment->comment_author ? $comment->comment_author : __( 'Someone' );
+	$content     = wp_specialchars_decode( wp_strip_all_tags( $comment->comment_content ) );
+
+	/*
+	 * The rest of the message is composed for the recipient, and so is the editor
+	 * link: get_edit_post_link() answers for whoever is current, which here is the
+	 * note's author over REST and nobody at all under WP-Cron.
+	 */
+	$edit_link = '';
+	if ( $post ) {
+		$previous_user_id = get_current_user_id();
+		wp_set_current_user( $user->ID );
+		$edit_link = (string) get_edit_post_link( $post->ID, 'url' );
+		wp_set_current_user( $previous_user_id );
+	}
+
+	/* translators: 1: Note author's name, 2: Post title. */
+	$message = sprintf( __( '%1$s mentioned you in a note on "%2$s".' ), $author_name, $post_title );
+	/* translators: Note mention notification email subject. 1: Site title, 2: Post title. */
+	$subject = sprintf( __( '[%1$s] You were mentioned in a note on "%2$s"' ), $blogname, $post_title );
+
+	$lines = array( $message, '' );
+	if ( '' !== $content ) {
+		$lines[] = $content;
+	}
+	if ( $edit_link ) {
+		$lines[] = '';
+		$lines[] = __( 'Edit This' ) . ': ' . $edit_link;
+	}
+
+	// Declared explicitly so a filtered default cannot turn the message into HTML.
+	$headers = 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . '"';
+
+	$sent = wp_mail( $user->user_email, $subject, implode( "\n", $lines ), $headers );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
+	return $sent;
+}
+
+/**
  * Sets the status of a comment.
  *
  * The {@see 'wp_set_comment_status'} action is called after the comment is handled.
