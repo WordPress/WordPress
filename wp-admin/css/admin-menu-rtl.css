@@ -801,12 +801,10 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 		padding: 0;
 		overflow: hidden;
-		outline: none;
 		text-decoration: none;
-		border: 1px solid transparent;
 		background: none;
-		height: 44px;
-		margin-right: -1px;
+		height: 46px;
+		box-sizing: border-box;
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
@@ -817,22 +815,17 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 
-	#wpadminbar #wp-admin-bar-menu-toggle a:hover {
-		border: 1px solid transparent;
-	}
-
 	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
 		content: "\f228";
 		display: inline-block;
 		float: right;
-		font: normal 40px/45px dashicons;
+		font: normal 40px/46px dashicons;
 		vertical-align: middle;
-		outline: none;
 		margin: 0;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		height: 44px;
-		width: 50px;
+		height: 46px;
+		width: 52px;
 		padding: 0;
 		border: none;
 		text-align: center;
