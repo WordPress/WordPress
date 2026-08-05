@@ -1,7 +1,4 @@
 /**
- * Typography
- */
-/**
  * SCSS Variables.
  *
  * Please use variables from this sheet to ensure consistency across the UI.
@@ -45,6 +42,22 @@
 /**
  * React Native specific.
  * These variables do not appear to be used anywhere else.
+ */
+.components-popover__content:has(.dataviews-media-field__attached-to) {
+  margin-bottom: 96px;
+}
+
+.components-popover__content:has(.dataviews-media-field__attached-to):has(.components-form-token-field__suggestions-list) {
+  margin-bottom: 0;
+}
+
+.components-popover__content:has(.dataviews-media-field__attached-to) .components-form-token-field__suggestions-list {
+  height: 96px;
+  max-height: none;
+}
+
+/**
+ * Typography
  */
 /**
  * Breakpoints & Media Queries
@@ -353,7 +366,7 @@
 
 .media-upload-modal__snackbar {
   position: fixed;
-  bottom: 24px;
+  bottom: var(--wpds-dimension-size-md, 32px);
   right: 0;
   left: 0;
   padding-inline: 16px;

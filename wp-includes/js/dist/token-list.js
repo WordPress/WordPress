@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).tokenList = (() => {
@@ -211,3 +212,5 @@ var wp;
   return __toCommonJS(index_exports);
 })();
 if (typeof wp.tokenList === 'object' && wp.tokenList.default) { wp.tokenList = wp.tokenList.default; }
+(window.wp ||= {}).tokenList = wp.tokenList;
+})();

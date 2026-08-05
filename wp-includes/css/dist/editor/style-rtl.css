@@ -385,7 +385,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 @media (min-width: 782px) {
   .has-footer .interface-interface-skeleton__body {
-    padding-bottom: 25px;
+    padding-bottom: calc(var(--wpds-dimension-size-md, 32px) + 1px);
   }
 }
 .interface-interface-skeleton__content {
@@ -474,7 +474,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   z-index: 30;
   display: flex;
   background: #fff;
-  height: 24px;
+  height: var(--wpds-dimension-size-md, 32px);
   align-items: center;
   font-size: 13px;
   padding: 0 18px;
@@ -5308,7 +5308,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 }
 .media-editor__snackbar {
   position: fixed;
-  bottom: 24px;
+  bottom: var(--wpds-dimension-size-md, 32px);
   right: 0;
   left: 0;
   padding-inline: 16px;
@@ -5390,7 +5390,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
 
 .media-editor-modal__snackbar {
   position: fixed;
-  bottom: 24px;
+  bottom: var(--wpds-dimension-size-md, 32px);
   right: 0;
   left: 0;
   padding-inline: 16px;
@@ -6589,10 +6589,10 @@ mark.wp-note {
 .editor-document-tools .editor-document-tools__left > .components-dropdown > .components-button.has-icon.is-pressed {
   background: #1e1e1e;
 }
-.editor-document-tools .editor-document-tools__left > .components-button.has-icon:focus:not(:disabled),
-.editor-document-tools .editor-document-tools__left > .components-dropdown > .components-button.has-icon:focus:not(:disabled) {
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 0 0 1px #fff;
-  outline: 1px solid transparent;
+.editor-document-tools .editor-document-tools__left > .components-button.has-icon:focus:not(:active),
+.editor-document-tools .editor-document-tools__left > .components-dropdown > .components-button.has-icon:focus:not(:active) {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
 }
 .editor-document-tools .editor-document-tools__left > .components-button.has-icon::before,
 .editor-document-tools .editor-document-tools__left > .components-dropdown > .components-button.has-icon::before {

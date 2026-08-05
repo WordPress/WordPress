@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).styleEngine = (() => {
@@ -702,4 +703,6 @@ var wp;
     return rules;
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).styleEngine = wp.styleEngine;
 })();

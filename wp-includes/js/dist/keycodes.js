@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).keycodes = (() => {
@@ -244,4 +245,6 @@ var wp;
     };
   });
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).keycodes = wp.keycodes;
 })();

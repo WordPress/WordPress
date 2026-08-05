@@ -1,3 +1,4 @@
+(function() {
 var wp;
 (wp ||= {}).editWidgets = (() => {
   var __create = Object.create;
@@ -238,7 +239,7 @@ var wp;
   var import_blocks3 = __toESM(require_blocks(), 1);
   var import_data32 = __toESM(require_data(), 1);
   var import_deprecated6 = __toESM(require_deprecated(), 1);
-  var import_element26 = __toESM(require_element(), 1);
+  var import_element27 = __toESM(require_element(), 1);
   var import_block_library2 = __toESM(require_block_library(), 1);
   var import_core_data12 = __toESM(require_core_data(), 1);
   var import_widgets5 = __toESM(require_widgets(), 1);
@@ -1756,6 +1757,27 @@ var wp;
   NavigableRegion.displayName = "NavigableRegion";
   var navigable_region_default = NavigableRegion;
 
+  // packages/admin-ui/build-module/admin-theme-colors/index.mjs
+  var DEFAULT_THEME_COLORS = {
+    primary: "#3858e9",
+    background: "#222524"
+  };
+  var ADMIN_THEME_COLORS = /* @__PURE__ */ new Map([
+    ["modern", DEFAULT_THEME_COLORS],
+    ["fresh", { primary: "#3858e9", background: "#25292b" }],
+    ["midnight", { primary: "#cf4339", background: "#3d4042" }],
+    ["coffee", { primary: "#916745", background: "#5b534d" }],
+    ["ocean", { primary: "#567958", background: "#5f787f" }],
+    ["blue", { primary: "#437aa8", background: "#3876a8" }],
+    ["ectoplasm", { primary: "#646c3e", background: "#4f386e" }],
+    ["sunrise", { primary: "#ad631e", background: "#cc4541" }],
+    ["light", { primary: "#007cba", background: "#eaeeed" }]
+  ]);
+  function getAdminThemeColors() {
+    const scheme = document.body.className.match(/admin-color-([\w-]+)/)?.[1] ?? "modern";
+    return ADMIN_THEME_COLORS.get(scheme) ?? DEFAULT_THEME_COLORS;
+  }
+
   // packages/interface/build-module/components/interface-skeleton/index.mjs
   var import_element5 = __toESM(require_element(), 1);
   var import_components6 = __toESM(require_components(), 1);
@@ -2856,10 +2878,12 @@ var wp;
 
   // packages/edit-widgets/build-module/components/layout/index.mjs
   var import_i18n21 = __toESM(require_i18n(), 1);
+  var import_element26 = __toESM(require_element(), 1);
   var import_data31 = __toESM(require_data(), 1);
   var import_plugins3 = __toESM(require_plugins(), 1);
   var import_notices4 = __toESM(require_notices(), 1);
   var import_components22 = __toESM(require_components(), 1);
+  var import_theme2 = __toESM(require_theme(), 1);
 
   // packages/edit-widgets/build-module/components/error-boundary/index.mjs
   var import_element9 = __toESM(require_element(), 1);
@@ -4602,27 +4626,25 @@ var wp;
       );
     }
     const navigateRegionsProps = (0, import_components22.__unstableUseNavigateRegions)();
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
-      "div",
+    const adminPrimary = (0, import_element26.useMemo)(() => getAdminThemeColors().primary, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_theme2.ThemeProvider, { isRoot: true, color: { primary: adminPrimary }, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { ...navigateRegionsProps, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+      WidgetAreasBlockEditorProvider,
       {
-        className: navigateRegionsProps.className,
-        ...navigateRegionsProps,
-        ref: navigateRegionsProps.ref,
-        children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
-          WidgetAreasBlockEditorProvider,
-          {
-            blockEditorSettings,
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(interface_default, { blockEditorSettings }),
-              /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Sidebar, {}),
-              /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_plugins3.PluginArea, { onError: onPluginAreaError }),
-              /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UnsavedChangesWarning, {}),
-              /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(WelcomeGuide, {})
-            ]
-          }
-        )
+        blockEditorSettings,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+            interface_default,
+            {
+              blockEditorSettings
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Sidebar, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_plugins3.PluginArea, { onError: onPluginAreaError }),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UnsavedChangesWarning, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(WelcomeGuide, {})
+        ]
       }
-    ) });
+    ) }) }) });
   }
   var layout_default = Layout;
 
@@ -4636,7 +4658,7 @@ var wp;
   ];
   function initializeEditor(id, settings2) {
     const target = document.getElementById(id);
-    const root = (0, import_element26.createRoot)(target);
+    const root = (0, import_element27.createRoot)(target);
     const coreBlocks = (0, import_block_library2.__experimentalGetCoreBlocks)().filter((block) => {
       return !(disabledBlocks.includes(block.name) || block.name.startsWith("core/post") || block.name.startsWith("core/query") || block.name.startsWith("core/site") || block.name.startsWith("core/navigation") || block.name.startsWith("core/term"));
     });
@@ -4660,7 +4682,7 @@ var wp;
     settings2.__experimentalFetchLinkSuggestions = (search, searchOptions) => (0, import_core_data12.__experimentalFetchLinkSuggestions)(search, searchOptions, settings2);
     (0, import_blocks3.setFreeformContentHandlerName)("core/html");
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_element26.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(layout_default, { blockEditorSettings: settings2 }) })
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_element27.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(layout_default, { blockEditorSettings: settings2 }) })
     );
     return root;
   }
@@ -4682,4 +4704,6 @@ var wp;
     (0, import_blocks3.registerBlockType)(name2, settings2);
   };
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).editWidgets = wp.editWidgets;
 })();

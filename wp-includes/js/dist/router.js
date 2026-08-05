@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).router = (() => {
@@ -1001,7 +1002,7 @@ var wp;
         const path = (0, import_url.getPath)("http://domain.com/" + rawPath) ?? "";
         const performPush = () => {
           const result = beforeNavigate ? beforeNavigate({ path, query }) : { path, query };
-          return history.push(
+          return history[options.replace ? "replace" : "push"](
             {
               search: (0, import_url.buildQueryString)({
                 [pathArg]: result.path,
@@ -1183,4 +1184,6 @@ var wp;
     Link
   });
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).router = wp.router;
 })();

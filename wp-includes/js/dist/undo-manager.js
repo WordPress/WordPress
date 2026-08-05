@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).undoManager = (() => {
@@ -154,4 +155,6 @@ var wp;
     };
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).undoManager = wp.undoManager;
 })();

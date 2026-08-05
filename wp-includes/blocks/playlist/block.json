@@ -69,6 +69,7 @@
 	"supports": {
 		"anchor": true,
 		"align": true,
+		"__experimentalExposeControlsToChildren": true,
 		"color": {
 			"gradients": true,
 			"link": true,

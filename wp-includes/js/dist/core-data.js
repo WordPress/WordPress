@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).coreData = (() => {
@@ -6860,7 +6861,7 @@ var wp;
   getDefaultTemplateId2.shouldInvalidate = (action) => {
     return action.type === "RECEIVE_ITEMS" && action.kind === "root" && action.name === "site" && !!action.persistedEdits;
   };
-  var getRevisions2 = (kind, name, recordKey, query = {}) => async ({ dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
+  var getRevisions2 = (kind, name, recordKey, query = {}) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     const configs = await resolveSelect2.getEntitiesConfig(kind);
     const entityConfig = configs.find(
       (config) => config.name === name && config.kind === kind
@@ -6917,30 +6918,25 @@ var wp;
             return record;
           });
         }
-        registry.batch(() => {
-          dispatch3.receiveRevisions(
-            kind,
-            name,
-            recordKey,
-            records,
-            query,
-            false,
-            meta
-          );
-          const key = entityConfig.revisionKey || DEFAULT_ENTITY_KEY;
-          const normalizedQuery = normalizeQueryForResolution(rawQuery);
-          const resolutionsArgs = records.filter((record) => record[key]).map((record) => [
-            kind,
-            name,
-            recordKey,
-            record[key],
-            normalizedQuery
-          ]);
-          dispatch3.finishResolutions(
-            "getRevision",
-            resolutionsArgs
-          );
-        });
+        await dispatch3.receiveRevisions(
+          kind,
+          name,
+          recordKey,
+          records,
+          query,
+          false,
+          meta
+        );
+        const key = entityConfig.revisionKey || DEFAULT_ENTITY_KEY;
+        const normalizedQuery = normalizeQueryForResolution(rawQuery);
+        const resolutionsArgs = records.filter((record) => record[key]).map((record) => [
+          kind,
+          name,
+          recordKey,
+          record[key],
+          normalizedQuery
+        ]);
+        dispatch3.finishResolutions("getRevision", resolutionsArgs);
       }
     } finally {
       dispatch3.__unstableReleaseStoreLock(lock2);
@@ -6994,7 +6990,7 @@ var wp;
         return;
       }
       if (record) {
-        dispatch3.receiveRevisions(
+        await dispatch3.receiveRevisions(
           kind,
           name,
           recordKey,
@@ -8256,4 +8252,6 @@ var wp;
   unlock(store).registerPrivateActions(private_actions_exports);
   (0, import_data15.register)(store);
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).coreData = wp.coreData;
 })();

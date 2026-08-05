@@ -1,3 +1,4 @@
+(function() {
 var wp;
 (wp ||= {}).theme = (() => {
   var __create = Object.create;
@@ -4188,8 +4189,9 @@ var wp;
     cornerRadius
   } = {}) {
     const { resolvedSettings: inheritedSettings } = (0, import_element2.useContext)(ThemeContext);
-    const primary = color.primary ?? inheritedSettings.color?.primary ?? DEFAULT_SEED_COLORS.primary;
-    const background = color.background ?? inheritedSettings.color?.background ?? DEFAULT_SEED_COLORS.background;
+    const hasColor = color.primary !== void 0 || color.background !== void 0 || inheritedSettings.color?.primary !== void 0 || inheritedSettings.color?.background !== void 0;
+    const primary = hasColor ? color.primary ?? inheritedSettings.color?.primary ?? DEFAULT_SEED_COLORS.primary : void 0;
+    const background = hasColor ? color.background ?? inheritedSettings.color?.background ?? DEFAULT_SEED_COLORS.background : void 0;
     const cursorControl = cursor?.control ?? inheritedSettings.cursor?.control;
     const cornerRadiusPreset = cornerRadius ?? inheritedSettings.cornerRadius ?? "subtle";
     const resolvedSettings = (0, import_element2.useMemo)(
@@ -4204,6 +4206,9 @@ var wp;
       [primary, background, cursorControl, cornerRadiusPreset]
     );
     const colorStyles = (0, import_element2.useMemo)(() => {
+      if (primary === void 0 || background === void 0) {
+        return {};
+      }
       const seeds = {
         ...DEFAULT_SEED_COLORS,
         background,
@@ -4435,4 +4440,6 @@ var wp;
     }
   });
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).theme = wp.theme;
 })();

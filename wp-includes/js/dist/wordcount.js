@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).wordcount = (() => {
@@ -207,4 +208,6 @@ var wp;
     }
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).wordcount = wp.wordcount;
 })();

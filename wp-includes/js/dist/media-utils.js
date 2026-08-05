@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).mediaUtils = (() => {
@@ -10640,9 +10641,9 @@ var wp;
   }
   var resets_default2 = { "box-sizing": "_336cd3e4e743482f__box-sizing" };
   if (typeof process === "undefined" || true) {
-    registerStyle6("5f8e7aa0bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active),:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+    registerStyle6("da99a163ac", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus{outline:none}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active){@include mixins.focus-ring()}}}");
   }
-  var focus_default = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible" };
+  var focus_default = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active" };
   if (typeof process === "undefined" || true) {
     registerStyle6("e8e6a9be37", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.d4250949359b05ce__link{text-decoration-thickness:from-font;text-underline-offset:.2em}.c6055659b8e2cd2c__is-brand,.c6055659b8e2cd2c__is-brand:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9));color:var(--wpds-color-foreground-interactive-brand,var(--wp-admin-theme-color,#3858e9))}.c6055659b8e2cd2c__is-brand:active,.c6055659b8e2cd2c__is-brand:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000));color:var(--wpds-color-foreground-interactive-brand-active,color-mix(in oklch,var(--wp-admin-theme-color,#3858e9) 52%,#000))}._92e0dfcaeee15b88__is-neutral,._92e0dfcaeee15b88__is-neutral:visited{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);text-decoration-color:var(--wpds-color-stroke-interactive-neutral,#8d8d8d)}._92e0dfcaeee15b88__is-neutral:active,._92e0dfcaeee15b88__is-neutral:hover{--_gcd-a-color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e);color:var(--wpds-color-foreground-interactive-neutral-active,#1e1e1e)}.cf122a9bf1035d42__is-unstyled{--_gcd-a-color:inherit;color:inherit;text-decoration:none}._0cb411afac4c86c7__link-icon{display:inline-block;font-weight:var(--wpds-typography-font-weight-default,400);line-height:1;margin-inline-start:var(--wpds-dimension-padding-xs,4px);text-decoration:none}._0cb411afac4c86c7__link-icon:after{content:"\\2197"}._0cb411afac4c86c7__link-icon:dir(rtl):after{content:"\\2196"}}}');
   }
@@ -27169,124 +27170,116 @@ If there's a particular need for this, please submit a feature request at https:
     return `dataviews-${kind}-${name}-${slug}`;
   }
 
-  // packages/views/build-module/filter-utils.mjs
-  var SCALAR_VALUES = [
-    "titleField",
-    "mediaField",
-    "descriptionField",
-    "showTitle",
-    "showMedia",
-    "showDescription",
-    "showLevels",
-    "infiniteScrollEnabled"
-  ];
-  function mergeActiveViewOverrides(view, activeViewOverrides, defaultView2) {
-    if (!activeViewOverrides) {
-      return view;
-    }
-    let result = view;
-    for (const key of SCALAR_VALUES) {
-      if (key in activeViewOverrides) {
-        result = { ...result, [key]: activeViewOverrides[key] };
-      }
-    }
-    if (activeViewOverrides.filters && activeViewOverrides.filters.length > 0) {
-      const activeFields = new Set(
-        activeViewOverrides.filters.map((f2) => f2.field)
-      );
-      const preserved = (view.filters ?? []).filter(
-        (f2) => !activeFields.has(f2.field)
-      );
-      result = {
-        ...result,
-        filters: [...preserved, ...activeViewOverrides.filters]
-      };
-    }
-    if (activeViewOverrides.sort) {
-      const isDefaultSort = defaultView2 && view.sort?.field === defaultView2.sort?.field && view.sort?.direction === defaultView2.sort?.direction;
-      if (isDefaultSort) {
-        result = {
-          ...result,
-          sort: activeViewOverrides.sort
-        };
-      }
-    }
-    if (activeViewOverrides.layout) {
-      result = {
-        ...result,
-        layout: {
-          ...result.layout,
-          ...activeViewOverrides.layout
-        }
-      };
-    }
-    if (activeViewOverrides.groupBy) {
-      result = {
-        ...result,
-        groupBy: activeViewOverrides.groupBy
-      };
-    }
-    return result;
+  // packages/views/build-module/resolve-view.mjs
+  var QUERY_PARAMS = ["page", "search"];
+  function isPlainObject2(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
   }
-  function stripActiveViewOverrides(view, activeViewOverrides, defaultView2) {
-    if (!activeViewOverrides) {
-      return view;
-    }
-    let result = view;
-    for (const key of SCALAR_VALUES) {
-      if (key in activeViewOverrides) {
-        const { [key]: _, ...rest } = result;
-        result = rest;
-      }
-    }
-    if (activeViewOverrides.filters && activeViewOverrides.filters.length > 0) {
-      const activeFields = new Set(
-        activeViewOverrides.filters.map((f2) => f2.field)
-      );
-      result = {
-        ...result,
-        filters: (view.filters ?? []).filter(
-          (f2) => !activeFields.has(f2.field)
-        )
-      };
-    }
-    if (activeViewOverrides.sort && view.sort?.field === activeViewOverrides.sort.field && view.sort?.direction === activeViewOverrides.sort.direction) {
-      result = {
-        ...result,
-        sort: defaultView2?.sort
-      };
-    }
-    if (activeViewOverrides.layout && "layout" in result && result.layout) {
-      const layout = { ...result.layout };
-      for (const key of Object.keys(activeViewOverrides.layout)) {
-        delete layout[key];
-      }
-      result = {
-        ...result,
-        layout: Object.keys(layout).length > 0 ? layout : void 0
-      };
-    }
-    if (activeViewOverrides.groupBy && "groupBy" in result) {
-      const { groupBy: _, ...rest } = result;
-      result = rest;
-    }
-    return result;
-  }
-
-  // packages/views/build-module/use-view.mjs
-  function omit3(obj, keys) {
-    const result = { ...obj };
-    for (const key of keys) {
+  function withoutQueryParams(layer) {
+    const result = isPlainObject2(layer) ? { ...layer } : {};
+    for (const key of QUERY_PARAMS) {
       delete result[key];
     }
     return result;
   }
+  function mergeLayer(lower, upper) {
+    const result = { ...lower };
+    for (const key of Object.keys(upper)) {
+      const value = upper[key];
+      const current = result[key];
+      result[key] = isPlainObject2(current) && isPlainObject2(value) ? mergeLayer(current, value) : value;
+    }
+    return result;
+  }
+  function diffLayer(value, base, persisted = {}) {
+    const result = {};
+    for (const key of Object.keys(value)) {
+      const next = value[key];
+      const current = base[key];
+      const prev = persisted[key];
+      if (next === void 0) {
+        continue;
+      }
+      if (isPlainObject2(next) && isPlainObject2(current)) {
+        const nested = diffLayer(
+          next,
+          current,
+          isPlainObject2(prev) ? prev : {}
+        );
+        if (Object.keys(nested).length > 0) {
+          result[key] = nested;
+        }
+      } else if (!dequal(next, current)) {
+        result[key] = next;
+      } else if (prev !== void 0 && dequal(next, prev)) {
+        result[key] = prev;
+      }
+    }
+    return result;
+  }
+  function getLockedFilters(overrides) {
+    return (overrides?.filters ?? []).filter((filter) => filter.isLocked);
+  }
+  function applyLockedFilters(view, overrides) {
+    const locked = getLockedFilters(overrides);
+    if (locked.length === 0) {
+      return view;
+    }
+    const rest = (view.filters ?? []).filter(
+      (filter) => !locked.some((f2) => f2.field === filter.field)
+    );
+    return { ...view, filters: [...locked, ...rest] };
+  }
+  function resolveBaseView(layers, effectiveType) {
+    const { defaultView: defaultView2, defaultLayouts: defaultLayouts2, activeViewOverrides } = layers;
+    const layoutDefaults = defaultLayouts2?.[effectiveType];
+    return applyLockedFilters(
+      [layoutDefaults, activeViewOverrides].reduce(
+        (lower, upper) => mergeLayer(lower, withoutQueryParams(upper)),
+        withoutQueryParams(defaultView2)
+      ),
+      activeViewOverrides
+    );
+  }
+  function resolveView(args) {
+    const { defaultView: defaultView2, activeViewOverrides, persistedView, page, search } = args;
+    const effectiveType = persistedView?.type ?? activeViewOverrides?.type ?? defaultView2?.type;
+    const baseView = resolveBaseView(args, effectiveType);
+    const view = {
+      ...applyLockedFilters(
+        mergeLayer(baseView, withoutQueryParams(persistedView)),
+        activeViewOverrides
+      ),
+      page: Number(page ?? 1),
+      search: search ?? ""
+    };
+    return view;
+  }
+  function getUserModifications(newView, layers) {
+    const { activeViewOverrides, persistedView } = layers;
+    const baseView = resolveBaseView(layers, newView.type);
+    const modifications = diffLayer(
+      withoutQueryParams(newView),
+      withoutQueryParams(baseView),
+      withoutQueryParams(persistedView)
+    );
+    const locked = getLockedFilters(activeViewOverrides);
+    if (locked.length > 0 && Array.isArray(modifications.filters)) {
+      modifications.filters = modifications.filters.filter(
+        (filter) => !locked.some((f2) => f2.field === filter.field)
+      );
+    }
+    return Object.keys(modifications).length > 0 ? modifications : void 0;
+  }
+
+  // packages/views/build-module/use-view.mjs
   function useView(config) {
     const {
       kind,
       name,
       slug,
       defaultView: defaultView2,
+      defaultLayouts: defaultLayouts2,
       activeViewOverrides,
       queryParams,
       onChangeQueryParams
@@ -27302,68 +27295,54 @@ If there's a particular need for this, please submit a feature request at https:
       [preferenceKey]
     );
     const { set: set2 } = (0, import_data7.useDispatch)(import_preferences.store);
-    const baseView = (0, import_element78.useMemo)(
-      () => persistedView ?? defaultView2 ?? {},
-      [persistedView, defaultView2]
+    const page = Number(queryParams?.page ?? 1);
+    const search = queryParams?.search ?? "";
+    const view = (0, import_element78.useMemo)(
+      () => resolveView({
+        defaultView: defaultView2,
+        defaultLayouts: defaultLayouts2,
+        activeViewOverrides,
+        persistedView,
+        page,
+        search
+      }),
+      [
+        defaultView2,
+        defaultLayouts2,
+        activeViewOverrides,
+        persistedView,
+        page,
+        search
+      ]
     );
-    const page = Number(queryParams?.page ?? baseView.page ?? 1);
-    const search = queryParams?.search ?? baseView.search ?? "";
-    const combinedOverrides = (0, import_element78.useMemo)(() => {
-      const rawDefaults = config.defaultLayouts?.[baseView.type];
-      const layoutTypeDefaults = !rawDefaults || rawDefaults === true ? {} : rawDefaults;
-      return { ...layoutTypeDefaults, ...activeViewOverrides };
-    }, [config.defaultLayouts, baseView.type, activeViewOverrides]);
-    const view = (0, import_element78.useMemo)(() => {
-      return mergeActiveViewOverrides(
-        {
-          ...baseView,
-          page,
-          search
-        },
-        combinedOverrides,
-        defaultView2
-      );
-    }, [baseView, page, search, combinedOverrides, defaultView2]);
-    const isModified = !!persistedView;
+    const isModified = !!persistedView && Object.keys(persistedView).length > 0;
     const updateView = (0, import_element78.useCallback)(
       (newView) => {
-        const urlParams = {
-          page: newView?.page,
-          search: newView?.search
+        const newQueryParams = {
+          page: Number(newView?.page ?? 1),
+          search: newView?.search ?? ""
         };
-        const preferenceView = stripActiveViewOverrides(
-          omit3(newView, ["page", "search"]),
-          combinedOverrides,
-          defaultView2
-        );
-        if (onChangeQueryParams && !dequal(urlParams, { page, search })) {
-          onChangeQueryParams(urlParams);
+        if (onChangeQueryParams && !dequal(newQueryParams, { page, search })) {
+          onChangeQueryParams(newQueryParams);
         }
-        const comparableBaseView = stripActiveViewOverrides(
-          baseView,
-          combinedOverrides,
-          defaultView2
-        );
-        const comparableDefaultView = stripActiveViewOverrides(
-          defaultView2,
-          combinedOverrides,
-          defaultView2
-        );
-        if (!dequal(comparableBaseView, preferenceView)) {
-          if (dequal(preferenceView, comparableDefaultView)) {
-            set2("core/views", preferenceKey, void 0);
-          } else {
-            set2("core/views", preferenceKey, preferenceView);
-          }
+        const modifications = getUserModifications(newView, {
+          defaultView: defaultView2,
+          defaultLayouts: defaultLayouts2,
+          activeViewOverrides,
+          persistedView
+        });
+        if (!dequal(modifications, persistedView)) {
+          set2("core/views", preferenceKey, modifications);
         }
       },
       [
         onChangeQueryParams,
         page,
         search,
-        baseView,
         defaultView2,
-        combinedOverrides,
+        defaultLayouts2,
+        activeViewOverrides,
+        persistedView,
         set2,
         preferenceKey
       ]
@@ -27518,7 +27497,6 @@ If there's a particular need for this, please submit a feature request at https:
         _embedded: { ...data?._embedded, "wp:attached-to": void 0 }
       });
       setValue(null);
-      setOptions([]);
     };
     const onValueChange = async (filterValue) => {
       setIsLoading(true);
@@ -27542,6 +27520,7 @@ If there's a particular need for this, please submit a feature request at https:
       setOptions(suggestions.concat(includeCurrent ? defaultPost : []));
       setIsLoading(false);
     };
+    const debouncedValueChange = (0, import_compose15.useDebounce)((0, import_compose15.useEvent)(onValueChange), 300);
     const handleSelectOption = (selectedPostId) => {
       if (!selectedPostId) {
         handleDetach();
@@ -27574,38 +27553,19 @@ If there's a particular need for this, please submit a feature request at https:
         }
       }
     };
-    const help = (0, import_element80.createInterpolateElement)(
-      (0, import_i18n53.__)(
-        "Search for a post or page to attach this media to or <button>detach current</button>."
-      ),
-      {
-        button: /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
-          import_components48.Button,
-          {
-            __next40pxDefaultSize: true,
-            onClick: handleDetach,
-            variant: "link",
-            accessibleWhenDisabled: true,
-            disabled: !value
-          }
-        )
-      }
-    );
     return /* @__PURE__ */ (0, import_jsx_runtime123.jsx)(
       import_components48.ComboboxControl,
       {
         className: "dataviews-media-field__attached-to",
         isLoading,
         label: (0, import_i18n53.__)("Attached to"),
-        help,
+        help: (0, import_i18n53.__)("Attach this file to a single post or page."),
         value,
         options,
-        onFilterValueChange: (0, import_compose15.debounce)(
-          (filterValue) => onValueChange(filterValue),
-          300
-        ),
+        onFilterValueChange: (filterValue) => debouncedValueChange(filterValue),
         onChange: handleSelectOption,
-        hideLabelFromVision: true
+        hideLabelFromVision: true,
+        expandOnFocus: false
       }
     );
   }
@@ -28883,3 +28843,5 @@ use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.developme
    * LICENSE file in the root directory of this source tree.
    *)
 */
+(window.wp ||= {}).mediaUtils = wp.mediaUtils;
+})();

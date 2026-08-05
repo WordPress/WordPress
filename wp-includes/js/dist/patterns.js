@@ -1,3 +1,4 @@
+(function() {
 var wp;
 (wp ||= {}).patterns = (() => {
   var __create = Object.create;
@@ -2218,4 +2219,6 @@ var wp;
     PATTERN_SYNC_TYPES
   });
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).patterns = wp.patterns;
 })();

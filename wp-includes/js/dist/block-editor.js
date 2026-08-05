@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).blockEditor = (() => {
@@ -7828,6 +7829,8 @@ var wp;
     allowedMimeTypes: null,
     // Allows to disable block locking interface.
     canLockBlocks: true,
+    // Allows to disable the block-level style states interface.
+    blockStatesEditingEnabled: true,
     // Whether the user can edit custom CSS (requires edit_css capability).
     // Defaults to false for safety - PHP passes true when user has capability.
     canEditCSS: false,
@@ -26616,7 +26619,16 @@ var wp;
           if (!nextBlockClientId) {
             return;
           }
-          if (getBlockOrder2(nextBlockClientId).length) {
+          if ((0, import_blocks23.isUnmodifiedDefaultBlock)(getBlock2(clientId))) {
+            let firstLeafClientId = nextBlockClientId;
+            while (getBlockOrder2(firstLeafClientId).length) {
+              firstLeafClientId = getBlockOrder2(firstLeafClientId)[0];
+            }
+            registry.batch(() => {
+              removeBlock2(clientId);
+              selectBlock2(firstLeafClientId);
+            });
+          } else if (getBlockOrder2(nextBlockClientId).length) {
             moveFirstItemUp(nextBlockClientId, false);
           } else {
             mergeBlocks2(clientId, nextBlockClientId);
@@ -42543,9 +42555,9 @@ var wp;
   }
   var global_css_defense_default2 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a" };
   if (typeof process === "undefined" || true) {
-    registerStyle7("5f8e7aa0bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active),:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+    registerStyle7("da99a163ac", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus{outline:none}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active){@include mixins.focus-ring()}}}");
   }
-  var focus_default = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible" };
+  var focus_default = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active" };
   var Header2 = (0, import_element60.forwardRef)(
     function CollapsibleCardHeader({ children, className, render: render4, ...restProps }, ref) {
       const [descriptionId, setDescriptionId] = (0, import_element60.useState)();
@@ -44572,9 +44584,9 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle23("5f8e7aa0bc", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active),:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}}}");
+    registerStyle23("da99a163ac", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._08e8a2e44959f892__outset-ring--focus:focus,.c5cb3ee4bddaa8e4__outset-ring--focus-within-visible:focus-within:has(:focus-visible),.cd83dfc2126a0846__outset-ring--focus-within:focus-within,.d0541bc9dd9dc7b6__outset-ring--focus-visible:focus-visible,:focus-visible .ecadb9e080e2dfa5__outset-ring--focus-parent-visible{--_gcd-a-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));--_gcd-div-outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px)) solid var(--wpds-color-stroke-focus,var(--wp-admin-theme-color,#3858e9));outline-offset:var(--wpds-border-width-focus,var(--wp-admin-border-width-focus,2px))}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within,.e25b2bdd7aa21721__outset-ring--focus-except-active:focus{outline:none}._970d04df7376df67__outset-ring--focus-within-except-active:focus-within:not(:has(:active)),.e25b2bdd7aa21721__outset-ring--focus-except-active:focus:not(:active){@include mixins.focus-ring()}}}");
   }
-  var focus_default2 = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible" };
+  var focus_default2 = { "outset-ring--focus": "_08e8a2e44959f892__outset-ring--focus", "outset-ring--focus-visible": "d0541bc9dd9dc7b6__outset-ring--focus-visible", "outset-ring--focus-within": "cd83dfc2126a0846__outset-ring--focus-within", "outset-ring--focus-within-visible": "c5cb3ee4bddaa8e4__outset-ring--focus-within-visible", "outset-ring--focus-parent-visible": "ecadb9e080e2dfa5__outset-ring--focus-parent-visible", "outset-ring--focus-except-active": "e25b2bdd7aa21721__outset-ring--focus-except-active", "outset-ring--focus-within-except-active": "_970d04df7376df67__outset-ring--focus-within-except-active" };
   if (typeof process === "undefined" || true) {
     registerStyle23("7b4a0ac519", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer utilities{._6e4e0445ef20426b__trigger-wrapper{&.fa98c865fb77e675__is-minimal{width:fit-content}}._7893295e3f6d1af7__trigger{align-items:center;background-color:transparent;border:none;color:var(--wpds-color-foreground-interactive-neutral,#1e1e1e);display:flex;font-family:inherit;font-size:inherit;gap:var(--wpds-dimension-gap-xs,4px);justify-content:space-between;line-height:1.4;padding-block:4px;padding-inline-end:calc(var(--wp-ui-input-layout-padding-inline) - 4px);padding-inline-start:var(--wp-ui-input-layout-padding-inline);text-align:start;user-select:none;width:100%;&:not([data-disabled]){cursor:var(--wpds-cursor-control,pointer)}&.fa98c865fb77e675__is-minimal{width:auto}&:focus{outline:none}&[data-disabled]{background-color:var(--wpds-color-background-interactive-neutral-weak-disabled,#0000);color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}}.e760c9339965ce84__trigger-value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;._7893295e3f6d1af7__trigger[data-placeholder] &{color:var(--wpds-color-foreground-interactive-neutral-disabled,#8d8d8d)}}._308bc63e43681f99__trigger-caret{flex:0 0 auto}}}");
   }
@@ -47138,6 +47150,14 @@ var wp;
   }
 
   // packages/block-editor/build-module/components/writing-flow/use-clipboard-handler.mjs
+  function isBlockEntirelySelected(ownerDocument2, clientId) {
+    const selection2 = ownerDocument2.defaultView.getSelection();
+    if (getBlockClientId(selection2.anchorNode) !== clientId) {
+      return false;
+    }
+    const blockElement = ownerDocument2.getElementById(`block-${clientId}`);
+    return !!blockElement?.isContentEditable && (0, import_dom50.isEntirelySelected)(blockElement);
+  }
   function useClipboardHandler() {
     const registry = (0, import_data49.useRegistry)();
     const {
@@ -47171,11 +47191,14 @@ var wp;
         if (selectedBlockClientIds.length === 0) {
           return;
         }
+        const isWholeSingleBlockCopy = event.type === "copy" && !hasMultiSelection2() && isBlockEntirelySelected(
+          event.target.ownerDocument,
+          selectedBlockClientIds[0]
+        );
         if (!hasMultiSelection2()) {
-          const { target } = event;
-          const { ownerDocument: ownerDocument2 } = target;
+          const { ownerDocument: ownerDocument2 } = event.target;
           const hasSelection = event.type === "copy" || event.type === "cut" ? (0, import_dom50.documentHasUncollapsedSelection)(ownerDocument2) : (0, import_dom50.documentHasSelection)(ownerDocument2) && !ownerDocument2.activeElement.isContentEditable;
-          if (hasSelection) {
+          if (hasSelection && !isWholeSingleBlockCopy) {
             return;
           }
         }
@@ -47184,7 +47207,7 @@ var wp;
           return;
         }
         const isSelectionMergeable = __unstableIsSelectionMergeable2();
-        const shouldHandleWholeBlocks = __unstableIsSelectionCollapsed2() || __unstableIsFullySelected2();
+        const shouldHandleWholeBlocks = __unstableIsSelectionCollapsed2() || __unstableIsFullySelected2() || isWholeSingleBlockCopy;
         const expandSelectionIsNeeded = !shouldHandleWholeBlocks && !isSelectionMergeable;
         if (event.type === "copy" || event.type === "cut") {
           event.preventDefault();
@@ -47263,6 +47286,19 @@ var wp;
             return;
           }
           if (isFullySelected) {
+            replaceBlocks2(
+              selectedBlockClientIds,
+              blocks2,
+              blocks2.length - 1,
+              -1
+            );
+            event.preventDefault();
+            return;
+          }
+          if (!hasMultiSelection2() && isBlockEntirelySelected(
+            event.target.ownerDocument,
+            selectedBlockClientIds[0]
+          )) {
             replaceBlocks2(
               selectedBlockClientIds,
               blocks2,
@@ -49976,7 +50012,7 @@ var wp;
   // packages/block-editor/build-module/components/inserter/hooks/use-patterns-paging.mjs
   var import_element113 = __toESM(require_element(), 1);
   var import_compose41 = __toESM(require_compose(), 1);
-  var import_dom51 = __toESM(require_dom(), 1);
+  var import_dom52 = __toESM(require_dom(), 1);
   var PAGE_SIZE = 20;
   function usePatternsPaging(currentCategoryPatterns, currentCategory, scrollContainerRef, currentFilter = "") {
     const [currentPage, setCurrentPage] = (0, import_element113.useState)(1);
@@ -49995,7 +50031,7 @@ var wp;
     }, [pageIndex, currentCategoryPatterns]);
     const numPages = Math.ceil(currentCategoryPatterns.length / PAGE_SIZE);
     const changePage = (page) => {
-      const scrollContainer = (0, import_dom51.getScrollContainer)(
+      const scrollContainer = (0, import_dom52.getScrollContainer)(
         scrollContainerRef?.current
       );
       scrollContainer?.scrollTo(0, 0);
@@ -50003,7 +50039,7 @@ var wp;
     };
     (0, import_element113.useEffect)(
       function scrollToTopOnCategoryChange() {
-        const scrollContainer = (0, import_dom51.getScrollContainer)(
+        const scrollContainer = (0, import_dom52.getScrollContainer)(
           scrollContainerRef?.current
         );
         scrollContainer?.scrollTo(0, 0);
@@ -50793,7 +50829,7 @@ var wp;
   var import_element123 = __toESM(require_element(), 1);
   var import_compose45 = __toESM(require_compose(), 1);
   var import_data61 = __toESM(require_data(), 1);
-  var import_dom52 = __toESM(require_dom(), 1);
+  var import_dom53 = __toESM(require_dom(), 1);
   var import_notices7 = __toESM(require_notices(), 1);
 
   // packages/block-editor/build-module/components/inserter/media-tab/media-list.mjs
@@ -51364,7 +51400,7 @@ var wp;
     const hasFooter = showPagination || !!attach;
     const scrollContainerRef = (0, import_element123.useRef)();
     const changePage = (0, import_element123.useCallback)((nextPage) => {
-      const scrollContainer = (0, import_dom52.getScrollContainer)(
+      const scrollContainer = (0, import_dom53.getScrollContainer)(
         scrollContainerRef.current
       );
       scrollContainer?.scrollTo(0, 0);
@@ -52947,7 +52983,7 @@ var wp;
 
   // packages/block-editor/build-module/components/block-popover/use-popover-scroll.mjs
   var import_compose49 = __toESM(require_compose(), 1);
-  var import_dom53 = __toESM(require_dom(), 1);
+  var import_dom54 = __toESM(require_dom(), 1);
   var scrollContainerCache = /* @__PURE__ */ new WeakMap();
   function usePopoverScroll(contentRef) {
     const effect = (0, import_compose49.useRefEffect)(
@@ -52957,10 +52993,10 @@ var wp;
           const contentEl = contentRef.current;
           let scrollContainer = scrollContainerCache.get(contentEl);
           if (!scrollContainer) {
-            scrollContainer = (0, import_dom53.getScrollContainer)(contentEl);
+            scrollContainer = (0, import_dom54.getScrollContainer)(contentEl);
             scrollContainerCache.set(contentEl, scrollContainer);
           }
-          const eventScrollContainer = (0, import_dom53.getScrollContainer)(target);
+          const eventScrollContainer = (0, import_dom54.getScrollContainer)(target);
           if (!node.contains(eventScrollContainer)) {
             scrollContainer.scrollBy(deltaX, deltaY);
           }
@@ -53965,7 +54001,7 @@ var wp;
   var import_element139 = __toESM(require_element(), 1);
   var import_blocks43 = __toESM(require_blocks(), 1);
   var import_data77 = __toESM(require_data(), 1);
-  var import_dom55 = __toESM(require_dom(), 1);
+  var import_dom56 = __toESM(require_dom(), 1);
   function parseDropEvent(event) {
     let result = {
       srcRootClientId: null,
@@ -54199,7 +54235,7 @@ var wp;
     );
     const _onHTMLDrop = onHTMLDrop(insertOrReplaceBlocks);
     return (event) => {
-      const files = (0, import_dom55.getFilesFromDataTransfer)(event.dataTransfer);
+      const files = (0, import_dom56.getFilesFromDataTransfer)(event.dataTransfer);
       const html = event.dataTransfer.getData("text/html");
       if (html) {
         _onHTMLDrop(html);
@@ -55118,7 +55154,7 @@ var wp;
 
   // packages/block-editor/build-module/components/block-tools/index.mjs
   var import_data123 = __toESM(require_data(), 1);
-  var import_dom60 = __toESM(require_dom(), 1);
+  var import_dom61 = __toESM(require_dom(), 1);
   var import_components115 = __toESM(require_components(), 1);
   var import_keyboard_shortcuts10 = __toESM(require_keyboard_shortcuts(), 1);
   var import_element178 = __toESM(require_element(), 1);
@@ -55129,7 +55165,7 @@ var wp;
   // packages/block-editor/build-module/components/block-tools/use-block-toolbar-popover-props.mjs
   var import_compose62 = __toESM(require_compose(), 1);
   var import_data86 = __toESM(require_data(), 1);
-  var import_dom56 = __toESM(require_dom(), 1);
+  var import_dom57 = __toESM(require_dom(), 1);
   var import_element151 = __toESM(require_element(), 1);
 
   // packages/block-editor/build-module/hooks/position.mjs
@@ -55928,7 +55964,7 @@ var wp;
       if (!contentElement) {
         return;
       }
-      return (0, import_dom56.getScrollContainer)(contentElement);
+      return (0, import_dom57.getScrollContainer)(contentElement);
     }, [contentElement]);
     const [props, setProps] = (0, import_element151.useState)(
       () => getProps(
@@ -56094,7 +56130,7 @@ var wp;
   var import_compose63 = __toESM(require_compose(), 1);
 
   // packages/block-editor/build-module/components/block-draggable/use-scroll-when-dragging.mjs
-  var import_dom58 = __toESM(require_dom(), 1);
+  var import_dom59 = __toESM(require_dom(), 1);
   var import_element152 = __toESM(require_element(), 1);
   var SCROLL_INACTIVE_DISTANCE_PX = 50;
   var SCROLL_INTERVAL_MS = 25;
@@ -56116,7 +56152,7 @@ var wp;
     );
     const startScrolling = (0, import_element152.useCallback)((event) => {
       dragStartYRef.current = event.clientY;
-      scrollParentYRef.current = (0, import_dom58.getScrollContainer)(event.target);
+      scrollParentYRef.current = (0, import_dom59.getScrollContainer)(event.target);
       scrollEditorIntervalRef.current = setInterval(() => {
         if (scrollParentYRef.current && velocityYRef.current) {
           const newTop = scrollParentYRef.current.scrollTop + velocityYRef.current;
@@ -57141,7 +57177,7 @@ var wp;
 
   // packages/block-editor/build-module/components/block-actions/index.mjs
   var import_data94 = __toESM(require_data(), 1);
-  var import_blocks53 = __toESM(require_blocks(), 1);
+  var import_blocks54 = __toESM(require_blocks(), 1);
 
   // packages/block-editor/build-module/components/use-paste-styles/index.mjs
   var import_element158 = __toESM(require_element(), 1);
@@ -57361,13 +57397,27 @@ var wp;
     );
   }
 
+  // packages/block-editor/build-module/utils/group-blocks.mjs
+  var import_blocks53 = __toESM(require_blocks(), 1);
+  function groupBlocks(blocks2, groupingBlockName) {
+    const groupingBlockTransform = (0, import_blocks53.findTransform)(
+      (0, import_blocks53.getBlockTransforms)("from", groupingBlockName),
+      (transform) => transform.type === "block" && transform.isMultiBlock && transform.blocks.includes("*")
+    );
+    if (groupingBlockTransform?.__experimentalConvert) {
+      const result = groupingBlockTransform.__experimentalConvert(blocks2);
+      return Array.isArray(result) ? result : [result];
+    }
+    return (0, import_blocks53.switchToBlockType)(blocks2, groupingBlockName);
+  }
+
   // packages/block-editor/build-module/components/block-actions/index.mjs
   function BlockActions({
     clientIds,
     children,
     __experimentalUpdateSelection: updateSelection
   }) {
-    const { getDefaultBlockName: getDefaultBlockName8, getGroupingBlockName } = (0, import_data94.useSelect)(import_blocks53.store);
+    const { getDefaultBlockName: getDefaultBlockName8, getGroupingBlockName } = (0, import_data94.useSelect)(import_blocks54.store);
     const selected = (0, import_data94.useSelect)(
       (select3) => {
         const {
@@ -57390,10 +57440,10 @@ var wp;
             return (canInsertDefaultBlock || !!directInsertBlock) && canInsertBlockType2(block.name, rootClientId);
           }),
           canCopyStyles: blocks2.every((block) => {
-            return !!block && ((0, import_blocks53.hasBlockSupport)(block.name, "color") || (0, import_blocks53.hasBlockSupport)(block.name, "typography"));
+            return !!block && ((0, import_blocks54.hasBlockSupport)(block.name, "color") || (0, import_blocks54.hasBlockSupport)(block.name, "typography"));
           }),
           canDuplicate: blocks2.every((block) => {
-            return !!block && (0, import_blocks53.hasBlockSupport)(block.name, "multiple", true) && canInsertBlockType2(block.name, rootClientId);
+            return !!block && (0, import_blocks54.hasBlockSupport)(block.name, "multiple", true) && canInsertBlockType2(block.name, rootClientId);
           })
         };
       },
@@ -57432,7 +57482,7 @@ var wp;
           return;
         }
         const groupingBlockName = getGroupingBlockName();
-        const newBlocks = (0, import_blocks53.switchToBlockType)(
+        const newBlocks = groupBlocks(
           getBlocksByClientId2(clientIds),
           groupingBlockName
         );
@@ -57470,7 +57520,7 @@ var wp;
   // packages/block-editor/build-module/components/block-settings-menu/block-html-convert-button.mjs
   var import_i18n78 = __toESM(require_i18n(), 1);
   var import_components83 = __toESM(require_components(), 1);
-  var import_blocks54 = __toESM(require_blocks(), 1);
+  var import_blocks55 = __toESM(require_blocks(), 1);
   var import_data95 = __toESM(require_data(), 1);
   var import_jsx_runtime285 = __toESM(require_jsx_runtime(), 1);
   function BlockHTMLConvertButton({ clientId }) {
@@ -57487,7 +57537,7 @@ var wp;
       {
         onClick: () => replaceBlocks2(
           clientId,
-          (0, import_blocks54.rawHandler)({ HTML: (0, import_blocks54.getBlockContent)(block) })
+          (0, import_blocks55.rawHandler)({ HTML: (0, import_blocks55.getBlockContent)(block) })
         ),
         children: (0, import_i18n78.__)("Convert to Blocks")
       }
@@ -57511,12 +57561,11 @@ var wp;
   // packages/block-editor/build-module/components/convert-to-group-buttons/index.mjs
   var import_components86 = __toESM(require_components(), 1);
   var import_i18n80 = __toESM(require_i18n(), 1);
-  var import_blocks57 = __toESM(require_blocks(), 1);
   var import_data98 = __toESM(require_data(), 1);
   var import_keycodes11 = __toESM(require_keycodes(), 1);
 
   // packages/block-editor/build-module/components/convert-to-group-buttons/use-convert-to-group-button-props.mjs
-  var import_blocks55 = __toESM(require_blocks(), 1);
+  var import_blocks56 = __toESM(require_blocks(), 1);
   var import_data96 = __toESM(require_data(), 1);
   function useConvertToGroupButtonProps(selectedClientIds) {
     return (0, import_data96.useSelect)(
@@ -57527,7 +57576,7 @@ var wp;
           isUngroupable: isUngroupable2,
           isGroupable: isGroupable2
         } = select3(store);
-        const { getGroupingBlockName, getBlockType: getBlockType30 } = select3(import_blocks55.store);
+        const { getGroupingBlockName, getBlockType: getBlockType30 } = select3(import_blocks56.store);
         const clientIds = selectedClientIds?.length ? selectedClientIds : getSelectedBlockClientIds2();
         const blocksSelection = getBlocksByClientId2(clientIds);
         const [firstSelectedBlock] = blocksSelection;
@@ -57547,7 +57596,7 @@ var wp;
 
   // packages/block-editor/build-module/components/convert-to-group-buttons/toolbar.mjs
   var import_data97 = __toESM(require_data(), 1);
-  var import_blocks56 = __toESM(require_blocks(), 1);
+  var import_blocks57 = __toESM(require_blocks(), 1);
   var import_components85 = __toESM(require_components(), 1);
   var import_i18n79 = __toESM(require_i18n(), 1);
   var import_jsx_runtime286 = __toESM(require_jsx_runtime(), 1);
@@ -57563,7 +57612,7 @@ var wp;
     const { canRemove, variations } = (0, import_data97.useSelect)(
       (select3) => {
         const { canRemoveBlocks: canRemoveBlocks2 } = select3(store);
-        const { getBlockVariations: getBlockVariations2 } = select3(import_blocks56.store);
+        const { getBlockVariations: getBlockVariations2 } = select3(import_blocks57.store);
         return {
           canRemove: canRemoveBlocks2(clientIds),
           variations: getBlockVariations2(
@@ -57575,10 +57624,7 @@ var wp;
       [clientIds, groupingBlockName]
     );
     const onConvertToGroup = (layout) => {
-      const newBlocks = (0, import_blocks56.switchToBlockType)(
-        blocksSelection,
-        groupingBlockName
-      );
+      const newBlocks = groupBlocks(blocksSelection, groupingBlockName);
       if (typeof layout !== "string") {
         layout = "group";
       }
@@ -57654,10 +57700,7 @@ var wp;
     const { getSelectedBlockClientIds: getSelectedBlockClientIds2 } = (0, import_data98.useSelect)(store);
     const { replaceBlocks: replaceBlocks2 } = (0, import_data98.useDispatch)(store);
     const onConvertToGroup = () => {
-      const newBlocks = (0, import_blocks57.switchToBlockType)(
-        blocksSelection,
-        groupingBlockName
-      );
+      const newBlocks = groupBlocks(blocksSelection, groupingBlockName);
       if (newBlocks) {
         replaceBlocks2(clientIds, newBlocks);
       }
@@ -58747,7 +58790,7 @@ var wp;
   var import_element166 = __toESM(require_element(), 1);
   var import_data108 = __toESM(require_data(), 1);
   var import_deprecated12 = __toESM(require_deprecated(), 1);
-  var import_dom59 = __toESM(require_dom(), 1);
+  var import_dom60 = __toESM(require_dom(), 1);
   var import_keyboard_shortcuts8 = __toESM(require_keyboard_shortcuts(), 1);
   var import_keycodes12 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime299 = __toESM(require_jsx_runtime(), 1);
@@ -58764,7 +58807,7 @@ var wp;
     return container.contains(container.ownerDocument.activeElement);
   }
   function focusFirstTabbableIn(container) {
-    const [firstTabbable] = import_dom59.focus.tabbable.find(container);
+    const [firstTabbable] = import_dom60.focus.tabbable.find(container);
     if (firstTabbable) {
       firstTabbable.focus({
         // When focusing newly mounted toolbars,
@@ -58780,7 +58823,7 @@ var wp;
       initialAccessibleToolbarState
     );
     const determineIsAccessibleToolbar = (0, import_element166.useCallback)(() => {
-      const tabbables = import_dom59.focus.tabbable.find(toolbarRef.current);
+      const tabbables = import_dom60.focus.tabbable.find(toolbarRef.current);
       const onlyToolbarItem = hasOnlyToolbarItem(tabbables);
       if (!onlyToolbarItem) {
         (0, import_deprecated12.default)("Using custom components as toolbar controls", {
@@ -60888,7 +60931,7 @@ var wp;
           selectBlock2(clientIds[0]);
         }
       } else if (isMatch("core/block-editor/collapse-list-view", event)) {
-        if ((0, import_dom60.isTextField)(event.target) || (0, import_dom60.isTextField)(
+        if ((0, import_dom61.isTextField)(event.target) || (0, import_dom61.isTextField)(
           event.target?.contentWindow?.document?.activeElement
         )) {
           return;
@@ -60901,10 +60944,7 @@ var wp;
           event.preventDefault();
           const blocks2 = getBlocksByClientId2(clientIds);
           const groupingBlockName = getGroupingBlockName();
-          const newBlocks = (0, import_blocks75.switchToBlockType)(
-            blocks2,
-            groupingBlockName
-          );
+          const newBlocks = groupBlocks(blocks2, groupingBlockName);
           replaceBlocks2(clientIds, newBlocks);
           (0, import_a11y12.speak)((0, import_i18n103.__)("Selected blocks are grouped."));
         }
@@ -61026,7 +61066,7 @@ var wp;
   // packages/block-editor/build-module/components/observe-typing/index.mjs
   var import_compose70 = __toESM(require_compose(), 1);
   var import_data124 = __toESM(require_data(), 1);
-  var import_dom61 = __toESM(require_dom(), 1);
+  var import_dom62 = __toESM(require_dom(), 1);
   var import_keycodes13 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime318 = __toESM(require_jsx_runtime(), 1);
   var KEY_DOWN_ELIGIBLE_KEY_CODES = /* @__PURE__ */ new Set([
@@ -61090,7 +61130,7 @@ var wp;
           let stopTypingOnNonTextField2 = function(event) {
             const { target } = event;
             timerId = defaultView.setTimeout(() => {
-              if (!(0, import_dom61.isTextField)(target)) {
+              if (!(0, import_dom62.isTextField)(target)) {
                 stopTyping2();
               }
             });
@@ -61132,7 +61172,7 @@ var wp;
         }
         function startTypingInTextField(event) {
           const { type, target } = event;
-          if (!(0, import_dom61.isTextField)(target) || !node.contains(target)) {
+          if (!(0, import_dom62.isTextField)(target) || !node.contains(target)) {
             return;
           }
           if (type === "keydown" && !isKeyDownEligibleForStartTyping(event)) {
@@ -61289,7 +61329,7 @@ var wp;
         return;
       }
       const groupingBlockName = getGroupingBlockName();
-      const newBlocks = (0, import_blocks76.switchToBlockType)(blocks2, groupingBlockName);
+      const newBlocks = groupBlocks(blocks2, groupingBlockName);
       if (!newBlocks) {
         return;
       }
@@ -61761,7 +61801,7 @@ var wp;
   var leaf_default = ListViewLeaf;
 
   // packages/block-editor/build-module/components/list-view/use-list-view-scroll-into-view.mjs
-  var import_dom62 = __toESM(require_dom(), 1);
+  var import_dom63 = __toESM(require_dom(), 1);
   var import_element184 = __toESM(require_element(), 1);
   function useListViewScrollIntoView({
     isSelected,
@@ -61773,7 +61813,7 @@ var wp;
       if (!isSelected || !isSingleSelection || !rowItemRef.current) {
         return;
       }
-      const scrollContainer = (0, import_dom62.getScrollContainer)(rowItemRef.current);
+      const scrollContainer = (0, import_dom63.getScrollContainer)(rowItemRef.current);
       const { ownerDocument: ownerDocument2 } = rowItemRef.current;
       const windowScroll = scrollContainer === ownerDocument2.body || scrollContainer === ownerDocument2.documentElement;
       if (windowScroll || !scrollContainer) {
@@ -62090,7 +62130,7 @@ var wp;
 
   // packages/block-editor/build-module/components/list-view/utils.mjs
   var import_i18n108 = __toESM(require_i18n(), 1);
-  var import_dom63 = __toESM(require_dom(), 1);
+  var import_dom64 = __toESM(require_dom(), 1);
   var getBlockPositionDescription = (position, siblingCount, level) => (0, import_i18n108.sprintf)(
     /* translators: 1: The numerical position of the block. 2: The total number of blocks. 3. The level of nesting for the block. */
     (0, import_i18n108.__)("Block %1$d of %2$d, Level %3$d."),
@@ -62145,7 +62185,7 @@ var wp;
       }, 3e3);
     }).then((element) => {
       if (element && element.isConnected) {
-        import_dom63.focus.focusable.find(element)?.[0]?.focus();
+        import_dom64.focus.focusable.find(element)?.[0]?.focus();
       }
     });
   }
@@ -62435,10 +62475,7 @@ var wp;
           event.preventDefault();
           const blocks2 = getBlocksByClientId2(blocksToUpdate);
           const groupingBlockName = getGroupingBlockName();
-          const newBlocks = (0, import_blocks77.switchToBlockType)(
-            blocks2,
-            groupingBlockName
-          );
+          const newBlocks = groupBlocks(blocks2, groupingBlockName);
           replaceBlocks2(blocksToUpdate, newBlocks);
           (0, import_a11y14.speak)((0, import_i18n109.__)("Selected blocks are grouped."));
           const newlySelectedBlocks = getSelectedBlockClientIds2();
@@ -62930,7 +62967,7 @@ var wp;
 
   // packages/block-editor/build-module/components/list-view/drop-indicator.mjs
   var import_components122 = __toESM(require_components(), 1);
-  var import_dom64 = __toESM(require_dom(), 1);
+  var import_dom65 = __toESM(require_dom(), 1);
   var import_element190 = __toESM(require_element(), 1);
   var import_i18n110 = __toESM(require_i18n(), 1);
   var import_jsx_runtime329 = __toESM(require_jsx_runtime(), 1);
@@ -62965,7 +63002,7 @@ var wp;
           return 0;
         }
         let width = targetElement.offsetWidth;
-        const scrollContainer = (0, import_dom64.getScrollContainer)(
+        const scrollContainer = (0, import_dom65.getScrollContainer)(
           targetElement,
           "horizontal"
         );
@@ -63004,7 +63041,7 @@ var wp;
       if (!targetElement) {
         return {};
       }
-      const scrollContainer = (0, import_dom64.getScrollContainer)(targetElement);
+      const scrollContainer = (0, import_dom65.getScrollContainer)(targetElement);
       const ownerDocument2 = targetElement.ownerDocument;
       const windowScroll = scrollContainer === ownerDocument2.body || scrollContainer === ownerDocument2.documentElement;
       if (scrollContainer && !windowScroll) {
@@ -63051,7 +63088,7 @@ var wp;
           const rect = targetElement.getBoundingClientRect();
           let left = rect.left;
           let top = 0;
-          const scrollContainer = (0, import_dom64.getScrollContainer)(
+          const scrollContainer = (0, import_dom65.getScrollContainer)(
             targetElement,
             "horizontal"
           );
@@ -67018,13 +67055,14 @@ var wp;
     )) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime358.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime358.jsx)(
       import_components150.__experimentalToolsPanel,
       {
         className: clsx_default(
           "block-editor-panel-color-gradient-settings",
           className
         ),
+        hasInnerWrapper: true,
         label: showTitle ? title : void 0,
         resetAll: () => {
           batch(() => {
@@ -67047,7 +67085,7 @@ var wp;
         panelId,
         __experimentalFirstVisibleItemClass: "first",
         __experimentalLastVisibleItemClass: "last",
-        children: [
+        children: /* @__PURE__ */ (0, import_jsx_runtime358.jsxs)("div", { className: "block-editor-panel-color-gradient-settings__inner-wrapper", children: [
           /* @__PURE__ */ (0, import_jsx_runtime358.jsx)(
             ColorGradientSettingsDropdown,
             {
@@ -67064,11 +67102,10 @@ var wp;
             }
           ),
           !!children && /* @__PURE__ */ (0, import_jsx_runtime358.jsxs)(import_jsx_runtime358.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime358.jsx)(import_components150.__experimentalSpacer, { marginY: 4 }),
-            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime358.jsx)(import_components150.__experimentalSpacer, { marginTop: 4, marginBottom: 0 }),
             children
           ] })
-        ]
+        ] })
       }
     );
   };
@@ -68605,7 +68642,7 @@ var wp;
   var import_element212 = __toESM(require_element(), 1);
   var import_i18n143 = __toESM(require_i18n(), 1);
   var import_notices9 = __toESM(require_notices(), 1);
-  var import_dom65 = __toESM(require_dom(), 1);
+  var import_dom66 = __toESM(require_dom(), 1);
   var messages = {
     crop: (0, import_i18n143.__)("Image cropped."),
     rotate: (0, import_i18n143.__)("Image rotated."),
@@ -68704,7 +68741,7 @@ var wp;
           (0, import_i18n143.sprintf)(
             /* translators: %s: Error message. */
             (0, import_i18n143.__)("Could not edit image. %s"),
-            (0, import_dom65.__unstableStripHTML)(error2.message)
+            (0, import_dom66.__unstableStripHTML)(error2.message)
           ),
           {
             id: "image-editing-error",
@@ -69440,7 +69477,7 @@ var wp;
   var import_i18n159 = __toESM(require_i18n(), 1);
   var import_element223 = __toESM(require_element(), 1);
   var import_compose88 = __toESM(require_compose(), 1);
-  var import_dom68 = __toESM(require_dom(), 1);
+  var import_dom69 = __toESM(require_dom(), 1);
   var import_keycodes19 = __toESM(require_keycodes(), 1);
   var import_is_shallow_equal3 = __toESM(require_is_shallow_equal(), 1);
   var import_data148 = __toESM(require_data(), 1);
@@ -69549,7 +69586,7 @@ var wp;
   // packages/block-editor/build-module/components/link-control/search-item.mjs
   var import_i18n152 = __toESM(require_i18n(), 1);
   var import_components163 = __toESM(require_components(), 1);
-  var import_dom66 = __toESM(require_dom(), 1);
+  var import_dom67 = __toESM(require_dom(), 1);
   var import_url3 = __toESM(require_url(), 1);
   var import_compose86 = __toESM(require_compose(), 1);
   var import_deprecated18 = __toESM(require_deprecated(), 1);
@@ -69655,7 +69692,7 @@ var wp;
         children: /* @__PURE__ */ (0, import_jsx_runtime375.jsx)(
           import_components163.TextHighlight,
           {
-            text: (0, import_dom66.__unstableStripHTML)(suggestion.title),
+            text: (0, import_dom67.__unstableStripHTML)(suggestion.title),
             highlight: searchTerm
           }
         )
@@ -70021,7 +70058,7 @@ var wp;
   var import_components166 = __toESM(require_components(), 1);
   var import_compose87 = __toESM(require_compose(), 1);
   var import_url5 = __toESM(require_url(), 1);
-  var import_dom67 = __toESM(require_dom(), 1);
+  var import_dom68 = __toESM(require_dom(), 1);
   var import_data147 = __toESM(require_data(), 1);
   var import_notices10 = __toESM(require_notices(), 1);
   var import_preferences3 = __toESM(require_preferences(), 1);
@@ -70118,7 +70155,7 @@ var wp;
     const hasRichData = richData && Object.keys(richData).length;
     const displayURL = value && (0, import_url5.filterURLForDisplay)((0, import_url5.safeDecodeURI)(value.url), 24) || "";
     const isEmptyURL = !value?.url?.length;
-    const displayTitle = !isEmptyURL && (0, import_dom67.__unstableStripHTML)(
+    const displayTitle = !isEmptyURL && (0, import_dom68.__unstableStripHTML)(
       value?.entityTitle || richData?.title || value?.title || displayURL
     );
     let icon;
@@ -70504,7 +70541,7 @@ var wp;
       if (isMountingRef.current) {
         return;
       }
-      const nextFocusTarget = import_dom68.focus.focusable.find(wrapperNode.current)[0] || wrapperNode.current;
+      const nextFocusTarget = import_dom69.focus.focusable.find(wrapperNode.current)[0] || wrapperNode.current;
       nextFocusTarget.focus();
     }, [isEditingLink, isCreatingPage]);
     (0, import_element223.useEffect)(() => {
@@ -70991,7 +71028,7 @@ var wp;
   var import_data149 = __toESM(require_data(), 1);
   var import_keycodes20 = __toESM(require_keycodes(), 1);
   var import_compose89 = __toESM(require_compose(), 1);
-  var import_dom69 = __toESM(require_dom(), 1);
+  var import_dom70 = __toESM(require_dom(), 1);
   var import_notices11 = __toESM(require_notices(), 1);
   var import_element224 = __toESM(require_element(), 1);
 
@@ -71075,7 +71112,7 @@ var wp;
       [allowedTypes, allowedMimeTypes, accept]
     );
     const onUploadError = (message2) => {
-      const safeMessage = (0, import_dom69.__unstableStripHTML)(message2);
+      const safeMessage = (0, import_dom70.__unstableStripHTML)(message2);
       if (onError) {
         onError(safeMessage);
         return;
@@ -74037,7 +74074,7 @@ var wp;
   // packages/block-editor/build-module/components/url-popover/image-url-input-ui.mjs
   var import_i18n173 = __toESM(require_i18n(), 1);
   var import_element240 = __toESM(require_element(), 1);
-  var import_dom70 = __toESM(require_dom(), 1);
+  var import_dom71 = __toESM(require_dom(), 1);
   var import_components184 = __toESM(require_components(), 1);
   var import_url10 = __toESM(require_url(), 1);
   var import_jsx_runtime405 = __toESM(require_jsx_runtime(), 1);
@@ -74074,7 +74111,7 @@ var wp;
       if (!wrapperRef.current) {
         return;
       }
-      const nextFocusTarget = import_dom70.focus.focusable.find(wrapperRef.current)[0] || wrapperRef.current;
+      const nextFocusTarget = import_dom71.focus.focusable.find(wrapperRef.current)[0] || wrapperRef.current;
       nextFocusTarget.focus();
     }, [isEditingLink, url, lightboxEnabled]);
     const startEditLink = () => {
@@ -79589,7 +79626,7 @@ var wp;
   var import_url11 = __toESM(require_url(), 1);
   var import_element256 = __toESM(require_element(), 1);
   var import_data163 = __toESM(require_data(), 1);
-  var import_dom71 = __toESM(require_dom(), 1);
+  var import_dom72 = __toESM(require_dom(), 1);
   var import_blob2 = __toESM(require_blob(), 1);
   var import_jsx_runtime432 = __toESM(require_jsx_runtime(), 1);
   var IMAGE_BACKGROUND_TYPE = "image";
@@ -79603,7 +79640,7 @@ var wp;
   };
   var focusToggleButton = (containerRef) => {
     window.requestAnimationFrame(() => {
-      const [toggleButton] = import_dom71.focus.tabbable.find(containerRef?.current);
+      const [toggleButton] = import_dom72.focus.tabbable.find(containerRef?.current);
       if (!toggleButton) {
         return;
       }
@@ -81584,10 +81621,7 @@ var wp;
       className,
       selectedState
     );
-    const backgroundGradientSupported = hasBackgroundSupport(
-      name,
-      "gradient"
-    );
+    const backgroundGradientSupported = hasBackgroundSupport(name, "gradient") && !!settings2?.background?.gradient;
     const colorSupport = (0, import_blocks93.getBlockSupport)(name, "color");
     const hasColorBackgroundSupport = colorSupport && colorSupport.background !== false;
     const hasColorGradientSupport = !!colorSupport?.gradients;
@@ -83673,9 +83707,11 @@ var wp;
       blockEditingMode,
       selectedBlockStyleState: selectedBlockStyleState2,
       showStateOnCanvas,
-      isResponsiveEditing: isResponsiveEditing3
+      isResponsiveEditing: isResponsiveEditing3,
+      blockStatesEditingEnabled
     } = (0, import_data179.useSelect)((select3) => {
       const {
+        getSettings: getSettings7,
         getSelectedBlockClientId: getSelectedBlockClientId2,
         getSelectedBlockClientIds: getSelectedBlockClientIds2,
         getSelectedBlockCount: getSelectedBlockCount2,
@@ -83719,7 +83755,8 @@ var wp;
         showStateOnCanvas: isSelectedBlockStyleStateShownOnCanvas2(
           _renderedBlockClientId
         ),
-        isResponsiveEditing: _isResponsiveEditing()
+        isResponsiveEditing: _isResponsiveEditing(),
+        blockStatesEditingEnabled: getSettings7().blockStatesEditingEnabled
       };
     }, []);
     const contentClientIds = (0, import_data179.useSelect)(
@@ -83810,6 +83847,7 @@ var wp;
             selectedBlockStyleState: selectedBlockStyleState2,
             showStateOnCanvas,
             isResponsiveEditing: isResponsiveEditing3,
+            blockStatesEditingEnabled,
             isBlockStyleStateSelected
           }
         )
@@ -83858,7 +83896,8 @@ var wp;
     blockEditingMode,
     selectedBlockStyleState: selectedBlockStyleState2,
     showStateOnCanvas,
-    isResponsiveEditing: isResponsiveEditing3
+    isResponsiveEditing: isResponsiveEditing3,
+    blockStatesEditingEnabled = true
   }) => {
     const listViewRef = (0, import_element271.useRef)(null);
     const hasMultipleTabs = availableTabs?.length > 1;
@@ -83899,7 +83938,7 @@ var wp;
           className: isBlockSynced && "is-synced",
           isChild: hasParentChildBlockCards,
           clientId: renderedBlockClientId,
-          controls: blockEditingMode === "default" && /* @__PURE__ */ (0, import_jsx_runtime452.jsx)(
+          controls: blockEditingMode === "default" && blockStatesEditingEnabled && /* @__PURE__ */ (0, import_jsx_runtime452.jsx)(
             BlockStatesControl,
             {
               name: blockName,
@@ -84067,7 +84106,7 @@ var wp;
 
   // packages/block-editor/build-module/components/typewriter/index.mjs
   var import_compose97 = __toESM(require_compose(), 1);
-  var import_dom72 = __toESM(require_dom(), 1);
+  var import_dom73 = __toESM(require_dom(), 1);
   var import_keycodes28 = __toESM(require_keycodes(), 1);
   var import_jsx_runtime455 = __toESM(require_jsx_runtime(), 1);
   var isIE = window.navigator.userAgent.indexOf("Trident") !== -1;
@@ -84102,7 +84141,7 @@ var wp;
         if (!isSelectionEligibleForScroll()) {
           return;
         }
-        const currentCaretRect = (0, import_dom72.computeCaretRect)(defaultView);
+        const currentCaretRect = (0, import_dom73.computeCaretRect)(defaultView);
         if (!currentCaretRect) {
           return;
         }
@@ -84118,7 +84157,7 @@ var wp;
         if (diff === 0) {
           return;
         }
-        const scrollContainer = (0, import_dom72.getScrollContainer)(node);
+        const scrollContainer = (0, import_dom73.getScrollContainer)(node);
         if (!scrollContainer) {
           return;
         }
@@ -84160,7 +84199,7 @@ var wp;
       }
       function computeCaretRectangle() {
         if (isSelectionEligibleForScroll()) {
-          caretRect = (0, import_dom72.computeCaretRect)(defaultView);
+          caretRect = (0, import_dom73.computeCaretRect)(defaultView);
         }
       }
       function getActiveEditableElement() {
@@ -93526,13 +93565,13 @@ var wp;
   // packages/block-editor/build-module/hooks/block-fields/media/index.mjs
   var import_components262 = __toESM(require_components(), 1);
   var import_data186 = __toESM(require_data(), 1);
-  var import_dom73 = __toESM(require_dom(), 1);
+  var import_dom74 = __toESM(require_dom(), 1);
   var import_element315 = __toESM(require_element(), 1);
   var import_i18n241 = __toESM(require_i18n(), 1);
   var import_jsx_runtime513 = __toESM(require_jsx_runtime(), 1);
   var focusToggleButton2 = (containerRef) => {
     window.requestAnimationFrame(() => {
-      const [toggleButton] = import_dom73.focus.tabbable.find(containerRef?.current);
+      const [toggleButton] = import_dom74.focus.tabbable.find(containerRef?.current);
       if (!toggleButton) {
         return;
       }
@@ -99026,7 +99065,7 @@ var wp;
 
   // packages/block-editor/build-module/components/link-picker/link-preview.mjs
   var import_components284 = __toESM(require_components(), 1);
-  var import_dom74 = __toESM(require_dom(), 1);
+  var import_dom75 = __toESM(require_dom(), 1);
   var import_jsx_runtime540 = __toESM(require_jsx_runtime(), 1);
   var { Badge: WCBadge6 } = unlock(import_components284.privateApis);
   function LinkPreview2({ title, url, image, badges }) {
@@ -99051,7 +99090,7 @@ var wp;
                 {
                   numberOfLines: 1,
                   className: "link-preview-button__title",
-                  children: (0, import_dom74.__unstableStripHTML)(title)
+                  children: (0, import_dom75.__unstableStripHTML)(title)
                 }
               ),
               url && /* @__PURE__ */ (0, import_jsx_runtime540.jsx)(
@@ -99188,7 +99227,7 @@ var wp;
   // packages/block-editor/build-module/components/inner-content/index.mjs
   var import_element339 = __toESM(require_element(), 1);
   var import_data205 = __toESM(require_data(), 1);
-  var import_dom75 = __toESM(require_dom(), 1);
+  var import_dom76 = __toESM(require_dom(), 1);
   var import_jsx_runtime542 = __toESM(require_jsx_runtime(), 1);
   var SLOT_TAG_NAME = "wp-inner-block-slot";
   var LAYOUT = { type: "default", alignments: [] };
@@ -99214,7 +99253,7 @@ var wp;
     const [slots, setSlots] = (0, import_element339.useState)([]);
     (0, import_element339.useLayoutEffect)(() => {
       const container = containerRef.current;
-      container.innerHTML = (0, import_dom75.safeHTML)(html);
+      container.innerHTML = (0, import_dom76.safeHTML)(html);
       setSlots(
         Array.from(container.querySelectorAll(SLOT_TAG_NAME)).sort(
           (a2, b2) => Number(a2.dataset.slotIndex) - Number(b2.dataset.slotIndex)
@@ -99403,3 +99442,5 @@ is-plain-object/dist/is-plain-object.mjs:
    * Released under the MIT License.
    *)
 */
+(window.wp ||= {}).blockEditor = wp.blockEditor;
+})();

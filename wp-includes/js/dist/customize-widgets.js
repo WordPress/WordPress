@@ -1,3 +1,4 @@
+(function() {
 var wp;
 (wp ||= {}).customizeWidgets = (() => {
   var __create = Object.create;
@@ -73,13 +74,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/components
-  var require_components = __commonJS({
-    "package-external:@wordpress/components"(exports, module) {
-      module.exports = window.wp.components;
-    }
-  });
-
   // package-external:@wordpress/i18n
   var require_i18n = __commonJS({
     "package-external:@wordpress/i18n"(exports, module) {
@@ -87,10 +81,24 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/block-editor
-  var require_block_editor = __commonJS({
-    "package-external:@wordpress/block-editor"(exports, module) {
-      module.exports = window.wp.blockEditor;
+  // vendor-external:react
+  var require_react = __commonJS({
+    "vendor-external:react"(exports, module) {
+      module.exports = window.React;
+    }
+  });
+
+  // vendor-external:react/jsx-runtime
+  var require_jsx_runtime = __commonJS({
+    "vendor-external:react/jsx-runtime"(exports, module) {
+      module.exports = window.ReactJSXRuntime;
+    }
+  });
+
+  // package-external:@wordpress/primitives
+  var require_primitives = __commonJS({
+    "package-external:@wordpress/primitives"(exports, module) {
+      module.exports = window.wp.primitives;
     }
   });
 
@@ -101,17 +109,38 @@ var wp;
     }
   });
 
+  // package-external:@wordpress/theme
+  var require_theme = __commonJS({
+    "package-external:@wordpress/theme"(exports, module) {
+      module.exports = window.wp.theme;
+    }
+  });
+
+  // package-external:@wordpress/private-apis
+  var require_private_apis = __commonJS({
+    "package-external:@wordpress/private-apis"(exports, module) {
+      module.exports = window.wp.privateApis;
+    }
+  });
+
+  // package-external:@wordpress/components
+  var require_components = __commonJS({
+    "package-external:@wordpress/components"(exports, module) {
+      module.exports = window.wp.components;
+    }
+  });
+
+  // package-external:@wordpress/block-editor
+  var require_block_editor = __commonJS({
+    "package-external:@wordpress/block-editor"(exports, module) {
+      module.exports = window.wp.blockEditor;
+    }
+  });
+
   // package-external:@wordpress/hooks
   var require_hooks = __commonJS({
     "package-external:@wordpress/hooks"(exports, module) {
       module.exports = window.wp.hooks;
-    }
-  });
-
-  // vendor-external:react/jsx-runtime
-  var require_jsx_runtime = __commonJS({
-    "vendor-external:react/jsx-runtime"(exports, module) {
-      module.exports = window.ReactJSXRuntime;
     }
   });
 
@@ -136,31 +165,10 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/primitives
-  var require_primitives = __commonJS({
-    "package-external:@wordpress/primitives"(exports, module) {
-      module.exports = window.wp.primitives;
-    }
-  });
-
   // package-external:@wordpress/keyboard-shortcuts
   var require_keyboard_shortcuts = __commonJS({
     "package-external:@wordpress/keyboard-shortcuts"(exports, module) {
       module.exports = window.wp.keyboardShortcuts;
-    }
-  });
-
-  // vendor-external:react
-  var require_react = __commonJS({
-    "vendor-external:react"(exports, module) {
-      module.exports = window.React;
-    }
-  });
-
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
     }
   });
 
@@ -247,93 +255,6 @@ var wp;
   var import_data17 = __toESM(require_data(), 1);
   var import_preferences4 = __toESM(require_preferences(), 1);
 
-  // packages/customize-widgets/build-module/components/customize-widgets/index.mjs
-  var import_element17 = __toESM(require_element(), 1);
-  var import_components8 = __toESM(require_components(), 1);
-
-  // packages/customize-widgets/build-module/components/error-boundary/index.mjs
-  var import_element = __toESM(require_element(), 1);
-  var import_i18n = __toESM(require_i18n(), 1);
-  var import_components = __toESM(require_components(), 1);
-  var import_block_editor = __toESM(require_block_editor(), 1);
-  var import_compose = __toESM(require_compose(), 1);
-  var import_hooks = __toESM(require_hooks(), 1);
-  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  function CopyButton({ text, children }) {
-    const ref = (0, import_compose.useCopyToClipboard)(text);
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_components.Button, { size: "compact", variant: "secondary", ref, children });
-  }
-  var ErrorBoundary = class extends import_element.Component {
-    constructor() {
-      super(...arguments);
-      this.state = {
-        error: null
-      };
-    }
-    componentDidCatch(error) {
-      this.setState({ error });
-      (0, import_hooks.doAction)("editor.ErrorBoundary.errorLogged", error);
-    }
-    render() {
-      const { error } = this.state;
-      if (!error) {
-        return this.props.children;
-      }
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        import_block_editor.Warning,
-        {
-          className: "customize-widgets-error-boundary",
-          actions: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CopyButton, { text: error.stack, children: (0, import_i18n.__)("Copy Error") }, "copy-error")
-          ],
-          children: (0, import_i18n.__)("The editor has encountered an unexpected error.")
-        }
-      );
-    }
-  };
-
-  // packages/customize-widgets/build-module/components/sidebar-block-editor/index.mjs
-  var import_compose3 = __toESM(require_compose(), 1);
-  var import_core_data = __toESM(require_core_data(), 1);
-  var import_data12 = __toESM(require_data(), 1);
-  var import_element14 = __toESM(require_element(), 1);
-  var import_block_editor9 = __toESM(require_block_editor(), 1);
-  var import_media_utils = __toESM(require_media_utils(), 1);
-  var import_preferences3 = __toESM(require_preferences(), 1);
-  var import_block_library = __toESM(require_block_library(), 1);
-
-  // packages/customize-widgets/build-module/components/block-inspector-button/index.mjs
-  var import_element2 = __toESM(require_element(), 1);
-  var import_i18n2 = __toESM(require_i18n(), 1);
-  var import_components2 = __toESM(require_components(), 1);
-  var import_data = __toESM(require_data(), 1);
-  var import_block_editor2 = __toESM(require_block_editor(), 1);
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  function BlockInspectorButton({ inspector, closeMenu, ...props }) {
-    const selectedBlockClientId = (0, import_data.useSelect)(
-      (select) => select(import_block_editor2.store).getSelectedBlockClientId(),
-      []
-    );
-    const selectedBlock = (0, import_element2.useMemo)(
-      () => document.getElementById(`block-${selectedBlockClientId}`),
-      [selectedBlockClientId]
-    );
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-      import_components2.MenuItem,
-      {
-        onClick: () => {
-          inspector.open({
-            returnFocusWhenClose: selectedBlock
-          });
-          closeMenu();
-        },
-        ...props,
-        children: (0, import_i18n2.__)("Show more settings")
-      }
-    );
-  }
-  var block_inspector_button_default = BlockInspectorButton;
-
   // node_modules/clsx/dist/clsx.mjs
   function r(e) {
     var t, f, n = "";
@@ -349,169 +270,6 @@ var wp;
     return n;
   }
   var clsx_default = clsx;
-
-  // packages/customize-widgets/build-module/components/header/index.mjs
-  var import_components6 = __toESM(require_components(), 1);
-  var import_block_editor4 = __toESM(require_block_editor(), 1);
-  var import_element7 = __toESM(require_element(), 1);
-  var import_keycodes3 = __toESM(require_keycodes(), 1);
-  var import_i18n7 = __toESM(require_i18n(), 1);
-
-  // packages/icons/build-module/library/close-small.mjs
-  var import_primitives = __toESM(require_primitives(), 1);
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives.Path, { d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z" }) });
-
-  // packages/icons/build-module/library/external.mjs
-  var import_primitives2 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var external_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives2.Path, { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
-
-  // packages/icons/build-module/library/more-vertical.mjs
-  var import_primitives3 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives3.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
-
-  // packages/icons/build-module/library/plus.mjs
-  var import_primitives4 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var plus_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives4.Path, { d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z" }) });
-
-  // packages/icons/build-module/library/redo.mjs
-  var import_primitives5 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives5.Path, { d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z" }) });
-
-  // packages/icons/build-module/library/undo.mjs
-  var import_primitives6 = __toESM(require_primitives(), 1);
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives6.Path, { d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z" }) });
-
-  // packages/customize-widgets/build-module/components/inserter/index.mjs
-  var import_i18n3 = __toESM(require_i18n(), 1);
-  var import_block_editor3 = __toESM(require_block_editor(), 1);
-  var import_components3 = __toESM(require_components(), 1);
-  var import_compose2 = __toESM(require_compose(), 1);
-  var import_data4 = __toESM(require_data(), 1);
-
-  // packages/customize-widgets/build-module/store/index.mjs
-  var import_data3 = __toESM(require_data(), 1);
-
-  // packages/customize-widgets/build-module/store/reducer.mjs
-  var import_data2 = __toESM(require_data(), 1);
-  function blockInserterPanel(state = false, action) {
-    switch (action.type) {
-      case "SET_IS_INSERTER_OPENED":
-        return action.value;
-    }
-    return state;
-  }
-  var reducer_default = (0, import_data2.combineReducers)({
-    blockInserterPanel
-  });
-
-  // packages/customize-widgets/build-module/store/selectors.mjs
-  var selectors_exports = {};
-  __export(selectors_exports, {
-    __experimentalGetInsertionPoint: () => __experimentalGetInsertionPoint,
-    isInserterOpened: () => isInserterOpened
-  });
-  var EMPTY_INSERTION_POINT = {
-    rootClientId: void 0,
-    insertionIndex: void 0
-  };
-  function isInserterOpened(state) {
-    return !!state.blockInserterPanel;
-  }
-  function __experimentalGetInsertionPoint(state) {
-    if (typeof state.blockInserterPanel === "boolean") {
-      return EMPTY_INSERTION_POINT;
-    }
-    return state.blockInserterPanel;
-  }
-
-  // packages/customize-widgets/build-module/store/actions.mjs
-  var actions_exports = {};
-  __export(actions_exports, {
-    setIsInserterOpened: () => setIsInserterOpened
-  });
-  function setIsInserterOpened(value) {
-    return {
-      type: "SET_IS_INSERTER_OPENED",
-      value
-    };
-  }
-
-  // packages/customize-widgets/build-module/store/constants.mjs
-  var STORE_NAME = "core/customize-widgets";
-
-  // packages/customize-widgets/build-module/store/index.mjs
-  var storeConfig = {
-    reducer: reducer_default,
-    selectors: selectors_exports,
-    actions: actions_exports
-  };
-  var store = (0, import_data3.createReduxStore)(STORE_NAME, storeConfig);
-  (0, import_data3.register)(store);
-
-  // packages/customize-widgets/build-module/components/inserter/index.mjs
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
-  function Inserter({ setIsOpened }) {
-    const inserterTitleId = (0, import_compose2.useInstanceId)(
-      Inserter,
-      "customize-widget-layout__inserter-panel-title"
-    );
-    const insertionPoint = (0, import_data4.useSelect)(
-      (select) => select(store).__experimentalGetInsertionPoint(),
-      []
-    );
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
-      "div",
-      {
-        className: "customize-widgets-layout__inserter-panel",
-        "aria-labelledby": inserterTitleId,
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "customize-widgets-layout__inserter-panel-header", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-              "h2",
-              {
-                id: inserterTitleId,
-                className: "customize-widgets-layout__inserter-panel-header-title",
-                children: (0, import_i18n3.__)("Add a block")
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-              import_components3.Button,
-              {
-                size: "small",
-                icon: close_small_default,
-                onClick: () => setIsOpened(false),
-                "aria-label": (0, import_i18n3.__)("Close inserter")
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "customize-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-            import_block_editor3.__experimentalLibrary,
-            {
-              rootClientId: insertionPoint.rootClientId,
-              __experimentalInsertionIndex: insertionPoint.insertionIndex,
-              showInserterHelpPanel: true,
-              onSelect: () => setIsOpened(false)
-            }
-          ) })
-        ]
-      }
-    );
-  }
-  var inserter_default = Inserter;
-
-  // packages/customize-widgets/build-module/components/more-menu/index.mjs
-  var import_components5 = __toESM(require_components(), 1);
-  var import_element6 = __toESM(require_element(), 1);
-  var import_i18n6 = __toESM(require_i18n(), 1);
-  var import_keycodes2 = __toESM(require_keycodes(), 1);
-  var import_keyboard_shortcuts3 = __toESM(require_keyboard_shortcuts(), 1);
-  var import_preferences = __toESM(require_preferences(), 1);
 
   // node_modules/@base-ui/utils/useRefWithInit.mjs
   var React = __toESM(require_react(), 1);
@@ -981,8 +739,38 @@ var wp;
     return useRenderElement(params.defaultTagName ?? "div", params, params);
   }
 
+  // packages/icons/build-module/library/close-small.mjs
+  var import_primitives = __toESM(require_primitives(), 1);
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  var close_small_default = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_primitives.Path, { d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z" }) });
+
+  // packages/icons/build-module/library/external.mjs
+  var import_primitives2 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var external_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives2.Path, { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
+
+  // packages/icons/build-module/library/more-vertical.mjs
+  var import_primitives3 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives3.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
+
+  // packages/icons/build-module/library/plus.mjs
+  var import_primitives4 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var plus_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives4.Path, { d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z" }) });
+
+  // packages/icons/build-module/library/redo.mjs
+  var import_primitives5 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z" }) });
+
+  // packages/icons/build-module/library/undo.mjs
+  var import_primitives6 = __toESM(require_primitives(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z" }) });
+
   // packages/ui/build-module/visually-hidden/visually-hidden.mjs
-  var import_element3 = __toESM(require_element(), 1);
+  var import_element = __toESM(require_element(), 1);
   var STYLE_HASH_ATTRIBUTE = "data-wp-hash";
   function getRuntime() {
     const globalScope = globalThis;
@@ -1067,7 +855,7 @@ var wp;
     registerStyle("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
   }
   var style_default = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
-  var VisuallyHidden = (0, import_element3.forwardRef)(
+  var VisuallyHidden = (0, import_element.forwardRef)(
     function VisuallyHidden2({ render, ...restProps }, ref) {
       const element = useRender({
         render,
@@ -1084,6 +872,248 @@ var wp;
       return element;
     }
   );
+
+  // packages/admin-ui/build-module/admin-theme-colors/index.mjs
+  var DEFAULT_THEME_COLORS = {
+    primary: "#3858e9",
+    background: "#222524"
+  };
+  var ADMIN_THEME_COLORS = /* @__PURE__ */ new Map([
+    ["modern", DEFAULT_THEME_COLORS],
+    ["fresh", { primary: "#3858e9", background: "#25292b" }],
+    ["midnight", { primary: "#cf4339", background: "#3d4042" }],
+    ["coffee", { primary: "#916745", background: "#5b534d" }],
+    ["ocean", { primary: "#567958", background: "#5f787f" }],
+    ["blue", { primary: "#437aa8", background: "#3876a8" }],
+    ["ectoplasm", { primary: "#646c3e", background: "#4f386e" }],
+    ["sunrise", { primary: "#ad631e", background: "#cc4541" }],
+    ["light", { primary: "#007cba", background: "#eaeeed" }]
+  ]);
+  function getAdminThemeColors() {
+    const scheme = document.body.className.match(/admin-color-([\w-]+)/)?.[1] ?? "modern";
+    return ADMIN_THEME_COLORS.get(scheme) ?? DEFAULT_THEME_COLORS;
+  }
+
+  // packages/customize-widgets/build-module/components/customize-widgets/index.mjs
+  var import_element17 = __toESM(require_element(), 1);
+  var import_components8 = __toESM(require_components(), 1);
+  var import_theme = __toESM(require_theme(), 1);
+
+  // packages/customize-widgets/build-module/components/error-boundary/index.mjs
+  var import_element2 = __toESM(require_element(), 1);
+  var import_i18n = __toESM(require_i18n(), 1);
+  var import_components = __toESM(require_components(), 1);
+  var import_block_editor = __toESM(require_block_editor(), 1);
+  var import_compose = __toESM(require_compose(), 1);
+  var import_hooks = __toESM(require_hooks(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  function CopyButton({ text, children }) {
+    const ref = (0, import_compose.useCopyToClipboard)(text);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_components.Button, { size: "compact", variant: "secondary", ref, children });
+  }
+  var ErrorBoundary = class extends import_element2.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {
+        error: null
+      };
+    }
+    componentDidCatch(error) {
+      this.setState({ error });
+      (0, import_hooks.doAction)("editor.ErrorBoundary.errorLogged", error);
+    }
+    render() {
+      const { error } = this.state;
+      if (!error) {
+        return this.props.children;
+      }
+      return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+        import_block_editor.Warning,
+        {
+          className: "customize-widgets-error-boundary",
+          actions: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CopyButton, { text: error.stack, children: (0, import_i18n.__)("Copy Error") }, "copy-error")
+          ],
+          children: (0, import_i18n.__)("The editor has encountered an unexpected error.")
+        }
+      );
+    }
+  };
+
+  // packages/customize-widgets/build-module/components/sidebar-block-editor/index.mjs
+  var import_compose3 = __toESM(require_compose(), 1);
+  var import_core_data = __toESM(require_core_data(), 1);
+  var import_data12 = __toESM(require_data(), 1);
+  var import_element14 = __toESM(require_element(), 1);
+  var import_block_editor9 = __toESM(require_block_editor(), 1);
+  var import_media_utils = __toESM(require_media_utils(), 1);
+  var import_preferences3 = __toESM(require_preferences(), 1);
+  var import_block_library = __toESM(require_block_library(), 1);
+
+  // packages/customize-widgets/build-module/components/block-inspector-button/index.mjs
+  var import_element3 = __toESM(require_element(), 1);
+  var import_i18n2 = __toESM(require_i18n(), 1);
+  var import_components2 = __toESM(require_components(), 1);
+  var import_data = __toESM(require_data(), 1);
+  var import_block_editor2 = __toESM(require_block_editor(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  function BlockInspectorButton({ inspector, closeMenu, ...props }) {
+    const selectedBlockClientId = (0, import_data.useSelect)(
+      (select) => select(import_block_editor2.store).getSelectedBlockClientId(),
+      []
+    );
+    const selectedBlock = (0, import_element3.useMemo)(
+      () => document.getElementById(`block-${selectedBlockClientId}`),
+      [selectedBlockClientId]
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+      import_components2.MenuItem,
+      {
+        onClick: () => {
+          inspector.open({
+            returnFocusWhenClose: selectedBlock
+          });
+          closeMenu();
+        },
+        ...props,
+        children: (0, import_i18n2.__)("Show more settings")
+      }
+    );
+  }
+  var block_inspector_button_default = BlockInspectorButton;
+
+  // packages/customize-widgets/build-module/components/header/index.mjs
+  var import_components6 = __toESM(require_components(), 1);
+  var import_block_editor4 = __toESM(require_block_editor(), 1);
+  var import_element7 = __toESM(require_element(), 1);
+  var import_keycodes3 = __toESM(require_keycodes(), 1);
+  var import_i18n7 = __toESM(require_i18n(), 1);
+
+  // packages/customize-widgets/build-module/components/inserter/index.mjs
+  var import_i18n3 = __toESM(require_i18n(), 1);
+  var import_block_editor3 = __toESM(require_block_editor(), 1);
+  var import_components3 = __toESM(require_components(), 1);
+  var import_compose2 = __toESM(require_compose(), 1);
+  var import_data4 = __toESM(require_data(), 1);
+
+  // packages/customize-widgets/build-module/store/index.mjs
+  var import_data3 = __toESM(require_data(), 1);
+
+  // packages/customize-widgets/build-module/store/reducer.mjs
+  var import_data2 = __toESM(require_data(), 1);
+  function blockInserterPanel(state = false, action) {
+    switch (action.type) {
+      case "SET_IS_INSERTER_OPENED":
+        return action.value;
+    }
+    return state;
+  }
+  var reducer_default = (0, import_data2.combineReducers)({
+    blockInserterPanel
+  });
+
+  // packages/customize-widgets/build-module/store/selectors.mjs
+  var selectors_exports = {};
+  __export(selectors_exports, {
+    __experimentalGetInsertionPoint: () => __experimentalGetInsertionPoint,
+    isInserterOpened: () => isInserterOpened
+  });
+  var EMPTY_INSERTION_POINT = {
+    rootClientId: void 0,
+    insertionIndex: void 0
+  };
+  function isInserterOpened(state) {
+    return !!state.blockInserterPanel;
+  }
+  function __experimentalGetInsertionPoint(state) {
+    if (typeof state.blockInserterPanel === "boolean") {
+      return EMPTY_INSERTION_POINT;
+    }
+    return state.blockInserterPanel;
+  }
+
+  // packages/customize-widgets/build-module/store/actions.mjs
+  var actions_exports = {};
+  __export(actions_exports, {
+    setIsInserterOpened: () => setIsInserterOpened
+  });
+  function setIsInserterOpened(value) {
+    return {
+      type: "SET_IS_INSERTER_OPENED",
+      value
+    };
+  }
+
+  // packages/customize-widgets/build-module/store/constants.mjs
+  var STORE_NAME = "core/customize-widgets";
+
+  // packages/customize-widgets/build-module/store/index.mjs
+  var storeConfig = {
+    reducer: reducer_default,
+    selectors: selectors_exports,
+    actions: actions_exports
+  };
+  var store = (0, import_data3.createReduxStore)(STORE_NAME, storeConfig);
+  (0, import_data3.register)(store);
+
+  // packages/customize-widgets/build-module/components/inserter/index.mjs
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  function Inserter({ setIsOpened }) {
+    const inserterTitleId = (0, import_compose2.useInstanceId)(
+      Inserter,
+      "customize-widget-layout__inserter-panel-title"
+    );
+    const insertionPoint = (0, import_data4.useSelect)(
+      (select) => select(store).__experimentalGetInsertionPoint(),
+      []
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+      "div",
+      {
+        className: "customize-widgets-layout__inserter-panel",
+        "aria-labelledby": inserterTitleId,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "customize-widgets-layout__inserter-panel-header", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              "h2",
+              {
+                id: inserterTitleId,
+                className: "customize-widgets-layout__inserter-panel-header-title",
+                children: (0, import_i18n3.__)("Add a block")
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+              import_components3.Button,
+              {
+                size: "small",
+                icon: close_small_default,
+                onClick: () => setIsOpened(false),
+                "aria-label": (0, import_i18n3.__)("Close inserter")
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "customize-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+            import_block_editor3.__experimentalLibrary,
+            {
+              rootClientId: insertionPoint.rootClientId,
+              __experimentalInsertionIndex: insertionPoint.insertionIndex,
+              showInserterHelpPanel: true,
+              onSelect: () => setIsOpened(false)
+            }
+          ) })
+        ]
+      }
+    );
+  }
+  var inserter_default = Inserter;
+
+  // packages/customize-widgets/build-module/components/more-menu/index.mjs
+  var import_components5 = __toESM(require_components(), 1);
+  var import_element6 = __toESM(require_element(), 1);
+  var import_i18n6 = __toESM(require_i18n(), 1);
+  var import_keycodes2 = __toESM(require_keycodes(), 1);
+  var import_keyboard_shortcuts3 = __toESM(require_keyboard_shortcuts(), 1);
+  var import_preferences = __toESM(require_preferences(), 1);
 
   // packages/customize-widgets/build-module/components/keyboard-shortcut-help-modal/index.mjs
   var import_components4 = __toESM(require_components(), 1);
@@ -2293,6 +2323,7 @@ var wp;
       "customize-theme-controls"
     );
     const popoverRef = (0, import_element17.useRef)();
+    const adminPrimary = (0, import_element17.useMemo)(() => getAdminThemeColors().primary, []);
     useClearSelectedBlock(activeSidebarControl, popoverRef);
     (0, import_element17.useEffect)(() => {
       const unsubscribers = sidebarControls.map(
@@ -2323,17 +2354,24 @@ var wp;
       /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "customize-widgets-popover", ref: popoverRef, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components8.Popover.Slot, {}) }),
       parentContainer
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components8.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_components8.SlotFillProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_theme.ThemeProvider, { isRoot: true, color: { primary: adminPrimary }, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
       SidebarControls,
       {
         sidebarControls,
         activeSidebarControl,
-        children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(FocusControl, { api, sidebarControls, children: [
-          activeSidebar,
-          popover
-        ] })
+        children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
+          FocusControl,
+          {
+            api,
+            sidebarControls,
+            children: [
+              activeSidebar,
+              popover
+            ]
+          }
+        )
       }
-    ) });
+    ) }) });
   }
 
   // packages/customize-widgets/build-module/controls/sidebar-section.mjs
@@ -3038,4 +3076,6 @@ var wp;
     });
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).customizeWidgets = wp.customizeWidgets;
 })();

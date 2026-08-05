@@ -1,3 +1,4 @@
+(function() {
 var wp;
 (wp ||= {}).commands = (() => {
   var __create = Object.create;
@@ -3331,4 +3332,6 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     ]);
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).commands = wp.commands;
 })();

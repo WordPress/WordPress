@@ -774,14 +774,14 @@ _::-webkit-full-page-media, _:future, :root [data-has-multi-selection=true] .blo
 .block-editor-block-list__block .block-list-appender .block-editor-default-block-appender__content {
   display: none;
 }
-.block-editor-block-list__block .block-list-appender:only-child {
+.block-editor-block-list__block .block-list-appender:first-child {
   position: relative;
   left: auto;
   align-self: center;
   list-style: none;
   line-height: inherit;
 }
-.block-editor-block-list__block .block-list-appender:only-child .block-editor-default-block-appender__content {
+.block-editor-block-list__block .block-list-appender:first-child .block-editor-default-block-appender__content {
   display: block;
 }
 

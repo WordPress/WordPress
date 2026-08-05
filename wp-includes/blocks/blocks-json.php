@@ -4975,6 +4975,7 @@
 		'supports' => array(
 			'anchor' => true,
 			'align' => true,
+			'__experimentalExposeControlsToChildren' => true,
 			'color' => array(
 				'gradients' => true,
 				'link' => true,

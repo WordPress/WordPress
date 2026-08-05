@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).notices = (() => {
@@ -285,4 +286,6 @@ var wp;
     );
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).notices = wp.notices;
 })();

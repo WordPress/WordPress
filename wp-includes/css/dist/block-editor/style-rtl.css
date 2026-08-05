@@ -1506,10 +1506,6 @@ iframe[name=editor-canvas] {
   min-width: 0;
 }
 
-.block-editor-panel-color-gradient-settings.block-editor-panel-color-gradient-settings, .block-editor-panel-color-gradient-settings.block-editor-panel-color-gradient-settings > div:not(:first-of-type) {
-  display: block;
-}
-
 @media screen and (min-width: 782px) {
   .block-editor-panel-color-gradient-settings .components-circular-option-picker__swatches {
     display: grid;
@@ -1518,6 +1514,16 @@ iframe[name=editor-canvas] {
 }
 .block-editor-block-inspector .block-editor-panel-color-gradient-settings .components-base-control {
   margin-bottom: inherit;
+}
+.block-editor-panel-color-gradient-settings {
+  /* Increased specificity required to remove the slot wrapper's row gap */
+}
+.block-editor-panel-color-gradient-settings.block-editor-panel-color-gradient-settings .block-editor-panel-color-gradient-settings__inner-wrapper {
+  grid-column: 1/-1;
+  row-gap: 0;
+}
+.block-editor-panel-color-gradient-settings.block-editor-panel-color-gradient-settings .block-editor-panel-color-gradient-settings__inner-wrapper > * {
+  grid-column: 1/-1;
 }
 
 .block-editor-panel-color-gradient-settings__dropdown-content {
@@ -2448,7 +2454,7 @@ iframe[name=editor-canvas] {
   max-height: 32px;
 }
 .block-editor-link-control__preview .block-editor-link-control__preview-title {
-  line-height: 1.1;
+  line-height: var(--wpds-typography-line-height-sm, 20px);
 }
 .block-editor-link-control__preview .block-editor-link-control__preview-title:focus {
   box-shadow: none;

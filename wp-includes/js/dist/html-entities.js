@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).htmlEntities = (() => {
@@ -42,4 +43,6 @@ var wp;
     return decoded;
   }
   return __toCommonJS(index_exports);
+})();
+(window.wp ||= {}).htmlEntities = wp.htmlEntities;
 })();

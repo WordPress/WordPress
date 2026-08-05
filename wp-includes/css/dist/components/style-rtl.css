@@ -264,6 +264,9 @@
 .components-button:focus:is(a) {
   box-shadow: none;
 }
+.components-button:focus {
+  outline: none;
+}
 .components-button:focus:not(:active) {
   outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9));
   outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));

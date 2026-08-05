@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).date = (() => {
@@ -2052,3 +2053,5 @@ moment-timezone/moment-timezone-utils.js:
   (*! license : MIT *)
   (*! github.com/moment/moment-timezone *)
 */
+(window.wp ||= {}).date = wp.date;
+})();

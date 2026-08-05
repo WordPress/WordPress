@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 var wp;
 (wp ||= {}).apiFetch = (() => {
@@ -589,3 +590,5 @@ var wp;
   return __toCommonJS(index_exports);
 })();
 if (typeof wp.apiFetch === 'object' && wp.apiFetch.default) { wp.apiFetch = wp.apiFetch.default; }
+(window.wp ||= {}).apiFetch = wp.apiFetch;
+})();
