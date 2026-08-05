@@ -635,7 +635,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				if ( $primary === $column_name ) {
 					$row .= $this->row_actions( $actions );
 				}
-				$tag = ( $primary === $column_name ) ? 'th' : 'td';
+				$tag  = ( $primary === $column_name ) ? 'th' : 'td';
 				$row .= "</$tag>";
 			}
 		}

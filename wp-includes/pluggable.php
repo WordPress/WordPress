@@ -2376,7 +2376,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 
 		$switched_locale = switch_to_user_locale( $user_id );
 
-		$message  = __( 'To set your password, visit the following address:' ) . "\r\n\r\n";
+		$message = __( 'To set your password, visit the following address:' ) . "\r\n\r\n";
 
 		/*
 		 * Since some user login names end in a period, this could produce ambiguous URLs that
