@@ -364,9 +364,9 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 	grid-area: 2 / 2 / 3 / 3;
 }
 
-.media-toolbar-secondary > .spinner {
+.media-modal .media-toolbar-secondary > .spinner {
 	position: absolute;
-	left: calc( 100% + 2px );
+	right: -30px;
 	top: 50%;
 	margin: 0;
 }
@@ -1855,6 +1855,7 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 	text-align: right;
 	text-transform: none;
 	font-weight: 400;
+	display: flex;
 }
 
 .attachment-details .settings-save-status .spinner {
@@ -2842,7 +2843,7 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 		float: right;
 	}
 
-	.media-frame .media-toolbar-secondary .spinner {
+	.media-modal .media-frame .media-toolbar-secondary .spinner {
 		top: calc( 50% - 8px );
 	}
 
@@ -2877,7 +2878,7 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 		bottom: -60px;
 	}
 
-	.media-frame .media-toolbar-secondary .spinner {
+	.media-modal .media-frame .media-toolbar-secondary .spinner {
 		top: 0;
 	}
 
@@ -2900,13 +2901,9 @@ select#media-attachment-filters ~ select#media-attachment-date-filters {
 		position: unset;
 	}
 
-	.media-frame .media-toolbar-secondary .spinner {
-		position: absolute;
-		top: 0;
+	.media-modal .media-frame .media-toolbar-secondary .spinner {
 		bottom: 0;
 		margin: auto;
-		left: calc( 100% + 2px );
-		right: 0;
 		z-index: 9;
 	}
 
