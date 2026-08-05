@@ -237,50 +237,54 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	public function get_endpoint_args_for_item_schema( $method = WP_REST_Server::CREATABLE ) {
 		$args = parent::get_endpoint_args_for_item_schema( $method );
 
-		if ( WP_REST_Server::CREATABLE === $method && wp_is_client_side_media_processing_enabled() ) {
-			$args['generate_sub_sizes'] = array(
-				'type'        => 'boolean',
-				'default'     => true,
-				'description' => __( 'Whether to generate image sub sizes.' ),
-			);
-			$args['convert_format']     = array(
-				'type'        => 'boolean',
-				'default'     => true,
-				'description' => __( 'Whether to convert image formats.' ),
-			);
-			$args['url']                = array(
-				'type'              => 'string',
-				'format'            => 'uri',
-				'description'       => __( 'URL of an external image to sideload into the media library, instead of uploading a file.' ),
-				'sanitize_callback' => 'sanitize_url',
-				'validate_callback' => static function ( $url, $request, $param ) {
-					/*
-					 * A custom validate_callback replaces the default
-					 * rest_validate_request_arg(), so re-apply it first to keep
-					 * the schema checks (string type, uri format) enforced.
-					 */
-					$valid = rest_validate_request_arg( $url, $request, $param );
-					if ( is_wp_error( $valid ) ) {
-						return $valid;
-					}
-
-					/*
-					 * Reject URLs that are not safe to request server-side. wp_http_validate_url()
-					 * enforces an HTTP(S) scheme and blocks private, local, and otherwise
-					 * disallowed hosts, guarding the sideload against SSRF.
-					 */
-					if ( false === wp_http_validate_url( $url ) ) {
-						return new WP_Error(
-							'rest_invalid_url',
-							__( 'Invalid URL. Provide a valid, publicly reachable HTTP or HTTPS image URL.' ),
-							array( 'status' => 400 )
-						);
-					}
-
-					return true;
-				},
-			);
+		if ( WP_REST_Server::CREATABLE !== $method ) {
+			return $args;
 		}
+
+		$args['generate_sub_sizes'] = array(
+			'type'        => 'boolean',
+			'default'     => true,
+			'description' => __( 'Whether to generate image sub sizes.' ),
+		);
+
+		$args['convert_format'] = array(
+			'type'        => 'boolean',
+			'default'     => true,
+			'description' => __( 'Whether to convert image formats.' ),
+		);
+
+		$args['url'] = array(
+			'type'              => 'string',
+			'format'            => 'uri',
+			'description'       => __( 'URL of an external image to sideload into the media library, instead of uploading a file.' ),
+			'sanitize_callback' => 'sanitize_url',
+			'validate_callback' => static function ( $url, $request, $param ) {
+				/*
+				 * A custom validate_callback replaces the default
+				 * rest_validate_request_arg(), so re-apply it first to keep
+				 * the schema checks (string type, uri format) enforced.
+				 */
+				$valid = rest_validate_request_arg( $url, $request, $param );
+				if ( is_wp_error( $valid ) ) {
+					return $valid;
+				}
+
+				/*
+				 * Reject URLs that are not safe to request server-side. wp_http_validate_url()
+				 * enforces an HTTP(S) scheme and blocks private, local, and otherwise
+				 * disallowed hosts, guarding the sideload against SSRF.
+				 */
+				if ( false === wp_http_validate_url( $url ) ) {
+					return new WP_Error(
+						'rest_invalid_url',
+						__( 'Invalid URL. Provide a valid, publicly reachable HTTP or HTTPS image URL.' ),
+						array( 'status' => 400 )
+					);
+				}
+
+				return true;
+			},
+		);
 
 		return $args;
 	}
@@ -381,9 +385,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		 */
 		$prevent_unsupported_uploads = apply_filters( 'wp_prevent_unsupported_mime_type_uploads', true, $files['file']['type'] ?? null );
 
-		// When the client handles image processing (generate_sub_sizes is false),
-		// skip the server-side image editor support check.
-		if ( false === $request['generate_sub_sizes'] ) {
+		/*
+		 * When the client handles image processing (generate_sub_sizes is false),
+		 * skip the server-side image editor support check. This check exists
+		 * because the server cannot process the image, so it is only relaxed when
+		 * client side media processing is enabled and something else can. Asking
+		 * to skip sub sizes on a site without it does not make an unsupported
+		 * image type any more usable.
+		 */
+		if ( wp_is_client_side_media_processing_enabled() && false === $request['generate_sub_sizes'] ) {
 			$prevent_unsupported_uploads = false;
 		}
 
