@@ -16,9 +16,12 @@
  * @property {?string} source.wpemoji
  */
 
-const settings = /** @type {WPEmojiSettings} */ (
-	JSON.parse( document.getElementById( 'wp-emoji-settings' ).textContent )
-);
+const selector = 'script#wp-emoji-settings';
+const script = document.querySelector( selector );
+if ( ! ( script instanceof HTMLScriptElement ) ) {
+	throw new Error( `Element missing: ${ selector }`);
+}
+const settings = /** @type {WPEmojiSettings} */ ( JSON.parse( script.text ) );
 
 // For compatibility with other scripts that read from this global, in particular wp-includes/js/wp-emoji.js (source file: js/_enqueues/wp/emoji.js).
 window._wpemojiSettings = settings;

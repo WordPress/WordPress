@@ -1058,15 +1058,16 @@ class WP_Script_Modules {
 			 * The data for a given Script Module, if provided, will be JSON serialized in a script
 			 * tag with an ID of the form `wp-script-module-data-{$module_id}`.
 			 *
-			 * The data can be read on the client with a pattern like this:
+			 * The data can be read on the client with a pattern like the following; you are encouraged
+			 * to use this pattern _verbatim_ to avoid common pitfalls or vulnerabilities:
 			 *
 			 * Example:
 			 *
-			 *     const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
+			 *     const dataContainer = document.querySelector( 'script[id="wp-script-module-data-MyScriptModuleID"]' );
 			 *     let data = {};
-			 *     if ( dataContainer ) {
+			 *     if ( dataContainer instanceof HTMLScriptElement ) {
 			 *         try {
-			 *             data = JSON.parse( dataContainer.textContent );
+			 *             data = JSON.parse( dataContainer.text );
 			 *         } catch {}
 			 *     }
 			 *     // data.dataForClient === 'ok';
