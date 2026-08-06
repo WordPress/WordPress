@@ -1220,7 +1220,7 @@ switch ( $action ) {
 				sprintf(
 					/* translators: %s: Link to the login page. */
 					__( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ),
-					wp_login_url()
+					esc_url( wp_login_url() )
 				),
 				'message'
 			);
@@ -1230,7 +1230,7 @@ switch ( $action ) {
 				sprintf(
 					/* translators: %s: Link to the login page. */
 					__( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.' ),
-					wp_login_url()
+					esc_url( wp_login_url() )
 				),
 				'message'
 			);
