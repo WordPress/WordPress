@@ -610,13 +610,27 @@ function redirect_guess_404_permalink() {
 	global $wpdb;
 
 	if ( get_query_var('name') ) {
+		$publicly_viewable_post_types = array_filter( get_post_types( array( 'exclude_from_search' => false ) ), 'is_post_type_viewable' );
+
 		$where = $wpdb->prepare("post_name LIKE %s", $wpdb->esc_like( get_query_var('name') ) . '%');
 
 		// if any of post_type, year, monthnum, or day are set, use them to refine the query
-		if ( get_query_var('post_type') )
-			$where .= $wpdb->prepare(" AND post_type = %s", get_query_var('post_type'));
-		else
-			$where .= " AND post_type IN ('" . implode( "', '", get_post_types( array( 'public' => true ) ) ) . "')";
+		if ( get_query_var( 'post_type' ) ) {
+			if ( is_array( get_query_var( 'post_type' ) ) ) {
+				$post_types = array_intersect( get_query_var( 'post_type' ), $publicly_viewable_post_types );
+				if ( empty( $post_types ) ) {
+					return false;
+				}
+				$where .= " AND post_type IN ('" . implode( "', '", esc_sql( $post_types ) ) . "')";
+			} else {
+				if ( ! in_array( get_query_var( 'post_type' ), $publicly_viewable_post_types, true ) ) {
+					return false;
+				}
+				$where .= $wpdb->prepare( ' AND post_type = %s', get_query_var( 'post_type' ) );
+			}
+		} else {
+			$where .= " AND post_type IN ('" . implode( "', '", esc_sql( $publicly_viewable_post_types ) ) . "')";
+		}
 
 		if ( get_query_var('year') )
 			$where .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var('year'));

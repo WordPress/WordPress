@@ -169,7 +169,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 			sprintf(
 				/* translators: %s: user name */
 				__( '<strong>ERROR</strong>: The password you entered for the username %s is incorrect.' ),
-				'<strong>' . $username . '</strong>'
+				'<strong>' . esc_html( $username ) . '</strong>'
 			) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
@@ -241,7 +241,7 @@ function wp_authenticate_email_password( $user, $email, $password ) {
 			sprintf(
 				/* translators: %s: email address */
 				__( '<strong>ERROR</strong>: The password you entered for the email address %s is incorrect.' ),
-				'<strong>' . $email . '</strong>'
+				'<strong>' . esc_html( $email ) . '</strong>'
 			) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
@@ -2408,7 +2408,7 @@ function register_new_user( $user_login, $user_email ) {
 	$user_pass = wp_generate_password( 12, false );
 	$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 	if ( ! $user_id || is_wp_error( $user_id ) ) {
-		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
+		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ), esc_attr( get_option( 'admin_email' ) ) ) );
 		return $errors;
 	}
 
@@ -2616,19 +2616,27 @@ function _wp_get_current_user() {
  *
  * @since 3.0.0
  * @since 4.9.0 This function was moved from wp-admin/includes/ms.php so it's no longer Multisite specific.
+ * @since 7.0.3 Added the `$user_id` parameter, which is sent with the `personal_options_update` action.
+ *
+ * @param int $user_id Optional. The ID of the user whose email is being changed. Defaults to `$_POST['user_id']` if set, otherwise 0.
  *
  * @global WP_Error $errors WP_Error object.
  * @global wpdb     $wpdb   WordPress database object.
  */
-function send_confirmation_on_profile_email() {
+function send_confirmation_on_profile_email( $user_id = 0 ) {
 	global $errors, $wpdb;
+
+	// Maintain backward compatibility for those relying on a check based on $_POST['user_id'].
+	if ( ! $user_id && isset( $_POST['user_id'] ) ) {
+		$user_id = (int) $_POST['user_id'];
+	}
 
 	$current_user = wp_get_current_user();
 	if ( ! is_object( $errors ) ) {
 		$errors = new WP_Error();
 	}
 
-	if ( $current_user->ID != $_POST['user_id'] ) {
+	if ( 0 === $current_user->ID || $current_user->ID !== (int) $user_id ) {
 		return false;
 	}
 
@@ -2638,6 +2646,7 @@ function send_confirmation_on_profile_email() {
 				'form-field' => 'email',
 			) );
 
+			$_POST['email'] = addslashes( $current_user->user_email );
 			return;
 		}
 
@@ -2647,6 +2656,7 @@ function send_confirmation_on_profile_email() {
 			) );
 			delete_user_meta( $current_user->ID, '_new_email' );
 
+			$_POST['email'] = addslashes( $current_user->user_email );
 			return;
 		}
 
