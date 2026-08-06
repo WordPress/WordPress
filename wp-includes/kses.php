@@ -2380,7 +2380,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 
 		if ( $found ) {
 			// Check for any CSS containing \ ( & } = or comments, except for url() usage checked above.
-			$allow_css = ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
+			$allow_css = 0 === preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
 
 			/**
 			 * Filters the check for unsafe CSS in `safecss_filter_attr`.
