@@ -2856,11 +2856,16 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 				$css_test_string
 			);
 
+			// Bail if the recursive function stripping hit a PCRE error (e.g. stack/backtrack limit).
+			if ( null === $css_test_string ) {
+				continue;
+			}
+
 			/*
 			 * Disallow CSS containing \ ( & } = or comments, except for within url(), var(), calc(), etc.
 			 * which were removed from the test string above.
 			 */
-			$allow_css = ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
+			$allow_css = 0 === preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
 
 			/**
 			 * Filters the check for unsafe CSS in `safecss_filter_attr`.
