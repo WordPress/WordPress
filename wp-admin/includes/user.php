@@ -42,6 +42,8 @@ function edit_user( $user_id = 0 ) {
 	if ( !$update && isset( $_POST['user_login'] ) )
 		$user->user_login = sanitize_user($_POST['user_login'], true);
 
+	$errors = new WP_Error();
+
 	$pass1 = $pass2 = '';
 	if ( isset( $_POST['pass1'] ) )
 		$pass1 = $_POST['pass1'];
@@ -62,8 +64,14 @@ function edit_user( $user_id = 0 ) {
 			wp_die(__('You can&#8217;t give users that role.'));
 	}
 
-	if ( isset( $_POST['email'] ))
-		$user->user_email = sanitize_text_field( wp_unslash( $_POST['email'] ) );
+	if ( isset( $_POST['email'] ) ) {
+		$maybe_email = wp_unslash( $_POST['email'] );
+		if ( is_string( $maybe_email ) && is_email( $maybe_email ) ) {
+			$user->user_email = $maybe_email;
+		} else {
+			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ), array( 'form-field' => 'email' ) );
+		}
+	}
 	if ( isset( $_POST['url'] ) ) {
 		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
 			$user->user_url = '';
@@ -115,8 +123,6 @@ function edit_user( $user_id = 0 ) {
 	$user->use_ssl = 0;
 	if ( !empty($_POST['use_ssl']) )
 		$user->use_ssl = 1;
-
-	$errors = new WP_Error();
 
 	/* checking that username has been typed */
 	if ( $user->user_login == '' )
