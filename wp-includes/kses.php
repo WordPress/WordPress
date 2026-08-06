@@ -2470,19 +2470,12 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		if ( $found ) {
 			// Allow CSS calc().
 			$css_test_string = preg_replace( '/calc\(((?:\([^()]*\)?|[^()])*)\)/', '', $css_test_string );
-			if ( null === $css_test_string ) {
-				continue;
-			}
-
 			// Allow CSS var().
 			$css_test_string = preg_replace( '/\(?var\(--[a-zA-Z0-9_-]*\)/', '', $css_test_string );
-			if ( null === $css_test_string ) {
-				continue;
-			}
 
 			// Check for any CSS containing \ ( & } = or comments,
 			// except for url(), calc(), or var() usage checked above.
-			$allow_css = 0 === preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
+			$allow_css = ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string );
 
 			/**
 			 * Filters the check for unsafe CSS in `safecss_filter_attr`.
