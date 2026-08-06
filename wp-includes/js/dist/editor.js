@@ -78256,7 +78256,9 @@ If there's a particular need for this, please submit a feature request at https:
           });
         }
         pendingSavedRecords.push(
-          registry.dispatch(import_core_data56.store).saveEditedEntityRecord(kind, name2, key)
+          registry.dispatch(import_core_data56.store).saveEditedEntityRecord(kind, name2, key, {
+            throwOnError: true
+          }).catch(ensureError)
         );
       }
     });
@@ -78266,19 +78268,34 @@ If there's a particular need for this, please submit a feature request at https:
           "root",
           "site",
           void 0,
-          siteItemsToSave
-        )
+          siteItemsToSave,
+          {
+            throwOnError: true
+          }
+        ).catch(ensureError)
       );
     }
     registry.dispatch(import_block_editor35.store).__unstableMarkLastChangeAsPersistent();
-    Promise.all(pendingSavedRecords).then(async (values) => {
+    return Promise.all(pendingSavedRecords).then(async (values) => {
       if (onSave) {
         await onSave();
       }
       return values;
     }).then((values) => {
-      if (values.some((value) => typeof value === "undefined")) {
-        registry.dispatch(import_notices19.store).createErrorNotice((0, import_i18n204.__)("Saving failed."));
+      const errors = values.filter((v3) => v3 instanceof Error);
+      if (errors.length) {
+        const firstMessage = errors.find(
+          (e3) => e3.message
+        )?.message;
+        registry.dispatch(import_notices19.store).createErrorNotice(
+          (0, import_html_entities12.decodeEntities)(
+            firstMessage || (0, import_i18n204.__)("Saving failed.")
+          ),
+          {
+            type: "snackbar",
+            id: saveNoticeId
+          }
+        );
       } else {
         registry.dispatch(import_notices19.store).createSuccessNotice(
           successNoticeContent || (0, import_i18n204.__)("Site updated."),
@@ -78297,9 +78314,33 @@ If there's a particular need for this, please submit a feature request at https:
       }
     }).catch(
       (error2) => registry.dispatch(import_notices19.store).createErrorNotice(
-        `${(0, import_i18n204.__)("Saving failed.")} ${error2}`
+        (0, import_html_entities12.decodeEntities)(
+          error2?.message || (0, import_i18n204.__)("Saving failed.")
+        ),
+        {
+          type: "snackbar",
+          id: saveNoticeId
+        }
       )
     );
+    function ensureError(error2) {
+      if (error2 instanceof Error) {
+        return error2;
+      }
+      let message2;
+      if (!error2) {
+      } else if (typeof error2.message === "string") {
+        message2 = error2.message;
+      } else if (typeof error2 === "string") {
+        message2 = error2;
+      } else if (Object.hasOwn(error2, "toString") && typeof error2.toString === "function") {
+        const result = error2.toString();
+        if (typeof result === "string") {
+          message2 = result;
+        }
+      }
+      return new Error(message2, { cause: error2 });
+    }
   };
   var revertTemplate2 = (template2, { allowUndo = true } = {}) => async ({ registry }) => {
     const noticeId = "edit-site-template-reverted";

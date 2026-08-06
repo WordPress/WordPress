@@ -211,7 +211,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'b9a1df775b12692a9ffb'
+		'version' => '06bbdee380f4cf86dff0'
 	),
 	'core-abilities/index.js' => array(
 		'dependencies' => array(
