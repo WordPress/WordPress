@@ -2215,7 +2215,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		}
 
 		// Remove any CSS containing containing \ ( & } = or comments, except for url() useage checked above.
-		if ( $found && ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string ) ) {
+		if ( $found && 0 === preg_match( '%[\\\(&=}]|/\*%', $css_test_string ) ) {
 			if ( $css != '' ) {
 				$css .= ';';
 			}
