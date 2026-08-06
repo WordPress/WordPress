@@ -186,7 +186,7 @@ function wp_authenticate_username_password(
 			sprintf(
 				/* translators: %s: User name. */
 				__( '<strong>Error:</strong> The username <strong>%s</strong> is not registered on this site. If you are unsure of your username, try your email address instead.' ),
-				$username
+				esc_html( $username )
 			)
 		);
 	}
@@ -213,7 +213,7 @@ function wp_authenticate_username_password(
 			sprintf(
 				/* translators: %s: User name. */
 				__( '<strong>Error:</strong> The password you entered for the username %s is incorrect.' ),
-				'<strong>' . $username . '</strong>'
+				'<strong>' . esc_html( $username ) . '</strong>'
 			) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
@@ -296,7 +296,7 @@ function wp_authenticate_email_password(
 			sprintf(
 				/* translators: %s: Email address. */
 				__( '<strong>Error:</strong> The password you entered for the email address %s is incorrect.' ),
-				'<strong>' . $email . '</strong>'
+				'<strong>' . esc_html( $email ) . '</strong>'
 			) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
@@ -3568,7 +3568,7 @@ function register_new_user( $user_login, $user_email ) {
 			sprintf(
 				/* translators: %s: Link to the login page. */
 				__( '<strong>Error:</strong> This email address is already registered. <a href="%s">Log in</a> with this address or choose another one.' ),
-				wp_login_url()
+				esc_url( wp_login_url() )
 			)
 		);
 	}
@@ -3616,7 +3616,7 @@ function register_new_user( $user_login, $user_email ) {
 			sprintf(
 				/* translators: %s: Admin email address. */
 				__( '<strong>Error:</strong> Could not register you&hellip; please contact the <a href="mailto:%s">site admin</a>!' ),
-				get_option( 'admin_email' )
+				esc_attr( get_option( 'admin_email' ) )
 			)
 		);
 		return $errors;
