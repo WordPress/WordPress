@@ -340,27 +340,37 @@ All at ###SITENAME###
  *
  * @since 3.0.0
  *
+ * @param int $user_id Optional. The ID of the user whose email is being changed. Defaults to `$_POST['user_id']` if set, otherwise 0.
+ *
  * @global WP_Error $errors WP_Error object.
  * @global wpdb     $wpdb   WordPress database object.
  */
-function send_confirmation_on_profile_email() {
+function send_confirmation_on_profile_email( $user_id = 0 ) {
 	global $errors, $wpdb;
+
+	// Maintain backward compatibility for those relying on a check based on $_POST['user_id'].
+	if ( ! $user_id && isset( $_POST['user_id'] ) ) {
+		$user_id = (int) $_POST['user_id'];
+	}
+
 	$current_user = wp_get_current_user();
 	if ( ! is_object($errors) )
 		$errors = new WP_Error();
 
-	if ( $current_user->ID != $_POST['user_id'] )
+	if ( 0 === $current_user->ID || $current_user->ID !== (int) $user_id )
 		return false;
 
 	if ( $current_user->user_email != $_POST['email'] ) {
 		if ( !is_email( $_POST['email'] ) ) {
 			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The email address isn&#8217;t correct." ), array( 'form-field' => 'email' ) );
+			$_POST['email'] = addslashes( $current_user->user_email );
 			return;
 		}
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST['email'] ) ) ) {
 			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The email address is already used." ), array( 'form-field' => 'email' ) );
 			delete_user_meta( $current_user->ID, '_new_email' );
+			$_POST['email'] = addslashes( $current_user->user_email );
 			return;
 		}
 
