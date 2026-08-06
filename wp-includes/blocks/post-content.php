@@ -56,8 +56,18 @@ function render_block_core_post_content( $attributes, $content, $block ) {
 
 	$tag_name = 'div';
 
-	if ( ! empty( $attributes['tagName'] ) && tag_escape( $attributes['tagName'] ) === $attributes['tagName'] ) {
-		$tag_name = $attributes['tagName'];
+	if ( isset( $attributes['tagName'] ) && is_string( $attributes['tagName'] ) ) {
+		/**
+		 * The allowed tag names match the options offered in the editor.
+		 *
+		 * @see packages/block-library/src/post-content/edit.js
+		 */
+		$allowed_tag_names   = array( 'div', 'main', 'section', 'article' );
+		$normalized_tag_name = strtolower( $attributes['tagName'] );
+
+		if ( in_array( $normalized_tag_name, $allowed_tag_names, true ) ) {
+			$tag_name = $normalized_tag_name;
+		}
 	}
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'entry-content' ) );

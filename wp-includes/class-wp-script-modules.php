@@ -872,11 +872,11 @@ class WP_Script_Modules {
 			 *
 			 * Example:
 			 *
-			 *     const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
+			 *     const dataContainer = document.querySelector( 'script[id="wp-script-module-data-MyScriptModuleID"]' );
 			 *     let data = {};
-			 *     if ( dataContainer ) {
+			 *     if ( dataContainer instanceof HTMLScriptElement ) {
 			 *         try {
-			 *             data = JSON.parse( dataContainer.textContent );
+			 *             data = JSON.parse( dataContainer.text );
 			 *         } catch {}
 			 *     }
 			 *     // data.dataForClient === 'ok';

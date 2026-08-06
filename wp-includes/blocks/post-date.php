@@ -82,13 +82,15 @@ function render_block_core_post_date( $attributes, $content, $block ) {
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] && isset( $block->context['postId'] ) ) {
-		$formatted_date = sprintf( '<a href="%1s">%2s</a>', get_the_permalink( $block->context['postId'] ), $formatted_date );
+		$formatted_date = sprintf( '<a href="%1$s">%2$s</a>', esc_url( get_the_permalink( $block->context['postId'] ) ), esc_html( $formatted_date ) );
+	} else {
+		$formatted_date = esc_html( $formatted_date );
 	}
 
 	return sprintf(
 		'<div %1$s><time datetime="%2$s">%3$s</time></div>',
 		$wrapper_attributes,
-		$unformatted_date,
+		esc_attr( $unformatted_date ),
 		$formatted_date
 	);
 }
