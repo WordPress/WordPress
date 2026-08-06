@@ -38,7 +38,9 @@ function render_block_core_post_date( $attributes, $content, $block ) {
 	}
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
-		$formatted_date = sprintf( '<a href="%1s">%2s</a>', get_the_permalink( $post_ID ), $formatted_date );
+		$formatted_date = sprintf( '<a href="%1$s">%2$s</a>', esc_url( get_the_permalink( $post_ID ) ), esc_html( $formatted_date ) );
+	} else {
+		$formatted_date = esc_html( $formatted_date );
 	}
 
 	return sprintf(
