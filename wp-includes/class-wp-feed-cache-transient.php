@@ -50,10 +50,10 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
 	 * @since 3.2.0 Updated to use a PHP5 constructor.
 	 * @since 6.7.0 Parameter names have been updated to be in line with the `SimplePie\Cache\Base` interface.
 	 *
-	 * @param string                           $location URL location (scheme is used to determine handler).
-	 * @param string                           $name     Unique identifier for cache object.
-	 * @param Base::TYPE_FEED|Base::TYPE_IMAGE $type     Either `TYPE_FEED` ('spc') for SimplePie data,
-	 *                                                   or `TYPE_IMAGE` ('spi') for image data.
+	 * @param string                                                           $location URL location (scheme is used to determine handler).
+	 * @param string                                                           $name     Unique identifier for cache object.
+	 * @param SimplePie\Cache\Base::TYPE_FEED|SimplePie\Cache\Base::TYPE_IMAGE $type     Either `TYPE_FEED` ('spc') for SimplePie data,
+	 *                                                                                   or `TYPE_IMAGE` ('spi') for image data.
 	 */
 	public function __construct( $location, $name, $type ) {
 		$this->name     = 'feed_' . $name;
