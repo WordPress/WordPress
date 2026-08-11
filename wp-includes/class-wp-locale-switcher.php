@@ -238,7 +238,7 @@ class WP_Locale_Switcher {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @global Mo[] $l10n An array of all currently loaded text domains.
+	 * @global MO[] $l10n An array of all currently loaded text domains, keyed by text domain.
 	 *
 	 * @param string $locale The locale to load translations for.
 	 */
