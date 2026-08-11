@@ -114,7 +114,7 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 		if ( (int) $content_width > 0 ) {
 			$max_width = min( (int) $content_width, $max_width );
 		}
-	} elseif ( ! empty( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ), true ) ) {
+	} elseif ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
 		$max_width  = (int) $_wp_additional_image_sizes[ $size ]['width'];
 		$max_height = (int) $_wp_additional_image_sizes[ $size ]['height'];
 		// Only in admin. Assume that theme authors know what they're doing.

@@ -3993,7 +3993,7 @@ function get_dashboard_url( $user_id = 0, $path = '', $scheme = 'admin' ) {
 	} else {
 		$current_blog = get_current_blog_id();
 
-		if ( $current_blog && ( user_can( $user_id, 'manage_network' ) || in_array( $current_blog, array_keys( $blogs ), true ) ) ) {
+		if ( $current_blog && ( user_can( $user_id, 'manage_network' ) || isset( $blogs[ $current_blog ] ) ) ) {
 			$url = admin_url( $path, $scheme );
 		} else {
 			$active = get_active_blog_for_user( $user_id );

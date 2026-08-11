@@ -116,8 +116,12 @@ function get_sitemap_url( $name, $subtype_name = '', $page = 1 ) {
 		return false;
 	}
 
-	if ( $subtype_name && ! in_array( $subtype_name, array_keys( $provider->get_object_subtypes() ), true ) ) {
-		return false;
+	if ( $subtype_name ) {
+		$object_subtypes = $provider->get_object_subtypes();
+
+		if ( ! isset( $object_subtypes[ $subtype_name ] ) ) {
+			return false;
+		}
 	}
 
 	$page = absint( $page );

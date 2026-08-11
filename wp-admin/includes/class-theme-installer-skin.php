@@ -248,7 +248,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		$is_invalid_parent = false;
 		if ( ! empty( $new_theme_data['Template'] ) ) {
-			$is_invalid_parent = ! in_array( $new_theme_data['Template'], array_keys( $all_themes ), true );
+			$is_invalid_parent = ! isset( $all_themes[ $new_theme_data['Template'] ] );
 		}
 
 		$rows = array(

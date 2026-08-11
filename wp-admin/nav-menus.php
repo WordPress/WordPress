@@ -196,7 +196,7 @@ switch ( $action ) {
 
 					// If this menu item is a child of the previous.
 					if ( ! empty( $menu_item_data['menu_item_parent'] )
-						&& in_array( (int) $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ), true )
+						&& isset( $dbids_to_orders[ (int) $menu_item_data['menu_item_parent'] ] )
 						&& isset( $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] )
 						&& ( (int) $menu_item_data['menu_item_parent'] === $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] )
 					) {
@@ -230,7 +230,7 @@ switch ( $action ) {
 							) {
 								$_possible_parent_id = (int) get_post_meta( $orders_to_dbids[ $dbids_to_orders[ $parent_db_id ] - 1 ], '_menu_item_menu_item_parent', true );
 
-								if ( in_array( $_possible_parent_id, array_keys( $dbids_to_orders ), true ) ) {
+								if ( isset( $dbids_to_orders[ $_possible_parent_id ] ) ) {
 									$menu_item_data['menu_item_parent'] = $_possible_parent_id;
 								} else {
 									$menu_item_data['menu_item_parent'] = 0;
@@ -256,7 +256,7 @@ switch ( $action ) {
 						// Else this menu item is not a child of the previous.
 					} elseif ( empty( $menu_item_data['menu_order'] )
 						|| empty( $menu_item_data['menu_item_parent'] )
-						|| ! in_array( (int) $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ), true )
+						|| ! isset( $dbids_to_orders[ (int) $menu_item_data['menu_item_parent'] ] )
 						|| empty( $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] )
 						|| $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] !== (int) $menu_item_data['menu_item_parent']
 					) {
