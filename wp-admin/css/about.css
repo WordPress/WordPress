@@ -21,8 +21,8 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #ebe8e5;
-	--subtle-background: #ebe8e5;
+	--background: #3858e9;
+	--subtle-background: #f4f4f4;
 
 	/* Main text color */
 	--text: #1e1e1e;
@@ -278,7 +278,7 @@
 	.about__section.has-2-columns.is-wider-right,
 	.about__section.has-2-columns.is-wider-left,
 	.about__section.has-3-columns {
-		display: block;
+		grid-template-columns: 1fr;
 		margin-bottom: calc(var(--gap) / 2);
 	}
 
@@ -329,8 +329,16 @@
 
 @media screen and (max-width: 600px) {
 	.about__section.has-2-columns {
-		display: block;
+		grid-template-columns: 1fr;
 		margin-bottom: var(--gap);
+	}
+
+	.about__section.has-2-columns:not(.is-wider-right,.is-wider-left) div:has(img) {
+		order: 1;
+	}
+
+	.about__section.has-2-columns:not(.is-wider-right,.is-wider-left) div:not(:has(img)) {
+		order: 0;
 	}
 
 	.about__section.has-2-columns:not(.has-gutters) .column:nth-of-type(n) {
@@ -531,7 +539,7 @@
 	margin: calc(var(--gap) / 2) var(--gap);
 	height: 0;
 	border: none;
-	border-top: 4px solid var(--accent-3);
+	border-top: 6px solid var(--accent-3);
 }
 
 .about__container hr.is-small {
@@ -581,6 +589,10 @@
 	.about__container h3.is-larger-heading {
 		font-size: 2em;
 	}
+
+	.about__container h1 {
+		text-shadow: 0 0 2px var(--background);
+	}
 }
 
 /* 1.3 - Header */
@@ -596,48 +608,49 @@
 	padding-right: 26rem; /* Space for the background image. */
 	min-height: clamp(10rem, 25vw, 18.75rem);
 	border-radius: var(--border-radius);
-	background-image: url( "../images/about-header-default.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-default.webp?ver=20260804" );
 	background-repeat: no-repeat;
 	background-position: right center;
 	background-size: cover;
 	background-color: var(--background);
 	color: var(--text-light);
+	margin-bottom: .25rem;
 }
 
 .credits-php  .about__header {
-	background-image: url( "../images/about-header-credits.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-credits.webp?ver=20260804" );
 }
 
 .freedoms-php  .about__header {
-	background-image: url( "../images/about-header-freedoms.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-freedoms.webp?ver=20260804" );
 }
 
 .privacy-php  .about__header {
-	background-image: url( "../images/about-header-privacy.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-privacy.webp?ver=20260804" );
 }
 
 .contribute-php .about__header {
-	background-image: url( "../images/about-header-get-involved.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-get-involved.webp?ver=20260804" );
 }
 
 [dir="rtl"] .about__header {
-	background-image: url( "../images/about-header-default-rtl.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-default-rtl.webp?ver=20260804" );
 }
 
 [dir="rtl"] .credits-php  .about__header {
-	background-image: url( "../images/about-header-credits-rtl.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-credits-rtl.webp?ver=20260804" );
 }
 
 [dir="rtl"] .freedoms-php  .about__header {
-	background-image: url( "../images/about-header-freedoms-rtl.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-freedoms-rtl.webp?ver=20260804" );
 }
 
 [dir="rtl"] .privacy-php  .about__header {
-	background-image: url( "../images/about-header-privacy-rtl.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-privacy-rtl.webp?ver=20260804" );
 }
 
 [dir="rtl"] .contribute-php .about__header {
-	background-image: url( "../images/about-header-get-involved-rtl.webp?ver=20260514" );
+	background-image: url( "https://s.w.org/images/core/7.1/about-header-get-involved-rtl.webp?ver=20260804" );
 }
 
 .about__header-image {
@@ -657,7 +670,7 @@
 	font-size: clamp(2rem, 20vw - 9rem, 4rem);
 	line-height: 1;
 	font-weight: 600;
-	color: var(--text);
+	color: var(--text-light);
 }
 
 .about-php .about__header-title h1,
@@ -676,7 +689,7 @@
 	padding: 0;
 	font-size: 1.6rem;
 	line-height: 1.15;
-	color: var(--text);
+	color: var(--text-light);
 }
 
 .about__header-navigation {
