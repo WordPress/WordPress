@@ -3860,9 +3860,9 @@ function _wp_get_current_user() {
  * @since 4.9.0 This function was moved from wp-admin/includes/ms.php so it's no longer Multisite specific.
  * @since 7.0.3 Added the `$user_id` parameter, which is sent with the `personal_options_update` action.
  *
- * @param int $user_id Optional. The ID of the user whose email is being changed. Defaults to `$_POST['user_id']` if set, otherwise 0.
- *
  * @global WP_Error $errors WP_Error object.
+ *
+ * @param int $user_id Optional. The ID of the user whose email is being changed. Defaults to `$_POST['user_id']` if set, otherwise 0.
  */
 function send_confirmation_on_profile_email( $user_id = 0 ) {
 	global $errors;
