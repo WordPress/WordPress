@@ -82,11 +82,19 @@ html:lang(he-il) .rtl #wpadminbar * {
 	outline-offset: -2px;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
+}
+
+#wpadminbar a:hover,
+#wpadminbar a:focus,
+#wpadminbar .ab-item[tabindex="0"]:hover,
+#wpadminbar .ab-item[tabindex="0"]:focus {
 	box-shadow: inset 0 -4px 0 0 currentColor;
 	transition: box-shadow 0.1s linear;
 }
 
+#wpadminbar .ab-submenu a:hover,
 #wpadminbar .ab-submenu a:focus,
+#wpadminbar .ab-submenu .ab-item[tabindex="0"]:hover,
 #wpadminbar .ab-submenu .ab-item[tabindex="0"]:focus {
 	box-shadow: inset 4px 0 0 0 currentColor;
 }
