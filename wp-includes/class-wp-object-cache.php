@@ -104,7 +104,9 @@ class WP_Object_Cache {
 	 * @return mixed Newly-set property.
 	 */
 	public function __set( $name, $value ) {
-		return $this->$name = $value;
+		$this->$name = $value;
+
+		return $value;
 	}
 
 	/**
