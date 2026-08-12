@@ -1475,7 +1475,7 @@ class WP_HTML_Tag_Processor {
 			 * though "textarea" is found within the text.
 			 */
 			$c = $html[ $at ];
-			if ( ' ' !== $c && "\t" !== $c && "\r" !== $c && "\n" !== $c && '/' !== $c && '>' !== $c ) {
+			if ( ' ' !== $c && "\t" !== $c && "\f" !== $c && "\r" !== $c && "\n" !== $c && '/' !== $c && '>' !== $c ) {
 				continue;
 			}
 
