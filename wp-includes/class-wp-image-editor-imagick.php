@@ -71,6 +71,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'flipimage',
 			'flopimage',
 			'readimage',
+			'readimageblob',
 		);
 
 		// Now, test for deep requirements within Imagick.
@@ -131,9 +132,79 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return true;
 		}
 
-		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
+		$is_stream = preg_match( '|^https?://|', $this->file );
+		$is_file   = ! $is_stream && is_file( $this->file );
+
+		// Only allow loading files or HTTP streams.
+		if ( ! $is_file && ! $is_stream ) {
 			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
 		}
+
+		// Establish the provided filename based on the kind of resource being loaded.
+		$given_filename = $this->file;
+		if ( 0 === strncasecmp( $given_filename, 'file://', 7 ) ) {
+			$given_filename = basename( substr( $given_filename, 7 ) ); // 7 is the strlen of 'file://'.
+		} elseif ( 1 === preg_match( '~^https?://~i', $this->file ) ) {
+			/*
+			 * For URLs, it will be the final path segment.
+			 *
+			 * Example:
+			 *
+			 *     https://wordpress.org/i/happy.png?size=40px
+			 *                             ╰───────╯
+			 *                                this is the given filename
+			 *
+			 * If the stream returns a `Content-Disposition` header it would
+			 * provide an alternative name, but this is used as a reasonable
+			 * proxy to avoid adding the additional complexity of reading and
+			 * parsing the returned HTTP headers.
+			 */
+			$url_path = wp_parse_url( $this->file, PHP_URL_PATH );
+
+			// This URL can not be parsed, so it is not a valid image resource.
+			if ( false === $url_path ) {
+				return new WP_Error( 'error_loading_image', __( 'File is not an image.' ), $this->file );
+			}
+
+			/**
+			 * The URL has an empty path, so continue with an empty string.
+			 *
+			 * This is the case with a URL such as `https://example.com?file_id=123`
+			 */
+			if ( null === $url_path ) {
+				$url_path = '';
+			}
+
+			$last_path_at   = strrpos( $url_path, '/' );
+			$given_filename = is_int( $last_path_at ) ? substr( $url_path, $last_path_at + 1 ) : $url_path;
+			$given_filename = rawurldecode( $given_filename );
+		}
+
+		/*
+		 * Strip off any potential `Imagick` format specifiers.
+		 *
+		 * If a real file exists with the identified format specifier, then
+		 * `Imagick` may not treat it as a format, but WordPress will reject
+		 * it anyway to avoid adding more complexity into this detection.
+		 *
+		 * `Imagick` reads only the first `FORMAT:` specifier on a name, but
+		 * stripping a segment would promote a second specifier to the front
+		 * of the name handed to `Imagick`, which would then honor it.
+		 *
+		 * Loop to capture all format specifiers for comparison.
+		 *
+		 * Exclude Windows drive-letter prefixes from here.
+		 */
+		$imagick_formats = array();
+		while (
+			false !== ( $format_ends_at = strpos( $given_filename, ':' ) ) &&
+			1 !== preg_match( '~^[a-z]:~i', $given_filename )
+		) {
+			$imagick_formats[] = strtoupper( substr( $given_filename, 0, $format_ends_at ) );
+			$given_filename    = substr( $given_filename, $format_ends_at + 1 );
+		}
+
+		$file_extension = strtolower( pathinfo( $given_filename, PATHINFO_EXTENSION ) );
 
 		/*
 		 * Even though Imagick uses less PHP memory than GD, set higher limit
@@ -141,18 +212,115 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 */
 		wp_raise_memory_limit( 'image' );
 
+		/**
+		 * Read the resource header for MIME sniffing.
+		 *
+		 * For files, which will be passed into Imagick by their file names, avoid
+		 * eagerly loading the entire contents into PHP memory. For streams, however,
+		 * it’s more important to avoid validating a separate copy of the file data
+		 * than is later fetched by Imagick, so go ahead and load the entire payload,
+		 * then pass it to Imagick as the data blob itself.
+		 *
+		 * @link https://mimesniff.spec.whatwg.org/#reading-the-resource-header
+		 */
 		try {
-			$this->image    = new Imagick();
-			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
-			$filename       = $this->file;
+			if ( $is_file ) {
+				$file_data = file_get_contents( $this->file, false, null, 0, 1445 );
+			} else {
+				$file_data = file_get_contents( $this->file );
+			}
+		} catch ( Exception $e ) {
+			$file_data = false;
+		}
+		if ( false === $file_data ) {
+			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+		}
 
-			if ( 'pdf' == $file_extension ) {
+		$pdf_extensions = array(
+			'ai',
+			'epdf',
+			'pdf',
+			'pdfa',
+			'pocketmod',
+		);
+
+		// Reject files claiming to be PDFs which lack the required signature.
+		$has_pdf_extension = in_array( $file_extension, $pdf_extensions, true );
+		$has_pdf_signature = 0 === strncmp( $file_data, '%PDF-', 5 );
+		if ( $has_pdf_extension && ! $has_pdf_signature ) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		$ps_formats = array(
+			'DPS',
+			'EPI',
+			'EPS',
+			'EPSF',
+			'EPSI',
+			'PS',
+			'WPG',
+		);
+
+		$ps_extensions = array(
+			'dps',
+			'epi',
+			'eps',
+			'eps2',
+			'eps3',
+			'epsf',
+			'epsi',
+			'ept',
+			'ept2',
+			'ept3',
+			'ps',
+			'ps2',
+			'ps3',
+			'wpg',
+		);
+
+		// Reject files which Imagick will parse as PostScript.
+		if (
+			array() !== array_intersect( $imagick_formats, $ps_formats ) ||
+			in_array( $file_extension, $ps_extensions, true ) ||
+			0 === strncmp( $file_data, '%!', 2 ) ||
+			0 === strncmp( $file_data, "\x04%!", 3 ) ||
+			0 === strncmp( $file_data, "\xC5\xD0\xD3\xC6", 4 ) ||
+			0 === strncmp( $file_data, "\xFFWPC", 3 )
+		) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		$compressed_extensions = array(
+			'gz',
+			'bz2',
+			'svgz',
+			'z',
+			'wmz',
+		);
+
+		// Reject compressed archives that Imagick will transparently decompress.
+		if (
+			in_array( $file_extension, $compressed_extensions, true ) ||
+			0 === strncmp( $file_data, "\x1F\x8B\x08", 3 ) || // gzip
+			0 === strncmp( $file_data, 'BZh', 3 ) || // bzip2
+			0 === strncmp( $file_data, "\x1F\x9D", 2 ) // compress
+		) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		try {
+			$this->image = new Imagick();
+			$filename    = $this->file;
+
+			if ( $has_pdf_signature ) {
 				$filename = $this->pdf_setup();
 			}
 
-			// Reading image after Imagick instantiation because `setResolution`
-			// only applies correctly before the image is read.
-			$this->image->readImage( $filename );
+			if ( $is_file ) {
+				$this->image->readImage( $filename );
+			} else {
+				$this->image->readImageBlob( $file_data, $given_filename );
+			}
 
 			if ( ! $this->image->valid() ) {
 				return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
