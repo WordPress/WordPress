@@ -1133,7 +1133,9 @@ class WP_User_Query {
 	 */
 	public function __set( $name, $value ) {
 		if ( in_array( $name, $this->compat_fields, true ) ) {
-			return $this->$name = $value;
+			$this->$name = $value;
+
+			return $value;
 		}
 	}
 
