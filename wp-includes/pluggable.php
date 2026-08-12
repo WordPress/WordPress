@@ -2090,6 +2090,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 					$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 					/* translators: %s: Trackback/pingback/comment author URL. */
 					$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+					/* translators: %s: Trackback excerpt text. */
 					$notify_message .= sprintf( __( 'Trackback excerpt: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 					break;
 
@@ -2101,6 +2102,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 					$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 					/* translators: %s: Trackback/pingback/comment author URL. */
 					$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+					/* translators: %s: Pingback excerpt text. */
 					$notify_message .= sprintf( __( 'Pingback excerpt: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 					break;
 
