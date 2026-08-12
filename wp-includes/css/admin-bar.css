@@ -239,7 +239,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	color: #72aee6;
 }
 
-#wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
+#wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 /* The adminbar menu may output either links or focusable div elements. */
 /* As such, we target the focus state without specifying the element type. */
