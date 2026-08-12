@@ -34,7 +34,7 @@
 	--accent-3: #ececec; /* hr background */
 
 	/* Header background on small screens */
-	--accent-gradient: linear-gradient(90deg, #000000 4.7%, var(--accent-1) 83.84%)/*rtl:linear-gradient(-90deg, #000000 4.7%, var(--accent-1) 83.84%)*/;
+	--accent-gradient: linear-gradient(90deg, #000 4.7%, var(--accent-1) 83.84%)/*rtl:linear-gradient(-90deg, #000 4.7%, var(--accent-1) 83.84%)*/;
 
 	/* Navigation colors. */
 	--nav-background: #fff;
@@ -294,12 +294,10 @@
 	}
 
 	.about__section.has-2-columns.has-gutters .column,
-	.about__section.has-2-columns.has-gutters .column,
 	.about__section.has-3-columns.has-gutters .column {
 		margin-bottom: var(--gap);
 	}
 
-	.about__section.has-2-columns.has-gutters .column:last-child,
 	.about__section.has-2-columns.has-gutters .column:last-child,
 	.about__section.has-3-columns.has-gutters .column:last-child {
 		margin-bottom: 0;
@@ -359,12 +357,12 @@
 	}
 
 	.about__section .column.is-left-padding-zero {
-        padding-right: 0;
-    }
+		padding-right: 0;
+	}
 
-    .about__section .column.is-right-padding-zero {
-        padding-left: 0;
-    }
+	.about__section .column.is-right-padding-zero {
+		padding-left: 0;
+	}
 }
 
 @media screen and (max-width: 480px) {
@@ -445,9 +443,6 @@
 
 .about__container p {
 	text-wrap: pretty;
-}
-
-.about__container p {
 	font-size: inherit;
 	line-height: inherit;
 }
@@ -457,7 +452,7 @@
 	margin-bottom: 1rem;
 	font-size: 1.5rem;
 	font-weight: 300;
-	line-height: 160%;
+	line-height: 1.6;
 }
 
 .about__section a {
@@ -608,49 +603,49 @@
 	padding-right: 26rem; /* Space for the background image. */
 	min-height: clamp(10rem, 25vw, 18.75rem);
 	border-radius: var(--border-radius);
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-default.webp?ver=20260804" );
+	background-image: url(https://s.w.org/images/core/7.1/about-header-default.webp?ver=20260804);
 	background-repeat: no-repeat;
 	background-position: right center;
 	background-size: cover;
 	background-color: var(--background);
 	color: var(--text-light);
-	margin-bottom: .25rem;
+	margin-bottom: 0.25rem;
 }
 
-.credits-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-credits.webp?ver=20260804" );
+.credits-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-credits.webp?ver=20260804);
 }
 
-.freedoms-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-freedoms.webp?ver=20260804" );
+.freedoms-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-freedoms.webp?ver=20260804);
 }
 
-.privacy-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-privacy.webp?ver=20260804" );
+.privacy-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-privacy.webp?ver=20260804);
 }
 
 .contribute-php .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-get-involved.webp?ver=20260804" );
+	background-image: url(https://s.w.org/images/core/7.1/about-header-get-involved.webp?ver=20260804);
 }
 
 [dir="rtl"] .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-default-rtl.webp?ver=20260804" );
+	background-image: url(https://s.w.org/images/core/7.1/about-header-default-rtl.webp?ver=20260804);
 }
 
-[dir="rtl"] .credits-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-credits-rtl.webp?ver=20260804" );
+[dir="rtl"] .credits-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-credits-rtl.webp?ver=20260804);
 }
 
-[dir="rtl"] .freedoms-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-freedoms-rtl.webp?ver=20260804" );
+[dir="rtl"] .freedoms-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-freedoms-rtl.webp?ver=20260804);
 }
 
-[dir="rtl"] .privacy-php  .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-privacy-rtl.webp?ver=20260804" );
+[dir="rtl"] .privacy-php .about__header {
+	background-image: url(https://s.w.org/images/core/7.1/about-header-privacy-rtl.webp?ver=20260804);
 }
 
 [dir="rtl"] .contribute-php .about__header {
-	background-image: url( "https://s.w.org/images/core/7.1/about-header-get-involved-rtl.webp?ver=20260804" );
+	background-image: url(https://s.w.org/images/core/7.1/about-header-get-involved-rtl.webp?ver=20260804);
 }
 
 .about__header-image {
@@ -1082,7 +1077,7 @@
 .about-wrap figcaption {
 	font-size: 13px;
 	text-align: center;
-	color: white;
+	color: #fff;
 	text-overflow: ellipsis;
 }
 
