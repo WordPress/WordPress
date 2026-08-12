@@ -20,13 +20,13 @@
  * If the comment author was approved before, then the comment is automatically
  * approved.
  *
- * Pingbacks originating from this site are automatically approved, as the link
- * they report was created by someone who can already publish here.
+ * Pingbacks originating from the same site are automatically approved, as the
+ * link they report was created by someone who can already publish here.
  *
  * If all checks pass, the function will return true.
  *
  * @since 1.2.0
- * @since 7.2.0 Pingbacks from this site are no longer held for moderation.
+ * @since 7.1.0 Pingbacks from the same site are no longer held for moderation.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -183,18 +183,18 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
 			/**
 			 * Filters whether a pingback is approved without being held for moderation.
 			 *
-			 * Defaults to true for pingbacks originating from a published post on this
+			 * Defaults to true for pingbacks originating from a published post on the same
 			 * site, and false for every other pingback. Trackbacks are never considered,
 			 * as they cannot be verified.
 			 *
-			 * @since 7.2.0
+			 * @since 7.1.0
 			 *
-			 * @param bool   $approve_pingback Whether to approve the pingback.
+			 * @param bool   $approve_pingback Whether to auto-approve the pingback.
 			 * @param int    $source_id        ID of the post on this site the pingback
 			 *                                 originated from, or 0 if it came from elsewhere.
 			 * @param string $url              The URL the pingback was sent from.
 			 */
-			return (bool) apply_filters( 'auto_approve_pingback', $approve_pingback, $source_id, $url );
+			return (bool) apply_filters( 'wp_auto_approve_ping', $approve_pingback, $source_id, $url );
 		} else {
 			return false;
 		}
