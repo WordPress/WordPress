@@ -2282,6 +2282,10 @@ input.components-combobox-control__input[type=text]:focus {
   padding-left: 12px;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 .components-modal__screen-overlay {
   position: fixed;
   top: 0;

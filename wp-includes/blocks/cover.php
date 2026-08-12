@@ -154,7 +154,7 @@ function render_block_core_cover( $attributes, $content ) {
 		if ( in_the_loop() ) {
 			update_post_thumbnail_cache();
 		}
-		$current_featured_image = get_the_post_thumbnail_url( null, $attributes['sizeSlug'] ?? null );
+		$current_featured_image = get_the_post_thumbnail_url( null, $attributes['sizeSlug'] ?? 'full' );
 		if ( ! $current_featured_image ) {
 			return $content;
 		}

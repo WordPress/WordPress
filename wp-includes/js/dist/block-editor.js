@@ -9454,7 +9454,9 @@ var wp;
       }
       case "SELECT_BLOCK":
       case "SELECTION_CHANGE": {
-        if (state?.clientId && state.clientId !== action.clientId) {
+        const startClientId = action.clientId ?? action.start?.clientId;
+        const endClientId = action.clientId ?? action.end?.clientId;
+        if (state?.clientId && (startClientId !== endClientId || state.clientId !== startClientId)) {
           return void 0;
         }
         break;
@@ -12323,6 +12325,20 @@ var wp;
       }
     );
   }
+  function getElementStylesByName(styleNode, responsiveMediaQueries) {
+    const elementStylesByName = { ...styleNode?.elements ?? {} };
+    Object.keys(responsiveMediaQueries).forEach((breakpointKey) => {
+      Object.entries(styleNode?.[breakpointKey]?.elements ?? {}).forEach(
+        ([elementName, styles]) => {
+          elementStylesByName[elementName] = {
+            ...elementStylesByName[elementName] ?? {},
+            [breakpointKey]: styles
+          };
+        }
+      );
+    });
+    return elementStylesByName;
+  }
   var getNodesWithStyles = (tree, blockSelectors) => {
     const nodes = [];
     if (!tree?.styles) {
@@ -12390,7 +12406,10 @@ var wp;
                 });
               }
               Object.entries(
-                typedVariation?.elements ?? {}
+                getElementStylesByName(
+                  typedVariation,
+                  responsiveMediaQueries
+                )
               ).forEach(([element, elementStyles]) => {
                 if (elementStyles && import_blocks3.__EXPERIMENTAL_ELEMENTS[element]) {
                   variationNodesToAdd.push({
@@ -12443,7 +12462,10 @@ var wp;
                     styles: variationBlockStyleNodes
                   });
                   Object.entries(
-                    variationBlockStyles.elements ?? {}
+                    getElementStylesByName(
+                      variationBlockStyles,
+                      responsiveMediaQueries
+                    )
                   ).forEach(
                     ([
                       variationBlockElement,
@@ -12479,22 +12501,22 @@ var wp;
           });
         }
         nodes.push(...variationStyleNodesToAdd);
-        Object.entries(typedNode?.elements ?? {}).forEach(
-          ([elementName, value]) => {
-            if (typeof blockSelectors !== "string" && value && blockSelectors?.[blockName] && import_blocks3.__EXPERIMENTAL_ELEMENTS[elementName]) {
-              nodes.push({
-                styles: value,
-                selector: blockSelectors[blockName]?.selector.split(",").map((sel) => {
-                  const elementSelectors = import_blocks3.__EXPERIMENTAL_ELEMENTS[elementName].split(",");
-                  return elementSelectors.map(
-                    (elementSelector) => sel + " " + elementSelector
-                  );
-                }).join(","),
-                elementName
-              });
-            }
+        Object.entries(
+          getElementStylesByName(typedNode, responsiveMediaQueries)
+        ).forEach(([elementName, value]) => {
+          if (typeof blockSelectors !== "string" && value && blockSelectors?.[blockName] && import_blocks3.__EXPERIMENTAL_ELEMENTS[elementName]) {
+            nodes.push({
+              styles: value,
+              selector: blockSelectors[blockName]?.selector.split(",").map((sel) => {
+                const elementSelectors = import_blocks3.__EXPERIMENTAL_ELEMENTS[elementName].split(",");
+                return elementSelectors.map(
+                  (elementSelector) => sel + " " + elementSelector
+                );
+              }).join(","),
+              elementName
+            });
           }
-        );
+        });
         nodes.push(...variationNodesToAdd);
       }
     );

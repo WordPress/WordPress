@@ -5808,6 +5808,9 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   color: var(--wpds-color-foreground-interactive-brand-active, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 52%, black));
 }
 
+.editor-collab-sidebar-panel__note-content {
+  overflow-wrap: break-word;
+}
 .editor-collab-sidebar-panel__note-content p:last-child {
   margin-bottom: 0;
 }
@@ -5866,7 +5869,7 @@ fieldset.fields__media-edit .fields__media-edit-expanded:not(.is-empty) .fields_
   max-height: 418px;
   overflow-y: auto;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .editor-collab-sidebar-panel__note-form [role=textbox] code {
   font-family: Menlo, Consolas, monaco, monospace;
@@ -5948,7 +5951,6 @@ mark.wp-note {
   background: var(--wpds-color-background-surface-brand, color-mix(in oklch, var(--wp-admin-theme-color, #3858e9) 9%, white));
   color: var(--wpds-color-foreground-interactive-brand, var(--wp-admin-theme-color, #3858e9));
   font-weight: var(--wpds-typography-font-weight-emphasis, 600);
-  white-space: nowrap;
 }
 @media (forced-colors: active) {
   .wp-note-mention {
@@ -8202,7 +8204,7 @@ textarea.editor-post-text-editor::placeholder {
 
 @media (prefers-reduced-motion: no-preference) {
   .editor-resizable-editor:not(.is-resizing) {
-    transition: width 0.2s ease-out, height 0.2s ease-out;
+    transition: width 0.2s ease-out;
   }
 }
 

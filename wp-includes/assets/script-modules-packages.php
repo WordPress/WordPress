@@ -88,7 +88,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'fb8db6c2fefd8246fa86'
+		'version' => 'e921883a3f8a7b1ead70'
 	),
 	'block-library/query/view.js' => array(
 		'dependencies' => array(
@@ -315,7 +315,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '0e40b71e65fda1397a4b'
+		'version' => 'f947bd8281443624c0d0'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
