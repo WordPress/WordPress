@@ -21,6 +21,28 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 */
 	protected $image;
 
+	/**
+	 * Temporarily stores stream image data while processing internally.
+	 *
+	 * @see self::pdf_load_source()
+	 *
+	 * @since 7.0.4
+	 *
+	 * @var string|null
+	 */
+	private $stream_file_data = null;
+
+	/**
+	 * Temporarily stores the parsed given name for an image while processing internally.
+	 *
+	 * @see self::pdf_load_source()
+	 *
+	 * @since 7.0.4
+	 *
+	 * @var string|null
+	 */
+	private $image_given_name = null;
+
 	public function __destruct() {
 		if ( $this->image instanceof Imagick ) {
 			// We don't need the original in memory anymore.
@@ -130,9 +152,79 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return true;
 		}
 
-		if ( ! is_file( $this->file ) && ! wp_is_stream( $this->file ) ) {
+		$is_stream = wp_is_stream( $this->file );
+		$is_file   = ! $is_stream && is_file( $this->file );
+
+		// Only allow loading files or streams.
+		if ( ! $is_file && ! $is_stream ) {
 			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
+
+		// Establish the provided filename based on the kind of resource being loaded.
+		$given_filename = $this->file;
+		if ( 0 === strncasecmp( $given_filename, 'file://', 7 ) ) {
+			$given_filename = basename( substr( $given_filename, 7 ) ); // 7 is the strlen of 'file://'.
+		} elseif ( 1 === preg_match( '~^https?://~i', $this->file ) ) {
+			/*
+			 * For URLs, it will be the final path segment.
+			 *
+			 * Example:
+			 *
+			 *     https://wordpress.org/i/happy.png?size=40px
+			 *                             ╰───────╯
+			 *                                this is the given filename
+			 *
+			 * If the stream returns a `Content-Disposition` header it would
+			 * provide an alternative name, but this is used as a reasonable
+			 * proxy to avoid adding the additional complexity of reading and
+			 * parsing the returned HTTP headers.
+			 */
+			$url_path = wp_parse_url( $this->file, PHP_URL_PATH );
+
+			// This URL can not be parsed, so it is not a valid image resource.
+			if ( false === $url_path ) {
+				return new WP_Error( 'error_loading_image', __( 'File is not an image.' ), $this->file );
+			}
+
+			/**
+			 * The URL has an empty path, so continue with an empty string.
+			 *
+			 * This is the case with a URL such as `https://example.com?file_id=123`
+			 */
+			if ( null === $url_path ) {
+				$url_path = '';
+			}
+
+			$last_path_at   = strrpos( $url_path, '/' );
+			$given_filename = is_int( $last_path_at ) ? substr( $url_path, $last_path_at + 1 ) : $url_path;
+			$given_filename = rawurldecode( $given_filename );
+		}
+
+		/*
+		 * Strip off any potential `Imagick` format specifiers.
+		 *
+		 * If a real file exists with the identified format specifier, then
+		 * `Imagick` may not treat it as a format, but WordPress will reject
+		 * it anyway to avoid adding more complexity into this detection.
+		 *
+		 * `Imagick` reads only the first `FORMAT:` specifier on a name, but
+		 * stripping a segment would promote a second specifier to the front
+		 * of the name handed to `Imagick`, which would then honor it.
+		 *
+		 * Loop to capture all format specifiers for comparison.
+		 *
+		 * Exclude Windows drive-letter prefixes from here.
+		 */
+		$imagick_formats = array();
+		while (
+			false !== ( $format_ends_at = strpos( $given_filename, ':' ) ) &&
+			1 !== preg_match( '~^[a-z]:~i', $given_filename )
+		) {
+			$imagick_formats[] = strtoupper( substr( $given_filename, 0, $format_ends_at ) );
+			$given_filename    = substr( $given_filename, $format_ends_at + 1 );
+		}
+
+		$file_extension = strtolower( pathinfo( $given_filename, PATHINFO_EXTENSION ) );
 
 		/*
 		 * Even though Imagick uses less PHP memory than GD, set higher limit
@@ -140,20 +232,128 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 */
 		wp_raise_memory_limit( 'image' );
 
+		/**
+		 * Read the resource header for MIME sniffing.
+		 *
+		 * For files, which will be passed into Imagick by their file names, avoid
+		 * eagerly loading the entire contents into PHP memory. For streams, however,
+		 * it’s more important to avoid validating a separate copy of the file data
+		 * than is later fetched by Imagick, so go ahead and load the entire payload,
+		 * then pass it to Imagick as the data blob itself.
+		 *
+		 * @link https://mimesniff.spec.whatwg.org/#reading-the-resource-header
+		 */
 		try {
-			$this->image    = new Imagick();
-			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
+			if ( $is_file ) {
+				$file_data = file_get_contents( $this->file, false, null, 0, 1445 );
+			} else {
+				$file_data = file_get_contents( $this->file );
+			}
+		} catch ( Exception $e ) {
+			$file_data = false;
+		}
+		if ( false === $file_data ) {
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
+		}
 
-			if ( 'pdf' === $file_extension ) {
-				$pdf_loaded = $this->pdf_load_source();
+		$pdf_extensions = array(
+			'ai',
+			'epdf',
+			'pdf',
+			'pdfa',
+			'pocketmod',
+		);
+
+		// Reject files claiming to be PDFs which lack the required signature.
+		$has_pdf_extension = in_array( $file_extension, $pdf_extensions, true );
+		$has_pdf_signature = str_starts_with( $file_data, '%PDF-' );
+		if ( $has_pdf_extension && ! $has_pdf_signature ) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		$ps_formats = array(
+			'DPS',
+			'EPI',
+			'EPS',
+			'EPSF',
+			'EPSI',
+			'PS',
+			'WPG',
+		);
+
+		$ps_extensions = array(
+			'dps',
+			'epi',
+			'eps',
+			'eps2',
+			'eps3',
+			'epsf',
+			'epsi',
+			'ept',
+			'ept2',
+			'ept3',
+			'ps',
+			'ps2',
+			'ps3',
+			'wpg',
+		);
+
+		// Reject files which Imagick will parse as PostScript.
+		if (
+			array() !== array_intersect( $imagick_formats, $ps_formats ) ||
+			in_array( $file_extension, $ps_extensions, true ) ||
+			str_starts_with( $file_data, '%!' ) ||
+			str_starts_with( $file_data, "\x04%!" ) ||
+			str_starts_with( $file_data, "\xC5\xD0\xD3\xC6" ) ||
+			str_starts_with( $file_data, "\xFFWPC" )
+		) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		$compressed_extensions = array(
+			'gz',
+			'bz2',
+			'svgz',
+			'z',
+			'wmz',
+		);
+
+		/*
+		 * Reject compressed archives that Imagick will transparently decompress.
+		 * Unfortunately this rejects `.svgz` because there’s no intermediate step
+		 * in the loading process. `Imagick` would decompress the file, then look
+		 * to see what kind of content was decompressed instead of asserting SVG.
+		 */
+		if (
+			in_array( $file_extension, $compressed_extensions, true ) ||
+			str_starts_with( $file_data, "\x1F\x8B\x08" ) || // gzip
+			str_starts_with( $file_data, 'BZh' ) || // bzip2
+			str_starts_with( $file_data, "\x1F\x9D" ) // compress
+		) {
+			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+		}
+
+		try {
+			$this->image = new Imagick();
+
+			if ( $has_pdf_signature ) {
+				/*
+				 * Load these values for use in the helper method without forcing a change
+				 * of its expected arguments, but then free them after calling to prevent
+				 * keeping them around in memory and bloating the app.
+				 */
+				$this->stream_file_data = $is_stream ? $file_data : null;
+				$this->image_given_name = $given_filename;
+				$pdf_loaded             = $this->pdf_load_source();
+				$this->stream_file_data = null;
+				$this->image_given_name = null;
 
 				if ( is_wp_error( $pdf_loaded ) ) {
 					return $pdf_loaded;
 				}
 			} else {
-				if ( wp_is_stream( $this->file ) ) {
-					// Due to reports of issues with streams with `Imagick::readImageFile()`, uses `Imagick::readImageBlob()` instead.
-					$this->image->readImageBlob( file_get_contents( $this->file ), $this->file );
+				if ( $is_stream ) {
+					$this->image->readImageBlob( $file_data, $given_filename );
 				} else {
 					$this->image->readImage( $this->file );
 				}
@@ -168,7 +368,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->setIteratorIndex( 0 );
 			}
 
-			if ( 'pdf' === $file_extension ) {
+			if ( $has_pdf_signature ) {
 				$this->remove_pdf_alpha_channel();
 			}
 
@@ -1158,25 +1358,35 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return $filename;
 		}
 
-		try {
-			/*
-			 * When generating thumbnails from cropped PDF pages, Imagemagick uses the uncropped
-			 * area (resulting in unnecessary whitespace) unless the following option is set.
-			 */
-			$this->image->setOption( 'pdf:use-cropbox', true );
+		foreach ( array( 'true', 'false' ) as $use_cropbox ) {
+			try {
+				/**
+				 * When generating thumbnails from cropped PDF pages, Imagemagick uses the uncropped
+				 * area (resulting in unnecessary whitespace) unless the following option is set.
+				 *
+				 * However, it sometimes fails, so if that happens, run it without the option.
+				 *
+				 * @ticket 48853
+				 */
+				$this->image->setOption( 'pdf:use-cropbox', $use_cropbox );
 
-			/*
-			 * Reading image after Imagick instantiation because `setResolution`
-			 * only applies correctly before the image is read.
-			 */
-			$this->image->readImage( $filename );
-		} catch ( Exception $e ) {
-			// Attempt to run `gs` without the `use-cropbox` option. See #48853.
-			$this->image->setOption( 'pdf:use-cropbox', false );
+				/*
+				 * Reading image after Imagick instantiation because `setResolution`
+				 * only applies correctly before the image is read.
+				 */
+				if ( is_string( $this->stream_file_data ) ) {
+					$this->image->setFilename( 'PDF:unknown.pdf[0]' );
+					$this->image->readImageBlob( $this->stream_file_data, $this->image_given_name );
+				} else {
+					$this->image->readImage( $filename );
+				}
 
-			$this->image->readImage( $filename );
+				return true;
+			} catch ( Exception $e ) {
+				continue;
+			}
 		}
 
-		return true;
+		return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
 	}
 }
