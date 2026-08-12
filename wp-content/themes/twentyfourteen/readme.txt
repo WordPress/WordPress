@@ -1,9 +1,9 @@
 === Twenty Fourteen ===
 Contributors: wordpressdotorg
 Requires at least: 3.6
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.2.4
-Stable tag: 4.5
+Stable tag: 4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
@@ -59,6 +59,11 @@ Source: https://stocksnap.io/photo/fog-mountain-ZKN6UKFKEO
         https://stocksnap.io/photo/guy-man-7CFLDIWXK5
 
 == Changelog ==
+
+= 4.6 =
+* Released: August 19, 2026
+
+https://wordpress.org/documentation/article/twenty-fourteen-changelog/#Version_4.6
 
 = 4.5 =
 * Released: May 20, 2026

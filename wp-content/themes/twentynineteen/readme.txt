@@ -2,9 +2,9 @@
 Contributors: wordpressdotorg
 Tags: one-column, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
 Requires at least: 4.7
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.2.4
-Stable tag: 3.3
+Stable tag: 3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 == Changelog ==
+
+= 3.4 =
+* Released: August 19, 2026
+
+https://wordpress.org/documentation/article/twenty-nineteen-changelog/#Version_3.4
 
 = 3.3 =
 * Released: May 20, 2026
