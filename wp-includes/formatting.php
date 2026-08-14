@@ -4716,11 +4716,13 @@ function htmlentities2( $text ) {
  * be in single quotes. The {@see 'js_escape'} filter is also applied here.
  *
  * @since 2.8.0
+ * @since 7.2.0 Non-string scalars are cast to string before escaping.
  *
- * @param string $text The text to be escaped.
+ * @param string|int|float $text The text to be escaped.
  * @return string Escaped text.
  */
 function esc_js( $text ) {
+	$text      = (string) $text;
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_COMPAT );
 	$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
@@ -4744,11 +4746,13 @@ function esc_js( $text ) {
  * Escaping for HTML blocks.
  *
  * @since 2.8.0
+ * @since 7.2.0 Non-string scalars are cast to string before escaping.
  *
- * @param string $text
+ * @param string|int|float $text The text to be escaped.
  * @return string Escaped text.
  */
 function esc_html( $text ) {
+	$text      = (string) $text;
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 	/**
@@ -4769,11 +4773,13 @@ function esc_html( $text ) {
  * Escaping for HTML attributes.
  *
  * @since 2.8.0
+ * @since 7.2.0 Non-string scalars are cast to string before escaping.
  *
- * @param string $text
+ * @param string|int|float $text The text to be escaped.
  * @return string Escaped text.
  */
 function esc_attr( $text ) {
+	$text      = (string) $text;
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 	/**
@@ -4794,11 +4800,13 @@ function esc_attr( $text ) {
  * Escaping for textarea values.
  *
  * @since 3.1.0
+ * @since 7.2.0 Non-string scalars are cast to string before escaping.
  *
- * @param string $text
+ * @param string|int|float $text The text to be escaped.
  * @return string Escaped text.
  */
 function esc_textarea( $text ) {
+	$text      = (string) $text;
 	$safe_text = htmlspecialchars( $text, ENT_QUOTES, get_option( 'blog_charset' ) );
 	/**
 	 * Filters a string cleaned and escaped for output in a textarea element.
@@ -4815,11 +4823,13 @@ function esc_textarea( $text ) {
  * Escaping for XML blocks.
  *
  * @since 5.5.0
+ * @since 7.2.0 Non-string scalars are cast to string before escaping.
  *
- * @param string $text Text to escape.
+ * @param string|int|float $text The text to be escaped.
  * @return string Escaped text.
  */
 function esc_xml( $text ) {
+	$text      = (string) $text;
 	$safe_text = wp_check_invalid_utf8( $text );
 
 	$cdata_regex = '\<\!\[CDATA\[.*?\]\]\>';
