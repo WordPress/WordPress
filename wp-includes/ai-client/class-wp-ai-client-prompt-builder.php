@@ -43,7 +43,9 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * interface. As soon as any exception is caught in a chain of method calls,
  * the returned instance will be in an error state, and all subsequent method
  * calls will be no-ops that just return the same error state instance. Only
- * when a generating method is called, the WP_Error will be returned.
+ * when a generating method is called, the WP_Error will be returned. The
+ * support check methods are the exception to the no-op behavior: they return
+ * false rather than the error state instance.
  *
  * @since 7.0.0
  *
@@ -79,7 +81,7 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * @method self as_output_media_aspect_ratio(string $aspectRatio) Sets the output media aspect ratio.
  * @method self as_output_speech_voice(string $voice) Sets the output speech voice.
  * @method self as_json_response(?array<string, mixed> $schema = null) Configures the prompt for JSON response output.
- * @method bool|WP_Error is_supported(?CapabilityEnum $capability = null) Checks if the prompt is supported for the given capability.
+ * @method bool is_supported(?CapabilityEnum $capability = null) Checks if the prompt is supported for the given capability.
  * @method bool is_supported_for_text_generation() Checks if the prompt is supported for text generation.
  * @method bool is_supported_for_image_generation() Checks if the prompt is supported for image generation.
  * @method bool is_supported_for_text_to_speech_conversion() Checks if the prompt is supported for text to speech conversion.
@@ -282,7 +284,7 @@ class WP_AI_Client_Prompt_Builder {
 	 *
 	 * This allows WordPress developers to use snake_case naming conventions. It catches
 	 * any exceptions thrown, stores them, and returns a WP_Error when a terminate method
-	 * is called.
+	 * is called, or false when a support check method is called.
 	 *
 	 * @since 7.0.0
 	 *
@@ -363,6 +365,9 @@ class WP_AI_Client_Prompt_Builder {
 
 			if ( self::is_generating_method( $name ) ) {
 				return $this->error;
+			}
+			if ( self::is_support_check_method( $name ) ) {
+				return false;
 			}
 			return $this;
 		}
