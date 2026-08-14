@@ -74,7 +74,7 @@ function _wp_personal_data_handle_actions() {
 	if ( isset( $_POST['privacy_action_email_retry'] ) ) {
 		check_admin_referer( 'bulk-privacy_requests' );
 
-		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['privacy_action_email_retry'] ) ) ) );
+		$request_id = absint( array_key_first( (array) wp_unslash( $_POST['privacy_action_email_retry'] ) ) );
 		$result     = _wp_privacy_resend_request( $request_id );
 
 		if ( is_wp_error( $result ) ) {

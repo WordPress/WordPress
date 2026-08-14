@@ -1080,7 +1080,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		array(
 			'id'    => 'new-content',
 			'title' => $title,
-			'href'  => admin_url( current( array_keys( $actions ) ) ),
+			'href'  => admin_url( array_key_first( $actions ) ),
 			'meta'  => array(
 				'menu_title' => _x( 'New', 'admin bar menu group label' ),
 			),
