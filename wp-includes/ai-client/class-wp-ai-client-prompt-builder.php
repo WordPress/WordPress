@@ -226,6 +226,23 @@ class WP_AI_Client_Prompt_Builder {
 	}
 
 	/**
+	 * Clones the wrapped prompt builder alongside this instance.
+	 *
+	 * The wrapped builder mutates its own state, so without this a clone would
+	 * share that state with the original and any change made to one would be
+	 * visible in the other.
+	 *
+	 * @since 7.2.0
+	 */
+	public function __clone() {
+		$this->builder = clone $this->builder;
+
+		if ( null !== $this->error ) {
+			$this->error = clone $this->error;
+		}
+	}
+
+	/**
 	 * Registers WordPress abilities as function declarations for the AI model.
 	 *
 	 * Converts each WP_Ability to a FunctionDeclaration using the wpab__ prefix
