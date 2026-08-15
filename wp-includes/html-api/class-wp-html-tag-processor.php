@@ -1178,14 +1178,20 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * This generator function is designed to be used inside a "foreach" loop.
 	 *
-	 * Example:
-	 *
-	 *     $p = new WP_HTML_Tag_Processor( "<div class='free &lt;egg&lt;\tlang-en'>" );
-	 *     $p->next_tag();
-	 *     foreach ( $p->class_list() as $class_name ) {
-	 *         echo "{$class_name} ";
-	 *     }
-	 *     // Outputs: "free <egg> lang-en "
+	 * ```php interactive
+	 * <?php
+	 * require '/wordpress/wp-load.php';
+	 * $p = new WP_HTML_Tag_Processor( "<div class='free &lt;egg&gt;\tlang-en'>" );
+	 * $p->next_tag();
+	 * foreach ( $p->class_list() as $class_name ) {
+	 *   var_dump( $class_name );
+	 * }
+	 * ```
+	 * ```expected-output
+	 * string(4) "free"
+	 * string(5) "<egg>"
+	 * string(7) "lang-en"
+	 * ```
 	 *
 	 * @since 6.4.0
 	 *
