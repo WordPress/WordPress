@@ -4373,6 +4373,14 @@ var wp;
       }
       const previous = /* @__PURE__ */ new Map();
       const applied = [];
+      const previousRootProvider = root.getAttribute(
+        "data-wpds-root-provider"
+      );
+      const previousCornerRadius = root.getAttribute(
+        "data-wpds-corner-radius"
+      );
+      root.setAttribute("data-wpds-root-provider", "true");
+      root.setAttribute("data-wpds-corner-radius", cornerRadiusPreset);
       for (const [rawKey, rawValue] of Object.entries(
         themeProviderStyles
       )) {
@@ -4400,8 +4408,24 @@ var wp;
             root.style.removeProperty(key);
           }
         }
+        if (previousRootProvider === null) {
+          root.removeAttribute("data-wpds-root-provider");
+        } else {
+          root.setAttribute(
+            "data-wpds-root-provider",
+            previousRootProvider
+          );
+        }
+        if (previousCornerRadius === null) {
+          root.removeAttribute("data-wpds-corner-radius");
+        } else {
+          root.setAttribute(
+            "data-wpds-corner-radius",
+            previousCornerRadius
+          );
+        }
       };
-    }, [isRoot, themeProviderStyles]);
+    }, [cornerRadiusPreset, isRoot, themeProviderStyles]);
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "div",
       {

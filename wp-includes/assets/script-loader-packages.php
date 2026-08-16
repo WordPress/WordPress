@@ -268,16 +268,16 @@
 			'wp-data',
 			'wp-deprecated',
 			'wp-element',
+			'wp-hooks',
 			'wp-html-entities',
 			'wp-i18n',
 			'wp-private-apis',
 			'wp-rich-text',
-			'wp-sync',
 			'wp-undo-manager',
 			'wp-url',
 			'wp-warning'
 		),
-		'version' => 'f0176a9c136b2962fdc4'
+		'version' => '573f98dbff9f49ffeb0b'
 	),
 	'customize-widgets.js' => array(
 		'dependencies' => array(
@@ -838,14 +838,6 @@
 		),
 		'version' => '914befb08774033e6265'
 	),
-	'sync.js' => array(
-		'dependencies' => array(
-			'wp-api-fetch',
-			'wp-hooks',
-			'wp-private-apis'
-		),
-		'version' => '15f3a34404da1c4bb483'
-	),
 	'theme.js' => array(
 		'dependencies' => array(
 			'react-jsx-runtime',
@@ -854,7 +846,7 @@
 			'wp-element',
 			'wp-private-apis'
 		),
-		'version' => '48f91740a3d737558e9c'
+		'version' => '56a75cc08ae66c1fcb7a'
 	),
 	'token-list.js' => array(
 		'dependencies' => array(

@@ -350,7 +350,7 @@
   }
 }
 [data-wpds-corner-radius=none],
-:root:has([data-wpds-root-provider=true][data-wpds-corner-radius=none]) {
+:root[data-wpds-root-provider=true][data-wpds-corner-radius=none] {
   /* Buttons and other elements nested inside controls. */
   --wpds-border-radius-xs: 0px;
   /* Standalone buttons, inputs, and compact controls. */
@@ -364,7 +364,7 @@
 }
 
 [data-wpds-corner-radius=subtle],
-:root:has([data-wpds-root-provider=true][data-wpds-corner-radius=subtle]) {
+:root[data-wpds-root-provider=true][data-wpds-corner-radius=subtle] {
   /* Buttons and other elements nested inside controls. */
   --wpds-border-radius-xs: 1px;
   /* Standalone buttons, inputs, and compact controls. */
@@ -378,7 +378,7 @@
 }
 
 [data-wpds-corner-radius=moderate],
-:root:has([data-wpds-root-provider=true][data-wpds-corner-radius=moderate]) {
+:root[data-wpds-root-provider=true][data-wpds-corner-radius=moderate] {
   /* Buttons and other elements nested inside controls. */
   --wpds-border-radius-xs: 6px;
   /* Standalone buttons, inputs, and compact controls. */
@@ -392,7 +392,7 @@
 }
 
 [data-wpds-corner-radius=pronounced],
-:root:has([data-wpds-root-provider=true][data-wpds-corner-radius=pronounced]) {
+:root[data-wpds-root-provider=true][data-wpds-corner-radius=pronounced] {
   /* Buttons and other elements nested inside controls. */
   --wpds-border-radius-xs: 18px;
   /* Standalone buttons, inputs, and compact controls. */

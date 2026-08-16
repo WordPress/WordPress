@@ -905,12 +905,8 @@ $_old_files = array(
 	// 7.0.2
 	'wp-includes/collaboration',
 	'wp-includes/collaboration.php',
-	/*
-	 * Restored in WordPress 7.1.
-	 *
-	 * 'wp-includes/js/dist/sync.js',
-	 * 'wp-includes/js/dist/sync.min.js',
-	 */
+	'wp-includes/js/dist/sync.js',
+	'wp-includes/js/dist/sync.min.js',
 	// 7.1
 	'wp-includes/images/icon-library/accordion-heading.svg',
 	'wp-includes/images/icon-library/accordion-item.svg',
