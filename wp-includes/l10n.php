@@ -1735,7 +1735,7 @@ function wp_get_l10n_php_file_data( $php_file ) {
  *     @type bool     $explicit_option_en_us        Whether the English (United States) option uses an explicit value of en_US
  *                                                  instead of an empty value. Default false.
  * }
- * @return string HTML dropdown list of languages.
+ * @return string|void HTML dropdown list of languages.
  */
 function wp_dropdown_languages( $args = array() ) {
 
