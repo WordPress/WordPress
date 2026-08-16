@@ -767,12 +767,17 @@ $_old_files = array(
 	'wp-includes/blocks/query/style.min.css',
 	'wp-includes/blocks/query/style-rtl.css',
 	'wp-includes/blocks/query/style.css',
-	'wp-admin/images/about-header-privacy.svg',
 	'wp-admin/images/about-header-about.svg',
-	'wp-admin/images/about-header-credits.svg',
-	'wp-admin/images/about-header-freedoms.svg',
 	'wp-admin/images/about-header-contribute.svg',
 	'wp-admin/images/about-header-background.svg',
+	/*
+	 * Restored in WordPress 7.1
+	 *
+	 * 'wp-admin/images/about-header-privacy.svg',
+	 * 'wp-admin/images/about-header-credits.svg',
+	 * 'wp-admin/images/about-header-freedoms.svg',
+	 */
+
 	// 6.6
 	'wp-includes/blocks/block/editor.css',
 	'wp-includes/blocks/block/editor.min.css',

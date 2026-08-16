@@ -603,7 +603,7 @@
 	padding-right: 26rem; /* Space for the background image. */
 	min-height: clamp(10rem, 25vw, 18.75rem);
 	border-radius: var(--border-radius);
-	background-image: url(https://s.w.org/images/core/7.1/about-header-default.webp?ver=20260804);
+	background-image: url(../images/about-header-default.svg?ver=7.1);
 	background-repeat: no-repeat;
 	background-position: right center;
 	background-size: cover;
@@ -613,39 +613,39 @@
 }
 
 .credits-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-credits.webp?ver=20260804);
+	background-image: url(../images/about-header-credits.svg?ver=7.1);
 }
 
 .freedoms-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-freedoms.webp?ver=20260804);
+	background-image: url(../images/about-header-freedoms.svg?ver=7.1);
 }
 
 .privacy-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-privacy.webp?ver=20260804);
+	background-image: url(../images/about-header-privacy.svg?ver=7.1);
 }
 
 .contribute-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-get-involved.webp?ver=20260804);
+	background-image: url(../images/about-header-get-involved.svg?ver=7.1);
 }
 
 [dir="rtl"] .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-default-rtl.webp?ver=20260804);
+	background-image: url(../images/about-header-default-rtl.svg?ver=7.1);
 }
 
 [dir="rtl"] .credits-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-credits-rtl.webp?ver=20260804);
+	background-image: url(../images/about-header-credits-rtl.svg?ver=7.1);
 }
 
 [dir="rtl"] .freedoms-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-freedoms-rtl.webp?ver=20260804);
+	background-image: url(../images/about-header-freedoms-rtl.svg?ver=7.1);
 }
 
 [dir="rtl"] .privacy-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-privacy-rtl.webp?ver=20260804);
+	background-image: url(../images/about-header-privacy-rtl.svg?ver=7.1);
 }
 
 [dir="rtl"] .contribute-php .about__header {
-	background-image: url(https://s.w.org/images/core/7.1/about-header-get-involved-rtl.webp?ver=20260804);
+	background-image: url(../images/about-header-get-involved-rtl.svg?ver=7.1);
 }
 
 .about__header-image {
