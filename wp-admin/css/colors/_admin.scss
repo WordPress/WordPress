@@ -416,11 +416,9 @@ ul#adminmenu > li.current > a.current:after {
 	background: variables.$menu-submenu-background;
 }
 
-#wpadminbar > #wp-toolbar li:hover span.ab-label,
-#wpadminbar > #wp-toolbar li.hover span.ab-label,
-/* The adminbar menu may output either links or focusable div elements. */
-/* As such, we target the focus state without specifying the element type. */
-#wpadminbar > #wp-toolbar :focus span.ab-label {
+#wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
+#wpadminbar:not(.mobile) > #wp-toolbar li.hover span.ab-label,
+#wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
 	color: variables.$menu-submenu-focus-text;
 }
 
@@ -451,9 +449,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #wpadminbar .quicklinks li .blavatar,
-#wpadminbar .menupop .menupop > .ab-item:before,
-#wpadminbar.mobile .quicklinks .ab-icon:before,
-#wpadminbar.mobile .quicklinks .ab-item:before {
+#wpadminbar .menupop .menupop > .ab-item:before {
 	color: variables.$menu-icon;
 }
 
@@ -478,16 +474,20 @@ ul#adminmenu > li.current > a.current:after {
 	color: variables.$menu-submenu-focus-text;
 }
 
-// Note that the icon of the site-name item is not wrapped within a span with class ab-icon like other items.
 #wpadminbar .quicklinks li a:hover .blavatar,
 #wpadminbar .quicklinks li a:focus .blavatar,
 #wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a .blavatar,
 #wpadminbar .menupop .menupop > .ab-item:hover:before,
 #wpadminbar.mobile .quicklinks .hover .ab-icon:before,
-#wpadminbar.mobile .quicklinks .hover .ab-item:before,
-#wpadminbar.mobile .quicklinks .ab-item:focus:before {
+#wpadminbar.mobile .quicklinks .hover .ab-item:before {
 	color: variables.$menu-submenu-focus-text;
 }
+
+#wpadminbar.mobile .quicklinks .ab-icon:before,
+#wpadminbar.mobile .quicklinks .ab-item:before {
+	color: variables.$menu-icon;
+}
+
 
 /* Admin Bar: search */
 
@@ -531,16 +531,14 @@ ul#adminmenu > li.current > a.current:after {
 	color: variables.$menu-text;
 }
 
+#wpadminbar #wp-admin-bar-user-info a:hover .display-name {
+	color: variables.$menu-submenu-focus-text;
+}
+
 #wpadminbar #wp-admin-bar-user-info .username {
 	color: variables.$menu-submenu-text;
 }
 
-#wpadminbar #wp-admin-bar-user-info a:hover .display-name,
-#wpadminbar #wp-admin-bar-user-info a:focus .display-name,
-#wpadminbar #wp-admin-bar-user-info a:hover .username,
-#wpadminbar #wp-admin-bar-user-info a:focus .username {
-	color: variables.$menu-submenu-focus-text;
-}
 
 /* Pointers */
 
