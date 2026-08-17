@@ -1993,7 +1993,6 @@ function is_locale_switched() {
  * @param string|string[]|array[]|object $i18n_schema I18n schema for the setting.
  * @param string|string[]|array[]        $settings    Value for the settings.
  * @param string                         $textdomain  Textdomain to use with translations.
- *
  * @return string|string[]|array[] Translated settings.
  */
 function translate_settings_using_i18n_schema( $i18n_schema, $settings, $textdomain ) {

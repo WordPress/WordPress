@@ -78,7 +78,6 @@ function wp_register_colors_support( $block_type ) {
  *
  * @param  WP_Block_Type $block_type       Block type.
  * @param  array         $block_attributes Block attributes.
- *
  * @return array Colors CSS classes and inline styles.
  */
 function wp_apply_colors_support( $block_type, $block_attributes ) {

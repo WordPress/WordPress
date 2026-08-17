@@ -5300,7 +5300,6 @@ function _wp_array_set( &$input_array, $path, $value = null ) {
  * @link https://github.com/lodash-php/lodash-php/blob/master/src/internal/unicodeWords.php
  *
  * @param string $input_string The string to kebab-case.
- *
  * @return string kebab-cased-string.
  */
 function _wp_to_kebab_case( $input_string ) {
@@ -8721,7 +8720,6 @@ function wp_get_default_update_php_url() {
  * @param string $before  Markup to output before the annotation. Default `<p class="description">`.
  * @param string $after   Markup to output after the annotation. Default `</p>`.
  * @param bool   $display Whether to echo or return the markup. Default `true` for echo.
- *
  * @return string|null Update PHP page annotation if available and $display is false, null otherwise.
  */
 function wp_update_php_annotation( $before = '<p class="description">', $after = '</p>', $display = true ) {

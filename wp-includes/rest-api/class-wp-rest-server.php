@@ -245,7 +245,6 @@ class WP_REST_Server {
 	 * @since 6.1.0
 	 *
 	 * @param \WP_REST_Request $request The current request object.
-	 *
 	 * @return int The JSON encode options.
 	 */
 	protected function get_json_encode_options( WP_REST_Request $request ) {

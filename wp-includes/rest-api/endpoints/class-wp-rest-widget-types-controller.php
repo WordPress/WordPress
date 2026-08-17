@@ -604,7 +604,6 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 *
 	 * @return array An array with rendered Legacy Widget HTML.
 	 */
 	public function render( $request ) {
@@ -623,7 +622,6 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 	 *
 	 * @param string $id_base The id base of the requested widget.
 	 * @param array  $instance The widget instance attributes.
-	 *
 	 * @return string Rendered Legacy Widget block preview.
 	 */
 	private function render_legacy_widget_preview_iframe( $id_base, $instance ) {

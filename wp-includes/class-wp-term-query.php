@@ -973,7 +973,6 @@ class WP_Term_Query {
 	 *
 	 * @param WP_Term[] $term_objects Array of term objects.
 	 * @param string    $_fields      Field to format.
-	 *
 	 * @return WP_Term[]|int[]|string[] Array of terms / strings / ints depending on field requested.
 	 */
 	protected function format_terms( $term_objects, $_fields ) {
@@ -1156,7 +1155,6 @@ class WP_Term_Query {
 	 *
 	 * @param array  $args WP_Term_Query arguments.
 	 * @param string $sql  SQL statement.
-	 *
 	 * @return string Cache key.
 	 */
 	protected function generate_cache_key( array $args, $sql ) {

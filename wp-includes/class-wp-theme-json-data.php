@@ -50,7 +50,6 @@ class WP_Theme_JSON_Data {
 	 * @since 6.1.0
 	 *
 	 * @param array $new_data Array following the theme.json specification.
-	 *
 	 * @return WP_Theme_JSON_Data The own instance with access to the modified data.
 	 */
 	public function update_with( $new_data ) {

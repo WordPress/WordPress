@@ -337,7 +337,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 *
 	 * @return object|WP_Error
 	 */
 	protected function prepare_item_for_database( $request ) {

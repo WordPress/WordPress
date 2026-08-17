@@ -1267,7 +1267,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.7.0
 	 *
 	 * @param string $html Input HTML to normalize.
-	 *
 	 * @return string|null Normalized output, or `null` if unable to normalize.
 	 */
 	public static function normalize( string $html ): ?string {

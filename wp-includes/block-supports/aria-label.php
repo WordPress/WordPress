@@ -40,7 +40,6 @@ function wp_register_aria_label_support( $block_type ) {
  *
  * @param WP_Block_Type $block_type       Block Type.
  * @param array         $block_attributes Block attributes.
- *
  * @return array Block aria-label.
  */
 function wp_apply_aria_label_support( $block_type, $block_attributes ) {

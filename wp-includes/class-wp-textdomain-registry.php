@@ -87,7 +87,6 @@ class WP_Textdomain_Registry {
 	 *
 	 * @param string $domain Text domain.
 	 * @param string $locale Locale.
-	 *
 	 * @return string|false Languages directory path or false if there is none available.
 	 */
 	public function get( $domain, $locale ) {

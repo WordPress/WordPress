@@ -6394,7 +6394,6 @@ function wp_enqueue_global_styles_custom_css() {
  *
  * @param array  $block     Block object.
  * @param string $variation Slug for the block style variation.
- *
  * @return string The unique variation name.
  */
 function wp_create_block_style_variation_instance_name( $block, $variation ) {

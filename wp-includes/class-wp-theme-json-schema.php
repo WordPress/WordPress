@@ -73,7 +73,6 @@ class WP_Theme_JSON_Schema {
 	 * @since 5.9.0
 	 *
 	 * @param array $old Data to migrate.
-	 *
 	 * @return array Data without the custom prefixes.
 	 */
 	private static function migrate_v1_to_v2( $old ) {
@@ -169,7 +168,6 @@ class WP_Theme_JSON_Schema {
 	 *
 	 * @param array $settings        Array to process.
 	 * @param array $paths_to_rename Paths to rename.
-	 *
 	 * @return array The settings in the new format.
 	 */
 	private static function rename_paths( $settings, $paths_to_rename ) {

@@ -109,7 +109,6 @@ function get_block_categories( $post_or_block_editor_context ) {
  * @since 5.8.0
  *
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
- *
  * @return bool|string[] Array of block type slugs, or boolean to enable/disable all.
  */
 function get_allowed_block_types( $block_editor_context ) {
@@ -484,7 +483,6 @@ function wp_get_post_content_block_attributes() {
  *
  * @param array                   $custom_settings      Custom settings to use with the given editor type.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
- *
  * @return array The contextualized block editor settings.
  */
 function get_block_editor_settings( array $custom_settings, $block_editor_context ) {

@@ -623,7 +623,6 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 			 * @param array    $attributes Block attributes.
 			 * @param string   $content    Block default content.
 			 * @param WP_Block $block      Block instance.
-			 *
 			 * @return string Returns the block content.
 			 */
 			$settings['render_callback'] = static function ( $attributes, $content, $block ) use ( $template_path ) {
@@ -1929,7 +1928,6 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
  * @since 7.0.0 Adds metadata to attributes of single-pattern container blocks.
  *
  * @param array $blocks An array blocks.
- *
  * @return array An array of blocks with patterns replaced by their content.
  */
 function resolve_pattern_blocks( $blocks ) {
@@ -2814,7 +2812,6 @@ function wp_migrate_old_typography_shape( $metadata ) {
  *
  * @param WP_Block $block Block instance.
  * @param int      $page  Current query's page.
- *
  * @return array Returns the constructed WP_Query arguments.
  */
 function build_query_vars_from_query_block( $block, $page ) {

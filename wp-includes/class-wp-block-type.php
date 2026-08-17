@@ -357,7 +357,6 @@ class WP_Block_Type {
 	 * @since 6.1.0
 	 *
 	 * @param string $name Deprecated property name.
-	 *
 	 * @return string|string[]|null The value read from the new property if the first item in the array provided,
 	 *                              null when value not found or when unknown property name provided.
 	 */
@@ -393,7 +392,6 @@ class WP_Block_Type {
 	 * @since 6.1.0
 	 *
 	 * @param string $name Deprecated property name.
-	 *
 	 * @return bool Returns true when for the new property the first item in the array exists,
 	 *              or false otherwise.
 	 */

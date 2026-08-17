@@ -410,7 +410,6 @@ class WP_HTML_Doctype_Info {
 	 * @since 6.7.0
 	 *
 	 * @param string $doctype_html The complete raw DOCTYPE HTML string, e.g. `<!DOCTYPE html>`.
-	 *
 	 * @return WP_HTML_Doctype_Info|null A WP_HTML_Doctype_Info instance will be returned if the
 	 *                                   provided DOCTYPE HTML is a valid DOCTYPE. Otherwise, null.
 	 */
