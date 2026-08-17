@@ -1111,7 +1111,7 @@ var wp;
   var import_deprecated6 = __toESM(require_deprecated(), 1);
   var import_element201 = __toESM(require_element(), 1);
   var import_editor47 = __toESM(require_editor(), 1);
-  var import_preferences13 = __toESM(require_preferences(), 1);
+  var import_preferences14 = __toESM(require_preferences(), 1);
   var import_widgets = __toESM(require_widgets(), 1);
 
   // packages/edit-site/build-module/store/index.mjs
@@ -13214,7 +13214,7 @@ var wp;
   };
   var ADMIN_THEME_COLORS = /* @__PURE__ */ new Map([
     ["modern", DEFAULT_THEME_COLORS],
-    ["fresh", { primary: "#3858e9", background: "#25292b" }],
+    ["fresh", { primary: "#007cba", background: "#25292b" }],
     ["midnight", { primary: "#cf4339", background: "#3d4042" }],
     ["coffee", { primary: "#916745", background: "#5b534d" }],
     ["ocean", { primary: "#567958", background: "#5f787f" }],
@@ -17799,6 +17799,7 @@ var wp;
   var import_html_entities3 = __toESM(require_html_entities(), 1);
   var import_block_editor5 = __toESM(require_block_editor(), 1);
   var import_url9 = __toESM(require_url(), 1);
+  var import_preferences10 = __toESM(require_preferences(), 1);
 
   // packages/edit-site/build-module/components/welcome-guide/editor.mjs
   var import_data17 = __toESM(require_data(), 1);
@@ -21808,6 +21809,10 @@ var wp;
       (select4) => select4(import_core_data22.store).getCurrentTheme()?.is_block_theme,
       []
     );
+    const showIconLabels = (0, import_data35.useSelect)(
+      (select4) => select4(import_preferences10.store).get("core", "showIconLabels"),
+      []
+    );
     const postWithTemplate = !!context?.postId;
     const editorPostType = postWithTemplate ? context.postType : postType2;
     const editorPostId = postWithTemplate ? context.postId : postId;
@@ -21905,7 +21910,7 @@ var wp;
               {
                 size: "compact",
                 label: (0, import_i18n22.__)("Open Navigation"),
-                showTooltip: true,
+                showTooltip: !showIconLabels,
                 tooltipPosition: "middle right",
                 onClick: () => {
                   resetZoomLevel();
@@ -41456,7 +41461,7 @@ If there's a particular need for this, please submit a feature request at https:
   var import_i18n122 = __toESM(require_i18n(), 1);
   var import_data55 = __toESM(require_data(), 1);
   var import_element164 = __toESM(require_element(), 1);
-  var import_preferences10 = __toESM(require_preferences(), 1);
+  var import_preferences11 = __toESM(require_preferences(), 1);
   var import_editor23 = __toESM(require_editor(), 1);
   var import_router19 = __toESM(require_router(), 1);
   var import_url13 = __toESM(require_url(), 1);
@@ -53518,7 +53523,7 @@ If there's a particular need for this, please submit a feature request at https:
     } = useGlobalStylesRevisions();
     const { openGeneralSidebar: openGeneralSidebar2 } = (0, import_data55.useDispatch)(store);
     const { setStylesPath } = unlock((0, import_data55.useDispatch)(import_editor23.store));
-    const { set: setPreference } = (0, import_data55.useDispatch)(import_preferences10.store);
+    const { set: setPreference } = (0, import_data55.useDispatch)(import_preferences11.store);
     const openGlobalStyles = (0, import_element164.useCallback)(async () => {
       history.navigate((0, import_url13.addQueryArgs)(path, { canvas: "edit" }), {
         transition: "canvas-mode-edit-transition"
@@ -54680,7 +54685,7 @@ If there's a particular need for this, please submit a feature request at https:
   // packages/views/build-module/use-view.mjs
   var import_element171 = __toESM(require_element(), 1);
   var import_data63 = __toESM(require_data(), 1);
-  var import_preferences11 = __toESM(require_preferences(), 1);
+  var import_preferences12 = __toESM(require_preferences(), 1);
 
   // packages/views/build-module/preference-keys.mjs
   function generatePreferenceKey(kind, name2, slug) {
@@ -54804,14 +54809,14 @@ If there's a particular need for this, please submit a feature request at https:
     const preferenceKey = generatePreferenceKey(kind, name2, slug);
     const persistedView = (0, import_data63.useSelect)(
       (select4) => {
-        return select4(import_preferences11.store).get(
+        return select4(import_preferences12.store).get(
           "core/views",
           preferenceKey
         );
       },
       [preferenceKey]
     );
-    const { set: set3 } = (0, import_data63.useDispatch)(import_preferences11.store);
+    const { set: set3 } = (0, import_data63.useDispatch)(import_preferences12.store);
     const page = Number(queryParams?.page ?? 1);
     const search = queryParams?.search ?? "";
     const view = (0, import_element171.useMemo)(
@@ -54877,7 +54882,7 @@ If there's a particular need for this, please submit a feature request at https:
 
   // packages/views/build-module/load-view.mjs
   var import_data64 = __toESM(require_data(), 1);
-  var import_preferences12 = __toESM(require_preferences(), 1);
+  var import_preferences13 = __toESM(require_preferences(), 1);
   async function loadView(config2) {
     const {
       kind,
@@ -54890,7 +54895,7 @@ If there's a particular need for this, please submit a feature request at https:
     } = config2;
     const preferenceKey = generatePreferenceKey(kind, name2, slug);
     const persistedView = (0, import_data64.select)(
-      import_preferences12.store
+      import_preferences13.store
     ).get("core/views", preferenceKey);
     return resolveView({
       defaultView,
@@ -60789,13 +60794,13 @@ If there's a particular need for this, please submit a feature request at https:
         enableFSEBlocks: true
       });
     }
-    (0, import_data90.dispatch)(import_preferences13.store).setDefaults("core/edit-site", {
+    (0, import_data90.dispatch)(import_preferences14.store).setDefaults("core/edit-site", {
       welcomeGuide: true,
       welcomeGuideStyles: true,
       welcomeGuidePage: true,
       welcomeGuideTemplate: true
     });
-    (0, import_data90.dispatch)(import_preferences13.store).setDefaults("core", {
+    (0, import_data90.dispatch)(import_preferences14.store).setDefaults("core", {
       allowRightClickOverrides: true,
       distractionFree: false,
       editorMode: "visual",
@@ -60814,7 +60819,7 @@ If there's a particular need for this, please submit a feature request at https:
       showCollaborationPostSaveNotifications: true
     });
     if (window.__clientSideMediaProcessing) {
-      (0, import_data90.dispatch)(import_preferences13.store).setDefaults("core/media", {
+      (0, import_data90.dispatch)(import_preferences14.store).setDefaults("core/media", {
         requireApproval: true,
         optimizeOnUpload: true
       });

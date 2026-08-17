@@ -6837,14 +6837,14 @@ mark.wp-note {
   background: #fff;
   display: grid;
   grid-auto-flow: row;
-  grid-template: auto/32px minmax(0, max-content) minmax(min-content, 1fr) 64px;
+  grid-template: auto/auto minmax(0, max-content) minmax(min-content, 1fr) 64px;
 }
 .editor-header:has(> .editor-header__center) {
-  grid-template: auto/32px min-content 1fr min-content 64px;
+  grid-template: auto/auto min-content 1fr min-content 64px;
 }
 @media (min-width: 782px) {
   .editor-header:has(> .editor-header__center) {
-    grid-template: auto/32px minmax(min-content, 2fr) 2.5fr minmax(min-content, 2fr) 64px;
+    grid-template: auto/auto minmax(min-content, 2fr) 2.5fr minmax(min-content, 2fr) 64px;
   }
 }
 @media (min-width: 480px) {
@@ -6864,7 +6864,10 @@ mark.wp-note {
 }
 
 .editor-header__back-button {
-  padding-left: 8px;
+  margin: 0 -8px 0 8px;
+}
+.show-icon-labels .editor-header__back-button {
+  margin-right: 0;
 }
 
 .editor-header__toolbar {

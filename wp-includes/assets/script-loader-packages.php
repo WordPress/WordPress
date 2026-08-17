@@ -312,7 +312,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'a73c35651dc8614d5fb3'
+		'version' => '3bebbde9a9f5d2d35fb3'
 	),
 	'data.js' => array(
 		'dependencies' => array(
@@ -402,7 +402,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'e566fa04fc489a642398'
+		'version' => 'a7750dea8d5c880ddf33'
 	),
 	'edit-site.js' => array(
 		'dependencies' => array(
@@ -452,7 +452,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '789f35fae26c8d01c548'
+		'version' => '638e98d0061f4b9f1efb'
 	),
 	'edit-widgets.js' => array(
 		'dependencies' => array(
@@ -493,7 +493,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => 'a84bb1dba0b91cf80efa'
+		'version' => 'e3dea93676b5aabfef8f'
 	),
 	'editor.js' => array(
 		'dependencies' => array(
@@ -543,7 +543,7 @@
 				'import' => 'static'
 			)
 		),
-		'version' => '4849df258387a9077371'
+		'version' => '2cd3b932f41a420d5904'
 	),
 	'element.js' => array(
 		'dependencies' => array(
