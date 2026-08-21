@@ -17,10 +17,24 @@
 class WP_Widget_Factory {
 
 	/**
+	 * Prefix for the key under which a widget registered as an instance is stored.
+	 *
+	 * Without it the key would be the decimal representation of an integer, which PHP casts from
+	 * string to int when it is used as an array key.
+	 *
+	 * @since 7.1.1
+	 */
+	private const INSTANCE_KEY_PREFIX = 'spl_object_id:';
+
+	/**
 	 * Widgets array.
 	 *
+	 * Keyed by class name for a widget registered by name, and by a prefixed object ID for a widget
+	 * registered as an instance.
+	 *
 	 * @since 2.8.0
-	 * @var array
+	 * @var array<string, WP_Widget>
+	 * @phpstan-var array<non-decimal-int-string, WP_Widget>
 	 */
 	public $widgets = array();
 
@@ -52,12 +66,13 @@ class WP_Widget_Factory {
 	 * @since 2.8.0
 	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
 	 *              instead of simply a `WP_Widget` subclass name.
+	 * @since 7.1.1 The key for an instance is prefixed so that it is never cast to an integer.
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
 	public function register( $widget ) {
 		if ( $widget instanceof WP_Widget ) {
-			$this->widgets[ spl_object_id( $widget ) ] = $widget;
+			$this->widgets[ self::INSTANCE_KEY_PREFIX . spl_object_id( $widget ) ] = $widget;
 		} else {
 			$this->widgets[ $widget ] = new $widget();
 		}
@@ -69,12 +84,13 @@ class WP_Widget_Factory {
 	 * @since 2.8.0
 	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
 	 *              instead of simply a `WP_Widget` subclass name.
+	 * @since 7.1.1 The key for an instance is prefixed so that it is never cast to an integer.
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
 	public function unregister( $widget ) {
 		if ( $widget instanceof WP_Widget ) {
-			unset( $this->widgets[ spl_object_id( $widget ) ] );
+			unset( $this->widgets[ self::INSTANCE_KEY_PREFIX . spl_object_id( $widget ) ] );
 		} else {
 			unset( $this->widgets[ $widget ] );
 		}
