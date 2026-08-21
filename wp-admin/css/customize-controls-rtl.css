@@ -2494,6 +2494,7 @@ body.cheatin p {
  * Widgets and Menus common styles
  */
 
+ .customize-control-nav_menu-buttons,
 .customize-control-widgets-buttons {
 	display: flex;
 	flex-wrap: wrap;

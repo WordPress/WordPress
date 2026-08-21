@@ -860,10 +860,6 @@ li.assigned-to-menu-location .add-new-menu-item {
 }
 
 .customize-control-nav_menu .customize-control-nav_menu-buttons {
-	display: flex;
-	flex-direction: row-reverse;
-	align-items: center;
-	gap: 8px;
 	margin-top: 12px;
 }
 
