@@ -5873,13 +5873,13 @@ function _wp_add_additional_image_sizes() {
  * @since 6.7.0 The default behavior is to enable heic uploads as long as the server
  *              supports the format. The uploads are converted to JPEG's by default.
  *
- * @param array[] $plupload_settings The settings for Plupload.js.
- * @return array[] Modified settings for Plupload.js.
+ * @param array<string, mixed> $plupload_settings The settings for Plupload.js.
+ * @return array<string, mixed> Modified settings for Plupload.js.
  */
 function wp_show_heic_upload_error( $plupload_settings ) {
 	// Check if HEIC images can be edited.
 	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/heic' ) ) ) {
-		$plupload_init['heic_upload_error'] = true;
+		$plupload_settings['heic_upload_error'] = true;
 	}
 	return $plupload_settings;
 }

@@ -2234,7 +2234,7 @@ function media_upload_form( $errors = null ) {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param array $plupload_init An array of default settings used by Plupload.
+	 * @param array<string, mixed> $plupload_init An array of default settings used by Plupload.
 	 */
 	$plupload_init = apply_filters( 'plupload_init', $plupload_init );
 
