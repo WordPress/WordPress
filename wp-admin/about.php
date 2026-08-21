@@ -60,7 +60,15 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section">
 			<div class="column is-left-padding-zero is-right-padding-zero">
-				<h2><?php _e( 'Welcome to WordPress 7.1' ); ?></h2>
+				<h2>
+					<?php
+					printf(
+						/* translators: %s: Version number. */
+						__( 'Welcome to WordPress %s' ),
+						$display_major_version
+					);
+					?>
+				</h2>
 				<p class="is-subheading"><?php _e( 'WordPress 7.1 makes styling and collaborating easier. Style how all blocks look across screen sizes and how the Button block responds to hover, focus, and active states, all without writing custom CSS. A streamlined media editor brings cropping, rotation, and metadata editing together in one workflow. Notes now support rich text and @mentions, and the admin bar travels with you into every editor, so the tools you rely on stay with you wherever you&#8217;re working.' ); ?></p>
 			</div>
 		</div>
