@@ -7700,7 +7700,7 @@ function get_tag_regex( $tag ) {
 	if ( empty( $tag ) ) {
 		return '';
 	}
-	return sprintf( '<%1$s[^<]*(?:>[\s\S]*<\/%1$s>|\s*\/>)', tag_escape( $tag ) );
+	return sprintf( '<%1$s[^<]*?(?:>[\s\S]*?<\/%1$s>|\s*\/>)', tag_escape( $tag ) );
 }
 
 /**
