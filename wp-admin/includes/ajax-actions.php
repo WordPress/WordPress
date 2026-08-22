@@ -12,7 +12,7 @@
 //
 
 /**
- * Handles the Heartbeat API in the no-privilege context via AJAX .
+ * Handles the Heartbeat API in the no-privilege context via AJAX.
  *
  * Runs when the user is not logged in.
  *
