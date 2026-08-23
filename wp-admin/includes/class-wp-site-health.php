@@ -2759,20 +2759,20 @@ class WP_Site_Health {
 	 */
 	public function get_test_search_engine_visibility() {
 		$result = array(
-			'label'       => __( 'Search engine indexing is enabled.', 'default' ),
+			'label'       => __( 'Search engine indexing is enabled.' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => __( 'Privacy', 'default' ),
+				'label' => __( 'Privacy' ),
 				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'Search engines can crawl and index your site. No action needed.', 'default' )
+				__( 'Search engines can crawl and index your site. No action needed.' )
 			),
 			'actions'     => sprintf(
 				'<p><a href="%1$s">%2$s</a></p>',
 				esc_url( admin_url( 'options-reading.php#blog_public' ) ),
-				__( 'Review your visibility settings', 'default' )
+				__( 'Review your visibility settings' )
 			),
 			'test'        => 'search_engine_visibility',
 		);
@@ -2780,11 +2780,11 @@ class WP_Site_Health {
 		// If indexing is discouraged, flip to “recommended”:
 		if ( ! get_option( 'blog_public' ) ) {
 			$result['status']         = 'recommended';
-			$result['label']          = __( 'Search engines are discouraged from indexing this site.', 'default' );
+			$result['label']          = __( 'Search engines are discouraged from indexing this site.' );
 			$result['badge']['color'] = 'blue';
 			$result['description']    = sprintf(
 				'<p>%s</p>',
-				__( 'Your site is hidden from search engines. Consider enabling indexing if this is a public site.', 'default' )
+				__( 'Your site is hidden from search engines. Consider enabling indexing if this is a public site.' )
 			);
 		}
 
