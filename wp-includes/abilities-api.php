@@ -128,6 +128,9 @@ declare( strict_types = 1 );
  *     }
  *     add_action( 'wp_abilities_api_init', 'my_plugin_register_abilities' );
  *
+ * On failure, this function returns `null` and calls `_doing_it_wrong()` with the reason.
+ * By default, the resulting notice is displayed when `WP_DEBUG` is enabled.
+ *
  * ### Naming Conventions
  *
  * Ability names must follow these rules:
@@ -138,8 +141,9 @@ declare( strict_types = 1 );
  *
  * ### Categories
  *
- * Abilities must be organized into categories. Ability categories provide better
- * discoverability and must be registered before the abilities that reference them:
+ * Abilities can be organized into categories. If no category is provided, the ability is
+ * assigned to the built-in `uncategorized` category. Custom categories must be registered
+ * before the abilities that reference them:
  *
  *     function my_plugin_register_categories(): void {
  *         wp_register_ability_category(
@@ -228,6 +232,7 @@ declare( strict_types = 1 );
  *     ),
  *
  * @since 6.9.0
+ * @since 7.2.0 The `category` argument is now optional and defaults to `uncategorized`.
  *
  * @see WP_Abilities_Registry::register()
  * @see wp_register_ability_category()
@@ -242,9 +247,9 @@ declare( strict_types = 1 );
  *     @type string               $label               Required. The human-readable label for the ability.
  *     @type string               $description         Required. A detailed description of what the ability does
  *                                                     and when it should be used.
- *     @type string               $category            Required. The ability category slug this ability belongs to.
- *                                                     The ability category must be registered via `wp_register_ability_category()`
- *                                                     before registering the ability.
+ *     @type string               $category            Optional. The ability category slug this ability belongs to.
+ *                                                     Defaults to `uncategorized`. Custom categories must be registered
+ *                                                     via `wp_register_ability_category()` before registering the ability.
  *     @type callable             $execute_callback    Required. A callback function to execute when the ability is invoked.
  *                                                     Receives optional mixed input data and must return either a result
  *                                                     value (any type) or a `WP_Error` object on failure.
@@ -607,8 +612,10 @@ function _wp_get_abilities_match_meta( array $meta, array $conditions ): bool {
  * Registers a new ability category.
  *
  * Ability categories provide a way to organize and group related abilities for better
- * discoverability and management. Ability categories must be registered before abilities
- * that reference them.
+ * discoverability and management. Custom categories must be registered before abilities
+ * that reference them. Abilities that omit a category are assigned to the built-in
+ * `uncategorized` category, which is intended as an escape hatch for simple or transitional
+ * registrations.
  *
  * Ability categories must be registered on the `wp_abilities_api_categories_init` action hook.
  *
@@ -624,6 +631,9 @@ function _wp_get_abilities_match_meta( array $meta, array $conditions ): bool {
  *         );
  *     }
  *     add_action( 'wp_abilities_api_categories_init', 'my_plugin_register_categories' );
+ *
+ * On failure, this function returns `null` and calls `_doing_it_wrong()` with the reason.
+ * By default, the resulting notice is displayed when `WP_DEBUG` is enabled.
  *
  * @since 6.9.0
  *
