@@ -187,9 +187,9 @@ class WP_AI_Client_Prompt_Builder {
 	public function __construct( ProviderRegistry $registry, $prompt = null ) {
 		try {
 			$this->builder = new PromptBuilder( $registry, $prompt, AiClient::getEventDispatcher() );
-		} catch ( Exception $e ) {
+		} catch ( Throwable $e ) {
 			$this->builder = new PromptBuilder( $registry, null, AiClient::getEventDispatcher() );
-			$this->error   = $this->exception_to_wp_error( $e );
+			$this->error   = $this->throwable_to_wp_error( $e );
 		}
 
 		$default_timeout = 30.0;
@@ -377,8 +377,8 @@ class WP_AI_Client_Prompt_Builder {
 			}
 
 			return $result;
-		} catch ( Exception $e ) {
-			$this->error = $this->exception_to_wp_error( $e );
+		} catch ( Throwable $e ) {
+			$this->error = $this->throwable_to_wp_error( $e );
 
 			if ( self::is_generating_method( $name ) ) {
 				return $this->error;
@@ -391,33 +391,33 @@ class WP_AI_Client_Prompt_Builder {
 	}
 
 	/**
-	 * Converts an exception into a WP_Error with a structured error code and message.
+	 * Converts a throwable into a WP_Error with a structured error code and message.
 	 *
-	 * This method maps different exception types to specific WP_Error codes and HTTP status codes.
+	 * This method maps different throwable types to specific WP_Error codes and HTTP status codes.
 	 * The presence of the status codes means these WP_Error objects can be easily used in REST API responses
 	 * or other contexts where HTTP semantics are relevant.
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param Exception $e The exception to convert.
+	 * @param Throwable $throwable The throwable to convert.
 	 * @return WP_Error The resulting WP_Error object.
 	 */
-	private function exception_to_wp_error( Exception $e ): WP_Error {
-		if ( $e instanceof NetworkException ) {
+	private function throwable_to_wp_error( Throwable $throwable ): WP_Error {
+		if ( $throwable instanceof NetworkException ) {
 			$error_code  = 'prompt_network_error';
 			$status_code = 503;
-		} elseif ( $e instanceof ClientException ) {
+		} elseif ( $throwable instanceof ClientException ) {
 			// `ClientException` uses HTTP status codes as exception codes, so we can rely on them.
 			$error_code  = 'prompt_client_error';
-			$status_code = $e->getCode() ? $e->getCode() : 400;
-		} elseif ( $e instanceof ServerException ) {
+			$status_code = $throwable->getCode() ? $throwable->getCode() : 400;
+		} elseif ( $throwable instanceof ServerException ) {
 			// `ServerException` uses HTTP status codes as exception codes, so we can rely on them.
 			$error_code  = 'prompt_upstream_server_error';
-			$status_code = $e->getCode() ? $e->getCode() : 500;
-		} elseif ( $e instanceof TokenLimitReachedException ) {
+			$status_code = $throwable->getCode() ? $throwable->getCode() : 500;
+		} elseif ( $throwable instanceof TokenLimitReachedException ) {
 			$error_code  = 'prompt_token_limit_reached';
 			$status_code = 400;
-		} elseif ( $e instanceof InvalidArgumentException ) {
+		} elseif ( $throwable instanceof InvalidArgumentException ) {
 			$error_code  = 'prompt_invalid_argument';
 			$status_code = 400;
 		} else {
@@ -427,10 +427,10 @@ class WP_AI_Client_Prompt_Builder {
 
 		return new WP_Error(
 			$error_code,
-			$e->getMessage(),
+			$throwable->getMessage(),
 			array(
 				'status'          => $status_code,
-				'exception_class' => get_class( $e ),
+				'exception_class' => get_class( $throwable ),
 			)
 		);
 	}
