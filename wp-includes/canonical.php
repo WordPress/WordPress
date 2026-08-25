@@ -986,7 +986,7 @@ function redirect_guess_404_permalink() {
 				if ( empty( $post_types ) ) {
 					return false;
 				}
-				$where .= " AND post_type IN ('" . join( "', '", esc_sql( $post_types ) ) . "')";
+				$where .= " AND post_type IN ('" . implode( "', '", esc_sql( $post_types ) ) . "')";
 			} else {
 				if ( ! in_array( get_query_var( 'post_type' ), $publicly_viewable_post_types, true ) ) {
 					return false;
