@@ -278,8 +278,6 @@ class Snoopy
 
 	function submit($URI, $formvars="", $formfiles="")
 	{
-		unset($postdata);
-
 		$postdata = $this->_prepare_post_body($formvars, $formfiles);
 
 		$URI_PARTS = parse_url($URI);
@@ -844,7 +842,7 @@ class Snoopy
 
 		// set the read timeout if needed
 		if ($this->read_timeout > 0)
-			socket_set_timeout($fp, $this->read_timeout);
+			stream_set_timeout($fp, $this->read_timeout);
 		$this->timed_out = false;
 
 		fwrite($fp,$headers.$body,strlen($headers.$body));
