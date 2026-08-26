@@ -246,6 +246,7 @@ final class WP_Comment {
 	 * Retrieves a WP_Comment instance.
 	 *
 	 * @since 4.4.0
+	 * @since 7.2.0 Cache values that are not usable as a comment object are now treated as a cache miss and replaced.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -263,7 +264,8 @@ final class WP_Comment {
 
 		$_comment = wp_cache_get( $comment_id, 'comment' );
 
-		if ( ! is_object( $_comment ) ) {
+		// A cached value that is not usable as a comment is treated as a cache miss.
+		if ( ! is_object( $_comment ) || ! isset( $_comment->comment_ID ) ) {
 			/** @var object{ comment_ID: string, comment_post_ID: string, comment_author: string, comment_author_email: string, comment_author_url: string, comment_author_IP: string, comment_date: string, comment_date_gmt: string, comment_content: string, comment_karma: string, comment_approved: string, comment_agent: string, comment_type: string, comment_parent: string, user_id: string }|null $_comment */
 			$_comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id ) );
 
@@ -271,7 +273,8 @@ final class WP_Comment {
 				return false;
 			}
 
-			wp_cache_add( $_comment->comment_ID, $_comment, 'comment' );
+			// Not wp_cache_add(), since an unusable cached value may still be present and must be replaced.
+			wp_cache_set( $_comment->comment_ID, $_comment, 'comment' );
 		}
 
 		return new WP_Comment( $_comment );

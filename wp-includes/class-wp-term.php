@@ -103,6 +103,7 @@ final class WP_Term {
 	 * Retrieve WP_Term instance.
 	 *
 	 * @since 4.4.0
+	 * @since 7.2.0 Cache values that are not usable as a term object are now treated as a cache miss and replaced.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -123,8 +124,15 @@ final class WP_Term {
 
 		$_term = wp_cache_get( $term_id, 'terms' );
 
-		// If there isn't a cached version, hit the database.
-		if ( ! $_term || ( $taxonomy && $taxonomy !== $_term->taxonomy ) ) {
+		/*
+		 * If there isn't a usable cached version, hit the database. A cached value that is
+		 * not a term object, or that belongs to another taxonomy, is treated as a cache miss.
+		 */
+		if (
+			! is_object( $_term )
+			|| ! isset( $_term->term_id, $_term->taxonomy )
+			|| ( $taxonomy && $taxonomy !== $_term->taxonomy )
+		) {
 			// Any term found in the cache is not a match, so don't use it.
 			$_term = false;
 
@@ -177,7 +185,8 @@ final class WP_Term {
 
 			// Don't cache terms that are shared between taxonomies.
 			if ( 1 === count( $terms ) ) {
-				wp_cache_add( $term_id, $_term, 'terms' );
+				// Not wp_cache_add(), since an unusable cached value may still be present and must be replaced.
+				wp_cache_set( $term_id, $_term, 'terms' );
 			}
 		}
 
