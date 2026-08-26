@@ -782,7 +782,9 @@ function locate_template( $template_names, $load = false, $load_once = true, $ar
 function load_template( $_template_file, $load_once = true, $args = array() ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
-	if ( is_array( $wp_query->query_vars ) ) {
+	/** @var array{ s?: scalar, ... } $query_vars */
+	$query_vars = $wp_query->query_vars;
+	if ( is_array( $query_vars ) ) {
 		/*
 		 * This use of extract() cannot be removed. There are many possible ways that
 		 * templates could depend on variables that it creates existing, and no way to
@@ -792,11 +794,11 @@ function load_template( $_template_file, $load_once = true, $args = array() ) {
 		 * function variables cannot be overwritten.
 		 */
 		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
-		extract( $wp_query->query_vars, EXTR_SKIP );
+		extract( $query_vars, EXTR_SKIP );
 	}
 
 	if ( isset( $s ) ) {
-		$s = esc_attr( $s ); // @phpstan-ignore variable.undefined (It's extracted from query vars.)
+		$s = esc_attr( (string) $s );
 	}
 
 	/**

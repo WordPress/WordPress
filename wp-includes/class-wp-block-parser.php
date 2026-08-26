@@ -268,7 +268,7 @@ class WP_Block_Parser {
 		$is_closer = isset( $matches['closer'] ) && -1 !== $matches['closer'][1];
 		$is_void   = isset( $matches['void'] ) && -1 !== $matches['void'][1];
 		$namespace = $matches['namespace'];
-		$namespace = ( isset( $namespace ) && -1 !== $namespace[1] ) ? $namespace[0] : 'core/';
+		$namespace = ( -1 !== $namespace[1] ) ? $namespace[0] : 'core/';
 		$name      = $namespace . $matches['name'][0];
 		$has_attrs = isset( $matches['attrs'] ) && -1 !== $matches['attrs'][1];
 

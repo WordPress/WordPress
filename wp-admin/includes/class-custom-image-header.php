@@ -841,7 +841,7 @@ endif;
 			$file          = get_attached_file( $attachment_id, true );
 			$url           = wp_get_attachment_image_src( $attachment_id, 'full' );
 			$url           = $url[0];
-		} elseif ( isset( $_POST ) ) {
+		} else {
 			$data          = $this->step_2_manage_upload();
 			$attachment_id = $data['attachment_id'];
 			$file          = $data['file'];

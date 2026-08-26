@@ -397,9 +397,10 @@ function wp_edit_theme_plugin_file( $args ) {
 	$file    = $args['file'];
 	$content = $args['newcontent'];
 
-	$plugin    = null;
-	$theme     = null;
-	$real_file = null;
+	$plugin     = null;
+	$stylesheet = null;
+	$theme      = null;
+	$real_file  = null;
 
 	if ( ! empty( $args['plugin'] ) ) {
 		$plugin = $args['plugin'];
@@ -560,7 +561,7 @@ function wp_edit_theme_plugin_file( $args ) {
 		// Attempt loopback request to editor to see if user just whitescreened themselves.
 		if ( $plugin ) {
 			$url = add_query_arg( compact( 'plugin', 'file' ), admin_url( 'plugin-editor.php' ) );
-		} elseif ( isset( $stylesheet ) ) {
+		} elseif ( $stylesheet ) {
 			$url = add_query_arg(
 				array(
 					'theme' => $stylesheet,
