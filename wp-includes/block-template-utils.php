@@ -729,7 +729,8 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 	);
 
 	$args = array(
-		'title' => $post_title,
+		'title'          => $post_title,
+		'posts_per_page' => 2,
 	);
 	$args = wp_parse_args( $args, $default_args );
 
