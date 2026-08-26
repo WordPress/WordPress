@@ -288,7 +288,7 @@ do_action( 'customize_controls_head' );
 							$class .= ' active';
 						}
 						?>
-						<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo esc_attr( $active ); ?>" data-device="<?php echo esc_attr( $device ); ?>">
+						<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo $active ? 'true' : 'false'; ?>" data-device="<?php echo esc_attr( $device ); ?>">
 							<span class="devices__preview-label"><?php echo esc_html( $settings['label'] ); ?></span>
 						</button>
 					<?php endforeach; ?>

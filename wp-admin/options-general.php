@@ -190,7 +190,7 @@ $tagline_description = sprintf(
 			data-choose-text="<?php esc_attr_e( 'Choose a Site Icon' ); ?>"
 			data-update-text="<?php esc_attr_e( 'Change Site Icon' ); ?>"
 			data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"
-			data-state="<?php echo esc_attr( has_site_icon() ); ?>"
+			data-state="<?php echo has_site_icon() ? '1' : ''; ?>"
 
 		>
 			<?php if ( has_site_icon() ) : ?>
