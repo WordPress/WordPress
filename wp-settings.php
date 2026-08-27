@@ -502,6 +502,9 @@ wp_plugin_directory_constants();
  */
 $GLOBALS['wp_plugin_paths'] = array();
 
+// To make get_plugin_data() available for both network-activated and site-activated plugins, see #62244 and #64249.
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
 	$_wp_plugin_file = $mu_plugin;
@@ -524,6 +527,17 @@ if ( is_multisite() ) {
 	foreach ( wp_get_active_network_plugins() as $network_plugin ) {
 		wp_register_plugin_realpath( $network_plugin );
 
+		$plugin_data = get_plugin_data( $network_plugin, false, false );
+
+		$textdomain = $plugin_data['TextDomain'];
+		if ( $textdomain ) {
+			if ( $plugin_data['DomainPath'] ) {
+				$GLOBALS['wp_textdomain_registry']->set_custom_path( $textdomain, dirname( $network_plugin ) . $plugin_data['DomainPath'] );
+			} else {
+				$GLOBALS['wp_textdomain_registry']->set_custom_path( $textdomain, dirname( $network_plugin ) );
+			}
+		}
+
 		$_wp_plugin_file = $network_plugin;
 		include_once $network_plugin;
 		$network_plugin = $_wp_plugin_file; // Avoid stomping of the $network_plugin variable in a plugin.
@@ -537,7 +551,7 @@ if ( is_multisite() ) {
 		 */
 		do_action( 'network_plugin_loaded', $network_plugin );
 	}
-	unset( $network_plugin, $_wp_plugin_file );
+	unset( $network_plugin, $_wp_plugin_file, $plugin_data, $textdomain );
 }
 
 /**
@@ -574,9 +588,6 @@ if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
 	// Handle users requesting a recovery mode link and initiating recovery mode.
 	wp_recovery_mode()->initialize();
 }
-
-// To make get_plugin_data() available in a way that's compatible with plugins also loading this file, see #62244.
-require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
