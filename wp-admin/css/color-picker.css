@@ -34,8 +34,8 @@
 	color: #1d2327;
 }
 
-.wp-color-result:hover:after,
-.wp-color-result:focus:after {
+.wp-color-result:hover::after,
+.wp-color-result:focus::after {
 	color: #1d2327;
 	border-color: #a7aaad;
 	border-left: 1px solid #8c8f94;
@@ -81,7 +81,7 @@
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
-	background-color: #50575e
+	background-color: #50575e;
 }
 
 .wp-picker-container .iris-picker {
