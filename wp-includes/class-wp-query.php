@@ -3839,6 +3839,8 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @phpstan-impure
+	 *
 	 * @return bool True if posts are available, false if end of the loop.
 	 */
 	public function have_posts() {
@@ -3928,6 +3930,8 @@ class WP_Query {
 	 * Automatically rewinds comments when finished.
 	 *
 	 * @since 2.2.0
+	 *
+	 * @phpstan-impure
 	 *
 	 * @return bool True if comments are available, false if no more comments.
 	 */
