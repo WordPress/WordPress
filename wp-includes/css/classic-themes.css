@@ -3,7 +3,7 @@
  * They should match the button element rules in the base theme.json file.
  */
 .wp-block-button__link {
-	color: #ffffff;
+	color: #fff;
 	background-color: #32373c;
 	border-radius: 9999px; /* 100% causes an oval, but any explicit but really high value retains the pill shape. */
 
@@ -19,6 +19,6 @@
 
 .wp-block-file__button {
 	background: #32373c;
-	color: #ffffff;
+	color: #fff;
 	text-decoration: none;
 }
