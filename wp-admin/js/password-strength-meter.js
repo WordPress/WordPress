@@ -3,9 +3,11 @@
  */
 
 /* global zxcvbn */
+
+/** @namespace wp */
 window.wp = window.wp || {};
 
-(function($){
+( function( $, wp ) {
 	var __ = wp.i18n.__,
 		sprintf = wp.i18n.sprintf;
 
@@ -146,4 +148,4 @@ window.wp = window.wp || {};
 	 * @type {wp.passwordStrength.meter}
 	 */
 	window.passwordStrength = wp.passwordStrength.meter;
-})(jQuery);
+} )( jQuery, window.wp );
