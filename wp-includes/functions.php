@@ -5027,18 +5027,21 @@ function wp_parse_args( $args, $defaults = array() ) {
  * Converts a comma- or space-separated list of scalar values to an array.
  *
  * @since 5.1.0
+ * @since 7.2.0 Added explicit support for passing an integer.
  *
- * @param mixed[]|string $input_list List of values.
+ * @param mixed[]|string|int $input_list List of values.
  * @return array Array of scalar values. A string is split into a list, while an array
  *               keeps its keys, so the result is not necessarily a list.
  * @phpstan-return (
- *     $input_list is string ? list<string> : (
+ *     $input_list is string|int ? list<string> : (
  *         $input_list is array<string> ? array<string> : array<scalar>
  *     )
  * )
  */
 function wp_parse_list( $input_list ): array {
-	if ( ! is_array( $input_list ) ) {
+	if ( is_int( $input_list ) ) {
+		$input_list = array( (string) $input_list );
+	} elseif ( ! is_array( $input_list ) ) {
 		$parsed_list = preg_split( '/[\s,]+/', $input_list, -1, PREG_SPLIT_NO_EMPTY );
 		return is_array( $parsed_list ) ? $parsed_list : array();
 	}
@@ -5053,9 +5056,10 @@ function wp_parse_list( $input_list ): array {
  * Cleans up an array, comma- or space-separated list of IDs.
  *
  * @since 3.0.0
- * @since 5.1.0 Refactored to use wp_parse_list().
+ * @since 5.1.0 Refactored to use {@see wp_parse_list()}.
+ * @since 7.2.0 Added explicit support for passing an integer.
  *
- * @param mixed[]|string $input_list List of IDs.
+ * @param mixed[]|string|int $input_list List of IDs.
  * @return int[] Sanitized array of IDs. May include zero. Keys are preserved
  *               from the input and `array_unique()` may leave gaps, so the
  *               result is not necessarily a list.
@@ -5071,9 +5075,10 @@ function wp_parse_id_list( $input_list ): array {
  * Cleans up an array, comma- or space-separated list of slugs.
  *
  * @since 4.7.0
- * @since 5.1.0 Refactored to use wp_parse_list().
+ * @since 5.1.0 Refactored to use {@see wp_parse_list()}.
+ * @since 7.2.0 Added explicit support for passing an integer.
  *
- * @param mixed[]|string $input_list List of slugs.
+ * @param mixed[]|string|int $input_list List of slugs.
  * @return string[] Sanitized array of slugs. May include an empty string. Keys
  *                  are preserved from the input and `array_unique()` may leave
  *                  gaps, so the result is not necessarily a list.
