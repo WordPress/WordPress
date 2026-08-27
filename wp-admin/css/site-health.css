@@ -296,6 +296,10 @@ are styled in the Privacy section of edit.css */
 }
 
 /* Styling unique to the dashboard widget. */
+.no-js #dashboard_site_health {
+	display: none;
+}
+
 #dashboard_site_health .site-health-details {
 	padding-left: 16px;
 }

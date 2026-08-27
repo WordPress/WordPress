@@ -656,6 +656,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 		$drafts = get_posts( $query_args );
 		if ( ! $drafts ) {
+			echo '<div class="no-drafts">';
+			echo '<p>' . __( 'There are no recent drafts.' ) . '</p>';
+			echo '</div>';
 			return;
 		}
 	}
@@ -1372,7 +1375,7 @@ function wp_dashboard_events_news() {
  * @since 4.8.0
  */
 function wp_print_community_events_markup() {
-	$community_events_notice  = '<p class="hide-if-js">' . __( 'This widget requires JavaScript.' ) . '</p>';
+	$community_events_notice  = '<p class="hide-if-js">' . __( 'The WordPress Events and News feeds require JavaScript.' ) . '</p>';
 	$community_events_notice .= '<p class="community-events-error-occurred" aria-hidden="true">' . __( 'An error occurred. Please try again.' ) . '</p>';
 	$community_events_notice .= '<p class="community-events-could-not-locate" aria-hidden="true"></p>';
 
@@ -1998,7 +2001,7 @@ function wp_dashboard_site_health() {
 	$issues_total = $issue_counts['recommended'] + $issue_counts['critical'];
 	?>
 	<div class="health-check-widget">
-		<div class="health-check-widget-title-section site-health-progress-wrapper loading hide-if-no-js">
+		<div class="health-check-widget-title-section site-health-progress-wrapper loading">
 			<div class="site-health-progress">
 				<svg aria-hidden="true" focusable="false" width="100%" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
 					<circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>

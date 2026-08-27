@@ -792,7 +792,8 @@ body #dashboard-widgets .postbox form .submit {
 	margin: 12px;
 }
 
-#dashboard_quick_press .drafts {
+#dashboard_quick_press .drafts,
+#dashboard_quick_press .no-drafts {
 	padding: 10px 0 0;
 }
 
@@ -827,7 +828,8 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard Quick Draft - Drafts list */
 
-.js #dashboard_quick_press .drafts {
+.js #dashboard_quick_press .drafts,
+.js #dashboard_quick_press .no-drafts {
 	border-top: 1px solid #f0f0f1;
 }
 
@@ -874,7 +876,8 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard-widgets h4, /* Back-compat for pre-4.4 */
 #dashboard-widgets h3,
-#dashboard_quick_press .drafts h2 {
+#dashboard_quick_press .drafts h2,
+#dashboard_quick_press .no-drafts p {
 	margin: 0 12px 8px;
 	padding: 0;
 	font-size: 14px;
