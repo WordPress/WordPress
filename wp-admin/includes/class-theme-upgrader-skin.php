@@ -18,6 +18,14 @@
 class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 	/**
+	 * The upgrader instance.
+	 *
+	 * @since 2.8.0
+	 * @var Theme_Upgrader
+	 */
+	public $upgrader;
+
+	/**
 	 * Holds the theme slug in the Theme Directory.
 	 *
 	 * @since 2.8.0

@@ -16,6 +16,14 @@
  * @see WP_Upgrader_Skin
  */
 class Plugin_Installer_Skin extends WP_Upgrader_Skin {
+	/**
+	 * The upgrader instance.
+	 *
+	 * @since 2.8.0
+	 * @var Plugin_Upgrader
+	 */
+	public $upgrader;
+
 	public $api;
 	public $type;
 	public $url;

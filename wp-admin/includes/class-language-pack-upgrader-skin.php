@@ -16,6 +16,14 @@
  * @see WP_Upgrader_Skin
  */
 class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
+	/**
+	 * The upgrader instance.
+	 *
+	 * @since 3.7.0
+	 * @var Language_Pack_Upgrader
+	 */
+	public $upgrader;
+
 	public $language_update        = null;
 	public $done_header            = false;
 	public $done_footer            = false;
