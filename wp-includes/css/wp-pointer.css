@@ -19,13 +19,13 @@
 	background: #2271b1;
 }
 
-.wp-pointer-content h3:before {
+.wp-pointer-content h3::before {
 	background: #fff;
 	border-radius: 50%;
 	color: #2271b1;
 	content: "\f227";
-	content: "\f227" / '';
-	font: normal 20px/1.6 dashicons;
+	content: "\f227" / "";
+	font: 400 20px/1.6 dashicons;
 	position: absolute;
 	top: 8px;
 	left: 15px;
@@ -62,13 +62,13 @@
 	position: relative;
 }
 
-.wp-pointer-buttons a.close:before {
+.wp-pointer-buttons a.close::before {
 	background: none;
 	color: #787c82;
 	content: "\f153";
-	content: "\f153" / '';
+	content: "\f153" / "";
 	display: block !important;
-	font: normal 16px/1 dashicons;
+	font: 400 16px/1 dashicons;
 	margin: 1px 0;
 	text-align: center;
 	-webkit-font-smoothing: antialiased !important;
@@ -79,7 +79,7 @@
 	top: 1px;
 }
 
-.wp-pointer-buttons a.close:hover:before {
+.wp-pointer-buttons a.close:hover::before {
 	color: #d63638;
 }
 
