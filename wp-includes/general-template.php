@@ -1673,11 +1673,13 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	$title = apply_filters( 'wp_title', $title, $sep, $seplocation );
 
 	// Send it out.
-	if ( $display ) {
-		echo $title;
-	} else {
+	if ( ! $display ) {
 		return $title;
 	}
+
+	echo $title;
+
+	return null;
 }
 
 /**
@@ -1712,11 +1714,14 @@ function single_post_title( $prefix = '', $display = true ) {
 	 * @param WP_Post $_post       The current post.
 	 */
 	$title = apply_filters( 'single_post_title', $_post->post_title, $_post );
-	if ( $display ) {
-		echo $prefix . $title;
-	} else {
+
+	if ( ! $display ) {
 		return $prefix . $title;
 	}
+
+	echo $prefix . $title;
+
+	return null;
 }
 
 /**
@@ -1753,11 +1758,13 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	 */
 	$title = apply_filters( 'post_type_archive_title', $post_type_obj->labels->name, $post_type );
 
-	if ( $display ) {
-		echo $prefix . $title;
-	} else {
+	if ( ! $display ) {
 		return $prefix . $title;
 	}
+
+	echo $prefix . $title;
+
+	return null;
 }
 
 /**
@@ -1849,11 +1856,13 @@ function single_term_title( $prefix = '', $display = true ) {
 		return null;
 	}
 
-	if ( $display ) {
-		echo $prefix . $term_name;
-	} else {
+	if ( ! $display ) {
 		return $prefix . $term_name;
 	}
+
+	echo $prefix . $term_name;
+
+	return null;
 }
 
 /**
@@ -2913,11 +2922,13 @@ function the_date( $format = '', $before = '', $after = '', $display = true ) {
 	 */
 	$the_date = apply_filters( 'the_date', $the_date, $format, $before, $after );
 
-	if ( $display ) {
-		echo $the_date;
-	} else {
+	if ( ! $display ) {
 		return $the_date;
 	}
+
+	echo $the_date;
+
+	return null;
 }
 
 /**
@@ -2981,11 +2992,13 @@ function the_modified_date( $format = '', $before = '', $after = '', $display = 
 	 */
 	$the_modified_date = apply_filters( 'the_modified_date', $the_modified_date, $format, $before, $after );
 
-	if ( $display ) {
-		echo $the_modified_date;
-	} else {
+	if ( ! $display ) {
 		return $the_modified_date;
 	}
+
+	echo $the_modified_date;
+
+	return null;
 }
 
 /**

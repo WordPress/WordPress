@@ -1164,11 +1164,13 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $d
 	 */
 	$link = $before . apply_filters( 'edit_term_link', $link, $term->term_id ) . $after;
 
-	if ( $display ) {
-		echo $link;
-	} else {
+	if ( ! $display ) {
 		return $link;
 	}
+
+	echo $link;
+
+	return null;
 }
 
 /**
@@ -2547,11 +2549,13 @@ function next_posts( $max_page = 0, $display = true ) {
 	$link   = get_next_posts_page_link( $max_page );
 	$output = $link ? esc_url( $link ) : '';
 
-	if ( $display ) {
-		echo $output;
-	} else {
+	if ( ! $display ) {
 		return $output;
 	}
+
+	echo $output;
+
+	return null;
 }
 
 /**
@@ -2657,11 +2661,13 @@ function previous_posts( $display = true ) {
 	$link   = get_previous_posts_page_link();
 	$output = $link ? esc_url( $link ) : '';
 
-	if ( $display ) {
-		echo $output;
-	} else {
+	if ( ! $display ) {
 		return $output;
 	}
+
+	echo $output;
+
+	return null;
 }
 
 /**
