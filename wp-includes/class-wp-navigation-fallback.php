@@ -77,24 +77,24 @@ class WP_Navigation_Fallback {
 		 */
 		$should_create_fallback = apply_filters( 'wp_navigation_should_create_fallback', true );
 
-		$fallback = static::get_most_recently_published_navigation();
+		$fallback = self::get_most_recently_published_navigation();
 
 		if ( $fallback || ! $should_create_fallback ) {
 			return $fallback;
 		}
 
-		$fallback = static::create_classic_menu_fallback();
+		$fallback = self::create_classic_menu_fallback();
 
 		if ( $fallback && ! is_wp_error( $fallback ) ) {
 			// Return the newly created fallback post object which will now be the most recently created navigation menu.
-			return $fallback instanceof WP_Post ? $fallback : static::get_most_recently_published_navigation();
+			return $fallback instanceof WP_Post ? $fallback : self::get_most_recently_published_navigation();
 		}
 
-		$fallback = static::create_default_fallback();
+		$fallback = self::create_default_fallback();
 
 		if ( $fallback && ! is_wp_error( $fallback ) ) {
 			// Return the newly created fallback post object which will now be the most recently created navigation menu.
-			return $fallback instanceof WP_Post ? $fallback : static::get_most_recently_published_navigation();
+			return $fallback instanceof WP_Post ? $fallback : self::get_most_recently_published_navigation();
 		}
 
 		return null;
@@ -138,7 +138,7 @@ class WP_Navigation_Fallback {
 	 */
 	private static function create_classic_menu_fallback() {
 		// See if we have a classic menu.
-		$classic_nav_menu = static::get_fallback_classic_menu();
+		$classic_nav_menu = self::get_fallback_classic_menu();
 
 		if ( ! $classic_nav_menu ) {
 			return new WP_Error( 'no_classic_menus', __( 'No Classic Menus found.' ) );
@@ -184,19 +184,19 @@ class WP_Navigation_Fallback {
 			return null;
 		}
 
-		$nav_menu = static::get_nav_menu_at_primary_location();
+		$nav_menu = self::get_nav_menu_at_primary_location();
 
 		if ( $nav_menu ) {
 			return $nav_menu;
 		}
 
-		$nav_menu = static::get_nav_menu_with_primary_slug( $classic_nav_menus );
+		$nav_menu = self::get_nav_menu_with_primary_slug( $classic_nav_menus );
 
 		if ( $nav_menu ) {
 			return $nav_menu;
 		}
 
-		return static::get_most_recently_created_nav_menu( $classic_nav_menus );
+		return self::get_most_recently_created_nav_menu( $classic_nav_menus );
 	}
 
 
@@ -269,7 +269,7 @@ class WP_Navigation_Fallback {
 	 */
 	private static function create_default_fallback() {
 
-		$default_blocks = static::get_default_fallback_blocks();
+		$default_blocks = self::get_default_fallback_blocks();
 
 		// Create a new navigation menu from the fallback blocks.
 		$default_fallback = wp_insert_post(

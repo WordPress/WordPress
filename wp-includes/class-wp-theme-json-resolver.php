@@ -279,8 +279,8 @@ class WP_Theme_JSON_Resolver {
 			 * See test_add_registered_block_styles_to_theme_data and test_unwraps_block_style_variations.
 			 *
 			 */
-			$theme_json_data = static::inject_variations_from_block_style_variation_files( $theme_json_data, $variations );
-			$theme_json_data = static::inject_variations_from_block_styles_registry( $theme_json_data );
+			$theme_json_data = self::inject_variations_from_block_style_variation_files( $theme_json_data, $variations );
+			$theme_json_data = self::inject_variations_from_block_styles_registry( $theme_json_data );
 
 			/**
 			 * Filters the data provided by the theme for global styles and settings.
@@ -400,7 +400,7 @@ class WP_Theme_JSON_Resolver {
 		$config = array( 'version' => WP_Theme_JSON::LATEST_SCHEMA );
 		foreach ( $blocks as $block_name => $block_type ) {
 			if ( isset( $block_type->supports['__experimentalStyle'] ) ) {
-				$config['styles']['blocks'][ $block_name ] = static::remove_json_comments( $block_type->supports['__experimentalStyle'] );
+				$config['styles']['blocks'][ $block_name ] = self::remove_json_comments( $block_type->supports['__experimentalStyle'] );
 			}
 
 			if (
@@ -450,7 +450,7 @@ class WP_Theme_JSON_Resolver {
 		unset( $input_array['//'] );
 		foreach ( $input_array as $k => $v ) {
 			if ( is_array( $v ) ) {
-				$input_array[ $k ] = static::remove_json_comments( $v );
+				$input_array[ $k ] = self::remove_json_comments( $v );
 			}
 		}
 
@@ -805,10 +805,10 @@ class WP_Theme_JSON_Resolver {
 		$base_directory     = get_stylesheet_directory() . '/styles';
 		$template_directory = get_template_directory() . '/styles';
 		if ( is_dir( $base_directory ) ) {
-			$variation_files = static::recursively_iterate_json( $base_directory );
+			$variation_files = self::recursively_iterate_json( $base_directory );
 		}
 		if ( is_dir( $template_directory ) && $template_directory !== $base_directory ) {
-			$variation_files_parent = static::recursively_iterate_json( $template_directory );
+			$variation_files_parent = self::recursively_iterate_json( $template_directory );
 			// If the child and parent variation file basename are the same, only include the child theme's.
 			foreach ( $variation_files_parent as $parent_path => $parent ) {
 				foreach ( $variation_files as $child_path => $child ) {
@@ -822,7 +822,7 @@ class WP_Theme_JSON_Resolver {
 		ksort( $variation_files );
 		foreach ( $variation_files as $path => $file ) {
 			$decoded_file = self::read_json_file( $path );
-			if ( is_array( $decoded_file ) && static::style_variation_has_scope( $decoded_file, $scope ) ) {
+			if ( is_array( $decoded_file ) && self::style_variation_has_scope( $decoded_file, $scope ) ) {
 				$translated = static::translate( $decoded_file, wp_get_theme()->get( 'TextDomain' ) );
 				$variation  = ( new WP_Theme_JSON( $translated ) )->get_raw_data();
 				if ( empty( $variation['title'] ) ) {

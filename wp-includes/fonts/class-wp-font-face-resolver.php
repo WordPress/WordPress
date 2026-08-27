@@ -33,7 +33,7 @@ class WP_Font_Face_Resolver {
 			return array();
 		}
 
-		return static::parse_settings( $settings );
+		return self::parse_settings( $settings );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class WP_Font_Face_Resolver {
 			),
 		);
 
-		return static::parse_settings( $settings );
+		return self::parse_settings( $settings );
 	}
 
 	/**
@@ -92,14 +92,14 @@ class WP_Font_Face_Resolver {
 					continue;
 				}
 
-				$font_family_name = static::maybe_parse_name_from_comma_separated_list( $definition['fontFamily'] );
+				$font_family_name = self::maybe_parse_name_from_comma_separated_list( $definition['fontFamily'] );
 
 				// Skip if no font family is defined.
 				if ( empty( $font_family_name ) ) {
 					continue;
 				}
 
-				$fonts[] = static::convert_font_face_properties( $definition['fontFace'], $font_family_name );
+				$fonts[] = self::convert_font_face_properties( $definition['fontFace'], $font_family_name );
 			}
 		}
 
@@ -143,11 +143,11 @@ class WP_Font_Face_Resolver {
 
 			// Converts the "file:./" src placeholder into a theme font file URI.
 			if ( ! empty( $font_face['src'] ) ) {
-				$font_face['src'] = static::to_theme_file_uri( (array) $font_face['src'] );
+				$font_face['src'] = self::to_theme_file_uri( (array) $font_face['src'] );
 			}
 
 			// Convert camelCase properties into kebab-case.
-			$font_face = static::to_kebab_case( $font_face );
+			$font_face = self::to_kebab_case( $font_face );
 
 			$converted_font_faces[] = $font_face;
 		}

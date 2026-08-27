@@ -42,11 +42,11 @@ class WP_Classic_To_Block_Menu_Converter {
 		// Adds the class property classes for the current context, if applicable.
 		_wp_menu_item_classes_by_context( $menu_items );
 
-		$menu_items_by_parent_id = static::group_by_parent_id( $menu_items );
+		$menu_items_by_parent_id = self::group_by_parent_id( $menu_items );
 
 		$first_menu_item = $menu_items_by_parent_id[0] ?? array();
 
-		$inner_blocks = static::to_blocks(
+		$inner_blocks = self::to_blocks(
 			$first_menu_item,
 			$menu_items_by_parent_id
 		);
@@ -117,7 +117,7 @@ class WP_Classic_To_Block_Menu_Converter {
 			);
 
 			$block['innerBlocks']  = isset( $menu_items_by_parent_id[ $menu_item->ID ] )
-			? static::to_blocks( $menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id )
+			? self::to_blocks( $menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id )
 			: array();
 			$block['innerContent'] = array_map( 'serialize_block', $block['innerBlocks'] );
 
