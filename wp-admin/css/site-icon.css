@@ -79,7 +79,7 @@
 	gap: 16px;
 }
 
-.site-icon-preview:after {
+.site-icon-preview::after {
 	--after-size: 150%;
 	aspect-ratio: 1/1;
 	content: "";
@@ -87,7 +87,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: var(--after-size);;
+	width: var(--after-size);
 	transform: translate(calc(var(--after-size) * -0.125), calc(var(--after-size) * -0.125));
 	filter: blur(5px);
 	opacity: 0.5;
