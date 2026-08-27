@@ -3033,12 +3033,11 @@ function wp_ext2type( $ext ) {
 	$ext = strtolower( $ext );
 
 	$ext2type = wp_get_ext_types();
-	foreach ( $ext2type as $type => $exts ) {
-		if ( in_array( $ext, $exts, true ) ) {
-			return $type;
-		}
-	}
-	return null;
+
+	return array_find_key(
+		$ext2type,
+		fn( $exts ) => in_array( $ext, $exts, true )
+	);
 }
 
 /**

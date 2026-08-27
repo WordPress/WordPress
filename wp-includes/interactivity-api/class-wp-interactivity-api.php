@@ -1387,18 +1387,18 @@ final class WP_Interactivity_API {
 	 */
 	private function data_wp_text_processor( WP_Interactivity_API_Directives_Processor $p, string $mode ) {
 		if ( 'enter' === $mode ) {
-			$entries     = $this->get_directive_entries( $p, 'text' );
-			$valid_entry = null;
+			$entries = $this->get_directive_entries( $p, 'text' );
+
 			// Get the first valid `data-wp-text` entry without suffix or unique ID.
-			foreach ( $entries as $entry ) {
-				if ( null === $entry['suffix'] && null === $entry['unique_id'] && ! empty( $entry['value'] ) ) {
-					$valid_entry = $entry;
-					break;
-				}
-			}
+			$valid_entry = array_find(
+				$entries,
+				fn( $entry ) => null === $entry['suffix'] && null === $entry['unique_id'] && ! empty( $entry['value'] )
+			);
+
 			if ( null === $valid_entry ) {
 				return;
 			}
+
 			$result = $this->evaluate( $valid_entry );
 
 			/*
