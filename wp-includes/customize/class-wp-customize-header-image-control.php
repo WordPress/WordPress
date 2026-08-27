@@ -201,6 +201,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			$src = call_user_func( $this->get_url, $src );
 			return $src;
 		}
+
+		return null;
 	}
 
 	/**

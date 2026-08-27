@@ -3875,6 +3875,8 @@ final class WP_Customize_Manager {
 		if ( isset( $this->settings[ $id ] ) ) {
 			return $this->settings[ $id ];
 		}
+
+		return null;
 	}
 
 	/**
@@ -3927,6 +3929,8 @@ final class WP_Customize_Manager {
 		if ( isset( $this->panels[ $id ] ) ) {
 			return $this->panels[ $id ];
 		}
+
+		return null;
 	}
 
 	/**
@@ -4023,6 +4027,8 @@ final class WP_Customize_Manager {
 		if ( isset( $this->sections[ $id ] ) ) {
 			return $this->sections[ $id ];
 		}
+
+		return null;
 	}
 
 	/**
@@ -4102,6 +4108,8 @@ final class WP_Customize_Manager {
 		if ( isset( $this->controls[ $id ] ) ) {
 			return $this->controls[ $id ];
 		}
+
+		return null;
 	}
 
 	/**

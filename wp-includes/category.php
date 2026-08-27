@@ -176,6 +176,8 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
 
 		return $category;
 	}
+
+	return null;
 }
 
 /**

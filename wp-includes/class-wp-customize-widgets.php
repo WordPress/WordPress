@@ -189,6 +189,8 @@ final class WP_Customize_Widgets {
 				return $type;
 			}
 		}
+
+		return null;
 	}
 
 	/**

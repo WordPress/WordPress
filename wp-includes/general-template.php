@@ -1896,7 +1896,10 @@ function single_month_title( $prefix = '', $display = true ) {
 	if ( ! $display ) {
 		return $result;
 	}
+
 	echo $result;
+
+	return null;
 }
 
 /**
