@@ -53,7 +53,7 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-#wp-auth-check-form.loading:before {
+#wp-auth-check-form.loading::before {
 	content: "";
 	display: block;
 	width: 20px;
@@ -68,9 +68,8 @@
 }
 
 @media print,
-  (min-resolution: 120dpi) {
-
-	#wp-auth-check-form.loading:before {
+	(min-resolution: 120dpi) {
+	#wp-auth-check-form.loading::before {
 		background-image: url(../images/spinner-2x.gif);
 	}
 
@@ -92,10 +91,10 @@
 	text-align: center;
 }
 
-#wp-auth-check-wrap .wp-auth-check-close:before {
+#wp-auth-check-wrap .wp-auth-check-close::before {
 	content: "\f158";
-	content: "\f158" / '';
-	font: normal 20px/22px dashicons;
+	content: "\f158" / "";
+	font: 400 20px/22px dashicons;
 	-webkit-font-smoothing: antialiased !important;
 	-moz-osx-font-smoothing: grayscale;
 }
