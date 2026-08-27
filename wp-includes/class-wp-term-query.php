@@ -300,8 +300,24 @@ class WP_Term_Query {
 	 * @since 4.6.0
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
-	 *                                         when 'count' is passed to `$args['fields']`.
+	 * @return WP_Term[]|int[]|string[]|int|string Array of terms, or number of terms as numeric string
+	 *                                             when 'count' is passed to `$args['fields']`, or the
+	 *                                             integer 0 when the queried parent term is not in the
+	 *                                             taxonomy hierarchy.
+	 *
+	 * @phpstan-return (
+	 *     $query is array{ fields: 'count', ... }
+	 *         ? 0|numeric-string
+	 *         : ( $query is array{ fields: 'ids'|'tt_ids', ... }
+	 *             ? int[]
+	 *             : ( $query is array{ fields: 'id=>parent', ... }
+	 *                 ? array<int, int>
+	 *                 : ( $query is array{ fields: 'names'|'slugs', ... }
+	 *                     ? string[]
+	 *                     : ( $query is array{ fields: 'id=>name'|'id=>slug', ... }
+	 *                         ? array<int, string>
+	 *                         : WP_Term[] ) ) ) )
+	 * )
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
@@ -318,7 +334,8 @@ class WP_Term_Query {
 	 *   - 'all'
 	 *   - 'all_with_object_id'
 	 *
-	 * The following will result in a numeric string being returned:
+	 * The following will result in a numeric string being returned, or the integer 0
+	 * when the queried parent term is not in the taxonomy hierarchy:
 	 *
 	 *   - 'count'
 	 *
@@ -329,12 +346,9 @@ class WP_Term_Query {
 	 *   - 'names'
 	 *   - 'slugs'
 	 *
-	 * The following will result in an array of numeric strings being returned:
-	 *
-	 *   - 'id=>parent'
-	 *
 	 * The following will result in an array of integers being returned:
 	 *
+	 *   - 'id=>parent'
 	 *   - 'ids'
 	 *   - 'tt_ids'
 	 *
@@ -342,8 +356,12 @@ class WP_Term_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
-	 *                                         when 'count' is passed to `$args['fields']`.
+	 * @return WP_Term[]|int[]|string[]|int|string Array of terms, or number of terms as numeric string
+	 *                                             when 'count' is passed to `$args['fields']`, or the
+	 *                                             integer 0 when the queried parent term is not in the
+	 *                                             taxonomy hierarchy.
+	 *
+	 * @phpstan-return 0|numeric-string|int[]|array<int, int>|string[]|array<int, string>|WP_Term[]
 	 */
 	public function get_terms() {
 		global $wpdb;
@@ -802,6 +820,8 @@ class WP_Term_Query {
 		}
 
 		if ( 'count' === $_fields ) {
+			// The request selects a single COUNT column, so it only returns null on a database error.
+			/** @var numeric-string $count */
 			$count = $wpdb->get_var( $this->request ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( $args['cache_results'] ) {
 				wp_cache_set_salted( $cache_key, $count, 'term-queries', $last_changed );

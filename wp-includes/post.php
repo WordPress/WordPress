@@ -2619,7 +2619,11 @@ function is_post_embeddable( $post = null ) {
  * @return WP_Post[]|int[] Array of post objects or post IDs.
  *
  * @phpstan-return (
- *     $args is array{ fields: 'ids', ... } ? int[] : WP_Post[]
+ *     $args is array{ fields: 'ids', ... }
+ *         ? int[]
+ *         : ( $args is array{ fields: 'id=>parent', ... }
+ *             ? array<int, int>
+ *             : WP_Post[] )
  * )
  */
 function get_posts( $args = null ) {
