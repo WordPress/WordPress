@@ -15,7 +15,6 @@ $icon-color: hsl(color.channel($base-color, "hue", $space: hsl), 7%, 95%) !defau
 $highlight-color: #0073aa !default;
 $notification-color: #d54e21 !default;
 
-
 // global
 
 $body-background: $gray-100 !default;
@@ -42,7 +41,7 @@ $menu-current-text: $menu-highlight-text !default;
 $menu-current-icon: $menu-highlight-icon !default;
 $menu-current-background: $menu-highlight-background !default;
 
-$menu-submenu-text: color.mix( $base-color, $text-color, 30% ) !default;
+$menu-submenu-text: color.mix($base-color, $text-color, 30%) !default;
 $menu-submenu-background: color.adjust($base-color, $lightness: -7%) !default;
 $menu-submenu-background-alt: color.adjust(color.adjust($menu-background, $lightness: 7%), $saturation: -7%) !default;
 
@@ -64,9 +63,9 @@ $adminbar-input-background: color.adjust($menu-background, $lightness: 7%) !defa
 
 $adminbar-recovery-exit-text: $menu-bubble-text !default;
 $adminbar-recovery-exit-background: $menu-bubble-background !default;
-$adminbar-recovery-exit-background-alt: color.mix(black, $adminbar-recovery-exit-background, 10%) !default;
+$adminbar-recovery-exit-background-alt: color.mix(#000, $adminbar-recovery-exit-background, 10%) !default;
 
-$menu-customizer-text: color.mix( $base-color, $text-color, 40% ) !default;
+$menu-customizer-text: color.mix($base-color, $text-color, 40%) !default;
 
 // Dashboard Colors
 
