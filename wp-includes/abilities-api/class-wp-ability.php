@@ -139,6 +139,7 @@ class WP_Ability {
 	 * @access private
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `public` meta argument.
 	 *
 	 * @see wp_register_ability()
 	 *
@@ -209,6 +210,7 @@ class WP_Ability {
 	 * caught and converted to a WP_Error by WP_Abilities_Registry::register().
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `public` meta argument.
 	 *
 	 * @see WP_Abilities_Registry::register()
 	 *
@@ -512,6 +514,7 @@ class WP_Ability {
 	 * Validates input data against the input schema.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_validate_input` filter.
 	 *
 	 * @param mixed $input Optional. The input data to validate. Default `null`.
 	 * @return true|WP_Error Returns true if valid or the WP_Error object if validation fails.
@@ -577,6 +580,7 @@ class WP_Ability {
 	 * Invokes a callable, ensuring the input is passed through only if the input schema is defined.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Exceptions thrown by the callback are now caught and returned as a `WP_Error`.
 	 *
 	 * @param callable $callback The callable to invoke.
 	 * @param mixed    $input    Optional. The input data for the ability. Default `null`.
@@ -705,6 +709,7 @@ class WP_Ability {
 	 * Validates output data against the output schema.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `wp_ability_validate_output` filter.
 	 *
 	 * @param mixed $output The output data to validate.
 	 * @return true|WP_Error Returns true if valid, or a WP_Error object if validation fails.

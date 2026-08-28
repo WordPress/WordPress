@@ -244,6 +244,7 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	 * Retrieves the ability's schema, conforming to JSON Schema.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `meta.public` property.
 	 *
 	 * @return array<string, mixed> Item schema data.
 	 */
@@ -330,6 +331,7 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	 * Retrieves the query params for collections.
 	 *
 	 * @since 6.9.0
+	 * @since 7.1.0 Added the `namespace` and `meta` parameters and the `rest_abilities_collection_params` filter.
 	 *
 	 * @return array<string, mixed> Collection parameters.
 	 */

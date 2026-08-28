@@ -232,6 +232,7 @@ declare( strict_types = 1 );
  *     ),
  *
  * @since 6.9.0
+ * @since 7.1.0 Added the `public` meta argument.
  * @since 7.2.0 The `category` argument is now optional and defaults to `uncategorized`.
  *
  * @see WP_Abilities_Registry::register()
