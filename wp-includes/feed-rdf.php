@@ -15,14 +15,14 @@ do_action( 'rss_tag_pre', 'rdf' );
 ?>
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-	xmlns:admin="http://webns.net/mvcb/"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	<?php
+	wp_feed_namespaces( 'rdf' );
+
 	/**
 	 * Fires at the end of the feed root to add namespaces.
+	 *
+	 * Consider using the {@see 'wp_feed_namespaces'} filter instead, which prevents
+	 * duplicate `xmlns` attributes.
 	 *
 	 * @since 2.0.0
 	 */

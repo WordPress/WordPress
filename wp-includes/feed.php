@@ -700,6 +700,126 @@ function self_link() {
 }
 
 /**
+ * Retrieves the XML namespaces for the root element of a feed.
+ *
+ * Namespaces are keyed by their prefix, so the same prefix cannot be
+ * declared twice. The default namespaces of a feed type cannot be removed,
+ * as the bundled feed templates use them in their static markup.
+ *
+ * @since 7.2.0
+ *
+ * @param string $type Type of feed. Possible values include 'rss2', 'rss2-comments',
+ *                     'rdf', 'atom', and 'atom-comments'.
+ * @return array<string, string> Array of namespace URIs, keyed by their prefix.
+ * @phpstan-param non-falsy-string $type
+ * @phpstan-return array<non-falsy-string, non-falsy-string>
+ */
+function wp_get_feed_namespaces( string $type ): array {
+	$defaults = array();
+
+	switch ( $type ) {
+		case 'rss2':
+			$defaults = array(
+				'content' => 'http://purl.org/rss/1.0/modules/content/',
+				'wfw'     => 'http://wellformedweb.org/CommentAPI/',
+				'dc'      => 'http://purl.org/dc/elements/1.1/',
+				'atom'    => 'http://www.w3.org/2005/Atom',
+				'sy'      => 'http://purl.org/rss/1.0/modules/syndication/',
+				'slash'   => 'http://purl.org/rss/1.0/modules/slash/',
+			);
+			break;
+
+		case 'rss2-comments':
+			$defaults = array(
+				'content' => 'http://purl.org/rss/1.0/modules/content/',
+				'dc'      => 'http://purl.org/dc/elements/1.1/',
+				'atom'    => 'http://www.w3.org/2005/Atom',
+				'sy'      => 'http://purl.org/rss/1.0/modules/syndication/',
+			);
+			break;
+
+		case 'rdf':
+			$defaults = array(
+				'rdf'     => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+				'dc'      => 'http://purl.org/dc/elements/1.1/',
+				'sy'      => 'http://purl.org/rss/1.0/modules/syndication/',
+				'admin'   => 'http://webns.net/mvcb/',
+				'content' => 'http://purl.org/rss/1.0/modules/content/',
+			);
+			break;
+
+		case 'atom':
+		case 'atom-comments':
+			$defaults = array(
+				'thr' => 'http://purl.org/syndication/thread/1.0',
+			);
+			break;
+	}
+
+	/**
+	 * Filters the XML namespaces of a feed's root element.
+	 *
+	 * Namespaces are keyed by their prefix, which makes duplicate `xmlns`
+	 * attributes impossible.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param array<string, string> $namespaces Array of namespace URIs, keyed by their prefix.
+	 * @param string                $type       Type of feed. Possible values include 'rss2',
+	 *                                          'rss2-comments', 'rdf', 'atom', and 'atom-comments'.
+	 */
+	$namespaces = apply_filters( 'wp_feed_namespaces', $defaults, $type );
+
+	if ( ! is_array( $namespaces ) ) {
+		$namespaces = array();
+	}
+
+	// The bundled feed templates use the default namespaces, so they cannot be removed.
+	$namespaces = array_merge( $namespaces, $defaults );
+
+	$sanitized = array();
+
+	foreach ( $namespaces as $prefix => $uri ) {
+		$prefix = (string) $prefix;
+
+		// Prefixes must be valid XML names, and the `xml` and `xmlns` prefixes are reserved.
+		if ( ! preg_match( '/^[\p{L}_][\p{L}\p{M}\p{N}._\-\x{B7}]*\z/u', $prefix )
+			|| in_array( strtolower( $prefix ), array( 'xml', 'xmlns' ), true )
+		) {
+			continue;
+		}
+
+		if ( ! is_string( $uri ) || empty( $uri ) ) {
+			continue;
+		}
+
+		$sanitized[ $prefix ] = $uri;
+	}
+
+	return $sanitized;
+}
+
+/**
+ * Displays the XML namespaces for the root element of a feed.
+ *
+ * Plugins should add namespaces via the {@see 'wp_feed_namespaces'} filter instead
+ * of the older {@see "{$type}_ns"} actions, as two action callbacks printing the
+ * same namespace produce a duplicate attribute, which is a well-formedness
+ * error in XML.
+ *
+ * @since 7.2.0
+ *
+ * @param string $type Type of feed. Possible values include 'rss2', 'rss2-comments',
+ *                     'rdf', 'atom', and 'atom-comments'.
+ * @phpstan-param non-falsy-string $type
+ */
+function wp_feed_namespaces( string $type ): void {
+	foreach ( wp_get_feed_namespaces( $type ) as $prefix => $uri ) {
+		printf( "xmlns:%s=\"%s\"\n\t", $prefix, esc_attr( $uri ) );
+	}
+}
+
+/**
  * Gets the UTC time of the most recently modified post from WP_Query.
  *
  * If viewing a comment feed, the time of the most recently modified

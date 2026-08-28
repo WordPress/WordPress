@@ -14,13 +14,17 @@ do_action( 'rss_tag_pre', 'atom-comments' );
 <feed
 	xmlns="http://www.w3.org/2005/Atom"
 	xml:lang="<?php bloginfo_rss( 'language' ); ?>"
-	xmlns:thr="http://purl.org/syndication/thread/1.0"
 	<?php
+		wp_feed_namespaces( 'atom-comments' );
+
 		/** This action is documented in wp-includes/feed-atom.php */
 		do_action( 'atom_ns' );
 
 		/**
 		 * Fires inside the feed tag in the Atom comment feed.
+		 *
+		 * Consider using the {@see 'wp_feed_namespaces'} filter instead, which
+		 * prevents duplicate `xmlns` attributes.
 		 *
 		 * @since 2.8.0
 		 */

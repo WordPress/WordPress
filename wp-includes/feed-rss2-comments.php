@@ -13,11 +13,9 @@ echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>
 do_action( 'rss_tag_pre', 'rss2-comments' );
 ?>
 <rss version="2.0"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:atom="http://www.w3.org/2005/Atom"
-	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	<?php
+	wp_feed_namespaces( 'rss2-comments' );
+
 	/** This action is documented in wp-includes/feed-rss2.php */
 	do_action( 'rss2_ns' );
 	?>
@@ -25,6 +23,9 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 	<?php
 	/**
 	 * Fires at the end of the RSS root to add namespaces.
+	 *
+	 * Consider using the {@see 'wp_feed_namespaces'} filter instead, which
+	 * prevents duplicate `xmlns` attributes.
 	 *
 	 * @since 2.8.0
 	 */

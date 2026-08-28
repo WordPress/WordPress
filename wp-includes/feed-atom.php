@@ -20,11 +20,15 @@ do_action( 'rss_tag_pre', 'atom' );
 ?>
 <feed
 	xmlns="http://www.w3.org/2005/Atom"
-	xmlns:thr="http://purl.org/syndication/thread/1.0"
 	xml:lang="<?php bloginfo_rss( 'language' ); ?>"
 	<?php
+	wp_feed_namespaces( 'atom' );
+
 	/**
 	 * Fires at end of the Atom feed root to add namespaces.
+	 *
+	 * Consider using the {@see 'wp_feed_namespaces'} filter instead, which prevents
+	 * duplicate `xmlns` attributes.
 	 *
 	 * @since 2.0.0
 	 */
