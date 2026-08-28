@@ -832,7 +832,7 @@ class WP_User {
 		unset( $capabilities['do_not_allow'] );
 
 		// Must have ALL requested caps.
-		return array_all( (array) $caps, fn( $cap, $key ) => ! empty( $capabilities[ $cap ] ) );
+		return array_all( (array) $caps, fn( $cap ) => ! empty( $capabilities[ $cap ] ) );
 	}
 
 	/**
