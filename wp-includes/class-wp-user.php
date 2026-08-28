@@ -33,6 +33,8 @@
  * @property string     $display_name
  * @property string     $spam
  * @property string     $deleted
+ * @property string     $comment_shortcuts
+ * @property string     $infinite_scrolling
  * @property string     $locale
  * @property string     $rich_editing
  * @property string     $syntax_highlighting
