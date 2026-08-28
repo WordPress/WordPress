@@ -311,6 +311,7 @@ function wp_render_typography_support( $block_content, $block ) {
 		if ( ! empty( $block_content ) ) {
 			$processor = new WP_HTML_Tag_Processor( $block_content );
 			if ( $processor->next_tag() ) {
+				$processor->add_class( 'has-fit-text' );
 				if ( ! $processor->get_attribute( 'data-wp-interactive' ) ) {
 					$processor->set_attribute( 'data-wp-interactive', true );
 				}
