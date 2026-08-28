@@ -9237,23 +9237,26 @@ function wp_get_admin_notice( $message, $args = array() ) {
 	 * @param array  $args    The arguments for the admin notice.
 	 * @param string $message The message for the admin notice.
 	 */
-	$args       = apply_filters( 'wp_admin_notice_args', $args, $message );
-	$id         = '';
-	$classes    = 'notice';
-	$attributes = '';
+	$args = apply_filters( 'wp_admin_notice_args', $args, $message );
+
+	$wrap_with_p  = false !== $args['paragraph_wrap'];
+	$wrap_opener  = $wrap_with_p ? '<p>' : '';
+	$wrap_closer  = $wrap_with_p ? '</p>' : '';
+	$html_builder = new WP_HTML_Tag_Processor( "<div class=\"notice\">{$wrap_opener}" );
+	$html_builder->next_token();
 
 	if ( is_string( $args['id'] ) ) {
 		$trimmed_id = trim( $args['id'] );
 
 		if ( '' !== $trimmed_id ) {
-			$id = 'id="' . $trimmed_id . '" ';
+			$html_builder->set_attribute( 'id', $trimmed_id );
 		}
 	}
 
 	if ( is_string( $args['type'] ) ) {
 		$type = trim( $args['type'] );
 
-		if ( str_contains( $type, ' ' ) ) {
+		if ( strlen( $type ) !== strcspn( $type, " \f\t\r\n" ) ) {
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
@@ -9266,36 +9269,40 @@ function wp_get_admin_notice( $message, $args = array() ) {
 		}
 
 		if ( '' !== $type ) {
-			$classes .= ' notice-' . $type;
+			$html_builder->add_class( "notice-{$type}" );
 		}
 	}
 
 	if ( true === $args['dismissible'] ) {
-		$classes .= ' is-dismissible';
+		$html_builder->add_class( 'is-dismissible' );
 	}
 
 	if ( is_array( $args['additional_classes'] ) && ! empty( $args['additional_classes'] ) ) {
-		$classes .= ' ' . implode( ' ', $args['additional_classes'] );
+		foreach ( $args['additional_classes'] as $class_name ) {
+			$html_builder->add_class( $class_name );
+		}
 	}
 
 	if ( is_array( $args['attributes'] ) && ! empty( $args['attributes'] ) ) {
-		$attributes = '';
-		foreach ( $args['attributes'] as $attr => $val ) {
-			if ( is_bool( $val ) ) {
-				$attributes .= $val ? ' ' . $attr : '';
-			} elseif ( is_int( $attr ) ) {
-				$attributes .= ' ' . esc_attr( trim( $val ) );
-			} elseif ( $val ) {
-				$attributes .= ' ' . $attr . '="' . esc_attr( trim( $val ) ) . '"';
+		foreach ( $args['attributes'] as $name => $value ) {
+			if ( is_int( $name ) ) {
+				/*
+				 * Boolean attributes may have been appended as numeric list items,
+				 * for example, with `$args['attributes'][] = 'disabled'`. They should
+				 * be recorded with the value serving as their name.
+				 */
+				$html_builder->set_attribute( $value, true );
+			} elseif ( true === $value ) {
+				$html_builder->set_attribute( $name, true );
+			} elseif ( false !== $value ) {
+				$html_builder->set_attribute( $name, trim( (string) $value ) );
 			}
 		}
 	}
 
-	if ( false !== $args['paragraph_wrap'] ) {
-		$message = "<p>$message</p>";
-	}
-
-	$markup = sprintf( '<div %1$sclass="%2$s"%3$s>%4$s</div>', $id, $classes, $attributes, $message );
+	$markup  = $html_builder->get_updated_html();
+	$markup .= $message;
+	$markup .= "{$wrap_closer}</div>";
 
 	/**
 	 * Filters the markup for an admin notice.
