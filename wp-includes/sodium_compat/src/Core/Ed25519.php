@@ -119,7 +119,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     {
         $p1 = self::ge_mul_l($A);
         $t = self::fe_sub($p1->Y, $p1->Z);
-        return self::fe_isnonzero($p1->X) && self::fe_isnonzero($t);
+        return !self::fe_isnonzero($p1->X) && !self::fe_isnonzero($t);
     }
 
     /**

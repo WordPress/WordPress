@@ -107,6 +107,22 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
     }
 
     /**
+     * Returns TRUE if $A represents a point on the order of the Edwards25519 prime order subgroup.
+     * Returns FALSE if $A is on a different subgroup.
+     *
+     * @param ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A
+     * @return bool
+     *
+     * @throws SodiumException
+     */
+    public static function is_on_main_subgroup(ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A)
+    {
+        $p1 = self::ge_mul_l($A);
+        $t = self::fe_sub($p1->Y, $p1->Z);
+        return !self::fe_isnonzero($p1->X) && !self::fe_isnonzero($t);
+    }
+
+    /**
      * @param string $pk
      * @return string
      * @throws SodiumException
@@ -118,9 +134,8 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
             throw new SodiumException('Public key is on a small order');
         }
         $A = self::ge_frombytes_negate_vartime($pk);
-        $p1 = self::ge_mul_l($A);
-        if (!self::fe_isnonzero($p1->X)) {
-            throw new SodiumException('Unexpected zero result');
+        if (!self::is_on_main_subgroup($A)) {
+            throw new SodiumException('Public key is not on a member of the main subgroup');
         }
 
         # fe_1(one_minus_y);
@@ -307,6 +322,9 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
 
         /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A */
         $A = self::ge_frombytes_negate_vartime($pk);
+        if (!self::is_on_main_subgroup($A)) {
+            throw new SodiumException('Public key is not on a member of the main subgroup');
+        }
 
         /** @var string $hDigest */
         $hDigest = hash(

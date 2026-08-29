@@ -2899,6 +2899,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
                 # ge_sub(&t, &u, &Ai[(-aslide[i]) / 2]);
                 $t = self::ge_sub($u, $Ai[(int)(-$aslide[$i] / 2)]);
             }
+            $r = self::ge_p1p1_to_p3($t);
         }
 
         # ge_p1p1_to_p3(r, &t);
