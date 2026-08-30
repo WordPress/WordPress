@@ -214,7 +214,12 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 				$classes .= ' hidden';
 			}
 
-			printf( '<td class="%s" data-colname="%s">', esc_attr( $classes ), esc_attr( wp_strip_all_tags( $display_name ) ) );
+			// The primary column is a `<th scope="row">` row header, matching the
+			// server-rendered markup in WP_List_Table::single_row_columns().
+			$tag   = $is_primary ? 'th' : 'td';
+			$scope = $is_primary ? ' scope="row"' : '';
+
+			printf( '<%1$s class="%2$s" data-colname="%3$s"%4$s>', $tag, esc_attr( $classes ), esc_attr( wp_strip_all_tags( $display_name ) ), $scope );
 
 			switch ( $column_name ) {
 				case 'name':
@@ -259,7 +264,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 				'</span></button>';
 			}
 
-			echo '</td>';
+			echo "</{$tag}>";
 		}
 
 		echo '</tr>';
