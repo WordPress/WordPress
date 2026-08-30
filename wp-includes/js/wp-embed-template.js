@@ -41,8 +41,8 @@
 
 		if ( share_input ) {
 			for ( i = 0; i < share_input.length; i++ ) {
-				share_input[ i ].addEventListener( 'click', function ( e ) {
-					e.target.select();
+				share_input[ i ].addEventListener( 'click', function ( event ) {
+					event.target.select();
 				} );
 			}
 		}
@@ -70,24 +70,24 @@
 			} );
 		}
 
-		function shareClickHandler( e ) {
+		function shareClickHandler( event ) {
 			var currentTab = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
 			currentTab.setAttribute( 'aria-selected', 'false' );
 			document.querySelector( '#' + currentTab.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'true' );
 
-			e.target.setAttribute( 'aria-selected', 'true' );
-			document.querySelector( '#' + e.target.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'false' );
+			event.target.setAttribute( 'aria-selected', 'true' );
+			document.querySelector( '#' + event.target.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'false' );
 		}
 
-		function shareKeyHandler( e ) {
-			var target = e.target,
+		function shareKeyHandler( event ) {
+			var target = event.target,
 				previousSibling = target.parentElement.previousElementSibling,
 				nextSibling = target.parentElement.nextElementSibling,
 				newTab, newTabChild;
 
-			if ( 37 === e.keyCode ) {
+			if ( 37 === event.keyCode ) {
 				newTab = previousSibling;
-			} else if ( 39 === e.keyCode ) {
+			} else if ( 39 === event.keyCode ) {
 				newTab = nextSibling;
 			} else {
 				return false;
@@ -119,24 +119,24 @@
 			}
 		}
 
-		document.addEventListener( 'keydown', function ( e ) {
-			if ( 27 === e.keyCode && -1 === share_dialog.className.indexOf( 'hidden' ) ) {
+		document.addEventListener( 'keydown', function ( event ) {
+			if ( 27 === event.keyCode && -1 === share_dialog.className.indexOf( 'hidden' ) ) {
 				closeSharingDialog();
-			} else if ( 9 === e.keyCode ) {
-				constrainTabbing( e );
+			} else if ( 9 === event.keyCode ) {
+				constrainTabbing( event );
 			}
 		}, false );
 
-		function constrainTabbing( e ) {
+		function constrainTabbing( event ) {
 			// Need to re-get the selected tab each time.
 			var firstFocusable = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
 
-			if ( share_dialog_close === e.target && ! e.shiftKey ) {
+			if ( share_dialog_close === event.target && ! event.shiftKey ) {
 				firstFocusable.focus();
-				e.preventDefault();
-			} else if ( firstFocusable === e.target && e.shiftKey ) {
+				event.preventDefault();
+			} else if ( firstFocusable === event.target && event.shiftKey ) {
 				share_dialog_close.focus();
-				e.preventDefault();
+				event.preventDefault();
 			}
 		}
 
@@ -154,13 +154,15 @@
 
 		/**
 		 * Detect clicks to external (_top) links.
+		 *
+		 * @param {MouseEvent} event
 		 */
-		function linkClickHandler( e ) {
+		function linkClickHandler( event ) {
 			/*
 			 * The href property resolves to an absolute URL, which the parent window requires.
 			 * Elements whose href is not a string, such as SVG anchors, are skipped.
 			 */
-			var link = e.target.closest( '[href]' ),
+			var link = event.target.closest( '[href]' ),
 				href = 'string' === typeof link?.href ? link.href : null;
 
 			// Only catch clicks from the primary mouse button, without any modifiers.
@@ -171,7 +173,7 @@
 			// Send link target to the parent (embedding) site.
 			if ( href ) {
 				sendEmbedMessage( 'link', href );
-				e.preventDefault();
+				event.preventDefault();
 			}
 		}
 
