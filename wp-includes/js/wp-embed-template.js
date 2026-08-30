@@ -1,6 +1,13 @@
 /**
  * @output wp-includes/js/wp-embed-template.js
  */
+
+/**
+ * IIFE setup function.
+ *
+ * @param {Window} window Global window object.
+ * @param {Document} document Global document object.
+ */
 (function ( window, document ) {
 	'use strict';
 
@@ -25,6 +32,12 @@
 		sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
 	}
 
+	/**
+	 * Runs on DomContentLoaded and load event.
+	 *
+	 * Exits early on the load event if the earlier event has
+	 * successfully fired.
+	 */
 	function onLoad() {
 		if ( loaded ) {
 			return;
@@ -47,12 +60,18 @@
 			}
 		}
 
+		/**
+		 * Open share dialog within embed iframe.
+		 */
 		function openSharingDialog() {
 			share_dialog.className = share_dialog.className.replace( 'hidden', '' );
 			// Initial focus should go on the currently selected tab in the dialog.
 			document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' ).focus();
 		}
 
+		/**
+		 * Close share dialog within embed iframe.
+		 */
 		function closeSharingDialog() {
 			share_dialog.className += ' hidden';
 			document.querySelector( '.wp-embed-share-dialog-open' ).focus();
@@ -70,6 +89,11 @@
 			} );
 		}
 
+		/**
+		 * Click event handler for share button.
+		 *
+		 * @param {MouseEvent} event Event handler.
+		 */
 		function shareClickHandler( event ) {
 			var currentTab = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
 			currentTab.setAttribute( 'aria-selected', 'false' );
@@ -79,6 +103,12 @@
 			document.querySelector( '#' + event.target.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'false' );
 		}
 
+		/**
+		 * Keyboard event handler for share button.
+		 *
+		 * @param {KeyboardEvent} event Event handler.
+		 * @return {boolean|void} Returns false if default action is to be prevented.
+		 */
 		function shareKeyHandler( event ) {
 			var target = event.target,
 				previousSibling = target.parentElement.previousElementSibling,
@@ -127,6 +157,11 @@
 			}
 		}, false );
 
+		/**
+		 * Constrain tabbing to share dialog when open.
+		 *
+		 * @param {KeyboardEvent} event Event object.
+		 */
 		function constrainTabbing( event ) {
 			// Need to re-get the selected tab each time.
 			var firstFocusable = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
