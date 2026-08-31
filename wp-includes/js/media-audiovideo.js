@@ -691,7 +691,7 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 	 * When multiple players in the DOM contain the same src, things get weird.
 	 *
 	 * @param {HTMLElement} elem
-	 * @return {HTMLElement}
+	 * @return {HTMLElement} The prepared element.
 	 */
 	prepareSrc : function( elem ) {
 		var i = MediaDetails.instances++;

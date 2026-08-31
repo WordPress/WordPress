@@ -2513,7 +2513,7 @@ AttachmentCompat = View.extend(/** @lends wp.media.view.AttachmentCompat.prototy
 		return View.prototype.dispose.apply( this, arguments );
 	},
 	/**
-	 * @return {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
+	 * @return {void|wp.media.view.AttachmentCompat} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var compat = this.model.get('compat');
@@ -2976,6 +2976,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this.listenTo( this.controller.states, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
 	},
 	/**
+	 * Update the view after the model has been saved.
+	 *
 	 * @return {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	dispose: function() {
@@ -2994,6 +2996,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		return this;
 	},
 	/**
+	 * Renders the attachment view.
+	 *
 	 * @return {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
 	render: function() {
@@ -3064,6 +3068,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 	},
 
 	/**
+	 * Toggles the selection state of the attachment.
+	 *
 	 * @param {Object} event
 	 */
 	toggleSelectionHandler: function( event ) {
@@ -3118,6 +3124,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this.controller.trigger( 'selection:toggle' );
 	},
 	/**
+	 * Toggles the selection state of the attachment.
+	 *
 	 * @param {Object} options
 	 */
 	toggleSelection: function( options ) {
@@ -3198,7 +3206,9 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this[ this.selected() ? 'select' : 'deselect' ]();
 	},
 	/**
-	 * @return {unresolved|boolean}
+	 * Checks if the model is selected in the selection.
+	 *
+	 * @return {void|boolean} True if the model is selected in the selection, false otherwise.
 	 */
 	selected: function() {
 		var selection = this.options.selection;
@@ -3207,6 +3217,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		}
 	},
 	/**
+	 * Selects the model in the selection.
+	 *
 	 * @param {Backbone.Model} model
 	 * @param {Backbone.Collection} collection
 	 */
@@ -3236,6 +3248,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		}
 	},
 	/**
+	 * Deselects the model in the selection.
+	 *
 	 * @param {Backbone.Model} model
 	 * @param {Backbone.Collection} collection
 	 */
@@ -3254,6 +3268,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 			.find( '.check' ).attr( 'tabindex', '-1' );
 	},
 	/**
+	 * Updates the view to reflect whether the model is the single model in the selection.
+	 *
 	 * @param {Backbone.Model} model
 	 * @param {Backbone.Collection} collection
 	 */
@@ -3269,8 +3285,10 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this.$el.toggleClass( 'details', details === this.model );
 	},
 	/**
+	 * Gets the image size object for the specified size.
+	 *
 	 * @param {string} size
-	 * @return {Object}
+	 * @return {Object} Returns an object containing the image size information.
 	 */
 	imageSize: function( size ) {
 		var sizes = this.model.get('sizes'), matched = false;
@@ -3302,6 +3320,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		};
 	},
 	/**
+	 * Update the model's setting with the value from the input.
+	 *
 	 * @param {Object} event
 	 */
 	updateSetting: function( event ) {
@@ -3353,6 +3373,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		});
 	},
 	/**
+	 * Updates the view's save status.
+	 *
 	 * @param {string} status
 	 * @return {wp.media.view.Attachment} Returns itself to allow chaining.
 	 */
@@ -3395,6 +3417,8 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		}
 	},
 	/**
+	 * Removes the model from the collection.
+	 *
 	 * @param {Object} event
 	 */
 	removeFromLibrary: function( event ) {
@@ -3410,11 +3434,11 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 	},
 
 	/**
-	 * Add the model if it isn't in the selection, if it is in the selection,
-	 * remove it.
+	 * Adds the model if it isn't in the selection, if it is in the selection,
+	 * removes it.
 	 *
-	 * @param {[type]} event [description]
-	 * @return {[type]} [description]
+	 * @param {Object} event
+	 * @return {void}
 	 */
 	checkClickHandler: function ( event ) {
 		var selection = this.options.selection;
@@ -3541,8 +3565,6 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	 * Copies the attachment URL to the clipboard.
 	 *
 	 * @since 5.5.0
-	 *
-	 * @param {MouseEvent} event A click event.
 	 *
 	 * @return {void}
 	 */
@@ -4386,7 +4408,7 @@ var View = wp.media.View,
  * @augments wp.Backbone.View
  * @augments Backbone.View
  *
- * @param {object}         [options]               The options hash passed to the view.
+ * @param {Object}         [options]               The options hash passed to the view.
  * @param {boolean|string} [options.filters=false] Which filters to show in the browser's toolbar.
  *                                                 Accepts 'uploaded' and 'all'.
  * @param {boolean}        [options.search=true]   Whether to show the search interface in the
@@ -5187,7 +5209,9 @@ ButtonGroup = wp.media.View.extend(/** @lends wp.media.view.ButtonGroup.prototyp
 	},
 
 	/**
-	 * @return {wp.media.view.ButtonGroup}
+	 * Renders the button group.
+	 *
+	 * @return {wp.media.view.ButtonGroup} The button group.
 	 */
 	render: function() {
 		this.$el.html( $( _.pluck( this.buttons, 'el' ) ).detach() );
@@ -5712,7 +5736,9 @@ EmbedUrl = View.extend(/** @lends wp.media.view.EmbedUrl.prototype */{
 		}
 	},
 	/**
-	 * @return {wp.media.view.EmbedUrl} Returns itself to allow chaining.
+	 * Renders the view.
+	 *
+	 * @return {void|wp.media.view.EmbedUrl} Returns itself to allow chaining.
 	 */
 	render: function() {
 		var $input = this.$input;
@@ -5968,8 +5994,6 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param {Object} event jQuery event object.
-	 *
 	 * @return {void}
 	 */
 	setupAriaTabs: function() {
@@ -6206,6 +6230,10 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 	},
 	/**
 	 * Map activeMode collection events to the frame.
+	 *
+	 * @param {Backbone.Model}      model
+	 * @param {Backbone.Collection} collection
+	 * @param {Object}              options
 	 */
 	triggerModeEvents: function( model, collection, options ) {
 		var collectionEvent,
@@ -6231,8 +6259,8 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 	/**
 	 * Activate a mode on the frame.
 	 *
-	 * @param string mode Mode ID.
-	 * @return {this} Returns itself to allow chaining.
+	 * @param {string} mode Mode ID.
+	 * @return {void|this} Returns itself to allow chaining.
 	 */
 	activateMode: function( mode ) {
 		// Bail if the mode is already active.
@@ -6248,7 +6276,7 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 	/**
 	 * Deactivate a mode on the frame.
 	 *
-	 * @param string mode Mode ID.
+	 * @param {string} mode Mode ID.
 	 * @return {this} Returns itself to allow chaining.
 	 */
 	deactivateMode: function( mode ) {
@@ -6270,8 +6298,8 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 	/**
 	 * Check if a mode is enabled on the frame.
 	 *
-	 * @param string mode Mode ID.
-	 * @return bool
+	 * @param {string} mode Mode ID.
+	 * @return {boolean} True if the mode is active, false otherwise.
 	 */
 	isModeActive: function( mode ) {
 		return Boolean( this.activeModes.where( { id: mode } ).length );
@@ -8185,7 +8213,7 @@ Menu = PriorityList.extend(/** @lends wp.media.view.Menu.prototype */{
 	/**
 	 * @param {Object} options
 	 * @param {string} id
-	 * @return {wp.media.View}
+	 * @return {wp.media.View} The view instance.
 	 */
 	toView: function( options, id ) {
 		options = options || {};
@@ -8322,7 +8350,9 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		});
 	},
 	/**
-	 * @return {Object}
+	 * Prepares the data for the modal template.
+	 *
+	 * @return {Object} The prepared data.
 	 */
 	prepare: function() {
 		return {
@@ -8332,6 +8362,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
+	 * Attaches the modal to the DOM and triggers the ready event.
+	 *
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	attach: function() {
@@ -8353,6 +8385,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
+	 * Detaches the modal from the DOM and triggers the detach event.
+	 *
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	detach: function() {
@@ -8366,6 +8400,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
+	 * Opens the modal and triggers the open event.
+	 *
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	open: function() {
@@ -8409,6 +8445,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
+	 * Closes the modal and triggers the close event.
+	 *
 	 * @param {Object} options
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
@@ -8452,12 +8490,16 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		return this;
 	},
 	/**
+	 * Closes the modal and triggers the escape event.
+	 *
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
 	escape: function() {
 		return this.close({ escape: true });
 	},
 	/**
+	 * Handles the escape key press event to close the modal.
+	 *
 	 * @param {Object} event
 	 */
 	escapeHandler: function( event ) {
@@ -8489,6 +8531,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	},
 
 	/**
+	 * Sets the content of the modal by registering views to the '.media-modal-content' selector.
+	 *
 	 * @param {Array|Object} content Views to register to '.media-modal-content'
 	 * @return {wp.media.view.Modal} Returns itself to allow chaining.
 	 */
@@ -8514,6 +8558,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		return this;
 	},
 	/**
+	 * Handles keydown events within the modal.
+	 *
 	 * @param {Object} event
 	 */
 	keydown: function( event ) {
@@ -8564,6 +8610,8 @@ var PriorityList = wp.media.View.extend(/** @lends wp.media.view.PriorityList.pr
 		}
 	},
 	/**
+	 * Adds a view to the list, sorted by its priority.
+	 *
 	 * @param {string} id
 	 * @param {wp.media.View|Object} view
 	 * @param {Object} options
@@ -8607,15 +8655,19 @@ var PriorityList = wp.media.View.extend(/** @lends wp.media.view.PriorityList.pr
 		return this;
 	},
 	/**
+	 * Retrieves a view by its ID.
+	 *
 	 * @param {string} id
-	 * @return {wp.media.View}
+	 * @return {wp.media.View} Returns the view if found, otherwise undefined.
 	 */
 	get: function( id ) {
 		return this._views[ id ];
 	},
 	/**
+	 * Removes a view by its ID.
+	 *
 	 * @param {string} id
-	 * @return {wp.media.view.PriorityList}
+	 * @return {wp.media.view.PriorityList} Returns itself to allow chaining.
 	 */
 	unset: function( id ) {
 		var view = this.get( id );
@@ -8628,8 +8680,10 @@ var PriorityList = wp.media.View.extend(/** @lends wp.media.view.PriorityList.pr
 		return this;
 	},
 	/**
+	 * Creates a view from an object of options.
+	 *
 	 * @param {Object} options
-	 * @return {wp.media.View}
+	 * @return {wp.media.View} Returns the created view.
 	 */
 	toView: function( options ) {
 		return new wp.media.View( options );
@@ -9457,8 +9511,10 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 		return this;
 	},
 	/**
+	 * Retrieves a view by its ID.
+	 *
 	 * @param {string} id
-	 * @return {wp.media.view.Button}
+	 * @return {wp.media.view.Button} The view associated with the given ID, or undefined if no view is found.
 	 */
 	get: function( id ) {
 		return this._views[ id ];
@@ -9673,6 +9729,8 @@ EditorUploader = View.extend(/** @lends wp.media.view.EditorUploader.prototype *
 
 	/**
 	 * Bind drag'n'drop events to callbacks.
+	 *
+	 * @return {wp.media.view.EditorUploader} Chainable.
 	 */
 	initialize: function() {
 		this.initialized = false;
@@ -9709,7 +9767,7 @@ EditorUploader = View.extend(/** @lends wp.media.view.EditorUploader.prototype *
 	/**
 	 * Check browser support for drag'n'drop.
 	 *
-	 * @return {boolean}
+	 * @return {boolean} True if the browser supports drag'n'drop, false otherwise.
 	 */
 	browserSupport: function() {
 		var supports = false, div = document.createElement('div');
@@ -9775,6 +9833,7 @@ EditorUploader = View.extend(/** @lends wp.media.view.EditorUploader.prototype *
 	 * and upload the file immediately.
 	 *
 	 * @param {jQuery.Event} event The 'drop' event.
+	 * @return {void|boolean} False to prevent default behavior.
 	 */
 	drop: function( event ) {
 		var $wrap, uploadView;
@@ -9819,6 +9878,8 @@ EditorUploader = View.extend(/** @lends wp.media.view.EditorUploader.prototype *
 
 	/**
 	 * Add the files to the uploader.
+	 *
+	 * @return {wp.media.view.EditorUploader} Chainable.
 	 */
 	addFiles: function() {
 		if ( this.files.length ) {
@@ -9937,11 +9998,13 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 		return data;
 	},
 	/**
+	 * Disposes of the inline uploader and its associated views.
+	 *
 	 * @return {wp.media.view.UploaderInline} Returns itself to allow chaining.
 	 */
 	dispose: function() {
 		if ( this.disposing ) {
-			/**
+			/*
 			 * call 'dispose' directly on the parent class
 			 */
 			return View.prototype.dispose.apply( this, arguments );
@@ -9956,10 +10019,12 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 		return this.remove();
 	},
 	/**
+	 * Disposes of the inline uploader and its associated views.
+	 *
 	 * @return {wp.media.view.UploaderInline} Returns itself to allow chaining.
 	 */
 	remove: function() {
-		/**
+		/*
 		 * call 'remove' directly on the parent class
 		 */
 		var result = View.prototype.remove.apply( this, arguments );
@@ -9976,7 +10041,9 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 		}
 	},
 	/**
-	 * @return {wp.media.view.UploaderInline}
+	 * Replaces the placeholder with the uploader browser and refreshes the uploader.
+	 *
+	 * @return {void|wp.media.view.UploaderInline} Returns itself to allow chaining.
 	 */
 	ready: function() {
 		var $browser = this.options.$browser,
@@ -10083,11 +10150,13 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 		this.errors.on( 'add', this.error, this );
 	},
 	/**
-	 * @return {wp.media.view.UploaderStatus}
+	 * Disposes of the uploader status and its associated views.
+	 *
+	 * @return {wp.media.view.UploaderStatus} Returns the instance of the UploaderStatus view.
 	 */
 	dispose: function() {
 		wp.Uploader.queue.off( null, null, this );
-		/**
+		/*
 		 * call 'dispose' directly on the parent class
 		 */
 		View.prototype.dispose.apply( this, arguments );
@@ -10153,14 +10222,19 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 		}
 	},
 	/**
+	 * Escapes the filename to prevent XSS attacks.
+	 *
 	 * @param {string} filename
-	 * @return {string}
+	 * @return {string} Escaped filename.
 	 */
 	filename: function( filename ) {
 		return _.escape( filename );
 	},
 	/**
+	 * Handles an error event from the uploader queue.
+	 *
 	 * @param {Backbone.Model} error
+	 * @return {void}
 	 */
 	error: function( error ) {
 		var statusError = new wp.media.view.UploaderStatusError( {
@@ -10181,6 +10255,9 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 		}, 1500 );
 	},
 
+	/**
+	 * Dismisses the error messages and resets the uploader errors.
+	 */
 	dismiss: function() {
 		var errors = this.views.get('.upload-errors');
 
@@ -10219,11 +10296,11 @@ var $ = jQuery,
  * @augments wp.Backbone.View
  * @augments Backbone.View
  *
- * @param {object} [options]                   Options hash passed to the view.
- * @param {object} [options.uploader]          Uploader properties.
+ * @param {Object} [options]                   Options hash passed to the view.
+ * @param {Object} [options.uploader]          Uploader properties.
  * @param {jQuery} [options.uploader.browser]
  * @param {jQuery} [options.uploader.dropzone] jQuery collection of the dropzone.
- * @param {object} [options.uploader.params]
+ * @param {Object} [options.uploader.params]
  */
 UploaderWindow = wp.media.View.extend(/** @lends wp.media.view.UploaderWindow.prototype */{
 	tagName:   'div',

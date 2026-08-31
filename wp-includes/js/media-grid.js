@@ -615,6 +615,7 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 
 	/**
 	 * Rerender the view.
+	 * @param {wp.media.model.Attachment} model The attachment model to render.
 	 */
 	rerender: function( model ) {
 		this.stopListening( this.model );
@@ -693,6 +694,8 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 	 * Respond to the keyboard events: Alt + right arrow, Alt + left arrow,
 	 * except when focus is in a form field. Requires the Alt modifier key to
 	 * avoid interfering with screen reader navigation.
+	 *
+	 * @param {Event} event The keyboard event.
 	 */
 	keyEvent: function( event ) {
 		if ( ( 'INPUT' === event.target.nodeName || 'TEXTAREA' === event.target.nodeName || 'SELECT' === event.target.nodeName ) && ! event.target.disabled ) {
@@ -929,6 +932,8 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 
 	/**
 	 * Click handler for the `Add New` button.
+	 *
+	 * @param {Event} event The click event.
 	 */
 	addNewClickHandler: function( event ) {
 		event.preventDefault();
@@ -941,6 +946,8 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 
 	/**
 	 * Open the Edit Attachment modal.
+	 *
+	 * @param {wp.media.model.Attachment} model The attachment model to edit.
 	 */
 	openEditAttachmentModal: function( model ) {
 		// Create a new EditAttachment frame, passing along the library and the attachment model.
