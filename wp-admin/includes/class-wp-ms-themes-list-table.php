@@ -724,7 +724,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				$pre . $theme->errors()->get_error_message(),
 				array(
 					'type'               => 'error',
-					'additional_classes' => 'inline',
+					'additional_classes' => array( 'inline' ),
 				)
 			);
 		}

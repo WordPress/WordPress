@@ -5816,7 +5816,7 @@ final class WP_Customize_Manager {
 			get_pages(
 				array(
 					'number'       => 1,
-					'hierarchical' => 0,
+					'hierarchical' => false,
 				)
 			)
 		);

@@ -31,7 +31,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *                                                    Default 'menu'.
  *     @type string             $menu_id              The ID that is applied to the ul element which forms the menu.
  *                                                    Default is the menu slug, incremented.
- *     @type string             $container            Whether to wrap the ul, and what to wrap it with.
+ *     @type string|false       $container            Whether to wrap the ul, and what to wrap it with.
  *                                                    Default 'div'.
  *     @type string             $container_class      Class that is applied to the container.
  *                                                    Default 'menu-{menu slug}-container'.
@@ -55,7 +55,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *                                                    numbered placeholders. Default is a ul with an id and class.
  *     @type string             $item_spacing         Whether to preserve whitespace within the menu's HTML.
  *                                                    Accepts 'preserve' or 'discard'. Default 'preserve'.
- * }
+ *                                                    }
  * @return void|string|false Void if 'echo' argument is true, menu output if 'echo' is false.
  *                           False if there are no items or no menu was found.
  */

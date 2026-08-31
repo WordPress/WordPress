@@ -68,7 +68,7 @@ class WP_Customize_Setting {
 	 * The default value for the setting.
 	 *
 	 * @since 3.4.0
-	 * @var string
+	 * @var mixed
 	 */
 	public $default = '';
 
@@ -168,7 +168,7 @@ class WP_Customize_Setting {
 	 *     @type string          $type                 Type of the setting. Default 'theme_mod'.
 	 *     @type string          $capability           Capability required for the setting. Default 'edit_theme_options'
 	 *     @type string|string[] $theme_supports       Theme features required to support the panel. Default is none.
-	 *     @type string          $default              Default value for the setting. Default is empty string.
+	 *     @type mixed           $default              Default value for the setting. Default is empty string.
 	 *     @type string          $transport            Options for rendering the live preview of changes in Customizer.
 	 *                                                 Using 'refresh' makes the change visible by reloading the whole preview.
 	 *                                                 Using 'postMessage' allows a custom JavaScript to handle live changes.
@@ -178,7 +178,7 @@ class WP_Customize_Setting {
 	 *     @type callable        $sanitize_js_callback Callback to convert a Customize PHP setting value to a value that is
 	 *                                                 JSON serializable.
 	 *     @type bool            $dirty                Whether or not the setting is initially dirty when created.
-	 * }
+	 *                                                 }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
