@@ -836,6 +836,7 @@ wp.media.mixin = {
 	 *
 	 * @since 4.2.0
 	 *
+	 * @param {Object} t The MediaElement player object.
 	 * @return {void}
 	 */
 	removePlayer: function(t) {

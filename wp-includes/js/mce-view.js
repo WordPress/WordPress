@@ -88,8 +88,8 @@
 		 * replacing any matches with markers,
 		 * and creates a new instance for every match.
 		 *
-		 * @param {string} content The string to scan.
-		 * @param {tinymce.Editor} editor The editor.
+		 * @param {string}         content The string to scan.
+		 * @param {tinymce.Editor} editor  The editor.
 		 *
 		 * @return {string} The string with markers.
 		 */
@@ -190,7 +190,7 @@
 		/**
 		 * Get a view instance.
 		 *
-		 * @param {(string|HTMLElement)} object The textual representation of the view or the view node.
+		 * @param {string|HTMLElement} object The textual representation of the view or the view node.
 		 *
 		 * @return {wp.mce.View} The view instance or undefined.
 		 */
@@ -296,7 +296,7 @@
 		/**
 		 * Whether or not to display a loader.
 		 *
-		 * @type {Boolean}
+		 * @type {boolean}
 		 */
 		loader: true,
 
@@ -308,7 +308,7 @@
 		/**
 		 * Returns the content to render in the view node.
 		 *
-		 * @return {*}
+		 * @return {*} The content.
 		 */
 		getContent: function() {
 			return this.content;
@@ -675,6 +675,8 @@
 
 		/**
 		 * Sets a loader for all view nodes tied to this view instance.
+		 *
+		 * @param {string} dashicon The dashicon ID. Optional.
 		 */
 		setLoader: function( dashicon ) {
 			this.setContent(
@@ -705,7 +707,7 @@
 		 *
 		 * @param {string} content The string to scan.
 		 *
-		 * @return {Object}
+		 * @return {void|Object} An object with the match index, content and options, or undefined if no match was found.
 		 */
 		match: function( content ) {
 			var match = shortcode.next( this.type, content );

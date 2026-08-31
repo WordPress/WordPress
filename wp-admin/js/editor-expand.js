@@ -2,6 +2,11 @@
  * @output wp-admin/js/editor-expand.js
  */
 
+/**
+ * @param {Window}       window    The global window object.
+ * @param {JQueryStatic} $         The jQuery object.
+ * @param {undefined}    undefined The undefined value.
+ */
 ( function( window, $, undefined ) {
 	'use strict';
 
@@ -167,7 +172,7 @@
 		 * @since 4.0.0
 		 *
 		 * @param {event} event The TinyMCE editor init event.
-		 * @param {object} editor The editor to bind the vents on.
+		 * @param {Object} editor The editor to bind the vents on.
 		 *
 		 * @return {void}
 		 */
@@ -785,7 +790,7 @@
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param {function} callback The function to run in the timeout.
+		 * @param {Function} callback The function to run in the timeout.
 		 *
 		 * @return {void}
 		 */
@@ -1160,7 +1165,7 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param event The event that triggers this function.
+		 * @param {Event} event The event that triggers this function.
 		 *
 		 * @return {void}
 		 */
@@ -1299,7 +1304,7 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param event The event that triggers this function.
+		 * @param {Event} event The event that triggers this function.
 		 *
 		 * @return {void}
 		 */
@@ -1461,7 +1466,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {event} event The TinyMCE editor setup event.
-		 * @param {object} editor The editor to add the button to.
+		 * @param {Object} editor The editor to add the button to.
 		 *
 		 * @return {void}
 		 */
@@ -1510,7 +1515,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {event} event The TinyMCE editor init event.
-		 * @param {object} editor The editor to bind events on.
+		 * @param {Object} editor The editor to bind events on.
 		 *
 		 * @return {void}
 		 */
@@ -1567,7 +1572,7 @@
 		 * @since 4.1.0
 		 *
 		 * @param {event} event The quicktags init event.
-		 * @param {object} editor The editor to bind events on.
+		 * @param {Object} editor The editor to bind events on.
 		 *
 		 * @return {void}
 		 */

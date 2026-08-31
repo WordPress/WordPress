@@ -633,10 +633,10 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param {Array}  rawEvents  The events that should have dynamic fields added to them.
-		 * @param {string} timeFormat A time format acceptable by `wp.date.dateI18n()`.
+		 * @param {Object[]} rawEvents  The events that should have dynamic fields added to them.
+		 * @param {string}   timeFormat A time format acceptable by `wp.date.dateI18n()`.
 		 *
-		 * @returns {Array}
+		 * @return {Object[]} The events with dynamic fields added to them.
 		 */
 		populateDynamicEventFields: function( rawEvents, timeFormat ) {
 			// Clone the parameter to avoid mutating it, so that this can remain a pure function.
@@ -668,9 +668,9 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param startTimestamp
+		 * @param {number} startTimestamp The start timestamp of the event.
 		 *
-		 * @returns {string|number}
+		 * @return {string|number} A time zone string like `America/Chicago`, or a number representing the offset from UTC in minutes.
 		 */
 		getTimeZone: function( startTimestamp ) {
 			/*
@@ -705,7 +705,7 @@ jQuery( function( $ ) {
 		 *
 		 * @param {number} startTimestamp
 		 *
-		 * @returns {number}
+		 * @return {number} The offset from UTC in minutes, with the sign flipped to be more intuitive.
 		 */
 		getFlippedTimeZoneOffset: function( startTimestamp ) {
 			return new Date( startTimestamp ).getTimezoneOffset() * -1;
@@ -718,7 +718,7 @@ jQuery( function( $ ) {
 		 *
 		 * @param {number} startTimestamp
 		 *
-		 * @returns {string}
+		 * @return {string} A short time zone name, like `PST`, or a string like `GMT+5` if the abbreviation can't be determined.
 		 */
 		getTimeZoneAbbreviation: function( startTimestamp ) {
 			var timeZoneAbbreviation,
@@ -758,11 +758,11 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param {int}    startDate   The Unix timestamp in milliseconds when the event starts.
-		 * @param {int}    endDate     The Unix timestamp in milliseconds when the event ends.
-		 * @param {string} timeZone    A time zone string or offset which is parsable by `wp.date.i18n()`.
+		 * @param {number} startDate The Unix timestamp in milliseconds when the event starts.
+		 * @param {number} endDate   The Unix timestamp in milliseconds when the event ends.
+		 * @param {string} timeZone  A time zone string or offset which is parsable by `wp.date.i18n()`.
 		 *
-		 * @returns {string}
+		 * @return {string} A formatted date string, like `Mon, Jan 1, 2024` or `Jan 1–3, 2024`.
 		 */
 		getFormattedDate: function( startDate, endDate, timeZone ) {
 			var formattedDate;
@@ -834,7 +834,7 @@ jQuery( function( $ ) {
  * @since 4.8.0
  * @deprecated 5.6.0
  *
- * @type {object}
+ * @type {Object}
 */
 window.communityEventsData.l10n = window.communityEventsData.l10n || {
 	enter_closest_city: '',

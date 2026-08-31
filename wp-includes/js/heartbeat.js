@@ -27,6 +27,11 @@
  * @output wp-includes/js/heartbeat.js
  */
 
+/**
+ * @param {JQueryStatic} $         The jQuery object.
+ * @param {Window}       window    The global window object.
+ * @param {undefined}    undefined The undefined value.
+ */
 ( function( $, window, undefined ) {
 
 	/**
@@ -35,7 +40,7 @@
 	 * @since 3.6.0
 	 *
 	 * @return {Object} An instance of the Heartbeat class.
-	 * @constructor
+	 * @class
 	 */
 	var Heartbeat = function() {
 		var $document = $(document),
@@ -281,6 +286,7 @@
 		 * @since 3.6.0
 		 * @access private
 		 *
+		 * @param {HTMLIFrameElement} frame The iframe element to check.
 		 * @return {boolean} Returns whether or not the iframe is from the same origin.
 		 */
 		function isLocalFrame( frame ) {
@@ -824,7 +830,7 @@
 		 *
 		 * @param {string} handle The handle for the data.
 		 *
-		 * @return {boolean} True if the data is queued with this handle.
+		 * @return {void|boolean} True if the data is queued with this handle.
 		 */
 		function isQueued( handle ) {
 			if ( handle ) {

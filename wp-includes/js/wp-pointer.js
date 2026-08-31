@@ -4,6 +4,8 @@
 
 /**
  * Initializes the wp-pointer widget using jQuery UI Widget Factory.
+ *
+ * @param {JQueryStatic} $ The jQuery object.
  */
 (function($){
 	var identifier = 0,
@@ -146,7 +148,7 @@
 		 *
 		 * @param {Object} event The event that caused the update.
 		 *
-		 * @return {Promise} Resolves when the update has been executed.
+		 * @return {Promise|void} Resolves when the update has been executed.
 		 */
 		update: function( event ) {
 			var self = this,

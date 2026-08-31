@@ -76,7 +76,7 @@
 		 *
 		 * Themes and plugins can override this method to change the criteria.
 		 *
-		 * @return {boolean}
+		 * @return {boolean} True if the environment supports video, false otherwise.
 		 */
 		supportsVideo: function() {
 			// Don't load video on small screens. @todo Consider bandwidth and other factors.
@@ -163,7 +163,7 @@
 		 * Whether the video is paused.
 		 *
 		 * @abstract
-		 * @return {boolean}
+		 * @return {boolean} True if the video is paused, false otherwise.
 		 */
 		isPaused: function() {},
 
@@ -217,8 +217,7 @@
 		 * Whether the handler can process a video.
 		 *
 		 * @abstract
-		 * @param {Object} settings Video settings.
-		 * @return {boolean}
+		 * @return {boolean} True if the handler can process a video, false otherwise. Default is false.
 		 */
 		test: function() {
 			return false;
@@ -240,7 +239,7 @@
 	 * @memberOf wp
 	 *
 	 * @param {Object} protoProps Properties to apply to the prototype.
-	 * @return CustomHandler The subclass.
+	 * @return {Function} Custom handler constructor.
 	 */
 	BaseHandler.extend = function( protoProps ) {
 		var prop;
@@ -272,7 +271,7 @@
 		 * Whether the native handler supports a video.
 		 *
 		 * @param {Object} settings Video settings.
-		 * @return {boolean}
+		 * @return {boolean} True if the native handler supports a video, false otherwise.
 		 */
 		test: function( settings ) {
 			var video = document.createElement( 'video' );
@@ -314,7 +313,7 @@
 		/**
 		 * Whether the video is paused.
 		 *
-		 * @return {boolean}
+		 * @return {boolean} True if the video is paused, false otherwise.
 		 */
 		isPaused: function() {
 			return this.video.paused;
@@ -347,7 +346,7 @@
 		 * Whether the handler supports a video.
 		 *
 		 * @param {Object} settings Video settings.
-		 * @return {boolean}
+		 * @return {boolean} True if the handler supports a video, false otherwise.
 		 */
 		test: function( settings ) {
 			return 'video/x-youtube' === settings.mimeType;
@@ -423,7 +422,7 @@
 		/**
 		 * Whether the video is paused.
 		 *
-		 * @return {boolean}
+		 * @return {boolean} True if the video is paused, false otherwise.
 		 */
 		isPaused: function() {
 			return YT.PlayerState.PAUSED === this.player.getPlayerState();

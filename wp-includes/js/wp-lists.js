@@ -5,7 +5,7 @@
 /* global ajaxurl, wpAjax */
 
 /**
- * @param {jQuery} $ jQuery object.
+ * @param {JQueryStatic} $ The jQuery object.
  */
 ( function( $ ) {
 var functions = {
@@ -22,7 +22,7 @@ var functions = {
 wpList = {
 
 	/**
-	 * @member {object}
+	 * @member {Object}
 	 */
 	settings: {
 
@@ -108,9 +108,9 @@ wpList = {
 		 * Callback that's run before a request is made.
 		 *
 		 * @callback wpList~confirm
-		 * @param {object}      this
+		 * @param {Object}      this
 		 * @param {HTMLElement} list            The list DOM element.
-		 * @param {object}      settings        Settings for the current list.
+		 * @param {Object}      settings        Settings for the current list.
 		 * @param {string}      action          The type of action to perform: 'add', 'delete', or 'dim'.
 		 * @param {string}      backgroundColor Background color of the list's DOM element.
 		 * @return {boolean} Whether to proceed with the action or not.
@@ -123,7 +123,7 @@ wpList = {
 		 * Allows to cancel the request.
 		 *
 		 * @callback wpList~addBefore
-		 * @param {object} settings Settings for the Ajax request.
+		 * @param {Object} settings Settings for the Ajax request.
 		 * @return {object|boolean} Settings for the Ajax request or false to abort.
 		 */
 		addBefore: null,
@@ -133,11 +133,11 @@ wpList = {
 		 *
 		 * @callback wpList~addAfter
 		 * @param {XML}    returnedResponse Raw response returned from the server.
-		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {Object} settings         Settings for the Ajax request.
 		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
 		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
 		 *                                  'timeout', 'abort', or 'parsererror'.
-		 * @param {object} settings.parsed  Parsed response object.
+		 * @param {Object} settings.parsed  Parsed response object.
 		 */
 		addAfter: null,
 
@@ -147,7 +147,7 @@ wpList = {
 		 * Allows to cancel the request.
 		 *
 		 * @callback wpList~delBefore
-		 * @param {object}      settings Settings for the Ajax request.
+		 * @param {Object}      settings Settings for the Ajax request.
 		 * @param {HTMLElement} list     The list DOM element.
 		 * @return {object|boolean} Settings for the Ajax request or false to abort.
 		 */
@@ -158,11 +158,11 @@ wpList = {
 		 *
 		 * @callback wpList~delAfter
 		 * @param {XML}    returnedResponse Raw response returned from the server.
-		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {Object} settings         Settings for the Ajax request.
 		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
 		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
 		 *                                  'timeout', 'abort', or 'parsererror'.
-		 * @param {object} settings.parsed  Parsed response object.
+		 * @param {Object} settings.parsed  Parsed response object.
 		 */
 		delAfter: null,
 
@@ -172,7 +172,7 @@ wpList = {
 		 * Allows to cancel the request.
 		 *
 		 * @callback wpList~dimBefore
-		 * @param {object} settings Settings for the Ajax request.
+		 * @param {Object} settings Settings for the Ajax request.
 		 * @return {object|boolean} Settings for the Ajax request or false to abort.
 		 */
 		dimBefore: null,
@@ -182,11 +182,11 @@ wpList = {
 		 *
 		 * @callback wpList~dimAfter
 		 * @param {XML}    returnedResponse Raw response returned from the server.
-		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {Object} settings         Settings for the Ajax request.
 		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
 		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
 		 *                                  'timeout', 'abort', or 'parsererror'.
-		 * @param {object} settings.parsed  Parsed response object.
+		 * @param {Object} settings.parsed  Parsed response object.
 		 */
 		dimAfter: null
 	},

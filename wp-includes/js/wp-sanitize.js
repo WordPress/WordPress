@@ -2,8 +2,6 @@
  * @output wp-includes/js/wp-sanitize.js
  */
 
-/* eslint-env es6 */
-
 ( function () {
 
 	window.wp = window.wp || {};

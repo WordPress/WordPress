@@ -368,8 +368,8 @@ window.wp = window.wp || {};
 	 *
 	 * @see wp.revisions.view.Frame
 	 *
-	 * @param {object}                    attributes        Model attributes - none are required.
-	 * @param {object}                    options           Options for the model.
+	 * @param {Object}                    attributes        Model attributes - none are required.
+	 * @param {Object}                    options           Options for the model.
 	 * @param {revisions.model.Revisions} options.revisions A collection of revisions.
 	 */
 	revisions.model.FrameState = Backbone.Model.extend({
@@ -533,7 +533,7 @@ window.wp = window.wp || {};
 	 *
 	 * Top level frame that orchestrates the revisions experience.
 	 *
-	 * @param {object}                     options       The options hash for the view.
+	 * @param {Object}                     options       The options hash for the view.
 	 * @param {revisions.model.FrameState} options.model The frame state model.
 	 */
 	revisions.view.Frame = wp.Backbone.View.extend({

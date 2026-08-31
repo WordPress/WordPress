@@ -14,6 +14,9 @@
  * @output wp-includes/js/api-request.js
  */
 
+/**
+ * @param {JQueryStatic} $ The jQuery object.
+ */
 ( function( $ ) {
 	var wpApiSettings = window.wpApiSettings;
 
