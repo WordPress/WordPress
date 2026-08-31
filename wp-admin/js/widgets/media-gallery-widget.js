@@ -69,7 +69,7 @@
 		 * View events.
 		 *
 		 * @since 4.9.0
-		 * @type {object}
+		 * @type {Object}
 		 */
 		events: _.extend( {}, component.MediaWidgetControl.prototype.events, {
 			'click .media-widget-gallery-preview': 'editMedia'

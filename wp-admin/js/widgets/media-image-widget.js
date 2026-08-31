@@ -31,7 +31,7 @@
 		/**
 		 * View events.
 		 *
-		 * @type {object}
+		 * @type {Object}
 		 */
 		events: _.extend( {}, component.MediaWidgetControl.prototype.events, {
 			'click .media-widget-preview.populated': 'editMedia'

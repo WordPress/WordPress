@@ -9,6 +9,8 @@
 /**
  * @namespace wp.customHtmlWidget
  * @memberOf wp
+ *
+ * @param {JQueryStatic} $ The jQuery object.
  */
 wp.customHtmlWidgets = ( function( $ ) {
 	'use strict';
