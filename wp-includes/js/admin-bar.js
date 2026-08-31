@@ -206,7 +206,7 @@
 	 * @since 5.3.1 Use querySelector to clean up the function.
 	 *
 	 * @param {Event} event The click event.
-	 * @return {boolean} Returns false to prevent default click behavior.
+	 * @return {boolean|void} False to prevent default action.
 	 */
 	function clickShortlink( event ) {
 		var wrapper = event.target.parentNode,
@@ -397,6 +397,8 @@
 	 *
 	 * @param {HTMLElement} el Element to get parent.
 	 * @param {string} selector CSS selector to match.
+	 *
+	 * @return {HTMLElement|null} The closest matching element or null if not found.
 	 */
 	function getClosest( el, selector ) {
 		if ( ! window.Element.prototype.matches ) {

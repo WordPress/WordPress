@@ -8,9 +8,9 @@
 /**
  *  Adds common WordPress functionality to the window.
  *
- *  @param {jQuery} $        jQuery object.
- *  @param {Object} window   The window object.
- *  @param {mixed} undefined Unused.
+ *  @param {JQueryStatic} $         The jQuery object.
+ *  @param {Object}       window    The window object.
+ *  @param {*}            undefined Unused.
  */
 ( function( $, window, undefined ) {
 	var $document = $( document ),
@@ -58,10 +58,10 @@ function deprecatedProperty( propName, version, replacement ) {
  * @since 5.6.0 Added the `version` parameter.
  *
  * @param {string} name       The name of the object, i.e. commonL10n.
- * @param {object} l10nObject The object to deprecate the properties on.
+ * @param {Object} l10nObject The object to deprecate the properties on.
  * @param {string} version    The version of WordPress that deprecated the property.
  *
- * @return {object} The object with all its properties deprecated.
+ * @return {Object} The object with all its properties deprecated.
  */
 function deprecateL10nObject( name, l10nObject, version ) {
 	var deprecatedObject = {};
@@ -476,8 +476,6 @@ window.columns = {
 	 * Gets the checked column toggles from the screen options.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @return {string} String containing the checked column names.
 	 */
 	useCheckboxesForHidden : function() {
 		this.hidden = function(){
@@ -557,7 +555,7 @@ window.showNotice = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param text The text to display in the message.
+	 * @param {string} text The text to display in the message.
 	 */
 	note : function(text) {
 		alert(text);
@@ -1263,6 +1261,7 @@ $( function() {
 		/**
 		 * Triggers the primary submit when then secondary submit is clicked.
 		 *
+		 * @param {SubmitEvent} e The event object.
 		 * @since 5.7.0
 		 *
 		 * @return {void}
@@ -2245,6 +2244,8 @@ $( function( $ ) {
  * plugin icon images in the update plugins table.
  *
  * @since 6.4.0
+ *
+ * @return {Object} Public methods.
  */
 (function() {
 	// Private variables and methods.

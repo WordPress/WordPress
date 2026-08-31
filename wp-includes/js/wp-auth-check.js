@@ -4,6 +4,9 @@
  * @output wp-includes/js/wp-auth-check.js
  */
 
+/**
+ * @param {JQueryStatic} $ The jQuery object.
+ */
 ( function( $ ) {
 	var wrap,
 		tempHidden,

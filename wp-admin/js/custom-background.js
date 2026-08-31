@@ -10,6 +10,8 @@
  * @since 3.0.0
  *
  * @requires jQuery
+ *
+ * @param {JQueryStatic} $ The jQuery object.
  */
 (function($) {
 	$( function() {

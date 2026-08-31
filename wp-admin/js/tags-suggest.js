@@ -2,6 +2,8 @@
  * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
  *
  * @output wp-admin/js/tags-suggest.js
+ *
+ * @param {JQueryStatic} $ The jQuery object.
  */
 ( function( $ ) {
 	var tempID = 0;

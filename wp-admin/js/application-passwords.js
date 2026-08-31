@@ -2,6 +2,9 @@
  * @output wp-admin/js/application-passwords.js
  */
 
+/**
+ * @param {JQueryStatic} $ The jQuery object.
+ */
 ( function( $ ) {
 	var $appPassSection = $( '#application-passwords-section' ),
 		$newAppPassForm = $appPassSection.find( '.create-application-password' ),
@@ -188,7 +191,7 @@
 	 *
 	 * @param {string} message The message to display.
 	 * @param {string} type    The notice type. Either 'success' or 'error'.
-	 * @returns {jQuery} The notice element.
+	 * @return {jQuery} The notice element.
 	 */
 	function addNotice( message, type ) {
 		var $notice = $( '<div></div>' )

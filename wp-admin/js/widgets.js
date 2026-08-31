@@ -11,14 +11,14 @@ window.wpWidgets = {
 	/**
 	 * A closed Sidebar that gets a Widget dragged over it.
 	 *
-	 * @var {element|null}
+	 * @member {jQuery|null}
 	 */
 	hoveredSidebar: null,
 
 	/**
 	 * Lookup of which widgets have had change events triggered.
 	 *
-	 * @var {object}
+	 * @member {Object}
 	 */
 	dirtyWidgets: {},
 
@@ -751,7 +751,7 @@ $( function(){ wpWidgets.init(); } );
  * @since 4.9.0
  * @deprecated 5.5.0
  *
- * @type {object}
+ * @type {Object}
 */
 wpWidgets.l10n = wpWidgets.l10n || {
 	save: '',

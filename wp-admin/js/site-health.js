@@ -85,9 +85,9 @@ jQuery( function( $ ) {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param {Object} issue
+	 * @param {Object} issue The issue data to validate.
 	 *
-	 * @return {boolean}
+	 * @return {boolean} True if the issue data is valid, false otherwise.
 	 */
 	function validateIssueData( issue ) {
 		// Expected minimum format of a valid SiteHealth test response.
@@ -137,6 +137,7 @@ jQuery( function( $ ) {
 	 * @since 5.2.0
 	 *
 	 * @param {Object} issue The issue data.
+	 * @return {void|boolean} True if the issue was appended, false otherwise.
 	 */
 	function appendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
@@ -346,6 +347,8 @@ jQuery( function( $ ) {
 	/**
 	 * Add the details of a failed asynchronous test to the list of test results.
 	 *
+	 * @param {string} url
+	 * @param {string} description
 	 * @since 5.6.0
 	 */
 	function addFailedSiteHealthCheckNotice( url, description ) {

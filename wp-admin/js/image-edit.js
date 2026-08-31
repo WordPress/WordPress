@@ -1,12 +1,13 @@
+ /* global ajaxurl, confirm */
+
 /**
  * The functions necessary for editing images.
  *
  * @since 2.9.0
  * @output wp-admin/js/image-edit.js
+ *
+ * @param {JQueryStatic} $ The jQuery object.
  */
-
- /* global ajaxurl, confirm */
-
 (function($) {
 	var __ = wp.i18n.__;
 
@@ -23,6 +24,10 @@
 
 	/**
 	 * Enable crop tool.
+	 *
+	 * @param {number}      postid     The post ID.
+	 * @param {string}      nonce      The nonce to verify the request.
+	 * @param {HTMLElement} cropButton The crop button element.
 	 */
 	toggleCropTool: function( postid, nonce, cropButton ) {
 		var img = $( '#image-preview-' + postid ),
@@ -64,6 +69,10 @@
 
 	/**
 	 * Handle crop tool clicks.
+	 *
+	 * @param {number}      postid     The post ID.
+	 * @param {string}      nonce      The nonce to verify the request.
+	 * @param {HTMLElement} cropButton The crop button element.
 	 */
 	handleCropToolClick: function( postid, nonce, cropButton ) {
 
@@ -268,8 +277,6 @@
 	 * @since 6.4.0
 	 *
 	 * @memberof imageEdit
-	 *
-	 * @param {HTMLElement} el The activated control element.
 	 *
 	 * @return {boolean} Always returns false.
 	 */
@@ -567,7 +574,7 @@
 	 *
 	 * @param {number}   postid   The post ID.
 	 * @param {string}   nonce    The nonce to verify the request.
-	 * @param {function} callback Function to execute when the image is loaded.
+	 * @param {Function} callback Function to execute when the image is loaded.
 	 *
 	 * @return {void}
 	 */
@@ -1002,7 +1009,7 @@
 			 * @param {Object} img jQuery object representing the image.
 			 * @param {Object} c   The selection.
 			 *
-			 * @return {Object}
+			 * @return {void}
 			 */
 			onSelectEnd: function(img, c) {
 				imageEdit.setCropSelection(postid, c);
@@ -1047,7 +1054,7 @@
 	 * @param {number} postid The post ID.
 	 * @param {Object} c      The selection.
 	 *
-	 * @return {boolean}
+	 * @return {boolean|void} Returns false if the selection is invalid.
 	 */
 	setCropSelection : function(postid, c) {
 		var sel,
@@ -1197,7 +1204,7 @@
 	 * @param {string} nonce  The nonce.
 	 * @param {Object} t      The target element.
 	 *
-	 * @return {boolean}
+	 * @return {boolean|void} Returns false if the rotate button is disabled.
 	 */
 	rotate : function(angle, postid, nonce, t) {
 		if ( $(t).hasClass('disabled') ) {
@@ -1224,7 +1231,7 @@
 	 * @param {string} nonce  The nonce.
 	 * @param {Object} t      The target element.
 	 *
-	 * @return {boolean}
+	 * @return {boolean|void} Returns false if the flip button is disabled.
 	 */
 	flip : function (axis, postid, nonce, t) {
 		if ( $(t).hasClass('disabled') ) {

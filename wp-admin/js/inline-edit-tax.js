@@ -16,6 +16,9 @@ window.wp = window.wp || {};
  * @property {string} type The type of inline edit we are currently on.
  * @property {string} what The type property with a hash prefixed and a dash
  *                         suffixed.
+ *
+ * @param {JQueryStatic} $  The jQuery object.
+ * @param {Object}       wp The WordPress object.
  */
 ( function( $, wp ) {
 

@@ -141,7 +141,7 @@
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param {array} attributes The attributes for the attachment.
+	 * @param {Object} attributes The attributes for the attachment.
 	 */
 	function switchToUpdate( attributes ) {
 		var i18nAppAlternativeString, i18nBrowserAlternativeString;

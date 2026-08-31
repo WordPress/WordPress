@@ -9,7 +9,7 @@
  *
  * @since 2.5.0
  *
- * @param {jQuery} $ The jQuery object.
+ * @param {JQueryStatic} $ The jQuery object.
  */
 jQuery( function($) {
 
