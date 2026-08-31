@@ -2103,56 +2103,6 @@ function _post_type_meta_capabilities( $capabilities = null ) {
 /**
  * Builds an object with all post type labels out of a post type object.
  *
- * Accepted keys of the label array in the post type object:
- *
- * - `name` - General name for the post type, usually plural. The same and overridden
- *          by `$post_type_object->label`. Default is 'Posts' / 'Pages'.
- * - `singular_name` - Name for one object of this post type. Default is 'Post' / 'Page'.
- * - `add_new` - Label for adding a new item. Default is 'Add Post' / 'Add Page'.
- * - `add_new_item` - Label for adding a new singular item. Default is 'Add Post' / 'Add Page'.
- * - `edit_item` - Label for editing a singular item. Default is 'Edit Post' / 'Edit Page'.
- * - `new_item` - Label for the new item page title. Default is 'New Post' / 'New Page'.
- * - `view_item` - Label for viewing a singular item. Default is 'View Post' / 'View Page'.
- * - `view_items` - Label for viewing post type archives. Default is 'View Posts' / 'View Pages'.
- * - `search_items` - Label for searching plural items. Default is 'Search Posts' / 'Search Pages'.
- * - `not_found` - Label used when no items are found. Default is 'No posts found' / 'No pages found'.
- * - `not_found_in_trash` - Label used when no items are in the Trash. Default is 'No posts found in Trash' /
- *                        'No pages found in Trash'.
- * - `parent_item_colon` - Label used to prefix parents of hierarchical items. Not used on non-hierarchical
- *                       post types. Default is 'Parent Page:'.
- * - `all_items` - Label to signify all items in a submenu link. Default is 'All Posts' / 'All Pages'.
- * - `archives` - Label for archives in nav menus. Default is 'Post Archives' / 'Page Archives'.
- * - `attributes` - Label for the attributes meta box. Default is 'Post Attributes' / 'Page Attributes'.
- * - `insert_into_item` - Label for the media frame button. Default is 'Insert into post' / 'Insert into page'.
- * - `uploaded_to_this_item` - Label for the media frame filter. Default is 'Uploaded to this post' /
- *                           'Uploaded to this page'.
- * - `featured_image` - Label for the featured image meta box title. Default is 'Featured image'.
- * - `set_featured_image` - Label for setting the featured image. Default is 'Set featured image'.
- * - `remove_featured_image` - Label for removing the featured image. Default is 'Remove featured image'.
- * - `use_featured_image` - Label in the media frame for using a featured image. Default is 'Use as featured image'.
- * - `menu_name` - Label for the menu name. Default is the same as `name`.
- * - `filter_items_list` - Label for the table views hidden heading. Default is 'Filter posts list' /
- *                       'Filter pages list'.
- * - `filter_by_date` - Label for the date filter in list tables. Default is 'Filter by date'.
- * - `items_list_navigation` - Label for the table pagination hidden heading. Default is 'Posts list navigation' /
- *                           'Pages list navigation'.
- * - `items_list` - Label for the table hidden heading. Default is 'Posts list' / 'Pages list'.
- * - `item_published` - Label used when an item is published. Default is 'Post published.' / 'Page published.'
- * - `item_published_privately` - Label used when an item is published with private visibility.
- *                              Default is 'Post published privately.' / 'Page published privately.'
- * - `item_reverted_to_draft` - Label used when an item is switched to a draft.
- *                            Default is 'Post reverted to draft.' / 'Page reverted to draft.'
- * - `item_trashed` - Label used when an item is moved to Trash. Default is 'Post trashed.' / 'Page trashed.'
- * - `item_scheduled` - Label used when an item is scheduled for publishing. Default is 'Post scheduled.' /
- *                    'Page scheduled.'
- * - `item_updated` - Label used when an item is updated. Default is 'Post updated.' / 'Page updated.'
- * - `item_link` - Title for a navigation link block variation. Default is 'Post Link' / 'Page Link'.
- * - `item_link_description` - Description for a navigation link block variation. Default is 'A link to a post.' /
- *                             'A link to a page.'
- *
- * Above, the first default value is for non-hierarchical post types (like posts)
- * and the second one is for hierarchical post types (like pages).
- *
  * Note: To set labels used in post type admin notices, see the {@see 'post_updated_messages'} filter.
  *
  * @since 3.0.0
@@ -2176,7 +2126,84 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @access private
  *
  * @param object|WP_Post_Type $post_type_object Post type object.
- * @return object Object with all the labels as member variables.
+ * @return stdClass {
+ *     Post type labels object. The first default value is for non-hierarchical post types
+ *     (like posts) and the second one is for hierarchical post types (like pages).
+ *
+ *     @type string      $name                     General name for the post type, usually plural. The same and
+ *                                                 overridden by `$post_type_object->label`.
+ *                                                 Default is 'Posts' / 'Pages'.
+ *     @type string      $singular_name            Name for one object of this post type. Default is 'Post' / 'Page'.
+ *     @type string      $add_new                  Label for adding a new item. Default is 'Add Post' / 'Add Page'.
+ *     @type string      $add_new_item             Label for adding a new singular item.
+ *                                                 Default is 'Add Post' / 'Add Page'.
+ *     @type string      $edit_item                Label for editing a singular item.
+ *                                                 Default is 'Edit Post' / 'Edit Page'.
+ *     @type string      $new_item                 Label for the new item page title.
+ *                                                 Default is 'New Post' / 'New Page'.
+ *     @type string      $view_item                Label for viewing a singular item.
+ *                                                 Default is 'View Post' / 'View Page'.
+ *     @type string      $view_items               Label for viewing post type archives.
+ *                                                 Default is 'View Posts' / 'View Pages'.
+ *     @type string      $search_items             Label for searching plural items.
+ *                                                 Default is 'Search Posts' / 'Search Pages'.
+ *     @type string      $not_found                Label used when no items are found.
+ *                                                 Default is 'No posts found' / 'No pages found'.
+ *     @type string      $not_found_in_trash       Label used when no items are in the Trash.
+ *                                                 Default is 'No posts found in Trash' / 'No pages found in Trash'.
+ *     @type string|null $parent_item_colon        Label used to prefix parents of hierarchical items. Not used on
+ *                                                 non-hierarchical post types.
+ *                                                 Default is 'Parent Page:'.
+ *     @type string      $all_items                Label to signify all items in a submenu link.
+ *                                                 Default is 'All Posts' / 'All Pages'.
+ *     @type string      $archives                 Label for archives in nav menus.
+ *                                                 Default is 'Post Archives' / 'Page Archives'.
+ *     @type string      $attributes               Label for the attributes meta box.
+ *                                                 Default is 'Post Attributes' / 'Page Attributes'.
+ *     @type string      $insert_into_item         Label for the media frame button.
+ *                                                 Default is 'Insert into post' / 'Insert into page'.
+ *     @type string      $uploaded_to_this_item    Label for the media frame filter.
+ *                                                 Default is 'Uploaded to this post' / 'Uploaded to this page'.
+ *     @type string      $featured_image           Label for the featured image meta box title.
+ *                                                 Default is 'Featured image'.
+ *     @type string      $set_featured_image       Label for setting the featured image.
+ *                                                 Default is 'Set featured image'.
+ *     @type string      $remove_featured_image    Label for removing the featured image.
+ *                                                 Default is 'Remove featured image'.
+ *     @type string      $use_featured_image       Label in the media frame for using a featured image.
+ *                                                 Default is 'Use as featured image'.
+ *     @type string      $menu_name                Label for the menu name. Default is the same as `name`.
+ *     @type string      $name_admin_bar           Label for the object name in the admin bar.
+ *                                                 Default is the value of `singular_name` in the given labels, or the
+ *                                                 post type key.
+ *     @type string      $filter_items_list        Label for the table views hidden heading.
+ *                                                 Default is 'Filter posts list' / 'Filter pages list'.
+ *     @type string      $filter_by_date           Label for the date filter in list tables.
+ *                                                 Default is 'Filter by date'.
+ *     @type string      $items_list_navigation    Label for the table pagination hidden heading.
+ *                                                 Default is 'Posts list navigation' / 'Pages list navigation'.
+ *     @type string      $items_list               Label for the table hidden heading.
+ *                                                 Default is 'Posts list' / 'Pages list'.
+ *     @type string      $item_published           Label used when an item is published.
+ *                                                 Default is 'Post published.' / 'Page published.'
+ *     @type string      $item_published_privately Label used when an item is published with private visibility.
+ *                                                 Default is 'Post published privately.' / 'Page published privately.'
+ *     @type string      $item_reverted_to_draft   Label used when an item is switched to a draft.
+ *                                                 Default is 'Post reverted to draft.' / 'Page reverted to draft.'
+ *     @type string      $item_trashed             Label used when an item is moved to Trash.
+ *                                                 Default is 'Post trashed.' / 'Page trashed.'
+ *     @type string      $item_scheduled           Label used when an item is scheduled for publishing.
+ *                                                 Default is 'Post scheduled.' / 'Page scheduled.'
+ *     @type string      $item_updated             Label used when an item is updated.
+ *                                                 Default is 'Post updated.' / 'Page updated.'
+ *     @type string      $item_link                Title for a navigation link block variation.
+ *                                                 Default is 'Post Link' / 'Page Link'.
+ *     @type string      $item_link_description    Description for a navigation link block variation.
+ *                                                 Default is 'A link to a post.' / 'A link to a page.'
+ *     @type string      $template_name            Label for the single item template. Only set when the post type is
+ *                                                 given a `singular_name` label.
+ *                                                 Default is 'Single item: ' followed by the singular name.
+ * }
  */
 function get_post_type_labels( $post_type_object ) {
 	$nohier_vs_hier_defaults = WP_Post_Type::get_default_labels();

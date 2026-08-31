@@ -2982,15 +2982,17 @@ function register_initial_settings() {
  * @param array  $args {
  *     Data used to describe the setting when registered.
  *
- *     @type string     $type              The type of data associated with this setting.
- *                                         Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
- *     @type string     $label             A label of the data attached to this setting.
- *     @type string     $description       A description of the data attached to this setting.
- *     @type callable   $sanitize_callback A callback function that sanitizes the option's value.
- *     @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
- *                                         When registering complex settings, this argument may optionally be an
- *                                         array with a 'schema' key.
- *     @type mixed      $default           Default value when calling `get_option()`.
+ *     @type string        $type              The type of data associated with this setting.
+ *                                            Valid values are 'string', 'boolean', 'integer', 'number', 'array',
+ *                                            and 'object'.
+ *     @type string        $label             A label of the data attached to this setting.
+ *     @type string        $description       A description of the data attached to this setting.
+ *     @type callable|null $sanitize_callback A callback function that sanitizes the option's value.
+ *                                            Default null.
+ *     @type bool|array    $show_in_rest      Whether data associated with this setting should be included in the
+ *                                            REST API. When registering complex settings, this argument may
+ *                                            optionally be an array with a 'schema' key.
+ *     @type mixed         $default           Default value when calling `get_option()`.
  * }
  */
 function register_setting( $option_group, $option_name, $args = array() ) {
@@ -3201,15 +3203,18 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
  *     @type array ...$0 {
  *         Data used to describe the setting when registered.
  *
- *         @type string     $type              The type of data associated with this setting.
- *                                             Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
- *         @type string     $label             A label of the data attached to this setting.
- *         @type string     $description       A description of the data attached to this setting.
- *         @type callable   $sanitize_callback A callback function that sanitizes the option's value.
- *         @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
- *                                             When registering complex settings, this argument may optionally be an
- *                                             array with a 'schema' key.
- *         @type mixed      $default           Default value when calling `get_option()`.
+ *         @type string        $type              The type of data associated with this setting.
+ *                                                Valid values are 'string', 'boolean', 'integer', 'number', 'array',
+ *                                                and 'object'.
+ *         @type string        $group             The settings group name the setting was registered in.
+ *         @type string        $label             A label of the data attached to this setting.
+ *         @type string        $description       A description of the data attached to this setting.
+ *         @type callable|null $sanitize_callback A callback function that sanitizes the option's value.
+ *         @type bool|array    $show_in_rest      Whether data associated with this setting should be included in the
+ *                                                REST API. When registering complex settings, this argument may
+ *                                                optionally be an array with a 'schema' key.
+ *         @type mixed         $default           Default value when calling `get_option()`. Only present when the
+ *                                                setting was registered with a default.
  *     }
  * }
  */

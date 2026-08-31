@@ -337,6 +337,8 @@ final class WP_Post_Type {
 	/**
 	 * Post type capabilities.
 	 *
+	 * @see get_post_type_capabilities()
+	 *
 	 * @since 4.6.0
 	 * @var stdClass $cap
 	 */

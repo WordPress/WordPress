@@ -160,8 +160,17 @@ final class WP_Taxonomy {
 	/**
 	 * Capabilities for this taxonomy.
 	 *
+	 * @see register_taxonomy()
+	 *
 	 * @since 4.7.0
-	 * @var stdClass
+	 * @var stdClass {
+	 *     Object with all the capabilities as member variables.
+	 *
+	 *     @type string $manage_terms Capability to manage terms. Default 'manage_categories'.
+	 *     @type string $edit_terms   Capability to edit terms. Default 'manage_categories'.
+	 *     @type string $delete_terms Capability to delete terms. Default 'manage_categories'.
+	 *     @type string $assign_terms Capability to assign terms. Default 'edit_posts'.
+	 * }
 	 */
 	public $cap;
 
