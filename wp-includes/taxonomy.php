@@ -1598,7 +1598,7 @@ function unregister_term_meta( $taxonomy, $meta_key ) {
  * @phpstan-return (
  *     $term is null ? null : (
  *         $term is 0 ? 0 : (
- *             $taxonomy is '' ? int|null : (
+ *             $taxonomy is '' ? numeric-string|null : (
  *                 array{
  *                     term_id: numeric-string,
  *                     term_taxonomy_id: numeric-string,

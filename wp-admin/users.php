@@ -339,6 +339,11 @@ switch ( $wp_list_table->current_action() ) {
 
 		<ul>
 		<?php
+		/**
+		 * @global wpdb $wpdb WordPress database abstraction object.
+		 */
+		global $wpdb;
+
 		$go_delete          = 0;
 		$users_have_content = false;
 

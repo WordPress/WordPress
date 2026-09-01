@@ -399,7 +399,7 @@ function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, 
  */
 function wp_get_block_state_style_rules( $state_styles, $block_type, $rules_group = null ) {
 	$css_rules       = array();
-	$block_selectors = isset( $block_type->selectors ) && is_array( $block_type->selectors )
+	$block_selectors = is_array( $block_type->selectors )
 		? $block_type->selectors
 		: array();
 

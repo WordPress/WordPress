@@ -523,7 +523,7 @@ class WP_View_Config_Data {
 			// A non-empty list only lands where a list (or nothing) lives, under
 			// merge() and replace() alike. An empty array is shape-ambiguous and
 			// exempt, so replace() with an empty list can still clear a list.
-			if ( array() !== $incoming && is_array( $current ) && ! array_is_list( $current ) && array() !== $current ) {
+			if ( array() !== $incoming && is_array( $current ) && ! array_is_list( $current ) ) {
 				_doing_it_wrong(
 					__METHOD__,
 					esc_html__( 'A view configuration patch value must match the shape of the value it patches: a list merges into a list, and an associative array into an associative array.' ),

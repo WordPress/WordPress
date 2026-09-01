@@ -63,22 +63,24 @@ final class WP_Comment {
 	/**
 	 * Comment ID.
 	 *
-	 * A numeric string, for compatibility reasons.
+	 * A numeric string, for compatibility reasons. Note that {@see get_comment_to_edit()}
+	 * replaces it with an integer in place.
 	 *
 	 * @since 4.4.0
-	 * @var string
-	 * @phpstan-var numeric-string
+	 * @var string|int
+	 * @phpstan-var numeric-string|int
 	 */
 	public $comment_ID;
 
 	/**
 	 * ID of the post the comment is associated with.
 	 *
-	 * A numeric string, for compatibility reasons.
+	 * A numeric string, for compatibility reasons. Note that {@see get_comment_to_edit()}
+	 * replaces it with an integer in place.
 	 *
 	 * @since 4.4.0
-	 * @var string
-	 * @phpstan-var numeric-string
+	 * @var string|int
+	 * @phpstan-var numeric-string|int
 	 */
 	public $comment_post_ID = '0';
 

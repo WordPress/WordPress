@@ -357,8 +357,9 @@ class WP_Block_Type {
 	 * @since 6.1.0
 	 *
 	 * @param string $name Deprecated property name.
-	 * @return string|string[]|null The value read from the new property if the first item in the array provided,
-	 *                              null when value not found or when unknown property name provided.
+	 * @return string|string[]|array[]|null The value read from the new property if the first item in the array
+	 *                                      provided, the variations or uses context arrays for those two names,
+	 *                                      null when value not found or when unknown property name provided.
 	 */
 	public function __get( $name ) {
 		if ( 'variations' === $name ) {
