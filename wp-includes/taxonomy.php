@@ -278,6 +278,7 @@ function create_initial_taxonomies() {
  *                         one element from the array needs to match; 'and' means all elements must match.
  *                         Default 'and'.
  * @return string[]|WP_Taxonomy[] An array of taxonomy names or objects.
+ * @phpstan-return ( $output is 'names' ? array<non-falsy-string, non-falsy-string> : array<non-falsy-string, WP_Taxonomy> )
  */
 function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_taxonomies;
@@ -301,12 +302,13 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @since 2.3.0
  *
- * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
+ * @global array<non-falsy-string, WP_Taxonomy> $wp_taxonomies The registered taxonomies.
  *
  * @param string|string[]|WP_Post $object_type Name of the type of taxonomy object, or an object (row from posts).
  * @param string                  $output      Optional. The type of output to return in the array. Accepts either
  *                                             'names' or 'objects'. Default 'names'.
  * @return string[]|WP_Taxonomy[] The names or objects of all taxonomies of `$object_type`.
+ * @phpstan-return ( $output is 'names' ? list<non-falsy-string> : array<non-falsy-string, WP_Taxonomy> )
  */
 function get_object_taxonomies( $object_type, $output = 'names' ) {
 	global $wp_taxonomies;

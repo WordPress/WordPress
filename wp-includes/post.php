@@ -1575,6 +1575,7 @@ function get_post_status_object( $post_status ) {
  *                               from the array needs to match; 'and' means all elements must match.
  *                               Default 'and'.
  * @return string[]|stdClass[] A list of post status names or objects.
+ * @phpstan-return ( $output is 'names' ? array<non-falsy-string, non-falsy-string> : array<non-falsy-string, stdClass> )
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
