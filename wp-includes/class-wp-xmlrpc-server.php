@@ -3250,7 +3250,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type int    $1 Page ID.
 	 *     @type string $2 Username.
 	 *     @type string $3 Password.
-	 *     @type string $4 Content.
+	 *     @type array  $4 Content struct, with keys documented on {@see self::mw_newPost()}.
 	 *     @type int    $5 Publish flag. 0 for draft, 1 for publish.
 	 * }
 	 * @return array|IXR_Error

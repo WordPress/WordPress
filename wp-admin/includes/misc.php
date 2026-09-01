@@ -1570,12 +1570,14 @@ function _wp_privacy_settings_filter_draft_page_titles( $title, $page ) {
  * @return array|false {
  *     Array of PHP version data. False on failure.
  *
- *     @type string $recommended_version The PHP version recommended by WordPress.
- *     @type string $minimum_version     The minimum required PHP version.
- *     @type bool   $is_supported        Whether the PHP version is actively supported.
- *     @type bool   $is_secure           Whether the PHP version receives security updates.
- *     @type bool   $is_acceptable       Whether the PHP version is still acceptable or warnings
- *                                       should be shown and an update recommended.
+ *     @type string $recommended_version          The PHP version recommended by WordPress.
+ *     @type string $minimum_version              The minimum required PHP version.
+ *     @type bool   $is_supported                 Whether the PHP version is actively supported.
+ *     @type bool   $is_secure                    Whether the PHP version receives security updates.
+ *     @type bool   $is_acceptable                Whether the PHP version is still acceptable or warnings
+ *                                                should be shown and an update recommended.
+ *     @type bool   $is_lower_than_future_minimum Whether the PHP version is lower than the minimum PHP
+ *                                                version WordPress will require in a future release.
  * }
  */
 function wp_check_php_version() {

@@ -1393,10 +1393,10 @@ function wp_edit_attachments_query_vars( $q = false ) {
  * @param array|false $q Optional. Array of query variables to use to build the query.
  *                       Defaults to the `$_GET` superglobal.
  * @return array {
- *     Array containing the post mime types and available post mime types.
+ *     Array containing the post mime types and the available post mime types, in that order.
  *
- *     @type array[]  $post_mime_types       Post mime types.
- *     @type string[] $avail_post_mime_types Available post mime types.
+ *     @type array<string, array{0: string, 1: string, 2: array}> $0 Post mime types. See get_post_mime_types().
+ *     @type string[]                                             $1 Available post mime types.
  * }
  */
 function wp_edit_attachments_query( $q = false ) {

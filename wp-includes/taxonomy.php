@@ -650,7 +650,7 @@ function unregister_taxonomy( $taxonomy ) {
  * @since 6.6.0 Added the `template_name` label.
  *
  * @param WP_Taxonomy $tax Taxonomy object.
- * @return object {
+ * @return stdClass {
  *     Taxonomy labels object. The first default value is for non-hierarchical taxonomies
  *     (like tags) and the second one is for hierarchical taxonomies (like categories).
  *

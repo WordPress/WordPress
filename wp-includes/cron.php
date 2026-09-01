@@ -765,7 +765,7 @@ function wp_unschedule_hook( $hook, $wp_error = false ) {
  *                            Default empty array.
  * @param int|null $timestamp Optional. Unix timestamp (UTC) of the event. If not specified, the next scheduled event
  *                            is returned. Default null.
- * @return object|false {
+ * @return stdClass|false {
  *     The event object. False if the event does not exist.
  *
  *     @type string       $hook      Action hook to execute when the event is run.

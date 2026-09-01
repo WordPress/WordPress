@@ -4425,6 +4425,7 @@ function is_avatar_comment_type( $comment_type ) {
  *                                      false or not set if none was found.
  *     @type string|false $url          The URL of the avatar that was found, or false.
  * }
+ * @phpstan-return array{ found_avatar: bool, url: string|false, ... }
  */
 function get_avatar_data( $id_or_email, $args = null ) {
 	$args = wp_parse_args(

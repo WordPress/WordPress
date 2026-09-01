@@ -2012,7 +2012,7 @@ function unregister_post_type( $post_type ) {
  * @see map_meta_cap()
  *
  * @param object $args Post type registration arguments.
- * @return object {
+ * @return stdClass {
  *     Object with all the capabilities as member variables.
  *
  *     @type string $edit_post              Capability to edit a post.
@@ -3629,7 +3629,11 @@ function wp_count_attachments( $mime_type = '' ) {
  * @since 2.9.0
  * @since 5.3.0 Added the 'Documents', 'Spreadsheets', and 'Archives' mime type groups.
  *
- * @return array List of post mime types.
+ * @return array<string, array{0: string, 1: string, 2: array}> List of post mime types, keyed by mime type group
+ *                                                              or by a comma-separated list of mime types. Each
+ *                                                              value is a three-item array: the plural name of the
+ *                                                              group, the label for its "Manage" screen, and the
+ *                                                              translatable count strings returned by _n_noop().
  */
 function get_post_mime_types() {
 	$post_mime_types = array(   // array( adj, noun )
@@ -3722,7 +3726,8 @@ function get_post_mime_types() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $post_mime_types Default list of post mime types.
+	 * @param array<string, array{0: string, 1: string, 2: array}> $post_mime_types Default list of post mime types.
+	 *                                                                              See {@see get_post_mime_types()}.
 	 */
 	return apply_filters( 'post_mime_types', $post_mime_types );
 }

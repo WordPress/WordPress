@@ -2065,7 +2065,7 @@ class wpdb {
 	 *     False if the host couldn't be parsed.
 	 *
 	 *     @type string      $0 Host name.
-	 *     @type string|null $1 Port.
+	 *     @type int|null    $1 Port.
 	 *     @type string|null $2 Socket.
 	 *     @type bool        $3 Whether it is an IPv6 address.
 	 * }
