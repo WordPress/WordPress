@@ -211,7 +211,7 @@ class WP_AI_Client_HTTP_Client implements ClientInterface, ClientWithOptionsInte
 			$headers = $headers->get_headers();
 		}
 
-		if ( is_array( $headers ) || $headers instanceof Traversable ) {
+		if ( is_iterable( $headers ) ) {
 			foreach ( $headers as $name => $value ) {
 				$response = $response->withHeader( $name, $value );
 			}
