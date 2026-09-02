@@ -133,9 +133,7 @@ class WP_Font_Library {
 	 * @return WP_Font_Library The main instance.
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}

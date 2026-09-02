@@ -60,9 +60,7 @@ class WP_Block_Supports {
 	 * @return WP_Block_Supports The main instance.
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}

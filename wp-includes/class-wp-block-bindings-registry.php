@@ -272,9 +272,7 @@ final class WP_Block_Bindings_Registry {
 	 * @return WP_Block_Bindings_Registry The main instance.
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}

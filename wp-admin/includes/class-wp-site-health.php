@@ -77,9 +77,7 @@ class WP_Site_Health {
 	 * @return WP_Site_Health|null
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new WP_Site_Health();
-		}
+		self::$instance ??= new WP_Site_Health();
 
 		return self::$instance;
 	}

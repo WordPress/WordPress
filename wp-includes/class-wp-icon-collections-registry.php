@@ -218,9 +218,7 @@ class WP_Icon_Collections_Registry {
 	 * @return WP_Icon_Collections_Registry The main instance.
 	 */
 	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}
