@@ -8737,19 +8737,22 @@ function wp_get_default_update_php_url() {
  * @param string $before  Markup to output before the annotation. Default `<p class="description">`.
  * @param string $after   Markup to output after the annotation. Default `</p>`.
  * @param bool   $display Whether to echo or return the markup. Default `true` for echo.
- * @return string|null Update PHP page annotation if available and $display is false, null otherwise.
+ * @return string|void Update PHP page annotation when `$display` is false, null when no
+ *                     annotation is available. Nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function wp_update_php_annotation( $before = '<p class="description">', $after = '</p>', $display = true ) {
 	$annotation = wp_get_update_php_annotation();
 
-	if ( $annotation ) {
-		if ( $display ) {
-			echo $before . $annotation . $after;
-		} else {
-			return $before . $annotation . $after;
-		}
+	if ( ! $annotation ) {
+		return null;
 	}
-	return null;
+
+	if ( ! $display ) {
+		return $before . $annotation . $after;
+	}
+
+	echo $before . $annotation . $after;
 }
 
 /**

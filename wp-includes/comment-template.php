@@ -488,7 +488,8 @@ function comment_author_url_link( $link_text = '', $before = '', $after = '', $c
  * @param int|WP_Post     $post      Optional. Post ID or WP_Post object. Default current post.
  * @param bool            $display   Optional. Whether to print or return the output.
  *                                   Default true.
- * @return void|string Void if `$display` argument is true, comment classes if `$display` is false.
+ * @return string|void Comment classes if `$display` is false, nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function comment_class( $css_class = '', $comment = null, $post = null, $display = true ) {
 	// Separates classes with a single space, collates classes for comment DIV.
@@ -1239,10 +1240,14 @@ function get_trackback_url() {
  * Displays the current post's trackback URL.
  *
  * @since 0.71
+ * @since 2.5.0 Deprecated the `$deprecated_echo` argument.
  *
- * @param bool $deprecated_echo Not used.
- * @return void|string Should only be used to echo the trackback URL, use get_trackback_url()
- *                     for the result instead.
+ * @see get_trackback_url()
+ *
+ * @param bool $deprecated_echo Deprecated. Use {@see get_trackback_url()}. Echo the URL or
+ *                              return it. Default true.
+ * @return string|void The trackback URL when `$deprecated_echo` is false, nothing otherwise.
+ * @phpstan-return ( $deprecated_echo is true ? void : string )
  */
 function trackback_url( $deprecated_echo = true ) {
 	if ( true !== $deprecated_echo ) {
@@ -2228,8 +2233,13 @@ function _get_comment_reply_id( $post = null ) {
  *     @type bool     $echo              Whether to echo the output or return it. Default true.
  * }
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Default null.
- * @return void|string Void if 'echo' argument is true, or no comments to list.
- *                     Otherwise, HTML list of comments.
+ * @return string|void HTML list of comments when 'echo' is false, null when there are no
+ *                     comments to list. Nothing otherwise.
+ * @phpstan-return (
+ *     $args is array{ echo: false|0|''|'0', ... }
+ *         ? string|null
+ *         : ( $args is ''|array ? void : string|null )
+ * )
  */
 function wp_list_comments( $args = array(), $comments = null ) {
 	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;
@@ -2274,12 +2284,12 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	if ( null !== $comments ) {
 		$comments = (array) $comments;
 		if ( empty( $comments ) ) {
-			return;
+			return null;
 		}
 		if ( 'all' !== $parsed_args['type'] ) {
 			$comments_by_type = separate_comments( $comments );
 			if ( empty( $comments_by_type[ $parsed_args['type'] ] ) ) {
-				return;
+				return null;
 			}
 			$_comments = $comments_by_type[ $parsed_args['type'] ];
 		} else {
@@ -2320,7 +2330,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 				if ( 'all' !== $parsed_args['type'] ) {
 					$comments_by_type = separate_comments( $comments );
 					if ( empty( $comments_by_type[ $parsed_args['type'] ] ) ) {
-						return;
+						return null;
 					}
 
 					$_comments = $comments_by_type[ $parsed_args['type'] ];
@@ -2332,14 +2342,14 @@ function wp_list_comments( $args = array(), $comments = null ) {
 			// Otherwise, fall back on the comments from `$wp_query->comments`.
 		} else {
 			if ( empty( $wp_query->comments ) ) {
-				return;
+				return null;
 			}
 			if ( 'all' !== $parsed_args['type'] ) {
 				if ( empty( $wp_query->comments_by_type ) ) {
 					$wp_query->comments_by_type = separate_comments( $wp_query->comments );
 				}
 				if ( empty( $wp_query->comments_by_type[ $parsed_args['type'] ] ) ) {
-					return;
+					return null;
 				}
 				$_comments = $wp_query->comments_by_type[ $parsed_args['type'] ];
 			} else {

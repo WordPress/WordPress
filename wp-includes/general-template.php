@@ -236,7 +236,13 @@ function get_template_part( $slug, $name = null, $args = array() ) {
  *                              multiple search forms on the same page and improve
  *                              accessibility. Default empty.
  * }
- * @return void|string Void if 'echo' argument is true, search form HTML if 'echo' is false.
+ * @return string|void Search form HTML if 'echo' is false, nothing otherwise.
+ * @phpstan-param array<string, mixed>|bool $args
+ * @phpstan-return (
+ *     $args is array{ echo: false|0|''|'0', ... }
+ *         ? string
+ *         : ( $args is false|0|''|'0' ? string : void )
+ * )
  */
 function get_search_form( $args = array() ) {
 	/**
@@ -581,7 +587,8 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
  *
  * @param string $redirect Optional path to redirect to on login/logout.
  * @param bool   $display  Default to echo and not return the link.
- * @return void|string Void if `$display` argument is true, log in/out link if `$display` is false.
+ * @return string|void Log in/out link if `$display` is false, nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function wp_loginout( $redirect = '', $display = true ) {
 	if ( ! is_user_logged_in() ) {
@@ -721,7 +728,8 @@ function wp_registration_url() {
  *                                     Default false.
  *
  * }
- * @return void|string Void if 'echo' argument is true, login form HTML if 'echo' is false.
+ * @return string|void Login form HTML if 'echo' is false, nothing otherwise.
+ * @phpstan-return ( $args is array{ echo: false|0|''|'0', ... } ? string : void )
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array(
@@ -901,8 +909,10 @@ function wp_lostpassword_url( $redirect = '' ) {
  * @param string $before  Text to output before the link. Default `<li>`.
  * @param string $after   Text to output after the link. Default `</li>`.
  * @param bool   $display Default to echo and not return the link.
- * @return void|string Void if `$display` argument is true, registration or admin link
- *                     if `$display` is false.
+ * @return string|void The registration or admin link when `$display` is false, or an empty
+ *                     string when registration is disabled or the logged-in user cannot
+ *                     access the dashboard. Nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function wp_register( $before = '<li>', $after = '</li>', $display = true ) {
 	if ( ! is_user_logged_in() ) {
@@ -1543,7 +1553,8 @@ function _wp_render_title_tag() {
  *                            Default '&raquo;'.
  * @param bool   $display     Optional. Whether to display or retrieve title. Default true.
  * @param string $seplocation Optional. Location of the separator (either 'left' or 'right').
- * @return string|null String when `$display` is false, null otherwise.
+ * @return string|void String when `$display` is false, nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	global $wp_locale;
@@ -1678,8 +1689,6 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	}
 
 	echo $title;
-
-	return null;
 }
 
 /**
@@ -1696,7 +1705,9 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
- * @return string|null Title when retrieving.
+ * @return string|void Title when retrieving, null on failure.
+ *                     Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function single_post_title( $prefix = '', $display = true ) {
 	$_post = get_queried_object();
@@ -1720,8 +1731,6 @@ function single_post_title( $prefix = '', $display = true ) {
 	}
 
 	echo $prefix . $title;
-
-	return null;
 }
 
 /**
@@ -1734,7 +1743,9 @@ function single_post_title( $prefix = '', $display = true ) {
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
- * @return string|null Title when retrieving, null when displaying or on failure.
+ * @return string|void Title when retrieving, null on failure.
+ *                     Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() ) {
@@ -1763,8 +1774,6 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	}
 
 	echo $prefix . $title;
-
-	return null;
 }
 
 /**
@@ -1778,10 +1787,16 @@ function post_type_archive_title( $prefix = '', $display = true ) {
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
- * @return string|null Title when retrieving.
+ * @return string|void Title when retrieving, null on failure.
+ *                     Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function single_cat_title( $prefix = '', $display = true ) {
-	return single_term_title( $prefix, $display );
+	if ( ! $display ) {
+		return single_term_title( $prefix, false );
+	}
+
+	single_term_title( $prefix, true );
 }
 
 /**
@@ -1795,10 +1810,16 @@ function single_cat_title( $prefix = '', $display = true ) {
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
- * @return string|null Title when retrieving.
+ * @return string|void Title when retrieving, null on failure.
+ *                     Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function single_tag_title( $prefix = '', $display = true ) {
-	return single_term_title( $prefix, $display );
+	if ( ! $display ) {
+		return single_term_title( $prefix, false );
+	}
+
+	single_term_title( $prefix, true );
 }
 
 /**
@@ -1812,7 +1833,9 @@ function single_tag_title( $prefix = '', $display = true ) {
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
- * @return string|null Title when retrieving.
+ * @return string|void Title when retrieving, null on failure.
+ *                     Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function single_term_title( $prefix = '', $display = true ) {
 	$term = get_queried_object();
@@ -1861,8 +1884,6 @@ function single_term_title( $prefix = '', $display = true ) {
 	}
 
 	echo $prefix . $term_name;
-
-	return null;
 }
 
 /**
@@ -2214,7 +2235,13 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
  *     @type string     $day             Day. Default current day.
  *     @type string     $w               Week. Default current week.
  * }
- * @return void|string Void if 'echo' argument is true, archive links if 'echo' is false.
+ * @return string|void Archive links when 'echo' is false, null when the post type is
+ *                     not viewable. Nothing otherwise.
+ * @phpstan-return (
+ *     $args is array{ echo: false|0|''|'0', ... }
+ *         ? string|null
+ *         : ( $args is ''|array ? void : string|null )
+ * )
  */
 function wp_get_archives( $args = '' ) {
 	global $wpdb, $wp_locale;
@@ -2250,7 +2277,7 @@ function wp_get_archives( $args = '' ) {
 
 	$post_type_object = get_post_type_object( $parsed_args['post_type'] );
 	if ( ! is_post_type_viewable( $post_type_object ) ) {
-		return;
+		return null;
 	}
 
 	$parsed_args['post_type'] = $post_type_object->name;
@@ -2484,7 +2511,9 @@ function calendar_week_mod( $num ) {
  *     @type bool   $display   Whether to display the calendar output. Default true.
  *     @type string $post_type Optional. Post type. Default 'post'.
  * }
- * @return void|string Void if `$display` argument is true, calendar HTML if `$display` is false.
+ * @return string|void Calendar HTML when `$display` is false, null when the site has
+ *                     no posts. Nothing otherwise.
+ * @phpstan-return ( $args is array{ display: false|0|''|'0', ... } ? string|null : void )
  */
 function get_calendar( $args = array() ) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
@@ -2595,7 +2624,7 @@ function get_calendar( $args = array() ) {
 		if ( ! $gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_calendar', $cache, 'calendar' );
-			return;
+			return null;
 		}
 	}
 
@@ -2898,7 +2927,8 @@ function the_date_xml() {
  * @param string $before  Optional. Output before the date. Default empty.
  * @param string $after   Optional. Output after the date. Default empty.
  * @param bool   $display Optional. Whether to echo the date or return it. Default true.
- * @return string|null String if retrieving.
+ * @return string|void String if retrieving.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function the_date( $format = '', $before = '', $after = '', $display = true ) {
 	global $currentday, $previousday;
@@ -2927,8 +2957,6 @@ function the_date( $format = '', $before = '', $after = '', $display = true ) {
 	}
 
 	echo $the_date;
-
-	return null;
 }
 
 /**
@@ -2975,7 +3003,8 @@ function get_the_date( $format = '', $post = null ) {
  * @param string $before  Optional. Output before the date. Default empty.
  * @param string $after   Optional. Output after the date. Default empty.
  * @param bool   $display Optional. Whether to echo the date or return it. Default true.
- * @return string|null String if retrieving.
+ * @return string|void String if retrieving.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function the_modified_date( $format = '', $before = '', $after = '', $display = true ) {
 	$the_modified_date = $before . get_the_modified_date( $format ) . $after;
@@ -2997,8 +3026,6 @@ function the_modified_date( $format = '', $before = '', $after = '', $display = 
 	}
 
 	echo $the_modified_date;
-
-	return null;
 }
 
 /**

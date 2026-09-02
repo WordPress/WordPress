@@ -907,7 +907,12 @@ function get_users( $args = array() ) {
  *     @type string $exclude       An array, comma-, or space-separated list of user IDs to exclude. Default empty.
  *     @type string $include       An array, comma-, or space-separated list of user IDs to include. Default empty.
  * }
- * @return string|null The output if echo is false. Otherwise null.
+ * @return string|void The output if 'echo' is false, nothing otherwise.
+ * @phpstan-return (
+ *     $args is array{ echo: false|0|''|'0', ... }
+ *         ? string
+ *         : ( $args is ''|array ? void : string|null )
+ * )
  */
 function wp_list_users( $args = array() ) {
 	$defaults = array(
@@ -1015,8 +1020,6 @@ function wp_list_users( $args = array() ) {
 	}
 
 	echo $return;
-
-	return null;
 }
 
 /**

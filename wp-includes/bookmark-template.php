@@ -206,7 +206,12 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
  *                                          $categorize is true. Accepts 'ASC' (ascending) or 'DESC' (descending).
  *                                          Default 'ASC'.
  * }
- * @return void|string Void if 'echo' argument is true, HTML list of bookmarks if 'echo' is false.
+ * @return string|void HTML list of bookmarks if 'echo' is false, nothing otherwise.
+ * @phpstan-return (
+ *     $args is array{ echo: false|0|''|'0', ... }
+ *         ? string
+ *         : ( $args is ''|array ? void : string|null )
+ * )
  */
 function wp_list_bookmarks( $args = '' ) {
 	$defaults = array(

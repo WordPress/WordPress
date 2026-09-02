@@ -1131,7 +1131,9 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
  * @param string           $after   Optional. Display after edit link. Default empty.
  * @param int|WP_Term|null $term    Optional. Term ID or object. If null, the queried object will be inspected. Default null.
  * @param bool             $display Optional. Whether or not to echo the return. Default true.
- * @return string|null HTML content.
+ * @return string|void HTML content when retrieving, null on failure or without the
+ *                     capability to edit the term. Nothing when displaying.
+ * @phpstan-return ( $display is true ? void : string|null )
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $display = true ) {
 	if ( is_null( $term ) ) {
@@ -1169,8 +1171,6 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $d
 	}
 
 	echo $link;
-
-	return null;
 }
 
 /**
@@ -2543,7 +2543,9 @@ function get_next_posts_page_link( $max_page = 0 ) {
  *
  * @param int  $max_page Optional. Max pages. Default 0.
  * @param bool $display  Optional. Whether to echo the link. Default true.
- * @return string|null The link URL for next posts page if `$display = false`.
+ * @return string|void The next posts page link when `$display` is false, or an empty
+ *                     string when there is no next page. Nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function next_posts( $max_page = 0, $display = true ) {
 	$link   = get_next_posts_page_link( $max_page );
@@ -2554,8 +2556,6 @@ function next_posts( $max_page = 0, $display = true ) {
 	}
 
 	echo $output;
-
-	return null;
 }
 
 /**
@@ -2655,7 +2655,9 @@ function get_previous_posts_page_link() {
  * @since 0.71
  *
  * @param bool $display Optional. Whether to echo the link. Default true.
- * @return string|null The previous posts page link if `$display = false`.
+ * @return string|void The previous posts page link when `$display` is false, or an empty
+ *                     string when there is no previous page. Nothing otherwise.
+ * @phpstan-return ( $display is true ? void : string )
  */
 function previous_posts( $display = true ) {
 	$link   = get_previous_posts_page_link();
@@ -2666,8 +2668,6 @@ function previous_posts( $display = true ) {
 	}
 
 	echo $output;
-
-	return null;
 }
 
 /**
@@ -3268,16 +3268,23 @@ function previous_comments_link( $label = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args Optional args. See paginate_links(). Default empty array.
- * @return void|string|array Void if 'echo' argument is true and 'type' is not an array,
- *                           or if the query is not for an existing single post of any post type.
- *                           Otherwise, markup for comment page links or array of comment page links,
- *                           depending on 'type' argument.
+ * @return string|string[]|void Markup for comment page links, or an array of them when the 'type'
+ *                              argument is 'array'. Null if the query is not for an existing single
+ *                              post of any post type. Nothing when 'echo' is true and 'type' is not
+ *                              'array'.
+ * @phpstan-return (
+ *     $args is array{ type: 'array', ... }
+ *         ? string[]|null
+ *         : ( $args is array{ echo: false|0|''|'0', ... }
+ *             ? string|null
+ *             : ( $args is ''|array ? void : string|string[]|null ) )
+ * )
  */
 function paginate_comments_links( $args = array() ) {
 	global $wp_rewrite;
 
 	if ( ! is_singular() ) {
-		return;
+		return null;
 	}
 
 	$page = get_query_var( 'cpage' );
