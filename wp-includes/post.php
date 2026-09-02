@@ -1918,19 +1918,19 @@ function register_post_type( $post_type, $args = array() ) {
  *
  * @since 4.5.0
  *
- * @global array $wp_post_types List of post types.
+ * @global array<string, string>       $post_type_meta_caps Used to store meta capabilities.
+ * @global array<string, WP_Post_Type> $wp_post_types       List of post types.
  *
  * @param string $post_type Post type to unregister.
  * @return true|WP_Error True on success, WP_Error on failure or if the post type doesn't exist.
  */
 function unregister_post_type( $post_type ) {
-	global $wp_post_types;
-
-	if ( ! post_type_exists( $post_type ) ) {
-		return new WP_Error( 'invalid_post_type', __( 'Invalid post type.' ) );
-	}
+	global $post_type_meta_caps, $wp_post_types;
 
 	$post_type_object = get_post_type_object( $post_type );
+	if ( ! $post_type_object ) {
+		return new WP_Error( 'invalid_post_type', __( 'Invalid post type.' ) );
+	}
 
 	// Do not allow unregistering internal post types.
 	if ( $post_type_object->_builtin ) {
@@ -1944,6 +1944,20 @@ function unregister_post_type( $post_type ) {
 	$post_type_object->unregister_taxonomies();
 
 	unset( $wp_post_types[ $post_type ] );
+
+	/*
+	 * Rebuild the meta capabilities of the post types that remain.
+	 *
+	 * They are keyed by the custom capability name, so a single entry may be owed to any
+	 * number of registered post types. Removing the entries for this post type alone could
+	 * therefore remove entries that the others still depend on.
+	 */
+	$post_type_meta_caps = array();
+	foreach ( $wp_post_types as $registered_post_type ) {
+		if ( $registered_post_type->map_meta_cap ) {
+			_post_type_meta_capabilities( get_object_vars( $registered_post_type->cap ) );
+		}
+	}
 
 	/**
 	 * Fires after a post type was unregistered.
@@ -2082,16 +2096,20 @@ function get_post_type_capabilities( $args ) {
 }
 
 /**
- * Stores or returns a list of post type meta caps for map_meta_cap().
+ * Stores a list of post type meta caps for {@see map_meta_cap()}.
  *
  * @since 3.1.0
+ * @since 4.5.0 The list moved to the `$post_type_meta_caps` global and the function
+ *              no longer returns it when called without arguments.
+ * @since 7.2.0 The `$capabilities` parameter defaults to an empty array rather than `null`.
  * @access private
  *
- * @global array $post_type_meta_caps Used to store meta capabilities.
+ * @global array<string, string> $post_type_meta_caps Used to store meta capabilities.
  *
- * @param string[] $capabilities Post type meta capabilities.
+ * @param array<string, string> $capabilities Map of core meta capability name to the custom
+ *                                            capability name it is registered under.
  */
-function _post_type_meta_capabilities( $capabilities = null ) {
+function _post_type_meta_capabilities( $capabilities = array() ): void {
 	global $post_type_meta_caps;
 
 	foreach ( $capabilities as $core => $custom ) {

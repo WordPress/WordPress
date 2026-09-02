@@ -797,13 +797,14 @@ final class WP_Post_Type {
 	 * Removes any rewrite rules, permastructs, and rules for the post type.
 	 *
 	 * @since 4.6.0
+	 * @since 7.2.0 Registered meta capabilities are no longer removed here. They are rebuilt
+	 *              from the post types that remain by {@see unregister_post_type()}.
 	 *
-	 * @global WP_Rewrite $wp_rewrite          WordPress rewrite component.
-	 * @global WP         $wp                  Current WordPress environment instance.
-	 * @global array      $post_type_meta_caps Used to remove meta capabilities.
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 * @global WP         $wp         Current WordPress environment instance.
 	 */
 	public function remove_rewrite_rules() {
-		global $wp, $wp_rewrite, $post_type_meta_caps;
+		global $wp, $wp_rewrite;
 
 		// Remove query var.
 		if ( false !== $this->query_var ) {
@@ -819,11 +820,6 @@ final class WP_Post_Type {
 					unset( $wp_rewrite->extra_rules_top[ $regex ] );
 				}
 			}
-		}
-
-		// Remove registered custom meta capabilities.
-		foreach ( $this->cap as $cap ) {
-			unset( $post_type_meta_caps[ $cap ] );
 		}
 	}
 
