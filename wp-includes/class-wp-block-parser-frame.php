@@ -51,7 +51,7 @@ class WP_Block_Parser_Frame {
 	 * Byte offset into document where leading HTML before token starts
 	 *
 	 * @since 5.0.0
-	 * @var int
+	 * @var int|null
 	 */
 	public $leading_html_start;
 
