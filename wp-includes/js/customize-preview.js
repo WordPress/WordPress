@@ -1,9 +1,14 @@
-/*
- * Script run inside a Customizer preview frame.
- *
+/**
  * @output wp-includes/js/customize-preview.js
  */
-(function( exports, $ ){
+
+/**
+ * Script run inside a Customizer preview frame.
+ *
+ * @param {Object}       wp The WordPress global object.
+ * @param {JQueryStatic} $  The jQuery object.
+ */
+(function( wp, $ ){
 	var api = wp.customize,
 		debounce,
 		currentHistoryState = {};
@@ -74,13 +79,16 @@
 	/**
 	 * Returns a debounced version of the function.
 	 *
+	 * @param {Function} fn        Function to debounce.
+	 * @param {number}   delay     Delay in milliseconds.
+	 * @param {Object}   [context] Context to invoke the function in. Defaults to the calling context.
 	 * @todo Require Underscore.js for this file and retire this.
+	 *
+	 * @return {Function} Debounced function.
 	 */
 	debounce = function( fn, delay, context ) {
 		var timeout;
-		return function() {
-			var args = arguments;
-
+		return function( ...args ) {
 			context = context || this;
 
 			clearTimeout( timeout );
@@ -95,15 +103,15 @@
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Preview
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
 	api.Preview = api.Messenger.extend(/** @lends wp.customize.Preview.prototype */{
 		/**
-		 * @param {Object} params  - Parameters to configure the messenger.
-		 * @param {Object} options - Extend any instance parameter or method with this object.
+		 * @param {Object} params  Parameters to configure the messenger.
+		 * @param {Object} options Extend any instance parameter or method with this object.
 		 */
 		initialize: function( params, options ) {
 			var preview = this, urlParser = document.createElement( 'a' );
@@ -142,7 +150,8 @@
 		 * @since 4.7.0
 		 * @access public
 		 *
-		 * @param {jQuery.Event} event Event.
+		 * @param {JQuery.Event} event Event.
+		 * @return {void}
 		 */
 		handleLinkClick: function( event ) {
 			var preview = this, link, isInternalJumpLink;
@@ -188,7 +197,8 @@
 		 * @since 4.7.0
 		 * @access public
 		 *
-		 * @param {jQuery.Event} event Event.
+		 * @param {JQuery.Event} event Event.
+		 * @return {void}
 		 */
 		handleFormSubmit: function( event ) {
 			var preview = this, urlParser, form;
@@ -232,7 +242,6 @@
 	 *
 	 * @since 4.7.0
 	 * @access protected
-	 * @access private
 	 *
 	 * @return {void}
 	 */
@@ -272,12 +281,12 @@
 	 * @since 4.7.0
 	 * @access public
 	 *
-	 * @param {HTMLAnchorElement|HTMLAreaElement} element Link element.
-	 * @param {string} element.search Query string.
-	 * @param {string} element.pathname Path.
-	 * @param {string} element.host Host.
-	 * @param {Object} [options]
-	 * @param {Object} [options.allowAdminAjax=false] Allow admin-ajax.php requests.
+	 * @param {HTMLAnchorElement|HTMLAreaElement} element                        Link element.
+	 * @param {string}                            element.search                 Query string.
+	 * @param {string}                            element.pathname               Path.
+	 * @param {string}                            element.host                   Host.
+	 * @param {Object}                            [options]                      Options.
+	 * @param {Object}                            [options.allowAdminAjax=false] Allow admin-ajax.php requests.
 	 * @return {boolean} Is appropriate for changeset link.
 	 */
 	api.isLinkPreviewable = function isLinkPreviewable( element, options ) {
@@ -328,10 +337,10 @@
 	 * @since 4.7.0
 	 * @access protected
 	 *
-	 * @param {HTMLAnchorElement|HTMLAreaElement} element Link element.
-	 * @param {string} element.search Query string.
-	 * @param {string} element.host Host.
-	 * @param {string} element.protocol Protocol.
+	 * @param {HTMLAnchorElement|HTMLAreaElement} element          Link element.
+	 * @param {string}                            element.search   Query string.
+	 * @param {string}                            element.host     Host.
+	 * @param {string}                            element.protocol Protocol.
 	 * @return {void}
 	 */
 	api.prepareLinkPreview = function prepareLinkPreview( element ) {
@@ -399,11 +408,11 @@
 		/**
 		 * Rewrite Ajax requests to inject customizer state.
 		 *
-		 * @param {Object} options Options.
-		 * @param {string} options.type Type.
-		 * @param {string} options.url URL.
-		 * @param {Object} originalOptions Original options.
-		 * @param {XMLHttpRequest} xhr XHR.
+		 * @param {Object}         options         Options.
+		 * @param {string}         options.type    Type.
+		 * @param {string}         options.url     URL.
+		 * @param {Object}         originalOptions Original options.
+		 * @param {XMLHttpRequest} xhr             XHR.
 		 * @return {void}
 		 */
 		var prefilterAjax = function( options, originalOptions, xhr ) {
@@ -714,9 +723,9 @@
 		/**
 		 * Create/update a setting value.
 		 *
-		 * @param {string}  id            - Setting ID.
-		 * @param {*}       value         - Setting value.
-		 * @param {boolean} [createDirty] - Whether to create a setting as dirty. Defaults to false.
+		 * @param {string}  id            Setting ID.
+		 * @param {*}       value         Setting value.
+		 * @param {boolean} [createDirty] Whether to create a setting as dirty. Defaults to false.
 		 */
 		setValue = function( id, value, createDirty ) {
 			var setting = api( id );
@@ -791,7 +800,7 @@
 		/**
 		 * Handle update to changeset UUID.
 		 *
-		 * @param {string} uuid - UUID.
+		 * @param {string} uuid UUID.
 		 * @return {void}
 		 */
 		handleUpdatedChangesetUuid = function( uuid ) {
@@ -888,8 +897,8 @@
 			return 'background_' + prop;
 		} );
 
-		api.when.apply( api, bg ).done( function() {
-			$.each( arguments, function() {
+		api.when.apply( api, bg ).done( function( ...settings ) {
+			$.each( settings, function() {
 				this.bind( api.settingPreviewHandlers.background );
 			});
 		});

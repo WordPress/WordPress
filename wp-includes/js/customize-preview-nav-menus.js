@@ -5,6 +5,13 @@
 /* global _wpCustomizePreviewNavMenusExports */
 
 /** @namespace wp.customize.navMenusPreview */
+
+/**
+ * @param {JQueryStatic}       $   The jQuery object.
+ * @param {_.UnderscoreStatic} _   The Underscore.js object.
+ * @param {Object}             wp  The WordPress global object.
+ * @param {Object}             api The Customizer API.
+ */
 wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function( $, _, wp, api ) {
 	'use strict';
 
@@ -90,15 +97,22 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			/**
 			 * Constructor.
 			 *
+			 * The nav menu arguments are normally given as the container context, which is what the
+			 * partial is constructed with when the document is scanned, and they may also be passed
+			 * in the params. Either way they have to be present and to carry an args_hmac matching
+			 * the one named in the ID, since the constructor throws when they do not.
+			 *
 			 * @since 4.5.0
-			 * @param {string} id - Partial ID.
-			 * @param {Object} options
-			 * @param {Object} options.params
-			 * @param {Object} options.params.navMenuArgs
-			 * @param {string} options.params.navMenuArgs.args_hmac
-			 * @param {string} [options.params.navMenuArgs.theme_location]
-			 * @param {number} [options.params.navMenuArgs.menu]
-			 * @param {Object} [options.constructingContainerContext]
+			 *
+			 * @param {string} id                                          Partial ID.
+			 * @param {Object} options                                     Options.
+			 * @param {Object} options.params                              Parameters for the partial.
+			 * @param {Object} options.params.navMenuArgs                  Arguments the nav menu was rendered with.
+			 * @param {string} options.params.navMenuArgs.args_hmac        HMAC of those arguments, which has to match the ID.
+			 * @param {string} [options.params.navMenuArgs.theme_location] Theme location the menu is assigned to.
+			 * @param {number} [options.params.navMenuArgs.menu]           ID of the menu.
+			 * @param {Object} [options.constructingContainerContext]      Context of the container element, used as the nav
+			 *                                                             menu arguments when no params are supplied.
 			 */
 			initialize: function( id, options ) {
 				var partial = this, matches, argsHmac;
@@ -131,10 +145,10 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 * Return whether the setting is related to this partial.
 			 *
 			 * @since 4.5.0
-			 * @param {wp.customize.Value|string} setting  - Object or ID.
-			 * @param {number|Object|false|null}  newValue - New value, or null if the setting was just removed.
-			 * @param {number|Object|false|null}  oldValue - Old value, or null if the setting was just added.
-			 * @return {boolean}
+			 * @param {wp.customize.Value|string} setting  Object or ID.
+			 * @param {number|Object|false|null}  newValue New value, or null if the setting was just removed.
+			 * @param {number|Object|false|null}  oldValue Old value, or null if the setting was just added.
+			 * @return {boolean} True if the setting is related to this partial, false otherwise.
 			 */
 			isRelatedSetting: function( setting, newValue, oldValue ) {
 				var partial = this, navMenuLocationSetting, navMenuId, isNavMenuItemSetting, _newValue, _oldValue, urlParser;
@@ -210,7 +224,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 *
 			 * @since 4.5.0
 			 *
-			 * @return {Promise}
+			 * @return {JQuery.Promise<*>} Promise that is resolved when the refresh is complete, or rejected if the partial is no longer associated with a menu.
 			 */
 			refresh: function() {
 				var partial = this, menuId, deferred = $.Deferred();
@@ -234,7 +248,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 * Render content.
 			 *
 			 * @inheritdoc
-			 * @param {wp.customize.selectiveRefresh.Placement} placement
+			 * @param {wp.customize.selectiveRefresh.Placement} placement The placement to render into.
 			 */
 			renderContent: function( placement ) {
 				var partial = this, previousContainer = placement.container;
@@ -263,7 +277,10 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		/**
 		 * Request full refresh if there are nav menu instances that lack partials which also match the supplied args.
 		 *
-		 * @param {Object} navMenuInstanceArgs
+		 * @since 4.5.0
+		 *
+		 * @param {Object} navMenuInstanceArgs Arguments for a nav menu instance, which may include menu and/or theme_location.
+		 * @return {boolean} Whether a full refresh was requested.
 		 */
 		self.handleUnplacedNavMenuInstances = function( navMenuInstanceArgs ) {
 			var unplacedNavMenuInstances;
@@ -282,10 +299,10 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param {wp.customize.Value} setting
-		 * @param {Object}             [options]
-		 * @param {boolean}            options.fire Whether to invoke the callback after binding.
-		 *                                          This is used when a dynamic setting is added.
+		 * @param {wp.customize.Value} setting        The setting to listen to.
+		 * @param {Object}             [options]      Options.
+		 * @param {boolean}            [options.fire] Whether to invoke the callback after binding.
+		 *                                            This is used when a dynamic setting is added.
 		 * @return {boolean} Whether the setting was bound.
 		 */
 		self.bindSettingListener = function( setting, options ) {
@@ -330,7 +347,8 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param {wp.customize.Value} setting
+		 * @param {wp.customize.Value} setting The setting to stop listening to.
+		 * @return {void}
 		 */
 		self.unbindSettingListener = function( setting ) {
 			setting.unbind( this.onChangeNavMenuSetting );
@@ -344,6 +362,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 * @since 4.5.0
 		 *
 		 * @this {wp.customize.Value}
+		 * @return {void}
 		 */
 		self.onChangeNavMenuSetting = function() {
 			var setting = this;
@@ -373,6 +392,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 * @param {Object} newItem New value for nav_menu_item[] setting.
 		 * @param {Object} oldItem Old value for nav_menu_item[] setting.
 		 * @this {wp.customize.Value}
+		 * @return {void}
 		 */
 		self.onChangeNavMenuItemSetting = function( newItem, oldItem ) {
 			var item = newItem || oldItem, navMenuSetting;
@@ -388,6 +408,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		 * @since 4.5.0
 		 *
 		 * @this {wp.customize.Value}
+		 * @return {void}
 		 */
 		self.onChangeNavMenuLocationsSetting = function() {
 			var setting = this, hasNavMenuInstance;
@@ -412,6 +433,8 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 	 * Also this applies even if a nav menu is not partial-refreshable.
 	 *
 	 * @since 4.5.0
+	 *
+	 * @return {void}
 	 */
 	self.highlightControls = function() {
 		var selector = '.menu-item';
