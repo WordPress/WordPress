@@ -201,6 +201,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *                                         a callback that may or may not exist.
 	 * @param int                   $priority  The exact priority used when adding the original filter callback.
 	 * @return bool Whether the callback existed before it was removed.
+	 * @phpstan-param Maybe_Callable $callback
 	 */
 	public function remove_filter( $hook_name, $callback, $priority ) {
 		if ( null === $priority ) {
@@ -248,13 +249,14 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *                  of that hook is returned, or false if the function is not attached.
 	 *                  If `$callback` and `$priority` are both provided, a boolean is returned
 	 *                  for whether the specific function is registered at that priority.
+	 * @phpstan-param Maybe_Callable|false $callback
 	 */
 	public function has_filter( $hook_name = '', $callback = false, $priority = false ) {
 		if ( false === $callback ) {
 			return $this->has_filters();
 		}
 
-		$function_key = _wp_filter_build_unique_id( $hook_name, $callback, false );
+		$function_key = _wp_filter_build_unique_id( $hook_name, $callback, is_int( $priority ) ? $priority : 10 );
 
 		if ( ! $function_key ) {
 			return false;
@@ -320,9 +322,11 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param mixed $value The value to filter.
-	 * @param array $args  Additional parameters to pass to the callback functions.
-	 *                     This array is expected to include $value at index 0.
+	 * @param mixed       $value The value to filter.
+	 * @param list<mixed> $args  Additional parameters to pass to the callback functions.
+	 *                           When filtering, this array is expected to include $value
+	 *                           at index 0. When called for an action by WP_Hook::do_action(),
+	 *                           it contains only the action arguments.
 	 * @return mixed The filtered value after all hooked functions are applied to it.
 	 */
 	public function apply_filters( $value, $args ) {
@@ -337,9 +341,14 @@ final class WP_Hook implements Iterator, ArrayAccess {
 		$num_args = count( $args );
 
 		do {
-			$this->current_priority[ $nesting_level ] = current( $this->iterations[ $nesting_level ] );
+			$priority = current( $this->iterations[ $nesting_level ] );
 
-			$priority = $this->current_priority[ $nesting_level ];
+			if ( false === $priority ) {
+				// This is not expected to occur since the hook is known to have callbacks at one or more priorities.
+				break;
+			}
+
+			$this->current_priority[ $nesting_level ] = $priority;
 
 			foreach ( $this->callbacks[ $priority ] as $the_ ) {
 				if ( ! $this->doing_action ) {
@@ -370,7 +379,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $args Parameters to pass to the callback functions.
+	 * @param list<mixed> $args Parameters to pass to the callback functions.
 	 */
 	public function do_action( $args ) {
 		$this->doing_action = true;
@@ -387,7 +396,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $args Arguments to pass to the hook callbacks. Passed by reference.
+	 * @param list<mixed> $args Arguments to pass to the hook callbacks. Passed by reference.
 	 */
 	public function do_all_hook( &$args ) {
 		$nesting_level                      = $this->nesting_level++;
