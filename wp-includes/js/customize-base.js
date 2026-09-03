@@ -5,9 +5,12 @@
 /** @namespace wp */
 window.wp = window.wp || {};
 
-(function( exports, $ ){
-	var api = {}, ctor, inherits,
-		slice = Array.prototype.slice;
+/**
+ * @param {Object}       wp The WordPress global object.
+ * @param {JQueryStatic} $  The jQuery object.
+ */
+(function( wp, $ ){
+	var api = {}, ctor, inherits;
 
 	// Shared empty constructor function to aid in prototype-chain creation.
 	ctor = function() {};
@@ -17,10 +20,10 @@ window.wp = window.wp || {};
 	 * Similar to `goog.inherits`, but uses a hash of prototype properties and
 	 * class properties to be extended.
 	 *
-	 * @param object parent      Parent class constructor to inherit from.
-	 * @param object protoProps  Properties to apply to the prototype for use as class instance properties.
-	 * @param object staticProps Properties to apply directly to the class constructor.
-	 * @return child The subclassed constructor.
+	 * @param {Object} parent        Parent class constructor to inherit from.
+	 * @param {Object} [protoProps]  Properties to apply to the prototype for use as class instance properties.
+	 * @param {Object} [staticProps] Properties to apply directly to the class constructor.
+	 * @return {Function} The subclassed constructor.
 	 */
 	inherits = function( parent, protoProps, staticProps ) {
 		var child;
@@ -33,14 +36,14 @@ window.wp = window.wp || {};
 		if ( protoProps && protoProps.hasOwnProperty( 'constructor' ) ) {
 			child = protoProps.constructor;
 		} else {
-			child = function() {
+			child = function( ...args ) {
 				/*
 				 * Storing the result `super()` before returning the value
 				 * prevents a bug in Opera where, if the constructor returns
 				 * a function, Opera will reject the return value in favor of
 				 * the original object. This causes all sorts of trouble.
 				 */
-				var result = parent.apply( this, arguments );
+				var result = parent.apply( this, args );
 				return result;
 			};
 		}
@@ -75,13 +78,28 @@ window.wp = window.wp || {};
 
 	/**
 	 * Base class for object inheritance.
+	 *
+	 * The arguments are normally passed straight through to the class's
+	 * initialize method. As a special case, when the first argument is
+	 * api.Class.applicator, the second argument is used as the array of
+	 * arguments for initialize and the third is used to extend the instance.
+	 * This allows a class to be constructed from an argument list that is only
+	 * known at runtime. See {@link wp.customize.Values#create}.
+	 *
+	 * @param {...*} args Arguments for the class's initialize method. Or
+	 *                    api.Class.applicator, followed by the array of
+	 *                    arguments for the initialize method, followed by an
+	 *                    optional object of properties to extend the instance
+	 *                    with.
+	 * @return {Object|Function} The instance of the class, which is a function when the class
+	 *                           defines an instance method, so that the instance is callable.
 	 */
-	api.Class = function( applicator, argsArray, options ) {
-		var magic, args = arguments;
+	api.Class = function( ...args ) {
+		var magic;
 
-		if ( applicator && argsArray && api.Class.applicator === applicator ) {
-			args = argsArray;
-			$.extend( this, options || {} );
+		if ( args[0] && args[1] && api.Class.applicator === args[0] ) {
+			$.extend( this, args[2] || {} );
+			args = args[1];
 		}
 
 		magic = this;
@@ -94,8 +112,8 @@ window.wp = window.wp || {};
 		 * It is also an object that has properties and methods inside it.
 		 */
 		if ( this.instance ) {
-			magic = function() {
-				return magic.instance.apply( magic, arguments );
+			magic = function( ...instanceArgs ) {
+				return magic.instance.apply( magic, instanceArgs );
 			};
 
 			$.extend( magic, this );
@@ -108,9 +126,9 @@ window.wp = window.wp || {};
 	/**
 	 * Creates a subclass of the class.
 	 *
-	 * @param object protoProps  Properties to apply to the prototype.
-	 * @param object staticProps Properties to apply directly to the class.
-	 * @return child The subclass.
+	 * @param {Object} [protoProps]  Properties to apply to the prototype.
+	 * @param {Object} [staticProps] Properties to apply directly to the class.
+	 * @return {Function} The subclass.
 	 */
 	api.Class.extend = function( protoProps, staticProps ) {
 		var child = inherits( this, protoProps, staticProps );
@@ -155,23 +173,44 @@ window.wp = window.wp || {};
 	 * Used as a mixin.
 	 */
 	api.Events = {
-		trigger: function( id ) {
+		/**
+		 * Trigger an event, invoking all of the callbacks bound to it.
+		 *
+		 * @param {string} id     ID of the event to trigger.
+		 * @param {...*}   [args] Zero or more arguments to pass to the bound callbacks.
+		 * @return {Object} The instance the mixin is applied to.
+		 */
+		trigger: function( id, ...args ) {
 			if ( this.topics && this.topics[ id ] ) {
-				this.topics[ id ].fireWith( this, slice.call( arguments, 1 ) );
+				this.topics[ id ].fireWith( this, args );
 			}
 			return this;
 		},
 
-		bind: function( id ) {
+		/**
+		 * Bind one or more callbacks to an event.
+		 *
+		 * @param {string}      id        ID of the event to bind to.
+		 * @param {...Function} callbacks A function, or multiple functions, to add to the callback stack.
+		 * @return {Object} The instance the mixin is applied to.
+		 */
+		bind: function( id, ...callbacks ) {
 			this.topics = this.topics || {};
 			this.topics[ id ] = this.topics[ id ] || $.Callbacks();
-			this.topics[ id ].add.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			this.topics[ id ].add.apply( this.topics[ id ], callbacks );
 			return this;
 		},
 
-		unbind: function( id ) {
+		/**
+		 * Unbind one or more previously bound callbacks from an event.
+		 *
+		 * @param {string}      id        ID of the event to unbind from.
+		 * @param {...Function} callbacks A function, or multiple functions, to remove from the callback stack.
+		 * @return {Object} The instance the mixin is applied to.
+		 */
+		unbind: function( id, ...callbacks ) {
 			if ( this.topics && this.topics[ id ] ) {
-				this.topics[ id ].remove.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+				this.topics[ id ].remove.apply( this.topics[ id ], callbacks );
 			}
 			return this;
 		}
@@ -183,12 +222,13 @@ window.wp = window.wp || {};
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Value
 	 *
-	 * @constructor
+	 * @class
+	 * @augments wp.customize.Class
 	 */
 	api.Value = api.Class.extend(/** @lends wp.customize.Value.prototype */{
 		/**
-		 * @param {mixed}  initial The initial value.
-		 * @param {Object} options
+		 * @param {*}      initial   The initial value.
+		 * @param {Object} [options] Options to extend the instance with.
 		 */
 		initialize: function( initial, options ) {
 			this._value = initial; // @todo Potentially change this to a this.set() call.
@@ -204,14 +244,14 @@ window.wp = window.wp || {};
 		 * Magic. Returns a function that will become the instance.
 		 * Set to null to prevent the instance from extending a function.
 		 */
-		instance: function() {
-			return arguments.length ? this.set.apply( this, arguments ) : this.get();
+		instance: function( ...args ) {
+			return args.length ? this.set.apply( this, args ) : this.get();
 		},
 
 		/**
 		 * Get the value.
 		 *
-		 * @return {mixed}
+		 * @return {*} The value.
 		 */
 		get: function() {
 			return this._value;
@@ -220,12 +260,14 @@ window.wp = window.wp || {};
 		/**
 		 * Set the value and trigger all bound callbacks.
 		 *
-		 * @param {Object} to New value.
+		 * @param {*}    to     New value.
+		 * @param {...*} [args] Zero or more additional arguments to pass to the setter.
+		 * @return {wp.customize.Value} The instance of the Value.
 		 */
-		set: function( to ) {
+		set: function( to, ...args ) {
 			var from = this._value;
 
-			to = this._setter.apply( this, arguments );
+			to = this._setter( to, ...args );
 			to = this.validate( to );
 
 			// Bail if the sanitized value is null or unchanged.
@@ -267,51 +309,81 @@ window.wp = window.wp || {};
 		/**
 		 * Bind a function to be invoked whenever the value changes.
 		 *
-		 * @param {...Function} A function, or multiple functions, to add to the callback stack.
+		 * @param {...Function} callbacks A function, or multiple functions, to add to the callback stack.
+		 * @return {wp.customize.Value} The instance of the Value.
 		 */
-		bind: function() {
-			this.callbacks.add.apply( this.callbacks, arguments );
+		bind: function( ...callbacks ) {
+			this.callbacks.add.apply( this.callbacks, callbacks );
 			return this;
 		},
 
 		/**
 		 * Unbind a previously bound function.
 		 *
-		 * @param {...Function} A function, or multiple functions, to remove from the callback stack.
+		 * @param {...Function} callbacks A function, or multiple functions, to remove from the callback stack.
+		 * @return {wp.customize.Value} The instance of the Value.
 		 */
-		unbind: function() {
-			this.callbacks.remove.apply( this.callbacks, arguments );
+		unbind: function( ...callbacks ) {
+			this.callbacks.remove.apply( this.callbacks, callbacks );
 			return this;
 		},
 
-		link: function() { // values*
+		/**
+		 * Update this value whenever one or more other values change.
+		 *
+		 * Note that this is one-directional: this value follows the supplied
+		 * values, not the other way around. Use sync() to link in both
+		 * directions.
+		 *
+		 * @param {...wp.customize.Value} values A value, or multiple values, for this value to follow.
+		 * @return {wp.customize.Value} The instance of the Value.
+		 */
+		link: function( ...values ) {
 			var set = this.set;
-			$.each( arguments, function() {
+			$.each( values, function() {
 				this.bind( set );
 			});
 			return this;
 		},
 
-		unlink: function() { // values*
+		/**
+		 * Stop updating this value when one or more other values change.
+		 *
+		 * @param {...wp.customize.Value} values A value, or multiple values, for this value to stop following.
+		 * @return {wp.customize.Value} The instance of the Value.
+		 */
+		unlink: function( ...values ) {
 			var set = this.set;
-			$.each( arguments, function() {
+			$.each( values, function() {
 				this.unbind( set );
 			});
 			return this;
 		},
 
-		sync: function() { // values*
+		/**
+		 * Link this value with one or more other values in both directions.
+		 *
+		 * @param {...wp.customize.Value} values A value, or multiple values, to keep in sync with this value.
+		 * @return {wp.customize.Value} The instance of the Value.
+		 */
+		sync: function( ...values ) {
 			var that = this;
-			$.each( arguments, function() {
+			$.each( values, function() {
 				that.link( this );
 				this.link( that );
 			});
 			return this;
 		},
 
-		unsync: function() { // values*
+		/**
+		 * Stop keeping this value in sync with one or more other values.
+		 *
+		 * @param {...wp.customize.Value} values A value, or multiple values, to stop keeping in sync with this value.
+		 * @return {wp.customize.Value} The instance of the Value.
+		 */
+		unsync: function( ...values ) {
 			var that = this;
-			$.each( arguments, function() {
+			$.each( values, function() {
 				that.unlink( this );
 				this.unlink( that );
 			});
@@ -325,7 +397,7 @@ window.wp = window.wp || {};
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Values
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
@@ -334,7 +406,7 @@ window.wp = window.wp || {};
 		/**
 		 * The default constructor for items of the collection.
 		 *
-		 * @type {object}
+		 * @type {Function}
 		 */
 		defaultConstructor: api.Value,
 
@@ -352,27 +424,27 @@ window.wp = window.wp || {};
 		 * the last to be a function callback that will be invoked when the requested
 		 * items are available.
 		 *
-		 * @see {api.Values.when}
+		 * @see {@link wp.customize.Values#when}
 		 *
-		 * @param {string} id ID of the item.
-		 * @param {...}       Zero or more IDs of items to wait for and a callback
-		 *                    function to invoke when they're available. Optional.
-		 * @return {mixed} The item instance if only one ID was supplied.
-		 *                 A Deferred Promise object if a callback function is supplied.
+		 * @param {string}               id     ID of the item.
+		 * @param {...(string|Function)} [args] Zero or more IDs of items to wait for and a callback
+		 *                                      function to invoke when they're available. Optional.
+		 * @return {*} The item instance if only one ID was supplied.
+		 *             A Deferred Promise object if a callback function is supplied.
 		 */
-		instance: function( id ) {
-			if ( arguments.length === 1 ) {
+		instance: function( id, ...args ) {
+			if ( 0 === args.length ) {
 				return this.value( id );
 			}
 
-			return this.when.apply( this, arguments );
+			return this.when( id, ...args );
 		},
 
 		/**
 		 * Get the instance of an item.
 		 *
 		 * @param {string} id The ID of the item.
-		 * @return {[type]} [description]
+		 * @return {*} The item instance.
 		 */
 		value: function( id ) {
 			return this._value[ id ];
@@ -382,7 +454,7 @@ window.wp = window.wp || {};
 		 * Whether the collection has an item with the given ID.
 		 *
 		 * @param {string} id The ID of the item to look for.
-		 * @return {boolean}
+		 * @return {boolean} True if the collection has an item with the given ID, false otherwise.
 		 */
 		has: function( id ) {
 			return typeof this._value[ id ] !== 'undefined';
@@ -391,9 +463,9 @@ window.wp = window.wp || {};
 		/**
 		 * Add an item to the collection.
 		 *
-		 * @param {string|wp.customize.Class} item         - The item instance to add, or the ID for the instance to add.
-		 *                                                   When an ID string is supplied, then itemObject must be provided.
-		 * @param {wp.customize.Class}        [itemObject] - The item instance when the first argument is an ID string.
+		 * @param {string|wp.customize.Class} item         The item instance to add, or the ID for the instance to add.
+		 *                                                 When an ID string is supplied, then itemObject must be provided.
+		 * @param {wp.customize.Class}        [itemObject] The item instance when the first argument is an ID string.
 		 * @return {wp.customize.Class} The new item's instance, or an existing instance if already added.
 		 */
 		add: function( item, itemObject ) {
@@ -436,19 +508,19 @@ window.wp = window.wp || {};
 		 * Create a new item of the collection using the collection's default constructor
 		 * and store it in the collection.
 		 *
-		 * @param {string} id    The ID of the item.
-		 * @param {mixed}  value Any extra arguments are passed into the item's initialize method.
-		 * @return {mixed} The new item's instance.
+		 * @param {string} id     The ID of the item.
+		 * @param {...*}   [args] Zero or more extra arguments to pass into the item's initialize method.
+		 * @return {wp.customize.Class} The new item's instance.
 		 */
-		create: function( id ) {
-			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
+		create: function( id, ...args ) {
+			return this.add( id, new this.defaultConstructor( api.Class.applicator, args ) );
 		},
 
 		/**
 		 * Iterate over all items in the collection invoking the provided callback.
 		 *
-		 * @param {Function} callback Function to invoke.
-		 * @param {Object}   context  Object context to invoke the function with. Optional.
+		 * @param {Function} callback  Function to invoke.
+		 * @param {Object}   [context] Object context to invoke the function with.
 		 */
 		each: function( callback, context ) {
 			context = typeof context === 'undefined' ? this : context;
@@ -494,11 +566,12 @@ window.wp = window.wp || {};
 		 * For example:
 		 *     when( id1, id2, id3, function( value1, value2, value3 ) {} );
 		 *
-		 * @return $.Deferred.promise();
+		 * @param {...(string|Function)} ids Zero or more IDs of items to wait for, optionally followed by
+		 *                                   a callback function to invoke once they are all available.
+		 * @return {JQuery.Promise<*>} A promise that is resolved when all of the requested values exist.
 		 */
-		when: function() {
+		when: function( ...ids ) {
 			var self = this,
-				ids  = slice.call( arguments ),
 				dfd  = $.Deferred();
 
 			// If the last argument is a callback, bind it to .done().
@@ -555,9 +628,10 @@ window.wp = window.wp || {};
 
 
 	/**
-	 * Cast a string to a jQuery collection if it isn't already.
+	 * Cast a string to a jQuery object if it isn't already.
 	 *
-	 * @param {string|jQuery collection} element
+	 * @param {string|JQuery} element A selector or an existing jQuery collection.
+	 * @return {JQuery} The jQuery collection.
 	 */
 	api.ensure = function( element ) {
 		return typeof element === 'string' ? $( element ) : element;
@@ -571,7 +645,7 @@ window.wp = window.wp || {};
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Element
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Value
 	 * @augments wp.customize.Class
 	 */
@@ -600,9 +674,9 @@ window.wp = window.wp || {};
 			update = this.update;
 			refresh = this.refresh;
 
-			this.update = function( to ) {
+			this.update = function( to, ...args ) {
 				if ( to !== refresh.call( self ) ) {
-					update.apply( this, arguments );
+					update.call( this, to, ...args );
 				}
 			};
 			this.refresh = function() {
@@ -663,7 +737,7 @@ window.wp = window.wp || {};
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Messenger
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
@@ -671,10 +745,10 @@ window.wp = window.wp || {};
 		/**
 		 * Create a new Value.
 		 *
-		 * @param {string} key     Unique identifier.
-		 * @param {mixed}  initial Initial value.
-		 * @param {mixed}  options Options hash. Optional.
-		 * @return {Value} Class instance of the Value.
+		 * @param {string} key       Unique identifier.
+		 * @param {*}      initial   Initial value.
+		 * @param {*}      [options] Options hash.
+		 * @return {wp.customize.Value} Class instance of the Value.
 		 */
 		add: function( key, initial, options ) {
 			return this[ key ] = new api.Value( initial, options );
@@ -683,11 +757,11 @@ window.wp = window.wp || {};
 		/**
 		 * Initialize Messenger.
 		 *
-		 * @param {Object} params  - Parameters to configure the messenger.
-		 *        {string} params.url          - The URL to communicate with.
-		 *        {window} params.targetWindow - The window instance to communicate with. Default window.parent.
-		 *        {string} params.channel      - If provided, will send the channel with each message and only accept messages a matching channel.
-		 * @param {Object} options - Extend any instance parameter or method with this object.
+		 * @param {Object} params              Parameters to configure the messenger.
+		 * @param {string} params.url          The URL to communicate with.
+		 * @param {Window} params.targetWindow The window instance to communicate with. Default window.parent.
+		 * @param {string} [params.channel]    If provided, will send the channel with each message and only accept messages a matching channel.
+		 * @param {Object} [options]           Extend any instance parameter or method with this object.
 		 */
 		initialize: function( params, options ) {
 			// Target the parent frame by default, but only if a parent frame exists.
@@ -707,10 +781,10 @@ window.wp = window.wp || {};
 			// First add with no value.
 			this.add( 'targetWindow', null );
 			// This avoids SecurityErrors when setting a window object in x-origin iframe'd scenarios.
-			this.targetWindow.set = function( to ) {
+			this.targetWindow.set = function( to, ...args ) {
 				var from = this._value;
 
-				to = this._setter.apply( this, arguments );
+				to = this._setter( to, ...args );
 				to = this.validate( to );
 
 				if ( null === to || from === to ) {
@@ -748,7 +822,7 @@ window.wp = window.wp || {};
 		/**
 		 * Receive data from the other window.
 		 *
-		 * @param {jQuery.Event} event Event with embedded data.
+		 * @param {JQuery.Event} event Event with embedded data.
 		 */
 		receive: function( event ) {
 			var message;
@@ -787,8 +861,8 @@ window.wp = window.wp || {};
 		/**
 		 * Send data to the other window.
 		 *
-		 * @param {string} id   The event name.
-		 * @param {Object} data Data.
+		 * @param {string} id     The event name.
+		 * @param {*}      [data] Data.
 		 */
 		send: function( id, data ) {
 			var message;
@@ -821,13 +895,13 @@ window.wp = window.wp || {};
 	 * @memberOf wp.customize
 	 * @alias wp.customize.Notification
 	 *
-	 * @param {string}  code - The error code.
-	 * @param {object}  params - Params.
-	 * @param {string}  params.message=null - The error message.
-	 * @param {string}  [params.type=error] - The notification type.
-	 * @param {boolean} [params.fromServer=false] - Whether the notification was server-sent.
-	 * @param {string}  [params.setting=null] - The setting ID that the notification is related to.
-	 * @param {*}       [params.data=null] - Any additional data.
+	 * @param {string}  code                      The error code.
+	 * @param {Object}  params                    Params.
+	 * @param {string}  [params.message=null]     The error message.
+	 * @param {string}  [params.type=error]       The notification type.
+	 * @param {boolean} [params.fromServer=false] Whether the notification was server-sent.
+	 * @param {string}  [params.setting=null]     The setting ID that the notification is related to.
+	 * @param {*}       [params.data=null]        Any additional data.
 	 */
 	api.Notification = api.Class.extend(/** @lends wp.customize.Notification.prototype */{
 
@@ -837,7 +911,7 @@ window.wp = window.wp || {};
 		 * This will be populated with template option or else it will be populated with template from the ID.
 		 *
 		 * @since 4.9.0
-		 * @var {Function}
+		 * @member {Function}
 		 */
 		template: null,
 
@@ -845,7 +919,7 @@ window.wp = window.wp || {};
 		 * ID for the template to render the notification.
 		 *
 		 * @since 4.9.0
-		 * @var {string}
+		 * @member {string}
 		 */
 		templateId: 'customize-notification',
 
@@ -853,7 +927,7 @@ window.wp = window.wp || {};
 		 * Additional class names to add to the notification container.
 		 *
 		 * @since 4.9.0
-		 * @var {string}
+		 * @member {string}
 		 */
 		containerClasses: '',
 
@@ -862,15 +936,15 @@ window.wp = window.wp || {};
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {string}   code - Notification code.
-		 * @param {Object}   params - Notification parameters.
-		 * @param {string}   params.message - Message.
-		 * @param {string}   [params.type=error] - Type.
-		 * @param {string}   [params.setting] - Related setting ID.
-		 * @param {Function} [params.template] - Function for rendering template. If not provided, this will come from templateId.
-		 * @param {string}   [params.templateId] - ID for template to render the notification.
-		 * @param {string}   [params.containerClasses] - Additional class names to add to the notification container.
-		 * @param {boolean}  [params.dismissible] - Whether the notification can be dismissed.
+		 * @param {string}   code                      Notification code.
+		 * @param {Object}   params                    Notification parameters.
+		 * @param {string}   params.message            Message.
+		 * @param {string}   [params.type=error]       Type.
+		 * @param {string}   [params.setting]          Related setting ID.
+		 * @param {Function} [params.template]         Function for rendering template. If not provided, this will come from templateId.
+		 * @param {string}   [params.templateId]       ID for template to render the notification.
+		 * @param {string}   [params.containerClasses] Additional class names to add to the notification container.
+		 * @param {boolean}  [params.dismissible]      Whether the notification can be dismissed.
 		 */
 		initialize: function( code, params ) {
 			var _params;
@@ -897,7 +971,7 @@ window.wp = window.wp || {};
 		 *
 		 * @since 4.9.0
 		 *
-		 * @return {jQuery} Notification container element.
+		 * @return {JQuery} Notification container element.
 		 */
 		render: function() {
 			var notification = this, container, data;
@@ -935,7 +1009,7 @@ window.wp = window.wp || {};
 	 *
 	 * @alias wp.customize.get
 	 *
-	 * @return {Object}
+	 * @return {Object} All customize settings.
 	 */
 	api.get = function() {
 		var result = {};
@@ -990,5 +1064,5 @@ window.wp = window.wp || {};
 	 *
 	 * @namespace wp.customize
 	 */
-	exports.customize = api;
+	wp.customize = api;
 })( wp, jQuery );
