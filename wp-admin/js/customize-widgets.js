@@ -3,6 +3,11 @@
  */
 
 /* global _wpCustomizeWidgetsSettings */
+
+/**
+ * @param {Object}       wp The WordPress global object.
+ * @param {JQueryStatic} $  The jQuery object.
+ */
 (function( wp, $ ){
 
 	if ( ! wp || ! wp.customize ) { return; }
@@ -251,7 +256,7 @@
 
 		/**
 		 * Updates the count of the available widgets that have the `search_matched` attribute.
- 		 */
+		 */
 		updateSearchMatchesCount: function() {
 			this.searchMatchesCount = this.collection.where({ search_matched: true }).length;
 		},
@@ -271,7 +276,7 @@
 
 		/**
 		 * Changes visibility of available widgets.
- 		 */
+		 */
 		updateList: function() {
 			this.collection.each( function( widget ) {
 				var widgetTpl = $( '#widget-tpl-' + widget.id );
@@ -284,7 +289,9 @@
 
 		/**
 		 * Highlights a widget.
- 		 */
+		 *
+		 * @param {JQuery} widgetTpl The widget template to highlight.
+		 */
 		select: function( widgetTpl ) {
 			this.selected = $( widgetTpl );
 			this.selected.siblings( '.widget-tpl' ).removeClass( 'selected' );
@@ -293,6 +300,8 @@
 
 		/**
 		 * Highlights a widget on focus.
+		 *
+		 * @param {JQuery.Event} event The focus event.
 		 */
 		focus: function( event ) {
 			this.select( $( event.currentTarget ) );
@@ -300,6 +309,8 @@
 
 		/**
 		 * Handles submit for keypress and click on widget.
+		 *
+		 * @param {JQuery.Event} event The keypress or click event.
 		 */
 		_submit: function( event ) {
 			// Only proceed with keypress if it is Enter or Spacebar.
@@ -312,7 +323,9 @@
 
 		/**
 		 * Adds a selected widget to the sidebar.
- 		 */
+		 *
+		 * @param {JQuery} widgetTpl The widget template to add.
+		 */
 		submit: function( widgetTpl ) {
 			var widgetId, widget, widgetFormControl;
 
@@ -342,6 +355,8 @@
 
 		/**
 		 * Opens the panel.
+		 *
+		 * @param {wp.customize.Widgets.SidebarControl} sidebarControl The sidebar control that opened the panel.
 		 */
 		open: function( sidebarControl ) {
 			this.currentSidebarControl = sidebarControl;
@@ -371,6 +386,8 @@
 
 		/**
 		 * Closes the panel.
+		 *
+		 * @param {Object} [options] Options for closing the panel.
 		 */
 		close: function( options ) {
 			options = options || {};
@@ -389,6 +406,8 @@
 
 		/**
 		 * Adds keyboard accessibility to the panel.
+		 *
+		 * @param {JQuery.Event} event The keydown event.
 		 */
 		keyboardAccessible: function( event ) {
 			var isEnter = ( event.which === 13 ),
@@ -457,9 +476,9 @@
 	api.Widgets.formSyncHandlers = {
 
 		/**
-		 * @param {jQuery.Event} e
-		 * @param {jQuery} widget
-		 * @param {string} newForm
+		 * @param {JQuery.Event} e       The widget-synced event.
+		 * @param {JQuery}       widget  The widget root element.
+		 * @param {string}       newForm The HTML for the updated widget form.
 		 */
 		rss: function( e, widget, newForm ) {
 			var oldWidgetError = widget.find( '.widget-error:first' ),
@@ -491,6 +510,9 @@
 		 *
 		 * @constructs wp.customize.Widgets.WidgetControl
 		 * @augments   wp.customize.Control
+		 *
+		 * @param {string} id      Control ID.
+		 * @param {Object} options Control options.
 		 */
 		initialize: function( id, options ) {
 			var control = this;
@@ -744,9 +766,9 @@
 				$reorderNav, updateAvailableSidebars, template;
 
 			/**
-			 * select the provided sidebar list item in the move widget area
+			 * Selects the provided sidebar list item in the move widget area.
 			 *
-			 * @param {jQuery} li
+			 * @param {JQuery} li The sidebar list item to select.
 			 */
 			selectSidebarItem = function( li ) {
 				li.siblings( '.selected' ).removeClass( 'selected' );
@@ -953,9 +975,9 @@
 
 			formSyncHandler = api.Widgets.formSyncHandlers[ this.params.widget_id_base ];
 			if ( formSyncHandler ) {
-				$( document ).on( 'widget-synced', function( e, widget ) {
+				$( document ).on( 'widget-synced', function( e, widget, ...args ) {
 					if ( $widgetRoot.is( widget ) ) {
-						formSyncHandler.apply( document, arguments );
+						formSyncHandler.call( document, e, widget, ...args );
 					}
 				} );
 			}
@@ -968,9 +990,9 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {boolean}   active
-		 * @param {Object}    args
-		 * @param {function}  args.completeCallback
+		 * @param {boolean}  active                Whether the widget is rendered.
+		 * @param {Object}   args                  Args.
+		 * @param {Function} args.completeCallback Function to call once the class has been toggled.
 		 */
 		onChangeActive: function ( active, args ) {
 			// Note: there is a second 'args' parameter being passed, merged on top of this.defaultActiveArguments.
@@ -1039,8 +1061,8 @@
 		 * are passed into this._getInputsSignature(), and they are iterated
 		 * over when copying sanitized values over to the form loaded.
 		 *
-		 * @param {jQuery} container element in which to look for inputs
-		 * @return {jQuery} inputs
+		 * @param {JQuery} container Element in which to look for inputs.
+		 * @return {JQuery} The inputs found within the container.
 		 * @private
 		 */
 		_getInputs: function( container ) {
@@ -1051,8 +1073,8 @@
 		 * Iterate over supplied inputs and create a signature string for all of them together.
 		 * This string can be used to compare whether or not the form has all of the same fields.
 		 *
-		 * @param {jQuery} inputs
-		 * @return {string}
+		 * @param {JQuery} inputs The inputs to build a signature from.
+		 * @return {string} Signature string for the inputs.
 		 * @private
 		 */
 		_getInputsSignature: function( inputs ) {
@@ -1074,8 +1096,8 @@
 		/**
 		 * Get the state for an input depending on its type.
 		 *
-		 * @param {jQuery|Element} input
-		 * @return {string|boolean|Array|*}
+		 * @param {JQuery|Element} input The input to read the state from.
+		 * @return {string|boolean|string[]|*} State of the input.
 		 * @private
 		 */
 		_getInputState: function( input ) {
@@ -1094,8 +1116,8 @@
 		/**
 		 * Update an input's state based on its type.
 		 *
-		 * @param {jQuery|Element} input
-		 * @param {string|boolean|Array|*} state
+		 * @param {JQuery|Element}            input The input element to update.
+		 * @param {string|boolean|string[]|*} state The state to apply: the checked state for checkboxes and radio buttons, an array of values for multi-selects, and otherwise the input's value.
 		 * @private
 		 */
 		_setInputState: function ( input, state ) {
@@ -1124,7 +1146,9 @@
 		 **********************************************************************/
 
 		/**
-		 * @return {wp.customize.controlConstructor.sidebar_widgets[]}
+		 * Get the sidebar widgets control for the sidebar this widget is in.
+		 *
+		 * @return {wp.customize.Widgets.SidebarControl|undefined} The sidebar widgets control, or undefined if not found.
 		 */
 		getSidebarWidgetsControl: function() {
 			var settingId, sidebarWidgetsControl;
@@ -1143,10 +1167,10 @@
 		 * Submit the widget form via Ajax and get back the updated instance,
 		 * along with the new widget control form to render.
 		 *
-		 * @param {Object} [args]
-		 * @param {Object|null} [args.instance=null]  When the model changes, the instance is sent here; otherwise, the inputs from the form are used
-		 * @param {Function|null} [args.complete=null]  Function which is called when the request finishes. Context is bound to the control. First argument is any error. Following arguments are for success.
-		 * @param {boolean} [args.ignoreActiveElement=false] Whether or not updating a field will be deferred if focus is still on the element.
+		 * @param {Object}        [args]                           Arguments for the update.
+		 * @param {Object|null}   [args.instance=null]             When the model changes, the instance is sent here; otherwise, the inputs from the form are used.
+		 * @param {Function|null} [args.complete=null]             Function which is called when the request finishes. Context is bound to the control. First argument is any error. Following arguments are for success.
+		 * @param {boolean}       [args.ignoreActiveElement=false] Whether or not updating a field will be deferred if focus is still on the element.
 		 */
 		updateWidget: function( args ) {
 			var self = this, instanceOverride, completeCallback, $widgetRoot, $widgetContent,
@@ -1341,17 +1365,17 @@
 		/**
 		 * @since 4.1.0
 		 *
-		 * @param {Boolean} expanded
-		 * @param {Object} [params]
-		 * @return {Boolean} False if state already applied.
+		 * @param {boolean} expanded The new state to apply.
+		 * @param {Object}  [params] Object containing options for expand/collapse.
+		 * @return {boolean} False if state already applied.
 		 */
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
 		/**
 		 * @since 4.1.0
 		 *
-		 * @param {Object} [params]
-		 * @return {Boolean} False if already expanded.
+		 * @param {Object} [params] Object containing options for expansion.
+		 * @return {boolean} False if already expanded.
 		 */
 		expand: api.Section.prototype.expand,
 
@@ -1367,8 +1391,8 @@
 		/**
 		 * @since 4.1.0
 		 *
-		 * @param {Object} [params]
-		 * @return {Boolean} False if already collapsed.
+		 * @param {Object} [params] Object containing options for collapse.
+		 * @return {boolean} False if already collapsed.
 		 */
 		collapse: api.Section.prototype.collapse,
 
@@ -1386,7 +1410,7 @@
 		 *
 		 * @deprecated this is poor naming, and it is better to directly set control.expanded( showOrHide )
 		 *
-		 * @param {boolean|undefined} [showOrHide] If not supplied, will be inverse of current visibility
+		 * @param {boolean|undefined} [showOrHide] If not supplied, will be inverse of current visibility.
 		 */
 		toggleForm: function( showOrHide ) {
 			if ( typeof showOrHide === 'undefined' ) {
@@ -1398,8 +1422,10 @@
 		/**
 		 * Respond to change in the expanded state.
 		 *
-		 * @param {boolean} expanded
-		 * @param {Object} args  merged on top of this.defaultActiveArguments
+		 * @param {boolean}  expanded              The expanded state to transition to.
+		 * @param {Object}   args                  Object containing options for expand/collapse, merged on top of this.defaultExpandedArguments.
+		 * @param {boolean}  [args.unchanged]      Whether the expanded state is unchanged.
+		 * @param {Function} args.completeCallback Callback to be executed once the expand/collapse action is complete.
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 			var self = this, $widget, $inside, complete, prevComplete, expandControl, $toggleBtn;
@@ -1498,7 +1524,7 @@
 		/**
 		 * Get the position (index) of the widget in the containing sidebar
 		 *
-		 * @return {number}
+		 * @return {number|void} Index of the widget in the sidebar, or undefined if not found.
 		 */
 		getWidgetSidebarPosition: function() {
 			var sidebarWidgetIds, position;
@@ -1530,7 +1556,7 @@
 		/**
 		 * @private
 		 *
-		 * @param {number} offset 1|-1
+		 * @param {number} offset The number of positions to move the widget, either 1 or -1.
 		 */
 		_moveWidgetByOne: function( offset ) {
 			var i, sidebarWidgetsSetting, sidebarWidgetIds,	adjacentWidgetId;
@@ -1549,7 +1575,7 @@
 		/**
 		 * Toggle visibility of the widget move area
 		 *
-		 * @param {boolean} [showOrHide]
+		 * @param {boolean} [showOrHide] If not supplied, will be inverse of current visibility.
 		 */
 		toggleWidgetMoveArea: function( showOrHide ) {
 			var self = this, $moveWidgetArea;
@@ -1605,7 +1631,7 @@
 	 * @class    wp.customize.Widgets.WidgetsPanel
 	 * @augments wp.customize.Panel
 	 */
-	api.Widgets.WidgetsPanel = api.Panel.extend(/** @lends wp.customize.Widgets.WigetsPanel.prototype */{
+	api.Widgets.WidgetsPanel = api.Panel.extend(/** @lends wp.customize.Widgets.WidgetsPanel.prototype */{
 
 		/**
 		 * Add and manage the display of the no-rendered-areas notice.
@@ -1642,7 +1668,7 @@
 				/**
 				 * Determine whether or not the notice should be displayed.
 				 *
-				 * @return {boolean}
+				 * @return {boolean} True if the notice should be displayed, false otherwise.
 				 */
 				shouldShowNotice = function() {
 					var activeSectionCount = getActiveSectionCount();
@@ -1712,7 +1738,7 @@
 		 *
 		 * @since 4.4.0
 		 *
-		 * @return {boolean}
+		 * @return {boolean} True if the panel is contextually active, false otherwise.
 		 */
 		isContextuallyActive: function() {
 			var panel = this;
@@ -2008,7 +2034,7 @@
 		/**
 		 * Enable/disable the reordering UI
 		 *
-		 * @param {boolean} showOrHide to enable/disable reordering
+		 * @param {boolean} showOrHide Whether to enable or disable reordering.
 		 *
 		 * @todo We should have a reordering state instead and rename this to onChangeReordering
 		 */
@@ -2048,7 +2074,7 @@
 		 * Get the widget_form Customize controls associated with the current sidebar.
 		 *
 		 * @since 3.9.0
-		 * @return {wp.customize.controlConstructor.widget_form[]}
+		 * @return {wp.customize.Widgets.WidgetControl[]} Widget form controls associated with the current sidebar.
 		 */
 		getWidgetFormControls: function() {
 			var formControls = [];
@@ -2065,8 +2091,10 @@
 		},
 
 		/**
-		 * @param {string} widgetId or an id_base for adding a previously non-existing widget.
-		 * @return {Object|false} widget_form control instance, or false on error.
+		 * Add a widget to the sidebar.
+		 *
+		 * @param {string} widgetId Widget ID, or an id_base for adding a previously non-existing widget.
+		 * @return {wp.customize.Widgets.WidgetControl|false} The widget_form control instance, or false on error.
 		 */
 		addWidget: function( widgetId ) {
 			var self = this, controlHtml, $widget, controlType = 'widget_form', controlContainer, controlConstructor,
@@ -2221,7 +2249,7 @@
 	/**
 	 * Highlight a widget control.
 	 *
-	 * @param {string} widgetId
+	 * @param {string} widgetId The ID of the widget to highlight.
 	 */
 	api.Widgets.highlightWidgetFormControl = function( widgetId ) {
 		var control = api.Widgets.getWidgetFormControlForWidget( widgetId );
@@ -2234,7 +2262,7 @@
 	/**
 	 * Focus a widget control.
 	 *
-	 * @param {string} widgetId
+	 * @param {string} widgetId The ID of the widget to focus.
 	 */
 	api.Widgets.focusWidgetFormControl = function( widgetId ) {
 		var control = api.Widgets.getWidgetFormControlForWidget( widgetId );
@@ -2246,8 +2274,8 @@
 
 	/**
 	 * Given a widget control, find the sidebar widgets control that contains it.
-	 * @param {string} widgetId
-	 * @return {Object|null}
+	 * @param {string} widgetId The ID of the widget to find the sidebar widgets control for.
+	 * @return {Object|null} Sidebar widgets control that contains the widget, or null if not found.
 	 */
 	api.Widgets.getSidebarWidgetControlContainingWidget = function( widgetId ) {
 		var foundControl = null;
@@ -2265,8 +2293,8 @@
 	/**
 	 * Given a widget ID for a widget appearing in the preview, get the widget form control associated with it.
 	 *
-	 * @param {string} widgetId
-	 * @return {Object|null}
+	 * @param {string} widgetId The ID of the widget to find the form control for.
+	 * @return {Object|null} Widget form control associated with the widget, or null if not found.
 	 */
 	api.Widgets.getWidgetFormControlForWidget = function( widgetId ) {
 		var foundControl = null;
@@ -2319,8 +2347,8 @@
 	 *
 	 * This overrides the back button to serve the purpose of breadcrumb navigation.
 	 *
-	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} focusConstruct - The object to initially focus.
-	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} returnConstruct - The object to return focus.
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} focusConstruct  The object to initially focus.
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} returnConstruct The object to return focus.
 	 */
 	function focusConstructWithBreadcrumb( focusConstruct, returnConstruct ) {
 		focusConstruct.focus();
@@ -2334,8 +2362,8 @@
 	}
 
 	/**
-	 * @param {string} widgetId
-	 * @return {Object}
+	 * @param {string} widgetId The widget ID to parse.
+	 * @return {Object} Parsed widget ID with id_base and number properties.
 	 */
 	function parseWidgetId( widgetId ) {
 		var matches, parsed = {
@@ -2356,8 +2384,8 @@
 	}
 
 	/**
-	 * @param {string} widgetId
-	 * @return {string} settingId
+	 * @param {string} widgetId The widget ID.
+	 * @return {string} The setting ID for the widget.
 	 */
 	function widgetIdToSettingId( widgetId ) {
 		var parsed = parseWidgetId( widgetId ), settingId;
