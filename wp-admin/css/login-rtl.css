@@ -202,8 +202,20 @@ p {
 }
 
 .login form .forgetmenot {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	/* Matches the height of the Log In button beside it, so the row centers on it. */
+	min-height: 40px;
 	font-weight: 400;
 	float: right;
+	margin-bottom: 0;
+}
+
+/* Centering aligns margin boxes, so margins left from the inline layout would offset these. */
+.login form .forgetmenot input[type="checkbox"],
+.login form .forgetmenot label {
+	margin-top: 0;
 	margin-bottom: 0;
 }
 
