@@ -2340,8 +2340,7 @@ div.action-links,
 
 	.plugins tr.active + tr.inactive th.check-column,
 	.plugins tr.active + tr.inactive td.check-column,
-	.plugins tr.active + tr.inactive td.column-description,
-	.plugins .plugin-update-tr:before {
+	.plugins tr.active + tr.inactive td.column-description {
 		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	}
 
@@ -2351,24 +2350,13 @@ div.action-links,
 		border-top: none;
 	}
 
-	/* mimic the checkbox th */
-	.plugins .plugin-update-tr:before {
-		content: "";
-		display: table-cell;
-	}
-
 	.plugins #the-list .plugin-update-tr .plugin-update {
+		flex: 0 1 100%;
 		border-left: none;
 	}
 
 	.plugin-update-tr .update-message {
 		margin-left: 0;
-	}
-
-	.plugins .active.update + .plugin-update-tr:before,
-	.plugins .active.updated + .plugin-update-tr:before {
-		background-color: rgba(var(--wp-admin-theme-color--rgb), 0.08);
-		border-left: 4px solid var(--wp-admin-theme-color);
 	}
 
 	.plugins .plugin-update-tr .update-message {
