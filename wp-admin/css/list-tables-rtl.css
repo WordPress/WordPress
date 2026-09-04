@@ -1981,7 +1981,8 @@ div.action-links,
 
 	.plugins .active th.check-column,
 	.plugins .active td.check-column,
-	.plugin-update-tr.active td {
+	.plugin-update-tr.active td,
+	.plugins tr.paused td.check-column {
 		border-right: 4px solid transparent;
 	}
 
@@ -1993,6 +1994,10 @@ div.action-links,
 	.plugins tr.active,
 	.plugin-update-tr.active {
 		border-right: 4px solid var(--wp-admin-theme-color);
+	}
+
+	.plugins tr.active.paused {
+		border-right: 4px solid #b32d2e;
 	}
 
 	.wp-list-table .column-primary .toggle-row {
