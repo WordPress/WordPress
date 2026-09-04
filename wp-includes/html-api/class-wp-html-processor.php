@@ -5431,18 +5431,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * This generator function is designed to be used inside a "foreach" loop.
 	 *
 	 * ```php interactive
-	 * <?php
-	 * require '/wordpress/wp-load.php';
 	 * $p = WP_HTML_Processor::create_fragment( "<div class='free &lt;egg&gt;\tlang-en'>" );
 	 * $p->next_tag();
 	 * foreach ( $p->class_list() as $class_name ) {
-	 *   var_dump( $class_name );
+	 *   echo "{$class_name} ";
 	 * }
-	 * ```
-	 * ```expected-output
-	 * string(4) "free"
-	 * string(5) "<egg>"
-	 * string(7) "lang-en"
+	 * // Outputs: "free <egg> lang-en "
 	 * ```
 	 *
 	 * @since 6.6.0 Subclassed for the HTML Processor.
