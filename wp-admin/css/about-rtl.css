@@ -574,6 +574,8 @@
 }
 
 .about__container .about__image-comparison img {
+	-webkit-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 	width: auto;
 	max-width: none;
