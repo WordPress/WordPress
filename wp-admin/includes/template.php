@@ -2140,19 +2140,50 @@ function iframe_header( $title = '', $deprecated = false ) {
 <title><?php bloginfo( 'name' ); ?> &rsaquo; <?php echo $title; ?> &#8212; <?php _e( 'WordPress' ); ?></title>
 	<?php
 	wp_enqueue_style( 'colors' );
-	?>
-<script>
-addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(function(){func();});else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_remove();}
-var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>',
-	pagenow = '<?php echo esc_js( $current_screen->id ); ?>',
-	typenow = '<?php echo esc_js( $current_screen->post_type ); ?>',
-	adminpage = '<?php echo esc_js( $admin_body_class ); ?>',
-	thousandsSeparator = '<?php echo esc_js( $wp_locale->number_format['thousands_sep'] ); ?>',
-	decimalPoint = '<?php echo esc_js( $wp_locale->number_format['decimal_point'] ); ?>',
-	isRtl = <?php echo (int) is_rtl(); ?>;
-</script>
-	<?php
+
+	// Print the global admin inline scripts through the script tag API so the
+	// `wp_inline_script_attributes` filter (e.g. a CSP nonce) applies.
+	wp_print_inline_script_tag(
+		<<<'JS'
+		function addLoadEvent( func ) {
+			if ( typeof jQuery !== 'undefined' ) {
+				jQuery( function () {
+					func();
+				} );
+			} else if ( typeof wpOnload !== 'function' ) {
+				window.wpOnload = func;
+			} else {
+				const oldOnload = window.wpOnload;
+				window.wpOnload = function () {
+					oldOnload();
+					func();
+				};
+			}
+		}
+
+		function tb_close() {
+			( window.dialogArguments || opener || parent || top ).tb_remove();
+		}
+		JS
+	);
+	wp_print_inline_script_tag(
+		sprintf(
+			'Object.assign( window, %s );',
+			wp_json_encode(
+				array(
+					'ajaxurl'            => admin_url( 'admin-ajax.php', 'relative' ),
+					'pagenow'            => $current_screen->id ?? '',
+					'typenow'            => $current_screen->post_type ?? '',
+					'adminpage'          => $admin_body_class,
+					'thousandsSeparator' => $wp_locale->number_format['thousands_sep'],
+					'decimalPoint'       => $wp_locale->number_format['decimal_point'],
+					'isRtl'              => (int) is_rtl(),
+				),
+				JSON_HEX_TAG | JSON_UNESCAPED_SLASHES
+			)
+		)
+	);
+
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_enqueue_scripts', $hook_suffix );
 
@@ -2191,14 +2222,12 @@ var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?
 	$admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 	?>
 <body <?php echo $admin_body_id; ?>class="wp-admin wp-core-ui no-js iframe <?php echo esc_attr( $admin_body_classes ); ?>">
-<script>
-(function(){
-var c = document.body.className;
-c = c.replace(/no-js/, 'js');
-document.body.className = c;
-})();
-</script>
 	<?php
+	wp_print_inline_script_tag(
+		<<<'JS'
+		document.body.className = document.body.className.replace( 'no-js', 'js' );
+		JS
+	);
 }
 
 /**
@@ -2230,7 +2259,15 @@ function iframe_footer() {
 	do_action( 'admin_print_footer_scripts' );
 	?>
 	</div>
-<script>if(typeof wpOnload==='function')wpOnload();</script>
+	<?php
+	wp_print_inline_script_tag(
+		<<<'JS'
+		if ( typeof wpOnload === 'function' ) {
+			wpOnload();
+		}
+		JS
+	);
+	?>
 </body>
 </html>
 	<?php

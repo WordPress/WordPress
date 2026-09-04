@@ -100,18 +100,45 @@ wp_enqueue_script( 'utils' );
 wp_enqueue_script( 'svg-painter' );
 
 $admin_body_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
-?>
-<script>
-addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(function(){func();});else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>',
-	pagenow = '<?php echo esc_js( $current_screen->id ); ?>',
-	typenow = '<?php echo esc_js( $current_screen->post_type ); ?>',
-	adminpage = '<?php echo esc_js( $admin_body_class ); ?>',
-	thousandsSeparator = '<?php echo esc_js( $wp_locale->number_format['thousands_sep'] ); ?>',
-	decimalPoint = '<?php echo esc_js( $wp_locale->number_format['decimal_point'] ); ?>',
-	isRtl = <?php echo (int) is_rtl(); ?>;
-</script>
-<?php
+
+// Print the global admin inline scripts through the script tag API so the
+// `wp_inline_script_attributes` filter (e.g. a CSP nonce) applies.
+wp_print_inline_script_tag(
+	<<<'JS'
+	function addLoadEvent( func ) {
+		if ( typeof jQuery !== 'undefined' ) {
+			jQuery( function () {
+				func();
+			} );
+		} else if ( typeof wpOnload !== 'function' ) {
+			window.wpOnload = func;
+		} else {
+			const oldOnload = window.wpOnload;
+			window.wpOnload = function () {
+				oldOnload();
+				func();
+			};
+		}
+	}
+	JS
+);
+wp_print_inline_script_tag(
+	sprintf(
+		'Object.assign( window, %s );',
+		wp_json_encode(
+			array(
+				'ajaxurl'            => admin_url( 'admin-ajax.php', 'relative' ),
+				'pagenow'            => $current_screen->id,
+				'typenow'            => $current_screen->post_type,
+				'adminpage'          => $admin_body_class,
+				'thousandsSeparator' => $wp_locale->number_format['thousands_sep'],
+				'decimalPoint'       => $wp_locale->number_format['decimal_point'],
+				'isRtl'              => (int) is_rtl(),
+			),
+			JSON_HEX_TAG | JSON_UNESCAPED_SLASHES
+		)
+	)
+);
 
 /**
  * Fires when enqueuing scripts for all admin pages.
@@ -253,11 +280,13 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 $admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 ?>
 <body class="wp-admin wp-core-ui no-js <?php echo esc_attr( $admin_body_classes ); ?>">
-<script>
-	document.body.className = document.body.className.replace('no-js','js');
-</script>
-
 <?php
+wp_print_inline_script_tag(
+	<<<'JS'
+	document.body.className = document.body.className.replace( 'no-js', 'js' );
+	JS
+);
+
 // Make sure the customize body classes are correct as early as possible.
 if ( current_user_can( 'customize' ) ) {
 	wp_customize_support_script();
