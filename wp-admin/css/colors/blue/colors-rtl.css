@@ -1,4 +1,44 @@
 /*! This file is auto-generated */
+/**
+ * Grid Units (Spacing)
+ *
+ * Based on 4px base unit. Use for padding, margin, and gap values.
+ */
+/**
+ * Border Radius
+ */
+/**
+ * Gray Scale
+ *
+ * Neutral colors for backgrounds, borders, and text.
+ */
+/**
+ * Theme Colors (Static reference values)
+ *
+ * For actual theme color usage, use var(--wp-admin-theme-color) instead.
+ * These are provided for reference and for contexts where CSS vars aren't available.
+ */
+/**
+ * Semantic Colors
+ *
+ * Use these for notices, alerts, and status indicators.
+ * These are intentionally NOT theme-dependent for consistency.
+ */
+/**
+ * Text Colors
+ */
+/**
+ * Component Tokens
+ */
+/**
+ * Typography Scale
+ */
+/**
+ * Elevation (Box Shadows)
+ */
+/**
+ * Layout
+ */
 /*
  * Button mixin - creates a primary button effect.
  * Uses CSS custom properties for theme color support across color schemes.
@@ -115,7 +155,7 @@ textarea:focus {
 input[type=checkbox]:focus,
 input[type=radio]:focus {
   border-color: #1e1e1e;
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--wp-admin-theme-color);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
 
@@ -170,7 +210,7 @@ input[type=radio]:focus {
 }
 .wp-core-ui .button:where(:not(.button-link)):disabled, .wp-core-ui .button:where(:not(.button-link)).disabled {
   background: transparent;
-  border-color: #dddddd;
+  border-color: #ddd;
   color: #949494;
   cursor: not-allowed;
 }
@@ -203,7 +243,7 @@ input[type=radio]:focus {
 }
 .wp-core-ui .button-secondary:disabled, .wp-core-ui .button-secondary.disabled {
   background: transparent;
-  border-color: #dddddd;
+  border-color: #ddd;
   color: #949494;
   cursor: not-allowed;
 }
@@ -226,7 +266,7 @@ input[type=radio]:focus {
   border-color: transparent;
   color: #fff;
   /* Gutenberg-style focus ring: outer theme color + inset white for contrast */
-  box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color), inset 0 0 0 1px #ffffff;
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color), inset 0 0 0 1px #fff;
   /* Visible in Windows High Contrast mode */
   outline: 1px solid transparent;
 }
