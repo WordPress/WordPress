@@ -344,6 +344,10 @@ add_filter( 'wp_title', 'twentytwelve_wp_title', 10, 2 );
  * Makes our wp_nav_menu() fallback -- wp_page_menu() -- show a home link.
  *
  * @since Twenty Twelve 1.0
+ *
+ * @param array $args An array of page menu arguments. See wp_page_menu() for information
+ *                    on accepted arguments.
+ * @return array Filtered page menu arguments.
  */
 function twentytwelve_page_menu_args( $args ) {
 	if ( ! isset( $args['show_home'] ) ) {
@@ -422,6 +426,8 @@ if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 	 * @since Twenty Twelve 1.0
 	 *
 	 * @global WP_Query $wp_query WordPress Query object.
+	 *
+	 * @param string $html_id The HTML id attribute for the navigation element.
 	 */
 	function twentytwelve_content_nav( $html_id ) {
 		global $wp_query;

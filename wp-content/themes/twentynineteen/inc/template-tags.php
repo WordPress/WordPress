@@ -170,6 +170,11 @@ endif;
 if ( ! function_exists( 'twentynineteen_get_user_avatar_markup' ) ) :
 	/**
 	 * Returns the HTML markup to generate a user avatar.
+	 *
+	 * @param mixed $id_or_email Optional. The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
+	 *                           user email, WP_User object, WP_Post object, or WP_Comment object.
+	 *                           Default null, which uses the current user ID.
+	 * @return string HTML markup for the user avatar.
 	 */
 	function twentynineteen_get_user_avatar_markup( $id_or_email = null ) {
 
@@ -184,6 +189,9 @@ endif;
 if ( ! function_exists( 'twentynineteen_discussion_avatars_list' ) ) :
 	/**
 	 * Displays a list of avatars involved in a discussion for a given post.
+	 *
+	 * @param array $comment_authors Comment authors to display avatars for. Each entry is a user ID,
+	 *                               or an email address for authors without an account.
 	 */
 	function twentynineteen_discussion_avatars_list( $comment_authors ) {
 		if ( empty( $comment_authors ) ) {
@@ -203,6 +211,10 @@ endif;
 if ( ! function_exists( 'twentynineteen_comment_form' ) ) :
 	/**
 	 * Displays the comment form.
+	 *
+	 * @param bool|string $order Whether to display the form. Accepts 'asc' or 'desc' to display it only
+	 *                           when the value matches the 'comment_order' option, or true to always
+	 *                           display it.
 	 */
 	function twentynineteen_comment_form( $order ) {
 		if ( true === $order || strtolower( $order ) === strtolower( get_option( 'comment_order', 'asc' ) ) ) {
