@@ -1,6 +1,3 @@
-/*------------------------------------------------------------------------------
-  11.2 - Post Revisions
-------------------------------------------------------------------------------*/
 .revisions-control-frame,
 .revisions-diff-frame {
 	position: relative;
@@ -75,9 +72,9 @@
 	vertical-align: middle;
 	opacity: 0;
 	width: 100%;
-	width: calc( 100% - 30px );
+	width: calc(100% - 30px);
 	top: 50%;
-	top: calc( 50% - 10px );
+	top: calc(50% - 10px);
 	transition: opacity 0.5s;
 }
 
@@ -383,10 +380,6 @@ table.diff .diff-addedline ins {
 	background-color: #fff;
 }
 
-.revisions-tooltip {
-	display: none;
-}
-
 .arrow {
 	width: 70px;
 	height: 16px;
@@ -398,7 +391,14 @@ table.diff .diff-addedline ins {
 	z-index: 10000;
 }
 
-.arrow:after {
+.arrow::after {
+	content: "";
+	position: absolute;
+	left: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	transform: rotate(45deg);
 	z-index: 9999;
 	background-color: #fff;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -413,18 +413,8 @@ table.diff .diff-addedline ins {
 	left: 20%;
 }
 
-.arrow:after {
-	content: "";
-	position: absolute;
-	left: 20px;
-	top: -20px;
-	width: 25px;
-	height: 25px;
-	transform: rotate(45deg);
-}
-
 .revisions-tooltip,
-.revisions-tooltip-arrow:after {
+.revisions-tooltip-arrow::after {
 	border-width: 1px;
 	border-style: solid;
 }
@@ -455,9 +445,6 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	width: 18px;
 	z-index: 2;
 	touch-action: none;
-}
-
-.wp-slider .ui-slider-handle {
 	background: #f6f7f7;
 	border: 1px solid #c3c4c7;
 	box-shadow: 0 1px 0 #c3c4c7;
@@ -486,48 +473,48 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	outline: 2px solid transparent;
 }
 
-.wp-slider .ui-slider-handle:before {
+.wp-slider .ui-slider-handle::before {
 	background: none;
 	position: absolute;
 	top: 2px;
 	left: 2px;
 	color: #50575e;
 	content: "\f229";
-	content: "\f229" / '';
-	font: normal 18px/1 dashicons;
+	content: "\f229" / "";
+	font: 400 18px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.wp-slider .ui-slider-handle:hover:before,
-.wp-slider .ui-slider-handle.ui-state-hover:before {
+.wp-slider .ui-slider-handle:hover::before,
+.wp-slider .ui-slider-handle.ui-state-hover::before {
 	color: #1d2327;
 }
 
-.wp-slider .ui-slider-handle.from-handle:before,
-.wp-slider .ui-slider-handle.to-handle:before {
+.wp-slider .ui-slider-handle.from-handle::before,
+.wp-slider .ui-slider-handle.to-handle::before {
 	font-size: 20px !important;
 	margin: -1px 0 0 -1px;
 }
 
-.wp-slider .ui-slider-handle.from-handle:before {
+.wp-slider .ui-slider-handle.from-handle::before {
 	content: "\f139";
-	content: "\f139" / '';
+	content: "\f139" / "";
 }
 
-.wp-slider .ui-slider-handle.to-handle:before {
+.wp-slider .ui-slider-handle.to-handle::before {
 	content: "\f141";
-	content: "\f141" / '';
+	content: "\f141" / "";
 }
 
-.rtl .wp-slider .ui-slider-handle.from-handle:before {
+.rtl .wp-slider .ui-slider-handle.from-handle::before {
 	content: "\f141";
-	content: "\f141" / '';
+	content: "\f141" / "";
 }
 
-.rtl .wp-slider .ui-slider-handle.to-handle:before {
+.rtl .wp-slider .ui-slider-handle.to-handle::before {
 	content: "\f139";
-	content: "\f139" / '';
+	content: "\f139" / "";
 	right: -1px;
 }
 
@@ -545,8 +532,8 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-handle {
-	top: -.25em;
-	margin-left: -.6em;
+	top: -0.25em;
+	margin-left: -0.6em;
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-range {
@@ -562,14 +549,10 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	right: 0;
 }
 
-/* =Media Queries
--------------------------------------------------------------- */
-
 /**
- * HiDPI Displays
+ * Media Queries
  */
-@media print,
-  (min-resolution: 120dpi) {
+@media print, (min-resolution: 120dpi) {
 	.revision-tick.completed-false {
 		background-image: url(../images/spinner-2x.gif);
 	}
