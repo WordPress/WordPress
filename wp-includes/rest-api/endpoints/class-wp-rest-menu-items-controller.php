@@ -322,9 +322,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		 *
 		 * @since 5.9.0
 		 *
-		 * @param object          $nav_menu_item Inserted or updated menu item object.
-		 * @param WP_REST_Response $response The response data.
-		 * @param WP_REST_Request $request       Request object.
+		 * @param object           $nav_menu_item Inserted or updated menu item object.
+		 * @param WP_REST_Response $response      The response data.
+		 * @param WP_REST_Request  $request       Request object.
 		 */
 		do_action( 'rest_delete_nav_menu_item', $menu_item, $response, $request );
 

@@ -185,7 +185,7 @@ class WP_REST_Abilities_V1_Categories_Controller extends WP_REST_Controller {
 	 * @since 6.9.0
 	 *
 	 * @param WP_Ability_Category $category The ability category object.
-	 * @param WP_REST_Request     $request Request object.
+	 * @param WP_REST_Request     $request  Request object.
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $category, $request ) {

@@ -259,7 +259,7 @@ class WP_REST_Server {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param int $options             JSON encoding options {@see json_encode()}.
+		 * @param int             $options JSON encoding options {@see json_encode()}.
 		 * @param WP_REST_Request $request Current request object.
 		 */
 		return apply_filters( 'rest_json_encode_options', $options, $request );
@@ -1914,7 +1914,7 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $key Header key.
+	 * @param string $key   Header key.
 	 * @param string $value Header value.
 	 */
 	public function send_header( $key, $value ) {
