@@ -1309,15 +1309,35 @@ function get_term_to_edit( $id, $taxonomy ) {
  *              Introduced 'meta_key' and 'meta_value' parameters. Introduced the ability to order results by metadata.
  * @since 4.8.0 Introduced 'suppress_filter' parameter.
  *
- * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
+ * @param array|string $args       Optional. Array or string of arguments. See {@see WP_Term_Query::__construct()}
  *                                 for information on accepted arguments. Default empty array.
  * @param array|string $deprecated Optional. Argument array, when using the legacy function parameter format.
  *                                 If present, this parameter will be interpreted as `$args`, and the first
  *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
  *                                 Default empty.
- * @return WP_Term[]|int[]|string[]|string|WP_Error Array of terms, a count thereof as a numeric string,
- *                                                  or WP_Error if any of the taxonomies do not exist.
- *                                                  See the function description for more information.
+ * @return WP_Term[]|int[]|string[]|int|string|WP_Error Array of terms, a count thereof as a numeric string,
+ *                                                      the integer 0 when the queried parent term is not in
+ *                                                      the taxonomy hierarchy, or WP_Error if any of the
+ *                                                      taxonomies do not exist. See the function description
+ *                                                      for more information.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'count', ... }
+ *         ? 0|numeric-string|WP_Error
+ *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
+ *             ? int[]|WP_Error
+ *             : ( $args is array{ fields: 'id=>parent', ... }
+ *                 ? array<int, int>|WP_Error
+ *                 : ( $args is array{ fields: 'names'|'slugs', ... }
+ *                     ? string[]|WP_Error
+ *                     : ( $args is array{ fields: 'id=>name'|'id=>slug', ... }
+ *                         ? array<int, string>|WP_Error
+ *                         : ( $deprecated is ''
+ *                             ? ( $args is array
+ *                                 ? WP_Term[]|WP_Error
+ *                                 : WP_Term[]|int[]|string[]|int|string|WP_Error )
+ *                             : WP_Term[]|int[]|string[]|int|string|WP_Error ) ) ) ) )
+ * )
  */
 function get_terms( $args = array(), $deprecated = '' ) {
 	$term_query = new WP_Term_Query();
@@ -1957,14 +1977,16 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
  * @since 2.3.0
  * @since 5.6.0 Changed the function signature so that the `$args` array can be provided as the first parameter.
  *
- * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
+ * @param array|string $args       Optional. Array or string of arguments. See {@see WP_Term_Query::__construct()}
  *                                 for information on accepted arguments. Default empty array.
  * @param array|string $deprecated Optional. Argument array, when using the legacy function parameter format.
  *                                 If present, this parameter will be interpreted as `$args`, and the first
  *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
  *                                 Default empty.
- * @return string|WP_Error Numeric string containing the number of terms in that
- *                         taxonomy or WP_Error if the taxonomy does not exist.
+ * @return string|int|WP_Error Numeric string containing the number of terms in that taxonomy,
+ *                             the integer 0 when the queried parent term is not in the taxonomy
+ *                             hierarchy, or WP_Error if the taxonomy does not exist.
+ * @phpstan-return numeric-string|0|WP_Error
  */
 function wp_count_terms( $args = array(), $deprecated = '' ) {
 	$use_legacy_args = false;
@@ -1992,7 +2014,10 @@ function wp_count_terms( $args = array(), $deprecated = '' ) {
 		unset( $args['ignore_empty'] );
 	}
 
-	$args['fields'] = 'count';
+	$args = array_merge(
+		$args,
+		array( 'fields' => 'count' )
+	);
 
 	return get_terms( $args );
 }
@@ -2289,16 +2314,40 @@ function wp_delete_category( $cat_id ) {
  * @since 4.7.0 Refactored to use WP_Term_Query, and to support any WP_Term_Query arguments.
  * @since 6.3.0 Passing `update_term_meta_cache` argument value false by default resulting in get_terms() to not
  *              prime the term meta cache.
+ * @since 7.2.0 A count is returned as a numeric string when `$fields` is 'count'. Previously requesting
+ *              a count resulted in an error.
  *
  * @param int|int[]       $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|string[] $taxonomies The taxonomy names to retrieve terms from.
- * @param array|string    $args       See WP_Term_Query::__construct() for supported arguments.
+ * @param array|string    $args       See {@see WP_Term_Query::__construct()} for supported arguments.
  * @return WP_Term[]|int[]|string[]|string|WP_Error Array of terms, a count thereof as a numeric string,
  *                                                  or WP_Error if any of the taxonomies do not exist.
- *                                                  See WP_Term_Query::get_terms() for more information.
+ *                                                  See {@see WP_Term_Query::get_terms()} for more information.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'count', ... }
+ *         ? numeric-string|WP_Error
+ *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
+ *             ? int[]|WP_Error
+ *             : ( $args is array{ fields: 'id=>parent', ... }
+ *                 ? array<int, int>|WP_Error
+ *                 : ( $args is array{ fields: 'names'|'slugs', ... }
+ *                     ? string[]|WP_Error
+ *                     : ( $args is array{ fields: 'id=>name'|'id=>slug', ... }
+ *                         ? array<int, string>|WP_Error
+ *                         : ( $args is array
+ *                             ? WP_Term[]|WP_Error
+ *                             : WP_Term[]|int[]|string[]|string|WP_Error ) ) ) ) )
+ * )
  */
 function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
+	$args = wp_parse_args( $args );
+
 	if ( empty( $object_ids ) || empty( $taxonomies ) ) {
+		if ( isset( $args['fields'] ) && 'count' === $args['fields'] ) {
+			return '0';
+		}
+
 		return array();
 	}
 
@@ -2338,6 +2387,13 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	/*
 	 * When one or more queried taxonomies is registered with an 'args' array,
 	 * those params override the `$args` passed to this function.
+	 *
+	 * That array is for query modifiers such as 'orderby'. Overriding 'fields'
+	 * there does not work, because callers depend on the shape they asked for:
+	 * get_the_taxonomies() reads `$term->name` off the result, and
+	 * wp_set_object_terms() needs the 'tt_ids' it requested. A taxonomy that
+	 * overrides it also returns a different shape than the taxonomies queried
+	 * below, leaving the two merged into one another here.
 	 */
 	$terms = array();
 	if ( count( $taxonomies ) > 1 ) {
@@ -2345,7 +2401,16 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 			$t = get_taxonomy( $taxonomy );
 			if ( isset( $t->args ) && is_array( $t->args ) && array_merge( $args, $t->args ) != $args ) {
 				unset( $taxonomies[ $index ] );
-				$terms = array_merge( $terms, wp_get_object_terms( $object_ids, $taxonomy, array_merge( $args, $t->args ) ) );
+
+				// Cast because a count is returned as a numeric string. The counts are summed below.
+				$terms_from_taxonomy = (array) wp_get_object_terms( $object_ids, $taxonomy, array_merge( $args, $t->args ) );
+
+				// Array keys should be preserved for values of $fields that use term_id for keys.
+				if ( ! empty( $args['fields'] ) && str_starts_with( $args['fields'], 'id=>' ) ) {
+					$terms = $terms + $terms_from_taxonomy;
+				} else {
+					$terms = array_merge( $terms, $terms_from_taxonomy );
+				}
 			}
 		}
 	} else {
@@ -2360,7 +2425,8 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 
 	// Taxonomies registered without an 'args' param are handled here.
 	if ( ! empty( $taxonomies ) ) {
-		$terms_from_remaining_taxonomies = get_terms( $args );
+		// Cast because a count is returned as a numeric string. The counts are summed below.
+		$terms_from_remaining_taxonomies = (array) get_terms( $args );
 
 		// Array keys should be preserved for values of $fields that use term_id for keys.
 		if ( ! empty( $args['fields'] ) && str_starts_with( $args['fields'], 'id=>' ) ) {
@@ -2368,6 +2434,10 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 		} else {
 			$terms = array_merge( $terms, $terms_from_remaining_taxonomies );
 		}
+	}
+
+	if ( isset( $args['fields'] ) && 'count' === $args['fields'] ) {
+		$terms = (string) array_sum( $terms );
 	}
 
 	/**
@@ -2379,7 +2449,7 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 * @param int[]                           $object_ids Array of object IDs for which terms were retrieved.
 	 * @param string[]                        $taxonomies Array of taxonomy names from which terms were retrieved.
 	 * @param array                           $args       Array of arguments for retrieving terms for the given
-	 *                                                    object(s). See wp_get_object_terms() for details.
+	 *                                                    object(s). See {@see wp_get_object_terms()} for details.
 	 */
 	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomies, $args );
 
@@ -2398,7 +2468,7 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 * @param string                          $object_ids Comma separated list of object IDs for which terms were retrieved.
 	 * @param string                          $taxonomies SQL fragment of taxonomy names from which terms were retrieved.
 	 * @param array                           $args       Array of arguments for retrieving terms for the given
-	 *                                                    object(s). See wp_get_object_terms() for details.
+	 *                                                    object(s). See {@see wp_get_object_terms()} for details.
 	 */
 	return apply_filters( 'wp_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 }

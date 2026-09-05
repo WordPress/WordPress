@@ -4452,10 +4452,28 @@ function wp_untrash_post_comments( $post = null ) {
  *                       global $post. Default 0.
  * @param array $args    Optional. Category query parameters. Default empty array.
  *                       See WP_Term_Query::__construct() for supported arguments.
- * @return array|WP_Error List of categories. If the `$fields` argument passed via `$args` is 'all' or
- *                        'all_with_object_id', an array of WP_Term objects will be returned. If `$fields`
- *                        is 'ids', an array of category IDs. If `$fields` is 'names', an array of category names.
- *                        WP_Error object if 'category' taxonomy doesn't exist.
+ * @return int[]|WP_Term[]|string[]|string|WP_Error List of categories. An array of category IDs by
+ *                                                  default, and if the `$fields` argument passed via
+ *                                                  `$args` is 'ids'. If `$fields` is 'all' or
+ *                                                  'all_with_object_id', an array of WP_Term objects.
+ *                                                  If `$fields` is 'names', an array of category names.
+ *                                                  If `$fields` is 'count', a count thereof as a numeric
+ *                                                  string. WP_Error object if 'category' taxonomy
+ *                                                  doesn't exist.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'count', ... }
+ *         ? numeric-string|WP_Error
+ *         : ( $args is array{ fields: 'id=>parent', ... }
+ *             ? array<int, int>|WP_Error
+ *             : ( $args is array{ fields: 'names'|'slugs', ... }
+ *                 ? string[]|WP_Error
+ *                 : ( $args is array{ fields: 'id=>name'|'id=>slug', ... }
+ *                     ? array<int, string>|WP_Error
+ *                     : ( $args is array{ fields: 'all'|'all_with_object_id', ... }
+ *                         ? WP_Term[]|WP_Error
+ *                         : int[]|WP_Error ) ) ) )
+ * )
  */
 function wp_get_post_categories( $post_id = 0, $args = array() ) {
 	$post_id = (int) $post_id;
@@ -4480,8 +4498,24 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  *                       global $post. Default 0.
  * @param array $args    Optional. Tag query parameters. Default empty array.
  *                       See WP_Term_Query::__construct() for supported arguments.
- * @return array|WP_Error Array of WP_Term objects on success or empty array if no tags were found.
- *                        WP_Error object if 'post_tag' taxonomy doesn't exist.
+ * @return WP_Term[]|int[]|string[]|string|WP_Error Array of WP_Term objects on success or empty array if no
+ *                                                  tags were found. A count thereof as a numeric string if
+ *                                                  the `$fields` argument passed via `$args` is 'count'.
+ *                                                  WP_Error object if 'post_tag' taxonomy doesn't exist.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'count', ... }
+ *         ? numeric-string|WP_Error
+ *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
+ *             ? int[]|WP_Error
+ *             : ( $args is array{ fields: 'id=>parent', ... }
+ *                 ? array<int, int>|WP_Error
+ *                 : ( $args is array{ fields: 'names'|'slugs', ... }
+ *                     ? string[]|WP_Error
+ *                     : ( $args is array{ fields: 'id=>name'|'id=>slug', ... }
+ *                         ? array<int, string>|WP_Error
+ *                         : WP_Term[]|WP_Error ) ) ) )
+ * )
  */
 function wp_get_post_tags( $post_id = 0, $args = array() ) {
 	return wp_get_post_terms( $post_id, 'post_tag', $args );
@@ -4501,8 +4535,24 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *
  *     @type string $fields Term fields to retrieve. Default 'all'.
  * }
- * @return array|WP_Error Array of WP_Term objects on success or empty array if no terms were found.
- *                        WP_Error object if `$taxonomy` doesn't exist.
+ * @return WP_Term[]|int[]|string[]|string|WP_Error Array of WP_Term objects on success or empty array if no
+ *                                                  terms were found. A count thereof as a numeric string if
+ *                                                  the `$fields` argument passed via `$args` is 'count'.
+ *                                                  WP_Error object if `$taxonomy` doesn't exist.
+ *
+ * @phpstan-return (
+ *     $args is array{ fields: 'count', ... }
+ *         ? numeric-string|WP_Error
+ *         : ( $args is array{ fields: 'ids'|'tt_ids', ... }
+ *             ? int[]|WP_Error
+ *             : ( $args is array{ fields: 'id=>parent', ... }
+ *                 ? array<int, int>|WP_Error
+ *                 : ( $args is array{ fields: 'names'|'slugs', ... }
+ *                     ? string[]|WP_Error
+ *                     : ( $args is array{ fields: 'id=>name'|'id=>slug', ... }
+ *                         ? array<int, string>|WP_Error
+ *                         : WP_Term[]|WP_Error ) ) ) )
+ * )
  */
 function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array() ) {
 	$post_id = (int) $post_id;
