@@ -621,7 +621,7 @@ https://wordpress.org/
 		 *
 		 * @since 5.6.0
 		 *
-		 * @param array $installed_email {
+		 * @param array   $installed_email {
 		 *     Used to build wp_mail().
 		 *
 		 *     @type string $to      The email address of the recipient.
@@ -629,11 +629,11 @@ https://wordpress.org/
 		 *     @type string $message The content of the email.
 		 *     @type string $headers Headers.
 		 * }
-		 * @param WP_User $user          The site administrator user object.
-		 * @param string  $blog_title    The site title.
-		 * @param string  $blog_url      The site URL.
-		 * @param string  $password      The site administrator's password. Note that a placeholder message
-		 *                               is usually passed instead of the user's actual password.
+		 * @param WP_User $user            The site administrator user object.
+		 * @param string  $blog_title      The site title.
+		 * @param string  $blog_url        The site URL.
+		 * @param string  $password        The site administrator's password. Note that a placeholder message
+		 *                                 is usually passed instead of the user's actual password.
 		 */
 		$installed_email = apply_filters( 'wp_installed_email', $installed_email, $user, $blog_title, $blog_url, $password );
 

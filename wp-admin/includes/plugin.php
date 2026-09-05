@@ -1264,7 +1264,7 @@ function validate_plugin_requirements( $plugin ) {
 	 * @since 6.9.0
 	 *
 	 * @param bool|WP_Error $met_requirements True if the plugin meets requirements, WP_Error if not.
-	 * @param string $plugin Path to the plugin file relative to the plugins directory.
+	 * @param string        $plugin           Path to the plugin file relative to the plugins directory.
 	 */
 	return apply_filters( 'validate_plugin_requirements', true, $plugin );
 }

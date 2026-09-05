@@ -680,7 +680,7 @@ add_filter( 'post_class', 'twentyfourteen_post_classes' );
  * @global int $page  Page number of a single post.
  *
  * @param string $title Default title text for current view.
- * @param string $sep Optional separator.
+ * @param string $sep   Optional separator.
  * @return string The filtered title.
  */
 function twentyfourteen_wp_title( $title, $sep ) {

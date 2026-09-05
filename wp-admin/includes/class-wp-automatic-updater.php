@@ -170,10 +170,10 @@ class WP_Automatic_Updater {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool $checkout  Whether a VCS checkout was discovered at `$context`
-		 *                        or ABSPATH, or anywhere higher.
-		 * @param string $context The filesystem context (a path) against which
-		 *                        filesystem status should be checked.
+		 * @param bool   $checkout Whether a VCS checkout was discovered at `$context`
+		 *                         or ABSPATH, or anywhere higher.
+		 * @param string $context  The filesystem context (a path) against which
+		 *                         filesystem status should be checked.
 		 */
 		return apply_filters( 'automatic_updates_is_vcs_checkout', $checkout, $context );
 	}
@@ -1130,7 +1130,7 @@ class WP_Automatic_Updater {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $email {
+		 * @param array  $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
 		 *     @type string $to      The email recipient. An array of emails

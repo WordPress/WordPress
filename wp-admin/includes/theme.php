@@ -157,7 +157,7 @@ function get_page_templates( $post = null, $post_type = 'page' ) {
  * @since 2.9.0
  * @access private
  *
- * @param string $fullpath Full path to the theme file
+ * @param string $fullpath         Full path to the theme file
  * @param string $containingfolder Path of the theme parent folder
  * @return string
  */

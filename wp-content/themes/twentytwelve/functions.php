@@ -309,7 +309,7 @@ add_filter( 'mce_css', 'twentytwelve_mce_css' );
  * @global int $page  Page number of a single post.
  *
  * @param string $title Default title text for current view.
- * @param string $sep Optional separator.
+ * @param string $sep   Optional separator.
  * @return string Filtered title.
  */
 function twentytwelve_wp_title( $title, $sep ) {

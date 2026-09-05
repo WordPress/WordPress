@@ -1010,7 +1010,7 @@ function validate_theme_requirements( $stylesheet ) {
 	 * @since 6.9.0
 	 *
 	 * @param bool|WP_Error $met_requirements True if the theme meets requirements, WP_Error if not.
-	 * @param string $stylesheet Directory name for the theme.
+	 * @param string        $stylesheet       Directory name for the theme.
 	 */
 	return apply_filters( 'validate_theme_requirements', true, $stylesheet );
 }
