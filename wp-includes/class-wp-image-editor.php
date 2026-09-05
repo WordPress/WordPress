@@ -259,7 +259,7 @@ abstract class WP_Image_Editor {
 			 *
 			 * @param int    $quality   Quality level between 1 (low) and 100 (high).
 			 * @param string $mime_type Image mime type.
-			 * @param array $size {
+			 * @param array  $size {
 			 *     Dimensions of the image.
 			 *
 			 *     @type int $width  The image width.

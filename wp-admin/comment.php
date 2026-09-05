@@ -372,8 +372,8 @@ switch ( $action ) {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param string $location The URI the user will be redirected to.
-		 * @param int $comment_id The ID of the comment being edited.
+		 * @param string $location   The URI the user will be redirected to.
+		 * @param int    $comment_id The ID of the comment being edited.
 		 */
 		$location = apply_filters( 'comment_edit_redirect', $location, $comment_id );
 

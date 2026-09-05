@@ -1427,7 +1427,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *     @type bool       $revisions_enabled Whether to enable revisions support for this meta_key. Can only be used when the
  *                                         object type is 'post'.
  * }
- * @param string|array $deprecated Deprecated. Use `$args` instead.
+ * @param string|array $deprecated  Deprecated. Use `$args` instead.
  * @return bool True if the meta key was successfully registered in the global array, false if not.
  *              Registering a meta key with distinct sanitize and auth callbacks will fire those callbacks,
  *              but will not add to the global registry.

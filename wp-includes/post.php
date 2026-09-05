@@ -6012,7 +6012,7 @@ function wp_set_post_categories( $post_id = 0, $post_categories = array(), $appe
  *
  * @param string  $new_status Transition to this post status.
  * @param string  $old_status Previous post status.
- * @param WP_Post $post Post data.
+ * @param WP_Post $post       Post data.
  */
 function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
@@ -8782,7 +8782,7 @@ function get_available_post_mime_types( $type = 'attachment' ) {
  * @since 5.4.0 Added the `$unfiltered` parameter.
  *
  * @param int  $attachment_id Attachment ID.
- * @param bool $unfiltered Optional. Passed through to `get_attached_file()`. Default false.
+ * @param bool $unfiltered    Optional. Passed through to `get_attached_file()`. Default false.
  * @return string|false Path to the original image file or false if the attachment is not an image.
  */
 function wp_get_original_image_path( $attachment_id, $unfiltered = false ) {

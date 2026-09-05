@@ -3618,7 +3618,7 @@ function attachment_submitbox_metadata() {
  * @since 3.6.0
  *
  * @param array $metadata An existing array with data.
- * @param array $data Data supplied by ID3 tags.
+ * @param array $data     Data supplied by ID3 tags.
  */
 function wp_add_id3_tag_data( &$metadata, $data ) {
 	foreach ( array( 'id3v2', 'id3v1' ) as $version ) {

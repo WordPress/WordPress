@@ -2607,7 +2607,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
  * @since 5.9.0
  * @access private
  *
- * @param bool   $value Whether the CPT supports block editor or not.
+ * @param bool   $value     Whether the CPT supports block editor or not.
  * @param string $post_type Post type.
  * @return bool Whether the block editor should be disabled or not.
  */

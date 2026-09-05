@@ -925,7 +925,7 @@ function get_comments_number( $post = 0 ) {
 	 * @since 1.5.0
 	 *
 	 * @param string|int $comments_number A string representing the number of comments a post has, otherwise 0.
-	 * @param int        $post_id Post ID.
+	 * @param int        $post_id         Post ID.
 	 */
 	return apply_filters( 'get_comments_number', $comments_number, $post_id );
 }

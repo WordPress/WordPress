@@ -1833,8 +1833,8 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param mixed $value     Value of the term field.
-		 * @param int   $term_id   Term ID.
+		 * @param mixed  $value    Value of the term field.
+		 * @param int    $term_id  Term ID.
 		 * @param string $taxonomy Taxonomy slug.
 		 */
 		$value = apply_filters( "edit_term_{$field}", $value, $term_id, $taxonomy );
@@ -3770,7 +3770,7 @@ function clean_object_term_cache( $object_ids, $object_type ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array  $object_ids An array of object IDs.
+	 * @param array  $object_ids  An array of object IDs.
 	 * @param string $object_type Object type.
 	 */
 	do_action( 'clean_object_term_cache', $object_ids, $object_type );
