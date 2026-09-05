@@ -1258,16 +1258,16 @@ function apply_block_hooks_to_content( $content, $context = null, $callback = 'i
  * @since 7.0.0 Added the `$ignored_hooked_blocks_at_root` parameter.
  * @access private
  *
- * @param string       $content  Serialized content.
- * @param WP_Post|null $post     A post object that the content belongs to. If set to `null`,
- *                               `get_post()` will be called to use the current post as context.
- *                               Default: `null`.
- * @param callable     $callback A function that will be called for each block to generate
- *                               the markup for a given list of blocks that are hooked to it.
- *                               Default: 'insert_hooked_blocks'.
+ * @param string       $content                       Serialized content.
+ * @param WP_Post|null $post                          A post object that the content belongs to. If set to `null`,
+ *                                                    `get_post()` will be called to use the current post as context.
+ *                                                    Default: `null`.
+ * @param callable     $callback                      A function that will be called for each block to generate
+ *                                                    the markup for a given list of blocks that are hooked to it.
+ *                                                    Default: 'insert_hooked_blocks'.
  * @param array|null   $ignored_hooked_blocks_at_root A reference to an array that will be populated
- *                               with the ignored hooked blocks at the root level.
- *                               Default: `null`.
+ *                                                    with the ignored hooked blocks at the root level.
+ *                                                    Default: `null`.
  * @return string The serialized markup.
  */
 function apply_block_hooks_to_content_from_post_object(

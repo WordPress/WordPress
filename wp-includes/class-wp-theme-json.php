@@ -954,11 +954,11 @@ class WP_Theme_JSON {
 	/**
 	 * Processes pseudo-selectors for any node (block or variation).
 	 *
-	 * @param array  $node The node data (block or variation).
-	 * @param string $base_selector The base selector.
-	 * @param array  $settings The theme settings.
-	 * @param string $block_name The block name.
-	 * @param array|null $block_metadata Metadata about the block to get styles for.
+	 * @param array      $node            The node data (block or variation).
+	 * @param string     $base_selector   The base selector.
+	 * @param array      $settings        The theme settings.
+	 * @param string     $block_name      The block name.
+	 * @param array|null $block_metadata  Metadata about the block to get styles for.
 	 * @param array|null $style_variation Style variation metadata.
 	 * @return array Array of pseudo-selector declarations.
 	 */
@@ -2995,11 +2995,11 @@ class WP_Theme_JSON {
 	 * @since 6.6.0 Pass current theme JSON settings to wp_get_typography_font_size_value(), and process background properties.
 	 * @since 6.7.0 `ref` resolution of background properties, and assigning custom default values.
 	 *
-	 * @param array   $styles Styles to process.
-	 * @param array   $settings Theme settings.
-	 * @param array   $properties Properties metadata.
-	 * @param array   $theme_json Theme JSON array.
-	 * @param string  $selector The style block selector.
+	 * @param array   $styles           Styles to process.
+	 * @param array   $settings         Theme settings.
+	 * @param array   $properties       Properties metadata.
+	 * @param array   $theme_json       Theme JSON array.
+	 * @param string  $selector         The style block selector.
 	 * @param boolean $use_root_padding Whether to add custom properties at root level.
 	 * @return array Returns the modified $declarations.
 	 */
@@ -3133,8 +3133,8 @@ class WP_Theme_JSON {
 	 *              so every property will be in the standard form.
 	 * @since 6.7.0 Added support for background image refs.
 	 *
-	 * @param array $styles Styles subtree.
-	 * @param array $path   Which property to process.
+	 * @param array $styles     Styles subtree.
+	 * @param array $path       Which property to process.
 	 * @param array $theme_json Theme JSON array.
 	 * @return string|array Style property value.
 	 */
@@ -4195,7 +4195,7 @@ class WP_Theme_JSON {
 	 *              Updated specificity of body margin reset and first/last child selectors.
 	 * @since 7.0.0 Added `$options` parameter to control alignment styles output for classic themes.
 	 *
-	 * @param string $selector The root node selector.
+	 * @param string $selector       The root node selector.
 	 * @param array  $block_metadata The metadata for the root block.
 	 * @param array  $options        Optional. An array of options for now used for internal purposes only.
 	 * @return string The additional root rules CSS.
@@ -4598,7 +4598,7 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param string $slug The slug we want to find a match from default presets.
+	 * @param string $slug      The slug we want to find a match from default presets.
 	 * @param array  $base_path The path to inspect. It's 'settings' by default.
 	 * @return string|null
 	 */
@@ -5912,7 +5912,7 @@ class WP_Theme_JSON {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array  $style_variation Style variation metadata.
+	 * @param array  $style_variation  Style variation metadata.
 	 * @param string $feature_selector CSS selector for the feature.
 	 * @return string Feature selector with block style variation selector added.
 	 */

@@ -1563,7 +1563,7 @@ add_filter( 'render_block_core/group', 'wp_restore_group_inner_container', 10, 2
  * @access private
  *
  * @param string $block_content Rendered block content.
- * @param  array  $block        Block object.
+ * @param array  $block         Block object.
  * @return string Filtered block content.
  */
 function wp_restore_image_outer_container( $block_content, $block ) {

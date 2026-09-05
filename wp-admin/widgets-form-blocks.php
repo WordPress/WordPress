@@ -121,7 +121,7 @@ do_action( 'widgets_admin_page' );
 		 *
 		 * @since 6.4.0
 		 *
-		 * @param string $message The message being displayed.
+		 * @param string $message   The message being displayed.
 		 * @param bool   $installed Whether the Classic Widget plugin is installed.
 		 */
 		$message = apply_filters( 'block_widgets_no_javascript_message', $message, $installed );

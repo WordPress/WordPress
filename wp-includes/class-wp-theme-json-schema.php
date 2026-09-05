@@ -37,9 +37,9 @@ class WP_Theme_JSON_Schema {
 	 * @since 5.9.0
 	 * @since 6.6.0 Migrate up to v3 and add $origin parameter.
 	 *
-	 * @param array $theme_json The structure to migrate.
-	 * @param string $origin    Optional. What source of data this object represents.
-	 *                          One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
+	 * @param array  $theme_json The structure to migrate.
+	 * @param string $origin     Optional. What source of data this object represents.
+	 *                           One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
 	 * @return array The structure in the last version.
 	 */
 	public static function migrate( $theme_json, $origin = 'theme' ) {
@@ -100,7 +100,7 @@ class WP_Theme_JSON_Schema {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param array $old     Data to migrate.
+	 * @param array  $old    Data to migrate.
 	 * @param string $origin What source of data this object represents.
 	 *                       One of 'blocks', 'default', 'theme', or 'custom'.
 	 * @return array Data with defaultFontSizes set to false.
@@ -213,7 +213,7 @@ class WP_Theme_JSON_Schema {
 	 * @since 5.9.0
 	 *
 	 * @param array $settings Reference to the current settings array.
-	 * @param array $path Path to the property to be removed.
+	 * @param array $path     Path to the property to be removed.
 	 */
 	private static function unset_setting_by_path( &$settings, $path ) {
 		$tmp_settings = &$settings;
