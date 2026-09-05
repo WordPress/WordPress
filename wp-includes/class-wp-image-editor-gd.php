@@ -312,17 +312,9 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 
 		$orig_size = $this->size;
 
-		if ( ! isset( $size_data['width'] ) ) {
-			$size_data['width'] = null;
-		}
-
-		if ( ! isset( $size_data['height'] ) ) {
-			$size_data['height'] = null;
-		}
-
-		if ( ! isset( $size_data['crop'] ) ) {
-			$size_data['crop'] = false;
-		}
+		$size_data['width']  ??= null;
+		$size_data['height'] ??= null;
+		$size_data['crop']   ??= false;
 
 		$resized = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 

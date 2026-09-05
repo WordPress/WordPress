@@ -933,29 +933,12 @@ class WP_Date_Query {
 
 		$datetime = array_map( 'absint', $datetime );
 
-		if ( ! isset( $datetime['year'] ) ) {
-			$datetime['year'] = current_time( 'Y' );
-		}
-
-		if ( ! isset( $datetime['month'] ) ) {
-			$datetime['month'] = ( $default_to_max ) ? 12 : 1;
-		}
-
-		if ( ! isset( $datetime['day'] ) ) {
-			$datetime['day'] = ( $default_to_max ) ? (int) gmdate( 't', mktime( 0, 0, 0, $datetime['month'], 1, $datetime['year'] ) ) : 1;
-		}
-
-		if ( ! isset( $datetime['hour'] ) ) {
-			$datetime['hour'] = ( $default_to_max ) ? 23 : 0;
-		}
-
-		if ( ! isset( $datetime['minute'] ) ) {
-			$datetime['minute'] = ( $default_to_max ) ? 59 : 0;
-		}
-
-		if ( ! isset( $datetime['second'] ) ) {
-			$datetime['second'] = ( $default_to_max ) ? 59 : 0;
-		}
+		$datetime['year']   ??= current_time( 'Y' );
+		$datetime['month']  ??= ( $default_to_max ) ? 12 : 1;
+		$datetime['day']    ??= ( $default_to_max ) ? (int) gmdate( 't', mktime( 0, 0, 0, $datetime['month'], 1, $datetime['year'] ) ) : 1;
+		$datetime['hour']   ??= ( $default_to_max ) ? 23 : 0;
+		$datetime['minute'] ??= ( $default_to_max ) ? 59 : 0;
+		$datetime['second'] ??= ( $default_to_max ) ? 59 : 0;
 
 		return sprintf( '%04d-%02d-%02d %02d:%02d:%02d', $datetime['year'], $datetime['month'], $datetime['day'], $datetime['hour'], $datetime['minute'], $datetime['second'] );
 	}

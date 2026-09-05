@@ -875,17 +875,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		$orig_size  = $this->size;
 		$orig_image = $this->image->getImage();
 
-		if ( ! isset( $size_data['width'] ) ) {
-			$size_data['width'] = null;
-		}
-
-		if ( ! isset( $size_data['height'] ) ) {
-			$size_data['height'] = null;
-		}
-
-		if ( ! isset( $size_data['crop'] ) ) {
-			$size_data['crop'] = false;
-		}
+		$size_data['width']  ??= null;
+		$size_data['height'] ??= null;
+		$size_data['crop']   ??= false;
 
 		if ( ( $this->size['width'] === $size_data['width'] ) && ( $this->size['height'] === $size_data['height'] ) ) {
 			return new WP_Error( 'image_subsize_create_error', __( 'The image already has the requested size.' ) );

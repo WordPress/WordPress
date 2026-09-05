@@ -1487,41 +1487,15 @@ function register_post_status( $post_status, $args = array() ) {
 		$args->internal = true;
 	}
 
-	if ( null === $args->public ) {
-		$args->public = false;
-	}
-
-	if ( null === $args->private ) {
-		$args->private = false;
-	}
-
-	if ( null === $args->protected ) {
-		$args->protected = false;
-	}
-
-	if ( null === $args->internal ) {
-		$args->internal = false;
-	}
-
-	if ( null === $args->publicly_queryable ) {
-		$args->publicly_queryable = $args->public;
-	}
-
-	if ( null === $args->exclude_from_search ) {
-		$args->exclude_from_search = $args->internal;
-	}
-
-	if ( null === $args->show_in_admin_all_list ) {
-		$args->show_in_admin_all_list = ! $args->internal;
-	}
-
-	if ( null === $args->show_in_admin_status_list ) {
-		$args->show_in_admin_status_list = ! $args->internal;
-	}
-
-	if ( null === $args->date_floating ) {
-		$args->date_floating = false;
-	}
+	$args->public                    ??= false;
+	$args->private                   ??= false;
+	$args->protected                 ??= false;
+	$args->internal                  ??= false;
+	$args->publicly_queryable        ??= $args->public;
+	$args->exclude_from_search       ??= $args->internal;
+	$args->show_in_admin_all_list    ??= ! $args->internal;
+	$args->show_in_admin_status_list ??= ! $args->internal;
+	$args->date_floating             ??= false;
 
 	if ( false === $args->label ) {
 		$args->label = $post_status;
