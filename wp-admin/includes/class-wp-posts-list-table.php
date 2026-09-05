@@ -1854,7 +1854,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 							 * @see wp_dropdown_users()
 							 *
 							 * @param array $users_opt An array of arguments passed to wp_dropdown_users().
-							 * @param bool $bulk A flag to denote if it's a bulk action.
+							 * @param bool  $bulk      A flag to denote if it's a bulk action.
 							 */
 							$users_opt = apply_filters( 'quick_edit_dropdown_authors_args', $users_opt, $bulk );
 

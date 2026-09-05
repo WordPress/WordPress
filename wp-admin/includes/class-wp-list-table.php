@@ -733,7 +733,7 @@ class WP_List_Table {
 		 *
 		 * @since 5.7.0
 		 *
-		 * @param object[]|false $months   'Months' drop-down results. Default false.
+		 * @param object[]|false $months    'Months' drop-down results. Default false.
 		 * @param string         $post_type The post type.
 		 */
 		$months = apply_filters( 'pre_months_dropdown_query', false, $post_type );

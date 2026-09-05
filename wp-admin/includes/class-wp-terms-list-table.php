@@ -395,8 +395,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 *
 		 * @see WP_Terms_List_Table::column_name()
 		 *
-		 * @param string $pad_tag_name The term name, padded if not top-level.
-		 * @param WP_Term $tag         Term object.
+		 * @param string  $pad_tag_name The term name, padded if not top-level.
+		 * @param WP_Term $tag          Term object.
 		 */
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 

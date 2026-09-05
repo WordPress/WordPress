@@ -176,7 +176,7 @@ class Walker_Page extends Walker {
 		 *
 		 * @since 4.8.0
 		 *
-		 * @param array $atts {
+		 * @param array   $atts {
 		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
 		 *
 		 *     @type string $href         The href attribute.

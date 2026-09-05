@@ -109,8 +109,8 @@ final class WP_Internal_Pointers {
 	 * @since 3.3.0
 	 *
 	 * @param string $pointer_id The pointer ID.
-	 * @param string $selector The HTML elements, on which the pointer should be attached.
-	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
+	 * @param string $selector   The HTML elements, on which the pointer should be attached.
+	 * @param array  $args       Arguments to be passed to the pointer JS (see wp-pointer.js).
 	 */
 	private static function print_js( $pointer_id, $selector, $args ) {
 		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) ) {

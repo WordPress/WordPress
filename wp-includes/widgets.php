@@ -1999,7 +1999,7 @@ function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
  * @global array $wp_registered_widgets  The registered widgets.
  * @global array $wp_registered_sidebars The registered sidebars.
  *
- * @param string $widget_id Widget ID.
+ * @param string $widget_id  Widget ID.
  * @param string $sidebar_id Sidebar ID.
  * @return string
  */

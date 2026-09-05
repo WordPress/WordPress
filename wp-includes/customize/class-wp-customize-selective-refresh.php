@@ -417,7 +417,7 @@ final class WP_Customize_Selective_Refresh {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array $response {
+		 * @param array                          $response {
 		 *     Response.
 		 *
 		 *     @type array $contents Associative array mapping a partial ID its corresponding array of contents

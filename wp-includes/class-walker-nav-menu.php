@@ -99,13 +99,13 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @since 6.3.0
 		 *
-		 * @param array $atts {
+		 * @param array    $atts {
 		 *     The HTML attributes applied to the `<ul>` element, empty strings are ignored.
 		 *
 		 *     @type string $class    HTML CSS class attribute.
 		 * }
-		 * @param stdClass $args      An object of `wp_nav_menu()` arguments.
-		 * @param int      $depth     Depth of menu item. Used for padding.
+		 * @param stdClass $args  An object of `wp_nav_menu()` arguments.
+		 * @param int      $depth Depth of menu item. Used for padding.
 		 */
 		$atts       = apply_filters( 'nav_menu_submenu_attributes', $atts, $args, $depth );
 		$attributes = $this->build_atts( $atts );
@@ -215,7 +215,7 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @since 6.3.0
 		 *
-		 * @param array $li_atts {
+		 * @param array    $li_atts {
 		 *     The HTML attributes applied to the menu item's `<li>` element, empty strings are ignored.
 		 *
 		 *     @type string $class        HTML CSS class attribute.
@@ -281,7 +281,7 @@ class Walker_Nav_Menu extends Walker {
 		 * @since 3.6.0
 		 * @since 4.1.0 The `$depth` parameter was added.
 		 *
-		 * @param array $atts {
+		 * @param array    $atts {
 		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
 		 *
 		 *     @type string $title        Title attribute.

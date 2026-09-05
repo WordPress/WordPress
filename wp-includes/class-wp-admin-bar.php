@@ -504,7 +504,7 @@ class WP_Admin_Bar {
 	 * @since 3.3.0
 	 * @since 6.5.0 Added `$menu_title` parameter to allow an ARIA menu name.
 	 *
-	 * @param object $node
+	 * @param object      $node
 	 * @param string|bool $menu_title The accessible name of this ARIA menu or false if not provided.
 	 */
 	final protected function _render_group( $node, $menu_title = false ) {

@@ -1808,7 +1808,7 @@ function do_settings_sections( $page ) {
  *
  * @global array $wp_settings_fields Storage array of settings fields and their pages/sections.
  *
- * @param string $page Slug title of the admin page whose settings fields you want to show.
+ * @param string $page    Slug title of the admin page whose settings fields you want to show.
  * @param string $section Slug title of the settings section whose fields you want to show.
  */
 function do_settings_fields( $page, $section ) {

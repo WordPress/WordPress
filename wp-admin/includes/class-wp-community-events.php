@@ -39,7 +39,7 @@ class WP_Community_Events {
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param int        $user_id       WP user ID.
+	 * @param int         $user_id       WP user ID.
 	 * @param false|array $user_location {
 	 *     Stored location data for the user. false to pass no location.
 	 *
