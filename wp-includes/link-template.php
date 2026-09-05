@@ -1131,8 +1131,8 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
  * @param string           $after   Optional. Display after edit link. Default empty.
  * @param int|WP_Term|null $term    Optional. Term ID or object. If null, the queried object will be inspected. Default null.
  * @param bool             $display Optional. Whether or not to echo the return. Default true.
- * @return string|void HTML content when retrieving, null on failure or without the
- *                     capability to edit the term. Nothing when displaying.
+ * @return string|null|void HTML content when retrieving, null on failure or without the
+ *                          capability to edit the term. Nothing when displaying.
  * @phpstan-return ( $display is true ? void : string|null )
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $display = true ) {
@@ -3268,16 +3268,16 @@ function previous_comments_link( $label = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args Optional args. See paginate_links(). Default empty array.
- * @return string|string[]|void Markup for comment page links, or an array of them when the 'type'
- *                              argument is 'array'. Null if the query is not for an existing single
- *                              post of any post type. Nothing when 'echo' is true and 'type' is not
- *                              'array'.
+ * @return string|string[]|null|void Markup for comment page links, or an array of them when
+ *                                   the 'type' argument is 'array'. Null if the query is not for
+ *                                   an existing single post of any post type. Nothing when 'echo'
+ *                                   is true and 'type' is not 'array'.
  * @phpstan-return (
  *     $args is array{ type: 'array', ... }
  *         ? string[]|null
  *         : ( $args is array{ echo: false|0|''|'0', ... }
  *             ? string|null
- *             : ( $args is ''|array ? void : string|string[]|null ) )
+ *             : ( $args is ''|'0'|array ? void : string|string[]|null ) )
  * )
  */
 function paginate_comments_links( $args = array() ) {

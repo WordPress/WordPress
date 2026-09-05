@@ -1244,10 +1244,12 @@ function get_trackback_url() {
  *
  * @see get_trackback_url()
  *
- * @param bool $deprecated_echo Deprecated. Use {@see get_trackback_url()}. Echo the URL or
+ * @param true $deprecated_echo Deprecated. Use {@see get_trackback_url()}. Echo the URL or
  *                              return it. Default true.
  * @return string|void The trackback URL when `$deprecated_echo` is false, nothing otherwise.
  * @phpstan-return ( $deprecated_echo is true ? void : string )
+ *
+ * @phpstan-ignore conditionalType.alwaysTrue (Typed `true` to flag the deprecated argument.)
  */
 function trackback_url( $deprecated_echo = true ) {
 	if ( true !== $deprecated_echo ) {
@@ -2233,12 +2235,12 @@ function _get_comment_reply_id( $post = null ) {
  *     @type bool     $echo              Whether to echo the output or return it. Default true.
  * }
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Default null.
- * @return string|void HTML list of comments when 'echo' is false, null when there are no
- *                     comments to list. Nothing otherwise.
+ * @return string|null|void HTML list of comments when 'echo' is false, null when there are
+ *                          no comments to list. Nothing otherwise.
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string|null
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_list_comments( $args = array(), $comments = null ) {

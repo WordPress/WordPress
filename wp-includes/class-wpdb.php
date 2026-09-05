@@ -1794,7 +1794,7 @@ class wpdb {
 	 * @global array $EZSQL_ERROR Stores error information of query and error string.
 	 *
 	 * @param string $str The error to display.
-	 * @return null|false Null if the showing of errors is enabled, false if disabled.
+	 * @return void|false Void if the showing of errors is enabled, false if disabled.
 	 */
 	public function print_error( $str = '' ) {
 		global $EZSQL_ERROR;
@@ -1855,8 +1855,6 @@ class wpdb {
 				$query
 			);
 		}
-
-		return null;
 	}
 
 	/**
@@ -4068,7 +4066,7 @@ class wpdb {
 	 * @since 2.5.0
 	 *
 	 * @global string $required_mysql_version The minimum required MySQL version string.
-	 * @return WP_Error|null
+	 * @return void|WP_Error Void if the server meets the minimum version, WP_Error if not.
 	 */
 	public function check_database_version() {
 		global $required_mysql_version;
@@ -4079,8 +4077,6 @@ class wpdb {
 			/* translators: 1: WordPress version number, 2: Minimum required MySQL version number. */
 			return new WP_Error( 'database_version', sprintf( __( '<strong>Error:</strong> WordPress %1$s requires MySQL %2$s or higher' ), $wp_version, $required_mysql_version ) );
 		}
-
-		return null;
 	}
 
 	/**

@@ -911,7 +911,7 @@ function get_users( $args = array() ) {
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_list_users( $args = array() ) {

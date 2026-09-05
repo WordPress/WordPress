@@ -210,7 +210,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_list_bookmarks( $args = '' ) {

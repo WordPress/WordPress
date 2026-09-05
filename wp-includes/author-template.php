@@ -453,7 +453,7 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_list_authors( $args = '' ) {

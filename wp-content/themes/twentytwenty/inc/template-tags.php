@@ -107,8 +107,8 @@ function twentytwenty_site_logo( $args = array(), $display = true ) {
  * @since Twenty Twenty 1.0
  *
  * @param bool $display Display or return the HTML.
- * @return string|void The HTML when `$display` is false, null when the site has no
- *                     description. Nothing otherwise.
+ * @return string|null|void The HTML when `$display` is false, null when the site has no
+ *                          description. Nothing otherwise.
  * @phpstan-return ( $display is true ? void : string|null )
  */
 function twentytwenty_site_description( $display = true ) {

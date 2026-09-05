@@ -37,8 +37,8 @@ function get_the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
  * @param string $before  Optional. Markup to prepend to the title. Default empty.
  * @param string $after   Optional. Markup to append to the title. Default empty.
  * @param bool   $display Optional. Whether to echo or return the title. Default true for echo.
- * @return string|void Current post title when `$display` is false, null when the title
- *                     is empty. Nothing otherwise.
+ * @return string|null|void Current post title when `$display` is false, null when the
+ *                          title is empty. Nothing otherwise.
  * @phpstan-return ( $display is true ? void : string|null )
  */
 function the_title( $before = '', $after = '', $display = true ) {
@@ -77,12 +77,12 @@ function the_title( $before = '', $after = '', $display = true ) {
  *     @type bool    $echo   Whether to echo or return the title. Default true for echo.
  *     @type WP_Post $post   Current post object to retrieve the title for.
  * }
- * @return string|void The title attribute when 'echo' is false, null when the title is
- *                     empty. Nothing otherwise.
+ * @return string|null|void The title attribute when 'echo' is false, null when the title
+ *                          is empty. Nothing otherwise.
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string|null
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function the_title_attribute( $args = '' ) {
@@ -1309,7 +1309,7 @@ function wp_dropdown_pages( $args = '' ) {
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_list_pages( $args = '' ) {
@@ -1437,7 +1437,7 @@ function wp_list_pages( $args = '' ) {
  * @phpstan-return (
  *     $args is array{ echo: false|0|''|'0', ... }
  *         ? string
- *         : ( $args is ''|array ? void : string|null )
+ *         : ( $args is ''|'0'|array ? void : string|null )
  * )
  */
 function wp_page_menu( $args = array() ) {
