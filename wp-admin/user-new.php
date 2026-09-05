@@ -154,7 +154,7 @@ Please click the following link to confirm the invite:
 			 *
 			 * @since 5.6.0
 			 *
-			 * @param array $new_user_email {
+			 * @param array  $new_user_email {
 			 *     Used to build wp_mail().
 			 *
 			 *     @type string $to      The email address of the invited user.
@@ -162,9 +162,9 @@ Please click the following link to confirm the invite:
 			 *     @type string $message The content of the email.
 			 *     @type string $headers Headers.
 			 * }
-			 * @param int    $user_id     The invited user's ID.
-			 * @param array  $role        Array containing role information for the invited user.
-			 * @param string $newuser_key The key of the invitation.
+			 * @param int    $user_id        The invited user's ID.
+			 * @param array  $role           Array containing role information for the invited user.
+			 * @param string $newuser_key    The key of the invitation.
 			 *
 			 */
 			$new_user_email = apply_filters( 'invited_user_email', $new_user_email, $user_id, $role, $newuser_key );

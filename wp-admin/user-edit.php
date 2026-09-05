@@ -931,7 +931,7 @@ switch ( $action ) {
 					 *
 					 * @since 2.8.0
 					 *
-					 * @param bool    $enable      Whether to display the capabilities. Default true.
+					 * @param bool    $enable       Whether to display the capabilities. Default true.
 					 * @param WP_User $profile_user The current WP_User object.
 					 */
 					$display_additional_caps = apply_filters( 'additional_capabilities_display', true, $profile_user );

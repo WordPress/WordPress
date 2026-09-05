@@ -169,8 +169,8 @@ function edit_user( $user_id = 0 ) {
 	 * @since 1.5.1
 	 *
 	 * @param string $user_login The username.
-	 * @param string $pass1     The password (passed by reference).
-	 * @param string $pass2     The confirmed password (passed by reference).
+	 * @param string $pass1      The password (passed by reference).
+	 * @param string $pass2      The confirmed password (passed by reference).
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
@@ -717,7 +717,7 @@ function wp_is_authorize_application_redirect_url_valid( $url ) {
 	 * @since 6.3.2
 	 *
 	 * @param string[] $bad_protocols Array of invalid protocols.
-	 * @param string   $url The redirect URL to be validated.
+	 * @param string   $url           The redirect URL to be validated.
 	 */
 	$invalid_protocols = apply_filters( 'wp_authorize_application_redirect_url_invalid_protocols', $bad_protocols, $url );
 	$invalid_protocols = array_map( 'strtolower', $invalid_protocols );
