@@ -9,11 +9,14 @@
  * http://api.jqueryui.com/category/theming/
  */
 
-/* Layout helpers
-----------------------------------*/
+/**
+ * Layout helpers
+ */
+
 .ui-helper-hidden {
 	display: none;
 }
+
 .ui-helper-hidden-accessible {
 	border: 0;
 	clip: rect(0 0 0 0);
@@ -24,6 +27,7 @@
 	position: absolute;
 	width: 1px;
 }
+
 .ui-helper-reset {
 	margin: 0;
 	padding: 0;
@@ -34,18 +38,22 @@
 	font-size: 100%;
 	list-style: none;
 }
-.ui-helper-clearfix:before,
-.ui-helper-clearfix:after {
+
+.ui-helper-clearfix::before,
+.ui-helper-clearfix::after {
 	content: "";
 	display: table;
 	border-collapse: collapse;
 }
-.ui-helper-clearfix:after {
+
+.ui-helper-clearfix::after {
 	clear: both;
 }
+
 .ui-helper-clearfix {
 	min-height: 0; /* support: IE7 */
 }
+
 .ui-helper-zfix {
 	width: 100%;
 	height: 100%;
@@ -53,23 +61,23 @@
 	left: 0;
 	position: absolute;
 	opacity: 0;
-	filter:Alpha(Opacity=0); /* support: IE8 */
 }
 
 .ui-front {
 	z-index: 100;
 }
 
+/**
+ * Interaction Cues
+ */
 
-/* Interaction Cues
-----------------------------------*/
 .ui-state-disabled {
 	cursor: default !important;
 }
 
-
-/* Icons
-----------------------------------*/
+/**
+ * Icons
+ */
 
 /* states and images */
 .ui-icon {
@@ -79,17 +87,23 @@
 	background-repeat: no-repeat;
 }
 
-
-/* Misc visuals
-----------------------------------*/
+/**
+ * Misc visuals
+ */
 
 /* Overlays */
 .ui-widget-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
+	right: 0;
+	bottom: 0;
 	width: 100%;
 	height: 100%;
+	min-height: 360px;
+	background: #000;
+	opacity: 0.7;
+	z-index: 100101;
 }
 
 /*!
@@ -100,19 +114,23 @@
  * Released under the MIT license.
  * http://jquery.org/license
  */
+
 .ui-resizable {
 	position: relative;
 }
+
 .ui-resizable-handle {
 	position: absolute;
 	font-size: 0.1px;
 	display: block;
 	touch-action: none;
 }
+
 .ui-resizable-disabled .ui-resizable-handle,
 .ui-resizable-autohide .ui-resizable-handle {
 	display: none;
 }
+
 .ui-resizable-n {
 	cursor: n-resize;
 	height: 7px;
@@ -120,6 +138,7 @@
 	top: -5px;
 	left: 0;
 }
+
 .ui-resizable-s {
 	cursor: s-resize;
 	height: 7px;
@@ -127,6 +146,7 @@
 	bottom: -5px;
 	left: 0;
 }
+
 /* rtl:ignore */
 .ui-resizable-e {
 	cursor: e-resize;
@@ -135,6 +155,7 @@
 	top: 0;
 	height: 100%;
 }
+
 /* rtl:ignore */
 .ui-resizable-w {
 	cursor: w-resize;
@@ -143,6 +164,7 @@
 	top: 0;
 	height: 100%;
 }
+
 /* rtl:ignore */
 .ui-resizable-se {
 	cursor: se-resize;
@@ -151,6 +173,7 @@
 	right: 1px;
 	bottom: 1px;
 }
+
 /* rtl:ignore */
 .ui-resizable-sw {
 	cursor: sw-resize;
@@ -159,6 +182,7 @@
 	left: -5px;
 	bottom: -5px;
 }
+
 /* rtl:ignore */
 .ui-resizable-nw {
 	cursor: nw-resize;
@@ -167,6 +191,7 @@
 	left: -5px;
 	top: -5px;
 }
+
 /* rtl:ignore */
 .ui-resizable-ne {
 	cursor: ne-resize;
@@ -176,7 +201,9 @@
 	top: -5px;
 }
 
-/* WP buttons: see buttons.css. */
+/**
+ * WP buttons: see buttons.css
+ */
 
 .ui-button {
 	display: inline-block;
@@ -242,7 +269,6 @@
 }
 
 @media screen and (max-width: 782px) {
-
 	.ui-button {
 		padding: 6px 14px;
 		line-height: normal;
@@ -254,7 +280,9 @@
 
 }
 
-/* WP Theme */
+/**
+ * WP Theme
+ */
 
 .ui-dialog {
 	position: absolute;
@@ -294,8 +322,8 @@
 	overflow: hidden;
 }
 
-.ui-dialog-titlebar-close:before {
-	font: normal 20px/1 dashicons;
+.ui-dialog-titlebar-close::before {
+	font: 400 20px/1 dashicons;
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -303,7 +331,7 @@
 	width: 36px;
 	height: 36px;
 	content: "\f158";
-	content: "\f158" / '';
+	content: "\f158" / "";
 }
 
 .ui-button.ui-dialog-titlebar-close:hover,
@@ -339,17 +367,4 @@
 
 .ui-draggable .ui-dialog-titlebar {
 	cursor: move;
-}
-
-.ui-widget-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	min-height: 360px;
-	background: #000;
-	opacity: 0.7;
-	filter: alpha(opacity=70);
-	z-index: 100101;
 }
