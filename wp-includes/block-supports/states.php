@@ -542,6 +542,16 @@ function wp_render_block_states_support( $block_content, $block ) {
 		return $block_content;
 	}
 
+	/*
+	 * Every CSS rule this function can produce is keyed off the block's `style`
+	 * attribute. Without it there is nothing to generate, so bail before doing
+	 * any of the lookups below — this runs for every block on every request.
+	 */
+	$style = $block['attrs']['style'] ?? array();
+	if ( empty( $style ) || ! is_array( $style ) ) {
+		return $block_content;
+	}
+
 	$block_name = $block['blockName'];
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block_name );
 	if ( ! $block_type ) {
@@ -549,7 +559,6 @@ function wp_render_block_states_support( $block_content, $block ) {
 	}
 
 	$supported_pseudo_states  = WP_Theme_JSON::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ] ?? array();
-	$style                    = $block['attrs']['style'] ?? array();
 	$css_rules                = array();
 	$viewport_settings        = wp_get_global_settings( array( 'viewport' ) );
 	$responsive_media_queries = WP_Theme_JSON::get_viewport_media_queries( $viewport_settings );
