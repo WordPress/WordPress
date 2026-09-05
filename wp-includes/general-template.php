@@ -4814,7 +4814,7 @@ function get_language_attributes( $doctype = 'html' ) {
 	 * @since 2.5.0
 	 * @since 4.3.0 Added the `$doctype` parameter.
 	 *
-	 * @param string $output A space-separated list of language attributes.
+	 * @param string $output  A space-separated list of language attributes.
 	 * @param string $doctype The type of HTML document (xhtml|html).
 	 */
 	return apply_filters( 'language_attributes', $output, $doctype );

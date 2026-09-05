@@ -526,7 +526,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @link https://www.php.net/manual/en/arrayaccess.offsetset.php
 	 *
 	 * @param int|null $offset The offset to assign the value to.
-	 * @param array    $value The value to set.
+	 * @param array    $value  The value to set.
 	 * @phpstan-param array<non-decimal-int-string, Hook_Callback> $value
 	 */
 	#[ReturnTypeWillChange]

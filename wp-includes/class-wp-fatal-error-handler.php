@@ -228,8 +228,8 @@ class WP_Fatal_Error_Handler {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param array $args Associative array of arguments passed to `wp_die()`. By default these contain a
-		 *                    'response' key, and optionally 'link_url' and 'link_text' keys.
+		 * @param array $args  Associative array of arguments passed to `wp_die()`. By default these contain a
+		 *                     'response' key, and optionally 'link_url' and 'link_text' keys.
 		 * @param array $error Error information retrieved from `error_get_last()`.
 		 */
 		$args = apply_filters( 'wp_php_error_args', $args, $error );

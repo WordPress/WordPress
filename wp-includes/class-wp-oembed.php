@@ -807,7 +807,7 @@ class WP_oEmbed {
 	 *
 	 * @param string|false $html Existing HTML.
 	 * @param object       $data Data object from WP_oEmbed::data2html()
-	 * @param string       $url The original URL passed to oEmbed.
+	 * @param string       $url  The original URL passed to oEmbed.
 	 * @return string|false Possibly modified $html.
 	 */
 	public function _strip_newlines( $html, $data, $url ) {

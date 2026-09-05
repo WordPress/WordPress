@@ -787,12 +787,12 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param null|false|object $pre  Value to return instead. Default null to continue retrieving the event.
-	 * @param string            $hook Action hook of the event.
-	 * @param array             $args Array containing each separate argument to pass to the hook's callback function.
-	 *                                Although not passed to a callback, these arguments are used to uniquely identify
-	 *                                the event.
-	 * @param int|null  $timestamp Unix timestamp (UTC) of the event. Null to retrieve next scheduled event.
+	 * @param null|false|object $pre       Value to return instead. Default null to continue retrieving the event.
+	 * @param string            $hook      Action hook of the event.
+	 * @param array             $args      Array containing each separate argument to pass to the hook's callback function.
+	 *                                     Although not passed to a callback, these arguments are used to uniquely identify
+	 *                                     the event.
+	 * @param int|null          $timestamp Unix timestamp (UTC) of the event. Null to retrieve next scheduled event.
 	 */
 	$pre = apply_filters( 'pre_get_scheduled_event', null, $hook, $args, $timestamp );
 
@@ -966,7 +966,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 * @since 3.5.0
 	 * @since 4.5.0 The `$doing_wp_cron` parameter was added.
 	 *
-	 * @param array $cron_request_array {
+	 * @param array  $cron_request_array {
 	 *     An array of cron request URL arguments.
 	 *
 	 *     @type string $url  The cron request URL.
@@ -979,7 +979,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 *         @type bool $sslverify Whether SSL should be verified for the request. Default false.
 	 *     }
 	 * }
-	 * @param string $doing_wp_cron The Unix timestamp (UTC) of the cron lock with microseconds.
+	 * @param string $doing_wp_cron      The Unix timestamp (UTC) of the cron lock with microseconds.
 	 */
 	$cron_request = apply_filters(
 		'cron_request',

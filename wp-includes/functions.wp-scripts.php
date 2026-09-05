@@ -445,7 +445,7 @@ function wp_deregister_script( $handle ) {
  *                                 as a query string for cache busting purposes. If version is set to false, a version
  *                                 number is automatically added equal to current installed WordPress version.
  *                                 If set to null, no version is added.
- * @param array|bool $args {
+ * @param array|bool       $args {
  *     Optional. An array of extra args for the script. Default empty array.
  *     Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
  *

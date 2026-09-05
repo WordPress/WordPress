@@ -2007,9 +2007,9 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @since 4.9.0 Added the `$order` parameter.
 	 * @since 6.9.0 Adds ID sort to ensure deterministic ordering for posts with identical dates.
 	 *
-	 * @param string $order_by The `ORDER BY` clause in the SQL.
-	 * @param WP_Post $post    WP_Post object.
-	 * @param string  $order   Sort order. 'DESC' for previous post, 'ASC' for next.
+	 * @param string  $order_by The `ORDER BY` clause in the SQL.
+	 * @param WP_Post $post     WP_Post object.
+	 * @param string  $order    Sort order. 'DESC' for previous post, 'ASC' for next.
 	 */
 	$sort = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order, p.ID $order LIMIT 1", $post, $order );
 

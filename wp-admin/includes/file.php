@@ -1312,7 +1312,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			 * @since 5.2.0
 			 *
 			 * @param false|string $signature_url The URL where signatures can be found for a file, or false if none are known.
-			 * @param string $url                 The URL being verified.
+			 * @param string       $url           The URL being verified.
 			 */
 			$signature_url = apply_filters( 'wp_signature_url', $signature_url, $url );
 

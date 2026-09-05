@@ -3813,7 +3813,7 @@ function wp_nonce_ays( $action ) {
  *                                     error data with the key 'title' may be used to specify the title.
  *                                     If `$title` is an integer, then it is treated as the response code.
  *                                     Default empty string.
- * @param string|array|int $args {
+ * @param string|array|int    $args {
  *     Optional. Arguments to control behavior. If `$args` is an integer, then it is treated
  *     as the response code. Default empty array.
  *
@@ -8382,7 +8382,7 @@ All at ###SITENAME###
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param array $email_change_email {
+	 * @param array  $email_change_email {
 	 *     Used to build wp_mail().
 	 *
 	 *     @type string $to      The intended recipient.
@@ -8395,8 +8395,8 @@ All at ###SITENAME###
 	 *          - `###SITEURL###`   The URL to the site.
 	 *     @type string $headers Headers.
 	 * }
-	 * @param string $old_email The old site admin email address.
-	 * @param string $new_email The new site admin email address.
+	 * @param string $old_email          The old site admin email address.
+	 * @param string $new_email          The new site admin email address.
 	 */
 	$email_change_email = apply_filters( 'site_admin_email_change_email', $email_change_email, $old_email, $new_email );
 
@@ -8941,7 +8941,7 @@ function wp_get_direct_update_https_url() {
  * @since MU (3.0.0)
  * @since 5.2.0 $max_execution_time parameter added.
  *
- * @param string $directory Full path of a directory.
+ * @param string $directory          Full path of a directory.
  * @param int    $max_execution_time Maximum time to run before giving up. In seconds.
  *                                   The timeout is global and is measured from the moment WordPress started to load.
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.

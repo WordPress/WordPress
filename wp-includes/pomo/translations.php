@@ -91,7 +91,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 * @since 2.8.0
 		 *
 		 * @param string $header header name, without trailing :
-		 * @param string $value header value, without trailing \n
+		 * @param string $value  header value, without trailing \n
 		 */
 		public function set_header( $header, $value ) {
 			$this->headers[ $header ] = $value;
