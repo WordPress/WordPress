@@ -390,7 +390,7 @@ function get_search_form( $args = array() ) {
  *     @type string $id          Unique ID for the popover element. Default is a
  *                               generated unique ID.
  *     @type string $button      Existing `button` or `a` markup. Used instead of generated button.
- *                               Default standard button HTML.
+ *                               Default empty string.
  *     @type string $label       Not used for tooltips.
  *     @type string $close_label Not used for tooltips.
  *     @type string $icon        Dashicons icon class for the toggle button.
@@ -420,7 +420,7 @@ function wp_get_tooltip( $content, $args = array() ) {
  *     @type string $id          Unique ID for the popover element. Default is a
  *                               generated unique ID.
  *     @type string $button      Existing `button` markup. Used instead of generated button.
- *                               Default standard button HTML.
+ *                               Default empty string.
  *     @type string $label       Accessible label for the toggle button.
  *                               Default 'Help', matching the default icon.
  *                               Ignored for tooltips.
@@ -455,7 +455,7 @@ function wp_get_toggletip( $content, $args = array() ) {
  *     @type string $id          Unique ID for the popover element. Default is a
  *                               generated unique ID.
  *     @type string $button      Existing `button` or `a` markup. Used instead of generated button.
- *                               Default standard button HTML.
+ *                               Default empty string.
  *     @type string $label       Accessible label for the toggle button.
  *                               Default 'Help', matching the default icon.
  *                               Ignored for tooltips.
@@ -479,7 +479,7 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 
 	$defaults = array(
 		'id'          => wp_unique_id( 'wp-tooltip-' ),
-		'button'      => '<button type="button" aria-label="%3$s"><span class="dashicons %4$s" aria-hidden="true"></span></button>',
+		'button'      => '',
 		'label'       => __( 'Help' ),
 		'close_label' => __( 'Close' ),
 		'icon'        => 'dashicons-editor-help',
@@ -494,38 +494,66 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 		$classes .= ' ' . $args['class'];
 	}
 
-	$icon      = ( $args['icon'] ) ? trim( $args['icon'] ) : $defaults['icon'];
-	$id        = ( $args['id'] ) ? $args['id'] : $defaults['id'];
-	$button    = ( $args['button'] ) ? $args['button'] : $defaults['button'];
-	$processed = false;
+	$icon = ( $args['icon'] ) ? trim( $args['icon'] ) : $defaults['icon'];
+	$id   = ( $args['id'] ) ? $args['id'] : $defaults['id'];
+
+	// Tooltips use the content as the accessible name; toggletips use the label.
+	$label = ( 'tooltip' === $args['type'] ) ? wp_strip_all_tags( $content, true ) : $args['label'];
+
+	/*
+	 * The generated button is a plain skeleton. Every dynamic attribute is
+	 * added through the tag processor below, so caller-supplied markup is
+	 * never scanned or substituted and a percent sign in custom markup,
+	 * such as a percent-encoded URL, is never treated as a conversion
+	 * specification.
+	 */
+	$default_button = '<button type="button"><span></span></button>';
+
+	$is_default = ! $args['button'];
+	$button     = ( $args['button'] ) ? $args['button'] : $default_button;
+
+	// The accepted root element is a `button`, or an `a` for tooltips.
+	$tag       = false;
 	$processor = new WP_HTML_Tag_Processor( $button );
 	if ( true === $processor->next_tag( 'button' ) ) {
-		$processor->add_class( 'wp-tooltip__toggle' );
-		if ( 'tooltip' !== $args['type'] ) {
-			$processor->set_attribute( 'popovertarget', '%2$s' );
-			$processor->set_attribute( 'aria-haspopup', 'dialog' );
-		}
-		$button    = $processor->get_updated_html();
-		$processed = true;
+		$tag = 'button';
 	} else {
-		// Reset processor.
 		$processor = new WP_HTML_Tag_Processor( $button );
-		if ( true === $processor->next_tag( 'a' ) && 'tooltip' === $args['type'] ) {
-			$processor->add_class( 'wp-tooltip__toggle' );
-			$button    = $processor->get_updated_html();
-			$processed = true;
+		if ( 'tooltip' === $args['type'] && true === $processor->next_tag( 'a' ) ) {
+			$tag = 'a';
 		}
 	}
-	if ( ! $processed ) {
-		// Button HTML passed was not valid.
-		$processor = new WP_HTML_Tag_Processor( $defaults['button'] );
-		$processor->add_class( 'wp-tooltip__toggle' );
-		if ( 'tooltip' !== $args['type'] ) {
-			$processor->set_attribute( 'popovertarget', '%2$s' );
-			$processor->set_attribute( 'aria-haspopup', 'dialog' );
-		}
-		$button = $processor->get_updated_html();
+
+	if ( false === $tag ) {
+		// Button HTML passed was not valid. Reset to default.
+		$is_default = true;
+		$button     = $default_button;
+		$processor  = new WP_HTML_Tag_Processor( $button );
+		$processor->next_tag( 'button' );
+		$tag = 'button';
 	}
+
+	/*
+	 * Attributes that apply to every accepted button are added in one pass.
+	 * Attributes that name the control are only added when the caller's
+	 * markup did not already provide them.
+	 */
+	if ( null === $processor->get_attribute( 'aria-label' ) ) {
+		$processor->set_attribute( 'aria-label', $label );
+	}
+	$processor->add_class( 'wp-tooltip__toggle' );
+	if ( 'button' === $tag && 'tooltip' !== $args['type'] ) {
+		$processor->set_attribute( 'popovertarget', $id );
+		$processor->set_attribute( 'aria-haspopup', 'dialog' );
+	}
+
+	// The generated button also carries the dashicon on its inner span.
+	if ( $is_default && true === $processor->next_tag( 'span' ) ) {
+		$processor->set_attribute( 'class', 'dashicons ' . $icon );
+		$processor->set_attribute( 'aria-hidden', 'true' );
+	}
+
+	$button = $processor->get_updated_html();
 
 	/*
 	 * The markup only uses phrasing content so it is valid when nested
@@ -534,11 +562,9 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 	 * the layout. See #65660.
 	 */
 	if ( 'tooltip' === $args['type'] ) {
-		// Tooltips are only used to visually display labels.
-		$label  = wp_strip_all_tags( $content, true );
 		$markup = sprintf(
 			'<span class="%1$s">
-				' . $button . '
+				%6$s
 				<span popover="hint" id="%2$s" class="wp-tooltip__bubble" role="tooltip">' .
 					'<span id="%2$s-text" class="wp-tooltip__text">%5$s</span>' .
 				'</span>' .
@@ -548,6 +574,7 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 			esc_attr( $label ),
 			esc_attr( $icon ),
 			esc_html( $content ),
+			$button,
 		);
 	} else {
 		/*
@@ -557,7 +584,7 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 		 */
 		$markup = sprintf(
 			'<span class="%1$s">
-				' . $button . '
+				%7$s
 				<span popover="auto" id="%2$s" class="wp-tooltip__bubble" role="dialog" aria-label="%3$s" tabindex="-1" autofocus>' .
 					'<span id="%2$s-text" class="wp-tooltip__text">%5$s</span>' .
 					'<button type="button" class="wp-tooltip__close" popovertarget="%2$s" popovertargetaction="hide" aria-label="%6$s">' .
@@ -567,10 +594,11 @@ function wp_get_tooltip_helper( $content, $args = array() ) {
 			'</span>',
 			esc_attr( $classes ),
 			esc_attr( $id ),
-			esc_attr( $args['label'] ),
+			esc_attr( $label ),
 			esc_attr( $icon ),
 			esc_html( $content ),
 			esc_attr( $args['close_label'] ),
+			$button,
 		);
 	}
 
