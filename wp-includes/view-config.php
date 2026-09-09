@@ -566,7 +566,7 @@ function _wp_get_entity_view_config_posttype_wp_template( $data ) {
 		'titleField'       => 'title',
 		'descriptionField' => 'description',
 		'mediaField'       => 'preview',
-		'fields'           => array( 'author', 'active', 'slug', 'theme' ),
+		'fields'           => array( 'author' ),
 		'filters'          => array(),
 		'showMedia'        => true,
 	);
