@@ -1003,6 +1003,7 @@ function confirm_delete_users( $users ) {
 												'include' => $blog_users,
 												'show'    => 'display_name_with_login',
 												'id'      => "reassign_user_{$details->userblog_id}_{$delete_user->ID}",
+												'blog_id' => $details->userblog_id,
 											)
 										);
 										?>
