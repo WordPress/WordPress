@@ -32,6 +32,17 @@
 		isSafari = window.safari !== 'undefined' && typeof window.safari === 'object',
 		isFirefox = ua.indexOf( 'firefox' ) !== -1;
 
+	/**
+	 * Generates a password and updates the password input field.
+	 *
+	 * If zxcvbn is not yet loaded, it will wait and try again. If the password
+	 * input field is empty or the password wrapper is open, it will set the
+	 * password to the generated value. If the user has already entered a
+	 * password, it will check the strength of that password. It also binds
+	 * the toggle button to show or hide the password and sets the initial state
+	 * of the toggle button based on whether the password should be masked or
+	 * not. Finally, it updates the label for confirming weak passwords.
+	 */
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
 			setTimeout( generatePassword, 50 );
@@ -67,6 +78,9 @@
 		$( '#pw-weak-text-label' ).text( __( 'Confirm use of weak password' ) );
 	}
 
+	/**
+	 * Binds the password input field to update the current password and refresh the password strength area when the user types in the field.
+	 */
 	function bindPass1() {
 		currentPass = $pass1.val();
 
@@ -89,6 +103,11 @@
 		bindCapsLockWarning( $pass1 );
 	}
 
+	/**
+	 * Resets the toggle button to show or hide the password.
+	 *
+	 * @param {boolean} show Whether to show the password or not.
+	 */
 	function resetToggle( show ) {
 		$toggleButton
 			.attr({
@@ -102,6 +121,9 @@
 				.addClass( show ? 'dashicons-visibility' : 'dashicons-hidden' );
 	}
 
+	/**
+	 * Binds the toggle button to show or hide the password. Also ensures that the password input type is set to password when the form is submitted.
+	 */
 	function bindToggleButton() {
 		if ( !! $toggleButton ) {
 			// Do not rebind.
@@ -193,6 +215,9 @@
 		$this.before( resultDiv );
 	}
 
+	/**
+	 * Initializes the password form, including the password strength meter, weak password checkbox, and show/hide password toggle button.
+	 */
 	function bindPasswordForm() {
 		var $generateButton,
 			$cancelButton;
@@ -309,6 +334,9 @@
 		});
 	}
 
+	/**
+	 * Sets CSS classes to the password strength results based on the password strength.
+	 */
 	function check_pass_strength() {
 		var pass1 = $('#pass1').val(), strength;
 
@@ -414,6 +442,9 @@
 		return event.getModifierState( 'CapsLock' );
 	}
 
+	/**
+	 * Toggles the visibility of the weak password checkbox.
+	 */
 	function showOrHideWeakPasswordCheckbox() {
 		var passStrengthResult = $('#pass-strength-result');
 

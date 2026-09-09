@@ -1,7 +1,9 @@
 /**
- * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
- *
  * @output wp-admin/js/tags-suggest.js
+ */
+
+/**
+ * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
  *
  * @param {JQueryStatic} $ The jQuery object.
  */
@@ -12,16 +14,28 @@
 	    _n = wp.i18n._n,
 	    sprintf = wp.i18n.sprintf;
 
+	/**
+	 * Splits a string into an array of terms based on the separator.
+	 *
+	 * @param {string} val The string to split.
+	 * @return {string[]} An array of terms.
+	 */
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
 	}
 
+	/**
+	 * Gets the last term from a string based on the separator.
+	 *
+	 * @param {string} term The string to get the last term from.
+	 * @return {string} The last term.
+	 */
 	function getLast( term ) {
 		return split( term ).pop();
 	}
 
 	/**
-	 * Add UI Autocomplete to an input or textarea element with presets for use
+	 * Adds UI Autocomplete to an input or textarea element with presets for use
 	 * with non-hierarchical taxonomies.
 	 *
 	 * Example: `$( element ).wpTagsSuggest( options )`.

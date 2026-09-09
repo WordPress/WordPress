@@ -4,7 +4,7 @@
 
 /* global tinymce */
 
-/*
+/**
  * The TinyMCE view API.
  *
  * Note: this API is "experimental" meaning that it will probably change
@@ -25,6 +25,11 @@
  * |  |  |- ...
  * |- registered view
  * |  |- ...
+ *
+ * @param {Window}       window    The global window object.
+ * @param {Object}       wp        The WordPress global object.
+ * @param {Object}       shortcode The shortcode API.
+ * @param {JQueryStatic} $         The jQuery object.
  */
 ( function( window, wp, shortcode, $ ) {
 	'use strict';
@@ -615,6 +620,9 @@
 
 				iframeDoc.close();
 
+				/**
+				 * Resizes the iframe to fit its content.
+				 */
 				function resize() {
 					var $iframe;
 
@@ -643,6 +651,9 @@
 					}, 3000 );
 				}
 
+				/**
+				 * Adds a MutationObserver to the iframe's body to watch for changes and resize accordingly.
+				 */
 				function addObserver() {
 					observer = new MutationObserver( _.debounce( resize, 100 ) );
 
@@ -763,15 +774,27 @@
 	} );
 } )( window, window.wp, window.wp.shortcode, window.jQuery );
 
-/*
+/**
  * The WordPress core TinyMCE views.
+ *
  * Views for the gallery, audio, video, playlist and embed shortcodes,
  * and a view for embeddable URLs.
+ *
+ * @param {Window}       window The global window object.
+ * @param {Object}       views  The wp.mce.views object.
+ * @param {Object}       media  The wp.media object.
+ * @param {JQueryStatic} $      The jQuery object.
  */
 ( function( window, views, media, $ ) {
 	var base, gallery, av, embed,
 		schema, parser, serializer;
 
+	/**
+	 * Verifies that a given string is valid HTML.
+	 *
+	 * @param {string} string The string to verify.
+	 * @return {string} The verified string.
+	 */
 	function verifyHTML( string ) {
 		var settings = {};
 

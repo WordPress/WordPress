@@ -5,8 +5,8 @@
 /**
  * IIFE setup function.
  *
- * @param {Window} window Global window object.
- * @param {Document} document Global document object.
+ * @param {Window}   window   The global window object.
+ * @param {Document} document The global document object.
  */
 (function ( window, document ) {
 	'use strict';
@@ -17,6 +17,12 @@
 		secretTimeout,
 		resizing;
 
+	/**
+	 * Sends a message to the parent window.
+	 *
+	 * @param {string} message The message type (e.g., 'height', 'link').
+	 * @param {*}      value   The message value. Type depends on message (number for height, string for link).
+	 */
 	function sendEmbedMessage( message, value ) {
 		window.parent.postMessage( {
 			message: message,

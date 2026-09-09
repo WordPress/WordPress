@@ -1,19 +1,34 @@
 /**
- * Interactions used by the User Privacy tools in WordPress.
- *
  * @output wp-admin/js/privacy-tools.js
  */
 
-// Privacy request action handling.
+/**
+ * Sets the interactions used by the User Privacy tools in WordPress.
+ *
+ * @param {jQueryStatic} $ The jQuery object.
+ */
 jQuery( function( $ ) {
 	var __ = wp.i18n.__,
 		copiedNoticeTimeout;
 
+	/**
+	 * Sets the state of the action.
+	 *
+	 * @param {jQuery} $action The action to set the state for.
+	 * @param {string} state   The state to set the action to.
+	 * @return {void}
+	 */
 	function setActionState( $action, state ) {
 		$action.children().addClass( 'hidden' );
 		$action.children( '.' + state ).removeClass( 'hidden' );
 	}
 
+	/**
+	 * Clears any results row after the request row.
+	 *
+	 * @param {jQuery} $requestRow The request row to clear results for.
+	 * @return {void}
+	 */
 	function clearResultsAfterRow( $requestRow ) {
 		$requestRow.removeClass( 'has-request-results' );
 
@@ -22,6 +37,15 @@ jQuery( function( $ ) {
 		}
 	}
 
+	/**
+	 * Appends a results row after the request row.
+	 *
+	 * @param {jQuery}   $requestRow        The request row to append the results after.
+	 * @param {string}   classes            The classes to add to the results row.
+	 * @param {string}   summaryMessage     The summary message to display in the results row.
+	 * @param {string[]} additionalMessages Additional messages to display in the results row.
+	 * @return {void}
+	 */
 	function appendResultsAfterRow( $requestRow, classes, summaryMessage, additionalMessages ) {
 		var itemList = '',
 			resultRowClasses = 'request-results';
@@ -76,6 +100,12 @@ jQuery( function( $ ) {
 		clearResultsAfterRow( $requestRow );
 		setExportProgress( 0 );
 
+		/**
+		 * Handles a successful export.
+		 *
+		 * @param {string} zipUrl The URL of the generated ZIP file, if available.
+		 * @return {void}
+		 */
 		function onExportDoneSuccess( zipUrl ) {
 			var summaryMessage = __( 'This user&#8217;s personal data export link was sent.' );
 
@@ -96,6 +126,12 @@ jQuery( function( $ ) {
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
+		/**
+		 * Handles an export failure.
+		 *
+		 * @param {string} errorMessage The error message to display.
+		 * @return {void}
+		 */
 		function onExportFailure( errorMessage ) {
 			var summaryMessage = __( 'An error occurred while attempting to export personal data.' );
 
@@ -108,6 +144,12 @@ jQuery( function( $ ) {
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
+		/**
+		 * Updates the progress of the export process.
+		 *
+		 * @param {number} exporterIndex The index of the exporter to process.
+		 * @return {void}
+		 */
 		function setExportProgress( exporterIndex ) {
 			var progress       = ( exportersCount > 0 ? exporterIndex / exportersCount : 0 ),
 				progressString = Math.round( progress * 100 ).toString() + '%';
@@ -115,6 +157,13 @@ jQuery( function( $ ) {
 			$progress.html( progressString );
 		}
 
+		/**
+		 * Performs the next export request.
+		 *
+		 * @param {number} exporterIndex The index of the exporter to process.
+		 * @param {number} pageIndex     The index of the page to process for the current exporter.
+		 * @return {void}
+		 */
 		function doNextExport( exporterIndex, pageIndex ) {
 			$.ajax(
 				{
@@ -181,6 +230,11 @@ jQuery( function( $ ) {
 		clearResultsAfterRow( $requestRow );
 		setErasureProgress( 0 );
 
+		/**
+		 * Handles a successful erasure.
+		 *
+		 * @return {void}
+		 */
 		function onErasureDoneSuccess() {
 			var summaryMessage = __( 'No personal data was found for this user.' ),
 				classes = 'notice-success';
@@ -207,6 +261,9 @@ jQuery( function( $ ) {
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
+		/**
+		 * Handles an erasure failure.
+		 */
 		function onErasureFailure() {
 			var summaryMessage = __( 'An error occurred while attempting to find and erase personal data.' );
 
@@ -217,6 +274,12 @@ jQuery( function( $ ) {
 			setTimeout( function() { $rowActions.removeClass( 'processing' ); }, 500 );
 		}
 
+		/**
+		 * Updates the progress of the erasure process.
+		 *
+		 * @param {number} eraserIndex The index of the eraser to process.
+		 * @return {void}
+		 */
 		function setErasureProgress( eraserIndex ) {
 			var progress       = ( erasersCount > 0 ? eraserIndex / erasersCount : 0 ),
 				progressString = Math.round( progress * 100 ).toString() + '%';
@@ -224,6 +287,13 @@ jQuery( function( $ ) {
 			$progress.html( progressString );
 		}
 
+		/**
+		 * Performs the next erasure request.
+		 *
+		 * @param {number} eraserIndex The index of the eraser to process.
+		 * @param {number} pageIndex   The index of the page to process for the current eraser.
+		 * @return {void}
+		 */
 		function doNextErasure( eraserIndex, pageIndex ) {
 			$.ajax({
 				url: window.ajaxurl,

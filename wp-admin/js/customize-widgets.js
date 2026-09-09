@@ -2358,6 +2358,11 @@
 	 */
 	function focusConstructWithBreadcrumb( focusConstruct, returnConstruct ) {
 		focusConstruct.focus();
+		/**
+		 * Determines whether to return focus to the returnConstruct after the focusConstruct is collapsed.
+		 *
+		 * @param {boolean} isExpanded Whether the focusConstruct is expanded.
+		 */
 		function onceCollapsed( isExpanded ) {
 			if ( ! isExpanded ) {
 				focusConstruct.expanded.unbind( onceCollapsed );

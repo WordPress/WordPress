@@ -4,6 +4,12 @@
 
 window.wp = window.wp || {};
 
+/**
+ * The editor functionality.
+ *
+ * @param {JQueryStatic} $  The jQuery object.
+ * @param {Object}       wp The WordPress global object.
+ */
 ( function( $, wp ) {
 	wp.editor = wp.editor || {};
 
@@ -17,6 +23,9 @@ window.wp = window.wp || {};
 		var tinymce, $$,
 			exports = {};
 
+		/**
+		 * Initializes the editor utility functions.
+		 */
 		function init() {
 			if ( ! tinymce && window.tinymce ) {
 				tinymce = window.tinymce;

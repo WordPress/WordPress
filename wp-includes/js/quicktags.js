@@ -233,6 +233,12 @@ window.edToolbar = function(){};
 		t.init();
 	};
 
+	/**
+	 * Escapes HTML special characters in a string.
+	 *
+	 * @param {string} text The string to escape.
+	 * @return {string} The escaped string.
+	 */
 	function _escape( text ) {
 		text = text || '';
 		text = text.replace( /&([^#])(?![a-z1-4]{1,8};)/gi, '&#038;$1' );
@@ -248,6 +254,11 @@ window.edToolbar = function(){};
 	qt._buttonsInit = function( id ) {
 		var t = this;
 
+		/**
+		 * Initializes the Quicktags buttons for a specific instance.
+		 *
+		 * @param {string} instanceId The ID of the Quicktags instance to initialize buttons for.
+		 */
 		function _init( instanceId ) {
 			var canvas, name, settings, theButtons, html, ed, id, i, use,
 				defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,';

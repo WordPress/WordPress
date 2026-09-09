@@ -244,6 +244,11 @@
 	BaseHandler.extend = function( protoProps ) {
 		var prop;
 
+		/**
+		 * Creates a custom handler instance.
+		 *
+		 * @return {CustomHandler} A custom handler instance, when called with new.
+		 */
 		function CustomHandler() {
 			var result = BaseHandler.apply( this, arguments );
 			return result;

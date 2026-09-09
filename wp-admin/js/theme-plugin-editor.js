@@ -418,6 +418,9 @@ wp.themePluginEditor = (function( $ ) {
 		editor = wp.codeEditor.initialize( $( '#newcontent' ), codeEditorSettings );
 		editor.codemirror.on( 'change', component.onChange );
 
+		/**
+		 * Handles the save shortcut (Ctrl+S / Cmd+S).
+		 */
 		function onSaveShortcut() {
 			component.form.trigger( 'submit' );
 		}
@@ -601,10 +604,22 @@ wp.themePluginEditor = (function( $ ) {
 			var flag = false,
 				_char = event.key;
 
+			/**
+			 * Determines whether a character is a printable character.
+			 *
+			 * @param {string} str The character to check.
+			 * @return {boolean} True if the character is printable, false otherwise.
+			 */
 			function isPrintableCharacter(str) {
 				return str.length === 1 && str.match(/\S/);
 			}
 
+			/**
+			 * Handles printable character key press.
+			 *
+			 * @param {TreeitemLink} item The tree item link instance.
+			 * @return {void}
+			 */
 			function printableCharacter(item) {
 				if (_char == '*') {
 					item.tree.expandAllSiblingItems(item);
@@ -808,7 +823,14 @@ wp.themePluginEditor = (function( $ ) {
 		};
 
 		TreeLinks.prototype.init = function () {
-
+			/**
+			 * Finds all treeitems and groups and creates object instances.
+			 *
+			 * @param {Element}              node  The DOM node to search for treeitems.
+			 * @param {TreeLinks}            tree  The TreeLinks instance.
+			 * @param {TreeitemLink|boolean} group The parent TreeitemLink instance or false if there is no parent.
+			 * @return {void}
+			 */
 			function findTreeitems(node, tree, group) {
 
 				var elem = node.firstElementChild;

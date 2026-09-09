@@ -1,11 +1,14 @@
 /**
- * Interactions used by the Site Health modules in WordPress.
- *
  * @output wp-admin/js/site-health.js
  */
 
 /* global ajaxurl, ClipboardJS, SiteHealth, wp */
 
+/**
+ * Handles the interactions used by the Site Health modules in WordPress.
+ *
+ * @param {JQueryStatic} $ The jQuery object.
+ */
 jQuery( function( $ ) {
 
 	var __ = wp.i18n.__,
@@ -393,6 +396,9 @@ jQuery( function( $ ) {
 		}
 	}
 
+	/**
+	 * Get the sizes of the directories in the Site Health Info section.
+	 */
 	function getDirectorySizes() {
 		var timestamp = ( new Date().getTime() );
 
@@ -434,6 +440,11 @@ jQuery( function( $ ) {
 		} );
 	}
 
+	/**
+	 * Updates the directory sizes in the Site Health Info section.
+	 *
+	 * @param {Object} data The directory sizes data.
+	 */
 	function updateDirSizes( data ) {
 		var copyButton = $( 'button.button.copy-button' );
 		var clipboardText = copyButton.attr( 'data-clipboard-text' );

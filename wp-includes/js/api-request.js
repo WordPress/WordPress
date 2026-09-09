@@ -21,11 +21,38 @@
 ( function( $ ) {
 	var wpApiSettings = window.wpApiSettings;
 
+	/**
+	 * Makes an API request.
+	 *
+	 * @param {Object} options                 The options for the API request.
+	 * @param {string} [options.url]           The full URL for the request.
+	 * @param {string} [options.path]          The API path (e.g., 'wp/v2/posts'). Used if url is not provided.
+	 * @param {string} [options.namespace]     The API namespace (e.g., 'wp/v2'). Used with endpoint to build path.
+	 * @param {string} [options.endpoint]      The API endpoint (e.g., 'posts'). Used with namespace to build path.
+	 * @param {string} [options.method]        The HTTP method (GET, POST, PUT, DELETE, etc.).
+	 * @param {Object} [options.data]          The request data to send.
+	 * @param {string} [options.data._wpnonce] Nonce for security.
+	 * @param {Object} [options.headers]       Custom headers to include in the request.
+	 * @return {JQueryXHR} The jQuery XHR object.
+	 */
 	function apiRequest( options ) {
 		options = apiRequest.buildAjaxOptions( options );
 		return apiRequest.transport( options );
 	}
 
+	/**
+	 * Builds the options for the jQuery.ajax request.
+	 *
+	 * @param {Object} options             The options for the API request.
+	 * @param {string} [options.url]       The full URL for the request.
+	 * @param {string} [options.path]      The API path (e.g., 'wp/v2/posts'). Used if url is not provided.
+	 * @param {string} [options.namespace] The API namespace (e.g., 'wp/v2'). Used with endpoint to build path.
+	 * @param {string} [options.endpoint]  The API endpoint (e.g., 'posts'). Used with namespace to build path.
+	 * @param {string} [options.method]    The HTTP method (GET, POST, PUT, DELETE, etc.).
+	 * @param {Object} [options.data]      The request data to send.
+	 * @param {Object} [options.headers]   Custom headers to include in the request.
+	 * @return {Object} The options for the jQuery.ajax request.
+	 */
 	apiRequest.buildAjaxOptions = function( options ) {
 		var url = options.url;
 		var path = options.path;

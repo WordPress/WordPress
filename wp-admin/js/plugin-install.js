@@ -6,6 +6,11 @@
 
 /* global tb_click, tb_remove, tb_position */
 
+/**
+ * Initializes the plugin install screens.
+ *
+ * @param {JQueryStatic} $ The jQuery object.
+ */
 jQuery( function( $ ) {
 
 	var tbWindow,
@@ -78,6 +83,9 @@ jQuery( function( $ ) {
 			$focusedBefore.trigger( 'focus' );
 		});
 
+	/**
+	 * Initializes the plugin details modal dialog after the iframe has fully loaded.
+	 */
 	function iframeLoaded() {
 		var $iframe = tbWindow.find( '#TB_iframeContent' );
 
@@ -109,8 +117,9 @@ jQuery( function( $ ) {
 		});
 	}
 
-	/*
-	 * Get the tabbable elements and detach/attach the keydown event.
+	/**
+	 * Gets the tabbable elements and detaches/attaches the keydown event.
+	 *
 	 * Called after the iframe has fully loaded so we have all the elements we need.
 	 * Called again each time a Tab gets clicked.
 	 * @todo Consider to implement a WordPress general utility for this and don't use jQuery UI.
@@ -133,7 +142,11 @@ jQuery( function( $ ) {
 		});
 	}
 
-	// Constrain tabbing within the plugin modal dialog.
+	/**
+	 * Constrains tabbing within the plugin modal dialog.
+	 *
+	 * @param {JQuery.Event} event The keydown event.
+	 */
 	function constrainTabbing( event ) {
 		if ( 9 !== event.which ) {
 			return;
@@ -148,11 +161,13 @@ jQuery( function( $ ) {
 		}
 	}
 
-	/*
-	 * Open the Plugin details modal. The event is delegated to get also the links
-	 * in the plugins search tab, after the Ajax search rebuilds the HTML. It's
-	 * delegated on the closest ancestor and not on the body to avoid conflicts
-	 * with other handlers, see Trac ticket #43082.
+	/**
+	 * Opens the Plugin details modal.
+	 *
+	 * The event is delegated to get also the links in the plugins search tab,
+	 * after the Ajax search rebuilds the HTML. It's delegated on the closest
+	 * ancestor and not on the body to avoid conflicts with other handlers, see
+	 * Trac ticket #43082.
 	 */
 	$( '.wrap' ).on( 'click', '.thickbox.open-plugin-details-modal', function( e ) {
 		// The `data-title` attribute is used only in the Plugin screens.

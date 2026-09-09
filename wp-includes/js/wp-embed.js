@@ -87,6 +87,9 @@
 		}
 	};
 
+	/**
+	 * Initializes the embed script on DOMContentLoaded.
+	 */
 	function onLoad() {
 		var iframes = document.querySelectorAll( 'iframe.wp-embedded-content' ),
 			i, source, secret;

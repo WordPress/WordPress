@@ -2,8 +2,15 @@
  * @output wp-includes/js/wplink.js
  */
 
- /* global wpLink */
+/* global wpLink */
 
+/**
+ * The WordPress Link Modal dialog.
+ *
+ * @param {JQueryStatic} $          The jQuery object.
+ * @param {Object}       wpLinkL10n The WordPress Link localization object.
+ * @param {Object}       wp         The WordPress global object.
+ */
 ( function( $, wpLinkL10n, wp ) {
 	var editor, searchTimer, River, Query, correctedURL,
 		emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i,
@@ -12,6 +19,11 @@
 		rivers = {},
 		isTouch = ( 'ontouchend' in document );
 
+	/**
+	 * Gets the currently selected link in the editor.
+	 *
+	 * @return {JQuery} The currently selected link element.
+	 */
 	function getLink() {
 		if ( editor ) {
 			return editor.$( 'a[data-wplink-edit="true"]' );

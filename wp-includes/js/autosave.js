@@ -449,6 +449,12 @@ window.autosave = function() {
 			 * @return {boolean} True if the strings are the same.
 			 */
 			function compare( str1, str2 ) {
+				/**
+				 * Removes all whitespace characters from a string.
+				 *
+				 * @param {string} string The string to remove whitespace from.
+				 * @return {string} The string without whitespace characters.
+				 */
 				function removeSpaces( string ) {
 					return string.toString().replace(/[\x20\t\r\n\f]+/g, '');
 				}

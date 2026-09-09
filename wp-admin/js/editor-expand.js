@@ -1360,6 +1360,12 @@
 			setTimeout( function() {
 				var position = document.activeElement.compareDocumentPosition( $editor.get( 0 ) );
 
+				/**
+				 * Determines whether the passed element has focus.
+				 *
+				 * @param {jQuery} $el The element to check for focus.
+				 * @return {boolean} True if the element has focus, false otherwise.
+				 */
 				function hasFocus( $el ) {
 					return $.contains( $el.get( 0 ), document.activeElement );
 				}
@@ -1524,10 +1530,16 @@
 		$document.on( 'tinymce-editor-init.focus', function( event, editor ) {
 			var mceBind, mceUnbind;
 
+			/**
+			 * Tracks when the TinyMCE editor receives focus.
+			 */
 			function focus() {
 				editorHasFocus = true;
 			}
 
+			/**
+			 * Tracks when the TinyMCE editor loses focus.
+			 */
 			function blur() {
 				editorHasFocus = false;
 			}

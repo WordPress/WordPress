@@ -1013,6 +1013,11 @@
 				}
 			});
 
+			/**
+			 * Updates the shared variables used to determine the depth of the menu item being moved.
+			 *
+			 * @param {Object} ui The jQuery UI object for the menu item being moved.
+			 */
 			function updateSharedVars(ui) {
 				var depth;
 
@@ -1033,17 +1038,35 @@
 					maxDepth = 0;
 			}
 
+			/**
+			 * Updates the current depth of the menu item being moved.
+			 *
+			 * @param {Object} ui    The jQuery UI object for the menu item being moved.
+			 * @param {number} depth The new depth of the menu item being moved.
+			 * @return {void}
+			 */
 			function updateCurrentDepth(ui, depth) {
 				ui.placeholder.updateDepthClass( depth, currentDepth );
 				currentDepth = depth;
 			}
 
+			/**
+			 * Determines the initial menu max depth class on the body element.
+			 *
+			 * @return {number} The initial menu max depth.
+			 */
 			function initialMenuMaxDepth() {
 				if( ! body[0].className ) return 0;
 				var match = body[0].className.match(/menu-max-depth-(\d+)/);
 				return match && match[1] ? parseInt( match[1], 10 ) : 0;
 			}
 
+			/**
+			 * Updates the menu max depth class on the body element.
+			 *
+			 * @param {number} depthChange The change in depth of the menu item being moved.
+			 * @return {void}
+			 */
 			function updateMenuMaxDepth( depthChange ) {
 				var depth, newDepth = menuMaxDepth;
 				if ( depthChange === 0 ) {
