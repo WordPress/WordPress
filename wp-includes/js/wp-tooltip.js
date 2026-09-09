@@ -8,6 +8,12 @@
  */
 (() => {
 
+	const supportsPopover = /** @type {boolean} */ ( Object.prototype.hasOwnProperty.call( HTMLElement.prototype, 'popover' ) );
+	let hidePopover = false;
+	if ( ! supportsPopover ) {
+		hidePopover = true;
+	}
+
 	const popovers = /** @type {NodeListOf<HTMLSpanElement>} */ ( document.querySelectorAll( '.wp-is-tooltip' ) );
 
 	/** @type {ReturnType<typeof setTimeout>} */
@@ -16,7 +22,11 @@
 	popovers.forEach( function( popover ) {
 		const trigger = /** @type {HTMLButtonElement|HTMLAnchorElement|null} */ ( popover.querySelector( '.wp-tooltip__toggle' ) );
 		const panel   = /** @type {HTMLSpanElement|null} */ ( popover.querySelector( 'span.wp-tooltip__bubble' ) );
+		if ( hidePopover && panel ) {
+			panel.classList.add( 'hidden' );
 
+			return;
+		}
 		if ( ! trigger || ! panel ) {
 			return;
 		}
