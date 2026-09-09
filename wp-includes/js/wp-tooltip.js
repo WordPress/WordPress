@@ -16,9 +16,6 @@
 
 	const popovers = /** @type {NodeListOf<HTMLSpanElement>} */ ( document.querySelectorAll( '.wp-is-tooltip' ) );
 
-	/** @type {ReturnType<typeof setTimeout>} */
-	let openTimeout;
-
 	popovers.forEach( function( popover ) {
 		const trigger = /** @type {HTMLButtonElement|HTMLAnchorElement|null} */ ( popover.querySelector( '.wp-tooltip__toggle' ) );
 		const panel   = /** @type {HTMLSpanElement|null} */ ( popover.querySelector( 'span.wp-tooltip__bubble' ) );
@@ -30,6 +27,9 @@
 		if ( ! trigger || ! panel ) {
 			return;
 		}
+
+		/** @type {ReturnType<typeof setTimeout>} */
+		let openTimeout;
 
 		// Show Tooltip Function (with delay to prevent flickering).
 		const showTooltip = () => {
