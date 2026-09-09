@@ -48,8 +48,7 @@ class WP_Site_Icon {
 		/*
 		 * App icon for Android/Chrome.
 		 *
-		 * @link https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chrome-39-for-Android
-		 * @link https://developer.chrome.com/multidevice/android/installtohomescreen
+		 * @link https://developer.chrome.com/blog/support-for-theme-color-in-chrome-39-for-android
 		 */
 		192,
 
