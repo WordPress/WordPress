@@ -325,8 +325,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	if ( ! $compare_two_mode ) {
 		$found = array_search( $selected_revision_id, array_keys( $revisions ), true );
 		if ( $found ) {
-			$from = array_keys( array_slice( $revisions, $found - 1, 1, true ) );
-			$from = reset( $from );
+			$from = array_key_first( array_slice( $revisions, $found - 1, 1, true ) );
 		} else {
 			$from = 0;
 		}

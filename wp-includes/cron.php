@@ -929,8 +929,7 @@ function spawn_cron( $gmt_time = 0 ) {
 		return false;
 	}
 
-	$keys = array_keys( $crons );
-	if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
+	if ( array_key_first( $crons ) > $gmt_time ) {
 		return false;
 	}
 
@@ -1059,8 +1058,7 @@ function _wp_cron() {
 	}
 
 	$gmt_time = microtime( true );
-	$keys     = array_keys( $crons );
-	if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
+	if ( array_key_first( $crons ) > $gmt_time ) {
 		return 0;
 	}
 

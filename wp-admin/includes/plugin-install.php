@@ -593,8 +593,7 @@ function install_plugin_information() {
 	// Default to the Description tab, Do not translate, API returns English.
 	$section = isset( $_REQUEST['section'] ) ? wp_unslash( $_REQUEST['section'] ) : 'description';
 	if ( empty( $section ) || ! isset( $api->sections[ $section ] ) ) {
-		$section_titles = array_keys( (array) $api->sections );
-		$section        = reset( $section_titles );
+		$section = array_key_first( (array) $api->sections );
 	}
 
 	iframe_header( __( 'Plugin Installation' ) );

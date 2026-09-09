@@ -169,8 +169,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 			// Just a single tag cloud supporting taxonomy found, no need to display a select.
 			case 1:
-				$keys     = array_keys( $taxonomies );
-				$taxonomy = reset( $keys );
+				$taxonomy = array_key_first( $taxonomies );
 				?>
 				<input type="hidden" id="<?php echo $this->get_field_id( 'taxonomy' ); ?>" name="<?php echo $this->get_field_name( 'taxonomy' ); ?>" value="<?php echo esc_attr( $taxonomy ); ?>" />
 				<?php

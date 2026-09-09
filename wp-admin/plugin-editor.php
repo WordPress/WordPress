@@ -71,8 +71,7 @@ if ( empty( $plugin ) ) {
 			$plugin = $file;
 		}
 	} else {
-		$plugin = array_keys( $plugins );
-		$plugin = $plugin[0];
+		$plugin = array_key_first( $plugins );
 	}
 }
 

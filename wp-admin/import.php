@@ -118,8 +118,7 @@ if ( empty( $importers ) ) {
 				// Looks like an importer is installed, but not active.
 				$plugins = get_plugins( '/' . $plugin_slug );
 				if ( ! empty( $plugins ) ) {
-					$keys        = array_keys( $plugins );
-					$plugin_file = $plugin_slug . '/' . $keys[0];
+					$plugin_file = $plugin_slug . '/' . array_key_first( $plugins );
 					$url         = wp_nonce_url(
 						add_query_arg(
 							array(
