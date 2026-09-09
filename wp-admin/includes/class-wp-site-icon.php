@@ -41,7 +41,7 @@ class WP_Site_Icon {
 		/*
 		 * Square, medium sized tiles for IE11+.
 		 *
-		 * See https://msdn.microsoft.com/library/dn455106(v=vs.85).aspx
+		 * @link https://msdn.microsoft.com/library/dn455106(v=vs.85).aspx
 		 */
 		270,
 
@@ -55,7 +55,7 @@ class WP_Site_Icon {
 		/*
 		 * App icons up to iPhone 6 Plus.
 		 *
-		 * See https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html
+		 * @link https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html
 		 */
 		180,
 
