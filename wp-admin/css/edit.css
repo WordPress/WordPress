@@ -876,7 +876,7 @@ form#tags-filter {
 .privacy-settings-tab:focus,
 .health-check-tab:focus {
 	color: #1d2327;
-	outline: 1px solid #787c82;
+	outline: 1px solid #50575e;
 	box-shadow: none;
 }
 
@@ -1087,7 +1087,7 @@ form#tags-filter {
 .privacy-settings-accordion-panel div > *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(div):not(.privacy-policy-tutorial):not(.wp-policy-help):not(.privacy-text-copy):not(span.success):not(.notice p) {
 	margin: 0;
 	padding: 1em;
-	border-left: 2px solid #787c82;
+	border-left: 2px solid #50575e;
 }
 
 /* Media queries */

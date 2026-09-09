@@ -2553,7 +2553,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	position: absolute;
 	right: 10px;
 	left: auto;
-	color: #787c82;
+	color: #50575e;
 	border-radius: 50px;
 	top: 50%;
 	transform: translateY(-50%);
@@ -3372,7 +3372,7 @@ img {
 .bulk-action-notice .toggle-indicator::before {
 	line-height: 16px;
 	vertical-align: top;
-	color: #787c82;
+	color: #50575e;
 }
 
 .postbox .handle-order-higher:focus,

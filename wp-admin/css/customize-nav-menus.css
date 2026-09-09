@@ -329,7 +329,7 @@
 	display: block;
 	padding: 1px 2px 1px 0;
 	border-radius: 50%;
-	color: #787c82;
+	color: #50575e;
 	font: normal 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -770,7 +770,7 @@ body.adding-menu-items #customize-preview iframe {
 	cursor: default;
 	opacity: .5;
 	background: #fff;
-	color: #787c82;
+	color: #50575e;
 }
 
 .added-menu-item .menu-item-handle {

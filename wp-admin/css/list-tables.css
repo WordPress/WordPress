@@ -793,7 +793,7 @@ th.sorted a span {
 
 .view-switch a:hover:before,
 .view-switch a:focus:before {
-	color: #787c82;
+	color: #1e1e1e;
 }
 
 .view-switch a.current:before {

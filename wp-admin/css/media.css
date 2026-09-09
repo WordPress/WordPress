@@ -675,7 +675,7 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame .edit-media-header .left,
 .edit-attachment-frame .edit-media-header .right {
 	cursor: pointer;
-	color: #787c82;
+	color: #50575e;
 	background-color: transparent;
 	height: 50px;
 	width: 50px;
