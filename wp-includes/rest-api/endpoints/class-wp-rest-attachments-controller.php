@@ -3453,6 +3453,21 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$response_request['_fields'] = $request['_fields'];
 		}
 
+		/*
+		 * Re-read the post. The 'wp_generate_attachment_metadata' filter above
+		 * runs long after $post was fetched, and a callback that rewrites the
+		 * post row - an optimizer changing post_mime_type once it has
+		 * converted the file, say - would otherwise be missing from this
+		 * response. The editor stores the response as its copy of the record
+		 * rather than reading the attachment again, so a stale row here is
+		 * what it keeps. A callback that deleted the attachment instead leaves
+		 * nothing to respond with, so that is reported as the error it is.
+		 */
+		$post = $this->get_post( $attachment_id );
+		if ( is_wp_error( $post ) ) {
+			return $post;
+		}
+
 		return $this->prepare_item_for_response( $post, $response_request );
 	}
 }
