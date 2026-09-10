@@ -769,3 +769,36 @@ function _wp_get_entity_view_config_posttype_wp_template( $data ) {
 
 	return $data;
 }
+
+/**
+ * Provides the view configuration for the `root`/`site` entity.
+ *
+ * The site settings are a singleton record edited through a form (the site
+ * editor's Identity screen) rather than listed in a view, so only the `form`
+ * is defined here. The generic `default_view`, `default_layouts`, and
+ * `view_list` built by wp_get_entity_view_config() are left untouched.
+ *
+ * @since 7.2.0
+ *
+ * @param WP_View_Config_Data $data The view configuration container for the entity.
+ * @return WP_View_Config_Data The updated view configuration container.
+ */
+function _wp_get_entity_view_config_root_site( $data ) {
+	return $data->set(
+		array(
+			'form' => array(
+				'layout' => array(
+					'type'          => 'regular',
+					'labelPosition' => 'top',
+				),
+				'fields' => array(
+					'title',
+					'description',
+					'site_logo',
+					'site_icon',
+				),
+			),
+		),
+		1
+	);
+}
