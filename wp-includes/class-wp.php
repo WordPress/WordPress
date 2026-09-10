@@ -746,9 +746,8 @@ class WP {
 
 		$set_404 = true;
 
-		// Never 404 here for the admin, robots, favicon, or sitemaps.
-		// Sitemap routes send their own status in WP_Sitemaps::render_sitemaps().
-		if ( is_admin() || is_robots() || is_favicon() || is_sitemap() || get_query_var( 'sitemap-stylesheet' ) ) {
+		// Never 404 for the admin, robots, or favicon.
+		if ( is_admin() || is_robots() || is_favicon() ) {
 			$set_404 = false;
 
 			// If posts were found, check for paged content.
