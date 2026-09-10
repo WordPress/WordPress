@@ -989,6 +989,7 @@ function _wp_call_all_hook( $args ) {
  *              and no longer returns false, but can still return void for invalid callbacks.
  * @since 6.9.0 Returns explicit null if an invalid callback is supplied.
  * @since 7.1.0 Uses spl_object_id() instead of spl_object_hash() for performance.
+ * @since 7.1.1 The ID for an object callback is prefixed so that it is never cast to an integer array key.
  *
  * @access private
  *
@@ -998,6 +999,8 @@ function _wp_call_all_hook( $args ) {
  * @param int      $priority  Unused. The order in which the functions
  *                            associated with a particular action are executed.
  * @return string|null Unique function ID for usage as array key, or null if it couldn't be determined.
+ *
+ * @phpstan-return non-decimal-int-string|null
  */
 function _wp_filter_build_unique_id( $hook_name, $callback, $priority ): ?string {
 	if ( is_string( $callback ) ) {
@@ -1005,7 +1008,12 @@ function _wp_filter_build_unique_id( $hook_name, $callback, $priority ): ?string
 	}
 
 	if ( is_object( $callback ) ) {
-		return (string) spl_object_id( $callback );
+		/*
+		 * The prefix keeps the ID from being the decimal representation of an integer. PHP casts such a
+		 * string to int when it is used as an array key, which would change the type of the keys in
+		 * WP_Hook::$callbacks and break consumers that pass them to string functions.
+		 */
+		return 'spl_object_id:' . spl_object_id( $callback );
 	}
 
 	if ( ! isset( $callback[1] ) || ! is_string( $callback[1] ) ) {

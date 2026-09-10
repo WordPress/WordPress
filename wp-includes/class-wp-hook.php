@@ -20,8 +20,8 @@
  *   accepted_args: int,
  * }
  *
- * @phpstan-implements Iterator<int, array<string, Hook_Callback>>
- * @phpstan-implements ArrayAccess<int, array<string, Hook_Callback>>
+ * @phpstan-implements Iterator<int, array<non-decimal-int-string, Hook_Callback>>
+ * @phpstan-implements ArrayAccess<int, array<non-decimal-int-string, Hook_Callback>>
  */
 #[AllowDynamicProperties]
 final class WP_Hook implements Iterator, ArrayAccess {
@@ -31,7 +31,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 * @var array
-	 * @phpstan-var array<int, array<string, Hook_Callback>>
+	 * @phpstan-var array<int, array<non-decimal-int-string, Hook_Callback>>
 	 */
 	public $callbacks = array();
 
@@ -502,7 +502,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @param int $offset The offset to retrieve.
 	 * @return array|null If set, the value at the specified offset, null otherwise.
-	 * @phpstan-return array<string, Hook_Callback>|null
+	 * @phpstan-return array<non-decimal-int-string, Hook_Callback>|null
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
@@ -518,7 +518,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @param int|null $offset The offset to assign the value to.
 	 * @param array    $value The value to set.
-	 * @phpstan-param array<string, Hook_Callback> $value
+	 * @phpstan-param array<non-decimal-int-string, Hook_Callback> $value
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
@@ -554,7 +554,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @link https://www.php.net/manual/en/iterator.current.php
 	 *
 	 * @return array|false Array of callbacks at current priority, false if there are no more elements.
-	 * @phpstan-return array<string, Hook_Callback>|false
+	 * @phpstan-return array<non-decimal-int-string, Hook_Callback>|false
 	 */
 	#[ReturnTypeWillChange]
 	public function current() {
@@ -569,7 +569,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @link https://www.php.net/manual/en/iterator.next.php
 	 *
 	 * @return array|false Array of callbacks at next priority, false if there are no more elements.
-	 * @phpstan-return array<string, Hook_Callback>|false
+	 * @phpstan-return array<non-decimal-int-string, Hook_Callback>|false
 	 */
 	#[ReturnTypeWillChange]
 	public function next() {
