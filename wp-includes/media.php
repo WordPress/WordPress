@@ -2120,7 +2120,7 @@ function wp_img_tag_add_auto_sizes( string $image ): string {
 	 *
 	 * @since 6.7.1
 	 *
-	 * @param boolean $enabled Whether auto-sizes for lazy loaded images is enabled.
+	 * @param bool $enabled Whether auto-sizes for lazy loaded images is enabled.
 	 */
 	if ( ! apply_filters( 'wp_img_tag_add_auto_sizes', true ) ) {
 		return $image;

@@ -3009,12 +3009,12 @@ class WP_Theme_JSON {
 	 * @since 6.6.0 Pass current theme JSON settings to wp_get_typography_font_size_value(), and process background properties.
 	 * @since 6.7.0 `ref` resolution of background properties, and assigning custom default values.
 	 *
-	 * @param array   $styles           Styles to process.
-	 * @param array   $settings         Theme settings.
-	 * @param array   $properties       Properties metadata.
-	 * @param array   $theme_json       Theme JSON array.
-	 * @param string  $selector         The style block selector.
-	 * @param boolean $use_root_padding Whether to add custom properties at root level.
+	 * @param array  $styles           Styles to process.
+	 * @param array  $settings         Theme settings.
+	 * @param array  $properties       Properties metadata.
+	 * @param array  $theme_json       Theme JSON array.
+	 * @param string $selector         The style block selector.
+	 * @param bool   $use_root_padding Whether to add custom properties at root level.
 	 * @return array Returns the modified $declarations.
 	 */
 	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null, $selector = null, $use_root_padding = null ) {

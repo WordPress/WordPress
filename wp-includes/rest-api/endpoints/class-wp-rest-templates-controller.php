@@ -967,7 +967,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param integer $id ID.
+	 * @param int $id ID.
 	 * @return array Links for the given post.
 	 */
 	protected function prepare_links( $id ) {
