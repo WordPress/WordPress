@@ -527,7 +527,8 @@ class WP_Scripts extends WP_Dependencies {
 			$position = 'before';
 		}
 
-		$script   = (array) $this->get_data( $handle, $position );
+		$script   = $this->get_data( $handle, $position );
+		$script   = false === $script ? array() : (array) $script;
 		$script[] = $data;
 
 		return $this->add_data( $handle, $position, $script );
