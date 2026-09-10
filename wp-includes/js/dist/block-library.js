@@ -29319,6 +29319,13 @@ ${url}
   function defaultColumnsNumber(imageCount) {
     return imageCount ? Math.min(3, imageCount) : 3;
   }
+  function isObject(value) {
+    return !!value && typeof value === "object" && !Array.isArray(value);
+  }
+  function isGalleryFlexLayout(layout) {
+    const layoutType = isObject(layout) ? layout.type : void 0;
+    return typeof layoutType !== "string" || layoutType === "" || layoutType === "flex";
+  }
   var pickRelevantMediaFiles = (image, sizeSlug = "large") => {
     const imageProps = Object.fromEntries(
       Object.entries(image ?? {}).filter(
@@ -30529,9 +30536,10 @@ ${url}
       )
     ] });
   }
-  function GalleryImagesPreview({ imageBlocks }) {
+  function GalleryImagesPreview({ imageBlocks, layout }) {
     const { children, ref, className } = (0, import_block_editor97.__experimentalUseBlockPreview)({
-      blocks: imageBlocks
+      blocks: imageBlocks,
+      layout
     });
     return /* @__PURE__ */ (0, import_jsx_runtime274.jsx)(
       "div",
@@ -30563,6 +30571,10 @@ ${url}
     } = dynamic;
     const blockEditingMode = (0, import_block_editor97.useBlockEditingMode)();
     const [isConfirmingDetach, setIsConfirmingDetach] = (0, import_element44.useState)(false);
+    const previewLayout = (0, import_element44.useMemo)(
+      () => isGalleryFlexLayout(attributes.layout) ? { ...attributes.layout, type: "flex" } : attributes.layout,
+      [attributes.layout]
+    );
     const emptyInstructions = isResolvingDynamic ? (0, import_i18n79.__)("Loading images\u2026") : sourceDescriptor?.emptyMessage ?? (0, import_i18n79.__)("Dynamic images will appear here.");
     return /* @__PURE__ */ (0, import_jsx_runtime274.jsxs)(import_jsx_runtime274.Fragment, { children: [
       blockEditingMode === "default" && /* @__PURE__ */ (0, import_jsx_runtime274.jsxs)(import_jsx_runtime274.Fragment, { children: [
@@ -30589,7 +30601,8 @@ ${url}
         dynamicImageBlocks.length ? /* @__PURE__ */ (0, import_jsx_runtime274.jsx)(import_block_editor97.BlockContextProvider, { value: galleryContext, children: /* @__PURE__ */ (0, import_jsx_runtime274.jsx)(
           GalleryImagesPreview,
           {
-            imageBlocks: dynamicImageBlocks
+            imageBlocks: dynamicImageBlocks,
+            layout: previewLayout
           }
         ) }) : /* @__PURE__ */ (0, import_jsx_runtime274.jsx)(
           import_components45.Placeholder,
@@ -36185,6 +36198,42 @@ ${text}
     }
     return syncedAttributes;
   }
+  function getNewAttachmentSizeAttributes(sizeSlug, attachment) {
+    const sizes = attachment.media_details?.sizes;
+    if (!sizeSlug || sizeSlug === DEFAULT_MEDIA_SIZE_SLUG3 || !sizes) {
+      return void 0;
+    }
+    const sizeUrl = sizes[sizeSlug]?.source_url;
+    if (sizeUrl) {
+      return { url: sizeUrl };
+    }
+    const fullUrl = attachment.source_url ?? sizes.full?.source_url;
+    return fullUrl ? { url: fullUrl, sizeSlug: DEFAULT_MEDIA_SIZE_SLUG3 } : void 0;
+  }
+  function getNewAttachmentLinkAttributes(linkDestination, attachment) {
+    if (linkDestination === LINK_DESTINATION_MEDIA2) {
+      return attachment.source_url ? { href: attachment.source_url } : void 0;
+    }
+    if (linkDestination === LINK_DESTINATION_ATTACHMENT2) {
+      return attachment.link ? { href: attachment.link } : void 0;
+    }
+    return void 0;
+  }
+  function getNewAttachmentImageBlockAttributes(blockAttributes8, attachment) {
+    if (!attachment) {
+      return void 0;
+    }
+    return {
+      ...getNewAttachmentSizeAttributes(
+        blockAttributes8.sizeSlug,
+        attachment
+      ),
+      ...getNewAttachmentLinkAttributes(
+        blockAttributes8.linkDestination,
+        attachment
+      )
+    };
+  }
   var { openMediaEditorModalKey: openMediaEditorModalKey2 } = unlock(import_block_editor115.privateApis);
   function getAttachmentFallbackForEmptyBlockMetadata({ alt, caption }) {
     const attachment = {};
@@ -36210,7 +36259,7 @@ ${text}
     onClose,
     onUrlChange
   }) {
-    const { id, url, alt, caption } = attributes;
+    const { id, url, alt, caption, sizeSlug, linkDestination } = attributes;
     const registry = (0, import_data50.useRegistry)();
     const openMediaEditorModal = (0, import_data50.useSelect)(
       (select10) => select10(import_block_editor115.store).getSettings()[openMediaEditorModalKey2],
@@ -36220,7 +36269,9 @@ ${text}
       id,
       url,
       alt,
-      caption: caption?.toString()
+      caption: caption?.toString(),
+      sizeSlug,
+      linkDestination
     });
     const mediaEditorMetadataBaselineRef = (0, import_element56.useRef)();
     const mediaEditorMetadataSyncRequestRef = (0, import_element56.useRef)(0);
@@ -36229,9 +36280,11 @@ ${text}
         id,
         url,
         alt,
-        caption: caption?.toString()
+        caption: caption?.toString(),
+        sizeSlug,
+        linkDestination
       };
-    }, [alt, caption, id, url]);
+    }, [alt, caption, id, linkDestination, sizeSlug, url]);
     const getCachedAttachmentRecord = (0, import_element56.useCallback)(
       (attachmentId) => registry.select(import_core_data25.store).getEditedEntityRecord(
         "postType",
@@ -36277,7 +36330,8 @@ ${text}
         const syncRequest = ++mediaEditorMetadataSyncRequestRef.current;
         const nextAttributes = {};
         const currentBlockAttributes = blockAttributesRef.current;
-        if (newId !== currentBlockAttributes.id) {
+        const isNewAttachment = newId !== currentBlockAttributes.id;
+        if (isNewAttachment) {
           nextAttributes.id = newId;
           nextAttributes.url = newUrl ?? currentBlockAttributes.url;
           if (nextAttributes.url !== currentBlockAttributes.url) {
@@ -36289,19 +36343,37 @@ ${text}
             url: nextAttributes.url
           };
         }
-        if (originalAttachment) {
+        if (originalAttachment || isNewAttachment) {
           const resolvedAttachment = await resolveFreshAttachmentRecord(newId);
           if (syncRequest !== mediaEditorMetadataSyncRequestRef.current) {
             return;
           }
+          const attachmentRecord = resolvedAttachment ?? getCachedAttachmentRecord(newId);
           const latestBlockAttributes = blockAttributesRef.current;
-          const resolvedMetadataAttributes = getSyncedImageBlockAttributes(
-            latestBlockAttributes,
-            originalAttachment,
-            resolvedAttachment
-          );
-          if (Object.keys(resolvedMetadataAttributes).length) {
-            Object.assign(nextAttributes, resolvedMetadataAttributes);
+          if (originalAttachment) {
+            const resolvedMetadataAttributes = getSyncedImageBlockAttributes(
+              latestBlockAttributes,
+              originalAttachment,
+              attachmentRecord
+            );
+            if (Object.keys(resolvedMetadataAttributes).length) {
+              Object.assign(
+                nextAttributes,
+                resolvedMetadataAttributes
+              );
+            }
+          }
+          if (isNewAttachment) {
+            const derivedAttributes = getNewAttachmentImageBlockAttributes(
+              latestBlockAttributes,
+              attachmentRecord
+            );
+            if (derivedAttributes) {
+              Object.assign(nextAttributes, derivedAttributes);
+              if (derivedAttributes.url && derivedAttributes.url !== latestBlockAttributes.url) {
+                onUrlChange?.(derivedAttributes.url);
+              }
+            }
           }
         }
         if (Object.keys(nextAttributes).length) {
@@ -36312,7 +36384,12 @@ ${text}
           setAttributes(nextAttributes);
         }
       },
-      [onUrlChange, resolveFreshAttachmentRecord, setAttributes]
+      [
+        getCachedAttachmentRecord,
+        onUrlChange,
+        resolveFreshAttachmentRecord,
+        setAttributes
+      ]
     );
     const openImageMediaEditorModal = (0, import_element56.useCallback)(async () => {
       if (!id || !openMediaEditorModal) {
@@ -36563,7 +36640,8 @@ ${text}
       setOffsetTop(imageElement?.offsetTop ?? 0);
     }, [imageElement]);
     const setRefs = (0, import_compose24.useMergeRefs)([setImageElement, setResizeObserved]);
-    const { allowResize = true } = context;
+    const { allowResize = true, imageCrop = false } = context;
+    const isCroppedGalleryImage = imageCrop && parentLayoutType === "flex";
     const { image, attachmentResolutionError } = (0, import_data51.useSelect)(
       (select10) => {
         const imageRecord = id && isSingleSelected ? select10(import_core_data26.store).getEntityRecord(
@@ -37287,10 +37365,12 @@ ${text}
               } else if (width !== void 0 && width !== null) {
                 style2.width = typeof width === "number" ? `${width}px` : width;
               }
-              if (height === "auto" || height === void 0 || height === null) {
+              if (height === "auto") {
                 style2.height = "auto";
-              } else {
+              } else if (height !== void 0 && height !== null) {
                 style2.height = typeof height === "number" ? `${height}px` : height;
+              } else if (!isCroppedGalleryImage) {
+                style2.height = "auto";
               }
               return style2;
             })(),
@@ -40887,20 +40967,14 @@ ${text}
   var import_blocks45 = __toESM(require_blocks(), 1);
   function useOutdentListItem() {
     const registry = (0, import_data57.useRegistry)();
-    const {
-      moveBlocksToPosition,
-      removeBlock,
-      insertBlock,
-      updateBlockListSettings
-    } = (0, import_data57.useDispatch)(import_block_editor128.store);
+    const { moveBlocksToPosition, removeBlock, removeBlocks, insertBlock } = (0, import_data57.useDispatch)(import_block_editor128.store);
     const {
       getBlockRootClientId,
       getBlockName,
       getBlockOrder,
       getBlockIndex,
       getSelectedBlockClientIds,
-      getBlock,
-      getBlockListSettings
+      getBlock
     } = (0, import_data57.useSelect)(import_block_editor128.store);
     function getParentListItemId(id) {
       const listId = getBlockRootClientId(id);
@@ -40936,25 +41010,22 @@ ${text}
       );
       registry.batch(() => {
         if (followingListItems.length) {
-          let nestedListId = getBlockOrder(firstClientId)[0];
-          if (!nestedListId) {
+          const nestedListId = getBlockOrder(firstClientId)[0];
+          if (nestedListId) {
+            moveBlocksToPosition(
+              followingListItems,
+              parentListId,
+              nestedListId
+            );
+          } else {
             const nestedListBlock = (0, import_blocks45.cloneBlock)(
               getBlock(parentListId),
               {},
-              []
+              followingListItems.map((id) => getBlock(id))
             );
-            nestedListId = nestedListBlock.clientId;
+            removeBlocks(followingListItems, false);
             insertBlock(nestedListBlock, 0, firstClientId, false);
-            updateBlockListSettings(
-              nestedListId,
-              getBlockListSettings(parentListId)
-            );
           }
-          moveBlocksToPosition(
-            followingListItems,
-            parentListId,
-            nestedListId
-          );
         }
         moveBlocksToPosition(
           clientIds,
@@ -60530,7 +60601,9 @@ ${text}
       query: {
         perPage,
         offset = 0,
-        postType,
+        // Match `build_query_vars_from_query_block()`, which queries posts when
+        // `query` has no post type.
+        postType = "post",
         order,
         orderBy,
         author,
@@ -64047,7 +64120,9 @@ ${text}
       orderBy,
       author: authorIds,
       pages,
-      postType,
+      // Match `build_query_vars_from_query_block()`, which queries posts when
+      // `query` has no post type.
+      postType = "post",
       perPage,
       offset,
       sticky,
@@ -64135,7 +64210,7 @@ ${text}
     );
     const showExcludeCurrentControl = shouldExcludeCurrentPost && isControlAllowed(allowedControls, "excludeCurrent");
     const postTypeSingularName = (0, import_data125.useSelect)(
-      (select10) => select10(import_core_data77.store).getPostType(postType)?.labels.singular_name,
+      (select10) => select10(import_core_data77.store).getPostType(postType)?.labels?.singular_name,
       [postType]
     );
     const showFiltersPanel = showTaxControl || showAuthorControl || showSearchControl || showParentControl || showFormatControl || showExcludeCurrentControl;
@@ -68050,7 +68125,7 @@ ${text}
   }
 
   // packages/block-library/build-module/block/deprecated.mjs
-  var isObject = (obj) => typeof obj === "object" && !Array.isArray(obj) && obj !== null;
+  var isObject2 = (obj) => typeof obj === "object" && !Array.isArray(obj) && obj !== null;
   var v219 = {
     attributes: {
       ref: {
@@ -68073,7 +68148,7 @@ ${text}
     // the likelihood, it doesn't solve it completely.
     isEligible({ content }) {
       return !!content && Object.keys(content).every(
-        (contentKey) => content[contentKey].values && isObject(content[contentKey].values)
+        (contentKey) => content[contentKey].values && isObject2(content[contentKey].values)
       );
     },
     /*

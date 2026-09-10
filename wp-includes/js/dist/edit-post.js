@@ -11932,7 +11932,6 @@ var wp;
         core.__experimentalGetCurrentThemeBaseGlobalStyles(),
         core.__experimentalGetCurrentThemeGlobalStylesVariations(),
         core.getEntityRecord("root", "__unstableBase"),
-        core.getEntityRecord("root", "site"),
         core.canUser("read", { kind: "root", name: "site" }),
         core.canUser("create", { kind: "postType", name: "attachment" }),
         core.canUser("create", { kind: "postType", name: "page" }),
@@ -11970,11 +11969,13 @@ var wp;
         ] : []
       ]);
       const tasks = [];
+      if (coreSelect.canUser("read", { kind: "root", name: "site" })) {
+        tasks.push(core.getEntityRecord("root", "site"));
+      }
       const globalStylesId = coreSelect.__experimentalGetCurrentGlobalStylesId();
       if (globalStylesId) {
         tasks.push(
-          core.getEntityRecord("root", "globalStyles", globalStylesId),
-          core.canUser("read", {
+          core.canUser("update", {
             kind: "root",
             name: "globalStyles",
             id: globalStylesId
@@ -12005,6 +12006,26 @@ var wp;
       }
       if (tasks.length) {
         await Promise.all(tasks);
+      }
+      if (globalStylesId) {
+        if (coreSelect.canUser("update", {
+          kind: "root",
+          name: "globalStyles",
+          id: globalStylesId
+        })) {
+          await core.getEntityRecord(
+            "root",
+            "globalStyles",
+            globalStylesId
+          );
+        } else {
+          await core.getEntityRecord(
+            "root",
+            "globalStyles",
+            globalStylesId,
+            { context: "view" }
+          );
+        }
       }
     } catch {
     }

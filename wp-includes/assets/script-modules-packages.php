@@ -360,7 +360,7 @@
 		'dependencies' => array(
 			
 		),
-		'version' => '685442d334b2d3e70832'
+		'version' => '7e33cd8c4128731126e8'
 	),
 	'workflow/index.js' => array(
 		'dependencies' => array(

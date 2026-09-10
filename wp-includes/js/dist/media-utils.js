@@ -1334,7 +1334,7 @@ var wp;
     return data !== null && typeof data === "object" && Object.getPrototypeOf(data) === Object.prototype;
   }
   function flattenFormData(formData, key, data) {
-    if (isPlainObject(data)) {
+    if (Array.isArray(data) || isPlainObject(data)) {
       for (const [name, value] of Object.entries(data)) {
         flattenFormData(formData, `${key}[${name}]`, value);
       }
@@ -1361,11 +1361,7 @@ var wp;
     const data = new FormData();
     data.append("file", file, file.name || file.type.replace("/", "."));
     for (const [key, value] of Object.entries(additionalData)) {
-      flattenFormData(
-        data,
-        key,
-        value
-      );
+      flattenFormData(data, key, value);
     }
     return transformAttachment(
       await (0, import_api_fetch.default)({
@@ -1587,11 +1583,7 @@ var wp;
     const data = new FormData();
     data.append("file", file, file.name || file.type.replace("/", "."));
     for (const [key, value] of Object.entries(additionalData)) {
-      flattenFormData(
-        data,
-        key,
-        value
-      );
+      flattenFormData(data, key, value);
     }
     return (0, import_api_fetch2.default)({
       path: `/wp/v2/media/${attachmentId}/sideload`,

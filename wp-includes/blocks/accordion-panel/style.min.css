@@ -1,1 +1,1 @@
-.wp-block-accordion-panel[hidden]{margin-block-start:0}
+.wp-block-accordion-panel[hidden]{border:none!important;box-shadow:none!important;margin-block-start:0;padding:0!important}
