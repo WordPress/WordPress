@@ -209,6 +209,14 @@ class WP_Textdomain_Registry {
 		$cache_key = md5( $path );
 		$files     = wp_cache_get( $cache_key, 'translation_files' );
 
+		/*
+		 * Verify that the cached value is an array and that all entries in that array
+		 * are strings.
+		 */
+		if ( ! is_array( $files ) || array_filter( $files, 'is_string' ) !== $files ) {
+			$files = false;
+		}
+
 		if ( false === $files ) {
 			$files = glob( $path . '*.mo' );
 			if ( false === $files ) {
