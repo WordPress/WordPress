@@ -9464,3 +9464,118 @@ function wp_verify_fast_hash(
 
 	return hash_equals( $hash, wp_fast_hash( $message ) );
 }
+
+/**
+ * Sends an email to the user when a new application password is created.
+ *
+ * @since 7.2.0
+ *
+ * @param int   $user_id  The user ID.
+ * @param array $new_item The application password details.
+ */
+function wp_application_password_created_notification( $user_id, $new_item ) {
+	$send = true;
+
+	// Get current user data.
+	$user = get_userdata( $user_id );
+
+	if ( ! $user ) {
+		return;
+	}
+
+	if ( ! is_email( $user->user_email ) ) {
+		return;
+	}
+
+	// Validate that the application password has a name.
+	if ( empty( $new_item['name'] ) ) {
+		return;
+	}
+
+	/**
+	 * Filters whether to send the application password created notification email.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param bool    $send  Whether to send the email notification.
+	 * @param WP_User $user  The user object.
+	 * @param array   $new_item The application password details.
+	 */
+	$send = apply_filters( 'wp_send_application_password_created_email', $send, $user, $new_item );
+
+	if ( ! $send ) {
+		return;
+	}
+
+	/* translators: Do not translate USERNAME, APPLICATION_PASSWORD_NAME, SITENAME, SITEURL, EMAIL: those are placeholders. */
+	$application_password_create_text = __(
+		'Hi ###USERNAME###,
+
+A new application password was added to your account on ###SITENAME###. This password allows access to your account via the REST API.
+
+If you did not expect this, please contact the Site Administrator at
+###ADMIN_EMAIL###
+
+Application password name: ###APPLICATION_PASSWORD_NAME###
+Site: ###SITEURL###
+
+You can manage your application passwords in your account settings.
+
+This email has been sent to ###EMAIL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###'
+	);
+
+	$email = array(
+		'to'      => $user->user_email,
+		/* translators: Application password creation email subject. %s: Site title. */
+		'subject' => __( '[%s] Application Password Created' ),
+		'message' => $application_password_create_text,
+		'headers' => '',
+	);
+
+	// Get site name.
+	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+	/**
+	 * Filters the contents of the email notification sent to a user when a new application password is created.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param array   $email {
+	 *     Used to build wp_mail().
+	 *
+	 *     @type string $to      The email address of the intended recipient.
+	 *     @type string $subject The subject of the email.
+	 *     @type string $message The content of the email.
+	 *         The following strings have a special meaning and will get replaced dynamically:
+	 *          - `###USERNAME###`                  The user's display name.
+	 *          - `###APPLICATION_PASSWORD_NAME###` The name of the application password.
+	 *          - `###EMAIL###`                     The user's email address.
+	 *          - `###SITENAME###`                  The name of the site.
+	 *          - `###SITEURL###`                   The URL to the site.
+	 *     @type string $headers Headers.
+	 * }
+	 * @param WP_User $user     The user object.
+	 * @param array   $new_item The application password details.
+	 */
+	$email = apply_filters( 'wp_application_password_created_email', $email, $user, $new_item );
+
+	$email['message'] = str_replace( '###USERNAME###', $user->display_name, $email['message'] );
+	$email['message'] = str_replace( '###APPLICATION_PASSWORD_NAME###', $new_item['name'], $email['message'] );
+	$email['message'] = str_replace( '###EMAIL###', $user->user_email, $email['message'] );
+	$email['message'] = str_replace( '###SITENAME###', $site_name, $email['message'] );
+	$email['message'] = str_replace( '###SITEURL###', home_url(), $email['message'] );
+
+	wp_mail(
+		$email['to'],
+		sprintf(
+			$email['subject'],
+			$site_name
+		),
+		$email['message'],
+		$email['headers']
+	);
+}

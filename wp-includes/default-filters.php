@@ -345,6 +345,9 @@ add_action( 'application_password_did_authenticate', 'rest_application_password_
 add_filter( 'rest_authentication_errors', 'rest_application_password_check_errors', 90 );
 add_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 
+// Application password notifications.
+add_action( 'wp_create_application_password', 'wp_application_password_created_notification', 10, 2 );
+
 // Actions.
 add_action( 'wp_head', '_wp_render_title_tag', 1 );
 add_action( 'wp_head', 'wp_enqueue_scripts', 1 );
