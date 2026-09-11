@@ -1130,6 +1130,32 @@ function delete_site_meta_by_key( $meta_key ) {
 }
 
 /**
+ * Registers a meta key for sites.
+ *
+ * @since 7.2.0
+ *
+ * @param string $meta_key The meta key to register.
+ * @param array  $args     Data used to describe the meta key when registered. See
+ *                         {@see register_meta()} for a list of supported arguments.
+ * @return bool True if the meta key was successfully registered, false if not.
+ */
+function register_site_meta( $meta_key, array $args ) {
+	return register_meta( 'blog', $meta_key, $args );
+}
+
+/**
+ * Unregisters a meta key for sites.
+ *
+ * @since 7.2.0
+ *
+ * @param string $meta_key The meta key to unregister.
+ * @return bool True on success, false if the meta key was not previously registered.
+ */
+function unregister_site_meta( $meta_key ) {
+	return unregister_meta_key( 'blog', $meta_key );
+}
+
+/**
  * Updates the count of sites for a network based on a changed site.
  *
  * @since 5.1.0
