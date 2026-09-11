@@ -793,6 +793,17 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 
 		if ( 'horizontal' === $layout_orientation ) {
 			/*
+			 * `row` is the flex default, so the base layout never declares it. A viewport
+			 * override that switches a vertical base layout to horizontal has to declare
+			 * it explicitly, otherwise the base `flex-direction: column` keeps applying.
+			 */
+			if ( null !== $viewport_overrides && $has_viewport_property_override( 'orientation' ) ) {
+				$layout_styles[] = array(
+					'selector'     => $selector,
+					'declarations' => array( 'flex-direction' => 'row' ),
+				);
+			}
+			/*
 			 * Add this style only if is not empty for backwards compatibility,
 			 * since we intend to convert blocks that had flex layout implemented
 			 * by custom css.
