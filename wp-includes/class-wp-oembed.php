@@ -175,7 +175,6 @@ class WP_oEmbed {
 		 * | Twitter      | twitter.com/user                          | 4.7.0   |
 		 * | Twitter      | twitter.com/likes                         | 4.7.0   |
 		 * | Twitter      | twitter.com/lists                         | 4.7.0   |
-		 * | Screencast   | screencast.com                            | 4.8.0   |
 		 * | Amazon       | amazon.com (com.mx, com.br, ca)           | 4.9.0   |
 		 * | Amazon       | amazon.de (fr, it, es, in, nl, ru, co.uk) | 4.9.0   |
 		 * | Amazon       | amazon.co.jp (com.au)                     | 4.9.0   |
