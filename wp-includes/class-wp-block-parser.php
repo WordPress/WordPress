@@ -324,7 +324,7 @@ class WP_Block_Parser {
 	 * @param null|int $length How many bytes of document text to output.
 	 */
 	public function add_freeform( $length = null ) {
-		$length = $length ? $length : strlen( $this->document ) - $this->offset;
+		$length = $length ?? strlen( $this->document ) - $this->offset;
 
 		if ( 0 === $length ) {
 			return;
@@ -356,7 +356,7 @@ class WP_Block_Parser {
 		}
 
 		$parent->block->innerContent[] = null;
-		$parent->prev_offset           = $last_offset ? $last_offset : $token_start + $token_length;
+		$parent->prev_offset           = $last_offset ?? $token_start + $token_length;
 	}
 
 	/**
