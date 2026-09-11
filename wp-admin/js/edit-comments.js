@@ -42,7 +42,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	 * @access private
 	 *
 	 * @param {jQuery} el The jQuery element to update.
-	 * @param {number} n Number to be put in the element.
+	 * @param {number} n  Number to be put in the element.
 	 *
 	 * @return {void}
 	 */
@@ -68,7 +68,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	 * @since 4.4.0
 	 * @access private
 	 *
-	 * @param {number} diff The amount to lower or raise the approved count with.
+	 * @param {number} diff          The amount to lower or raise the approved count with.
 	 * @param {number} commentPostId The ID of the post to be updated.
 	 *
 	 * @return {void}
@@ -122,7 +122,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	 *
 	 * @param {string} selector The jQuery selector for elements to update a count
 	 *                          for.
-	 * @param {number} diff The amount to lower or raise the count with.
+	 * @param {number} diff     The amount to lower or raise the count with.
 	 *
 	 * @return {void}
 	 */
@@ -231,7 +231,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	 * @since 3.2.0
 	 * @access private
 	 *
-	 * @param {number} diff The amount to lower or raise the pending count with.
+	 * @param {number} diff          The amount to lower or raise the pending count with.
 	 * @param {number} commentPostId The ID of the post to be updated.
 	 *
 	 * @return {void}
@@ -322,9 +322,9 @@ window.setCommentsList = function() {
 	 * @since 2.8.0
 	 * @access private
 	 *
-	 * @param {number} total Total number of comments.
-	 * @param {number} time Unix timestamp of response.
- 	 * @param {boolean} setConfidentTime Whether to update the last confident time
+	 * @param {number}  total            Total number of comments.
+	 * @param {number}  time             Unix timestamp of response.
+	 * @param {boolean} setConfidentTime Whether to update the last confident time
 	 *                                   with the given time.
 	 *
 	 * @return {void}
@@ -345,7 +345,7 @@ window.setCommentsList = function() {
 	 * @since 2.5.0
 	 * @access private
 	 *
-	 * @param {Object} r Ajax response object.
+	 * @param {Object} r        Ajax response object.
 	 * @param {Object} settings Settings for the wpList object.
 	 *
 	 * @return {void}
@@ -398,8 +398,8 @@ window.setCommentsList = function() {
 	 * @since 2.8.0
 	 * @access private
 	 *
-	 * @param {Object} settings Settings for the wpList object.
-	 * @param {HTMLElement} list Comments table element.
+	 * @param {Object}      settings Settings for the wpList object.
+	 * @param {HTMLElement} list     Comments table element.
 	 *
 	 * @return {Object} The settings object.
 	 */
@@ -471,7 +471,7 @@ window.setCommentsList = function() {
 	 * @since 2.5.0
 	 * @access private
 	 *
-	 * @param {Object} r Ajax response object.
+	 * @param {Object} r        Ajax response object.
 	 * @param {Object} settings Settings for the wpList object.
 	 *
 	 * @return {void}
@@ -945,8 +945,8 @@ window.commentReply = {
 	 * @memberof commentReply
 	 *
 	 * @param {number} comment_id The comment ID to open an editor for.
-	 * @param {number} post_id The post ID to open an editor for.
-	 * @param {string} action The action to perform. Either 'edit' or 'replyto'.
+	 * @param {number} post_id    The post ID to open an editor for.
+	 * @param {string} action     The action to perform. Either 'edit' or 'replyto'.
 	 *
 	 * @return {boolean} Always false.
 	 */

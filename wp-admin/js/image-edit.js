@@ -307,8 +307,8 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {Event} event The key or click event.
-	 * @param {HTMLElement} el The current element.
+	 * @param {Event}       event The key or click event.
+	 * @param {HTMLElement} el    The current element.
 	 *
 	 * @return {boolean} Always returns false.
 	 */
@@ -438,10 +438,10 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}         postid The current post ID.
-	 * @param {number}         x      Is 0 when it applies the y-axis
-	 *                                and 1 when applicable for the x-axis.
-	 * @param {jQuery}         el     Element.
+	 * @param {number} postid The current post ID.
+	 * @param {number} x      Is 0 when it applies the y-axis
+	 *                        and 1 when applicable for the x-axis.
+	 * @param {jQuery} el     Element.
 	 *
 	 * @return {void}
 	 */
@@ -732,8 +732,8 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number}  postid   The post ID to get the image from the database.
-	 * @param {string}  nonce    The nonce to verify the request.
+	 * @param {number} postid The post ID to get the image from the database.
+	 * @param {string} nonce  The nonce to verify the request.
 	 *
 	 * @return {boolean|void}  If the actions are successfully saved a response message is shown.
 	 *                         Returns false if there is no image editing history,
@@ -801,9 +801,9 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid   The post ID for the image.
-	 * @param {string} nonce    The nonce to verify the request.
-	 * @param {Object} view     The image editor view to be used for the editing.
+	 * @param {number} postid The post ID for the image.
+	 * @param {string} nonce  The nonce to verify the request.
+	 * @param {Object} view   The image editor view to be used for the editing.
 	 *
 	 * @return {void|promise} Either returns void if the button was already activated
 	 *                        or returns an instance of the image editor, wrapped in a promise.
@@ -1290,8 +1290,8 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid   The post ID.
-	 * @param {string} nonce    The nonce.
+	 * @param {number} postid The post ID.
+	 * @param {string} nonce  The nonce.
 	 *
 	 * @return {void|false} Returns false if the undo button is disabled.
 	 */
@@ -1448,9 +1448,9 @@
 	 *
 	 * @memberof imageEdit
 	 *
-	 * @param {number} postid     The post ID.
-	 * @param {number} n          The ratio to set.
-	 * @param {jQuery} el         The element containing the values.
+	 * @param {number} postid The post ID.
+	 * @param {number} n      The ratio to set.
+	 * @param {jQuery} el     The element containing the values.
 	 *
 	 * @return {void}
 	 */

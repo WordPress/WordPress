@@ -24,7 +24,7 @@
 		 * @memberOf findPosts
 		 *
 		 * @param {string} af_name The name of the affected element.
-		 * @param {string} af_val The value of the affected post element.
+		 * @param {string} af_val  The value of the affected post element.
 		 *
 		 * @return {boolean} Always returns false.
 		 */

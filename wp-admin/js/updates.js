@@ -1115,10 +1115,10 @@
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param {Object} response             Response from the server.
-	 * @param {string} response.slug        Slug of the activated plugin.
-	 * @param {string} response.pluginName  Name of the activated plugin.
-	 * @param {string} response.plugin      The plugin file, relative to the plugins directory.
+	 * @param {Object} response            Response from the server.
+	 * @param {string} response.slug       Slug of the activated plugin.
+	 * @param {string} response.pluginName Name of the activated plugin.
+	 * @param {string} response.plugin     The plugin file, relative to the plugins directory.
 	 */
 	wp.updates.activatePluginSuccess = function( response ) {
 		var $message = $( '.plugin-card-' + response.slug + ', #plugin-information-footer' ).find( '.activating-message' ),

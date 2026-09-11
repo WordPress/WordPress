@@ -33,7 +33,7 @@ window.wp = window.wp || {};
 	 * By default, any element in the body with the load-customize class will open
 	 * an iframe overlay with the URL specified.
 	 *
-	 *     e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open Customizer</a>
+	 * e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open Customizer</a>
 	 *
 	 * @memberOf wp.customize
 	 *

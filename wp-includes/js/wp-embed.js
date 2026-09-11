@@ -1,7 +1,7 @@
 /**
  * WordPress inline HTML embed
  *
- * @param {Window} window The global window object.
+ * @param {Window}   window   The global window object.
  * @param {Document} document The global document object.
  * @since 4.4.0
  * @output wp-includes/js/wp-embed.js

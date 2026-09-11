@@ -19,89 +19,89 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 
 /**
  * @typedef {Object} CodeMirrorState
- * @property {boolean} [completionActive] - Whether completion is active.
- * @property {boolean} [focused] - Whether the editor is focused.
+ * @property {boolean} [completionActive] Whether completion is active.
+ * @property {boolean} [focused]          Whether the editor is focused.
  */
 
 /**
  * @typedef {import('codemirror').EditorFromTextArea & {
- *   options: import('codemirror').EditorConfiguration,
- *   performLint?: () => void,
- *   showHint?: (options: import('codemirror').ShowHintOptions) => void,
- *   state: CodeMirrorState
+ *	options: import('codemirror').EditorConfiguration,
+ *	performLint?: () => void,
+ *	showHint?: (options: import('codemirror').ShowHintOptions) => void,
+ *	state: CodeMirrorState
  * }} CodeMirrorEditor
  */
 
 /**
  * @typedef {Object} LintAnnotation
- * @property {string} message - Message.
- * @property {'error'|'warning'} severity - Severity.
- * @property {import('codemirror').Position} from - From position.
- * @property {import('codemirror').Position} to - To position.
+ * @property {string}                        message  Message.
+ * @property {'error'|'warning'}             severity Severity.
+ * @property {import('codemirror').Position} from     From position.
+ * @property {import('codemirror').Position} to       To position.
  */
 
 /**
  * @typedef {Object} CodeMirrorTokenState
- * @property {Object} [htmlState] - HTML state.
- * @property {string} [htmlState.tagName] - Tag name.
- * @property {CodeMirrorTokenState} [curState] - Current state.
+ * @property {Object}               [htmlState]         HTML state.
+ * @property {string}               [htmlState.tagName] Tag name.
+ * @property {CodeMirrorTokenState} [curState]          Current state.
  */
 
 /**
  * @typedef {import('codemirror').EditorConfiguration & {
- *   lint?: boolean | CombinedLintOptions,
- *   autoCloseBrackets?: boolean,
- *   matchBrackets?: boolean,
- *   continueComments?: boolean,
- *   styleActiveLine?: boolean
+ *	lint?: boolean | CombinedLintOptions,
+ *	autoCloseBrackets?: boolean,
+ *	matchBrackets?: boolean,
+ *	continueComments?: boolean,
+ *	styleActiveLine?: boolean
  * }} CodeMirrorSettings
  */
 
 /**
  * @typedef {Object} CSSLintRules
- * @property {boolean} [errors] - Errors.
- * @property {boolean} [box-model] - Box model rules.
- * @property {boolean} [display-property-grouping] - Display property grouping rules.
- * @property {boolean} [duplicate-properties] - Duplicate properties rules.
- * @property {boolean} [known-properties] - Known properties rules.
- * @property {boolean} [outline-none] - Outline none rules.
+ * @property {boolean} [errors]                    Errors.
+ * @property {boolean} [box-model]                 Box model rules.
+ * @property {boolean} [display-property-grouping] Display property grouping rules.
+ * @property {boolean} [duplicate-properties]      Duplicate properties rules.
+ * @property {boolean} [known-properties]          Known properties rules.
+ * @property {boolean} [outline-none]              Outline none rules.
  */
 
 /**
  * @typedef {Object} JSHintRules
- * @property {number} [esversion] - ECMAScript version.
- * @property {boolean} [module] - Whether to use modules.
- * @property {boolean} [boss] - Whether to allow assignments in control expressions.
- * @property {boolean} [curly] - Whether to require curly braces.
- * @property {boolean} [eqeqeq] - Whether to require === and !==.
- * @property {boolean} [eqnull] - Whether to allow == null.
- * @property {boolean} [expr] - Whether to allow expressions.
- * @property {boolean} [immed] - Whether to require immediate function invocation.
- * @property {boolean} [noarg] - Whether to prohibit arguments.caller/callee.
- * @property {boolean} [nonbsp] - Whether to prohibit non-breaking spaces.
- * @property {string} [quotmark] - Quote mark preference.
- * @property {boolean} [undef] - Whether to prohibit undefined variables.
- * @property {boolean} [unused] - Whether to prohibit unused variables.
- * @property {boolean} [browser] - Whether to enable browser globals.
- * @property {Record<string, boolean>} [globals] - Global variables.
+ * @property {number}                  [esversion] ECMAScript version.
+ * @property {boolean}                 [module]    Whether to use modules.
+ * @property {boolean}                 [boss]      Whether to allow assignments in control expressions.
+ * @property {boolean}                 [curly]     Whether to require curly braces.
+ * @property {boolean}                 [eqeqeq]    Whether to require === and !==.
+ * @property {boolean}                 [eqnull]    Whether to allow == null.
+ * @property {boolean}                 [expr]      Whether to allow expressions.
+ * @property {boolean}                 [immed]     Whether to require immediate function invocation.
+ * @property {boolean}                 [noarg]     Whether to prohibit arguments.caller/callee.
+ * @property {boolean}                 [nonbsp]    Whether to prohibit non-breaking spaces.
+ * @property {string}                  [quotmark]  Quote mark preference.
+ * @property {boolean}                 [undef]     Whether to prohibit undefined variables.
+ * @property {boolean}                 [unused]    Whether to prohibit unused variables.
+ * @property {boolean}                 [browser]   Whether to enable browser globals.
+ * @property {Record<string, boolean>} [globals]   Global variables.
  */
 
 /**
  * @typedef {Object} HTMLHintRules
- * @property {boolean} [tagname-lowercase] - Tag name lowercase rules.
- * @property {boolean} [attr-lowercase] - Attribute lowercase rules.
- * @property {boolean} [attr-value-double-quotes] - Attribute value double quotes rules.
- * @property {boolean} [doctype-first] - Doctype first rules.
- * @property {boolean} [tag-pair] - Tag pair rules.
- * @property {boolean} [spec-char-escape] - Spec char escape rules.
- * @property {boolean} [id-unique] - ID unique rules.
- * @property {boolean} [src-not-empty] - Src not empty rules.
- * @property {boolean} [attr-no-duplication] - Attribute no duplication rules.
- * @property {boolean} [alt-require] - Alt require rules.
- * @property {string} [space-tab-mixed-disabled] - Space tab mixed disabled rules.
- * @property {boolean} [attr-unsafe-chars] - Attribute unsafe chars rules.
- * @property {JSHintRules} [jshint] - JSHint rules.
- * @property {CSSLintRules} [csslint] - CSSLint rules.
+ * @property {boolean}      [tagname-lowercase]        Tag name lowercase rules.
+ * @property {boolean}      [attr-lowercase]           Attribute lowercase rules.
+ * @property {boolean}      [attr-value-double-quotes] Attribute value double quotes rules.
+ * @property {boolean}      [doctype-first]            Doctype first rules.
+ * @property {boolean}      [tag-pair]                 Tag pair rules.
+ * @property {boolean}      [spec-char-escape]         Spec char escape rules.
+ * @property {boolean}      [id-unique]                ID unique rules.
+ * @property {boolean}      [src-not-empty]            Src not empty rules.
+ * @property {boolean}      [attr-no-duplication]      Attribute no duplication rules.
+ * @property {boolean}      [alt-require]              Alt require rules.
+ * @property {string}       [space-tab-mixed-disabled] Space tab mixed disabled rules.
+ * @property {boolean}      [attr-unsafe-chars]        Attribute unsafe chars rules.
+ * @property {JSHintRules}  [jshint]                   JSHint rules.
+ * @property {CSSLintRules} [csslint]                  CSSLint rules.
  */
 
 /**
@@ -109,15 +109,15 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
  *
  * @typedef {Object} CodeEditorSettings
  *
- * @property {CodeMirrorSettings} [codemirror] - CodeMirror settings.
- * @property {CSSLintRules} [csslint] - CSSLint rules.
- * @property {JSHintRules} [jshint] - JSHint rules.
- * @property {HTMLHintRules} [htmlhint] - HTMLHint rules.
+ * @property {CodeMirrorSettings}                                                                                                                     [codemirror]            CodeMirror settings.
+ * @property {CSSLintRules}                                                                                                                           [csslint]               CSSLint rules.
+ * @property {JSHintRules}                                                                                                                            [jshint]                JSHint rules.
+ * @property {HTMLHintRules}                                                                                                                          [htmlhint]              HTMLHint rules.
  *
- * @property {(codemirror: CodeMirrorEditor, event: KeyboardEvent|JQuery.KeyDownEvent) => void} [onTabNext] - Callback to handle tabbing to the next tabbable element.
- * @property {(codemirror: CodeMirrorEditor, event: KeyboardEvent|JQuery.KeyDownEvent) => void} [onTabPrevious] - Callback to handle tabbing to the previous tabbable element.
- * @property {(errorAnnotations: LintAnnotation[], annotations: LintAnnotation[], annotationsSorted: LintAnnotation[], cm: CodeMirrorEditor) => void} [onChangeLintingErrors] - Callback for when the linting errors have changed.
- * @property {(errorAnnotations: LintAnnotation[], editor: CodeMirrorEditor) => void} [onUpdateErrorNotice] - Callback for when error notice should be displayed.
+ * @property {(codemirror: CodeMirrorEditor, event: KeyboardEvent|JQuery.KeyDownEvent) => void}                                                       [onTabNext]             Callback to handle tabbing to the next tabbable element.
+ * @property {(codemirror: CodeMirrorEditor, event: KeyboardEvent|JQuery.KeyDownEvent) => void}                                                       [onTabPrevious]         Callback to handle tabbing to the previous tabbable element.
+ * @property {(errorAnnotations: LintAnnotation[], annotations: LintAnnotation[], annotationsSorted: LintAnnotation[], cm: CodeMirrorEditor) => void} [onChangeLintingErrors] Callback for when the linting errors have changed.
+ * @property {(errorAnnotations: LintAnnotation[], editor: CodeMirrorEditor) => void}                                                                 [onUpdateErrorNotice]   Callback for when error notice should be displayed.
  */
 
 /**
@@ -126,15 +126,15 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 
 /**
  * @typedef {Object} CodeEditorInstance
- * @property {CodeEditorSettings} settings - The code editor settings.
- * @property {CodeMirrorEditor} codemirror - The CodeMirror instance.
- * @property {() => void} updateErrorNotice - Force update the error notice.
+ * @property {CodeEditorSettings} settings          The code editor settings.
+ * @property {CodeMirrorEditor}   codemirror        The CodeMirror instance.
+ * @property {() => void}         updateErrorNotice Force update the error notice.
  */
 
 /**
  * @typedef {Object} WpCodeEditor
- * @property {CodeEditorSettings} defaultSettings - Default settings.
- * @property {(textarea: string|JQuery|Element, settings?: CodeEditorSettings) => CodeEditorInstance} initialize - Initialize.
+ * @property {CodeEditorSettings}                                                                     defaultSettings Default settings.
+ * @property {(textarea: string|JQuery|Element, settings?: CodeEditorSettings) => CodeEditorInstance} initialize      Initialize.
  */
 
 /**
@@ -166,7 +166,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	/**
 	 * Configures linting.
 	 *
-	 * @param {CodeEditorSettings} settings - Code editor settings.
+	 * @param {CodeEditorSettings} settings Code editor settings.
 	 *
 	 * @return {LintingController} Linting controller.
 	 */
@@ -180,7 +180,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		/**
 		 * Call the onUpdateErrorNotice if there are new errors to show.
 		 *
-		 * @param {import('codemirror').Editor} editor - Editor.
+		 * @param {import('codemirror').Editor} editor Editor.
 		 * @return {void}
 		 */
 		function updateErrorNotice( editor ) {
@@ -237,9 +237,9 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				/**
 				 * Wraps the onUpdateLinting event to filter errors, detect state changes, and manage error notice visibility.
 				 *
-				 * @param {LintAnnotation[]} annotations - Annotations.
-				 * @param {LintAnnotation[]} annotationsSorted - Sorted annotations.
-				 * @param {CodeMirrorEditor} cm - Editor.
+				 * @param {LintAnnotation[]} annotations       Annotations.
+				 * @param {LintAnnotation[]} annotationsSorted Sorted annotations.
+				 * @param {CodeMirrorEditor} cm                Editor.
 				 */
 				return function( annotations, annotationsSorted, cm ) {
 					const errorAnnotations = annotations.filter( function( annotation ) {
@@ -281,7 +281,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 			/**
 			 * Initializes the CodeMirror editor.
 			 *
-			 * @param {CodeMirrorEditor} editor - Editor instance.
+			 * @param {CodeMirrorEditor} editor Editor instance.
 			 * @return {void}
 			 */
 			init: function( editor ) {
@@ -349,7 +349,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				} );
 			},
 			/**
-			 * @param {CodeMirrorEditor} editor - Editor instance.
+			 * @param {CodeMirrorEditor} editor Editor instance.
 			 * @return {void}
 			 */
 			updateErrorNotice,
@@ -359,8 +359,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	/**
 	 * Configure tabbing.
 	 *
-	 * @param {CodeMirrorEditor} codemirror - Editor.
-	 * @param {CodeEditorSettings} settings - Code editor settings.
+	 * @param {CodeMirrorEditor}   codemirror Editor.
+	 * @param {CodeEditorSettings} settings   Code editor settings.
 	 *
 	 * @return {void}
 	 */
@@ -399,9 +399,9 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 
 	/**
 	 * @typedef {Object} LintingController
-	 * @property {() => CombinedLintOptions|false} getLintOptions - Get lint options.
-	 * @property {(editor: CodeMirrorEditor) => void} init - Initialize.
-	 * @property {(editor: import('codemirror').Editor) => void} updateErrorNotice - Update error notice.
+	 * @property {() => CombinedLintOptions|false}               getLintOptions    Get lint options.
+	 * @property {(editor: CodeMirrorEditor) => void}            init              Initialize.
+	 * @property {(editor: import('codemirror').Editor) => void} updateErrorNotice Update error notice.
 	 */
 
 	/**
@@ -409,8 +409,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param {string|JQuery<HTMLElement>|HTMLElement} textarea - The HTML id, jQuery object, or DOM Element for the textarea that is used for the editor.
-	 * @param {CodeEditorSettings}    [settings] - Settings to override defaults.
+	 * @param {string|JQuery<HTMLElement>|HTMLElement} textarea   The HTML id, jQuery object, or DOM Element for the textarea that is used for the editor.
+	 * @param {CodeEditorSettings}                     [settings] Settings to override defaults.
 	 *
 	 * @return {CodeEditorInstance} Instance.
 	 */

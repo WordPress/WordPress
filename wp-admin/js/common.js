@@ -2,15 +2,14 @@
  * @output wp-admin/js/common.js
  */
 
-/* global setUserSetting, ajaxurl, alert, confirm, pagenow */
-/* global columns, screenMeta */
+/* global setUserSetting, ajaxurl, alert, confirm, pagenow, columns, screenMeta */
 
 /**
- *  Adds common WordPress functionality to the window.
+ * Adds common WordPress functionality to the window.
  *
- *  @param {JQueryStatic} $         The jQuery object.
- *  @param {Object}       window    The window object.
- *  @param {*}            undefined Unused.
+ * @param {JQueryStatic} $         The jQuery object.
+ * @param {Object}       window    The window object.
+ * @param {*}            undefined Unused.
  */
 ( function( $, window, undefined ) {
 	var $document = $( document ),
@@ -568,8 +567,8 @@ window.showNotice = {
  * @since 3.2.0
  *
  * @type {{element: null, toggles: null, page: null, init: screenMeta.init,
- *         toggleEvent: screenMeta.toggleEvent, open: screenMeta.open,
- *         close: screenMeta.close}}
+ * toggleEvent: screenMeta.toggleEvent, open: screenMeta.open,
+ * close: screenMeta.close}}
  *
  * @return {void}
  */
@@ -980,8 +979,8 @@ $( function() {
 
 			/*
 			 * Show the sub instead of following the link if:
-			 * 	- the submenu is not open.
-			 * 	- the submenu is not shown inline or the menu is not folded.
+			 * - the submenu is not open.
+			 * - the submenu is not shown inline or the menu is not folded.
 			 */
 			if ( ! $menuItem.hasClass( 'opensub' ) && ( ! $menuItem.hasClass( 'wp-menu-open' ) || $menuItem.width() < 40 ) ) {
 				event.preventDefault();
@@ -1485,7 +1484,7 @@ $( function() {
 	 * @param {Event} e The event object.
 	 *
 	 * @return {void}
- 	 */
+	 */
 	$('#contextual-help-link, #show-settings-link').on( 'focus.scroll-into-view', function(e){
 		if ( e.target.scrollIntoViewIfNeeded )
 			e.target.scrollIntoViewIfNeeded(false);

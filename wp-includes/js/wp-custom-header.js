@@ -19,7 +19,7 @@
 	 * Trigger an event.
 	 *
 	 * @param {Element} target HTML element to dispatch the event on.
-	 * @param {string} name Event name.
+	 * @param {string}  name   Event name.
 	 */
 	function trigger( target, name ) {
 		var evt;

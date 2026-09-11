@@ -8,9 +8,9 @@ HTMLHint.addRule( {
 	 * Initialize.
 	 *
 	 * @this {import('htmlhint/types').Rule}
-	 * @param {import('htmlhint').HTMLParser} parser - Parser.
-	 * @param {import('htmlhint').Reporter} reporter - Reporter.
-	 * @param {Record<string, Record<string, boolean>>} options - KSES options.
+	 * @param {import('htmlhint').HTMLParser}           parser   Parser.
+	 * @param {import('htmlhint').Reporter}             reporter Reporter.
+	 * @param {Record<string, Record<string, boolean>>} options  KSES options.
 	 * @return {void}
 	 */
 	init: function ( parser, reporter, options ) {

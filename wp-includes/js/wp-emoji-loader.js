@@ -57,7 +57,7 @@ function supportsWorkerOffloading() {
 /**
  * @typedef SessionSupportTests
  * @type {Object}
- * @property {number} timestamp
+ * @property {number}       timestamp
  * @property {SupportTests} supportTests
  */
 
@@ -128,8 +128,8 @@ function setSessionSupportTests( supportTests ) {
  * @private
  *
  * @param {CanvasRenderingContext2D} context 2D Context.
- * @param {string} set1 Set of Emoji to test.
- * @param {string} set2 Set of Emoji to test.
+ * @param {string}                   set1    Set of Emoji to test.
+ * @param {string}                   set2    Set of Emoji to test.
  *
  * @return {boolean} True if the two sets render the same.
  */
@@ -178,7 +178,7 @@ function emojiSetsRenderIdentically( context, set1, set2 ) {
  * @private
  *
  * @param {CanvasRenderingContext2D} context 2D Context.
- * @param {string} emoji Emoji to test.
+ * @param {string}                   emoji   Emoji to test.
  *
  * @return {boolean} True if the center point is empty.
  */
@@ -209,10 +209,10 @@ function emojiRendersEmptyCenterPoint( context, emoji ) {
  *
  * @private
  *
- * @param {CanvasRenderingContext2D} context 2D Context.
- * @param {string} type Whether to test for support of "flag" or "emoji".
- * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
- * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ * @param {CanvasRenderingContext2D} context                      2D Context.
+ * @param {string}                   type                         Whether to test for support of "flag" or "emoji".
+ * @param {Function}                 emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {Function}                 emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
  *
  * @return {boolean} True if the browser can render emoji, false if it cannot.
  */
@@ -302,9 +302,9 @@ function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiR
  *
  * @private
  *
- * @param {string[]} tests Tests.
- * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
- * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {string[]} tests                        Tests.
+ * @param {Function} browserSupportsEmoji         Reference to browserSupportsEmoji function, needed due to minification.
+ * @param {Function} emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
  * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
  *
  * @return {SupportTests} Support tests.

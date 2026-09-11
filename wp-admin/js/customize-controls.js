@@ -3101,7 +3101,7 @@
 	api.ThemesPanel = api.Panel.extend(/** @lends wp.customize.ThemesPanel.prototype */{
 
 		/**
-		 *  Class wp.customize.ThemesPanel.
+		 * Class wp.customize.ThemesPanel.
 		 *
 		 * Custom section for themes that displays without the customize preview.
 		 *

@@ -333,12 +333,12 @@ window.edToolbar = function(){};
 	 * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
 	 *
 	 * Minimum required to add a button that calls an external function:
-	 *     QTags.addButton( 'my_id', 'my button', my_callback );
-	 *     function my_callback() { alert('yeah!'); }
+	 * QTags.addButton( 'my_id', 'my button', my_callback );
+	 * function my_callback() { alert('yeah!'); }
 	 *
 	 * Minimum required to add a button that inserts a tag:
-	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
-	 *     QTags.addButton( 'my_id2', 'my button', '<br />' );
+	 * QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
+	 * QTags.addButton( 'my_id2', 'my button', '<br />' );
 	 *
 	 * @param {string}          id           Required. Button HTML ID
 	 * @param {string}          display      Required. Button's value="..."

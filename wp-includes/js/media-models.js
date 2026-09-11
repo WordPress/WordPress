@@ -121,7 +121,7 @@ Attachment = Backbone.Model.extend(/** @lends wp.media.model.Attachment.prototyp
 	/**
 	 * Saves attachment details using the `save-attachment-compat` action.
 	 *
-	 * @param {Object} data The properties to be saved.
+	 * @param {Object} data    The properties to be saved.
 	 * @param {Object} options Sync options. e.g. patch, wait, success, error.
 	 *
 	 * @this Backbone.Model
@@ -202,8 +202,8 @@ module.exports = Attachment;
  * @param {string}                      [options.props.order]   Initial order (ASC or DESC) for the collection.
  * @param {string}                      [options.props.orderby] Initial attribute key to order the collection by.
  * @param {string}                      [options.props.query]   Whether the collection is linked to an attachments query.
- * @param {string}                      [options.observe] 	    An attachments collection to observe and mirror.
- * @param {string}                      [options.filters] 	    Filters to apply to the collection.
+ * @param {string}                      [options.observe]       An attachments collection to observe and mirror.
+ * @param {string}                      [options.filters]       Filters to apply to the collection.
  *
  */
 var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachments.prototype */{
@@ -988,7 +988,7 @@ var Attachments = wp.media.model.Attachments,
  * A collection of attachments that match the supplied query arguments.
  *
  * Note: Do NOT change this.args after the query has been initialized.
- *       Things will break.
+ * Things will break.
  *
  * @memberOf wp.media.model
  *

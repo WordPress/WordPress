@@ -568,7 +568,7 @@ window.wp = window.wp || {};
 		 * when( ids*, [callback] );
 		 *
 		 * For example:
-		 *     when( id1, id2, id3, function( value1, value2, value3 ) {} );
+		 * when( id1, id2, id3, function( value1, value2, value3 ) {} );
 		 *
 		 * @param {...(string|Function)} ids Zero or more IDs of items to wait for, optionally followed by
 		 *                                   a callback function to invoke once they are all available.

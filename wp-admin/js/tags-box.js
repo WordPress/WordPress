@@ -219,11 +219,11 @@
 		 *
 		 * @memberOf tagBox
 		 *
-		 * @param {Object} el The container HTML element.
-		 * @param {Object|boolean} a When this is an HTML element the text of that
-		 *                           element will be used for the new tag.
-		 * @param {number|boolean} f If this value is not passed then the tag input
-		 *                           field is focused.
+		 * @param {Object}         el The container HTML element.
+		 * @param {Object|boolean} a  When this is an HTML element the text of that
+		 *                            element will be used for the new tag.
+		 * @param {number|boolean} f  If this value is not passed then the tag input
+		 *                            field is focused.
 		 *
 		 * @return {boolean} Always returns false.
 		 */
@@ -287,8 +287,8 @@
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param {number|string} r The response message from the Ajax call.
-			 * @param {string} stat The status of the Ajax request.
+			 * @param {number|string} r    The response message from the Ajax call.
+			 * @param {string}        stat The status of the Ajax request.
 			 *
 			 * @return {void}
 			 */

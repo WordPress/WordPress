@@ -42,9 +42,9 @@ wp.customHtmlWidgets = ( function( $ ) {
 		 * @augments Backbone.View
 		 * @abstract
 		 *
-		 * @param {Object} options - Options.
-		 * @param {jQuery} options.el - Control field container element.
-		 * @param {jQuery} options.syncContainer - Container element where fields are synced for the server.
+		 * @param {Object} options               Options.
+		 * @param {jQuery} options.el            Control field container element.
+		 * @param {jQuery} options.syncContainer Container element where fields are synced for the server.
 		 *
 		 * @return {void}
 		 */
@@ -124,7 +124,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 		/**
 		 * Show linting error notice.
 		 *
-		 * @param {Array} errorAnnotations - Error annotations.
+		 * @param {Array} errorAnnotations Error annotations.
 		 * @return {void}
 		 */
 		updateErrorNotice: function( errorAnnotations ) {
@@ -205,7 +205,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 				 *
 				 * @ignore
 				 *
-				 * @param {Array} errorAnnotations - Error notifications.
+				 * @param {Array} errorAnnotations Error notifications.
 				 * @return {void}
 				 */
 				onChangeLintingErrors: function onChangeLintingErrors( errorAnnotations ) {
@@ -217,7 +217,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 				 *
 				 * @ignore
 				 *
-				 * @param {Array} errorAnnotations - Error annotations.
+				 * @param {Array} errorAnnotations Error annotations.
 				 * @return {void}
 				 */
 				onUpdateErrorNotice: function onUpdateErrorNotice( errorAnnotations ) {
@@ -287,8 +287,8 @@ wp.customHtmlWidgets = ( function( $ ) {
 	 *
 	 * @alias wp.customHtmlWidgets.handleWidgetAdded
 	 *
-	 * @param {jQuery.Event} event - Event.
-	 * @param {jQuery}       widgetContainer - Widget container element.
+	 * @param {jQuery.Event} event           Event.
+	 * @param {jQuery}       widgetContainer Widget container element.
 	 *
 	 * @return {void}
 	 */
@@ -384,8 +384,8 @@ wp.customHtmlWidgets = ( function( $ ) {
 	 *
 	 * @alias wp.customHtmlWidgets.handleWidgetUpdated
 	 *
-	 * @param {jQuery.Event} event - Event.
-	 * @param {jQuery}       widgetContainer - Widget container element.
+	 * @param {jQuery.Event} event           Event.
+	 * @param {jQuery}       widgetContainer Widget container element.
 	 * @return {void}
 	 */
 	component.handleWidgetUpdated = function handleWidgetUpdated( event, widgetContainer ) {
@@ -415,7 +415,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 	 *
 	 * @alias wp.customHtmlWidgets.init
 	 *
-	 * @param {Object} settings - Options for code editor, exported from PHP.
+	 * @param {Object} settings Options for code editor, exported from PHP.
 	 *
 	 * @return {void}
 	 */

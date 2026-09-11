@@ -88,7 +88,7 @@ module.exports = VideoDetails;
  * wp.media.model.PostMedia
  *
  * Shared model class for audio and video. Updates the model after
- *   "Add Audio|Video Source" and "Replace Audio|Video" states return
+ * "Add Audio|Video Source" and "Replace Audio|Video" states return
  *
  * @memberOf wp.media.model
  *
@@ -1026,8 +1026,8 @@ wp.media.audio = {
 /**
  * Shortcode modeling for video.
  *
- *  `edit()` prepares the shortcode for the media modal.
- *  `shortcode()` builds the new shortcode after update.
+ * `edit()` prepares the shortcode for the media modal.
+ * `shortcode()` builds the new shortcode after update.
  *
  * @since 4.2.0
  *

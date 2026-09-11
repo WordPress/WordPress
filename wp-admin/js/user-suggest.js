@@ -34,11 +34,11 @@
 		 *
 		 * Optional data-attributes:
 		 * - data-autocomplete-type (add, search)
-		 *   The action that is going to be performed: search for existing users
-		 *   or add a new one. Default: add
+		 * The action that is going to be performed: search for existing users
+		 * or add a new one. Default: add
 		 * - data-autocomplete-field (user_login, user_email)
-		 *   The field that is returned as the value for the suggestion.
-		 *   Default: user_login
+		 * The field that is returned as the value for the suggestion.
+		 * Default: user_login
 		 *
 		 * @see wp-admin/includes/admin-actions.php:wp_ajax_autocomplete_user()
 		 */

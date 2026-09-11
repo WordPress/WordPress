@@ -45,7 +45,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @constructs wp.mediaWidgets.PersistentDisplaySettingsLibrary
 		 * @augments   wp.media.controller.Library
 		 *
-		 * @param {Object} options - Options.
+		 * @param {Object} options Options.
 		 *
 		 * @return {void}
 		 */
@@ -57,7 +57,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Sync changes to the current display settings back into the current customized.
 		 *
-		 * @param {Backbone.Model} displaySettings - Modified display settings.
+		 * @param {Backbone.Model} displaySettings Modified display settings.
 		 * @return {void}
 		 */
 		handleDisplaySettingChange: function handleDisplaySettingChange( displaySettings ) {
@@ -72,7 +72,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * will sync back into the model storing the session's customized display
 		 * settings.
 		 *
-		 * @param {Backbone.Model} model - Display settings model.
+		 * @param {Backbone.Model} model Display settings model.
 		 * @return {Backbone.Model} Display settings model.
 		 */
 		display: function getDisplaySettingsModel( model ) {
@@ -102,7 +102,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {Object} options - Options.
+		 * @param {Object} options Options.
 		 * @return {void}
 		 */
 		initialize: function( options ) {
@@ -137,7 +137,7 @@ wp.mediaWidgets = ( function( $ ) {
 					/**
 					 * Set the disabled state on the Add to Widget button.
 					 *
-					 * @param {boolean} disabled - Disabled.
+					 * @param {boolean} disabled Disabled.
 					 * @return {void}
 					 */
 					setAddToWidgetButtonDisabled: function setAddToWidgetButtonDisabled( disabled ) {
@@ -147,7 +147,7 @@ wp.mediaWidgets = ( function( $ ) {
 					/**
 					 * Set or clear an error notice.
 					 *
-					 * @param {string} notice - Notice.
+					 * @param {string} notice Notice.
 					 * @return {void}
 					 */
 					setErrorNotice: function setErrorNotice( notice ) {
@@ -358,7 +358,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * Forked override of {wp.media.view.MediaFrame.Post#mainInsertToolbar()} to override text.
 		 *
-		 * @param {wp.Backbone.View} view - Toolbar view.
+		 * @param {wp.Backbone.View} view Toolbar view.
 		 * @this {wp.media.controller.Library}
 		 * @return {void}
 		 */
@@ -393,7 +393,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 *
 		 * Forked override of {wp.media.view.MediaFrame.Post#mainEmbedToolbar()} to override text.
 		 *
-		 * @param {wp.Backbone.View} toolbar - Toolbar view.
+		 * @param {wp.Backbone.View} toolbar Toolbar view.
 		 * @this {wp.media.controller.Library}
 		 * @return {void}
 		 */
@@ -486,10 +486,10 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @augments   Backbone.View
 		 * @abstract
 		 *
-		 * @param {Object}         options - Options.
-		 * @param {Backbone.Model} options.model - Model.
-		 * @param {jQuery}         options.el - Control field container element.
-		 * @param {jQuery}         options.syncContainer - Container element where fields are synced for the server.
+		 * @param {Object}         options               Options.
+		 * @param {Backbone.Model} options.model         Model.
+		 * @param {jQuery}         options.el            Control field container element.
+		 * @param {jQuery}         options.syncContainer Container element where fields are synced for the server.
 		 *
 		 * @return {void}
 		 */
@@ -721,7 +721,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Handle click on link to Media Library to open modal, such as the link that appears when in the missing attachment error notice.
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} event Event.
 		 * @return {void}
 		 */
 		handleMediaLibraryLinkClick: function handleMediaLibraryLinkClick( event ) {
@@ -819,7 +819,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Get the instance props from the media selection frame.
 		 *
-		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
+		 * @param {wp.media.view.MediaFrame.Select} mediaFrame Select frame.
 		 * @return {Object} Props.
 		 */
 		getModelPropsFromMediaFrame: function getModelPropsFromMediaFrame( mediaFrame ) {
@@ -868,7 +868,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Map media frame props to model props.
 		 *
-		 * @param {Object} mediaFrameProps - Media frame props.
+		 * @param {Object} mediaFrameProps Media frame props.
 		 * @return {Object} Model props.
 		 */
 		mapMediaToModelProps: function mapMediaToModelProps( mediaFrameProps ) {
@@ -919,7 +919,7 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Map model props to media frame props.
 		 *
-		 * @param {Object} modelProps - Model props.
+		 * @param {Object} modelProps Model props.
 		 * @return {Object} Media frame props.
 		 */
 		mapModelToMediaFrameProps: function mapModelToMediaFrameProps( modelProps ) {
@@ -1028,9 +1028,9 @@ wp.mediaWidgets = ( function( $ ) {
 		 * cast the attribute values from the hidden inputs' string values into
 		 * the appropriate data types (integers or booleans).
 		 *
-		 * @param {string|Object} key - Attribute name or attribute pairs.
-		 * @param {mixed|Object}  [val] - Attribute value or options object.
-		 * @param {Object}        [options] - Options when attribute name and value are passed separately.
+		 * @param {string|Object} key       Attribute name or attribute pairs.
+		 * @param {mixed|Object}  [val]     Attribute value or options object.
+		 * @param {Object}        [options] Options when attribute name and value are passed separately.
 		 * @return {wp.mediaWidgets.MediaWidgetModel} This model.
 		 */
 		set: function set( key, val, options ) {
@@ -1119,8 +1119,8 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * @memberOf wp.mediaWidgets
 	 *
-	 * @param {jQuery.Event} event - Event.
-	 * @param {jQuery}       widgetContainer - Widget container element.
+	 * @param {jQuery.Event} event           Event.
+	 * @param {jQuery}       widgetContainer Widget container element.
 	 *
 	 * @return {void}
 	 */
@@ -1256,8 +1256,8 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * @memberOf wp.mediaWidgets
 	 *
-	 * @param {jQuery.Event} event - Event.
-	 * @param {jQuery}       widgetContainer - Widget container element.
+	 * @param {jQuery.Event} event           Event.
+	 * @param {jQuery}       widgetContainer Widget container element.
 	 *
 	 * @return {void}
 	 */

@@ -29,9 +29,9 @@ wp.themePluginEditor = (function( $ ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param {jQuery}         form - Form element.
-	 * @param {Object}         settings - Settings.
-	 * @param {Object|boolean} settings.codeEditor - Code editor settings (or `false` if syntax highlighting is disabled).
+	 * @param {jQuery}         form                Form element.
+	 * @param {Object}         settings            Settings.
+	 * @param {Object|boolean} settings.codeEditor Code editor settings (or `false` if syntax highlighting is disabled).
 	 * @return {void}
 	 */
 	component.init = function init( form, settings ) {
@@ -187,7 +187,7 @@ wp.themePluginEditor = (function( $ ) {
 	 * Submit file via Ajax.
 	 *
 	 * @since 4.9.0
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} event Event.
 	 * @return {void}
 	 */
 	component.submit = function( event ) {
@@ -273,12 +273,12 @@ wp.themePluginEditor = (function( $ ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param {Object}   notice - Notice.
-	 * @param {string}   notice.code - Code.
-	 * @param {string}   notice.type - Type.
-	 * @param {string}   notice.message - Message.
-	 * @param {boolean}  [notice.dismissible=false] - Dismissible.
-	 * @param {Function} [notice.onDismiss] - Callback for when a user dismisses the notice.
+	 * @param {Object}   notice                     Notice.
+	 * @param {string}   notice.code                Code.
+	 * @param {string}   notice.type                Type.
+	 * @param {string}   notice.message             Message.
+	 * @param {boolean}  [notice.dismissible=false] Dismissible.
+	 * @param {Function} [notice.onDismiss]         Callback for when a user dismisses the notice.
 	 * @return {jQuery} Notice element.
 	 */
 	component.addNotice = function( notice ) {
@@ -314,7 +314,7 @@ wp.themePluginEditor = (function( $ ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param {string} code - Notice code.
+	 * @param {string} code Notice code.
 	 * @return {boolean} Whether a notice was removed.
 	 */
 	component.removeNotice = function( code ) {
@@ -366,7 +366,7 @@ wp.themePluginEditor = (function( $ ) {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {Array} errors - List of linting errors.
+		 * @param {Array} errors List of linting errors.
 		 * @return {void}
 		 */
 		codeEditorSettings.onChangeLintingErrors = function( errors ) {
@@ -383,7 +383,7 @@ wp.themePluginEditor = (function( $ ) {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {Array} errorAnnotations - Error annotations.
+		 * @param {Array} errorAnnotations Error annotations.
 		 * @return {void}
 		 */
 		codeEditorSettings.onUpdateErrorNotice = function onUpdateErrorNotice( errorAnnotations ) {
@@ -491,26 +491,24 @@ wp.themePluginEditor = (function( $ ) {
 	 */
 	var TreeitemLink = (function () {
 		/**
-		 *   This content is licensed according to the W3C Software License at
-		 *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+		 * This content is licensed according to the W3C Software License at
+		 * https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 		 *
-		 *   File:   TreeitemLink.js
+		 * File:   TreeitemLink.js
 		 *
-		 *   Desc:   Treeitem widget that implements ARIA Authoring Practices
-		 *           for a tree being used as a file viewer
+		 * Desc:   Treeitem widget that implements ARIA Authoring Practices
+		 * for a tree being used as a file viewer
 		 *
-		 *   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
+		 * Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
 		 */
 
 		/**
-		 *   @class
+		 * @class
 		 *
-		 *   @description
-		 *       Treeitem object for representing the state and user interactions for a
-		 *       treeItem widget
+		 * Treeitem object for representing the state and user interactions for a
+		 * treeItem widget
 		 *
-		 *   @param node
-		 *       An element with the role=tree attribute
+		 * @param node An element with the role=tree attribute
 		 */
 
 		var TreeitemLink = function (node, treeObj, group) {

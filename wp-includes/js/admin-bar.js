@@ -174,7 +174,7 @@
 	 * @since 5.3.1
 	 *
 	 * @param {NodeList} topMenuItems All menu items.
-	 * @param {Event} event The click event.
+	 * @param {Event}    event        The click event.
 	 */
 	function mobileHover( topMenuItems, event ) {
 		var wrapper;
@@ -260,7 +260,7 @@
 	 *
 	 * @since 5.3.1
 	 *
-	 * @param {HTMLElement} element The HTML element.
+	 * @param {HTMLElement} element   The HTML element.
 	 * @param {string}      className The class name.
 	 * @return {boolean} Whether the element has the className.
 	 */
@@ -286,7 +286,7 @@
 	 *
 	 * @since 5.3.1
 	 *
-	 * @param {HTMLElement} element The HTML element.
+	 * @param {HTMLElement} element   The HTML element.
 	 * @param {string}      className The class name.
 	 */
 	function addClass( element, className ) {
@@ -315,7 +315,7 @@
 	 *
 	 * @since 5.3.1
 	 *
-	 * @param {HTMLElement} element The HTML element.
+	 * @param {HTMLElement} element   The HTML element.
 	 * @param {string}      className The class name.
 	 */
 	function removeClass( element, className ) {
@@ -395,8 +395,8 @@
 	 *
 	 * @since 5.3.1
 	 *
-	 * @param {HTMLElement} el Element to get parent.
-	 * @param {string} selector CSS selector to match.
+	 * @param {HTMLElement} el       Element to get parent.
+	 * @param {string}      selector CSS selector to match.
 	 *
 	 * @return {HTMLElement|null} The closest matching element or null if not found.
 	 */

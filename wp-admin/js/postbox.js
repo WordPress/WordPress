@@ -353,8 +353,8 @@
 		 *
 		 * @memberof postboxes
 		 *
-		 * @param {string} page The page we are currently on.
-		 * @param {Object} [args={}] The arguments for the postbox initializer.
+		 * @param {string}   page        The page we are currently on.
+		 * @param {Object}   [args={}]   The arguments for the postbox initializer.
 		 * @param {Function} args.pbshow A callback that is called when a postbox opens.
 		 * @param {Function} args.pbhide A callback that is called when a postbox
 		 *                               closes.

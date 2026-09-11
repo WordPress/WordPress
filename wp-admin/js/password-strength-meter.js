@@ -26,10 +26,10 @@ window.wp = window.wp || {};
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param {string} password1       The subject password.
+		 * @param {string} password1      The subject password.
 		 * @param {Array}  disallowedList An array of words that will lower the entropy of
-		 *                                 the password.
-		 * @param {string} password2       The password confirmation.
+		 *                                the password.
+		 * @param {string} password2      The password confirmation.
 		 *
 		 * @return {number} The password strength score.
 		 */

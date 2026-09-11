@@ -173,7 +173,7 @@
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param {event} event The TinyMCE editor init event.
+		 * @param {event}  event  The TinyMCE editor init event.
 		 * @param {Object} editor The editor to bind the vents on.
 		 *
 		 * @return {void}
@@ -1473,7 +1473,7 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The TinyMCE editor setup event.
+		 * @param {event}  event  The TinyMCE editor setup event.
 		 * @param {Object} editor The editor to add the button to.
 		 *
 		 * @return {void}
@@ -1522,7 +1522,7 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The TinyMCE editor init event.
+		 * @param {event}  event  The TinyMCE editor init event.
 		 * @param {Object} editor The editor to bind events on.
 		 *
 		 * @return {void}
@@ -1581,11 +1581,11 @@
 		} );
 
 		/**
-		 *  Binds events on quicktags init.
+		 * Binds events on quicktags init.
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The quicktags init event.
+		 * @param {event}  event  The quicktags init event.
 		 * @param {Object} editor The editor to bind events on.
 		 *
 		 * @return {void}

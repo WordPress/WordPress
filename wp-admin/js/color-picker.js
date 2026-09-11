@@ -69,8 +69,8 @@
 				 *
 				 * @ignore
 				 *
-				 * @param {Event} event    The event that's being called.
-				 * @param {HTMLElement} ui The HTMLElement containing the color picker.
+				 * @param {Event}       event The event that's being called.
+				 * @param {HTMLElement} ui    The HTMLElement containing the color picker.
 				 *
 				 * @return {void}
 				 */
@@ -189,8 +189,8 @@
 				 *
 				 * @ignore
 				 *
-				 * @param {Event} event    The event that's being called.
-				 * @param {HTMLElement} ui The HTMLElement containing the color picker.
+				 * @param {Event}       event The event that's being called.
+				 * @param {HTMLElement} ui    The HTMLElement containing the color picker.
 				 *
 				 * @return {void}
 				 */

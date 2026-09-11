@@ -18,11 +18,11 @@ window.wp = window.wp || {};
  *
  * @type {Object}
  *
- * @property {string} type The type of inline editor.
- * @property {string} what The prefix before the post ID.
+ * @property {string}       type The type of inline editor.
+ * @property {string}       what The prefix before the post ID.
  *
- * @param {JQueryStatic} $ The jQuery object.
- * @param {wp}           wp The WordPress global object.
+ * @param    {JQueryStatic} $    The jQuery object.
+ * @param    {wp}           wp   The WordPress global object.
  *
  */
 ( function( $, wp ) {

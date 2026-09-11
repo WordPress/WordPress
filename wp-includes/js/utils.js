@@ -63,12 +63,12 @@ window.wpCookies = {
 	 *
 	 * 'values_obj' is the JS object that is stored. It is encoded as URI in wpCookies.set().
 	 *
-	 * @param {string}      name         The name of the cookie.
-	 * @param {Object}      values_obj   The values to store in the cookie.
-	 * @param {number|Date} [expires]    Optional. Expiration time in seconds or a Date object.
-	 * @param {string}      [path]       Optional. The path on the server in which the cookie will be available on.
-	 * @param {string}      [domain]     Optional. The domain that the cookie is available to.
-	 * @param {boolean}     [secure]     Optional. Whether the cookie should only be transmitted over a secure HTTPS connection.
+	 * @param {string}      name       The name of the cookie.
+	 * @param {Object}      values_obj The values to store in the cookie.
+	 * @param {number|Date} [expires]  Optional. Expiration time in seconds or a Date object.
+	 * @param {string}      [path]     Optional. The path on the server in which the cookie will be available on.
+	 * @param {string}      [domain]   Optional. The domain that the cookie is available to.
+	 * @param {boolean}     [secure]   Optional. Whether the cookie should only be transmitted over a secure HTTPS connection.
 	 */
 	setHash: function( name, values_obj, expires, path, domain, secure ) {
 		var str = '';

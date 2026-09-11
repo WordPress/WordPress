@@ -137,7 +137,7 @@
 		 *
 		 * Prevent the image_title attribute from being initially set when adding an image from the media library.
 		 *
-		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
+		 * @param {wp.media.view.MediaFrame.Select} mediaFrame Select frame.
 		 * @return {Object} Props.
 		 */
 		getModelPropsFromMediaFrame: function getModelPropsFromMediaFrame( mediaFrame ) {

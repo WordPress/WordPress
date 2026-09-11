@@ -137,14 +137,13 @@
 	 * Binds to the Heartbeat Tick event.
 	 *
 	 * - Shows the authentication form popup if user is not logged in.
-	 * - Hides the authentication form popup if it is already visible and user is
-	 *   logged in.
+	 * - Hides the authentication form popup if it is already visible and user is logged in.
 	 *
 	 * @ignore
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param {Object} e The heartbeat-tick event that has been triggered.
+	 * @param {Object} e    The heartbeat-tick event that has been triggered.
 	 * @param {Object} data Response data.
 	 */
 	$( function() {

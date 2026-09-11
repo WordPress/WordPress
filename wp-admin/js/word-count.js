@@ -148,8 +148,8 @@
 	 *
 	 * @memberof wp.utils.wordcounter
 	 *
-	 * @param {string}  text Text to count elements in.
-	 * @param {string}  type Optional. Specify type to use.
+	 * @param {string} text Text to count elements in.
+	 * @param {string} type Optional. Specify type to use.
 	 *
 	 * @return {number} The number of items counted.
 	 */

@@ -78,7 +78,7 @@ window.wp = window.wp || {};
 		 *
 		 * @memberof switchEditors
 		 *
-		 * @param {string} id The id of the editor you want to change the editor mode for. Default: `content`.
+		 * @param {string} id   The id of the editor you want to change the editor mode for. Default: `content`.
 		 * @param {string} mode The mode you want to switch to. Default: `toggle`.
 		 * @return {void}
 		 */
@@ -201,7 +201,7 @@ window.wp = window.wp || {};
 		 * the tag type, if it is a closing tag and check if the HTML tag is inside a shortcode tag,
 		 * e.g. `[caption]<img.../>..`.
 		 *
-		 * @param {string} content The test content where the cursor is.
+		 * @param {string} content        The test content where the cursor is.
 		 * @param {number} cursorPosition The cursor position inside the content.
 		 *
 		 * @return {(null|Object)} Null if cursor is not in a tag, Object if the cursor is inside a tag.
@@ -246,8 +246,8 @@ window.wp = window.wp || {};
 		 * Moving the selection to before or after the short code is better, since it allows to select
 		 * something, instead of just losing focus and going to the start of the content.
 		 *
-		 * @param {string} content The text content to check against.
-		 * @param {number} cursorPosition    The cursor position to check.
+		 * @param {string} content        The text content to check against.
+		 * @param {number} cursorPosition The cursor position to check.
 		 *
 		 * @return {void|Object} Undefined if the cursor is not wrapped in a shortcode tag.
 		 *                       Information about the wrapping shortcode tag if it's wrapped in one.
@@ -372,7 +372,7 @@ window.wp = window.wp || {};
 		 *
 		 * Using DomQuery syntax to create it, since it's used as both text and as a DOM element.
 		 *
-		 * @param {Object} domLib DOM library instance.
+		 * @param {Object} domLib  DOM library instance.
 		 * @param {string} content The content to insert into the cursor marker element.
 		 * @return {Object} The cursor marker element.
 		 */
@@ -395,7 +395,7 @@ window.wp = window.wp || {};
 		 *
 		 * @link getShortcodeWrapperInfo
 		 *
-		 * @param {string} content Textarea content that the cursors are in
+		 * @param {string}                                   content         Textarea content that the cursors are in
 		 * @param {{cursorStart: number, cursorEnd: number}} cursorPositions Cursor start and end positions
 		 *
 		 * @return {{cursorStart: number, cursorEnd: number}} Adjusted cursor positions with `cursorStart` and `cursorEnd` properties.
@@ -585,7 +585,7 @@ window.wp = window.wp || {};
 		 * I order to achieve the proper positioning, the editor media bar and toolbar are subtracted
 		 * from the window height, to get the proper viewport window, that the user sees.
 		 *
-		 * @param {Object} editor TinyMCE editor instance.
+		 * @param {Object} editor  TinyMCE editor instance.
 		 * @param {Object} element HTMLElement that should be scrolled into view.
 		 */
 		function scrollVisualModeToStartElement( editor, element ) {
@@ -825,7 +825,7 @@ window.wp = window.wp || {};
 		 * For `selection` parameter:
 		 * @link findBookmarkedPosition
 		 *
-		 * @param {Object} editor TinyMCE's editor instance.
+		 * @param {Object} editor    TinyMCE's editor instance.
 		 * @param {Object} selection Selection data.
 		 */
 		function selectTextInTextArea( editor, selection ) {
@@ -1224,9 +1224,12 @@ window.wp = window.wp || {};
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param {string} id The HTML id of the textarea that is used for the editor.
-	 *                    Has to be jQuery compliant. No brackets, special chars, etc.
-	 * @param {Object} settings Example:
+	 * @param {string} id       The HTML id of the textarea that is used for the editor.
+	 *                          Has to be jQuery compliant. No brackets, special chars, etc.
+	 * @param {Object} settings The settings for initializing the editor.
+	 *
+	 * @example
+	 * ```javascript
 	 * settings = {
 	 *    // See https://www.tinymce.com/docs/configure/integration-and-setup/.
 	 *    // Alternatively set to `true` to use the defaults.
@@ -1241,6 +1244,22 @@ window.wp = window.wp || {};
 	 *        buttons: 'strong,em,link'
 	 *    }
 	 * }
+	 *
+	 * settings = {
+	 *    // See https://www.tinymce.com/docs/configure/integration-and-setup/.
+	 *    // Alternatively set to `true` to use the defaults.
+	 *    tinymce: {
+	 *        setup: function( editor ) {
+	 *            console.log( 'Editor initialized', editor );
+	 *        }
+	 *    }
+	 *
+	 *    // Alternatively set to `true` to use the defaults.
+	 *	  quicktags: {
+	 *        buttons: 'strong,em,link'
+	 *    }
+	 * }
+	 * ```
 	 */
 	wp.editor.initialize = function( id, settings ) {
 		var init;

@@ -74,7 +74,7 @@
 		 * There are 4 special values that do something extra:
 		 *
 		 * - `document`     will transfer the pointer to the body of the new document
-		 *                  specified by the value.
+		 * specified by the value.
 		 * - `pointerClass` will change the class of the pointer element.
 		 * - `position`     will reposition the pointer.
 		 * - `content`      will update the content of the pointer.

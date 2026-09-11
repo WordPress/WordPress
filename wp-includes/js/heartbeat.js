@@ -790,12 +790,17 @@
 		/**
 		 * Enqueues data to send with the next XHR.
 		 *
-		 * As the data is send asynchronously, this function doesn't return the XHR
+		 * As the data is sent asynchronously, this function doesn't return the XHR
 		 * response. To see the response, use the custom jQuery event 'heartbeat-tick'
-		 * on the document, example:
+		 * on the document.
+		 *
+		 * @example
+		 * ```javascript
 		 *		$(document).on( 'heartbeat-tick.myname', function( event, data, textStatus, jqXHR ) {
 		 *			// code
 		 *		});
+		 * ```
+		 *
 		 * If the same 'handle' is used more than once, the data is not overwritten when
 		 * the third argument is 'true'. Use `wp.heartbeat.isQueued('handle')` to see if
 		 * any data is already queued for that handle.

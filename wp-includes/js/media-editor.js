@@ -20,11 +20,11 @@
 
 	/**
 	 * A helper mixin function to avoid truthy and falsey values being
-	 *   passed as an input that expects booleans. If key is undefined in the map,
-	 *   but has a default value, set it.
+	 * passed as an input that expects booleans. If key is undefined in the map,
+	 * but has a default value, set it.
 	 *
 	 * @param {Object} attrs Map of props from a shortcode or settings.
-	 * @param {string} key The key within the passed map to check for a value.
+	 * @param {string} key   The key within the passed map to check for a value.
 	 * @return {mixed|undefined} The original or coerced value of key within attrs.
 	 */
 	wp.media.coerce = function ( attrs, key ) {
@@ -111,7 +111,7 @@
 		/**
 		 * Create link markup that is suitable for passing to the editor
 		 *
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} props      Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @return {string} The link markup
 		 */
@@ -137,7 +137,7 @@
 		/**
 		 * Create an Audio shortcode string that is suitable for passing to the editor
 		 *
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} props      Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @return {string} The audio shortcode
 		 */
@@ -147,7 +147,7 @@
 		/**
 		 * Create a Video shortcode string that is suitable for passing to the editor
 		 *
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} props      Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @return {string} The video shortcode
 		 */
@@ -159,8 +159,8 @@
 		 *
 		 * @access private
 		 *
-		 * @param {string} type The shortcode tag name: 'audio' or 'video'.
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {string} type       The shortcode tag name: 'audio' or 'video'.
+		 * @param {Object} props      Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @return {string} The media shortcode
 		 */
@@ -206,9 +206,9 @@
 		},
 		/**
 		 * Create image markup, optionally with a link and/or wrapped in a caption shortcode,
-		 *  that is suitable for passing to the editor
+		 * that is suitable for passing to the editor
 		 *
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} props      Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @return {string} The image markup.
 		 */
@@ -418,9 +418,9 @@
 			 * Triggered when clicking 'Insert {label}' or 'Update {label}'
 			 *
 			 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
-			 *      the media items belonging to a collection.
-			 *      The query[ this.tag ] property is a Backbone.Model
-			 *          containing the 'props' for the collection.
+			 *                                                 the media items belonging to a collection.
+			 *                                                 The query[ this.tag ] property is a Backbone.Model
+			 *                                                 containing the 'props' for the collection.
 			 * @return {wp.shortcode} A wp.shortcode instance representing the collection.
 			 */
 			shortcode: function( attachments ) {
@@ -485,10 +485,10 @@
 			},
 			/**
 			 * Triggered when double-clicking a collection shortcode placeholder
-			 *   in the editor
+			 * in the editor
 			 *
 			 * @param {string} content Content that is searched for possible
-			 *    shortcode markup matching the passed tag name,
+			 *                         shortcode markup matching the passed tag name,
 			 *
 			 * @this wp.media.{prop}
 			 *
@@ -689,7 +689,7 @@
 		},
 		/**
 		 * 'select' callback for Featured Image workflow, triggered when
-		 *  the 'Set Featured Image' button is clicked in the media modal.
+		 * the 'Set Featured Image' button is clicked in the media modal.
 		 *
 		 * @this wp.media.controller.FeaturedImage
 		 */
@@ -784,7 +784,7 @@
 
 		/**
 		 * Setup 'workflow' and add to the 'workflows' cache. 'open' can
-		 *  subsequently be called upon it.
+		 * subsequently be called upon it.
 		 *
 		 * @param {string} id           A slug used to identify the workflow.
 		 * @param {Object} [options={}] The options for the media workflow.
@@ -943,9 +943,9 @@
 		send: {
 			/**
 			 * Called when sending an attachment to the editor
-			 *   from the medial modal.
+			 * from the medial modal.
 			 *
-			 * @param {Object} props Attachment details (align, link, size, etc).
+			 * @param {Object} props      Attachment details (align, link, size, etc).
 			 * @param {Object} attachment The attachment object, media version of Post.
 			 * @return {Promise} A promise that resolves when the attachment has been sent to the editor.
 			 */

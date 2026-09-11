@@ -226,7 +226,7 @@ wpList = {
 	 * data[2] - ID of the parent element of all inputs necessary for the request.
 	 * data[3] - Hex color to be used in this request. If data[0] is 'dim', dim class.
 	 * data[4] - Additional arguments in query syntax that are added to the request. Example: 'post_id=1234'.
-	 *           If data[0] is 'dim', dim add color.
+	 * If data[0] is 'dim', dim add color.
 	 * data[5] - Only available if data[0] is 'dim', dim delete color.
 	 * data[6] - Only available if data[0] is 'dim', additional arguments in query syntax that are added to the request.
 	 *

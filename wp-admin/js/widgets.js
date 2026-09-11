@@ -752,7 +752,7 @@ $( function(){ wpWidgets.init(); } );
  * @deprecated 5.5.0
  *
  * @type {Object}
-*/
+ */
 wpWidgets.l10n = wpWidgets.l10n || {
 	save: '',
 	saved: '',
