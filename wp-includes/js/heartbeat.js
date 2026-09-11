@@ -244,8 +244,8 @@
 				/**
 				 * Handles pageshow event, specifically when page navigation is restored from back/forward cache.
 				 *
-				 * @param {jQuery.Event} event
-				 * @param {PageTransitionEvent} event.originalEvent
+				 * @param {JQuery.Event}        event               The jQuery event object.
+				 * @param {PageTransitionEvent} event.originalEvent The original PageTransitionEvent object.
 				 */
 				function ( event ) {
 					if ( event.originalEvent.persisted ) {

@@ -196,7 +196,7 @@
 		/**
 		 * Detect clicks to external (_top) links.
 		 *
-		 * @param {MouseEvent} event
+		 * @param {MouseEvent} event The click event object.
 		 */
 		function linkClickHandler( event ) {
 			/*
@@ -237,7 +237,7 @@
 	/**
 	 * Message handler.
 	 *
-	 * @param {MessageEvent} event
+	 * @param {MessageEvent} event The message event object.
 	 */
 	function onMessage( event ) {
 		var data = event.data;

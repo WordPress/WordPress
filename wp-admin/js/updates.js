@@ -241,7 +241,7 @@
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param {Object} data
+	 * @param {Object} data                 The data for the admin notice.
 	 * @param {*}      [data.selector]      Optional. Selector of an element to be replaced with the admin notice.
 	 * @param {string} [data.id]            Optional. Unique id that will be used as the notice's id attribute.
 	 * @param {string} [data.className]     Optional. Class names that will be used in the admin notice.
@@ -334,7 +334,7 @@
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param {Object} response
+	 * @param {Object} response             The response object from the Ajax request.
 	 * @param {Array}  [response.debug]     Optional. Debug information.
 	 * @param {string} [response.errorCode] Optional. Error code for an error that occurred.
 	 */
@@ -1594,7 +1594,7 @@
 	 * @since 4.6.0
 	 * @since 5.5.0 Auto-update "time to next update" text cleared.
 	 *
-	 * @param {Object} response
+	 * @param {Object} response            The response object from the Ajax request.
 	 * @param {string} response.slug       Slug of the theme to be updated.
 	 * @param {Object} response.theme      Updated theme.
 	 * @param {string} response.oldVersion Old version of the theme.
@@ -1709,7 +1709,7 @@
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param {Object}              args
+	 * @param {Object}              args         The arguments for the theme installation request.
 	 * @param {string}              args.slug    Theme stylesheet.
 	 * @param {installThemeSuccess} args.success Optional. Success callback. Default: wp.updates.installThemeSuccess
 	 * @param {installThemeError}   args.error   Optional. Error callback. Default: wp.updates.installThemeError
@@ -1901,7 +1901,7 @@
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param {Object}             args
+	 * @param {Object}             args         The arguments for the theme deletion request.
 	 * @param {string}             args.slug    Theme stylesheet.
 	 * @param {deleteThemeSuccess} args.success Optional. Success callback. Default: wp.updates.deleteThemeSuccess
 	 * @param {deleteThemeError}   args.error   Optional. Error callback. Default: wp.updates.deleteThemeError

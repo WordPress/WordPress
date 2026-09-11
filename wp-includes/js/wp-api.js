@@ -1546,7 +1546,7 @@
 	/**
 	 * Initialize the wp-api, optionally passing the API root.
 	 *
-	 * @param {Object} [args]
+	 * @param {Object} [args]               The arguments for initializing the wp-api.
 	 * @param {string} [args.nonce]         The nonce. Optional, defaults to wpApiSettings.nonce.
 	 * @param {string} [args.apiRoot]       The api root. Optional, defaults to wpApiSettings.root.
 	 * @param {string} [args.versionString] The version string. Optional, defaults to wpApiSettings.root.

@@ -703,7 +703,7 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param {number} startTimestamp
+		 * @param {number} startTimestamp The start timestamp of the event.
 		 *
 		 * @return {number} The offset from UTC in minutes, with the sign flipped to be more intuitive.
 		 */
@@ -716,7 +716,7 @@ jQuery( function( $ ) {
 		 *
 		 * @since 5.5.2
 		 *
-		 * @param {number} startTimestamp
+		 * @param {number} startTimestamp The start timestamp of the event.
 		 *
 		 * @return {string} A short time zone name, like `PST`, or a string like `GMT+5` if the abbreviation can't be determined.
 		 */

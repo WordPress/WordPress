@@ -350,8 +350,8 @@ jQuery( function( $ ) {
 	/**
 	 * Add the details of a failed asynchronous test to the list of test results.
 	 *
-	 * @param {string} url
-	 * @param {string} description
+	 * @param {string} url         The URL of the failed test.
+	 * @param {string} description The description of the failed test.
 	 * @since 5.6.0
 	 */
 	function addFailedSiteHealthCheckNotice( url, description ) {

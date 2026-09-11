@@ -739,7 +739,7 @@ wpList = {
 	/**
 	 * Registers event handlers to add, delete, and dim items.
 	 *
-	 * @param {string} elementId
+	 * @param {string} elementId ID of the element to process, including leading #.
 	 */
 	process: function( elementId ) {
 		var list     = this,
@@ -812,7 +812,7 @@ wpList = {
 /**
  * Initializes wpList object.
  *
- * @param {Object}           settings
+ * @param {Object}           settings             The settings for the wpList instance.
  * @param {string}           settings.url         URL for ajax calls. Default: ajaxurl.
  * @param {string}           settings.type        The HTTP method to use for Ajax requests. Default: 'POST'.
  * @param {string}           settings.response    ID of the element the parsed ajax response will be stored in.
