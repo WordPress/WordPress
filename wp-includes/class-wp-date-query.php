@@ -784,9 +784,7 @@ class WP_Date_Query {
 		if ( isset( $query['hour'] ) || isset( $query['minute'] ) || isset( $query['second'] ) ) {
 			// Avoid notices.
 			foreach ( array( 'hour', 'minute', 'second' ) as $unit ) {
-				if ( ! isset( $query[ $unit ] ) ) {
-					$query[ $unit ] = null;
-				}
+				$query[ $unit ] ??= null;
 			}
 
 			$time_query = $this->build_time_query( $column, $compare, $query['hour'], $query['minute'], $query['second'] );
