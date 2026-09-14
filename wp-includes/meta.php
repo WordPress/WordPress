@@ -592,11 +592,28 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
  *               or if `$meta_type` is not specified.
  *               An empty array if a valid but non-existing object ID is passed and `$single` is false.
  *               An empty string if a valid but non-existing object ID is passed and `$single` is true.
+ *               The same empty array or empty string if `$meta_type` has no metadata table, in which
+ *               case there is no cache to return even when `$meta_key` is not specified.
  *               Note: Non-serialized values are returned as strings:
  *               - false values are returned as empty strings ('')
  *               - true values are returned as '1'
  *               - numbers (both integer and float) are returned as strings
  *               Arrays and objects retain their original type.
+ *               These conversions apply to stored values. A default value registered
+ *               with {@see register_meta()} is never stored, so it is returned with
+ *               the type it was registered with, which may be an integer, float, or
+ *               boolean.
+ *
+ * @phpstan-param int|numeric-string $object_id
+ * @phpstan-return (
+ *     $meta_key is ''|'0'
+ *         ? ( $single is true
+ *             ? array<array-key, list<string>>|string|false
+ *             : array<array-key, list<string>>|false )
+ *         : ( $single is true
+ *             ? mixed
+ *             : list<mixed>|false )
+ * )
  */
 function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false ) {
 	$value = get_metadata_raw( $meta_type, $object_id, $meta_key, $single );
@@ -624,6 +641,21 @@ function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false )
  *               False for an invalid `$object_id` (non-numeric, zero, or negative value),
  *               or if `$meta_type` is not specified.
  *               Null if the value does not exist.
+ *               Only stored values are returned. Unlike {@see get_metadata()}, a default
+ *               registered with {@see register_meta()} is never consulted, so a value is
+ *               always a string unless it was stored serialized, in which case the array
+ *               or object retains its original type.
+ *               When `$meta_key` is not specified, the values are returned exactly as
+ *               they are held in the object cache, which means they are still serialized.
+ *
+ * @phpstan-param int|numeric-string $object_id
+ * @phpstan-return (
+ *     $meta_key is ''|'0'
+ *         ? array<array-key, list<string>>|false|null
+ *         : ( $single is true
+ *             ? string|array<mixed>|object|false|null
+ *             : list<string|array<mixed>|object>|false|null )
+ * )
  */
 function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = false ) {
 	if ( ! $meta_type || ! is_numeric( $object_id ) ) {
@@ -708,6 +740,9 @@ function get_metadata_raw( $meta_type, $object_id, $meta_key = '', $single = fal
  *                          This parameter has no effect if `$meta_key` is not specified. Default false.
  * @return mixed An array of default values if `$single` is false.
  *               The default value of the meta field if `$single` is true.
+ *
+ * @phpstan-param int|numeric-string $object_id
+ * @phpstan-return ( $single is true ? mixed : list<mixed> )
  */
 function get_metadata_default( $meta_type, $object_id, $meta_key, $single = false ) {
 	if ( $single ) {

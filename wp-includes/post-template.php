@@ -1110,8 +1110,11 @@ function _wp_link_page( $i ) {
  * @since 1.5.0
  *
  * @param string $key Meta data key name.
- * @return array|string|false Array of values, or single value if only one element exists.
- *                            False if the key does not exist.
+ * @return string[]|string|false Array of values, or single value if only one element exists.
+ *                               False if the key does not exist.
+ *                               Values are always strings, as described for {@see get_post_custom()}.
+ *
+ * @phpstan-return list<string>|string|false
  */
 function post_custom( $key = '' ) {
 	$custom = get_post_custom();
