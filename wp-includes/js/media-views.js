@@ -4027,6 +4027,7 @@ Attachments = View.extend(/** @lends wp.media.view.Attachments.prototype */{
 	className: 'attachments',
 
 	attributes: {
+		role:     'group',
 		tabIndex: -1
 	},
 
@@ -8133,9 +8134,11 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * @this wp.media.controller.Region
 	 */
 	createTitle: function( title ) {
+		// A modal's dialog element points `aria-labelledby` at its frame heading.
 		title.view = new wp.media.View({
 			controller: this,
-			tagName: 'h1'
+			tagName: 'h1',
+			attributes: this.modal ? { id: this.modal.titleId } : {}
 		});
 	},
 	/**
@@ -8669,6 +8672,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 			hasCloseButton: true
 		});
 
+		this.titleId = _.uniqueId( 'media-frame-title-' );
+
 		this.focusManager = new wp.media.view.FocusManager({
 			el: this.el
 		});
@@ -8676,12 +8681,15 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	/**
 	 * Prepares the data for the modal template.
 	 *
+	 * @since 7.2.0 Added the `titleId` property.
+	 *
 	 * @return {Object} The prepared data.
 	 */
 	prepare: function() {
 		return {
 			title:          this.options.title,
-			hasCloseButton: this.options.hasCloseButton
+			hasCloseButton: this.options.hasCloseButton,
+			titleId:        this.titleId
 		};
 	},
 
