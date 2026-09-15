@@ -143,6 +143,7 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	 *
 	 * @since 7.0.0
 	 * @since 7.1.0 Supports filtering by collection.
+	 * @since 7.2.0 Icons registered as non-public are omitted.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -167,6 +168,9 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 		$icons    = WP_Icons_Registry::get_instance()->get_registered_icons( $search );
 
 		foreach ( $icons as $icon ) {
+			if ( false === ( $icon['public'] ?? true ) ) {
+				continue;
+			}
 			if ( null !== $collection && ( ! isset( $icon['collection'] ) || $icon['collection'] !== $collection ) ) {
 				continue;
 			}
@@ -198,6 +202,7 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	 * Retrieves a specific icon from the registry.
 	 *
 	 * @since 7.0.0
+	 * @since 7.2.0 Icons registered as non-public are reported as not found.
 	 *
 	 * @param string $name Icon name.
 	 * @return array|WP_Error Icon data on success, or WP_Error object on failure.
@@ -206,7 +211,7 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 		$registry = WP_Icons_Registry::get_instance();
 		$icon     = $registry->get_registered_icon( $name );
 
-		if ( null === $icon ) {
+		if ( null === $icon || false === ( $icon['public'] ?? true ) ) {
 			return new WP_Error(
 				'rest_icon_not_found',
 				sprintf(
