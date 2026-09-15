@@ -636,7 +636,6 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
  *                                  Default empty array.
  * @param mixed      ...$params     Optional additional parameters to pass to the callback function when it's called.
  */
-
 function _register_widget_form_callback( $id, $name, $form_callback, $options = array(), ...$params ) {
 	global $wp_registered_widget_controls;
 

@@ -561,8 +561,6 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  *                             Default is false.
  * @return string|null Font-size value or null if a size is not passed in $preset.
  */
-
-
 function wp_get_typography_font_size_value( $preset, $settings = array() ) {
 	if ( ! isset( $preset['size'] ) ) {
 		return null;
