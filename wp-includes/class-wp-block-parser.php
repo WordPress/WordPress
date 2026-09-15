@@ -346,6 +346,13 @@ class WP_Block_Parser {
 	 * @param int|null              $last_offset  Last byte offset into document if continuing form earlier output.
 	 */
 	public function add_inner_block( WP_Block_Parser_Block $block, $token_start, $token_length, $last_offset = null ) {
+		/*
+		 * Note: `array_last()` is intentionally not used here. It returns `null` for an
+		 * empty array, which makes static analysis flag the property accesses below.
+		 * Guarding against that is not possible without changing behavior: both callers
+		 * already ensure the stack is not empty, so the guard would be unreachable, and
+		 * this is a public method on a class that can be replaced via `block_parser_class`.
+		 */
 		$parent                       = $this->stack[ array_key_last( $this->stack ) ];
 		$parent->block->innerBlocks[] = (array) $block;
 		$html                         = substr( $this->document, $parent->prev_offset, $token_start - $parent->prev_offset );
