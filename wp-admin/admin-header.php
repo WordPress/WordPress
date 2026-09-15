@@ -273,6 +273,8 @@ unset( $error_get_last );
  *    and no-js cannot be removed.
  *
  * @since 2.3.0
+ * @since 7.2.0 Also applied in the Customizer context, where the body tag does not
+ *              have the wp-admin class.
  *
  * @param string $classes Space-separated list of CSS classes.
  */
