@@ -1490,35 +1490,47 @@ table.form-table td .updated p {
 
 .privacy_requests thead td:first-child,
 .privacy_requests tfoot td:first-child {
-	border-left: 4px solid #fff;
+	border-left: 4px solid transparent;
 }
 
 .privacy_requests tbody td.check-column {
-	border-left: 4px solid #fff;
-	background: #fff;
-	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	border-left: 4px solid transparent;
 }
 
 .privacy_requests .row-actions.processing {
 	position: static;
 }
 
-.privacy_requests tbody .has-request-results th {
-	box-shadow: none;
-}
-
 .privacy_requests tbody .request-results th .notice {
 	margin: 0 0 5px;
 }
 
-.privacy_requests tbody td:not(.check-column),
-.privacy_requests tbody th {
-	background: #fff;
-	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+/*
+ * The results row is injected after its request row, so it lands on the opposite
+ * stripe. Invert it to match.
+ */
+.privacy_requests tbody tr.request-results:nth-child(even) {
+	background-color: #f6f7f7;
 }
 
-.privacy_requests tbody .has-request-results td {
-	box-shadow: none;
+.privacy_requests tbody tr.request-results:nth-child(odd) {
+	background-color: transparent;
+}
+
+/*
+ * Where supported, skip the injected rows in the stripe count instead, so they
+ * no longer shift the rows below. The rules above are the fallback.
+ */
+@supports selector(:nth-child(1 of :not(.request-results))) {
+	.privacy_requests tbody > tr:nth-child(odd),
+	.privacy_requests tbody > tr.request-results:nth-child(even) {
+		background-color: transparent;
+	}
+
+	.privacy_requests tbody > tr:nth-child(odd of :not(.request-results)),
+	.privacy_requests tbody > tr:nth-child(odd of :not(.request-results)) + tr.request-results {
+		background-color: #f6f7f7;
+	}
 }
 
 .privacy_requests .next_steps .button {
@@ -1527,12 +1539,10 @@ table.form-table td .updated p {
 }
 
 .privacy_requests tr.status-request-confirmed td.check-column {
-	background-color: #fff;
 	border-left-color: #3858e9;
 }
 
 .privacy_requests tr.status-request-failed td.check-column {
-	background-color: #f6f7f7;
 	border-left-color: #cc1818;
 }
 
