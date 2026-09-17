@@ -6402,6 +6402,8 @@ function iis7_supports_permalinks() {
  *
  * A return value of `3` means the file is not in the allowed files list.
  *
+ * A return value of `0` means no file was provided or processed.
+ *
  * Note that absolute POSIX paths such as `/etc/passwd` are *not* rejected, and
  * never have been. Callers that must reject them are responsible for their own
  * check. The convention in core is to concatenate the validated value onto a
