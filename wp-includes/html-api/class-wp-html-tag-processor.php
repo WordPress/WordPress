@@ -3706,7 +3706,7 @@ class WP_HTML_Tag_Processor {
 			self::COMMENT_AS_HTML_COMMENT === $this->comment_type
 		) {
 			// Check if the text could close the comment.
-			if ( 1 === preg_match( '/--!?>/', $plaintext_content ) ) {
+			if ( 1 === preg_match( '/^-?>|--!?>/', $plaintext_content ) ) {
 				return false;
 			}
 
