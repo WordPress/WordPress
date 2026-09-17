@@ -668,15 +668,16 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
  *
  * @since 5.8.0
  *
- * @global WP_Post    $post       Global post object.
- * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
- * @global WP_Styles  $wp_styles  The WP_Styles object for printing styles.
+ * @global WP_Post           $post              Global post object.
+ * @global WP_Scripts        $wp_scripts        The WP_Scripts object for printing scripts.
+ * @global WP_Styles         $wp_styles         The WP_Styles object for printing styles.
+ * @global WP_Script_Modules $wp_script_modules The WP_Script_Modules object for printing script modules.
  *
  * @param (string|string[])[]     $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  */
 function block_editor_rest_api_preload( array $preload_paths, $block_editor_context ) {
-	global $post, $wp_scripts, $wp_styles;
+	global $post, $wp_scripts, $wp_styles, $wp_script_modules;
 
 	/**
 	 * Filters the array of REST API paths that will be used to preloaded common data for the block editor.
@@ -710,15 +711,25 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	}
 
 	/*
-	 * Ensure the global $post, $wp_scripts, and $wp_styles remain the same after
-	 * API data is preloaded.
+	 * Ensure the globals $post, $wp_scripts, $wp_styles, and $wp_script_modules
+	 * remain the same after API data is preloaded.
 	 * Because API preloading can call the_content and other filters, plugins
 	 * can unexpectedly modify the global $post or enqueue assets which are not
 	 * intended for the block editor.
+	 *
+	 * Copies are swapped in for the duration of the preload and the original
+	 * instances are restored afterwards, so that hooks and other references
+	 * bound to those instances remain valid.
 	 */
-	$backup_global_post = ! empty( $post ) ? clone $post : $post;
-	$backup_wp_scripts  = ! empty( $wp_scripts ) ? clone $wp_scripts : $wp_scripts;
-	$backup_wp_styles   = ! empty( $wp_styles ) ? clone $wp_styles : $wp_styles;
+	$original_post              = $post;
+	$original_wp_scripts        = $wp_scripts;
+	$original_wp_styles         = $wp_styles;
+	$original_wp_script_modules = $wp_script_modules;
+
+	$post              = ! empty( $post ) ? clone $post : $post;
+	$wp_scripts        = ! empty( $wp_scripts ) ? clone $wp_scripts : $wp_scripts;
+	$wp_styles         = ! empty( $wp_styles ) ? clone $wp_styles : $wp_styles;
+	$wp_script_modules = ! empty( $wp_script_modules ) ? clone $wp_script_modules : $wp_script_modules;
 
 	foreach ( $preload_paths as &$path ) {
 		if ( is_string( $path ) && ! str_starts_with( $path, '/' ) ) {
@@ -739,10 +750,14 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 		array()
 	);
 
-	// Restore the global $post, $wp_scripts, and $wp_styles as they were before API preloading.
-	$post       = $backup_global_post;
-	$wp_scripts = $backup_wp_scripts;
-	$wp_styles  = $backup_wp_styles;
+	// Restore the original $post, $wp_scripts, $wp_styles, and $wp_script_modules instances.
+	$post = $original_post;
+	if ( ! empty( $post ) ) {
+		setup_postdata( $post );
+	}
+	$wp_scripts        = $original_wp_scripts;
+	$wp_styles         = $original_wp_styles;
+	$wp_script_modules = $original_wp_script_modules;
 
 	wp_add_inline_script(
 		'wp-api-fetch',
