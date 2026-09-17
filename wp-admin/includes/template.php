@@ -2725,7 +2725,9 @@ function _wp_admin_html_begin() {
  *
  * @since 3.0.0
  *
- * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
+ * @param string|WP_Screen|null $hook_name The hook name (also known as the hook suffix) used to determine the screen.
+ *                                         A `WP_Screen` instance is returned as-is. If null, the current
+ *                                         $hook_suffix global is used.
  * @return WP_Screen Screen object.
  */
 function convert_to_screen( $hook_name ) {

@@ -133,18 +133,18 @@ class WP_List_Table {
 	 * @param array|string $args {
 	 *     Array or string of arguments.
 	 *
-	 *     @type string $plural   Plural value used for labels and the objects being listed.
-	 *                            This affects things such as CSS class-names and nonces used
-	 *                            in the list table, e.g. 'posts'. Default empty.
-	 *     @type string $singular Singular label for an object being listed, e.g. 'post'.
-	 *                            Default empty
-	 *     @type bool   $ajax     Whether the list table supports Ajax. This includes loading
-	 *                            and sorting data, for example. If true, the class will call
-	 *                            the _js_vars() method in the footer to provide variables
-	 *                            to any scripts handling Ajax events. Default false.
-	 *     @type string $screen   String containing the hook name used to determine the current
-	 *                            screen. If left null, the current screen will be automatically set.
-	 *                            Default null.
+	 *     @type string                $plural   Plural value used for labels and the objects being listed.
+	 *                                           This affects things such as CSS class-names and nonces used
+	 *                                           in the list table, e.g. 'posts'. Default empty.
+	 *     @type string                $singular Singular label for an object being listed, e.g. 'post'.
+	 *                                           Default empty.
+	 *     @type bool                  $ajax     Whether the list table supports Ajax. This includes loading
+	 *                                           and sorting data, for example. If true, the class will call
+	 *                                           the _js_vars() method in the footer to provide variables
+	 *                                           to any scripts handling Ajax events. Default false.
+	 *     @type string|WP_Screen|null $screen   String containing the hook name used to determine the current
+	 *                                           screen, or a `WP_Screen` instance. If left null, the current
+	 *                                           screen will be automatically set. Default null.
 	 * }
 	 */
 	public function __construct( $args = array() ) {

@@ -205,8 +205,8 @@ final class WP_Screen {
 	 *
 	 * @global string $hook_suffix
 	 *
-	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
-	 *                                    Defaults to the current $hook_suffix global.
+	 * @param string|WP_Screen|null $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+	 *                                         Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
 	 */
 	public static function get( $hook_name = '' ) {
