@@ -569,7 +569,7 @@ function wpautop( $pee, $br = true ) {
 	$pee = preg_replace( '|<p>(<li.+?)</p>|', '$1', $pee );
 
 	// If a <blockquote> is wrapped with a <p>, move it inside the <blockquote>.
-	$pee = preg_replace( '|<p><blockquote([^>]*)>|i', '<blockquote$1><p>', $pee );
+	$pee = preg_replace( '!<p><blockquote((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>!i', '<blockquote$1><p>', $pee );
 	$pee = str_replace( '</blockquote></p>', '</p></blockquote>', $pee );
 
 	// If an opening or closing block element tag is preceded by an opening <p> tag, remove it.
