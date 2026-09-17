@@ -2059,6 +2059,13 @@ function wp_ajax_menu_quick_search() {
 function wp_ajax_get_permalink() {
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0;
+	if ( ! $post_id ) {
+		// Bypass call to get_preview_post_link() for unspecified post ID.
+		wp_die( '' );
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		wp_die( -1 );
+	}
 	wp_die( get_preview_post_link( $post_id ) );
 }
 
@@ -2070,8 +2077,15 @@ function wp_ajax_get_permalink() {
 function wp_ajax_sample_permalink() {
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0;
-	$title   = $_POST['new_title'] ?? '';
-	$slug    = $_POST['new_slug'] ?? null;
+	if ( ! $post_id ) {
+		// Bypass call to get_sample_permalink_html() for unspecified post ID.
+		wp_die( '' );
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		wp_die( -1 );
+	}
+	$title = $_POST['new_title'] ?? '';
+	$slug  = $_POST['new_slug'] ?? null;
 	wp_die( get_sample_permalink_html( $post_id, $title, $slug ) );
 }
 
