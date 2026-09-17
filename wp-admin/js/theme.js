@@ -1959,6 +1959,17 @@ themes.InstallerRouter = Backbone.Router.extend({
 });
 
 
+/*
+ * jQuery.escapeSelector() (added in jQuery 3.0) is not available on this
+ * branch's vendored jQuery. Fall back to the native CSS.escape(), which is
+ * what jQuery.escapeSelector() delegates to and which jQuery UI polyfills
+ * it with. A browser with neither skips the preview route below rather
+ * than building a selector from an unescaped slug.
+ */
+var escapeSelector = $.escapeSelector || ( window.CSS && window.CSS.escape && function( sel ) {
+	return window.CSS.escape( sel + '' );
+} );
+
 themes.RunInstaller = {
 
 	init: function() {
@@ -2021,9 +2032,13 @@ themes.RunInstaller = {
 				self.view.collection.query( request );
 				self.view.collection.trigger( 'update' );
 
-				// Open the theme preview.
+				// Open the theme preview. The slug comes from the URL, so escape it.
 				self.view.collection.once( 'query:success', function() {
-					$( 'div[data-slug="' + slug + '"]' ).trigger( 'click' );
+					if ( ! escapeSelector ) {
+						return;
+					}
+
+					$( 'div.theme[data-slug="' + escapeSelector( slug ) + '"]' ).trigger( 'click' );
 				});
 
 			}
