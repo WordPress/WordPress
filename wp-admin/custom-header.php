@@ -497,7 +497,7 @@ class Custom_Image_Header {
 		if ( $custom_header->height )
 			$header_image_style .= 'height:' . $custom_header->height . 'px;';
 	?>
-	<div id="headimg" style="<?php echo $header_image_style; ?>">
+	<div id="headimg" style="<?php echo esc_attr( $header_image_style ); ?>">
 		<?php
 		if ( display_header_text() )
 			$style = ' style="color:#' . get_header_textcolor() . ';"';
@@ -1020,8 +1020,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 				'attachment_id' => $choice['attachment_id'],
 				'url'           => $choice['url'],
 				'thumbnail_url' => $choice['url'],
-				'height'        => $choice['height'],
-				'width'         => $choice['width'],
+				'height'        => absint( $choice['height'] ),
+				'width'         => absint( $choice['width'] ),
 			);
 
 			update_post_meta( $choice['attachment_id'], '_wp_attachment_is_custom_header', get_stylesheet() );
@@ -1048,7 +1048,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 				return;
 		}
 
-		set_theme_mod( 'header_image', esc_url_raw( $header_image_data['url'] ) );
+		$header_image_data['url'] = esc_url_raw( $header_image_data['url'] );
+
+		if ( isset( $header_image_data['thumbnail_url'] ) ) {
+			$header_image_data['thumbnail_url'] = esc_url_raw( $header_image_data['thumbnail_url'] );
+		}
+
+		set_theme_mod( 'header_image', $header_image_data['url'] );
 		set_theme_mod( 'header_image_data', $header_image_data );
 	}
 
@@ -1407,9 +1413,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$alt_text_key = '_wp_attachment_image_alt';
 
 		foreach ( $header_images as &$header_image ) {
-			$header_meta = get_post_meta( $header_image['attachment_id'] );
-			$header_image['timestamp'] = isset( $header_meta[ $timestamp_key ] ) ? $header_meta[ $timestamp_key ] : '';
-			$header_image['alt_text'] = isset( $header_meta[ $alt_text_key ] ) ? $header_meta[ $alt_text_key ] : '';
+			$header_image['timestamp'] = get_post_meta( $header_image['attachment_id'], $timestamp_key, true );
+			$header_image['alt_text'] = get_post_meta( $header_image['attachment_id'], $alt_text_key, true );
 		}
 
 		return $header_images;
