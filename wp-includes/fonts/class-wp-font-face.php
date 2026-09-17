@@ -363,17 +363,18 @@ class WP_Font_Face {
 	 * Compiles the font variation settings.
 	 *
 	 * @since 6.4.0
+	 * @since 7.2.0 Quotes each axis tag and separates the axes with commas.
 	 *
-	 * @param array $font_variation_settings Array of font variation settings.
+	 * @param array $font_variation_settings Array of font variation settings, keyed by axis tag.
 	 * @return string The CSS.
 	 */
 	private function compile_variations( array $font_variation_settings ) {
-		$variations = '';
+		$variations = array();
 
-		foreach ( $font_variation_settings as $key => $value ) {
-			$variations .= "$key $value";
+		foreach ( $font_variation_settings as $tag => $value ) {
+			$variations[] = sprintf( '"%s" %s', $tag, $value );
 		}
 
-		return $variations;
+		return implode( ', ', $variations );
 	}
 }
