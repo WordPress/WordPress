@@ -4615,6 +4615,12 @@ function wp_ajax_activate_plugin() {
 		wp_send_json_error( $status );
 	}
 
+	// A network-only plugin is activated for the entire network.
+	if ( is_multisite() && is_network_only_plugin( $status['plugin'] ) && ! current_user_can( 'manage_network_plugins' ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to activate this plugin.' );
+		wp_send_json_error( $status );
+	}
+
 	if ( is_plugin_active( $status['plugin'] ) ) {
 		$status['errorMessage'] = sprintf(
 			/* translators: %s: Plugin name. */
