@@ -768,6 +768,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * Checks if a given REST request has access to update a comment.
 	 *
 	 * @since 4.7.0
+	 * @since 7.1.0 Target post permissions are checked when a comment's parent post is changed.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to update the item, error object otherwise.
@@ -784,6 +785,22 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				__( 'Sorry, you are not allowed to edit this comment.' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
+		}
+
+		/*
+		 * check_edit_permission() above only establishes that the comment may be
+		 * edited where it currently sits, because 'edit_comment' maps to 'edit_post'
+		 * on the comment's current parent. When the parent is being changed, the new
+		 * parent has to be authorized as well. Without this, a user holding
+		 * edit_comment on their own comment could reparent it onto any post,
+		 * including posts they can neither read nor edit.
+		 */
+		if ( isset( $request['post'] ) && (int) $request['post'] !== (int) $comment->comment_post_ID ) {
+			$target_check = $this->check_target_post_permission( (int) $request['post'] );
+
+			if ( is_wp_error( $target_check ) ) {
+				return $target_check;
+			}
 		}
 
 		return true;
@@ -1867,5 +1884,59 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		return $email;
+	}
+
+	/**
+	 * Checks that a post can receive a comment from the current user.
+	 *
+	 * Used when changing the parent post of an existing comment, so that
+	 * attaching a comment to a post is authorized the same way whichever
+	 * path it arrives by.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param int $post_id Target post ID.
+	 * @return true|WP_Error True if the post can receive the comment, error object otherwise.
+	 */
+	protected function check_target_post_permission( $post_id ) {
+		if ( ! $post_id ) {
+			return new WP_Error(
+				'rest_comment_invalid_post_id',
+				__( 'Sorry, you are not allowed to create this comment without a post.' ),
+				array( 'status' => 403 )
+			);
+		}
+
+		/*
+		 * A comment needs either comment moderation rights or edit access to the
+		 * post, which is what check_edit_permission() grants on the post a comment
+		 * is moving away from. Requiring the same at the destination means both
+		 * ends of a move are authorized alike.
+		 */
+		if ( ! current_user_can( 'moderate_comments' ) && ! current_user_can( 'edit_post', $post_id ) ) {
+			return new WP_Error(
+				'rest_cannot_edit',
+				__( 'Sorry, you are not allowed to edit this comment.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		$post = get_post( $post_id );
+
+		if ( ! $post ) {
+			return new WP_Error(
+				'rest_comment_invalid_post_id',
+				__( 'Sorry, you are not allowed to create this comment without a post.' ),
+				array( 'status' => 403 )
+			);
+		}
+
+		/*
+		 * The create-time draft and comments-open rules are deliberately not applied
+		 * here, because moderators move comments onto posts whose discussion has
+		 * closed and onto drafts today. Enforcing them would break that without
+		 * blocking anything the capability check above already permits.
+		 */
+		return true;
 	}
 }
