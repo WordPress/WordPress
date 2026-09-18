@@ -382,7 +382,9 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
  *
  * @param string $meta_type  Type of object metadata is for. Accepts 'blog', 'post', 'comment', 'term',
  *                           'user', or any other object type with an associated meta table.
- * @param int    $object_id  ID of the object metadata is for.
+ * @param int    $object_id  ID of the object metadata is for. Pass 0 when `$delete_all` is true.
+ *                           The value no longer selects the rows to delete, but is still passed
+ *                           on to the hooks fired below.
  * @param string $meta_key   Metadata key.
  * @param mixed  $meta_value Optional. Metadata value. Must be serializable if non-scalar.
  *                           If specified, only delete metadata entries with this value.
@@ -395,6 +397,8 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
  *                           ignoring the specified object_id. Otherwise, only delete
  *                           matching metadata entries for the specified object_id. Default false.
  * @return bool True on successful delete, false on failure.
+ *
+ * @phpstan-param non-negative-int $object_id
  */
 function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false ) {
 	global $wpdb;

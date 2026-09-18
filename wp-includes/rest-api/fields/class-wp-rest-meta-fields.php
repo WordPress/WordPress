@@ -228,6 +228,8 @@ abstract class WP_REST_Meta_Fields {
 	 * @param string $meta_key  Key for the field.
 	 * @param string $name      Name for the field that is exposed in the REST API.
 	 * @return true|WP_Error True if meta field is deleted, WP_Error otherwise.
+	 *
+	 * @phpstan-param positive-int $object_id
 	 */
 	protected function delete_meta_value( $object_id, $meta_key, $name ) {
 		$meta_type = $this->get_meta_type();
@@ -275,6 +277,8 @@ abstract class WP_REST_Meta_Fields {
 	 * @param string $name      Name for the field that is exposed in the REST API.
 	 * @param array  $values    List of values to update to.
 	 * @return true|WP_Error True if meta fields are updated, WP_Error otherwise.
+	 *
+	 * @phpstan-param positive-int $object_id
 	 */
 	protected function update_multi_meta_value( $object_id, $meta_key, $name, $values ) {
 		$meta_type = $this->get_meta_type();
