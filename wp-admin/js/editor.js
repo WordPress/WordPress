@@ -21,7 +21,8 @@ window.wp = window.wp || {};
 	 */
 	function SwitchEditors() {
 		var tinymce, $$,
-			exports = {};
+			exports = {},
+			isPointingDevice = false;
 
 		/**
 		 * Initializes the editor utility functions.
@@ -42,7 +43,15 @@ window.wp = window.wp || {};
 					var id, mode,
 						target = $$( event.target );
 
+
 					if ( target.hasClass( 'wp-switch-editor' ) ) {
+						/*
+						 * Determine whether the click event is fired by using
+						 * a pointing device including Safari fallback and
+						 * unknown hardware pointers.
+						 */
+						isPointingDevice = event.detail > 0 || ( event.pointerType !== undefined && event.pointerType !== '' );
+
 						id = target.attr( 'data-wp-editor-id' );
 						mode = target.hasClass( 'switch-tmce' ) ? 'tmce' : 'html';
 						switchEditor( id, mode );
@@ -118,6 +127,30 @@ window.wp = window.wp || {};
 				addHTMLBookmarkInTextAreaContent( $textarea );
 
 				if ( editor ) {
+					// Store the original TinyMCE editor focus() method.
+					const originalEditorFocusInstance = editor.focus;
+
+					/*
+					 * Override the editor's focus method to conditionally skip
+					 * focusing the editor based on the input device. Note that
+					 * editor.focus() aleady uses a `skipFocus` parameter. When
+					 * it is true, it calls activateEditor(editor) instead of
+					 * focusEditor(editor).
+					 */
+					editor.focus = function ( skipFocus ) {
+						if ( ! isPointingDevice) {
+							skipFocus = true;
+						}
+
+						originalEditorFocusInstance.call( editor, skipFocus );
+					};
+
+					/*
+					 * The editor show() method calls several other methods that
+					 * end up setting focus to the editor. We want to skip
+					 * setting focus when switching editors and the user is
+					 * using a keyboard or a non-pointing device.
+					 */
 					editor.show();
 
 					// No point to resize the iframe in iOS.
@@ -534,7 +567,9 @@ window.wp = window.wp || {};
 				endNode = editor.$( '.mce_SELRES_end' ).attr( 'data-mce-bogus', 1 );
 
 			if ( startNode.length ) {
-				editor.focus();
+				if ( isPointingDevice ) {
+					editor.focus();
+				}
 
 				if ( ! endNode.length ) {
 					editor.selection.select( startNode[0] );
@@ -838,16 +873,53 @@ window.wp = window.wp || {};
 				start = selection.start,
 				end = selection.end || selection.start;
 
-			if ( textArea.focus ) {
-				// Wait for the Visual editor to be hidden, then focus and scroll to the position.
+			/*
+			 * Guard against the scenarios where editor.getElement() may return
+			 * something that isn't a standard textarea element e.g. the editor
+			 * may have been removed/destroyed/mutated.
+			 */
+			if ( ! textArea.focus ) {
+				return;
+			}
+
+			/**
+			 * Applies the selection range to the textarea.
+			 */
+			function applySelection() {
+				/*
+				 * In Safari, the focus event fires before the browser has fully
+				 * completed the focus transition. Calling setTimeout with a 0ms
+				 * delay queues the callback function task into the task queue
+				 * so that the callback is executed after all pending tasks have
+				 * cleared. Safe for other browsers.
+				 */
 				setTimeout( function() {
+					// Guard against the editor being destroyed during the timeout.
+					if ( ! textArea.isConnected ) {
+						return;
+					}
+
 					textArea.setSelectionRange( start, end );
+				}, 0 );
+			}
+
+			// Logic for pointing devices.
+			if ( isPointingDevice ) {
+				setTimeout( function() {
+					applySelection();
 					if ( textArea.blur ) {
-						// Defocus before focusing.
 						textArea.blur();
 					}
 					textArea.focus();
 				}, 100 );
+			} else {
+				/*
+				 * For non-pointing devices: wait until users move focus into the
+				 * textarea (e.g. via keyboard Tab), then restore the selection.
+				 * By using `once`, the listener is invoked at most once after
+				 * being added and it's automatically removed when invoked.
+				 */
+				textArea.addEventListener( 'focus', applySelection, { once: true } );
 			}
 		}
 
