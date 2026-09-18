@@ -2414,14 +2414,15 @@ function wp_get_archives( $args = '' ) {
 			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		if ( $results ) {
-			$after = $parsed_args['after'];
+			$after       = $parsed_args['after'];
+			$date_format = get_option( 'date_format' );
 			foreach ( (array) $results as $result ) {
 				$url = get_day_link( $result->year, $result->month, $result->dayofmonth );
 				if ( 'post' !== $parsed_args['post_type'] ) {
 					$url = add_query_arg( 'post_type', $parsed_args['post_type'], $url );
 				}
 				$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
-				$text = mysql2date( get_option( 'date_format' ), $date );
+				$text = mysql2date( $date_format, $date );
 				if ( $parsed_args['show_post_count'] ) {
 					$parsed_args['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
@@ -2441,14 +2442,16 @@ function wp_get_archives( $args = '' ) {
 		}
 		$arc_w_last = '';
 		if ( $results ) {
-			$after = $parsed_args['after'];
+			$after         = $parsed_args['after'];
+			$start_of_week = get_option( 'start_of_week' );
+			$date_format   = get_option( 'date_format' );
 			foreach ( (array) $results as $result ) {
 				if ( $result->week !== $arc_w_last ) {
 					$arc_year       = $result->yr;
 					$arc_w_last     = $result->week;
-					$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
-					$arc_week_start = date_i18n( get_option( 'date_format' ), $arc_week['start'] );
-					$arc_week_end   = date_i18n( get_option( 'date_format' ), $arc_week['end'] );
+					$arc_week       = get_weekstartend( $result->yyyymmdd, $start_of_week );
+					$arc_week_start = date_i18n( $date_format, $arc_week['start'] );
+					$arc_week_end   = date_i18n( $date_format, $arc_week['end'] );
 					$url            = add_query_arg(
 						array(
 							'm' => $arc_year,
