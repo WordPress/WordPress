@@ -10,7 +10,35 @@
 /**
  * Core class used to implement the WordPress REST API server.
  *
+ * The aliases below describe a route handler as {@see WP_REST_Server::get_routes()}
+ * returns it, once the defaults have been filled in and the methods normalized.
+ *
+ * An endpoint argument is a JSON Schema fragment, so the keys named here are only the
+ * ones WordPress reads itself. The rest are schema keywords, left to the open end of
+ * the shape and validated by {@see rest_validate_value_from_schema()}. See
+ * {@see rest_get_allowed_schema_keywords()} for the vocabulary the REST API exposes.
+ *
  * @since 4.4.0
+ *
+ * @phpstan-type Endpoint_Arg array{
+ *     required?: bool,
+ *     default?: mixed,
+ *     type?: string|list<string>,
+ *     validate_callback?: callable|false|null,
+ *     sanitize_callback?: callable|false|null,
+ *     ...
+ * }
+ * @phpstan-type Route_Handler array{
+ *     methods: array<uppercase-string, true>,
+ *     callback?: callable|null,
+ *     permission_callback?: callable|null,
+ *     args: array<non-empty-string, Endpoint_Arg>,
+ *     accept_json: bool,
+ *     accept_raw: bool,
+ *     show_in_index: bool,
+ *     allow_batch?: array{v1?: bool}|false,
+ *     ...
+ * }
  */
 #[AllowDynamicProperties]
 class WP_REST_Server {
@@ -58,16 +86,28 @@ class WP_REST_Server {
 	/**
 	 * Namespaces registered to the server.
 	 *
+	 * Keyed by namespace, each value being the set of path regexes registered in it,
+	 * held as keys mapped to true so that a route cannot be registered twice.
+	 *
 	 * @since 4.4.0
 	 * @var array
+	 *
+	 * @phpstan-var array<string, array<non-empty-string, true>>
 	 */
 	protected $namespaces = array();
 
 	/**
 	 * Endpoints registered to the server.
 	 *
+	 * Keyed by path regex. Each value is a route exactly as it was registered, before
+	 * {@see WP_REST_Server::get_routes()} normalizes it: either a single endpoint's
+	 * arguments, or an array of them under numeric keys alongside the route's options
+	 * under their own non-numeric keys.
+	 *
 	 * @since 4.4.0
 	 * @var array
+	 *
+	 * @phpstan-var array<non-empty-string, array<array-key, mixed>>
 	 */
 	protected $endpoints = array();
 
@@ -76,6 +116,8 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 * @var array
+	 *
+	 * @phpstan-var array<non-empty-string, array<string, mixed>>
 	 */
 	protected $route_options = array();
 
@@ -894,6 +936,8 @@ class WP_REST_Server {
 	 * @param array  $route_args      Route arguments.
 	 * @param bool   $override        Optional. Whether the route should be overridden if it already exists.
 	 *                                Default false.
+	 *
+	 * @phpstan-param non-empty-string $route
 	 */
 	public function register_route( $route_namespace, $route, $route_args, $override = false ) {
 		if ( ! isset( $this->namespaces[ $route_namespace ] ) ) {
@@ -934,14 +978,18 @@ class WP_REST_Server {
 	/**
 	 * Retrieves the route map.
 	 *
-	 * The route map is an associative array with path regexes as the keys. The
-	 * value is an indexed array with the callback function/method as the first
-	 * item, and a bitmask of HTTP methods as the second item (see the class
-	 * constants).
+	 * The route map is an associative array with path regexes as the keys. The value
+	 * is an indexed array of the handlers registered for that route, each of them an
+	 * associative array of endpoint arguments: the callback, its permission callback,
+	 * the arguments it accepts, and the HTTP methods it responds to as a map of method
+	 * name to true.
 	 *
-	 * Each route can be mapped to more than one callback by using an array of
-	 * the indexed arrays. This allows mapping e.g. GET requests to one callback
-	 * and POST requests to another.
+	 * Each route can be mapped to more than one handler. This allows mapping e.g. GET
+	 * requests to one callback and POST requests to another.
+	 *
+	 * Route options, the non-numeric keys a route is registered with such as `schema`
+	 * and `namespace`, are not returned here. They are moved to
+	 * {@see WP_REST_Server::get_route_options()}.
 	 *
 	 * Note that the path regexes (array keys) must have @ escaped, as this is
 	 * used as the delimiter with preg_match()
@@ -950,8 +998,10 @@ class WP_REST_Server {
 	 * @since 5.4.0 Added `$route_namespace` parameter.
 	 *
 	 * @param string $route_namespace Optionally, only return routes in the given namespace.
-	 * @return array `'/path/regex' => array( $callback, $bitmask )` or
-	 *               `'/path/regex' => array( array( $callback, $bitmask ), ...)`.
+	 * @return array Route map as `'/path/regex' => array( $handler, ... )`, where each
+	 *               `$handler` is an array of endpoint arguments.
+	 *
+	 * @phpstan-return array<non-empty-string, array<int, Route_Handler>>
 	 */
 	public function get_routes( $route_namespace = '' ) {
 		$endpoints = $this->endpoints;
@@ -965,10 +1015,12 @@ class WP_REST_Server {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $endpoints The available endpoints. An array of matching regex patterns, each mapped
-		 *                         to an array of callbacks for the endpoint. These take the format
-		 *                         `'/path/regex' => array( $callback, $bitmask )` or
-		 *                         `'/path/regex' => array( array( $callback, $bitmask ).
+		 * @param array $endpoints The available endpoints, as registered and before normalization.
+		 *                         An array of matching regex patterns, each mapped either to a single
+		 *                         endpoint's arguments or to an array of them, alongside any route
+		 *                         options under their own non-numeric keys.
+		 *
+		 * @phpstan-param array<non-empty-string, array<array-key, mixed>> $endpoints
 		 */
 		$endpoints = apply_filters( 'rest_endpoints', $endpoints );
 
@@ -1007,7 +1059,15 @@ class WP_REST_Server {
 				if ( is_string( $handler['methods'] ) ) {
 					$methods = explode( ',', $handler['methods'] );
 				} elseif ( is_array( $handler['methods'] ) ) {
-					$methods = $handler['methods'];
+					$methods = array();
+
+					/*
+					 * Array values may themselves be comma-separated, either written that way or
+					 * because they are a multi-method constant such as WP_REST_Server::EDITABLE.
+					 */
+					foreach ( array_filter( $handler['methods'], 'is_string' ) as $method ) {
+						$methods = array_merge( $methods, explode( ',', $method ) );
+					}
 				} else {
 					$methods = array();
 				}
@@ -1020,6 +1080,12 @@ class WP_REST_Server {
 				}
 			}
 		}
+
+		/*
+		 * The loop above is what turns each registered handler into the documented shape,
+		 * but it does so by reference, which static analysis cannot follow.
+		 */
+		/** @phpstan-var array<non-empty-string, array<int, Route_Handler>> $endpoints */
 
 		return $endpoints;
 	}
