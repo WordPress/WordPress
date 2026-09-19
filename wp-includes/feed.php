@@ -406,13 +406,24 @@ function get_the_category_rss( $type = null ) {
 
 	$cat_names = array_unique( $cat_names );
 
+	$atom_scheme  = '';
+	$blog_charset = '';
+
+	if ( $cat_names ) {
+		if ( 'atom' === $type ) {
+			$atom_scheme = get_bloginfo_rss( 'url' );
+		} elseif ( 'rdf' !== $type ) {
+			$blog_charset = get_option( 'blog_charset' );
+		}
+	}
+
 	foreach ( $cat_names as $cat_name ) {
 		if ( 'rdf' === $type ) {
 			$the_list .= "\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
 		} elseif ( 'atom' === $type ) {
-			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', esc_attr( get_bloginfo_rss( 'url' ) ), esc_attr( $cat_name ) );
+			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', esc_attr( $atom_scheme ), esc_attr( $cat_name ) );
 		} else {
-			$the_list .= "\t\t<category><![CDATA[" . html_entity_decode( $cat_name, ENT_COMPAT, get_option( 'blog_charset' ) ) . "]]></category>\n";
+			$the_list .= "\t\t<category><![CDATA[" . html_entity_decode( $cat_name, ENT_COMPAT, $blog_charset ) . "]]></category>\n";
 		}
 	}
 
