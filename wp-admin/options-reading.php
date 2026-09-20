@@ -16,6 +16,8 @@ if ( ! current_user_can( 'manage_options' ) ) {
 // Used in the HTML title tag.
 $title       = __( 'Reading Settings' );
 $parent_file = 'options-general.php';
+// Check whether the blog_privacy_selector action is in use, for later reuse.
+$has_action_blog_privacy_selector = has_action( 'blog_privacy_selector' );
 
 add_action( 'admin_head', 'options_reading_add_js' );
 
@@ -41,7 +43,7 @@ get_current_screen()->add_help_tab(
 get_current_screen()->add_help_tab(
 	array(
 		'id'      => 'site-visibility',
-		'title'   => has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ),
+		'title'   => $has_action_blog_privacy_selector ? __( 'Site visibility' ) : __( 'Search engine visibility' ),
 		'content' => '<p>' . __( 'You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the checkbox next to &#8220;Discourage search engines from indexing this site&#8221; and click the Save Changes button at the bottom of the screen.' ) . '</p>' .
 			'<p>' . __( 'Note that even when set to discourage search engines, your site is still visible on the web and not all search engines adhere to this directive.' ) . '</p>' .
 			'<p>' . __( 'When this setting is in effect, a reminder is shown in the At a Glance box of the Dashboard that says, &#8220;Search engines discouraged&#8221;, to remind you that you have directed search engines to not crawl your site.' ) . '</p>',
@@ -206,17 +208,20 @@ else :
 </fieldset></td>
 </tr>
 
-<?php $blog_privacy_selector_title = has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ); ?>
+<?php
+$blog_privacy_selector_title = $has_action_blog_privacy_selector ? __( 'Site visibility' ) : __( 'Search engine visibility' );
+$fieldset_aria_describedby   = $has_action_blog_privacy_selector ? ' aria-describedby="option-site-visibility-description"' : '';
+?>
 <tr class="option-site-visibility">
 <th scope="row"><?php echo $blog_privacy_selector_title; ?> </th>
-<td><fieldset>
+<td><fieldset<?php echo $fieldset_aria_describedby; ?>>
 	<legend class="screen-reader-text"><span><?php echo $blog_privacy_selector_title; ?></span></legend>
-<?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
+<?php if ( $has_action_blog_privacy_selector ) : ?>
 	<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( '1', get_option( 'blog_public' ) ); ?> />
 	<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br />
 	<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( '0', get_option( 'blog_public' ) ); ?> />
 	<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
-	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
+	<p id="option-site-visibility-description" class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 	<?php
 	/**
 	 * Enables the legacy 'Site visibility' privacy options.
@@ -235,9 +240,9 @@ else :
 	do_action( 'blog_privacy_selector' );
 	?>
 <?php else : ?>
-	<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( '0', get_option( 'blog_public' ) ); ?> />
-	<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
-	<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
+	<input name="blog_public" type="checkbox" id="blog_public" aria-describedby="option-site-visibility" value="0" <?php checked( '0', get_option( 'blog_public' ) ); ?> />
+	<label for="blog_public"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+	<p id="option-site-visibility-description" class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
 <?php endif; ?>
 </fieldset></td>
 </tr>

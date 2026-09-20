@@ -114,20 +114,19 @@ function display_setup_form( $error = null ) {
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="user_login"><?php _e( 'Username' ); ?></label></th>
-			<td>
-			<?php
-			if ( $user_table ) {
-				_e( 'User(s) already exists.' );
-				echo '<input name="user_name" type="hidden" value="admin" />';
-			} else {
-				?>
-				<input name="user_name" type="text" id="user_login" size="25" aria-describedby="user-name-desc" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
-				<p id="user-name-desc"><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods, and the @ symbol.' ); ?></p>
-				<?php
-			}
-			?>
-			</td>
+			<?php if ( $user_table ) : ?>
+				<th scope="row"><?php _e( 'Username' ); ?></th>
+				<td>
+					<?php _e( 'User(s) already exists.' ); ?>
+					<input name="user_name" type="hidden" value="admin" />
+				</td>
+			<?php else : ?>
+				<th scope="row"><label for="user_login"><?php _e( 'Username' ); ?></label></th>
+				<td>
+					<input name="user_name" type="text" id="user_login" size="25" aria-describedby="user-name-desc" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
+					<p id="user-name-desc"><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods, and the @ symbol.' ); ?></p>
+				</td>
+			<?php endif; ?>
 		</tr>
 		<?php if ( ! $user_table ) : ?>
 		<tr class="form-field form-required user-pass1-wrap">
@@ -179,28 +178,32 @@ function display_setup_form( $error = null ) {
 			<td><input name="admin_email" type="email" id="admin_email" size="25" aria-describedby="admin-email-desc" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p id="admin-email-desc"><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
-		<?php $blog_privacy_selector_title = has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ); ?>
+		<?php
+			$has_action_blog_privacy_selector = has_action( 'blog_privacy_selector' );
+			$blog_privacy_selector_title      = $has_action_blog_privacy_selector ? __( 'Site visibility' ) : __( 'Search engine visibility' );
+			$fieldset_aria_describedby        = $has_action_blog_privacy_selector ? ' aria-describedby="options-site-visibility-description"' : '';
+		?>
 		<tr>
-			<th scope="row"><?php echo $blog_privacy_selector_title; ?></th>
+			<th scope="row"><?php echo esc_html( $blog_privacy_selector_title ); ?></th>
 			<td>
-				<fieldset>
-					<legend class="screen-reader-text"><span><?php echo $blog_privacy_selector_title; ?></span></legend>
+				<fieldset<?php echo $fieldset_aria_describedby; ?>>
+					<legend class="screen-reader-text"><?php echo esc_html( $blog_privacy_selector_title ); ?></legend>
 					<?php
-					if ( has_action( 'blog_privacy_selector' ) ) {
+					if ( $has_action_blog_privacy_selector ) {
 						?>
 						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
 						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br />
-						<input id="blog-norobots" type="radio" name="blog_public"  aria-describedby="public-desc" value="0" <?php checked( 0, $blog_public ); ?> />
+						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
-						<p id="public-desc" class="description"><?php _e( 'Note: Discouraging search engines does not block access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
+						<p id="options-site-visibility-description" class="description"><?php _e( 'Note: Discouraging search engines does not block access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 						<?php
 						/** This action is documented in wp-admin/options-reading.php */
 						do_action( 'blog_privacy_selector' );
 					} else {
 						?>
-						<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" aria-describedby="privacy-desc" value="0" <?php checked( 0, $blog_public ); ?> />
-						<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
-						<p id="privacy-desc" class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
+						<input name="blog_public" type="checkbox" id="blog_public" aria-describedby="options-site-visibility-description" value="0" <?php checked( 0, $blog_public ); ?> />
+						<label for="blog_public"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+						<p id="options-site-visibility-description" class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
 					<?php } ?>
 				</fieldset>
 			</td>
