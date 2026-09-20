@@ -1637,6 +1637,9 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		return;
 	}
 
+	$blog_charset = get_option( 'blog_charset' );
+	$date_format  = $show_date ? get_option( 'date_format' ) : '';
+
 	echo '<ul>';
 	foreach ( $rss->get_items( 0, $items ) as $item ) {
 		$link = $item->get_link();
@@ -1650,7 +1653,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			$title = __( 'Untitled' );
 		}
 
-		$desc = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
+		$desc = html_entity_decode( $item->get_description(), ENT_QUOTES, $blog_charset );
 		$desc = esc_attr( wp_trim_words( $desc, 55, ' [&hellip;]' ) );
 
 		$summary = '';
@@ -1670,7 +1673,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			$date = $item->get_date( 'U' );
 
 			if ( $date ) {
-				$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date ) . '</span>';
+				$date = ' <span class="rss-date">' . date_i18n( $date_format, $date ) . '</span>';
 			}
 		}
 
