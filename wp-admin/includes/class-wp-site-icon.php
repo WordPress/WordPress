@@ -170,7 +170,7 @@ class WP_Site_Icon {
 		foreach ( $this->site_icon_sizes as $size ) {
 			if ( $size < $this->min_size ) {
 				$only_crop_sizes[ 'site_icon-' . $size ] = array(
-					'width ' => $size,
+					'width'  => $size,
 					'height' => $size,
 					'crop'   => true,
 				);
