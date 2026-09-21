@@ -1764,7 +1764,7 @@ _.extend( Region.prototype,/** @lends wp.media.controller.Region.prototype */{
 		 *
 		 * @event wp.media.controller.Region#create
 		 * @type {Object}
-		 * @property {Object} view
+		 * @property {Object} view The view object for the region.
 		 */
 		this.trigger( 'create', set );
 		view = set.view;

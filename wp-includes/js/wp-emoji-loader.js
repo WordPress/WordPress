@@ -8,10 +8,10 @@
  * Emoji Settings as exported in PHP via _print_emoji_detection_script().
  * @typedef WPEmojiSettings
  * @type {Object}
- * @property {?object} source
- * @property {?string} source.concatemoji
- * @property {?string} source.twemoji
- * @property {?string} source.wpemoji
+ * @property {?object} source             The source object containing emoji-related URLs.
+ * @property {?string} source.concatemoji The URL for the concatenated emoji script.
+ * @property {?string} source.twemoji     The URL for the Twemoji script.
+ * @property {?string} source.wpemoji     The URL for the WP Emoji script.
  */
 
 const selector = 'script#wp-emoji-settings';
@@ -28,8 +28,8 @@ window._wpemojiSettings = settings;
  * Support tests.
  * @typedef SupportTests
  * @type {Object}
- * @property {?boolean} flag
- * @property {?boolean} emoji
+ * @property {?boolean} flag  Whether the browser supports flag emojis.
+ * @property {?boolean} emoji Whether the browser supports general emojis.
  */
 
 const sessionStorageKey = 'wpEmojiSettingsSupports';
@@ -57,8 +57,8 @@ function supportsWorkerOffloading() {
 /**
  * @typedef SessionSupportTests
  * @type {Object}
- * @property {number}       timestamp
- * @property {SupportTests} supportTests
+ * @property {number}       timestamp    The timestamp when the support tests were last updated.
+ * @property {SupportTests} supportTests The support tests for the browser.
  */
 
 /**
