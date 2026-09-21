@@ -790,7 +790,9 @@ function dynamic_sidebar( $index = 1 ) {
 		 * @see register_sidebar()
 		 *
 		 * @param array $params {
-		 *     @type array $args  {
+		 *     The arguments the display callback is called with, in order.
+		 *
+		 *     @type array $0 {
 		 *         An array of widget display arguments.
 		 *
 		 *         @type string $name          Name of the sidebar the widget is assigned to.
@@ -804,8 +806,8 @@ function dynamic_sidebar( $index = 1 ) {
 		 *         @type string $widget_id     ID of the widget.
 		 *         @type string $widget_name   Name of the widget.
 		 *     }
-		 *     @type array $widget_args {
-		 *         An array of multi-widget arguments.
+		 *     @type array ...$1 {
+		 *         The parameters the widget was registered with, such as the multi-widget arguments.
 		 *
 		 *         @type int $number Number increment used for multiples of the same widget.
 		 *     }
