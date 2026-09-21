@@ -738,7 +738,7 @@ class WP_REST_Server {
 		$headers = rest_send_allow_header( $response, $server, $request )->get_headers();
 
 		foreach ( $headers as $name => $value ) {
-			$name = WP_REST_Request::canonicalize_header_name( $name );
+			$name = $request::canonicalize_header_name( $name );
 
 			$target_hints[ $name ] = array_map( 'trim', explode( ',', $value ) );
 		}
