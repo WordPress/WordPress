@@ -492,6 +492,9 @@ add_action( 'attachment_updated', 'wp_check_for_changed_slugs', 12, 3 );
 add_action( 'post_updated', 'wp_check_for_changed_dates', 12, 3 );
 add_action( 'attachment_updated', 'wp_check_for_changed_dates', 12, 3 );
 
+// Redirect random content requests (disabled by default, see 'enable_random_content_redirect').
+add_action( 'template_redirect', 'wp_random_content_redirect' );
+
 // Nonce check for post previews.
 add_action( 'init', '_show_post_preview' );
 
