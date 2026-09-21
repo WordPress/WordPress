@@ -356,7 +356,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					)
 				);
 
-				$this->skin->before( $result );
+				$this->skin->before();
 				$this->skin->error( $result );
 				$this->skin->after();
 			} elseif ( isset( $upgrade_data->requires_php ) && ! is_php_version_compatible( $upgrade_data->requires_php ) ) {
@@ -370,7 +370,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					)
 				);
 
-				$this->skin->before( $result );
+				$this->skin->before();
 				$this->skin->error( $result );
 				$this->skin->after();
 			} else {
