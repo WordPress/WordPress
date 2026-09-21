@@ -490,7 +490,7 @@
 			 * @param {string} content Content that is searched for possible
 			 *                         shortcode markup matching the passed tag name,
 			 *
-			 * @this wp.media.{prop}
+			 * @this {wp.media.view.MediaFrame.Select}
 			 *
 			 * @return {void|wp.media.view.MediaFrame.Select} A media workflow.
 			 */
@@ -649,7 +649,7 @@
 		/**
 		 * The Featured Image workflow
 		 *
-		 * @this wp.media.featuredImage
+		 * @this {wp.media.featuredImage}
 		 *
 		 * @return {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
@@ -666,7 +666,7 @@
 
 			this._frame.on( 'toolbar:create:featured-image', function( toolbar ) {
 				/**
-				 * @this wp.media.view.MediaFrame.Select
+				 * @this {wp.media.view.MediaFrame.Select}
 				 */
 				this.createSelectToolbar( toolbar, {
 					text: wp.media.view.l10n.setFeaturedImage
@@ -691,7 +691,7 @@
 		 * 'select' callback for Featured Image workflow, triggered when
 		 * the 'Set Featured Image' button is clicked in the media modal.
 		 *
-		 * @this wp.media.controller.FeaturedImage
+		 * @this {wp.media.controller.FeaturedImage}
 		 */
 		select: function() {
 			var selection = this.get('selection').single();
@@ -789,7 +789,7 @@
 		 * @param {string} id           A slug used to identify the workflow.
 		 * @param {Object} [options={}] The options for the media workflow.
 		 *
-		 * @this wp.media.editor
+		 * @this {wp.media.editor}
 		 *
 		 * @return {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
@@ -820,7 +820,7 @@
 				$.when.apply( $, selection.map( function( attachment ) {
 					var display = state.display( attachment ).toJSON();
 					/**
-					 * @this wp.media.editor
+					 * @this {wp.media.editor}
 					 */
 					return this.send.attachment( display, attachment.toJSON() );
 				}, this ) ).done( function() {
@@ -830,28 +830,28 @@
 
 			workflow.state('gallery-edit').on( 'update', function( selection ) {
 				/**
-				 * @this wp.media.editor
+				 * @this {wp.media.editor}
 				 */
 				this.insert( wp.media.gallery.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('playlist-edit').on( 'update', function( selection ) {
 				/**
-				 * @this wp.media.editor
+				 * @this {wp.media.editor}
 				 */
 				this.insert( wp.media.playlist.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('video-playlist-edit').on( 'update', function( selection ) {
 				/**
-				 * @this wp.media.editor
+				 * @this {wp.media.editor}
 				 */
 				this.insert( wp.media.playlist.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('embed').on( 'select', function() {
 				/**
-				 * @this wp.media.editor
+				 * @this {wp.media.editor}
 				 */
 				var state = workflow.state(),
 					type = state.get('type'),
@@ -920,7 +920,7 @@
 		 *
 		 * @param {string} id A slug used to identify the workflow.
 		 *
-		 * @this wp.media.editor
+		 * @this {wp.media.editor}
 		 *
 		 * @return {wp.media.view.MediaFrame} A media workflow.
 		 */
@@ -933,7 +933,7 @@
 		 *
 		 * @param {string} id A slug used to identify the workflow.
 		 *
-		 * @this wp.media.editor
+		 * @this {wp.media.editor}
 		 */
 		remove: function( id ) {
 			id = this.id( id );
@@ -1020,7 +1020,7 @@
 		 * @param {string} [id=undefined] Optional. A slug used to identify the workflow.
 		 * @param {Object} [options={}]   The options for the media workflow.
 		 *
-		 * @this wp.media.editor
+		 * @this {wp.media.editor}
 		 *
 		 * @return {wp.media.view.MediaFrame} A media workflow.
 		 */

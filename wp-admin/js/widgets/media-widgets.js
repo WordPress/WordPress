@@ -375,7 +375,7 @@ wp.mediaWidgets = ( function( $ ) {
 				 *
 				 * @ignore
 				 *
-				 * @fires wp.media.controller.State#insert()
+				 * @fires wp.media.controller.State#insert
 				 * @return {void}
 				 */
 				click: function onClick() {

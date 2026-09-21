@@ -29,7 +29,7 @@ window.inlineEditTax = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @this inlineEditTax
+	 * @this {inlineEditTax}
 	 * @memberof inlineEditTax
 	 * @return {void}
 	 */
@@ -93,7 +93,7 @@ window.inlineEditTax = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @this inlineEditTax
+	 * @this {inlineEditTax}
 	 * @memberof inlineEditTax
 	 *
 	 * @param {HTMLElement} el An element within the table row or the table row
@@ -111,7 +111,7 @@ window.inlineEditTax = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @this inlineEditTax
+	 * @this {inlineEditTax}
 	 * @memberof inlineEditTax
 	 *
 	 * @param {string|HTMLElement} id The ID of the term we want to quick edit or an
@@ -158,7 +158,7 @@ window.inlineEditTax = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @this inlineEditTax
+	 * @this {inlineEditTax}
 	 * @memberof inlineEditTax
 	 *
 	 * @param {string|HTMLElement} id The ID of the term we want to quick edit or an
@@ -255,7 +255,7 @@ window.inlineEditTax = {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @this inlineEditTax
+	 * @this {inlineEditTax}
 	 * @memberof inlineEditTax
 	 * @return {void}
 	 */

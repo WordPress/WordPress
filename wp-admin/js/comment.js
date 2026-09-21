@@ -24,8 +24,6 @@ jQuery( function($) {
 	/**
 	 * Adds event that opens the time stamp form if the form is hidden.
 	 *
-	 * @listens $edittimestamp:click
-	 *
 	 * @param {Event} event The event object.
 	 * @return {void}
 	 */
@@ -42,8 +40,6 @@ jQuery( function($) {
 
 	/**
 	 * Resets the time stamp values when the cancel button is clicked.
-	 *
-	 * @listens .cancel-timestamp:click
 	 *
 	 * @param {Event} event The event object.
 	 * @return {void}
@@ -64,8 +60,6 @@ jQuery( function($) {
 
 	/**
 	 * Sets the time stamp values when the ok button is clicked.
-	 *
-	 * @listens .save-timestamp:click
 	 *
 	 * @param {Event} event The event object.
 	 * @return {void}
@@ -110,8 +104,6 @@ jQuery( function($) {
 	 *
 	 * @since 7.1.0
 	 *
-	 * @listens $editcommentparent:click
-	 *
 	 * @param {Event} event The event object.
 	 * @return {void}
 	 */
@@ -131,8 +123,6 @@ jQuery( function($) {
 	 *
 	 * @since 7.1.0
 	 *
-	 * @listens .cancel-comment-parent:click
-	 *
 	 * @param {Event} event The event object.
 	 * @return {void}
 	 */
@@ -149,8 +139,6 @@ jQuery( function($) {
 	 * Updates the parent comment display when the ok button is clicked.
 	 *
 	 * @since 7.1.0
-	 *
-	 * @listens .save-comment-parent:click
 	 *
 	 * @param {Event} event The event object.
 	 * @return {void}

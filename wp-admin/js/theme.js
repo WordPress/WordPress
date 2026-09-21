@@ -275,10 +275,6 @@ themes.Collection = Backbone.Collection.extend({
 	 * which triggers events of `query:success` or `query:fail`.
 	 */
 	query: function( request ) {
-		/**
-		 * @static
-		 * @type Array
-		 */
 		var queries = this.queries,
 			self = this,
 			query, isPaginated, count;

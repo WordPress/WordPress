@@ -812,31 +812,31 @@ wpList = {
 /**
  * Initializes wpList object.
  *
- * @param {Object}           settings             The settings for the wpList instance.
- * @param {string}           settings.url         URL for ajax calls. Default: ajaxurl.
- * @param {string}           settings.type        The HTTP method to use for Ajax requests. Default: 'POST'.
- * @param {string}           settings.response    ID of the element the parsed ajax response will be stored in.
- *                                                Default: 'ajax-response'.
+ * @param {Object}   settings             The settings for the wpList instance.
+ * @param {string}   settings.url         URL for ajax calls. Default: ajaxurl.
+ * @param {string}   settings.type        The HTTP method to use for Ajax requests. Default: 'POST'.
+ * @param {string}   settings.response    ID of the element the parsed ajax response will be stored in.
+ *                                        Default: 'ajax-response'.
  *
- * @param {string}           settings.what        Default: ''.
- * @param {string}           settings.alt         CSS class name for alternate styling. Default: 'alternate'.
- * @param {number}           settings.altOffset   Offset to start alternate styling from. Default: 0.
- * @param {string}           settings.addColor    Hex code or 'none' to disable animation. Default: '#ffff33'.
- * @param {string}           settings.delColor    Hex code or 'none' to disable animation. Default: '#faafaa'.
- * @param {string}           settings.dimAddColor Hex code or 'none' to disable animation. Default: '#ffff33'.
- * @param {string}           settings.dimDelColor Hex code or 'none' to disable animation. Default: '#ff3333'.
+ * @param {string}   settings.what        Default: ''.
+ * @param {string}   settings.alt         CSS class name for alternate styling. Default: 'alternate'.
+ * @param {number}   settings.altOffset   Offset to start alternate styling from. Default: 0.
+ * @param {string}   settings.addColor    Hex code or 'none' to disable animation. Default: '#ffff33'.
+ * @param {string}   settings.delColor    Hex code or 'none' to disable animation. Default: '#faafaa'.
+ * @param {string}   settings.dimAddColor Hex code or 'none' to disable animation. Default: '#ffff33'.
+ * @param {string}   settings.dimDelColor Hex code or 'none' to disable animation. Default: '#ff3333'.
  *
- * @param {wpList~confirm}   settings.confirm     Callback that's run before a request is made. Default: null.
- * @param {wpList~addBefore} settings.addBefore   Callback that's run before an item gets added to the list.
- *                                                Default: null.
- * @param {wpList~addAfter}  settings.addAfter    Callback that's run after an item got added to the list.
- *                                                Default: null.
- * @param {wpList~delBefore} settings.delBefore   Callback that's run before an item gets deleted from the list.
- *                                                Default: null.
- * @param {wpList~delAfter}  settings.delAfter    Callback that's run after an item got deleted from the list.
- *                                                Default: null.
- * @param {wpList~dimBefore} settings.dimBefore   Callback that's run before an item gets dim'd. Default: null.
- * @param {wpList~dimAfter}  settings.dimAfter    Callback that's run after an item got dim'd. Default: null.
+ * @param {Function} settings.confirm     Callback that's run before a request is made. Default: null.
+ * @param {Function} settings.addBefore   Callback that's run before an item gets added to the list.
+ *                                        Default: null.
+ * @param {Function} settings.addAfter    Callback that's run after an item got added to the list.
+ *                                        Default: null.
+ * @param {Function} settings.delBefore   Callback that's run before an item gets deleted from the list.
+ *                                        Default: null.
+ * @param {Function} settings.delAfter    Callback that's run after an item got deleted from the list.
+ *                                        Default: null.
+ * @param {Function} settings.dimBefore   Callback that's run before an item gets dim'd. Default: null.
+ * @param {Function} settings.dimAfter    Callback that's run after an item got dim'd. Default: null.
  * @return {$.fn} wpList API function.
  */
 $.fn.wpList = function( settings ) {

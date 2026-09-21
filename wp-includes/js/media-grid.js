@@ -987,7 +987,7 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 	 *
 	 * @param {Object} contentRegion Basic object with a `view` property, which
 	 *                               should be set with the proper region view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	browseContent: function( contentRegion ) {
 		var state = this.state();

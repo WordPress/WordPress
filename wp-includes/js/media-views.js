@@ -3877,10 +3877,9 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	 *
 	 * This event can be used to make sure to move the focus correctly.
 	 *
-	 * @since 4.0.0
+	 * Fires `attachment:details:shift-tab` and `attachment:keydown:arrow` events on the controller.
 	 *
-	 * @fires wp.media.controller.MediaLibrary#attachment:details:shift-tab
-	 * @fires wp.media.controller.MediaLibrary#attachment:keydown:arrow
+	 * @since 4.0.0
 	 *
 	 * @param {KeyboardEvent} event A keyboard event.
 	 *
@@ -4037,20 +4036,16 @@ Attachments = View.extend(/** @lends wp.media.view.Attachments.prototype */{
 	 * The constructor binds events to the collection this view represents when
 	 * adding or removing attachments or resetting the entire collection.
 	 *
+	 * Listens for `collection:add`, `collection:remove`, `collection:reset`,
+	 * `controller:library:selection:add`, `scrollElement:scroll`, `this:ready`,
+	 * and `controller:open` events.
+	 *
 	 * @since 3.5.0
 	 *
 	 * @constructs
 	 * @memberof wp.media.view
 	 *
 	 * @augments wp.media.View
-	 *
-	 * @listens collection:add
-	 * @listens collection:remove
-	 * @listens collection:reset
-	 * @listens controller:library:selection:add
-	 * @listens scrollElement:scroll
-	 * @listens this:ready
-	 * @listens controller:open
 	 */
 	initialize: function() {
 		this.el.id = _.uniqueId('__attachments-view-');
@@ -4140,9 +4135,9 @@ Attachments = View.extend(/** @lends wp.media.view.Attachments.prototype */{
 	 * Adjusts the amount of columns accordingly. First removes any existing event
 	 * handlers to prevent duplicate listeners.
 	 *
-	 * @since 4.0.0
+	 * Listens for the `window:resize` event.
 	 *
-	 * @listens window:resize
+	 * @since 4.0.0
 	 *
 	 * @return {void}
 	 */
@@ -4288,9 +4283,9 @@ Attachments = View.extend(/** @lends wp.media.view.Attachments.prototype */{
 	 * Fails gracefully if jQuery sortable doesn't exist or isn't passed
 	 * in the options.
 	 *
-	 * @since 3.5.0
+	 * Fires `collection:reset`.
 	 *
-	 * @fires collection:reset
+	 * @since 3.5.0
 	 *
 	 * @return {void}
 	 */
@@ -6437,11 +6432,8 @@ var Frame = wp.media.View.extend(/** @lends wp.media.view.Frame.prototype */{
 		}
 		this.activeModes.remove( this.activeModes.where( { id: mode } ) );
 		this.$el.removeClass( 'mode-' + mode );
-		/**
-		 * Frame mode deactivation event.
-		 *
-		 * @event wp.media.view.Frame#{mode}:deactivate
-		 */
+
+		// Fires a `#{mode}:deactivate` event on the frame.
 		this.trigger( mode + ':deactivate' );
 
 		return this;
@@ -7670,7 +7662,7 @@ Select = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Select.prototype 
 	 *
 	 * @param {Object} toolbar      The toolbar object for the `select` mode.
 	 * @param {Object} [options={}] The options for creating the select toolbar view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	createSelectToolbar: function( toolbar, options ) {
 		options = options || this.options.button || {};
@@ -8131,7 +8123,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * Creates the title view.
 	 *
 	 * @param {Object} title The title object for creating the title view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	createTitle: function( title ) {
 		// A modal's dialog element points `aria-labelledby` at its frame heading.
@@ -8145,7 +8137,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * Creates the menu view.
 	 *
 	 * @param {Object} menu The menu object for creating the menu view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	createMenu: function( menu ) {
 		menu.view = new wp.media.view.Menu({
@@ -8176,7 +8168,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * Creates the toolbar view.
 	 *
 	 * @param {Object} toolbar The toolbar object for creating the toolbar view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	createToolbar: function( toolbar ) {
 		toolbar.view = new wp.media.view.Toolbar({
@@ -8187,7 +8179,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * Creates the router view.
 	 *
 	 * @param {Object} router The router object for creating the router view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	createRouter: function( router ) {
 		router.view = new wp.media.view.Router({
@@ -8244,7 +8236,7 @@ MediaFrame = Frame.extend(/** @lends wp.media.view.MediaFrame.prototype */{
 	 * Creates the iframe content view.
 	 *
 	 * @param {Object} content The content object for creating the iframe content view.
-	 * @this wp.media.controller.Region
+	 * @this {wp.media.controller.Region}
 	 */
 	iframeContent: function( content ) {
 		this.$el.addClass('hide-toolbar');

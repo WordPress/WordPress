@@ -186,10 +186,10 @@
 	/**
 	 * Helper function to insert an inline notice of success or failure.
 	 *
-	 * @param {jQuery Object} $this   The button element: the message will be inserted
-	 *                                above this button
-	 * @param {boolean}       success Whether the message is a success message.
-	 * @param {string}        message The message to insert.
+	 * @param {jQuery}  $this   The button element: the message will be inserted
+	 *                          above this button
+	 * @param {boolean} success Whether the message is a success message.
+	 * @param {string}  message The message to insert.
 	 */
 	function addInlineNotice( $this, success, message ) {
 		var resultDiv = $( '<div />', {

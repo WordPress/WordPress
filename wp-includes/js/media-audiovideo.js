@@ -602,7 +602,7 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 	/**
 	 * Removes a setting's UI when the model unsets it
 	 *
-	 * @fires wp.media.view.MediaDetails#media:setting:remove
+	 * Fires `wp.media.view.MediaDetails#media:setting:remove` when a setting is removed.
 	 *
 	 * @param {JQuery.Event} e The jQuery event object.
 	 */
@@ -621,7 +621,7 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 	/**
 	 * Sets the tracks for the media details view.
 	 *
-	 * @fires wp.media.view.MediaDetails#media:setting:remove
+	 * Fires `wp.media.view.MediaDetails#media:setting:remove` when the tracks are updated.
 	 */
 	setTracks : function() {
 		var tracks = '';
