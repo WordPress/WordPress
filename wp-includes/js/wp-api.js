@@ -866,12 +866,14 @@
 			},
 
 			/**
-			 * Set nonce header before every Backbone sync.
+			 * Sets a nonce header before every Backbone sync.
 			 *
-			 * @param {string}         method  The CRUD method ("create", "read", "update", or "delete") to be performed.
-			 * @param {Backbone.Model} model   The model to be synced.
-			 * @param {Object}         options Additional options for the sync.
-			 * @return {*}.
+			 * @param {string}         method               The CRUD method ("create", "read", "update", or "delete") to be performed.
+			 * @param {Backbone.Model} model                The model to be synced.
+			 * @param {Object}         options              Additional options for the sync.
+			 * @param {Function}       [options.beforeSend] A function to be called before sending the request.
+			 * @param {Function}       [options.complete]   A function to be called when the request completes.
+			 * @return {JQuery.Promise} A promise that resolves when the sync operation completes.
 			 */
 			sync: function( method, model, options ) {
 				var beforeSend;
@@ -1027,14 +1029,18 @@
 			},
 
 			/**
-			 * Extend Backbone.Collection.sync to add nonce and pagination support.
+			 * Extends Backbone.Collection.sync to add nonce and pagination support.
 			 *
-			 * Set nonce header before every Backbone sync.
+			 * Sets a nonce header before every Backbone sync.
 			 *
-			 * @param {string}         method  The CRUD method ("create", "read", "update", or "delete") to be performed.
-			 * @param {Backbone.Model} model   The model to be synced.
-			 * @param {Object}         options Additional options for the sync.
-			 * @return {*}.
+			 * @param {string}         method               The CRUD method ("create", "read", "update", or "delete") to be performed.
+			 * @param {Backbone.Model} model                The model to be synced.
+			 * @param {Object}         options              Additional options for the sync.
+			 * @param {Function}       [options.beforeSend] A function to be called before sending the request.
+			 * @param {Function}       [options.success]    A function to be called when the request succeeds.
+			 * @param {Function}       [options.complete]   A function to be called when the request completes, regardless of success or failure.
+			 * @param {Object}         [options.data]       Data to be sent with the request.
+			 * @return {JQuery.Promise} A promise that resolves when the sync operation completes.
 			 */
 			sync: function( method, model, options ) {
 				var beforeSend, success,
