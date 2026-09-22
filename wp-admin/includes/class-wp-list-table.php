@@ -1922,6 +1922,8 @@ class WP_List_Table {
 	 * Sends required variables to JavaScript land.
 	 *
 	 * @since 3.1.0
+	 * @since 7.2.0 Prints the script through wp_print_inline_script_tag() so it can carry
+	 *              attributes, such as a per-request nonce, added via wp_inline_script_attributes.
 	 */
 	public function _js_vars() {
 		$args = array(
@@ -1932,6 +1934,8 @@ class WP_List_Table {
 			),
 		);
 
-		printf( "<script>list_args = %s;</script>\n", wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
+		wp_print_inline_script_tag(
+			sprintf( 'var list_args = %s;', wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) )
+		);
 	}
 }

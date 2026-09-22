@@ -340,6 +340,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * Send required variables to JavaScript land
 	 *
 	 * @since 3.4.0
+	 * @since 7.2.0 Prints the script through wp_print_inline_script_tag() so it can carry
+	 *              attributes, such as a per-request nonce, added via wp_inline_script_attributes.
 	 *
 	 * @param array $extra_args
 	 */
@@ -357,7 +359,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$args = array_merge( $args, $extra_args );
 		}
 
-		printf( "<script>var theme_list_args = %s;</script>\n", wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
+		wp_print_inline_script_tag(
+			sprintf( 'var theme_list_args = %s;', wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) )
+		);
 		parent::_js_vars();
 	}
 }
