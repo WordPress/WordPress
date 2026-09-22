@@ -2167,6 +2167,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	/**
 	 * Check if post type supports notes.
 	 *
+	 * @since 6.9.0
+	 *
 	 * @param string $post_type Post type name.
 	 * @return bool True if post type supports notes, false otherwise.
 	 */

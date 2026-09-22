@@ -19,6 +19,8 @@ class WP_Sitemaps_Stylesheet {
 	/**
 	 * Renders the XSL stylesheet depending on whether it's the sitemap index or not.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 * @return never
 	 */

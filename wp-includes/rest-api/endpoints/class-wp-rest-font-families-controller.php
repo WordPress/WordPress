@@ -496,6 +496,8 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller {
 	/**
 	 * Prepares child font face links for the request.
 	 *
+	 * @since 6.5.0
+	 *
 	 * @param int $font_family_id Font family post ID.
 	 * @return array Links for the child font face posts.
 	 */

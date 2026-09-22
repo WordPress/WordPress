@@ -151,6 +151,8 @@ class WP_Token_Map {
 	 * to upgrade pre-computed data from older versions. Choosing a name that
 	 * corresponds to the WordPress release will help people identify where an
 	 * old copy of data came from.
+	 *
+	 * @since 6.6.0
 	 */
 	const STORAGE_VERSION = '6.6.0-trunk';
 
@@ -642,6 +644,8 @@ class WP_Token_Map {
 	 *         ':)' => '🙂',
 	 *         ':?' => '😕',
 	 *     );
+	 *
+	 * @since 6.6.0
 	 *
 	 * @return array The lookup key/substitution values as an associate array.
 	 */

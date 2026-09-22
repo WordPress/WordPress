@@ -9,6 +9,8 @@
 
 /**
  * Class to access font faces through the REST API.
+ *
+ * @since 6.5.0
  */
 class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
 

@@ -18,31 +18,43 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 
 	/**
 	 * ID property name.
+	 *
+	 * @since 5.0.0
 	 */
 	const PROP_ID = 'id';
 
 	/**
 	 * Title property name.
+	 *
+	 * @since 5.0.0
 	 */
 	const PROP_TITLE = 'title';
 
 	/**
 	 * URL property name.
+	 *
+	 * @since 5.0.0
 	 */
 	const PROP_URL = 'url';
 
 	/**
 	 * Type property name.
+	 *
+	 * @since 5.0.0
 	 */
 	const PROP_TYPE = 'type';
 
 	/**
 	 * Subtype property name.
+	 *
+	 * @since 5.0.0
 	 */
 	const PROP_SUBTYPE = 'subtype';
 
 	/**
 	 * Identifier for the 'any' type.
+	 *
+	 * @since 5.0.0
 	 */
 	const TYPE_ANY = 'any';
 

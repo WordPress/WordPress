@@ -19,6 +19,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	/**
 	 * Matches theme's directory: `/themes/<subdirectory>/<theme>/` or `/themes/<theme>/`.
 	 * Excludes invalid directory name characters: `/:<>*?"|`.
+	 *
+	 * @since 5.9.0
 	 */
 	const PATTERN = '[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?';
 

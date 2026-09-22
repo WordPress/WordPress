@@ -689,6 +689,7 @@ class WP_HTML_Tag_Processor {
 	/**
 	 * Whether the current tag is an opening tag, e.g. <div>, or a closing tag, e.g. </div>.
 	 *
+	 * @since 6.2.0
 	 * @var bool
 	 */
 	private $is_closing_tag;
@@ -1380,6 +1381,8 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * Releasing a bookmark frees up the small
 	 * performance overhead it requires.
+	 *
+	 * @since 6.2.0
 	 *
 	 * @param string $name Name of the bookmark to remove.
 	 * @return bool Whether the bookmark already existed before removal.
@@ -5085,6 +5088,8 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * This method can be called to perform a full parse of the DOCTYPE token and retrieve
 	 * its information.
+	 *
+	 * @since 6.7.0
 	 *
 	 * @return WP_HTML_Doctype_Info|null The DOCTYPE declaration information or `null` if not
 	 *                                   currently at a DOCTYPE node.

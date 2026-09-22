@@ -954,6 +954,8 @@ class WP_Theme_JSON {
 	/**
 	 * Processes pseudo-selectors for any node (block or variation).
 	 *
+	 * @since 7.0.0
+	 *
 	 * @param array      $node            The node data (block or variation).
 	 * @param string     $base_selector   The base selector.
 	 * @param array      $settings        The theme settings.

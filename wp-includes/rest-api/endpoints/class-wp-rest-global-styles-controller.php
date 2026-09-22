@@ -9,6 +9,8 @@
 
 /**
  * Base Global Styles REST API Controller.
+ *
+ * @since 5.9.0
  */
 class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	/**

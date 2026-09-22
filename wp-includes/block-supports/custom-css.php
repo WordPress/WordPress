@@ -157,6 +157,8 @@ add_action( 'wp_enqueue_scripts', 'wp_enqueue_block_custom_css', 1 );
 /**
  * Registers the style block attribute for block types that support it.
  *
+ * @since 7.0.0
+ *
  * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_custom_css_support( $block_type ) {
