@@ -486,7 +486,7 @@ function get_page_template() {
 	}
 	if ( $pagename ) {
 		$pagename_decoded = urldecode( $pagename );
-		if ( $pagename_decoded !== $pagename ) {
+		if ( $pagename_decoded !== $pagename && 0 === validate_file( $pagename_decoded ) ) {
 			$templates[] = "page-{$pagename_decoded}.php";
 		}
 		$templates[] = "page-{$pagename}.php";
@@ -695,6 +695,67 @@ function wp_set_template_globals() {
 }
 
 /**
+ * Determines whether a template found by locate_template() may be loaded.
+ *
+ * @since 7.1.2
+ * @access private
+ *
+ * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
+ * @global string $wp_template_path   Path to current theme's template directory.
+ *
+ * @param string $path Path to an existing template file.
+ * @return bool Whether the template may be loaded.
+ */
+function _wp_is_template_path_allowed( $path ) {
+	global $wp_stylesheet_path, $wp_template_path;
+
+	// A file path that exists and does not contain `..` is allowed.
+	if ( 0 === preg_match( '#(?:^|/)\.\.[. ]*(?:/|$)#', wp_normalize_path( $path ) ) ) {
+		return true;
+	}
+
+	// Resolve the true location of the requested file for later comparison.
+	$real_path = realpath( $path );
+
+	if ( false === $real_path ) {
+		return false;
+	}
+
+	$real_path = trailingslashit( wp_normalize_path( $real_path ) );
+
+	$directories = array(
+		$wp_stylesheet_path,
+		$wp_template_path,
+		ABSPATH . WPINC . '/theme-compat',
+	);
+
+	// If a theme is in a subdirectory, accept templates from its direct parent directory.
+	if ( str_contains( get_stylesheet(), '/' ) ) {
+		$directories[] = dirname( $wp_stylesheet_path );
+	}
+
+	// If a parent theme is in a subdirectory, accept templates from its direct parent directory.
+	if ( str_contains( get_template(), '/' ) ) {
+		$directories[] = dirname( $wp_template_path );
+	}
+
+	foreach ( $directories as $directory ) {
+		$real_directory = realpath( $directory );
+
+		if ( false === $real_directory ) {
+			continue;
+		}
+
+		// The true location of the requested file must be inside one of the allowed directories.
+		if ( str_starts_with( $real_path, trailingslashit( wp_normalize_path( $real_directory ) ) ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Retrieves the name of the highest priority template file that exists.
  *
  * Searches in the stylesheet directory before the template directory and
@@ -703,6 +764,7 @@ function wp_set_template_globals() {
  *
  * @since 2.7.0
  * @since 5.5.0 The `$args` parameter was added.
+ * @since 7.1.2 A template name containing `..` is only located if it resolves inside the theme.
  *
  * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
  * @global string $wp_template_path   Path to current theme's template directory.
@@ -730,13 +792,17 @@ function locate_template( $template_names, $load = false, $load_once = true, $ar
 			continue;
 		}
 		if ( file_exists( $wp_stylesheet_path . '/' . $template_name ) ) {
-			$located = $wp_stylesheet_path . '/' . $template_name;
-			break;
+			$candidate = $wp_stylesheet_path . '/' . $template_name;
 		} elseif ( $is_child_theme && file_exists( $wp_template_path . '/' . $template_name ) ) {
-			$located = $wp_template_path . '/' . $template_name;
-			break;
+			$candidate = $wp_template_path . '/' . $template_name;
 		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
-			$located = ABSPATH . WPINC . '/theme-compat/' . $template_name;
+			$candidate = ABSPATH . WPINC . '/theme-compat/' . $template_name;
+		} else {
+			continue;
+		}
+
+		if ( _wp_is_template_path_allowed( $candidate ) ) {
+			$located = $candidate;
 			break;
 		}
 	}
