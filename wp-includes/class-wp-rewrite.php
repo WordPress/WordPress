@@ -951,6 +951,9 @@ class WP_Rewrite {
 		// Strip slashes from the front of $front.
 		$front = preg_replace( '|^/+|', '', $front );
 
+		// Read the front page ID.
+		$page_on_front = get_option( 'page_on_front' );
+
 		// The main workhorse loop.
 		$post_rewrite = array();
 		$struct       = $front;
@@ -991,10 +994,10 @@ class WP_Rewrite {
 			$commentmatch = $match . $commentregex;
 			$commentquery = $index . '?' . $query . '&cpage=' . $this->preg_index( $num_toks + 1 );
 
-			if ( get_option( 'page_on_front' ) ) {
+			if ( $page_on_front ) {
 				// Create query for Root /comment-page-xx.
 				$rootcommentmatch = $match . $commentregex;
-				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option( 'page_on_front' ) . '&cpage=' . $this->preg_index( $num_toks + 1 );
+				$rootcommentquery = $index . '?' . $query . '&page_id=' . $page_on_front . '&cpage=' . $this->preg_index( $num_toks + 1 );
 			}
 
 			// Create query for /feed/(feed|atom|rss|rss2|rdf).
@@ -1035,7 +1038,7 @@ class WP_Rewrite {
 			// Only on pages with comments add ../comment-page-xx/.
 			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask ) {
 				$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
-			} elseif ( EP_ROOT & $ep_mask && get_option( 'page_on_front' ) ) {
+			} elseif ( EP_ROOT & $ep_mask && $page_on_front ) {
 				$rewrite = array_merge( $rewrite, array( $rootcommentmatch => $rootcommentquery ) );
 			}
 
