@@ -64,6 +64,26 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
+						/* translators: %s: WordPress version. */
+						__( '<strong>Version %s</strong> addressed one security issue.' ),
+						'7.1.2'
+					);
+					?>
+					<?php
+					printf(
+						/* translators: %s: HelpHub URL. */
+						__( 'For more information, see <a href="%s">the release notes</a>.' ),
+						sprintf(
+							/* translators: %s: WordPress version. */
+							esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
+							sanitize_title( '7.1.2' )
+						)
+					);
+					?>
+				</p>
+				<p>
+					<?php
+					printf(
 						/* translators: 1: WordPress version number, 2: Plural number of bugs. More than one security issue. */
 						_n(
 							'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
