@@ -16,6 +16,17 @@
 		"node": ">=24.18.0",
 		"npm": ">=11.16.0"
 	},
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=24.18.0"
+		},
+		"packageManager": {
+			"name": "npm",
+			"version": ">=11.16.0",
+			"onFail": "error"
+		}
+	},
 	"devDependencies": {
 		"@wordpress/browserslist-config": "^6.34.0",
 		"postcss": "^8.5.6",
