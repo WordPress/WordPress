@@ -102,9 +102,6 @@ class WP_oEmbed {
 			'#https?://(www\.)?amzn\.in/.*#i'              => array( 'https://read.amazon.in/kp/api/oembed', true ),
 			'#https?://(www\.)?amzn\.asia/.*#i'            => array( 'https://read.amazon.com.au/kp/api/oembed', true ),
 			'#https?://(www\.)?z\.cn/.*#i'                 => array( 'https://read.amazon.cn/kp/api/oembed', true ),
-			'#https?://www\.someecards\.com/.+-cards/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
-			'#https?://www\.someecards\.com/usercards/viewcard/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
-			'#https?://some\.ly\/.+#i'                     => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://(www\.)?tiktok\.com/.*/video/.*#i'  => array( 'https://www.tiktok.com/oembed', true ),
 			'#https?://(www\.)?tiktok\.com/@.*#i'          => array( 'https://www.tiktok.com/oembed', true ),
 			'#https?://([a-z]{2}|www)\.pinterest\.com(\.(au|mx))?/.*#i' => array( 'https://www.pinterest.com/oembed.json', true ),
@@ -182,8 +179,6 @@ class WP_oEmbed {
 		 * | Amazon       | a.co                                      | 4.9.0   |
 		 * | Amazon       | amzn.to (eu, in, asia)                    | 4.9.0   |
 		 * | Amazon       | z.cn                                      | 4.9.0   |
-		 * | Someecards   | someecards.com                            | 4.9.0   |
-		 * | Someecards   | some.ly                                   | 4.9.0   |
 		 * | Crowdsignal  | survey.fm                                 | 5.1.0   |
 		 * | TikTok       | tiktok.com                                | 5.4.0   |
 		 * | Pinterest    | pinterest.com                             | 5.9.0   |
@@ -218,6 +213,8 @@ class WP_oEmbed {
 		 * | Meetup.com   | meetu.ps             | 3.9.0     | 6.0.1     |
 		 * | SlideShare   | slideshare.net       | 3.5.0     | 6.6.0     |
 		 * | Screencast   | screencast.com       | 4.8.0     | 6.8.2     |
+		 * | Someecards   | someecards.com       | 4.9.0     | 7.1.3     |
+		 * | Someecards   | some.ly              | 4.9.0     | 7.1.3     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
