@@ -60,7 +60,7 @@ class WP_Links_List_Table extends WP_List_Table {
 			'hide_empty'     => 0,
 		);
 
-		if ( 'all' !== $cat_id ) {
+		if ( 0 !== $cat_id ) {
 			$args['category'] = $cat_id;
 		}
 		if ( ! empty( $s ) ) {

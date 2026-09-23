@@ -780,7 +780,7 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 			}
 			$gap_value = trim( $combined_gap_value );
 
-			if ( null !== $gap_value && ! $should_skip_gap_serialization ) {
+			if ( '' !== $gap_value && ! $should_skip_gap_serialization ) {
 				$layout_styles[] = array(
 					'selector'     => $selector,
 					'declarations' => array( 'gap' => $gap_value ),

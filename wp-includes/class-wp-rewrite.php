@@ -799,7 +799,7 @@ class WP_Rewrite {
 	 */
 	public function add_rewrite_tag( $tag, $regex, $query ) {
 		$position = array_search( $tag, $this->rewritecode, true );
-		if ( false !== $position && null !== $position ) {
+		if ( false !== $position ) {
 			$this->rewritereplace[ $position ] = $regex;
 			$this->queryreplace[ $position ]   = $query;
 		} else {
@@ -823,7 +823,7 @@ class WP_Rewrite {
 	 */
 	public function remove_rewrite_tag( $tag ) {
 		$position = array_search( $tag, $this->rewritecode, true );
-		if ( false !== $position && null !== $position ) {
+		if ( false !== $position ) {
 			unset( $this->rewritecode[ $position ] );
 			unset( $this->rewritereplace[ $position ] );
 			unset( $this->queryreplace[ $position ] );
