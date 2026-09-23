@@ -832,6 +832,11 @@ class WP_Block_Processor {
 					$this->open_blocks_at[]         = $after_prev_delimiter;
 					$this->open_blocks_length[]     = 0;
 					$this->was_void                 = true;
+
+					if ( $backup > 0 ) {
+						$this->last_error = self::INCOMPLETE_INPUT;
+					}
+
 					return true;
 				}
 
