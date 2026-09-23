@@ -517,12 +517,12 @@ body.js .theme-browser.search-loading {
 
 .theme-overlay .theme-header .left:before {
 	content: "\f345";
-	content: "\f341" / '';
+	content: "\f345" / '';
 }
 
 .theme-overlay .theme-header .right:before {
 	content: "\f341";
-	content: "\f345" / '';
+	content: "\f341" / '';
 }
 
 .theme-overlay .theme-wrap {
@@ -1582,7 +1582,7 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:before {
 	font: normal 20px/1 dashicons;
 	content: "\f345";
-	content: "\f341" / '';
+	content: "\f345" / '';
 	position: relative;
 	top: 6px;
 	right: 14px;
@@ -1591,7 +1591,7 @@ body.full-overlay-active {
 .theme-install-overlay .next-theme:before {
 	font: normal 20px/1 dashicons;
 	content: "\f341";
-	content: "\f345" / '';
+	content: "\f341" / '';
 	position: relative;
 	top: 6px;
 	right: 13px;

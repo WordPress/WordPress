@@ -741,12 +741,12 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .edit-media-header .left:before {
 	content: "\f345";
-	content: "\f341" / '';
+	content: "\f345" / '';
 }
 
 .edit-attachment-frame .edit-media-header .right:before {
 	content: "\f341";
-	content: "\f345" / '';
+	content: "\f341" / '';
 }
 
 .edit-attachment-frame .edit-media-header [disabled],

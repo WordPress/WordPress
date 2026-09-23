@@ -319,7 +319,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	left: 10px;
 	padding: 4px 0;
 	content: "\f141";
-	content: "\f139" / "";
+	content: "\f141" / "";
 	color: inherit;
 }
 
@@ -332,7 +332,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 1px;
 	right: 6px;
 	content: "\f139";
-	content: "\f141" / "";
+	content: "\f139" / "";
 }
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary {

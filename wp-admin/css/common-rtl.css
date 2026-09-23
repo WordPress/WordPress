@@ -3467,7 +3467,7 @@ img {
 }
 [role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
 	content: "\f141";
-	content: "\f139" / '';
+	content: "\f141" / '';
 }
 [role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
 	content: "\f140";

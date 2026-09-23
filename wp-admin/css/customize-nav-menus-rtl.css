@@ -143,12 +143,12 @@
 
 .menus-move-left:before {
 	content: "\f345";
-	content: "\f341" / '';
+	content: "\f345" / '';
 }
 
 .menus-move-right:before {
 	content: "\f341";
-	content: "\f345" / '';
+	content: "\f341" / '';
 }
 
 .reordering .menu-item .item-controls,

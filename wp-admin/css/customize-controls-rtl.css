@@ -593,7 +593,7 @@ body.trashing #publish-settings {
 #customize-theme-controls .accordion-section-title:after,
 #customize-outer-theme-controls .accordion-section-title:after {
 	content: "\f341";
-	content: "\f345" / '';
+	content: "\f341" / '';
 	color: #a7aaad;
 	pointer-events: none;
 }
@@ -917,7 +917,7 @@ h3.customize-section-title {
 .customize-section-back:before {
 	font: normal 20px/72px dashicons;
 	content: "\f345";
-	content: "\f341" / '';
+	content: "\f345" / '';
 	position: relative;
 	right: 9px;
 }
