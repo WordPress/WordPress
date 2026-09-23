@@ -84,6 +84,28 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 }
 
 /**
+ * Returns CSS media queries for responsive viewport style states.
+ *
+ * Breakpoint values are read from the viewport settings, sanitized, and
+ * normalized before the media query strings are generated. By default, the
+ * returned keys are `@mobile` and `@tablet`. When `$options['include_desktop']`
+ * is truthy, `@desktop` is included.
+ *
+ * @since 7.2.0
+ *
+ * @param mixed $viewport_settings Viewport settings from theme.json.
+ * @param array $options           {
+ *     Optional. Options for generating media queries.
+ *
+ *     @type bool $include_desktop Whether to include the desktop media query. Default false.
+ * }
+ * @return array Responsive media queries.
+ */
+function wp_get_viewport_media_queries( $viewport_settings = null, $options = array() ) {
+	return WP_Theme_JSON::get_viewport_media_queries( $viewport_settings, $options );
+}
+
+/**
  * Gets the styles resulting of merging core, theme, and user data.
  *
  * @since 5.9.0
