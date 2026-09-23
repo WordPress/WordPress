@@ -8,12 +8,22 @@
  */
 class IXR_Error
 {
+    /**
+     * @var int
+     */
     var $code;
+
+    /**
+     * @var string
+     */
     var $message;
 
-	/**
-	 * PHP5 constructor.
-	 */
+    /**
+     * PHP5 constructor.
+     *
+     * @param int    $code    Fault code.
+     * @param string $message Fault string.
+     */
     function __construct( $code, $message )
     {
         $this->code = $code;
@@ -22,6 +32,9 @@ class IXR_Error
 
 	/**
 	 * PHP4 constructor.
+	 *
+	 * @param int    $code    Fault code.
+	 * @param string $message Fault string.
 	 */
 	public function IXR_Error( $code, $message ) {
 		self::__construct( $code, $message );

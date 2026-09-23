@@ -92,7 +92,7 @@ EOD;
         $method = $this->callbacks[$methodname];
 
         // Perform the callback and send the response
-        if (count($args) == 1) {
+        if (is_array($args) && count($args) == 1 && array_key_exists(0, $args)) {
             // If only one parameter just send that instead of the whole array
             $args = $args[0];
         }
@@ -194,14 +194,42 @@ EOD;
         return array_reverse(array_keys($this->callbacks));
     }
 
+    /**
+     * Handles a system.multicall request.
+     *
+     * @param array[] $methodcalls List of method call structs, each with a methodName and optional params.
+     * @return IXR_Error|array[] Error if the method calls are not an array, otherwise a list of results,
+     *                           each either a fault struct or a single-element array wrapping the result.
+     *
+     * @phpstan-param list<array{ methodName: string, params?: array<mixed> }> $methodcalls
+     * @phpstan-return IXR_Error|list<array{ faultCode: int, faultString: string }|array{ mixed }>
+     */
     function multiCall($methodcalls)
     {
         // See http://www.xmlrpc.com/discuss/msgReader$1208
+        if (!is_array($methodcalls)) {
+            return new IXR_Error(-32600, 'server error. invalid xml-rpc. system.multicall expects an array of method calls');
+        }
+
         $return = array();
         foreach ($methodcalls as $call) {
+            // Each call must be a struct naming the method to call.
+            if (!is_array($call) || !isset($call['methodName']) || !is_string($call['methodName'])) {
+                $return[] = array(
+                    'faultCode' => -32600,
+                    'faultString' => 'server error. invalid xml-rpc. Each multicall entry must be a struct with a string methodName'
+                );
+                continue;
+            }
+
             $method = $call['methodName'];
-            $params = $call['params'];
-            if ($method == 'system.multicall') {
+            $params = array();
+            if (isset($call['params'])) {
+                $params = $call['params'];
+            }
+            if (!is_array($params)) {
+                $result = new IXR_Error(-32602, 'server error. invalid method parameters. Each multicall entry params must be an array');
+            } else if ($method == 'system.multicall') {
                 $result = new IXR_Error(-32600, 'Recursive calls to system.multicall are forbidden');
             } else {
                 $result = $this->call($method, $params);
