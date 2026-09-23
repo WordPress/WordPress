@@ -71,7 +71,7 @@ class WP_Http_Cookie {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var int|string
+	 * @var int|string|null
 	 */
 	public $port;
 
@@ -99,9 +99,9 @@ class WP_Http_Cookie {
 	 *     @type string          $name      Cookie name.
 	 *     @type mixed           $value     Value. Should NOT already be urlencoded.
 	 *     @type string|int|null $expires   Optional. Unix timestamp or formatted date. Default null.
-	 *     @type string          $path      Optional. Path. Default '/'.
+	 *     @type string|null     $path      Optional. Path. Default '/'.
 	 *     @type string          $domain    Optional. Domain. Default host of parsed $requested_url.
-	 *     @type int|string      $port      Optional. Port or comma-separated list of ports. Default null.
+	 *     @type int|string|null $port      Optional. Port or comma-separated list of ports. Default null.
 	 *     @type bool            $host_only Optional. host-only storage flag. Default true.
 	 * }
 	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
@@ -194,8 +194,8 @@ class WP_Http_Cookie {
 		$url['path'] ??= '/';
 
 		// Values to use for comparison against the URL.
-		$path   = $this->path ?? '/';
-		$port   = $this->port ?? null;
+		$path   = $this->path;
+		$port   = $this->port;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
 		if ( false === stripos( $domain, '.' ) ) {
 			$domain .= '.local';

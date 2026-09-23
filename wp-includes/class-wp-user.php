@@ -364,7 +364,7 @@ class WP_User {
 					'<code>WP_User->ID</code>'
 				)
 			);
-			$this->ID = $value;
+			$this->ID = (int) $value;
 			return;
 		}
 
