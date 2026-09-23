@@ -235,6 +235,8 @@ class WP_Upgrader_Skin {
 	 * Outputs JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
+	 * @since 7.2.0 Prints the script through wp_print_inline_script_tag() so it can carry
+	 *              attributes, such as a per-request nonce, added via wp_inline_script_attributes.
 	 *
 	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
 	 *                     'theme', 'translation', etc.
@@ -245,27 +247,37 @@ class WP_Upgrader_Skin {
 		}
 
 		if ( defined( 'IFRAME_REQUEST' ) ) {
-			echo '<script>
-					if ( window.postMessage && JSON ) {
-						window.parent.postMessage(
-							JSON.stringify( {
-								action: "decrementUpdateCount",
-								upgradeType: "' . $type . '"
-							} ),
-							window.location.protocol + "//" + window.location.hostname
-								+ ( "" !== window.location.port ? ":" + window.location.port : "" )
-						);
-					}
-				</script>';
+			// language=JavaScript
+			$js_function = <<<'JAVASCRIPT'
+				( upgradeType ) => {
+					window.parent.postMessage(
+						JSON.stringify( {
+							action: "decrementUpdateCount",
+							upgradeType
+						} ),
+						window.location.protocol + "//" + window.location.hostname
+							+ ( "" !== window.location.port ? ":" + window.location.port : "" )
+					);
+				}
+				JAVASCRIPT;
 		} else {
-			echo '<script>
-					(function( wp ) {
-						if ( wp && wp.updates && wp.updates.decrementCount ) {
-							wp.updates.decrementCount( "' . $type . '" );
-						}
-					})( window.wp );
-				</script>';
+			$js_function = <<<'JS'
+				( upgradeType ) => {
+					const wp = window.wp;
+					if ( wp && wp.updates && wp.updates.decrementCount ) {
+						wp.updates.decrementCount( upgradeType );
+					}
+				}
+				JS;
 		}
+
+		wp_print_inline_script_tag(
+			sprintf(
+				'( %s )( %s );',
+				$js_function,
+				wp_json_encode( $type, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
+			)
+		);
 	}
 
 	/**
