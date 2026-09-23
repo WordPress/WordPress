@@ -2662,6 +2662,9 @@ function get_calendar( $args = array() ) {
 	// week_begins = 0 stands for Sunday.
 	$week_begins = (int) get_option( 'start_of_week' );
 
+	// Read the current date.
+	list( $current_year, $current_month, $current_day ) = array_map( 'intval', explode( '-', current_time( 'Y-m-j' ) ) );
+
 	// Let's figure out when we are.
 	if ( ! empty( $monthnum ) && ! empty( $year ) ) {
 		$thismonth = (int) $monthnum;
@@ -2686,8 +2689,8 @@ function get_calendar( $args = array() ) {
 			$thismonth = (int) substr( $m, 4, 2 );
 		}
 	} else {
-		$thisyear  = (int) current_time( 'Y' );
-		$thismonth = (int) current_time( 'm' );
+		$thisyear  = $current_year;
+		$thismonth = $current_month;
 	}
 
 	$unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
@@ -2793,9 +2796,9 @@ function get_calendar( $args = array() ) {
 
 		$newrow = false;
 
-		if ( (int) current_time( 'j' ) === $day
-			&& (int) current_time( 'm' ) === $thismonth
-			&& (int) current_time( 'Y' ) === $thisyear
+		if ( $current_day === $day
+			&& $current_month === $thismonth
+			&& $current_year === $thisyear
 		) {
 			$calendar_output .= '<td id="today">';
 		} else {
