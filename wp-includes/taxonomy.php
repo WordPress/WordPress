@@ -3213,9 +3213,15 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * If that still doesn't return a unique slug, then it tries to append a number
  * until it finds a number that is truly unique.
  *
+ * Appending a parent slug or a number can push the result past the 200 character
+ * limit of the `slug` column in the terms table, so the slug is truncated to make
+ * room for whatever is appended to it.
+ *
  * The only purpose for `$term` is for appending a parent, if one exists.
  *
  * @since 2.3.0
+ * @since 7.2.0 The returned slug is truncated to 200 characters when a parent slug
+ *              or a numeric suffix is appended to it.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -3271,7 +3277,7 @@ function wp_unique_term_slug( $slug, $term ) {
 	 */
 	if ( apply_filters( 'wp_unique_term_slug_is_bad_slug', $needs_suffix, $slug, $term ) ) {
 		if ( $parent_suffix ) {
-			$slug .= $parent_suffix;
+			$slug = wp_truncate_slug( $slug . $parent_suffix, 200 );
 		}
 
 		if ( ! empty( $term->term_id ) ) {
@@ -3283,7 +3289,9 @@ function wp_unique_term_slug( $slug, $term ) {
 		if ( $wpdb->get_var( $query ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$num = 2;
 			do {
-				$alt_slug = $slug . "-$num";
+				// Reserve room for the suffix so the result still fits the 200 character column.
+				$numeric_suffix = "-$num";
+				$alt_slug       = wp_truncate_slug( $slug, 200 - strlen( $numeric_suffix ) ) . $numeric_suffix;
 				++$num;
 				$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
 			} while ( $slug_check );

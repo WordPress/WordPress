@@ -2401,6 +2401,34 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 }
 
 /**
+ * Truncates a slug to a given length.
+ *
+ * Non-ASCII slugs are stored percent-encoded, so the slug is truncated on a
+ * character boundary to avoid cutting a percent-encoded sequence in half.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @see utf8_uri_encode()
+ *
+ * @param string $slug   The slug to truncate.
+ * @param int    $length Optional. Max length of the slug. Default 200 (characters).
+ * @return string The truncated slug.
+ */
+function wp_truncate_slug( $slug, $length = 200 ) {
+	if ( strlen( $slug ) > $length ) {
+		$decoded_slug = urldecode( $slug );
+		if ( $decoded_slug === $slug ) {
+			$slug = substr( $slug, 0, $length );
+		} else {
+			$slug = utf8_uri_encode( $decoded_slug, $length, true );
+		}
+	}
+
+	return rtrim( $slug, '-' );
+}
+
+/**
  * Ensures a string is a valid SQL 'order by' clause.
  *
  * Accepts one or more columns, with or without a sort order (ASC / DESC).

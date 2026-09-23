@@ -87,7 +87,7 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
 		$suffix = 2;
 		do {
 			$query_args                  = $check_query_args;
-			$alt_post_name               = _truncate_post_slug( $override_slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+			$alt_post_name               = wp_truncate_slug( $override_slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
 			$query_args['post_name__in'] = array( $alt_post_name );
 			$query                       = new WP_Query( $query_args );
 			++$suffix;
