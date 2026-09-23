@@ -1119,7 +1119,10 @@ class WP_Comment_Query {
 		// Assemble a flat array of all comments + descendants.
 		$all_comments = $comments;
 		foreach ( $descendant_ids as $descendant_id ) {
-			$all_comments[] = get_comment( $descendant_id );
+			$descendant = get_comment( $descendant_id );
+			if ( $descendant instanceof WP_Comment ) {
+				$all_comments[] = $descendant;
+			}
 		}
 
 		// If a threaded representation was requested, build the tree.
