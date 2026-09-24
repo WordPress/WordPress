@@ -6391,6 +6391,9 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 		FROM $wpdb->posts
 		WHERE post_name IN ($in_string)
 		AND post_type IN ($post_type_in_string)
+		ORDER BY
+			post_status = 'publish' DESC,
+			post_status IN ('draft', 'pending', 'auto-draft') ASC, ID ASC
 	";
 
 	/** @var array<object{ ID: string, post_name: string, post_parent: string, post_type: string }> $pages */
@@ -6422,7 +6425,17 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 				&& $p->post_name === $revparts[ $count ]
 			) {
 				$found_id = $page->ID;
-				if ( $page->post_type === $post_type ) {
+
+				/*
+				 * A string like 'page' also searches attachments: /about/photo/ could be
+				 * a child page or an attachment page, and this lookup handles both.
+				 * Keep an attachment as a fallback, but keep looking for the requested
+				 * type so an attachment cannot hide a page with the same path.
+				 *
+				 * An array is the exact list of types to search; no extra types are added.
+				 * SQL already checks that list, so stop at the first full-path match.
+				 */
+				if ( is_array( $post_type ) || $page->post_type === $post_type ) {
 					break;
 				}
 			}
