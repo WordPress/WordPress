@@ -1356,7 +1356,7 @@ class WP_Block_Processor {
 				return $closer_must_be_at + 1;
 			}
 
-			++$now_at;
+			$now_at = $closer_must_be_at;
 		}
 
 		return $search_end;
