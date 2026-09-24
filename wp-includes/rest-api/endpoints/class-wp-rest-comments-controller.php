@@ -568,6 +568,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 		}
 
+		if ( empty( $request['post'] ) ) {
+			return new WP_Error(
+				'rest_comment_invalid_post_id',
+				__( 'Sorry, you are not allowed to create this comment without a post.' ),
+				array( 'status' => 403 )
+			);
+		}
+
 		$edit_cap = $is_note ? array( 'edit_post', (int) $request['post'] ) : array( 'moderate_comments' );
 		if ( isset( $request['status'] ) && ! current_user_can( ...$edit_cap ) ) {
 			return new WP_Error(
@@ -575,14 +583,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				/* translators: %s: Request parameter. */
 				sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'status' ),
 				array( 'status' => rest_authorization_required_code() )
-			);
-		}
-
-		if ( empty( $request['post'] ) ) {
-			return new WP_Error(
-				'rest_comment_invalid_post_id',
-				__( 'Sorry, you are not allowed to create this comment without a post.' ),
-				array( 'status' => 403 )
 			);
 		}
 
