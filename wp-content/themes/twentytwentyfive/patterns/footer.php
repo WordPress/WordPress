@@ -41,7 +41,7 @@
 
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|80"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"space-between"}} -->
 			<div class="wp-block-group">
-				<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
+				<!-- wp:navigation {"ariaLabel":"<?php esc_attr_e( 'Footer 1', 'twentytwentyfive' ); ?>","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Blog', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'About', 'twentytwentyfive' ); ?>","url":"#"} /-->
@@ -51,7 +51,7 @@
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Authors', 'twentytwentyfive' ); ?>","url":"#"} /-->
 				<!-- /wp:navigation -->
 
-				<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
+				<!-- wp:navigation {"ariaLabel":"<?php esc_attr_e( 'Footer 2', 'twentytwentyfive' ); ?>","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Events', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Shop', 'twentytwentyfive' ); ?>","url":"#"} /-->
