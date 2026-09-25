@@ -45,7 +45,7 @@
 
 						?>
 
-						<button class="toggle search-toggle mobile-search-toggle" data-toggle-target=".search-modal" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field" aria-expanded="false">
+						<button class="toggle search-toggle mobile-search-toggle hide-no-js" data-toggle-target=".search-modal" data-toggle-body-class="showing-search-modal" data-set-focus=".search-modal .search-field" aria-expanded="false">
 							<span class="toggle-inner">
 								<span class="toggle-icon">
 									<?php twentytwenty_the_theme_svg( 'search' ); ?>
@@ -68,7 +68,7 @@
 
 					</div><!-- .header-titles -->
 
-					<button class="toggle nav-toggle mobile-nav-toggle" data-toggle-target=".menu-modal"  data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
+					<button class="toggle nav-toggle mobile-nav-toggle hide-no-js" data-toggle-target=".menu-modal"  data-toggle-body-class="showing-menu-modal" aria-expanded="false" data-set-focus=".close-nav-toggle">
 						<span class="toggle-inner">
 							<span class="toggle-icon">
 								<?php twentytwenty_the_theme_svg( 'ellipsis' ); ?>

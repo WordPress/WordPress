@@ -1689,7 +1689,8 @@ ul.primary-menu {
 
 .primary-menu li.menu-item-has-children:hover > ul,
 .primary-menu li.menu-item-has-children:focus > ul,
-.primary-menu li.menu-item-has-children.focus > ul {
+.primary-menu li.menu-item-has-children.focus > ul,
+.no-js .primary-menu li.menu-item-has-children > ul:focus-within {
 	right: 0;
 	opacity: 1;
 	transform: translateY(0);
@@ -1744,7 +1745,8 @@ ul.primary-menu {
 
 .primary-menu ul li.menu-item-has-children:hover > ul,
 .primary-menu ul li.menu-item-has-children:focus > ul,
-.primary-menu ul li.menu-item-has-children.focus > ul {
+.primary-menu ul li.menu-item-has-children.focus > ul,
+.no-js .primary-menu ul li.menu-item-has-children > ul:focus-within {
 	right: calc(100% + 2rem);
 }
 
