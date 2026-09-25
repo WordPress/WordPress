@@ -9,7 +9,7 @@
 class WP_HTTP_IXR_Client extends IXR_Client {
 	public $scheme;
 	/**
-	 * @var IXR_Error
+	 * @var IXR_Error|null
 	 */
 	public $error;
 
