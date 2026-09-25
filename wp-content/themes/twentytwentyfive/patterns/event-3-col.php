@@ -47,7 +47,7 @@
 			<!-- /wp:group -->
 
 			<!-- wp:paragraph {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40"}}}} -->
-			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event details', 'twentytwentyfive' ); ?></a></p>
+			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event Link 1', 'twentytwentyfive' ); ?></a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:column -->
@@ -71,7 +71,7 @@
 			<!-- /wp:group -->
 
 			<!-- wp:paragraph {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40"}}}} -->
-			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event details', 'twentytwentyfive' ); ?></a></p>
+			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event Link 2', 'twentytwentyfive' ); ?></a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:column -->
@@ -95,7 +95,7 @@
 			<!-- /wp:group -->
 
 			<!-- wp:paragraph {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40"}}}} -->
-			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event details', 'twentytwentyfive' ); ?></a></p>
+			<p style="padding-top:var(--wp--preset--spacing--40)"><a href="#"><?php esc_html_e( 'Event Link 3', 'twentytwentyfive' ); ?></a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:column -->
