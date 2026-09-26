@@ -1974,6 +1974,8 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  * @since 3.0.0
  * @since 5.3.0 Legacy `error` and `updated` CSS classes are mapped to
  *              `notice-error` and `notice-success`.
+ * @since 7.2.0 Uses `wp_admin_notice()` to echo the notices so that the CSS
+ *              classes, filters, and hooks are handled consistently.
  *
  * @param string $setting        Optional slug title of a specific setting whose errors you want.
  * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
@@ -1992,32 +1994,49 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 		return;
 	}
 
-	$output = '';
-
 	foreach ( $settings_errors as $key => $details ) {
-		if ( 'updated' === $details['type'] ) {
-			$details['type'] = 'success';
+		$type = trim( $details['type'] );
+
+		if ( 'updated' === $type ) {
+			$type = 'success';
 		}
 
-		if ( in_array( $details['type'], array( 'error', 'success', 'warning', 'info' ), true ) ) {
-			$details['type'] = 'notice-' . $details['type'];
+		$additional_classes = array( 'settings-error' );
+
+		/*
+		 * Backward compatibility: `wp_admin_notice()` generates the admin notice
+		 * CSS classes based on the passed message type. For example, 'error',
+		 * 'success', 'warning', 'info'. Custom types will be treated as
+		 * additional classes and appended to the end of the CSS classes.
+		 */
+		if ( ! in_array( $type, array( 'error', 'success', 'warning', 'info' ), true ) ) {
+			$additional_classes = array_merge( $additional_classes, explode( ' ', $type ) );
+			$type               = '';
 		}
 
-		$css_id    = sprintf(
+		/*
+		 * Note that the setting error code contains underscores, for example:
+		 * `settings_updated`. This will build a CSS ID selector that contains
+		 * underscores, which are currently not allowed by the WordPress CSS
+		 * Coding Standards. Kept for backwards compatibility.
+		 */
+		$css_id = sprintf(
 			'setting-error-%s',
-			esc_attr( $details['code'] )
-		);
-		$css_class = sprintf(
-			'notice %s settings-error is-dismissible',
-			esc_attr( $details['type'] )
+			$details['code'],
 		);
 
-		$output .= "<div id='$css_id' class='$css_class'> \n";
-		$output .= "<p><strong>{$details['message']}</strong></p>";
-		$output .= "</div> \n";
+		wp_admin_notice(
+			"<strong>{$details['message']}</strong>",
+			array(
+				'type'               => $type,
+				'code'               => $details['code'],
+				'id'                 => $css_id,
+				'paragraph_wrap'     => true,
+				'dismissible'        => true,
+				'additional_classes' => $additional_classes,
+			)
+		);
 	}
-
-	echo $output;
 }
 
 /**
