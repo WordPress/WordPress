@@ -441,6 +441,12 @@ function update_sitemeta_cache( $site_ids ) {
  *                           for information on accepted arguments. Default empty array.
  * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
  *                             or the number of sites when 'count' is passed as a query var.
+ *
+ * @phpstan-return (
+ *     $args is array{ count: true, ... } ? int : (
+ *         $args is array{ fields: 'ids', ... } ? int[] : array<int, WP_Site>
+ *     )
+ * )
  */
 function get_sites( $args = array() ) {
 	$query = new WP_Site_Query();

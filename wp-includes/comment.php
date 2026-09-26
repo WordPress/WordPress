@@ -761,7 +761,8 @@ function sanitize_comment_cookies() {
  *                           returning a WP_Error object, rather than executing wp_die().
  *                           Default false.
  * @return int|string|WP_Error Allowed comments return the approval status (0|1|'spam'|'trash').
- *                             If `$wp_error` is true, disallowed comments return a WP_Error.
+ *                             WP_Error if the comment is a duplicate or a flood and `$wp_error`
+ *                             is true, or if the {@see 'pre_comment_approved'} filter returns one.
  */
 function wp_allow_comment( $commentdata, $wp_error = false ) {
 	global $wpdb;
@@ -2795,7 +2796,7 @@ function wp_send_note_notification( WP_User $user, WP_Comment $comment, ?WP_Post
  * Sets the status of a comment.
  *
  * The {@see 'wp_set_comment_status'} action is called after the comment is handled.
- * If the comment status is not in the list, then false is returned.
+ * If the comment status is not in the list, then false is returned, even when `$wp_error` is true.
  *
  * @since 1.0.0
  *
@@ -2804,7 +2805,14 @@ function wp_send_note_notification( WP_User $user, WP_Comment $comment, ?WP_Post
  * @param int|WP_Comment $comment_id     Comment ID or WP_Comment object.
  * @param string         $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
  * @param bool           $wp_error       Whether to return a WP_Error object if there is a failure. Default false.
- * @return bool|WP_Error True on success, false or WP_Error on failure.
+ * @return bool|WP_Error True on success, false or WP_Error on failure. False for an invalid
+ *                       `$comment_status` regardless of `$wp_error`.
+ *
+ * @phpstan-return (
+ *     $wp_error is false
+ *         ? bool
+ *         : ( $comment_status is 'hold'|'0'|'approve'|'1'|'spam'|'trash' ? true|WP_Error : bool|WP_Error )
+ * )
  */
 function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false ) {
 	global $wpdb;
@@ -2879,6 +2887,8 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  * @param bool  $wp_error   Optional. Whether to return a WP_Error on failure. Default false.
  * @return int|false|WP_Error The value 1 if the comment was updated, 0 if not updated.
  *                            False or a WP_Error object on failure.
+ *
+ * @phpstan-return ( $wp_error is false ? int|false : int|WP_Error )
  */
 function wp_update_comment( $commentarr, $wp_error = false ) {
 	global $wpdb;

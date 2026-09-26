@@ -57,8 +57,14 @@ function get_network( $network = null ) {
  *
  * @param string|array $args Optional. Array or string of arguments. See WP_Network_Query::parse_query()
  *                           for information on accepted arguments. Default empty array.
- * @return array|int List of WP_Network objects, a list of network IDs when 'fields' is set to 'ids',
- *                   or the number of networks when 'count' is passed as a query var.
+ * @return WP_Network[]|int[]|int List of WP_Network objects, a list of network IDs when 'fields' is set
+ *                                to 'ids', or the number of networks when 'count' is passed as a query var.
+ *
+ * @phpstan-return (
+ *     $args is array{ count: true, ... } ? int : (
+ *         $args is array{ fields: 'ids', ... } ? int[] : array<int, WP_Network>
+ *     )
+ * )
  */
 function get_networks( $args = array() ) {
 	$query = new WP_Network_Query();

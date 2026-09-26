@@ -153,6 +153,8 @@ function wp_force_plain_post_permalink( $post = null, $sample = null ) {
  * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|false The permalink URL. False if the post does not exist.
+ *
+ * @phpstan-return ( $post is WP_Post ? string : string|false )
  */
 function get_the_permalink( $post = 0, $leavename = false ) {
 	return get_permalink( $post, $leavename );
@@ -166,6 +168,8 @@ function get_the_permalink( $post = 0, $leavename = false ) {
  * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|false The permalink URL. False if the post does not exist.
+ *
+ * @phpstan-return ( $post is WP_Post ? string : string|false )
  */
 function get_permalink( $post = 0, $leavename = false ) {
 	$rewritecode = array(
@@ -320,6 +324,8 @@ function get_permalink( $post = 0, $leavename = false ) {
  * @param bool        $leavename Optional. Whether to keep post name. Default false.
  * @param bool        $sample    Optional. Is it a sample permalink. Default false.
  * @return string|false The post permalink URL. False if the post does not exist.
+ *
+ * @phpstan-return ( $post is WP_Post ? string : string|false )
  */
 function get_post_permalink( $post = 0, $leavename = false, $sample = false ) {
 	global $wp_rewrite;

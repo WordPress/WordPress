@@ -285,6 +285,13 @@ function apply_filters_ref_array( $hook_name, $args ) {
  *                  If `$callback` and `$priority` are both provided, a boolean is returned
  *                  for whether the specific function is registered at that priority.
  * @phpstan-param Maybe_Callable|false $callback
+ * @phpstan-return (
+ *     $callback is false
+ *         ? bool
+ *         : ( $priority is int
+ *             ? bool
+ *             : false|int )
+ * )
  */
 function has_filter( $hook_name, $callback = false, $priority = false ) {
 	global $wp_filter;
@@ -600,6 +607,13 @@ function do_action_ref_array( $hook_name, $args ) {
  *                  If `$callback` and `$priority` are both provided, a boolean is returned
  *                  for whether the specific function is registered at that priority.
  * @phpstan-param Maybe_Callable|false $callback
+ * @phpstan-return (
+ *     $callback is false
+ *         ? bool
+ *         : ( $priority is int
+ *             ? bool
+ *             : false|int )
+ * )
  */
 function has_action( $hook_name, $callback = false, $priority = false ) {
 	return has_filter( $hook_name, $callback, $priority );

@@ -2682,6 +2682,8 @@ function _wp_apply_block_content_filters( $content, $context = '', &$seen_ids = 
  *
  * @param string $content Content to test.
  * @return int The block format version is 1 if the content contains one or more blocks, 0 otherwise.
+ *
+ * @phpstan-return ( $content is '' ? 0 : 0|1 )
  */
 function block_version( $content ) {
 	return has_blocks( $content ) ? 1 : 0;

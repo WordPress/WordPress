@@ -112,6 +112,10 @@ class WP_Translations {
 	 * @param int|float   $count    Count. Should be an integer, but some plugins pass floats.
 	 * @param string|null $context  Context.
 	 * @return string|null Translation if it exists, or the unchanged singular string.
+	 *
+	 * @phpstan-template T of string|null
+	 * @phpstan-param T $singular
+	 * @phpstan-return ( $singular is null ? null : ( $plural is null ? T : string ) )
 	 */
 	public function translate_plural( $singular, $plural, $count = 1, $context = '' ) {
 		if ( null === $singular || null === $plural ) {
@@ -135,6 +139,8 @@ class WP_Translations {
 	 * @param string|null $singular Singular string.
 	 * @param string|null $context  Context.
 	 * @return string|null Translation if it exists, or the unchanged singular string
+	 *
+	 * @phpstan-return ( $singular is null ? null : string )
 	 */
 	public function translate( $singular, $context = '' ) {
 		if ( null === $singular ) {

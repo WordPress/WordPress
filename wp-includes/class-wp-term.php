@@ -225,7 +225,7 @@ final class WP_Term {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return array Object as array.
+	 * @return array<string, mixed> Object as array.
 	 */
 	public function to_array() {
 		return get_object_vars( $this );

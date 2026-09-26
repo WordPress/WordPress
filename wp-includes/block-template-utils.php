@@ -319,8 +319,8 @@ function _get_block_templates_paths( $base_directory ) {
  * @param string $template_type Template type. Either 'wp_template' or 'wp_template_part'.
  * @param string $slug          Template slug.
  * @return array|null {
- *     Array with template metadata if $template_type is one of 'wp_template' or 'wp_template_part',
- *     null otherwise.
+ *     Array with template metadata, or null if `$template_type` is neither 'wp_template' nor
+ *     'wp_template_part', or if the theme has no template file for `$slug`.
  *
  *     @type string   $slug      Template slug.
  *     @type string   $path      Template file path.
@@ -392,6 +392,10 @@ function _get_block_template_file( $template_type, $slug ) {
  * }
  *
  * @return array|null Template files on success, null if `$template_type` is not matched.
+ *
+ * @phpstan-return (
+ *     $template_type is 'wp_template'|'wp_template_part' ? list<array<array-key, mixed>> : null
+ * )
  */
 function _get_block_templates_files( $template_type, $query = array() ) {
 	if ( 'wp_template' !== $template_type && 'wp_template_part' !== $template_type ) {

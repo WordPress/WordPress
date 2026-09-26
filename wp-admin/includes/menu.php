@@ -208,6 +208,10 @@ unset( $id, $data, $subs, $first_sub );
  * @param string $class_to_add The CSS class to add.
  * @param string $classes      The string to add the CSS class to.
  * @return string The string with the CSS class added.
+ *
+ * @phpstan-template T of string
+ * @phpstan-param T $class_to_add
+ * @phpstan-return ( $classes is empty ? T : non-empty-string )
  */
 function add_cssclass( $class_to_add, $classes ) {
 	if ( empty( $classes ) ) {

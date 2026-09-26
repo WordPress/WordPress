@@ -472,6 +472,16 @@ class WP_Dependencies {
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $status Optional. Status of the item to query. Default 'registered'.
 	 * @return bool|_WP_Dependency Found, or object Item data.
+	 *
+	 * @phpstan-return (
+	 *     $handle is not non-empty-string
+	 *         ? false
+	 *         : (
+	 *             $status is not 'registered'|'scripts'|'enqueued'|'queue'|'to_do'|'to_print'|'done'|'printed'
+	 *                 ? false
+	 *                 : ( $status is 'registered'|'scripts' ? _WP_Dependency|false : bool )
+	 *         )
+	 * )
 	 */
 	public function query( $handle, $status = 'registered' ) {
 		switch ( $status ) {

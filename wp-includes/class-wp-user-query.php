@@ -962,7 +962,8 @@ class WP_User_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array Array of results.
+	 * @return array<int, mixed> Array of results. Contains WP_User objects unless the 'fields' query var
+	 *                           requested specific fields, in which case it contains the requested values.
 	 */
 	public function get_results() {
 		return $this->results;

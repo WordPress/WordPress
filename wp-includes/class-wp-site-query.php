@@ -265,6 +265,12 @@ class WP_Site_Query {
 	 * @param string|array $query Array or URL query string of parameters.
 	 * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
 	 *                             or the number of sites when 'count' is passed as a query var.
+	 *
+	 * @phpstan-return (
+	 *     $query is array{ count: true, ... } ? int : (
+	 *         $query is array{ fields: 'ids', ... } ? int[] : array<int, WP_Site>
+	 *     )
+	 * )
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );

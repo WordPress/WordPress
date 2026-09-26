@@ -906,6 +906,8 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
  * @param string   $deprecated Not used.
  * @return bool|null|WP_Error True on success, false if `$plugins` is empty, `WP_Error` on failure.
  *                            `null` if filesystem credentials are required to proceed.
+ *
+ * @phpstan-return ( $plugins is empty ? false : true|null|WP_Error )
  */
 function delete_plugins( $plugins, $deprecated = '' ) {
 	global $wp_filesystem;
@@ -1111,6 +1113,8 @@ function validate_active_plugins() {
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return int|WP_Error 0 on success, WP_Error on failure.
+ *
+ * @phpstan-return ( $plugin is empty ? WP_Error : 0|WP_Error )
  */
 function validate_plugin( $plugin ) {
 	if ( validate_file( $plugin ) ) {

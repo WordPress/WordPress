@@ -179,8 +179,14 @@ class WP_Network_Query {
 	 * @since 4.6.0
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return array|int List of WP_Network objects, a list of network IDs when 'fields' is set to 'ids',
-	 *                   or the number of networks when 'count' is passed as a query var.
+	 * @return WP_Network[]|int[]|int List of WP_Network objects, a list of network IDs when 'fields' is set
+	 *                                to 'ids', or the number of networks when 'count' is passed as a query var.
+	 *
+	 * @phpstan-return (
+	 *     $query is array{ count: true, ... } ? int : (
+	 *         $query is array{ fields: 'ids', ... } ? int[] : array<int, WP_Network>
+	 *     )
+	 * )
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
@@ -192,8 +198,8 @@ class WP_Network_Query {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @return array|int List of WP_Network objects, a list of network IDs when 'fields' is set to 'ids',
-	 *                   or the number of networks when 'count' is passed as a query var.
+	 * @return WP_Network[]|int[]|int List of WP_Network objects, a list of network IDs when 'fields' is set
+	 *                                to 'ids', or the number of networks when 'count' is passed as a query var.
 	 */
 	public function get_networks() {
 		$this->parse_query();
@@ -234,10 +240,11 @@ class WP_Network_Query {
 		 * @since 5.6.0 The returned array of network data is assigned to the `networks` property
 		 *              of the current WP_Network_Query instance.
 		 *
-		 * @param array|int|null   $network_data Return an array of network data to short-circuit WP's network query,
-		 *                                       the network count as an integer if `$this->query_vars['count']` is set,
-		 *                                       or null to allow WP to run its normal queries.
-		 * @param WP_Network_Query $query        The WP_Network_Query instance, passed by reference.
+		 * @param WP_Network[]|int[]|int|null $network_data Return an array of network data to short-circuit WP's
+		 *                                                  network query, the network count as an integer if
+		 *                                                  `$this->query_vars['count']` is set, or null to allow WP
+		 *                                                  to run its normal queries.
+		 * @param WP_Network_Query            $query        The WP_Network_Query instance, passed by reference.
 		 */
 		$network_data = apply_filters_ref_array( 'networks_pre_query', array( $network_data, &$this ) );
 

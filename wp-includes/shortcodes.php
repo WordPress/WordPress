@@ -145,6 +145,8 @@ function shortcode_exists( $tag ) {
  * @param string $content Content to search for shortcodes.
  * @param string $tag     Shortcode tag to check.
  * @return bool Whether the passed content contains the given shortcode.
+ *
+ * @phpstan-return ( $tag is '' ? false : ( $content is empty ? false : bool ) )
  */
 function has_shortcode( $content, $tag ) {
 	if ( ! str_contains( $content, '[' ) ) {

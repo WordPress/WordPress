@@ -307,6 +307,8 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
  *
  * @param int|WP_Post $post Post ID or post object.
  * @return int|false ID of revision's parent on success, false if not a revision.
+ *
+ * @phpstan-return ( $post is int<min, -1> ? false : false|int<0, max> )
  */
 function wp_is_post_revision( $post ) {
 	$post = wp_get_post_revision( $post );
