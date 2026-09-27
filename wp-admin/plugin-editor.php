@@ -315,7 +315,7 @@ printf(
 	<?php if ( is_writable( $real_file ) ) : ?>
 		<div class="editor-notices">
 		<?php
-		if ( in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) ) {
+		if ( is_plugin_active( $plugin ) ) {
 			wp_admin_notice(
 				__( '<strong>Warning:</strong> Making changes to active plugins is not recommended.' ),
 				array(
