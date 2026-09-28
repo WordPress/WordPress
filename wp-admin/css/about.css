@@ -1,23 +1,23 @@
-/*------------------------------------------------------------------------------
-  22.0 - About Pages
-
-   1.0 Global: About, Credits, Freedoms, Privacy, Get Involved
-    1.1 Layout
-    1.2 Typography & Elements
-    1.3 Header
-   2.0 Credits Page
-   3.0 Freedoms Page
-   4.0 Privacy Page
-   x.2.0 Legacy About Styles: Global
-    x.2.1 Typography
-    x.2.2 Structure
-    x.2.3 Point Releases
-   x.3.0 Legacy About Styles: About Page
-    x.3.1 Typography
-    x.3.2 Structure
-   x.4.0 Legacy About Styles: Credits & Freedoms Pages
-   x.5.0 Legacy About Styles: Media Queries
-------------------------------------------------------------------------------*/
+/**
+ * About Pages
+ *
+ * 1.0 Global: About, Credits, Freedoms, Privacy, Get Involved
+ *	1.1 Layout
+ *	1.2 Typography & Elements
+ *	1.3 Header
+ * 2.0 Credits Page
+ * 3.0 Freedoms Page
+ * 4.0 Privacy Page
+ * 5.0 Legacy About Styles: Global
+ *	5.1 Typography
+ *	5.2 Structure
+ *	5.3 Point Releases
+ * 6.0 Legacy About Styles: About Page
+ *	6.1 Typography
+ *	6.2 Structure
+ * 7.0 Legacy About Styles: Credits & Freedoms Pages
+ * 8.0 Legacy About Styles: Media Queries
+ */
 
 .about__container {
 	/* Section backgrounds */
@@ -47,9 +47,9 @@
 	--gap: 2rem;
 }
 
-/*------------------------------------------------------------------------------
-  1.0 - Global: About, Credits, Freedoms, Privacy, Get Involved
-------------------------------------------------------------------------------*/
+/**
+ * 1.0 Global: About, Credits, Freedoms, Privacy, Get Involved
+ */
 
 .about-php,
 .credits-php,
@@ -78,6 +78,7 @@
 	}
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__container {
 	max-width: 1000px;
 	margin: 24px auto;
@@ -141,8 +142,11 @@
 	background-position: center;
 }
 
-/* 1.1 - Layout */
+/**
+ * 1.1 Layout
+ */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__section {
 	margin: 0;
 }
@@ -239,6 +243,7 @@
 	grid-template-columns: 3fr 2fr;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__section .is-section-header {
 	grid-column-start: 1;
 	grid-column-end: -1;
@@ -332,10 +337,12 @@
 	}
 
 	.about__section.has-2-columns:not(.is-wider-right,.is-wider-left) div:has(img) {
+		/* stylelint-disable-next-line property-disallowed-list -- Only applies to decorative images. */
 		order: 1;
 	}
 
 	.about__section.has-2-columns:not(.is-wider-right,.is-wider-left) div:not(:has(img)) {
+		/* stylelint-disable-next-line property-disallowed-list -- Only applies to decorative images. */
 		order: 0;
 	}
 
@@ -390,8 +397,11 @@
 	}
 }
 
-/* 1.2 - Typography & Elements */
+/**
+ * 1.2 Typography & Elements
+ */
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__container {
 	line-height: 1.4;
 	color: var(--text);
@@ -560,11 +570,13 @@
 	font-size: inherit;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__section {
 	font-size: 1.125rem;
 	line-height: 1.55;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .about__section.is-feature {
 	font-size: 1.6em;
 }
@@ -590,7 +602,9 @@
 	}
 }
 
-/* 1.3 - Header */
+/**
+ * 1.3 Header
+ */
 
 .about__header {
 	position: relative;
@@ -807,10 +821,9 @@
 	}
 }
 
-
-/*------------------------------------------------------------------------------
-  2.0 - Credits Page
-------------------------------------------------------------------------------*/
+/**
+ * 2.0 Credits Page
+ */
 
 .about__section .wp-people-group-title {
 	margin-bottom: calc(var(--gap) * 2 - 10px);
@@ -923,20 +936,18 @@
 	}
 }
 
-
-/*------------------------------------------------------------------------------
-  3.0 - Freedoms Page
-------------------------------------------------------------------------------*/
+/**
+ * 3.0 Freedoms Page
+ */
 
 .about__section .column .freedom-image {
 	margin-bottom: var(--gap);
 	max-height: 180px;
 }
 
-
-/*------------------------------------------------------------------------------
-  4.0 - Privacy Page
-------------------------------------------------------------------------------*/
+/**
+ * 4.0 Privacy Page
+ */
 
 .about__section .column .privacy-image {
 	display: block;
@@ -945,10 +956,9 @@
 	max-width: 25rem;
 }
 
-
-/*------------------------------------------------------------------------------
-  x.2.0 - Legacy About Styles: Global
-------------------------------------------------------------------------------*/
+/**
+ * 5.0 Legacy About Styles: Global
+ */
 
 .about-wrap {
 	position: relative;
@@ -995,8 +1005,6 @@
 	margin: 1.5em auto;
 }
 
-/* WordPress Version Badge */
-
 .wp-badge {
 	background: #0073aa url(../images/w-logo-white.png?ver=20160308) no-repeat;
 	background-position: center 25px;
@@ -1024,8 +1032,6 @@
 	right: 0;
 }
 
-/* Tabs */
-
 .about-wrap .nav-tab {
 	padding-right: 15px;
 	padding-left: 15px;
@@ -1033,7 +1039,9 @@
 	line-height: 1.33333333;
 }
 
-/* x.2.1 - Typography */
+/**
+ * 5.1 Typography
+ */
 
 .about-wrap h1 {
 	margin: 0.2em 200px 0 0;
@@ -1094,7 +1102,9 @@
 	color: #555d66;
 }
 
-/* x.2.2 - Structure */
+/**
+ * 5.2 Structure
+ */
 
 .about-wrap .has-1-columns,
 .about-wrap .has-2-columns,
@@ -1212,7 +1222,9 @@
 	align-self: end;
 }
 
-/* x.2.3 - Point Releases */
+/**
+ * 5.3 Point Releases
+ */
 
 .about-wrap .point-releases {
 	margin-top: 5px;
@@ -1235,11 +1247,13 @@
 	margin-top: 40px;
 }
 
-/*------------------------------------------------------------------------------
-  x.3.0 - Legacy About Styles: About Page
-------------------------------------------------------------------------------*/
+/**
+ * 6.0 Legacy About Styles: About Page
+ */
 
-/* x.3.1 - Typography */
+/**
+ * 6.1 Typography
+ */
 
 .about-wrap .lead-description {
 	font-size: 1.5em;
@@ -1250,7 +1264,9 @@
 	margin-top: 0.6em;
 }
 
-/* x.3.2 - Structure */
+/**
+ * 6.2 Structure
+ */
 
 .about-wrap .headline-feature {
 	margin: 0 auto 40px;
@@ -1266,8 +1282,6 @@
 	width: 100%;
 }
 
-/* Go to Dashboard Home link */
-
 .about-wrap .return-to-dashboard {
 	margin: 30px 0 0 -5px;
 	font-size: 14px;
@@ -1279,11 +1293,9 @@
 	padding: 0 5px;
 }
 
-/*------------------------------------------------------------------------------
-  x.4.0 - Legacy About Styles: Credits & Freedoms Pages
-------------------------------------------------------------------------------*/
-
-/* Credits */
+/**
+ * 7.0 Legacy About Styles: Credits & Freedoms Pages
+ */
 
 .about-wrap h2.wp-people-group {
 	margin: 2.6em 0 1.33em;
@@ -1352,8 +1364,6 @@
 	white-space: nowrap;
 }
 
-/* Freedoms */
-
 .freedoms-php .about-wrap ol {
 	margin: 40px 60px;
 }
@@ -1368,9 +1378,9 @@
 	margin: 0.6em 0;
 }
 
-/*------------------------------------------------------------------------------
-  x.5.0 - Legacy About Styles: Media Queries
-------------------------------------------------------------------------------*/
+/**
+ * 8.0 Legacy About Styles: Media Queries
+ */
 
 @media screen and (max-width: 782px) {
 	.about-wrap .has-3-columns,
