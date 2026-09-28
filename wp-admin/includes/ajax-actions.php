@@ -1747,7 +1747,7 @@ function wp_ajax_add_meta() {
 						'meta_value' => $value,
 						'meta_id'    => $meta_id,
 					),
-					$c
+					$count
 				),
 				'position'     => 0,
 				'supplemental' => array( 'postid' => $meta->post_id ),
