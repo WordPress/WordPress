@@ -111,7 +111,7 @@
 }
 
 /* modern clearfix */
-.wp-clearfix:after {
+.wp-clearfix::after {
 	content: "";
 	display: table;
 	clear: both;
@@ -155,7 +155,7 @@
 	font-weight: 600;
 	padding: 15px 23px 14px;
 	/* Background and color set to prevent false positives in automated accessibility tests. */
-	background: #ffffff;
+	background: #fff;
 	color: var(--wp-admin-theme-color, #3858e9);
 	z-index: 100000;
 	line-height: normal;
@@ -226,7 +226,7 @@ body {
 	color: #3c434a;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 13px;
-	line-height: 1.4em;
+	line-height: 1.4;
 	min-width: 600px;
 }
 
@@ -261,7 +261,7 @@ td {
 a {
 	color: #2271b1;
 	transition-property: border, background, color;
-	transition-duration: .05s;
+	transition-duration: 0.05s;
 	transition-timing-function: ease-in-out;
 }
 
@@ -303,10 +303,10 @@ q {
 	quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
 	content: "";
 	content: none;
 }
@@ -340,7 +340,7 @@ h6 {
 h1 {
 	color: #1d2327;
 	font-size: 2em;
-	margin: .67em 0;
+	margin: 0.67em 0;
 }
 
 h2,
@@ -442,7 +442,7 @@ code {
 
 .subsubsub a {
 	line-height: 2;
-	padding: .2em;
+	padding: 0.2em;
 	text-decoration: none;
 }
 
@@ -511,7 +511,7 @@ code {
 .widefat td ol,
 .widefat td ul {
 	font-size: 13px;
-	line-height: 1.5em;
+	line-height: 1.5;
 }
 
 .widefat th,
@@ -519,7 +519,7 @@ code {
 .widefat thead td,
 .widefat tfoot td {
 	text-align: left;
-	line-height: 1.3em;
+	line-height: 1.3;
 }
 
 .widefat th:not(tbody th),
@@ -582,7 +582,7 @@ code {
 
 .js-update-details-toggle[aria-expanded="true"] .dashicons::before {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 }
 
 .no-js .widefat thead .check-column input,
@@ -715,6 +715,7 @@ div#widgets-right .widget-top:hover,
 	background-color: #c5d9ed;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- The class ac_match comes from jquery.suggest and can't be changed. */
 .ac_match,
 .subsubsub a.current {
 	color: #000;
@@ -732,7 +733,6 @@ ul.striped > :nth-child(odd),
 }
 
 /* Helper classes for plugins to leverage the active WordPress color scheme */
-
 .highlight {
 	background-color: rgba(var(--wp-admin-theme-color--rgb), 0.08);
 	color: #3c434a;
@@ -742,6 +742,7 @@ ul.striped > :nth-child(odd),
 	color: #fff;
 	background-color: #2c3338;
 }
+
 .wp-ui-text-primary {
 	color: #2c3338;
 }
@@ -750,6 +751,7 @@ ul.striped > :nth-child(odd),
 	color: #fff;
 	background-color: #2271b1;
 }
+
 .wp-ui-text-highlight {
 	color: #2271b1;
 }
@@ -758,6 +760,7 @@ ul.striped > :nth-child(odd),
 	color: #fff;
 	background-color: #d63638;
 }
+
 .wp-ui-text-notification {
 	color: #d63638;
 }
@@ -772,7 +775,7 @@ img.emoji {
 	border: none !important;
 	height: 1em !important;
 	width: 1em !important;
-	margin: 0 .07em !important;
+	margin: 0 0.07em !important;
 	vertical-align: -0.1em !important;
 	background: none !important;
 	padding: 0 !important;
@@ -793,12 +796,13 @@ img.emoji {
 .menu-item-handle,
 .checkbox,
 .side-info,
+/* stylelint-disable-next-line selector-id-pattern -- The ID selector rich_editing can't be changed because of backward compatibility reasons. */
 #your-profile #rich_editing,
 .widefat thead th,
 .widefat thead td,
 .widefat tfoot th,
 .widefat tfoot td {
-	line-height: 1.4em;
+	line-height: 1.4;
 }
 
 .widget .widget-top,
@@ -822,16 +826,16 @@ img.emoji {
 }
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
-.welcome-panel .welcome-panel-close:before,
-.tagchecklist .ntdelbutton .remove-tag-icon:before,
-#bulk-titles .ntdelbutton:before,
-.notice-dismiss:before {
+.welcome-panel .welcome-panel-close::before,
+.tagchecklist .ntdelbutton .remove-tag-icon::before,
+#bulk-titles .ntdelbutton::before,
+.notice-dismiss::before {
 	background: none;
 	color: #1e1e1e;
 	content: "\f335";
-	content: "\f335" / '';
+	content: "\f335" / "";
 	display: block;
-	font: normal 20px/1 dashicons;
+	font: 400 20px/1 dashicons;
 	height: 1em;
 	text-align: center;
 	width: 1em;
@@ -839,11 +843,11 @@ img.emoji {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.welcome-panel .welcome-panel-close:before {
+.welcome-panel .welcome-panel-close::before {
 	margin: 0;
 }
 
-.tagchecklist .ntdelbutton .remove-tag-icon:before {
+.tagchecklist .ntdelbutton .remove-tag-icon::before {
 	margin-left: 2px;
 	border-radius: 50%;
 	color: var(--wp-admin-theme-color, #3858e9);
@@ -855,24 +859,21 @@ img.emoji {
 	outline: 0;
 }
 
-.tagchecklist .ntdelbutton:hover .remove-tag-icon:before,
-.tagchecklist .ntdelbutton:focus .remove-tag-icon:before,
-#bulk-titles .ntdelbutton:hover:before,
-#bulk-titles .ntdelbutton:focus:before {
+.tagchecklist .ntdelbutton:hover .remove-tag-icon::before,
+.tagchecklist .ntdelbutton:focus .remove-tag-icon::before,
+#bulk-titles .ntdelbutton:hover::before,
+#bulk-titles .ntdelbutton:focus::before {
 	color: #d63638;
 }
 
-.tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
+.tagchecklist .ntdelbutton:focus .remove-tag-icon::before {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
 
-.key-labels label {
-	line-height: 24px;
-}
-
-strong, b {
+strong,
+b {
 	font-weight: 600;
 }
 
@@ -914,6 +915,7 @@ hr {
 #nav-menu-footer .menu-delete,
 #delete-link a.delete,
 a#remove-post-thumbnail,
+/* stylelint-disable-next-line selector-class-pattern -- The class privacy_requests can't be changed because of backward compatibility reasons. */
 .privacy_requests .remove-personal-data .remove-personal-data-handle {
 	color: #b32d2e;
 }
@@ -933,14 +935,15 @@ span.required,
 #nav-menu-footer .menu-delete:hover,
 #delete-link a.delete:hover,
 a#remove-post-thumbnail:hover,
+/* stylelint-disable-next-line selector-class-pattern -- The class privacy_requests can't be changed because of backward compatibility reasons. */
 .privacy_requests .remove-personal-data .remove-personal-data-handle:hover {
 	color: #b32d2e;
 	border: none;
 }
 
 .application-password-display .success {
-    color: #007017;
-    margin-left: 0.5rem;
+	color: #007017;
+	margin-left: 0.5rem;
 }
 
 /*------------------------------------------------------------------------------
@@ -1115,21 +1118,18 @@ th.action-links {
 	float: right;
 	display: flex;
 	align-items: center;
-	column-gap: .5rem;
+	column-gap: 0.5rem;
 }
 
 .wp-filter .search-form input[type="search"] {
 	width: 280px;
 	max-width: 100%;
+	min-height: 32px;
+	padding: 0 8px;
 }
 
 .wp-filter .search-form select {
 	margin: 0;
-}
-
-.wp-filter .search-form input[type="search"] {
-	min-height: 32px;
-	padding: 0 8px;
 }
 
 .wp-filter .search-form select,
@@ -1171,21 +1171,21 @@ th.action-links {
 	box-shadow: none;
 }
 
-.wp-filter .drawer-toggle:before {
+.wp-filter .drawer-toggle::before {
 	content: "\f111";
-	content: "\f111" / '';
+	content: "\f111" / "";
 	margin: 0 5px 0 0;
 	color: #646970;
-	font: normal 16px/1 dashicons;
+	font: 400 16px/1 dashicons;
 	vertical-align: text-bottom;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 .wp-filter .button.drawer-toggle:hover,
-.wp-filter .drawer-toggle:hover:before,
+.wp-filter .drawer-toggle:hover::before,
 .wp-filter .button.drawer-toggle:focus,
-.wp-filter .drawer-toggle:focus:before {
+.wp-filter .drawer-toggle:focus::before {
 	background-color: transparent;
 	color: var(--wp-admin-theme-color);
 }
@@ -1205,7 +1205,7 @@ th.action-links {
 	transform: none;
 }
 
-.wp-filter .drawer-toggle.current:before {
+.wp-filter .drawer-toggle.current::before {
 	color: #fff;
 }
 
@@ -1252,7 +1252,7 @@ th.action-links {
 	background: var(--wp-admin-theme-color);
 }
 
-.show-filters .wp-filter .drawer-toggle:before {
+.show-filters .wp-filter .drawer-toggle::before {
 	color: #fff;
 }
 
@@ -1429,6 +1429,7 @@ th.action-links {
 		position: relative;
 		max-width: 100%;
 	}
+
 	.wp-filter .search-form {
 		margin: 11px 0;
 		flex-wrap: wrap;
@@ -1558,8 +1559,8 @@ div.updated a:focus {
 	border-radius: 2px;
 }
 
-.notice-dismiss:hover:before,
-.notice-dismiss:active:before {
+.notice-dismiss:hover::before,
+.notice-dismiss:active::before {
 	color: #1e1e1e;
 	opacity: 0.7;
 }
@@ -1570,7 +1571,7 @@ div.updated a:focus {
 	outline: 2px solid transparent;
 }
 
-.notice-dismiss:focus:before {
+.notice-dismiss:focus::before {
 	color: #1e1e1e;
 }
 
@@ -1614,12 +1615,12 @@ div.error.notice-alt {
 	background-color: #fff;
 }
 
-#plugin-information-footer .update-now:not(.button-disabled):before {
+#plugin-information-footer .update-now:not(.button-disabled)::before {
 	color: #d63638;
 	content: "\f463";
-	content: "\f463" / '';
+	content: "\f463" / "";
 	display: inline-block;
-	font: normal 20px/1 dashicons;
+	font: 400 20px/1 dashicons;
 	margin: -3px 5px 0 -2px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1627,21 +1628,21 @@ div.error.notice-alt {
 }
 
 #plugin-information-footer .notice {
-    margin-top: -5px;
+	margin-top: -5px;
 }
 
-.update-message p:before,
-.updating-message p:before,
-.updated-message p:before,
-.import-php .updating-message:before,
-.button.updating-message:before,
-.button.updated-message:before,
-.button.installed:before,
-.button.installing:before,
-.button.activating-message:before,
-.button.activated-message:before {
+.update-message p::before,
+.updating-message p::before,
+.updated-message p::before,
+.import-php .updating-message::before,
+.button.updating-message::before,
+.button.updated-message::before,
+.button.installed::before,
+.button.installing::before,
+.button.activating-message::before,
+.button.activated-message::before {
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: 400 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: top;
@@ -1672,34 +1673,34 @@ div.error.notice-alt {
 }
 
 /* Update icon. */
-.update-message p:before,
-.updating-message p:before,
-.import-php .updating-message:before,
-.button.updating-message:before,
-.button.installing:before,
-.button.activating-message:before {
+.update-message p::before,
+.updating-message p::before,
+.import-php .updating-message::before,
+.button.updating-message::before,
+.button.installing::before,
+.button.activating-message::before {
 	color: #d63638;
 	content: "\f463";
-	content: "\f463" / '';
+	content: "\f463" / "";
 }
 
 /* Spins the update icon. */
-.updating-message p:before,
-.import-php .updating-message:before,
-.button.updating-message:before,
-.button.installing:before,
-.button.activating-message:before,
+.updating-message p::before,
+.import-php .updating-message::before,
+.button.updating-message::before,
+.button.installing::before,
+.button.activating-message::before,
 .plugins .column-auto-updates .dashicons-update.spin,
 .theme-overlay .theme-autoupdate .dashicons-update.spin {
 	animation: rotation 2s infinite linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.updating-message p:before,
-	.import-php .updating-message:before,
-	.button.updating-message:before,
-	.button.installing:before,
-	.button.activating-message:before,
+	.updating-message p::before,
+	.import-php .updating-message::before,
+	.button.updating-message::before,
+	.button.installing::before,
+	.button.activating-message::before,
 	.plugins .column-auto-updates .dashicons-update.spin,
 	.theme-overlay .theme-autoupdate .dashicons-update.spin {
 		animation: none;
@@ -1711,28 +1712,28 @@ div.error.notice-alt {
 }
 
 /* Updated icon (check mark). */
-.updated-message p:before,
-.installed p:before,
-.button.updated-message:before,
-.button.activated-message:before {
+.updated-message p::before,
+.installed p::before,
+.button.updated-message::before,
+.button.activated-message::before {
 	color: #68de7c;
 	content: "\f147";
-	content: "\f147" / '';
+	content: "\f147" / "";
 }
 
 /* Error icon. */
-.update-message.notice-error p:before {
+.update-message.notice-error p::before {
 	color: #d63638;
 	content: "\f534";
-	content: "\f534" / '';
+	content: "\f534" / "";
 }
 
-.wrap .notice p:before,
-.import-php .updating-message:before {
+.wrap .notice p::before,
+.import-php .updating-message::before {
 	margin-right: 6px;
 }
 
-.import-php .updating-message:before {
+.import-php .updating-message::before {
 	vertical-align: bottom;
 }
 
@@ -1774,7 +1775,7 @@ form.upgrade .hint {
 }
 
 h2.wp-current-version {
-	margin-bottom: .3em;
+	margin-bottom: 0.3em;
 }
 
 p.update-last-checked {
@@ -1798,12 +1799,12 @@ p.auto-update-status {
 	margin-left: 2em;
 }
 
-.button.updating-message:before,
-.button.updated-message:before,
-.button.installed:before,
-.button.installing:before,
-.button.activated-message:before,
-.button.activating-message:before {
+.button.updating-message::before,
+.button.updated-message::before,
+.button.installed::before,
+.button.installing::before,
+.button.activated-message::before,
+.button.activating-message::before {
 	margin: 0 5px 0 -2px;
 	line-height: 1.9; /* 38px (20px * 1.9) - matches button */
 	vertical-align: top;
@@ -1818,38 +1819,37 @@ p.auto-update-status {
 	margin-bottom: 4px;
 }
 
-#plugin-information-footer .button.installed:before,
-#plugin-information-footer .button.installing:before,
-#plugin-information-footer .button.updating-message:before,
-#plugin-information-footer .button.updated-message:before,
-#plugin-information-footer .button.activated-message:before,
-#plugin-information-footer .button.activating-message:before {
+#plugin-information-footer .button.installed::before,
+#plugin-information-footer .button.installing::before,
+#plugin-information-footer .button.updating-message::before,
+#plugin-information-footer .button.updated-message::before,
+#plugin-information-footer .button.activated-message::before,
+#plugin-information-footer .button.activating-message::before {
 	margin: 0 5px 0 -2px;
 	line-height: 1.9; /* 38px (20px * 1.9) - matches button */
 	vertical-align: top;
 }
 
-#plugin-information-footer .button.update-now.updating-message:before {
+#plugin-information-footer .button.update-now.updating-message::before {
 	margin: 0 5px 0 -2px;
 }
 
-.button-primary.updating-message:before,
-.button-primary.activating-message:before {
+.button-primary.updating-message::before,
+.button-primary.activating-message::before {
 	color: #fff;
 }
 
-.button-primary.updated-message:before,
-.button-primary.activated-message:before {
+.button-primary.updated-message::before,
+.button-primary.activated-message::before {
 	color: #9ec2e6;
 }
 
 .button.updated-message,
 .button.activated-message {
 	transition-property: border, background, color;
-	transition-duration: .05s;
+	transition-duration: 0.05s;
 	transition-timing-function: ease-in-out;
 }
-
 
 /* @todo: this does not need its own section anymore */
 /*------------------------------------------------------------------------------
@@ -1875,6 +1875,7 @@ p.auto-update-status {
 #contextual-help-wrap {
 	overflow: auto;
 	margin-left: 0;
+	padding: 0;
 }
 
 #screen-meta-links {
@@ -1934,11 +1935,11 @@ p.auto-update-status {
 	transform: none;
 }
 
-#screen-meta-links .show-settings:after {
+#screen-meta-links .show-settings::after {
 	right: 0;
 	content: "\f140";
-	content: "\f140" / '';
-	font: normal 20px/1.5 dashicons; /* line-height 1.5 = 30px to match compact button */
+	content: "\f140" / "";
+	font: 400 20px/1.5 dashicons; /* line-height 1.5 = 30px to match compact button */
 	display: inline-block;
 	padding: 0 5px 0 0;
 	vertical-align: top;
@@ -1947,22 +1948,25 @@ p.auto-update-status {
 	text-decoration: none;
 }
 
-#screen-meta-links .screen-meta-active:after {
+#screen-meta-links .screen-meta-active::after {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 }
 
 /* end screen options and help tabs */
 
+/* This class appears to be unused in Core. */
 .toggle-arrow {
 	background-repeat: no-repeat;
 	background-position: top left;
 	background-color: transparent;
 	height: 22px;
+	/* stylelint-disable-next-line declaration-property-unit-allowed-list -- The toggle-arrow class appears to be unused; it is kept here only for potential backward compatibility issues. */
 	line-height: 22px;
 	display: block;
 }
 
+/* This class appears to be unused in Core. */
 .toggle-arrow-active {
 	background-position: bottom left;
 }
@@ -1982,19 +1986,21 @@ p.auto-update-status {
 	line-height: 2.35;
 }
 
+/* This ID appears to be unused in Core. */
 #number-of-columns {
 	display: inline-block;
 	vertical-align: middle;
+	/* stylelint-disable-next-line declaration-property-unit-allowed-list -- The number-of-columns ID appears to be unused; it is kept here only for potential backward compatibility issues. */
 	line-height: 30px;
 }
 
-.metabox-prefs input[type=checkbox] {
+.metabox-prefs input[type="checkbox"] {
 	margin-top: 0;
 	margin-right: 6px;
 }
 
 .metabox-prefs label input,
-.metabox-prefs label input[type=checkbox] {
+.metabox-prefs label input[type="checkbox"] {
 	margin: -4px 5px 0 0;
 }
 
@@ -2035,10 +2041,6 @@ p.auto-update-status {
 /*------------------------------------------------------------------------------
   6.2 - Help Menu
 ------------------------------------------------------------------------------*/
-
-#contextual-help-wrap {
-	padding: 0;
-}
 
 #contextual-help-columns {
 	position: relative;
@@ -2098,7 +2100,7 @@ p.auto-update-status {
 	padding: 0;
 	margin: 0 -1px 0 0;
 	border-left: 2px solid var(--wp-admin-theme-color);
-	background: color-mix(in srgb, var(--wp-admin-theme-color) 8%, white);
+	background: color-mix(in srgb, var(--wp-admin-theme-color) 8%, #fff);
 	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
 }
 
@@ -2144,6 +2146,7 @@ html.wp-toolbar {
 	-ms-overflow-style: scrollbar; /* See ticket #48545 */
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 .widefat th,
 .widefat td {
 	color: #50575e;
@@ -2284,7 +2287,7 @@ html.wp-toolbar {
 .edit-post-meta-boxes-area .postbox .handle-order-lower {
 	width: 44px;
 	height: 44px;
-	color: #1d2327
+	color: #1d2327;
 }
 
 .postbox .handle-order-higher[aria-disabled="true"],
@@ -2321,6 +2324,8 @@ html.wp-toolbar {
 	padding: 0 12px 12px;
 	line-height: 1.4;
 	font-size: 13px;
+	margin: 11px 0;
+	position: relative;
 }
 
 .stuffbox .inside {
@@ -2328,11 +2333,6 @@ html.wp-toolbar {
 	line-height: 1.4;
 	font-size: 13px;
 	margin-top: 0;
-}
-
-.postbox .inside {
-	margin: 11px 0;
-	position: relative;
 }
 
 .postbox .inside > p:last-child,
@@ -2362,6 +2362,7 @@ html.wp-toolbar {
 }
 
 /* @todo: what is this doing here */
+/* stylelint-disable-next-line selector-id-pattern -- The ID selector dashboard_right_now can't be changed because of backward compatibility reasons. */
 #dashboard_right_now .versions .b,
 #post-status-display,
 #post-visibility-display,
@@ -2372,7 +2373,6 @@ html.wp-toolbar {
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
-#ed_reply_toolbar #ed_reply_strong,
 .item-controls .item-order a,
 .feature-filter .feature-name,
 #comment-status-display {
@@ -2464,7 +2464,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 }
 
 /* Back-compat for plugins. Deprecated. Use .wp-clearfix instead. */
-.nav-tab-wrapper:not(.wp-clearfix):after {
+.nav-tab-wrapper:not(.wp-clearfix)::after {
 	content: "";
 	display: table;
 	clear: both;
@@ -2496,13 +2496,16 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 #template > div {
 	margin-right: 16em;
 }
+
 #template .notice {
 	margin-top: 1em;
 	margin-right: 3%;
 }
+
 #template .notice p {
 	width: auto;
 }
+
 #template .submit .spinner {
 	float: none;
 	vertical-align: top;
@@ -2597,6 +2600,7 @@ table .column-rating {
 }
 
 /* Scrollbar fix for bulk upgrade iframe */
+/* stylelint-disable-next-line no-duplicate-selectors -- For historical reasons this file is split in sections and contains duplicate selectors based on the sections. */
 body.iframe {
 	height: 98%;
 }
@@ -2605,6 +2609,7 @@ body.iframe {
 .lp-show-latest p {
 	display: none;
 }
+
 .lp-show-latest p:last-child,
 .lp-show-latest .lp-error p {
 	display: block;
@@ -2673,7 +2678,7 @@ body.iframe {
 	color: #000;
 	font-size: 14px;
 	font-weight: 400;
-	margin-bottom: .2em;
+	margin-bottom: 0.2em;
 }
 
 .importer-action {
@@ -2771,6 +2776,7 @@ div.star-holder .star-rating {
 .star-rating {
 	white-space: nowrap;
 }
+
 .star-rating .star {
 	display: inline-block;
 	width: 20px;
@@ -2783,28 +2789,28 @@ div.star-holder .star-rating {
 	font-weight: 400;
 	font-style: normal;
 	vertical-align: top;
-	transition: color .1s ease-in;
+	transition: color 0.1s ease-in;
 	text-align: center;
 	color: #dba617;
 }
 
-.star-rating .star-full:before {
+.star-rating .star-full::before {
 	content: "\f155";
-	content: "\f155" / '';
+	content: "\f155" / "";
 }
 
-.star-rating .star-half:before {
+.star-rating .star-half::before {
 	content: "\f459";
-	content: "\f459" / '';
+	content: "\f459" / "";
 }
 
 .rtl .star-rating .star-half {
 	transform: rotateY(180deg);
 }
 
-.star-rating .star-empty:before {
+.star-rating .star-empty::before {
 	content: "\f154";
-	content: "\f154" / '';
+	content: "\f154" / "";
 }
 
 div.action-links {
@@ -2940,12 +2946,12 @@ div.action-links {
 	left: 0;
 	min-height: 100%;
 	/* Height of title + tabs + install now */
-	min-height: calc( 100% - 152px );
+	min-height: calc(100% - 152px);
 }
 
 #plugin-information-content.with-banner {
 	/* Height of banner + tabs + install now */
-	min-height: calc( 100% - 346px );
+	min-height: calc(100% - 346px);
 }
 
 #section-holder {
@@ -3042,12 +3048,6 @@ div.action-links {
 
 #plugin-information .fyi ul.contributors {
 	margin-top: 10px;
-}
-
-#plugin-information .fyi ul.contributors li {
-	display: inline-block;
-	margin-right: 8px;
-	vertical-align: middle;
 }
 
 #plugin-information .fyi ul.contributors li {
@@ -3230,11 +3230,12 @@ div.action-links {
 }
 
 /* Thickbox for the Plugin details modal. */
+/* stylelint-disable selector-id-pattern -- Many IDs used by Thickbox contain uppercase charqacters and can't be changed. */
 #TB_window.plugin-details-modal {
 	background: #fff;
 }
 
-#TB_window.plugin-details-modal.thickbox-loading:before {
+#TB_window.plugin-details-modal.thickbox-loading::before {
 	content: "";
 	display: block;
 	width: 20px;
@@ -3251,8 +3252,7 @@ div.action-links {
 
 @media print,
 	(min-resolution: 120dpi) {
-
-	#TB_window.plugin-details-modal.thickbox-loading:before {
+	#TB_window.plugin-details-modal.thickbox-loading::before {
 		background-image: url(../images/spinner-2x.gif);
 	}
 }
@@ -3289,10 +3289,10 @@ div.action-links {
 	display: none;
 }
 
-.plugin-details-modal #TB_closeWindowButton:after {
+.plugin-details-modal #TB_closeWindowButton::after {
 	content: "\f335";
-	content: "\f335" / '';
-	font: normal 32px/29px 'dashicons';
+	content: "\f335" / "";
+	font: 400 32px/29px dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -3304,6 +3304,7 @@ div.action-links {
 		top: -30px;
 	}
 }
+/* stylelint-enable */
 
 /* @todo: move this. */
 img {
@@ -3318,9 +3319,9 @@ img {
 .bulk-action-notice .toggle-indicator::before,
 .privacy-text-box .toggle-indicator::before {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 	display: inline-block;
-	font: normal 20px/1 dashicons;
+	font: 400 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;
@@ -3331,25 +3332,25 @@ img {
 .bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator::before,
 .privacy-text-box.closed .toggle-indicator::before {
 	content: "\f140";
-	content: "\f140" / '';
+	content: "\f140" / "";
 }
 
 .postbox .handle-order-higher .order-higher-indicator::before {
 	content: "\f343";
-	content: "\f343" / '';
+	content: "\f343" / "";
 	color: inherit;
 }
 
 .postbox .handle-order-lower .order-lower-indicator::before {
 	content: "\f347";
-	content: "\f347" / '';
+	content: "\f347" / "";
 	color: inherit;
 }
 
 .postbox .handle-order-higher .order-higher-indicator::before,
 .postbox .handle-order-lower .order-lower-indicator::before {
 	position: relative;
-    top: 0.11rem;
+	top: 0.11rem;
 	width: 20px;
 	height: 20px;
 }
@@ -3357,9 +3358,6 @@ img {
 .postbox .handlediv .toggle-indicator::before {
 	width: 20px;
 	border-radius: 50%;
-}
-
-.postbox .handlediv .toggle-indicator::before {
 	position: relative;
 	top: 0.05rem;
 	text-indent: -1px; /* account for the dashicon glyph uneven horizontal alignment */
@@ -3370,6 +3368,7 @@ img {
 }
 
 .bulk-action-notice .toggle-indicator::before {
+	/* stylelint-disable-next-line declaration-property-unit-allowed-list -- This line-height value is used for a dashicon. */
 	line-height: 16px;
 	vertical-align: top;
 	color: #50575e;
@@ -3410,10 +3409,11 @@ img {
 }
 
 #template textarea,
+/* stylelint-disable-next-line selector-class-pattern -- This class uses selectors that contain uppercase character in .CodeMirror external library. */
 #template .CodeMirror {
 	width: 100%;
 	min-height: 60vh;
-	height: calc( 100vh - 295px );
+	height: calc(100vh - 295px);
 	border: 1px solid #dcdcde;
 	box-sizing: border-box;
 }
@@ -3429,6 +3429,7 @@ img {
 	margin: 0;
 	padding: 0;
 }
+
 #templateside > ul {
 	box-sizing: border-box;
 	margin-top: 0;
@@ -3440,10 +3441,12 @@ img {
 	border: 1px solid #dcdcde;
 	border-left: none;
 }
+
 #templateside ul ul {
 	padding-left: 12px;
 }
-#templateside > ul > li > ul[role=group] {
+
+#templateside > ul > li > ul[role="group"] {
 	padding-left: 0;
 }
 
@@ -3464,14 +3467,17 @@ img {
 	position: absolute;
 	pointer-events: none;
 }
-[role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
+
+[role="treeitem"][aria-expanded="false"] > .folder-label .icon::after {
 	content: "\f139";
-	content: "\f139" / '';
+	content: "\f139" / "";
 }
-[role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
+
+[role="treeitem"][aria-expanded="true"] > .folder-label .icon::after {
 	content: "\f140";
-	content: "\f140" / '';
+	content: "\f140" / "";
 }
+
 [role="treeitem"] .folder-label {
 	display: block;
 	padding: 3px 3px 3px 12px;
@@ -3502,6 +3508,7 @@ img {
 	margin: 0;
 	position: relative;
 }
+
 [role="treeitem"] li {
 	position: relative;
 }
@@ -3516,6 +3523,7 @@ img {
 	top: -13px;
 	bottom: 10px;
 }
+
 .tree-folder > li::before {
 	content: "";
 	position: absolute;
@@ -3527,6 +3535,7 @@ img {
 	width: 7px;
 	border-bottom: 1px solid #c3c4c7;
 }
+
 .tree-folder > li::after {
 	content: "";
 	position: absolute;
@@ -3541,6 +3550,7 @@ img {
 #templateside .current-file {
 	margin: -4px 0 -2px;
 }
+
 .tree-folder > .current-file::before {
 	left: 4px;
 	height: 15px;
@@ -3548,6 +3558,7 @@ img {
 	border-left: none;
 	top: 3px;
 }
+
 .tree-folder > .current-file::after {
 	bottom: -4px;
 	height: 7px;
@@ -3582,6 +3593,7 @@ img {
 .fileedit-sub #plugin {
 	max-width: 40%;
 }
+
 .fileedit-sub .alignright {
 	text-align: right;
 }
@@ -3594,21 +3606,25 @@ img {
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
+
 #file-editor-linting-error > .notice {
 	margin: 0;
 	display: inline-block;
 }
+
 #file-editor-linting-error > .notice > p {
 	width: auto;
 }
+
 #template .submit {
 	margin-top: 1em;
 	padding: 0;
 }
 
-#template .submit input[type=submit][disabled] {
+#template .submit input[type="submit"][disabled] {
 	cursor: not-allowed;
 }
+
 #templateside {
 	float: right;
 	width: 16em;
@@ -3673,7 +3689,7 @@ img {
 
 .fileedit-sub {
 	padding: 10px 0 8px;
-	line-height: 180%;
+	line-height: 1.8;
 }
 
 #file-editor-warning .file-editor-warning-content {
@@ -3681,20 +3697,20 @@ img {
 }
 
 /* @todo: can we use a common class for these? */
-.nav-menus-php .item-edit:before,
-.wp-customizer .control-section .accordion-section-title:after,
-.wp-customizer .accordion-section-title:after,
-.widget-top .widget-action .toggle-indicator:before {
+.nav-menus-php .item-edit::before,
+.wp-customizer .control-section .accordion-section-title::after,
+.wp-customizer .accordion-section-title::after,
+.widget-top .widget-action .toggle-indicator::before {
 	content: "\f140";
-	content: "\f140" / '';
-	font: normal 20px/1 dashicons;
+	content: "\f140" / "";
+	font: 400 20px/1 dashicons;
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;
 }
 
-.widget-top .widget-action .toggle-indicator:before {
+.widget-top .widget-action .toggle-indicator::before {
 	padding: 1px 2px 1px 0;
 	border-radius: 50%;
 }
@@ -3724,18 +3740,18 @@ img {
 	outline: 2px solid transparent;
 }
 
-.widget-top .widget-action:focus .toggle-indicator:before {
+.widget-top .widget-action:focus .toggle-indicator::before {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
 
-#customize-info.open .accordion-section-title:after,
-.nav-menus-php .menu-item-edit-active .item-edit:before,
-.widget.open .widget-top .widget-action .toggle-indicator:before,
-.widget.widget-in-question .widget-top .widget-action .toggle-indicator:before {
+#customize-info.open .accordion-section-title::after,
+.nav-menus-php .menu-item-edit-active .item-edit::before,
+.widget.open .widget-top .widget-action .toggle-indicator::before,
+.widget.widget-in-question .widget-top .widget-action .toggle-indicator::before {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 }
 
 /*!
@@ -3786,7 +3802,7 @@ img {
 	cursor: pointer;
 }
 
-.js .accordion-section-title:after {
+.js .accordion-section-title::after {
 	position: absolute;
 	top: 12px;
 	right: 10px;
@@ -3798,8 +3814,8 @@ img {
 	outline: 1px solid transparent;
 }
 
-.accordion-section-title:hover:after,
-.accordion-section-title:focus:after {
+.accordion-section-title:hover::after,
+.accordion-section-title:focus::after {
 	border-color: #a7aaad transparent;
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
@@ -3809,7 +3825,7 @@ img {
 	cursor: auto;
 }
 
-.cannot-expand .accordion-section-title:after {
+.cannot-expand .accordion-section-title::after {
 	display: none;
 }
 
@@ -3822,8 +3838,8 @@ img {
 	background: #fff;
 }
 
-.control-section .accordion-section-title:after,
-.customize-pane-child .accordion-section-title:after {
+.control-section .accordion-section-title::after,
+.customize-pane-child .accordion-section-title::after {
 	top: calc(50% - 10px); /* Arrow height is 20px, so use half of that to vertically center */
 }
 
@@ -3870,7 +3886,8 @@ img {
 		background-color: #fff;
 		position: relative;
 	}
-	.my-sites.striped li:after {
+
+	.my-sites.striped li::after {
 		content: "";
 		width: 1px;
 		height: 100%;
@@ -3881,20 +3898,25 @@ img {
 	}
 
 }
+
 @media only screen and (min-width: 600px) and (max-width: 699px) {
-	.my-sites li{
+	.my-sites li {
 		float: left;
 		width: 44%;
 	}
+
 	.my-sites.striped li {
 		background-color: #fff;
 	}
+
 	.my-sites.striped li:nth-of-type(2n+1) {
 		clear: left;
 	}
-	.my-sites.striped li:nth-of-type(2n+2):after {
+
+	.my-sites.striped li:nth-of-type(2n+2)::after {
 		content: none;
 	}
+
 	.my-sites li:nth-of-type(4n+1),
 	.my-sites li:nth-of-type(4n+2) {
 		background-color: #f6f7f7;
@@ -3908,9 +3930,11 @@ img {
 		width: 27.333333%;
 		background-color: #fff;
 	}
-	.my-sites.striped li:nth-of-type(3n+3):after {
+
+	.my-sites.striped li:nth-of-type(3n+3)::after {
 		content: none;
 	}
+
 	.my-sites li:nth-of-type(6n+1),
 	.my-sites li:nth-of-type(6n+2),
 	.my-sites li:nth-of-type(6n+3) {
@@ -3925,12 +3949,15 @@ img {
 		padding: 8px 2%;
 		background-color: #fff;
 	}
+
 	.my-sites.striped li:nth-of-type(4n+1) {
 		clear: left;
 	}
-	.my-sites.striped li:nth-of-type(4n+4):after {
+
+	.my-sites.striped li:nth-of-type(4n+4)::after {
 		content: none;
 	}
+
 	.my-sites li:nth-of-type(8n+1),
 	.my-sites li:nth-of-type(8n+2),
 	.my-sites li:nth-of-type(8n+3),
@@ -3946,12 +3973,15 @@ img {
 		padding: 8px 2%;
 		background-color: #fff;
 	}
+
 	.my-sites.striped li:nth-of-type(5n+1) {
 		clear: left;
 	}
-	.my-sites.striped li:nth-of-type(5n+5):after {
+
+	.my-sites.striped li:nth-of-type(5n+5)::after {
 		content: none;
 	}
+
 	.my-sites li:nth-of-type(10n+1),
 	.my-sites li:nth-of-type(10n+2),
 	.my-sites li:nth-of-type(10n+3),
@@ -3968,12 +3998,15 @@ img {
 		padding: 8px 2%;
 		background-color: #fff;
 	}
+
 	.my-sites.striped li:nth-of-type(6n+1) {
 		clear: left;
 	}
-	.my-sites.striped li:nth-of-type(6n+6):after {
+
+	.my-sites.striped li:nth-of-type(6n+6)::after {
 		content: none;
 	}
+
 	.my-sites li:nth-of-type(12n+1),
 	.my-sites li:nth-of-type(12n+2),
 	.my-sites li:nth-of-type(12n+3),
@@ -3995,7 +4028,7 @@ img {
  * HiDPI Displays
  */
 @media print,
-  (min-resolution: 120dpi) {
+	(min-resolution: 120dpi) {
 	/* Back-compat for pre-3.8 */
 	div.star-holder,
 	div.star-holder .star-rating {
@@ -4093,7 +4126,7 @@ img {
 		margin: 20px 0 10px;
 		padding: 5px 10px;
 		font-size: 14px;
-		line-height: 175%;
+		line-height: 1.75;
 	}
 
 	.wp-core-ui .notice.is-dismissible {
@@ -4148,8 +4181,10 @@ img {
 	/* Theme/Plugin File Editor */
 
 	#template textarea,
+	/* stylelint-disable-next-line selector-class-pattern -- This class uses selectors that contain uppercase character in .CodeMirror external library. */
 	#template .CodeMirror {
 		box-sizing: border-box;
+		width: 100%;
 	}
 
 	#templateside {
@@ -4169,6 +4204,7 @@ img {
 		display: block;
 		padding: 5px;
 	}
+
 	#templateside li.howto {
 		padding: 12px;
 	}
@@ -4186,36 +4222,37 @@ img {
 		width: auto;
 	}
 
-	#template .CodeMirror,
-	#template textarea {
-		width: 100%;
-	}
-
 	#templateside ul ul {
 		padding-left: 1.5em;
 	}
+
 	[role="treeitem"] .folder-label {
 		display: block;
 		padding: 5px;
 	}
+
 	.tree-folder > li::before,
 	.tree-folder > li::after,
 	.tree-folder .tree-folder::after {
 		left: -8px;
 	}
+
 	.tree-folder > li::before {
 		top: 0;
 		height: 13px;
 	}
+
 	.tree-folder > .current-file::before {
 		left: -5px;
 		top: 7px;
 		width: 4px;
 	}
+
 	.tree-folder > .current-file::after {
 		height: 9px;
 		left: -8px;
 	}
+
 	.wrap #templateside span.notice {
 		margin-left: -5px;
 		width: 100%;
@@ -4319,7 +4356,7 @@ img {
 		margin-bottom: 20px; /* Add margins beneath links for better spacing between boxes and elements */
 	}
 
-	#screen-meta-links .show-settings:after {
+	#screen-meta-links .show-settings::after {
 		line-height: 1.9;
 	}
 
@@ -4395,8 +4432,8 @@ img {
 }
 
 @media screen and (max-width: 320px) {
-	/* Prevent default center alignment and larger font for the Right Now widget when
-	   the network dashboard is viewed on a small mobile device. */
+	/* Prevent default center alignment and larger font for the Right Now widget when the network dashboard is viewed on a small mobile device. */
+	/* stylelint-disable-next-line selector-id-pattern -- The ID selector network_dashboard_right_now can't be changed because of backward compatibility reasons. */
 	#network_dashboard_right_now .subsubsub {
 		font-size: 14px;
 		text-align: left;
