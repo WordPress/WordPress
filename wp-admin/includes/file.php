@@ -425,11 +425,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 		$real_file = WP_PLUGIN_DIR . '/' . $file;
 
-		$is_active = in_array(
-			$plugin,
-			(array) get_option( 'active_plugins', array() ),
-			true
-		);
+		$is_active = is_plugin_active( $plugin );
 
 	} elseif ( ! empty( $args['theme'] ) ) {
 		$stylesheet = $args['theme'];
