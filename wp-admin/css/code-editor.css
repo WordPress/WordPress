@@ -14,14 +14,14 @@
 	top: 0;
 }
 
-.wrap [class*="CodeMirror-lint-marker"]:before {
-	font: normal 18px/1 dashicons;
+.wrap [class*="CodeMirror-lint-marker"]::before {
+	font: 400 18px/1 dashicons;
 	position: relative;
 	top: -2px;
 }
 
-.wp-core-ui [class*="CodeMirror-lint-message"]:before {
-	font: normal 16px/1 dashicons;
+.wp-core-ui [class*="CodeMirror-lint-message"]::before {
+	font: 400 16px/1 dashicons;
 	left: 16px;
 	position: absolute;
 }
@@ -38,8 +38,8 @@
 	border-left: 4px solid #dba617;
 }
 
-.wrap .CodeMirror-lint-marker-warning:before,
-.wp-core-ui .CodeMirror-lint-message-warning:before {
+.wrap .CodeMirror-lint-marker-warning::before,
+.wp-core-ui .CodeMirror-lint-message-warning::before {
 	content: "\f534";
 	color: #dba617;
 }
@@ -49,8 +49,8 @@
 	border-left: 4px solid #d63638;
 }
 
-.wrap .CodeMirror-lint-marker-error:before,
-.wp-core-ui .CodeMirror-lint-message-error:before {
+.wrap .CodeMirror-lint-marker-error::before,
+.wp-core-ui .CodeMirror-lint-message-error::before {
 	content: "\f153";
 	color: #d63638;
 }
