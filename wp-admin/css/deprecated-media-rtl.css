@@ -27,7 +27,7 @@ div#media-upload-header {
 	padding: 0 7px;
 	display: block;
 	float: right;
-	line-height: 28px;
+	line-height: 2.3333;
 	border-top: 1px solid #f6f7f7;
 	border-bottom: 1px solid #dcdcde;
 	background-color: #f6f7f7;
@@ -37,7 +37,7 @@ div#media-upload-header {
 
 #sidemenu li {
 	display: inline;
-	line-height: 200%;
+	line-height: 2;
 	list-style: none;
 	text-align: center;
 	white-space: nowrap;
@@ -55,7 +55,7 @@ div#media-upload-header {
 	color: #000;
 }
 
-#media-upload:after { /* clearfix */
+#media-upload::after { /* clearfix */
 	content: "";
 	display: table;
 	clear: both;
@@ -67,11 +67,6 @@ div#media-upload-header {
 
 #media-upload input[type="radio"] {
 	padding: 0;
-}
-
-.media-upload-form label.form-help,
-td.help {
-	color: #646970;
 }
 
 form {
@@ -86,10 +81,12 @@ th {
 	position: relative;
 }
 
-.media-upload-form label.form-help, td.help {
+.media-upload-form label.form-help,
+td.help {
 	font-family: sans-serif;
 	font-style: italic;
 	font-weight: 400;
+	color: #646970;
 }
 
 .media-upload-form p.help {
@@ -166,6 +163,7 @@ span.required {
 	padding: 2px 8px;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Legacy UI likely no longer used. */
 .describe td.A1 {
 	width: 132px;
 }
@@ -236,12 +234,14 @@ span.required {
 	margin: 5px 0;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Legacy UI only kept for backward compatibility. */
 .menu_order {
 	float: left;
 	font-size: 11px;
 	margin: 8px 10px 0;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Legacy UI only kept for backward compatibility. */
 .menu_order_input {
 	border: 1px solid #dcdcde;
 	font-size: 10px;
@@ -309,7 +309,7 @@ h4.media-sub-title {
 #gallery-settings .title,
 h3.media-title,
 h4.media-sub-title {
-	font-family: Georgia,"Times New Roman",Times,serif;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-weight: 400;
 	color: #50575e;
 }
@@ -320,7 +320,7 @@ h4.media-sub-title {
 }
 
 #gallery-settings .describe th.label {
-	padding-top: .5em;
+	padding-top: 0.5em;
 	text-align: right;
 }
 
@@ -405,8 +405,7 @@ table.not-image tr.image-only {
  * HiDPI Displays
  */
 @media print,
-  (min-resolution: 120dpi) {
-
+	(min-resolution: 120dpi) {
 	.image-align-none-label {
 		background-image: url(../images/align-none-2x.png?ver=20120916);
 		background-size: 21px 15px;
