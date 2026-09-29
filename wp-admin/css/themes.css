@@ -442,7 +442,7 @@ body.js .theme-browser.search-loading {
 	transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 }
 
-.theme-overlay .theme-header .close:before {
+.theme-overlay .theme-header .close::before {
 	font: 400 22px/50px dashicons !important;
 	color: #50575e;
 	display: inline-block;
