@@ -17,12 +17,9 @@ body {
 a {
 	color: var(--wp-admin-theme-color-darker-10);
 	transition-property: border, background, color;
-	transition-duration: .05s;
+	transition-duration: 0.05s;
 	transition-timing-function: ease-in-out;
 	text-underline-position: under;
-}
-
-a {
 	outline: 0;
 }
 
@@ -160,7 +157,7 @@ p {
 }
 
 .login form.shake {
-	animation: shake 0.2s cubic-bezier(.19,.49,.38,.79) both;
+	animation: shake 0.2s cubic-bezier(0.19, 0.49, 0.38, 0.79) both;
 	animation-iteration-count: 3;
 	transform: translateX(0);
 }
@@ -169,9 +166,11 @@ p {
 	25% {
 		transform: translateX(-20px);
 	}
+
 	75% {
 		transform: translateX(20px);
 	}
+
 	100% {
 		transform: translateX(0);
 	}
@@ -184,6 +183,7 @@ p {
 	}
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- This class selector uses a single underscore but cannot be changed because of backward compatibility reasons. */
 .login-action-confirm_admin_email #login {
 	width: 60vw;
 	max-width: 650px;
@@ -191,6 +191,7 @@ p {
 }
 
 @media screen and (max-width: 782px) {
+	/* stylelint-disable-next-line selector-class-pattern -- This class selector uses a single underscore but cannot be changed because of backward compatibility reasons. */
 	.login-action-confirm_admin_email #login {
 		box-sizing: border-box;
 		margin-top: 0;
@@ -249,7 +250,7 @@ p {
 .login .admin-email__heading {
 	border-bottom: 1px #f0f0f1 solid;
 	color: #50575e;
-	font-weight: normal;
+	font-weight: 400;
 	padding-bottom: 0.5em;
 	text-align: left;
 }
@@ -269,6 +270,7 @@ p {
 }
 
 #login form .indicator-hint,
+/* stylelint-disable-next-line selector-id-pattern -- This ID selector uses a single underscore but cannot be changed because of backward compatibility reasons. */
 #login #reg_passmail {
 	margin-bottom: 16px;
 }
@@ -410,6 +412,7 @@ body.interim-login {
 	width: auto;
 }
 
+/* stylelint-disable-next-line selector-id-pattern -- This ID selector uses a single underscore but cannot be changed because of backward compatibility reasons. */
 .interim-login #login_error,
 .interim-login.login .message {
 	margin: 0 0 16px;
@@ -488,14 +491,13 @@ input::-ms-reveal {
 	}
 }
 
-
 @media screen and (max-width: 782px) {
-	.interim-login input[type=checkbox] {
+	.interim-login input[type="checkbox"] {
 		width: 1rem;
 		height: 1rem;
 	}
 
-	.interim-login input[type=checkbox]:checked:before {
+	.interim-login input[type="checkbox"]:checked::before {
 		width: 1.3125rem;
 		height: 1.3125rem;
 		margin: -0.1875rem 0 0 -0.25rem;
