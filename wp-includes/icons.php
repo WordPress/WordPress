@@ -41,7 +41,7 @@ function wp_unregister_icon_collection( $slug ) {
  * Registers a new icon.
  *
  * @since 7.1.0
- * @since 7.2.0 Added the `public` property.
+ * @since 7.2.0 Added the `public` and `keywords` properties.
  *
  * @param string $icon_name Namespaced icon name in the form "collection/icon-name"
  *                          (e.g. "my-plugin/arrow-left"). The "core" collection is
@@ -51,15 +51,17 @@ function wp_unregister_icon_collection( $slug ) {
  * @param array  $args      {
  *     List of properties for the icon.
  *
- *     @type string $label     Required. A human-readable label for the icon.
- *     @type string $content   Optional. SVG markup for the icon.
- *                             If not provided, the content will be retrieved from the `file_path` if set.
- *                             If both `content` and `file_path` are not set, the icon will not be registered.
- *     @type string $file_path Optional. The full path to the file containing the icon content.
- *     @type bool   $public    Optional. Whether the icon is exposed through the REST API, and
- *                             therefore selectable in the editor's icon picker. Non-public icons
- *                             stay available to server-side code via {@see wp_get_icon()}.
- *                             Default true.
+ *     @type string   $label     Required. A human-readable label for the icon.
+ *     @type string   $content   Optional. SVG markup for the icon.
+ *                               If not provided, the content will be retrieved from the `file_path` if set.
+ *                               If both `content` and `file_path` are not set, the icon will not be registered.
+ *     @type string   $file_path Optional. The full path to the file containing the icon content.
+ *     @type bool     $public    Optional. Whether the icon is exposed through the REST API, and
+ *                               therefore selectable in the editor's icon picker. Non-public icons
+ *                               stay available to server-side code via {@see wp_get_icon()}.
+ *                               Default true.
+ *     @type string[] $keywords  Optional. Additional search terms for the icon, matched by
+ *                               `get_registered_icons()` alongside the name and label.
  * }
  * @return bool True if the icon was registered successfully, else false.
  */
@@ -144,6 +146,10 @@ function _wp_register_default_icons() {
 
 		if ( isset( $icon_data['public'] ) ) {
 			$icon_args['public'] = $icon_data['public'];
+		}
+
+		if ( isset( $icon_data['keywords'] ) ) {
+			$icon_args['keywords'] = $icon_data['keywords'];
 		}
 
 		wp_register_icon( 'core/' . $icon_name, $icon_args );

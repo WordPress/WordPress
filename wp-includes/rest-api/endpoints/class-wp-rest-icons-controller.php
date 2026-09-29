@@ -229,8 +229,12 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare a raw icon before it gets output in a REST API response.
 	 *
+	 * Adds `collection` and `keywords` fields to the base response while keeping
+	 * the namespaced icon name (e.g. `core/arrow-left`) as the `name` field.
+	 *
 	 * @since 7.0.0
 	 * @since 7.1.0 Added the `collection` field.
+	 * @since 7.2.0 Added the `keywords` field.
 	 *
 	 * @param array           $item    Raw icon as registered, before any changes.
 	 * @param WP_REST_Request $request Request object.
@@ -251,6 +255,14 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 			}
 		}
 
+		/*
+		 * Keywords are optional at registration time, but the field is always
+		 * present in the response so consumers do not have to handle its absence.
+		 */
+		if ( rest_is_field_included( 'keywords', $fields ) ) {
+			$data['keywords'] = isset( $item['keywords'] ) ? array_values( $item['keywords'] ) : array();
+		}
+
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
 		$data    = $this->filter_response_by_context( $data, $context );
@@ -262,6 +274,7 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	 *
 	 * @since 7.0.0
 	 * @since 7.1.0 Added the `collection` property.
+	 * @since 7.2.0 Added the `keywords` property.
 	 *
 	 * @return array Item schema data.
 	 */
@@ -296,6 +309,15 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 				'collection' => array(
 					'description' => __( 'The slug of the collection this icon belongs to.' ),
 					'type'        => 'string',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'keywords'   => array(
+					'description' => __( 'Additional search terms for the icon.' ),
+					'type'        => 'array',
+					'items'       => array(
+						'type' => 'string',
+					),
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
