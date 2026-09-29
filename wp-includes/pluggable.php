@@ -77,7 +77,7 @@ if ( ! function_exists( 'get_userdata' ) ) :
 	 *
 	 * @since 0.71
 	 *
-	 * @param int $user_id User ID
+	 * @param int $user_id User ID.
 	 * @return WP_User|false WP_User object on success, false on failure.
 	 */
 	function get_userdata( $user_id ) {
@@ -126,7 +126,7 @@ if ( ! function_exists( 'cache_users' ) ) :
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param int[] $user_ids User ID numbers list
+	 * @param int[] $user_ids User ID numbers list.
 	 */
 	function cache_users( $user_ids ) {
 		global $wpdb;
@@ -2217,6 +2217,7 @@ if ( ! function_exists( 'wp_password_change_notification' ) ) :
 
 			/* translators: %s: User name. */
 			$message = sprintf( __( 'Password changed for user: %s' ), $user->user_login ) . "\r\n";
+
 			/*
 			 * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
 			 * We want to reverse this for the plain text arena of emails.
@@ -2715,7 +2716,7 @@ if ( ! function_exists( 'wp_hash' ) ) :
 	 * @since 2.0.3
 	 * @since 6.8.0 The `$algo` parameter was added.
 	 *
-	 * @throws InvalidArgumentException if the hashing algorithm is not supported.
+	 * @throws InvalidArgumentException If the hashing algorithm is not supported.
 	 *
 	 * @param string $data   Plain text to hash.
 	 * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
