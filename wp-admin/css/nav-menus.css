@@ -1,5 +1,3 @@
-/* nav-menu */
-
 /* @todo: determine if this is truly for nav menus only */
 .no-js #message {
 	display: block;
@@ -67,7 +65,7 @@ ul.add-menu-item-tabs li {
 #menu-settings-column .posttypediv div.tabs-panel,
 #menu-settings-column .taxonomydiv div.tabs-panel {
 	/* Allow space for content after tab panels in nav menu editor. */
-	max-height: calc( 100% - 75px );
+	max-height: calc(100% - 75px);
 	height: 100%;
 }
 
@@ -124,7 +122,7 @@ ul.add-menu-item-tabs li {
 
 #nav-menu-bulk-actions-bottom {
 	margin: 1em 0;
-	margin: calc( 1em + 9px ) 0;
+	margin: calc(1em + 9px) 0;
 }
 
 .bulk-actions input.button {
@@ -198,7 +196,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 	appearance: none;
 	font-size: inherit;
 	border: 0;
-	line-height: 2.1em;
+	line-height: 2.1;
 	background: none;
 	cursor: pointer;
 	text-decoration: underline;
@@ -385,7 +383,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 }
 
 .customlinkdiv p {
-	margin-top: 0
+	margin-top: 0;
 }
 
 #nav-menu-theme-locations .howto select {
@@ -412,9 +410,12 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 	font-size: 12px;
 	margin-left: 20px;
 	margin-top: 5px;
+	cursor: pointer;
 }
 
-.button.right, .button-secondary.right, .button-primary.right {
+.button.right,
+.button-secondary.right,
+.button-primary.right {
 	float: right;
 }
 
@@ -428,6 +429,9 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 }
 
 .button-controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	clear: both;
 	margin: 10px 0;
 }
@@ -516,7 +520,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 	margin-top: -3px;
 }
 
-.menu-item-title input[type=checkbox] {
+.menu-item-title input[type="checkbox"] {
 	display: inline-block;
 	margin-top: -4px;
 }
@@ -562,7 +566,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label {
 	height: auto;
 	min-height: 20px;
 	max-width: 382px;
-	line-height: 2.30769230;
+	line-height: 2.3076923;
 	overflow: hidden;
 	word-wrap: break-word;
 }
@@ -632,44 +636,149 @@ li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
 }
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus JavaScript. */
-.menu-item-depth-0 { margin-left: 0; }
-.menu-item-depth-1 { margin-left: 30px; }
-.menu-item-depth-2 { margin-left: 60px; }
-.menu-item-depth-3 { margin-left: 90px; }
-.menu-item-depth-4 { margin-left: 120px; }
-.menu-item-depth-5 { margin-left: 150px; }
-.menu-item-depth-6 { margin-left: 180px; }
-.menu-item-depth-7 { margin-left: 210px; }
-.menu-item-depth-8 { margin-left: 240px; }
-.menu-item-depth-9 { margin-left: 270px; }
-.menu-item-depth-10 { margin-left: 300px; }
-.menu-item-depth-11 { margin-left: 330px; }
+.menu-item-depth-0 {
+	margin-left: 0;
+}
 
-.menu-item-depth-0 .menu-item-transport { margin-left: 0; }
-.menu-item-depth-1 .menu-item-transport { margin-left: -30px; }
-.menu-item-depth-2 .menu-item-transport { margin-left: -60px; }
-.menu-item-depth-3 .menu-item-transport { margin-left: -90px; }
-.menu-item-depth-4 .menu-item-transport { margin-left: -120px; }
-.menu-item-depth-5 .menu-item-transport { margin-left: -150px; }
-.menu-item-depth-6 .menu-item-transport { margin-left: -180px; }
-.menu-item-depth-7 .menu-item-transport { margin-left: -210px; }
-.menu-item-depth-8 .menu-item-transport { margin-left: -240px; }
-.menu-item-depth-9 .menu-item-transport { margin-left: -270px; }
-.menu-item-depth-10 .menu-item-transport { margin-left: -300px; }
-.menu-item-depth-11 .menu-item-transport { margin-left: -330px; }
+.menu-item-depth-1 {
+	margin-left: 30px;
+}
 
-body.menu-max-depth-0 { min-width: 950px !important; }
-body.menu-max-depth-1 { min-width: 980px !important; }
-body.menu-max-depth-2 { min-width: 1010px !important; }
-body.menu-max-depth-3 { min-width: 1040px !important; }
-body.menu-max-depth-4 { min-width: 1070px !important; }
-body.menu-max-depth-5 { min-width: 1100px !important; }
-body.menu-max-depth-6 { min-width: 1130px !important; }
-body.menu-max-depth-7 { min-width: 1160px !important; }
-body.menu-max-depth-8 { min-width: 1190px !important; }
-body.menu-max-depth-9 { min-width: 1220px !important; }
-body.menu-max-depth-10 { min-width: 1250px !important; }
-body.menu-max-depth-11 { min-width: 1280px !important; }
+.menu-item-depth-2 {
+	margin-left: 60px;
+}
+
+.menu-item-depth-3 {
+	margin-left: 90px;
+}
+
+.menu-item-depth-4 {
+	margin-left: 120px;
+}
+
+.menu-item-depth-5 {
+	margin-left: 150px;
+}
+
+.menu-item-depth-6 {
+	margin-left: 180px;
+}
+
+.menu-item-depth-7 {
+	margin-left: 210px;
+}
+
+.menu-item-depth-8 {
+	margin-left: 240px;
+}
+
+.menu-item-depth-9 {
+	margin-left: 270px;
+}
+
+.menu-item-depth-10 {
+	margin-left: 300px;
+}
+
+.menu-item-depth-11 {
+	margin-left: 330px;
+}
+
+.menu-item-depth-0 .menu-item-transport {
+	margin-left: 0;
+}
+
+.menu-item-depth-1 .menu-item-transport {
+	margin-left: -30px;
+}
+
+.menu-item-depth-2 .menu-item-transport {
+	margin-left: -60px;
+}
+
+.menu-item-depth-3 .menu-item-transport {
+	margin-left: -90px;
+}
+
+.menu-item-depth-4 .menu-item-transport {
+	margin-left: -120px;
+}
+
+.menu-item-depth-5 .menu-item-transport {
+	margin-left: -150px;
+}
+
+.menu-item-depth-6 .menu-item-transport {
+	margin-left: -180px;
+}
+
+.menu-item-depth-7 .menu-item-transport {
+	margin-left: -210px;
+}
+
+.menu-item-depth-8 .menu-item-transport {
+	margin-left: -240px;
+}
+
+.menu-item-depth-9 .menu-item-transport {
+	margin-left: -270px;
+}
+
+.menu-item-depth-10 .menu-item-transport {
+	margin-left: -300px;
+}
+
+.menu-item-depth-11 .menu-item-transport {
+	margin-left: -330px;
+}
+
+body.menu-max-depth-0 {
+	min-width: 950px !important;
+}
+
+body.menu-max-depth-1 {
+	min-width: 980px !important;
+}
+
+body.menu-max-depth-2 {
+	min-width: 1010px !important;
+}
+
+body.menu-max-depth-3 {
+	min-width: 1040px !important;
+}
+
+body.menu-max-depth-4 {
+	min-width: 1070px !important;
+}
+
+body.menu-max-depth-5 {
+	min-width: 1100px !important;
+}
+
+body.menu-max-depth-6 {
+	min-width: 1130px !important;
+}
+
+body.menu-max-depth-7 {
+	min-width: 1160px !important;
+}
+
+body.menu-max-depth-8 {
+	min-width: 1190px !important;
+}
+
+body.menu-max-depth-9 {
+	min-width: 1220px !important;
+}
+
+body.menu-max-depth-10 {
+	min-width: 1250px !important;
+}
+
+body.menu-max-depth-11 {
+	min-width: 1280px !important;
+}
 
 /* Menu item controls */
 .item-type {
@@ -730,7 +839,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	margin: 0;
 }
 
-.nav-menus-php .item-edit:before {
+.nav-menus-php .item-edit::before {
 	margin-top: 10px;
 	margin-left: 4px;
 	width: 20px;
@@ -738,11 +847,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	text-indent: -1px; /* account for the dashicon alignment */
 }
 
-.no-js.nav-menus-php .item-edit:before {
+.no-js.nav-menus-php .item-edit::before {
 	display: none;
 }
 
-.rtl .nav-menus-php .item-edit:before {
+.rtl .nav-menus-php .item-edit::before {
 	text-indent: 1px; /* account for the dashicon alignment */
 }
 
@@ -750,7 +859,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	box-shadow: none;
 }
 
-.nav-menus-php .item-edit:focus:before {
+.nav-menus-php .item-edit:focus::before {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -796,7 +905,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .add-menu-item-pagelinks {
-	margin: .5em -10px;
+	margin: 0.5em -10px;
 	text-align: center;
 }
 
@@ -841,10 +950,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding-bottom: 7px;
 }
 
-#cancel-save {
-	cursor: pointer;
-}
-
 /* Major/minor publishing actions (classes) */
 .nav-menus-php .major-publishing-actions {
 	padding: 10px 0;
@@ -865,12 +970,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 #menu-item-url-wrap,
 #menu-item-name-wrap {
 	display: block;
-}
-
-.button-controls {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 }
 
 .button-controls-customlinkdiv {
@@ -934,7 +1033,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	}
 
 	.nav-menus-php .menu-name-label.howto span {
-		margin-top: 13px
+		margin-top: 13px;
 	}
 
 	#menu-name {
@@ -1007,19 +1106,19 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 @media only screen and (min-width: 783px) {
-    @supports (position: sticky) and (scroll-margin-bottom: 130px) {
-
+	@supports (position: sticky) and (scroll-margin-bottom: 130px) {
 		#nav-menu-footer {
-                position: sticky;
-				bottom: 0;
-				z-index: 10;
-				box-shadow: 0 -1px 0 0 #ddd;
-        }
+			position: sticky;
+			bottom: 0;
+			z-index: 10;
+			box-shadow: 0 -1px 0 0 #ddd;
+		}
 
-        #save_menu_header {
-                display: none;
-        }
-    }
+		/* stylelint-disable-next-line selector-id-pattern -- This ID selector uses a single underscore but cannot be changed because of backward compatibility reasons. */
+		#save_menu_header {
+			display: none;
+		}
+	}
 }
 
 @media only screen and (max-width: 768px) {
