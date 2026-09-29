@@ -61,6 +61,7 @@ are styled in the Privacy section of edit.css */
 .green .site-health-progress #bar {
 	stroke: #00a32a;
 }
+
 .green .site-health-progress .site-health-progress-label {
 	color: #00a32a;
 }
@@ -68,13 +69,14 @@ are styled in the Privacy section of edit.css */
 .orange .site-health-progress #bar {
 	stroke: #dba617;
 }
+
 .orange .site-health-progress .site-health-progress-label {
 	color: #dba617;
 }
 
 .site-health-progress-label {
 	font-weight: 600;
-	line-height: 20px;
+	line-height: 1.5384;
 	margin-left: 0.3rem;
 }
 
@@ -82,20 +84,18 @@ are styled in the Privacy section of edit.css */
 	0% {
 		stroke: #c3c4c7;
 	}
+
 	50% {
 		stroke: var(--wp-admin-theme-color);
 	}
+
 	100% {
 		stroke: #c3c4c7;
 	}
 }
 
 .health-check-tabs-wrapper {
-	/* IE 11 */
-	display: -ms-inline-grid;
-	-ms-grid-columns: 1fr 1fr 1fr 1fr;
 	vertical-align: top;
-	/* modern browsers */
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
@@ -103,15 +103,16 @@ are styled in the Privacy section of edit.css */
 .health-check-tabs-wrapper.tab-count-1 {
 	grid-template-columns: 1fr;
 }
+
 .health-check-tabs-wrapper.tab-count-2 {
 	grid-template-columns: 1fr 1fr;
 }
+
 .health-check-tabs-wrapper.tab-count-3 {
 	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .health-check-tab {
-	display: block; /* IE 11 */
 	text-decoration: none;
 	color: inherit;
 	padding: 0.5rem 1rem 1rem;
@@ -124,6 +125,7 @@ are styled in the Privacy section of edit.css */
 	background: transparent;
 	border: none;
 }
+
 .health-check-offscreen-nav-wrapper:focus .health-check-offscreen-nav {
 	left: initial;
 }
@@ -136,24 +138,26 @@ are styled in the Privacy section of edit.css */
 	top: 100%;
 	width: 13rem;
 }
+
 .health-check-offscreen-nav-wrapper.visible .health-check-offscreen-nav {
 	display: inline-block;
 }
-.health-check-offscreen-nav:before {
+
+.health-check-offscreen-nav::before {
 	position: absolute;
 	content: "";
 	width: 0;
 	height: 0;
 	border-style: solid;
 	border-width: 0 10px 5px;
-	border-color: transparent transparent #ffffff;
+	border-color: transparent transparent #fff;
 	right: 20px;
 	top: 5px;
 }
 
 .health-check-offscreen-nav .health-check-tab {
 	background: #fff;
-	box-shadow: 0 2px 5px 0 rgba( 0, 0, 0, 0.75 );
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.75);
 }
 
 .health-check-offscreen-nav .health-check-tab.active {
@@ -190,26 +194,26 @@ are styled in the Privacy section of edit.css */
 .health-check-body .pass::before,
 .health-check-body .good::before {
 	content: "\f147";
-	content: "\f147" / '';
+	content: "\f147" / "";
 	color: #00a32a;
 }
 
 .health-check-body .warning::before {
 	content: "\f460";
-	content: "\f460" / '';
+	content: "\f460" / "";
 	color: #dba617;
 }
 
 .health-check-body .info::before {
 	content: "\f348";
-	content: "\f348" / '';
+	content: "\f348" / "";
 	color: #72aee6;
 }
 
 .health-check-body .fail::before,
 .health-check-body .error::before {
 	content: "\f335";
-	content: "\f335" / '';
+	content: "\f335" / "";
 	color: #d63638;
 }
 
@@ -296,6 +300,7 @@ are styled in the Privacy section of edit.css */
 }
 
 /* Styling unique to the dashboard widget. */
+/* stylelint-disable selector-id-pattern -- These ID selectors use a single underscore but cannot be changed because of backward compatibility reasons. */
 .no-js #dashboard_site_health {
 	display: none;
 }
@@ -319,13 +324,9 @@ are styled in the Privacy section of edit.css */
 	column-gap: 16px;
 	align-items: center;
 }
+
 #dashboard_site_health .site-health-progress-label {
 	margin-left: 0;
-}
-
-.health-check-widget-title-section {
-	margin-bottom: 0;
-	text-align: center;
 }
 
 @media screen and (max-width: 480px) {
@@ -333,9 +334,14 @@ are styled in the Privacy section of edit.css */
 		grid-template-columns: 100%;
 	}
 }
+/* stylelint-enable */
+
+.health-check-widget-title-section {
+	margin-bottom: 0;
+	text-align: center;
+}
 
 @media screen and (max-width: 782px) {
-
 	.site-health-issues-wrapper .health-check-accordion-trigger {
 		flex-direction: column;
 		align-items: flex-start;
@@ -368,4 +374,3 @@ are styled in the Privacy section of edit.css */
 		margin-bottom: 0;
 	}
 }
-
