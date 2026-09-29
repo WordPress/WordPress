@@ -59,14 +59,14 @@
 	background-color: #646970;
 	color: #fff;
 	font-size: 11px;
-	line-height: 1.90909090;
+	line-height: 1.9090909;
 	text-align: center;
 }
 
-.column-response .post-com-count-no-comments:after,
-.column-response .post-com-count-approved:after,
-.column-comments .post-com-count-no-comments:after,
-.column-comments .post-com-count-approved:after {
+.column-response .post-com-count-no-comments::after,
+.column-response .post-com-count-approved::after,
+.column-comments .post-com-count-no-comments::after,
+.column-comments .post-com-count-approved::after {
 	content: "";
 	display: block;
 	margin-right: 8px;
@@ -83,10 +83,10 @@
 	background: #3858e9;
 }
 
-.column-response a.post-com-count-approved:hover:after,
-.column-response a.post-com-count-approved:focus:after,
-.column-comments a.post-com-count-approved:hover:after,
-.column-comments a.post-com-count-approved:focus:after {
+.column-response a.post-com-count-approved:hover::after,
+.column-response a.post-com-count-approved:focus::after,
+.column-comments a.post-com-count-approved:hover::after,
+.column-comments a.post-com-count-approved:focus::after {
 	border-top-color: #3858e9;
 }
 
@@ -115,7 +115,7 @@
 /* comments */
 
 .commentlist li {
-	padding: 1em 1em .2em;
+	padding: 1em 1em 0.2em;
 	margin: 0;
 	border-bottom: 1px solid #c3c4c7;
 }
@@ -127,7 +127,7 @@
 
 .commentlist p {
 	padding: 0;
-	margin: 0 0 .8em;
+	margin: 0 0 0.8em;
 }
 
 #submitted-on,
@@ -166,7 +166,7 @@
 
 #replyrow legend {
 	margin: 0;
-	padding: .2em 5px 0;
+	padding: 0.2em 5px 0;
 	font-size: 13px;
 	line-height: 1.4;
 	font-weight: 600;
@@ -270,10 +270,10 @@ th .comment-grey-bubble {
 	top: 2px;
 }
 
-th .comment-grey-bubble:before {
+th .comment-grey-bubble::before {
 	content: "\f101";
-	content: "\f101" / '';
-	font: normal 20px/.5 dashicons;
+	content: "\f101" / "";
+	font: 400 20px/0.5 dashicons;
 	display: inline-block;
 	padding: 0;
 	top: 4px;
@@ -359,7 +359,7 @@ th.plugin-title strong,
 td.column-title strong,
 td.plugin-title strong {
 	display: block;
-	margin-bottom: .2em;
+	margin-bottom: 0.2em;
 	font-size: 14px;
 }
 
@@ -484,8 +484,8 @@ table.media .column-title .filename {
 	margin-right: 7px;
 }
 
-.sorting-indicator:before {
-	font: normal 20px/1 dashicons;
+.sorting-indicator::before {
+	font: 400 20px/1 dashicons;
 	display: inline-block;
 	padding: 0;
 	top: -4px;
@@ -499,35 +499,35 @@ table.media .column-title .filename {
 	color: #a7aaad;
 }
 
-.sorting-indicator.asc:before {
+.sorting-indicator.asc::before {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 }
 
-.sorting-indicator.desc:before {
+.sorting-indicator.desc::before {
 	content: "\f140";
-	content: "\f140" / '';
+	content: "\f140" / "";
 }
 
-th.sorted.desc .sorting-indicator.desc:before {
+th.sorted.desc .sorting-indicator.desc::before {
 	color: #1d2327;
 }
 
-th.sorted.asc .sorting-indicator.asc:before {
+th.sorted.asc .sorting-indicator.asc::before {
 	color: #1d2327;
 }
 
-th.sorted.asc a:focus .sorting-indicator.asc:before,
-th.sorted.asc:hover .sorting-indicator.asc:before,
-th.sorted.desc a:focus .sorting-indicator.desc:before,
-th.sorted.desc:hover .sorting-indicator.desc:before {
+th.sorted.asc a:focus .sorting-indicator.asc::before,
+th.sorted.asc:hover .sorting-indicator.asc::before,
+th.sorted.desc a:focus .sorting-indicator.desc::before,
+th.sorted.desc:hover .sorting-indicator.desc::before {
 	color: #a7aaad;
 }
 
-th.sorted.asc a:focus .sorting-indicator.desc:before,
-th.sorted.asc:hover .sorting-indicator.desc:before,
-th.sorted.desc a:focus .sorting-indicator.asc:before,
-th.sorted.desc:hover .sorting-indicator.asc:before {
+th.sorted.asc a:focus .sorting-indicator.desc::before,
+th.sorted.asc:hover .sorting-indicator.desc::before,
+th.sorted.desc a:focus .sorting-indicator.asc::before,
+th.sorted.desc:hover .sorting-indicator.asc::before {
 	color: #1d2327;
 }
 
@@ -548,7 +548,7 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	cursor: pointer;
 }
 
-.wp-list-table .toggle-row:focus:before {
+.wp-list-table .toggle-row:focus::before {
 	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -558,7 +558,7 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	box-shadow: none;
 }
 
-.wp-list-table .toggle-row:before {
+.wp-list-table .toggle-row::before {
 	position: absolute;
 	top: -5px;
 	right: 10px;
@@ -567,16 +567,16 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	padding: 1px 0 1px 2px;
 	color: #3c434a; /* same as table headers sort arrows */
 	content: "\f140";
-	content: "\f140" / '';
-	font: normal 20px/1 dashicons;
+	content: "\f140" / "";
+	font: 400 20px/1 dashicons;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.wp-list-table .is-expanded .toggle-row:before {
+.wp-list-table .is-expanded .toggle-row::before {
 	content: "\f142";
-	content: "\f142" / '';
+	content: "\f142" / "";
 }
 
 .check-column {
@@ -614,12 +614,12 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	width: 16px;
 }
 
-.locked-indicator-icon:before {
+.locked-indicator-icon::before {
 	color: #8c8f94;
 	content: "\f160";
-	content: "\f160" / '';
+	content: "\f160" / "";
 	display: inline-block;
-	font: normal 20px/1 dashicons;
+	font: 400 20px/1 dashicons;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -778,10 +778,10 @@ th.sorted a span {
 	border: 1px solid transparent;
 }
 
-.view-switch a:before {
+.view-switch a::before {
 	color: #757575;
 	display: inline-block;
-	font: normal 20px/1 dashicons;
+	font: 400 20px/1 dashicons;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -792,28 +792,28 @@ th.sorted a span {
 	border-color: var(--wp-admin-theme-color, #3858e9);
 }
 
-.view-switch a:hover:before,
-.view-switch a:focus:before {
+.view-switch a:hover::before,
+.view-switch a:focus::before {
 	color: #1e1e1e;
 }
 
-.view-switch a.current:before {
+.view-switch a.current::before {
 	color: #2271b1;
 }
 
-.view-switch .view-list:before {
+.view-switch .view-list::before {
 	content: "\f163";
-	content: "\f163" / '';
+	content: "\f163" / "";
 }
 
-.view-switch .view-excerpt:before {
+.view-switch .view-excerpt::before {
 	content: "\f164";
-	content: "\f164" / '';
+	content: "\f164" / "";
 }
 
-.view-switch .view-grid:before {
+.view-switch .view-grid::before {
 	content: "\f509";
-	content: "\f509" / '';
+	content: "\f509" / "";
 }
 
 .filter {
@@ -825,6 +825,7 @@ th.sorted a span {
 	margin-right: -10px;
 	margin-top: 13px;
 }
+
 .screen-per-page {
 	width: 4em;
 }
@@ -840,7 +841,7 @@ th.sorted a span {
 }
 
 #posts-filter fieldset legend {
-	padding: 0 1px .2em 0;
+	padding: 0 1px 0.2em 0;
 }
 
 p.pagenav {
@@ -883,10 +884,12 @@ p.pagenav {
 	display: inline-block;
 }
 
+/* stylelint-disable selector-class-pattern -- These class selectors use a single underscore but cannot be changed because of backward compatibility reasons. */
 .row-actions .network_only,
 .row-actions .network_active {
 	color: #000;
 }
+/* stylelint-enable */
 
 .no-js .row-actions,
 tr:hover .row-actions,
@@ -900,7 +903,6 @@ tr:hover .row-actions,
 .row-actions-visible {
 	padding: 2px 0 0;
 }
-
 
 /*------------------------------------------------------------------------------
   10.1 - Inline Editing
@@ -1037,7 +1039,7 @@ tr.inline-edit-row td {
 .inline-edit-row fieldset label,
 .inline-edit-row fieldset span.inline-edit-categories-label {
 	display: block;
-	margin: .2em 0;
+	margin: 0.2em 0;
 	line-height: 2.5;
 }
 
@@ -1053,7 +1055,7 @@ tr.inline-edit-row td {
 }
 
 .inline-edit-row fieldset label.inline-edit-tags span.title {
-	margin: .2em 0;
+	margin: 0.2em 0;
 	width: auto;
 }
 
@@ -1081,15 +1083,15 @@ tr.inline-edit-row td {
 }
 
 .inline-edit-row .inline-edit-or {
-	margin: .2em 0 .2em 6px;
+	margin: 0.2em 0 0.2em 6px;
 	line-height: 2.5;
 }
 
-.inline-edit-row .input-text-wrap input[type=text] {
+.inline-edit-row .input-text-wrap input[type="text"] {
 	width: 100%;
 }
 
-.inline-edit-row fieldset label input[type=checkbox] {
+.inline-edit-row fieldset label input[type="checkbox"] {
 	vertical-align: middle;
 }
 
@@ -1100,7 +1102,7 @@ tr.inline-edit-row td {
 }
 
 .inline-edit-row select,
-.inline-edit-row input:where(:not([type=checkbox],[type=radio],[type=submit],[type=button])) {
+.inline-edit-row input:where(:not([type="checkbox"],[type="radio"],[type="submit"],[type="button"])) {
 	min-height: 32px;
 	padding: 0 8px 0 8px;
 }
@@ -1115,7 +1117,7 @@ tr.inline-edit-row td {
 }
 
 #wpbody-content .quick-edit-row fieldset .inline-edit-group label.alignleft:first-child {
-	margin-left: 0.5em
+	margin-left: 0.5em;
 }
 
 .inline-edit-col-right .input-text-wrap input.inline-edit-menu-order-input {
@@ -1132,10 +1134,10 @@ tr.inline-edit-row td {
 	float: right;
 }
 
-.inline-edit-row fieldset input[name=jj],
-.inline-edit-row fieldset input[name=hh],
-.inline-edit-row fieldset input[name=mn],
-.inline-edit-row fieldset input[name=aa] {
+.inline-edit-row fieldset input[name="jj"],
+.inline-edit-row fieldset input[name="hh"],
+.inline-edit-row fieldset input[name="mn"],
+.inline-edit-row fieldset input[name="aa"] {
 	vertical-align: middle;
 	text-align: center;
 	padding: 0 4px;
@@ -1185,14 +1187,14 @@ ul.cat-checklist {
 }
 
 ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
-	content: '';
-	border-top: 2px solid grey;
+	content: "";
+	border-top: 2px solid #808080;
 	width: 65%;
 	height: 2px;
 	position: absolute;
-	top: calc( 50% + 1px );
+	top: calc(50% + 1px);
 	right: 50%;
-	transform: translate( 50%, -50% );
+	transform: translate(50%, -50%);
 }
 
 #bulk-titles .ntdelbutton,
@@ -1201,7 +1203,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	display: inline-block;
 	margin: 0;
 	padding: 3px 0;
-	line-height: 20px;
+	line-height: 1.5384;
 	vertical-align: top;
 }
 
@@ -1217,7 +1219,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	border-radius: 3px;
 }
 
-#bulk-titles .ntdelbutton:before {
+#bulk-titles .ntdelbutton::before {
 	display: inline-block;
 	vertical-align: top;
 }
@@ -1240,8 +1242,8 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	padding: 8px 2px 0 0;
 }
 
-.plugins tbody th.check-column input[type=checkbox],
-.plugins tbody td.check-column input[type=checkbox] {
+.plugins tbody th.check-column input[type="checkbox"],
+.plugins tbody td.check-column input[type="checkbox"] {
 	margin-top: 4px;
 }
 
@@ -1286,11 +1288,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugins .desc ul {
 	list-style-type: disc;
-}
-
-.plugins .row-actions {
-	font-size: 13px;
-	padding: 0;
 }
 
 .plugins .inactive td,
@@ -1353,7 +1350,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	white-space: nowrap;
 }
 
-
 .plugins .plugin-title .dashicons,
 .plugins .plugin-title img.plugin-icon,
 .plugins .plugin-title img.updates-table-screenshot {
@@ -1363,7 +1359,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	height: 64px;
 }
 
-.plugins .plugin-title .dashicons:before {
+.plugins .plugin-title .dashicons::before {
 	padding: 2px;
 	background-color: #f0f0f1;
 	box-shadow: inset 0 0 10px rgba(167, 170, 173, 0.15);
@@ -1392,6 +1388,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 .plugins .row-actions {
 	white-space: normal;
 	min-width: 12em;
+	font-size: 13px;
 }
 
 .plugins .update .second,
@@ -1453,21 +1450,21 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	color: #b32d2e;
 }
 
-.plugin-card .update-now:before {
+.plugin-card .update-now::before {
 	color: #d63638;
 	content: "\f463";
-	content: "\f463" / '';
+	content: "\f463" / "";
 	display: inline-block;
-	font: normal 16px/1.875 dashicons; /* line-height 1.875 = 30px to match button */
+	font: 400 16px/1.875 dashicons; /* line-height 1.875 = 30px to match button */
 	margin: 0 -2px 0 5px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: top;
 }
 
-.plugin-card .updating-message:before {
+.plugin-card .updating-message::before {
 	content: "\f463";
-	content: "\f463" / '';
+	content: "\f463" / "";
 	animation: rotation 2s infinite linear;
 }
 
@@ -1475,19 +1472,20 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	0% {
 		transform: rotate(0deg);
 	}
+
 	100% {
 		transform: rotate(-359deg);
 	}
 }
 
-.plugin-card .updated-message:before {
+.plugin-card .updated-message::before {
 	color: #68de7c;
 	content: "\f147";
-	content: "\f147" / '';
+	content: "\f147" / "";
 }
 
-.plugin-card .updated-message:before,
-.plugin-card .updating-message:before {
+.plugin-card .updated-message::before,
+.plugin-card .updating-message::before {
 	line-height: 1;
 	position: relative;
 	top: -2px;
@@ -1529,9 +1527,9 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 }
 
 .plugin-card {
-	width: calc( 50% - 8px );
-	background-color: #ffffff;
-	border: 1px solid rgb(0, 0, 0, 0.1);
+	width: calc(50% - 8px);
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 	box-sizing: border-box;
 	overflow: hidden;
@@ -1539,13 +1537,13 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 @media screen and (min-width: 1600px) {
 	.plugin-card {
-		width: calc( (100% - 32px) / 3 );
+		width: calc((100% - 32px) / 3);
 	}
 }
 
 @media screen and (min-width: 2300px) {
 	.plugin-card {
-		width: calc( (100% - 48px) / 4 );
+		width: calc((100% - 48px) / 4);
 	}
 }
 
@@ -1570,18 +1568,21 @@ div.action-links,
 	margin-inline: 0;
 }
 
-.plugin-card .name, .plugin-card .desc > p {
+.plugin-card .name,
+.plugin-card .desc > p {
 	margin-right: 148px;
 }
 
 @media (min-width: 1101px) {
-	.plugin-card .name, .plugin-card .desc > p {
+	.plugin-card .name,
+	.plugin-card .desc > p {
 		margin-left: 128px;
 	}
 }
 
 @media (min-width: 481px) and (max-width: 781px) {
-	.plugin-card .name, .plugin-card .desc > p {
+	.plugin-card .name,
+	.plugin-card .desc > p {
 		margin-left: 128px;
 	}
 }
@@ -1613,9 +1614,9 @@ div.action-links,
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
-	margin-top: .5em;
+	margin-top: 0.5em;
 	column-gap: 1%;
-	row-gap: .5em;
+	row-gap: 0.5em;
 }
 
 .plugin-card .plugin-dependency:nth-child(2),
@@ -1668,7 +1669,7 @@ div.action-links,
 	clear: both;
 	padding: 16px;
 	background-color: #f6f7f7;
-	border-top: 1px solid rgb(0, 0, 0, 0.1);
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 }
 
@@ -1712,11 +1713,11 @@ div.action-links,
 	float: left;
 	clear: left;
 	width: 65%;
-	width: calc( 100% - 180px );
+	width: calc(100% - 180px);
 }
 
-.plugin-card .column-compatibility span:before {
-	font: normal 20px/.5 dashicons;
+.plugin-card .column-compatibility span::before {
+	font: 400 20px/0.5 dashicons;
 	display: inline-block;
 	padding: 0;
 	top: 4px;
@@ -1729,15 +1730,15 @@ div.action-links,
 	color: #3c434a;
 }
 
-.plugin-card .column-compatibility .compatibility-incompatible:before {
+.plugin-card .column-compatibility .compatibility-incompatible::before {
 	content: "\f158";
-	content: "\f158" / '';
+	content: "\f158" / "";
 	color: #d63638;
 }
 
-.plugin-card .column-compatibility .compatibility-compatible:before {
+.plugin-card .column-compatibility .compatibility-compatible::before {
 	content: "\f147";
-	content: "\f147" / '';
+	content: "\f147" / "";
 	color: #007017;
 }
 
@@ -1772,6 +1773,7 @@ div.action-links,
 .wp-list-table tr.site-archived {
 	background: #fcf0f1;
 }
+
 .wp-list-table .site-spammed,
 .wp-list-table tr.site-spammed,
 .wp-list-table .site-mature,
@@ -1988,7 +1990,7 @@ div.action-links,
 
 	.plugins .active th.check-column input,
 	.plugins .active td.check-column input {
-		margin-right: 0px;
+		margin-right: 0;
 	}
 
 	.plugins tr.active,
@@ -2073,10 +2075,10 @@ div.action-links,
 		margin: 0;
 	}
 
-	.column-response .post-com-count-no-comments:after,
-	.column-response .post-com-count-approved:after,
-	.column-comments .post-com-count-no-comments:after,
-	.column-comments .post-com-count-approved:after {
+	.column-response .post-com-count-no-comments::after,
+	.column-response .post-com-count-approved::after,
+	.column-comments .post-com-count-no-comments::after,
+	.column-comments .post-com-count-approved::after {
 		content: none;
 	}
 
@@ -2153,8 +2155,8 @@ div.action-links,
 		line-height: 1.5;
 	}
 
-	.row-actions span.approve:before,
-	.row-actions span.unapprove:before {
+	.row-actions span.approve::before,
+	.row-actions span.unapprove::before {
 		content: "| ";
 	}
 
@@ -2203,14 +2205,14 @@ div.action-links,
 	}
 
 	.inline-edit-row select,
-	.inline-edit-row input:where(:not([type=checkbox],[type=radio],[type=submit],[type=button])) {
+	.inline-edit-row input:where(:not([type="checkbox"],[type="radio"],[type="submit"],[type="button"])) {
 		min-height: 40px;
 	}
 
-	.inline-edit-row fieldset input[name=jj],
-	.inline-edit-row fieldset input[name=hh],
-	.inline-edit-row fieldset input[name=mn],
-	.inline-edit-row fieldset input[name=aa] {
+	.inline-edit-row fieldset input[name="jj"],
+	.inline-edit-row fieldset input[name="hh"],
+	.inline-edit-row fieldset input[name="mn"],
+	.inline-edit-row fieldset input[name="aa"] {
 		font-size: 16px;
 		line-height: 2;
 		padding: 3px 4px;
@@ -2221,7 +2223,7 @@ div.action-links,
 	.inline-edit-row fieldset ul.cat-checklist label {
 		padding: 6px 0;
 		font-size: 16px;
-		line-height: 28px;
+		line-height: 1.75;
 	}
 
 	#bulk-titles .ntdelitem {
@@ -2235,9 +2237,9 @@ div.action-links,
 		overflow: hidden;
 	}
 
-	#bulk-titles .ntdelbutton:before {
+	#bulk-titles .ntdelbutton::before {
 		font-size: 20px;
-		line-height: 28px;
+		line-height: 1.4;
 	}
 
 	.inline-edit-row fieldset label span.title,
@@ -2405,7 +2407,7 @@ div.action-links,
 
 	table.plugin-install td.column-name strong {
 		font-size: 1.4em;
-		line-height: 1.6em;
+		line-height: 1.6;
 	}
 
 	table.plugin-install #the-list td {
