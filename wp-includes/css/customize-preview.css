@@ -44,7 +44,7 @@
 	line-height: 1 !important;
 	font-size: 18px;
 	z-index: 5;
-	background: var( --wp-admin-theme-color, #3858e9 );
+	background: var(--wp-admin-theme-color, #3858e9);
 	border-radius: 50%;
 	border: 2px solid #fff;
 	box-shadow: 0 2px 1px rgba(60, 67, 74, 0.15);
@@ -53,7 +53,7 @@
 	box-sizing: border-box;
 	padding: 3px;
 	animation-fill-mode: both;
-	animation-duration: .4s;
+	animation-duration: 0.4s;
 	opacity: 0;
 	pointer-events: none;
 	text-shadow:
@@ -62,8 +62,9 @@
 		0 1px 1px #135e96,
 		-1px 0 1px #135e96;
 }
+
 .wp-custom-header .customize-partial-edit-shortcut button {
-	left: 2px
+	left: 2px;
 }
 
 .customize-partial-edit-shortcut button svg {
@@ -76,17 +77,18 @@
 }
 
 .customize-partial-edit-shortcut button:hover {
-	background: var( --wp-admin-theme-color-darker-10, #2145e6 ) !important; /* matches primary buttons */
+	background: var(--wp-admin-theme-color-darker-10, #2145e6) !important; /* matches primary buttons */
 }
 
 .customize-partial-edit-shortcut button:focus {
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px ) var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
 }
 
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {
 	animation-name: customize-partial-edit-shortcut-bounce-appear;
 	pointer-events: auto;
 }
+
 body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut button {
 	animation-name: customize-partial-edit-shortcut-bounce-disappear;
 	pointer-events: none;
@@ -97,27 +99,39 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 	visibility: hidden;
 }
 
+/* stylelint-disable keyframe-block-no-duplicate-selectors -- These keyframes intentionally have duplicate selectors for better readability. */
 @keyframes customize-partial-edit-shortcut-bounce-appear {
-	from, 20%, 40%, 60%, 80%, to {
-		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	from,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 	}
+
 	0% {
 		opacity: 0;
-		transform: scale3d(.3, .3, .3);
+		transform: scale3d(0.3, 0.3, 0.3);
 	}
+
 	20% {
 		transform: scale3d(1.1, 1.1, 1.1);
 	}
+
 	40% {
-		transform: scale3d(.9, .9, .9);
+		transform: scale3d(0.9, 0.9, 0.9);
 	}
+
 	60% {
 		opacity: 1;
 		transform: scale3d(1.03, 1.03, 1.03);
 	}
+
 	80% {
-		transform: scale3d(.97, .97, .97);
+		transform: scale3d(0.97, 0.97, 0.97);
 	}
+
 	to {
 		opacity: 1;
 		transform: scale3d(1, 1, 1);
@@ -125,31 +139,43 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 }
 
 @keyframes customize-partial-edit-shortcut-bounce-disappear {
-	from, 20%, 40%, 60%, 80%, to {
-		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	from,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 	}
+
 	0% {
 		opacity: 1;
 		transform: scale3d(1, 1, 1);
 	}
+
 	20% {
-		transform: scale3d(.97, .97, .97);
+		transform: scale3d(0.97, 0.97, 0.97);
 	}
+
 	40% {
 		opacity: 1;
 		transform: scale3d(1.03, 1.03, 1.03);
 	}
+
 	60% {
-		transform: scale3d(.9, .9, .9);
+		transform: scale3d(0.9, 0.9, 0.9);
 	}
+
 	80% {
 		transform: scale3d(1.1, 1.1, 1.1);
 	}
+
 	to {
 		opacity: 0;
-		transform: scale3d(.3, .3, .3);
+		transform: scale3d(0.3, 0.3, 0.3);
 	}
 }
+/* stylelint-enable */
 
 @media screen and (max-width: 800px) {
 	.widget .customize-partial-edit-shortcut button,
