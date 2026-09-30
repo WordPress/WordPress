@@ -3844,6 +3844,30 @@ function get_paged_template() {
 }
 
 /**
+ * Handles parsing errors in `wp_kses_hair()`.
+ *
+ * The general plan is to remove everything to and including some whitespace,
+ * but it deals with quotes and apostrophes as well.
+ *
+ * Note: This was previously used in certain cases when {@see \wp_kses_hair()}
+ *       struggled to recognize HTML syntax. Since 7.0.0 when that function was
+ *       rewritten to rely on the HTML API, those ambiguous situations no longer
+ *       exist, and this function is no longer relevant.
+ *
+ * @since 1.0.0
+ * @deprecated 7.2.0 This was only meant to be used internally and the calling
+ *                   function has been updated and no-longer needs it.
+ *
+ * @param string $attr
+ * @return string
+ */
+function wp_kses_html_error( $attr ) {
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+
+	return preg_replace( '/^("[^"]*("|$)|\'[^\']*(\'|$)|\S)*\s*/', '', $attr );
+}
+
+/**
  * Removes the HTML JavaScript entities found in early versions of Netscape 4.
  *
  * Previously, this function was pulled in from the original

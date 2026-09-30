@@ -2069,21 +2069,6 @@ function wp_kses_array_lc( $inarray ) {
 }
 
 /**
- * Handles parsing errors in `wp_kses_hair()`.
- *
- * The general plan is to remove everything to and including some whitespace,
- * but it deals with quotes and apostrophes as well.
- *
- * @since 1.0.0
- *
- * @param string $attr
- * @return string
- */
-function wp_kses_html_error( $attr ) {
-	return preg_replace( '/^("[^"]*("|$)|\'[^\']*(\'|$)|\S)*\s*/', '', $attr );
-}
-
-/**
  * Sanitizes content from bad protocols and other characters.
  *
  * This function searches for URL protocols at the beginning of the string, while
