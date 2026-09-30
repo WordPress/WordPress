@@ -47,10 +47,13 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 	}
 
 	/**
+	 * Makes an XML-RPC request and retrieves the response.
+	 *
 	 * @since 3.1.0
 	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
 	 *              to the function signature.
 	 *
+	 * @param mixed ...$args The method name, followed by the arguments to pass to it.
 	 * @return bool True if the request succeeded, false otherwise.
 	 */
 	public function query( ...$args ) {
