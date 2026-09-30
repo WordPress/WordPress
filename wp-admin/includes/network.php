@@ -240,7 +240,7 @@ function network_step1( $errors = false ) {
 
 	if ( allow_subdomain_install() && allow_subdirectory_install() ) :
 		?>
-		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
+		<h2><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h2>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories.' ); ?>
 			<strong><?php _e( 'You cannot change this later.' ); ?></strong></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
@@ -289,7 +289,7 @@ function network_step1( $errors = false ) {
 	$is_www = str_starts_with( $hostname, 'www.' );
 	if ( $is_www ) :
 		?>
-		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
+		<h2><?php esc_html_e( 'Server Address' ); ?></h2>
 		<p>
 		<?php
 		printf(
@@ -317,7 +317,7 @@ function network_step1( $errors = false ) {
 		</table>
 		<?php endif; ?>
 
-		<h3><?php esc_html_e( 'Network Details' ); ?></h3>
+		<h2><?php esc_html_e( 'Network Details' ); ?></h2>
 		<table class="form-table" role="presentation">
 		<?php if ( 'localhost' === $hostname ) : ?>
 			<tr>
@@ -378,8 +378,8 @@ function network_step1( $errors = false ) {
 			<tr>
 				<th scope='row'><label for="sitename"><?php esc_html_e( 'Network Title' ); ?></label></th>
 				<td>
-					<input name='sitename' id='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
-					<p class="description">
+					<input name='sitename' id='sitename' type='text' size='45' aria-describedby='sitename-desc' value='<?php echo esc_attr( $site_name ); ?>' />
+					<p class="description" id="sitename-desc">
 						<?php _e( 'What would you like to call your network?' ); ?>
 					</p>
 				</td>
@@ -387,8 +387,8 @@ function network_step1( $errors = false ) {
 			<tr>
 				<th scope='row'><label for="email"><?php esc_html_e( 'Network Admin Email' ); ?></label></th>
 				<td>
-					<input name='email' id='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
-					<p class="description">
+					<input name='email' id='email' type='text' size='45' aria-describedby='email-desc' value='<?php echo esc_attr( $admin_email ); ?>' />
+					<p class="description" id="email-desc">
 						<?php _e( 'Your email address.' ); ?>
 					</p>
 				</td>
@@ -470,7 +470,7 @@ function network_step2( $errors = false ) {
 
 	if ( $_POST || ! is_multisite() ) {
 		?>
-		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
+		<h2><?php esc_html_e( 'Enabling the Network' ); ?></h2>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<?php
 		$notice_message = '<strong>' . __( 'Caution:' ) . '</strong> ';

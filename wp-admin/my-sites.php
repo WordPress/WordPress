@@ -124,7 +124,7 @@ else :
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 
 	if ( $settings_html ) {
-		echo '<h3>' . __( 'Global Settings' ) . '</h3>';
+		echo '<h2>' . __( 'Global Settings' ) . '</h2>';
 		echo $settings_html;
 	}
 
@@ -134,7 +134,7 @@ else :
 		switch_to_blog( $user_blog->userblog_id );
 
 		echo '<li>';
-		echo "<h3>{$user_blog->blogname}</h3>";
+		echo "<h2>{$user_blog->blogname}</h2>";
 
 		$actions = "<a href='" . esc_url( home_url() ) . "'>" . __( 'Visit' ) . '</a>';
 
