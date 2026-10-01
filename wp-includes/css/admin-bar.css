@@ -590,9 +590,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 	content: none;
 }
 
-#wpadminbar #wp-admin-bar-site-name > .ab-item .site-icon {
+/* The adminbar icon needs additional styling to prevent 3rd party styles from overriding the size. */
+#wpadminbar #wp-admin-bar-site-name > .ab-item img.site-icon {
 	width: 20px;
 	height: 20px;
+	max-width: 20px;
+	max-height: 20px;
+	min-width: 20px;
+	min-height: 20px;
 	border-radius: 2px;
 }
 
@@ -942,12 +947,16 @@ html:lang(he-il) .rtl #wpadminbar * {
 		display: block;
 	}
 
-	#wpadminbar #wp-admin-bar-site-name > .ab-item .site-icon {
+	#wpadminbar #wp-admin-bar-site-name > .ab-item img.site-icon {
 		position: absolute;
 		top: 9px;
 		left: 12px;
 		width: 28px;
 		height: 28px;
+		max-width: 28px;
+		max-height: 28px;
+		min-width: 28px;
+		min-height: 28px;
 		margin: 0;
 		border-radius: 4px;
 	}
