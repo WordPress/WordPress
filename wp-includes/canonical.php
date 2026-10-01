@@ -1007,8 +1007,22 @@ function redirect_guess_404_permalink() {
 			$where .= $wpdb->prepare( ' AND DAYOFMONTH(post_date) = %d', get_query_var( 'day' ) );
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE $where AND post_status IN ('" . implode( "', '", esc_sql( $publicly_viewable_statuses ) ) . "')" );
+		$query = "SELECT ID FROM $wpdb->posts WHERE $where AND post_status IN ('" . implode( "', '", esc_sql( $publicly_viewable_statuses ) ) . "')";
+
+		$key          = md5( $query );
+		$last_changed = wp_cache_get_last_changed( 'posts' );
+		$cache_key    = "redirect_guess_404_permalink:$key";
+		$cache        = wp_cache_get_salted( $cache_key, 'post-queries', $last_changed );
+
+		if ( false !== $cache ) {
+			$post_id = $cache;
+		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$post_id = (int) $wpdb->get_var( $query );
+
+			// Cache misses as well as hits.
+			wp_cache_set_salted( $cache_key, $post_id, 'post-queries', $last_changed );
+		}
 
 		if ( ! $post_id ) {
 			return false;
