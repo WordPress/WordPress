@@ -78,7 +78,7 @@ Description: Used to style blocks in the editor.
 }
 
 .wp-block {
-	max-width: 614px; /* 584px + 30px to account for padding */
+	max-width: 584px;
 }
 
 /* Link styles */

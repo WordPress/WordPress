@@ -77,7 +77,7 @@ Description: Used to style blocks in the editor.
 /* Main column width */
 
 .wp-block {
-	max-width: 670px; /* 640px + 30px to account for padding */
+	max-width: 640px;
 }
 
 /* Link styles */
