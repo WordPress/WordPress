@@ -9,6 +9,11 @@
  * @since Twenty Twenty-One 1.0
  */
 
+/**
+ * @global WP_Query $wp_query WordPress Query object.
+ */
+global $wp_query;
+
 get_header();
 
 if ( have_posts() ) {

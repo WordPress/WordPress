@@ -17,6 +17,11 @@
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */
+
+/**
+ * @global WP_Query $wp_query WordPress Query object.
+ */
+global $wp_query;
 ?>
 
 <?php // Display navigation to next/previous pages when applicable. ?>

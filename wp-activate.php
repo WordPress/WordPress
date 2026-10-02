@@ -64,6 +64,11 @@ if ( null === $result || ( is_wp_error( $result ) && 'invalid_key' === $result->
 
 nocache_headers();
 
+/**
+ * @global WP_Query $wp_query WordPress Query object.
+ */
+global $wp_query;
+
 // Fix for page title.
 $wp_query->is_404 = false;
 

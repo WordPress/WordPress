@@ -46,6 +46,11 @@ if ( ! is_main_site() ) {
 	die();
 }
 
+/**
+ * @global WP_Query $wp_query WordPress Query object.
+ */
+global $wp_query;
+
 // Fix for page title.
 $wp_query->is_404 = false;
 
