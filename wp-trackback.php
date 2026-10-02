@@ -91,6 +91,12 @@ $title     = wp_slash( $title );
 $excerpt   = wp_slash( $excerpt );
 $blog_name = wp_slash( $blog_name );
 
+/**
+ * @global wpdb      $wpdb  WordPress database abstraction object.
+ * @global WP_Post[] $posts Array of post objects.
+ */
+global $wpdb, $posts;
+
 if ( is_single() || is_page() ) {
 	$post_id = $posts[0]->ID;
 }

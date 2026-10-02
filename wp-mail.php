@@ -83,15 +83,16 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$message = $pop3->get( $i );
 
 	$bodysignal                = false;
-	$boundary                  = '';
 	$charset                   = '';
 	$content                   = '';
 	$content_type              = '';
 	$content_transfer_encoding = '';
+	$boundary                  = '';
+	$subject                   = '';
 	$post_author               = 1;
 	$author_found              = false;
-	$post_date                 = null;
-	$post_date_gmt             = null;
+	$post_date                 = '';
+	$post_date_gmt             = '';
 
 	foreach ( $message as $line ) {
 		// Body signal.
