@@ -635,7 +635,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					break;
 			}
 			$basename = str_replace( '.', '-', wp_basename( $file ) ) . '-image' . $ext;
-			$uploaded = wp_upload_bits( $basename, '', $metadata['image']['data'] );
+			$uploaded = wp_upload_bits( $basename, null, $metadata['image']['data'] );
 			if ( false === $uploaded['error'] ) {
 				$image_attachment = array(
 					'post_mime_type' => $metadata['image']['mime'],

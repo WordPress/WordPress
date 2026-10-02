@@ -87,7 +87,7 @@ if ( isset( $_GET['action'] ) ) {
 			wp_redirect( admin_url( 'update.php?action=activate-plugin&success=true&plugin=' . urlencode( $plugin ) . '&_wpnonce=' . $_GET['_wpnonce'] ) );
 			die();
 		}
-		iframe_header( __( 'Plugin Reactivation' ), true );
+		iframe_header( __( 'Plugin Reactivation' ) );
 		if ( isset( $_GET['success'] ) ) {
 			echo '<p>' . __( 'Plugin reactivated successfully.' ) . '</p>';
 		}
