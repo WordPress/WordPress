@@ -140,6 +140,11 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' === $_REQUEST['action'] ) {
 		do_action( 'network_site_new_created_user', $user_id );
 	}
 
+	/**
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 */
+	global $wpdb;
+
 	$wpdb->hide_errors();
 	$id = wpmu_create_blog( $newdomain, $path, $title, $user_id, $meta, get_current_network_id() );
 	$wpdb->show_errors();

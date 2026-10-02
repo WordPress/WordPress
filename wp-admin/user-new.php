@@ -240,6 +240,11 @@ Please click the following link to confirm the invite:
 			);
 
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
+				/**
+				 * @global wpdb $wpdb WordPress database abstraction object.
+				 */
+				global $wpdb;
+
 				$key      = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
 				$new_user = wpmu_activate_signup( $key );
 				if ( is_wp_error( $new_user ) ) {

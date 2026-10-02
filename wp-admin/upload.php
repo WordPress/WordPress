@@ -262,6 +262,11 @@ if ( $doaction ) {
 	$post_ids = array();
 
 	if ( 'delete_all' === $doaction ) {
+		/**
+		 * @global wpdb $wpdb WordPress database abstraction object.
+		 */
+		global $wpdb;
+
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
 	} elseif ( isset( $_REQUEST['media'] ) ) {
