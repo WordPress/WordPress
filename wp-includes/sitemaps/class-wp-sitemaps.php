@@ -135,11 +135,6 @@ class WP_Sitemaps {
 		// Register index route.
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
-		// Register rewrites for the XSL stylesheet.
-		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
-		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
-
 		// Register routes for providers.
 		add_rewrite_rule(
 			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
@@ -160,7 +155,7 @@ class WP_Sitemaps {
 	 */
 	public function render_sitemaps() {
 		/*
-		 * Bail early if this isn't a sitemap or stylesheet route.
+		 * Bail early if this isn't a sitemap route.
 		 *
 		 * This runs on every front-end request, so it comes before any
 		 * sanitizing. The raw query vars are tested here, matching
@@ -168,17 +163,16 @@ class WP_Sitemaps {
 		 * the same basis. Testing the sanitized values instead would let a
 		 * request that handle_404() exempted fall through both, leaving it a 200.
 		 */
-		if ( ! get_query_var( 'sitemap' ) && ! get_query_var( 'sitemap-stylesheet' ) ) {
+		if ( ! get_query_var( 'sitemap' ) ) {
 			return;
 		}
 
-		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$object_subtype  = sanitize_text_field( get_query_var( 'sitemap-subtype' ) );
-		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
-		$paged           = absint( get_query_var( 'paged' ) );
+		$sitemap        = sanitize_text_field( get_query_var( 'sitemap' ) );
+		$object_subtype = sanitize_text_field( get_query_var( 'sitemap-subtype' ) );
+		$paged          = absint( get_query_var( 'paged' ) );
 
 		// Force a 404 and bail early if the route did not survive sanitizing.
-		if ( ! ( $sitemap || $stylesheet_type ) ) {
+		if ( ! $sitemap ) {
 			$this->send_404();
 			return;
 		}
@@ -186,20 +180,6 @@ class WP_Sitemaps {
 		if ( ! $this->sitemaps_enabled() ) {
 			$this->send_404();
 			return;
-		}
-
-		// Render stylesheet if this is stylesheet route.
-		if ( $stylesheet_type ) {
-			// Force a 404 and bail early if the stylesheet type is not recognized.
-			if ( ! in_array( $stylesheet_type, array( 'sitemap', 'index' ), true ) ) {
-				$this->send_404();
-				return;
-			}
-
-			$stylesheet = new WP_Sitemaps_Stylesheet();
-
-			$stylesheet->render_stylesheet( $stylesheet_type );
-			exit;
 		}
 
 		// Render the index.
