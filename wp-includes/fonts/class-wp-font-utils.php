@@ -247,11 +247,9 @@ class WP_Font_Utils {
 	 * @return string[] A collection of mime types keyed by file extension.
 	 */
 	public static function get_allowed_font_mime_types() {
-		$php_7_ttf_mime_type = PHP_VERSION_ID >= 70300 ? 'application/font-sfnt' : 'application/x-font-ttf';
-
 		return array(
 			'otf'   => 'application/vnd.ms-opentype',
-			'ttf'   => PHP_VERSION_ID >= 70400 ? 'font/sfnt' : $php_7_ttf_mime_type,
+			'ttf'   => 'font/sfnt',
 			'woff'  => PHP_VERSION_ID >= 80112 ? 'font/woff' : 'application/font-woff',
 			'woff2' => PHP_VERSION_ID >= 80112 ? 'font/woff2' : 'application/font-woff2',
 		);
