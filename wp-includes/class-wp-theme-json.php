@@ -127,6 +127,7 @@ class WP_Theme_JSON {
 	 *              Updated the 'prevent_override' value for font size presets to use 'typography.defaultFontSizes'
 	 *              and spacing size presets to use `spacing.defaultSpacingSizes`.
 	 * @since 6.9.0 Added `border.radiusSizes`.
+	 * @since 7.2.0 Added `typography.textShadowPresets`.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
@@ -187,6 +188,15 @@ class WP_Theme_JSON {
 			'css_vars'          => '--wp--preset--font-family--$slug',
 			'classes'           => array( '.has-$slug-font-family' => 'font-family' ),
 			'properties'        => array( 'font-family' ),
+		),
+		array(
+			'path'              => array( 'typography', 'textShadowPresets' ),
+			'prevent_override'  => array( 'typography', 'defaultTextShadowPresets' ),
+			'use_default_names' => false,
+			'value_key'         => 'textShadow',
+			'css_vars'          => '--wp--preset--text-shadow--$slug',
+			'classes'           => array( '.has-$slug-text-shadow' => 'text-shadow' ),
+			'properties'        => array( 'text-shadow' ),
 		),
 		array(
 			'path'              => array( 'spacing', 'spacingSizes' ),
@@ -419,6 +429,8 @@ class WP_Theme_JSON {
 	 *              Added support for `typography.textIndent`.
 	 * @since 7.1.0 Added `viewport` property.
 	 *              Added support for `background.gradient`, `dimensions.minWidth` and `blockVisibility.allowEditing`.
+	 * @since 7.2.0 Added support for `typography.textShadow`, `typography.textShadowPresets`,
+	 *              and `typography.defaultTextShadowPresets`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -496,22 +508,25 @@ class WP_Theme_JSON {
 			'defaultPresets' => null,
 		),
 		'typography'                    => array(
-			'fluid'            => null,
-			'customFontSize'   => null,
-			'defaultFontSizes' => null,
-			'dropCap'          => null,
-			'fontFamilies'     => null,
-			'fontSizes'        => null,
-			'fontStyle'        => null,
-			'fontWeight'       => null,
-			'letterSpacing'    => null,
-			'lineHeight'       => null,
-			'textAlign'        => null,
-			'textColumns'      => null,
-			'textDecoration'   => null,
-			'textIndent'       => null,
-			'textTransform'    => null,
-			'writingMode'      => null,
+			'fluid'                    => null,
+			'customFontSize'           => null,
+			'defaultFontSizes'         => null,
+			'dropCap'                  => null,
+			'fontFamilies'             => null,
+			'fontSizes'                => null,
+			'fontStyle'                => null,
+			'fontWeight'               => null,
+			'letterSpacing'            => null,
+			'lineHeight'               => null,
+			'textAlign'                => null,
+			'textColumns'              => null,
+			'textDecoration'           => null,
+			'textIndent'               => null,
+			'textTransform'            => null,
+			'textShadow'               => null,
+			'defaultTextShadowPresets' => null,
+			'textShadowPresets'        => null,
+			'writingMode'              => null,
 		),
 		'viewport'                      => array(
 			'mobile' => null,

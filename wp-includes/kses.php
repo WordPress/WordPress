@@ -2624,7 +2624,7 @@ function kses_init() {
  * @since 7.1.0 Extended gradient support to allow any single-level nested function.
  *              Added support for transform functions, `clip-path` basic shapes,
  *              and URLs in the SVG element reference properties.
- * @since 7.2.0 Added support for CSS anchor positioning properties.
+ * @since 7.2.0 Added support for CSS anchor positioning properties and `text-shadow`.
  *
  * @param string $css        A string of CSS rules, decoded from an HTML `style` attribute.
  * @param string $deprecated Not used.
@@ -2720,6 +2720,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'text-align',
 			'text-decoration',
 			'text-indent',
+			'text-shadow',
 			'text-transform',
 			'white-space',
 

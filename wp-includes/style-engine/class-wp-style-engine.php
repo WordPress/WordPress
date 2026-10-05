@@ -27,6 +27,7 @@
  *              background.backgroundRepeat and dimensions.aspectRatio.
  * @since 6.7.0 Added support for typography.writingMode.
  * @since 7.0.0 Added support for typography.textIndent.
+ * @since 7.2.0 Added support for typography.textShadow.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -349,6 +350,18 @@ final class WP_Style_Engine {
 					'default' => 'text-indent',
 				),
 				'path'          => array( 'typography', 'textIndent' ),
+			),
+			'textShadow'     => array(
+				'property_keys' => array(
+					'default' => 'text-shadow',
+				),
+				'css_vars'      => array(
+					'text-shadow' => '--wp--preset--text-shadow--$slug',
+				),
+				'path'          => array( 'typography', 'textShadow' ),
+				'classnames'    => array(
+					'has-$slug-text-shadow' => 'text-shadow',
+				),
 			),
 			'textTransform'  => array(
 				'property_keys' => array(

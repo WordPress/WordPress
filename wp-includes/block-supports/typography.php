@@ -37,6 +37,7 @@ function wp_register_typography_support( $block_type ) {
 	$has_text_decoration_support = $typography_supports['__experimentalTextDecoration'] ?? false;
 	$has_text_transform_support  = $typography_supports['__experimentalTextTransform'] ?? false;
 	$has_text_indent_support     = $typography_supports['textIndent'] ?? false;
+	$has_text_shadow_support     = $typography_supports['textShadow'] ?? false;
 	$has_writing_mode_support    = $typography_supports['__experimentalWritingMode'] ?? false;
 
 	$has_typography_support = $has_font_family_support
@@ -50,6 +51,7 @@ function wp_register_typography_support( $block_type ) {
 		|| $has_text_decoration_support
 		|| $has_text_transform_support
 		|| $has_text_indent_support
+		|| $has_text_shadow_support
 		|| $has_writing_mode_support;
 
 	if ( ! $block_type->attributes ) {
@@ -70,6 +72,12 @@ function wp_register_typography_support( $block_type ) {
 
 	if ( $has_font_family_support && ! array_key_exists( 'fontFamily', $block_type->attributes ) ) {
 		$block_type->attributes['fontFamily'] = array(
+			'type' => 'string',
+		);
+	}
+
+	if ( $has_text_shadow_support && ! array_key_exists( 'textShadow', $block_type->attributes ) ) {
+		$block_type->attributes['textShadow'] = array(
 			'type' => 'string',
 		);
 	}
@@ -115,6 +123,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_text_decoration_support = $typography_supports['__experimentalTextDecoration'] ?? false;
 	$has_text_transform_support  = $typography_supports['__experimentalTextTransform'] ?? false;
 	$has_text_indent_support     = $typography_supports['textIndent'] ?? false;
+	$has_text_shadow_support     = $typography_supports['textShadow'] ?? false;
 	$has_writing_mode_support    = $typography_supports['__experimentalWritingMode'] ?? false;
 
 	// Whether to skip individual block support features.
@@ -129,6 +138,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$should_skip_text_transform  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' );
 	$should_skip_letter_spacing  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' );
 	$should_skip_text_indent     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textIndent' );
+	$should_skip_text_shadow     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textShadow' );
 	$should_skip_writing_mode    = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'writingMode' );
 
 	$typography_block_styles = array();
@@ -230,6 +240,12 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 
 	if ( $has_text_indent_support && ! $should_skip_text_indent && isset( $block_attributes['style']['typography']['textIndent'] ) ) {
 		$typography_block_styles['textIndent'] = $block_attributes['style']['typography']['textIndent'] ?? null;
+	}
+
+	if ( $has_text_shadow_support && ! $should_skip_text_shadow ) {
+		$preset_text_shadow                    = array_key_exists( 'textShadow', $block_attributes ) ? "var:preset|text-shadow|{$block_attributes['textShadow']}" : null;
+		$custom_text_shadow                    = $block_attributes['style']['typography']['textShadow'] ?? null;
+		$typography_block_styles['textShadow'] = $preset_text_shadow ? $preset_text_shadow : $custom_text_shadow;
 	}
 
 	$attributes = array();
