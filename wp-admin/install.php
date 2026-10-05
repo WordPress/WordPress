@@ -147,7 +147,7 @@ function display_setup_form( $error = null ) {
 						<span class="text"><?php _e( 'Hide' ); ?></span>
 					</button>
 				</div>
-				<p id="admin-password-desc"><span class="description important hide-if-no-js">
+				<p id="admin-password-desc"><span class="description important">
 				<strong><?php _e( 'Important:' ); ?></strong>
 				<?php /* translators: The non-breaking space prevents 1Password from thinking the text "log in" should trigger a password save prompt. */ ?>
 				<?php _e( 'You will need this password to log&nbsp;in. Please store it in a secure location.' ); ?></span></p>
@@ -155,12 +155,15 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<tr class="form-field form-required user-pass2-wrap hide-if-js">
 			<th scope="row">
-				<label for="pass2"><?php _e( 'Repeat Password' ); ?>
-					<span class="description"><?php _e( '(required)' ); ?></span>
-				</label>
+				<label for="pass2"><?php _e( 'Repeat Password' ); ?></label>
 			</th>
 			<td>
-				<input type="password" name="admin_password2" id="pass2" autocomplete="new-password" spellcheck="false" />
+				<input type="password" name="admin_password2" id="pass2" autocomplete="new-password" spellcheck="false" aria-describedby="admin-repeat-password-desc" />
+				<p id="admin-repeat-password-desc">
+					<span class="description important hide-if-js">
+					<?php _e( 'You can leave both password fields empty and one will be auto-generated for you.' ); ?>
+					</span>
+				</p>
 			</td>
 		</tr>
 		<tr class="pw-weak">

@@ -398,8 +398,8 @@ body.language-chooser {
 	margin-left: 15px;
 }
 
-.button.hide-if-no-js,
-.hide-if-no-js {
+.hide-if-no-js,
+.button.wp-hide-pw.user-new-password-toggle.hide-if-no-js {
 	display: none;
 }
 
