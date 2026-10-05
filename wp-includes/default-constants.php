@@ -90,7 +90,7 @@ function wp_initial_constants() {
 
 	// Add define( 'WP_DEBUG', true ); to wp-config.php to enable display of notices during development.
 	if ( ! defined( 'WP_DEBUG' ) ) {
-		if ( wp_get_development_mode() || 'development' === wp_get_environment_type() ) {
+		if ( wp_get_development_mode() || 'development' === wp_get_environment_type() || 'local' === wp_get_environment_type() ) {
 			define( 'WP_DEBUG', true );
 		} else {
 			define( 'WP_DEBUG', false );
