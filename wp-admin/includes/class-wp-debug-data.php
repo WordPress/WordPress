@@ -643,6 +643,7 @@ class WP_Debug_Data {
 			$imagick             = new Imagick();
 			$imagemagick_version = $imagick->getVersion();
 		} else {
+			$imagick             = null;
 			$imagemagick_version = __( 'Not available' );
 		}
 
@@ -694,7 +695,7 @@ class WP_Debug_Data {
 		);
 
 		// If Imagick is used as our editor, provide some more information about its limitations.
-		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
+		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && $imagick instanceof Imagick ) {
 			$limits = array(
 				'area'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : $not_available ),
 				'disk'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : $not_available ),
