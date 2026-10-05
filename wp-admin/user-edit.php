@@ -890,9 +890,10 @@ switch ( $action ) {
 								<p>
 									<?php
 									printf(
-										/* translators: %s: Documentation URL. */
-										__( 'If this is a development website, you can <a href="%s">set the environment type accordingly</a> to enable application passwords.' ),
-										__( 'https://developer.wordpress.org/apis/wp-config-php/#wp-environment-type' )
+										/* translators: 1: Documentation URL, 2: local */
+										__( 'If this is a local website, you can <a href="%1$s">set the environment type</a> as %2$s to enable application passwords.' ),
+										__( 'https://developer.wordpress.org/apis/wp-config-php/#wp-environment-type' ),
+										'<code>local</code>'
 									);
 									?>
 								</p>
