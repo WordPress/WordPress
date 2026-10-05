@@ -1083,10 +1083,15 @@ function wp_read_image_metadata( $file ) {
  * @since 7.0.0
  *
  * @param string $file File path to the image.
- * @return string Embedded alternative text.
+ * @return string Embedded alternative text, empty when there is no alt text or DOM extension is not installed.
  */
 function wp_get_image_alttext( $file ) {
-	$alt_text     = '';
+	$alt_text = '';
+
+	if ( ! class_exists( 'DOMDocument', false ) ) {
+		return $alt_text;
+	}
+
 	$img_contents = file_get_contents( $file );
 
 	if ( false === $img_contents ) {
