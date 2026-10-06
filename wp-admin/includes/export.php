@@ -183,11 +183,15 @@ function export_wp( $args = array() ) {
 				)
 			);
 
+			// Cast thumbnail IDs to integers to prevent second-order SQL injection via user-controlled meta values.
+			$thumbnails_ids = array_filter( array_map( 'absint', $thumbnails_ids ) );
+
 			$additional_ids = array_merge( $additional_ids, $attachment_ids, $thumbnails_ids );
 		}
 
-		// Merge the additional IDs back with the original post IDs after processing all posts
-		$post_ids = array_unique( array_merge( $post_ids, $additional_ids ) );
+		// Merge the additional IDs back with the original post IDs after processing all posts.
+		// Cast to integers as defense-in-depth, since $additional_ids may include values sourced from postmeta.
+		$post_ids = array_unique( array_map( 'absint', array_merge( $post_ids, $additional_ids ) ) );
 	}
 
 	/*
@@ -588,8 +592,10 @@ function export_wp( $args = array() ) {
 
 		// Fetch 20 posts at a time rather than loading the entire table into memory.
 		while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
-			$where = 'WHERE ID IN (' . implode( ',', $next_posts ) . ')';
-			$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
+			// Re-sanitize immediately before use, as defense-in-depth against the IDs being interpolated directly into SQL below.
+			$next_posts = array_map( 'absint', $next_posts );
+			$where      = 'WHERE ID IN (' . implode( ',', $next_posts ) . ')';
+			$posts      = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
 
 			// Begin Loop.
 			foreach ( $posts as $post ) {
