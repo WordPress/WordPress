@@ -4302,38 +4302,46 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 */
 	do_action( 'transition_post_status', $new_status, $old_status, $post );
 
-	/**
-	 * Fires when a post is transitioned from one status to another.
-	 *
-	 * The dynamic portions of the hook name, `$new_status` and `$old status`,
-	 * refer to the old and new post statuses, respectively.
-	 *
-	 * @since 2.3.0
-	 *
-	 * @param WP_Post $post Post object.
-	 */
-	do_action( "{$old_status}_to_{$new_status}", $post );
+	$new_status_object = get_post_status_object( $new_status );
+	$old_status_valid  = get_post_status_object( $old_status ) || 'new' === $old_status;
+	$post_type_object  = get_post_type_object( $post->post_type );
 
-	/**
-	 * Fires when a post is transitioned from one status to another.
-	 *
-	 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
-	 * refer to the new post status and post type, respectively.
-	 *
-	 * Please note: When this action is hooked using a particular post status (like
-	 * 'publish', as `publish_{$post->post_type}`), it will fire both when a post is
-	 * first transitioned to that status from something else, as well as upon
-	 * subsequent post updates (old and new status are both the same).
-	 *
-	 * Therefore, if you are looking to only fire a callback when a post is first
-	 * transitioned to a status, use the {@see 'transition_post_status'} hook instead.
-	 *
-	 * @since 2.3.0
-	 *
-	 * @param int     $post_id Post ID.
-	 * @param WP_Post $post    Post object.
-	 */
-	do_action( "{$new_status}_{$post->post_type}", $post->ID, $post );
+	if ( $new_status_object && $old_status_valid ) {
+		/**
+		 * Fires when a post is transitioned from one status to another.
+		 *
+		 * The dynamic portions of the hook name, `$new_status` and `$old status`,
+		 * refer to the old and new post statuses, respectively.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param WP_Post $post Post object.
+		 */
+		do_action( "{$old_status}_to_{$new_status}", $post );
+	}
+
+	if ( $new_status_object && $post_type_object ) {
+		/**
+		 * Fires when a post is transitioned from one status to another.
+		 *
+		 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
+		 * refer to the new post status and post type, respectively.
+		 *
+		 * Please note: When this action is hooked using a particular post status (like
+		 * 'publish', as `publish_{$post->post_type}`), it will fire both when a post is
+		 * first transitioned to that status from something else, as well as upon
+		 * subsequent post updates (old and new status are both the same).
+		 *
+		 * Therefore, if you are looking to only fire a callback when a post is first
+		 * transitioned to a status, use the {@see 'transition_post_status'} hook instead.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param int     $post_id Post ID.
+		 * @param WP_Post $post    Post object.
+		 */
+		do_action( "{$new_status}_{$post->post_type}", $post->ID, $post );
+	}
 }
 
 //
