@@ -70,6 +70,7 @@ class WP_Admin_Bar {
 		add_action( 'wp_head', $header_callback );
 
 		wp_enqueue_script( 'admin-bar' );
+		// Prefetched from the login screen by wp_prefetch_admin_assets(), which needs updating if this changes.
 		wp_enqueue_style( 'admin-bar' );
 
 		/**

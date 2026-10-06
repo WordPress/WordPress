@@ -2477,10 +2477,7 @@ function script_concat_settings() {
 	$can_compress_scripts = ! wp_installing() && get_site_option( 'can_compress_scripts' );
 
 	if ( ! isset( $concatenate_scripts ) ) {
-		$concatenate_scripts = defined( 'CONCATENATE_SCRIPTS' ) ? CONCATENATE_SCRIPTS : true;
-		if ( ( ! is_admin() && ! did_action( 'login_init' ) ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
-			$concatenate_scripts = false;
-		}
+		$concatenate_scripts = ( is_admin() || did_action( 'login_init' ) ) && wp_should_concatenate_admin_scripts();
 	}
 
 	if ( ! isset( $compress_scripts ) ) {
@@ -2496,6 +2493,589 @@ function script_concat_settings() {
 			$compress_css = false;
 		}
 	}
+}
+
+/**
+ * Determines whether scripts and styles are concatenated on admin screens and the login screen.
+ *
+ * Concatenation is on unless the `CONCATENATE_SCRIPTS` constant turns it off, and `SCRIPT_DEBUG`
+ * turns it off regardless. Scripts and styles are never concatenated elsewhere.
+ *
+ * This is the default that script_concat_settings() gives the `$concatenate_scripts` global when
+ * the global has not already been set. It is also how wp_prefetch_admin_assets() predicts, from the
+ * login screen, what the admin screen the login leads to will do.
+ *
+ * This function and its filter are intended to be removed before 7.2-beta1. They exist only while
+ * concatenation is still an option, and once concatenation is retired, there is nothing left for
+ * them to decide. Do not rely on them; setting the `$concatenate_scripts` global remains the way
+ * to override concatenation on a request.
+ *
+ * @since 7.2.0
+ *
+ * @return bool Whether scripts and styles are concatenated on admin screens and the login screen.
+ */
+function wp_should_concatenate_admin_scripts(): bool {
+	$concatenate = ( defined( 'CONCATENATE_SCRIPTS' ) ? (bool) CONCATENATE_SCRIPTS : true )
+		&& ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
+
+	/**
+	 * Filters whether scripts and styles are concatenated on admin screens and the login screen.
+	 *
+	 * Setting the `$concatenate_scripts` global directly still takes precedence over this filter on
+	 * the request where it is set.
+	 *
+	 * An admin screen settles the global the first time scripts are registered, when the
+	 * {@see 'wp_default_scripts'} action registers TinyMCE. That can be as early as while plugins
+	 * load, before the theme's functions.php, whereas the login screen reads this filter only when
+	 * it prints, to predict what the admin will do. So add a callback when a plugin loads, rather
+	 * than from a theme or on a later hook, or the admin may not see it while the login screen does.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param bool $concatenate Whether scripts and styles are concatenated. Default true, unless the
+	 *                          `CONCATENATE_SCRIPTS` constant is false or `SCRIPT_DEBUG` is true.
+	 */
+	return (bool) apply_filters( 'wp_should_concatenate_admin_scripts', $concatenate );
+}
+
+/**
+ * Prints prefetch links for the assets of the screen the user is most likely to open next.
+ *
+ * Runs wherever the next screen can be predicted with confidence, and prefetches only what that
+ * screen is certain to need. Two cases qualify today:
+ *
+ * - The login screen, which is followed by an admin screen. With concatenation disabled that
+ *   screen downloads each core script and stylesheet separately, which is what makes an uncached
+ *   admin load slower than a concatenated one. Requesting the ones that block its first paint
+ *   while the login form is on screen puts them in the HTTP cache during the time the user spends
+ *   typing credentials, so the redirect that follows finds them already there.
+ * - The Dashboard and the post list tables, from which the editor is the usual next stop. Only the
+ *   editor's stylesheets are prefetched, not its scripts: the scripts run to well over a megabyte
+ *   compressed, which is far too much to spend on a screen the user may never open, whereas the
+ *   stylesheets are render-blocking and in the same size class as the login screen's own prefetch.
+ *
+ * Handles the current screen has printed or queued are skipped, along with their dependencies, so
+ * each context only fetches what it is actually adding. On the login screen this runs in the
+ * footer, since some of what the login form loads, such as `user-profile` and the `jquery` it
+ * depends on, is only enqueued after its header has printed. On admin screens it runs in the head,
+ * where the screen's assets have been enqueued already.
+ *
+ * These are resources for the *next* navigation rather than for the screen printing them, which is
+ * what `rel="prefetch"` describes. `rel="preload"` would fetch them at the current document's
+ * priority, and browsers warn about preloaded resources the document never uses. A prefetch is
+ * already dispatched at the browser's lowest priority, so it stays out of the way of that screen's
+ * own render-blocking assets without needing `fetchpriority`.
+ *
+ * A prefetched response is reused only for as long as the HTTP cache considers it fresh, the same as
+ * any other cached response. Core does not send caching headers for its static files, so how long
+ * that is depends on the server: an explicit `max-age` or `Expires`, or else a heuristic lifetime
+ * derived from `Last-Modified`. Once the response is stale the next screen still revalidates it,
+ * which saves the download but not the round trip.
+ *
+ * The `as` attribute is still worth setting: it gives the request the same destination the admin
+ * screen will later ask for, which is what lets the prefetched response be reused.
+ *
+ * The admin-wide handles cover every admin screen rather than only the Dashboard, so that part of
+ * the list does not vary with where the login lands. They are printed on every screen of the login
+ * page, such as the password reset form, since those mostly lead to the admin as well. Nothing is
+ * printed at all when `redirect_to` points outside this site's admin.
+ *
+ * Nothing is printed when the next screen will concatenate its assets, since `load-scripts.php`
+ * and `load-styles.php` already collapse these handles into a handful of requests.
+ *
+ * @since 7.2.0
+ *
+ * @see wp_preload_resources()
+ * @see wp_should_concatenate_admin_scripts()
+ *
+ * @global bool           $concatenate_scripts Whether scripts and styles are concatenated.
+ * @global WP_Screen|null $current_screen      The current admin screen, if any.
+ */
+function wp_prefetch_admin_assets(): void {
+	global $concatenate_scripts, $current_screen;
+
+	/*
+	 * The context is told apart by the request rather than by the hook this runs on, so it works
+	 * from whichever hook it is added to. The 'login_init' action is fired by wp-login.php however
+	 * it is reached, which is also how script_concat_settings() recognizes it. The is_login()
+	 * function would not do: it compares the login URL with the script handling the request, and a
+	 * plugin serving the login screen at a URL of its own runs wp-login.php from another script,
+	 * such as index.php.
+	 */
+	$on_login = (bool) did_action( 'login_init' );
+
+	if ( $on_login ) {
+		/*
+		 * Deliberately not the $concatenate_scripts global: script_concat_settings() often runs on a
+		 * login request before 'login_init' fires — anything registering a script on 'init' is enough
+		 * to trigger it — and at that point it evaluates is_admin() as false and settles the global on
+		 * false whatever the constant says. What matters here is what the admin screen this login
+		 * leads to will do, which is what wp_should_concatenate_admin_scripts() predicts.
+		 */
+		if ( wp_should_concatenate_admin_scripts() ) {
+			return;
+		}
+	} else {
+		/*
+		 * From the Dashboard and the post list tables, the editor is the usual next stop. Anywhere
+		 * else in the admin there is no destination worth guessing at.
+		 *
+		 * The global is read rather than calling get_current_screen(), which only exists once the
+		 * admin includes are loaded. On a request with no screen, such as one for the front end,
+		 * this prints nothing.
+		 */
+		if ( ! $current_screen instanceof WP_Screen || ! in_array( $current_screen->base, array( 'dashboard', 'edit' ), true ) ) {
+			return;
+		}
+
+		/*
+		 * On an admin screen the global has settled by the time its head is printed, and the editor
+		 * will be served the same way.
+		 */
+		script_concat_settings();
+
+		if ( $concatenate_scripts ) {
+			return;
+		}
+	}
+
+	$script_roots = array();
+	$style_roots  = array();
+
+	if ( $on_login ) {
+		/*
+		 * Resolve where the login is going to land, the same way wp-login.php will: `redirect_to`
+		 * when one was given, and the admin otherwise. wp_safe_redirect() sends the browser to what
+		 * wp_validate_redirect() returns, so that is used here as it is: it sanitizes the value,
+		 * resolves a relative path against the current request, as the browser would, and falls back
+		 * to the admin for a value pointing off-host. Passing the value through esc_url_raw() first
+		 * would not match it, since that takes a relative path such as `wp-admin/post.php` for a host.
+		 *
+		 * This runs on every screen wp-login.php prints, not only the login form, since the others
+		 * mostly lead to the admin as well, and each one gives the prefetching another chance to
+		 * finish before the user gets there. The password reset and registration flows end at the
+		 * login form, and the admin email confirmation follows a login that has already succeeded.
+		 * On the lost password and registration screens, `redirect_to` is where submitting the
+		 * form goes rather than where the login lands, but it is normally absent, and when it is
+		 * not, it typically points back into wp-login.php, so nothing is prefetched. Nor does an
+		 * interim login need to be excluded: it shows inside a modal on an admin screen that has
+		 * already loaded these assets, so they are served from the HTTP cache.
+		 *
+		 * An empty `redirect_to` counts as none, since wp-login.php falls back to the admin for it
+		 * too. The lost password form submits one, for instance, so it is present when the form is
+		 * shown again with an error.
+		 */
+		$admin_url   = admin_url();
+		$next_screen = $admin_url;
+
+		if ( ! empty( $_REQUEST['redirect_to'] ) && is_string( $_REQUEST['redirect_to'] ) ) {
+			$next_screen = wp_validate_redirect( wp_unslash( $_REQUEST['redirect_to'] ), $admin_url );
+		}
+
+		/*
+		 * When the login lands somewhere other than the admin, such as the front end or a plugin's
+		 * own screen, none of these assets are wanted. The admin's path ends in a slash, which a
+		 * `redirect_to` of the admin itself may leave off, as in `/wp-admin`.
+		 */
+		$admin_path = (string) wp_parse_url( $admin_url, PHP_URL_PATH );
+
+		if ( '' === $admin_path || ! str_starts_with( trailingslashit( (string) wp_parse_url( $next_screen, PHP_URL_PATH ) ), $admin_path ) ) {
+			return;
+		}
+
+		/*
+		 * Nor are they when it lands in the admin of another host. wp_validate_redirect() accepts any
+		 * host in 'allowed_redirect_hosts', such as another site on a multisite network, and that
+		 * admin would request its assets from its own host rather than from this one. The same goes
+		 * for this host's admin under another scheme, such as an `https` destination from an `http`
+		 * login: the URLs prefetched here take the scheme of the current request, so that admin
+		 * would request different ones. A relative `redirect_to` stays on this host and scheme, while
+		 * wp_validate_redirect() gives a protocol-relative one the `http` scheme, which is where
+		 * wp_safe_redirect() then sends it. A port is compared with the scheme's default filled in
+		 * when none is given, since `https://example.com:443/` is the same admin as
+		 * `https://example.com/`.
+		 */
+		$next_screen_host = wp_parse_url( $next_screen, PHP_URL_HOST );
+
+		if ( is_string( $next_screen_host ) ) {
+			$default_ports = array(
+				'http'  => 80,
+				'https' => 443,
+			);
+
+			$admin_scheme       = strtolower( (string) wp_parse_url( $admin_url, PHP_URL_SCHEME ) );
+			$next_screen_scheme = strtolower( (string) wp_parse_url( $next_screen, PHP_URL_SCHEME ) );
+			$admin_port         = wp_parse_url( $admin_url, PHP_URL_PORT ) ?? $default_ports[ $admin_scheme ] ?? null;
+			$next_screen_port   = wp_parse_url( $next_screen, PHP_URL_PORT ) ?? $default_ports[ $next_screen_scheme ] ?? null;
+
+			if (
+				strtolower( $next_screen_host ) !== strtolower( (string) wp_parse_url( $admin_url, PHP_URL_HOST ) ) ||
+				$next_screen_scheme !== $admin_scheme ||
+				$next_screen_port !== $admin_port
+			) {
+				return;
+			}
+		}
+	} else {
+		$post_type        = ( 'edit' === $current_screen->base && $current_screen->post_type ) ? $current_screen->post_type : 'post';
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( ! $post_type_object instanceof WP_Post_Type ) {
+			return;
+		}
+
+		/*
+		 * A user who cannot edit posts of this type will never reach the editor from here. This is
+		 * `edit_posts` rather than `create_posts`, since the editor is reached by opening an existing
+		 * post as well as by adding a new one, and a user may be able to do the first but not the
+		 * second. Adding a new one requires `edit_posts` too.
+		 */
+		if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+			return;
+		}
+
+		$next_screen = add_query_arg( 'post_type', $post_type, admin_url( 'post-new.php' ) );
+	}
+
+	if ( $on_login ) {
+		/*
+		 * The handles that block rendering on every admin screen: the stylesheets, and the scripts
+		 * printed in the head. These are what stand between the redirect and the first paint, so
+		 * they are what is worth having in the cache already. Every handle these expand to loads on
+		 * all admin screens, not just the one the login happens to land on, so the list does not depend
+		 * on the destination. Screen-specific handles are deliberately left out: `site-health`
+		 * blocks rendering on the Dashboard but loads nowhere else.
+		 *
+		 * Scripts printed in the footer are left out even though they block DOMContentLoaded, since
+		 * they do not hold back the first paint. They are also where the bulk of the admin's bytes
+		 * are, largely the command palette's dependencies, and a prefetch of them still in flight
+		 * when the login form is submitted competes with the admin screen's own render-blocking
+		 * stylesheets and delays its first paint on a slow connection.
+		 *
+		 * These are roots rather than the full set: everything they depend on is pulled in with them
+		 * below, so the set follows the dependencies declared in wp_default_scripts() and
+		 * wp_default_styles(). `jquery` stands for `jquery-core` and `jquery-migrate`, and `wp-admin`
+		 * for the admin's own stylesheets, which is what the `colors` handle enqueued on every admin
+		 * screen depends on. Aliases like these have no source of their own, so only what they expand
+		 * to is prefetched. `colors` itself is left out, since the color scheme is a per-user setting
+		 * and the user is not known yet.
+		 *
+		 * Each root mirrors an enqueue elsewhere, which carries a note pointing back here: `common`
+		 * (for `jquery`) in wp-admin/admin.php, `colors` (for `wp-admin` and `buttons`) and `utils` in
+		 * wp-admin/admin-header.php, `admin-bar` in WP_Admin_Bar::initialize(), `wp-auth-check` in
+		 * wp_auth_check_load(), and `wp-commands` in wp_enqueue_command_palette_assets().
+		 */
+		$script_roots = array(
+			'jquery',
+			'utils',
+		);
+
+		$style_roots = array(
+			'wp-admin',
+			'buttons',
+			'admin-bar',
+			'wp-auth-check',
+			'wp-commands',
+		);
+	}
+
+	/*
+	 * post-new.php always opens the editor, while post.php also handles trashing, restoring and
+	 * bulk edits, so it counts only when it is editing.
+	 */
+	$next_screen_file  = basename( (string) wp_parse_url( $next_screen, PHP_URL_PATH ) );
+	$next_screen_query = array();
+	wp_parse_str( (string) wp_parse_url( $next_screen, PHP_URL_QUERY ), $next_screen_query );
+
+	$next_screen_is_block_editor = 'post-new.php' === $next_screen_file
+		|| ( 'post.php' === $next_screen_file && 'edit' === ( $next_screen_query['action'] ?? '' ) );
+
+	if ( $next_screen_is_block_editor ) {
+		/*
+		 * The editor only loads these stylesheets when the post type uses the block editor, which
+		 * the classic editor, for instance, can turn off. The post type is the one in the query of
+		 * the next screen, as for post-new.php. An edit link to post.php from the login screen does
+		 * not carry one, so it is taken to be a post: looking the post up instead would let anyone
+		 * tell from the login screen whether a post with a given ID exists, drafts and private posts
+		 * included.
+		 */
+		$next_screen_post_type       = $next_screen_query['post_type'] ?? 'post';
+		$next_screen_is_block_editor = is_string( $next_screen_post_type ) && use_block_editor_for_post_type( $next_screen_post_type );
+	}
+
+	if ( $next_screen_is_block_editor ) {
+		/*
+		 * Roots as well, expanded along with any from the login screen. `wp-edit-post` alone accounts
+		 * for most of the editor chrome, including the block editor's content and reset styles by way
+		 * of `wp-edit-blocks`; the rest cover the block directory, the format library, the classic
+		 * editor's buttons and the media modal.
+		 *
+		 * Each root mirrors an enqueue elsewhere, which carries a note pointing back here:
+		 * `wp-edit-post` in wp-admin/edit-form-blocks.php, `wp-block-directory` in
+		 * wp_enqueue_editor_block_directory_assets(), `wp-format-library` in
+		 * wp_enqueue_editor_format_library_assets(), `editor-buttons` in
+		 * _WP_Editors::enqueue_default_editor(), and `media-views` and `imgareaselect` in
+		 * wp_enqueue_media().
+		 */
+		$style_roots = array_merge(
+			$style_roots,
+			array(
+				'wp-edit-post',
+				'wp-block-directory',
+				'wp-format-library',
+				'editor-buttons',
+				'media-views',
+				'imgareaselect',
+			)
+		);
+	}
+
+	// From an admin screen, nothing is left to prefetch when the editor turns out not to be the block editor.
+	if ( ! $script_roots && ! $style_roots ) {
+		return;
+	}
+
+	$resources = array();
+
+	foreach (
+		array(
+			'script' => array( wp_scripts(), $script_roots ),
+			'style'  => array( wp_styles(), $style_roots ),
+		)
+		as $as => list( $dependencies, $roots )
+	) {
+		// Skip a type with nothing to prefetch, such as scripts for the editor, rather than expanding the current screen's queue of it.
+		if ( ! $roots ) {
+			continue;
+		}
+
+		/*
+		 * Expand the roots to include everything they depend on, roots first, and likewise what the
+		 * current screen has queued. A handle that is not registered is dropped along with its
+		 * dependencies. Unlike WP_Dependencies::all_deps(), this leaves the dependencies' state
+		 * untouched.
+		 */
+		$expanded = array(
+			'roots' => array(),
+			'queue' => array(),
+		);
+
+		foreach (
+			array(
+				'roots' => $roots,
+				'queue' => $dependencies->queue,
+			)
+			as $list => $handles
+		) {
+			while ( $handles ) {
+				$handle = array_shift( $handles );
+
+				if ( isset( $expanded[ $list ][ $handle ] ) || ! isset( $dependencies->registered[ $handle ] ) ) {
+					continue;
+				}
+
+				$expanded[ $list ][ $handle ] = true;
+
+				foreach ( $dependencies->registered[ $handle ]->deps as $dependency ) {
+					if ( is_string( $dependency ) && '' !== $dependency && ! isset( $expanded[ $list ][ $dependency ] ) ) {
+						$handles[] = $dependency;
+					}
+				}
+			}
+		}
+
+		/*
+		 * Whichever screen this is running on shares some of these handles, and the browser fetches
+		 * those for it anyway, so prefetching them as well would only compete with its own requests.
+		 * These are the ones it has printed, and the ones it has queued along with their
+		 * dependencies, which it has yet to print if this runs before its footer scripts. On the
+		 * login screen, for instance, `user-profile` brings in `jquery`.
+		 */
+		$on_current_screen = $expanded['queue'] + array_fill_keys( $dependencies->done, true );
+
+		foreach ( array_keys( $expanded['roots'] ) as $handle ) {
+			if ( isset( $on_current_screen[ $handle ] ) ) {
+				continue;
+			}
+
+			// The next screen prints nothing for a handle with conditional data, as do_item() returns early for it.
+			if ( $dependencies->registered[ $handle ]->extra['conditional'] ?? false ) {
+				continue;
+			}
+
+			/*
+			 * The URLs are built the same way WP_Scripts::do_item() and WP_Styles::do_item() build
+			 * those in the tags they print, so they match what the next screen will request. They are
+			 * not escaped yet, so the filter sees plain URLs; they are escaped when printed.
+			 *
+			 * A handle with no URL of its own, such as an alias or one whose URL was filtered away,
+			 * prints nothing either, and for a style that includes its right-to-left stylesheet,
+			 * since WP_Styles::do_item() returns before getting to it.
+			 */
+			$src = $dependencies->get_src( $handle );
+
+			if ( '' === $src ) {
+				continue;
+			}
+
+			$urls = array( $src );
+
+			if ( $dependencies instanceof WP_Styles ) {
+				$rtl_src = $dependencies->get_rtl_src( $handle );
+
+				if ( null !== $rtl_src ) {
+					if ( 'replace' === $dependencies->get_data( $handle, 'rtl' ) ) {
+						$urls = array( $rtl_src );
+					} else {
+						$urls[] = $rtl_src;
+					}
+				}
+			}
+
+			foreach ( array_filter( $urls ) as $url ) {
+				$resources[] = array(
+					'href' => $url,
+					'as'   => $as,
+				);
+			}
+		}
+	}
+
+	/**
+	 * Filters the assets prefetched for the screen the user is expected to open next.
+	 *
+	 * Fires on any screen from which the next one can be predicted, so `$next_screen` is what
+	 * distinguishes the contexts: the login screen passes the URL it is about to redirect to, and
+	 * the Dashboard and post list tables pass the editor they expect the user to open.
+	 *
+	 * Only the `href` and `as` attributes below are printed; any other key is ignored. Resources
+	 * sharing an `href` are collapsed to the first of them, so a callback may append without
+	 * checking what is already there. Returning an empty array turns the prefetching off.
+	 *
+	 * On the login screen the URLs are built before the user is authenticated and outside the
+	 * admin, so there is no current user and `is_admin()` is false. A {@see 'script_loader_src'}
+	 * or {@see 'style_loader_src'} callback that depends on either can produce a URL the admin
+	 * screen will not request, which wastes the prefetch; a callback on this filter can correct it.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param array  $resources {
+	 *     Array of resources and their attributes to prefetch.
+	 *
+	 *     @type array ...$0 {
+	 *         Array of resource attributes.
+	 *
+	 *         @type string $href URL to prefetch. Required.
+	 *         @type string $as   How the browser should treat the resource
+	 *                            (`script`, `style`, `image`, `document`, etc). Required.
+	 *     }
+	 * }
+	 * @param string $next_screen URL of the screen the assets are being prefetched for. Always
+	 *                            points into the admin, since nothing is prefetched otherwise.
+	 *                            From the login screen this is the redirect target, already run
+	 *                            through wp_validate_redirect() with the admin as the fallback,
+	 *                            and it may be relative: it is the value as wp_safe_redirect()
+	 *                            will receive it, so a request-supplied path is passed through
+	 *                            unchanged and only the fallback is a full URL.
+	 */
+	$resources = apply_filters( 'wp_prefetch_admin_assets', $resources, $next_screen );
+
+	if ( ! is_array( $resources ) ) {
+		return;
+	}
+
+	$unique_resources = array();
+
+	// Parse the complete resource list and extract unique resources.
+	foreach ( $resources as $resource ) {
+		if ( ! is_array( $resource ) ) {
+			continue;
+		}
+
+		$href = $resource['href'] ?? '';
+		$as   = $resource['as'] ?? '';
+
+		if ( ! is_string( $href ) || '' === $href || ! is_string( $as ) || '' === $as ) {
+			continue;
+		}
+
+		/*
+		 * Check again once escaped, since esc_url() returns an empty string for a URL it rejects.
+		 * An empty `href` would resolve to the current page, which the script below would then fetch.
+		 * Only `http` and `https` URLs are allowed, as wp_preload_resources() does, since nothing else
+		 * can be prefetched, and the script would pass anything else to fetch().
+		 */
+		$href = esc_url( $href, array( 'http', 'https' ) );
+
+		if ( '' === $href || isset( $unique_resources[ $href ] ) ) {
+			continue;
+		}
+
+		$unique_resources[ $href ] = $as;
+	}
+
+	if ( ! $unique_resources ) {
+		return;
+	}
+
+	// Build and output the HTML for each unique resource. Each URL has already been escaped.
+	foreach ( $unique_resources as $escaped_href => $as ) {
+		printf(
+			"<link rel='prefetch' href='%s' as='%s' />\n",
+			$escaped_href,
+			esc_attr( $as )
+		);
+	}
+
+	/*
+	 * Safari does not support `rel="prefetch"`, so in browsers that lack it, fetch the URLs of the
+	 * page's prefetch links with fetch() instead, to put the responses in the HTTP cache all the
+	 * same. Reading the links from the page, rather than passing their URLs to the script, keeps a
+	 * single list of them, and also covers any prefetch links added by plugins. The fetches wait
+	 * until the current screen has loaded, and ask for low priority, so they stay out of the way
+	 * of its own assets. Unlike a prefetch link, a fetch still in flight is canceled when the user
+	 * navigates away, so it cannot compete with the next screen's render-blocking assets.
+	 *
+	 * The requests use `no-cors` mode and include credentials, as the stylesheet and script
+	 * requests of the next screen do, so the cached responses match what that screen will ask for.
+	 * The body is read to completion so that the full response is cached.
+	 */
+	$js_function = <<<'JS'
+		/**
+		 * Prefetches the page's rel=prefetch links with fetch() in browsers that do not support rel=prefetch.
+		 *
+		 * @see https://caniuse.com/link-rel-prefetch
+		 */
+		() => {
+			if ( document.createElement( 'link' ).relList?.supports?.( 'prefetch' ) ) {
+				return;
+			}
+
+			const prefetch = () => {
+				for ( const link of /** @type {NodeListOf<HTMLLinkElement>} */ ( document.querySelectorAll( 'link[rel~="prefetch"][href]' ) ) ) {
+					fetch( link.href, { mode: 'no-cors', credentials: 'include', priority: 'low' } )
+						.then( ( response ) => response.blob() )
+						.catch( () => {} );
+				}
+			};
+
+			const schedule = () => {
+				if ( 'requestIdleCallback' in window ) {
+					window.requestIdleCallback( prefetch );
+				} else {
+					setTimeout( prefetch, 0 );
+				}
+			};
+
+			if ( 'complete' === document.readyState ) {
+				schedule();
+			} else {
+				window.addEventListener( 'load', schedule, { once: true } );
+			}
+		}
+		JS;
+
+	wp_print_inline_script_tag( "( $js_function )();\n//# sourceURL=" . rawurlencode( __FUNCTION__ ) );
 }
 
 /**
@@ -2916,6 +3496,7 @@ function enqueue_editor_block_styles_assets() {
  */
 function wp_enqueue_editor_block_directory_assets() {
 	wp_enqueue_script( 'wp-block-directory' );
+	// Prefetched for the block editor by wp_prefetch_admin_assets(), which needs updating if this changes.
 	wp_enqueue_style( 'wp-block-directory' );
 }
 
@@ -2926,6 +3507,7 @@ function wp_enqueue_editor_block_directory_assets() {
  */
 function wp_enqueue_editor_format_library_assets() {
 	wp_enqueue_script( 'wp-format-library' );
+	// Prefetched for the block editor by wp_prefetch_admin_assets(), which needs updating if this changes.
 	wp_enqueue_style( 'wp-format-library' );
 }
 
@@ -3607,6 +4189,7 @@ function wp_enqueue_command_palette_assets() {
 	}
 
 	wp_enqueue_script( 'wp-commands' );
+	// Prefetched from the login screen by wp_prefetch_admin_assets(), which needs updating if this changes.
 	wp_enqueue_style( 'wp-commands' );
 	wp_enqueue_script( 'wp-core-commands' );
 

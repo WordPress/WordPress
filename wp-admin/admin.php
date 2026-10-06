@@ -118,6 +118,10 @@ set_screen_options();
 $date_format = __( 'F j, Y' );
 $time_format = __( 'g:i a' );
 
+/*
+ * The `jquery` dependency of this script is prefetched from the login screen by
+ * wp_prefetch_admin_assets(), which needs updating if this changes.
+ */
 wp_enqueue_script( 'common' );
 
 /**

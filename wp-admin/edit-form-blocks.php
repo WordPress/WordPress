@@ -342,6 +342,7 @@ wp_enqueue_editor();
 /**
  * Styles
  */
+// Prefetched for the block editor by wp_prefetch_admin_assets(), which needs updating if this changes.
 wp_enqueue_style( 'wp-edit-post' );
 
 /**
