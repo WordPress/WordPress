@@ -907,6 +907,7 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
  * @return bool|null|WP_Error True on success, false if `$plugins` is empty, `WP_Error` on failure.
  *                            `null` if filesystem credentials are required to proceed.
  *
+ * @phpstan-param '' $deprecated
  * @phpstan-return ( $plugins is empty ? false : true|null|WP_Error )
  */
 function delete_plugins( $plugins, $deprecated = '' ) {

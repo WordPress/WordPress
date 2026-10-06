@@ -420,6 +420,8 @@ class WP_Object_Cache {
 	 * @param string     $group      Optional. Where the cache contents are grouped. Default 'default'.
 	 * @param bool       $deprecated Optional. Unused. Default false.
 	 * @return bool True on success, false if the contents were not deleted.
+	 *
+	 * @phpstan-param false $deprecated
 	 */
 	public function delete( $key, $group = 'default', $deprecated = false ) {
 		if ( ! $this->is_valid_key( $key ) ) {

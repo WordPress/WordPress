@@ -43,6 +43,8 @@ if ( ! function_exists( 'wp_install' ) ) :
 	 *     @type string $password         The password of the site owner, if their user account didn't already exist.
 	 *     @type string $password_message The explanatory message regarding the password.
 	 * }
+	 *
+	 * @phpstan-param '' $deprecated
 	 */
 	function wp_install(
 		$blog_title,

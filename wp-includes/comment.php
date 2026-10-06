@@ -3204,6 +3204,8 @@ function wp_update_comment_count_now( $post_id ) {
  * @param string $url        URL to ping.
  * @param string $deprecated Not Used.
  * @return string|false String containing URI on success, false on failure.
+ *
+ * @phpstan-param '' $deprecated
  */
 function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {

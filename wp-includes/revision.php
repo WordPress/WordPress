@@ -18,6 +18,8 @@
  *                                  for insertion as a post revision. Default empty array.
  * @param bool          $deprecated Not used.
  * @return string[] Array of fields that can be versioned.
+ *
+ * @phpstan-param false $deprecated
  */
 function _wp_post_revision_fields( $post = array(), $deprecated = false ) {
 	static $fields = null;

@@ -2143,6 +2143,8 @@ function _admin_search_query() {
  *
  * @param string $title      Optional. Title of the Iframe page. Default empty.
  * @param bool   $deprecated Not used.
+ *
+ * @phpstan-param false $deprecated
  */
 function iframe_header( $title = '', $deprecated = false ) {
 	global $hook_suffix, $admin_body_class, $body_id, $wp_locale;

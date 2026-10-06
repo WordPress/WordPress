@@ -1025,6 +1025,8 @@ function load_default_textdomain( $locale = null ) {
  * @param string|false $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR where the .mo file resides.
  *                                      Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
+ *
+ * @phpstan-param false $deprecated
  */
 function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path = false ) {
 	/** @var WP_Textdomain_Registry $wp_textdomain_registry */

@@ -456,6 +456,8 @@ function delete_blog_option( $id, $option ) {
  * @param mixed  $value      The option value.
  * @param mixed  $deprecated Not used.
  * @return bool True if the value was updated, false otherwise.
+ *
+ * @phpstan-param null $deprecated
  */
 function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	$id = (int) $id;
@@ -496,6 +498,8 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @param int  $new_blog_id The ID of the blog to switch to. Default: current blog.
  * @param bool $deprecated  Not used.
  * @return true Always returns true.
+ *
+ * @phpstan-param null $deprecated
  */
 function switch_to_blog( $new_blog_id, $deprecated = null ) {
 	global $wpdb;
@@ -819,6 +823,8 @@ function get_blog_status( $id, $pref ) {
  *                          Can be used for pagination. Default 0.
  * @param int   $quantity   Optional. The maximum number of blogs to retrieve. Default 40.
  * @return array The list of blogs.
+ *
+ * @phpstan-param '' $deprecated
  */
 function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	global $wpdb;

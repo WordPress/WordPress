@@ -240,6 +240,8 @@ class WP_Theme_JSON_Resolver {
 	 *     @type bool $with_supports Whether to include theme supports in the data. Default true.
 	 * }
 	 * @return WP_Theme_JSON Entity that holds theme data.
+	 *
+	 * @phpstan-param array{} $deprecated
 	 */
 	public static function get_theme_data( $deprecated = array(), $options = array() ) {
 		if ( ! empty( $deprecated ) ) {

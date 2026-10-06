@@ -1711,6 +1711,8 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
  *                                    prepared for inserting or updating the database.
  * @param WP_REST_Request $deprecated Deprecated. Not used.
  * @return stdClass|WP_Error The updated object representing a template or template part.
+ *
+ * @phpstan-param null $deprecated
  */
 function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated = null ) {
 	if ( null !== $deprecated ) {

@@ -749,6 +749,8 @@ function get_current_user_id() {
  * @param int    $user       Optional. User ID.
  * @param string $deprecated Use get_option() to check for an option in the options table.
  * @return mixed User option value on success, false on failure.
+ *
+ * @phpstan-param '' $deprecated
  */
 function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	global $wpdb;

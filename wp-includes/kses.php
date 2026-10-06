@@ -2629,6 +2629,8 @@ function kses_init() {
  * @param string $css        A string of CSS rules, decoded from an HTML `style` attribute.
  * @param string $deprecated Not used.
  * @return string Filtered string of CSS rules, needing HTML escaping before sending back to a `style` attribute.
+ *
+ * @phpstan-param '' $deprecated
  */
 function safecss_filter_attr( $css, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {

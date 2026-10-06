@@ -893,6 +893,9 @@ function get_comments_link( $post = 0 ) {
  *
  * @param string $deprecated   Not Used.
  * @param string $deprecated_2 Not Used.
+ *
+ * @phpstan-param '' $deprecated
+ * @phpstan-param '' $deprecated_2
  */
 function comments_link( $deprecated = '', $deprecated_2 = '' ) {
 	if ( ! empty( $deprecated ) ) {
@@ -1279,6 +1282,8 @@ function trackback_url( $deprecated_echo = true ) {
  * @since 0.71
  *
  * @param int|string $deprecated Not used (Was $timezone = 0).
+ *
+ * @phpstan-param '' $deprecated
  */
 function trackback_rdf( $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {

@@ -1065,6 +1065,8 @@ function update_option( $option, $value, $autoload = null ) {
  *                              to not autoload them, by using false.
  *                              Default is null, which means WordPress will determine the autoload value.
  * @return bool True if the option was added, false otherwise.
+ *
+ * @phpstan-param '' $deprecated
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = null ) {
 	global $wpdb;
@@ -1930,6 +1932,8 @@ function delete_all_user_settings() {
  * @param mixed  $default_value Optional. Value to return if the option doesn't exist. Default false.
  * @param bool   $deprecated    Whether to use cache. Multisite only. Always set to true.
  * @return mixed Value set for the option.
+ *
+ * @phpstan-param true $deprecated
  */
 function get_site_option( $option, $default_value = false, $deprecated = true ) {
 	return get_network_option( null, $option, $default_value );

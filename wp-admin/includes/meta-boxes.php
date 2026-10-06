@@ -1257,6 +1257,8 @@ function link_target_meta_box( $link ) {
  *                                 if it matches the current link's relationship.
  *                                 Default empty string.
  * @param mixed  $deprecated       Deprecated. Not used.
+ *
+ * @phpstan-param '' $deprecated
  */
 function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 	global $link;

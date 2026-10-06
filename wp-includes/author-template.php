@@ -20,6 +20,8 @@
  *
  * @param string $deprecated Deprecated.
  * @return string The author's display name, empty string if unknown.
+ *
+ * @phpstan-param '' $deprecated
  */
 function get_the_author( $deprecated = '' ) {
 	global $authordata;
@@ -57,6 +59,9 @@ function get_the_author( $deprecated = '' ) {
  * @param string $deprecated      Deprecated.
  * @param bool   $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
  * @return string The author's display name, from get_the_author().
+ *
+ * @phpstan-param '' $deprecated
+ * @phpstan-param true $deprecated_echo
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
 	if ( ! empty( $deprecated ) ) {
@@ -362,6 +367,8 @@ function get_the_author_posts_link() {
  * @since 4.4.0 Converted into a wrapper for get_the_author_posts_link()
  *
  * @param string $deprecated Unused.
+ *
+ * @phpstan-param '' $deprecated
  */
 function the_author_posts_link( $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {

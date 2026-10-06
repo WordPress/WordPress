@@ -43,6 +43,8 @@ function get_category_link( $category ) {
  * @param bool   $nicename    Optional. Whether to use nice name for display. Default false.
  * @param array  $deprecated  Not used.
  * @return string|WP_Error A list of category parents on success, WP_Error on failure.
+ *
+ * @phpstan-param array{} $deprecated
  */
 function get_category_parents( $category_id, $link = false, $separator = '/', $nicename = false, $deprecated = array() ) {
 

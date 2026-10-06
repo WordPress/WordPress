@@ -171,7 +171,7 @@ function is_main_blog() {
  */
 function validate_email( $email, $check_domain = true) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'is_email()' );
-	return is_email( $email, $check_domain );
+	return is_email( $email );
 }
 
 /**

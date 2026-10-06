@@ -1560,6 +1560,8 @@ function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $cs
  * @param string      $deprecated   Not used.
  * @param bool        $force_delete Optional. Whether to bypass Trash and force deletion. Default false.
  * @return string|null The delete post link URL for the given post.
+ *
+ * @phpstan-param '' $deprecated
  */
 function get_delete_post_link( $post = 0, $deprecated = '', $force_delete = false ) {
 	if ( ! empty( $deprecated ) ) {

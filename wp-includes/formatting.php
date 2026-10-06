@@ -2525,6 +2525,8 @@ function sanitize_locale_name( $locale_name ) {
  * @param string $content    String of characters to be converted.
  * @param string $deprecated Not used.
  * @return string Converted string.
+ *
+ * @phpstan-param '' $deprecated
  */
 function convert_chars( $content, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
@@ -3656,6 +3658,8 @@ function convert_smilies( $text ) {
  * @param string $email      Email address to verify.
  * @param bool   $deprecated Deprecated.
  * @return string|false Valid email address on success, false on failure.
+ *
+ * @phpstan-param false $deprecated
  */
 function is_email( $email, $deprecated = false ) {
 	if ( ! empty( $deprecated ) ) {

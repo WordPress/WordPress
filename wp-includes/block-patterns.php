@@ -277,6 +277,8 @@ function wp_normalize_remote_block_pattern( $pattern ) {
  * @since 6.3.0 Add 'pattern-directory/core' to the pattern's 'source'.
  *
  * @param WP_Screen $deprecated Unused. Formerly the screen that the current request was triggered from.
+ *
+ * @phpstan-param null $deprecated
  */
 function _load_remote_block_patterns( $deprecated = null ) {
 	if ( ! empty( $deprecated ) ) {

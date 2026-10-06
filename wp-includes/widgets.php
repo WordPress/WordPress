@@ -1018,6 +1018,8 @@ function is_active_sidebar( $index ) {
  *
  * @param bool $deprecated Not used (argument deprecated).
  * @return array Upgraded list of widgets to version 3 array format when called from the admin.
+ *
+ * @phpstan-param true $deprecated
  */
 function wp_get_sidebars_widgets( $deprecated = true ) {
 	if ( true !== $deprecated ) {
