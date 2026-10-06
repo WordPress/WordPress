@@ -77,7 +77,6 @@ class WP_oEmbed {
 			'#https?://(www\.)?soundcloud\.com/.*#i'       => array( 'https://soundcloud.com/oembed', true ),
 			'#https?://(.+?\.)?slideshare\.net/.*#i'       => array( 'https://www.slideshare.net/api/oembed/2', true ),
 			'#https?://(open|play)\.spotify\.com/.*#i'     => array( 'https://embed.spotify.com/oembed/', true ),
-			'#https?://(.+\.)?imgur\.com/.*#i'             => array( 'https://api.imgur.com/oembed', true ),
 			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'    => array( 'https://issuu.com/oembed_wp', true ),
 			'#https?://(www\.)?mixcloud\.com/.*#i'         => array( 'https://app.mixcloud.com/oembed/', true ),
 			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i' => array( 'https://www.ted.com/services/v1/oembed.{format}', true ),
@@ -150,7 +149,6 @@ class WP_oEmbed {
 		 * | Dailymotion  | dai.ly                                    | 3.6.0   |
 		 * | Flickr       | flic.kr                                   | 3.6.0   |
 		 * | Spotify      | spotify.com                               | 3.6.0   |
-		 * | Imgur        | imgur.com                                 | 3.9.0   |
 		 * | Animoto      | animoto.com                               | 4.0.0   |
 		 * | Animoto      | video214.com                              | 4.0.0   |
 		 * | Issuu        | issuu.com                                 | 4.0.0   |
@@ -210,6 +208,7 @@ class WP_oEmbed {
 		 * | Facebook     | facebook.com         | 4.7.0     | 5.5.2     |
 		 * | Meetup.com   | meetup.com           | 3.9.0     | 6.0.1     |
 		 * | Meetup.com   | meetu.ps             | 3.9.0     | 6.0.1     |
+		 * | Imgur        | imgur.com            | 3.9.0     | 7.1.3     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
