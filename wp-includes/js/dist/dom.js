@@ -99,6 +99,18 @@ var wp;
     ].join(",");
   }
   function isVisible(element) {
+    if (typeof element.checkVisibility === "function") {
+      if (!element.checkVisibility({ visibilityProperty: true })) {
+        return false;
+      }
+    } else {
+      const visibility = element.ownerDocument.defaultView?.getComputedStyle(
+        element
+      ).visibility;
+      if (visibility === "hidden" || visibility === "collapse") {
+        return false;
+      }
+    }
     return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
   }
   function isValidFocusableArea(element) {

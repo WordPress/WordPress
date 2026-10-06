@@ -287,7 +287,7 @@
 			'wp-private-apis',
 			'wp-style-engine'
 		),
-		'version' => '68563009a3346a87bfa0'
+		'version' => 'c47585d95b153150f9ca'
 	),
 	'route/index.js' => array(
 		'dependencies' => array(
@@ -347,14 +347,22 @@
 			'react-dom',
 			'react-jsx-runtime',
 			'wp-components',
+			'wp-compose',
 			'wp-data',
 			'wp-element',
 			'wp-i18n',
 			'wp-keyboard-shortcuts',
 			'wp-keycodes',
-			'wp-primitives'
+			'wp-primitives',
+			'wp-private-apis',
+			'wp-theme',
+			'wp-warning'
 		),
 		'module_dependencies' => array(
+			array(
+				'id' => '@wordpress/a11y',
+				'import' => 'static'
+			),
 			array(
 				'id' => '@wordpress/abilities',
 				'import' => 'static'
@@ -364,6 +372,6 @@
 				'import' => 'dynamic'
 			)
 		),
-		'version' => '7a2d585edd951178791a'
+		'version' => 'ae47f7969209ea3ca721'
 	)
 );

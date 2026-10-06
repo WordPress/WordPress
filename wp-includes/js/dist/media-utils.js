@@ -16420,7 +16420,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle2("59353631d1", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._96e6251aad1a6136__badge{border-radius:var(--wpds-border-radius-lg,8px);padding-block:var(--wpds-dimension-padding-xs,4px);padding-inline:var(--wpds-dimension-padding-sm,8px)}._99f7158cb520f750__is-high-intent{background-color:var(--wpds-color-background-surface-error,#f7e6e3);color:var(--wpds-color-foreground-content-error,#470000)}.c20ebef2365bc8b7__is-medium-intent{background-color:var(--wpds-color-background-surface-warning,#fae8c8);color:var(--wpds-color-foreground-content-warning,#2e1900)}._365e1626c6202e52__is-low-intent{background-color:var(--wpds-color-background-surface-caution,#ffea8f);color:var(--wpds-color-foreground-content-caution,#281d00)}._33f8198127ddf4ef__is-stable-intent{background-color:var(--wpds-color-background-surface-success,#ccf4d2);color:var(--wpds-color-foreground-content-success,#002900)}._04c1aca8fc449412__is-informational-intent{background-color:var(--wpds-color-background-surface-info,#e0ebf8);color:var(--wpds-color-foreground-content-info,#001b4f)}._90726e69d495ec19__is-draft-intent{background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}._898f4a544993bd39__is-none-intent{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);padding-block:calc(var(--wpds-dimension-padding-xs, 4px) - var(--wpds-border-width-xs, 1px));padding-inline:calc(var(--wpds-dimension-padding-sm, 8px) - var(--wpds-border-width-xs, 1px))}}}");
+    registerStyle2("40ea4a6382", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._96e6251aad1a6136__badge{border-radius:var(--wpds-border-radius-lg,8px);padding-block:var(--wpds-dimension-padding-xs,4px);padding-inline:var(--wpds-dimension-padding-sm,8px)}._99f7158cb520f750__is-high-intent{background-color:var(--wpds-color-background-surface-error,#fae5e1);color:var(--wpds-color-foreground-content-error,#470000)}.c20ebef2365bc8b7__is-medium-intent{background-color:var(--wpds-color-background-surface-warning,#fde6be);color:var(--wpds-color-foreground-content-warning,#2e1900)}._365e1626c6202e52__is-low-intent{background-color:var(--wpds-color-background-surface-caution,#fee995);color:var(--wpds-color-foreground-content-caution,#281d00)}._33f8198127ddf4ef__is-stable-intent{background-color:var(--wpds-color-background-surface-success,#c2f8ca);color:var(--wpds-color-foreground-content-success,#002900)}._04c1aca8fc449412__is-informational-intent{background-color:var(--wpds-color-background-surface-info,#deebfa);color:var(--wpds-color-foreground-content-info,#001b4f)}._90726e69d495ec19__is-draft-intent{background-color:var(--wpds-color-background-surface-neutral-weak,#f4f4f4);color:var(--wpds-color-foreground-content-neutral,#1e1e1e)}._898f4a544993bd39__is-none-intent{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);border:var(--wpds-border-width-xs,1px) solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);color:var(--wpds-color-foreground-content-neutral,#1e1e1e);padding-block:calc(var(--wpds-dimension-padding-xs, 4px) - var(--wpds-border-width-xs, 1px));padding-inline:calc(var(--wpds-dimension-padding-sm, 8px) - var(--wpds-border-width-xs, 1px))}}}");
   }
   var style_default2 = { "badge": "_96e6251aad1a6136__badge", "is-high-intent": "_99f7158cb520f750__is-high-intent", "is-medium-intent": "c20ebef2365bc8b7__is-medium-intent", "is-low-intent": "_365e1626c6202e52__is-low-intent", "is-stable-intent": "_33f8198127ddf4ef__is-stable-intent", "is-informational-intent": "_04c1aca8fc449412__is-informational-intent", "is-draft-intent": "_90726e69d495ec19__is-draft-intent", "is-none-intent": "_898f4a544993bd39__is-none-intent" };
   var Badge = (0, import_element16.forwardRef)(function Badge2({ intent = "none", className, ...props }, ref) {
@@ -26792,6 +26792,7 @@ var wp;
     value,
     hoveredDate,
     excludeDisabled,
+    resetOnSelect,
     min: min3,
     max: max3,
     disabled: disabled2
@@ -26799,6 +26800,12 @@ var wp;
     return (0, import_element53.useMemo)(() => {
       if (!hoveredDate || !value?.from) {
         return;
+      }
+      if (resetOnSelect && value.to) {
+        return {
+          from: hoveredDate,
+          to: hoveredDate
+        };
       }
       let previewHighlight;
       let potentialNewRange;
@@ -26855,7 +26862,15 @@ var wp;
         };
       }
       return previewHighlight;
-    }, [value, hoveredDate, excludeDisabled, min3, max3, disabled2]);
+    }, [
+      value,
+      hoveredDate,
+      excludeDisabled,
+      resetOnSelect,
+      min3,
+      max3,
+      disabled2
+    ]);
   }
   var RangeCalendar = (0, import_element53.forwardRef)(
     function RangeCalendar2({
@@ -26864,6 +26879,7 @@ var wp;
       onValueChange,
       numberOfMonths = 1,
       excludeDisabled,
+      resetOnSelect = true,
       min: min3,
       max: max3,
       disabled: disabled2,
@@ -26909,6 +26925,7 @@ var wp;
         value: selected,
         hoveredDate,
         excludeDisabled,
+        resetOnSelect,
         min: min3,
         max: max3,
         disabled: disabled2
@@ -26941,6 +26958,7 @@ var wp;
           numberOfMonths: clampNumberOfMonths(numberOfMonths),
           disabled: disabled2,
           excludeDisabled,
+          resetOnSelect,
           min: min3,
           max: max3,
           labels,
@@ -27657,7 +27675,7 @@ var wp;
   }
   var global_css_defense_default8 = { "button": "_6defc79820e382c6__button", "input": "d2cff2e5dea83bd1__input", "textarea": "_547d86373d02e108__textarea", "div": "_8c15fd0ed9f28ba4__div", "p": "_43cec3e1eec1066d__p", "heading": "e97669c6d9a38497__heading", "a": "_2c0831b0499dbd6e__a", "ol": "c59a0ebebd71fa4a__ol", "li": "_46b5cb0c8e24e8c9__li" };
   if (typeof process === "undefined" || true) {
-    registerStyle31("bd510b0d40", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._7a7ac88e306348e7__indicator{--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);align-items:flex-start;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);gap:var(--wpds-dimension-gap-xs,4px);line-height:var(--wpds-typography-line-height-xs,16px);@media not (prefers-reduced-motion){animation:_48722cc5dd090ce4__indicator-jump var(--wpds-motion-duration-md,.2s) cubic-bezier(.68,-.55,.27,1.55)}}._57a3bbbfbe38a5c6__is-invalid{color:var(--wpds-color-foreground-content-error-weak,#cc1818)}._9e944dc198aac10b__is-valid{color:var(--wpds-color-foreground-content-success-weak,#007f2f)}.e482806667437c6a__indicator-icon{flex-shrink:0}._6e46434cc23019d2__indicator-spinner{height:var(--wpds-dimension-size-3xs,12px);margin:2px;width:var(--wpds-dimension-size-3xs,12px)}@keyframes _48722cc5dd090ce4__indicator-jump{0%{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}}}');
+    registerStyle31("d11816833c", '@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{._7a7ac88e306348e7__indicator{--_gcd-p-font-size:var(--wpds-typography-font-size-sm,12px);--_gcd-p-line-height:var(--wpds-typography-line-height-xs,16px);align-items:flex-start;color:var(--wpds-color-foreground-content-neutral-weak,#707070);display:flex;font-family:var(--wpds-typography-font-family-body,-apple-system,system-ui,"Segoe UI","Roboto","Oxygen-Sans","Ubuntu","Cantarell","Helvetica Neue",sans-serif);font-size:var(--wpds-typography-font-size-sm,12px);gap:var(--wpds-dimension-gap-xs,4px);line-height:var(--wpds-typography-line-height-xs,16px);@media not (prefers-reduced-motion){animation:_48722cc5dd090ce4__indicator-jump var(--wpds-motion-duration-md,.2s) cubic-bezier(.68,-.55,.27,1.55)}}._57a3bbbfbe38a5c6__is-invalid{color:var(--wpds-color-foreground-content-error-weak,#cc1818)}._9e944dc198aac10b__is-valid{color:var(--wpds-color-foreground-content-success-weak,#008030)}.e482806667437c6a__indicator-icon{flex-shrink:0}._6e46434cc23019d2__indicator-spinner{height:var(--wpds-dimension-size-3xs,12px);margin:2px;width:var(--wpds-dimension-size-3xs,12px)}@keyframes _48722cc5dd090ce4__indicator-jump{0%{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}}}');
   }
   var style_default30 = { "indicator": "_7a7ac88e306348e7__indicator", "indicator-jump": "_48722cc5dd090ce4__indicator-jump", "is-invalid": "_57a3bbbfbe38a5c6__is-invalid", "is-valid": "_9e944dc198aac10b__is-valid", "indicator-icon": "e482806667437c6a__indicator-icon", "indicator-spinner": "_6e46434cc23019d2__indicator-spinner" };
   var ICON = {
@@ -45061,6 +45079,13 @@ If there's a particular need for this, please submit a feature request at https:
     );
     return { ...view, filters: [...locked, ...rest] };
   }
+  function getApplicablePersistedView(persistedView, defaultLayouts2) {
+    if (!persistedView || persistedView.type === void 0 || !defaultLayouts2 || defaultLayouts2[persistedView.type]) {
+      return persistedView;
+    }
+    const { type, ...rest } = persistedView;
+    return Object.keys(rest).length > 0 ? rest : void 0;
+  }
   function resolveBaseView(layers, effectiveType) {
     const { defaultView: defaultView2, defaultLayouts: defaultLayouts2, activeViewOverrides } = layers;
     const layoutDefaults = defaultLayouts2?.[effectiveType];
@@ -45073,7 +45098,11 @@ If there's a particular need for this, please submit a feature request at https:
     );
   }
   function resolveView(args) {
-    const { defaultView: defaultView2, activeViewOverrides, persistedView, page, search } = args;
+    const { defaultView: defaultView2, defaultLayouts: defaultLayouts2, activeViewOverrides, page, search } = args;
+    const persistedView = getApplicablePersistedView(
+      args.persistedView,
+      defaultLayouts2
+    );
     const effectiveType = persistedView?.type ?? activeViewOverrides?.type ?? defaultView2?.type;
     const baseView = resolveBaseView(args, effectiveType);
     const view = {
@@ -45087,7 +45116,11 @@ If there's a particular need for this, please submit a feature request at https:
     return view;
   }
   function getUserModifications(newView, layers) {
-    const { activeViewOverrides, persistedView } = layers;
+    const { defaultLayouts: defaultLayouts2, activeViewOverrides } = layers;
+    const persistedView = getApplicablePersistedView(
+      layers.persistedView,
+      defaultLayouts2
+    );
     const baseView = resolveBaseView(layers, newView.type);
     const modifications = diffLayer(
       withoutQueryParams(newView),
@@ -45146,7 +45179,11 @@ If there's a particular need for this, please submit a feature request at https:
         search
       ]
     );
-    const isModified = !!persistedView && Object.keys(persistedView).length > 0;
+    const applicablePersistedView = getApplicablePersistedView(
+      persistedView,
+      defaultLayouts2
+    );
+    const isModified = !!applicablePersistedView && Object.keys(applicablePersistedView).length > 0;
     const updateView = (0, import_element140.useCallback)(
       (newView) => {
         const newQueryParams = {

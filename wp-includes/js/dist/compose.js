@@ -2051,6 +2051,15 @@ var wp;
     const callbackEvent = useEvent(callback);
     const observedElementRef = (0, import_element22.useRef)(null);
     const resizeObserverRef = (0, import_element22.useRef)(void 0);
+    (0, import_element22.useEffect)(() => {
+      if (observedElementRef.current) {
+        resizeObserverRef.current?.observe(
+          observedElementRef.current,
+          resizeObserverOptions
+        );
+      }
+      return () => resizeObserverRef.current?.disconnect();
+    }, []);
     return useEvent((element) => {
       if (element === observedElementRef.current) {
         return;

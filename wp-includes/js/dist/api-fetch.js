@@ -349,9 +349,16 @@ var wp;
 
   // packages/api-fetch/build-module/utils/response.mjs
   var import_i18n = __toESM(require_i18n(), 1);
-  async function parseJsonAndNormalizeError(response) {
+  async function parseJsonAndNormalizeError(response, allowEmptyBody = false) {
     try {
-      return await response.json();
+      if (typeof response.text !== "function") {
+        return await response.json();
+      }
+      const text = await response.text();
+      if (allowEmptyBody && text === "") {
+        return null;
+      }
+      return JSON.parse(text);
     } catch {
       throw {
         code: "invalid_json",
@@ -366,7 +373,7 @@ var wp;
     if (response.status === 204) {
       return null;
     }
-    return await parseJsonAndNormalizeError(response);
+    return await parseJsonAndNormalizeError(response, true);
   }
   async function parseAndThrowError(response, shouldParseResponse = true) {
     if (!shouldParseResponse) {

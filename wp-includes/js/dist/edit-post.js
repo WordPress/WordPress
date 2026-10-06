@@ -11881,7 +11881,6 @@ var wp;
     (0, import_data27.dispatch)(import_preferences11.store).setDefaults("core", {
       allowRightClickOverrides: true,
       editorMode: "visual",
-      editorTool: "edit",
       fixedToolbar: false,
       hiddenBlockTypes: [],
       inactivePanels: [],
