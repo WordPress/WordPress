@@ -205,7 +205,7 @@ class WP_HTML_Decoder {
 				continue;
 			}
 
-			++$at;
+			$at = $next_character_reference_at + 1;
 		}
 
 		if ( 0 === $was_at ) {
