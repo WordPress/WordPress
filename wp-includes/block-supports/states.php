@@ -35,8 +35,21 @@ function wp_normalize_state_preset_vars( $value ) {
 		return $value;
 	}
 
-	$unwrapped_name = str_replace( '|', '--', substr( $value, strlen( 'var:' ) ) );
-	return "var(--wp--$unwrapped_name)";
+	$parts = explode( '|', substr( $value, strlen( 'var:' ) ) );
+
+	/*
+	 * The slug is kebab-cased when the preset's custom property is generated,
+	 * so a reference has to be converted the same way or it points at a
+	 * property that does not exist (`--wp--preset--font-size--3xl` for a preset
+	 * generated as `--wp--preset--font-size--3-xl`). Mirrors
+	 * `WP_Theme_JSON::convert_custom_properties()` and the JavaScript style
+	 * engine's `getCSSValueFromRawStyle()`.
+	 */
+	if ( 3 === count( $parts ) ) {
+		$parts[2] = _wp_to_kebab_case( $parts[2] );
+	}
+
+	return 'var(--wp--' . implode( '--', $parts ) . ')';
 }
 
 /**
