@@ -696,6 +696,7 @@ add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
 add_action( 'plugins_loaded', '_wp_add_additional_image_sizes', 0 );
 add_filter( 'plupload_default_settings', 'wp_show_heic_upload_error' );
+add_action( 'delete_attachment', '_wp_delete_edit_root_attachment_id' );
 
 // Client-side media processing.
 add_action( 'admin_init', 'wp_set_client_side_media_processing_flag' );

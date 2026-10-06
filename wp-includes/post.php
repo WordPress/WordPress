@@ -8843,6 +8843,66 @@ function wp_get_original_image_url( $attachment_id ) {
 }
 
 /**
+ * Retrieves the edit root of an attachment: the attachment its chain of edits started from.
+ *
+ * Editing an image through the `wp/v2/media/<id>/edit` REST endpoint does not change the
+ * image that was edited. It saves the result as a brand new attachment, so a site can end
+ * up with a chain of attachments: an upload, a crop of it, a crop of that crop, and so on.
+ *
+ * Every attachment created that way stores the ID of the attachment at the top of its chain,
+ * so this function can find the edit root in one lookup no matter how long the chain is.
+ *
+ * Attachments that were uploaded rather than created by editing have no chain of their own,
+ * and this returns 0 for them.
+ *
+ * @since 7.2.0
+ *
+ * @param int $attachment_id Attachment ID.
+ * @return int ID of the attachment the chain of edits started from, or 0 when none is recorded.
+ */
+function wp_get_edit_root_attachment_id( $attachment_id ) {
+	$edit_root_id = (int) get_post_meta( $attachment_id, '_wp_attachment_edit_root_id', true );
+
+	// An attachment recorded as its own edit root is a broken record rather than a chain.
+	if ( $edit_root_id <= 0 || $edit_root_id === (int) $attachment_id ) {
+		return 0;
+	}
+
+	return $edit_root_id;
+}
+
+/**
+ * Clears the recorded edit root ID from any attachment pointing at a deleted one.
+ *
+ * Without this, attachments created by editing the deleted image would keep pointing at an
+ * ID that no longer exists, and could later point at an unrelated attachment if WordPress
+ * reuses that ID.
+ *
+ * This only runs when an attachment is deleted for good. On sites where media goes to the
+ * trash first, attachments keep pointing at the trashed edit root until the trash is emptied.
+ *
+ * @since 7.2.0
+ *
+ * @access private
+ *
+ * @param int $post_id Attachment ID being deleted.
+ */
+function _wp_delete_edit_root_attachment_id( $post_id ) {
+	$post_id = (int) $post_id;
+
+	if ( $post_id <= 0 ) {
+		return;
+	}
+
+	/*
+	 * Deletes the meta from every attachment recording this ID as its edit root. The meta key
+	 * is indexed, so this only scans the rows for attachments created by editing an image,
+	 * and it avoids searching the serialized attachment metadata for the ID.
+	 */
+	delete_metadata( 'post', 0, '_wp_attachment_edit_root_id', $post_id, true );
+}
+
+/**
  * Filters callback which sets the status of an untrashed post to its previous status.
  *
  * This can be used as a callback on the `wp_untrash_post_status` filter.

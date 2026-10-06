@@ -1356,6 +1356,20 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'file'          => _wp_relative_upload_path( $image_file ),
 		);
 
+		/*
+		 * Record the attachment this chain of edits started from, so the edit root can be
+		 * found in one lookup from any image later in the chain. The new attachment inherits
+		 * the edit root recorded on the image being edited, or that image itself when it was
+		 * uploaded rather than edited.
+		 */
+		$edit_root_id = wp_get_edit_root_attachment_id( $attachment_id );
+
+		if ( ! $edit_root_id ) {
+			$edit_root_id = (int) $attachment_id;
+		}
+
+		update_post_meta( $new_attachment_id, '_wp_attachment_edit_root_id', $edit_root_id );
+
 		/**
 		 * Filters the meta data for the new image created by editing an existing image.
 		 *
@@ -1507,6 +1521,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		if ( in_array( 'post', $fields, true ) ) {
 			$data['post'] = ! empty( $post->post_parent ) ? (int) $post->post_parent : null;
+		}
+
+		/*
+		 * ID of the attachment this image's chain of edits started from, or 0.
+		 * Edit context only, since only editors need it.
+		 * Not validated: deleting an attachment clears it from images edited from it.
+		 */
+		if ( in_array( 'edit_root', $fields, true ) && 'edit' === $request['context'] ) {
+			$data['edit_root'] = wp_get_edit_root_attachment_id( $post->ID );
 		}
 
 		if ( in_array( 'source_url', $fields, true ) ) {
@@ -1667,6 +1690,31 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			}
 		}
 
+		/*
+		 * Embeddable link to the edit root, like `featured_media`. Added here rather than
+		 * in `prepare_links()`, which cannot see the request, and gated like the parent
+		 * controller's own links so a `_fields` request is not handed a stray `_links`.
+		 * Like `featured_media`, the link is skipped when the edit root no longer exists
+		 * or the user cannot read it, although the `edit_root` field still reports the ID.
+		 */
+		if (
+			'edit' === $request['context'] &&
+			( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) )
+		) {
+			$edit_root_id = wp_get_edit_root_attachment_id( $post->ID );
+
+			if (
+				$edit_root_id &&
+				( 'publish' === get_post_status( $edit_root_id ) || current_user_can( 'read_post', $edit_root_id ) )
+			) {
+				$response->add_link(
+					'https://api.w.org/edit-root',
+					rest_url( rest_get_route_for_post( $edit_root_id ) ),
+					array( 'embeddable' => true )
+				);
+			}
+		}
+
 		/**
 		 * Filters an attachment returned from the REST API.
 		 *
@@ -1803,6 +1851,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'description' => __( 'The ID for the associated post of the attachment.' ),
 			'type'        => 'integer',
 			'context'     => array( 'view', 'edit' ),
+		);
+
+		$schema['properties']['edit_root'] = array(
+			'description' => __( 'The ID of the attachment this attachment\'s chain of edits started from, or 0 if none is recorded.' ),
+			'type'        => 'integer',
+			'context'     => array( 'edit' ),
+			'readonly'    => true,
 		);
 
 		$schema['properties']['source_url'] = array(
