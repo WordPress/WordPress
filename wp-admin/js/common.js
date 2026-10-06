@@ -338,7 +338,7 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	$('.contextual-help-tabs .active').removeClass('active');
 	link.parent('li').addClass('active');
 
-	panel = $( link.attr('href') );
+	panel = $( document ).find( link.attr('href') );
 
 	// Panels
 	$('.help-tab-content').not( panel ).removeClass('active').hide();
