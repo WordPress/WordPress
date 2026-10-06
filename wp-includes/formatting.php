@@ -2498,6 +2498,11 @@ function sanitize_html_class( $classname, $fallback = '' ) {
  * @return string The sanitized value.
  */
 function sanitize_locale_name( $locale_name ) {
+	// Request values can arrive as arrays, and preg_replace() would map over them.
+	if ( ! is_string( $locale_name ) ) {
+		return '';
+	}
+
 	// Limit to A-Z, a-z, 0-9, '_', '-'.
 	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $locale_name );
 
