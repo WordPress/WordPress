@@ -208,7 +208,7 @@ input[type=radio]:focus {
   color: var(--wp-admin-theme-color-darker-20);
   box-shadow: none;
 }
-.wp-core-ui .button:where(:not(.button-link)):disabled, .wp-core-ui .button:where(:not(.button-link)).disabled {
+.wp-core-ui .button:where(:not(.button-link)):disabled, .wp-core-ui .button:where(:not(.button-link))[aria-disabled=true], .wp-core-ui .button:where(:not(.button-link)).disabled {
   background: transparent;
   border-color: #ddd;
   color: #949494;
@@ -240,7 +240,7 @@ input[type=radio]:focus {
   color: var(--wp-admin-theme-color-darker-20);
   box-shadow: none;
 }
-.wp-core-ui .button-secondary:disabled, .wp-core-ui .button-secondary.disabled {
+.wp-core-ui .button-secondary:disabled, .wp-core-ui .button-secondary[aria-disabled=true], .wp-core-ui .button-secondary.disabled {
   background: transparent;
   border-color: #ddd;
   color: #949494;
@@ -273,7 +273,7 @@ input[type=radio]:focus {
   border-color: transparent;
   color: #fff;
 }
-.wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.disabled {
+.wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary[aria-disabled=true], .wp-core-ui .button-primary.disabled {
   background: #f0f0f0;
   border-color: transparent;
   color: #949494;

@@ -36,6 +36,7 @@
 	}
 
 	&:disabled,
+	&[aria-disabled="true"],
 	&.disabled {
 		background: tokens.$gray-100;
 		border-color: transparent;
@@ -84,6 +85,7 @@
 	}
 
 	&:disabled,
+	&[aria-disabled="true"],
 	&.disabled {
 		background: transparent;
 		border-color: tokens.$gray-300;
@@ -121,6 +123,7 @@
 	}
 
 	&:disabled,
+	&[aria-disabled="true"],
 	&.disabled {
 		background: transparent;
 		border-color: tokens.$gray-400;
