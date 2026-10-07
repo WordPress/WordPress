@@ -80,6 +80,8 @@ final class WP_Block_Bindings_Registry {
 	 *     @type string[] $uses_context       Optional. Array of values to add to block `uses_context` needed by the source.
 	 * }
 	 * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
+	 *
+	 * @phpstan-param lowercase-string&non-falsy-string $source_name
 	 */
 	public function register( string $source_name, array $source_properties ) {
 		if ( ! is_string( $source_name ) ) {

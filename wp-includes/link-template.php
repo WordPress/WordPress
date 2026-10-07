@@ -4898,8 +4898,11 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
  * @since 6.2.0
  *
  * @return string[] An array of URL hosts.
+ *
+ * @phpstan-return list<lowercase-string>
  */
 function wp_internal_hosts() {
+	/** @var list<lowercase-string>|null $internal_hosts */
 	static $internal_hosts;
 
 	if ( empty( $internal_hosts ) ) {
@@ -4916,8 +4919,10 @@ function wp_internal_hosts() {
 				wp_parse_url( home_url(), PHP_URL_HOST ),
 			)
 		);
-		$internal_hosts = array_unique(
-			array_map( 'strtolower', (array) $internal_hosts )
+		$internal_hosts = array_values(
+			array_unique(
+				array_map( 'strtolower', (array) $internal_hosts )
+			)
 		);
 	}
 

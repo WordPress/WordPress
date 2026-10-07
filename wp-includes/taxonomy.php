@@ -518,6 +518,8 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *                                                Default false.
  * }
  * @return WP_Taxonomy|WP_Error The registered taxonomy object on success, WP_Error object on failure.
+ *
+ * @phpstan-param lowercase-string&non-falsy-string $taxonomy
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies;

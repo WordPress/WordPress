@@ -53,6 +53,8 @@ final class WP_Ability_Categories_Registry {
 	 *     @type array<string, mixed> $meta        Optional. Additional metadata for the ability category.
 	 * }
 	 * @return WP_Ability_Category|null The registered ability category instance on success, null on failure.
+	 *
+	 * @phpstan-param lowercase-string&non-empty-string $slug
 	 */
 	public function register( string $slug, array $args ): ?WP_Ability_Category {
 		if ( $this->is_registered( $slug ) ) {

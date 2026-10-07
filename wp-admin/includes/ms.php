@@ -1211,6 +1211,8 @@ function get_site_screen_help_tab_args() {
  * @since 4.9.0
  *
  * @return string Help sidebar content.
+ *
+ * @phpstan-return non-falsy-string
  */
 function get_site_screen_help_sidebar_content() {
 	return '<p><strong>' . __( 'For more information:' ) . '</strong></p>' .

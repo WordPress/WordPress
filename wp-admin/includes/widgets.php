@@ -322,6 +322,8 @@ function wp_widget_control( $sidebar_args ) {
 /**
  * @param string $classes
  * @return string Modified body classes.
+ *
+ * @phpstan-return non-falsy-string
  */
 function wp_widgets_access_body_class( $classes ) {
 	return "$classes widgets_access ";

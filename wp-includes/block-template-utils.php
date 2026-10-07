@@ -1491,6 +1491,8 @@ function wp_is_theme_directory_ignored( $path ) {
  * @since 6.0.0 Adds the whole theme to the export archive.
  *
  * @return WP_Error|string Path of the ZIP file or error on failure.
+ *
+ * @phpstan-return non-falsy-string|WP_Error
  */
 function wp_generate_block_templates_export_file() {
 	$wp_version = wp_get_wp_version();

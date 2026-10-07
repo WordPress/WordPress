@@ -44,6 +44,8 @@ final class WP_Block_Type_Registry {
 	 *                                   of `WP_Block_Type`. See WP_Block_Type::__construct() for information
 	 *                                   on accepted arguments. Default empty array.
 	 * @return WP_Block_Type|false The registered block type on success, or false on failure.
+	 *
+	 * @phpstan-param (lowercase-string&non-falsy-string)|WP_Block_Type $name
 	 */
 	public function register( $name, $args = array() ) {
 		$block_type = null;

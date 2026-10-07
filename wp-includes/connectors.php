@@ -384,6 +384,7 @@ function _wp_connectors_register_default_ai_providers( WP_Connector_Registry $re
 	}
 
 	// Register all default connectors directly on the registry.
+	/** @var lowercase-string&non-empty-string $id AI Client provider IDs are validated as lowercase by ProviderMetadata. */
 	foreach ( $defaults as $id => $args ) {
 		if ( 'api_key' === $args['authentication']['method'] ) {
 			$sanitized_id = str_replace( '-', '_', $id );

@@ -2654,6 +2654,8 @@ function submit_button( $text = '', $type = 'primary', $name = 'submit', $wrap =
  *                                       e.g. `id="search-submit"`, though the array format is generally preferred.
  *                                       Default empty string.
  * @return string Submit button HTML.
+ *
+ * @phpstan-return non-falsy-string
  */
 function get_submit_button( $text = '', $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = '' ) {
 	if ( ! is_array( $type ) ) {

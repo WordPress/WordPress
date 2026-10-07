@@ -3521,6 +3521,8 @@ function wp_enqueue_editor_format_library_assets() {
  *
  * @param array<string, string|bool> $attributes Key-value pairs representing `<script>` tag attributes.
  * @return string String containing `<script>` opening and closing tags.
+ *
+ * @phpstan-return non-falsy-string
  */
 function wp_get_script_tag( $attributes ) {
 	/**

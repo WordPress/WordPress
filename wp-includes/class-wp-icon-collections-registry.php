@@ -51,6 +51,8 @@ class WP_Icon_Collections_Registry {
 	 *                               via {@see wp_get_icon()}. Default true.
 	 * }
 	 * @return bool True if the collection was registered successfully, false otherwise.
+	 *
+	 * @phpstan-param lowercase-string&non-empty-string $collection_slug
 	 */
 	public function register( $collection_slug, $collection_properties ) {
 		if ( ! isset( $collection_slug ) || ! is_string( $collection_slug ) ) {

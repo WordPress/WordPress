@@ -127,6 +127,7 @@ final class WP_Connector_Registry {
 	 * }
 	 * @return array|null The registered connector data on success, null on failure.
 	 *
+	 * @phpstan-param lowercase-string&non-empty-string $id
 	 * @phpstan-param array{
 	 *     name: non-empty-string,
 	 *     description?: string,

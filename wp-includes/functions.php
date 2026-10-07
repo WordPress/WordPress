@@ -2150,6 +2150,7 @@ function wp_mkdir_p( $target ) {
  * @return bool True if path is absolute, false is not absolute.
  *
  * @phpstan-return ( $path is non-falsy-string ? bool : false )
+ * @phpstan-assert-if-true non-falsy-string $path
  */
 function path_is_absolute( $path ) {
 	/*
@@ -2192,6 +2193,8 @@ function path_is_absolute( $path ) {
  * @param string $base Base path.
  * @param string $path Path relative to $base.
  * @return string The path with the base or absolute path.
+ *
+ * @phpstan-return non-falsy-string
  */
 function path_join( $base, $path ) {
 	if ( path_is_absolute( $path ) ) {
@@ -2957,7 +2960,8 @@ function _wp_check_existing_file_names( $filename, $files ) {
  *     @type string|false $error Error message, if there has been an error.
  * }
  *
- * @phpstan-param null $deprecated
+ * @phpstan-param non-empty-string $name
+ * @phpstan-param null             $deprecated
  * @phpstan-return array{ file: non-empty-string, url: non-empty-string, type: string|false, error: false }
  *                |array{ error: string, ... }
  */
@@ -4480,6 +4484,8 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
  * @param int   $depth Optional. Maximum depth to walk through $value. Must be
  *                     greater than 0. Default 512.
  * @return string|false The JSON encoded string, or false if it cannot be encoded.
+ *
+ * @phpstan-return non-empty-string|false
  */
 function wp_json_encode( $value, $flags = 0, $depth = 512 ) {
 	$json = json_encode( $value, $flags, $depth );
@@ -8178,6 +8184,8 @@ function wp_raise_memory_limit( $context = 'admin' ) {
  * @since 7.0.0 Uses wp_rand if available.
  *
  * @return string UUID.
+ *
+ * @phpstan-return lowercase-string&non-falsy-string
  */
 function wp_generate_uuid4() {
 	static $backup_randomizer = false;
@@ -8193,7 +8201,8 @@ function wp_generate_uuid4() {
 		$randomizer = $backup_randomizer;
 	}
 
-	return sprintf(
+	/** @var lowercase-string&non-falsy-string $uuid The %x conversion only produces lowercase hex digits. */
+	$uuid = sprintf(
 		'%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 		$randomizer( 0, 0xffff ),
 		$randomizer( 0, 0xffff ),
@@ -8204,6 +8213,8 @@ function wp_generate_uuid4() {
 		$randomizer( 0, 0xffff ),
 		$randomizer( 0, 0xffff )
 	);
+
+	return $uuid;
 }
 
 /**
@@ -9212,6 +9223,8 @@ function clean_dirsize_cache( $path ) {
  * @since 6.7.0
  *
  * @return string The current WordPress version.
+ *
+ * @phpstan-return non-falsy-string
  */
 function wp_get_wp_version() {
 	static $wp_version;
@@ -9220,6 +9233,7 @@ function wp_get_wp_version() {
 		require ABSPATH . WPINC . '/version.php';
 	}
 
+	/** @var non-falsy-string $wp_version */
 	return $wp_version;
 }
 
@@ -9479,6 +9493,8 @@ function wp_is_heic_image_mime_type( $mime_type ) {
  *
  * @param string $message The message to hash.
  * @return string The hash of the message.
+ *
+ * @phpstan-return non-falsy-string
  */
 function wp_fast_hash(
 	#[\SensitiveParameter]

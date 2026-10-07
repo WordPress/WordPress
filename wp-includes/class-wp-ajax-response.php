@@ -63,6 +63,8 @@ class WP_Ajax_Response {
 	 *                                             element as CDATA. Default empty array.
 	 * }
 	 * @return string XML response.
+	 *
+	 * @phpstan-return non-falsy-string
 	 */
 	public function add( $args = '' ) {
 		$defaults = array(

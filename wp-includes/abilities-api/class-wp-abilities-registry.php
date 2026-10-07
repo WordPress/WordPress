@@ -84,6 +84,8 @@ final class WP_Abilities_Registry {
 	 *     @type string               $ability_class         Optional. Custom class to instantiate instead of WP_Ability.
 	 * }
 	 * @return WP_Ability|null The registered ability instance on success, null on failure.
+	 *
+	 * @phpstan-param lowercase-string&non-falsy-string $name
 	 */
 	public function register( string $name, array $args ): ?WP_Ability {
 		if ( ! preg_match( '/^[a-z0-9-]+\/[a-z0-9-]+$/', $name ) ) {

@@ -62,6 +62,8 @@ class WP_Icons_Registry {
 	 *                               `get_registered_icons()` alongside the name and label.
 	 * }
 	 * @return bool True if the icon was registered with success and false otherwise.
+	 *
+	 * @phpstan-param lowercase-string&non-falsy-string $icon_name
 	 */
 	public function register( $icon_name, $icon_properties ) {
 		if ( ! isset( $icon_name ) || ! is_string( $icon_name ) ) {

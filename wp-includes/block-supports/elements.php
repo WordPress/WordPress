@@ -13,6 +13,8 @@
  * @access private
  *
  * @return string The unique class name.
+ *
+ * @phpstan-return lowercase-string&non-falsy-string
  */
 function wp_get_elements_class_name(): string {
 	return wp_unique_prefixed_id( 'wp-elements-' );

@@ -36,6 +36,8 @@ final class WP_Block_Templates_Registry {
 	 * @param string $template_name Template name including namespace.
 	 * @param array  $args          Optional. Array of template arguments.
 	 * @return WP_Block_Template|WP_Error The registered template on success, or WP_Error on failure.
+	 *
+	 * @phpstan-param lowercase-string&non-falsy-string $template_name
 	 */
 	public function register( $template_name, $args = array() ) {
 
