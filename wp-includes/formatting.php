@@ -5318,10 +5318,18 @@ function wp_parse_str( $input_string, &$result ) {
  *
  * @since 2.3.0
  *
+ * @global string $wp_kses_operating_mode Indicates if this filter should run.
+ *
  * @param string $content Text to be converted.
  * @return string Converted text.
  */
 function wp_pre_kses_less_than( $content ) {
+	global $wp_kses_operating_mode;
+
+	if ( 'legacy' !== ( $wp_kses_operating_mode ?? 'legacy' ) ) {
+		return $content;
+	}
+
 	return preg_replace_callback( '%<[^>]*?((?=<)|>|$)%', 'wp_pre_kses_less_than_callback', $content );
 }
 
@@ -5346,6 +5354,8 @@ function wp_pre_kses_less_than_callback( $matches ) {
  *
  * @since 5.3.1
  *
+ * @global string $wp_kses_operating_mode Indicates if this filter should run.
+ *
  * @param string         $content           Content to be run through KSES.
  * @param array[]|string $allowed_html      An array of allowed HTML elements
  *                                          and attributes, or a context name
@@ -5354,6 +5364,12 @@ function wp_pre_kses_less_than_callback( $matches ) {
  * @return string Filtered text to run through KSES.
  */
 function wp_pre_kses_block_attributes( $content, $allowed_html, $allowed_protocols ) {
+	global $wp_kses_operating_mode;
+
+	if ( 'legacy' !== ( $wp_kses_operating_mode ?? 'legacy' ) ) {
+		return $content;
+	}
+
 	/*
 	 * `filter_block_content` is expected to call `wp_kses`. Temporarily remove
 	 * the filter to avoid recursion.
