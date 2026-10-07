@@ -37,6 +37,7 @@ class WP_Icon_Collections_Registry {
 	 * Registers an icon collection.
 	 *
 	 * @since 7.1.0
+	 * @since 7.2.0 Added the `public` property.
 	 *
 	 * @param string $collection_slug       Icon collection slug.
 	 * @param array  $collection_properties {
@@ -44,6 +45,10 @@ class WP_Icon_Collections_Registry {
 	 *
 	 *     @type string $label       Required. A human-readable label for the icon collection.
 	 *     @type string $description Optional. A human-readable description for the icon collection.
+	 *     @type bool   $public      Optional. Whether the collection and its icons are exposed through
+	 *                               the REST API, and therefore selectable in the editor's icon picker.
+	 *                               Icons in non-public collections stay available to server-side code
+	 *                               via {@see wp_get_icon()}. Default true.
 	 * }
 	 * @return bool True if the collection was registered successfully, false otherwise.
 	 */
@@ -84,7 +89,7 @@ class WP_Icon_Collections_Registry {
 			return false;
 		}
 
-		$allowed_keys = array_fill_keys( array( 'label', 'description' ), 1 );
+		$allowed_keys = array_fill_keys( array( 'label', 'description', 'public' ), 1 );
 		foreach ( array_keys( $collection_properties ) as $key ) {
 			if ( ! array_key_exists( $key, $allowed_keys ) ) {
 				_doing_it_wrong(
@@ -118,8 +123,18 @@ class WP_Icon_Collections_Registry {
 			return false;
 		}
 
+		if ( array_key_exists( 'public', $collection_properties ) && ! is_bool( $collection_properties['public'] ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'Icon collection public property must be a boolean.' ),
+				'7.2.0'
+			);
+			return false;
+		}
+
 		$defaults = array(
 			'description' => '',
+			'public'      => true,
 		);
 
 		$collection = array_merge(

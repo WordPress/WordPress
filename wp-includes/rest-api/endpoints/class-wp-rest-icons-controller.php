@@ -143,15 +143,17 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	 *
 	 * @since 7.0.0
 	 * @since 7.1.0 Supports filtering by collection.
-	 * @since 7.2.0 Icons registered as non-public are omitted.
+	 * @since 7.2.0 Icons belonging to non-public collections are omitted.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$collection = $request->get_param( 'collection' );
+		$collection            = $request->get_param( 'collection' );
+		$collections_registry  = WP_Icon_Collections_Registry::get_instance();
+		$registered_collection = null !== $collection ? $collections_registry->get_registered( $collection ) : null;
 
-		if ( null !== $collection && ! WP_Icon_Collections_Registry::get_instance()->is_registered( $collection ) ) {
+		if ( null !== $collection && ( null === $registered_collection || ! $registered_collection['public'] ) ) {
 			return new WP_Error(
 				'rest_icon_collection_not_found',
 				sprintf(
@@ -168,10 +170,11 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 		$icons    = WP_Icons_Registry::get_instance()->get_registered_icons( $search );
 
 		foreach ( $icons as $icon ) {
-			if ( false === ( $icon['public'] ?? true ) ) {
+			if ( null !== $collection && ( ! isset( $icon['collection'] ) || $icon['collection'] !== $collection ) ) {
 				continue;
 			}
-			if ( null !== $collection && ( ! isset( $icon['collection'] ) || $icon['collection'] !== $collection ) ) {
+			$icon_collection = isset( $icon['collection'] ) ? $collections_registry->get_registered( $icon['collection'] ) : null;
+			if ( null === $icon_collection || ! $icon_collection['public'] ) {
 				continue;
 			}
 			$prepared_icon = $this->prepare_item_for_response( $icon, $request );
@@ -202,7 +205,7 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 	 * Retrieves a specific icon from the registry.
 	 *
 	 * @since 7.0.0
-	 * @since 7.2.0 Icons registered as non-public are reported as not found.
+	 * @since 7.2.0 Icons belonging to non-public collections are reported as not found.
 	 *
 	 * @param string $name Icon name.
 	 * @return array|WP_Error Icon data on success, or WP_Error object on failure.
@@ -211,7 +214,11 @@ class WP_REST_Icons_Controller extends WP_REST_Controller {
 		$registry = WP_Icons_Registry::get_instance();
 		$icon     = $registry->get_registered_icon( $name );
 
-		if ( null === $icon || false === ( $icon['public'] ?? true ) ) {
+		$collection = null !== $icon && isset( $icon['collection'] )
+			? WP_Icon_Collections_Registry::get_instance()->get_registered( $icon['collection'] )
+			: null;
+
+		if ( null === $icon || null === $collection || ! $collection['public'] ) {
 			return new WP_Error(
 				'rest_icon_not_found',
 				sprintf(

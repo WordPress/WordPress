@@ -120,6 +120,7 @@ class WP_REST_Icon_Collections_Controller extends WP_REST_Controller {
 	 * Retrieves all icon collections.
 	 *
 	 * @since 7.1.0
+	 * @since 7.2.0 Non-public collections are omitted.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -128,6 +129,9 @@ class WP_REST_Icon_Collections_Controller extends WP_REST_Controller {
 		$response    = array();
 		$collections = WP_Icon_Collections_Registry::get_instance()->get_all_registered();
 		foreach ( $collections as $collection ) {
+			if ( ! $collection['public'] ) {
+				continue;
+			}
 			$prepared_collection = $this->prepare_item_for_response( $collection, $request );
 			$response[]          = $this->prepare_response_for_collection( $prepared_collection );
 		}
@@ -156,6 +160,7 @@ class WP_REST_Icon_Collections_Controller extends WP_REST_Controller {
 	 * Retrieves a specific icon collection from the registry.
 	 *
 	 * @since 7.1.0
+	 * @since 7.2.0 Non-public collections are reported as not found.
 	 *
 	 * @param string $slug Icon collection slug.
 	 * @return array|WP_Error Icon collection data on success, or WP_Error object on failure.
@@ -164,7 +169,7 @@ class WP_REST_Icon_Collections_Controller extends WP_REST_Controller {
 		$registry   = WP_Icon_Collections_Registry::get_instance();
 		$collection = $registry->get_registered( $slug );
 
-		if ( null === $collection ) {
+		if ( null === $collection || ! $collection['public'] ) {
 			return new WP_Error(
 				'rest_icon_collection_not_found',
 				sprintf(
