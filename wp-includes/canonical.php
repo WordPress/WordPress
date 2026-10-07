@@ -456,8 +456,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			$default_feed = get_default_feed();
 
 			if ( is_feed() && in_array( $feed, $wp_rewrite->feeds, true ) ) {
-				$addl_path = ! empty( $addl_path ) ? trailingslashit( $addl_path ) : '';
-
 				if ( ! is_singular() && get_query_var( 'withcomments' ) ) {
 					$addl_path .= 'comments/';
 				}
