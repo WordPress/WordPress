@@ -40,7 +40,6 @@
 		background: tokens.$gray-100;
 		border-color: transparent;
 		color: tokens.$gray-600;
-		cursor: not-allowed;
 	}
 
 	&.active,
@@ -89,7 +88,6 @@
 		background: transparent;
 		border-color: tokens.$gray-300;
 		color: tokens.$gray-600;
-		cursor: not-allowed;
 	}
 }
 
@@ -127,6 +125,5 @@
 		background: transparent;
 		border-color: tokens.$gray-400;
 		color: tokens.$gray-600;
-		cursor: not-allowed;
 	}
 }

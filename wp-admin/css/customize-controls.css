@@ -2545,8 +2545,7 @@ body.cheatin p {
 .reordering .add-new-widget,
 .reordering .add-new-menu-item {
 	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+	pointer-events: none; /* Also resets the cursor style. */
 }
 
 .add-new-widget::before,

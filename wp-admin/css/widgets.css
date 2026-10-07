@@ -796,10 +796,6 @@ ul.CodeMirror-hints {
 	z-index: 101; /* Due to z-index 100 set on .widget.open */
 }
 
-.widget-control-actions .custom-html-widget-save-button.button.validation-blocked {
-	cursor: not-allowed;
-}
-
 /* =Media Queries
 -------------------------------------------------------------- */
 

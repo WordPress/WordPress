@@ -212,7 +212,6 @@ input[type=radio]:focus {
   background: transparent;
   border-color: #ddd;
   color: #949494;
-  cursor: not-allowed;
 }
 .wp-core-ui {
   /* Secondary button - same as default */
@@ -245,7 +244,6 @@ input[type=radio]:focus {
   background: transparent;
   border-color: #ddd;
   color: #949494;
-  cursor: not-allowed;
 }
 .wp-core-ui {
   /* Primary button - theme color background */
@@ -279,7 +277,6 @@ input[type=radio]:focus {
   background: #f0f0f0;
   border-color: transparent;
   color: #949494;
-  cursor: not-allowed;
 }
 .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
   background: var(--wp-admin-theme-color-darker-10);

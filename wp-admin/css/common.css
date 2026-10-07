@@ -3625,10 +3625,6 @@ img {
 	padding: 0;
 }
 
-#template .submit input[type="submit"][disabled] {
-	cursor: not-allowed;
-}
-
 #templateside {
 	float: right;
 	width: 16em;
