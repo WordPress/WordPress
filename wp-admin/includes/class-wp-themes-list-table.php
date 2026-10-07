@@ -134,7 +134,14 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param string $which
+	 * Displays the table navigation, including the pagination.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $which Optional. The location of the navigation: Either 'top' or 'bottom'.
+	 *                      Default 'top'.
+	 *
+	 * @phpstan-param 'top'|'bottom' $which
 	 */
 	public function tablenav( $which = 'top' ) {
 		if ( $this->get_pagination_arg( 'total_pages' ) <= 1 ) {

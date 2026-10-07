@@ -73,6 +73,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * Gets the list of CSS classes for the table tag.
 	 *
 	 * @return string[] The list of CSS classes.
+	 *
+	 * @phpstan-return non-empty-list<string>
 	 */
 	protected function get_table_classes() {
 		// @todo Remove and add CSS for .themes.

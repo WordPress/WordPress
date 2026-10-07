@@ -147,6 +147,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 * @since 5.6.0
 	 *
 	 * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
+	 *
+	 * @phpstan-param 'top'|'bottom' $which
 	 */
 	protected function display_tablenav( $which ) {
 		?>

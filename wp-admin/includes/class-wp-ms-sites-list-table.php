@@ -318,6 +318,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @global string $mode List table view mode.
 	 *
 	 * @param string $which The location of the pagination nav markup: Either 'top' or 'bottom'.
+	 *
+	 * @phpstan-param 'top'|'bottom' $which
 	 */
 	protected function pagination( $which ) {
 		global $mode;

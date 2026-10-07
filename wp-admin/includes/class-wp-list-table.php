@@ -30,6 +30,13 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @var array<string, mixed>
+	 * @phpstan-var array{
+	 *     plural: string,
+	 *     singular: string,
+	 *     ajax: bool,
+	 *     screen: string|WP_Screen|null,
+	 *     ...
+	 * }
 	 */
 	protected $_args;
 
@@ -146,6 +153,14 @@ class WP_List_Table {
 	 *                                           screen, or a `WP_Screen` instance. If left null, the current
 	 *                                           screen will be automatically set. Default null.
 	 * }
+	 *
+	 * @phpstan-param array{
+	 *     plural?: string,
+	 *     singular?: string,
+	 *     ajax?: bool,
+	 *     screen?: string|WP_Screen|null,
+	 *     ...
+	 * }|string $args
 	 */
 	public function __construct( $args = array() ) {
 		$args = wp_parse_args(
@@ -438,6 +453,10 @@ class WP_List_Table {
 	 *     }
 	 * }
 	 * @return string[] An array of link markup. Keys match the `$link_data` input array.
+	 *
+	 * @phpstan-template TKey of array-key
+	 * @phpstan-param array<TKey, array{ url: string, label: string, current?: bool }>|string $link_data
+	 * @phpstan-return ($link_data is array ? array<TKey, string> : array{ 0: '' })
 	 */
 	protected function get_views_links( $link_data = array() ) {
 		if ( ! is_array( $link_data ) ) {
@@ -1030,6 +1049,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @param string $which The location of the pagination: Either 'top' or 'bottom'.
+	 *
+	 * @phpstan-param 'top'|'bottom' $which
 	 */
 	protected function pagination( $which ) {
 		if ( empty( $this->_pagination_args['total_items'] ) ) {
@@ -1665,6 +1686,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @return string[] Array of CSS classes for the table tag.
+	 *
+	 * @phpstan-return non-empty-list<string>
 	 */
 	protected function get_table_classes() {
 		$mode = get_user_setting( 'posts_list_mode', 'list' );
@@ -1680,6 +1703,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @param string $which The location of the navigation: Either 'top' or 'bottom'.
+	 *
+	 * @phpstan-param 'top'|'bottom' $which
 	 */
 	protected function display_tablenav( $which ) {
 		if ( 'bottom' === $which && ! $this->has_items() ) {
