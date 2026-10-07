@@ -922,7 +922,7 @@ function wp_read_image_metadata( $file ) {
 			}
 
 			if ( ! empty( $iptc['2#025'][0] ) ) { // Keywords array.
-				$meta['keywords'] = array_values( $iptc['2#025'] );
+				$meta['keywords'] = $iptc['2#025'];
 			}
 		}
 	}
