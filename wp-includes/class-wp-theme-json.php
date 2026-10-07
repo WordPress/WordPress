@@ -2317,7 +2317,8 @@ class WP_Theme_JSON {
 		 * Default layout gap styles will be skipped for themes that do not explicitly opt-in to blockGap with a `true` or `false` value.
 		 */
 		if ( $has_block_gap_support || $has_fallback_gap_support ) {
-			$block_gap_value = null;
+			$block_gap_value     = null;
+			$block_gap_row_value = null;
 			// Use a fallback gap value if block gap support is not available.
 			if ( ! $has_block_gap_support ) {
 				$block_gap_value = static::ROOT_BLOCK_SELECTOR === $selector ? '0.5em' : null;
@@ -2327,16 +2328,27 @@ class WP_Theme_JSON {
 			} else {
 				$block_gap_value = static::get_property_value( $node, array( 'spacing', 'blockGap' ) );
 			}
+			$block_gap_row_value = $block_gap_value;
 
 			// Support split row / column values and concatenate to a shorthand value.
 			if ( is_array( $block_gap_value ) ) {
-				if ( isset( $block_gap_value['top'] ) && isset( $block_gap_value['left'] ) ) {
-					$gap_row         = static::get_property_value( $node, array( 'spacing', 'blockGap', 'top' ) );
-					$gap_column      = static::get_property_value( $node, array( 'spacing', 'blockGap', 'left' ) );
-					$block_gap_value = $gap_row === $gap_column ? $gap_row : $gap_row . ' ' . $gap_column;
+				$has_block_gap_row_value    = isset( $block_gap_value['top'] );
+				$has_block_gap_column_value = isset( $block_gap_value['left'] );
+
+				if ( $has_block_gap_row_value || $has_block_gap_column_value ) {
+					$block_gap_row_value    = $has_block_gap_row_value
+						? static::get_property_value( $node, array( 'spacing', 'blockGap', 'top' ) )
+						: '0';
+					$block_gap_column_value = $has_block_gap_column_value
+						? static::get_property_value( $node, array( 'spacing', 'blockGap', 'left' ) )
+						: '0';
+					$block_gap_value        = $block_gap_row_value === $block_gap_column_value
+						? $block_gap_row_value
+						: $block_gap_row_value . ' ' . $block_gap_column_value;
 				} else {
-					// Skip outputting gap value if not all sides are provided.
-					$block_gap_value = null;
+					// Skip outputting a gap value if neither supported axis is provided.
+					$block_gap_value     = null;
+					$block_gap_row_value = null;
 				}
 			}
 
@@ -2348,8 +2360,11 @@ class WP_Theme_JSON {
 						continue;
 					}
 
-					$class_name    = $layout_definition['className'] ?? false;
-					$spacing_rules = $layout_definition['spacingStyles'] ?? array();
+					$class_name       = $layout_definition['className'] ?? false;
+					$spacing_rules    = $layout_definition['spacingStyles'] ?? array();
+					$layout_gap_value = in_array( $layout_definition_key, array( 'default', 'constrained' ), true )
+						? $block_gap_row_value
+						: $block_gap_value;
 
 					if (
 						! empty( $class_name ) &&
@@ -2364,7 +2379,7 @@ class WP_Theme_JSON {
 							) {
 								// Iterate over each of the styling rules and substitute non-string values such as `null` with the real `blockGap` value.
 								foreach ( $spacing_rule['rules'] as $css_property => $css_value ) {
-									$current_css_value = is_string( $css_value ) ? $css_value : $block_gap_value;
+									$current_css_value = is_string( $css_value ) ? $css_value : $layout_gap_value;
 									if ( static::is_safe_css_declaration( $css_property, $current_css_value ) ) {
 										$declarations[] = array(
 											'name'  => $css_property,

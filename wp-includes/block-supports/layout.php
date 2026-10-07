@@ -80,16 +80,36 @@ function wp_get_layout_container_values( $layout ) {
  *
  * @since 7.1.0
  *
- * @param string|array|null $gap_value Block gap value.
- * @return string|array|null Sanitized block gap value.
+ * Numeric zero is converted to a string because it is valid CSS without a unit.
+ * Other non-string values are rejected.
+ *
+ * @param mixed $gap_value Block gap value.
+ * @return string|string[]|null Sanitized block gap value.
  */
 function wp_sanitize_block_gap_value( $gap_value ) {
 	if ( is_array( $gap_value ) ) {
 		foreach ( $gap_value as $key => $value ) {
-			$gap_value[ $key ] = ! is_scalar( $value ) || ( $value && preg_match( '%[\\\(&=}]|/\*%', (string) $value ) ) ? null : $value;
+			$sanitized_value = wp_sanitize_block_gap_value( $value );
+			if ( ! is_string( $sanitized_value ) ) {
+				unset( $gap_value[ $key ] );
+				continue;
+			}
+			$gap_value[ $key ] = $sanitized_value;
 		}
 
-		return $gap_value;
+		return empty( $gap_value ) ? null : $gap_value;
+	}
+
+	if ( ( is_int( $gap_value ) || is_float( $gap_value ) ) && 0.0 === (float) $gap_value ) {
+		return '0';
+	}
+
+	if ( ! is_string( $gap_value ) ) {
+		return null;
+	}
+
+	if ( '' === trim( $gap_value ) ) {
+		return null;
 	}
 
 	return $gap_value && preg_match( '%[\\\(&=}]|/\*%', $gap_value ) ? null : $gap_value;
@@ -490,15 +510,18 @@ function wp_register_layout_support( $block_type ) {
  * @since 7.1.0 Added options array with options to process responsive styles.
  * @access private
  *
- * @param string               $selector                      CSS selector.
- * @param array                $layout                        Layout object. The one that is passed has already checked
- *                                                            the existence of default block layout.
- * @param bool                 $has_block_gap_support         Optional. Whether the theme has support for the block gap. Default false.
- * @param string|string[]|null $gap_value                     Optional. The block gap value to apply. Default null.
- * @param bool                 $should_skip_gap_serialization Optional. Whether to skip applying the user-defined value set in the editor. Default false.
- * @param string|array         $fallback_gap_value            Optional. The block gap value to apply. If it's an array expected properties are "top" and/or "left". Default '0.5em'.
- * @param array|null           $block_spacing                 Optional. Custom spacing set on the block. Default null.
- * @param array                $options                       {
+ * @param string                         $selector                      CSS selector.
+ * @param array                          $layout                        Layout object. The one that is passed has already checked
+ *                                                                       the existence of default block layout.
+ * @param bool                           $has_block_gap_support         Optional. Whether the theme has support for the block gap. Default false.
+ * @param string|string[]|int|float|null $gap_value                     Optional. The block gap value to apply. Only zero is accepted as a
+ *                                                                       numeric value. Default null.
+ * @param bool                           $should_skip_gap_serialization Optional. Whether to skip applying the user-defined value set in the
+ *                                                                       editor. Default false.
+ * @param string|string[]|int|float|null $fallback_gap_value            Optional. The fallback block gap value to apply. Only zero is accepted
+ *                                                                       as a numeric value. Default '0.5em'.
+ * @param array|null                     $block_spacing                 Optional. Custom spacing set on the block. Default null.
+ * @param array                          $options                       {
  *     Optional. Extra options for internal callers. Default empty array.
  *
  *     @type array       $viewport_overrides     An array of layout property overrides for the sake of style generation,
@@ -509,6 +532,10 @@ function wp_register_layout_support( $block_type ) {
  * @return string CSS styles on success. Else, empty string.
  */
 function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em', $block_spacing = null, $options = array() ) {
+	// Normalize here as well as at external data boundaries because this function has direct callers.
+	$gap_value          = wp_sanitize_block_gap_value( $gap_value );
+	$fallback_gap_value = wp_sanitize_block_gap_value( $fallback_gap_value ) ?? '0.5em';
+
 	$base_layout             = is_array( $layout ) ? $layout : array();
 	$viewport_overrides      = $options['viewport_overrides'] ?? null;
 	$layout_for_styles       = null === $viewport_overrides ? $base_layout : array_replace( $base_layout, $viewport_overrides );
@@ -857,7 +884,7 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 		$row_count         = is_numeric( $row_count_attr ) ? (int) $row_count_attr : null;
 
 		/*
-		 * If the gap value is an array, we use the "left" value because it represents the vertical gap, which
+		 * If the gap value is an array, we use the "left" value because it represents the horizontal gap, which
 		 * is the relevant one for computation of responsive grid columns.
 		 */
 		if ( is_array( $fallback_gap_value ) ) {
@@ -886,10 +913,12 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 					$slug            = _wp_to_kebab_case( substr( $process_value, $index_to_splice ) );
 					$process_value   = "var(--wp--preset--spacing--$slug)";
 				}
+				if ( ! is_array( $gap_value ) || 'left' === $gap_side ) {
+					$responsive_gap_value = $process_value;
+				}
 				$combined_gap_value .= "$process_value ";
 			}
-			$gap_value            = trim( $combined_gap_value );
-			$responsive_gap_value = $gap_value;
+			$gap_value = trim( $combined_gap_value );
 		}
 
 		// Ensure 0 values have a unit so they work in calc().
@@ -1196,7 +1225,9 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	if ( ! current_theme_supports( 'disable-layout-styles' ) ) {
 
 		$gap_value          = wp_sanitize_block_gap_value( $style_attr['spacing']['blockGap'] ?? null );
-		$fallback_gap_value = $block_type->supports['spacing']['blockGap']['__experimentalDefault'] ?? '0.5em';
+		$fallback_gap_value = wp_sanitize_block_gap_value(
+			$block_type->supports['spacing']['blockGap']['__experimentalDefault'] ?? null
+		) ?? '0.5em';
 		$block_spacing      = $style_attr['spacing'] ?? null;
 
 		/*
@@ -1230,7 +1261,19 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 			}
 		}
 
-		$global_block_gap_value = $variation_block_gap_value ?? $global_styles['blocks'][ $block_name ]['spacing']['blockGap'] ?? $global_styles['spacing']['blockGap'] ?? null;
+		$global_block_gap_candidates = array(
+			$variation_block_gap_value,
+			$global_styles['blocks'][ $block_name ]['spacing']['blockGap'] ?? null,
+			$global_styles['spacing']['blockGap'] ?? null,
+		);
+		$global_block_gap_value      = null;
+		foreach ( $global_block_gap_candidates as $candidate_gap_value ) {
+			$candidate_gap_value = wp_sanitize_block_gap_value( $candidate_gap_value );
+			if ( null !== $candidate_gap_value ) {
+				$global_block_gap_value = $candidate_gap_value;
+				break;
+			}
+		}
 
 		if ( null !== $global_block_gap_value ) {
 			$fallback_gap_value = $global_block_gap_value;
