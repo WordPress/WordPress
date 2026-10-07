@@ -1126,7 +1126,7 @@
 			buttonText = _x( 'Activated!', 'plugin' ),
 			ariaLabel = sprintf(
 				/* translators: %s: The plugin name. */
-				'%s activated successfully.',
+				__( '%s activated successfully.' ),
 				response.pluginName
 			);
 
@@ -1165,7 +1165,7 @@
 						text: _x( 'Active', 'plugin' ),
 						ariaLabel: sprintf(
 							/* translators: %s: The plugin name. */
-							'%s is active.',
+							__( '%s is active.' ),
 							response.pluginName
 						)
 					}
