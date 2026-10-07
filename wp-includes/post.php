@@ -1503,7 +1503,7 @@ function register_post_status( $post_status, $args = array() ) {
 
 	if ( false === $args->label_count ) {
 		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
-		$args->label_count = _n_noop( $args->label, $args->label );
+		$args->label_count = _n_noop( $args->label, $args->label ); // @phpstan-ignore argument.type, argument.type (The label is a runtime value, so there is nothing to extract for translation.)
 	}
 
 	$wp_post_statuses[ $post_status ] = $args;
@@ -3654,6 +3654,18 @@ function wp_count_attachments( $mime_type = '' ) {
  *                                                              value is a three-item array: the plural name of the
  *                                                              group, the label for its "Manage" screen, and the
  *                                                              translatable count strings returned by _n_noop().
+ *
+ * @phpstan-return array<string, array{
+ *     0: string,
+ *     1: string,
+ *     2: array{
+ *         singular: literal-string,
+ *         plural: literal-string,
+ *         context: literal-string|null,
+ *         domain: literal-string|null,
+ *         ...
+ *     },
+ * }>
  */
 function get_post_mime_types() {
 	$post_mime_types = array(   // array( adj, noun )
@@ -3748,6 +3760,18 @@ function get_post_mime_types() {
 	 *
 	 * @param array<string, array{0: string, 1: string, 2: array}> $post_mime_types Default list of post mime types.
 	 *                                                                              See {@see get_post_mime_types()}.
+	 *
+	 * @phpstan-param array<string, array{
+	 *     0: string,
+	 *     1: string,
+	 *     2: array{
+	 *         singular: literal-string,
+	 *         plural: literal-string,
+	 *         context: literal-string|null,
+	 *         domain: literal-string|null,
+	 *         ...
+	 *     },
+	 * }> $post_mime_types
 	 */
 	return apply_filters( 'post_mime_types', $post_mime_types );
 }
