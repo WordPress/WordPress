@@ -22,6 +22,9 @@ $parent_file = 'options-general.php';
 /* translators: Date and time format for exact current time, mainly about timezones, see https://www.php.net/manual/datetime.format.php */
 $timezone_format = _x( 'Y-m-d H:i:s', 'timezone date format' );
 
+$new_admin_email         = get_option( 'new_admin_email' );
+$pending_new_admin_email = $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email;
+
 add_action( 'admin_head', 'options_general_add_js' );
 
 $options_help = '<p>' . __( 'The fields on this screen determine some of the basics of your site setup.' ) . '</p>' .
@@ -66,6 +69,36 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
+
+<?php
+if ( isset( $_GET['admin_email_updated'] ) ) {
+	$message = '<strong>' . __( 'Administration email updated.' ) . '</strong>';
+	wp_admin_notice(
+		$message,
+		array(
+			'id'          => 'message',
+			'dismissible' => true,
+			'type'        => 'success',
+		)
+	);
+}
+
+$pending_admin_email_cancel_request_link = sprintf(
+	' <a href="%1$s">%2$s</a>',
+	esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
+	_x( 'Cancel request', 'admin email change' )
+);
+
+if ( $pending_new_admin_email ) {
+	$message = sprintf(
+		/* translators: %s: New administration email address. */
+		__( 'The administration email address has not been updated yet. Please check the inbox at %s for a confirmation email.' ),
+		'<code>' . esc_html( $new_admin_email ) . '</code>'
+	);
+	$message .= $pending_admin_email_cancel_request_link;
+	wp_admin_notice( $message, array( 'type' => 'info' ) );
+}
+?>
 
 <form method="post" action="options.php" novalidate="novalidate">
 <?php settings_fields( 'general' ); ?>
@@ -266,22 +299,18 @@ if ( ! is_multisite() ) {
 <td><input name="new_admin_email" type="email" id="new_admin_email" aria-describedby="new-admin-email-description" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
 <p class="description" id="new-admin-email-description"><?php _e( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?></p>
 <?php
-$new_admin_email = get_option( 'new_admin_email' );
-if ( $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email ) {
+if ( $pending_new_admin_email ) {
 	$pending_admin_email_message = sprintf(
-		/* translators: %s: New admin email. */
-		__( 'There is a pending change of the admin email to %s.' ),
+		/* translators: %s: New administration email address. */
+		__( 'There is a pending change of the administration email to %s.' ),
 		'<code>' . esc_html( $new_admin_email ) . '</code>'
 	);
-	$pending_admin_email_message .= sprintf(
-		' <a href="%1$s">%2$s</a>',
-		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
-		__( 'Cancel' )
-	);
+	$pending_admin_email_message .= $pending_admin_email_cancel_request_link;
 	wp_admin_notice(
 		$pending_admin_email_message,
 		array(
-			'additional_classes' => array( 'updated', 'inline' ),
+			'type'               => 'info',
+			'additional_classes' => array( 'inline' ),
 		)
 	);
 }

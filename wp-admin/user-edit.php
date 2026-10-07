@@ -266,8 +266,14 @@ switch ( $action ) {
 
 		<div class="wrap" id="profile-page">
 			<h1 class="wp-heading-inline">
-					<?php echo esc_html( $title ); ?>
+				<?php echo esc_html( $title ); ?>
 			</h1>
+
+			<?php
+			if ( IS_PROFILE_PAGE ) {
+				new_user_email_admin_notice();
+			}
+			?>
 
 			<?php if ( ! IS_PROFILE_PAGE ) : ?>
 				<?php if ( current_user_can( 'create_users' ) ) : ?>
@@ -596,12 +602,13 @@ switch ( $action ) {
 								$pending_change_message .= sprintf(
 									' <a href="%1$s">%2$s</a>',
 									esc_url( wp_nonce_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ), 'dismiss-' . $current_user->ID . '_new_email' ) ),
-									__( 'Cancel' )
+									_x( 'Cancel request', 'user email change' )
 								);
 								wp_admin_notice(
 									$pending_change_message,
 									array(
-										'additional_classes' => array( 'updated', 'inline' ),
+										'type' => 'info',
+										'additional_classes' => array( 'inline' ),
 									)
 								);
 							endif;
