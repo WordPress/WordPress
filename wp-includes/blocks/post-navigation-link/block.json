@@ -55,9 +55,39 @@
 				"fontSize": true
 			}
 		},
+		"shadow": {
+			"__experimentalSkipSerialization": true
+		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"spacing": {
+			"__experimentalSkipSerialization": true,
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": false,
+				"radius": false,
+				"style": false,
+				"width": false
+			}
 		}
+	},
+	"selectors": {
+		"border": ".wp-block-post-navigation-link:not(:empty)",
+		"shadow": ".wp-block-post-navigation-link:not(:empty)",
+		"spacing": ".wp-block-post-navigation-link:not(:empty)"
 	},
 	"style": "wp-block-post-navigation-link"
 }

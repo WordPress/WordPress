@@ -188,7 +188,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
 			'style'      => '--separator: "' . $separator . '";',
-			'aria-label' => __( 'Breadcrumbs' ),
+			'aria-label' => _x( 'Breadcrumbs', 'area label' ),
 		)
 	);
 

@@ -48,3 +48,8 @@
   /*rtl:ignore*/
   direction: ltr;
 }
+
+.wp-block-math__learn-more {
+  display: inline-block;
+  margin-top: var(--wpds-dimension-gap-sm, 8px);
+}

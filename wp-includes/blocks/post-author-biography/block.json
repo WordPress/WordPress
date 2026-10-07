@@ -16,6 +16,9 @@
 			"margin": true,
 			"padding": true
 		},
+		"background": {
+			"gradient": true
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -28,6 +31,7 @@
 			"fontSize": true,
 			"lineHeight": true,
 			"textAlign": true,
+			"textColumns": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,

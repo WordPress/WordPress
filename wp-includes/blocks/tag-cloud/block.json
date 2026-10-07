@@ -36,8 +36,27 @@
 	],
 	"supports": {
 		"anchor": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"html": false,
 		"align": true,
+		"color": {
+			"background": true,
+			"link": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"link": true
+			}
+		},
+		"shadow": true,
 		"spacing": {
 			"margin": true,
 			"padding": true

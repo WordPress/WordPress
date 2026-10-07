@@ -169,31 +169,40 @@
   border: none;
   width: 100%;
   align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+.customize-widgets-header-toolbar > .components-button.has-icon.has-icon.has-icon,
+.customize-widgets-header-toolbar > .components-dropdown > .components-button.has-icon.has-icon {
+  height: 32px;
+  min-width: 32px;
+  padding: 4px;
+}
+.customize-widgets-header-toolbar > .components-button.has-icon.has-icon.has-icon.is-pressed,
+.customize-widgets-header-toolbar > .components-dropdown > .components-button.has-icon.has-icon.is-pressed {
+  background: #1e1e1e;
+}
+.customize-widgets-header-toolbar > .components-button.has-icon.has-icon.has-icon:focus:not(:active),
+.customize-widgets-header-toolbar > .components-dropdown > .components-button.has-icon.has-icon:focus:not(:active) {
+  outline: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px)) solid var(--focus-color, var(--wpds-color-stroke-focus, var(--wp-admin-theme-color, #3858e9)));
+  outline-offset: var(--wpds-border-width-focus, var(--wp-admin-border-width-focus, 2px));
+}
+.customize-widgets-header-toolbar > .components-button.has-icon.has-icon.has-icon::before,
+.customize-widgets-header-toolbar > .components-dropdown > .components-button.has-icon.has-icon::before {
+  display: none;
 }
 .customize-widgets-header-toolbar .customize-widgets-header-toolbar__inserter-toggle.components-button.has-icon {
   border-radius: 2px;
   color: #fff;
-  padding: 0;
-  min-width: 32px;
-  height: 32px;
   margin: 12px auto 12px 0;
-}
-.customize-widgets-header-toolbar .customize-widgets-header-toolbar__inserter-toggle.components-button.has-icon::before {
-  content: none;
 }
 @media not (prefers-reduced-motion) {
   .customize-widgets-header-toolbar .customize-widgets-header-toolbar__inserter-toggle.components-button.has-icon svg {
     transition: transform cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
   }
 }
-.customize-widgets-header-toolbar .customize-widgets-header-toolbar__inserter-toggle.components-button.has-icon.is-pressed {
-  background: #1e1e1e;
-}
 .customize-widgets-header-toolbar .customize-widgets-header-toolbar__inserter-toggle.components-button.has-icon.is-pressed svg {
   transform: rotate(-45deg);
-}
-.customize-widgets-header-toolbar .components-button.has-icon.customize-widgets-editor-history-button.redo-button {
-  margin-right: -12px;
 }
 
 #customize-sidebar-outer-content {

@@ -96,6 +96,7 @@
 .wp-block-image > a,
 .wp-block-image > figure > a {
   display: inline-block;
+  color: inherit;
 }
 .wp-block-image img {
   height: auto;
@@ -166,17 +167,13 @@
 .wp-block-image.is-style-circle-mask img {
   border-radius: 9999px;
 }
-@supports ((-webkit-mask-image: none) or (mask-image: none)) or (-webkit-mask-image: none) {
+@supports (mask-image: none) or (-webkit-mask-image: none) {
   .wp-block-image.is-style-circle-mask img {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
-            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
     mask-mode: alpha;
-    -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
-            mask-size: contain;
-    -webkit-mask-position: center;
-            mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
     border-radius: 0;
   }
 }

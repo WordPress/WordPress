@@ -5,7 +5,7 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __require = /* @__PURE__ */ ((x2) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x2, {
-  get: (a2, b2) => (typeof require !== "undefined" ? require : a2)[b2]
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
 }) : x2)(function(x2) {
   if (typeof require !== "undefined") return require.apply(this, arguments);
   throw Error('Dynamic require of "' + x2 + '" is not supported');
@@ -88,11 +88,11 @@ var require_use_sync_external_store_shim_development = __commonJS({
             "The result of getSnapshot should be cached to avoid an infinite loop"
           ), didWarnUncachedGetSnapshot = true);
         }
-        cachedValue = useState28({
+        cachedValue = useState29({
           inst: { value, getSnapshot }
         });
         var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
-        useLayoutEffect4(
+        useLayoutEffect5(
           function() {
             inst.value = value;
             inst.getSnapshot = getSnapshot;
@@ -126,7 +126,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         return getSnapshot();
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React48 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState28 = React48.useState, useEffect20 = React48.useEffect, useLayoutEffect4 = React48.useLayoutEffect, useDebugValue2 = React48.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+      var React48 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState29 = React48.useState, useEffect20 = React48.useEffect, useLayoutEffect5 = React48.useLayoutEffect, useDebugValue2 = React48.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
       exports.useSyncExternalStore = void 0 !== React48.useSyncExternalStore ? React48.useSyncExternalStore : shim;
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
@@ -154,14 +154,14 @@ var require_with_selector_development = __commonJS({
         return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React48 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef22 = React48.useRef, useEffect20 = React48.useEffect, useMemo32 = React48.useMemo, useDebugValue2 = React48.useDebugValue;
+      var React48 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is, useSyncExternalStore3 = shim.useSyncExternalStore, useRef23 = React48.useRef, useEffect20 = React48.useEffect, useMemo34 = React48.useMemo, useDebugValue2 = React48.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual) {
-        var instRef = useRef22(null);
+        var instRef = useRef23(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
         } else inst = instRef.current;
-        instRef = useMemo32(
+        instRef = useMemo34(
           function() {
             function memoizedSelector(nextSnapshot) {
               if (!hasMemo) {
@@ -305,54 +305,54 @@ var require_style_engine = __commonJS({
 var require_es6 = __commonJS({
   "node_modules/fast-deep-equal/es6/index.js"(exports, module) {
     "use strict";
-    module.exports = function equal(a2, b2) {
-      if (a2 === b2) return true;
-      if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
-        if (a2.constructor !== b2.constructor) return false;
-        var length, i2, keys;
-        if (Array.isArray(a2)) {
-          length = a2.length;
-          if (length != b2.length) return false;
-          for (i2 = length; i2-- !== 0; )
-            if (!equal(a2[i2], b2[i2])) return false;
+    module.exports = function equal(a, b) {
+      if (a === b) return true;
+      if (a && b && typeof a == "object" && typeof b == "object") {
+        if (a.constructor !== b.constructor) return false;
+        var length, i, keys;
+        if (Array.isArray(a)) {
+          length = a.length;
+          if (length != b.length) return false;
+          for (i = length; i-- !== 0; )
+            if (!equal(a[i], b[i])) return false;
           return true;
         }
-        if (a2 instanceof Map && b2 instanceof Map) {
-          if (a2.size !== b2.size) return false;
-          for (i2 of a2.entries())
-            if (!b2.has(i2[0])) return false;
-          for (i2 of a2.entries())
-            if (!equal(i2[1], b2.get(i2[0]))) return false;
+        if (a instanceof Map && b instanceof Map) {
+          if (a.size !== b.size) return false;
+          for (i of a.entries())
+            if (!b.has(i[0])) return false;
+          for (i of a.entries())
+            if (!equal(i[1], b.get(i[0]))) return false;
           return true;
         }
-        if (a2 instanceof Set && b2 instanceof Set) {
-          if (a2.size !== b2.size) return false;
-          for (i2 of a2.entries())
-            if (!b2.has(i2[0])) return false;
+        if (a instanceof Set && b instanceof Set) {
+          if (a.size !== b.size) return false;
+          for (i of a.entries())
+            if (!b.has(i[0])) return false;
           return true;
         }
-        if (ArrayBuffer.isView(a2) && ArrayBuffer.isView(b2)) {
-          length = a2.length;
-          if (length != b2.length) return false;
-          for (i2 = length; i2-- !== 0; )
-            if (a2[i2] !== b2[i2]) return false;
+        if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+          length = a.length;
+          if (length != b.length) return false;
+          for (i = length; i-- !== 0; )
+            if (a[i] !== b[i]) return false;
           return true;
         }
-        if (a2.constructor === RegExp) return a2.source === b2.source && a2.flags === b2.flags;
-        if (a2.valueOf !== Object.prototype.valueOf) return a2.valueOf() === b2.valueOf();
-        if (a2.toString !== Object.prototype.toString) return a2.toString() === b2.toString();
-        keys = Object.keys(a2);
+        if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+        if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+        if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
+        keys = Object.keys(a);
         length = keys.length;
-        if (length !== Object.keys(b2).length) return false;
-        for (i2 = length; i2-- !== 0; )
-          if (!Object.prototype.hasOwnProperty.call(b2, keys[i2])) return false;
-        for (i2 = length; i2-- !== 0; ) {
-          var key = keys[i2];
-          if (!equal(a2[key], b2[key])) return false;
+        if (length !== Object.keys(b).length) return false;
+        for (i = length; i-- !== 0; )
+          if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+        for (i = length; i-- !== 0; ) {
+          var key = keys[i];
+          if (!equal(a[key], b[key])) return false;
         }
         return true;
       }
-      return a2 !== a2 && b2 !== b2;
+      return a !== a && b !== b;
     };
   }
 });
@@ -482,20 +482,43 @@ var require_date = __commonJS({
 });
 
 // node_modules/clsx/dist/clsx.mjs
-function r(e2) {
-  var t2, f2, n2 = "";
-  if ("string" == typeof e2 || "number" == typeof e2) n2 += e2;
-  else if ("object" == typeof e2) if (Array.isArray(e2)) {
-    var o2 = e2.length;
-    for (t2 = 0; t2 < o2; t2++) e2[t2] && (f2 = r(e2[t2])) && (n2 && (n2 += " "), n2 += f2);
-  } else for (f2 in e2) e2[f2] && (n2 && (n2 += " "), n2 += f2);
-  return n2;
+function r(e) {
+  var t, f, n = "";
+  if ("string" == typeof e || "number" == typeof e) n += e;
+  else if ("object" == typeof e) if (Array.isArray(e)) {
+    var o = e.length;
+    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+  } else for (f in e) e[f] && (n && (n += " "), n += f);
+  return n;
 }
 function clsx() {
-  for (var e2, t2, f2 = 0, n2 = "", o2 = arguments.length; f2 < o2; f2++) (e2 = arguments[f2]) && (t2 = r(e2)) && (n2 && (n2 += " "), n2 += t2);
-  return n2;
+  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
+  return n;
 }
 var clsx_default = clsx;
+
+// node_modules/@base-ui/utils/createLogOnce.mjs
+var loggedMessages;
+if (true) {
+  loggedMessages = /* @__PURE__ */ new Set();
+}
+function createLogOnce(severity, prefix) {
+  return function logOnce(...messages) {
+    if (true) {
+      const message = messages.join(" ");
+      const output = prefix ? `${prefix}: ${message}` : message;
+      const key = `${severity}:${output}`;
+      if (!loggedMessages.has(key)) {
+        loggedMessages.add(key);
+        if (severity === "warn") {
+          console.warn(output);
+        } else {
+          console.error(output);
+        }
+      }
+    }
+  };
+}
 
 // node_modules/@base-ui/utils/safeReact.mjs
 var React = __toESM(require_react(), 1);
@@ -548,19 +571,13 @@ function assertNotCalled() {
 }
 
 // node_modules/@base-ui/utils/warn.mjs
-var set;
-if (true) {
-  set = /* @__PURE__ */ new Set();
+var warn = createLogOnce("warn", "Base UI");
+
+// node_modules/@base-ui/utils/empty.mjs
+function NOOP() {
 }
-function warn(...messages) {
-  if (true) {
-    const messageKey = messages.join(" ");
-    if (!set.has(messageKey)) {
-      set.add(messageKey);
-      console.warn(`Base UI: ${messageKey}`);
-    }
-  }
-}
+var EMPTY_ARRAY = Object.freeze([]);
+var EMPTY_OBJECT = Object.freeze({});
 
 // node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
 var React3 = __toESM(require_react(), 1);
@@ -572,10 +589,10 @@ var useIsoLayoutEffect = typeof document !== "undefined" ? React3.useLayoutEffec
 var React6 = __toESM(require_react(), 1);
 
 // node_modules/@base-ui/utils/useMergedRefs.mjs
-function useMergedRefs(a2, b2, c2, d2) {
+function useMergedRefs(a, b, c2, d) {
   const forkRef = useRefWithInit(createForkRef).current;
-  if (didChange(forkRef, a2, b2, c2, d2)) {
-    update(forkRef, [a2, b2, c2, d2]);
+  if (didChange(forkRef, a, b, c2, d)) {
+    update(forkRef, [a, b, c2, d]);
   }
   return forkRef.callback;
 }
@@ -593,8 +610,8 @@ function createForkRef() {
     refs: []
   };
 }
-function didChange(forkRef, a2, b2, c2, d2) {
-  return forkRef.refs[0] !== a2 || forkRef.refs[1] !== b2 || forkRef.refs[2] !== c2 || forkRef.refs[3] !== d2;
+function didChange(forkRef, a, b, c2, d) {
+  return forkRef.refs[0] !== a || forkRef.refs[1] !== b || forkRef.refs[2] !== c2 || forkRef.refs[3] !== d;
 }
 function didChangeN(forkRef, newRefs) {
   return forkRef.refs.length !== newRefs.length || forkRef.refs.some((ref, index2) => ref !== newRefs[index2]);
@@ -612,8 +629,8 @@ function update(forkRef, refs) {
     }
     if (instance != null) {
       const cleanupCallbacks = Array(refs.length).fill(null);
-      for (let i2 = 0; i2 < refs.length; i2 += 1) {
-        const ref = refs[i2];
+      for (let i = 0; i < refs.length; i += 1) {
+        const ref = refs[i];
         if (ref == null) {
           continue;
         }
@@ -621,7 +638,7 @@ function update(forkRef, refs) {
           case "function": {
             const refCleanup = ref(instance);
             if (typeof refCleanup === "function") {
-              cleanupCallbacks[i2] = refCleanup;
+              cleanupCallbacks[i] = refCleanup;
             }
             break;
           }
@@ -633,14 +650,14 @@ function update(forkRef, refs) {
         }
       }
       forkRef.cleanup = () => {
-        for (let i2 = 0; i2 < refs.length; i2 += 1) {
-          const ref = refs[i2];
+        for (let i = 0; i < refs.length; i += 1) {
+          const ref = refs[i];
           if (ref == null) {
             continue;
           }
           switch (typeof ref) {
             case "function": {
-              const cleanupCallback = cleanupCallbacks[i2];
+              const cleanupCallback = cleanupCallbacks[i];
               if (typeof cleanupCallback === "function") {
                 cleanupCallback();
               } else {
@@ -681,27 +698,21 @@ function getReactElementRef(element) {
 }
 
 // node_modules/@base-ui/utils/mergeObjects.mjs
-function mergeObjects(a2, b2) {
-  if (a2 && !b2) {
-    return a2;
+function mergeObjects(a, b) {
+  if (a && !b) {
+    return a;
   }
-  if (!a2 && b2) {
-    return b2;
+  if (!a && b) {
+    return b;
   }
-  if (a2 || b2) {
+  if (a || b) {
     return {
-      ...a2,
-      ...b2
+      ...a,
+      ...b
     };
   }
   return void 0;
 }
-
-// node_modules/@base-ui/utils/empty.mjs
-function NOOP() {
-}
-var EMPTY_ARRAY = Object.freeze([]);
-var EMPTY_OBJECT = Object.freeze({});
 
 // node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
 function getStateAttributesProps(state, customMapping) {
@@ -736,22 +747,22 @@ function resolveStyle(style, state) {
 
 // node_modules/@base-ui/react/merge-props/mergeProps.mjs
 var EMPTY_PROPS = {};
-function mergeProps(a2, b2, c2, d2, e2) {
-  if (!c2 && !d2 && !e2 && !a2) {
-    return createInitialMergedProps(b2);
+function mergeProps(a, b, c2, d, e) {
+  if (!c2 && !d && !e && !a) {
+    return createInitialMergedProps(b);
   }
-  let merged = createInitialMergedProps(a2);
-  if (b2) {
-    merged = mergeInto(merged, b2);
+  let merged = createInitialMergedProps(a);
+  if (b) {
+    merged = mergeInto(merged, b);
   }
   if (c2) {
     merged = mergeInto(merged, c2);
   }
-  if (d2) {
-    merged = mergeInto(merged, d2);
+  if (d) {
+    merged = mergeInto(merged, d);
   }
-  if (e2) {
-    merged = mergeInto(merged, e2);
+  if (e) {
+    merged = mergeInto(merged, e);
   }
   return merged;
 }
@@ -763,8 +774,8 @@ function mergePropsN(props) {
     return createInitialMergedProps(props[0]);
   }
   let merged = createInitialMergedProps(props[0]);
-  for (let i2 = 1; i2 < props.length; i2 += 1) {
-    merged = mergeInto(merged, props[i2]);
+  for (let i = 1; i < props.length; i += 1) {
+    merged = mergeInto(merged, props[i]);
   }
   return merged;
 }
@@ -892,19 +903,21 @@ function isSyntheticEvent(event) {
 // node_modules/@base-ui/react/internals/useRenderElement.mjs
 var import_react = __toESM(require_react(), 1);
 function useRenderElement(element, componentProps, params = {}) {
-  const renderProp = componentProps.render;
-  const outProps = useRenderElementProps(componentProps, params);
+  let renderProp = componentProps.render;
+  if (params.enabled !== false) {
+    renderProp = unwrapLazyRenderProp(renderProp);
+  }
+  const outProps = useRenderElementProps(componentProps, params, renderProp);
   if (params.enabled === false) {
     return null;
   }
   const state = params.state ?? EMPTY_OBJECT;
   return evaluateRenderProp(element, renderProp, outProps, state);
 }
-function useRenderElementProps(componentProps, params = {}) {
+function useRenderElementProps(componentProps, params, renderProp) {
   const {
     className: classNameProp,
-    style: styleProp,
-    render: renderProp
+    style: styleProp
   } = componentProps;
   const {
     state = EMPTY_OBJECT,
@@ -947,6 +960,13 @@ function resolveRenderFunctionProps(props) {
 var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
 var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
 var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+function unwrapLazyRenderProp(render) {
+  if (render?.$$typeof !== REACT_LAZY_TYPE) {
+    return render;
+  }
+  const unwrapped = React6.Children.toArray(render)[0];
+  return /* @__PURE__ */ React6.isValidElement(unwrapped) ? unwrapped : render;
+}
 function evaluateRenderProp(element, render, props, state) {
   if (render) {
     if (typeof render === "function") {
@@ -957,17 +977,12 @@ function evaluateRenderProp(element, render, props, state) {
     }
     const mergedProps = mergeProps(props, render.props);
     mergedProps.ref = props.ref;
-    let newElement = render;
-    if (newElement?.$$typeof === REACT_LAZY_TYPE) {
-      const children = React6.Children.toArray(render);
-      newElement = children[0];
-    }
     if (true) {
-      if (!/* @__PURE__ */ React6.isValidElement(newElement)) {
+      if (!/* @__PURE__ */ React6.isValidElement(render)) {
         throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
       }
     }
-    return /* @__PURE__ */ React6.cloneElement(newElement, mergedProps);
+    return /* @__PURE__ */ React6.cloneElement(render, mergedProps);
   }
   if (element) {
     if (typeof element === "string") {
@@ -1169,8 +1184,8 @@ var Scheduler = class {
     this.callbacksCount = 0;
     this.startId = this.nextId;
     if (currentCallbacksCount > 0) {
-      for (let i2 = 0; i2 < currentCallbacks.length; i2 += 1) {
-        currentCallbacks[i2]?.(timestamp);
+      for (let i = 0; i < currentCallbacks.length; i += 1) {
+        currentCallbacks[i]?.(timestamp);
       }
     }
   };
@@ -1189,6 +1204,9 @@ var Scheduler = class {
   cancel(id) {
     const index2 = id - this.startId;
     if (index2 < 0 || index2 >= this.callbacks.length) {
+      return;
+    }
+    if (this.callbacks[index2] === null) {
       return;
     }
     this.callbacks[index2] = null;
@@ -1234,21 +1252,21 @@ function useAnimationFrame() {
 }
 
 // node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-function useTransitionStatus(open, enableIdleState = false, deferEndingState = false) {
-  const [transitionStatus, setTransitionStatus] = React9.useState(open && enableIdleState ? "idle" : void 0);
-  const [mounted, setMounted] = React9.useState(open);
-  if (open && !mounted) {
+function useTransitionStatus(open2, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
+  const [transitionStatus, setTransitionStatus] = React9.useState(open2 && enableIdleState ? "idle" : void 0);
+  const [mounted, setMounted] = React9.useState(open2 && !animateInitialOpen);
+  if (open2 && !mounted) {
     setMounted(true);
     setTransitionStatus("starting");
   }
-  if (!open && mounted && transitionStatus !== "ending" && !deferEndingState) {
+  if (!open2 && mounted && transitionStatus !== "ending" && !deferEndingState) {
     setTransitionStatus("ending");
   }
-  if (!open && !mounted && transitionStatus === "ending") {
+  if (!open2 && !mounted && transitionStatus === "ending") {
     setTransitionStatus(void 0);
   }
   useIsoLayoutEffect(() => {
-    if (!open && mounted && transitionStatus !== "ending" && deferEndingState) {
+    if (!open2 && mounted && transitionStatus !== "ending" && deferEndingState) {
       const frame = AnimationFrame.request(() => {
         setTransitionStatus("ending");
       });
@@ -1257,9 +1275,9 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
       };
     }
     return void 0;
-  }, [open, mounted, transitionStatus, deferEndingState]);
+  }, [open2, mounted, transitionStatus, deferEndingState]);
   useIsoLayoutEffect(() => {
-    if (!open || enableIdleState) {
+    if (!open2 || enableIdleState) {
       return void 0;
     }
     const frame = AnimationFrame.request(() => {
@@ -1268,12 +1286,12 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open]);
+  }, [enableIdleState, open2]);
   useIsoLayoutEffect(() => {
-    if (!open || !enableIdleState) {
+    if (!open2 || !enableIdleState) {
       return void 0;
     }
-    if (open && mounted && transitionStatus !== "idle") {
+    if (open2 && mounted && transitionStatus !== "idle") {
       setTransitionStatus("starting");
     }
     const frame = AnimationFrame.request(() => {
@@ -1282,7 +1300,7 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open, mounted, transitionStatus]);
+  }, [enableIdleState, open2, mounted, transitionStatus]);
   return {
     mounted,
     setMounted,
@@ -1290,17 +1308,16 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
   };
 }
 
+// node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
+var startingStyle = "data-starting-style";
+var endingStyle = "data-ending-style";
+
 // node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
-var TransitionStatusDataAttributes = /* @__PURE__ */ (function(TransitionStatusDataAttributes2) {
-  TransitionStatusDataAttributes2["startingStyle"] = "data-starting-style";
-  TransitionStatusDataAttributes2["endingStyle"] = "data-ending-style";
-  return TransitionStatusDataAttributes2;
-})({});
 var STARTING_HOOK = {
-  "data-starting-style": ""
+  [startingStyle]: ""
 };
 var ENDING_HOOK = {
-  "data-ending-style": ""
+  [endingStyle]: ""
 };
 var transitionStatusMapping = {
   transitionStatus(value) {
@@ -1516,7 +1533,23 @@ function resolveRef(maybeRef) {
 }
 
 // node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
-function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false) {
+var pendingCallbacks = null;
+function flushBeforePaint(fn) {
+  if (!pendingCallbacks) {
+    const callbacks = [];
+    pendingCallbacks = callbacks;
+    queueMicrotask(() => {
+      pendingCallbacks = null;
+      ReactDOM.flushSync(() => {
+        for (const callback of callbacks) {
+          callback();
+        }
+      });
+    });
+  }
+  pendingCallbacks.push(fn);
+}
+function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
   const frame = useAnimationFrame();
   return useStableCallback((fnToExecute, signal = null) => {
     frame.cancel();
@@ -1526,7 +1559,15 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
     }
     const resolvedElement = element;
     const done = () => {
-      ReactDOM.flushSync(fnToExecute);
+      if (!batch) {
+        ReactDOM.flushSync(fnToExecute);
+        return;
+      }
+      flushBeforePaint(() => {
+        if (!signal?.aborted) {
+          fnToExecute();
+        }
+      });
     };
     if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
       fnToExecute();
@@ -1550,7 +1591,7 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
       });
     }
     if (waitForStartingStyleRemoved) {
-      const startingStyleAttribute = "data-starting-style";
+      const startingStyleAttribute = startingStyle;
       if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
         frame.request(exec);
         return;
@@ -1578,12 +1619,13 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
 function useOpenChangeComplete(parameters) {
   const {
     enabled = true,
-    open,
+    open: open2,
     ref,
+    batch = false,
     onComplete: onCompleteParam
   } = parameters;
   const onComplete = useStableCallback(onCompleteParam);
-  const runOnceAnimationsFinish = useAnimationsFinished(ref, open);
+  const runOnceAnimationsFinish = useAnimationsFinished(ref, open2, batch);
   React10.useEffect(() => {
     if (!enabled) {
       return void 0;
@@ -1593,7 +1635,7 @@ function useOpenChangeComplete(parameters) {
     return () => {
       abortController.abort();
     };
-  }, [enabled, open, onComplete, runOnceAnimationsFinish]);
+  }, [enabled, open2, onComplete, runOnceAnimationsFinish]);
 }
 
 // node_modules/@base-ui/utils/platform/parts.mjs
@@ -1601,6 +1643,7 @@ var parts_exports = {};
 __export(parts_exports, {
   engine: () => engine_exports,
   env: () => env_exports,
+  mediaQuery: () => media_query_exports,
   os: () => os_exports,
   screenReader: () => screen_reader_exports
 });
@@ -1686,6 +1729,13 @@ __export(env_exports, {
 });
 var jsdom = /jsdom|happydom/.test(lowerUserAgent);
 
+// node_modules/@base-ui/utils/platform/media-query.mjs
+var media_query_exports = {};
+__export(media_query_exports, {
+  iOS: () => iOS
+});
+var iOS = "@supports (-webkit-touch-callout: none)";
+
 // node_modules/@base-ui/utils/useTimeout.mjs
 var EMPTY2 = 0;
 var Timeout = class _Timeout {
@@ -1729,6 +1779,15 @@ var React11 = __toESM(require_react(), 1);
 function isReactEvent(event) {
   return "nativeEvent" in event;
 }
+function isVirtualClick(event) {
+  if (event.pointerType === "" && event.isTrusted) {
+    return true;
+  }
+  if (parts_exports.os.android && event.pointerType) {
+    return event.type === "click" && event.buttons === 1;
+  }
+  return event.detail === 0 && !event.pointerType;
+}
 function isMouseLikePointerType(pointerType, strict) {
   const values = ["mouse", "pen"];
   if (!strict) {
@@ -1741,11 +1800,7 @@ function isClickLikeEvent(event) {
   return type === "click" || type === "mousedown" || type === "keydown" || type === "keyup";
 }
 
-// node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
-var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
-var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
-
-// node_modules/@base-ui/react/internals/shadowDom.mjs
+// node_modules/@base-ui/utils/shadowDom.mjs
 function activeElement(doc) {
   let element = doc.activeElement;
   while (element?.shadowRoot?.activeElement != null) {
@@ -1774,10 +1829,76 @@ function contains(parent, child) {
 }
 function getTarget(event) {
   if ("composedPath" in event) {
-    return event.composedPath()[0];
+    return event.composedPath()[0] ?? event.target;
   }
   return event.target;
 }
+
+// node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
+var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
+var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
+
+// node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs
+var open = "data-open";
+var closed = "data-closed";
+var anchorHidden = "data-anchor-hidden";
+
+// node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs
+var CommonTriggerDataAttributes_exports = {};
+__export(CommonTriggerDataAttributes_exports, {
+  popupOpen: () => popupOpen,
+  pressed: () => pressed
+});
+var popupOpen = "data-popup-open";
+var pressed = "data-pressed";
+
+// node_modules/@base-ui/react/utils/popupStateMapping.mjs
+var TRIGGER_HOOK = {
+  [popupOpen]: ""
+};
+var PRESSABLE_TRIGGER_HOOK = {
+  [popupOpen]: "",
+  [pressed]: ""
+};
+var POPUP_OPEN_HOOK = {
+  [open]: ""
+};
+var POPUP_CLOSED_HOOK = {
+  [closed]: ""
+};
+var ANCHOR_HIDDEN_HOOK = {
+  [anchorHidden]: ""
+};
+var triggerOpenStateMapping = {
+  open(value) {
+    if (value) {
+      return TRIGGER_HOOK;
+    }
+    return null;
+  }
+};
+var popupStateMapping = {
+  open(value) {
+    if (value) {
+      return POPUP_OPEN_HOOK;
+    }
+    return POPUP_CLOSED_HOOK;
+  },
+  anchorHidden(value) {
+    if (value) {
+      return ANCHOR_HIDDEN_HOOK;
+    }
+    return null;
+  }
+};
+var popupTransitionStateMapping = {
+  ...popupStateMapping,
+  ...transitionStatusMapping
+};
+
+// node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs
+var popupOpen2 = CommonTriggerDataAttributes_exports.popupOpen;
+var triggerDisabled = "data-trigger-disabled";
 
 // node_modules/@base-ui/react/floating-ui-react/utils/element.mjs
 function isTargetInsideEnabledTrigger(target, triggerElements) {
@@ -1786,11 +1907,11 @@ function isTargetInsideEnabledTrigger(target, triggerElements) {
   }
   const targetElement = target;
   if (triggerElements.hasElement(targetElement)) {
-    return !targetElement.hasAttribute("data-trigger-disabled");
+    return !targetElement.hasAttribute(triggerDisabled);
   }
   for (const [, trigger] of triggerElements.entries()) {
     if (contains(trigger, targetElement)) {
-      return !trigger.hasAttribute("data-trigger-disabled");
+      return !trigger.hasAttribute(triggerDisabled);
     }
   }
   return false;
@@ -1917,7 +2038,7 @@ function useDelayGroup(context, options = {
   open: false
 }) {
   const {
-    open
+    open: open2
   } = options;
   const store = "rootStore" in context ? context.rootStore : context;
   const floatingId = store.useState("floatingId");
@@ -1932,10 +2053,10 @@ function useDelayGroup(context, options = {
     timeout
   } = groupContext;
   const [isInstantPhase, setIsInstantPhase] = React11.useState(false);
-  const openRef = React11.useRef(open);
+  const openRef = React11.useRef(open2);
   useIsoLayoutEffect(() => {
-    openRef.current = open;
-  }, [open]);
+    openRef.current = open2;
+  }, [open2]);
   useIsoLayoutEffect(() => {
     function unset() {
       currentContextRef.current?.setIsInstantPhase(false);
@@ -1947,7 +2068,7 @@ function useDelayGroup(context, options = {
     if (!currentIdRef.current) {
       return void 0;
     }
-    if (!open && currentIdRef.current === floatingId) {
+    if (!open2 && currentIdRef.current === floatingId) {
       setIsInstantPhase(false);
       if (timeoutMs) {
         const closingId = floatingId;
@@ -1966,9 +2087,9 @@ function useDelayGroup(context, options = {
       unset();
     }
     return void 0;
-  }, [open, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store]);
+  }, [open2, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store]);
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       return;
     }
     const prevContext = currentContextRef.current;
@@ -1991,7 +2112,7 @@ function useDelayGroup(context, options = {
       setIsInstantPhase(false);
       prevContext?.setIsInstantPhase(false);
     }
-  }, [open, floatingId, store, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
+  }, [open2, floatingId, store, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
   useIsoLayoutEffect(() => {
     return () => {
       if (currentIdRef.current === floatingId) {
@@ -2006,17 +2127,18 @@ function useDelayGroup(context, options = {
     };
   }, [currentContextRef, currentIdRef, delayRef, floatingId, initialDelayRef, timeout]);
   return React11.useMemo(() => ({
+    activeIdRef: currentIdRef,
     hasProvider,
     delayRef,
     isInstantPhase
-  }), [hasProvider, delayRef, isInstantPhase]);
+  }), [currentIdRef, hasProvider, delayRef, isInstantPhase]);
 }
 
 // node_modules/@base-ui/utils/mergeCleanups.mjs
 function mergeCleanups(...cleanups) {
   return () => {
-    for (let i2 = 0; i2 < cleanups.length; i2 += 1) {
-      const cleanup = cleanups[i2];
+    for (let i = 0; i < cleanups.length; i += 1) {
+      const cleanup = cleanups[i];
       if (cleanup) {
         cleanup();
       }
@@ -2490,6 +2612,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
     style,
     children,
     container,
+    portalOwnerRole,
     ...elementProps
   } = componentProps;
   const {
@@ -2509,7 +2632,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
   const [focusManagerState, setFocusManagerState] = React13.useState(null);
   const focusInsideDisabledRef = React13.useRef(false);
   const modal = focusManagerState?.modal;
-  const open = focusManagerState?.open;
+  const open2 = focusManagerState?.open;
   const shouldRenderGuards = !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
   React13.useEffect(() => {
     if (!portalNode || modal) {
@@ -2531,12 +2654,12 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
     return mergeCleanups(addEventListener(portalNode, "focusin", onFocus, true), addEventListener(portalNode, "focusout", onFocus, true));
   }, [portalNode, modal]);
   useIsoLayoutEffect(() => {
-    if (!portalNode || open !== true || !focusInsideDisabledRef.current) {
+    if (!portalNode || open2 !== true || !focusInsideDisabledRef.current) {
       return;
     }
     enableFocusInside(portalNode);
     focusInsideDisabledRef.current = false;
-  }, [open, portalNode]);
+  }, [open2, portalNode]);
   const portalContextValue = React13.useMemo(() => ({
     beforeOutsideRef,
     afterOutsideRef,
@@ -2561,6 +2684,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
           }
         }
       }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", {
+        role: portalOwnerRole,
         "aria-owns": portalNodeId,
         style: ownerVisuallyHidden
       }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FocusGuard, {
@@ -2682,7 +2806,7 @@ function useClientPoint(context, props = {}) {
     axis = "both"
   } = props;
   const store = "rootStore" in context ? context.rootStore : context;
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const floating = store.useState("floatingElement");
   const domReference = store.useState("domReferenceElement");
   const dataRef = store.context.dataRef;
@@ -2709,14 +2833,14 @@ function useClientPoint(context, props = {}) {
     }));
   });
   const handleReferenceEnterOrMove = useStableCallback((event) => {
-    if (!open) {
+    if (!open2) {
       setReference(event.clientX, event.clientY, event.currentTarget);
     } else if (!cleanupListenerRef.current) {
       setReference(event.clientX, event.clientY, event.currentTarget);
       setReactive([]);
     }
   });
-  const openCheck = isMouseLikePointerType(pointerType) ? floating : open;
+  const openCheck = isMouseLikePointerType(pointerType) ? floating : open2;
   React15.useEffect(() => {
     if (!enabled) {
       resetReference(domReference);
@@ -2754,10 +2878,10 @@ function useClientPoint(context, props = {}) {
     }
   }, [enabled, floating]);
   React15.useEffect(() => {
-    if (!enabled && open) {
+    if (!enabled && open2) {
       initialRef.current = true;
     }
-  }, [enabled, open]);
+  }, [enabled, open2]);
   const reference = React15.useMemo(() => {
     function setPointerTypeRef(event) {
       setPointerType(event.pointerType);
@@ -2797,10 +2921,11 @@ function useDismiss(context, props = {}) {
     externalTree
   } = props;
   const store = "rootStore" in context ? context.rootStore : context;
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const floatingElement = store.useState("floatingElement");
   const {
-    dataRef
+    dataRef,
+    events
   } = store.context;
   const tree = useFloatingTree(externalTree);
   const outsidePressFn = useStableCallback(typeof outsidePressProp === "function" ? outsidePressProp : () => false);
@@ -2814,6 +2939,7 @@ function useDismiss(context, props = {}) {
   const pressStartedInsideRef = React16.useRef(false);
   const pressStartPreventedRef = React16.useRef(false);
   const suppressNextOutsideClickRef = React16.useRef(false);
+  const sawPressWhileOpenRef = React16.useRef(false);
   const isComposingRef = React16.useRef(false);
   const currentPointerTypeRef = React16.useRef("");
   const touchStateRef = React16.useRef(null);
@@ -2838,7 +2964,7 @@ function useDismiss(context, props = {}) {
     store.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
   });
   const closeOnEscapeKeyDown = useStableCallback((event) => {
-    if (!open || !enabled || !escapeKey2 || event.key !== "Escape") {
+    if (!open2 || !enabled || !escapeKey2 || event.key !== "Escape") {
       return;
     }
     if (isComposingRef.current) {
@@ -2862,7 +2988,7 @@ function useDismiss(context, props = {}) {
     clearInsideReactTreeTimeout.start(0, clearInsideReactTree);
   });
   const markPressStartedInsideReactTree = useStableCallback((event) => {
-    if (!open || !enabled || event.button !== 0) {
+    if (!open2 || !enabled || event.button !== 0) {
       return;
     }
     const target = getTarget(event.nativeEvent);
@@ -2875,7 +3001,7 @@ function useDismiss(context, props = {}) {
     }
   });
   const markInsidePressStartPrevented = useStableCallback((event) => {
-    if (!open || !enabled) {
+    if (!open2 || !enabled) {
       return;
     }
     if (!(event.defaultPrevented || event.nativeEvent.defaultPrevented)) {
@@ -2886,13 +3012,28 @@ function useDismiss(context, props = {}) {
     }
   });
   React16.useEffect(() => {
-    if (!open || !enabled) {
+    function handleOpenChange(details) {
+      if (!details.open) {
+        sawPressWhileOpenRef.current = false;
+      }
+    }
+    events.on("openchange", handleOpenChange);
+    return () => {
+      events.off("openchange", handleOpenChange);
+    };
+  }, [events]);
+  React16.useEffect(() => {
+    if (!open2 || !enabled) {
+      if (!open2) {
+        sawPressWhileOpenRef.current = false;
+      }
       return clearInsideReactTree;
     }
     dataRef.current.__escapeKeyBubbles = escapeKeyBubbles;
     dataRef.current.__outsidePressBubbles = outsidePressBubbles;
     const compositionTimeout = new Timeout();
     const preventedPressSuppressionTimeout = new Timeout();
+    const doc = ownerDocument(floatingElement);
     function handleCompositionStart() {
       compositionTimeout.clear();
       isComposingRef.current = true;
@@ -2989,10 +3130,15 @@ function useDismiss(context, props = {}) {
       if (isEventWithinFloatingTree(event)) {
         return;
       }
-      if (getOutsidePressEvent() === "intentional" && suppressNextOutsideClickRef.current) {
-        preventedPressSuppressionTimeout.clear();
-        suppressNextOutsideClickRef.current = false;
-        return;
+      if (getOutsidePressEvent() === "intentional") {
+        if (event.detail !== 0 && !isVirtualClick(event) && !sawPressWhileOpenRef.current) {
+          return;
+        }
+        if (suppressNextOutsideClickRef.current) {
+          preventedPressSuppressionTimeout.clear();
+          suppressNextOutsideClickRef.current = false;
+          return;
+        }
       }
       if (typeof outsidePress2 === "function" && !outsidePress2(event)) {
         return;
@@ -3047,6 +3193,9 @@ function useDismiss(context, props = {}) {
     function closeOnPressOutsideCapture(event) {
       cancelDismissOnEndTimeout.clear();
       if (event.type === "pointerdown") {
+        if (event.button === 0) {
+          sawPressWhileOpenRef.current = true;
+        }
         currentPointerTypeRef.current = event.pointerType;
       }
       if (event.type === "mousedown" && touchStateRef.current && !touchStateRef.current.dismissOnMouseDown) {
@@ -3061,6 +3210,9 @@ function useDismiss(context, props = {}) {
       });
     }
     function handlePressEndCapture(event) {
+      if (event.type === "pointercancel") {
+        sawPressWhileOpenRef.current = false;
+      }
       if (!pressStartedInsideRef.current) {
         return;
       }
@@ -3125,8 +3277,16 @@ function useDismiss(context, props = {}) {
     function handleTouchEndCapture(event) {
       addTargetEventListenerOnce(event, handleTouchEnd);
     }
-    const doc = ownerDocument(floatingElement);
-    const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, true), addEventListener(doc, "touchmove", handleTouchMoveCapture, true), addEventListener(doc, "touchend", handleTouchEndCapture, true)));
+    const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, {
+      capture: true,
+      passive: true
+    }), addEventListener(doc, "touchmove", handleTouchMoveCapture, {
+      capture: true,
+      passive: true
+    }), addEventListener(doc, "touchend", handleTouchEndCapture, {
+      capture: true,
+      passive: true
+    })));
     return () => {
       unsubscribe();
       compositionTimeout.clear();
@@ -3135,7 +3295,7 @@ function useDismiss(context, props = {}) {
       suppressNextOutsideClickRef.current = false;
       clearInsideReactTree();
     };
-  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store, cancelDismissOnEndTimeout]);
+  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open2, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store, cancelDismissOnEndTimeout]);
   const reference = React16.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     onPointerDown: closeOnReferencePress,
@@ -3301,8 +3461,8 @@ var computePosition = async (reference, floating, config) => {
   let statefulPlacement = placement;
   let resetCount = 0;
   const middlewareData = {};
-  for (let i2 = 0; i2 < middleware.length; i2++) {
-    const currentMiddleware = middleware[i2];
+  for (let i = 0; i < middleware.length; i++) {
+    const currentMiddleware = middleware[i];
     if (!currentMiddleware) {
       continue;
     }
@@ -3353,7 +3513,7 @@ var computePosition = async (reference, floating, config) => {
           y: y2
         } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
       }
-      i2 = -1;
+      i = -1;
     }
   }
   return {
@@ -3425,7 +3585,7 @@ var flip = function(options) {
           const ignoreCrossAxisOverflow = checkCrossAxis === "alignment" ? initialSideAxis !== getSideAxis(nextPlacement) : false;
           if (!ignoreCrossAxisOverflow || // We leave the current main axis only if every placement on that axis
           // overflows the main axis.
-          overflowsData.every((d2) => getSideAxis(d2.placement) === initialSideAxis ? d2.overflows[0] > 0 : true)) {
+          overflowsData.every((d) => getSideAxis(d.placement) === initialSideAxis ? d.overflows[0] > 0 : true)) {
             return {
               data: {
                 index: nextIndex,
@@ -3437,20 +3597,20 @@ var flip = function(options) {
             };
           }
         }
-        let resetPlacement = (_overflowsData$filter = overflowsData.filter((d2) => d2.overflows[0] <= 0).sort((a2, b2) => a2.overflows[1] - b2.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
+        let resetPlacement = (_overflowsData$filter = overflowsData.filter((d) => d.overflows[0] <= 0).sort((a, b) => a.overflows[1] - b.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
         if (!resetPlacement) {
           switch (fallbackStrategy) {
             case "bestFit": {
               var _overflowsData$filter2;
-              const placement2 = (_overflowsData$filter2 = overflowsData.filter((d2) => {
+              const placement2 = (_overflowsData$filter2 = overflowsData.filter((d) => {
                 if (hasFallbackAxisSideDirection) {
-                  const currentSideAxis = getSideAxis(d2.placement);
+                  const currentSideAxis = getSideAxis(d.placement);
                   return currentSideAxis === initialSideAxis || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
                   currentSideAxis === "y";
                 }
                 return true;
-              }).map((d2) => [d2.placement, d2.overflows.filter((overflow2) => overflow2 > 0).reduce((acc, overflow2) => acc + overflow2, 0)]).sort((a2, b2) => a2[1] - b2[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
+              }).map((d) => [d.placement, d.overflows.filter((overflow2) => overflow2 > 0).reduce((acc, overflow2) => acc + overflow2, 0)]).sort((a, b) => a[1] - b[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
               if (placement2) {
                 resetPlacement = placement2;
               }
@@ -3714,25 +3874,25 @@ var size = function(options) {
       const overflowAvailableWidth = min(width - overflow[widthSide], maximumClippingWidth);
       const shiftData = state.middlewareData.shift;
       const noShift = !shiftData;
-      let availableHeight = overflowAvailableHeight;
-      let availableWidth = overflowAvailableWidth;
+      let availableHeight2 = overflowAvailableHeight;
+      let availableWidth2 = overflowAvailableWidth;
       if (shiftData != null && shiftData.enabled.x) {
-        availableWidth = maximumClippingWidth;
+        availableWidth2 = maximumClippingWidth;
       }
       if (shiftData != null && shiftData.enabled.y) {
-        availableHeight = maximumClippingHeight;
+        availableHeight2 = maximumClippingHeight;
       }
       if (noShift && !alignment) {
         if (isYAxis) {
-          availableWidth = width - 2 * max(overflow.left, overflow.right);
+          availableWidth2 = width - 2 * max(overflow.left, overflow.right);
         } else {
-          availableHeight = height - 2 * max(overflow.top, overflow.bottom);
+          availableHeight2 = height - 2 * max(overflow.top, overflow.bottom);
         }
       }
       await apply({
         ...state,
-        availableWidth,
-        availableHeight
+        availableWidth: availableWidth2,
+        availableHeight: availableHeight2
       });
       const nextDimensions = await platform3.getDimensions(elements2.floating);
       if (width !== nextDimensions.width || height !== nextDimensions.height) {
@@ -4058,8 +4218,8 @@ function getClippingRect(_ref) {
   let right = firstRect.right;
   let bottom = firstRect.bottom;
   let left = firstRect.left;
-  for (let i2 = 1; i2 < clippingAncestors.length; i2++) {
-    const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i2], strategy);
+  for (let i = 1; i < clippingAncestors.length; i++) {
+    const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i], strategy);
     top = max(rect.top, top);
     right = min(rect.right, right);
     bottom = min(rect.bottom, bottom);
@@ -4184,8 +4344,8 @@ var platform2 = {
   isElement,
   isRTL
 };
-function rectsAreEqual(a2, b2) {
-  return a2.x === b2.x && a2.y === b2.y && a2.width === b2.width && a2.height === b2.height;
+function rectsAreEqual(a, b) {
+  return a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
 }
 function observeMove(element, onMove, ancestorResize) {
   let io = null;
@@ -4362,52 +4522,52 @@ var isClient = typeof document !== "undefined";
 var noop2 = function noop3() {
 };
 var index = isClient ? import_react2.useLayoutEffect : noop2;
-function deepEqual(a2, b2) {
-  if (a2 === b2) {
+function deepEqual(a, b) {
+  if (a === b) {
     return true;
   }
-  if (typeof a2 !== typeof b2) {
+  if (typeof a !== typeof b) {
     return false;
   }
-  if (typeof a2 === "function" && a2.toString() === b2.toString()) {
+  if (typeof a === "function" && a.toString() === b.toString()) {
     return true;
   }
   let length;
-  let i2;
+  let i;
   let keys;
-  if (a2 && b2 && typeof a2 === "object") {
-    if (Array.isArray(a2)) {
-      length = a2.length;
-      if (length !== b2.length) return false;
-      for (i2 = length; i2-- !== 0; ) {
-        if (!deepEqual(a2[i2], b2[i2])) {
+  if (a && b && typeof a === "object") {
+    if (Array.isArray(a)) {
+      length = a.length;
+      if (length !== b.length) return false;
+      for (i = length; i-- !== 0; ) {
+        if (!deepEqual(a[i], b[i])) {
           return false;
         }
       }
       return true;
     }
-    keys = Object.keys(a2);
+    keys = Object.keys(a);
     length = keys.length;
-    if (length !== Object.keys(b2).length) {
+    if (length !== Object.keys(b).length) {
       return false;
     }
-    for (i2 = length; i2-- !== 0; ) {
-      if (!{}.hasOwnProperty.call(b2, keys[i2])) {
+    for (i = length; i-- !== 0; ) {
+      if (!{}.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
-    for (i2 = length; i2-- !== 0; ) {
-      const key = keys[i2];
-      if (key === "_owner" && a2.$$typeof) {
+    for (i = length; i-- !== 0; ) {
+      const key = keys[i];
+      if (key === "_owner" && a.$$typeof) {
         continue;
       }
-      if (!deepEqual(a2[key], b2[key])) {
+      if (!deepEqual(a[key], b[key])) {
         return false;
       }
     }
     return true;
   }
-  return a2 !== a2 && b2 !== b2;
+  return a !== a && b !== b;
 }
 function getDPR(element) {
   if (typeof window === "undefined") {
@@ -4442,7 +4602,7 @@ function useFloating(options) {
     } = {},
     transform = true,
     whileElementsMounted,
-    open
+    open: open2
   } = options;
   const [data, setData] = React17.useState({
     x: 0,
@@ -4478,7 +4638,7 @@ function useFloating(options) {
   const hasWhileElementsMounted = whileElementsMounted != null;
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
   const platformRef = useLatestRef(platform3);
-  const openRef = useLatestRef(open);
+  const openRef = useLatestRef(open2);
   const update2 = React17.useCallback(() => {
     if (!referenceRef.current || !floatingRef.current) {
       return;
@@ -4509,14 +4669,14 @@ function useFloating(options) {
     });
   }, [latestMiddleware, placement, strategy, platformRef, openRef]);
   index(() => {
-    if (open === false && dataRef.current.isPositioned) {
+    if (open2 === false && dataRef.current.isPositioned) {
       dataRef.current.isPositioned = false;
       setData((data2) => ({
         ...data2,
         isPositioned: false
       }));
     }
-  }, [open]);
+  }, [open2]);
   const isMountedRef = React17.useRef(false);
   index(() => {
     isMountedRef.current = true;
@@ -4686,8 +4846,8 @@ var BasePopupHandle = class {
   }
   /**
    * Points the handle at a root's store and notifies subscribers so detached triggers re-render and
-   * re-register into it (their registration ref re-fires on the store-pointer change). Returns a
-   * cleanup function that detaches the store again.
+   * re-register into it (their registration effect migrates them when the store pointer changes).
+   * Returns a cleanup function that detaches the store again.
    * @internal
    */
   attachStore(newStore) {
@@ -4746,8 +4906,8 @@ var BasePopupHandle = class {
     }
     let triggerElement;
     if (triggerId) {
-      for (let i2 = this.attachedStores.length - 1; i2 >= 0 && !triggerElement; i2 -= 1) {
-        triggerElement = this.attachedStores[i2].context.triggerElements.getById(triggerId);
+      for (let i = this.attachedStores.length - 1; i >= 0 && !triggerElement; i -= 1) {
+        triggerElement = this.attachedStores[i].context.triggerElements.getById(triggerId);
       }
       triggerElement ??= this.fallbackStore.context.triggerElements.getById(triggerId);
     }
@@ -4851,8 +5011,8 @@ register({
       instance.didChangeStore = true;
       instance.getSnapshot = () => {
         let didChange2 = false;
-        for (let i2 = 0; i2 < instance.syncHooks.length; i2 += 1) {
-          const hook = instance.syncHooks[i2];
+        for (let i = 0; i < instance.syncHooks.length; i += 1) {
+          const hook = instance.syncHooks[i];
           const value = hook.selector(hook.store.state, hook.a1, hook.a2, hook.a3);
           if (!Object.is(hook.value, value)) {
             didChange2 = true;
@@ -4931,6 +5091,14 @@ function useStoreLegacy(store, selector, a1, a2, a3) {
 // node_modules/@base-ui/utils/store/Store.mjs
 var Store = class {
   /**
+   * Creates a store with the given initial state, constructing the class it is called on.
+   * Calling it on a generic base class (e.g. `ReactStore.create(...)`) constructs that
+   * class but degrades the inferred instance type to `Store`; use `new` there instead.
+   */
+  static create(state) {
+    return new this(state);
+  }
+  /**
    * The current state of the store.
    * This property is updated immediately when the state changes as a result of calling {@link setState}, {@link update}, or {@link set}.
    * To subscribe to state changes, use the {@link useState} method. The value returned by {@link useState} is updated after the component renders (similarly to React's useState).
@@ -4983,6 +5151,8 @@ var Store = class {
   }
   /**
    * Merges the provided changes into the current state and notifies listeners if there are changes.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
    *
    * @param changes An object containing the changes to apply to the current state.
    */
@@ -5078,9 +5248,13 @@ var ReactStore = class extends Store {
   }
   /**
    * Synchronizes multiple external values into the store.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
    *
    * Note that the while the values in `state` are updated immediately, the values returned
    * by `useState` are updated before the next render (similarly to React's `useState`).
+   *
+   * @param statePart An exact subset of state fields to synchronize. Unknown keys are not accepted.
    */
   useSyncedValues(statePart) {
     const store = this;
@@ -5279,7 +5453,7 @@ function useSyncedFloatingRootContext(options) {
     nested,
     onOpenChange
   } = options;
-  const open = popupStore.useState("open");
+  const open2 = popupStore.useState("open");
   const referenceElement = popupStore.useState("activeTriggerElement");
   const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
   const triggerElements = popupStore.context.triggerElements;
@@ -5287,7 +5461,7 @@ function useSyncedFloatingRootContext(options) {
   const internalStoreRef = React21.useRef(null);
   if (floatingRootContextProp === void 0 && internalStoreRef.current === null) {
     internalStoreRef.current = new FloatingRootStore({
-      open,
+      open: open2,
       transitionStatus: void 0,
       referenceElement,
       floatingElement,
@@ -5302,7 +5476,7 @@ function useSyncedFloatingRootContext(options) {
   popupStore.useSyncedValue("floatingId", floatingId);
   useIsoLayoutEffect(() => {
     const valuesToSync = {
-      open,
+      open: open2,
       floatingId,
       referenceElement,
       floatingElement
@@ -5314,7 +5488,7 @@ function useSyncedFloatingRootContext(options) {
       valuesToSync.positionReference = referenceElement;
     }
     store.update(valuesToSync);
-  }, [open, floatingId, referenceElement, floatingElement, store]);
+  }, [open2, floatingId, referenceElement, floatingElement, store]);
   store.context.onOpenChange = handleOpenChange;
   store.context.nested = nested;
   return store;
@@ -5348,50 +5522,58 @@ function PopupHandleAttachment({
   }, [handle, store]);
   return null;
 }
-function useTriggerRegistration(id, store) {
-  const registeredElementIdRef = React22.useRef(null);
-  const registeredElementRef = React22.useRef(null);
-  return React22.useCallback((element) => {
-    if (id === void 0) {
-      return;
-    }
-    let shouldSyncTriggerCount = false;
-    if (registeredElementIdRef.current !== null) {
-      const registeredId = registeredElementIdRef.current;
-      const registeredElement = registeredElementRef.current;
-      const currentElement = store.context.triggerElements.getById(registeredId);
-      if (registeredElement && currentElement === registeredElement) {
-        store.context.triggerElements.delete(registeredId);
-        shouldSyncTriggerCount = true;
-      }
-      registeredElementIdRef.current = null;
-      registeredElementRef.current = null;
-    }
-    if (element !== null) {
-      registeredElementIdRef.current = id;
-      registeredElementRef.current = element;
-      store.context.triggerElements.add(id, element);
-      shouldSyncTriggerCount = true;
-    }
-    if (shouldSyncTriggerCount) {
-      const triggerCount = store.context.triggerElements.size;
-      if (store.select("open") && store.state.triggerCount !== triggerCount) {
-        store.set("triggerCount", triggerCount);
-      }
-    }
-  }, [store, id]);
+function syncTriggerCount(store) {
+  const triggerCount = store.context.triggerElements.size;
+  if (store.select("open") && store.state.triggerCount !== triggerCount) {
+    store.set("triggerCount", triggerCount);
+  }
 }
-function setPopupOpenState(state, open, trigger, preventUnmountOnClose = false) {
-  if (open) {
-    state.preventUnmountingOnClose = false;
+function useTriggerRegistration(id, store) {
+  const registrationRef = React22.useRef(null);
+  return useStableCallback((element) => {
+    const registration = registrationRef.current;
+    if (registration !== null) {
+      if (registration.element === element && registration.store === store && registration.id === id) {
+        return;
+      }
+      registrationRef.current = null;
+      const registeredStore = registration.store;
+      if (registeredStore.context.triggerElements.getById(registration.id) === registration.element) {
+        registeredStore.context.triggerElements.delete(registration.id);
+        syncTriggerCount(registeredStore);
+      }
+    }
+    if (element !== null && id !== void 0) {
+      registrationRef.current = {
+        store,
+        id,
+        element
+      };
+      store.context.triggerElements.add(id, element);
+      syncTriggerCount(store);
+    }
+  });
+}
+function createPopupOpenState(state, open2, trigger, preventUnmountOnClose = false) {
+  let preventUnmountingOnClose = state.preventUnmountingOnClose;
+  if (open2) {
+    preventUnmountingOnClose = false;
   } else if (preventUnmountOnClose) {
-    state.preventUnmountingOnClose = true;
+    preventUnmountingOnClose = true;
   }
   const triggerId = trigger?.id ?? null;
-  if (triggerId || open) {
-    state.activeTriggerId = triggerId;
-    state.activeTriggerElement = trigger ?? null;
+  let activeTriggerId = state.activeTriggerId;
+  let activeTriggerElement = state.activeTriggerElement;
+  if (triggerId || open2) {
+    activeTriggerId = triggerId;
+    activeTriggerElement = trigger ?? null;
   }
+  return {
+    open: open2,
+    preventUnmountingOnClose,
+    activeTriggerId,
+    activeTriggerElement
+  };
 }
 function attachPreventUnmountOnClose(eventDetails) {
   let preventUnmountOnClose = false;
@@ -5413,9 +5595,10 @@ function applyPopupOpenChange(store, nextOpen, eventDetails, options = {}) {
   options.onBeforeDispatch?.();
   store.state.floatingRootContext.dispatchOpenChange(nextOpen, eventDetails);
   const changeState = () => {
+    const popupOpenState = createPopupOpenState(store.state, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
     const updatedState = {
       ...options.extraState,
-      open: nextOpen
+      ...popupOpenState
     };
     if (isFocusOpen) {
       updatedState.instantType = "focus";
@@ -5424,7 +5607,6 @@ function applyPopupOpenChange(store, nextOpen, eventDetails, options = {}) {
     } else if (isHover) {
       updatedState.instantType = void 0;
     }
-    setPopupOpenState(updatedState, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
     store.update(updatedState);
   };
   if (isHover) {
@@ -5437,35 +5619,42 @@ function useTriggerDataForwarding(triggerId, triggerElementRef, store, stateUpda
   const isMountedByThisTrigger = store.useState("isMountedByTrigger", triggerId);
   const baseRegisterTrigger = useTriggerRegistration(triggerId, store);
   const applyTriggerData = useStableCallback((element) => {
-    const open = store.select("open");
+    const open2 = store.select("open");
     const activeTriggerId = store.select("activeTriggerId");
     if (activeTriggerId === triggerId) {
-      store.update({
+      const changes = {
         activeTriggerElement: element,
-        ...open ? stateUpdates : null
-      });
+        ...open2 ? stateUpdates : null
+      };
+      store.update(changes);
       return;
     }
-    if (activeTriggerId == null && open) {
-      store.update({
-        activeTriggerId: triggerId,
+    if (activeTriggerId == null && open2) {
+      const changes = {
+        activeTriggerId: triggerId ?? null,
         activeTriggerElement: element,
         ...stateUpdates
-      });
+      };
+      store.update(changes);
     }
   });
-  const registerTrigger = React22.useCallback((element) => {
+  const registerTrigger = useStableCallback((element) => {
     baseRegisterTrigger(element);
     if (element) {
       applyTriggerData(element);
     }
-  }, [baseRegisterTrigger, applyTriggerData]);
+  });
+  useIsoLayoutEffect(() => {
+    registerTrigger(triggerElementRef.current);
+    return () => registerTrigger(null);
+  }, [registerTrigger, triggerElementRef, store, triggerId]);
   useIsoLayoutEffect(() => {
     if (isMountedByThisTrigger) {
-      store.update({
+      const changes = {
         activeTriggerElement: triggerElementRef.current,
         ...stateUpdates
-      });
+      };
+      store.update(changes);
     }
   }, [isMountedByThisTrigger, store, triggerElementRef, ...Object.values(stateUpdates)]);
   return {
@@ -5478,12 +5667,12 @@ function useImplicitActiveTrigger(store, options = {}) {
     closeOnActiveTriggerUnmount = false
   } = options;
   const resolvedActiveTriggerIdRef = React22.useRef(null);
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const reactiveTriggerCount = store.useState("triggerCount");
   const activeTriggerId = store.useState("activeTriggerId");
   const reactiveActiveTriggerElement = store.useState("activeTriggerElement");
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       resolvedActiveTriggerIdRef.current = null;
       if (store.state.triggerCount !== 0) {
         store.set("triggerCount", 0);
@@ -5552,16 +5741,16 @@ function useImplicitActiveTrigger(store, options = {}) {
         });
       }
     }
-  }, [open, store, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
+  }, [open2, store, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
 }
-function useOpenStateTransitions(open, store, onUnmount) {
+function useOpenStateTransitions(open2, store, onUnmount, animateInitialOpen) {
   const {
     mounted,
     setMounted,
     transitionStatus
-  } = useTransitionStatus(open);
+  } = useTransitionStatus(open2, false, false, animateInitialOpen);
   const preventUnmountingOnClose = store.useState("preventUnmountingOnClose");
-  const syncedPreventUnmountingOnClose = open ? false : preventUnmountingOnClose;
+  const syncedPreventUnmountingOnClose = open2 ? false : preventUnmountingOnClose;
   store.useSyncedValues({
     mounted,
     transitionStatus,
@@ -5579,11 +5768,11 @@ function useOpenStateTransitions(open, store, onUnmount) {
     store.context.onOpenChangeComplete?.(false);
   });
   useOpenChangeComplete({
-    enabled: mounted && !open && !syncedPreventUnmountingOnClose,
-    open,
+    enabled: mounted && !open2 && !syncedPreventUnmountingOnClose,
+    open: open2,
     ref: store.context.popupRef,
     onComplete() {
-      if (!open) {
+      if (!open2) {
         forceUnmount();
       }
     }
@@ -5699,30 +5888,25 @@ var PopupTriggerMap = class {
   }
 };
 
-// node_modules/@base-ui/react/floating-ui-react/utils/getEmptyRootContext.mjs
-function getEmptyRootContext() {
-  return new FloatingRootStore({
-    open: false,
-    transitionStatus: void 0,
-    floatingElement: null,
-    referenceElement: null,
-    triggerElements: new PopupTriggerMap(),
-    floatingId: void 0,
-    syncOnly: false,
-    nested: false,
-    onOpenChange: void 0
-  });
-}
-
 // node_modules/@base-ui/react/utils/popups/store.mjs
-function createInitialPopupStoreState() {
+function createInitialPopupStoreState(triggerElements, floatingId, nested = false) {
   return {
     open: false,
     openProp: void 0,
     mounted: false,
     transitionStatus: void 0,
-    floatingRootContext: getEmptyRootContext(),
-    floatingId: void 0,
+    floatingRootContext: new FloatingRootStore({
+      open: false,
+      transitionStatus: void 0,
+      floatingElement: null,
+      referenceElement: null,
+      triggerElements,
+      floatingId,
+      syncOnly: true,
+      nested,
+      onOpenChange: void 0
+    }),
+    floatingId,
     triggerCount: 0,
     preventUnmountingOnClose: false,
     payload: void 0,
@@ -5735,19 +5919,6 @@ function createInitialPopupStoreState() {
     inactiveTriggerProps: EMPTY_OBJECT,
     popupProps: EMPTY_OBJECT
   };
-}
-function createPopupFloatingRootContext(triggerElements, floatingId, nested = false) {
-  return new FloatingRootStore({
-    open: false,
-    transitionStatus: void 0,
-    floatingElement: null,
-    referenceElement: null,
-    triggerElements,
-    floatingId,
-    syncOnly: true,
-    nested,
-    onOpenChange: void 0
-  });
 }
 var activeTriggerIdSelector = (state) => state.triggerIdProp ?? state.activeTriggerId;
 var openSelector = (state) => state.openProp ?? state.open;
@@ -5825,7 +5996,7 @@ function useFloatingWithStore(options, store) {
   const referenceElement = store.useState("referenceElement");
   const floatingElement = store.useState("floatingElement");
   const domReferenceElement = store.useState("domReferenceElement");
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const floatingId = store.useState("floatingId");
   const [positionReference, setPositionReferenceRaw] = React24.useState(null);
   const [localDomReference, setLocalDomReference] = React24.useState(void 0);
@@ -5890,7 +6061,7 @@ function useFloatingWithStore(options, store) {
   const context = React24.useMemo(() => ({
     ...position,
     dataRef: store.context.dataRef,
-    open,
+    open: open2,
     onOpenChange: store.setOpen,
     events: store.context.events,
     floatingId,
@@ -5898,7 +6069,7 @@ function useFloatingWithStore(options, store) {
     elements: elements2,
     nodeId,
     rootStore: store
-  }), [position, refs, elements2, nodeId, store, open, floatingId]);
+  }), [position, refs, elements2, nodeId, store, open2, floatingId]);
   useIsoLayoutEffect(() => {
     if (domReferenceElement) {
       domReferenceRef.current = domReferenceElement;
@@ -5906,7 +6077,7 @@ function useFloatingWithStore(options, store) {
   }, [domReferenceElement]);
   useIsoLayoutEffect(() => {
     store.context.dataRef.current.floatingContext = context;
-    const node = tree?.nodesRef.current.find((n2) => n2.id === nodeId);
+    const node = tree?.nodesRef.current.find((n) => n.id === nodeId);
     if (node) {
       node.context = context;
     }
@@ -5947,6 +6118,7 @@ function useFocus(context, props = {}) {
       const currentDomReference = store.select("domReferenceElement");
       if (!store.select("open") && isHTMLElement(currentDomReference) && currentDomReference === activeElement(ownerDocument(currentDomReference))) {
         blockFocusRef.current = true;
+        blockedReferenceRef.current = currentDomReference;
       }
     }
     function onKeyDown() {
@@ -6133,7 +6305,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     nodeId: nodeIdProp
   } = parameters;
   const store = "rootStore" in context ? context.rootStore : context;
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const floatingElement = store.useState("floatingElement");
   const domReferenceElement = store.useState("domReferenceElement");
   const {
@@ -6153,13 +6325,13 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     clearSafePolygonPointerEventsMutation(instance);
   });
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       instance.pointerType = void 0;
       instance.restTimeoutPending = false;
       instance.interactedInside = false;
       clearPointerEvents();
     }
-  }, [open, instance, clearPointerEvents]);
+  }, [open2, instance, clearPointerEvents]);
   React26.useEffect(() => {
     return clearPointerEvents;
   }, [clearPointerEvents]);
@@ -6167,7 +6339,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     if (!enabled) {
       return void 0;
     }
-    if (open && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
+    if (open2 && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
       const ref = domReferenceElement;
       const floatingEl = floatingElement;
       const doc = ownerDocument(floatingElement);
@@ -6188,7 +6360,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
       };
     }
     return void 0;
-  }, [enabled, open, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
+  }, [enabled, open2, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
   React26.useEffect(() => {
     if (!enabled) {
       return void 0;
@@ -6328,7 +6500,7 @@ function useHoverReferenceInteraction(context, props = {}) {
     clearSafePolygonPointerEventsMutation(instance);
   });
   if (isActiveTrigger) {
-    instance.handleCloseOptions = handleCloseRef.current?.__options;
+    instance.handleCloseOptions = handleClose?.__options;
   }
   React27.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
   React27.useEffect(() => {
@@ -6778,56 +6950,6 @@ var NullStore = class extends ReactStore {
   }
 };
 
-// node_modules/@base-ui/react/utils/popupStateMapping.mjs
-var CommonPopupDataAttributes = (function(CommonPopupDataAttributes2) {
-  CommonPopupDataAttributes2["open"] = "data-open";
-  CommonPopupDataAttributes2["closed"] = "data-closed";
-  CommonPopupDataAttributes2[CommonPopupDataAttributes2["startingStyle"] = TransitionStatusDataAttributes.startingStyle] = "startingStyle";
-  CommonPopupDataAttributes2[CommonPopupDataAttributes2["endingStyle"] = TransitionStatusDataAttributes.endingStyle] = "endingStyle";
-  CommonPopupDataAttributes2["anchorHidden"] = "data-anchor-hidden";
-  CommonPopupDataAttributes2["side"] = "data-side";
-  CommonPopupDataAttributes2["align"] = "data-align";
-  return CommonPopupDataAttributes2;
-})({});
-var TRIGGER_HOOK = {
-  "data-popup-open": ""
-};
-var POPUP_OPEN_HOOK = {
-  "data-open": ""
-};
-var POPUP_CLOSED_HOOK = {
-  "data-closed": ""
-};
-var ANCHOR_HIDDEN_HOOK = {
-  "data-anchor-hidden": ""
-};
-var triggerOpenStateMapping = {
-  open(value) {
-    if (value) {
-      return TRIGGER_HOOK;
-    }
-    return null;
-  }
-};
-var popupStateMapping = {
-  open(value) {
-    if (value) {
-      return POPUP_OPEN_HOOK;
-    }
-    return POPUP_CLOSED_HOOK;
-  },
-  anchorHidden(value) {
-    if (value) {
-      return ANCHOR_HIDDEN_HOOK;
-    }
-    return null;
-  }
-};
-var popupTransitionStateMapping = {
-  ...popupStateMapping,
-  ...transitionStatusMapping
-};
-
 // node_modules/@base-ui/utils/inertValue.mjs
 function inertValue(value) {
   if (isReactVersionAtLeast(19)) {
@@ -6912,10 +7034,17 @@ var baseArrow = (options) => ({
     };
   }
 });
-var arrow4 = (options, deps) => ({
-  ...baseArrow(options),
-  options: [options, deps]
-});
+var arrow4 = (options, deps) => {
+  const {
+    name: name2,
+    fn
+  } = baseArrow(options);
+  return {
+    name: name2,
+    fn,
+    options: [options, deps]
+  };
+};
 
 // node_modules/@base-ui/react/utils/hideMiddleware.mjs
 var hide4 = {
@@ -6927,14 +7056,14 @@ var hide4 = {
       x: x2,
       y: y2
     } = state.rects.reference;
-    const anchorHidden = width === 0 && height === 0 && x2 === 0 && y2 === 0;
+    const anchorHidden2 = width === 0 && height === 0 && x2 === 0 && y2 === 0;
     const overflow = await state.platform.detectOverflow(state, {
       elementContext: "reference"
     });
     const referenceHidden = overflow.top - height >= 0 || overflow.right - width >= 0 || overflow.bottom - height >= 0 || overflow.left - width >= 0;
     return {
       data: {
-        referenceHidden: referenceHidden || anchorHidden
+        referenceHidden: referenceHidden || anchorHidden2
       }
     };
   }
@@ -6946,9 +7075,18 @@ var DEFAULT_SIDES = {
   sideY: "top"
 };
 
+// node_modules/@base-ui/react/utils/CommonPositionerCssVars.mjs
+var availableWidth = "--available-width";
+var availableHeight = "--available-height";
+var anchorWidth = "--anchor-width";
+var anchorHeight = "--anchor-height";
+var transformOrigin = "--transform-origin";
+var positionerWidth = "--positioner-width";
+var positionerHeight = "--positioner-height";
+
 // node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
-var AVAILABLE_WIDTH_VAR = "--available-width";
-var AVAILABLE_HEIGHT_VAR = "--available-height";
+var AVAILABLE_WIDTH_VAR = availableWidth;
+var AVAILABLE_HEIGHT_VAR = availableHeight;
 function getLogicalSide(sideParam, renderedSide, isRtl) {
   const isLogicalSideParam = sideParam === "inline-start" || sideParam === "inline-end";
   const logicalRight = isRtl ? "inline-start" : "inline-end";
@@ -7126,16 +7264,16 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       elements: {
         floating
       },
-      availableWidth,
-      availableHeight,
+      availableWidth: availableWidth2,
+      availableHeight: availableHeight2,
       rects
     }) {
       if (!mountedRef.current) {
         return;
       }
       const floatingStyle = floating.style;
-      floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth}px`);
-      floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight}px`);
+      floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth2}px`);
+      floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight2}px`);
       const dpr = getWindow(floating).devicePixelRatio || 1;
       const {
         x: x3,
@@ -7143,48 +7281,49 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
         width,
         height
       } = rects.reference;
-      const anchorWidth = (Math.round((x3 + width) * dpr) - Math.round(x3 * dpr)) / dpr;
-      const anchorHeight = (Math.round((y3 + height) * dpr) - Math.round(y3 * dpr)) / dpr;
-      floatingStyle.setProperty("--anchor-width", `${anchorWidth}px`);
-      floatingStyle.setProperty("--anchor-height", `${anchorHeight}px`);
+      const anchorWidth2 = (Math.round((x3 + width) * dpr) - Math.round(x3 * dpr)) / dpr;
+      const anchorHeight2 = (Math.round((y3 + height) * dpr) - Math.round(y3 * dpr)) / dpr;
+      floatingStyle.setProperty(anchorWidth, `${anchorWidth2}px`);
+      floatingStyle.setProperty(anchorHeight, `${anchorHeight2}px`);
     }
   }), arrow4((state) => ({
     // `transform-origin` calculations rely on an element existing. If the arrow hasn't been set,
     // we'll create a fake element.
     element: arrowRef.current || ownerDocument(state.elements.floating).createElement("div"),
-    padding: arrowPadding,
+    // No padding for the fake arrow: it would displace aligned popups on narrow anchors.
+    padding: arrowRef.current ? arrowPadding : 0,
     offsetParent: "floating"
   }), [arrowPadding]), {
     name: "transformOrigin",
     fn(state) {
       const {
-        elements: elements3,
+        elements: {
+          floating
+        },
         middlewareData: middlewareData2,
         placement: renderedPlacement2,
+        platform: platform3,
         rects,
         y: y3
       } = state;
-      const currentRenderedSide = getSide(renderedPlacement2);
-      const currentRenderedAxis = getSideAxis(currentRenderedSide);
+      const renderedSide2 = getSide(renderedPlacement2);
+      const renderedAlign2 = getAlignment(renderedPlacement2);
+      const isVertical = getSideAxis(renderedSide2) === "y";
       const arrowEl = arrowRef.current;
-      const arrowX = middlewareData2.arrow?.x || 0;
-      const arrowY = middlewareData2.arrow?.y || 0;
-      const arrowWidth = arrowEl?.clientWidth || 0;
-      const arrowHeight = arrowEl?.clientHeight || 0;
-      const transformX = arrowX + arrowWidth / 2;
-      const transformY = arrowY + arrowHeight / 2;
-      const shiftY = Math.abs(middlewareData2.shift?.y || 0);
-      const halfAnchorHeight = rects.reference.height / 2;
       const sideOffsetValue = typeof sideOffset === "function" ? sideOffset(getOffsetData(state, sideParam, isRtl)) : sideOffset;
-      const isOverlappingAnchor = shiftY > sideOffsetValue;
-      const adjacentTransformOrigin = {
-        top: `${transformX}px calc(100% + ${sideOffsetValue}px)`,
-        bottom: `${transformX}px ${-sideOffsetValue}px`,
-        left: `calc(100% + ${sideOffsetValue}px) ${transformY}px`,
-        right: `${-sideOffsetValue}px ${transformY}px`
-      }[currentRenderedSide];
-      const overlapTransformOrigin = `${transformX}px ${rects.reference.y + halfAnchorHeight - y3}px`;
-      elements3.floating.style.setProperty("--transform-origin", crossAxisShiftEnabled && currentRenderedAxis === "y" && isOverlappingAnchor ? overlapTransformOrigin : adjacentTransformOrigin);
+      let crossOrigin;
+      if (!arrowEl && renderedAlign2 && Math.abs(isVertical ? middlewareData2.shift?.x || 0 : middlewareData2.shift?.y || 0) <= 1) {
+        crossOrigin = renderedAlign2 === "start" === (isVertical && platform3.isRTL?.(floating) === true) ? "100%" : "0%";
+      } else {
+        const arrowOffset = isVertical ? middlewareData2.arrow?.x || 0 : middlewareData2.arrow?.y || 0;
+        const arrowSize = isVertical ? arrowEl?.clientWidth || 0 : arrowEl?.clientHeight || 0;
+        crossOrigin = `${arrowOffset + arrowSize / 2}px`;
+      }
+      let sideOrigin = renderedSide2 === "top" || renderedSide2 === "left" ? `calc(100% + ${sideOffsetValue}px)` : `${-sideOffsetValue}px`;
+      if (crossAxisShiftEnabled && isVertical && Math.abs(middlewareData2.shift?.y || 0) > sideOffsetValue) {
+        sideOrigin = `${rects.reference.y + rects.reference.height / 2 - y3}px`;
+      }
+      floating.style.setProperty(transformOrigin, isVertical ? `${crossOrigin} ${sideOrigin}` : `${sideOrigin} ${crossOrigin}`);
       return {};
     }
   }, hide4, adaptiveOrigin2);
@@ -7199,6 +7338,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     }
   }, [mounted, floatingRootContext]);
   const autoUpdateOptions = React29.useMemo(() => ({
+    ancestorScroll: !disableAnchorTracking,
     elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
     layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
   }), [disableAnchorTracking]);
@@ -7291,7 +7431,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
   const renderedSide = getSide(renderedPlacement);
   const logicalRenderedSide = getLogicalSide(sideParam, renderedSide, isRtl);
   const renderedAlign = getAlignment(renderedPlacement) || "center";
-  const anchorHidden = Boolean(middlewareData.hide?.referenceHidden);
+  const anchorHidden2 = Boolean(middlewareData.hide?.referenceHidden);
   useIsoLayoutEffect(() => {
     if (lazyFlip && mounted && isPositioned && renderedSide !== side) {
       setMountSide(renderedSide);
@@ -7311,12 +7451,12 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     side: logicalRenderedSide,
     align: renderedAlign,
     physicalSide: renderedSide,
-    anchorHidden,
+    anchorHidden: anchorHidden2,
     refs,
     context,
     isPositioned,
     update: update2
-  }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden, refs, context, isPositioned, update2]);
+  }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden2, refs, context, isPositioned, update2]);
 }
 function isRef(param) {
   return param != null && "current" in param;
@@ -7396,6 +7536,10 @@ function getCssDimensions2(element) {
   };
 }
 
+// node_modules/@base-ui/react/utils/CommonPopupCssVars.mjs
+var popupWidth = "--popup-width";
+var popupHeight = "--popup-height";
+
 // node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
 function usePopupAutoResize(parameters) {
   const {
@@ -7432,8 +7576,8 @@ function usePopupAutoResize(parameters) {
     const restorePopupTransform = overrideElementStyle(popupElement, "transform", "none");
     const restorePopupScale = overrideElementStyle(popupElement, "scale", "1");
     const restorePositionerAvailableSize = applyElementStyles(positionerElement, {
-      "--available-width": "max-content",
-      "--available-height": "max-content"
+      [availableWidth]: "max-content",
+      [availableHeight]: "max-content"
     });
     function restoreMeasurementOverrides() {
       restorePopupPosition();
@@ -7470,8 +7614,8 @@ function usePopupAutoResize(parameters) {
     animationFrame.request(() => {
       setPopupCssSize(popupElement, newDimensions);
       runOnceAnimationsFinish(() => {
-        popupElement.style.setProperty("--popup-width", "auto");
-        popupElement.style.setProperty("--popup-height", "auto");
+        popupElement.style.setProperty(popupWidth, "auto");
+        popupElement.style.setProperty(popupHeight, "auto");
       }, abortController.signal);
     });
     return () => {
@@ -7513,14 +7657,14 @@ function applyElementStyles(element, styles) {
 function setPopupCssSize(popupElement, size4) {
   const width = size4 === "auto" ? "auto" : `${size4.width}px`;
   const height = size4 === "auto" ? "auto" : `${size4.height}px`;
-  popupElement.style.setProperty("--popup-width", width);
-  popupElement.style.setProperty("--popup-height", height);
+  popupElement.style.setProperty(popupWidth, width);
+  popupElement.style.setProperty(popupHeight, height);
 }
 function setPositionerCssSize(positionerElement, size4) {
   const width = size4 === "max-content" ? "max-content" : `${size4.width}px`;
   const height = size4 === "max-content" ? "max-content" : `${size4.height}px`;
-  positionerElement.style.setProperty("--positioner-width", width);
-  positionerElement.style.setProperty("--positioner-height", height);
+  positionerElement.style.setProperty(positionerWidth, width);
+  positionerElement.style.setProperty(positionerHeight, height);
 }
 
 // node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
@@ -7608,11 +7752,14 @@ var adaptiveOrigin = {
   }
 };
 
+// node_modules/@base-ui/react/utils/CommonViewportDataAttributes.mjs
+var activationDirection = "data-activation-direction";
+
 // node_modules/@base-ui/react/utils/usePopupViewport.mjs
 var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
 var popupViewportStateMapping = {
   activationDirection: (value) => value ? {
-    "data-activation-direction": value
+    [activationDirection]: value
   } : null
 };
 function usePopupViewport(parameters) {
@@ -7624,12 +7771,12 @@ function usePopupViewport(parameters) {
   const direction = useDirection();
   const activeTrigger = store.useState("activeTriggerElement");
   const activeTriggerId = store.useState("activeTriggerId");
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const payload = store.useState("payload");
   const mounted = store.useState("mounted");
   const popupElement = store.useState("popupElement");
   const positionerElement = store.useState("positionerElement");
-  const previousActiveTrigger = usePreviousValue(open ? activeTrigger : null);
+  const previousActiveTrigger = usePreviousValue(open2 ? activeTrigger : null);
   const currentContentKey = usePopupContentKey(activeTriggerId, payload);
   const capturedNodeRef = React33.useRef(null);
   const [previousContentNode, setPreviousContentNode] = React33.useState(null);
@@ -7672,10 +7819,10 @@ function usePopupViewport(parameters) {
   });
   const lastHandledTriggerRef = React33.useRef(null);
   useIsoLayoutEffect(() => {
-    if (!open || !mounted) {
+    if (!open2 || !mounted) {
       lastHandledTriggerRef.current = null;
     }
-  }, [open, mounted]);
+  }, [open2, mounted]);
   useIsoLayoutEffect(() => {
     if (activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
       setPreviousContentNode(capturedNodeRef.current);
@@ -7725,8 +7872,8 @@ function usePopupViewport(parameters) {
         ref: previousContainerRef,
         style: {
           ...previousContentDimensions ? {
-            "--popup-width": `${previousContentDimensions.width}px`,
-            "--popup-height": `${previousContentDimensions.height}px`
+            [popupWidth]: `${previousContentDimensions.width}px`,
+            [popupHeight]: `${previousContentDimensions.height}px`
           } : null,
           position: "absolute"
         },
@@ -7921,7 +8068,7 @@ function createNullTooltipStore() {
 }
 function createInitialState(initialState, triggerElements, floatingId, nested = false) {
   const state = {
-    ...createInitialPopupStoreState(),
+    ...createInitialPopupStoreState(triggerElements, floatingId, nested),
     disabled: false,
     instantType: void 0,
     isInstantPhase: false,
@@ -7933,7 +8080,6 @@ function createInitialState(initialState, triggerElements, floatingId, nested = 
     adaptiveOrigin: void 0,
     ...initialState
   };
-  state.floatingRootContext = createPopupFloatingRootContext(triggerElements, floatingId, nested);
   return state;
 }
 function createInitialContext(triggerElements) {
@@ -7973,7 +8119,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   store.useContextCallback("onOpenChange", onOpenChange);
   store.useContextCallback("onOpenChangeComplete", onOpenChangeComplete);
   const openState = store.useState("open");
-  const open = !disabled2 && openState;
+  const open2 = !disabled2 && openState;
   const activeTriggerId = store.useState("activeTriggerId");
   const mounted = store.useState("mounted");
   const payload = store.useState("payload");
@@ -7988,7 +8134,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const {
     forceUnmount,
     transitionStatus
-  } = useOpenStateTransitions(open, store);
+  } = useOpenStateTransitions(open2, store);
   const isInstantPhase = store.useState("isInstantPhase");
   const instantType = store.useState("instantType");
   const lastOpenChangeReason = store.useState("lastOpenChangeReason");
@@ -8010,17 +8156,17 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
     }
   }, [transitionStatus, isInstantPhase, lastOpenChangeReason, instantType, store]);
   useIsoLayoutEffect(() => {
-    if (open) {
+    if (open2) {
       if (activeTriggerId == null) {
         store.set("payload", void 0);
       }
     }
-  }, [store, activeTriggerId, open]);
+  }, [store, activeTriggerId, open2]);
   React37.useImperativeHandle(actionsRef, () => ({
     unmount: forceUnmount,
     close: () => store.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
   }), [forceUnmount, store]);
-  const shouldRenderInteractions = open || mounted || !disabled2 && trackCursorAxis !== "none";
+  const shouldRenderInteractions = open2 || mounted || !disabled2 && trackCursorAxis !== "none";
   return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(TooltipRootContext.Provider, {
     value: store,
     children: [handle && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(PopupHandleAttachment, {
@@ -8078,8 +8224,8 @@ var TOOLTIP_TRIGGER_IDENTIFIER = "data-base-ui-tooltip-trigger";
 function getTargetElement(event) {
   if ("composedPath" in event) {
     const path = event.composedPath();
-    for (let i2 = 0; i2 < path.length; i2 += 1) {
-      const element = path[i2];
+    for (let i = 0; i < path.length; i += 1) {
+      const element = path[i];
       if (isElement(element)) {
         return element;
       }
@@ -8128,7 +8274,6 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const isOpenedByThisTrigger = store.useState("isOpenedByTrigger", thisTriggerId);
   const floatingRootContext = store.useState("floatingRootContext");
   const triggerElementRef = React39.useRef(null);
-  const delayWithDefault = delay ?? OPEN_DELAY;
   const closeDelayWithDefault = closeDelay ?? 0;
   const {
     registerTrigger,
@@ -8140,6 +8285,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   });
   const providerDelay = useTooltipProviderContext();
   const {
+    activeIdRef,
     delayRef,
     isInstantPhase,
     hasProvider
@@ -8157,10 +8303,10 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const nestedTriggerOpenTimeout = useTimeout();
   const pointerTypeRef = React39.useRef(void 0);
   function getOpenDelay() {
-    if (!hasProvider) {
-      return delayWithDefault;
+    if (hasProvider && activeIdRef.current != null) {
+      return 0;
     }
-    return getDelay(delayRef.current, "open") === 0 ? 0 : delay ?? providerDelay ?? OPEN_DELAY;
+    return delay ?? providerDelay ?? OPEN_DELAY;
   }
   function isEnabledNestedTriggerTarget(target) {
     const triggerEl = triggerElementRef.current;
@@ -8219,7 +8365,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
     }
     if (wasNestedTriggerHovered && !nestedTriggerHovered && targetInsideTrigger && !disabledRef.current && !store.select("open") && triggerEl && // Match the hover hook's non-strict mouse fallback for mouse-only event sequences.
     isMouseLikePointerType(pointerTypeRef.current)) {
-      const open = () => {
+      const open2 = () => {
         if (!isNestedTriggerHoveredRef.current && !disabledRef.current && !store.select("open")) {
           store.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerEl));
         }
@@ -8227,9 +8373,9 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
       const openDelay = getOpenDelay();
       if (openDelay === 0) {
         nestedTriggerOpenTimeout.clear();
-        open();
+        open2();
       } else {
-        nestedTriggerOpenTimeout.start(openDelay, open);
+        nestedTriggerOpenTimeout.start(openDelay, open2);
       }
     }
   };
@@ -8271,7 +8417,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
         }
       },
       id: thisTriggerId,
-      "data-trigger-disabled": disabled2 ? "" : void 0,
+      [triggerDisabled]: disabled2 ? "" : void 0,
       [TOOLTIP_TRIGGER_IDENTIFIER]: disabled2 ? void 0 : ""
     }, elementProps],
     stateAttributesMapping: triggerOpenStateMapping
@@ -8356,7 +8502,7 @@ var TooltipPositioner = /* @__PURE__ */ React43.forwardRef(function TooltipPosit
   } = componentProps;
   const store = useTooltipRootContext();
   const keepMounted = useTooltipPortalContext();
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const mounted = store.useState("mounted");
   const trackCursorAxis = store.useState("trackCursorAxis");
   const disableHoverablePopup = store.useState("disableHoverablePopup");
@@ -8383,19 +8529,19 @@ var TooltipPositioner = /* @__PURE__ */ React43.forwardRef(function TooltipPosit
     adaptiveOrigin: adaptiveOrigin2
   });
   const state = React43.useMemo(() => ({
-    open,
+    open: open2,
     side: positioning.side,
     align: positioning.align,
     anchorHidden: positioning.anchorHidden,
     instant: trackCursorAxis !== "none" ? "tracking-cursor" : instantType
-  }), [open, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
+  }), [open2, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
   const element = usePositioner(componentProps, state, {
     styles: positioning.positionerStyles,
     transitionStatus,
     props: elementProps,
     refs: [forwardedRef, store.useStateSetter("positionerElement")],
     hidden: !mounted,
-    inert: !open || trackCursorAxis === "both" || disableHoverablePopup
+    inert: !open2 || trackCursorAxis === "both" || disableHoverablePopup
   });
   return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TooltipPositionerContext.Provider, {
     value: positioning,
@@ -8418,7 +8564,7 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
     side,
     align
   } = useTooltipPositionerContext();
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const instantType = store.useState("instantType");
   const transitionStatus = store.useState("transitionStatus");
   const popupProps = store.useState("popupProps");
@@ -8426,10 +8572,10 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
   const disabled2 = store.useState("disabled");
   const closeDelay = store.useState("closeDelay");
   useOpenChangeComplete({
-    open,
+    open: open2,
     ref: store.context.popupRef,
     onComplete() {
-      if (open) {
+      if (open2) {
         store.context.onOpenChangeComplete?.(true);
       }
     }
@@ -8440,7 +8586,7 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
   });
   const setPopupElement = store.useStateSetter("popupElement");
   const state = {
-    open,
+    open: open2,
     side,
     align,
     instant: instantType,
@@ -8473,10 +8619,10 @@ var TooltipArrow = /* @__PURE__ */ React45.forwardRef(function TooltipArrow2(com
     arrowUncentered,
     arrowStyles
   } = useTooltipPositionerContext();
-  const open = store.useState("open");
+  const open2 = store.useState("open");
   const instantType = store.useState("instantType");
   const state = {
-    open,
+    open: open2,
     side,
     align,
     uncentered: arrowUncentered,
@@ -9330,7 +9476,14 @@ var chevron_right_default = /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import
 // packages/icons/build-module/library/more-vertical.mjs
 var import_primitives3 = __toESM(require_primitives(), 1);
 var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
-var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
+var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 18.25L12.25 18.25L12.25 17.75L11.75 17.75L11.75 18.25Z", fill: "currentColor", stroke: "none" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 12.25L12.25 12.25L12.25 11.75L11.75 11.75L11.75 12.25Z", fill: "currentColor", stroke: "none" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 6.25L12.25 6.25L12.25 5.75L11.75 5.75L11.75 6.25Z", fill: "currentColor", stroke: "none" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 18.25L12.25 18.25L12.25 17.75L11.75 17.75L11.75 18.25Z", vectorEffect: "non-scaling-stroke" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 12.25L12.25 12.25L12.25 11.75L11.75 11.75L11.75 12.25Z", vectorEffect: "non-scaling-stroke" }),
+  /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_primitives3.Path, { d: "M11.75 6.25L12.25 6.25L12.25 5.75L11.75 5.75L11.75 6.25Z", vectorEffect: "non-scaling-stroke" })
+] });
 
 // packages/icons/build-module/library/next.mjs
 var import_primitives4 = __toESM(require_primitives(), 1);
@@ -9425,7 +9578,7 @@ function registerStyle6(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle6("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
+  registerStyle6("f4df7461e9", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;overflow-wrap:normal;padding:0;position:absolute;width:1px;word-break:normal}}}");
 }
 var style_default5 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
 var VisuallyHidden = (0, import_element18.forwardRef)(
@@ -10166,19 +10319,19 @@ Page.SidebarToggleFill = SidebarToggleFill;
 var page_default = Page;
 
 // routes/font-list/stage.tsx
-var import_i18n51 = __toESM(require_i18n());
-var import_components58 = __toESM(require_components());
+var import_i18n53 = __toESM(require_i18n());
+var import_components56 = __toESM(require_components());
 var import_editor = __toESM(require_editor());
 var import_core_data12 = __toESM(require_core_data());
 var import_data13 = __toESM(require_data());
-var import_element54 = __toESM(require_element());
+var import_element56 = __toESM(require_element());
 
 // packages/global-styles-ui/build-module/global-styles-ui.mjs
-var import_components57 = __toESM(require_components(), 1);
+var import_components55 = __toESM(require_components(), 1);
 var import_blocks5 = __toESM(require_blocks(), 1);
 var import_data12 = __toESM(require_data(), 1);
 var import_block_editor14 = __toESM(require_block_editor(), 1);
-var import_element53 = __toESM(require_element(), 1);
+var import_element55 = __toESM(require_element(), 1);
 var import_compose7 = __toESM(require_compose(), 1);
 
 // packages/global-styles-engine/build-module/utils/object.mjs
@@ -10270,6 +10423,9 @@ var VALID_SETTINGS = [
   "typography.textColumns",
   "typography.textDecoration",
   "typography.textIndent",
+  "typography.textShadow",
+  "typography.defaultTextShadowPresets",
+  "typography.textShadowPresets",
   "typography.textTransform",
   "typography.writingMode",
   "viewport.mobile",
@@ -10552,6 +10708,14 @@ var PRESET_METADATA = [
     cssVarInfix: "font-family",
     classes: [
       { classSuffix: "font-family", propertyName: "font-family" }
+    ]
+  },
+  {
+    path: ["typography", "textShadowPresets"],
+    valueKey: "textShadow",
+    cssVarInfix: "text-shadow",
+    classes: [
+      { classSuffix: "text-shadow", propertyName: "text-shadow" }
     ]
   },
   {
@@ -10856,13 +11020,13 @@ function areGlobalStylesEqual(original, variation) {
 var import_deepmerge = __toESM(require_cjs(), 1);
 
 // node_modules/is-plain-object/dist/is-plain-object.mjs
-function isObject(o2) {
-  return Object.prototype.toString.call(o2) === "[object Object]";
+function isObject(o) {
+  return Object.prototype.toString.call(o) === "[object Object]";
 }
-function isPlainObject(o2) {
+function isPlainObject(o) {
   var ctor, prot;
-  if (isObject(o2) === false) return false;
-  ctor = o2.constructor;
+  if (isObject(o) === false) return false;
+  ctor = o.constructor;
   if (ctor === void 0) return true;
   prot = ctor.prototype;
   if (isObject(prot) === false) return false;
@@ -10900,161 +11064,174 @@ function mergeGlobalStyles(base, user) {
 }
 
 // node_modules/colord/index.mjs
-var r2 = { grad: 0.9, turn: 360, rad: 360 / (2 * Math.PI) };
-var t = function(r3) {
+for (r2 = { grad: 0.9, turn: 360, rad: 360 / (2 * Math.PI) }, t = function(r3) {
   return "string" == typeof r3 ? r3.length > 0 : "number" == typeof r3;
-};
-var n = function(r3, t2, n2) {
+}, n = function(r3, t2, n2) {
   return void 0 === t2 && (t2 = 0), void 0 === n2 && (n2 = Math.pow(10, t2)), Math.round(n2 * r3) / n2 + 0;
-};
-var e = function(r3, t2, n2) {
+}, u = function(r3, t2, n2) {
   return void 0 === t2 && (t2 = 0), void 0 === n2 && (n2 = 1), r3 > n2 ? n2 : r3 > t2 ? r3 : t2;
-};
-var u = function(r3) {
-  return (r3 = isFinite(r3) ? r3 % 360 : 0) > 0 ? r3 : r3 + 360;
-};
-var a = function(r3) {
-  return { r: e(r3.r, 0, 255), g: e(r3.g, 0, 255), b: e(r3.b, 0, 255), a: e(r3.a) };
-};
-var o = function(r3) {
+}, e = function(r3) {
+  return (r3 = isFinite(r3) ? r3 % 360 : 0) < 0 ? r3 + 360 : r3;
+}, o = function(r3, t2) {
+  return void 0 === t2 && (t2 = 0), n(r3, t2) % 360;
+}, a = function(r3) {
+  return { r: u(r3.r, 0, 255), g: u(r3.g, 0, 255), b: u(r3.b, 0, 255), a: u(r3.a) };
+}, i = function(r3) {
   return { r: n(r3.r), g: n(r3.g), b: n(r3.b), a: n(r3.a, 3) };
+}, s = /^#([0-9a-f]{3,8})$/i, d = function(r3, t2) {
+  var n2 = r3.charCodeAt(t2);
+  return (15 & n2) + 9 * (n2 >> 6);
+}, h = function(r3, t2) {
+  return d(r3, t2) << 4 | d(r3, t2 + 1);
+}, b = [], f = 0; f < 256; f++) b.push((f < 16 ? "0" : "") + f.toString(16));
+var r2;
+var t;
+var n;
+var u;
+var e;
+var o;
+var a;
+var i;
+var s;
+var d;
+var h;
+var b;
+var f;
+var g = function(r2) {
+  return b[u(r2, 0, 255)];
 };
-var i = /^#([0-9a-f]{3,8})$/i;
-var s = function(r3) {
-  var t2 = r3.toString(16);
-  return t2.length < 2 ? "0" + t2 : t2;
+var c = function(r2) {
+  var t = r2.r, n = r2.g, u = r2.b, e = r2.a, o = Math.max(t, n, u), a = o - Math.min(t, n, u), i = a ? o === t ? (n - u) / a : o === n ? 2 + (u - t) / a : 4 + (t - n) / a : 0;
+  return { h: 60 * (i < 0 ? i + 6 : i), s: o ? a / o * 100 : 0, v: o / 255 * 100, a: e };
 };
-var h = function(r3) {
-  var t2 = r3.r, n2 = r3.g, e2 = r3.b, u2 = r3.a, a2 = Math.max(t2, n2, e2), o2 = a2 - Math.min(t2, n2, e2), i2 = o2 ? a2 === t2 ? (n2 - e2) / o2 : a2 === n2 ? 2 + (e2 - t2) / o2 : 4 + (t2 - n2) / o2 : 0;
-  return { h: 60 * (i2 < 0 ? i2 + 6 : i2), s: a2 ? o2 / a2 * 100 : 0, v: a2 / 255 * 100, a: u2 };
+var v = function(r2) {
+  var t = r2.h, n = r2.s, u = r2.v, e = r2.a;
+  t = t / 360 * 6, n /= 100, u /= 100;
+  var o = Math.floor(t), a = u * (1 - n), i = u * (1 - (t - o) * n), s = u * (1 - (1 - t + o) * n), d = o % 6;
+  return { r: 255 * [u, i, a, a, s, u][d], g: 255 * [s, u, u, i, a, a][d], b: 255 * [a, a, s, u, u, i][d], a: e };
 };
-var b = function(r3) {
-  var t2 = r3.h, n2 = r3.s, e2 = r3.v, u2 = r3.a;
-  t2 = t2 / 360 * 6, n2 /= 100, e2 /= 100;
-  var a2 = Math.floor(t2), o2 = e2 * (1 - n2), i2 = e2 * (1 - (t2 - a2) * n2), s2 = e2 * (1 - (1 - t2 + a2) * n2), h2 = a2 % 6;
-  return { r: 255 * [e2, i2, o2, o2, s2, e2][h2], g: 255 * [s2, e2, e2, i2, o2, o2][h2], b: 255 * [o2, o2, s2, e2, e2, i2][h2], a: u2 };
+var l = function(r2) {
+  return { h: e(r2.h), s: u(r2.s, 0, 100), l: u(r2.l, 0, 100), a: u(r2.a) };
 };
-var g = function(r3) {
-  return { h: u(r3.h), s: e(r3.s, 0, 100), l: e(r3.l, 0, 100), a: e(r3.a) };
+var p2 = function(r2) {
+  return { h: o(r2.h), s: n(r2.s), l: n(r2.l), a: n(r2.a, 3) };
 };
-var d = function(r3) {
-  return { h: n(r3.h), s: n(r3.s), l: n(r3.l), a: n(r3.a, 3) };
+var m = function(r2) {
+  return v((n = (t = r2).s, { h: t.h, s: (n *= ((u = t.l) < 50 ? u : 100 - u) / 100) > 0 ? 2 * n / (u + n) * 100 : 0, v: u + n, a: t.a }));
+  var t, n, u;
 };
-var f = function(r3) {
-  return b((n2 = (t2 = r3).s, { h: t2.h, s: (n2 *= ((e2 = t2.l) < 50 ? e2 : 100 - e2) / 100) > 0 ? 2 * n2 / (e2 + n2) * 100 : 0, v: e2 + n2, a: t2.a }));
-  var t2, n2, e2;
+var y = function(r2) {
+  return { h: (t = c(r2)).h, s: (e = (200 - (n = t.s)) * (u = t.v) / 100) > 0 && e < 200 ? n * u / 100 / (e <= 100 ? e : 200 - e) * 100 : 0, l: e / 2, a: t.a };
+  var t, n, u, e;
 };
-var c = function(r3) {
-  return { h: (t2 = h(r3)).h, s: (u2 = (200 - (n2 = t2.s)) * (e2 = t2.v) / 100) > 0 && u2 < 200 ? n2 * e2 / 100 / (u2 <= 100 ? u2 : 200 - u2) * 100 : 0, l: u2 / 2, a: t2.a };
-  var t2, n2, e2, u2;
-};
-var l = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
-var p2 = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
-var v = /^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
-var m = /^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
-var y = { string: [[function(r3) {
-  var t2 = i.exec(r3);
-  return t2 ? (r3 = t2[1]).length <= 4 ? { r: parseInt(r3[0] + r3[0], 16), g: parseInt(r3[1] + r3[1], 16), b: parseInt(r3[2] + r3[2], 16), a: 4 === r3.length ? n(parseInt(r3[3] + r3[3], 16) / 255, 2) : 1 } : 6 === r3.length || 8 === r3.length ? { r: parseInt(r3.substr(0, 2), 16), g: parseInt(r3.substr(2, 2), 16), b: parseInt(r3.substr(4, 2), 16), a: 8 === r3.length ? n(parseInt(r3.substr(6, 2), 16) / 255, 2) : 1 } : null : null;
-}, "hex"], [function(r3) {
-  var t2 = v.exec(r3) || m.exec(r3);
-  return t2 ? t2[2] !== t2[4] || t2[4] !== t2[6] ? null : a({ r: Number(t2[1]) / (t2[2] ? 100 / 255 : 1), g: Number(t2[3]) / (t2[4] ? 100 / 255 : 1), b: Number(t2[5]) / (t2[6] ? 100 / 255 : 1), a: void 0 === t2[7] ? 1 : Number(t2[7]) / (t2[8] ? 100 : 1) }) : null;
-}, "rgb"], [function(t2) {
-  var n2 = l.exec(t2) || p2.exec(t2);
-  if (!n2) return null;
-  var e2, u2, a2 = g({ h: (e2 = n2[1], u2 = n2[2], void 0 === u2 && (u2 = "deg"), Number(e2) * (r2[u2] || 1)), s: Number(n2[3]), l: Number(n2[4]), a: void 0 === n2[5] ? 1 : Number(n2[5]) / (n2[6] ? 100 : 1) });
-  return f(a2);
-}, "hsl"]], object: [[function(r3) {
-  var n2 = r3.r, e2 = r3.g, u2 = r3.b, o2 = r3.a, i2 = void 0 === o2 ? 1 : o2;
-  return t(n2) && t(e2) && t(u2) ? a({ r: Number(n2), g: Number(e2), b: Number(u2), a: Number(i2) }) : null;
-}, "rgb"], [function(r3) {
-  var n2 = r3.h, e2 = r3.s, u2 = r3.l, a2 = r3.a, o2 = void 0 === a2 ? 1 : a2;
-  if (!t(n2) || !t(e2) || !t(u2)) return null;
-  var i2 = g({ h: Number(n2), s: Number(e2), l: Number(u2), a: Number(o2) });
-  return f(i2);
-}, "hsl"], [function(r3) {
-  var n2 = r3.h, a2 = r3.s, o2 = r3.v, i2 = r3.a, s2 = void 0 === i2 ? 1 : i2;
-  if (!t(n2) || !t(a2) || !t(o2)) return null;
-  var h2 = (function(r4) {
-    return { h: u(r4.h), s: e(r4.s, 0, 100), v: e(r4.v, 0, 100), a: e(r4.a) };
-  })({ h: Number(n2), s: Number(a2), v: Number(o2), a: Number(s2) });
-  return b(h2);
+var N = /^hsla?\(\s*([+-]?(?:\d*\.\d+|\d+))(deg|rad|grad|turn)?\s*,\s*([+-]?(?:\d*\.\d+|\d+))%\s*,\s*([+-]?(?:\d*\.\d+|\d+))%\s*(?:,\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+var x = /^hsla?\(\s*([+-]?(?:\d*\.\d+|\d+))(deg|rad|grad|turn)?\s+([+-]?(?:\d*\.\d+|\d+))%\s+([+-]?(?:\d*\.\d+|\d+))%\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+var M = /^rgba?\(\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*,\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*,\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*(?:,\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+var H = /^rgba?\(\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(%)?\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+var $ = { string: [[function(r2) {
+  if (!s.test(r2)) return null;
+  var t = r2.length;
+  return t <= 5 ? { r: 17 * d(r2, 1), g: 17 * d(r2, 2), b: 17 * d(r2, 3), a: 5 === t ? n(17 * d(r2, 4) / 255, 2) : 1 } : 7 === t || 9 === t ? { r: h(r2, 1), g: h(r2, 3), b: h(r2, 5), a: 9 === t ? n(h(r2, 7) / 255, 2) : 1 } : null;
+}, "hex"], [function(r2) {
+  var t = M.exec(r2) || H.exec(r2);
+  return t ? t[2] !== t[4] || t[4] !== t[6] ? null : a({ r: Number(t[1]) / (t[2] ? 100 / 255 : 1), g: Number(t[3]) / (t[4] ? 100 / 255 : 1), b: Number(t[5]) / (t[6] ? 100 / 255 : 1), a: void 0 === t[7] ? 1 : Number(t[7]) / (t[8] ? 100 : 1) }) : null;
+}, "rgb"], [function(t) {
+  var n = N.exec(t) || x.exec(t);
+  if (!n) return null;
+  var u, e, o = l({ h: (u = n[1], e = n[2], void 0 === e && (e = "deg"), Number(u) * (r2[e] || 1)), s: Number(n[3]), l: Number(n[4]), a: void 0 === n[5] ? 1 : Number(n[5]) / (n[6] ? 100 : 1) });
+  return m(o);
+}, "hsl"]], object: [[function(r2) {
+  var n = r2.r, u = r2.g, e = r2.b, o = r2.a, i = void 0 === o ? 1 : o;
+  return t(n) && t(u) && t(e) ? a({ r: Number(n), g: Number(u), b: Number(e), a: Number(i) }) : null;
+}, "rgb"], [function(r2) {
+  var n = r2.h, u = r2.s, e = r2.l, o = r2.a, a = void 0 === o ? 1 : o;
+  if (!t(n) || !t(u) || !t(e)) return null;
+  var i = l({ h: Number(n), s: Number(u), l: Number(e), a: Number(a) });
+  return m(i);
+}, "hsl"], [function(r2) {
+  var n = r2.h, o = r2.s, a = r2.v, i = r2.a, s = void 0 === i ? 1 : i;
+  if (!t(n) || !t(o) || !t(a)) return null;
+  var d = (function(r3) {
+    return { h: e(r3.h), s: u(r3.s, 0, 100), v: u(r3.v, 0, 100), a: u(r3.a) };
+  })({ h: Number(n), s: Number(o), v: Number(a), a: Number(s) });
+  return v(d);
 }, "hsv"]] };
-var N = function(r3, t2) {
-  for (var n2 = 0; n2 < t2.length; n2++) {
-    var e2 = t2[n2][0](r3);
-    if (e2) return [e2, t2[n2][1]];
+var j = function(r2, t) {
+  for (var n = 0; n < t.length; n++) {
+    var u = t[n][0](r2);
+    if (u) return [u, t[n][1]];
   }
   return [null, void 0];
 };
-var x = function(r3) {
-  return "string" == typeof r3 ? N(r3.trim(), y.string) : "object" == typeof r3 && null !== r3 ? N(r3, y.object) : [null, void 0];
+var w = function(r2) {
+  return "string" == typeof r2 ? j(r2.trim(), $.string) : "object" == typeof r2 && null !== r2 ? j(r2, $.object) : [null, void 0];
 };
-var M = function(r3, t2) {
-  var n2 = c(r3);
-  return { h: n2.h, s: e(n2.s + 100 * t2, 0, 100), l: n2.l, a: n2.a };
+var k = function(r2, t) {
+  var n = y(r2);
+  return { h: n.h, s: u(n.s + 100 * t, 0, 100), l: n.l, a: n.a };
 };
-var H = function(r3) {
-  return (299 * r3.r + 587 * r3.g + 114 * r3.b) / 1e3 / 255;
+var E = function(r2) {
+  return (299 * r2.r + 587 * r2.g + 114 * r2.b) / 1e3 / 255;
 };
-var $ = function(r3, t2) {
-  var n2 = c(r3);
-  return { h: n2.h, s: n2.s, l: e(n2.l + 100 * t2, 0, 100), a: n2.a };
+var R = function(r2, t) {
+  var n = y(r2);
+  return { h: n.h, s: n.s, l: u(n.l + 100 * t, 0, 100), a: n.a };
 };
-var j = (function() {
-  function r3(r4) {
-    this.parsed = x(r4)[0], this.rgba = this.parsed || { r: 0, g: 0, b: 0, a: 1 };
+var q = (function() {
+  function r2(r3) {
+    this.parsed = w(r3)[0], this.rgba = this.parsed || { r: 0, g: 0, b: 0, a: 1 };
   }
-  return r3.prototype.isValid = function() {
+  return r2.prototype.isValid = function() {
     return null !== this.parsed;
-  }, r3.prototype.brightness = function() {
-    return n(H(this.rgba), 2);
-  }, r3.prototype.isDark = function() {
-    return H(this.rgba) < 0.5;
-  }, r3.prototype.isLight = function() {
-    return H(this.rgba) >= 0.5;
-  }, r3.prototype.toHex = function() {
-    return r4 = o(this.rgba), t2 = r4.r, e2 = r4.g, u2 = r4.b, i2 = (a2 = r4.a) < 1 ? s(n(255 * a2)) : "", "#" + s(t2) + s(e2) + s(u2) + i2;
-    var r4, t2, e2, u2, a2, i2;
-  }, r3.prototype.toRgb = function() {
-    return o(this.rgba);
-  }, r3.prototype.toRgbString = function() {
-    return r4 = o(this.rgba), t2 = r4.r, n2 = r4.g, e2 = r4.b, (u2 = r4.a) < 1 ? "rgba(" + t2 + ", " + n2 + ", " + e2 + ", " + u2 + ")" : "rgb(" + t2 + ", " + n2 + ", " + e2 + ")";
-    var r4, t2, n2, e2, u2;
-  }, r3.prototype.toHsl = function() {
-    return d(c(this.rgba));
-  }, r3.prototype.toHslString = function() {
-    return r4 = d(c(this.rgba)), t2 = r4.h, n2 = r4.s, e2 = r4.l, (u2 = r4.a) < 1 ? "hsla(" + t2 + ", " + n2 + "%, " + e2 + "%, " + u2 + ")" : "hsl(" + t2 + ", " + n2 + "%, " + e2 + "%)";
-    var r4, t2, n2, e2, u2;
-  }, r3.prototype.toHsv = function() {
-    return r4 = h(this.rgba), { h: n(r4.h), s: n(r4.s), v: n(r4.v), a: n(r4.a, 3) };
-    var r4;
-  }, r3.prototype.invert = function() {
-    return w({ r: 255 - (r4 = this.rgba).r, g: 255 - r4.g, b: 255 - r4.b, a: r4.a });
-    var r4;
-  }, r3.prototype.saturate = function(r4) {
-    return void 0 === r4 && (r4 = 0.1), w(M(this.rgba, r4));
-  }, r3.prototype.desaturate = function(r4) {
-    return void 0 === r4 && (r4 = 0.1), w(M(this.rgba, -r4));
-  }, r3.prototype.grayscale = function() {
-    return w(M(this.rgba, -1));
-  }, r3.prototype.lighten = function(r4) {
-    return void 0 === r4 && (r4 = 0.1), w($(this.rgba, r4));
-  }, r3.prototype.darken = function(r4) {
-    return void 0 === r4 && (r4 = 0.1), w($(this.rgba, -r4));
-  }, r3.prototype.rotate = function(r4) {
-    return void 0 === r4 && (r4 = 15), this.hue(this.hue() + r4);
-  }, r3.prototype.alpha = function(r4) {
-    return "number" == typeof r4 ? w({ r: (t2 = this.rgba).r, g: t2.g, b: t2.b, a: r4 }) : n(this.rgba.a, 3);
-    var t2;
-  }, r3.prototype.hue = function(r4) {
-    var t2 = c(this.rgba);
-    return "number" == typeof r4 ? w({ h: r4, s: t2.s, l: t2.l, a: t2.a }) : n(t2.h);
-  }, r3.prototype.isEqual = function(r4) {
-    return this.toHex() === w(r4).toHex();
-  }, r3;
+  }, r2.prototype.brightness = function() {
+    return n(E(this.rgba), 2);
+  }, r2.prototype.isDark = function() {
+    return E(this.rgba) < 0.5;
+  }, r2.prototype.isLight = function() {
+    return E(this.rgba) >= 0.5;
+  }, r2.prototype.toHex = function() {
+    return r3 = i(this.rgba), t = r3.r, u = r3.g, e = r3.b, a = (o = r3.a) < 1 ? g(n(255 * o)) : "", "#" + g(t) + g(u) + g(e) + a;
+    var r3, t, u, e, o, a;
+  }, r2.prototype.toRgb = function() {
+    return i(this.rgba);
+  }, r2.prototype.toRgbString = function() {
+    return r3 = i(this.rgba), t = r3.r, n = r3.g, u = r3.b, (e = r3.a) < 1 ? "rgba(" + t + ", " + n + ", " + u + ", " + e + ")" : "rgb(" + t + ", " + n + ", " + u + ")";
+    var r3, t, n, u, e;
+  }, r2.prototype.toHsl = function() {
+    return p2(y(this.rgba));
+  }, r2.prototype.toHslString = function() {
+    return r3 = p2(y(this.rgba)), t = r3.h, n = r3.s, u = r3.l, (e = r3.a) < 1 ? "hsla(" + t + ", " + n + "%, " + u + "%, " + e + ")" : "hsl(" + t + ", " + n + "%, " + u + "%)";
+    var r3, t, n, u, e;
+  }, r2.prototype.toHsv = function() {
+    return r3 = c(this.rgba), { h: o(r3.h), s: n(r3.s), v: n(r3.v), a: n(r3.a, 3) };
+    var r3;
+  }, r2.prototype.invert = function() {
+    return A({ r: 255 - (r3 = this.rgba).r, g: 255 - r3.g, b: 255 - r3.b, a: r3.a });
+    var r3;
+  }, r2.prototype.saturate = function(r3) {
+    return void 0 === r3 && (r3 = 0.1), A(k(this.rgba, r3));
+  }, r2.prototype.desaturate = function(r3) {
+    return void 0 === r3 && (r3 = 0.1), A(k(this.rgba, -r3));
+  }, r2.prototype.grayscale = function() {
+    return A(k(this.rgba, -1));
+  }, r2.prototype.lighten = function(r3) {
+    return void 0 === r3 && (r3 = 0.1), A(R(this.rgba, r3));
+  }, r2.prototype.darken = function(r3) {
+    return void 0 === r3 && (r3 = 0.1), A(R(this.rgba, -r3));
+  }, r2.prototype.rotate = function(r3) {
+    return void 0 === r3 && (r3 = 15), this.hue(y(this.rgba).h + r3);
+  }, r2.prototype.alpha = function(r3) {
+    return "number" == typeof r3 ? A({ r: (t = this.rgba).r, g: t.g, b: t.b, a: r3 }) : n(this.rgba.a, 3);
+    var t;
+  }, r2.prototype.hue = function(r3) {
+    var t = y(this.rgba);
+    return "number" == typeof r3 ? A({ h: r3, s: t.s, l: t.l, a: t.a }) : o(t.h);
+  }, r2.prototype.isEqual = function(r3) {
+    return this.toHex() === A(r3).toHex();
+  }, r2;
 })();
-var w = function(r3) {
-  return r3 instanceof j ? r3 : new j(r3);
+var A = function(r2) {
+  return r2 instanceof q ? r2 : new q(r2);
 };
 
 // packages/global-styles-engine/build-module/utils/duotone.mjs
@@ -11066,7 +11243,7 @@ function getValuesFromColors(colors = []) {
     a: []
   };
   colors.forEach((color) => {
-    const rgbColor = w(color).toRgb();
+    const rgbColor = A(color).toRgb();
     values.r.push(rgbColor.r / 255);
     values.g.push(rgbColor.g / 255);
     values.b.push(rgbColor.b / 255);
@@ -11970,7 +12147,7 @@ function findNearest(input, numbers) {
   if (numbers.length === 0) {
     return null;
   }
-  numbers.sort((a2, b2) => Math.abs(input - a2) - Math.abs(input - b2));
+  numbers.sort((a, b) => Math.abs(input - a) - Math.abs(input - b));
   return numbers[0];
 }
 var FONT_WEIGHT_KEYWORDS = {
@@ -12463,9 +12640,9 @@ var {
   useHasBorderPanel,
   useSettingsForBlockElement: useSettingsForBlockElement2,
   useHasColorPanel: useHasColorPanel2,
-  useHasBackgroundPanel: useHasBackgroundPanel2
+  useHasBackgroundPanel: useHasBackgroundPanel2,
+  searchItems
 } = unlock3(import_block_editor3.privateApis);
-var { Menu } = unlock3(import_components11.privateApis);
 function hasAnyValue(value) {
   if (value === void 0 || value === null) {
     return false;
@@ -12561,7 +12738,6 @@ function EmptyBlockList({
 function BlockList({ filterValue, styleFilter }) {
   const sortedBlockTypes = useSortedBlockTypes();
   const debouncedSpeak = (0, import_compose2.useDebounce)(speak, 500);
-  const { isMatchingSearchTerm } = (0, import_data4.useSelect)(import_blocks2.store);
   const { user } = (0, import_element27.useContext)(GlobalStylesContext);
   const customizedBlockNames = (0, import_element27.useMemo)(() => {
     const names = /* @__PURE__ */ new Set();
@@ -12576,8 +12752,9 @@ function BlockList({ filterValue, styleFilter }) {
     });
     return names;
   }, [user]);
-  const searchedBlockTypes = !filterValue ? sortedBlockTypes : sortedBlockTypes.filter(
-    (blockType) => isMatchingSearchTerm(blockType, filterValue)
+  const searchedBlockTypes = searchItems(
+    sortedBlockTypes,
+    filterValue
   );
   const filteredBlockTypes = styleFilter === "customized" ? searchedBlockTypes.filter(
     (blockType) => customizedBlockNames.has(blockType.name)
@@ -12669,8 +12846,7 @@ var {
 } = unlock3(import_block_editor5.privateApis);
 
 // packages/global-styles-ui/build-module/screen-typography.mjs
-var import_i18n25 = __toESM(require_i18n(), 1);
-var import_components30 = __toESM(require_components(), 1);
+var import_i18n26 = __toESM(require_i18n(), 1);
 var import_element41 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/screen-body.mjs
@@ -12904,12 +13080,12 @@ async function fetchInstallFontFace(fontFamilyId, data, registry) {
 
 // node_modules/tslib/tslib.es6.mjs
 var __assign = function() {
-  __assign = Object.assign || function __assign2(t2) {
-    for (var s2, i2 = 1, n2 = arguments.length; i2 < n2; i2++) {
-      s2 = arguments[i2];
-      for (var p3 in s2) if (Object.prototype.hasOwnProperty.call(s2, p3)) t2[p3] = s2[p3];
+  __assign = Object.assign || function __assign2(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p3 in s) if (Object.prototype.hasOwnProperty.call(s, p3)) t[p3] = s[p3];
     }
-    return t2;
+    return t;
   };
   return __assign.apply(this, arguments);
 };
@@ -13084,9 +13260,9 @@ async function loadFontFaceInBrowser(fontFace, source, addTo = "all") {
 }
 function unloadFontFaceInBrowser(fontFace, removeFrom = "all") {
   const unloadFontFace = (fonts) => {
-    fonts.forEach((f2) => {
-      if (f2.family === formatFontFaceName(fontFace?.fontFamily) && f2.weight === fontFace?.fontWeight && f2.style === fontFace?.fontStyle) {
-        fonts.delete(f2);
+    fonts.forEach((f) => {
+      if (f.family === formatFontFaceName(fontFace?.fontFamily) && f.weight === fontFace?.fontWeight && f.style === fontFace?.fontStyle) {
+        fonts.delete(f);
       }
     });
   };
@@ -13232,36 +13408,36 @@ function setImmutably2(object, path, value) {
 
 // packages/global-styles-ui/build-module/font-library/utils/toggleFont.mjs
 function toggleFont(font2, face, initialfonts = []) {
-  const isFontActivated = (f2) => f2.slug === font2.slug;
+  const isFontActivated = (f) => f.slug === font2.slug;
   const getActivatedFont = (fonts) => fonts.find(isFontActivated);
   const toggleEntireFontFamily = (activatedFont2) => {
     if (!activatedFont2) {
       return [...initialfonts, font2];
     }
     return initialfonts.filter(
-      (f2) => !isFontActivated(f2)
+      (f) => !isFontActivated(f)
     );
   };
   const toggleFontVariant = (activatedFont2) => {
-    const isFaceActivated = (f2) => f2.fontWeight === face.fontWeight && f2.fontStyle === face.fontStyle;
+    const isFaceActivated = (f) => f.fontWeight === face.fontWeight && f.fontStyle === face.fontStyle;
     if (!activatedFont2) {
       return [...initialfonts, { ...font2, fontFace: [face] }];
     }
     let newFontFaces = activatedFont2.fontFace || [];
     if (newFontFaces.find(isFaceActivated)) {
       newFontFaces = newFontFaces.filter(
-        (f2) => !isFaceActivated(f2)
+        (f) => !isFaceActivated(f)
       );
     } else {
       newFontFaces = [...newFontFaces, face];
     }
     if (newFontFaces.length === 0) {
       return initialfonts.filter(
-        (f2) => !isFontActivated(f2)
+        (f) => !isFontActivated(f)
       );
     }
     return initialfonts.map(
-      (f2) => isFontActivated(f2) ? { ...f2, fontFace: newFontFaces } : f2
+      (f) => isFontActivated(f) ? { ...f, fontFace: newFontFaces } : f
     );
   };
   const activatedFont = getActivatedFont(initialfonts);
@@ -13322,9 +13498,9 @@ function FontLibraryProvider({ children }) {
   };
   const [modalTabOpen, setModalTabOpen] = (0, import_element31.useState)("");
   const [libraryFontSelected, setLibraryFontSelected] = (0, import_element31.useState)(void 0);
-  const themeFonts = fontFamilies?.theme ? fontFamilies.theme.map((f2) => setUIValuesNeeded(f2, { source: "theme" })).sort((a2, b2) => a2.name.localeCompare(b2.name)) : [];
-  const customFonts = fontFamilies?.custom ? fontFamilies.custom.map((f2) => setUIValuesNeeded(f2, { source: "custom" })).sort((a2, b2) => a2.name.localeCompare(b2.name)) : [];
-  const baseCustomFonts = libraryFonts ? libraryFonts.map((f2) => setUIValuesNeeded(f2, { source: "custom" })).sort((a2, b2) => a2.name.localeCompare(b2.name)) : [];
+  const themeFonts = fontFamilies?.theme ? fontFamilies.theme.map((f) => setUIValuesNeeded(f, { source: "theme" })).sort((a, b) => a.name.localeCompare(b.name)) : [];
+  const customFonts = fontFamilies?.custom ? fontFamilies.custom.map((f) => setUIValuesNeeded(f, { source: "custom" })).sort((a, b) => a.name.localeCompare(b.name)) : [];
+  const baseCustomFonts = libraryFonts ? libraryFonts.map((f) => setUIValuesNeeded(f, { source: "custom" })).sort((a, b) => a.name.localeCompare(b.name)) : [];
   (0, import_element31.useEffect)(() => {
     if (!modalTabOpen) {
       setLibraryFontSelected(void 0);
@@ -13336,7 +13512,7 @@ function FontLibraryProvider({ children }) {
       return;
     }
     const fonts = font2.source === "theme" ? themeFonts : baseCustomFonts;
-    const fontSelected = fonts.find((f2) => f2.slug === font2.slug);
+    const fontSelected = fonts.find((f) => f.slug === font2.slug);
     setLibraryFontSelected({
       ...fontSelected || font2,
       source: font2.source
@@ -13503,7 +13679,7 @@ function FontLibraryProvider({ children }) {
   const deactivateFontFamily = (font2) => {
     const initialCustomFonts = fontFamilies?.[font2.source ?? ""] ?? [];
     const newCustomFonts = initialCustomFonts.filter(
-      (f2) => f2.slug !== font2.slug
+      (f) => f.slug !== font2.slug
     );
     const activeFonts = {
       ...fontFamilies,
@@ -13860,20 +14036,20 @@ function getNumericFontWeight(value) {
   }
 }
 function sortFontFaces(faces) {
-  return faces.sort((a2, b2) => {
-    if (a2.fontStyle === "normal" && b2.fontStyle !== "normal") {
+  return faces.sort((a, b) => {
+    if (a.fontStyle === "normal" && b.fontStyle !== "normal") {
       return -1;
     }
-    if (b2.fontStyle === "normal" && a2.fontStyle !== "normal") {
+    if (b.fontStyle === "normal" && a.fontStyle !== "normal") {
       return 1;
     }
-    if (a2.fontStyle === b2.fontStyle) {
-      return getNumericFontWeight(a2.fontWeight?.toString() ?? "normal") - getNumericFontWeight(b2.fontWeight?.toString() ?? "normal");
+    if (a.fontStyle === b.fontStyle) {
+      return getNumericFontWeight(a.fontWeight?.toString() ?? "normal") - getNumericFontWeight(b.fontWeight?.toString() ?? "normal");
     }
-    if (!a2.fontStyle || !b2.fontStyle) {
-      return !a2.fontStyle ? 1 : -1;
+    if (!a.fontStyle || !b.fontStyle) {
+      return !a.fontStyle ? 1 : -1;
     }
-    return a2.fontStyle.localeCompare(b2.fontStyle);
+    return a.fontStyle.localeCompare(b.fontStyle);
   });
 }
 
@@ -13890,7 +14066,7 @@ function getFontFamiliesKey(fontFamilies) {
       fontFace: (family.fontFace ?? []).map(
         (face) => `${face.fontStyle}-${face.fontWeight}`
       ).sort()
-    })).sort((a2, b2) => a2.slug.localeCompare(b2.slug));
+    })).sort((a, b) => a.slug.localeCompare(b.slug));
   }
   return JSON.stringify(normalized);
 }
@@ -13928,10 +14104,10 @@ function InstalledFonts() {
     }
     return getFontFamiliesKey(editedFontFamilies) !== getFontFamiliesKey(savedFontFamilies);
   }, [editedFontFamilies, savedFontFamilies]);
-  const themeFonts = fontFamilies?.theme ? fontFamilies.theme.map((f2) => setUIValuesNeeded(f2, { source: "theme" })).sort((a2, b2) => a2.name.localeCompare(b2.name)) : [];
-  const themeFontsSlugs = new Set(themeFonts.map((f2) => f2.slug));
+  const themeFonts = fontFamilies?.theme ? fontFamilies.theme.map((f) => setUIValuesNeeded(f, { source: "theme" })).sort((a, b) => a.name.localeCompare(b.name)) : [];
+  const themeFontsSlugs = new Set(themeFonts.map((f) => f.slug));
   const baseThemeFonts = baseFontFamilies?.theme ? themeFonts.concat(
-    baseFontFamilies.theme.filter((f2) => !themeFontsSlugs.has(f2.slug)).map((f2) => setUIValuesNeeded(f2, { source: "theme" })).sort((a2, b2) => a2.name.localeCompare(b2.name))
+    baseFontFamilies.theme.filter((f) => !themeFontsSlugs.has(f.slug)).map((f) => setUIValuesNeeded(f, { source: "theme" })).sort((a, b) => a.name.localeCompare(b.name))
   ) : [];
   const customFontFamilyId = libraryFontSelected?.source === "custom" && libraryFontSelected?.id;
   const canUserDelete = (0, import_data7.useSelect)(
@@ -14011,7 +14187,7 @@ function InstalledFonts() {
       return;
     }
     const initialFonts = fontFamilies?.[libraryFontSelected.source]?.filter(
-      (f2) => f2.slug !== libraryFontSelected.slug
+      (f) => f.slug !== libraryFontSelected.slug
     ) ?? [];
     const newFonts = isSelectAllChecked ? initialFonts : [...initialFonts, libraryFontSelected];
     setFontFamilies({
@@ -14205,7 +14381,7 @@ function InstalledFonts() {
                     className: "font-library__fonts-list",
                     children: libraryFontSelected && getFontFacesToDisplay(
                       libraryFontSelected
-                    ).map((face, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+                    ).map((face, i) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
                       "li",
                       {
                         className: "font-library__fonts-list-item",
@@ -14215,10 +14391,10 @@ function InstalledFonts() {
                             font: libraryFontSelected,
                             face
                           },
-                          `face${i2}`
+                          `face${i}`
                         )
                       },
-                      `face${i2}`
+                      `face${i}`
                     ))
                   }
                 )
@@ -14734,7 +14910,7 @@ function FontCollection({ slug }) {
                   role: "list",
                   className: "font-library__fonts-list",
                   children: selectedFont && getSortedFontFaces(selectedFont).map(
-                    (face, i2) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+                    (face, i) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
                       "li",
                       {
                         className: "font-library__fonts-list-item",
@@ -14753,7 +14929,7 @@ function FontCollection({ slug }) {
                           }
                         )
                       },
-                      `face${i2}`
+                      `face${i}`
                     )
                   )
                 }
@@ -14819,10 +14995,10 @@ function FontCollection({ slug }) {
                         value: page.toString(),
                         options: [
                           ...Array(totalPages)
-                        ].map((e2, i2) => {
+                        ].map((e, i) => {
                           return {
-                            label: (i2 + 1).toString(),
-                            value: (i2 + 1).toString()
+                            label: (i + 1).toString(),
+                            value: (i + 1).toString()
                           };
                         }),
                         onChange: (newPage) => setPage(
@@ -14879,7 +15055,7 @@ var import_element38 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/font-library/lib/unbrotli.mjs
 var __require2 = /* @__PURE__ */ ((x2) => typeof __require !== "undefined" ? __require : typeof Proxy !== "undefined" ? new Proxy(x2, {
-  get: (a2, b2) => (typeof __require !== "undefined" ? __require : a2)[b2]
+  get: (a, b) => (typeof __require !== "undefined" ? __require : a)[b]
 }) : x2)(function(x2) {
   if (typeof __require !== "undefined") return __require.apply(this, arguments);
   throw Error('Dynamic require of "' + x2 + '" is not supported');
@@ -14887,38 +15063,38 @@ var __require2 = /* @__PURE__ */ ((x2) => typeof __require !== "undefined" ? __r
 var unbrotli_default = (function() {
   var define, module, exports;
   return (/* @__PURE__ */ (function() {
-    function r3(e2, n2, t2) {
-      function o2(i22, f2) {
-        if (!n2[i22]) {
-          if (!e2[i22]) {
+    function r2(e, n, t) {
+      function o(i2, f) {
+        if (!n[i2]) {
+          if (!e[i2]) {
             var c2 = "function" == typeof __require2 && __require2;
-            if (!f2 && c2) return c2(i22, true);
-            if (u2) return u2(i22, true);
-            var a2 = new Error("Cannot find module '" + i22 + "'");
-            throw a2.code = "MODULE_NOT_FOUND", a2;
+            if (!f && c2) return c2(i2, true);
+            if (u) return u(i2, true);
+            var a = new Error("Cannot find module '" + i2 + "'");
+            throw a.code = "MODULE_NOT_FOUND", a;
           }
-          var p3 = n2[i22] = { exports: {} };
-          e2[i22][0].call(
+          var p3 = n[i2] = { exports: {} };
+          e[i2][0].call(
             p3.exports,
             function(r22) {
-              var n22 = e2[i22][1][r22];
-              return o2(n22 || r22);
+              var n2 = e[i2][1][r22];
+              return o(n2 || r22);
             },
             p3,
             p3.exports,
-            r3,
-            e2,
-            n2,
-            t2
+            r2,
+            e,
+            n,
+            t
           );
         }
-        return n2[i22].exports;
+        return n[i2].exports;
       }
-      for (var u2 = "function" == typeof __require2 && __require2, i2 = 0; i2 < t2.length; i2++)
-        o2(t2[i2]);
-      return o2;
+      for (var u = "function" == typeof __require2 && __require2, i = 0; i < t.length; i++)
+        o(t[i]);
+      return o;
     }
-    return r3;
+    return r2;
   })())(
     {
       1: [
@@ -14968,8 +15144,8 @@ var unbrotli_default = (function() {
             this.bit_end_pos_ = 0;
             this.eos_ = 0;
             this.readMoreInput();
-            for (var i2 = 0; i2 < 4; i2++) {
-              this.val_ |= this.buf_[this.pos_] << 8 * i2;
+            for (var i = 0; i < 4; i++) {
+              this.val_ |= this.buf_[this.pos_] << 8 * i;
               ++this.pos_;
             }
             return this.bit_end_pos_ > 0;
@@ -16956,17 +17132,17 @@ var unbrotli_default = (function() {
             1080
           ]);
           function DecodeWindowBits(br) {
-            var n2;
+            var n;
             if (br.readBits(1) === 0) {
               return 16;
             }
-            n2 = br.readBits(3);
-            if (n2 > 0) {
-              return 17 + n2;
+            n = br.readBits(3);
+            if (n > 0) {
+              return 17 + n;
             }
-            n2 = br.readBits(3);
-            if (n2 > 0) {
-              return 8 + n2;
+            n = br.readBits(3);
+            if (n > 0) {
+              return 8 + n;
             }
             return 17;
           }
@@ -16991,7 +17167,7 @@ var unbrotli_default = (function() {
             var out = new MetaBlockLength();
             var size_nibbles;
             var size_bytes;
-            var i2;
+            var i;
             out.input_end = br.readBits(1);
             if (out.input_end && br.readBits(1)) {
               return out;
@@ -17003,18 +17179,18 @@ var unbrotli_default = (function() {
                 throw new Error("Invalid reserved bit");
               size_bytes = br.readBits(2);
               if (size_bytes === 0) return out;
-              for (i2 = 0; i2 < size_bytes; i2++) {
+              for (i = 0; i < size_bytes; i++) {
                 var next_byte = br.readBits(8);
-                if (i2 + 1 === size_bytes && size_bytes > 1 && next_byte === 0)
+                if (i + 1 === size_bytes && size_bytes > 1 && next_byte === 0)
                   throw new Error("Invalid size byte");
-                out.meta_block_length |= next_byte << i2 * 8;
+                out.meta_block_length |= next_byte << i * 8;
               }
             } else {
-              for (i2 = 0; i2 < size_nibbles; ++i2) {
+              for (i = 0; i < size_nibbles; ++i) {
                 var next_nibble = br.readBits(4);
-                if (i2 + 1 === size_nibbles && size_nibbles > 4 && next_nibble === 0)
+                if (i + 1 === size_nibbles && size_nibbles > 4 && next_nibble === 0)
                   throw new Error("Invalid size nibble");
-                out.meta_block_length |= next_nibble << i2 * 4;
+                out.meta_block_length |= next_nibble << i * 4;
               }
             }
             ++out.meta_block_length;
@@ -17044,7 +17220,7 @@ var unbrotli_default = (function() {
             var repeat_code_len = 0;
             var space = 32768;
             var table = [];
-            for (var i2 = 0; i2 < 32; i2++)
+            for (var i = 0; i < 32; i++)
               table.push(new HuffmanCode(0, 0));
             BrotliBuildHuffmanTable(
               table,
@@ -17115,7 +17291,7 @@ var unbrotli_default = (function() {
             br.readMoreInput();
             simple_code_or_skip = br.readBits(2);
             if (simple_code_or_skip === 1) {
-              var i2;
+              var i;
               var max_bits_counter = alphabet_size - 1;
               var max_bits = 0;
               var symbols = new Int32Array(4);
@@ -17124,9 +17300,9 @@ var unbrotli_default = (function() {
                 max_bits_counter >>= 1;
                 ++max_bits;
               }
-              for (i2 = 0; i2 < num_symbols; ++i2) {
-                symbols[i2] = br.readBits(max_bits) % alphabet_size;
-                code_lengths[symbols[i2]] = 2;
+              for (i = 0; i < num_symbols; ++i) {
+                symbols[i] = br.readBits(max_bits) % alphabet_size;
+                code_lengths[symbols[i]] = 2;
               }
               code_lengths[symbols[0]] = 1;
               switch (num_symbols) {
@@ -17162,7 +17338,7 @@ var unbrotli_default = (function() {
                   break;
               }
             } else {
-              var i2;
+              var i;
               var code_length_code_lengths = new Uint8Array(
                 CODE_LENGTH_CODES
               );
@@ -17186,8 +17362,8 @@ var unbrotli_default = (function() {
                 new HuffmanCode(2, 3),
                 new HuffmanCode(4, 5)
               ];
-              for (i2 = simple_code_or_skip; i2 < CODE_LENGTH_CODES && space > 0; ++i2) {
-                var code_len_idx = kCodeLengthCodeOrder[i2];
+              for (i = simple_code_or_skip; i < CODE_LENGTH_CODES && space > 0; ++i) {
+                var code_len_idx = kCodeLengthCodeOrder[i];
                 var p3 = 0;
                 var v2;
                 br.fillBitWindow();
@@ -17245,19 +17421,19 @@ var unbrotli_default = (function() {
           }
           function MoveToFront(v2, index2) {
             var value = v2[index2];
-            var i2 = index2;
-            for (; i2; --i2) v2[i2] = v2[i2 - 1];
+            var i = index2;
+            for (; i; --i) v2[i] = v2[i - 1];
             v2[0] = value;
           }
           function InverseMoveToFrontTransform(v2, v_len) {
             var mtf = new Uint8Array(256);
-            var i2;
-            for (i2 = 0; i2 < 256; ++i2) {
-              mtf[i2] = i2;
+            var i;
+            for (i = 0; i < 256; ++i) {
+              mtf[i] = i;
             }
-            for (i2 = 0; i2 < v_len; ++i2) {
-              var index2 = v2[i2];
-              v2[i2] = mtf[index2];
+            for (i = 0; i < v_len; ++i) {
+              var index2 = v2[i];
+              v2[i] = mtf[index2];
               if (index2) MoveToFront(mtf, index2);
             }
           }
@@ -17270,11 +17446,11 @@ var unbrotli_default = (function() {
             this.htrees = new Uint32Array(num_htrees);
           }
           HuffmanTreeGroup.prototype.decode = function(br) {
-            var i2;
+            var i;
             var table_size;
             var next = 0;
-            for (i2 = 0; i2 < this.num_htrees; ++i2) {
-              this.htrees[i2] = next;
+            for (i = 0; i < this.num_htrees; ++i) {
+              this.htrees[i] = next;
               table_size = ReadHuffmanCode(
                 this.alphabet_size,
                 this.codes,
@@ -17289,7 +17465,7 @@ var unbrotli_default = (function() {
             var use_rle_for_zeros;
             var max_run_length_prefix = 0;
             var table;
-            var i2;
+            var i;
             br.readMoreInput();
             var num_htrees = out.num_htrees = DecodeVarLenUint8(br) + 1;
             var context_map = out.context_map = new Uint8Array(
@@ -17303,8 +17479,8 @@ var unbrotli_default = (function() {
               max_run_length_prefix = br.readBits(4) + 1;
             }
             table = [];
-            for (i2 = 0; i2 < HUFFMAN_MAX_TABLE_SIZE; i2++) {
-              table[i2] = new HuffmanCode(0, 0);
+            for (i = 0; i < HUFFMAN_MAX_TABLE_SIZE; i++) {
+              table[i] = new HuffmanCode(0, 0);
             }
             ReadHuffmanCode(
               num_htrees + max_run_length_prefix,
@@ -17312,27 +17488,27 @@ var unbrotli_default = (function() {
               0,
               br
             );
-            for (i2 = 0; i2 < context_map_size; ) {
+            for (i = 0; i < context_map_size; ) {
               var code;
               br.readMoreInput();
               code = ReadSymbol(table, 0, br);
               if (code === 0) {
-                context_map[i2] = 0;
-                ++i2;
+                context_map[i] = 0;
+                ++i;
               } else if (code <= max_run_length_prefix) {
                 var reps = 1 + (1 << code) + br.readBits(code);
                 while (--reps) {
-                  if (i2 >= context_map_size) {
+                  if (i >= context_map_size) {
                     throw new Error(
                       "[DecodeContextMap] i >= context_map_size"
                     );
                   }
-                  context_map[i2] = 0;
-                  ++i2;
+                  context_map[i] = 0;
+                  ++i;
                 }
               } else {
-                context_map[i2] = code - max_run_length_prefix;
-                ++i2;
+                context_map[i] = code - max_run_length_prefix;
+                ++i;
               }
             }
             if (br.readBits(1)) {
@@ -17462,7 +17638,7 @@ var unbrotli_default = (function() {
           }
           exports2.BrotliDecompressBuffer = BrotliDecompressBuffer;
           function BrotliDecompress(input, output) {
-            var i2;
+            var i;
             var pos = 0;
             var input_end = 0;
             var window_bits = 0;
@@ -17527,9 +17703,9 @@ var unbrotli_default = (function() {
               var context_lookup_offset2 = 0;
               var context_mode;
               var htree_command;
-              for (i2 = 0; i2 < 3; ++i2) {
-                hgroup[i2].codes = null;
-                hgroup[i2].htrees = null;
+              for (i = 0; i < 3; ++i) {
+                hgroup[i].codes = null;
+                hgroup[i].htrees = null;
               }
               br.readMoreInput();
               var _out = DecodeMetaBlockLength(br);
@@ -17567,27 +17743,27 @@ var unbrotli_default = (function() {
                 pos += meta_block_remaining_len;
                 continue;
               }
-              for (i2 = 0; i2 < 3; ++i2) {
-                num_block_types[i2] = DecodeVarLenUint8(br) + 1;
-                if (num_block_types[i2] >= 2) {
+              for (i = 0; i < 3; ++i) {
+                num_block_types[i] = DecodeVarLenUint8(br) + 1;
+                if (num_block_types[i] >= 2) {
                   ReadHuffmanCode(
-                    num_block_types[i2] + 2,
+                    num_block_types[i] + 2,
                     block_type_trees,
-                    i2 * HUFFMAN_MAX_TABLE_SIZE,
+                    i * HUFFMAN_MAX_TABLE_SIZE,
                     br
                   );
                   ReadHuffmanCode(
                     kNumBlockLengthCodes,
                     block_len_trees,
-                    i2 * HUFFMAN_MAX_TABLE_SIZE,
+                    i * HUFFMAN_MAX_TABLE_SIZE,
                     br
                   );
-                  block_length[i2] = ReadBlockLength(
+                  block_length[i] = ReadBlockLength(
                     block_len_trees,
-                    i2 * HUFFMAN_MAX_TABLE_SIZE,
+                    i * HUFFMAN_MAX_TABLE_SIZE,
                     br
                   );
-                  block_type_rb_index[i2] = 1;
+                  block_type_rb_index[i] = 1;
                 }
               }
               br.readMoreInput();
@@ -17598,9 +17774,9 @@ var unbrotli_default = (function() {
               context_modes = new Uint8Array(
                 num_block_types[0]
               );
-              for (i2 = 0; i2 < num_block_types[0]; ++i2) {
+              for (i = 0; i < num_block_types[0]; ++i) {
                 br.readMoreInput();
-                context_modes[i2] = br.readBits(2) << 1;
+                context_modes[i] = br.readBits(2) << 1;
               }
               var _o1 = DecodeContextMap(
                 num_block_types[0] << kLiteralContextBits,
@@ -17626,8 +17802,8 @@ var unbrotli_default = (function() {
                 num_distance_codes,
                 num_dist_htrees
               );
-              for (i2 = 0; i2 < 3; ++i2) {
-                hgroup[i2].decode(br);
+              for (i = 0; i < 3; ++i) {
+                hgroup[i].decode(br);
               }
               context_map_slice = 0;
               dist_context_map_slice = 0;
@@ -17813,8 +17989,8 @@ var unbrotli_default = (function() {
                           ringbuffer,
                           ringbuffer_size
                         );
-                        for (var _x10 = 0; _x10 < copy_dst - ringbuffer_end; _x10++)
-                          ringbuffer[_x10] = ringbuffer[ringbuffer_end + _x10];
+                        for (var _x9 = 0; _x9 < copy_dst - ringbuffer_end; _x9++)
+                          ringbuffer[_x9] = ringbuffer[ringbuffer_end + _x9];
                       }
                     } else {
                       throw new Error(
@@ -17967,10 +18143,10 @@ var unbrotli_default = (function() {
             }
             return (key & step - 1) + step;
           }
-          function ReplicateValue(table, i2, step, end, code) {
+          function ReplicateValue(table, i, step, end, code) {
             do {
               end -= step;
-              table[i2 + end] = new HuffmanCode(
+              table[i + end] = new HuffmanCode(
                 code.bits,
                 code.value
               );
@@ -18096,9 +18272,9 @@ var unbrotli_default = (function() {
           var revLookup = [];
           var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
           var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-          for (var i2 = 0, len = code.length; i2 < len; ++i2) {
-            lookup[i2] = code[i2];
-            revLookup[code.charCodeAt(i2)] = i2;
+          for (var i = 0, len = code.length; i < len; ++i) {
+            lookup[i] = code[i];
+            revLookup[code.charCodeAt(i)] = i;
           }
           revLookup["-".charCodeAt(0)] = 62;
           revLookup["_".charCodeAt(0)] = 63;
@@ -18133,18 +18309,18 @@ var unbrotli_default = (function() {
             );
             var curByte = 0;
             var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-            for (var i22 = 0; i22 < len2; i22 += 4) {
-              tmp = revLookup[b64.charCodeAt(i22)] << 18 | revLookup[b64.charCodeAt(i22 + 1)] << 12 | revLookup[b64.charCodeAt(i22 + 2)] << 6 | revLookup[b64.charCodeAt(i22 + 3)];
+            for (var i2 = 0; i2 < len2; i2 += 4) {
+              tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
               arr[curByte++] = tmp >> 16 & 255;
               arr[curByte++] = tmp >> 8 & 255;
               arr[curByte++] = tmp & 255;
             }
             if (placeHoldersLen === 2) {
-              tmp = revLookup[b64.charCodeAt(i22)] << 2 | revLookup[b64.charCodeAt(i22 + 1)] >> 4;
+              tmp = revLookup[b64.charCodeAt(i2)] << 2 | revLookup[b64.charCodeAt(i2 + 1)] >> 4;
               arr[curByte++] = tmp & 255;
             }
             if (placeHoldersLen === 1) {
-              tmp = revLookup[b64.charCodeAt(i22)] << 10 | revLookup[b64.charCodeAt(i22 + 1)] << 4 | revLookup[b64.charCodeAt(i22 + 2)] >> 2;
+              tmp = revLookup[b64.charCodeAt(i2)] << 10 | revLookup[b64.charCodeAt(i2 + 1)] << 4 | revLookup[b64.charCodeAt(i2 + 2)] >> 2;
               arr[curByte++] = tmp >> 8 & 255;
               arr[curByte++] = tmp & 255;
             }
@@ -18156,8 +18332,8 @@ var unbrotli_default = (function() {
           function encodeChunk(uint8, start, end) {
             var tmp;
             var output = [];
-            for (var i22 = start; i22 < end; i22 += 3) {
-              tmp = (uint8[i22] << 16 & 16711680) + (uint8[i22 + 1] << 8 & 65280) + (uint8[i22 + 2] & 255);
+            for (var i2 = start; i2 < end; i2 += 3) {
+              tmp = (uint8[i2] << 16 & 16711680) + (uint8[i2 + 1] << 8 & 65280) + (uint8[i2 + 2] & 255);
               output.push(tripletToBase64(tmp));
             }
             return output.join("");
@@ -18168,12 +18344,12 @@ var unbrotli_default = (function() {
             var extraBytes = len2 % 3;
             var parts = [];
             var maxChunkLength = 16383;
-            for (var i22 = 0, len22 = len2 - extraBytes; i22 < len22; i22 += maxChunkLength) {
+            for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
               parts.push(
                 encodeChunk(
                   uint8,
-                  i22,
-                  i22 + maxChunkLength > len22 ? len22 : i22 + maxChunkLength
+                  i2,
+                  i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength
                 )
               );
             }
@@ -18290,12 +18466,12 @@ var unbrotli_default = (function() {
             this.buffer = buffer;
             this.pos = 0;
           }
-          BrotliInput.prototype.read = function(buf, i2, count) {
+          BrotliInput.prototype.read = function(buf, i, count) {
             if (this.pos + count > this.buffer.length) {
               count = this.buffer.length - this.pos;
             }
             for (var p3 = 0; p3 < count; p3++)
-              buf[i2 + p3] = this.buffer[this.pos + p3];
+              buf[i + p3] = this.buffer[this.pos + p3];
             this.pos += count;
             return count;
           };
@@ -18345,10 +18521,10 @@ var unbrotli_default = (function() {
             this.prefix = new Uint8Array(prefix.length);
             this.transform = transform;
             this.suffix = new Uint8Array(suffix.length);
-            for (var i2 = 0; i2 < prefix.length; i2++)
-              this.prefix[i2] = prefix.charCodeAt(i2);
-            for (var i2 = 0; i2 < suffix.length; i2++)
-              this.suffix[i2] = suffix.charCodeAt(i2);
+            for (var i = 0; i < prefix.length; i++)
+              this.prefix[i] = prefix.charCodeAt(i);
+            for (var i = 0; i < suffix.length; i++)
+              this.suffix[i] = suffix.charCodeAt(i);
           }
           var kTransforms = [
             new Transform("", kIdentity, ""),
@@ -18475,26 +18651,26 @@ var unbrotli_default = (function() {
           ];
           exports2.kTransforms = kTransforms;
           exports2.kNumTransforms = kTransforms.length;
-          function ToUpperCase(p3, i2) {
-            if (p3[i2] < 192) {
-              if (p3[i2] >= 97 && p3[i2] <= 122) {
-                p3[i2] ^= 32;
+          function ToUpperCase(p3, i) {
+            if (p3[i] < 192) {
+              if (p3[i] >= 97 && p3[i] <= 122) {
+                p3[i] ^= 32;
               }
               return 1;
             }
-            if (p3[i2] < 224) {
-              p3[i2 + 1] ^= 32;
+            if (p3[i] < 224) {
+              p3[i + 1] ^= 32;
               return 2;
             }
-            p3[i2 + 2] ^= 5;
+            p3[i + 2] ^= 5;
             return 3;
           }
           exports2.transformDictionaryWord = function(dst, idx, word, len, transform) {
             var prefix = kTransforms[transform].prefix;
             var suffix = kTransforms[transform].suffix;
-            var t2 = kTransforms[transform].transform;
-            var skip = t2 < kOmitFirst1 ? 0 : t2 - (kOmitFirst1 - 1);
-            var i2 = 0;
+            var t = kTransforms[transform].transform;
+            var skip = t < kOmitFirst1 ? 0 : t - (kOmitFirst1 - 1);
+            var i = 0;
             var start_idx = idx;
             var uppercase;
             if (skip > len) {
@@ -18506,16 +18682,16 @@ var unbrotli_default = (function() {
             }
             word += skip;
             len -= skip;
-            if (t2 <= kOmitLast9) {
-              len -= t2;
+            if (t <= kOmitLast9) {
+              len -= t;
             }
-            for (i2 = 0; i2 < len; i2++) {
-              dst[idx++] = BrotliDictionary.dictionary[word + i2];
+            for (i = 0; i < len; i++) {
+              dst[idx++] = BrotliDictionary.dictionary[word + i];
             }
             uppercase = idx - len;
-            if (t2 === kUppercaseFirst) {
+            if (t === kUppercaseFirst) {
               ToUpperCase(dst, uppercase);
-            } else if (t2 === kUppercaseAll) {
+            } else if (t === kUppercaseAll) {
               while (len > 0) {
                 var step = ToUpperCase(dst, uppercase);
                 uppercase += step;
@@ -18545,7 +18721,7 @@ var unbrotli_default = (function() {
 
 // packages/global-styles-ui/build-module/font-library/lib/inflate.mjs
 var __require3 = /* @__PURE__ */ ((x2) => typeof __require !== "undefined" ? __require : typeof Proxy !== "undefined" ? new Proxy(x2, {
-  get: (a2, b2) => (typeof __require !== "undefined" ? __require : a2)[b2]
+  get: (a, b) => (typeof __require !== "undefined" ? __require : a)[b]
 }) : x2)(function(x2) {
   if (typeof __require !== "undefined") return __require.apply(this, arguments);
   throw Error('Dynamic require of "' + x2 + '" is not supported');
@@ -18553,38 +18729,38 @@ var __require3 = /* @__PURE__ */ ((x2) => typeof __require !== "undefined" ? __r
 var inflate_default = (function() {
   var define, module, exports;
   return (/* @__PURE__ */ (function() {
-    function r3(e2, n2, t2) {
-      function o2(i22, f2) {
-        if (!n2[i22]) {
-          if (!e2[i22]) {
+    function r2(e, n, t) {
+      function o(i2, f) {
+        if (!n[i2]) {
+          if (!e[i2]) {
             var c2 = "function" == typeof __require3 && __require3;
-            if (!f2 && c2) return c2(i22, true);
-            if (u2) return u2(i22, true);
-            var a2 = new Error("Cannot find module '" + i22 + "'");
-            throw a2.code = "MODULE_NOT_FOUND", a2;
+            if (!f && c2) return c2(i2, true);
+            if (u) return u(i2, true);
+            var a = new Error("Cannot find module '" + i2 + "'");
+            throw a.code = "MODULE_NOT_FOUND", a;
           }
-          var p3 = n2[i22] = { exports: {} };
-          e2[i22][0].call(
+          var p3 = n[i2] = { exports: {} };
+          e[i2][0].call(
             p3.exports,
             function(r22) {
-              var n22 = e2[i22][1][r22];
-              return o2(n22 || r22);
+              var n2 = e[i2][1][r22];
+              return o(n2 || r22);
             },
             p3,
             p3.exports,
-            r3,
-            e2,
-            n2,
-            t2
+            r2,
+            e,
+            n,
+            t
           );
         }
-        return n2[i22].exports;
+        return n[i2].exports;
       }
-      for (var u2 = "function" == typeof __require3 && __require3, i2 = 0; i2 < t2.length; i2++)
-        o2(t2[i2]);
-      return o2;
+      for (var u = "function" == typeof __require3 && __require3, i = 0; i < t.length; i++)
+        o(t[i]);
+      return o;
     }
-    return r3;
+    return r2;
   })())(
     {
       1: [
@@ -18636,21 +18812,21 @@ var inflate_default = (function() {
                 );
                 return;
               }
-              for (var i2 = 0; i2 < len; i2++) {
-                dest[dest_offs + i2] = src[src_offs + i2];
+              for (var i = 0; i < len; i++) {
+                dest[dest_offs + i] = src[src_offs + i];
               }
             },
             // Join array of chunks to single array.
             flattenChunks: function(chunks) {
-              var i2, l2, len, pos, chunk, result;
+              var i, l2, len, pos, chunk, result;
               len = 0;
-              for (i2 = 0, l2 = chunks.length; i2 < l2; i2++) {
-                len += chunks[i2].length;
+              for (i = 0, l2 = chunks.length; i < l2; i++) {
+                len += chunks[i].length;
               }
               result = new Uint8Array(len);
               pos = 0;
-              for (i2 = 0, l2 = chunks.length; i2 < l2; i2++) {
-                chunk = chunks[i2];
+              for (i = 0, l2 = chunks.length; i < l2; i++) {
+                chunk = chunks[i];
                 result.set(chunk, pos);
                 pos += chunk.length;
               }
@@ -18659,8 +18835,8 @@ var inflate_default = (function() {
           };
           var fnUntyped = {
             arraySet: function(dest, src, src_offs, len, dest_offs) {
-              for (var i2 = 0; i2 < len; i2++) {
-                dest[dest_offs + i2] = src[src_offs + i2];
+              for (var i = 0; i < len; i++) {
+                dest[dest_offs + i] = src[src_offs + i];
               }
             },
             // Join array of chunks to single array.
@@ -18693,21 +18869,21 @@ var inflate_default = (function() {
           var STR_APPLY_UIA_OK = true;
           try {
             String.fromCharCode.apply(null, [0]);
-          } catch (__45) {
+          } catch (__47) {
             STR_APPLY_OK = false;
           }
           try {
             String.fromCharCode.apply(null, new Uint8Array(1));
-          } catch (__45) {
+          } catch (__47) {
             STR_APPLY_UIA_OK = false;
           }
           var _utf8len = new utils.Buf8(256);
-          for (var q = 0; q < 256; q++) {
-            _utf8len[q] = q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1;
+          for (var q2 = 0; q2 < 256; q2++) {
+            _utf8len[q2] = q2 >= 252 ? 6 : q2 >= 248 ? 5 : q2 >= 240 ? 4 : q2 >= 224 ? 3 : q2 >= 192 ? 2 : 1;
           }
           _utf8len[254] = _utf8len[254] = 1;
           exports2.string2buf = function(str) {
-            var buf, c2, c22, m_pos, i2, str_len = str.length, buf_len = 0;
+            var buf, c2, c22, m_pos, i, str_len = str.length, buf_len = 0;
             for (m_pos = 0; m_pos < str_len; m_pos++) {
               c2 = str.charCodeAt(m_pos);
               if ((c2 & 64512) === 55296 && m_pos + 1 < str_len) {
@@ -18720,7 +18896,7 @@ var inflate_default = (function() {
               buf_len += c2 < 128 ? 1 : c2 < 2048 ? 2 : c2 < 65536 ? 3 : 4;
             }
             buf = new utils.Buf8(buf_len);
-            for (i2 = 0, m_pos = 0; i2 < buf_len; m_pos++) {
+            for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
               c2 = str.charCodeAt(m_pos);
               if ((c2 & 64512) === 55296 && m_pos + 1 < str_len) {
                 c22 = str.charCodeAt(m_pos + 1);
@@ -18730,19 +18906,19 @@ var inflate_default = (function() {
                 }
               }
               if (c2 < 128) {
-                buf[i2++] = c2;
+                buf[i++] = c2;
               } else if (c2 < 2048) {
-                buf[i2++] = 192 | c2 >>> 6;
-                buf[i2++] = 128 | c2 & 63;
+                buf[i++] = 192 | c2 >>> 6;
+                buf[i++] = 128 | c2 & 63;
               } else if (c2 < 65536) {
-                buf[i2++] = 224 | c2 >>> 12;
-                buf[i2++] = 128 | c2 >>> 6 & 63;
-                buf[i2++] = 128 | c2 & 63;
+                buf[i++] = 224 | c2 >>> 12;
+                buf[i++] = 128 | c2 >>> 6 & 63;
+                buf[i++] = 128 | c2 & 63;
               } else {
-                buf[i2++] = 240 | c2 >>> 18;
-                buf[i2++] = 128 | c2 >>> 12 & 63;
-                buf[i2++] = 128 | c2 >>> 6 & 63;
-                buf[i2++] = 128 | c2 & 63;
+                buf[i++] = 240 | c2 >>> 18;
+                buf[i++] = 128 | c2 >>> 12 & 63;
+                buf[i++] = 128 | c2 >>> 6 & 63;
+                buf[i++] = 128 | c2 & 63;
               }
             }
             return buf;
@@ -18757,8 +18933,8 @@ var inflate_default = (function() {
               }
             }
             var result = "";
-            for (var i2 = 0; i2 < len; i2++) {
-              result += String.fromCharCode(buf[i2]);
+            for (var i = 0; i < len; i++) {
+              result += String.fromCharCode(buf[i]);
             }
             return result;
           }
@@ -18767,17 +18943,17 @@ var inflate_default = (function() {
           };
           exports2.binstring2buf = function(str) {
             var buf = new utils.Buf8(str.length);
-            for (var i2 = 0, len = buf.length; i2 < len; i2++) {
-              buf[i2] = str.charCodeAt(i2);
+            for (var i = 0, len = buf.length; i < len; i++) {
+              buf[i] = str.charCodeAt(i);
             }
             return buf;
           };
           exports2.buf2string = function(buf, max2) {
-            var i2, out, c2, c_len;
+            var i, out, c2, c_len;
             var len = max2 || buf.length;
             var utf16buf = new Array(len * 2);
-            for (out = 0, i2 = 0; i2 < len; ) {
-              c2 = buf[i2++];
+            for (out = 0, i = 0; i < len; ) {
+              c2 = buf[i++];
               if (c2 < 128) {
                 utf16buf[out++] = c2;
                 continue;
@@ -18785,12 +18961,12 @@ var inflate_default = (function() {
               c_len = _utf8len[c2];
               if (c_len > 4) {
                 utf16buf[out++] = 65533;
-                i2 += c_len - 1;
+                i += c_len - 1;
                 continue;
               }
               c2 &= c_len === 2 ? 31 : c_len === 3 ? 15 : 7;
-              while (c_len > 1 && i2 < len) {
-                c2 = c2 << 6 | buf[i2++] & 63;
+              while (c_len > 1 && i < len) {
+                c2 = c2 << 6 | buf[i++] & 63;
                 c_len--;
               }
               if (c_len > 1) {
@@ -18832,14 +19008,14 @@ var inflate_default = (function() {
         function(require2, module2, exports2) {
           "use strict";
           function adler32(adler, buf, len, pos) {
-            var s1 = adler & 65535 | 0, s2 = adler >>> 16 & 65535 | 0, n2 = 0;
+            var s1 = adler & 65535 | 0, s2 = adler >>> 16 & 65535 | 0, n = 0;
             while (len !== 0) {
-              n2 = len > 2e3 ? 2e3 : len;
-              len -= n2;
+              n = len > 2e3 ? 2e3 : len;
+              len -= n;
               do {
                 s1 = s1 + buf[pos++] | 0;
                 s2 = s2 + s1 | 0;
-              } while (--n2);
+              } while (--n);
               s1 %= 65521;
               s2 %= 65521;
             }
@@ -18900,21 +19076,21 @@ var inflate_default = (function() {
           "use strict";
           function makeTable() {
             var c2, table = [];
-            for (var n2 = 0; n2 < 256; n2++) {
-              c2 = n2;
-              for (var k = 0; k < 8; k++) {
+            for (var n = 0; n < 256; n++) {
+              c2 = n;
+              for (var k2 = 0; k2 < 8; k2++) {
                 c2 = c2 & 1 ? 3988292384 ^ c2 >>> 1 : c2 >>> 1;
               }
-              table[n2] = c2;
+              table[n] = c2;
             }
             return table;
           }
           var crcTable = makeTable();
           function crc32(crc, buf, len, pos) {
-            var t2 = crcTable, end = pos + len;
+            var t = crcTable, end = pos + len;
             crc ^= -1;
-            for (var i2 = pos; i2 < end; i2++) {
-              crc = crc >>> 8 ^ t2[(crc ^ buf[i2]) & 255];
+            for (var i = pos; i < end; i++) {
+              crc = crc >>> 8 ^ t[(crc ^ buf[i]) & 255];
             }
             return crc ^ -1;
           }
@@ -19224,8 +19400,8 @@ var inflate_default = (function() {
           var ENOUGH_DISTS = 592;
           var MAX_WBITS = 15;
           var DEF_WBITS = MAX_WBITS;
-          function zswap32(q) {
-            return (q >>> 24 & 255) + (q >>> 8 & 65280) + ((q & 65280) << 8) + ((q & 255) << 24);
+          function zswap32(q2) {
+            return (q2 >>> 24 & 255) + (q2 >>> 8 & 65280) + ((q2 & 65280) << 8) + ((q2 & 255) << 24);
           }
           function InflateState() {
             this.mode = 0;
@@ -19477,7 +19653,7 @@ var inflate_default = (function() {
               4
             );
             var opts;
-            var n2;
+            var n;
             var order = (
               /* permutation of code lengths */
               [
@@ -20049,8 +20225,8 @@ var inflate_default = (function() {
                       state.lens[state.have++] = here_val;
                     } else {
                       if (here_val === 16) {
-                        n2 = here_bits + 2;
-                        while (bits < n2) {
+                        n = here_bits + 2;
+                        while (bits < n) {
                           if (have === 0) {
                             break inf_leave;
                           }
@@ -20070,8 +20246,8 @@ var inflate_default = (function() {
                         hold >>>= 2;
                         bits -= 2;
                       } else if (here_val === 17) {
-                        n2 = here_bits + 3;
-                        while (bits < n2) {
+                        n = here_bits + 3;
+                        while (bits < n) {
                           if (have === 0) {
                             break inf_leave;
                           }
@@ -20086,8 +20262,8 @@ var inflate_default = (function() {
                         hold >>>= 3;
                         bits -= 3;
                       } else {
-                        n2 = here_bits + 7;
-                        while (bits < n2) {
+                        n = here_bits + 7;
+                        while (bits < n) {
                           if (have === 0) {
                             break inf_leave;
                           }
@@ -20249,8 +20425,8 @@ var inflate_default = (function() {
                 /* falls through */
                 case LENEXT:
                   if (state.extra) {
-                    n2 = state.extra;
-                    while (bits < n2) {
+                    n = state.extra;
+                    while (bits < n) {
                       if (have === 0) {
                         break inf_leave;
                       }
@@ -20319,8 +20495,8 @@ var inflate_default = (function() {
                 /* falls through */
                 case DISTEXT:
                   if (state.extra) {
-                    n2 = state.extra;
-                    while (bits < n2) {
+                    n = state.extra;
+                    while (bits < n) {
                       if (have === 0) {
                         break inf_leave;
                       }
@@ -21196,7 +21372,7 @@ var EventManager = class {
   }
   removeEventListener(type, listener) {
     let bin = this.listeners[type] || [];
-    let pos = bin.findIndex((e2) => e2 === listener);
+    let pos = bin.findIndex((e) => e === listener);
     if (pos > -1) {
       bin.splice(pos, 1);
       this.listeners[type] = bin;
@@ -21205,7 +21381,7 @@ var EventManager = class {
   dispatch(event) {
     let bin = this.listeners[event.type];
     if (bin) {
-      for (let l2 = 0, e2 = bin.length; l2 < e2; l2++) {
+      for (let l2 = 0, e = bin.length; l2 < e; l2++) {
         if (!event.__mayPropagate) break;
         bin[l2](event);
       }
@@ -21247,23 +21423,23 @@ var Parser = class {
     this.start = position;
     this.offset = 0;
   }
-  skip(n2 = 0, bits = 8) {
-    this.offset += n2 * bits / 8;
+  skip(n = 0, bits = 8) {
+    this.offset += n * bits / 8;
   }
   getValue(type, increment) {
     let pos = this.start + this.offset;
     this.offset += increment;
     try {
       return this.data[type](pos);
-    } catch (e2) {
+    } catch (e) {
       console.error(`parser`, type, increment, this);
       console.error(`parser`, this.start, this.offset);
-      throw e2;
+      throw e;
     }
   }
-  flags(n2) {
-    if (n2 === 8 || n2 === 16 || n2 === 32 || n2 === 64) {
-      return this[`uint${n2}`].toString(2).padStart(n2, 0).split(``).map((v2) => v2 === "1");
+  flags(n) {
+    if (n === 8 || n === 16 || n === 32 || n === 64) {
+      return this[`uint${n}`].toString(2).padStart(n, 0).split(``).map((v2) => v2 === "1");
     }
     console.error(
       `Error parsing flags: flag types can only be 1, 2, 4, or 8 bytes long`
@@ -21271,12 +21447,12 @@ var Parser = class {
     console.trace();
   }
   get tag() {
-    const t2 = this.uint32;
+    const t = this.uint32;
     return asText([
-      t2 >> 24 & 255,
-      t2 >> 16 & 255,
-      t2 >> 8 & 255,
-      t2 & 255
+      t >> 24 & 255,
+      t >> 16 & 255,
+      t >> 8 & 255,
+      t & 255
     ]);
   }
   get fixed() {
@@ -21294,7 +21470,7 @@ var Parser = class {
   }
   get uint128() {
     let value = 0;
-    for (let i2 = 0; i2 < 5; i2++) {
+    for (let i = 0; i < 5; i++) {
       let byte = this.uint8;
       value = value * 128 + (byte & 127);
       if (byte < 128) break;
@@ -21329,12 +21505,12 @@ var Parser = class {
       );
     }
   }
-  readBytes(n2 = 0, position = 0, bits = 8, signed = false) {
-    n2 = n2 || this.length;
-    if (n2 === 0) return [];
+  readBytes(n = 0, position = 0, bits = 8, signed = false) {
+    n = n || this.length;
+    if (n === 0) return [];
     if (position) this.currentPosition = position;
     const fn = `${signed ? `` : `u`}int${bits}`, slice = [];
-    while (n2--) slice.push(this[fn]);
+    while (n--) slice.push(this[fn]);
     return slice;
   }
 };
@@ -21509,10 +21685,10 @@ var WOFF2$1 = class extends SimpleTable {
     );
     let dictOffset = p22.currentPosition;
     this.directory[0].offset = 0;
-    this.directory.forEach((e2, i2) => {
-      let next = this.directory[i2 + 1];
+    this.directory.forEach((e, i) => {
+      let next = this.directory[i + 1];
       if (next) {
-        next.offset = e2.offset + (e2.transformLength !== void 0 ? e2.transformLength : e2.origLength);
+        next.offset = e.offset + (e.transformLength !== void 0 ? e.transformLength : e.origLength);
       }
     });
     let decoded;
@@ -21562,8 +21738,8 @@ function buildWoff2LazyLookups(woff2, decoded, createTable2) {
           { tag: entry.tag, offset: 0, length: entry.origLength },
           data
         );
-      } catch (e2) {
-        console.error(e2);
+      } catch (e) {
+        console.error(e);
       }
     });
   });
@@ -21762,9 +21938,9 @@ Promise.all([
     return vmtx$1;
   })
 ]).then((data) => {
-  data.forEach((e2) => {
-    let name2 = Object.keys(e2)[0];
-    tableClasses[name2] = e2[name2];
+  data.forEach((e) => {
+    let name2 = Object.keys(e)[0];
+    tableClasses[name2] = e[name2];
   });
   tableClassesLoaded = true;
 });
@@ -21844,8 +22020,8 @@ var WOFF = [119, 79, 70, 70];
 var WOFF2 = [119, 79, 70, 50];
 function match(ar1, ar2) {
   if (ar1.length !== ar2.length) return;
-  for (let i2 = 0; i2 < ar1.length; i2++) {
-    if (ar1[i2] !== ar2[i2]) return;
+  for (let i = 0; i < ar1.length; i++) {
+    if (ar1[i] !== ar2[i]) return;
   }
   return true;
 }
@@ -21946,18 +22122,18 @@ var Font = class extends EventManager {
       throw new Error(
         "Cannot measure text: font was unloaded. Please reload before calling measureText()"
       );
-    let d2 = document.createElement("div");
-    d2.textContent = text;
-    d2.style.fontFamily = this.name;
-    d2.style.fontSize = `${size4}px`;
-    d2.style.color = `transparent`;
-    d2.style.background = `transparent`;
-    d2.style.top = `0`;
-    d2.style.left = `0`;
-    d2.style.position = `absolute`;
-    document.body.appendChild(d2);
-    let bbox = d2.getBoundingClientRect();
-    document.body.removeChild(d2);
+    let d = document.createElement("div");
+    d.textContent = text;
+    d.style.fontFamily = this.name;
+    d.style.fontSize = `${size4}px`;
+    d.style.color = `transparent`;
+    d.style.background = `transparent`;
+    d.style.top = `0`;
+    d.style.left = `0`;
+    d.style.position = `absolute`;
+    document.body.appendChild(d);
+    let bbox = d.getBoundingClientRect();
+    document.body.removeChild(d);
     const OS22 = this.opentype.tables["OS/2"];
     bbox.fontSize = size4;
     bbox.ascender = OS22.sTypoAscender;
@@ -22058,14 +22234,14 @@ var Format2 = class extends Subtable {
   }
   getSupportedCharCodes(preservePropNames = false) {
     if (preservePropNames) {
-      return this.subHeaders.map((h2) => ({
-        firstCode: h2.firstCode,
-        lastCode: h2.lastCode
+      return this.subHeaders.map((h) => ({
+        firstCode: h.firstCode,
+        lastCode: h.lastCode
       }));
     }
-    return this.subHeaders.map((h2) => ({
-      start: h2.firstCode,
-      end: h2.lastCode
+    return this.subHeaders.map((h) => ({
+      start: h.firstCode,
+      end: h.lastCode
     }));
   }
 };
@@ -22127,15 +22303,15 @@ var Format4 = class extends Subtable {
     );
   }
   buildSegments(idRangePosition, glyphIdArrayPosition, p22) {
-    const build = (_, i2) => {
-      let startCode = this.startCode[i2], endCode = this.endCode[i2], idDelta = this.idDelta[i2], idRangeOffset = this.idRangeOffset[i2], idRangeOffsetPointer = idRangePosition + 2 * i2, glyphIDs = [];
+    const build = (_, i) => {
+      let startCode = this.startCode[i], endCode = this.endCode[i], idDelta = this.idDelta[i], idRangeOffset = this.idRangeOffset[i], idRangeOffsetPointer = idRangePosition + 2 * i, glyphIDs = [];
       if (idRangeOffset === 0) {
-        for (let i22 = startCode + idDelta, e2 = endCode + idDelta; i22 <= e2; i22++) {
-          glyphIDs.push(i22);
+        for (let i2 = startCode + idDelta, e = endCode + idDelta; i2 <= e; i2++) {
+          glyphIDs.push(i2);
         }
       } else {
-        for (let i22 = 0, e2 = endCode - startCode; i22 <= e2; i22++) {
-          p22.currentPosition = idRangeOffsetPointer + idRangeOffset + i22 * 2;
+        for (let i2 = 0, e = endCode - startCode; i2 <= e; i2++) {
+          p22.currentPosition = idRangeOffsetPointer + idRangeOffset + i2 * 2;
           glyphIDs.push(p22.uint16);
         }
       }
@@ -22150,9 +22326,9 @@ var Format4 = class extends Subtable {
     return [...new Array(this.segCount)].map(build);
   }
   reverse(glyphID) {
-    let s2 = this.segments.find((v2) => v2.glyphIDs.includes(glyphID));
-    if (!s2) return {};
-    const code = s2.startCode + s2.glyphIDs.indexOf(glyphID);
+    let s = this.segments.find((v2) => v2.glyphIDs.includes(glyphID));
+    if (!s) return {};
+    const code = s.startCode + s.glyphIDs.indexOf(glyphID);
     return { code, unicode: String.fromCodePoint(code) };
   }
   getGlyphId(charCode) {
@@ -22161,7 +22337,7 @@ var Format4 = class extends Subtable {
     if ((charCode & 65534) === 65534 || (charCode & 65535) === 65535)
       return 0;
     let segment = this.segments.find(
-      (s2) => s2.startCode <= charCode && charCode <= s2.endCode
+      (s) => s.startCode <= charCode && charCode <= s.endCode
     );
     if (!segment) return 0;
     return segment.glyphIDs[charCode - segment.startCode];
@@ -22234,7 +22410,7 @@ var Format8 = class extends Subtable {
       );
     }
     return this.groups.findIndex(
-      (s2) => s2.startcharCode <= charCode && charCode <= s2.endcharCode
+      (s) => s.startcharCode <= charCode && charCode <= s.endcharCode
     ) !== -1;
   }
   reverse(glyphID) {
@@ -22315,7 +22491,7 @@ var Format12 = class extends Subtable {
     if ((charCode & 65534) === 65534 || (charCode & 65535) === 65535)
       return 0;
     return this.groups.findIndex(
-      (s2) => s2.startCharCode <= charCode && charCode <= s2.endCharCode
+      (s) => s.startCharCode <= charCode && charCode <= s.endCharCode
     ) !== -1;
   }
   reverse(glyphID) {
@@ -22361,7 +22537,7 @@ var Format13 = class extends Subtable {
   supports(charCode) {
     if (charCode.charCodeAt) charCode = charCode.charCodeAt(0);
     return this.groups.findIndex(
-      (s2) => s2.startCharCode <= charCode && charCode <= s2.endCharCode
+      (s) => s.startCharCode <= charCode && charCode <= s.endCharCode
     ) !== -1;
   }
   reverse(glyphID) {
@@ -22455,45 +22631,45 @@ var cmap = class extends SimpleTable {
     return this.encodingRecords[tableID].table;
   }
   getSupportedEncodings() {
-    return this.encodingRecords.map((r3) => ({
-      platformID: r3.platformID,
-      encodingId: r3.encodingID
+    return this.encodingRecords.map((r2) => ({
+      platformID: r2.platformID,
+      encodingId: r2.encodingID
     }));
   }
   getSupportedCharCodes(platformID, encodingID) {
     const recordID = this.encodingRecords.findIndex(
-      (r3) => r3.platformID === platformID && r3.encodingID === encodingID
+      (r2) => r2.platformID === platformID && r2.encodingID === encodingID
     );
     if (recordID === -1) return false;
     const subtable = this.getSubTable(recordID);
     return subtable.getSupportedCharCodes();
   }
   reverse(glyphid) {
-    for (let i2 = 0; i2 < this.numTables; i2++) {
-      let code = this.getSubTable(i2).reverse(glyphid);
+    for (let i = 0; i < this.numTables; i++) {
+      let code = this.getSubTable(i).reverse(glyphid);
       if (code) return code;
     }
   }
   getGlyphId(char) {
     let last = 0;
     this.encodingRecords.some((_, tableID) => {
-      let t2 = this.getSubTable(tableID);
-      if (!t2.getGlyphId) return false;
-      last = t2.getGlyphId(char);
+      let t = this.getSubTable(tableID);
+      if (!t.getGlyphId) return false;
+      last = t.getGlyphId(char);
       return last !== 0;
     });
     return last;
   }
   supports(char) {
     return this.encodingRecords.some((_, tableID) => {
-      const t2 = this.getSubTable(tableID);
-      return t2.supports && t2.supports(char) !== false;
+      const t = this.getSubTable(tableID);
+      return t.supports && t.supports(char) !== false;
     });
   }
   supportsVariation(variation) {
     return this.encodingRecords.some((_, tableID) => {
-      const t2 = this.getSubTable(tableID);
-      return t2.supportsVariation && t2.supportsVariation(variation) !== false;
+      const t = this.getSubTable(tableID);
+      return t.supportsVariation && t.supportsVariation(variation) !== false;
     });
   }
 };
@@ -22584,9 +22760,9 @@ var hmtx = class extends SimpleTable {
   }
 };
 var LongHorMetric = class {
-  constructor(w2, b2) {
+  constructor(w2, b) {
     this.advanceWidth = w2;
-    this.lsb = b2;
+    this.lsb = b;
   }
 };
 var hmtx$1 = Object.freeze({ __proto__: null, hmtx });
@@ -22663,14 +22839,14 @@ function decodeString(p22, record) {
   if (length === 0) return ``;
   if (platformID === 0 || platformID === 3) {
     const str2 = [];
-    for (let i2 = 0, e2 = length / 2; i2 < e2; i2++)
-      str2[i2] = String.fromCharCode(p22.uint16);
+    for (let i = 0, e = length / 2; i < e; i++)
+      str2[i] = String.fromCharCode(p22.uint16);
     return str2.join(``);
   }
   const bytes = p22.readBytes(length);
   const str = [];
-  bytes.forEach(function(b2, i2) {
-    str[i2] = String.fromCharCode(b2);
+  bytes.forEach(function(b, i) {
+    str[i] = String.fromCharCode(b);
   });
   return str.join(``);
 }
@@ -22744,16 +22920,16 @@ var post = class extends SimpleTable {
       );
       this.namesOffset = p22.currentPosition;
       this.glyphNameOffsets = [1];
-      for (let i2 = 0; i2 < this.numGlyphs; i2++) {
-        let index2 = this.glyphNameIndex[i2];
+      for (let i = 0; i < this.numGlyphs; i++) {
+        let index2 = this.glyphNameIndex[i];
         if (index2 < macStrings.length) {
-          this.glyphNameOffsets.push(this.glyphNameOffsets[i2]);
+          this.glyphNameOffsets.push(this.glyphNameOffsets[i]);
           continue;
         }
         let bytelength = p22.int8;
         p22.skip(bytelength);
         this.glyphNameOffsets.push(
-          this.glyphNameOffsets[i2] + bytelength + 1
+          this.glyphNameOffsets[i] + bytelength + 1
         );
       }
     }
@@ -22783,7 +22959,7 @@ var post = class extends SimpleTable {
       8,
       true
     );
-    return data.map((b2) => String.fromCharCode(b2)).join(``);
+    return data.map((b) => String.fromCharCode(b)).join(``);
   }
 };
 var macStrings = [
@@ -24072,11 +24248,11 @@ var CommonLayoutTable = class extends SimpleTable {
     }
   }
   getSupportedScripts() {
-    return this.scriptList.scriptRecords.map((r3) => r3.scriptTag);
+    return this.scriptList.scriptRecords.map((r2) => r2.scriptTag);
   }
   getScriptTable(scriptTag) {
     let record = this.scriptList.scriptRecords.find(
-      (r3) => r3.scriptTag === scriptTag
+      (r2) => r2.scriptTag === scriptTag
     );
     this.parser.currentPosition = this.scriptList.start + record.scriptOffset;
     let table = new ScriptTable(this.parser);
@@ -24132,7 +24308,7 @@ var CommonLayoutTable = class extends SimpleTable {
       record = this.featureList.featureRecords[indexOrTag];
     } else {
       record = this.featureList.featureRecords.find(
-        (f2) => f2.featureTag === indexOrTag
+        (f) => f.featureTag === indexOrTag
       );
     }
     if (!record) return;
@@ -24196,7 +24372,7 @@ var SVGDocumentList = class extends ParsedData {
   }
   getDocumentForGlyph(glyphID) {
     let id = this.documentRecords.findIndex(
-      (d2) => d2.startGlyphID <= glyphID && glyphID <= d2.endGlyphID
+      (d) => d.startGlyphID <= glyphID && glyphID <= d.endGlyphID
     );
     if (id === -1) return "";
     return this.getDocument(id);
@@ -24232,8 +24408,8 @@ var fvar = class extends SimpleTable {
     const instanceStart = axisStart + this.axisCount * this.axisSize;
     lazy$1(this, `instances`, () => {
       let instances = [];
-      for (let i2 = 0; i2 < this.instanceCount; i2++) {
-        p22.currentPosition = instanceStart + i2 * this.instanceSize;
+      for (let i = 0; i < this.instanceCount; i++) {
+        p22.currentPosition = instanceStart + i * this.instanceSize;
         instances.push(
           new InstanceRecord(p22, this.axisCount, this.instanceSize)
         );
@@ -24242,10 +24418,10 @@ var fvar = class extends SimpleTable {
     });
   }
   getSupportedAxes() {
-    return this.axes.map((a2) => a2.tag);
+    return this.axes.map((a) => a.tag);
   }
   getAxis(name2) {
-    return this.axes.find((a2) => a2.tag === name2);
+    return this.axes.find((a) => a.tag === name2);
   }
 };
 var VariationAxisRecord = class {
@@ -24275,11 +24451,11 @@ var fvar$1 = Object.freeze({ __proto__: null, fvar });
 var cvt = class extends SimpleTable {
   constructor(dict, dataview) {
     const { p: p22 } = super(dict, dataview);
-    const n2 = dict.length / 2;
+    const n = dict.length / 2;
     lazy$1(
       this,
       `items`,
-      () => [...new Array(n2)].map((_) => p22.fword)
+      () => [...new Array(n)].map((_) => p22.fword)
     );
   }
 };
@@ -24326,19 +24502,19 @@ var glyf$1 = Object.freeze({ __proto__: null, glyf });
 var loca = class extends SimpleTable {
   constructor(dict, dataview, tables) {
     const { p: p22 } = super(dict, dataview);
-    const n2 = tables.maxp.numGlyphs + 1;
+    const n = tables.maxp.numGlyphs + 1;
     if (tables.head.indexToLocFormat === 0) {
       this.x2 = true;
       lazy$1(
         this,
         `offsets`,
-        () => [...new Array(n2)].map((_) => p22.Offset16)
+        () => [...new Array(n)].map((_) => p22.Offset16)
       );
     } else {
       lazy$1(
         this,
         `offsets`,
-        () => [...new Array(n2)].map((_) => p22.Offset32)
+        () => [...new Array(n)].map((_) => p22.Offset32)
       );
     }
   }
@@ -24688,7 +24864,7 @@ var kern = class extends SimpleTable {
     lazy$1(this, `tables`, () => {
       let offset4 = this.tableStart + 4;
       const tables = [];
-      for (let i2 = 0; i2 < this.nTables; i2++) {
+      for (let i = 0; i < this.nTables; i++) {
         p22.currentPosition = offset4;
         let subtable = new KernSubTable(p22);
         tables.push(subtable);
@@ -24902,9 +25078,9 @@ var vmtx = class extends SimpleTable {
   }
 };
 var LongVertMetric = class {
-  constructor(h2, b2) {
-    this.advanceHeight = h2;
-    this.topSideBearing = b2;
+  constructor(h, b) {
+    this.advanceHeight = h;
+    this.topSideBearing = b;
   }
 };
 var vmtx$1 = Object.freeze({ __proto__: null, vmtx });
@@ -25121,106 +25297,110 @@ var import_i18n24 = __toESM(require_i18n(), 1);
 var import_components29 = __toESM(require_components(), 1);
 var import_jsx_runtime61 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/screen-typography.mjs
+// packages/global-styles-ui/build-module/text-shadows.mjs
+var import_i18n25 = __toESM(require_i18n(), 1);
+var import_components30 = __toESM(require_components(), 1);
 var import_jsx_runtime62 = __toESM(require_jsx_runtime(), 1);
 
+// packages/global-styles-ui/build-module/screen-typography.mjs
+var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
+
 // packages/global-styles-ui/build-module/screen-typography-element.mjs
-var import_i18n26 = __toESM(require_i18n(), 1);
+var import_i18n27 = __toESM(require_i18n(), 1);
 var import_components31 = __toESM(require_components(), 1);
 var import_element42 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/typography-panel.mjs
 var import_block_editor6 = __toESM(require_block_editor(), 1);
-var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
 var { useSettingsForBlockElement: useSettingsForBlockElement4, TypographyPanel: StylesTypographyPanel2 } = unlock3(import_block_editor6.privateApis);
 
 // packages/global-styles-ui/build-module/typography-preview.mjs
-var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime65 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-typography-element.mjs
-var import_jsx_runtime65 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime66 = __toESM(require_jsx_runtime(), 1);
 var elements = {
   text: {
-    description: (0, import_i18n26.__)("Manage the fonts used on the site."),
-    title: (0, import_i18n26.__)("Text")
+    description: (0, import_i18n27.__)("Manage the fonts used on the site."),
+    title: (0, import_i18n27.__)("Text")
   },
   link: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on the links."),
-    title: (0, import_i18n26.__)("Links")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on the links."),
+    title: (0, import_i18n27.__)("Links")
   },
   heading: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on headings."),
-    title: (0, import_i18n26.__)("Headings")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on headings."),
+    title: (0, import_i18n27.__)("Headings")
   },
   caption: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on captions."),
-    title: (0, import_i18n26.__)("Captions")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on captions."),
+    title: (0, import_i18n27.__)("Captions")
   },
   cite: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on citations."),
-    title: (0, import_i18n26.__)("Citations")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on citations."),
+    title: (0, import_i18n27.__)("Citations")
   },
   button: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on buttons."),
-    title: (0, import_i18n26.__)("Buttons")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on buttons."),
+    title: (0, import_i18n27.__)("Buttons")
   },
   textInput: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on inputs."),
-    title: (0, import_i18n26.__)("Inputs")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on inputs."),
+    title: (0, import_i18n27.__)("Inputs")
   },
   select: {
-    description: (0, import_i18n26.__)("Manage the fonts and typography used on selects."),
-    title: (0, import_i18n26.__)("Selects")
+    description: (0, import_i18n27.__)("Manage the fonts and typography used on selects."),
+    title: (0, import_i18n27.__)("Selects")
   }
 };
 
 // packages/global-styles-ui/build-module/screen-colors.mjs
-var import_i18n28 = __toESM(require_i18n(), 1);
-var import_components34 = __toESM(require_components(), 1);
+var import_i18n29 = __toESM(require_i18n(), 1);
+var import_components33 = __toESM(require_components(), 1);
 var import_block_editor7 = __toESM(require_block_editor(), 1);
 
 // packages/global-styles-ui/build-module/palette.mjs
-var import_components33 = __toESM(require_components(), 1);
-var import_i18n27 = __toESM(require_i18n(), 1);
+var import_components32 = __toESM(require_components(), 1);
+var import_i18n28 = __toESM(require_i18n(), 1);
 var import_element43 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/color-indicator-wrapper.mjs
-var import_components32 = __toESM(require_components(), 1);
-var import_jsx_runtime66 = __toESM(require_jsx_runtime(), 1);
-
-// packages/global-styles-ui/build-module/palette.mjs
 var import_jsx_runtime67 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/screen-colors.mjs
+// packages/global-styles-ui/build-module/palette.mjs
 var import_jsx_runtime68 = __toESM(require_jsx_runtime(), 1);
+
+// packages/global-styles-ui/build-module/screen-colors.mjs
+var import_jsx_runtime69 = __toESM(require_jsx_runtime(), 1);
 var { useSettingsForBlockElement: useSettingsForBlockElement5, ColorPanel: StylesColorPanel2 } = unlock3(
   import_block_editor7.privateApis
 );
 var ADDITIONAL_ELEMENTS = [
-  { name: "cite", label: (0, import_i18n28.__)("Citations") },
-  { name: "textInput", label: (0, import_i18n28.__)("Inputs") },
-  { name: "select", label: (0, import_i18n28.__)("Selects") }
+  { name: "cite", label: (0, import_i18n29.__)("Citations") },
+  { name: "textInput", label: (0, import_i18n29.__)("Inputs") },
+  { name: "select", label: (0, import_i18n29.__)("Selects") }
 ];
 
 // packages/global-styles-ui/build-module/screen-color-palette.mjs
-var import_i18n32 = __toESM(require_i18n(), 1);
+var import_i18n33 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/color-palette-panel.mjs
 var import_compose4 = __toESM(require_compose(), 1);
-var import_components37 = __toESM(require_components(), 1);
-var import_i18n29 = __toESM(require_i18n(), 1);
+var import_components36 = __toESM(require_components(), 1);
+var import_i18n30 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/variations/variations-color.mjs
-var import_components36 = __toESM(require_components(), 1);
-
-// packages/global-styles-ui/build-module/preview-colors.mjs
 var import_components35 = __toESM(require_components(), 1);
 
+// packages/global-styles-ui/build-module/preview-colors.mjs
+var import_components34 = __toESM(require_components(), 1);
+
 // packages/global-styles-ui/build-module/preset-colors.mjs
-var import_jsx_runtime69 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime70 = __toESM(require_jsx_runtime(), 1);
 function PresetColors() {
   const { paletteColors } = useStylesPreviewColors();
-  return paletteColors.slice(0, 4).map(({ slug, color }, index2) => /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+  return paletteColors.slice(0, 4).map(({ slug, color }, index2) => /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
     "div",
     {
       style: {
@@ -25234,7 +25414,7 @@ function PresetColors() {
 }
 
 // packages/global-styles-ui/build-module/preview-colors.mjs
-var import_jsx_runtime70 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
 var firstFrameVariants2 = {
   start: {
     scale: 1,
@@ -25250,22 +25430,22 @@ var StylesPreviewColors = ({
   isFocused,
   withHoverView
 }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
     preview_wrapper_default,
     {
       label,
       isFocused,
       withHoverView,
-      children: ({ key }) => /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
-        import_components35.__unstableMotion.div,
+      children: ({ key }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+        import_components34.__unstableMotion.div,
         {
           variants: firstFrameVariants2,
           style: {
             height: "100%",
             overflow: "hidden"
           },
-          children: /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
-            import_components35.__experimentalHStack,
+          children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+            import_components34.__experimentalHStack,
             {
               spacing: 0,
               justify: "center",
@@ -25273,7 +25453,7 @@ var StylesPreviewColors = ({
                 height: "100%",
                 overflow: "hidden"
               },
-              children: /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(PresetColors, {})
+              children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(PresetColors, {})
             }
           )
         },
@@ -25285,7 +25465,7 @@ var StylesPreviewColors = ({
 var preview_colors_default = StylesPreviewColors;
 
 // packages/global-styles-ui/build-module/variations/variations-color.mjs
-var import_jsx_runtime71 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime72 = __toESM(require_jsx_runtime(), 1);
 var propertiesToFilter2 = ["color"];
 function ColorVariations({
   title,
@@ -25295,16 +25475,16 @@ function ColorVariations({
   if (colorVariations?.length <= 1) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(import_components36.__experimentalVStack, { spacing: 3, children: [
-    title && /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Subtitle, { level: 3, children: title }),
-    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(import_components36.__experimentalGrid, { gap, children: colorVariations.map((variation, index2) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(import_components35.__experimentalVStack, { spacing: 3, children: [
+    title && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(Subtitle, { level: 3, children: title }),
+    /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(import_components35.__experimentalGrid, { gap, children: colorVariations.map((variation, index2) => /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
       Variation,
       {
         variation,
         isPill: true,
         properties: propertiesToFilter2,
         showTooltip: true,
-        children: () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(preview_colors_default, {})
+        children: () => /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(preview_colors_default, {})
       },
       index2
     )) })
@@ -25312,122 +25492,130 @@ function ColorVariations({
 }
 
 // packages/global-styles-ui/build-module/color-palette-panel.mjs
-var import_jsx_runtime72 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime73 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/gradients-palette-panel.mjs
 var import_compose5 = __toESM(require_compose(), 1);
-var import_components38 = __toESM(require_components(), 1);
-var import_i18n30 = __toESM(require_i18n(), 1);
-var import_jsx_runtime73 = __toESM(require_jsx_runtime(), 1);
+var import_components37 = __toESM(require_components(), 1);
+var import_i18n31 = __toESM(require_i18n(), 1);
+var import_jsx_runtime74 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/duotone-palette-panel.mjs
 var import_compose6 = __toESM(require_compose(), 1);
 var import_element44 = __toESM(require_element(), 1);
-var import_components39 = __toESM(require_components(), 1);
-var import_i18n31 = __toESM(require_i18n(), 1);
-var import_jsx_runtime74 = __toESM(require_jsx_runtime(), 1);
-
-// packages/global-styles-ui/build-module/screen-color-palette.mjs
+var import_components38 = __toESM(require_components(), 1);
+var import_i18n32 = __toESM(require_i18n(), 1);
 var import_jsx_runtime75 = __toESM(require_jsx_runtime(), 1);
 
+// packages/global-styles-ui/build-module/screen-color-palette.mjs
+var import_jsx_runtime76 = __toESM(require_jsx_runtime(), 1);
+
 // packages/global-styles-ui/build-module/screen-background.mjs
-var import_i18n33 = __toESM(require_i18n(), 1);
+var import_i18n34 = __toESM(require_i18n(), 1);
 var import_block_editor9 = __toESM(require_block_editor(), 1);
-var import_components40 = __toESM(require_components(), 1);
+var import_components39 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/background-panel.mjs
 var import_block_editor8 = __toESM(require_block_editor(), 1);
-var import_jsx_runtime76 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime77 = __toESM(require_jsx_runtime(), 1);
 var { BackgroundPanel: StylesBackgroundPanel2 } = unlock3(
   import_block_editor8.privateApis
 );
 
 // packages/global-styles-ui/build-module/screen-background.mjs
-var import_jsx_runtime77 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime78 = __toESM(require_jsx_runtime(), 1);
 var { useHasBackgroundPanel: useHasBackgroundPanel4 } = unlock3(import_block_editor9.privateApis);
 
 // packages/global-styles-ui/build-module/shadows-panel.mjs
-var import_i18n36 = __toESM(require_i18n(), 1);
+var import_i18n37 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/presets/preset-group.mjs
-var import_components42 = __toESM(require_components(), 1);
-var import_i18n35 = __toESM(require_i18n(), 1);
+var import_components41 = __toESM(require_components(), 1);
+var import_i18n36 = __toESM(require_i18n(), 1);
 var import_element45 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/presets/dialogs/confirm-reset-dialog.mjs
-var import_components41 = __toESM(require_components(), 1);
-var import_i18n34 = __toESM(require_i18n(), 1);
-var import_jsx_runtime78 = __toESM(require_jsx_runtime(), 1);
+var import_components40 = __toESM(require_components(), 1);
+var import_i18n35 = __toESM(require_i18n(), 1);
+var import_jsx_runtime79 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/presets/preset-group.mjs
-var import_jsx_runtime79 = __toESM(require_jsx_runtime(), 1);
-var { Menu: Menu2 } = unlock3(import_components42.privateApis);
-
-// packages/global-styles-ui/build-module/shadows-panel.mjs
 var import_jsx_runtime80 = __toESM(require_jsx_runtime(), 1);
 
+// packages/global-styles-ui/build-module/shadows-panel.mjs
+var import_jsx_runtime81 = __toESM(require_jsx_runtime(), 1);
+
 // packages/global-styles-ui/build-module/shadows-edit-panel.mjs
-var import_components46 = __toESM(require_components(), 1);
-var import_i18n39 = __toESM(require_i18n(), 1);
+var import_components45 = __toESM(require_components(), 1);
+var import_i18n40 = __toESM(require_i18n(), 1);
 var import_element47 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/presets/preset-edit-header.mjs
-var import_components43 = __toESM(require_components(), 1);
-var import_jsx_runtime81 = __toESM(require_jsx_runtime(), 1);
-var { Menu: Menu3 } = unlock3(import_components43.privateApis);
-
-// packages/global-styles-ui/build-module/presets/dialogs/confirm-delete-dialog.mjs
-var import_components44 = __toESM(require_components(), 1);
-var import_i18n37 = __toESM(require_i18n(), 1);
+var import_components42 = __toESM(require_components(), 1);
 var import_jsx_runtime82 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/presets/dialogs/rename-dialog.mjs
-var import_components45 = __toESM(require_components(), 1);
+// packages/global-styles-ui/build-module/presets/dialogs/confirm-delete-dialog.mjs
+var import_components43 = __toESM(require_components(), 1);
 var import_i18n38 = __toESM(require_i18n(), 1);
-var import_element46 = __toESM(require_element(), 1);
 var import_jsx_runtime83 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/shadows-edit-panel.mjs
+// packages/global-styles-ui/build-module/presets/dialogs/rename-dialog.mjs
+var import_components44 = __toESM(require_components(), 1);
+var import_i18n39 = __toESM(require_i18n(), 1);
+var import_element46 = __toESM(require_element(), 1);
 var import_jsx_runtime84 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/screen-shadows.mjs
+// packages/global-styles-ui/build-module/shadows-edit-panel.mjs
 var import_jsx_runtime85 = __toESM(require_jsx_runtime(), 1);
 
+// packages/global-styles-ui/build-module/screen-shadows.mjs
+var import_jsx_runtime86 = __toESM(require_jsx_runtime(), 1);
+
+// packages/global-styles-ui/build-module/screen-text-shadows.mjs
+var import_i18n41 = __toESM(require_i18n(), 1);
+var import_jsx_runtime87 = __toESM(require_jsx_runtime(), 1);
+
+// packages/global-styles-ui/build-module/screen-text-shadows-edit.mjs
+var import_components46 = __toESM(require_components(), 1);
+var import_i18n42 = __toESM(require_i18n(), 1);
+var import_element48 = __toESM(require_element(), 1);
+var import_jsx_runtime88 = __toESM(require_jsx_runtime(), 1);
+
 // packages/global-styles-ui/build-module/screen-layout.mjs
-var import_i18n40 = __toESM(require_i18n(), 1);
+var import_i18n43 = __toESM(require_i18n(), 1);
 var import_block_editor11 = __toESM(require_block_editor(), 1);
 
 // packages/global-styles-ui/build-module/dimensions-panel.mjs
 var import_block_editor10 = __toESM(require_block_editor(), 1);
-var import_element48 = __toESM(require_element(), 1);
-var import_jsx_runtime86 = __toESM(require_jsx_runtime(), 1);
+var import_element49 = __toESM(require_element(), 1);
+var import_jsx_runtime89 = __toESM(require_jsx_runtime(), 1);
 var { useSettingsForBlockElement: useSettingsForBlockElement6, DimensionsPanel: StylesDimensionsPanel2 } = unlock3(import_block_editor10.privateApis);
 
 // packages/global-styles-ui/build-module/screen-layout.mjs
-var import_jsx_runtime87 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime90 = __toESM(require_jsx_runtime(), 1);
 var { useHasDimensionsPanel: useHasDimensionsPanel4, useSettingsForBlockElement: useSettingsForBlockElement7 } = unlock3(
   import_block_editor11.privateApis
 );
 
 // packages/global-styles-ui/build-module/screen-style-variations.mjs
 var import_components49 = __toESM(require_components(), 1);
-var import_i18n43 = __toESM(require_i18n(), 1);
+var import_i18n46 = __toESM(require_i18n(), 1);
 
 // packages/global-styles-ui/build-module/style-variations-content.mjs
-var import_i18n42 = __toESM(require_i18n(), 1);
+var import_i18n45 = __toESM(require_i18n(), 1);
 var import_components48 = __toESM(require_components(), 1);
 
 // packages/global-styles-ui/build-module/style-variations-container.mjs
 var import_core_data9 = __toESM(require_core_data(), 1);
 var import_data9 = __toESM(require_data(), 1);
-var import_element49 = __toESM(require_element(), 1);
+var import_element50 = __toESM(require_element(), 1);
 var import_components47 = __toESM(require_components(), 1);
-var import_i18n41 = __toESM(require_i18n(), 1);
-var import_jsx_runtime88 = __toESM(require_jsx_runtime(), 1);
+var import_i18n44 = __toESM(require_i18n(), 1);
+var import_jsx_runtime91 = __toESM(require_jsx_runtime(), 1);
 function StyleVariationsContainer({
   gap = 2
 }) {
-  const { user } = (0, import_element49.useContext)(GlobalStylesContext);
+  const { user } = (0, import_element50.useContext)(GlobalStylesContext);
   const userStyles = user?.styles;
   const variations = (0, import_data9.useSelect)((select) => {
     const result = select(
@@ -25443,10 +25631,10 @@ function StyleVariationsContainer({
       ]);
     }
   );
-  const themeVariations = (0, import_element49.useMemo)(() => {
+  const themeVariations = (0, import_element50.useMemo)(() => {
     const withEmptyVariation = [
       {
-        title: (0, import_i18n41.__)("Default"),
+        title: (0, import_i18n44.__)("Default"),
         settings: {},
         styles: {}
       },
@@ -25489,14 +25677,14 @@ function StyleVariationsContainer({
   if (!fullStyleVariations || fullStyleVariations.length < 1) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
     import_components47.__experimentalGrid,
     {
       columns: 2,
       className: "global-styles-ui-style-variations-container",
       gap,
       children: themeVariations.map(
-        (variation, index2) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Variation, { variation, children: (isFocused) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+        (variation, index2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Variation, { variation, children: (isFocused) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
           preview_styles_default,
           {
             label: variation?.title,
@@ -25512,73 +25700,67 @@ function StyleVariationsContainer({
 var style_variations_container_default = StyleVariationsContainer;
 
 // packages/global-styles-ui/build-module/style-variations-content.mjs
-var import_jsx_runtime89 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime92 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-style-variations.mjs
-var import_jsx_runtime90 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime93 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/screen-css.mjs
-var import_i18n44 = __toESM(require_i18n(), 1);
+var import_i18n47 = __toESM(require_i18n(), 1);
 var import_components50 = __toESM(require_components(), 1);
 var import_block_editor12 = __toESM(require_block_editor(), 1);
-var import_jsx_runtime91 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime94 = __toESM(require_jsx_runtime(), 1);
 var { AdvancedPanel: StylesAdvancedPanel2 } = unlock3(import_block_editor12.privateApis);
 
 // packages/global-styles-ui/build-module/screen-revisions/index.mjs
-var import_i18n47 = __toESM(require_i18n(), 1);
-var import_components53 = __toESM(require_components(), 1);
-var import_element51 = __toESM(require_element(), 1);
+var import_i18n49 = __toESM(require_i18n(), 1);
+var import_components51 = __toESM(require_components(), 1);
+var import_element53 = __toESM(require_element(), 1);
 
 // packages/global-styles-ui/build-module/screen-revisions/use-global-styles-revisions.mjs
 var import_data10 = __toESM(require_data(), 1);
 var import_core_data10 = __toESM(require_core_data(), 1);
-var import_element50 = __toESM(require_element(), 1);
+var import_element51 = __toESM(require_element(), 1);
 
-// packages/global-styles-ui/build-module/screen-revisions/revisions-buttons.mjs
-var import_i18n45 = __toESM(require_i18n(), 1);
-var import_components51 = __toESM(require_components(), 1);
+// packages/global-styles-ui/build-module/screen-revisions/revisions-list.mjs
+var import_i18n48 = __toESM(require_i18n(), 1);
 var import_date = __toESM(require_date(), 1);
 var import_core_data11 = __toESM(require_core_data(), 1);
 var import_data11 = __toESM(require_data(), 1);
-var import_keycodes2 = __toESM(require_keycodes(), 1);
-var import_jsx_runtime92 = __toESM(require_jsx_runtime(), 1);
+var import_element52 = __toESM(require_element(), 1);
+var import_jsx_runtime95 = __toESM(require_jsx_runtime(), 1);
 var DAY_IN_MILLISECONDS = 60 * 60 * 1e3 * 24;
 
-// packages/global-styles-ui/build-module/pagination/index.mjs
-var import_components52 = __toESM(require_components(), 1);
-var import_i18n46 = __toESM(require_i18n(), 1);
-var import_jsx_runtime93 = __toESM(require_jsx_runtime(), 1);
-
 // packages/global-styles-ui/build-module/screen-revisions/index.mjs
-var import_jsx_runtime94 = __toESM(require_jsx_runtime(), 1);
-
-// packages/global-styles-ui/build-module/font-sizes/font-sizes.mjs
-var import_i18n48 = __toESM(require_i18n(), 1);
-var import_components54 = __toESM(require_components(), 1);
-var import_jsx_runtime95 = __toESM(require_jsx_runtime(), 1);
-
-// packages/global-styles-ui/build-module/font-sizes/font-size.mjs
-var import_i18n50 = __toESM(require_i18n(), 1);
-var import_components56 = __toESM(require_components(), 1);
-var import_element52 = __toESM(require_element(), 1);
-
-// packages/global-styles-ui/build-module/font-sizes/font-size-preview.mjs
-var import_block_editor13 = __toESM(require_block_editor(), 1);
-var import_i18n49 = __toESM(require_i18n(), 1);
 var import_jsx_runtime96 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/size-control/index.mjs
-var import_components55 = __toESM(require_components(), 1);
+// packages/global-styles-ui/build-module/font-sizes/font-sizes.mjs
+var import_i18n50 = __toESM(require_i18n(), 1);
+var import_components52 = __toESM(require_components(), 1);
 var import_jsx_runtime97 = __toESM(require_jsx_runtime(), 1);
 
 // packages/global-styles-ui/build-module/font-sizes/font-size.mjs
+var import_i18n52 = __toESM(require_i18n(), 1);
+var import_components54 = __toESM(require_components(), 1);
+var import_element54 = __toESM(require_element(), 1);
+
+// packages/global-styles-ui/build-module/font-sizes/font-size-preview.mjs
+var import_block_editor13 = __toESM(require_block_editor(), 1);
+var import_i18n51 = __toESM(require_i18n(), 1);
 var import_jsx_runtime98 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/global-styles-ui.mjs
+// packages/global-styles-ui/build-module/size-control/index.mjs
+var import_components53 = __toESM(require_components(), 1);
 var import_jsx_runtime99 = __toESM(require_jsx_runtime(), 1);
 
-// packages/global-styles-ui/build-module/with-global-styles-provider.mjs
+// packages/global-styles-ui/build-module/font-sizes/font-size.mjs
 var import_jsx_runtime100 = __toESM(require_jsx_runtime(), 1);
+
+// packages/global-styles-ui/build-module/global-styles-ui.mjs
+var import_jsx_runtime101 = __toESM(require_jsx_runtime(), 1);
+
+// packages/global-styles-ui/build-module/with-global-styles-provider.mjs
+var import_jsx_runtime102 = __toESM(require_jsx_runtime(), 1);
 function withGlobalStylesProvider(Component) {
   return function WrappedComponent({
     value,
@@ -25586,13 +25768,13 @@ function withGlobalStylesProvider(Component) {
     onChange,
     ...props
   }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime100.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
       GlobalStylesProvider,
       {
         value,
         baseValue,
         onChange,
-        children: /* @__PURE__ */ (0, import_jsx_runtime100.jsx)(Component, { ...props })
+        children: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(Component, { ...props })
       }
     );
   };
@@ -25608,7 +25790,7 @@ var ColorVariations2 = withGlobalStylesProvider(ColorVariations);
 var TypographyVariations2 = withGlobalStylesProvider(TypographyVariations);
 
 // packages/global-styles-ui/build-module/font-library/font-library.mjs
-var import_jsx_runtime101 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime103 = __toESM(require_jsx_runtime(), 1);
 function FontLibrary({
   value,
   baseValue,
@@ -25618,21 +25800,21 @@ function FontLibrary({
   let content;
   switch (activeTab) {
     case "upload-fonts":
-      content = /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(upload_fonts_default, {});
+      content = /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(upload_fonts_default, {});
       break;
     case "installed-fonts":
-      content = /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(installed_fonts_default, {});
+      content = /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(installed_fonts_default, {});
       break;
     default:
-      content = /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(font_collection_default, { slug: activeTab });
+      content = /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(font_collection_default, { slug: activeTab });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(
     GlobalStylesProvider,
     {
       value,
       baseValue,
       onChange,
-      children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(context_default, { children: content })
+      children: /* @__PURE__ */ (0, import_jsx_runtime103.jsx)(context_default, { children: content })
     }
   );
 }
@@ -25645,22 +25827,22 @@ var { unlock: unlock4 } = (0, import_private_apis5.__dangerousOptInToUnstableAPI
 );
 
 // routes/font-list/style.scss
-if (typeof document !== "undefined" && (typeof process === "undefined" || true) && !document.head.querySelector("style[data-wp-hash='cb0e994672']")) {
+if (typeof document !== "undefined" && (typeof process === "undefined" || true) && !document.head.querySelector("style[data-wp-hash='8cdcc9529b']")) {
   const style = document.createElement("style");
-  style.setAttribute("data-wp-hash", "cb0e994672");
-  style.appendChild(document.createTextNode('@media (min-width:782px){.font-library-modal.font-library-modal{width:65vw}}.font-library-modal .components-modal__header{border-bottom:none}.font-library-modal .components-modal__content{margin-bottom:90px;padding:0}.font-library-modal .font-library__subtitle{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}.font-library-modal__tab-panel{height:calc(100% - 50px)}.font-library__tabpanel-layout{display:flex;flex-direction:column;height:100%}.font-library__tabpanel-layout>div{flex-grow:1}.font-library__tabpanel-layout .font-library__loading{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;left:0;padding-top:124px;position:absolute;top:0;width:100%}.font-library__footer,.font-library__tabpanel-layout .components-navigator-screen{padding:24px;width:100%}.font-library__footer{background-color:#fff;border-top:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);bottom:0;box-sizing:border-box;flex-grow:0!important;flex-shrink:0;height:90px;position:absolute}.font-library__page-selection{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}@media (min-width:600px){.font-library__page-selection .components-select-control__input{font-size:11px!important;font-weight:var(--wpds-typography-font-weight-emphasis,600)}}.font-library__search{width:240px}.font-library__fonts-title{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);margin-bottom:0;margin-top:0;text-transform:uppercase}.font-library__fonts-list{list-style:none;margin-bottom:0;margin-top:0;padding:0}.font-library__fonts-list-item{margin-bottom:0}.font-library__font-demo{position:relative}.font-library__font-card{border:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);box-sizing:border-box;height:auto!important;margin-top:-1px;padding:16px;width:100%}.font-library__font-card:hover{background-color:#f0f0f0}.font-library__font-card:focus{position:relative}.font-library__font-card .font-library__font-card__name{font-weight:700}.font-library__font-card .font-library__font-card__count{color:#757575}.font-library__font-card .font-library__font-variant_demo-image{display:block;height:24px;width:auto}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-image{transition:opacity var(--wpds-motion-duration-lg,.3s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}.font-library__font-card .font-library__font-variant_demo-image.is-loading{left:0;opacity:0;position:absolute;top:0}.font-library__font-card .font-library__font-variant-demo-skeleton{border-radius:var(--wpds-border-radius-sm,2px);height:24px}.font-library__font-card .font-library__font-variant_demo-text{flex-shrink:0;white-space:nowrap}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-text{transition:opacity .3s ease-in-out}}.font-library-modal__tablist-container{background:#fff;border-bottom:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);position:sticky;top:0;z-index:1}.font-library__upload-area{align-items:center;display:flex;height:256px!important;justify-content:center;width:100%}button.font-library__upload-area{background-color:#f0f0f0}.font-library__local-fonts{margin:24px auto;width:80%}.font-library__local-fonts .font-library__upload-area__text{color:#757575}.font-library__google-fonts-confirm{align-items:center;display:flex;justify-content:center;margin-top:64px}.font-library__google-fonts-confirm p{line-height:1.4}.font-library__google-fonts-confirm h2{font-size:1.2rem;font-weight:400}.font-library__google-fonts-confirm .components-card{padding:16px;width:400px}.font-library__google-fonts-confirm .components-button{justify-content:center;width:100%}.font-library__select-all{padding:16px 16px 16px 17px}.font-library__select-all .components-checkbox-control__label{padding-left:16px}.global-styles-ui-pagination .components-button.is-tertiary{height:32px;justify-content:center;width:32px}.global-styles-ui-screen-revisions__revisions-list{flex-grow:1;list-style:none;margin:0 16px 16px}.global-styles-ui-screen-revisions__revisions-list li{margin-bottom:0}.global-styles-ui-screen-revisions__revision-item{cursor:var(--wpds-cursor-control,pointer);display:flex;flex-direction:column;position:relative}.global-styles-ui-screen-revisions__revision-item[role=option]:active,.global-styles-ui-screen-revisions__revision-item[role=option]:focus{box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);outline:2px solid transparent}.global-styles-ui-screen-revisions__revision-item:hover{background:rgba(var(--wp-admin-theme-color--rgb),.04)}.global-styles-ui-screen-revisions__revision-item:hover .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item:after,.global-styles-ui-screen-revisions__revision-item:before{content:"\\a";display:block;position:absolute}.global-styles-ui-screen-revisions__revision-item:before{background:#ddd;border:4px solid transparent;border-radius:50%;height:8px;left:17px;top:18px;transform:translate(-50%,-50%);width:8px;z-index:1}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]{background:rgba(var(--wp-admin-theme-color--rgb),.04);border-radius:2px;color:var(--wp-admin-theme-color);outline:3px solid transparent;outline-offset:-2px}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__date{color:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true]:before{background:var(--wp-admin-theme-color)}.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__changes>li,.global-styles-ui-screen-revisions__revision-item[aria-selected=true] .global-styles-ui-screen-revisions__meta{color:#1e1e1e}.global-styles-ui-screen-revisions__revision-item:after{border:.5px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);height:100%;left:16px;top:0;width:0}.global-styles-ui-screen-revisions__revision-item:first-child:after{top:18px}.global-styles-ui-screen-revisions__revision-item:last-child:after{height:18px}.global-styles-ui-screen-revisions__revision-item-wrapper{display:block;padding:12px 12px 4px 40px}.global-styles-ui-screen-revisions__active-badge,.global-styles-ui-screen-revisions__apply-button.is-primary{align-self:flex-start;margin:0 12px 12px 40px}.global-styles-ui-screen-revisions__changes,.global-styles-ui-screen-revisions__meta{color:#757575;font-size:12px}.global-styles-ui-screen-revisions__description{align-items:flex-start;display:flex;flex-direction:column;gap:8px}.global-styles-ui-screen-revisions__description .global-styles-ui-screen-revisions__date{font-size:12px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}.global-styles-ui-screen-revisions__meta{align-items:flex-start;display:flex;justify-content:start;margin-bottom:4px;text-align:left;width:100%}.global-styles-ui-screen-revisions__meta img{border-radius:100%;height:16px;margin-right:8px;width:16px}.global-styles-ui-screen-revisions__loading{margin:24px auto!important}.global-styles-ui-screen-revisions__changes{line-height:1.4;list-style:disc;margin-left:12px;text-align:left}.global-styles-ui-screen-revisions__changes li{margin-bottom:4px}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination{gap:2px;justify-content:space-between}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .edit-site-pagination__total{height:1px;left:-1000px;margin:-1px;overflow:hidden;position:absolute}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-text{font-size:12px;will-change:opacity}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary{color:#1e1e1e}.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary:disabled,.global-styles-ui-screen-revisions__pagination.global-styles-ui-screen-revisions__pagination .components-button.is-tertiary[aria-disabled=true]{color:#949494}.global-styles-ui-screen-revisions__footer{background:#fff;border-top:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);bottom:0;box-sizing:border-box;height:56px;min-width:100%;padding:12px;position:sticky;z-index:1}.global-styles-ui-variations_item{box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer)}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{border-radius:2px;outline:1px solid rgba(0,0,0,.1);outline-offset:-1px;overflow:hidden;position:relative}@media not (prefers-reduced-motion){.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{transition:outline .1s linear}}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill{height:32px}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill .block-editor-iframe__scale-container{overflow:hidden}.global-styles-ui-variations_item:not(.is-active):hover .global-styles-ui-variations_item-preview{outline-color:rgba(0,0,0,.3)}.global-styles-ui-variations_item.is-active .global-styles-ui-variations_item-preview,.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:#1e1e1e;outline-offset:1px;outline-width:var(--wp-admin-border-width-focus)}.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:var(--wp-admin-theme-color)}.global-styles-ui-preview__wrapper{display:block;max-width:100%;width:100%}.global-styles-ui-preview__wrapper.is-hoverable{cursor:var(--wpds-cursor-control,pointer)}.global-styles-ui-typography-preview{align-items:center;background:#f0f0f0;border-radius:2px;display:flex;justify-content:center;margin-bottom:20px;min-height:100px;overflow:hidden}.global-styles-ui-font-size__item{line-break:anywhere;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-styles-ui-font-size__item-value{color:#757575}.global-styles-ui-screen-typography__indicator{align-items:center;border-radius:2px;display:flex!important;font-size:14px;height:24px;justify-content:center;width:24px}.global-styles-ui-block-types-filter{margin-bottom:12px;padding:0 16px}.global-styles-ui-block-types-search{flex-grow:1}.global-styles-ui-block-types-item-list .global-styles-ui-block-types-item__icon{min-width:24px}.global-styles-ui-block-types-item-list__no-results{padding-top:16px}.global-styles-ui-block-types-item__indicator{background:var(--wp-admin-theme-color);border-radius:50%;flex:none;height:6px;margin-left:auto;width:6px}.global-styles-ui-screen-typography__font-variants-count{color:#757575}.global-styles-ui-font-families__manage-fonts{justify-content:center}.global-styles-ui-screen .color-block-support-panel{border-top:none;padding-left:0;padding-right:0;padding-top:0;row-gap:12px}.global-styles-ui-header{line-height:1.9!important;margin-bottom:0!important}.global-styles-ui-subtitle{font-size:11px!important;font-weight:var(--wpds-typography-font-weight-emphasis,600)!important;margin-bottom:0!important;text-transform:uppercase}.global-styles-ui-section-title{color:#2f2f2f;font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:1.2;margin:0;padding:16px 16px 0}.global-styles-ui-icon-with-current-color{fill:currentColor}.global-styles-ui__color-indicator-wrapper{flex-shrink:0;height:24px}.global-styles-ui__shadows-panel__options-container,.global-styles-ui__typography-panel__options-container{height:24px}.global-styles-ui__block-preview-panel{border:1px solid #ddd;border-radius:2px;overflow:hidden;position:relative;width:100%}.global-styles-ui__shadow-preview-panel{background-image:repeating-linear-gradient(45deg,#e0e0e0 25%,transparent 0,transparent 75%,#e0e0e0 0,#e0e0e0),repeating-linear-gradient(45deg,#e0e0e0 25%,transparent 0,transparent 75%,#e0e0e0 0,#e0e0e0);background-position:0 0,8px 8px;background-size:16px 16px;border:1px solid #ddd;border-radius:2px;height:144px;overflow:auto}.global-styles-ui__shadow-preview-panel .global-styles-ui__shadow-preview-block{background-color:#fff;border:1px solid #ddd;border-radius:2px;height:60px;width:60%}.global-styles-ui__shadow-editor__dropdown-content{width:280px}.global-styles-ui__shadow-editor-panel{margin-bottom:4px}.global-styles-ui__shadow-editor__dropdown{position:relative;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle{border-radius:inherit;height:auto;padding-bottom:8px;padding-top:8px;text-align:left;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle.is-open{background:#f0f0f0;color:var(--wp-admin-theme-color)}.global-styles-ui__shadow-editor__remove-button{opacity:0;position:absolute;right:8px;top:8px}.global-styles-ui__shadow-editor__dropdown-toggle:hover+.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__shadow-editor__remove-button:focus,.global-styles-ui__shadow-editor__remove-button:hover{opacity:1}@media (hover:none){.global-styles-ui__shadow-editor__remove-button{opacity:1}}.global-styles-ui-screen-css{display:flex;flex:1 1 auto;flex-direction:column;margin:16px}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel{flex:1 1 auto}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input,.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field{display:flex;flex:1 1 auto;flex-direction:column}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input textarea{flex:1 1 auto}.global-styles-ui-screen-css-help-link{display:inline-block;margin-top:8px}.global-styles-ui-screen-variations{border-top:1px solid #ddd;margin-top:16px}.global-styles-ui-screen-variations>*{margin:24px 16px}.global-styles-ui-sidebar__navigator-provider{height:100%}.global-styles-ui-sidebar__navigator-screen{display:flex;flex-direction:column;height:100%}.global-styles-ui-color-palette__tablist-container{border-bottom:1px solid #ddd}.global-styles-ui-color-palette__tablist{margin-bottom:-1px}.global-styles-ui-sidebar__navigator-screen .single-column{grid-column:span 1}.global-styles-ui-screen-root.global-styles-ui-screen-root,.global-styles-ui-screen-style-variations.global-styles-ui-screen-style-variations{background:unset;color:inherit}.global-styles-ui-sidebar__panel .block-editor-block-icon svg{fill:currentColor}.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile,.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile .global-styles-ui-screen-root__active-style-tile-preview{border-radius:2px}.global-styles-ui-screen-root__active-style-tile-preview{clip-path:border-box}.global-styles-ui-color-palette-panel,.global-styles-ui-duotone-palette-panel,.global-styles-ui-gradient-palette-panel{padding:16px}.font-library-page__content{background-color:var(--wpds-color-background-surface-neutral-strong,#fff);display:flex;flex-direction:column;flex-grow:1;min-height:0}.font-library-page:has(.font-library__footer) .font-library-page__content{padding-bottom:90px}.font-library-page__tablist{border-bottom:1px solid #f0f0f0;flex-shrink:0;padding:0 24px}.font-library-page__tab-panel{flex-grow:1;min-height:0;overflow:auto}'));
+  style.setAttribute("data-wp-hash", "8cdcc9529b");
+  style.appendChild(document.createTextNode("@media (min-width:782px){.font-library-modal.font-library-modal{width:65vw}}.font-library-modal .components-modal__header{border-bottom:none}.font-library-modal .components-modal__content{margin-bottom:90px;padding:0}.font-library-modal .font-library__subtitle{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}.font-library-modal__tab-panel{height:calc(100% - 50px)}.font-library__tabpanel-layout{display:flex;flex-direction:column;height:100%}.font-library__tabpanel-layout>div{flex-grow:1}.font-library__tabpanel-layout .font-library__loading{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;left:0;padding-top:124px;position:absolute;top:0;width:100%}.font-library__footer,.font-library__tabpanel-layout .components-navigator-screen{padding:24px;width:100%}.font-library__footer{background-color:#fff;border-top:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);bottom:0;box-sizing:border-box;flex-grow:0!important;flex-shrink:0;height:90px;position:absolute}.font-library__page-selection{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}@media (min-width:600px){.font-library__page-selection .components-select-control__input{font-size:11px!important;font-weight:var(--wpds-typography-font-weight-emphasis,600)}}.font-library__search{width:240px}.font-library__fonts-title{font-size:11px;font-weight:var(--wpds-typography-font-weight-emphasis,600);margin-bottom:0;margin-top:0;text-transform:uppercase}.font-library__fonts-list{list-style:none;margin-bottom:0;margin-top:0;padding:0}.font-library__fonts-list-item{margin-bottom:0}.font-library__font-demo{position:relative}.font-library__font-card{border:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);box-sizing:border-box;height:auto!important;margin-top:-1px;padding:16px;width:100%}.font-library__font-card:hover{background-color:#f0f0f0}.font-library__font-card:focus{position:relative}.font-library__font-card .font-library__font-card__name{font-weight:700}.font-library__font-card .font-library__font-card__count{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}.font-library__font-card .font-library__font-variant_demo-image{display:block;height:24px;width:auto}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-image{transition:opacity var(--wpds-motion-duration-lg,.3s) var(--wpds-motion-easing-subtle,cubic-bezier(.15,0,.15,1))}}.font-library__font-card .font-library__font-variant_demo-image.is-loading{left:0;opacity:0;position:absolute;top:0}.font-library__font-card .font-library__font-variant-demo-skeleton{border-radius:var(--wpds-border-radius-sm,2px);height:24px}.font-library__font-card .font-library__font-variant_demo-text{flex-shrink:0;white-space:nowrap}@media not (prefers-reduced-motion){.font-library__font-card .font-library__font-variant_demo-text{transition:opacity .3s ease-in-out}}.font-library-modal__tablist-container{background:#fff;border-bottom:1px solid var(--wpds-color-stroke-surface-neutral,#dbdbdb);position:sticky;top:0;z-index:1}.font-library__upload-area{align-items:center;display:flex;height:256px!important;justify-content:center;width:100%}button.font-library__upload-area{background-color:#f0f0f0}.font-library__local-fonts{margin:24px auto;width:80%}.font-library__local-fonts .font-library__upload-area__text{color:var(--wpds-color-foreground-content-neutral-weak,#707070)}.font-library__google-fonts-confirm{align-items:center;display:flex;justify-content:center;margin-top:64px}.font-library__google-fonts-confirm p{line-height:1.4}.font-library__google-fonts-confirm h2{font-size:1.2rem;font-weight:400}.font-library__google-fonts-confirm .components-card{padding:16px;width:400px}.font-library__google-fonts-confirm .components-button{justify-content:center;width:100%}.font-library__select-all{padding:16px 16px 16px 17px}.font-library__select-all .components-checkbox-control__label{padding-left:16px}.global-styles-ui-screen-revisions{display:flex;flex-direction:column;flex-grow:1;min-height:0}.global-styles-ui-screen-revisions__actions{margin-inline-start:auto}.global-styles-ui-screen-revisions__date{font-size:12px;font-weight:var(--wpds-typography-font-weight-emphasis,600);text-transform:uppercase}.global-styles-ui-screen-revisions__description{align-items:flex-start;display:flex;flex-direction:column;gap:8px}.global-styles-ui-screen-revisions__changes,.global-styles-ui-screen-revisions__meta{color:#2f2f2f;font-size:12px}.global-styles-ui-screen-revisions__meta{align-items:center;display:flex;justify-content:start;text-align:left;width:100%}.global-styles-ui-screen-revisions__meta img{border-radius:100%;height:16px;margin-right:8px;width:16px}.global-styles-ui-screen-revisions__changes{line-height:1.4;list-style:disc;margin:0 0 0 12px;text-align:left}.global-styles-ui-screen-revisions__changes li{margin-bottom:4px}.global-styles-ui-variations_item{box-sizing:border-box;cursor:var(--wpds-cursor-control,pointer)}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{border-radius:2px;outline:1px solid rgba(0,0,0,.1);outline-offset:-1px;overflow:hidden;position:relative}@media not (prefers-reduced-motion){.global-styles-ui-variations_item .global-styles-ui-variations_item-preview{transition:outline .1s linear}}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill{height:32px}.global-styles-ui-variations_item .global-styles-ui-variations_item-preview.is-pill .block-editor-iframe__scale-container{overflow:hidden}.global-styles-ui-variations_item:not(.is-active):hover .global-styles-ui-variations_item-preview{outline-color:rgba(0,0,0,.3)}.global-styles-ui-variations_item.is-active .global-styles-ui-variations_item-preview,.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:#1e1e1e;outline-offset:1px;outline-width:var(--wp-admin-border-width-focus)}.global-styles-ui-variations_item:focus-visible .global-styles-ui-variations_item-preview{outline-color:var(--wp-admin-theme-color)}.global-styles-ui-preview__wrapper{display:block;max-width:100%;width:100%}.global-styles-ui-preview__wrapper.is-hoverable{cursor:var(--wpds-cursor-control,pointer)}.global-styles-ui-typography-preview{align-items:center;background:#f0f0f0;border-radius:2px;display:flex;justify-content:center;margin-bottom:20px;min-height:100px;overflow:hidden}.global-styles-ui-font-size__item{line-break:anywhere;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-styles-ui-font-size__item-value{color:#757575}.global-styles-ui-screen-typography__indicator{align-items:center;border-radius:2px;display:flex!important;font-size:14px;height:24px;justify-content:center;width:24px}.global-styles-ui-block-types-filter{margin-bottom:12px;padding:0 16px}.global-styles-ui-block-types-search{flex-grow:1}.global-styles-ui-block-types-item-list .global-styles-ui-block-types-item__icon{min-width:24px}.global-styles-ui-block-types-item-list__no-results{padding-top:16px}.global-styles-ui-block-types-item__indicator{background:var(--wp-admin-theme-color);border-radius:50%;flex:none;height:6px;margin-left:auto;width:6px}.global-styles-ui-screen-typography__font-variants-count{color:#757575}.global-styles-ui-font-families__manage-fonts{justify-content:center}.global-styles-ui-screen .color-block-support-panel{border-top:none;padding-left:0;padding-right:0;padding-top:0;row-gap:12px}.global-styles-ui-header{line-height:1.9!important;margin-bottom:0!important}.global-styles-ui-subtitle{font-size:11px!important;font-weight:var(--wpds-typography-font-weight-emphasis,600)!important;margin-bottom:0!important;text-transform:uppercase}.global-styles-ui-section-title{color:#2f2f2f;font-weight:var(--wpds-typography-font-weight-emphasis,600);line-height:1.2;margin:0;padding:16px 16px 0}.global-styles-ui-icon-with-current-color{fill:currentColor}.global-styles-ui__color-indicator-wrapper{align-items:center;display:flex;flex-shrink:0;height:24px}.global-styles-ui__palette-preview{display:inline-flex}.global-styles-ui__palette-preview>*+*{margin-inline-start:-8px}.global-styles-ui__shadows-panel__options-container,.global-styles-ui__typography-panel__options-container{height:24px}.global-styles-ui__block-preview-panel{border:1px solid #ddd;border-radius:2px;overflow:hidden;position:relative;width:100%}.global-styles-ui__shadow-preview-panel,.global-styles-ui__text-shadow-preview-panel{background-image:repeating-linear-gradient(45deg,#e0e0e0 25%,transparent 0,transparent 75%,#e0e0e0 0,#e0e0e0),repeating-linear-gradient(45deg,#e0e0e0 25%,transparent 0,transparent 75%,#e0e0e0 0,#e0e0e0);background-position:0 0,8px 8px;background-size:16px 16px;border:1px solid #ddd;border-radius:2px;height:144px;overflow:auto}.global-styles-ui__shadow-preview-block{background-color:#fff;border:1px solid #ddd;border-radius:2px;height:60px;width:60%}.global-styles-ui__text-shadow-preview-panel{margin-block:-8px 16px}.global-styles-ui__text-shadow-preview-text{font-size:24px}.global-styles-ui__text-shadow-editor__header{margin-block-end:8px}.global-styles-ui__text-shadow-editor__inputs{display:grid;gap:16px;grid-template-columns:repeat(2,1fr)}.global-styles-ui__shadow-editor__dropdown-content,.global-styles-ui__text-shadow-editor__dropdown-content{width:280px}.global-styles-ui__shadow-editor-panel,.global-styles-ui__text-shadow-editor-panel{margin-bottom:4px}.global-styles-ui__shadow-editor__dropdown,.global-styles-ui__text-shadow-editor__dropdown{position:relative;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle,.global-styles-ui__text-shadow-editor__dropdown-toggle{border-radius:inherit;height:auto;padding-bottom:8px;padding-top:8px;text-align:left;width:100%}.global-styles-ui__shadow-editor__dropdown-toggle.is-open,.global-styles-ui__text-shadow-editor__dropdown-toggle.is-open{background:#f0f0f0;color:var(--wp-admin-theme-color)}.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__text-shadow-editor__remove-button{opacity:0;position:absolute;right:8px;top:8px}.global-styles-ui__shadow-editor__dropdown-toggle:hover+.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__shadow-editor__dropdown-toggle:hover+.global-styles-ui__text-shadow-editor__remove-button,.global-styles-ui__shadow-editor__remove-button:focus,.global-styles-ui__shadow-editor__remove-button:hover,.global-styles-ui__text-shadow-editor__dropdown-toggle:hover+.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__text-shadow-editor__dropdown-toggle:hover+.global-styles-ui__text-shadow-editor__remove-button,.global-styles-ui__text-shadow-editor__remove-button:focus,.global-styles-ui__text-shadow-editor__remove-button:hover{opacity:1}@media (hover:none){.global-styles-ui__shadow-editor__remove-button,.global-styles-ui__text-shadow-editor__remove-button{opacity:1}}.global-styles-ui-screen-css{display:flex;flex:1 1 auto;flex-direction:column;margin:16px}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel{flex:1 1 auto}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input,.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input .components-base-control__field{display:flex;flex:1 1 auto;flex-direction:column}.global-styles-ui-screen-css .block-editor-global-styles-advanced-panel__custom-css-input textarea{flex:1 1 auto}.global-styles-ui-screen-css-help-link{display:inline-block;margin-top:8px}.global-styles-ui-screen-variations{border-top:1px solid #ddd;margin-top:16px}.global-styles-ui-screen-variations>*{margin:24px 16px}.global-styles-ui-sidebar__navigator-provider{height:100%}.global-styles-ui-sidebar__navigator-screen{display:flex;flex-direction:column;height:100%}.global-styles-ui-color-palette__tablist-container{border-bottom:1px solid #ddd}.global-styles-ui-color-palette__tablist{margin-bottom:-1px}.global-styles-ui-sidebar__navigator-screen .single-column{grid-column:span 1}.global-styles-ui-screen-root.global-styles-ui-screen-root,.global-styles-ui-screen-style-variations.global-styles-ui-screen-style-variations{background:unset;color:inherit}.global-styles-ui-sidebar__panel .block-editor-block-icon svg{fill:currentColor}.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile,.global-styles-ui-screen-root__active-style-tile.global-styles-ui-screen-root__active-style-tile .global-styles-ui-screen-root__active-style-tile-preview{border-radius:2px}.global-styles-ui-screen-root__active-style-tile-preview{clip-path:border-box}.global-styles-ui-color-palette-panel,.global-styles-ui-duotone-palette-panel,.global-styles-ui-gradient-palette-panel{padding:16px}.font-library-page__content{display:flex;flex-direction:column;flex-grow:1;min-height:0}.font-library-page:has(.font-library__footer) .font-library-page__content{padding-bottom:90px}.font-library-page__tablist{border-bottom:1px solid #f0f0f0;flex-shrink:0;padding:0 24px}.font-library-page__tab-panel{flex-grow:1;min-height:0;overflow:auto}"));
   document.head.appendChild(style);
 }
 
 // routes/font-list/stage.tsx
-var import_jsx_runtime102 = __toESM(require_jsx_runtime());
-var { Tabs: Tabs2 } = unlock4(import_components58.privateApis);
+var import_jsx_runtime104 = __toESM(require_jsx_runtime());
+var { Tabs: Tabs2 } = unlock4(import_components56.privateApis);
 var { useGlobalStyles } = unlock4(import_editor.privateApis);
 function FontLibraryPage() {
   const { records: collections = [] } = (0, import_core_data12.useEntityRecords)("root", "fontCollection", {
     _fields: "slug,name,description"
   });
-  const [activeTab, setActiveTab] = (0, import_element54.useState)("installed-fonts");
+  const [activeTab, setActiveTab] = (0, import_element56.useState)("installed-fonts");
   const { base, user, setUser, isReady } = useGlobalStyles();
   const canUserCreate = (0, import_data13.useSelect)((select) => {
     return select(import_core_data12.store).canUser("create", {
@@ -25674,35 +25856,35 @@ function FontLibraryPage() {
   const tabs = [
     {
       id: "installed-fonts",
-      title: (0, import_i18n51._x)("Library", "Font library")
+      title: (0, import_i18n53._x)("Library", "Font library")
     }
   ];
   if (canUserCreate) {
     tabs.push({
       id: "upload-fonts",
-      title: (0, import_i18n51._x)("Upload", "noun")
+      title: (0, import_i18n53._x)("Upload", "noun")
     });
     tabs.push(
       ...(collections || []).map(({ slug, name: name2 }) => ({
         id: slug,
-        title: collections && collections.length === 1 && slug === "google-fonts" ? (0, import_i18n51.__)("Install Fonts") : name2
+        title: collections && collections.length === 1 && slug === "google-fonts" ? (0, import_i18n53.__)("Install Fonts") : name2
       }))
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(page_default, { title: (0, import_i18n51.__)("Fonts"), className: "font-library-page", children: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)("div", { className: "font-library-page__content", children: /* @__PURE__ */ (0, import_jsx_runtime102.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(page_default, { title: (0, import_i18n53.__)("Fonts"), className: "font-library-page", children: /* @__PURE__ */ (0, import_jsx_runtime104.jsx)("div", { className: "font-library-page__content", children: /* @__PURE__ */ (0, import_jsx_runtime104.jsxs)(
     Tabs2,
     {
       selectedTabId: activeTab,
       onSelect: (tabId) => setActiveTab(tabId),
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime102.jsx)("div", { className: "font-library-page__tablist", children: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(Tabs2.TabList, { children: tabs.map(({ id, title }) => /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(Tabs2.Tab, { tabId: id, children: title }, id)) }) }),
-        tabs.map(({ id }) => /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime104.jsx)("div", { className: "font-library-page__tablist", children: /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Tabs2.TabList, { children: tabs.map(({ id, title }) => /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(Tabs2.Tab, { tabId: id, children: title }, id)) }) }),
+        tabs.map(({ id }) => /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(
           Tabs2.TabPanel,
           {
             tabId: id,
             focusable: false,
             className: "font-library-page__tab-panel",
-            children: /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(
               FontLibrary,
               {
                 value: user,
@@ -25719,7 +25901,7 @@ function FontLibraryPage() {
   ) }) });
 }
 function Stage() {
-  return /* @__PURE__ */ (0, import_jsx_runtime102.jsx)(FontLibraryPage, {});
+  return /* @__PURE__ */ (0, import_jsx_runtime104.jsx)(FontLibraryPage, {});
 }
 var stage = Stage;
 export {

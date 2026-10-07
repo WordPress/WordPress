@@ -1,3 +1,6 @@
+.wp-block-post-navigation-link {
+  box-sizing: border-box;
+}
 .wp-block-post-navigation-link .wp-block-post-navigation-link__arrow-previous {
   display: inline-block;
   margin-left: 1ch;

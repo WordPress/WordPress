@@ -121,6 +121,12 @@ figure.wp-block-image:not(.wp-block) {
   transform: translate(50%, -50%);
   margin: 0;
 }
+.wp-block-image .components-resizable-box__container {
+  pointer-events: none;
+}
+.wp-block-image .components-resizable-box__handle {
+  pointer-events: auto;
+}
 
 .wp-block-image__placeholder {
   aspect-ratio: 4/3;

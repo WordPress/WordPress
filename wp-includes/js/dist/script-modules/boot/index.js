@@ -347,6 +347,29 @@ function clsx() {
 }
 var clsx_default = clsx;
 
+// node_modules/@base-ui/utils/createLogOnce.mjs
+var loggedMessages;
+if (true) {
+  loggedMessages = /* @__PURE__ */ new Set();
+}
+function createLogOnce(severity, prefix) {
+  return function logOnce(...messages) {
+    if (true) {
+      const message = messages.join(" ");
+      const output = prefix ? `${prefix}: ${message}` : message;
+      const key = `${severity}:${output}`;
+      if (!loggedMessages.has(key)) {
+        loggedMessages.add(key);
+        if (severity === "warn") {
+          console.warn(output);
+        } else {
+          console.error(output);
+        }
+      }
+    }
+  };
+}
+
 // node_modules/@base-ui/utils/safeReact.mjs
 var React = __toESM(require_react(), 1);
 var SafeReact = {
@@ -398,19 +421,13 @@ function assertNotCalled() {
 }
 
 // node_modules/@base-ui/utils/warn.mjs
-var set;
-if (true) {
-  set = /* @__PURE__ */ new Set();
+var warn = createLogOnce("warn", "Base UI");
+
+// node_modules/@base-ui/utils/empty.mjs
+function NOOP() {
 }
-function warn(...messages) {
-  if (true) {
-    const messageKey = messages.join(" ");
-    if (!set.has(messageKey)) {
-      set.add(messageKey);
-      console.warn(`Base UI: ${messageKey}`);
-    }
-  }
-}
+var EMPTY_ARRAY = Object.freeze([]);
+var EMPTY_OBJECT = Object.freeze({});
 
 // node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
 var React3 = __toESM(require_react(), 1);
@@ -546,12 +563,6 @@ function mergeObjects(a, b) {
   }
   return void 0;
 }
-
-// node_modules/@base-ui/utils/empty.mjs
-function NOOP() {
-}
-var EMPTY_ARRAY = Object.freeze([]);
-var EMPTY_OBJECT = Object.freeze({});
 
 // node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
 function getStateAttributesProps(state, customMapping) {
@@ -742,19 +753,21 @@ function isSyntheticEvent(event) {
 // node_modules/@base-ui/react/internals/useRenderElement.mjs
 var import_react = __toESM(require_react(), 1);
 function useRenderElement(element, componentProps, params = {}) {
-  const renderProp = componentProps.render;
-  const outProps = useRenderElementProps(componentProps, params);
+  let renderProp = componentProps.render;
+  if (params.enabled !== false) {
+    renderProp = unwrapLazyRenderProp(renderProp);
+  }
+  const outProps = useRenderElementProps(componentProps, params, renderProp);
   if (params.enabled === false) {
     return null;
   }
   const state = params.state ?? EMPTY_OBJECT;
   return evaluateRenderProp(element, renderProp, outProps, state);
 }
-function useRenderElementProps(componentProps, params = {}) {
+function useRenderElementProps(componentProps, params, renderProp) {
   const {
     className: classNameProp,
-    style: styleProp,
-    render: renderProp
+    style: styleProp
   } = componentProps;
   const {
     state = EMPTY_OBJECT,
@@ -797,6 +810,13 @@ function resolveRenderFunctionProps(props) {
 var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
 var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
 var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+function unwrapLazyRenderProp(render) {
+  if (render?.$$typeof !== REACT_LAZY_TYPE) {
+    return render;
+  }
+  const unwrapped = React6.Children.toArray(render)[0];
+  return /* @__PURE__ */ React6.isValidElement(unwrapped) ? unwrapped : render;
+}
 function evaluateRenderProp(element, render, props, state) {
   if (render) {
     if (typeof render === "function") {
@@ -807,17 +827,12 @@ function evaluateRenderProp(element, render, props, state) {
     }
     const mergedProps = mergeProps(props, render.props);
     mergedProps.ref = props.ref;
-    let newElement = render;
-    if (newElement?.$$typeof === REACT_LAZY_TYPE) {
-      const children = React6.Children.toArray(render);
-      newElement = children[0];
-    }
     if (true) {
-      if (!/* @__PURE__ */ React6.isValidElement(newElement)) {
+      if (!/* @__PURE__ */ React6.isValidElement(render)) {
         throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
       }
     }
-    return /* @__PURE__ */ React6.cloneElement(newElement, mergedProps);
+    return /* @__PURE__ */ React6.cloneElement(render, mergedProps);
   }
   if (element) {
     if (typeof element === "string") {
@@ -1041,6 +1056,9 @@ var Scheduler = class {
     if (index2 < 0 || index2 >= this.callbacks.length) {
       return;
     }
+    if (this.callbacks[index2] === null) {
+      return;
+    }
     this.callbacks[index2] = null;
     this.callbacksCount -= 1;
   }
@@ -1084,21 +1102,21 @@ function useAnimationFrame() {
 }
 
 // node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-function useTransitionStatus(open, enableIdleState = false, deferEndingState = false) {
-  const [transitionStatus, setTransitionStatus] = React9.useState(open && enableIdleState ? "idle" : void 0);
-  const [mounted, setMounted] = React9.useState(open);
-  if (open && !mounted) {
+function useTransitionStatus(open2, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
+  const [transitionStatus, setTransitionStatus] = React9.useState(open2 && enableIdleState ? "idle" : void 0);
+  const [mounted, setMounted] = React9.useState(open2 && !animateInitialOpen);
+  if (open2 && !mounted) {
     setMounted(true);
     setTransitionStatus("starting");
   }
-  if (!open && mounted && transitionStatus !== "ending" && !deferEndingState) {
+  if (!open2 && mounted && transitionStatus !== "ending" && !deferEndingState) {
     setTransitionStatus("ending");
   }
-  if (!open && !mounted && transitionStatus === "ending") {
+  if (!open2 && !mounted && transitionStatus === "ending") {
     setTransitionStatus(void 0);
   }
   useIsoLayoutEffect(() => {
-    if (!open && mounted && transitionStatus !== "ending" && deferEndingState) {
+    if (!open2 && mounted && transitionStatus !== "ending" && deferEndingState) {
       const frame = AnimationFrame.request(() => {
         setTransitionStatus("ending");
       });
@@ -1107,9 +1125,9 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
       };
     }
     return void 0;
-  }, [open, mounted, transitionStatus, deferEndingState]);
+  }, [open2, mounted, transitionStatus, deferEndingState]);
   useIsoLayoutEffect(() => {
-    if (!open || enableIdleState) {
+    if (!open2 || enableIdleState) {
       return void 0;
     }
     const frame = AnimationFrame.request(() => {
@@ -1118,12 +1136,12 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open]);
+  }, [enableIdleState, open2]);
   useIsoLayoutEffect(() => {
-    if (!open || !enableIdleState) {
+    if (!open2 || !enableIdleState) {
       return void 0;
     }
-    if (open && mounted && transitionStatus !== "idle") {
+    if (open2 && mounted && transitionStatus !== "idle") {
       setTransitionStatus("starting");
     }
     const frame = AnimationFrame.request(() => {
@@ -1132,7 +1150,7 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open, mounted, transitionStatus]);
+  }, [enableIdleState, open2, mounted, transitionStatus]);
   return {
     mounted,
     setMounted,
@@ -1140,17 +1158,16 @@ function useTransitionStatus(open, enableIdleState = false, deferEndingState = f
   };
 }
 
+// node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
+var startingStyle = "data-starting-style";
+var endingStyle = "data-ending-style";
+
 // node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
-var TransitionStatusDataAttributes = /* @__PURE__ */ (function(TransitionStatusDataAttributes2) {
-  TransitionStatusDataAttributes2["startingStyle"] = "data-starting-style";
-  TransitionStatusDataAttributes2["endingStyle"] = "data-ending-style";
-  return TransitionStatusDataAttributes2;
-})({});
 var STARTING_HOOK = {
-  "data-starting-style": ""
+  [startingStyle]: ""
 };
 var ENDING_HOOK = {
-  "data-ending-style": ""
+  [endingStyle]: ""
 };
 var transitionStatusMapping = {
   transitionStatus(value) {
@@ -1366,7 +1383,23 @@ function resolveRef(maybeRef) {
 }
 
 // node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
-function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false) {
+var pendingCallbacks = null;
+function flushBeforePaint(fn) {
+  if (!pendingCallbacks) {
+    const callbacks = [];
+    pendingCallbacks = callbacks;
+    queueMicrotask(() => {
+      pendingCallbacks = null;
+      ReactDOM.flushSync(() => {
+        for (const callback of callbacks) {
+          callback();
+        }
+      });
+    });
+  }
+  pendingCallbacks.push(fn);
+}
+function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
   const frame = useAnimationFrame();
   return useStableCallback((fnToExecute, signal = null) => {
     frame.cancel();
@@ -1376,7 +1409,15 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
     }
     const resolvedElement = element;
     const done = () => {
-      ReactDOM.flushSync(fnToExecute);
+      if (!batch) {
+        ReactDOM.flushSync(fnToExecute);
+        return;
+      }
+      flushBeforePaint(() => {
+        if (!signal?.aborted) {
+          fnToExecute();
+        }
+      });
     };
     if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
       fnToExecute();
@@ -1400,7 +1441,7 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
       });
     }
     if (waitForStartingStyleRemoved) {
-      const startingStyleAttribute = "data-starting-style";
+      const startingStyleAttribute = startingStyle;
       if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
         frame.request(exec);
         return;
@@ -1428,12 +1469,13 @@ function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false
 function useOpenChangeComplete(parameters) {
   const {
     enabled = true,
-    open,
+    open: open2,
     ref,
+    batch = false,
     onComplete: onCompleteParam
   } = parameters;
   const onComplete = useStableCallback(onCompleteParam);
-  const runOnceAnimationsFinish = useAnimationsFinished(ref, open);
+  const runOnceAnimationsFinish = useAnimationsFinished(ref, open2, batch);
   React10.useEffect(() => {
     if (!enabled) {
       return void 0;
@@ -1443,7 +1485,7 @@ function useOpenChangeComplete(parameters) {
     return () => {
       abortController.abort();
     };
-  }, [enabled, open, onComplete, runOnceAnimationsFinish]);
+  }, [enabled, open2, onComplete, runOnceAnimationsFinish]);
 }
 
 // node_modules/@base-ui/utils/platform/parts.mjs
@@ -1451,6 +1493,7 @@ var parts_exports = {};
 __export(parts_exports, {
   engine: () => engine_exports,
   env: () => env_exports,
+  mediaQuery: () => media_query_exports,
   os: () => os_exports,
   screenReader: () => screen_reader_exports
 });
@@ -1536,6 +1579,13 @@ __export(env_exports, {
 });
 var jsdom = /jsdom|happydom/.test(lowerUserAgent);
 
+// node_modules/@base-ui/utils/platform/media-query.mjs
+var media_query_exports = {};
+__export(media_query_exports, {
+  iOS: () => iOS
+});
+var iOS = "@supports (-webkit-touch-callout: none)";
+
 // node_modules/@base-ui/utils/useTimeout.mjs
 var EMPTY2 = 0;
 var Timeout = class _Timeout {
@@ -1579,6 +1629,15 @@ var React11 = __toESM(require_react(), 1);
 function isReactEvent(event) {
   return "nativeEvent" in event;
 }
+function isVirtualClick(event) {
+  if (event.pointerType === "" && event.isTrusted) {
+    return true;
+  }
+  if (parts_exports.os.android && event.pointerType) {
+    return event.type === "click" && event.buttons === 1;
+  }
+  return event.detail === 0 && !event.pointerType;
+}
 function isMouseLikePointerType(pointerType, strict) {
   const values = ["mouse", "pen"];
   if (!strict) {
@@ -1591,11 +1650,7 @@ function isClickLikeEvent(event) {
   return type === "click" || type === "mousedown" || type === "keydown" || type === "keyup";
 }
 
-// node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
-var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
-var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
-
-// node_modules/@base-ui/react/internals/shadowDom.mjs
+// node_modules/@base-ui/utils/shadowDom.mjs
 function activeElement(doc) {
   let element = doc.activeElement;
   while (element?.shadowRoot?.activeElement != null) {
@@ -1624,10 +1679,76 @@ function contains(parent, child) {
 }
 function getTarget(event) {
   if ("composedPath" in event) {
-    return event.composedPath()[0];
+    return event.composedPath()[0] ?? event.target;
   }
   return event.target;
 }
+
+// node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
+var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
+var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
+
+// node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs
+var open = "data-open";
+var closed = "data-closed";
+var anchorHidden = "data-anchor-hidden";
+
+// node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs
+var CommonTriggerDataAttributes_exports = {};
+__export(CommonTriggerDataAttributes_exports, {
+  popupOpen: () => popupOpen,
+  pressed: () => pressed
+});
+var popupOpen = "data-popup-open";
+var pressed = "data-pressed";
+
+// node_modules/@base-ui/react/utils/popupStateMapping.mjs
+var TRIGGER_HOOK = {
+  [popupOpen]: ""
+};
+var PRESSABLE_TRIGGER_HOOK = {
+  [popupOpen]: "",
+  [pressed]: ""
+};
+var POPUP_OPEN_HOOK = {
+  [open]: ""
+};
+var POPUP_CLOSED_HOOK = {
+  [closed]: ""
+};
+var ANCHOR_HIDDEN_HOOK = {
+  [anchorHidden]: ""
+};
+var triggerOpenStateMapping = {
+  open(value) {
+    if (value) {
+      return TRIGGER_HOOK;
+    }
+    return null;
+  }
+};
+var popupStateMapping = {
+  open(value) {
+    if (value) {
+      return POPUP_OPEN_HOOK;
+    }
+    return POPUP_CLOSED_HOOK;
+  },
+  anchorHidden(value) {
+    if (value) {
+      return ANCHOR_HIDDEN_HOOK;
+    }
+    return null;
+  }
+};
+var popupTransitionStateMapping = {
+  ...popupStateMapping,
+  ...transitionStatusMapping
+};
+
+// node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs
+var popupOpen2 = CommonTriggerDataAttributes_exports.popupOpen;
+var triggerDisabled = "data-trigger-disabled";
 
 // node_modules/@base-ui/react/floating-ui-react/utils/element.mjs
 function isTargetInsideEnabledTrigger(target, triggerElements) {
@@ -1636,11 +1757,11 @@ function isTargetInsideEnabledTrigger(target, triggerElements) {
   }
   const targetElement = target;
   if (triggerElements.hasElement(targetElement)) {
-    return !targetElement.hasAttribute("data-trigger-disabled");
+    return !targetElement.hasAttribute(triggerDisabled);
   }
   for (const [, trigger] of triggerElements.entries()) {
     if (contains(trigger, targetElement)) {
-      return !trigger.hasAttribute("data-trigger-disabled");
+      return !trigger.hasAttribute(triggerDisabled);
     }
   }
   return false;
@@ -1767,7 +1888,7 @@ function useDelayGroup(context, options = {
   open: false
 }) {
   const {
-    open
+    open: open2
   } = options;
   const store2 = "rootStore" in context ? context.rootStore : context;
   const floatingId = store2.useState("floatingId");
@@ -1782,10 +1903,10 @@ function useDelayGroup(context, options = {
     timeout
   } = groupContext;
   const [isInstantPhase, setIsInstantPhase] = React11.useState(false);
-  const openRef = React11.useRef(open);
+  const openRef = React11.useRef(open2);
   useIsoLayoutEffect(() => {
-    openRef.current = open;
-  }, [open]);
+    openRef.current = open2;
+  }, [open2]);
   useIsoLayoutEffect(() => {
     function unset() {
       currentContextRef.current?.setIsInstantPhase(false);
@@ -1797,7 +1918,7 @@ function useDelayGroup(context, options = {
     if (!currentIdRef.current) {
       return void 0;
     }
-    if (!open && currentIdRef.current === floatingId) {
+    if (!open2 && currentIdRef.current === floatingId) {
       setIsInstantPhase(false);
       if (timeoutMs) {
         const closingId = floatingId;
@@ -1816,9 +1937,9 @@ function useDelayGroup(context, options = {
       unset();
     }
     return void 0;
-  }, [open, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store2]);
+  }, [open2, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store2]);
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       return;
     }
     const prevContext = currentContextRef.current;
@@ -1841,7 +1962,7 @@ function useDelayGroup(context, options = {
       setIsInstantPhase(false);
       prevContext?.setIsInstantPhase(false);
     }
-  }, [open, floatingId, store2, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
+  }, [open2, floatingId, store2, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
   useIsoLayoutEffect(() => {
     return () => {
       if (currentIdRef.current === floatingId) {
@@ -1856,10 +1977,11 @@ function useDelayGroup(context, options = {
     };
   }, [currentContextRef, currentIdRef, delayRef, floatingId, initialDelayRef, timeout]);
   return React11.useMemo(() => ({
+    activeIdRef: currentIdRef,
     hasProvider,
     delayRef,
     isInstantPhase
-  }), [hasProvider, delayRef, isInstantPhase]);
+  }), [currentIdRef, hasProvider, delayRef, isInstantPhase]);
 }
 
 // node_modules/@base-ui/utils/mergeCleanups.mjs
@@ -2340,6 +2462,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
     style,
     children,
     container,
+    portalOwnerRole,
     ...elementProps
   } = componentProps;
   const {
@@ -2359,7 +2482,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
   const [focusManagerState, setFocusManagerState] = React13.useState(null);
   const focusInsideDisabledRef = React13.useRef(false);
   const modal = focusManagerState?.modal;
-  const open = focusManagerState?.open;
+  const open2 = focusManagerState?.open;
   const shouldRenderGuards = !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
   React13.useEffect(() => {
     if (!portalNode || modal) {
@@ -2381,12 +2504,12 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
     return mergeCleanups(addEventListener(portalNode, "focusin", onFocus, true), addEventListener(portalNode, "focusout", onFocus, true));
   }, [portalNode, modal]);
   useIsoLayoutEffect(() => {
-    if (!portalNode || open !== true || !focusInsideDisabledRef.current) {
+    if (!portalNode || open2 !== true || !focusInsideDisabledRef.current) {
       return;
     }
     enableFocusInside(portalNode);
     focusInsideDisabledRef.current = false;
-  }, [open, portalNode]);
+  }, [open2, portalNode]);
   const portalContextValue = React13.useMemo(() => ({
     beforeOutsideRef,
     afterOutsideRef,
@@ -2411,6 +2534,7 @@ var FloatingPortal = /* @__PURE__ */ React13.forwardRef(function FloatingPortal2
           }
         }
       }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", {
+        role: portalOwnerRole,
         "aria-owns": portalNodeId,
         style: ownerVisuallyHidden
       }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FocusGuard, {
@@ -2532,7 +2656,7 @@ function useClientPoint(context, props = {}) {
     axis = "both"
   } = props;
   const store2 = "rootStore" in context ? context.rootStore : context;
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const floating = store2.useState("floatingElement");
   const domReference = store2.useState("domReferenceElement");
   const dataRef = store2.context.dataRef;
@@ -2559,14 +2683,14 @@ function useClientPoint(context, props = {}) {
     }));
   });
   const handleReferenceEnterOrMove = useStableCallback((event) => {
-    if (!open) {
+    if (!open2) {
       setReference(event.clientX, event.clientY, event.currentTarget);
     } else if (!cleanupListenerRef.current) {
       setReference(event.clientX, event.clientY, event.currentTarget);
       setReactive([]);
     }
   });
-  const openCheck = isMouseLikePointerType(pointerType) ? floating : open;
+  const openCheck = isMouseLikePointerType(pointerType) ? floating : open2;
   React15.useEffect(() => {
     if (!enabled) {
       resetReference(domReference);
@@ -2604,10 +2728,10 @@ function useClientPoint(context, props = {}) {
     }
   }, [enabled, floating]);
   React15.useEffect(() => {
-    if (!enabled && open) {
+    if (!enabled && open2) {
       initialRef.current = true;
     }
-  }, [enabled, open]);
+  }, [enabled, open2]);
   const reference = React15.useMemo(() => {
     function setPointerTypeRef(event) {
       setPointerType(event.pointerType);
@@ -2647,10 +2771,11 @@ function useDismiss(context, props = {}) {
     externalTree
   } = props;
   const store2 = "rootStore" in context ? context.rootStore : context;
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const floatingElement = store2.useState("floatingElement");
   const {
-    dataRef
+    dataRef,
+    events
   } = store2.context;
   const tree = useFloatingTree(externalTree);
   const outsidePressFn = useStableCallback(typeof outsidePressProp === "function" ? outsidePressProp : () => false);
@@ -2664,6 +2789,7 @@ function useDismiss(context, props = {}) {
   const pressStartedInsideRef = React16.useRef(false);
   const pressStartPreventedRef = React16.useRef(false);
   const suppressNextOutsideClickRef = React16.useRef(false);
+  const sawPressWhileOpenRef = React16.useRef(false);
   const isComposingRef = React16.useRef(false);
   const currentPointerTypeRef = React16.useRef("");
   const touchStateRef = React16.useRef(null);
@@ -2688,7 +2814,7 @@ function useDismiss(context, props = {}) {
     store2.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
   });
   const closeOnEscapeKeyDown = useStableCallback((event) => {
-    if (!open || !enabled || !escapeKey2 || event.key !== "Escape") {
+    if (!open2 || !enabled || !escapeKey2 || event.key !== "Escape") {
       return;
     }
     if (isComposingRef.current) {
@@ -2712,7 +2838,7 @@ function useDismiss(context, props = {}) {
     clearInsideReactTreeTimeout.start(0, clearInsideReactTree);
   });
   const markPressStartedInsideReactTree = useStableCallback((event) => {
-    if (!open || !enabled || event.button !== 0) {
+    if (!open2 || !enabled || event.button !== 0) {
       return;
     }
     const target = getTarget(event.nativeEvent);
@@ -2725,7 +2851,7 @@ function useDismiss(context, props = {}) {
     }
   });
   const markInsidePressStartPrevented = useStableCallback((event) => {
-    if (!open || !enabled) {
+    if (!open2 || !enabled) {
       return;
     }
     if (!(event.defaultPrevented || event.nativeEvent.defaultPrevented)) {
@@ -2736,13 +2862,28 @@ function useDismiss(context, props = {}) {
     }
   });
   React16.useEffect(() => {
-    if (!open || !enabled) {
+    function handleOpenChange(details) {
+      if (!details.open) {
+        sawPressWhileOpenRef.current = false;
+      }
+    }
+    events.on("openchange", handleOpenChange);
+    return () => {
+      events.off("openchange", handleOpenChange);
+    };
+  }, [events]);
+  React16.useEffect(() => {
+    if (!open2 || !enabled) {
+      if (!open2) {
+        sawPressWhileOpenRef.current = false;
+      }
       return clearInsideReactTree;
     }
     dataRef.current.__escapeKeyBubbles = escapeKeyBubbles;
     dataRef.current.__outsidePressBubbles = outsidePressBubbles;
     const compositionTimeout = new Timeout();
     const preventedPressSuppressionTimeout = new Timeout();
+    const doc = ownerDocument(floatingElement);
     function handleCompositionStart() {
       compositionTimeout.clear();
       isComposingRef.current = true;
@@ -2839,10 +2980,15 @@ function useDismiss(context, props = {}) {
       if (isEventWithinFloatingTree(event)) {
         return;
       }
-      if (getOutsidePressEvent() === "intentional" && suppressNextOutsideClickRef.current) {
-        preventedPressSuppressionTimeout.clear();
-        suppressNextOutsideClickRef.current = false;
-        return;
+      if (getOutsidePressEvent() === "intentional") {
+        if (event.detail !== 0 && !isVirtualClick(event) && !sawPressWhileOpenRef.current) {
+          return;
+        }
+        if (suppressNextOutsideClickRef.current) {
+          preventedPressSuppressionTimeout.clear();
+          suppressNextOutsideClickRef.current = false;
+          return;
+        }
       }
       if (typeof outsidePress2 === "function" && !outsidePress2(event)) {
         return;
@@ -2897,6 +3043,9 @@ function useDismiss(context, props = {}) {
     function closeOnPressOutsideCapture(event) {
       cancelDismissOnEndTimeout.clear();
       if (event.type === "pointerdown") {
+        if (event.button === 0) {
+          sawPressWhileOpenRef.current = true;
+        }
         currentPointerTypeRef.current = event.pointerType;
       }
       if (event.type === "mousedown" && touchStateRef.current && !touchStateRef.current.dismissOnMouseDown) {
@@ -2911,6 +3060,9 @@ function useDismiss(context, props = {}) {
       });
     }
     function handlePressEndCapture(event) {
+      if (event.type === "pointercancel") {
+        sawPressWhileOpenRef.current = false;
+      }
       if (!pressStartedInsideRef.current) {
         return;
       }
@@ -2975,8 +3127,16 @@ function useDismiss(context, props = {}) {
     function handleTouchEndCapture(event) {
       addTargetEventListenerOnce(event, handleTouchEnd);
     }
-    const doc = ownerDocument(floatingElement);
-    const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, true), addEventListener(doc, "touchmove", handleTouchMoveCapture, true), addEventListener(doc, "touchend", handleTouchEndCapture, true)));
+    const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, {
+      capture: true,
+      passive: true
+    }), addEventListener(doc, "touchmove", handleTouchMoveCapture, {
+      capture: true,
+      passive: true
+    }), addEventListener(doc, "touchend", handleTouchEndCapture, {
+      capture: true,
+      passive: true
+    })));
     return () => {
       unsubscribe();
       compositionTimeout.clear();
@@ -2985,7 +3145,7 @@ function useDismiss(context, props = {}) {
       suppressNextOutsideClickRef.current = false;
       clearInsideReactTree();
     };
-  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store2, cancelDismissOnEndTimeout]);
+  }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open2, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store2, cancelDismissOnEndTimeout]);
   const reference = React16.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     onPointerDown: closeOnReferencePress,
@@ -3564,25 +3724,25 @@ var size = function(options) {
       const overflowAvailableWidth = min(width - overflow[widthSide], maximumClippingWidth);
       const shiftData = state.middlewareData.shift;
       const noShift = !shiftData;
-      let availableHeight = overflowAvailableHeight;
-      let availableWidth = overflowAvailableWidth;
+      let availableHeight2 = overflowAvailableHeight;
+      let availableWidth2 = overflowAvailableWidth;
       if (shiftData != null && shiftData.enabled.x) {
-        availableWidth = maximumClippingWidth;
+        availableWidth2 = maximumClippingWidth;
       }
       if (shiftData != null && shiftData.enabled.y) {
-        availableHeight = maximumClippingHeight;
+        availableHeight2 = maximumClippingHeight;
       }
       if (noShift && !alignment) {
         if (isYAxis) {
-          availableWidth = width - 2 * max(overflow.left, overflow.right);
+          availableWidth2 = width - 2 * max(overflow.left, overflow.right);
         } else {
-          availableHeight = height - 2 * max(overflow.top, overflow.bottom);
+          availableHeight2 = height - 2 * max(overflow.top, overflow.bottom);
         }
       }
       await apply({
         ...state,
-        availableWidth,
-        availableHeight
+        availableWidth: availableWidth2,
+        availableHeight: availableHeight2
       });
       const nextDimensions = await platform3.getDimensions(elements.floating);
       if (width !== nextDimensions.width || height !== nextDimensions.height) {
@@ -4292,7 +4452,7 @@ function useFloating(options) {
     } = {},
     transform = true,
     whileElementsMounted,
-    open
+    open: open2
   } = options;
   const [data, setData] = React17.useState({
     x: 0,
@@ -4328,7 +4488,7 @@ function useFloating(options) {
   const hasWhileElementsMounted = whileElementsMounted != null;
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
   const platformRef = useLatestRef(platform3);
-  const openRef = useLatestRef(open);
+  const openRef = useLatestRef(open2);
   const update2 = React17.useCallback(() => {
     if (!referenceRef.current || !floatingRef.current) {
       return;
@@ -4359,14 +4519,14 @@ function useFloating(options) {
     });
   }, [latestMiddleware, placement, strategy, platformRef, openRef]);
   index(() => {
-    if (open === false && dataRef.current.isPositioned) {
+    if (open2 === false && dataRef.current.isPositioned) {
       dataRef.current.isPositioned = false;
       setData((data2) => ({
         ...data2,
         isPositioned: false
       }));
     }
-  }, [open]);
+  }, [open2]);
   const isMountedRef = React17.useRef(false);
   index(() => {
     isMountedRef.current = true;
@@ -4536,8 +4696,8 @@ var BasePopupHandle = class {
   }
   /**
    * Points the handle at a root's store and notifies subscribers so detached triggers re-render and
-   * re-register into it (their registration ref re-fires on the store-pointer change). Returns a
-   * cleanup function that detaches the store again.
+   * re-register into it (their registration effect migrates them when the store pointer changes).
+   * Returns a cleanup function that detaches the store again.
    * @internal
    */
   attachStore(newStore) {
@@ -4781,6 +4941,14 @@ function useStoreLegacy(store2, selector, a1, a2, a3) {
 // node_modules/@base-ui/utils/store/Store.mjs
 var Store = class {
   /**
+   * Creates a store with the given initial state, constructing the class it is called on.
+   * Calling it on a generic base class (e.g. `ReactStore.create(...)`) constructs that
+   * class but degrades the inferred instance type to `Store`; use `new` there instead.
+   */
+  static create(state) {
+    return new this(state);
+  }
+  /**
    * The current state of the store.
    * This property is updated immediately when the state changes as a result of calling {@link setState}, {@link update}, or {@link set}.
    * To subscribe to state changes, use the {@link useState} method. The value returned by {@link useState} is updated after the component renders (similarly to React's useState).
@@ -4833,6 +5001,8 @@ var Store = class {
   }
   /**
    * Merges the provided changes into the current state and notifies listeners if there are changes.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
    *
    * @param changes An object containing the changes to apply to the current state.
    */
@@ -4928,9 +5098,13 @@ var ReactStore = class extends Store {
   }
   /**
    * Synchronizes multiple external values into the store.
+   * Each value must match its state key. Pass an exact known subset rather than a broad
+   * `Partial<State>`, which may contain `undefined` for required state fields.
    *
    * Note that the while the values in `state` are updated immediately, the values returned
    * by `useState` are updated before the next render (similarly to React's `useState`).
+   *
+   * @param statePart An exact subset of state fields to synchronize. Unknown keys are not accepted.
    */
   useSyncedValues(statePart) {
     const store2 = this;
@@ -5129,7 +5303,7 @@ function useSyncedFloatingRootContext(options) {
     nested,
     onOpenChange
   } = options;
-  const open = popupStore.useState("open");
+  const open2 = popupStore.useState("open");
   const referenceElement = popupStore.useState("activeTriggerElement");
   const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
   const triggerElements = popupStore.context.triggerElements;
@@ -5137,7 +5311,7 @@ function useSyncedFloatingRootContext(options) {
   const internalStoreRef = React21.useRef(null);
   if (floatingRootContextProp === void 0 && internalStoreRef.current === null) {
     internalStoreRef.current = new FloatingRootStore({
-      open,
+      open: open2,
       transitionStatus: void 0,
       referenceElement,
       floatingElement,
@@ -5152,7 +5326,7 @@ function useSyncedFloatingRootContext(options) {
   popupStore.useSyncedValue("floatingId", floatingId);
   useIsoLayoutEffect(() => {
     const valuesToSync = {
-      open,
+      open: open2,
       floatingId,
       referenceElement,
       floatingElement
@@ -5164,7 +5338,7 @@ function useSyncedFloatingRootContext(options) {
       valuesToSync.positionReference = referenceElement;
     }
     store2.update(valuesToSync);
-  }, [open, floatingId, referenceElement, floatingElement, store2]);
+  }, [open2, floatingId, referenceElement, floatingElement, store2]);
   store2.context.onOpenChange = handleOpenChange;
   store2.context.nested = nested;
   return store2;
@@ -5198,50 +5372,58 @@ function PopupHandleAttachment({
   }, [handle, store2]);
   return null;
 }
-function useTriggerRegistration(id, store2) {
-  const registeredElementIdRef = React22.useRef(null);
-  const registeredElementRef = React22.useRef(null);
-  return React22.useCallback((element) => {
-    if (id === void 0) {
-      return;
-    }
-    let shouldSyncTriggerCount = false;
-    if (registeredElementIdRef.current !== null) {
-      const registeredId = registeredElementIdRef.current;
-      const registeredElement = registeredElementRef.current;
-      const currentElement = store2.context.triggerElements.getById(registeredId);
-      if (registeredElement && currentElement === registeredElement) {
-        store2.context.triggerElements.delete(registeredId);
-        shouldSyncTriggerCount = true;
-      }
-      registeredElementIdRef.current = null;
-      registeredElementRef.current = null;
-    }
-    if (element !== null) {
-      registeredElementIdRef.current = id;
-      registeredElementRef.current = element;
-      store2.context.triggerElements.add(id, element);
-      shouldSyncTriggerCount = true;
-    }
-    if (shouldSyncTriggerCount) {
-      const triggerCount = store2.context.triggerElements.size;
-      if (store2.select("open") && store2.state.triggerCount !== triggerCount) {
-        store2.set("triggerCount", triggerCount);
-      }
-    }
-  }, [store2, id]);
+function syncTriggerCount(store2) {
+  const triggerCount = store2.context.triggerElements.size;
+  if (store2.select("open") && store2.state.triggerCount !== triggerCount) {
+    store2.set("triggerCount", triggerCount);
+  }
 }
-function setPopupOpenState(state, open, trigger, preventUnmountOnClose = false) {
-  if (open) {
-    state.preventUnmountingOnClose = false;
+function useTriggerRegistration(id, store2) {
+  const registrationRef = React22.useRef(null);
+  return useStableCallback((element) => {
+    const registration = registrationRef.current;
+    if (registration !== null) {
+      if (registration.element === element && registration.store === store2 && registration.id === id) {
+        return;
+      }
+      registrationRef.current = null;
+      const registeredStore = registration.store;
+      if (registeredStore.context.triggerElements.getById(registration.id) === registration.element) {
+        registeredStore.context.triggerElements.delete(registration.id);
+        syncTriggerCount(registeredStore);
+      }
+    }
+    if (element !== null && id !== void 0) {
+      registrationRef.current = {
+        store: store2,
+        id,
+        element
+      };
+      store2.context.triggerElements.add(id, element);
+      syncTriggerCount(store2);
+    }
+  });
+}
+function createPopupOpenState(state, open2, trigger, preventUnmountOnClose = false) {
+  let preventUnmountingOnClose = state.preventUnmountingOnClose;
+  if (open2) {
+    preventUnmountingOnClose = false;
   } else if (preventUnmountOnClose) {
-    state.preventUnmountingOnClose = true;
+    preventUnmountingOnClose = true;
   }
   const triggerId = trigger?.id ?? null;
-  if (triggerId || open) {
-    state.activeTriggerId = triggerId;
-    state.activeTriggerElement = trigger ?? null;
+  let activeTriggerId = state.activeTriggerId;
+  let activeTriggerElement = state.activeTriggerElement;
+  if (triggerId || open2) {
+    activeTriggerId = triggerId;
+    activeTriggerElement = trigger ?? null;
   }
+  return {
+    open: open2,
+    preventUnmountingOnClose,
+    activeTriggerId,
+    activeTriggerElement
+  };
 }
 function attachPreventUnmountOnClose(eventDetails) {
   let preventUnmountOnClose = false;
@@ -5263,9 +5445,10 @@ function applyPopupOpenChange(store2, nextOpen, eventDetails, options = {}) {
   options.onBeforeDispatch?.();
   store2.state.floatingRootContext.dispatchOpenChange(nextOpen, eventDetails);
   const changeState = () => {
+    const popupOpenState = createPopupOpenState(store2.state, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
     const updatedState = {
       ...options.extraState,
-      open: nextOpen
+      ...popupOpenState
     };
     if (isFocusOpen) {
       updatedState.instantType = "focus";
@@ -5274,7 +5457,6 @@ function applyPopupOpenChange(store2, nextOpen, eventDetails, options = {}) {
     } else if (isHover) {
       updatedState.instantType = void 0;
     }
-    setPopupOpenState(updatedState, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
     store2.update(updatedState);
   };
   if (isHover) {
@@ -5287,35 +5469,42 @@ function useTriggerDataForwarding(triggerId, triggerElementRef, store2, stateUpd
   const isMountedByThisTrigger = store2.useState("isMountedByTrigger", triggerId);
   const baseRegisterTrigger = useTriggerRegistration(triggerId, store2);
   const applyTriggerData = useStableCallback((element) => {
-    const open = store2.select("open");
+    const open2 = store2.select("open");
     const activeTriggerId = store2.select("activeTriggerId");
     if (activeTriggerId === triggerId) {
-      store2.update({
+      const changes = {
         activeTriggerElement: element,
-        ...open ? stateUpdates : null
-      });
+        ...open2 ? stateUpdates : null
+      };
+      store2.update(changes);
       return;
     }
-    if (activeTriggerId == null && open) {
-      store2.update({
-        activeTriggerId: triggerId,
+    if (activeTriggerId == null && open2) {
+      const changes = {
+        activeTriggerId: triggerId ?? null,
         activeTriggerElement: element,
         ...stateUpdates
-      });
+      };
+      store2.update(changes);
     }
   });
-  const registerTrigger = React22.useCallback((element) => {
+  const registerTrigger = useStableCallback((element) => {
     baseRegisterTrigger(element);
     if (element) {
       applyTriggerData(element);
     }
-  }, [baseRegisterTrigger, applyTriggerData]);
+  });
+  useIsoLayoutEffect(() => {
+    registerTrigger(triggerElementRef.current);
+    return () => registerTrigger(null);
+  }, [registerTrigger, triggerElementRef, store2, triggerId]);
   useIsoLayoutEffect(() => {
     if (isMountedByThisTrigger) {
-      store2.update({
+      const changes = {
         activeTriggerElement: triggerElementRef.current,
         ...stateUpdates
-      });
+      };
+      store2.update(changes);
     }
   }, [isMountedByThisTrigger, store2, triggerElementRef, ...Object.values(stateUpdates)]);
   return {
@@ -5328,12 +5517,12 @@ function useImplicitActiveTrigger(store2, options = {}) {
     closeOnActiveTriggerUnmount = false
   } = options;
   const resolvedActiveTriggerIdRef = React22.useRef(null);
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const reactiveTriggerCount = store2.useState("triggerCount");
   const activeTriggerId = store2.useState("activeTriggerId");
   const reactiveActiveTriggerElement = store2.useState("activeTriggerElement");
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       resolvedActiveTriggerIdRef.current = null;
       if (store2.state.triggerCount !== 0) {
         store2.set("triggerCount", 0);
@@ -5402,16 +5591,16 @@ function useImplicitActiveTrigger(store2, options = {}) {
         });
       }
     }
-  }, [open, store2, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
+  }, [open2, store2, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
 }
-function useOpenStateTransitions(open, store2, onUnmount) {
+function useOpenStateTransitions(open2, store2, onUnmount, animateInitialOpen) {
   const {
     mounted,
     setMounted,
     transitionStatus
-  } = useTransitionStatus(open);
+  } = useTransitionStatus(open2, false, false, animateInitialOpen);
   const preventUnmountingOnClose = store2.useState("preventUnmountingOnClose");
-  const syncedPreventUnmountingOnClose = open ? false : preventUnmountingOnClose;
+  const syncedPreventUnmountingOnClose = open2 ? false : preventUnmountingOnClose;
   store2.useSyncedValues({
     mounted,
     transitionStatus,
@@ -5429,11 +5618,11 @@ function useOpenStateTransitions(open, store2, onUnmount) {
     store2.context.onOpenChangeComplete?.(false);
   });
   useOpenChangeComplete({
-    enabled: mounted && !open && !syncedPreventUnmountingOnClose,
-    open,
+    enabled: mounted && !open2 && !syncedPreventUnmountingOnClose,
+    open: open2,
     ref: store2.context.popupRef,
     onComplete() {
-      if (!open) {
+      if (!open2) {
         forceUnmount();
       }
     }
@@ -5549,30 +5738,25 @@ var PopupTriggerMap = class {
   }
 };
 
-// node_modules/@base-ui/react/floating-ui-react/utils/getEmptyRootContext.mjs
-function getEmptyRootContext() {
-  return new FloatingRootStore({
-    open: false,
-    transitionStatus: void 0,
-    floatingElement: null,
-    referenceElement: null,
-    triggerElements: new PopupTriggerMap(),
-    floatingId: void 0,
-    syncOnly: false,
-    nested: false,
-    onOpenChange: void 0
-  });
-}
-
 // node_modules/@base-ui/react/utils/popups/store.mjs
-function createInitialPopupStoreState() {
+function createInitialPopupStoreState(triggerElements, floatingId, nested = false) {
   return {
     open: false,
     openProp: void 0,
     mounted: false,
     transitionStatus: void 0,
-    floatingRootContext: getEmptyRootContext(),
-    floatingId: void 0,
+    floatingRootContext: new FloatingRootStore({
+      open: false,
+      transitionStatus: void 0,
+      floatingElement: null,
+      referenceElement: null,
+      triggerElements,
+      floatingId,
+      syncOnly: true,
+      nested,
+      onOpenChange: void 0
+    }),
+    floatingId,
     triggerCount: 0,
     preventUnmountingOnClose: false,
     payload: void 0,
@@ -5585,19 +5769,6 @@ function createInitialPopupStoreState() {
     inactiveTriggerProps: EMPTY_OBJECT,
     popupProps: EMPTY_OBJECT
   };
-}
-function createPopupFloatingRootContext(triggerElements, floatingId, nested = false) {
-  return new FloatingRootStore({
-    open: false,
-    transitionStatus: void 0,
-    floatingElement: null,
-    referenceElement: null,
-    triggerElements,
-    floatingId,
-    syncOnly: true,
-    nested,
-    onOpenChange: void 0
-  });
 }
 var activeTriggerIdSelector = (state) => state.triggerIdProp ?? state.activeTriggerId;
 var openSelector = (state) => state.openProp ?? state.open;
@@ -5675,7 +5846,7 @@ function useFloatingWithStore(options, store2) {
   const referenceElement = store2.useState("referenceElement");
   const floatingElement = store2.useState("floatingElement");
   const domReferenceElement = store2.useState("domReferenceElement");
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const floatingId = store2.useState("floatingId");
   const [positionReference, setPositionReferenceRaw] = React24.useState(null);
   const [localDomReference, setLocalDomReference] = React24.useState(void 0);
@@ -5740,7 +5911,7 @@ function useFloatingWithStore(options, store2) {
   const context = React24.useMemo(() => ({
     ...position,
     dataRef: store2.context.dataRef,
-    open,
+    open: open2,
     onOpenChange: store2.setOpen,
     events: store2.context.events,
     floatingId,
@@ -5748,7 +5919,7 @@ function useFloatingWithStore(options, store2) {
     elements,
     nodeId,
     rootStore: store2
-  }), [position, refs, elements, nodeId, store2, open, floatingId]);
+  }), [position, refs, elements, nodeId, store2, open2, floatingId]);
   useIsoLayoutEffect(() => {
     if (domReferenceElement) {
       domReferenceRef.current = domReferenceElement;
@@ -5797,6 +5968,7 @@ function useFocus(context, props = {}) {
       const currentDomReference = store2.select("domReferenceElement");
       if (!store2.select("open") && isHTMLElement(currentDomReference) && currentDomReference === activeElement(ownerDocument(currentDomReference))) {
         blockFocusRef.current = true;
+        blockedReferenceRef.current = currentDomReference;
       }
     }
     function onKeyDown() {
@@ -5983,7 +6155,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     nodeId: nodeIdProp
   } = parameters;
   const store2 = "rootStore" in context ? context.rootStore : context;
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const floatingElement = store2.useState("floatingElement");
   const domReferenceElement = store2.useState("domReferenceElement");
   const {
@@ -6003,13 +6175,13 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     clearSafePolygonPointerEventsMutation(instance);
   });
   useIsoLayoutEffect(() => {
-    if (!open) {
+    if (!open2) {
       instance.pointerType = void 0;
       instance.restTimeoutPending = false;
       instance.interactedInside = false;
       clearPointerEvents();
     }
-  }, [open, instance, clearPointerEvents]);
+  }, [open2, instance, clearPointerEvents]);
   React26.useEffect(() => {
     return clearPointerEvents;
   }, [clearPointerEvents]);
@@ -6017,7 +6189,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
     if (!enabled) {
       return void 0;
     }
-    if (open && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
+    if (open2 && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
       const ref = domReferenceElement;
       const floatingEl = floatingElement;
       const doc = ownerDocument(floatingElement);
@@ -6038,7 +6210,7 @@ function useHoverFloatingInteraction(context, parameters = {}) {
       };
     }
     return void 0;
-  }, [enabled, open, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
+  }, [enabled, open2, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
   React26.useEffect(() => {
     if (!enabled) {
       return void 0;
@@ -6178,7 +6350,7 @@ function useHoverReferenceInteraction(context, props = {}) {
     clearSafePolygonPointerEventsMutation(instance);
   });
   if (isActiveTrigger) {
-    instance.handleCloseOptions = handleCloseRef.current?.__options;
+    instance.handleCloseOptions = handleClose?.__options;
   }
   React27.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
   React27.useEffect(() => {
@@ -6628,56 +6800,6 @@ var NullStore = class extends ReactStore {
   }
 };
 
-// node_modules/@base-ui/react/utils/popupStateMapping.mjs
-var CommonPopupDataAttributes = (function(CommonPopupDataAttributes2) {
-  CommonPopupDataAttributes2["open"] = "data-open";
-  CommonPopupDataAttributes2["closed"] = "data-closed";
-  CommonPopupDataAttributes2[CommonPopupDataAttributes2["startingStyle"] = TransitionStatusDataAttributes.startingStyle] = "startingStyle";
-  CommonPopupDataAttributes2[CommonPopupDataAttributes2["endingStyle"] = TransitionStatusDataAttributes.endingStyle] = "endingStyle";
-  CommonPopupDataAttributes2["anchorHidden"] = "data-anchor-hidden";
-  CommonPopupDataAttributes2["side"] = "data-side";
-  CommonPopupDataAttributes2["align"] = "data-align";
-  return CommonPopupDataAttributes2;
-})({});
-var TRIGGER_HOOK = {
-  "data-popup-open": ""
-};
-var POPUP_OPEN_HOOK = {
-  "data-open": ""
-};
-var POPUP_CLOSED_HOOK = {
-  "data-closed": ""
-};
-var ANCHOR_HIDDEN_HOOK = {
-  "data-anchor-hidden": ""
-};
-var triggerOpenStateMapping = {
-  open(value) {
-    if (value) {
-      return TRIGGER_HOOK;
-    }
-    return null;
-  }
-};
-var popupStateMapping = {
-  open(value) {
-    if (value) {
-      return POPUP_OPEN_HOOK;
-    }
-    return POPUP_CLOSED_HOOK;
-  },
-  anchorHidden(value) {
-    if (value) {
-      return ANCHOR_HIDDEN_HOOK;
-    }
-    return null;
-  }
-};
-var popupTransitionStateMapping = {
-  ...popupStateMapping,
-  ...transitionStatusMapping
-};
-
 // node_modules/@base-ui/utils/inertValue.mjs
 function inertValue(value) {
   if (isReactVersionAtLeast(19)) {
@@ -6762,10 +6884,17 @@ var baseArrow = (options) => ({
     };
   }
 });
-var arrow4 = (options, deps) => ({
-  ...baseArrow(options),
-  options: [options, deps]
-});
+var arrow4 = (options, deps) => {
+  const {
+    name,
+    fn
+  } = baseArrow(options);
+  return {
+    name,
+    fn,
+    options: [options, deps]
+  };
+};
 
 // node_modules/@base-ui/react/utils/hideMiddleware.mjs
 var hide4 = {
@@ -6777,14 +6906,14 @@ var hide4 = {
       x,
       y
     } = state.rects.reference;
-    const anchorHidden = width === 0 && height === 0 && x === 0 && y === 0;
+    const anchorHidden2 = width === 0 && height === 0 && x === 0 && y === 0;
     const overflow = await state.platform.detectOverflow(state, {
       elementContext: "reference"
     });
     const referenceHidden = overflow.top - height >= 0 || overflow.right - width >= 0 || overflow.bottom - height >= 0 || overflow.left - width >= 0;
     return {
       data: {
-        referenceHidden: referenceHidden || anchorHidden
+        referenceHidden: referenceHidden || anchorHidden2
       }
     };
   }
@@ -6796,9 +6925,18 @@ var DEFAULT_SIDES = {
   sideY: "top"
 };
 
+// node_modules/@base-ui/react/utils/CommonPositionerCssVars.mjs
+var availableWidth = "--available-width";
+var availableHeight = "--available-height";
+var anchorWidth = "--anchor-width";
+var anchorHeight = "--anchor-height";
+var transformOrigin = "--transform-origin";
+var positionerWidth = "--positioner-width";
+var positionerHeight = "--positioner-height";
+
 // node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
-var AVAILABLE_WIDTH_VAR = "--available-width";
-var AVAILABLE_HEIGHT_VAR = "--available-height";
+var AVAILABLE_WIDTH_VAR = availableWidth;
+var AVAILABLE_HEIGHT_VAR = availableHeight;
 function getLogicalSide(sideParam, renderedSide, isRtl) {
   const isLogicalSideParam = sideParam === "inline-start" || sideParam === "inline-end";
   const logicalRight = isRtl ? "inline-start" : "inline-end";
@@ -6976,16 +7114,16 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
       elements: {
         floating
       },
-      availableWidth,
-      availableHeight,
+      availableWidth: availableWidth2,
+      availableHeight: availableHeight2,
       rects
     }) {
       if (!mountedRef.current) {
         return;
       }
       const floatingStyle = floating.style;
-      floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth}px`);
-      floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight}px`);
+      floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth2}px`);
+      floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight2}px`);
       const dpr = getWindow(floating).devicePixelRatio || 1;
       const {
         x: x2,
@@ -6993,48 +7131,49 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
         width,
         height
       } = rects.reference;
-      const anchorWidth = (Math.round((x2 + width) * dpr) - Math.round(x2 * dpr)) / dpr;
-      const anchorHeight = (Math.round((y2 + height) * dpr) - Math.round(y2 * dpr)) / dpr;
-      floatingStyle.setProperty("--anchor-width", `${anchorWidth}px`);
-      floatingStyle.setProperty("--anchor-height", `${anchorHeight}px`);
+      const anchorWidth2 = (Math.round((x2 + width) * dpr) - Math.round(x2 * dpr)) / dpr;
+      const anchorHeight2 = (Math.round((y2 + height) * dpr) - Math.round(y2 * dpr)) / dpr;
+      floatingStyle.setProperty(anchorWidth, `${anchorWidth2}px`);
+      floatingStyle.setProperty(anchorHeight, `${anchorHeight2}px`);
     }
   }), arrow4((state) => ({
     // `transform-origin` calculations rely on an element existing. If the arrow hasn't been set,
     // we'll create a fake element.
     element: arrowRef.current || ownerDocument(state.elements.floating).createElement("div"),
-    padding: arrowPadding,
+    // No padding for the fake arrow: it would displace aligned popups on narrow anchors.
+    padding: arrowRef.current ? arrowPadding : 0,
     offsetParent: "floating"
   }), [arrowPadding]), {
     name: "transformOrigin",
     fn(state) {
       const {
-        elements: elements2,
+        elements: {
+          floating
+        },
         middlewareData: middlewareData2,
         placement: renderedPlacement2,
+        platform: platform3,
         rects,
         y: y2
       } = state;
-      const currentRenderedSide = getSide(renderedPlacement2);
-      const currentRenderedAxis = getSideAxis(currentRenderedSide);
+      const renderedSide2 = getSide(renderedPlacement2);
+      const renderedAlign2 = getAlignment(renderedPlacement2);
+      const isVertical = getSideAxis(renderedSide2) === "y";
       const arrowEl = arrowRef.current;
-      const arrowX = middlewareData2.arrow?.x || 0;
-      const arrowY = middlewareData2.arrow?.y || 0;
-      const arrowWidth = arrowEl?.clientWidth || 0;
-      const arrowHeight = arrowEl?.clientHeight || 0;
-      const transformX = arrowX + arrowWidth / 2;
-      const transformY = arrowY + arrowHeight / 2;
-      const shiftY = Math.abs(middlewareData2.shift?.y || 0);
-      const halfAnchorHeight = rects.reference.height / 2;
       const sideOffsetValue = typeof sideOffset === "function" ? sideOffset(getOffsetData(state, sideParam, isRtl)) : sideOffset;
-      const isOverlappingAnchor = shiftY > sideOffsetValue;
-      const adjacentTransformOrigin = {
-        top: `${transformX}px calc(100% + ${sideOffsetValue}px)`,
-        bottom: `${transformX}px ${-sideOffsetValue}px`,
-        left: `calc(100% + ${sideOffsetValue}px) ${transformY}px`,
-        right: `${-sideOffsetValue}px ${transformY}px`
-      }[currentRenderedSide];
-      const overlapTransformOrigin = `${transformX}px ${rects.reference.y + halfAnchorHeight - y2}px`;
-      elements2.floating.style.setProperty("--transform-origin", crossAxisShiftEnabled && currentRenderedAxis === "y" && isOverlappingAnchor ? overlapTransformOrigin : adjacentTransformOrigin);
+      let crossOrigin;
+      if (!arrowEl && renderedAlign2 && Math.abs(isVertical ? middlewareData2.shift?.x || 0 : middlewareData2.shift?.y || 0) <= 1) {
+        crossOrigin = renderedAlign2 === "start" === (isVertical && platform3.isRTL?.(floating) === true) ? "100%" : "0%";
+      } else {
+        const arrowOffset = isVertical ? middlewareData2.arrow?.x || 0 : middlewareData2.arrow?.y || 0;
+        const arrowSize = isVertical ? arrowEl?.clientWidth || 0 : arrowEl?.clientHeight || 0;
+        crossOrigin = `${arrowOffset + arrowSize / 2}px`;
+      }
+      let sideOrigin = renderedSide2 === "top" || renderedSide2 === "left" ? `calc(100% + ${sideOffsetValue}px)` : `${-sideOffsetValue}px`;
+      if (crossAxisShiftEnabled && isVertical && Math.abs(middlewareData2.shift?.y || 0) > sideOffsetValue) {
+        sideOrigin = `${rects.reference.y + rects.reference.height / 2 - y2}px`;
+      }
+      floating.style.setProperty(transformOrigin, isVertical ? `${crossOrigin} ${sideOrigin}` : `${sideOrigin} ${crossOrigin}`);
       return {};
     }
   }, hide4, adaptiveOrigin2);
@@ -7049,6 +7188,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     }
   }, [mounted, floatingRootContext]);
   const autoUpdateOptions = React29.useMemo(() => ({
+    ancestorScroll: !disableAnchorTracking,
     elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
     layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
   }), [disableAnchorTracking]);
@@ -7141,7 +7281,7 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
   const renderedSide = getSide(renderedPlacement);
   const logicalRenderedSide = getLogicalSide(sideParam, renderedSide, isRtl);
   const renderedAlign = getAlignment(renderedPlacement) || "center";
-  const anchorHidden = Boolean(middlewareData.hide?.referenceHidden);
+  const anchorHidden2 = Boolean(middlewareData.hide?.referenceHidden);
   useIsoLayoutEffect(() => {
     if (lazyFlip && mounted && isPositioned && renderedSide !== side) {
       setMountSide(renderedSide);
@@ -7161,12 +7301,12 @@ function useAnchorPositioningWithHook(params, useFloatingHook) {
     side: logicalRenderedSide,
     align: renderedAlign,
     physicalSide: renderedSide,
-    anchorHidden,
+    anchorHidden: anchorHidden2,
     refs,
     context,
     isPositioned,
     update: update2
-  }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden, refs, context, isPositioned, update2]);
+  }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden2, refs, context, isPositioned, update2]);
 }
 function isRef(param) {
   return param != null && "current" in param;
@@ -7246,6 +7386,10 @@ function getCssDimensions2(element) {
   };
 }
 
+// node_modules/@base-ui/react/utils/CommonPopupCssVars.mjs
+var popupWidth = "--popup-width";
+var popupHeight = "--popup-height";
+
 // node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
 function usePopupAutoResize(parameters) {
   const {
@@ -7282,8 +7426,8 @@ function usePopupAutoResize(parameters) {
     const restorePopupTransform = overrideElementStyle(popupElement, "transform", "none");
     const restorePopupScale = overrideElementStyle(popupElement, "scale", "1");
     const restorePositionerAvailableSize = applyElementStyles(positionerElement, {
-      "--available-width": "max-content",
-      "--available-height": "max-content"
+      [availableWidth]: "max-content",
+      [availableHeight]: "max-content"
     });
     function restoreMeasurementOverrides() {
       restorePopupPosition();
@@ -7320,8 +7464,8 @@ function usePopupAutoResize(parameters) {
     animationFrame.request(() => {
       setPopupCssSize(popupElement, newDimensions);
       runOnceAnimationsFinish(() => {
-        popupElement.style.setProperty("--popup-width", "auto");
-        popupElement.style.setProperty("--popup-height", "auto");
+        popupElement.style.setProperty(popupWidth, "auto");
+        popupElement.style.setProperty(popupHeight, "auto");
       }, abortController.signal);
     });
     return () => {
@@ -7363,14 +7507,14 @@ function applyElementStyles(element, styles) {
 function setPopupCssSize(popupElement, size4) {
   const width = size4 === "auto" ? "auto" : `${size4.width}px`;
   const height = size4 === "auto" ? "auto" : `${size4.height}px`;
-  popupElement.style.setProperty("--popup-width", width);
-  popupElement.style.setProperty("--popup-height", height);
+  popupElement.style.setProperty(popupWidth, width);
+  popupElement.style.setProperty(popupHeight, height);
 }
 function setPositionerCssSize(positionerElement, size4) {
   const width = size4 === "max-content" ? "max-content" : `${size4.width}px`;
   const height = size4 === "max-content" ? "max-content" : `${size4.height}px`;
-  positionerElement.style.setProperty("--positioner-width", width);
-  positionerElement.style.setProperty("--positioner-height", height);
+  positionerElement.style.setProperty(positionerWidth, width);
+  positionerElement.style.setProperty(positionerHeight, height);
 }
 
 // node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
@@ -7458,11 +7602,14 @@ var adaptiveOrigin = {
   }
 };
 
+// node_modules/@base-ui/react/utils/CommonViewportDataAttributes.mjs
+var activationDirection = "data-activation-direction";
+
 // node_modules/@base-ui/react/utils/usePopupViewport.mjs
 var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
 var popupViewportStateMapping = {
   activationDirection: (value) => value ? {
-    "data-activation-direction": value
+    [activationDirection]: value
   } : null
 };
 function usePopupViewport(parameters) {
@@ -7474,12 +7621,12 @@ function usePopupViewport(parameters) {
   const direction = useDirection();
   const activeTrigger = store2.useState("activeTriggerElement");
   const activeTriggerId = store2.useState("activeTriggerId");
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const payload = store2.useState("payload");
   const mounted = store2.useState("mounted");
   const popupElement = store2.useState("popupElement");
   const positionerElement = store2.useState("positionerElement");
-  const previousActiveTrigger = usePreviousValue(open ? activeTrigger : null);
+  const previousActiveTrigger = usePreviousValue(open2 ? activeTrigger : null);
   const currentContentKey = usePopupContentKey(activeTriggerId, payload);
   const capturedNodeRef = React33.useRef(null);
   const [previousContentNode, setPreviousContentNode] = React33.useState(null);
@@ -7522,10 +7669,10 @@ function usePopupViewport(parameters) {
   });
   const lastHandledTriggerRef = React33.useRef(null);
   useIsoLayoutEffect(() => {
-    if (!open || !mounted) {
+    if (!open2 || !mounted) {
       lastHandledTriggerRef.current = null;
     }
-  }, [open, mounted]);
+  }, [open2, mounted]);
   useIsoLayoutEffect(() => {
     if (activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
       setPreviousContentNode(capturedNodeRef.current);
@@ -7575,8 +7722,8 @@ function usePopupViewport(parameters) {
         ref: previousContainerRef,
         style: {
           ...previousContentDimensions ? {
-            "--popup-width": `${previousContentDimensions.width}px`,
-            "--popup-height": `${previousContentDimensions.height}px`
+            [popupWidth]: `${previousContentDimensions.width}px`,
+            [popupHeight]: `${previousContentDimensions.height}px`
           } : null,
           position: "absolute"
         },
@@ -7771,7 +7918,7 @@ function createNullTooltipStore() {
 }
 function createInitialState(initialState2, triggerElements, floatingId, nested = false) {
   const state = {
-    ...createInitialPopupStoreState(),
+    ...createInitialPopupStoreState(triggerElements, floatingId, nested),
     disabled: false,
     instantType: void 0,
     isInstantPhase: false,
@@ -7783,7 +7930,6 @@ function createInitialState(initialState2, triggerElements, floatingId, nested =
     adaptiveOrigin: void 0,
     ...initialState2
   };
-  state.floatingRootContext = createPopupFloatingRootContext(triggerElements, floatingId, nested);
   return state;
 }
 function createInitialContext(triggerElements) {
@@ -7823,7 +7969,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   store2.useContextCallback("onOpenChange", onOpenChange);
   store2.useContextCallback("onOpenChangeComplete", onOpenChangeComplete);
   const openState = store2.useState("open");
-  const open = !disabled2 && openState;
+  const open2 = !disabled2 && openState;
   const activeTriggerId = store2.useState("activeTriggerId");
   const mounted = store2.useState("mounted");
   const payload = store2.useState("payload");
@@ -7838,7 +7984,7 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
   const {
     forceUnmount,
     transitionStatus
-  } = useOpenStateTransitions(open, store2);
+  } = useOpenStateTransitions(open2, store2);
   const isInstantPhase = store2.useState("isInstantPhase");
   const instantType = store2.useState("instantType");
   const lastOpenChangeReason = store2.useState("lastOpenChangeReason");
@@ -7860,17 +8006,17 @@ var TooltipRoot = fastComponent(function TooltipRoot2(props) {
     }
   }, [transitionStatus, isInstantPhase, lastOpenChangeReason, instantType, store2]);
   useIsoLayoutEffect(() => {
-    if (open) {
+    if (open2) {
       if (activeTriggerId == null) {
         store2.set("payload", void 0);
       }
     }
-  }, [store2, activeTriggerId, open]);
+  }, [store2, activeTriggerId, open2]);
   React37.useImperativeHandle(actionsRef, () => ({
     unmount: forceUnmount,
     close: () => store2.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
   }), [forceUnmount, store2]);
-  const shouldRenderInteractions = open || mounted || !disabled2 && trackCursorAxis !== "none";
+  const shouldRenderInteractions = open2 || mounted || !disabled2 && trackCursorAxis !== "none";
   return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(TooltipRootContext.Provider, {
     value: store2,
     children: [handle && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(PopupHandleAttachment, {
@@ -7978,7 +8124,6 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const isOpenedByThisTrigger = store2.useState("isOpenedByTrigger", thisTriggerId);
   const floatingRootContext = store2.useState("floatingRootContext");
   const triggerElementRef = React39.useRef(null);
-  const delayWithDefault = delay ?? OPEN_DELAY;
   const closeDelayWithDefault = closeDelay ?? 0;
   const {
     registerTrigger,
@@ -7990,6 +8135,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   });
   const providerDelay = useTooltipProviderContext();
   const {
+    activeIdRef,
     delayRef,
     isInstantPhase,
     hasProvider
@@ -8007,10 +8153,10 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
   const nestedTriggerOpenTimeout = useTimeout();
   const pointerTypeRef = React39.useRef(void 0);
   function getOpenDelay() {
-    if (!hasProvider) {
-      return delayWithDefault;
+    if (hasProvider && activeIdRef.current != null) {
+      return 0;
     }
-    return getDelay(delayRef.current, "open") === 0 ? 0 : delay ?? providerDelay ?? OPEN_DELAY;
+    return delay ?? providerDelay ?? OPEN_DELAY;
   }
   function isEnabledNestedTriggerTarget(target) {
     const triggerEl = triggerElementRef.current;
@@ -8069,7 +8215,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
     }
     if (wasNestedTriggerHovered && !nestedTriggerHovered && targetInsideTrigger && !disabledRef.current && !store2.select("open") && triggerEl && // Match the hover hook's non-strict mouse fallback for mouse-only event sequences.
     isMouseLikePointerType(pointerTypeRef.current)) {
-      const open = () => {
+      const open2 = () => {
         if (!isNestedTriggerHoveredRef.current && !disabledRef.current && !store2.select("open")) {
           store2.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerEl));
         }
@@ -8077,9 +8223,9 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
       const openDelay = getOpenDelay();
       if (openDelay === 0) {
         nestedTriggerOpenTimeout.clear();
-        open();
+        open2();
       } else {
-        nestedTriggerOpenTimeout.start(openDelay, open);
+        nestedTriggerOpenTimeout.start(openDelay, open2);
       }
     }
   };
@@ -8121,7 +8267,7 @@ var TooltipTrigger = fastComponentRef(function TooltipTrigger2(componentProps, f
         }
       },
       id: thisTriggerId,
-      "data-trigger-disabled": disabled2 ? "" : void 0,
+      [triggerDisabled]: disabled2 ? "" : void 0,
       [TOOLTIP_TRIGGER_IDENTIFIER]: disabled2 ? void 0 : ""
     }, elementProps],
     stateAttributesMapping: triggerOpenStateMapping
@@ -8206,7 +8352,7 @@ var TooltipPositioner = /* @__PURE__ */ React43.forwardRef(function TooltipPosit
   } = componentProps;
   const store2 = useTooltipRootContext();
   const keepMounted = useTooltipPortalContext();
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const mounted = store2.useState("mounted");
   const trackCursorAxis = store2.useState("trackCursorAxis");
   const disableHoverablePopup = store2.useState("disableHoverablePopup");
@@ -8233,19 +8379,19 @@ var TooltipPositioner = /* @__PURE__ */ React43.forwardRef(function TooltipPosit
     adaptiveOrigin: adaptiveOrigin2
   });
   const state = React43.useMemo(() => ({
-    open,
+    open: open2,
     side: positioning.side,
     align: positioning.align,
     anchorHidden: positioning.anchorHidden,
     instant: trackCursorAxis !== "none" ? "tracking-cursor" : instantType
-  }), [open, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
+  }), [open2, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
   const element = usePositioner(componentProps, state, {
     styles: positioning.positionerStyles,
     transitionStatus,
     props: elementProps,
     refs: [forwardedRef, store2.useStateSetter("positionerElement")],
     hidden: !mounted,
-    inert: !open || trackCursorAxis === "both" || disableHoverablePopup
+    inert: !open2 || trackCursorAxis === "both" || disableHoverablePopup
   });
   return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TooltipPositionerContext.Provider, {
     value: positioning,
@@ -8268,7 +8414,7 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
     side,
     align
   } = useTooltipPositionerContext();
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const instantType = store2.useState("instantType");
   const transitionStatus = store2.useState("transitionStatus");
   const popupProps = store2.useState("popupProps");
@@ -8276,10 +8422,10 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
   const disabled2 = store2.useState("disabled");
   const closeDelay = store2.useState("closeDelay");
   useOpenChangeComplete({
-    open,
+    open: open2,
     ref: store2.context.popupRef,
     onComplete() {
-      if (open) {
+      if (open2) {
         store2.context.onOpenChangeComplete?.(true);
       }
     }
@@ -8290,7 +8436,7 @@ var TooltipPopup = /* @__PURE__ */ React44.forwardRef(function TooltipPopup2(com
   });
   const setPopupElement = store2.useStateSetter("popupElement");
   const state = {
-    open,
+    open: open2,
     side,
     align,
     instant: instantType,
@@ -8323,10 +8469,10 @@ var TooltipArrow = /* @__PURE__ */ React45.forwardRef(function TooltipArrow2(com
     arrowUncentered,
     arrowStyles
   } = useTooltipPositionerContext();
-  const open = store2.useState("open");
+  const open2 = store2.useState("open");
   const instantType = store2.useState("instantType");
   const state = {
-    open,
+    open: open2,
     side,
     align,
     uncentered: arrowUncentered,
@@ -9294,7 +9440,7 @@ function registerStyle6(hash, css) {
   }
 }
 if (typeof process === "undefined" || true) {
-  registerStyle6("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
+  registerStyle6("f4df7461e9", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;overflow-wrap:normal;padding:0;position:absolute;width:1px;word-break:normal}}}");
 }
 var style_default5 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
 var VisuallyHidden = (0, import_element18.forwardRef)(
@@ -12433,6 +12579,7 @@ function Canvas({ canvas }) {
           {
             postType: canvas.postType,
             postId: canvas.postId,
+            renderingMode: canvas.renderingMode,
             settings,
             backButton,
             onActionPerformed,

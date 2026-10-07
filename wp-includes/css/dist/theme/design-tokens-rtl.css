@@ -310,13 +310,13 @@
   /* Nearly imperceptible easing for hover, color, and background transitions */
   --wpds-motion-easing-subtle: cubic-bezier(0.15, 0, 0.15, 1);
   /* Body font family */
-  --wpds-typography-font-family-body: -apple-system, system-ui, "Segoe UI",
-  	"Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue",
-  	sans-serif;
+  --wpds-typography-font-family-body:
+  	-apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu",
+  	"Cantarell", "Helvetica Neue", sans-serif;
   /* Headings font family */
-  --wpds-typography-font-family-heading: -apple-system, system-ui, "Segoe UI",
-  	"Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue",
-  	sans-serif;
+  --wpds-typography-font-family-heading:
+  	-apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu",
+  	"Cantarell", "Helvetica Neue", sans-serif;
   /* Monospace font family */
   --wpds-typography-font-family-mono: "Menlo", "Consolas", monaco, monospace;
   /* 2X large font size */

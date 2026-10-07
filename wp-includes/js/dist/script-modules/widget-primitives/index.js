@@ -146,6 +146,38 @@ function withRenderableIcons(actions, holdPending) {
     return action;
   });
 }
+function mergeAttributes(recordAttributes, moduleAttributes) {
+  if (!recordAttributes) {
+    return moduleAttributes;
+  }
+  if (!moduleAttributes) {
+    return recordAttributes;
+  }
+  const moduleById = new Map(
+    moduleAttributes.map(
+      (attribute) => [attribute.id, attribute]
+    )
+  );
+  const recordIds = new Set(
+    recordAttributes.map((attribute) => attribute.id)
+  );
+  return [
+    ...recordAttributes.map((attribute) => {
+      const moduleAttribute = moduleById.get(attribute.id);
+      if (!moduleAttribute?.isValid || !attribute.isValid) {
+        return { ...moduleAttribute, ...attribute };
+      }
+      return {
+        ...moduleAttribute,
+        ...attribute,
+        isValid: { ...moduleAttribute.isValid, ...attribute.isValid }
+      };
+    }),
+    ...moduleAttributes.filter(
+      (attribute) => !recordIds.has(attribute.id)
+    )
+  ];
+}
 var DEFAULT_API_VERSION = 1;
 function recordOverlay(record) {
   return {
@@ -182,6 +214,11 @@ function useWidgetTypes(records) {
           return {
             apiVersion: DEFAULT_API_VERSION,
             title: record.title ?? record.name,
+            ...record.attributes ? {
+              attributes: resolveFields(
+                record.attributes
+              )
+            } : {},
             ...record.icon ? { icon: pendingIcon } : {},
             ...record.actions ? {
               actions: withRenderableIcons(
@@ -204,14 +241,14 @@ function useWidgetTypes(records) {
           const moduleIcon = (0, import_element2.isValidElement)(metadata.icon) ? metadata.icon : void 0;
           const icon = moduleIcon ?? (record.icon ? pendingIcon : void 0);
           const actions = record.actions ?? metadata.actions;
+          const attributes = mergeAttributes(
+            record.attributes,
+            metadata.attributes
+          );
           return {
             apiVersion: DEFAULT_API_VERSION,
             ...metadata,
-            ...metadata.attributes ? {
-              attributes: resolveFields(
-                metadata.attributes
-              )
-            } : {},
+            ...attributes ? { attributes: resolveFields(attributes) } : {},
             icon,
             /*
              * `title` is required:
@@ -321,7 +358,24 @@ function WidgetHostProvider({
 function useWidgetHost() {
   return (0, import_element3.useContext)(WidgetHostContext);
 }
+
+// packages/widget-primitives/build-module/widget-host/host-link.mjs
+var import_element4 = __toESM(require_element(), 1);
+var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+var HostLink = (0, import_element4.forwardRef)(
+  function HostLink2({ href, children, ...props }, ref) {
+    const { links } = useWidgetHost();
+    const { download, target } = props;
+    const opensNewDocument = download !== void 0 && download !== false || /^_blank$/i.test(target ?? "");
+    const path = links && !opensNewDocument ? links.match(href) : null;
+    if (links && path !== null) {
+      return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(links.Link, { ref, path, ...props, children });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("a", { ref, href, ...props, children });
+  }
+);
 export {
+  HostLink,
   WidgetHostProvider,
   WidgetRender,
   registerFieldType,

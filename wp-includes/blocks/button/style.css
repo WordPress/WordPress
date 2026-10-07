@@ -2,7 +2,8 @@
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
   box-sizing: border-box;
   height: 100%;
   align-content: center;

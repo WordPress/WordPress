@@ -1533,6 +1533,7 @@ var wp;
       if (ignoreForRelatedTarget && event.relatedTarget?.closest(ignoreForRelatedTarget)) {
         return;
       }
+      clearTimeout(blurCheckTimeoutIdRef.current);
       blurCheckTimeoutIdRef.current = setTimeout(() => {
         if (!document.hasFocus()) {
           event.preventDefault();

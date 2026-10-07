@@ -51,6 +51,15 @@
 		"interactivity": {
 			"clientNavigation": true
 		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"color": {
 			"text": true,
 			"background": true,
@@ -76,6 +85,7 @@
 				"margin": false
 			}
 		},
+		"shadow": true,
 		"contentRole": true
 	},
 	"editorStyle": "wp-block-page-list-editor",

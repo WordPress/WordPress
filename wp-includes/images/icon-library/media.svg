@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: none" stroke="currentColor" stroke-width="1.5">
+	<path d="M14 12.375V6.51534C14 6.21609 13.7879 5.95882 13.4941 5.9018L11.8239 5.57758C11.5677 5.52784 11.341 5.37988 11.1924 5.1653L10.3985 4.01913C10.2818 3.85057 10.0898 3.75 9.88474 3.75H8.11526C7.91022 3.75 7.71822 3.85057 7.60147 4.01913L6.80758 5.1653C6.65896 5.37988 6.43232 5.52784 6.17608 5.57758L4.5059 5.9018C4.21213 5.95882 4 6.21609 4 6.51534V12.375C4 12.7202 4.27982 13 4.625 13H13.375C13.7202 13 14 12.7202 14 12.375Z" vector-effect="non-scaling-stroke" />
+	<circle cx="9" cy="9" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+	<path d="M20 17.25V9" vector-effect="non-scaling-stroke" />
+	<path d="M17 10H20V9H17V10Z" fill="currentColor" vector-effect="non-scaling-stroke" />
+	<path d="M11.75 18.5C12.4404 18.5 13 17.9404 13 17.25V16H11.75C11.0596 16 10.5 16.5596 10.5 17.25C10.5 17.9404 11.0596 18.5 11.75 18.5Z" fill="currentColor" vector-effect="non-scaling-stroke" />
+	<path d="M18.75 18.5C19.4404 18.5 20 17.9404 20 17.25V16H18.75C18.0596 16 17.5 16.5596 17.5 17.25C17.5 17.9404 18.0596 18.5 18.75 18.5Z" fill="currentColor" vector-effect="non-scaling-stroke" />
+</svg>

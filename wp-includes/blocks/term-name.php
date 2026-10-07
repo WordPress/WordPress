@@ -33,7 +33,7 @@ function render_block_core_term_name( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$term_name = $term->name;
+	$term_name = get_term_field( 'name', $term );
 	$level     = $attributes['level'] ?? 0;
 	$tag_name  = 0 === $level ? 'p' : 'h' . (int) $level;
 

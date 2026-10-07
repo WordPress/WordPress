@@ -207,11 +207,17 @@
   clear: both;
 }
 
-.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor {
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor,
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-text-editor {
   flex-shrink: 1;
   flex-basis: 0%;
-  overflow: hidden;
   isolation: isolate;
+}
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor {
+  overflow: hidden;
+}
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-text-editor {
+  overflow: auto;
 }
 
 .edit-post-layout__snackbar {

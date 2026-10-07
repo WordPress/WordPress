@@ -65,10 +65,12 @@
 .wp-block-navigation .has-child.is-selected > .wp-block-navigation__submenu-container, .wp-block-navigation .has-child.has-child-selected > .wp-block-navigation__submenu-container {
   visibility: visible !important;
   opacity: 1 !important;
-  min-width: 200px !important;
   height: auto !important;
   width: auto !important;
   overflow: visible !important;
+}
+.wp-block-navigation .has-child.is-selected:not(.open-always) > .wp-block-navigation__submenu-container, .wp-block-navigation .has-child.has-child-selected:not(.open-always) > .wp-block-navigation__submenu-container {
+  min-width: 200px !important;
 }
 
 /**

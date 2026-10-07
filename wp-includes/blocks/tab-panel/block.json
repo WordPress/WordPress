@@ -16,9 +16,21 @@
 	"usesContext": [ "core/tabs-id" ],
 	"supports": {
 		"anchor": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"html": false,
 		"color": {
 			"background": true,
+			"button": true,
+			"heading": true,
+			"link": true,
 			"text": true,
 			"__experimentalDefaultControls": {
 				"background": true,
@@ -26,17 +38,30 @@
 			}
 		},
 		"layout": true,
+		"shadow": true,
 		"spacing": {
 			"blockGap": true,
 			"padding": true
 		},
 		"typography": {
 			"fontSize": true,
+			"lineHeight": true,
 			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
 		},
 		"visibility": false
 	},

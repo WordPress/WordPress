@@ -102,7 +102,6 @@
 .wp-block-navigation-submenu.is-selected > .wp-block-navigation__submenu-container, .wp-block-navigation-submenu.has-child-selected > .wp-block-navigation__submenu-container {
   visibility: visible !important;
   opacity: 1 !important;
-  min-width: 200px !important;
   height: auto !important;
   width: auto !important;
   position: absolute;
@@ -123,4 +122,7 @@
     width: 0.5em;
     background: transparent;
   }
+}
+.wp-block-navigation-submenu.is-selected:not(.open-always) > .wp-block-navigation__submenu-container, .wp-block-navigation-submenu.has-child-selected:not(.open-always) > .wp-block-navigation__submenu-container {
+  min-width: 200px !important;
 }

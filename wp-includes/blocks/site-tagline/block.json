@@ -31,6 +31,11 @@
 		"anchor": true,
 		"align": [ "wide", "full" ],
 		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
 		"color": {
 			"gradients": true,
 			"__experimentalDefaultControls": {
@@ -58,6 +63,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalWritingMode": true,
+			"fitText": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
@@ -70,7 +76,8 @@
 			"color": true,
 			"width": true,
 			"style": true
-		}
+		},
+		"shadow": true
 	},
 	"editorStyle": "wp-block-site-tagline-editor",
 	"style": "wp-block-site-tagline"

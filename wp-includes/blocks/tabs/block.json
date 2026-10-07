@@ -20,13 +20,30 @@
 	"supports": {
 		"align": true,
 		"anchor": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
 		"color": {
 			"text": true,
 			"background": true,
+			"heading": true,
+			"button": true,
+			"link": true,
 			"__experimentalDefaultControls": {
 				"text": true,
 				"background": true
 			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
 		},
 		"layout": {
 			"allowEditing": false
@@ -38,9 +55,15 @@
 			"margin": true,
 			"padding": true
 		},
+		"shadow": true,
 		"typography": {
 			"fontSize": true,
-			"__experimentalFontFamily": true
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true
 		}
 	},
 	"usesContext": [ "core/tabs-list", "core/tabs-id" ],

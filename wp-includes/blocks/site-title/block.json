@@ -33,6 +33,11 @@
 		"anchor": true,
 		"align": [ "wide", "full" ],
 		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -74,7 +79,8 @@
 			"color": true,
 			"width": true,
 			"style": true
-		}
+		},
+		"shadow": true
 	},
 	"editorStyle": "wp-block-site-title-editor",
 	"style": "wp-block-site-title"

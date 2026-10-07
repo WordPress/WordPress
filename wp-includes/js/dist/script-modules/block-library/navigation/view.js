@@ -53,8 +53,8 @@ var { state, actions } = store(
       },
       get isSubmenuOpen() {
         const ctx = getContext();
-        const isOverlayOpen = Object.values(ctx.overlayOpenedBy || {}).filter(Boolean).length > 0;
-        return isOverlayOpen || state.isMenuOpen;
+        const isDefaultOverlayOpen = !ctx.hasCustomOverlay && Object.values(ctx.overlayOpenedBy || {}).filter(Boolean).length > 0;
+        return isDefaultOverlayOpen || state.isMenuOpen;
       }
     },
     actions: {

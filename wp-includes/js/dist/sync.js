@@ -11452,7 +11452,8 @@ ${err.toString()}`);
             objectType,
             objectId,
             ydoc,
-            awareness
+            awareness,
+            Y: yjs_exports
           });
           provider.on("status", handlers.onStatusChange);
           return provider;
@@ -11534,7 +11535,8 @@ ${err.toString()}`);
             awareness,
             objectType,
             objectId: null,
-            ydoc
+            ydoc,
+            Y: yjs_exports
           });
           provider.on("status", handlers.onStatusChange);
           return provider;

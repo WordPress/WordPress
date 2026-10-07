@@ -154,7 +154,7 @@
 .wp-block-column {
   flex-grow: 1;
   min-width: 0;
-  word-break: break-word;
+  word-break: normal;
   overflow-wrap: break-word;
   /**
   * Individual Column Alignment

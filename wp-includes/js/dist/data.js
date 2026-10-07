@@ -1398,7 +1398,7 @@ var wp;
             }
             return selector(state.root, ...args);
           };
-          boundSelector.__unstableNormalizeArgs = selector.__unstableNormalizeArgs;
+          boundSelector.normalizeArgs = getNormalizeArgs(selector);
           const resolver = resolvers[selectorName];
           if (!resolver) {
             boundSelector.hasResolver = false;
@@ -1420,6 +1420,13 @@ var wp;
               if (targetSelector) {
                 selectorArgs = normalize(
                   targetSelector,
+                  selectorArgs
+                );
+              }
+              const resolver = resolvers[selectorName];
+              if (resolver && selectorArgs) {
+                selectorArgs = normalizeResolutionArgs(
+                  resolver,
                   selectorArgs
                 );
               }
@@ -1582,11 +1589,18 @@ var wp;
       }
       return (...args) => new Promise((resolve, reject) => {
         const resolver = resolvers[selectorName];
+        const resolutionArgs = normalizeResolutionArgs(
+          resolver,
+          normalize(selector, args)
+        );
         const hasFinished = () => {
           return boundMetadataSelectors.hasFinishedResolution(
             selectorName,
             args
-          ) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args);
+          ) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(
+            store.getState(),
+            ...resolutionArgs
+          );
         };
         const finalize = (result2) => {
           const hasFailed = boundMetadataSelectors.hasResolutionFailed(
@@ -1665,8 +1679,12 @@ var wp;
     };
   }
   function mapSelectorWithResolver(selector, selectorName, resolver, store, resolversCache, boundMetadataSelectors) {
-    function fulfillSelector(args) {
-      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(selectorName, args) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args)) {
+    function fulfillSelector(selectorArgs) {
+      const args = normalizeResolutionArgs(resolver, selectorArgs);
+      if (resolversCache.isRunning(selectorName, args) || boundMetadataSelectors.hasStartedResolution(
+        selectorName,
+        selectorArgs
+      ) || typeof resolver.isFulfilled === "function" && resolver.isFulfilled(store.getState(), ...args)) {
         return;
       }
       resolversCache.markAsRunning(selectorName, args);
@@ -1696,11 +1714,22 @@ var wp;
       return selector(...args);
     };
     selectorResolver.hasResolver = true;
+    selectorResolver.normalizeArgs = selector.normalizeArgs;
     return selectorResolver;
   }
+  function getNormalizeArgs(selector) {
+    return selector.normalizeArgs ?? selector.__unstableNormalizeArgs;
+  }
   function normalize(selector, args) {
-    if (selector.__unstableNormalizeArgs && typeof selector.__unstableNormalizeArgs === "function" && args?.length) {
-      return selector.__unstableNormalizeArgs(args);
+    const normalizeArgs = getNormalizeArgs(selector);
+    if (typeof normalizeArgs === "function" && args?.length) {
+      return normalizeArgs(args);
+    }
+    return args;
+  }
+  function normalizeResolutionArgs(resolver, args) {
+    if (typeof resolver.getResolutionArgs === "function") {
+      return resolver.getResolutionArgs(...args);
     }
     return args;
   }
@@ -1758,19 +1787,25 @@ var wp;
     let isPaused = false;
     let isPending = false;
     const listeners = /* @__PURE__ */ new Set();
-    const notifyListeners = () => (
-      // We use Array.from to clone the listeners Set
-      // This ensures that we don't run a listener
-      // that was added as a response to another listener.
-      Array.from(listeners).forEach((listener) => listener())
-    );
+    let clonedListeners = null;
+    const notifyListeners = () => {
+      clonedListeners ??= Array.from(listeners);
+      const currentListeners = clonedListeners;
+      for (let i = 0; i < currentListeners.length; i++) {
+        currentListeners[i]();
+      }
+    };
     return {
       get isPaused() {
         return isPaused;
       },
       subscribe(listener) {
         listeners.add(listener);
-        return () => listeners.delete(listener);
+        clonedListeners = null;
+        return () => {
+          listeners.delete(listener);
+          clonedListeners = null;
+        };
       },
       pause() {
         isPaused = true;
@@ -1800,8 +1835,38 @@ var wp;
     const stores = {};
     const emitter = createEmitter();
     let listeningStores = null;
+    const pendingListeners = /* @__PURE__ */ new Map();
     function globalListener() {
       emitter.emit();
+    }
+    function subscribePending(storeName, listener) {
+      const pending = { listener };
+      let listeners = pendingListeners.get(storeName);
+      if (!listeners) {
+        listeners = /* @__PURE__ */ new Set();
+        pendingListeners.set(storeName, listeners);
+      }
+      listeners.add(pending);
+      return () => {
+        pending.unsubscribe?.();
+        const stillPending = pendingListeners.get(storeName);
+        if (stillPending) {
+          stillPending.delete(pending);
+          if (stillPending.size === 0) {
+            pendingListeners.delete(storeName);
+          }
+        }
+      };
+    }
+    function connectPendingListeners(name, store) {
+      const listeners = pendingListeners.get(name);
+      if (!listeners) {
+        return;
+      }
+      pendingListeners.delete(name);
+      for (const pending of listeners) {
+        pending.unsubscribe = store.subscribe(pending.listener);
+      }
     }
     const subscribe2 = (listener, storeNameOrDescriptor) => {
       if (!storeNameOrDescriptor) {
@@ -1813,7 +1878,7 @@ var wp;
         return store.subscribe(listener);
       }
       if (!parent) {
-        return emitter.subscribe(listener);
+        return subscribePending(storeName, listener);
       }
       return parent.subscribe(listener, storeNameOrDescriptor);
     };
@@ -1892,23 +1957,11 @@ var wp;
         throw new TypeError("store.subscribe must be a function");
       }
       store.emitter = createEmitter();
-      const currentSubscribe = store.subscribe;
-      store.subscribe = (listener) => {
-        const unsubscribeFromEmitter = store.emitter.subscribe(listener);
-        const unsubscribeFromStore = currentSubscribe(() => {
-          if (store.emitter.isPaused) {
-            store.emitter.emit();
-            return;
-          }
-          listener();
-        });
-        return () => {
-          unsubscribeFromStore?.();
-          unsubscribeFromEmitter?.();
-        };
-      };
+      store.subscribe(() => store.emitter.emit());
+      store.subscribe = (listener) => store.emitter.subscribe(listener);
       stores[name] = store;
       store.subscribe(globalListener);
+      connectPendingListeners(name, store);
       if (parent) {
         try {
           unlock(store.store).registerPrivateActions(
@@ -2221,8 +2274,7 @@ var wp;
   var import_element3 = __toESM(require_element(), 1);
   var Context2 = (0, import_element3.createContext)(false);
   Context2.displayName = "AsyncModeContext";
-  var { Consumer: Consumer2, Provider: Provider2 } = Context2;
-  var context_default2 = Provider2;
+  var context_default2 = Context2.Provider;
 
   // packages/data/build-module/components/async-mode-provider/use-async-mode.mjs
   function useAsyncMode() {
@@ -2240,6 +2292,39 @@ var wp;
       "The `useSelect` hook returns different values when called with the same state and parameters.\nThis can lead to unnecessary re-renders and performance issues if not fixed.\n\nNon-equal value keys: %s\n\n",
       keys.join(", ")
     );
+  }
+  var deferredBuckets = /* @__PURE__ */ new WeakMap();
+  function subscribeDeferred(registry, storeName, listener) {
+    let buckets = deferredBuckets.get(registry);
+    if (!buckets) {
+      buckets = /* @__PURE__ */ new Map();
+      deferredBuckets.set(registry, buckets);
+    }
+    let addToBucket = buckets.get(storeName);
+    if (!addToBucket) {
+      const listeners = /* @__PURE__ */ new Set();
+      const flush = () => {
+        for (const { context, callback } of listeners) {
+          renderQueue.add(context, callback);
+        }
+      };
+      const unsubscribe = registry.subscribe(
+        () => renderQueue.add(listeners, flush),
+        storeName
+      );
+      addToBucket = (newListener) => {
+        listeners.add(newListener);
+        return () => {
+          if (listeners.delete(newListener) && listeners.size === 0) {
+            buckets.delete(storeName);
+            renderQueue.cancel(listeners);
+            unsubscribe();
+          }
+        };
+      };
+      buckets.set(storeName, addToBucket);
+    }
+    return addToBucket(listener);
   }
   function Store(registry, suspense) {
     const select3 = suspense ? registry.suspendSelect : registry.select;
@@ -2270,23 +2355,32 @@ var wp;
           lastMapResultValid = false;
           listener();
         };
-        const onChange = () => {
+        function listenToStore(storeName) {
           if (lastIsAsync) {
-            renderQueue.add(queueContext, onStoreChange);
-          } else {
-            onStoreChange();
+            return subscribeDeferred(registry, storeName, {
+              context: queueContext,
+              callback: onStoreChange
+            });
           }
-        };
-        const unsubs = [];
+          return registry.subscribe(onStoreChange, storeName);
+        }
+        const unsubs = /* @__PURE__ */ new Map();
         function subscribeStore(storeName) {
-          unsubs.push(registry.subscribe(onChange, storeName));
+          unsubs.set(storeName, listenToStore(storeName));
+        }
+        function resubscribeStores() {
+          for (const [storeName, unsub] of unsubs) {
+            unsub?.();
+            unsubs.set(storeName, listenToStore(storeName));
+          }
         }
         for (const storeName of activeStores) {
           subscribeStore(storeName);
         }
-        activeSubscriptions.add(subscribeStore);
+        const subscription = { subscribeStore, resubscribeStores };
+        activeSubscriptions.add(subscription);
         return () => {
-          activeSubscriptions.delete(subscribeStore);
+          activeSubscriptions.delete(subscription);
           for (const unsub of unsubs.values()) {
             unsub?.();
           }
@@ -2300,11 +2394,16 @@ var wp;
           }
           activeStores.push(newStore);
           for (const subscription of activeSubscriptions) {
-            subscription(newStore);
+            subscription.subscribeStore(newStore);
           }
         }
       }
-      return { subscribe: subscribe2, updateStores };
+      function switchMode() {
+        for (const subscription of activeSubscriptions) {
+          subscription.resubscribeStores();
+        }
+      }
+      return { subscribe: subscribe2, updateStores, switchMode };
     };
     return (mapSelect, isAsync) => {
       function updateValue() {
@@ -2343,12 +2442,16 @@ var wp;
         updateValue();
         return lastMapResult;
       }
-      if (lastIsAsync && !isAsync) {
+      const wasAsync = lastIsAsync;
+      lastIsAsync = isAsync;
+      if (wasAsync && !isAsync) {
         lastMapResultValid = false;
         renderQueue.cancel(queueContext);
       }
       updateValue();
-      lastIsAsync = isAsync;
+      if (wasAsync !== isAsync) {
+        subscriber.switchMode();
+      }
       return { subscribe: subscriber.subscribe, getValue };
     };
   }

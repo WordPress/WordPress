@@ -340,6 +340,19 @@ iframe[name=editor-canvas] {
   text-align: center;
 }
 
+.block-editor-block-inspector__state-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  margin-top: -16px;
+}
+
+.block-editor-block-inspector__state-badges-text {
+  white-space: nowrap;
+}
+
 .block-editor-block-inspector__no-block-tools {
   border-top: 1px solid #ddd;
 }
@@ -636,7 +649,7 @@ iframe[name=editor-canvas] {
 .block-editor-block-lock-modal__checklist-item .block-editor-block-lock-modal__lock-icon {
   flex-shrink: 0;
   margin-right: 12px;
-  fill: #1e1e1e;
+  color: #1e1e1e;
 }
 .block-editor-block-lock-modal__checklist-item:hover {
   background-color: #f0f0f0;
@@ -746,6 +759,7 @@ iframe[name=editor-canvas] {
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 8px;
+  overflow-wrap: anywhere;
 }
 .block-editor-block-card__title.block-editor-block-card__title {
   font-size: 13px;
@@ -1044,14 +1058,6 @@ iframe[name=editor-canvas] {
     animation-fill-mode: forwards;
   }
 }
-.components-button.block-editor-block-mover-button:focus, .components-button.block-editor-block-mover-button:focus:enabled, .components-button.block-editor-block-mover-button:focus::before {
-  box-shadow: none;
-  outline: none;
-}
-.components-button.block-editor-block-mover-button:focus-visible::before {
-  box-shadow: inset 0 0 0 1px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline: 2px solid transparent;
-}
 
 .block-editor-block-navigation__container {
   min-width: 280px;
@@ -1126,7 +1132,7 @@ iframe[name=editor-canvas] {
   height: 24px;
 }
 .block-editor-block-patterns-list__item .block-editor-patterns__pattern-icon-wrapper .block-editor-patterns__pattern-icon {
-  fill: var(--wp-block-synced-color);
+  color: var(--wp-block-synced-color);
 }
 
 .block-editor-patterns__grid-pagination-wrapper .block-editor-patterns__grid-pagination {
@@ -1623,6 +1629,7 @@ iframe[name=editor-canvas] {
   color: var(--wp-admin-theme-color);
 }
 .block-editor-tools-panel-color-gradient-settings__dropdown .block-editor-panel-color-gradient-settings__color-name {
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1637,6 +1644,19 @@ iframe[name=editor-canvas] {
 }
 .block-editor-panel-color-gradient-settings__dropdown .component-color-indicator {
   flex-shrink: 0;
+}
+
+.block-editor-panel-color-gradient-settings__labeled-indicators {
+  width: 100%;
+  min-width: 0;
+}
+
+.block-editor-panel-color-gradient-settings__color-indicators {
+  display: flex;
+  flex-shrink: 0;
+}
+.block-editor-panel-color-gradient-settings__color-indicators > * + * {
+  margin-inline-start: -8px;
 }
 
 .block-editor-panel-color-gradient-settings__reset {
@@ -1770,6 +1790,15 @@ iframe[name=editor-canvas] {
   background-color: #f0f0f0;
 }
 
+.block-editor-panel-duotone-settings__label-row {
+  width: 100%;
+  min-width: 0;
+}
+
+.block-editor-panel-duotone-settings__label {
+  min-width: 0;
+}
+
 .block-editor-global-styles__shadow-editor__remove-button {
   position: absolute;
   right: 0;
@@ -1850,6 +1879,72 @@ iframe[name=editor-canvas] {
 }
 @media (hover: none) {
   .block-editor-panel-duotone-settings__reset {
+    opacity: 1;
+  }
+}
+
+.block-editor-global-styles__text-shadow {
+  width: 260px;
+  padding: 8px;
+}
+
+.block-editor-global-styles__text-shadow-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  border: #ddd 1px solid;
+  border-radius: 2px;
+  font-size: 24px;
+  margin-bottom: 16px;
+  /*rtl:begin:ignore*/
+  background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
+  background-position: 0 0, 8px 8px;
+  /*rtl:end:ignore*/
+  background-size: 16px 16px;
+}
+
+.block-editor-global-styles__text-shadow-list-item {
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+.block-editor-global-styles__text-shadow-list-item:not(.is-active) svg {
+  opacity: 0;
+}
+
+.block-editor-global-styles__text-shadow-dropdown {
+  display: block;
+  padding: 0;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
+.block-editor-global-styles__text-shadow-dropdown-toggle {
+  width: 100%;
+  padding: 8px;
+}
+.block-editor-global-styles__text-shadow-dropdown-toggle.is-open {
+  background-color: #f0f0f0;
+}
+
+.block-editor-global-styles__text-shadow-remove-button {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  opacity: 0;
+}
+@media not (prefers-reduced-motion) {
+  .block-editor-global-styles__text-shadow-remove-button {
+    transition: opacity 0.1s ease-in-out;
+  }
+}
+.block-editor-global-styles__text-shadow-dropdown:hover .block-editor-global-styles__text-shadow-remove-button, .block-editor-global-styles__text-shadow-remove-button:focus, .block-editor-global-styles__text-shadow-remove-button:hover {
+  opacity: 1;
+}
+@media (hover: none) {
+  .block-editor-global-styles__text-shadow-remove-button {
     opacity: 1;
   }
 }
@@ -2240,7 +2335,8 @@ iframe[name=editor-canvas] {
   justify-content: center;
   cursor: var(--wpds-cursor-control, pointer);
   background: transparent;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 @media not (prefers-reduced-motion) {
   .components-button.block-editor-block-types-list__item {
@@ -2513,7 +2609,7 @@ iframe[name=editor-canvas] {
   background-color: transparent;
 }
 .block-editor-link-control__preview .block-editor-link-control__preview-title span {
-  font-weight: normal;
+  font-weight: 400;
 }
 .block-editor-link-control__preview .block-editor-link-control__preview-title .components-external-link__icon {
   position: absolute;
@@ -3022,12 +3118,6 @@ iframe[name=editor-canvas] {
 .block-editor-list-view-leaf .block-editor-block-mover-button.is-down-button svg {
   top: -4px;
 }
-.block-editor-list-view-leaf .block-editor-block-mover-button::before {
-  height: 16px;
-  min-width: 100%;
-  left: 0;
-  right: 0;
-}
 .block-editor-list-view-leaf .block-editor-inserter__toggle {
   background: #1e1e1e;
   color: #fff;
@@ -3335,6 +3425,11 @@ iframe[name=editor-canvas] {
   height: 24px;
 }
 
+.block-editor-plain-text {
+  width: 100%;
+  field-sizing: content;
+}
+
 .block-editor-responsive-block-control {
   margin-bottom: 28px;
   border-bottom: 1px solid #ccc;
@@ -3374,7 +3469,7 @@ iframe[name=editor-canvas] {
   padding: 0;
   position: absolute;
   width: 1px;
-  word-wrap: normal !important;
+  overflow-wrap: normal !important;
   word-break: normal !important;
 }
 
@@ -3692,11 +3787,6 @@ iframe[name=editor-canvas] {
   color: #757575;
   font-size: 12px;
   margin-bottom: 16px;
-}
-
-.block-editor-hooks__position-control-item-hint {
-  color: var(--wpds-color-foreground-content-neutral-weak, #707070);
-  margin-block-start: 4px;
 }
 
 div.block-editor-bindings__panel {
@@ -4744,7 +4834,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
   font-weight: var(--wpds-typography-font-weight-emphasis, 600);
 }
 .block-editor-block-visibility-modal__options-icon--checked {
-  fill: #ddd;
+  color: #ddd;
 }
 .block-editor-block-visibility-modal__sub-options {
   width: 100%;
@@ -4756,12 +4846,7 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span 
 }
 
 .block-editor-block-visibility-info {
-  padding-top: 4px;
-  padding-bottom: 4px;
   margin: 0 16px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: start;
 }
 
 /* The stop element is invisible, so its focus indication is drawn around the

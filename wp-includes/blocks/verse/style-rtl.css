@@ -3,7 +3,8 @@ pre.wp-block-verse {
   overflow: auto;
   white-space: pre-wrap;
   min-width: 1em;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 :where(pre.wp-block-verse) {

@@ -406,7 +406,7 @@ var wp;
     store: () => store2
   });
   var import_blocks3 = __toESM(require_blocks(), 1);
-  var import_data32 = __toESM(require_data(), 1);
+  var import_data33 = __toESM(require_data(), 1);
   var import_deprecated6 = __toESM(require_deprecated(), 1);
   var import_element70 = __toESM(require_element(), 1);
   var import_block_library = __toESM(require_block_library(), 1);
@@ -555,22 +555,22 @@ var wp;
   // packages/icons/build-module/library/drawer-left.mjs
   var import_primitives5 = __toESM(require_primitives(), 1);
   var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var drawer_left_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8.5 18.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h2.5v13zm10-.5c0 .3-.2.5-.5.5h-8v-13h8c.3 0 .5.2.5.5v12z" }) });
+  var drawer_left_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives5.Path, { d: "M9.75 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V18C4.75 18.6904 5.30964 19.25 6 19.25H9.75M9.75 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V18C19.25 18.6904 18.6904 19.25 18 19.25H9.75M9.75 4.75V19.25", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/drawer-right.mjs
   var import_primitives6 = __toESM(require_primitives(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var drawer_right_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4 14.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h8v13zm4.5-.5c0 .3-.2.5-.5.5h-2.5v-13H18c.3 0 .5.2.5.5v12z" }) });
+  var drawer_right_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives6.Path, { d: "M14.25 19.25L18 19.25C18.6904 19.25 19.25 18.6904 19.25 18L19.25 6C19.25 5.30964 18.6904 4.75 18 4.75L14.25 4.75M14.25 19.25L6 19.25C5.30964 19.25 4.75 18.6904 4.75 18L4.75 6C4.75 5.30964 5.30965 4.75 6 4.75L14.25 4.75M14.25 19.25L14.25 4.75", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/error.mjs
   var import_primitives7 = __toESM(require_primitives(), 1);
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  var error_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { fillRule: "evenodd", clipRule: "evenodd", d: "M12.218 5.377a.25.25 0 0 0-.436 0l-7.29 12.96a.25.25 0 0 0 .218.373h14.58a.25.25 0 0 0 .218-.372l-7.29-12.96Zm-1.743-.735c.669-1.19 2.381-1.19 3.05 0l7.29 12.96a1.75 1.75 0 0 1-1.525 2.608H4.71a1.75 1.75 0 0 1-1.525-2.608l7.29-12.96ZM12.75 17.46h-1.5v-1.5h1.5v1.5Zm-1.5-3h1.5v-5h-1.5v5Z" }) });
+  var error_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives7.Path, { d: "M12 9L12 14M12 15.5V17M11.1284 5.04947L3.83827 18.0097C3.46331 18.6763 3.94502 19.5 4.70985 19.5H19.2902C20.055 19.5 20.5367 18.6763 20.1617 18.0097L12.8716 5.04947C12.4893 4.36982 11.5107 4.36982 11.1284 5.04947Z", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/external.mjs
   var import_primitives8 = __toESM(require_primitives(), 1);
   var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-  var external_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
+  var external_default = /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_primitives8.Path, { d: "M9.5 6.25H6.5C5.80964 6.25 5.25 6.80964 5.25 7.5V17.5C5.25 18.1904 5.80964 18.75 6.5 18.75H16.5C17.1904 18.75 17.75 18.1904 17.75 17.5V14.5M11.5 12.5L18.75 5.25M12.5 5.25H18.75V11.5", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/info.mjs
   var import_primitives9 = __toESM(require_primitives(), 1);
@@ -580,7 +580,7 @@ var wp;
   // packages/icons/build-module/library/layout.mjs
   var import_primitives10 = __toESM(require_primitives(), 1);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
-  var layout_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M18 5.5H6a.5.5 0 00-.5.5v3h13V6a.5.5 0 00-.5-.5zm.5 5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" }) });
+  var layout_default = /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_primitives10.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/list-view.mjs
   var import_primitives11 = __toESM(require_primitives(), 1);
@@ -590,7 +590,14 @@ var wp;
   // packages/icons/build-module/library/more-vertical.mjs
   var import_primitives12 = __toESM(require_primitives(), 1);
   var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
-  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z" }) });
+  var more_vertical_default = /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_primitives12.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 18.25L12.25 18.25L12.25 17.75L11.75 17.75L11.75 18.25Z", fill: "currentColor", stroke: "none" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 12.25L12.25 12.25L12.25 11.75L11.75 11.75L11.75 12.25Z", fill: "currentColor", stroke: "none" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 6.25L12.25 6.25L12.25 5.75L11.75 5.75L11.75 6.25Z", fill: "currentColor", stroke: "none" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 18.25L12.25 18.25L12.25 17.75L11.75 17.75L11.75 18.25Z", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 12.25L12.25 12.25L12.25 11.75L11.75 11.75L11.75 12.25Z", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_primitives12.Path, { d: "M11.75 6.25L12.25 6.25L12.25 5.75L11.75 5.75L11.75 6.25Z", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/icons/build-module/library/plus.mjs
   var import_primitives13 = __toESM(require_primitives(), 1);
@@ -608,7 +615,7 @@ var wp;
   // packages/icons/build-module/library/redo.mjs
   var import_primitives15 = __toESM(require_primitives(), 1);
   var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
-  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives15.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives15.Path, { d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z" }) });
+  var redo_default = /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives15.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_primitives15.Path, { d: "M15 15L18.5 11L15 7M18.5 11H8C5 11 4.75 13.8 4.75 17", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/star-empty.mjs
   var import_primitives16 = __toESM(require_primitives(), 1);
@@ -623,7 +630,7 @@ var wp;
   // packages/icons/build-module/library/undo.mjs
   var import_primitives18 = __toESM(require_primitives(), 1);
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_primitives18.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_primitives18.Path, { d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z" }) });
+  var undo_default = /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_primitives18.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_primitives18.Path, { d: "M8.25 15L4.75 11L8.25 7M4.75 11H15.25C18.25 11 18.5 13.8 18.5 17", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/interface/build-module/components/complementary-area/index.mjs
   var import_element3 = __toESM(require_element(), 1);
@@ -830,10 +837,9 @@ var wp;
     (select) => (state, scope, item) => {
       scope = normalizeComplementaryAreaScope(scope);
       item = normalizeComplementaryAreaName(scope, item);
-      const pinnedItems = select(import_preferences2.store).get(
-        scope,
-        "pinnedItems"
-      );
+      const pinnedItems = select(
+        import_preferences2.store
+      ).get(scope, "pinnedItems");
       return pinnedItems?.[item] ?? true;
     }
   );
@@ -1058,7 +1064,11 @@ var wp;
   function PinnedItems({ scope, ...props }) {
     return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_components3.Fill, { name: `PinnedItems/${scope}`, ...props });
   }
-  function PinnedItemsSlot({ scope, className, ...props }) {
+  function PinnedItemsSlot({
+    scope,
+    className,
+    ...props
+  }) {
     return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_components3.Slot, { name: `PinnedItems/${scope}`, ...props, children: (fills) => fills?.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
       "div",
       {
@@ -1076,7 +1086,10 @@ var wp;
   // packages/interface/build-module/components/complementary-area/index.mjs
   var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
   var ANIMATION_DURATION = 0.3;
-  function ComplementaryAreaSlot({ scope, ...props }) {
+  function ComplementaryAreaSlot({
+    scope,
+    ...props
+  }) {
     return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_components4.Slot, { name: `ComplementaryArea/${scope}`, ...props });
   }
   var variants = {
@@ -1086,7 +1099,10 @@ var wp;
     open: { width: "auto" },
     // Resolved with the `custom` value passed to `AnimatePresence`, which is
     // the only way an already removed element can be given a fresh transition.
-    closed: (transition) => ({ width: 0, transition })
+    closed: (transition) => ({
+      width: 0,
+      transition
+    })
   };
   function renderContainer(render, props) {
     if ((0, import_element3.isValidElement)(render)) {
@@ -1239,7 +1255,7 @@ var wp;
       if (isActiveByDefault && activeArea === void 0 && !isSmall) {
         enableComplementaryArea2(scope, identifier);
       } else if (activeArea === void 0 && isSmall) {
-        disableComplementaryArea2(scope, identifier);
+        disableComplementaryArea2(scope);
       }
       setIsReady(true);
     }, [
@@ -1295,8 +1311,6 @@ var wp;
               complementary_area_header_default,
               {
                 className: headerClassName,
-                closeLabel,
-                onClose: () => disableComplementaryArea2(scope),
                 toggleButtonProps: {
                   label: closeLabel,
                   size: "compact",
@@ -1335,20 +1349,31 @@ var wp;
   // node_modules/@base-ui/utils/useControlled.mjs
   var React = __toESM(require_react(), 1);
 
-  // node_modules/@base-ui/utils/error.mjs
-  var set;
+  // node_modules/@base-ui/utils/createLogOnce.mjs
+  var loggedMessages;
   if (true) {
-    set = /* @__PURE__ */ new Set();
+    loggedMessages = /* @__PURE__ */ new Set();
   }
-  function error(...messages) {
-    if (true) {
-      const messageKey = messages.join(" ");
-      if (!set.has(messageKey)) {
-        set.add(messageKey);
-        console.error(`Base UI: ${messageKey}`);
+  function createLogOnce(severity, prefix) {
+    return function logOnce(...messages) {
+      if (true) {
+        const message = messages.join(" ");
+        const output = prefix ? `${prefix}: ${message}` : message;
+        const key = `${severity}:${output}`;
+        if (!loggedMessages.has(key)) {
+          loggedMessages.add(key);
+          if (severity === "warn") {
+            console.warn(output);
+          } else {
+            console.error(output);
+          }
+        }
       }
-    }
+    };
   }
+
+  // node_modules/@base-ui/utils/error.mjs
+  var error = createLogOnce("error", "Base UI");
 
   // node_modules/@base-ui/utils/useControlled.mjs
   function useControlled({
@@ -1361,7 +1386,7 @@ var wp;
       current: isControlled
     } = React.useRef(controlled !== void 0);
     const [valueState, setValue] = React.useState(defaultProp);
-    const value = isControlled ? controlled : valueState;
+    const value = isControlled && controlled !== void 0 ? controlled : valueState;
     if (true) {
       React.useEffect(() => {
         if (isControlled !== (controlled !== void 0)) {
@@ -1462,19 +1487,13 @@ var wp;
   }
 
   // node_modules/@base-ui/utils/warn.mjs
-  var set2;
-  if (true) {
-    set2 = /* @__PURE__ */ new Set();
+  var warn = createLogOnce("warn", "Base UI");
+
+  // node_modules/@base-ui/utils/empty.mjs
+  function NOOP() {
   }
-  function warn(...messages) {
-    if (true) {
-      const messageKey = messages.join(" ");
-      if (!set2.has(messageKey)) {
-        set2.add(messageKey);
-        console.warn(`Base UI: ${messageKey}`);
-      }
-    }
-  }
+  var EMPTY_ARRAY = Object.freeze([]);
+  var EMPTY_OBJECT = Object.freeze({});
 
   // node_modules/@base-ui/utils/useIsoLayoutEffect.mjs
   var React4 = __toESM(require_react(), 1);
@@ -1610,12 +1629,6 @@ var wp;
     }
     return void 0;
   }
-
-  // node_modules/@base-ui/utils/empty.mjs
-  function NOOP() {
-  }
-  var EMPTY_ARRAY = Object.freeze([]);
-  var EMPTY_OBJECT = Object.freeze({});
 
   // node_modules/@base-ui/react/internals/getStateAttributesProps.mjs
   function getStateAttributesProps(state, customMapping) {
@@ -1806,19 +1819,21 @@ var wp;
   // node_modules/@base-ui/react/internals/useRenderElement.mjs
   var import_react = __toESM(require_react(), 1);
   function useRenderElement(element, componentProps, params = {}) {
-    const renderProp = componentProps.render;
-    const outProps = useRenderElementProps(componentProps, params);
+    let renderProp = componentProps.render;
+    if (params.enabled !== false) {
+      renderProp = unwrapLazyRenderProp(renderProp);
+    }
+    const outProps = useRenderElementProps(componentProps, params, renderProp);
     if (params.enabled === false) {
       return null;
     }
     const state = params.state ?? EMPTY_OBJECT;
     return evaluateRenderProp(element, renderProp, outProps, state);
   }
-  function useRenderElementProps(componentProps, params = {}) {
+  function useRenderElementProps(componentProps, params, renderProp) {
     const {
       className: classNameProp,
-      style: styleProp,
-      render: renderProp
+      style: styleProp
     } = componentProps;
     const {
       state = EMPTY_OBJECT,
@@ -1861,6 +1876,13 @@ var wp;
   var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
   var COMPONENT_IDENTIFIER_PATTERN = /^[A-Z][A-Za-z0-9$]*$/;
   var LOWERCASE_CHARACTER_PATTERN = /[a-z]/;
+  function unwrapLazyRenderProp(render) {
+    if (render?.$$typeof !== REACT_LAZY_TYPE) {
+      return render;
+    }
+    const unwrapped = React7.Children.toArray(render)[0];
+    return /* @__PURE__ */ React7.isValidElement(unwrapped) ? unwrapped : render;
+  }
   function evaluateRenderProp(element, render, props, state) {
     if (render) {
       if (typeof render === "function") {
@@ -1871,17 +1893,12 @@ var wp;
       }
       const mergedProps = mergeProps(props, render.props);
       mergedProps.ref = props.ref;
-      let newElement = render;
-      if (newElement?.$$typeof === REACT_LAZY_TYPE) {
-        const children = React7.Children.toArray(render);
-        newElement = children[0];
-      }
       if (true) {
-        if (!/* @__PURE__ */ React7.isValidElement(newElement)) {
+        if (!/* @__PURE__ */ React7.isValidElement(render)) {
           throw new Error(["Base UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.", "A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.", "https://base-ui.com/r/invalid-render-prop"].join("\n"));
         }
       }
-      return /* @__PURE__ */ React7.cloneElement(newElement, mergedProps);
+      return /* @__PURE__ */ React7.cloneElement(render, mergedProps);
     }
     if (element) {
       if (typeof element === "string") {
@@ -2108,6 +2125,9 @@ var wp;
       if (index2 < 0 || index2 >= this.callbacks.length) {
         return;
       }
+      if (this.callbacks[index2] === null) {
+        return;
+      }
       this.callbacks[index2] = null;
       this.callbacksCount -= 1;
     }
@@ -2151,21 +2171,21 @@ var wp;
   }
 
   // node_modules/@base-ui/react/internals/useTransitionStatus.mjs
-  function useTransitionStatus(open, enableIdleState = false, deferEndingState = false) {
-    const [transitionStatus, setTransitionStatus] = React10.useState(open && enableIdleState ? "idle" : void 0);
-    const [mounted, setMounted] = React10.useState(open);
-    if (open && !mounted) {
+  function useTransitionStatus(open3, enableIdleState = false, deferEndingState = false, animateInitialOpen = false) {
+    const [transitionStatus, setTransitionStatus] = React10.useState(open3 && enableIdleState ? "idle" : void 0);
+    const [mounted, setMounted] = React10.useState(open3 && !animateInitialOpen);
+    if (open3 && !mounted) {
       setMounted(true);
       setTransitionStatus("starting");
     }
-    if (!open && mounted && transitionStatus !== "ending" && !deferEndingState) {
+    if (!open3 && mounted && transitionStatus !== "ending" && !deferEndingState) {
       setTransitionStatus("ending");
     }
-    if (!open && !mounted && transitionStatus === "ending") {
+    if (!open3 && !mounted && transitionStatus === "ending") {
       setTransitionStatus(void 0);
     }
     useIsoLayoutEffect(() => {
-      if (!open && mounted && transitionStatus !== "ending" && deferEndingState) {
+      if (!open3 && mounted && transitionStatus !== "ending" && deferEndingState) {
         const frame = AnimationFrame.request(() => {
           setTransitionStatus("ending");
         });
@@ -2174,9 +2194,9 @@ var wp;
         };
       }
       return void 0;
-    }, [open, mounted, transitionStatus, deferEndingState]);
+    }, [open3, mounted, transitionStatus, deferEndingState]);
     useIsoLayoutEffect(() => {
-      if (!open || enableIdleState) {
+      if (!open3 || enableIdleState) {
         return void 0;
       }
       const frame = AnimationFrame.request(() => {
@@ -2185,12 +2205,12 @@ var wp;
       return () => {
         AnimationFrame.cancel(frame);
       };
-    }, [enableIdleState, open]);
+    }, [enableIdleState, open3]);
     useIsoLayoutEffect(() => {
-      if (!open || !enableIdleState) {
+      if (!open3 || !enableIdleState) {
         return void 0;
       }
-      if (open && mounted && transitionStatus !== "idle") {
+      if (open3 && mounted && transitionStatus !== "idle") {
         setTransitionStatus("starting");
       }
       const frame = AnimationFrame.request(() => {
@@ -2199,7 +2219,7 @@ var wp;
       return () => {
         AnimationFrame.cancel(frame);
       };
-    }, [enableIdleState, open, mounted, transitionStatus]);
+    }, [enableIdleState, open3, mounted, transitionStatus]);
     return {
       mounted,
       setMounted,
@@ -2211,11 +2231,11 @@ var wp;
   function useCollapsibleRoot(parameters) {
     const {
       open: openParam,
-      defaultOpen,
+      defaultOpen = false,
       onOpenChange,
       disabled: disabled2
     } = parameters;
-    const [open, setOpen] = useControlled({
+    const [open3, setOpen] = useControlled({
       controlled: openParam,
       default: defaultOpen,
       name: "Collapsible",
@@ -2225,12 +2245,12 @@ var wp;
       mounted,
       setMounted,
       transitionStatus
-    } = useTransitionStatus(open, true, true);
+    } = useTransitionStatus(open3, true, true);
     const defaultPanelId = useBaseUiId();
     const [registeredPanelId, setPanelIdState] = React11.useState();
     const panelId = registeredPanelId === null ? void 0 : registeredPanelId ?? defaultPanelId;
     const handleTrigger = useStableCallback((event) => {
-      const nextOpen = !open;
+      const nextOpen = !open3;
       const eventDetails = createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent);
       onOpenChange(nextOpen, eventDetails);
       if (eventDetails.isCanceled) {
@@ -2243,13 +2263,13 @@ var wp;
       disabled: disabled2,
       handleTrigger,
       mounted,
-      open,
+      open: open3,
       panelId,
       setMounted,
       setOpen,
       setPanelIdState,
       transitionStatus
-    }), [defaultPanelId, disabled2, handleTrigger, mounted, open, panelId, setMounted, setOpen, setPanelIdState, transitionStatus]);
+    }), [defaultPanelId, disabled2, handleTrigger, mounted, open3, panelId, setMounted, setOpen, setPanelIdState, transitionStatus]);
   }
 
   // node_modules/@base-ui/react/collapsible/root/CollapsibleRootContext.mjs
@@ -2264,17 +2284,21 @@ var wp;
     return context;
   }
 
+  // node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs
+  var TransitionStatusDataAttributes_exports = {};
+  __export(TransitionStatusDataAttributes_exports, {
+    endingStyle: () => endingStyle,
+    startingStyle: () => startingStyle
+  });
+  var startingStyle = "data-starting-style";
+  var endingStyle = "data-ending-style";
+
   // node_modules/@base-ui/react/internals/stateAttributesMapping.mjs
-  var TransitionStatusDataAttributes = /* @__PURE__ */ (function(TransitionStatusDataAttributes2) {
-    TransitionStatusDataAttributes2["startingStyle"] = "data-starting-style";
-    TransitionStatusDataAttributes2["endingStyle"] = "data-ending-style";
-    return TransitionStatusDataAttributes2;
-  })({});
   var STARTING_HOOK = {
-    "data-starting-style": ""
+    [startingStyle]: ""
   };
   var ENDING_HOOK = {
-    "data-ending-style": ""
+    [endingStyle]: ""
   };
   var transitionStatusMapping = {
     transitionStatus(value) {
@@ -2289,32 +2313,26 @@ var wp;
   };
 
   // node_modules/@base-ui/react/collapsible/panel/CollapsiblePanelDataAttributes.mjs
-  var CollapsiblePanelDataAttributes = (function(CollapsiblePanelDataAttributes2) {
-    CollapsiblePanelDataAttributes2["open"] = "data-open";
-    CollapsiblePanelDataAttributes2["closed"] = "data-closed";
-    CollapsiblePanelDataAttributes2[CollapsiblePanelDataAttributes2["startingStyle"] = TransitionStatusDataAttributes.startingStyle] = "startingStyle";
-    CollapsiblePanelDataAttributes2[CollapsiblePanelDataAttributes2["endingStyle"] = TransitionStatusDataAttributes.endingStyle] = "endingStyle";
-    return CollapsiblePanelDataAttributes2;
-  })({});
+  var open = "data-open";
+  var closed = "data-closed";
+  var startingStyle2 = TransitionStatusDataAttributes_exports.startingStyle;
+  var endingStyle2 = TransitionStatusDataAttributes_exports.endingStyle;
 
   // node_modules/@base-ui/react/collapsible/trigger/CollapsibleTriggerDataAttributes.mjs
-  var CollapsibleTriggerDataAttributes = /* @__PURE__ */ (function(CollapsibleTriggerDataAttributes2) {
-    CollapsibleTriggerDataAttributes2["panelOpen"] = "data-panel-open";
-    return CollapsibleTriggerDataAttributes2;
-  })({});
+  var panelOpen = "data-panel-open";
 
   // node_modules/@base-ui/react/utils/collapsibleOpenStateMapping.mjs
   var PANEL_OPEN_HOOK = {
-    [CollapsiblePanelDataAttributes.open]: ""
+    [open]: ""
   };
   var PANEL_CLOSED_HOOK = {
-    [CollapsiblePanelDataAttributes.closed]: ""
+    [closed]: ""
   };
   var triggerOpenStateMapping = {
     open(value) {
       if (value) {
         return {
-          [CollapsibleTriggerDataAttributes.panelOpen]: ""
+          [panelOpen]: ""
         };
       }
       return null;
@@ -2768,7 +2786,23 @@ var wp;
   }
 
   // node_modules/@base-ui/react/internals/useAnimationsFinished.mjs
-  function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false) {
+  var pendingCallbacks = null;
+  function flushBeforePaint(fn) {
+    if (!pendingCallbacks) {
+      const callbacks = [];
+      pendingCallbacks = callbacks;
+      queueMicrotask(() => {
+        pendingCallbacks = null;
+        ReactDOM.flushSync(() => {
+          for (const callback of callbacks) {
+            callback();
+          }
+        });
+      });
+    }
+    pendingCallbacks.push(fn);
+  }
+  function useAnimationsFinished(elementOrRef, waitForStartingStyleRemoved = false, batch = false) {
     const frame = useAnimationFrame();
     return useStableCallback((fnToExecute, signal = null) => {
       frame.cancel();
@@ -2778,7 +2812,15 @@ var wp;
       }
       const resolvedElement = element;
       const done = () => {
-        ReactDOM.flushSync(fnToExecute);
+        if (!batch) {
+          ReactDOM.flushSync(fnToExecute);
+          return;
+        }
+        flushBeforePaint(() => {
+          if (!signal?.aborted) {
+            fnToExecute();
+          }
+        });
       };
       if (typeof resolvedElement.getAnimations !== "function" || globalThis.BASE_UI_ANIMATIONS_DISABLED) {
         fnToExecute();
@@ -2802,7 +2844,7 @@ var wp;
         });
       }
       if (waitForStartingStyleRemoved) {
-        const startingStyleAttribute = "data-starting-style";
+        const startingStyleAttribute = startingStyle;
         if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
           frame.request(exec);
           return;
@@ -2830,12 +2872,13 @@ var wp;
   function useOpenChangeComplete(parameters) {
     const {
       enabled = true,
-      open,
+      open: open3,
       ref,
+      batch = false,
       onComplete: onCompleteParam
     } = parameters;
     const onComplete = useStableCallback(onCompleteParam);
-    const runOnceAnimationsFinish = useAnimationsFinished(ref, open);
+    const runOnceAnimationsFinish = useAnimationsFinished(ref, open3, batch);
     React16.useEffect(() => {
       if (!enabled) {
         return void 0;
@@ -2845,7 +2888,7 @@ var wp;
       return () => {
         abortController.abort();
       };
-    }, [enabled, open, onComplete, runOnceAnimationsFinish]);
+    }, [enabled, open3, onComplete, runOnceAnimationsFinish]);
   }
 
   // node_modules/@base-ui/react/collapsible/panel/useCollapsiblePanel.mjs
@@ -2861,7 +2904,7 @@ var wp;
       keepMounted,
       mounted,
       onOpenChange,
-      open,
+      open: open3,
       setMounted,
       setOpen,
       transitionStatus
@@ -2871,20 +2914,20 @@ var wp;
     const [dimensions, setDimensionsUnwrapped] = React17.useState(EMPTY_DIMENSIONS);
     const lastMeasuredDimensionsRef = React17.useRef(EMPTY_DIMENSIONS);
     const shouldSkipNextOpenRef = React17.useRef(false);
-    const shouldPreventMountAnimationRef = React17.useRef(open);
+    const shouldPreventMountAnimationRef = React17.useRef(open3);
     const shouldPreventActivityResumeAnimationRef = React17.useRef(false);
     const [forcePanelIdle, setForcePanelIdle] = React17.useState(false);
     const pendingTemporaryStyleRestoreRef = React17.useRef(null);
     const mergedPanelRef = useMergedRefs(externalRef, panelRef);
-    const latestOpenRef = useValueAsRef(open);
+    const latestOpenRef = useValueAsRef(open3);
     const runOnceCloseAnimationsFinish = useAnimationsFinished(panelRef);
-    const hidden = !open && !mounted;
+    const hidden = !open3 && !mounted;
     const panelTransitionStatus = forcePanelIdle ? "idle" : transitionStatus;
-    const shouldPreventOpenAnimation = open && // These 2 refs are safe to read in render, they are only written from committed
+    const shouldPreventOpenAnimation = open3 && // These 2 refs are safe to read in render, they are only written from committed
     // layout/effect paths and gate one-shot motion suppression for the next open
     // lifecycle. They intentionally expose the last committed motion snapshot.
     (shouldPreventMountAnimationRef.current || shouldPreventActivityResumeAnimationRef.current);
-    const renderedDimensions = !open && mounted && // These 2 refs are also safe to read in render, both hold the last committed
+    const renderedDimensions = !open3 && mounted && // These 2 refs are also safe to read in render, both hold the last committed
     // animation mode and measurement. This fallback only restores a previously
     // measured pixel size after the live dimensions state has been reset back to `auto`.
     animationTypeRef.current === "css-animation" && dimensions.height === void 0 && dimensions.width === void 0 ? lastMeasuredDimensionsRef.current : dimensions;
@@ -2907,7 +2950,7 @@ var wp;
       };
     });
     const markActivityResumeAnimationSuppressed = useStableCallback(() => {
-      if (open && mounted && animationTypeRef.current === "css-animation") {
+      if (open3 && mounted && animationTypeRef.current === "css-animation") {
         shouldPreventActivityResumeAnimationRef.current = true;
       }
     });
@@ -2928,16 +2971,16 @@ var wp;
       if (!panel) {
         return void 0;
       }
-      if (!open && pendingTemporaryStyleRestoreRef.current) {
+      if (!open3 && pendingTemporaryStyleRestoreRef.current) {
         restorePendingTemporaryStyle();
       }
       const animationType = getAnimationType(panel, shouldPreventOpenAnimation);
       animationTypeRef.current = animationType;
-      if (open && transitionStatus === "idle" && shouldPreventMountAnimationRef.current && animationType === "css-animation") {
+      if (open3 && transitionStatus === "idle" && shouldPreventMountAnimationRef.current && animationType === "css-animation") {
         lastMeasuredDimensionsRef.current = getDimensions(panel);
         return void 0;
       }
-      if (open && transitionStatus === "starting") {
+      if (open3 && transitionStatus === "starting") {
         const skipNextOpen = shouldSkipNextOpenRef.current;
         shouldSkipNextOpenRef.current = false;
         if (animationType === "none") {
@@ -2968,7 +3011,7 @@ var wp;
         setForcePanelIdle(true);
         return void 0;
       }
-      if (!open && mounted && (transitionStatus === "idle" || transitionStatus === "starting")) {
+      if (!open3 && mounted && (transitionStatus === "idle" || transitionStatus === "starting")) {
         shouldPreventMountAnimationRef.current = false;
         shouldPreventActivityResumeAnimationRef.current = false;
         if (animationType === "none") {
@@ -2998,20 +3041,20 @@ var wp;
         restoreAnimationName();
       }
       return void 0;
-    }, [mounted, open, restorePendingTemporaryStyle, setDimensions, setMounted, setPendingTemporaryStyleRestore, shouldPreventOpenAnimation, transitionStatus]);
+    }, [mounted, open3, restorePendingTemporaryStyle, setDimensions, setMounted, setPendingTemporaryStyleRestore, shouldPreventOpenAnimation, transitionStatus]);
     useOpenChangeComplete({
-      enabled: open && mounted && panelTransitionStatus === "idle",
+      enabled: open3 && mounted && panelTransitionStatus === "idle",
       open: true,
       ref: panelRef,
       onComplete() {
-        if (!open) {
+        if (!open3) {
           return;
         }
         setDimensions(EMPTY_DIMENSIONS, false);
       }
     });
     React17.useEffect(() => {
-      if (open || !mounted || panelTransitionStatus !== "ending") {
+      if (open3 || !mounted || panelTransitionStatus !== "ending") {
         return void 0;
       }
       const panel = panelRef.current;
@@ -3034,7 +3077,7 @@ var wp;
         AnimationFrame.cancel(endingStyleFrame);
         abortController.abort();
       };
-    }, [latestOpenRef, mounted, open, panelTransitionStatus, runOnceCloseAnimationsFinish, setDimensions, setMounted]);
+    }, [latestOpenRef, mounted, open3, panelTransitionStatus, runOnceCloseAnimationsFinish, setDimensions, setMounted]);
     useIsoLayoutEffect(() => {
       const panel = panelRef.current;
       if (!panel || !hiddenUntilFound || !hidden) {
@@ -3058,12 +3101,12 @@ var wp;
       }
       return addEventListener(panel, "beforematch", handleBeforeMatch);
     }, [onOpenChange, setOpen]);
-    const shouldRender = keepMounted || hiddenUntilFound || mounted || open;
+    const shouldRender = keepMounted || hiddenUntilFound || mounted || open3;
     return {
       height: renderedDimensions.height,
       props: {
         ...shouldPersistHiddenTransitionStyles ? {
-          [CollapsiblePanelDataAttributes.startingStyle]: ""
+          [startingStyle2]: ""
         } : void 0,
         hidden,
         id: idParam
@@ -3145,6 +3188,7 @@ var wp;
   __export(parts_exports, {
     engine: () => engine_exports,
     env: () => env_exports,
+    mediaQuery: () => media_query_exports,
     os: () => os_exports,
     screenReader: () => screen_reader_exports
   });
@@ -3230,6 +3274,13 @@ var wp;
   });
   var jsdom = /jsdom|happydom/.test(lowerUserAgent);
 
+  // node_modules/@base-ui/utils/platform/media-query.mjs
+  var media_query_exports = {};
+  __export(media_query_exports, {
+    iOS: () => iOS
+  });
+  var iOS = "@supports (-webkit-touch-callout: none)";
+
   // node_modules/@base-ui/utils/useTimeout.mjs
   var EMPTY2 = 0;
   var Timeout = class _Timeout {
@@ -3273,6 +3324,15 @@ var wp;
   function isReactEvent(event) {
     return "nativeEvent" in event;
   }
+  function isVirtualClick(event) {
+    if (event.pointerType === "" && event.isTrusted) {
+      return true;
+    }
+    if (parts_exports.os.android && event.pointerType) {
+      return event.type === "click" && event.buttons === 1;
+    }
+    return event.detail === 0 && !event.pointerType;
+  }
   function isMouseLikePointerType(pointerType, strict) {
     const values = ["mouse", "pen"];
     if (!strict) {
@@ -3285,11 +3345,7 @@ var wp;
     return type === "click" || type === "mousedown" || type === "keydown" || type === "keyup";
   }
 
-  // node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
-  var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
-  var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
-
-  // node_modules/@base-ui/react/internals/shadowDom.mjs
+  // node_modules/@base-ui/utils/shadowDom.mjs
   function activeElement(doc) {
     let element = doc.activeElement;
     while (element?.shadowRoot?.activeElement != null) {
@@ -3318,10 +3374,76 @@ var wp;
   }
   function getTarget(event) {
     if ("composedPath" in event) {
-      return event.composedPath()[0];
+      return event.composedPath()[0] ?? event.target;
     }
     return event.target;
   }
+
+  // node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs
+  var FOCUSABLE_ATTRIBUTE = "data-base-ui-focusable";
+  var TYPEABLE_SELECTOR = "input:not([type='hidden']):not([disabled]),[contenteditable]:not([contenteditable='false']),textarea:not([disabled])";
+
+  // node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs
+  var open2 = "data-open";
+  var closed2 = "data-closed";
+  var anchorHidden = "data-anchor-hidden";
+
+  // node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs
+  var CommonTriggerDataAttributes_exports = {};
+  __export(CommonTriggerDataAttributes_exports, {
+    popupOpen: () => popupOpen,
+    pressed: () => pressed
+  });
+  var popupOpen = "data-popup-open";
+  var pressed = "data-pressed";
+
+  // node_modules/@base-ui/react/utils/popupStateMapping.mjs
+  var TRIGGER_HOOK = {
+    [popupOpen]: ""
+  };
+  var PRESSABLE_TRIGGER_HOOK = {
+    [popupOpen]: "",
+    [pressed]: ""
+  };
+  var POPUP_OPEN_HOOK = {
+    [open2]: ""
+  };
+  var POPUP_CLOSED_HOOK = {
+    [closed2]: ""
+  };
+  var ANCHOR_HIDDEN_HOOK = {
+    [anchorHidden]: ""
+  };
+  var triggerOpenStateMapping2 = {
+    open(value) {
+      if (value) {
+        return TRIGGER_HOOK;
+      }
+      return null;
+    }
+  };
+  var popupStateMapping = {
+    open(value) {
+      if (value) {
+        return POPUP_OPEN_HOOK;
+      }
+      return POPUP_CLOSED_HOOK;
+    },
+    anchorHidden(value) {
+      if (value) {
+        return ANCHOR_HIDDEN_HOOK;
+      }
+      return null;
+    }
+  };
+  var popupTransitionStateMapping = {
+    ...popupStateMapping,
+    ...transitionStatusMapping
+  };
+
+  // node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs
+  var popupOpen2 = CommonTriggerDataAttributes_exports.popupOpen;
+  var triggerDisabled = "data-trigger-disabled";
 
   // node_modules/@base-ui/react/floating-ui-react/utils/element.mjs
   function isTargetInsideEnabledTrigger(target, triggerElements) {
@@ -3330,11 +3452,11 @@ var wp;
     }
     const targetElement = target;
     if (triggerElements.hasElement(targetElement)) {
-      return !targetElement.hasAttribute("data-trigger-disabled");
+      return !targetElement.hasAttribute(triggerDisabled);
     }
     for (const [, trigger] of triggerElements.entries()) {
       if (contains(trigger, targetElement)) {
-        return !trigger.hasAttribute("data-trigger-disabled");
+        return !trigger.hasAttribute(triggerDisabled);
       }
     }
     return false;
@@ -3461,7 +3583,7 @@ var wp;
     open: false
   }) {
     const {
-      open
+      open: open3
     } = options;
     const store3 = "rootStore" in context ? context.rootStore : context;
     const floatingId = store3.useState("floatingId");
@@ -3476,10 +3598,10 @@ var wp;
       timeout
     } = groupContext;
     const [isInstantPhase, setIsInstantPhase] = React18.useState(false);
-    const openRef = React18.useRef(open);
+    const openRef = React18.useRef(open3);
     useIsoLayoutEffect(() => {
-      openRef.current = open;
-    }, [open]);
+      openRef.current = open3;
+    }, [open3]);
     useIsoLayoutEffect(() => {
       function unset() {
         currentContextRef.current?.setIsInstantPhase(false);
@@ -3491,7 +3613,7 @@ var wp;
       if (!currentIdRef.current) {
         return void 0;
       }
-      if (!open && currentIdRef.current === floatingId) {
+      if (!open3 && currentIdRef.current === floatingId) {
         setIsInstantPhase(false);
         if (timeoutMs) {
           const closingId = floatingId;
@@ -3510,9 +3632,9 @@ var wp;
         unset();
       }
       return void 0;
-    }, [open, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store3]);
+    }, [open3, floatingId, currentIdRef, delayRef, timeoutMs, initialDelayRef, currentContextRef, timeout, store3]);
     useIsoLayoutEffect(() => {
-      if (!open) {
+      if (!open3) {
         return;
       }
       const prevContext = currentContextRef.current;
@@ -3535,7 +3657,7 @@ var wp;
         setIsInstantPhase(false);
         prevContext?.setIsInstantPhase(false);
       }
-    }, [open, floatingId, store3, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
+    }, [open3, floatingId, store3, currentIdRef, delayRef, initialDelayRef, currentContextRef, timeout]);
     useIsoLayoutEffect(() => {
       return () => {
         if (currentIdRef.current === floatingId) {
@@ -3550,10 +3672,11 @@ var wp;
       };
     }, [currentContextRef, currentIdRef, delayRef, floatingId, initialDelayRef, timeout]);
     return React18.useMemo(() => ({
+      activeIdRef: currentIdRef,
       hasProvider,
       delayRef,
       isInstantPhase
-    }), [hasProvider, delayRef, isInstantPhase]);
+    }), [currentIdRef, hasProvider, delayRef, isInstantPhase]);
   }
 
   // node_modules/@base-ui/utils/mergeCleanups.mjs
@@ -4034,6 +4157,7 @@ var wp;
       style,
       children,
       container,
+      portalOwnerRole,
       ...elementProps
     } = componentProps;
     const {
@@ -4053,7 +4177,7 @@ var wp;
     const [focusManagerState, setFocusManagerState] = React20.useState(null);
     const focusInsideDisabledRef = React20.useRef(false);
     const modal = focusManagerState?.modal;
-    const open = focusManagerState?.open;
+    const open3 = focusManagerState?.open;
     const shouldRenderGuards = !!focusManagerState && !focusManagerState.modal && focusManagerState.open && !!portalNode;
     React20.useEffect(() => {
       if (!portalNode || modal) {
@@ -4075,12 +4199,12 @@ var wp;
       return mergeCleanups(addEventListener(portalNode, "focusin", onFocus, true), addEventListener(portalNode, "focusout", onFocus, true));
     }, [portalNode, modal]);
     useIsoLayoutEffect(() => {
-      if (!portalNode || open !== true || !focusInsideDisabledRef.current) {
+      if (!portalNode || open3 !== true || !focusInsideDisabledRef.current) {
         return;
       }
       enableFocusInside(portalNode);
       focusInsideDisabledRef.current = false;
-    }, [open, portalNode]);
+    }, [open3, portalNode]);
     const portalContextValue = React20.useMemo(() => ({
       beforeOutsideRef,
       afterOutsideRef,
@@ -4105,6 +4229,7 @@ var wp;
             }
           }
         }), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("span", {
+          role: portalOwnerRole,
           "aria-owns": portalNodeId,
           style: ownerVisuallyHidden
         }), portalNode && /* @__PURE__ */ ReactDOM2.createPortal(children, portalNode), shouldRenderGuards && portalNode && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(FocusGuard, {
@@ -4226,7 +4351,7 @@ var wp;
       axis = "both"
     } = props;
     const store3 = "rootStore" in context ? context.rootStore : context;
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const floating = store3.useState("floatingElement");
     const domReference = store3.useState("domReferenceElement");
     const dataRef = store3.context.dataRef;
@@ -4253,14 +4378,14 @@ var wp;
       }));
     });
     const handleReferenceEnterOrMove = useStableCallback((event) => {
-      if (!open) {
+      if (!open3) {
         setReference(event.clientX, event.clientY, event.currentTarget);
       } else if (!cleanupListenerRef.current) {
         setReference(event.clientX, event.clientY, event.currentTarget);
         setReactive([]);
       }
     });
-    const openCheck = isMouseLikePointerType(pointerType) ? floating : open;
+    const openCheck = isMouseLikePointerType(pointerType) ? floating : open3;
     React22.useEffect(() => {
       if (!enabled) {
         resetReference(domReference);
@@ -4298,10 +4423,10 @@ var wp;
       }
     }, [enabled, floating]);
     React22.useEffect(() => {
-      if (!enabled && open) {
+      if (!enabled && open3) {
         initialRef.current = true;
       }
-    }, [enabled, open]);
+    }, [enabled, open3]);
     const reference = React22.useMemo(() => {
       function setPointerTypeRef(event) {
         setPointerType(event.pointerType);
@@ -4341,10 +4466,11 @@ var wp;
       externalTree
     } = props;
     const store3 = "rootStore" in context ? context.rootStore : context;
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const floatingElement = store3.useState("floatingElement");
     const {
-      dataRef
+      dataRef,
+      events
     } = store3.context;
     const tree = useFloatingTree(externalTree);
     const outsidePressFn = useStableCallback(typeof outsidePressProp === "function" ? outsidePressProp : () => false);
@@ -4358,6 +4484,7 @@ var wp;
     const pressStartedInsideRef = React23.useRef(false);
     const pressStartPreventedRef = React23.useRef(false);
     const suppressNextOutsideClickRef = React23.useRef(false);
+    const sawPressWhileOpenRef = React23.useRef(false);
     const isComposingRef = React23.useRef(false);
     const currentPointerTypeRef = React23.useRef("");
     const touchStateRef = React23.useRef(null);
@@ -4382,7 +4509,7 @@ var wp;
       store3.setOpen(false, createChangeEventDetails(reason_parts_exports.triggerPress, event.nativeEvent));
     });
     const closeOnEscapeKeyDown = useStableCallback((event) => {
-      if (!open || !enabled || !escapeKey2 || event.key !== "Escape") {
+      if (!open3 || !enabled || !escapeKey2 || event.key !== "Escape") {
         return;
       }
       if (isComposingRef.current) {
@@ -4406,7 +4533,7 @@ var wp;
       clearInsideReactTreeTimeout.start(0, clearInsideReactTree);
     });
     const markPressStartedInsideReactTree = useStableCallback((event) => {
-      if (!open || !enabled || event.button !== 0) {
+      if (!open3 || !enabled || event.button !== 0) {
         return;
       }
       const target = getTarget(event.nativeEvent);
@@ -4419,7 +4546,7 @@ var wp;
       }
     });
     const markInsidePressStartPrevented = useStableCallback((event) => {
-      if (!open || !enabled) {
+      if (!open3 || !enabled) {
         return;
       }
       if (!(event.defaultPrevented || event.nativeEvent.defaultPrevented)) {
@@ -4430,13 +4557,28 @@ var wp;
       }
     });
     React23.useEffect(() => {
-      if (!open || !enabled) {
+      function handleOpenChange(details) {
+        if (!details.open) {
+          sawPressWhileOpenRef.current = false;
+        }
+      }
+      events.on("openchange", handleOpenChange);
+      return () => {
+        events.off("openchange", handleOpenChange);
+      };
+    }, [events]);
+    React23.useEffect(() => {
+      if (!open3 || !enabled) {
+        if (!open3) {
+          sawPressWhileOpenRef.current = false;
+        }
         return clearInsideReactTree;
       }
       dataRef.current.__escapeKeyBubbles = escapeKeyBubbles;
       dataRef.current.__outsidePressBubbles = outsidePressBubbles;
       const compositionTimeout = new Timeout();
       const preventedPressSuppressionTimeout = new Timeout();
+      const doc = ownerDocument(floatingElement);
       function handleCompositionStart() {
         compositionTimeout.clear();
         isComposingRef.current = true;
@@ -4533,10 +4675,15 @@ var wp;
         if (isEventWithinFloatingTree(event)) {
           return;
         }
-        if (getOutsidePressEvent() === "intentional" && suppressNextOutsideClickRef.current) {
-          preventedPressSuppressionTimeout.clear();
-          suppressNextOutsideClickRef.current = false;
-          return;
+        if (getOutsidePressEvent() === "intentional") {
+          if (event.detail !== 0 && !isVirtualClick(event) && !sawPressWhileOpenRef.current) {
+            return;
+          }
+          if (suppressNextOutsideClickRef.current) {
+            preventedPressSuppressionTimeout.clear();
+            suppressNextOutsideClickRef.current = false;
+            return;
+          }
         }
         if (typeof outsidePress2 === "function" && !outsidePress2(event)) {
           return;
@@ -4591,6 +4738,9 @@ var wp;
       function closeOnPressOutsideCapture(event) {
         cancelDismissOnEndTimeout.clear();
         if (event.type === "pointerdown") {
+          if (event.button === 0) {
+            sawPressWhileOpenRef.current = true;
+          }
           currentPointerTypeRef.current = event.pointerType;
         }
         if (event.type === "mousedown" && touchStateRef.current && !touchStateRef.current.dismissOnMouseDown) {
@@ -4605,6 +4755,9 @@ var wp;
         });
       }
       function handlePressEndCapture(event) {
+        if (event.type === "pointercancel") {
+          sawPressWhileOpenRef.current = false;
+        }
         if (!pressStartedInsideRef.current) {
           return;
         }
@@ -4669,8 +4822,16 @@ var wp;
       function handleTouchEndCapture(event) {
         addTargetEventListenerOnce(event, handleTouchEnd);
       }
-      const doc = ownerDocument(floatingElement);
-      const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, true), addEventListener(doc, "touchmove", handleTouchMoveCapture, true), addEventListener(doc, "touchend", handleTouchEndCapture, true)));
+      const unsubscribe = mergeCleanups(escapeKey2 && mergeCleanups(addEventListener(doc, "keydown", closeOnEscapeKeyDown), addEventListener(doc, "compositionstart", handleCompositionStart), addEventListener(doc, "compositionend", handleCompositionEnd)), outsidePressEnabled && mergeCleanups(addEventListener(doc, "click", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerdown", closeOnPressOutsideCapture, true), addEventListener(doc, "pointerup", handlePressEndCapture, true), addEventListener(doc, "pointercancel", handlePressEndCapture, true), addEventListener(doc, "mousedown", closeOnPressOutsideCapture, true), addEventListener(doc, "mouseup", handlePressEndCapture, true), addEventListener(doc, "touchstart", handleTouchStartCapture, {
+        capture: true,
+        passive: true
+      }), addEventListener(doc, "touchmove", handleTouchMoveCapture, {
+        capture: true,
+        passive: true
+      }), addEventListener(doc, "touchend", handleTouchEndCapture, {
+        capture: true,
+        passive: true
+      })));
       return () => {
         unsubscribe();
         compositionTimeout.clear();
@@ -4679,7 +4840,7 @@ var wp;
         suppressNextOutsideClickRef.current = false;
         clearInsideReactTree();
       };
-    }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store3, cancelDismissOnEndTimeout]);
+    }, [dataRef, floatingElement, escapeKey2, outsidePressEnabled, outsidePress2, open3, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, clearInsideReactTree, getOutsidePressEventProp, hasBlockingChild, isEventWithinOwnElements, tree, store3, cancelDismissOnEndTimeout]);
     const reference = React23.useMemo(() => ({
       onKeyDown: closeOnEscapeKeyDown,
       onPointerDown: closeOnReferencePress,
@@ -5258,25 +5419,25 @@ var wp;
         const overflowAvailableWidth = min(width - overflow[widthSide], maximumClippingWidth);
         const shiftData = state.middlewareData.shift;
         const noShift = !shiftData;
-        let availableHeight = overflowAvailableHeight;
-        let availableWidth = overflowAvailableWidth;
+        let availableHeight2 = overflowAvailableHeight;
+        let availableWidth2 = overflowAvailableWidth;
         if (shiftData != null && shiftData.enabled.x) {
-          availableWidth = maximumClippingWidth;
+          availableWidth2 = maximumClippingWidth;
         }
         if (shiftData != null && shiftData.enabled.y) {
-          availableHeight = maximumClippingHeight;
+          availableHeight2 = maximumClippingHeight;
         }
         if (noShift && !alignment) {
           if (isYAxis) {
-            availableWidth = width - 2 * max(overflow.left, overflow.right);
+            availableWidth2 = width - 2 * max(overflow.left, overflow.right);
           } else {
-            availableHeight = height - 2 * max(overflow.top, overflow.bottom);
+            availableHeight2 = height - 2 * max(overflow.top, overflow.bottom);
           }
         }
         await apply({
           ...state,
-          availableWidth,
-          availableHeight
+          availableWidth: availableWidth2,
+          availableHeight: availableHeight2
         });
         const nextDimensions = await platform3.getDimensions(elements.floating);
         if (width !== nextDimensions.width || height !== nextDimensions.height) {
@@ -5986,7 +6147,7 @@ var wp;
       } = {},
       transform = true,
       whileElementsMounted,
-      open
+      open: open3
     } = options;
     const [data, setData] = React24.useState({
       x: 0,
@@ -6022,7 +6183,7 @@ var wp;
     const hasWhileElementsMounted = whileElementsMounted != null;
     const whileElementsMountedRef = useLatestRef(whileElementsMounted);
     const platformRef = useLatestRef(platform3);
-    const openRef = useLatestRef(open);
+    const openRef = useLatestRef(open3);
     const update2 = React24.useCallback(() => {
       if (!referenceRef.current || !floatingRef.current) {
         return;
@@ -6053,14 +6214,14 @@ var wp;
       });
     }, [latestMiddleware, placement, strategy, platformRef, openRef]);
     index(() => {
-      if (open === false && dataRef.current.isPositioned) {
+      if (open3 === false && dataRef.current.isPositioned) {
         dataRef.current.isPositioned = false;
         setData((data2) => ({
           ...data2,
           isPositioned: false
         }));
       }
-    }, [open]);
+    }, [open3]);
     const isMountedRef = React24.useRef(false);
     index(() => {
       isMountedRef.current = true;
@@ -6230,8 +6391,8 @@ var wp;
     }
     /**
      * Points the handle at a root's store and notifies subscribers so detached triggers re-render and
-     * re-register into it (their registration ref re-fires on the store-pointer change). Returns a
-     * cleanup function that detaches the store again.
+     * re-register into it (their registration effect migrates them when the store pointer changes).
+     * Returns a cleanup function that detaches the store again.
      * @internal
      */
     attachStore(newStore) {
@@ -6475,6 +6636,14 @@ var wp;
   // node_modules/@base-ui/utils/store/Store.mjs
   var Store = class {
     /**
+     * Creates a store with the given initial state, constructing the class it is called on.
+     * Calling it on a generic base class (e.g. `ReactStore.create(...)`) constructs that
+     * class but degrades the inferred instance type to `Store`; use `new` there instead.
+     */
+    static create(state) {
+      return new this(state);
+    }
+    /**
      * The current state of the store.
      * This property is updated immediately when the state changes as a result of calling {@link setState}, {@link update}, or {@link set}.
      * To subscribe to state changes, use the {@link useState} method. The value returned by {@link useState} is updated after the component renders (similarly to React's useState).
@@ -6527,6 +6696,8 @@ var wp;
     }
     /**
      * Merges the provided changes into the current state and notifies listeners if there are changes.
+     * Each value must match its state key. Pass an exact known subset rather than a broad
+     * `Partial<State>`, which may contain `undefined` for required state fields.
      *
      * @param changes An object containing the changes to apply to the current state.
      */
@@ -6622,9 +6793,13 @@ var wp;
     }
     /**
      * Synchronizes multiple external values into the store.
+     * Each value must match its state key. Pass an exact known subset rather than a broad
+     * `Partial<State>`, which may contain `undefined` for required state fields.
      *
      * Note that the while the values in `state` are updated immediately, the values returned
      * by `useState` are updated before the next render (similarly to React's `useState`).
+     *
+     * @param statePart An exact subset of state fields to synchronize. Unknown keys are not accepted.
      */
     useSyncedValues(statePart) {
       const store3 = this;
@@ -6823,7 +6998,7 @@ var wp;
       nested,
       onOpenChange
     } = options;
-    const open = popupStore.useState("open");
+    const open3 = popupStore.useState("open");
     const referenceElement = popupStore.useState("activeTriggerElement");
     const floatingElement = popupStore.useState(treatPopupAsFloatingElement ? "popupElement" : "positionerElement");
     const triggerElements = popupStore.context.triggerElements;
@@ -6831,7 +7006,7 @@ var wp;
     const internalStoreRef = React28.useRef(null);
     if (floatingRootContextProp === void 0 && internalStoreRef.current === null) {
       internalStoreRef.current = new FloatingRootStore({
-        open,
+        open: open3,
         transitionStatus: void 0,
         referenceElement,
         floatingElement,
@@ -6846,7 +7021,7 @@ var wp;
     popupStore.useSyncedValue("floatingId", floatingId);
     useIsoLayoutEffect(() => {
       const valuesToSync = {
-        open,
+        open: open3,
         floatingId,
         referenceElement,
         floatingElement
@@ -6858,7 +7033,7 @@ var wp;
         valuesToSync.positionReference = referenceElement;
       }
       store3.update(valuesToSync);
-    }, [open, floatingId, referenceElement, floatingElement, store3]);
+    }, [open3, floatingId, referenceElement, floatingElement, store3]);
     store3.context.onOpenChange = handleOpenChange;
     store3.context.nested = nested;
     return store3;
@@ -6892,50 +7067,58 @@ var wp;
     }, [handle, store3]);
     return null;
   }
-  function useTriggerRegistration(id, store3) {
-    const registeredElementIdRef = React29.useRef(null);
-    const registeredElementRef = React29.useRef(null);
-    return React29.useCallback((element) => {
-      if (id === void 0) {
-        return;
-      }
-      let shouldSyncTriggerCount = false;
-      if (registeredElementIdRef.current !== null) {
-        const registeredId = registeredElementIdRef.current;
-        const registeredElement = registeredElementRef.current;
-        const currentElement = store3.context.triggerElements.getById(registeredId);
-        if (registeredElement && currentElement === registeredElement) {
-          store3.context.triggerElements.delete(registeredId);
-          shouldSyncTriggerCount = true;
-        }
-        registeredElementIdRef.current = null;
-        registeredElementRef.current = null;
-      }
-      if (element !== null) {
-        registeredElementIdRef.current = id;
-        registeredElementRef.current = element;
-        store3.context.triggerElements.add(id, element);
-        shouldSyncTriggerCount = true;
-      }
-      if (shouldSyncTriggerCount) {
-        const triggerCount = store3.context.triggerElements.size;
-        if (store3.select("open") && store3.state.triggerCount !== triggerCount) {
-          store3.set("triggerCount", triggerCount);
-        }
-      }
-    }, [store3, id]);
+  function syncTriggerCount(store3) {
+    const triggerCount = store3.context.triggerElements.size;
+    if (store3.select("open") && store3.state.triggerCount !== triggerCount) {
+      store3.set("triggerCount", triggerCount);
+    }
   }
-  function setPopupOpenState(state, open, trigger, preventUnmountOnClose = false) {
-    if (open) {
-      state.preventUnmountingOnClose = false;
+  function useTriggerRegistration(id, store3) {
+    const registrationRef = React29.useRef(null);
+    return useStableCallback((element) => {
+      const registration = registrationRef.current;
+      if (registration !== null) {
+        if (registration.element === element && registration.store === store3 && registration.id === id) {
+          return;
+        }
+        registrationRef.current = null;
+        const registeredStore = registration.store;
+        if (registeredStore.context.triggerElements.getById(registration.id) === registration.element) {
+          registeredStore.context.triggerElements.delete(registration.id);
+          syncTriggerCount(registeredStore);
+        }
+      }
+      if (element !== null && id !== void 0) {
+        registrationRef.current = {
+          store: store3,
+          id,
+          element
+        };
+        store3.context.triggerElements.add(id, element);
+        syncTriggerCount(store3);
+      }
+    });
+  }
+  function createPopupOpenState(state, open3, trigger, preventUnmountOnClose = false) {
+    let preventUnmountingOnClose = state.preventUnmountingOnClose;
+    if (open3) {
+      preventUnmountingOnClose = false;
     } else if (preventUnmountOnClose) {
-      state.preventUnmountingOnClose = true;
+      preventUnmountingOnClose = true;
     }
     const triggerId = trigger?.id ?? null;
-    if (triggerId || open) {
-      state.activeTriggerId = triggerId;
-      state.activeTriggerElement = trigger ?? null;
+    let activeTriggerId = state.activeTriggerId;
+    let activeTriggerElement = state.activeTriggerElement;
+    if (triggerId || open3) {
+      activeTriggerId = triggerId;
+      activeTriggerElement = trigger ?? null;
     }
+    return {
+      open: open3,
+      preventUnmountingOnClose,
+      activeTriggerId,
+      activeTriggerElement
+    };
   }
   function attachPreventUnmountOnClose(eventDetails) {
     let preventUnmountOnClose = false;
@@ -6957,9 +7140,10 @@ var wp;
     options.onBeforeDispatch?.();
     store3.state.floatingRootContext.dispatchOpenChange(nextOpen, eventDetails);
     const changeState = () => {
+      const popupOpenState = createPopupOpenState(store3.state, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
       const updatedState = {
         ...options.extraState,
-        open: nextOpen
+        ...popupOpenState
       };
       if (isFocusOpen) {
         updatedState.instantType = "focus";
@@ -6968,7 +7152,6 @@ var wp;
       } else if (isHover) {
         updatedState.instantType = void 0;
       }
-      setPopupOpenState(updatedState, nextOpen, eventDetails.trigger, shouldPreventUnmountOnClose());
       store3.update(updatedState);
     };
     if (isHover) {
@@ -6981,35 +7164,42 @@ var wp;
     const isMountedByThisTrigger = store3.useState("isMountedByTrigger", triggerId);
     const baseRegisterTrigger = useTriggerRegistration(triggerId, store3);
     const applyTriggerData = useStableCallback((element) => {
-      const open = store3.select("open");
+      const open3 = store3.select("open");
       const activeTriggerId = store3.select("activeTriggerId");
       if (activeTriggerId === triggerId) {
-        store3.update({
+        const changes = {
           activeTriggerElement: element,
-          ...open ? stateUpdates : null
-        });
+          ...open3 ? stateUpdates : null
+        };
+        store3.update(changes);
         return;
       }
-      if (activeTriggerId == null && open) {
-        store3.update({
-          activeTriggerId: triggerId,
+      if (activeTriggerId == null && open3) {
+        const changes = {
+          activeTriggerId: triggerId ?? null,
           activeTriggerElement: element,
           ...stateUpdates
-        });
+        };
+        store3.update(changes);
       }
     });
-    const registerTrigger = React29.useCallback((element) => {
+    const registerTrigger = useStableCallback((element) => {
       baseRegisterTrigger(element);
       if (element) {
         applyTriggerData(element);
       }
-    }, [baseRegisterTrigger, applyTriggerData]);
+    });
+    useIsoLayoutEffect(() => {
+      registerTrigger(triggerElementRef.current);
+      return () => registerTrigger(null);
+    }, [registerTrigger, triggerElementRef, store3, triggerId]);
     useIsoLayoutEffect(() => {
       if (isMountedByThisTrigger) {
-        store3.update({
+        const changes = {
           activeTriggerElement: triggerElementRef.current,
           ...stateUpdates
-        });
+        };
+        store3.update(changes);
       }
     }, [isMountedByThisTrigger, store3, triggerElementRef, ...Object.values(stateUpdates)]);
     return {
@@ -7022,12 +7212,12 @@ var wp;
       closeOnActiveTriggerUnmount = false
     } = options;
     const resolvedActiveTriggerIdRef = React29.useRef(null);
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const reactiveTriggerCount = store3.useState("triggerCount");
     const activeTriggerId = store3.useState("activeTriggerId");
     const reactiveActiveTriggerElement = store3.useState("activeTriggerElement");
     useIsoLayoutEffect(() => {
-      if (!open) {
+      if (!open3) {
         resolvedActiveTriggerIdRef.current = null;
         if (store3.state.triggerCount !== 0) {
           store3.set("triggerCount", 0);
@@ -7096,16 +7286,16 @@ var wp;
           });
         }
       }
-    }, [open, store3, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
+    }, [open3, store3, reactiveTriggerCount, activeTriggerId, reactiveActiveTriggerElement, closeOnActiveTriggerUnmount]);
   }
-  function useOpenStateTransitions(open, store3, onUnmount) {
+  function useOpenStateTransitions(open3, store3, onUnmount, animateInitialOpen) {
     const {
       mounted,
       setMounted,
       transitionStatus
-    } = useTransitionStatus(open);
+    } = useTransitionStatus(open3, false, false, animateInitialOpen);
     const preventUnmountingOnClose = store3.useState("preventUnmountingOnClose");
-    const syncedPreventUnmountingOnClose = open ? false : preventUnmountingOnClose;
+    const syncedPreventUnmountingOnClose = open3 ? false : preventUnmountingOnClose;
     store3.useSyncedValues({
       mounted,
       transitionStatus,
@@ -7123,11 +7313,11 @@ var wp;
       store3.context.onOpenChangeComplete?.(false);
     });
     useOpenChangeComplete({
-      enabled: mounted && !open && !syncedPreventUnmountingOnClose,
-      open,
+      enabled: mounted && !open3 && !syncedPreventUnmountingOnClose,
+      open: open3,
       ref: store3.context.popupRef,
       onComplete() {
-        if (!open) {
+        if (!open3) {
           forceUnmount();
         }
       }
@@ -7243,30 +7433,25 @@ var wp;
     }
   };
 
-  // node_modules/@base-ui/react/floating-ui-react/utils/getEmptyRootContext.mjs
-  function getEmptyRootContext() {
-    return new FloatingRootStore({
-      open: false,
-      transitionStatus: void 0,
-      floatingElement: null,
-      referenceElement: null,
-      triggerElements: new PopupTriggerMap(),
-      floatingId: void 0,
-      syncOnly: false,
-      nested: false,
-      onOpenChange: void 0
-    });
-  }
-
   // node_modules/@base-ui/react/utils/popups/store.mjs
-  function createInitialPopupStoreState() {
+  function createInitialPopupStoreState(triggerElements, floatingId, nested = false) {
     return {
       open: false,
       openProp: void 0,
       mounted: false,
       transitionStatus: void 0,
-      floatingRootContext: getEmptyRootContext(),
-      floatingId: void 0,
+      floatingRootContext: new FloatingRootStore({
+        open: false,
+        transitionStatus: void 0,
+        floatingElement: null,
+        referenceElement: null,
+        triggerElements,
+        floatingId,
+        syncOnly: true,
+        nested,
+        onOpenChange: void 0
+      }),
+      floatingId,
       triggerCount: 0,
       preventUnmountingOnClose: false,
       payload: void 0,
@@ -7279,19 +7464,6 @@ var wp;
       inactiveTriggerProps: EMPTY_OBJECT,
       popupProps: EMPTY_OBJECT
     };
-  }
-  function createPopupFloatingRootContext(triggerElements, floatingId, nested = false) {
-    return new FloatingRootStore({
-      open: false,
-      transitionStatus: void 0,
-      floatingElement: null,
-      referenceElement: null,
-      triggerElements,
-      floatingId,
-      syncOnly: true,
-      nested,
-      onOpenChange: void 0
-    });
   }
   var activeTriggerIdSelector = (state) => state.triggerIdProp ?? state.activeTriggerId;
   var openSelector = (state) => state.openProp ?? state.open;
@@ -7369,7 +7541,7 @@ var wp;
     const referenceElement = store3.useState("referenceElement");
     const floatingElement = store3.useState("floatingElement");
     const domReferenceElement = store3.useState("domReferenceElement");
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const floatingId = store3.useState("floatingId");
     const [positionReference, setPositionReferenceRaw] = React31.useState(null);
     const [localDomReference, setLocalDomReference] = React31.useState(void 0);
@@ -7434,7 +7606,7 @@ var wp;
     const context = React31.useMemo(() => ({
       ...position,
       dataRef: store3.context.dataRef,
-      open,
+      open: open3,
       onOpenChange: store3.setOpen,
       events: store3.context.events,
       floatingId,
@@ -7442,7 +7614,7 @@ var wp;
       elements,
       nodeId,
       rootStore: store3
-    }), [position, refs, elements, nodeId, store3, open, floatingId]);
+    }), [position, refs, elements, nodeId, store3, open3, floatingId]);
     useIsoLayoutEffect(() => {
       if (domReferenceElement) {
         domReferenceRef.current = domReferenceElement;
@@ -7491,6 +7663,7 @@ var wp;
         const currentDomReference = store3.select("domReferenceElement");
         if (!store3.select("open") && isHTMLElement(currentDomReference) && currentDomReference === activeElement(ownerDocument(currentDomReference))) {
           blockFocusRef.current = true;
+          blockedReferenceRef.current = currentDomReference;
         }
       }
       function onKeyDown() {
@@ -7677,7 +7850,7 @@ var wp;
       nodeId: nodeIdProp
     } = parameters;
     const store3 = "rootStore" in context ? context.rootStore : context;
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const floatingElement = store3.useState("floatingElement");
     const domReferenceElement = store3.useState("domReferenceElement");
     const {
@@ -7697,13 +7870,13 @@ var wp;
       clearSafePolygonPointerEventsMutation(instance);
     });
     useIsoLayoutEffect(() => {
-      if (!open) {
+      if (!open3) {
         instance.pointerType = void 0;
         instance.restTimeoutPending = false;
         instance.interactedInside = false;
         clearPointerEvents();
       }
-    }, [open, instance, clearPointerEvents]);
+    }, [open3, instance, clearPointerEvents]);
     React33.useEffect(() => {
       return clearPointerEvents;
     }, [clearPointerEvents]);
@@ -7711,7 +7884,7 @@ var wp;
       if (!enabled) {
         return void 0;
       }
-      if (open && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
+      if (open3 && instance.handleCloseOptions?.blockPointerEvents && isHoverOpen() && isElement(domReferenceElement) && floatingElement) {
         const ref = domReferenceElement;
         const floatingEl = floatingElement;
         const doc = ownerDocument(floatingElement);
@@ -7732,7 +7905,7 @@ var wp;
         };
       }
       return void 0;
-    }, [enabled, open, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
+    }, [enabled, open3, domReferenceElement, floatingElement, instance, isHoverOpen, tree, parentId, clearPointerEvents]);
     React33.useEffect(() => {
       if (!enabled) {
         return void 0;
@@ -7872,7 +8045,7 @@ var wp;
       clearSafePolygonPointerEventsMutation(instance);
     });
     if (isActiveTrigger) {
-      instance.handleCloseOptions = handleCloseRef.current?.__options;
+      instance.handleCloseOptions = handleClose?.__options;
     }
     React34.useEffect(() => cleanupMouseMoveHandler, [cleanupMouseMoveHandler]);
     React34.useEffect(() => {
@@ -8322,56 +8495,6 @@ var wp;
     }
   };
 
-  // node_modules/@base-ui/react/utils/popupStateMapping.mjs
-  var CommonPopupDataAttributes = (function(CommonPopupDataAttributes2) {
-    CommonPopupDataAttributes2["open"] = "data-open";
-    CommonPopupDataAttributes2["closed"] = "data-closed";
-    CommonPopupDataAttributes2[CommonPopupDataAttributes2["startingStyle"] = TransitionStatusDataAttributes.startingStyle] = "startingStyle";
-    CommonPopupDataAttributes2[CommonPopupDataAttributes2["endingStyle"] = TransitionStatusDataAttributes.endingStyle] = "endingStyle";
-    CommonPopupDataAttributes2["anchorHidden"] = "data-anchor-hidden";
-    CommonPopupDataAttributes2["side"] = "data-side";
-    CommonPopupDataAttributes2["align"] = "data-align";
-    return CommonPopupDataAttributes2;
-  })({});
-  var TRIGGER_HOOK = {
-    "data-popup-open": ""
-  };
-  var POPUP_OPEN_HOOK = {
-    "data-open": ""
-  };
-  var POPUP_CLOSED_HOOK = {
-    "data-closed": ""
-  };
-  var ANCHOR_HIDDEN_HOOK = {
-    "data-anchor-hidden": ""
-  };
-  var triggerOpenStateMapping2 = {
-    open(value) {
-      if (value) {
-        return TRIGGER_HOOK;
-      }
-      return null;
-    }
-  };
-  var popupStateMapping = {
-    open(value) {
-      if (value) {
-        return POPUP_OPEN_HOOK;
-      }
-      return POPUP_CLOSED_HOOK;
-    },
-    anchorHidden(value) {
-      if (value) {
-        return ANCHOR_HIDDEN_HOOK;
-      }
-      return null;
-    }
-  };
-  var popupTransitionStateMapping = {
-    ...popupStateMapping,
-    ...transitionStatusMapping
-  };
-
   // node_modules/@base-ui/utils/inertValue.mjs
   function inertValue(value) {
     if (isReactVersionAtLeast(19)) {
@@ -8456,10 +8579,17 @@ var wp;
       };
     }
   });
-  var arrow4 = (options, deps) => ({
-    ...baseArrow(options),
-    options: [options, deps]
-  });
+  var arrow4 = (options, deps) => {
+    const {
+      name: name2,
+      fn
+    } = baseArrow(options);
+    return {
+      name: name2,
+      fn,
+      options: [options, deps]
+    };
+  };
 
   // node_modules/@base-ui/react/utils/hideMiddleware.mjs
   var hide4 = {
@@ -8471,14 +8601,14 @@ var wp;
         x,
         y
       } = state.rects.reference;
-      const anchorHidden = width === 0 && height === 0 && x === 0 && y === 0;
+      const anchorHidden2 = width === 0 && height === 0 && x === 0 && y === 0;
       const overflow = await state.platform.detectOverflow(state, {
         elementContext: "reference"
       });
       const referenceHidden = overflow.top - height >= 0 || overflow.right - width >= 0 || overflow.bottom - height >= 0 || overflow.left - width >= 0;
       return {
         data: {
-          referenceHidden: referenceHidden || anchorHidden
+          referenceHidden: referenceHidden || anchorHidden2
         }
       };
     }
@@ -8490,9 +8620,18 @@ var wp;
     sideY: "top"
   };
 
+  // node_modules/@base-ui/react/utils/CommonPositionerCssVars.mjs
+  var availableWidth = "--available-width";
+  var availableHeight = "--available-height";
+  var anchorWidth = "--anchor-width";
+  var anchorHeight = "--anchor-height";
+  var transformOrigin = "--transform-origin";
+  var positionerWidth = "--positioner-width";
+  var positionerHeight = "--positioner-height";
+
   // node_modules/@base-ui/react/internals/useAnchorPositioning.mjs
-  var AVAILABLE_WIDTH_VAR = "--available-width";
-  var AVAILABLE_HEIGHT_VAR = "--available-height";
+  var AVAILABLE_WIDTH_VAR = availableWidth;
+  var AVAILABLE_HEIGHT_VAR = availableHeight;
   function getLogicalSide(sideParam, renderedSide, isRtl) {
     const isLogicalSideParam = sideParam === "inline-start" || sideParam === "inline-end";
     const logicalRight = isRtl ? "inline-start" : "inline-end";
@@ -8670,16 +8809,16 @@ var wp;
         elements: {
           floating
         },
-        availableWidth,
-        availableHeight,
+        availableWidth: availableWidth2,
+        availableHeight: availableHeight2,
         rects
       }) {
         if (!mountedRef.current) {
           return;
         }
         const floatingStyle = floating.style;
-        floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth}px`);
-        floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight}px`);
+        floatingStyle.setProperty(AVAILABLE_WIDTH_VAR, `${availableWidth2}px`);
+        floatingStyle.setProperty(AVAILABLE_HEIGHT_VAR, `${availableHeight2}px`);
         const dpr = getWindow(floating).devicePixelRatio || 1;
         const {
           x: x2,
@@ -8687,48 +8826,49 @@ var wp;
           width,
           height
         } = rects.reference;
-        const anchorWidth = (Math.round((x2 + width) * dpr) - Math.round(x2 * dpr)) / dpr;
-        const anchorHeight = (Math.round((y2 + height) * dpr) - Math.round(y2 * dpr)) / dpr;
-        floatingStyle.setProperty("--anchor-width", `${anchorWidth}px`);
-        floatingStyle.setProperty("--anchor-height", `${anchorHeight}px`);
+        const anchorWidth2 = (Math.round((x2 + width) * dpr) - Math.round(x2 * dpr)) / dpr;
+        const anchorHeight2 = (Math.round((y2 + height) * dpr) - Math.round(y2 * dpr)) / dpr;
+        floatingStyle.setProperty(anchorWidth, `${anchorWidth2}px`);
+        floatingStyle.setProperty(anchorHeight, `${anchorHeight2}px`);
       }
     }), arrow4((state) => ({
       // `transform-origin` calculations rely on an element existing. If the arrow hasn't been set,
       // we'll create a fake element.
       element: arrowRef.current || ownerDocument(state.elements.floating).createElement("div"),
-      padding: arrowPadding,
+      // No padding for the fake arrow: it would displace aligned popups on narrow anchors.
+      padding: arrowRef.current ? arrowPadding : 0,
       offsetParent: "floating"
     }), [arrowPadding]), {
       name: "transformOrigin",
       fn(state) {
         const {
-          elements: elements2,
+          elements: {
+            floating
+          },
           middlewareData: middlewareData2,
           placement: renderedPlacement2,
+          platform: platform3,
           rects,
           y: y2
         } = state;
-        const currentRenderedSide = getSide(renderedPlacement2);
-        const currentRenderedAxis = getSideAxis(currentRenderedSide);
+        const renderedSide2 = getSide(renderedPlacement2);
+        const renderedAlign2 = getAlignment(renderedPlacement2);
+        const isVertical = getSideAxis(renderedSide2) === "y";
         const arrowEl = arrowRef.current;
-        const arrowX = middlewareData2.arrow?.x || 0;
-        const arrowY = middlewareData2.arrow?.y || 0;
-        const arrowWidth = arrowEl?.clientWidth || 0;
-        const arrowHeight = arrowEl?.clientHeight || 0;
-        const transformX = arrowX + arrowWidth / 2;
-        const transformY = arrowY + arrowHeight / 2;
-        const shiftY = Math.abs(middlewareData2.shift?.y || 0);
-        const halfAnchorHeight = rects.reference.height / 2;
         const sideOffsetValue = typeof sideOffset === "function" ? sideOffset(getOffsetData(state, sideParam, isRtl)) : sideOffset;
-        const isOverlappingAnchor = shiftY > sideOffsetValue;
-        const adjacentTransformOrigin = {
-          top: `${transformX}px calc(100% + ${sideOffsetValue}px)`,
-          bottom: `${transformX}px ${-sideOffsetValue}px`,
-          left: `calc(100% + ${sideOffsetValue}px) ${transformY}px`,
-          right: `${-sideOffsetValue}px ${transformY}px`
-        }[currentRenderedSide];
-        const overlapTransformOrigin = `${transformX}px ${rects.reference.y + halfAnchorHeight - y2}px`;
-        elements2.floating.style.setProperty("--transform-origin", crossAxisShiftEnabled && currentRenderedAxis === "y" && isOverlappingAnchor ? overlapTransformOrigin : adjacentTransformOrigin);
+        let crossOrigin;
+        if (!arrowEl && renderedAlign2 && Math.abs(isVertical ? middlewareData2.shift?.x || 0 : middlewareData2.shift?.y || 0) <= 1) {
+          crossOrigin = renderedAlign2 === "start" === (isVertical && platform3.isRTL?.(floating) === true) ? "100%" : "0%";
+        } else {
+          const arrowOffset = isVertical ? middlewareData2.arrow?.x || 0 : middlewareData2.arrow?.y || 0;
+          const arrowSize = isVertical ? arrowEl?.clientWidth || 0 : arrowEl?.clientHeight || 0;
+          crossOrigin = `${arrowOffset + arrowSize / 2}px`;
+        }
+        let sideOrigin = renderedSide2 === "top" || renderedSide2 === "left" ? `calc(100% + ${sideOffsetValue}px)` : `${-sideOffsetValue}px`;
+        if (crossAxisShiftEnabled && isVertical && Math.abs(middlewareData2.shift?.y || 0) > sideOffsetValue) {
+          sideOrigin = `${rects.reference.y + rects.reference.height / 2 - y2}px`;
+        }
+        floating.style.setProperty(transformOrigin, isVertical ? `${crossOrigin} ${sideOrigin}` : `${sideOrigin} ${crossOrigin}`);
         return {};
       }
     }, hide4, adaptiveOrigin2);
@@ -8743,6 +8883,7 @@ var wp;
       }
     }, [mounted, floatingRootContext]);
     const autoUpdateOptions = React36.useMemo(() => ({
+      ancestorScroll: !disableAnchorTracking,
       elementResize: !disableAnchorTracking && typeof ResizeObserver !== "undefined",
       layoutShift: !disableAnchorTracking && typeof IntersectionObserver !== "undefined"
     }), [disableAnchorTracking]);
@@ -8835,7 +8976,7 @@ var wp;
     const renderedSide = getSide(renderedPlacement);
     const logicalRenderedSide = getLogicalSide(sideParam, renderedSide, isRtl);
     const renderedAlign = getAlignment(renderedPlacement) || "center";
-    const anchorHidden = Boolean(middlewareData.hide?.referenceHidden);
+    const anchorHidden2 = Boolean(middlewareData.hide?.referenceHidden);
     useIsoLayoutEffect(() => {
       if (lazyFlip && mounted && isPositioned && renderedSide !== side) {
         setMountSide(renderedSide);
@@ -8855,12 +8996,12 @@ var wp;
       side: logicalRenderedSide,
       align: renderedAlign,
       physicalSide: renderedSide,
-      anchorHidden,
+      anchorHidden: anchorHidden2,
       refs,
       context,
       isPositioned,
       update: update2
-    }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden, refs, context, isPositioned, update2]);
+    }), [floatingStyles, arrowStyles, arrowRef, arrowUncentered, logicalRenderedSide, renderedAlign, renderedSide, anchorHidden2, refs, context, isPositioned, update2]);
   }
   function isRef(param) {
     return param != null && "current" in param;
@@ -8955,13 +9096,13 @@ var wp;
       defaultOpen = false,
       disabled: disabled2 = false,
       onOpenChange: onOpenChangeProp,
-      open,
+      open: open3,
       style,
       ...elementProps
     } = componentProps;
     const onOpenChange = useStableCallback(onOpenChangeProp);
     const collapsible = useCollapsibleRoot({
-      open,
+      open: open3,
       defaultOpen,
       onOpenChange,
       disabled: disabled2
@@ -8998,7 +9139,7 @@ var wp;
   var CollapsibleTrigger = /* @__PURE__ */ React39.forwardRef(function CollapsibleTrigger2(componentProps, forwardedRef) {
     const {
       panelId,
-      open,
+      open: open3,
       handleTrigger,
       state,
       disabled: contextDisabled
@@ -9023,8 +9164,8 @@ var wp;
       state,
       ref: [forwardedRef, buttonRef],
       props: [{
-        "aria-controls": open ? panelId : void 0,
-        "aria-expanded": open,
+        "aria-controls": open3 ? panelId : void 0,
+        "aria-expanded": open3,
         onClick: handleTrigger
       }, elementProps, getButtonProps],
       stateAttributesMapping
@@ -9037,11 +9178,8 @@ var wp;
   var React40 = __toESM(require_react(), 1);
 
   // node_modules/@base-ui/react/collapsible/panel/CollapsiblePanelCssVars.mjs
-  var CollapsiblePanelCssVars = /* @__PURE__ */ (function(CollapsiblePanelCssVars2) {
-    CollapsiblePanelCssVars2["collapsiblePanelHeight"] = "--collapsible-panel-height";
-    CollapsiblePanelCssVars2["collapsiblePanelWidth"] = "--collapsible-panel-width";
-    return CollapsiblePanelCssVars2;
-  })({});
+  var collapsiblePanelHeight = "--collapsible-panel-height";
+  var collapsiblePanelWidth = "--collapsible-panel-width";
 
   // node_modules/@base-ui/react/collapsible/panel/CollapsiblePanel.mjs
   var CollapsiblePanel = /* @__PURE__ */ React40.forwardRef(function CollapsiblePanel2(componentProps, forwardedRef) {
@@ -9065,7 +9203,7 @@ var wp;
       defaultPanelId,
       mounted,
       onOpenChange,
-      open,
+      open: open3,
       setMounted,
       setPanelIdState,
       setOpen,
@@ -9097,7 +9235,7 @@ var wp;
       keepMounted,
       mounted,
       onOpenChange,
-      open,
+      open: open3,
       setMounted,
       setOpen,
       transitionStatus
@@ -9117,8 +9255,8 @@ var wp;
         props,
         {
           style: {
-            [CollapsiblePanelCssVars.collapsiblePanelHeight]: height === void 0 ? "auto" : `${height}px`,
-            [CollapsiblePanelCssVars.collapsiblePanelWidth]: width === void 0 ? "auto" : `${width}px`
+            [collapsiblePanelHeight]: height === void 0 ? "auto" : `${height}px`,
+            [collapsiblePanelWidth]: width === void 0 ? "auto" : `${width}px`
           }
         },
         elementProps,
@@ -9184,6 +9322,10 @@ var wp;
     };
   }
 
+  // node_modules/@base-ui/react/utils/CommonPopupCssVars.mjs
+  var popupWidth = "--popup-width";
+  var popupHeight = "--popup-height";
+
   // node_modules/@base-ui/react/utils/usePopupAutoResize.mjs
   function usePopupAutoResize(parameters) {
     const {
@@ -9220,8 +9362,8 @@ var wp;
       const restorePopupTransform = overrideElementStyle(popupElement, "transform", "none");
       const restorePopupScale = overrideElementStyle(popupElement, "scale", "1");
       const restorePositionerAvailableSize = applyElementStyles(positionerElement, {
-        "--available-width": "max-content",
-        "--available-height": "max-content"
+        [availableWidth]: "max-content",
+        [availableHeight]: "max-content"
       });
       function restoreMeasurementOverrides() {
         restorePopupPosition();
@@ -9258,8 +9400,8 @@ var wp;
       animationFrame.request(() => {
         setPopupCssSize(popupElement, newDimensions);
         runOnceAnimationsFinish(() => {
-          popupElement.style.setProperty("--popup-width", "auto");
-          popupElement.style.setProperty("--popup-height", "auto");
+          popupElement.style.setProperty(popupWidth, "auto");
+          popupElement.style.setProperty(popupHeight, "auto");
         }, abortController.signal);
       });
       return () => {
@@ -9301,14 +9443,14 @@ var wp;
   function setPopupCssSize(popupElement, size4) {
     const width = size4 === "auto" ? "auto" : `${size4.width}px`;
     const height = size4 === "auto" ? "auto" : `${size4.height}px`;
-    popupElement.style.setProperty("--popup-width", width);
-    popupElement.style.setProperty("--popup-height", height);
+    popupElement.style.setProperty(popupWidth, width);
+    popupElement.style.setProperty(popupHeight, height);
   }
   function setPositionerCssSize(positionerElement, size4) {
     const width = size4 === "max-content" ? "max-content" : `${size4.width}px`;
     const height = size4 === "max-content" ? "max-content" : `${size4.height}px`;
-    positionerElement.style.setProperty("--positioner-width", width);
-    positionerElement.style.setProperty("--positioner-height", height);
+    positionerElement.style.setProperty(positionerWidth, width);
+    positionerElement.style.setProperty(positionerHeight, height);
   }
 
   // node_modules/@base-ui/react/direction-provider/DirectionProvider.mjs
@@ -9396,11 +9538,14 @@ var wp;
     }
   };
 
+  // node_modules/@base-ui/react/utils/CommonViewportDataAttributes.mjs
+  var activationDirection = "data-activation-direction";
+
   // node_modules/@base-ui/react/utils/usePopupViewport.mjs
   var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
   var popupViewportStateMapping = {
     activationDirection: (value) => value ? {
-      "data-activation-direction": value
+      [activationDirection]: value
     } : null
   };
   function usePopupViewport(parameters) {
@@ -9412,12 +9557,12 @@ var wp;
     const direction = useDirection();
     const activeTrigger = store3.useState("activeTriggerElement");
     const activeTriggerId = store3.useState("activeTriggerId");
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const payload = store3.useState("payload");
     const mounted = store3.useState("mounted");
     const popupElement = store3.useState("popupElement");
     const positionerElement = store3.useState("positionerElement");
-    const previousActiveTrigger = usePreviousValue(open ? activeTrigger : null);
+    const previousActiveTrigger = usePreviousValue(open3 ? activeTrigger : null);
     const currentContentKey = usePopupContentKey(activeTriggerId, payload);
     const capturedNodeRef = React44.useRef(null);
     const [previousContentNode, setPreviousContentNode] = React44.useState(null);
@@ -9460,10 +9605,10 @@ var wp;
     });
     const lastHandledTriggerRef = React44.useRef(null);
     useIsoLayoutEffect(() => {
-      if (!open || !mounted) {
+      if (!open3 || !mounted) {
         lastHandledTriggerRef.current = null;
       }
-    }, [open, mounted]);
+    }, [open3, mounted]);
     useIsoLayoutEffect(() => {
       if (activeTrigger && previousActiveTrigger && activeTrigger !== previousActiveTrigger && lastHandledTriggerRef.current !== activeTrigger && capturedNodeRef.current) {
         setPreviousContentNode(capturedNodeRef.current);
@@ -9513,8 +9658,8 @@ var wp;
           ref: previousContainerRef,
           style: {
             ...previousContentDimensions ? {
-              "--popup-width": `${previousContentDimensions.width}px`,
-              "--popup-height": `${previousContentDimensions.height}px`
+              [popupWidth]: `${previousContentDimensions.width}px`,
+              [popupHeight]: `${previousContentDimensions.height}px`
             } : null,
             position: "absolute"
           },
@@ -9709,7 +9854,7 @@ var wp;
   }
   function createInitialState(initialState, triggerElements, floatingId, nested = false) {
     const state = {
-      ...createInitialPopupStoreState(),
+      ...createInitialPopupStoreState(triggerElements, floatingId, nested),
       disabled: false,
       instantType: void 0,
       isInstantPhase: false,
@@ -9721,7 +9866,6 @@ var wp;
       adaptiveOrigin: void 0,
       ...initialState
     };
-    state.floatingRootContext = createPopupFloatingRootContext(triggerElements, floatingId, nested);
     return state;
   }
   function createInitialContext(triggerElements) {
@@ -9761,7 +9905,7 @@ var wp;
     store3.useContextCallback("onOpenChange", onOpenChange);
     store3.useContextCallback("onOpenChangeComplete", onOpenChangeComplete);
     const openState = store3.useState("open");
-    const open = !disabled2 && openState;
+    const open3 = !disabled2 && openState;
     const activeTriggerId = store3.useState("activeTriggerId");
     const mounted = store3.useState("mounted");
     const payload = store3.useState("payload");
@@ -9776,7 +9920,7 @@ var wp;
     const {
       forceUnmount,
       transitionStatus
-    } = useOpenStateTransitions(open, store3);
+    } = useOpenStateTransitions(open3, store3);
     const isInstantPhase = store3.useState("isInstantPhase");
     const instantType = store3.useState("instantType");
     const lastOpenChangeReason = store3.useState("lastOpenChangeReason");
@@ -9798,17 +9942,17 @@ var wp;
       }
     }, [transitionStatus, isInstantPhase, lastOpenChangeReason, instantType, store3]);
     useIsoLayoutEffect(() => {
-      if (open) {
+      if (open3) {
         if (activeTriggerId == null) {
           store3.set("payload", void 0);
         }
       }
-    }, [store3, activeTriggerId, open]);
+    }, [store3, activeTriggerId, open3]);
     React48.useImperativeHandle(actionsRef, () => ({
       unmount: forceUnmount,
       close: () => store3.setOpen(false, createChangeEventDetails(reason_parts_exports.imperativeAction))
     }), [forceUnmount, store3]);
-    const shouldRenderInteractions = open || mounted || !disabled2 && trackCursorAxis !== "none";
+    const shouldRenderInteractions = open3 || mounted || !disabled2 && trackCursorAxis !== "none";
     return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(TooltipRootContext.Provider, {
       value: store3,
       children: [handle && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(PopupHandleAttachment, {
@@ -9916,7 +10060,6 @@ var wp;
     const isOpenedByThisTrigger = store3.useState("isOpenedByTrigger", thisTriggerId);
     const floatingRootContext = store3.useState("floatingRootContext");
     const triggerElementRef = React50.useRef(null);
-    const delayWithDefault = delay ?? OPEN_DELAY;
     const closeDelayWithDefault = closeDelay ?? 0;
     const {
       registerTrigger,
@@ -9928,6 +10071,7 @@ var wp;
     });
     const providerDelay = useTooltipProviderContext();
     const {
+      activeIdRef,
       delayRef,
       isInstantPhase,
       hasProvider
@@ -9945,10 +10089,10 @@ var wp;
     const nestedTriggerOpenTimeout = useTimeout();
     const pointerTypeRef = React50.useRef(void 0);
     function getOpenDelay() {
-      if (!hasProvider) {
-        return delayWithDefault;
+      if (hasProvider && activeIdRef.current != null) {
+        return 0;
       }
-      return getDelay(delayRef.current, "open") === 0 ? 0 : delay ?? providerDelay ?? OPEN_DELAY;
+      return delay ?? providerDelay ?? OPEN_DELAY;
     }
     function isEnabledNestedTriggerTarget(target) {
       const triggerEl = triggerElementRef.current;
@@ -10007,7 +10151,7 @@ var wp;
       }
       if (wasNestedTriggerHovered && !nestedTriggerHovered && targetInsideTrigger && !disabledRef.current && !store3.select("open") && triggerEl && // Match the hover hook's non-strict mouse fallback for mouse-only event sequences.
       isMouseLikePointerType(pointerTypeRef.current)) {
-        const open = () => {
+        const open3 = () => {
           if (!isNestedTriggerHoveredRef.current && !disabledRef.current && !store3.select("open")) {
             store3.setOpen(true, createChangeEventDetails(reason_parts_exports.triggerHover, event, triggerEl));
           }
@@ -10015,9 +10159,9 @@ var wp;
         const openDelay = getOpenDelay();
         if (openDelay === 0) {
           nestedTriggerOpenTimeout.clear();
-          open();
+          open3();
         } else {
-          nestedTriggerOpenTimeout.start(openDelay, open);
+          nestedTriggerOpenTimeout.start(openDelay, open3);
         }
       }
     };
@@ -10059,7 +10203,7 @@ var wp;
           }
         },
         id: thisTriggerId,
-        "data-trigger-disabled": disabled2 ? "" : void 0,
+        [triggerDisabled]: disabled2 ? "" : void 0,
         [TOOLTIP_TRIGGER_IDENTIFIER]: disabled2 ? void 0 : ""
       }, elementProps],
       stateAttributesMapping: triggerOpenStateMapping2
@@ -10144,7 +10288,7 @@ var wp;
     } = componentProps;
     const store3 = useTooltipRootContext();
     const keepMounted = useTooltipPortalContext();
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const mounted = store3.useState("mounted");
     const trackCursorAxis = store3.useState("trackCursorAxis");
     const disableHoverablePopup = store3.useState("disableHoverablePopup");
@@ -10171,19 +10315,19 @@ var wp;
       adaptiveOrigin: adaptiveOrigin2
     });
     const state = React54.useMemo(() => ({
-      open,
+      open: open3,
       side: positioning.side,
       align: positioning.align,
       anchorHidden: positioning.anchorHidden,
       instant: trackCursorAxis !== "none" ? "tracking-cursor" : instantType
-    }), [open, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
+    }), [open3, positioning.side, positioning.align, positioning.anchorHidden, trackCursorAxis, instantType]);
     const element = usePositioner(componentProps, state, {
       styles: positioning.positionerStyles,
       transitionStatus,
       props: elementProps,
       refs: [forwardedRef, store3.useStateSetter("positionerElement")],
       hidden: !mounted,
-      inert: !open || trackCursorAxis === "both" || disableHoverablePopup
+      inert: !open3 || trackCursorAxis === "both" || disableHoverablePopup
     });
     return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(TooltipPositionerContext.Provider, {
       value: positioning,
@@ -10206,7 +10350,7 @@ var wp;
       side,
       align
     } = useTooltipPositionerContext();
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const instantType = store3.useState("instantType");
     const transitionStatus = store3.useState("transitionStatus");
     const popupProps = store3.useState("popupProps");
@@ -10214,10 +10358,10 @@ var wp;
     const disabled2 = store3.useState("disabled");
     const closeDelay = store3.useState("closeDelay");
     useOpenChangeComplete({
-      open,
+      open: open3,
       ref: store3.context.popupRef,
       onComplete() {
-        if (open) {
+        if (open3) {
           store3.context.onOpenChangeComplete?.(true);
         }
       }
@@ -10228,7 +10372,7 @@ var wp;
     });
     const setPopupElement = store3.useStateSetter("popupElement");
     const state = {
-      open,
+      open: open3,
       side,
       align,
       instant: instantType,
@@ -10261,10 +10405,10 @@ var wp;
       arrowUncentered,
       arrowStyles
     } = useTooltipPositionerContext();
-    const open = store3.useState("open");
+    const open3 = store3.useState("open");
     const instantType = store3.useState("instantType");
     const state = {
-      open,
+      open: open3,
       side,
       align,
       uncentered: arrowUncentered,
@@ -11175,7 +11319,7 @@ var wp;
     }
   }
   if (typeof process === "undefined" || true) {
-    registerStyle6("fa606a57ae", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{word-wrap:normal;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal}}}");
+    registerStyle6("f4df7461e9", "@layer wp-ui{@layer utilities, components, compositions, overrides;@layer components{.f37b9e2e191ebd66__visually-hidden{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;overflow-wrap:normal;padding:0;position:absolute;width:1px;word-break:normal}}}");
   }
   var style_default5 = { "visually-hidden": "f37b9e2e191ebd66__visually-hidden" };
   var VisuallyHidden = (0, import_element21.forwardRef)(
@@ -14612,7 +14756,7 @@ var wp;
   // packages/edit-widgets/build-module/components/layout/index.mjs
   var import_i18n26 = __toESM(require_i18n(), 1);
   var import_element69 = __toESM(require_element(), 1);
-  var import_data31 = __toESM(require_data(), 1);
+  var import_data32 = __toESM(require_data(), 1);
   var import_plugins3 = __toESM(require_plugins(), 1);
   var import_notices4 = __toESM(require_notices(), 1);
   var import_components20 = __toESM(require_components(), 1);
@@ -15245,13 +15389,13 @@ ${content}
   var import_compose13 = __toESM(require_compose(), 1);
   var import_block_editor17 = __toESM(require_block_editor(), 1);
   var import_element66 = __toESM(require_element(), 1);
-  var import_data28 = __toESM(require_data(), 1);
+  var import_data29 = __toESM(require_data(), 1);
   var import_i18n23 = __toESM(require_i18n(), 1);
   var import_preferences8 = __toESM(require_preferences(), 1);
 
   // packages/edit-widgets/build-module/components/header/index.mjs
   var import_block_editor12 = __toESM(require_block_editor(), 1);
-  var import_data22 = __toESM(require_data(), 1);
+  var import_data23 = __toESM(require_data(), 1);
   var import_element62 = __toESM(require_element(), 1);
   var import_i18n21 = __toESM(require_i18n(), 1);
   var import_components17 = __toESM(require_components(), 1);
@@ -15448,6 +15592,7 @@ ${content}
 
   // packages/edit-widgets/build-module/components/more-menu/index.mjs
   var import_components16 = __toESM(require_components(), 1);
+  var import_data22 = __toESM(require_data(), 1);
   var import_element61 = __toESM(require_element(), 1);
   var import_i18n20 = __toESM(require_i18n(), 1);
   var import_preferences5 = __toESM(require_preferences(), 1);
@@ -15746,15 +15891,14 @@ ${content}
 
   // packages/edit-widgets/build-module/components/more-menu/tools-more-menu-group.mjs
   var import_components15 = __toESM(require_components(), 1);
-  var import_jsx_runtime79 = __toESM(require_jsx_runtime(), 1);
   var { Fill: ToolsMoreMenuGroup, Slot: Slot4 } = (0, import_components15.createSlotFill)(
     "EditWidgetsToolsMoreMenuGroup"
   );
-  ToolsMoreMenuGroup.Slot = ({ fillProps }) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(Slot4, { fillProps, children: (fills) => fills.length > 0 && fills });
+  ToolsMoreMenuGroup.Slot = Slot4;
   var tools_more_menu_group_default = ToolsMoreMenuGroup;
 
   // packages/edit-widgets/build-module/components/more-menu/index.mjs
-  var import_jsx_runtime80 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime79 = __toESM(require_jsx_runtime(), 1);
   function MoreMenu() {
     const [
       isKeyboardShortcutsModalActive,
@@ -15766,8 +15910,9 @@ ${content}
       toggleKeyboardShortcutsModal
     );
     const isLargeViewport = (0, import_compose9.useViewportMatch)("medium");
-    return /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_jsx_runtime80.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+    const { toggle } = (0, import_data22.useDispatch)(import_preferences5.store);
+    return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(import_jsx_runtime79.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         import_components16.DropdownMenu,
         {
           icon: more_vertical_default,
@@ -15780,8 +15925,8 @@ ${content}
             tooltipPosition: "bottom",
             size: "compact"
           },
-          children: (onClose) => /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_jsx_runtime80.Fragment, { children: [
-            isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(import_components16.MenuGroup, { label: (0, import_i18n20._x)("View", "noun"), children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+          children: (onClose) => /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(import_jsx_runtime79.Fragment, { children: [
+            isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(import_components16.MenuGroup, { label: (0, import_i18n20._x)("View", "noun"), children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
               import_preferences5.PreferenceToggleMenuItem,
               {
                 scope: "core/edit-widgets",
@@ -15798,8 +15943,8 @@ ${content}
                 )
               }
             ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_components16.MenuGroup, { label: (0, import_i18n20.__)("Tools"), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(import_components16.MenuGroup, { label: (0, import_i18n20.__)("Tools"), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
                 import_components16.MenuItem,
                 {
                   onClick: () => {
@@ -15809,15 +15954,18 @@ ${content}
                   children: (0, import_i18n20.__)("Keyboard shortcuts")
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
-                import_preferences5.PreferenceToggleMenuItem,
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+                import_components16.MenuItem,
                 {
-                  scope: "core/edit-widgets",
-                  name: "welcomeGuide",
-                  label: (0, import_i18n20.__)("Welcome Guide")
+                  onClick: () => toggle(
+                    "core/edit-widgets",
+                    "welcomeGuide"
+                  ),
+                  "aria-haspopup": "dialog",
+                  children: (0, import_i18n20.__)("Welcome Guide")
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(
                 import_components16.MenuItem,
                 {
                   role: "menuitem",
@@ -15829,23 +15977,23 @@ ${content}
                   rel: "noopener",
                   children: [
                     (0, import_i18n20.__)("Help"),
-                    /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VisuallyHidden, {
-                      render: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("span", {}),
+                    /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(VisuallyHidden, {
+                      render: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("span", {}),
                       /* translators: accessibility text */
                       children: (0, import_i18n20.__)("(opens in a new tab)")
                     })
                   ]
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
                 tools_more_menu_group_default.Slot,
                 {
                   fillProps: { onClose }
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_components16.MenuGroup, { label: (0, import_i18n20.__)("Preferences"), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(import_components16.MenuGroup, { label: (0, import_i18n20.__)("Preferences"), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
                 import_preferences5.PreferenceToggleMenuItem,
                 {
                   scope: "core/edit-widgets",
@@ -15864,7 +16012,7 @@ ${content}
                   )
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
                 import_preferences5.PreferenceToggleMenuItem,
                 {
                   scope: "core/edit-widgets",
@@ -15875,7 +16023,7 @@ ${content}
                   label: (0, import_i18n20.__)("Use theme styles")
                 }
               ),
-              isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+              isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
                 import_preferences5.PreferenceToggleMenuItem,
                 {
                   scope: "core/edit-widgets",
@@ -15896,7 +16044,7 @@ ${content}
           ] })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         KeyboardShortcutHelpModal,
         {
           isModalActive: isKeyboardShortcutsModalActive,
@@ -15907,11 +16055,11 @@ ${content}
   }
 
   // packages/edit-widgets/build-module/components/header/index.mjs
-  var import_jsx_runtime81 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime80 = __toESM(require_jsx_runtime(), 1);
   function Header3() {
     const isLargeViewport = (0, import_compose10.useViewportMatch)("medium");
     const blockToolbarRef = (0, import_element62.useRef)();
-    const { hasFixedToolbar } = (0, import_data22.useSelect)(
+    const { hasFixedToolbar } = (0, import_data23.useSelect)(
       (select) => ({
         hasFixedToolbar: !!select(import_preferences6.store).get(
           "core/edit-widgets",
@@ -15920,21 +16068,21 @@ ${content}
       }),
       []
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_jsx_runtime81.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "edit-widgets-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "edit-widgets-header__navigable-toolbar-wrapper", children: [
-        isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("h1", { className: "edit-widgets-header__title", children: (0, import_i18n21.__)("Widgets") }),
-        !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(import_jsx_runtime80.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "edit-widgets-header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "edit-widgets-header__navigable-toolbar-wrapper", children: [
+        isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("h1", { className: "edit-widgets-header__title", children: (0, import_i18n21.__)("Widgets") }),
+        !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
           VisuallyHidden,
           {
             className: "edit-widgets-header__title",
-            render: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("h1", {}),
+            render: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("h1", {}),
             children: (0, import_i18n21.__)("Widgets")
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(document_tools_default, {}),
-        hasFixedToolbar && isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_block_editor12.BlockToolbar, { hideDragHandle: true }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(document_tools_default, {}),
+        hasFixedToolbar && isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_jsx_runtime80.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("div", { className: "selected-block-tools-wrapper", children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(import_block_editor12.BlockToolbar, { hideDragHandle: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
             import_components17.Popover.Slot,
             {
               ref: blockToolbarRef,
@@ -15943,10 +16091,10 @@ ${content}
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "edit-widgets-header__actions", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(pinned_items_default.Slot, { scope: "core/edit-widgets" }),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(save_button_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(MoreMenu, {})
+      /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "edit-widgets-header__actions", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(pinned_items_default.Slot, { scope: "core/edit-widgets" }),
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(save_button_default, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(MoreMenu, {})
       ] })
     ] }) });
   }
@@ -15955,17 +16103,17 @@ ${content}
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-content/index.mjs
   var import_block_editor13 = __toESM(require_block_editor(), 1);
   var import_compose11 = __toESM(require_compose(), 1);
-  var import_data23 = __toESM(require_data(), 1);
+  var import_data24 = __toESM(require_data(), 1);
   var import_element63 = __toESM(require_element(), 1);
   var import_preferences7 = __toESM(require_preferences(), 1);
 
   // packages/edit-widgets/build-module/components/notices/index.mjs
   var import_notices2 = __toESM(require_notices(), 1);
   var import_theme = __toESM(require_theme(), 1);
-  var import_jsx_runtime82 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime81 = __toESM(require_jsx_runtime(), 1);
   function Notices() {
-    return /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_theme.ThemeProvider, { cornerRadius: "none", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_theme.ThemeProvider, { cornerRadius: "none", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
         import_notices2.InlineNotices,
         {
           className: "edit-widgets-notices",
@@ -15973,17 +16121,17 @@ ${content}
           dismissibleNoticesClassName: "edit-widgets-notices__dismissible"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_notices2.SnackbarNotices, { className: "edit-widgets-notices__snackbar" })
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_notices2.SnackbarNotices, { className: "edit-widgets-notices__snackbar" })
     ] });
   }
   var notices_default = Notices;
 
   // packages/edit-widgets/build-module/components/widget-areas-block-editor-content/index.mjs
-  var import_jsx_runtime83 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime82 = __toESM(require_jsx_runtime(), 1);
   function WidgetAreasBlockEditorContent({
     blockEditorSettings
   }) {
-    const hasThemeStyles = (0, import_data23.useSelect)(
+    const hasThemeStyles = (0, import_data24.useSelect)(
       (select) => !!select(import_preferences7.store).get(
         "core/edit-widgets",
         "themeStyles"
@@ -15994,38 +16142,38 @@ ${content}
     const styles = (0, import_element63.useMemo)(() => {
       return hasThemeStyles ? blockEditorSettings.styles : [];
     }, [blockEditorSettings, hasThemeStyles]);
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)("div", { className: "edit-widgets-block-editor", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(notices_default, {}),
-      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }),
-      /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(import_block_editor13.BlockTools, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(keyboard_shortcuts_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)("div", { className: "edit-widgets-block-editor", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(notices_default, {}),
+      !isLargeViewport && /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_block_editor13.BlockToolbar, { hideDragHandle: true }),
+      /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_block_editor13.BlockTools, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(keyboard_shortcuts_default, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
           import_block_editor13.__unstableEditorStyles,
           {
             styles,
             scope: ":where(.editor-styles-wrapper)"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_block_editor13.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_block_editor13.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(import_block_editor13.BlockList, { className: "edit-widgets-main-block-list" }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_block_editor13.BlockSelectionClearer, { children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_block_editor13.WritingFlow, { children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_block_editor13.BlockList, { className: "edit-widgets-main-block-list" }) }) })
       ] })
     ] });
   }
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/index.mjs
-  var import_data27 = __toESM(require_data(), 1);
+  var import_data28 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.mjs
   var import_block_editor15 = __toESM(require_block_editor(), 1);
   var import_compose12 = __toESM(require_compose(), 1);
   var import_element64 = __toESM(require_element(), 1);
-  var import_data25 = __toESM(require_data(), 1);
+  var import_data26 = __toESM(require_data(), 1);
 
   // packages/edit-widgets/build-module/hooks/use-widget-library-insertion-point.mjs
-  var import_data24 = __toESM(require_data(), 1);
+  var import_data25 = __toESM(require_data(), 1);
   var import_block_editor14 = __toESM(require_block_editor(), 1);
   var import_core_data11 = __toESM(require_core_data(), 1);
   var useWidgetLibraryInsertionPoint = () => {
-    const firstRootId = (0, import_data24.useSelect)((select) => {
+    const firstRootId = (0, import_data25.useSelect)((select) => {
       const { getEntityRecord } = select(import_core_data11.store);
       const widgetAreasPost = getEntityRecord(
         KIND,
@@ -16034,7 +16182,7 @@ ${content}
       );
       return widgetAreasPost?.blocks[0]?.clientId;
     }, []);
-    return (0, import_data24.useSelect)(
+    return (0, import_data25.useSelect)(
       (select) => {
         const {
           getBlockRootClientId,
@@ -16065,16 +16213,16 @@ ${content}
   var use_widget_library_insertion_point_default = useWidgetLibraryInsertionPoint;
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.mjs
-  var import_jsx_runtime84 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime83 = __toESM(require_jsx_runtime(), 1);
   function InserterSidebar() {
     const isMobileViewport = (0, import_compose12.useViewportMatch)("medium", "<");
     const { rootClientId, insertionIndex } = use_widget_library_insertion_point_default();
-    const { setIsInserterOpened: setIsInserterOpened2 } = (0, import_data25.useDispatch)(store2);
+    const { setIsInserterOpened: setIsInserterOpened2 } = (0, import_data26.useDispatch)(store2);
     const closeInserter = (0, import_element64.useCallback)(() => {
       return setIsInserterOpened2(false);
     }, [setIsInserterOpened2]);
     const libraryRef = (0, import_element64.useRef)();
-    return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "edit-widgets-layout__inserter-panel", children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "edit-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)("div", { className: "edit-widgets-layout__inserter-panel", children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)("div", { className: "edit-widgets-layout__inserter-panel-content", children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
       import_block_editor15.__experimentalLibrary,
       {
         showInserterHelpPanel: true,
@@ -16090,14 +16238,14 @@ ${content}
   // packages/edit-widgets/build-module/components/secondary-sidebar/list-view-sidebar.mjs
   var import_block_editor16 = __toESM(require_block_editor(), 1);
   var import_components18 = __toESM(require_components(), 1);
-  var import_data26 = __toESM(require_data(), 1);
+  var import_data27 = __toESM(require_data(), 1);
   var import_element65 = __toESM(require_element(), 1);
   var import_i18n22 = __toESM(require_i18n(), 1);
   var import_keycodes6 = __toESM(require_keycodes(), 1);
-  var import_jsx_runtime85 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime84 = __toESM(require_jsx_runtime(), 1);
   function ListViewSidebar() {
-    const { setIsListViewOpened: setIsListViewOpened2 } = (0, import_data26.useDispatch)(store2);
-    const { getListViewToggleRef: getListViewToggleRef2 } = unlock2((0, import_data26.useSelect)(store2));
+    const { setIsListViewOpened: setIsListViewOpened2 } = (0, import_data27.useDispatch)(store2);
+    const { getListViewToggleRef: getListViewToggleRef2 } = unlock2((0, import_data27.useSelect)(store2));
     const [dropZoneElement, setDropZoneElement] = (0, import_element65.useState)(null);
     const closeListView = (0, import_element65.useCallback)(() => {
       setIsListViewOpened2(false);
@@ -16114,15 +16262,15 @@ ${content}
     );
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
         "div",
         {
           className: "edit-widgets-editor__list-view-panel",
           onKeyDown: closeOnEscape,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)("div", { className: "edit-widgets-editor__list-view-panel-header", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("strong", { children: (0, import_i18n22.__)("List View") }),
-              /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)("div", { className: "edit-widgets-editor__list-view-panel-header", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("strong", { children: (0, import_i18n22.__)("List View") }),
+              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
                 import_components18.Button,
                 {
                   icon: close_small_default,
@@ -16132,12 +16280,12 @@ ${content}
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
               "div",
               {
                 className: "edit-widgets-editor__list-view-panel-content",
                 ref: setDropZoneElement,
-                children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(import_block_editor16.__experimentalListView, { dropZoneElement, focusOnMount: true })
+                children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_block_editor16.__experimentalListView, { dropZoneElement, focusOnMount: true })
               }
             )
           ]
@@ -16147,9 +16295,9 @@ ${content}
   }
 
   // packages/edit-widgets/build-module/components/secondary-sidebar/index.mjs
-  var import_jsx_runtime86 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime85 = __toESM(require_jsx_runtime(), 1);
   function SecondarySidebar() {
-    const { isInserterOpen, isListViewOpen } = (0, import_data27.useSelect)((select) => {
+    const { isInserterOpen, isListViewOpen } = (0, import_data28.useSelect)((select) => {
       const { isInserterOpened: isInserterOpened2, isListViewOpened: isListViewOpened2 } = select(store2);
       return {
         isInserterOpen: isInserterOpened2(),
@@ -16157,16 +16305,16 @@ ${content}
       };
     }, []);
     if (isInserterOpen) {
-      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(InserterSidebar, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(InserterSidebar, {});
     }
     if (isListViewOpen) {
-      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(ListViewSidebar, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(ListViewSidebar, {});
     }
     return null;
   }
 
   // packages/edit-widgets/build-module/components/layout/interface.mjs
-  var import_jsx_runtime87 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime86 = __toESM(require_jsx_runtime(), 1);
   var interfaceLabels = {
     /* translators: accessibility text for the widgets screen top bar landmark region. */
     header: (0, import_i18n23.__)("Widgets top bar"),
@@ -16180,13 +16328,13 @@ ${content}
   function Interface({ blockEditorSettings }) {
     const isMobileViewport = (0, import_compose13.useViewportMatch)("medium", "<");
     const isHugeViewport = (0, import_compose13.useViewportMatch)("huge", ">=");
-    const { setIsInserterOpened: setIsInserterOpened2, setIsListViewOpened: setIsListViewOpened2, closeGeneralSidebar: closeGeneralSidebar2 } = (0, import_data28.useDispatch)(store2);
+    const { setIsInserterOpened: setIsInserterOpened2, setIsListViewOpened: setIsListViewOpened2, closeGeneralSidebar: closeGeneralSidebar2 } = (0, import_data29.useDispatch)(store2);
     const {
       hasBlockBreadCrumbsEnabled,
       hasSidebarEnabled,
       isInserterOpened: isInserterOpened2,
       isListViewOpened: isListViewOpened2
-    } = (0, import_data28.useSelect)(
+    } = (0, import_data29.useSelect)(
       (select) => ({
         hasSidebarEnabled: !!select(
           store
@@ -16213,23 +16361,23 @@ ${content}
     }, [isInserterOpened2, isListViewOpened2, isHugeViewport]);
     const secondarySidebarLabel = isListViewOpened2 ? (0, import_i18n23.__)("List View") : (0, import_i18n23.__)("Block Library");
     const hasSecondarySidebar = isListViewOpened2 || isInserterOpened2;
-    return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
       interface_skeleton_default,
       {
         labels: {
           ...interfaceLabels,
           secondarySidebar: secondarySidebarLabel
         },
-        header: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(header_default, {}),
-        secondarySidebar: hasSecondarySidebar && /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(SecondarySidebar, {}),
-        sidebar: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(complementary_area_default.Slot, { scope: "core/edit-widgets" }),
-        content: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(import_jsx_runtime87.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+        header: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(header_default, {}),
+        secondarySidebar: hasSecondarySidebar && /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(SecondarySidebar, {}),
+        sidebar: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(complementary_area_default.Slot, { scope: "core/edit-widgets" }),
+        content: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_jsx_runtime86.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           WidgetAreasBlockEditorContent,
           {
             blockEditorSettings
           }
         ) }),
-        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(import_block_editor17.BlockBreadcrumb, { rootLabelText: (0, import_i18n23.__)("Widgets") }) })
+        footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /* @__PURE__ */ (0, import_jsx_runtime86.jsx)("div", { className: "edit-widgets-layout__footer", children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(import_block_editor17.BlockBreadcrumb, { rootLabelText: (0, import_i18n23.__)("Widgets") }) })
       }
     );
   }
@@ -16238,9 +16386,9 @@ ${content}
   // packages/edit-widgets/build-module/components/layout/unsaved-changes-warning.mjs
   var import_i18n24 = __toESM(require_i18n(), 1);
   var import_element67 = __toESM(require_element(), 1);
-  var import_data29 = __toESM(require_data(), 1);
+  var import_data30 = __toESM(require_data(), 1);
   function UnsavedChangesWarning() {
-    const isDirty = (0, import_data29.useSelect)((select) => {
+    const isDirty = (0, import_data30.useSelect)((select) => {
       const { getEditedWidgetAreas: getEditedWidgetAreas2 } = select(store2);
       const editedWidgetAreas = getEditedWidgetAreas2();
       return editedWidgetAreas?.length > 0;
@@ -16263,22 +16411,22 @@ ${content}
   }
 
   // packages/edit-widgets/build-module/components/welcome-guide/index.mjs
-  var import_data30 = __toESM(require_data(), 1);
+  var import_data31 = __toESM(require_data(), 1);
   var import_components19 = __toESM(require_components(), 1);
   var import_i18n25 = __toESM(require_i18n(), 1);
   var import_element68 = __toESM(require_element(), 1);
   var import_preferences9 = __toESM(require_preferences(), 1);
-  var import_jsx_runtime88 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime87 = __toESM(require_jsx_runtime(), 1);
   function WelcomeGuide() {
-    const isActive = (0, import_data30.useSelect)(
+    const isActive = (0, import_data31.useSelect)(
       (select) => !!select(import_preferences9.store).get(
         "core/edit-widgets",
         "welcomeGuide"
       ),
       []
     );
-    const { toggle } = (0, import_data30.useDispatch)(import_preferences9.store);
-    const widgetAreas = (0, import_data30.useSelect)(
+    const { toggle } = (0, import_data31.useDispatch)(import_preferences9.store);
+    const widgetAreas = (0, import_data31.useSelect)(
       (select) => select(store2).getWidgetAreas({ per_page: -1 }),
       []
     );
@@ -16293,7 +16441,7 @@ ${content}
     const numWidgetAreas = widgetAreas?.filter(
       (widgetArea) => widgetArea.id !== "wp_inactive_widgets"
     ).length ?? 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
       import_components19.Guide,
       {
         className: "edit-widgets-welcome-guide",
@@ -16302,16 +16450,16 @@ ${content}
         onFinish: () => toggle("core/edit-widgets", "welcomeGuide"),
         pages: [
           {
-            image: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+            image: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               WelcomeGuideImage,
               {
                 nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-canvas.svg",
                 animatedSrc: "https://s.w.org/images/block-editor/welcome-canvas.gif"
               }
             ),
-            content: /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(import_jsx_runtime88.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Welcome to block Widgets") }),
-              isEntirelyBlockWidgets ? /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(import_jsx_runtime88.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.sprintf)(
+            content: /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Welcome to block Widgets") }),
+              isEntirelyBlockWidgets ? /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(import_jsx_runtime87.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.sprintf)(
                 // Translators: %s: Number of block areas in the current theme.
                 (0, import_i18n25._n)(
                   "Your theme provides %s \u201Cblock\u201D area for you to add and edit content.\xA0Try adding a search bar, social icons, or other types of blocks here and see how they\u2019ll look on your site.",
@@ -16319,16 +16467,16 @@ ${content}
                   numWidgetAreas
                 ),
                 numWidgetAreas
-              ) }) }) : /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(import_jsx_runtime88.Fragment, { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.__)(
+              ) }) }) : /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.__)(
                   "You can now add any block to your site\u2019s widget areas. Don\u2019t worry, all of your favorite widgets still work flawlessly."
                 ) }),
-                /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)("p", { className: "edit-widgets-welcome-guide__text", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("strong", { children: (0, import_i18n25.__)(
+                /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)("p", { className: "edit-widgets-welcome-guide__text", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("strong", { children: (0, import_i18n25.__)(
                     "Want to stick with the old widgets?"
                   ) }),
                   " ",
-                  /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+                  /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
                     import_components19.ExternalLink,
                     {
                       href: (0, import_i18n25.__)(
@@ -16344,36 +16492,36 @@ ${content}
             ] })
           },
           {
-            image: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+            image: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               WelcomeGuideImage,
               {
                 nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-editor.svg",
                 animatedSrc: "https://s.w.org/images/block-editor/welcome-editor.gif"
               }
             ),
-            content: /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(import_jsx_runtime88.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Customize each block") }),
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.__)(
+            content: /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Customize each block") }),
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_i18n25.__)(
                 "Each block comes with its own set of controls for changing things like color, width, and alignment. These will show and hide automatically when you have a block selected."
               ) })
             ] })
           },
           {
-            image: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+            image: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               WelcomeGuideImage,
               {
                 nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-library.svg",
                 animatedSrc: "https://s.w.org/images/block-editor/welcome-library.gif"
               }
             ),
-            content: /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(import_jsx_runtime88.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Explore all blocks") }),
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element68.createInterpolateElement)(
+            content: /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Explore all blocks") }),
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element68.createInterpolateElement)(
                 (0, import_i18n25.__)(
                   "All of the blocks available to you live in the block library. You\u2019ll find it wherever you see the <InserterIconImage /> icon."
                 ),
                 {
-                  InserterIconImage: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+                  InserterIconImage: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
                     "img",
                     {
                       className: "edit-widgets-welcome-guide__inserter-icon",
@@ -16386,21 +16534,21 @@ ${content}
             ] })
           },
           {
-            image: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+            image: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               WelcomeGuideImage,
               {
                 nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-documentation.svg",
                 animatedSrc: "https://s.w.org/images/block-editor/welcome-documentation.gif"
               }
             ),
-            content: /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(import_jsx_runtime88.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Learn more") }),
-              /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element68.createInterpolateElement)(
+            content: /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("h1", { className: "edit-widgets-welcome-guide__heading", children: (0, import_i18n25.__)("Learn more") }),
+              /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("p", { className: "edit-widgets-welcome-guide__text", children: (0, import_element68.createInterpolateElement)(
                 (0, import_i18n25.__)(
                   "New to the block editor? Want to learn more about using it? <a>Here's a detailed guide.</a>"
                 ),
                 {
-                  a: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+                  a: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
                     import_components19.ExternalLink,
                     {
                       href: (0, import_i18n25.__)(
@@ -16417,22 +16565,22 @@ ${content}
     );
   }
   function WelcomeGuideImage({ nonAnimatedSrc, animatedSrc }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)("picture", { className: "edit-widgets-welcome-guide__image", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)("picture", { className: "edit-widgets-welcome-guide__image", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
         "source",
         {
           srcSet: nonAnimatedSrc,
           media: "(prefers-reduced-motion: reduce)"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("img", { src: animatedSrc, width: "312", height: "240", alt: "" })
+      /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("img", { src: animatedSrc, width: "312", height: "240", alt: "" })
     ] });
   }
 
   // packages/edit-widgets/build-module/components/layout/index.mjs
-  var import_jsx_runtime89 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime88 = __toESM(require_jsx_runtime(), 1);
   function Layout({ blockEditorSettings }) {
-    const { createErrorNotice } = (0, import_data31.useDispatch)(import_notices4.store);
+    const { createErrorNotice } = (0, import_data32.useDispatch)(import_notices4.store);
     function onPluginAreaError(name2) {
       createErrorNotice(
         (0, import_i18n26.sprintf)(
@@ -16446,21 +16594,21 @@ ${content}
     }
     const navigateRegionsProps = (0, import_components20.__unstableUseNavigateRegions)();
     const adminPrimary = (0, import_element69.useMemo)(() => getAdminThemeColors().primary, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_theme2.ThemeProvider, { isRoot: true, color: { primary: adminPrimary }, children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)("div", { ...navigateRegionsProps, children: /* @__PURE__ */ (0, import_jsx_runtime89.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(import_theme2.ThemeProvider, { isRoot: true, color: { primary: adminPrimary }, children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)("div", { ...navigateRegionsProps, children: /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)(
       WidgetAreasBlockEditorProvider,
       {
         blockEditorSettings,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
             interface_default,
             {
               blockEditorSettings
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(Sidebar, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_plugins3.PluginArea, { onError: onPluginAreaError }),
-          /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(UnsavedChangesWarning, {}),
-          /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(WelcomeGuide, {})
+          /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Sidebar, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(import_plugins3.PluginArea, { onError: onPluginAreaError }),
+          /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(UnsavedChangesWarning, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(WelcomeGuide, {})
         ]
       }
     ) }) }) });
@@ -16468,7 +16616,7 @@ ${content}
   var layout_default2 = Layout;
 
   // packages/edit-widgets/build-module/index.mjs
-  var import_jsx_runtime90 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime89 = __toESM(require_jsx_runtime(), 1);
   var disabledBlocks = [
     "core/more",
     "core/freeform",
@@ -16481,13 +16629,13 @@ ${content}
     const coreBlocks = (0, import_block_library.__experimentalGetCoreBlocks)().filter((block) => {
       return !(disabledBlocks.includes(block.name) || block.name.startsWith("core/post") || block.name.startsWith("core/query") || block.name.startsWith("core/site") || block.name.startsWith("core/navigation") || block.name.startsWith("core/term"));
     });
-    (0, import_data32.dispatch)(import_preferences10.store).setDefaults("core/edit-widgets", {
+    (0, import_data33.dispatch)(import_preferences10.store).setDefaults("core/edit-widgets", {
       fixedToolbar: false,
       welcomeGuide: true,
       showBlockBreadcrumbs: true,
       themeStyles: true
     });
-    (0, import_data32.dispatch)(import_blocks3.store).reapplyBlockTypeFilters();
+    (0, import_data33.dispatch)(import_blocks3.store).reapplyBlockTypeFilters();
     (0, import_block_library.registerCoreBlocks)(coreBlocks);
     (0, import_widgets5.registerLegacyWidgetBlock)();
     if (false) {
@@ -16501,7 +16649,7 @@ ${content}
     settings2.__experimentalFetchLinkSuggestions = (search, searchOptions) => (0, import_core_data12.__experimentalFetchLinkSuggestions)(search, searchOptions, settings2);
     (0, import_blocks3.setFreeformContentHandlerName)("core/html");
     root.render(
-      /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(import_element70.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(layout_default2, { blockEditorSettings: settings2 }) })
+      /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(import_element70.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime89.jsx)(layout_default2, { blockEditorSettings: settings2 }) })
     );
     return root;
   }

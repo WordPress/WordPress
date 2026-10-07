@@ -129,6 +129,7 @@ var wp;
     getAllShortcutKeyCombinations: () => getAllShortcutKeyCombinations,
     getAllShortcutRawKeyCombinations: () => getAllShortcutRawKeyCombinations,
     getCategoryShortcuts: () => getCategoryShortcuts,
+    getKeyboardShortcut: () => getKeyboardShortcut,
     getShortcutAliases: () => getShortcutAliases,
     getShortcutDescription: () => getShortcutDescription,
     getShortcutKeyCombination: () => getShortcutKeyCombination,
@@ -166,6 +167,18 @@ var wp;
     const shortcut = getShortcutKeyCombination(state, name);
     return getKeyCombinationRepresentation(shortcut, representation);
   }
+  var getKeyboardShortcut = (0, import_data.createSelector)(
+    (state, name) => {
+      const combination = getShortcutKeyCombination(state, name);
+      if (!combination) {
+        return null;
+      }
+      return import_keycodes.keyboardShortcut[combination.modifier ?? "undefined"](
+        combination.character
+      );
+    },
+    (state, name) => [state[name]]
+  );
   function getShortcutDescription(state, name) {
     return state[name] ? state[name].description : null;
   }
@@ -237,8 +250,8 @@ var wp;
   var import_element2 = __toESM(require_element(), 1);
   var globalShortcuts = /* @__PURE__ */ new Set();
   var globalListener = (event) => {
-    for (const keyboardShortcut of globalShortcuts) {
-      keyboardShortcut(event);
+    for (const keyboardShortcut2 of globalShortcuts) {
+      keyboardShortcut2(event);
     }
   };
   var context = (0, import_element2.createContext)({
@@ -294,8 +307,8 @@ var wp;
         props.onKeyDown(event);
       }
       const nativeEvent = event.nativeEvent;
-      for (const keyboardShortcut of keyboardShortcuts) {
-        keyboardShortcut(nativeEvent);
+      for (const keyboardShortcut2 of keyboardShortcuts) {
+        keyboardShortcut2(nativeEvent);
       }
     }
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Provider, { value: keyboardShortcuts, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { ...props, onKeyDown }) });

@@ -339,6 +339,12 @@
   border: none;
   box-shadow: none;
 }
+@supports (-webkit-hyphens: none) {
+  .wp-block-cover-image.has-aspect-ratio,
+  .wp-block-cover.has-aspect-ratio {
+    min-height: fit-content !important;
+  }
+}
 .wp-block-cover-image .wp-block-cover__embed-background,
 .wp-block-cover .wp-block-cover__embed-background {
   position: absolute;

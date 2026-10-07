@@ -12,6 +12,11 @@
 				{
 					"name": "Font family name"
 				}
+			],
+			"textShadowPresets": [
+				{
+					"name": "Text shadow name"
+				}
 			]
 		},
 		"color": {
@@ -75,6 +80,11 @@
 					"fontFamilies": [
 						{
 							"name": "Font family name"
+						}
+					],
+					"textShadowPresets": [
+						{
+							"name": "Text shadow name"
 						}
 					]
 				},

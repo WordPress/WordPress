@@ -14,6 +14,14 @@
 		"html": false,
 		"align": [ "wide", "full" ],
 		"layout": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -55,7 +63,8 @@
 			"color": true,
 			"width": true,
 			"style": true
-		}
+		},
+		"shadow": true
 	},
 	"style": "wp-block-term-template",
 	"editorStyle": "wp-block-term-template-editor"

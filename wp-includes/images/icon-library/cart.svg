@@ -1,3 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-	<path d="M8.5 17c-.8 0-1.5.7-1.5 1.5S7.7 20 8.5 20s1.5-.7 1.5-1.5S9.3 17 8.5 17Zm7 0c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5Zm-6-3.8h5.1c1.2 0 2.2-.7 2.6-1.8l1.3-3.5c.3-.8-.3-1.7-1.2-1.7h-10l-.8-2h-3v1.5h2l2.7 6.7-.6 1.3c-.6 1.2.3 2.5 1.6 2.5h8.4v-1.5H9.2c-.2 0-.3-.2-.2-.4l.6-1.1ZM7.9 7.8h9L15.7 11c-.2.5-.6.8-1.2.8H9.4l-1.6-4Z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: none" stroke="currentColor" stroke-width="1.5">
+	<path d="M9 12.5L6.8 7L6 5H3.5M9 12.5L8.32692 14.1154C8.05247 14.7741 8.53642 15.5 9.25 15.5H17.5M9 12.5H14.8561C15.2482 12.5 15.6042 12.2708 15.7665 11.9138L17.6787 7.7069C17.8292 7.37585 17.5871 7 17.2235 7H6.8" vector-effect="non-scaling-stroke" />
+	<path d="M8.5 19.25A0.75 0.75 0 1 0 8.5 17.75A0.75 0.75 0 0 0 8.5 19.25Z" fill="currentColor" vector-effect="non-scaling-stroke" />
+	<path d="M15.5 19.25A0.75 0.75 0 1 0 15.5 17.75A0.75 0.75 0 0 0 15.5 19.25Z" fill="currentColor" vector-effect="non-scaling-stroke" />
 </svg>

@@ -3322,13 +3322,21 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   var import_data8 = __toESM(require_data(), 1);
   function useCommandLoader(loader) {
     const { registerCommandLoader: registerCommandLoader2, unregisterCommandLoader: unregisterCommandLoader2 } = (0, import_data8.useDispatch)(store);
+    const currentHookRef = (0, import_element6.useRef)(loader.hook);
+    (0, import_element6.useEffect)(() => {
+      currentHookRef.current = loader.hook;
+    }, [loader.hook]);
+    const hook = (0, import_element6.useCallback)(
+      (...args) => currentHookRef.current(...args),
+      []
+    );
     (0, import_element6.useEffect)(() => {
       if (loader.disabled) {
         return;
       }
       registerCommandLoader2({
         name: loader.name,
-        hook: loader.hook,
+        hook,
         context: loader.context,
         category: loader.category
       });
@@ -3337,7 +3345,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       };
     }, [
       loader.name,
-      loader.hook,
+      hook,
       loader.context,
       loader.category,
       loader.disabled,

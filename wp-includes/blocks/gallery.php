@@ -88,6 +88,83 @@ function block_core_gallery_get_column_gap_value( $gap, $fallback_gap ) {
 }
 
 /**
+ * Returns whether a value can be used as a Gallery aspect ratio.
+ *
+ * Aspect ratios are interpolated into a generated stylesheet instead of being
+ * set as an inline style, so only the numeric forms produced by aspect ratio
+ * presets (and `auto`) are accepted. A value from saved content that isn't one
+ * of those is ignored rather than emitted, so it can't close the rule early and
+ * inject declarations of its own. The editor applies the same restriction in
+ * `isValidGalleryAspectRatio()`.
+ *
+ * @since 7.1.0
+ *
+ * @param mixed $value Value to check.
+ * @return bool Whether the value is a valid aspect ratio.
+ */
+function block_core_gallery_is_valid_aspect_ratio( $value ) {
+	return is_string( $value ) && 1 === preg_match( '#^(auto|\d+(\.\d+)?(\s*/\s*\d+(\.\d+)?)?)$#', trim( $value ) );
+}
+
+/**
+ * Returns Gallery-specific responsive aspect ratio rules for a viewport.
+ *
+ * Unlike the column and crop rules, these are not scoped to the Flex layout:
+ * the aspect ratio applies to the images in every Gallery layout. They also
+ * cover dynamic galleries, whose images are rendered by the Gallery rather than
+ * carrying their own block attributes.
+ *
+ * @since 7.1.0
+ *
+ * @param string $selector       Gallery block selector.
+ * @param mixed  $viewport_style Viewport style data.
+ * @param string $media_query    Viewport media query.
+ * @return array[] Gallery responsive aspect ratio rules.
+ */
+function block_core_gallery_get_responsive_aspect_ratio_style_rules( $selector, $viewport_style, $media_query ) {
+	if ( ! is_array( $viewport_style ) || ! is_string( $media_query ) ) {
+		return array();
+	}
+
+	$aspect_ratio = $viewport_style['aspectRatio'] ?? null;
+	if ( ! block_core_gallery_is_valid_aspect_ratio( $aspect_ratio ) ) {
+		return array();
+	}
+
+	$aspect_ratio = trim( $aspect_ratio );
+
+	/*
+	 * The base aspect ratio is an inline style on each image, so these
+	 * declarations have to be important to win for the viewport.
+	 *
+	 * Original cancels the base ratio, which means rolling the declaration out
+	 * of the cascade rather than giving it a value. `auto` - and `initial`,
+	 * `unset` and `revert`, which all compute to it - would override the
+	 * `width`/`height` presentational hint that gives a lazy-loaded image its
+	 * placeholder ratio, collapsing the image to zero height until it loads:
+	 * the Featured Image bug fixed in #80386. `revert-layer` drops the
+	 * declaration instead, so the image falls back to that hint while loading,
+	 * to its natural ratio once loaded, and to any ratio a theme set in a lower
+	 * cascade layer. `object-fit` is left as the base set it, so a cropped
+	 * Gallery still crops.
+	 */
+	$declarations = 'auto' === $aspect_ratio
+		? array( 'aspect-ratio' => 'revert-layer !important' )
+		: array(
+			'aspect-ratio' => "{$aspect_ratio} !important",
+			'object-fit'   => 'cover !important',
+		);
+
+	return array(
+		array(
+			'selector'     => "{$selector}.wp-block-gallery.has-nested-images figure.wp-block-image:not(#individual-image) img",
+			'declarations' => $declarations,
+			'rules_group'  => $media_query,
+		),
+	);
+}
+
+/**
  * Returns Gallery-specific responsive Flex rules for a viewport.
  *
  * @since 7.1.0
@@ -474,96 +551,133 @@ function block_core_gallery_render( $attributes, $content, $block ) {
 	$processed_content = new WP_HTML_Tag_Processor( $content );
 	$processed_content->next_tag();
 
-	if ( $is_flex_layout ) {
-		// Add a style tag for the --wp--style--unstable-gallery-gap var. The
-		// Gallery's custom Flex layout recalculates Image block widths based on
-		// the current gap so it can maintain the selected number of columns.
-		$style_attr = is_array( $attributes['style'] ?? null )
-			? $attributes['style']
-			: array();
-		if (
-			defined( 'IS_GUTENBERG_PLUGIN' ) &&
-			IS_GUTENBERG_PLUGIN &&
-			function_exists( 'gutenberg_resolve_style_state_aliases' )
-		) {
-			$style_attr = gutenberg_resolve_style_state_aliases( $style_attr, 'core/gallery' );
-		}
+	$style_attr = is_array( $attributes['style'] ?? null )
+		? $attributes['style']
+		: array();
+	if (
+		defined( 'IS_GUTENBERG_PLUGIN' ) &&
+		IS_GUTENBERG_PLUGIN &&
+		function_exists( 'gutenberg_resolve_style_state_aliases' )
+	) {
+		$style_attr = gutenberg_resolve_style_state_aliases( $style_attr, 'core/gallery' );
+	}
 
+	$global_settings          = wp_get_global_settings();
+	$viewport_settings        = $global_settings['viewport'] ?? null;
+	$responsive_media_queries = array();
+	foreach ( array( 'WP_Theme_JSON_Gutenberg', 'WP_Theme_JSON' ) as $theme_json_class_name ) {
+		if ( method_exists( $theme_json_class_name, 'get_viewport_media_queries' ) ) {
+			$responsive_media_queries = $theme_json_class_name::get_viewport_media_queries( $viewport_settings );
+			break;
+		}
+	}
+
+	// Columns and cropping are Flex-only, but the aspect ratio applies in every
+	// layout, so a Gallery with a viewport aspect ratio needs the per-instance
+	// stylesheet (and the class scoping it) even when it isn't a Flex Gallery.
+	$has_viewport_aspect_ratio = false;
+	foreach ( $responsive_media_queries as $breakpoint => $media_query ) {
+		$viewport_style = $style_attr[ $breakpoint ] ?? null;
+		if (
+			is_array( $viewport_style ) &&
+			block_core_gallery_is_valid_aspect_ratio( $viewport_style['aspectRatio'] ?? null )
+		) {
+			$has_viewport_aspect_ratio = true;
+			break;
+		}
+	}
+
+	/*
+	 * Only generate the gap styles — and, when nothing else needs it, the unique
+	 * classname that exists solely to scope them — if the theme has not opted out
+	 * of layout styles. The responsive aspect ratio rules are not layout styles,
+	 * so they keep rendering either way.
+	 */
+	$should_generate_gap_styles = $is_flex_layout && ! current_theme_supports( 'disable-layout-styles' );
+
+	if ( $should_generate_gap_styles || $has_viewport_aspect_ratio ) {
 		$unique_gallery_classname = wp_unique_id( 'wp-block-gallery-' );
 		$processed_content->add_class( $unique_gallery_classname );
+		$gallery_styles = array();
 
-		// --gallery-block--gutter-size is deprecated. --wp--style--gallery-gap-default should be used by themes that want to set a default
-		// gap on the gallery.
-		$fallback_gap = 'var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )';
+		if ( $should_generate_gap_styles ) {
+			// Add a style tag for the --wp--style--unstable-gallery-gap var. The
+			// Gallery's custom Flex layout recalculates Image block widths based on
+			// the current gap so it can maintain the selected number of columns.
 
-		if ( null === $global_styles ) {
-			$global_styles = function_exists( 'wp_get_global_styles' ) ? wp_get_global_styles() : array();
-		}
+			// --gallery-block--gutter-size is deprecated. --wp--style--gallery-gap-default should be used by themes that want to set a default
+			// gap on the gallery.
+			$fallback_gap = 'var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )';
 
-		$global_gallery_styles = $global_styles['blocks']['core/gallery'] ?? array();
-		$global_gallery_gap    = $global_gallery_styles['spacing']['blockGap'] ?? $fallback_gap;
-		$has_block_gap         = is_array( $style_attr['spacing'] ?? null ) && array_key_exists( 'blockGap', $style_attr['spacing'] );
-		// Prefer the block's own gap value, then Gallery global styles. Missing
-		// values fall back to the Gallery blockGap default.
-		$block_gap  = $has_block_gap
-			? $style_attr['spacing']['blockGap']
-			: $global_gallery_gap;
-		$gap_column = block_core_gallery_get_column_gap_value( $block_gap, $fallback_gap );
+			if ( null === $global_styles ) {
+				$global_styles = function_exists( 'wp_get_global_styles' ) ? wp_get_global_styles() : array();
+			}
 
-		// Set the CSS variable to the column value for Gallery's flex width calculations.
-		$gallery_styles = array(
-			array(
+			$global_gallery_styles = $global_styles['blocks']['core/gallery'] ?? array();
+			$global_gallery_gap    = $global_gallery_styles['spacing']['blockGap'] ?? $fallback_gap;
+			$has_block_gap         = is_array( $style_attr['spacing'] ?? null ) && array_key_exists( 'blockGap', $style_attr['spacing'] );
+			// Prefer the block's own gap value, then Gallery global styles. Missing
+			// values fall back to the Gallery blockGap default.
+			$block_gap  = $has_block_gap
+				? $style_attr['spacing']['blockGap']
+				: $global_gallery_gap;
+			$gap_column = block_core_gallery_get_column_gap_value( $block_gap, $fallback_gap );
+
+			// Set the CSS variable to the column value for Gallery's flex width calculations.
+			$gallery_styles[] = array(
 				'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
 				'declarations' => array(
 					'--wp--style--unstable-gallery-gap' => $gap_column,
 				),
-			),
-		);
-
-		$global_settings          = wp_get_global_settings();
-		$viewport_settings        = $global_settings['viewport'] ?? null;
-		$responsive_media_queries = array();
-		foreach ( array( 'WP_Theme_JSON_Gutenberg', 'WP_Theme_JSON' ) as $theme_json_class_name ) {
-			if ( method_exists( $theme_json_class_name, 'get_viewport_media_queries' ) ) {
-				$responsive_media_queries = $theme_json_class_name::get_viewport_media_queries( $viewport_settings );
-				break;
-			}
+			);
 		}
 
 		foreach ( $responsive_media_queries as $breakpoint => $media_query ) {
-			$viewport_style                = $style_attr[ $breakpoint ] ?? null;
-			$has_viewport_block_gap        = is_array( $viewport_style ) &&
-				is_array( $viewport_style['spacing'] ?? null ) &&
-				array_key_exists( 'blockGap', $viewport_style['spacing'] );
-			$has_global_viewport_block_gap = is_array( $global_gallery_styles[ $breakpoint ]['spacing'] ?? null ) &&
-				array_key_exists( 'blockGap', $global_gallery_styles[ $breakpoint ]['spacing'] );
+			$viewport_style = $style_attr[ $breakpoint ] ?? null;
 
-			// Viewport-specific block values win. Gallery global viewport values
-			// only apply when the block has no base gap, so they do not override an instance value.
-			if ( $has_viewport_block_gap ) {
-				$viewport_gap = $viewport_style['spacing']['blockGap'];
-			} elseif ( ! $has_block_gap && $has_global_viewport_block_gap ) {
-				$viewport_gap = $global_gallery_styles[ $breakpoint ]['spacing']['blockGap'];
-			} else {
-				$viewport_gap = null;
-			}
+			if ( $should_generate_gap_styles ) {
+				$has_viewport_block_gap        = is_array( $viewport_style ) &&
+					is_array( $viewport_style['spacing'] ?? null ) &&
+					array_key_exists( 'blockGap', $viewport_style['spacing'] );
+				$has_global_viewport_block_gap = is_array( $global_gallery_styles[ $breakpoint ]['spacing'] ?? null ) &&
+					array_key_exists( 'blockGap', $global_gallery_styles[ $breakpoint ]['spacing'] );
 
-			if ( null !== $viewport_gap ) {
-				$gallery_styles[] = array(
-					'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
-					'declarations' => array(
-						'--wp--style--unstable-gallery-gap' => block_core_gallery_get_column_gap_value(
-							$viewport_gap,
-							$fallback_gap
+				// Viewport-specific block values win. Gallery global viewport values
+				// only apply when the block has no base gap, so they do not override an instance value.
+				if ( $has_viewport_block_gap ) {
+					$viewport_gap = $viewport_style['spacing']['blockGap'];
+				} elseif ( ! $has_block_gap && $has_global_viewport_block_gap ) {
+					$viewport_gap = $global_gallery_styles[ $breakpoint ]['spacing']['blockGap'];
+				} else {
+					$viewport_gap = null;
+				}
+
+				if ( null !== $viewport_gap ) {
+					$gallery_styles[] = array(
+						'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
+						'declarations' => array(
+							'--wp--style--unstable-gallery-gap' => block_core_gallery_get_column_gap_value(
+								$viewport_gap,
+								$fallback_gap
+							),
 						),
-					),
-					'rules_group'  => $media_query,
+						'rules_group'  => $media_query,
+					);
+				}
+
+				$gallery_styles = array_merge(
+					$gallery_styles,
+					block_core_gallery_get_responsive_flex_style_rules(
+						".{$unique_gallery_classname}",
+						$viewport_style,
+						$media_query
+					)
 				);
 			}
 
 			$gallery_styles = array_merge(
 				$gallery_styles,
-				block_core_gallery_get_responsive_flex_style_rules(
+				block_core_gallery_get_responsive_aspect_ratio_style_rules(
 					".{$unique_gallery_classname}",
 					$viewport_style,
 					$media_query

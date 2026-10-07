@@ -147,7 +147,7 @@
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside input,
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside a {
   font-family: system-ui;
-  font-weight: normal;
+  font-weight: 400;
   color: #000;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=text],
@@ -175,7 +175,7 @@
   margin: 0;
   width: 100%;
   font-size: 13px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1;
   min-height: 30px;
   padding-right: 8px;

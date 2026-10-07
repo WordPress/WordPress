@@ -16,6 +16,15 @@
 			"style": true,
 			"width": true
 		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"color": {
 			"gradients": true,
 			"__experimentalDefaultControls": {
@@ -23,6 +32,7 @@
 				"text": true
 			}
 		},
+		"shadow": true,
 		"spacing": {
 			"margin": true,
 			"padding": true,
@@ -44,6 +54,8 @@
 	"attributes": {
 		"latex": {
 			"type": "string",
+			"source": "text",
+			"selector": "math annotation[encoding=\"application/x-tex\"]",
 			"role": "content"
 		},
 		"mathML": {

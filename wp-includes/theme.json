@@ -311,6 +311,20 @@
 			"textDecoration": true,
 			"textIndent": "subsequent",
 			"textTransform": true,
+			"textShadow": true,
+			"defaultTextShadowPresets": true,
+			"textShadowPresets": [
+				{
+					"name": "Light",
+					"slug": "light",
+					"textShadow": "0.05em 0.05em 0.1em rgba(0, 0, 0, 0.3)"
+				},
+				{
+					"name": "Strong",
+					"slug": "strong",
+					"textShadow": "0.1em 0.1em 0.25em rgba(0, 0, 0, 0.5)"
+				}
+			],
 			"writingMode": false
 		},
 		"blocks": {

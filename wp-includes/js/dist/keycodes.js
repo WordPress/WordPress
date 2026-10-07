@@ -68,6 +68,7 @@ var wp;
     displayShortcutList: () => displayShortcutList,
     isAppleOS: () => isAppleOS,
     isKeyboardEvent: () => isKeyboardEvent,
+    keyboardShortcut: () => keyboardShortcut,
     modifiers: () => modifiers,
     rawShortcut: () => rawShortcut,
     shortcutAriaLabel: () => shortcutAriaLabel,
@@ -218,6 +219,24 @@ var wp;
       ).join(isApple ? " " : " + ");
     };
   });
+  var keyboardShortcut = /* @__PURE__ */ Object.fromEntries(
+    Object.keys(modifiers).map(
+      (modifier) => [
+        modifier,
+        (character, _isApple = isAppleOS) => ({
+          displayShortcut: displayShortcut[modifier](
+            character,
+            _isApple
+          ),
+          ariaKeyShortcut: ariaKeyShortcut[modifier](
+            character,
+            _isApple
+          ),
+          label: shortcutAriaLabel[modifier](character, _isApple)
+        })
+      ]
+    )
+  );
   function getEventModifiers(event) {
     return [ALT, CTRL, COMMAND, SHIFT].filter(
       (key) => event[`${key}Key`]

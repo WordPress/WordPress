@@ -273,6 +273,17 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 			$style_attribute = $colors_supports['style'];
 		}
 
+		/*
+		 * Shadow serialization is skipped for this block so the shadow lands on the
+		 * dropdown panel, the floating layer it is meant for, and not the menu item.
+		 */
+		if ( ! empty( $attributes['style']['shadow'] ) ) {
+			$shadow_styles = wp_style_engine_get_styles( array( 'shadow' => $attributes['style']['shadow'] ) );
+			if ( ! empty( $shadow_styles['css'] ) ) {
+				$style_attribute .= $shadow_styles['css'];
+			}
+		}
+
 		if ( strpos( $inner_blocks_html, 'current-menu-item' ) ) {
 			$tag_processor = new WP_HTML_Tag_Processor( $html );
 			while ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-navigation-item' ) ) ) {

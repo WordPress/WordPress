@@ -101,7 +101,13 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"shadow": {
+			"__experimentalSkipSerialization": true
 		}
+	},
+	"selectors": {
+		"shadow": ".wp-block-video video"
 	},
 	"editorStyle": "wp-block-video-editor",
 	"style": "wp-block-video"

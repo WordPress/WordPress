@@ -1786,7 +1786,10 @@ var deepMergeRecursive = (target, source, override = true) => {
         }
       }
     } else if (isPlainObject(source[key])) {
-      const targetValue = Object.getOwnPropertyDescriptor(target, key)?.value;
+      const targetValue = Object.getOwnPropertyDescriptor(
+        target,
+        key
+      )?.value;
       if (isNew || override && !isPlainObject(targetValue)) {
         target[key] = {};
         if (propSignal) {

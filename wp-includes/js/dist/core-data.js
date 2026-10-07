@@ -4549,7 +4549,9 @@ var wp;
         if (!templates) {
           return;
         }
-        const id = templates.find(({ slug }) => slug === "front-page")?.id;
+        const id = templates.find(
+          ({ slug }) => slug === "front-page"
+        )?.id;
         if (id) {
           return id;
         }
@@ -4700,7 +4702,7 @@ var wp;
     }
     return getFilteredItem(item, query._fields);
   });
-  getEntityRecord.__unstableNormalizeArgs = (args) => {
+  getEntityRecord.normalizeArgs = (args) => {
     const newArgs = [...args];
     const recordKey = newArgs?.[2];
     newArgs[2] = isNumericID(recordKey) ? Number(recordKey) : recordKey;
@@ -6447,6 +6449,7 @@ var wp;
   }
   function sortResults(results, search) {
     const searchTokens = tokenize(search);
+    const scoreKey = (result) => `${result.kind}:${result.type}:${result.id}`;
     const scores = {};
     for (const result of results) {
       if (result.title) {
@@ -6463,12 +6466,14 @@ var wp;
         );
         const exactMatchScore = exactMatchingTokens.length / titleTokens.length * 10;
         const subMatchScore = subMatchingTokens.length / titleTokens.length;
-        scores[result.id] = exactMatchScore + subMatchScore;
+        scores[scoreKey(result)] = exactMatchScore + subMatchScore;
       } else {
-        scores[result.id] = 0;
+        scores[scoreKey(result)] = 0;
       }
     }
-    return results.sort((a, b) => scores[b.id] - scores[a.id]);
+    return results.sort(
+      (a, b) => scores[scoreKey(b)] - scores[scoreKey(a)]
+    );
   }
   function tokenize(text) {
     return text.toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
@@ -6608,7 +6613,6 @@ var wp;
       const permissions = getUserPermissionsFromAllowHeader(
         response.headers?.get("allow")
       );
-      const canUserResolutionsArgs = [];
       const receiveUserPermissionArgs = {};
       for (const action of ALLOWED_RESOURCE_ACTIONS) {
         receiveUserPermissionArgs[getUserPermissionCacheKey(action, {
@@ -6616,11 +6620,8 @@ var wp;
           name,
           id: key
         })] = permissions[action];
-        canUserResolutionsArgs.push([
-          action,
-          { kind, name, id: key }
-        ]);
       }
+      const canUserResolutionsArgs = [[{ kind, name, id: key }]];
       if (entityConfig.syncConfig && isNumericID(key) && !query) {
         const objectType = `${kind}/${name}`;
         const objectId = key;
@@ -6896,11 +6897,10 @@ var wp;
         const canUserResolutionsArgs = [];
         const receiveUserPermissionArgs = {};
         for (const targetHint of targetHints) {
+          canUserResolutionsArgs.push([
+            { kind, name, id: targetHint.id }
+          ]);
           for (const action of ALLOWED_RESOURCE_ACTIONS) {
-            canUserResolutionsArgs.push([
-              action,
-              { kind, name, id: targetHint.id }
-            ]);
             receiveUserPermissionArgs[getUserPermissionCacheKey(action, {
               kind,
               name,
@@ -6951,24 +6951,7 @@ var wp;
       dispatch3.receiveEmbedPreview(url, false);
     }
   };
-  var canUser2 = (requestedAction, resource, id) => async ({ dispatch: dispatch3, registry, resolveSelect: resolveSelect2 }) => {
-    if (!ALLOWED_RESOURCE_ACTIONS.includes(requestedAction)) {
-      throw new Error(`'${requestedAction}' is not a valid action.`);
-    }
-    const { hasStartedResolution } = registry.select(STORE_NAME);
-    for (const relatedAction of ALLOWED_RESOURCE_ACTIONS) {
-      if (relatedAction === requestedAction) {
-        continue;
-      }
-      const isAlreadyResolving = hasStartedResolution("canUser", [
-        relatedAction,
-        resource,
-        id
-      ]);
-      if (isAlreadyResolving) {
-        return;
-      }
-    }
+  var canUser2 = (resource, id) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     let resourcePath = null;
     if (typeof resource === "object") {
       if (!resource.kind || !resource.name) {
@@ -7001,20 +6984,14 @@ var wp;
       response.headers?.get("allow")
     );
     const receiveUserPermissionArgs = {};
-    const canUserResolutionsArgs = [];
     for (const action of ALLOWED_RESOURCE_ACTIONS) {
       receiveUserPermissionArgs[getUserPermissionCacheKey(action, resource, id)] = permissions[action];
-      if (action !== requestedAction) {
-        canUserResolutionsArgs.push([action, resource, id]);
-      }
     }
-    registry.batch(() => {
-      dispatch3.receiveUserPermissions(receiveUserPermissionArgs);
-      dispatch3.finishResolutions("canUser", canUserResolutionsArgs);
-    });
+    dispatch3.receiveUserPermissions(receiveUserPermissionArgs);
   };
-  var canUserEditEntityRecord2 = (kind, name, recordId) => async ({ dispatch: dispatch3 }) => {
-    await dispatch3(canUser2("update", { kind, name, id: recordId }));
+  canUser2.getResolutionArgs = (action, resource, id) => [resource, id];
+  var canUserEditEntityRecord2 = (kind, name, recordId) => async ({ resolveSelect: resolveSelect2 }) => {
+    await resolveSelect2.canUser("update", { kind, name, id: recordId });
   };
   var getAutosaves2 = (postType, postId) => async ({ dispatch: dispatch3, resolveSelect: resolveSelect2 }) => {
     const {
@@ -8488,32 +8465,47 @@ var wp;
   // packages/icons/build-module/library/footer.mjs
   var import_primitives = __toESM(require_primitives(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  var footer_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { fillRule: "evenodd", d: "M18 5.5h-8v8h8.5V6a.5.5 0 00-.5-.5zm-9.5 8h-3V6a.5.5 0 01.5-.5h2.5v8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" }) });
+  var footer_default = /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_primitives.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M9.75 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V14.25M9.75 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V14.25M9.75 4.75V14.25M19.25 14.25V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V14.25M19.25 14.25H9.75M9.75 14.25H4.75", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_primitives.Path, { d: "M19.25 15.5V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V15.5C4.75 14.8096 5.30964 14.25 6 14.25H18C18.6904 14.25 19.25 14.8096 19.25 15.5Z", fill: "currentColor", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/icons/build-module/library/header.mjs
   var import_primitives2 = __toESM(require_primitives(), 1);
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var header_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M18.5 10.5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" }) });
+  var header_default = /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_primitives2.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_primitives2.Path, { d: "M19.25 8.5V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V8.5C4.75 9.19036 5.30964 9.75 6 9.75H18C18.6904 9.75 19.25 9.19036 19.25 8.5Z", fill: "currentColor", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/icons/build-module/library/layout.mjs
   var import_primitives3 = __toESM(require_primitives(), 1);
   var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  var layout_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M18 5.5H6a.5.5 0 00-.5.5v3h13V6a.5.5 0 00-.5-.5zm.5 5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" }) });
+  var layout_default = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_primitives3.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75", vectorEffect: "non-scaling-stroke" }) });
 
   // packages/icons/build-module/library/navigation-overlay.mjs
   var import_primitives4 = __toESM(require_primitives(), 1);
   var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var navigation_overlay_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M18.5 10a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-7a1.5 1.5 0 0 1-1.5-1.5v-7a1.5 1.5 0 0 1 1.5-1.5zM16 4a2 2 0 0 1 2 2v2h-1.5V6a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0-.5.5v3H8v1.5H5.5V16a.5.5 0 0 0 .5.5h2V18H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" }) });
+  var navigation_overlay_default = /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_primitives4.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M4.75 9.25V16C4.75 16.6904 5.30964 17.25 6 17.25H8M4.75 9.25V6C4.75 5.30964 5.30964 4.75 6 4.75H16C16.6904 4.75 17.25 5.30964 17.25 6V8M4.75 9.25H8", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_primitives4.Path, { d: "M10.75 11.25C10.75 10.9739 10.9739 10.75 11.25 10.75H18.75C19.0261 10.75 19.25 10.9739 19.25 11.25V18.75C19.25 19.0261 19.0261 19.25 18.75 19.25H11.25C10.9739 19.25 10.75 19.0261 10.75 18.75V11.25Z", fill: "currentColor", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/icons/build-module/library/sidebar.mjs
   var import_primitives5 = __toESM(require_primitives(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
-  var sidebar_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M18 5.5H6a.5.5 0 00-.5.5v3h13V6a.5.5 0 00-.5-.5zm.5 5H10v8h8a.5.5 0 00.5-.5v-7.5zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" }) });
+  var sidebar_default = /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_primitives5.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M9.75 19.25H18C18.6904 19.25 19.25 18.6904 19.25 18V9.75M9.75 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V9.75M9.75 19.25V9.75M19.25 9.75V6C19.25 5.30964 18.6904 4.75 18 4.75H6C5.30964 4.75 4.75 5.30964 4.75 6V9.75M19.25 9.75H9.75M9.75 9.75H4.75", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_primitives5.Path, { d: "M6 19.25H9.75V9.75H4.75V18C4.75 18.6904 5.30964 19.25 6 19.25Z", fill: "currentColor", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/icons/build-module/library/symbol-filled.mjs
   var import_primitives6 = __toESM(require_primitives(), 1);
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  var symbol_filled_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.Path, { d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-17.6 1L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z" }) });
+  var symbol_filled_default = /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_primitives6.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", style: { fill: "none" }, stroke: "currentColor", strokeWidth: "1.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.Path, { d: "M15.2071 6.20711L20.2929 11.2929C20.6834 11.6834 20.6834 12.3166 20.2929 12.7071L15.2071 17.7929C14.8166 18.1834 14.1834 18.1834 13.7929 17.7929L8.70711 12.7071C8.31658 12.3166 8.31658 11.6834 8.70711 11.2929L13.7929 6.20711C14.1834 5.81658 14.8166 5.81658 15.2071 6.20711Z", fill: "currentColor", vectorEffect: "non-scaling-stroke" }),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_primitives6.Path, { d: "M9.5 5.5L3.70711 11.2929C3.31658 11.6834 3.31658 12.3166 3.70711 12.7071L9.5 18.5", vectorEffect: "non-scaling-stroke" })
+  ] });
 
   // packages/core-data/build-module/utils/get-template-part-icon.mjs
   function getTemplatePartIcon(areaOrIconName) {

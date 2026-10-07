@@ -1,5 +1,5 @@
 :where(.wp-block-search .wp-block-search__label) {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .wp-block-search__button {

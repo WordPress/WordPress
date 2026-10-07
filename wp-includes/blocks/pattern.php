@@ -60,10 +60,10 @@ function render_block_core_pattern( $attributes ) {
 
 	$seen_refs[ $slug ] = true;
 
-	$content = do_blocks( $content );
-
 	global $wp_embed;
 	$content = $wp_embed->autoembed( $content );
+
+	$content = do_blocks( $content );
 
 	unset( $seen_refs[ $slug ] );
 	return $content;

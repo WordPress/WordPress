@@ -63,7 +63,7 @@ function render_block_core_calendar( $attributes ) {
 		$classnames .= ' has-link-color';
 	}
 	// Apply color classes and styles to the calendar.
-	$calendar = str_replace( '<table', '<table' . $inline_styles, get_calendar( true, false ) );
+	$calendar = str_replace( '<table', '<table' . $inline_styles, get_calendar( array( 'display' => false ) ) );
 	$calendar = str_replace( 'class="wp-calendar-table', 'class="wp-calendar-table' . $classnames, $calendar );
 
 	$wrapper_attributes = get_block_wrapper_attributes();

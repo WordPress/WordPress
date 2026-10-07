@@ -234,7 +234,7 @@
 .block-directory-downloadable-block-list-item__author {
   display: block;
   margin-top: 4px;
-  font-weight: normal;
+  font-weight: 400;
 }
 
 .block-directory-downloadable-block-list-item__desc {

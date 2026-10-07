@@ -60,7 +60,7 @@
   line-height: 1.5;
 }
 .wp-block-post-comments .comment-meta b, .wp-block-comments__legacy-placeholder .comment-meta b {
-  font-weight: normal;
+  font-weight: 400;
 }
 .wp-block-post-comments .comment-meta .comment-awaiting-moderation, .wp-block-comments__legacy-placeholder .comment-meta .comment-awaiting-moderation {
   margin-top: 1em;

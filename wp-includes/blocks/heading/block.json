@@ -30,6 +30,15 @@
 		"anchor": true,
 		"className": true,
 		"splitting": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true,
+				"gradient": true
+			}
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
@@ -44,6 +53,7 @@
 				"text": true
 			}
 		},
+		"shadow": true,
 		"spacing": {
 			"margin": true,
 			"padding": true,
@@ -63,6 +73,7 @@
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalWritingMode": true,
+			"textShadow": true,
 			"fitText": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true

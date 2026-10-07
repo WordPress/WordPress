@@ -7,6 +7,7 @@
   letter-spacing: inherit;
   line-height: inherit;
   text-transform: inherit;
+  border: none;
 }
 
 .wp-block-navigation-overlay-close {
@@ -15,7 +16,6 @@
   justify-content: center;
   gap: 0.5em;
   padding: 0;
-  border: none;
   background: transparent;
   cursor: pointer;
   text-decoration: none;

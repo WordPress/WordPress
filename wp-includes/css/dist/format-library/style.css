@@ -66,3 +66,8 @@
   /*rtl:ignore*/
   direction: ltr;
 }
+
+.block-editor-format-toolbar__math-learn-more {
+  display: inline-block;
+  margin-top: var(--wpds-dimension-gap-sm, 8px);
+}
