@@ -481,6 +481,10 @@ code {
 	text-decoration: none;
 }
 
+.widefat .column-comment a:not(.row-actions a) {
+	text-decoration: underline;
+}
+
 .widefat td,
 .widefat th {
 	padding: 8px 10px;
