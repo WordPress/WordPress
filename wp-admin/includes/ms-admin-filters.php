@@ -11,9 +11,6 @@
 add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 
 // User hooks.
-add_action( 'user_admin_notices', 'new_user_email_admin_notice' );
-add_action( 'network_admin_notices', 'new_user_email_admin_notice' );
-
 add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
 // Site hooks.
