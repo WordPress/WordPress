@@ -277,10 +277,8 @@ class WP {
 				// Parse the query.
 				parse_str( $query, $perma_query_vars );
 
-				// If we're processing a 404 request, clear the error var since we found something.
-				if ( '404' === $error ) {
-					unset( $error, $_GET['error'] );
-				}
+				// Clear the 404 error var since we found something.
+				unset( $error, $_GET['error'] );
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
