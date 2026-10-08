@@ -282,6 +282,22 @@ body.js .theme-browser.search-loading {
 
 .theme-browser .theme.active .theme-actions .button:not(.button-primary):focus {
 	background: #fff;
+	box-shadow:
+		0 0 0 var(--wp-admin-border-width-focus, 1.5px) #fff,
+		inset 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
+	outline: 1px solid transparent;
+}
+
+/* Active theme card: uses white outer ring against the colored banner. */
+.theme-browser .theme.active .theme-actions .button.disabled:focus {
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) #fff, inset 0 0 0 1px var(--wp-admin-theme-color, #3858e9) !important;
+	outline: 1px solid transparent;
+}
+
+/* Other theme cards: standard focus ring on the card white background. */
+.theme-browser .theme:not(.active) .theme-actions .button.disabled:focus {
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9) !important;
+	outline: 1px solid transparent;
 }
 
 .theme-browser .theme .theme-author {

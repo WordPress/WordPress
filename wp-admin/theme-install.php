@@ -416,7 +416,7 @@ if ( $tab ) {
 						<# if ( ! data.active ) { #>
 							<a class="button button-primary button-compact activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 						<# } else { #>
-							<button class="button button-primary button-compact disabled"><?php _ex( 'Activated', 'theme' ); ?></button>
+							<button type="button" class="button button-primary button-compact disabled" aria-disabled="true"><?php _ex( 'Activated', 'theme' ); ?></button>
 						<# } #>
 					<# } #>
 					<# if ( data.customize_url ) { #>
@@ -436,12 +436,12 @@ if ( $tab ) {
 					$aria_label = sprintf( _x( 'Cannot Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<# if ( data.activate_url ) { #>
-						<a class="button button-primary button-compact disabled" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
+						<button type="button" class="button button-primary button-compact disabled" aria-label="<?php echo esc_attr( $aria_label ); ?>" aria-disabled="true"><?php _ex( 'Cannot Activate', 'theme' ); ?></button>
 					<# } #>
 					<# if ( data.customize_url ) { #>
-						<a class="button button-compact disabled"><?php _e( 'Live Preview' ); ?></a>
+						<button type="button" class="button button-compact disabled" aria-disabled="true"><?php _e( 'Live Preview' ); ?></button>
 					<# } else { #>
-						<button class="button button-compact disabled"><?php echo esc_html_x( 'Preview', 'verb' ); ?></button>
+						<button type="button" class="button button-compact disabled" aria-disabled="true"><?php echo esc_html_x( 'Preview', 'verb' ); ?></button>
 					<# } #>
 				<# } #>
 			<# } else { #>
@@ -457,8 +457,8 @@ if ( $tab ) {
 					/* translators: %s: Theme name. */
 					$aria_label = sprintf( _x( 'Cannot Install %s', 'theme' ), '{{ data.name }}' );
 					?>
-					<a class="button button-primary button-compact disabled" data-name="{{ data.name }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _ex( 'Cannot Install', 'theme' ); ?></a>
-					<button class="button button-compact disabled"><?php echo esc_html_x( 'Preview', 'verb' ); ?></button>
+					<button type="button" class="button button-primary button-compact disabled" data-name="{{ data.name }}" aria-label="<?php echo esc_attr( $aria_label ); ?>" aria-disabled="true"><?php _ex( 'Cannot Install', 'theme' ); ?></button>
+					<button type="button" class="button button-compact disabled" aria-disabled="true"><?php echo esc_html_x( 'Preview', 'verb' ); ?></button>
 				<# } #>
 			<# } #>
 		</div>
@@ -495,16 +495,16 @@ if ( $tab ) {
 					<# if ( ! data.active ) { #>
 						<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 					<# } else { #>
-						<button class="button button-primary disabled"><?php _ex( 'Activated', 'theme' ); ?></button>
+						<button type="button" class="button button-primary disabled" aria-disabled="true"><?php _ex( 'Activated', 'theme' ); ?></button>
 					<# } #>
 				<# } else { #>
-					<a class="button button-primary disabled" ><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
+					<button type="button" class="button button-primary disabled" aria-disabled="true"><?php _ex( 'Cannot Activate', 'theme' ); ?></button>
 				<# } #>
 			<# } else { #>
 				<# if ( data.compatible_wp && data.compatible_php ) { #>
 					<a href="{{ data.install_url }}" class="button button-primary theme-install" data-name="{{ data.name }}" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></a>
 				<# } else { #>
-					<a class="button button-primary disabled" ><?php _ex( 'Cannot Install', 'theme' ); ?></a>
+					<button type="button" class="button button-primary disabled" aria-disabled="true"><?php _ex( 'Cannot Install', 'theme' ); ?></button>
 				<# } #>
 			<# } #>
 		</div>
