@@ -726,7 +726,7 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame .edit-media-header .left:focus,
 .edit-attachment-frame .edit-media-header .right:focus {
 	/* Always visible also in Windows High Contrast mode */
-	outline: 1px solid #c3c4c7;;
+	outline: 1px solid #c3c4c7;
 	outline-offset: -1px;
 }
 

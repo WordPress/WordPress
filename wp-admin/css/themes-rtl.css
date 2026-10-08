@@ -1572,7 +1572,7 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:focus,
 .theme-install-overlay .next-theme:focus {
 	/* Always visible also in Windows High Contrast mode */
-	outline: 1px solid #c3c4c7;;
+	outline: 1px solid #c3c4c7;
 	outline-offset: -1px;
 }
 
