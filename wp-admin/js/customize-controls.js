@@ -2597,10 +2597,14 @@
 		 */
 		updateLimits: function () {
 			if ( ! this.getNextTheme() ) {
-				this.overlay.find( '.right' ).addClass( 'disabled' );
+				this.overlay.find( '.right' )
+					.addClass( 'disabled' )
+					.attr( 'aria-disabled', true );
 			}
 			if ( ! this.getPreviousTheme() ) {
-				this.overlay.find( '.left' ).addClass( 'disabled' );
+				this.overlay.find( '.left' )
+					.addClass( 'disabled' )
+					.attr( 'aria-disabled', true );
 			}
 		},
 

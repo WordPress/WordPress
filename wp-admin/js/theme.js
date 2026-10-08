@@ -480,7 +480,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 			return;
 		}
 
-		// Set focused theme to current element.
+		// Store the theme that had focus when expand is called.
 		themes.focusedTheme = this.$el;
 
 		this.trigger( 'theme:expand', self.model.cid );
@@ -520,7 +520,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		event = event || window.event;
 
-		// Set focus to current theme.
+		// Store the theme that had focus when preview is called.
 		themes.focusedTheme = this.$el;
 
 		// Construct a new Preview view.
@@ -620,18 +620,16 @@ themes.view.Theme = wp.Backbone.View.extend({
 		if ( 0 === this.model.collection.indexOf( current ) ) {
 			previousThemeButton
 				.addClass( 'disabled' )
-				.prop( 'disabled', true );
-
-			nextThemeButton.trigger( 'focus' );
+				.attr( 'aria-disabled', true )
+				.trigger( 'focus' );
 		}
 
 		// Disable next if the next model is undefined.
 		if ( _.isUndefined( this.model.collection.at( this.model.collection.indexOf( current ) + 1 ) ) ) {
 			nextThemeButton
 				.addClass( 'disabled' )
-				.prop( 'disabled', true );
-
-			previousThemeButton.trigger( 'focus' );
+				.attr( 'aria-disabled', true )
+				.trigger( 'focus' );
 		}
 	},
 
@@ -725,11 +723,14 @@ themes.view.Details = wp.Backbone.View.extend({
 
 	// Set initial focus and constrain tabbing within the theme browser modal.
 	containFocus: function( $el ) {
+		// Set initial focus on the theme overlay modal dialog, only on first render.
+		var $themeOverlay = $( '.theme-overlay' );
+		if ( $themeOverlay.hasClass( 'theme-overlay-initial' ) ) {
+			_.delay( function() {
+				$themeOverlay.trigger( 'focus' ).removeClass( 'theme-overlay-initial' );
+			}, 100 );
+		}
 
-		// Set initial focus on the primary action control.
-		_.delay( function() {
-			$( '.theme-overlay' ).trigger( 'focus' );
-		}, 100 );
 
 		// Constrain tabbing within the modal.
 		$el.on( 'keydown.wp-themes', function( event ) {
@@ -785,10 +786,13 @@ themes.view.Details = wp.Backbone.View.extend({
 				// Restore scroll position.
 				document.body.scrollTop = scroll;
 
-				// Return focus to the theme div.
+				// Return focus to the opener theme 'more-details' button.
 				if ( themes.focusedTheme ) {
-					themes.focusedTheme.find('.more-details').trigger( 'focus' );
+					themes.focusedTheme.find( '.more-details' ).trigger( 'focus' );
 				}
+
+				// Add back the `theme-overlay-initial` class for the theme overlay.
+				$( '.theme-overlay' ).addClass( 'theme-overlay-initial' );
 			});
 		}
 
@@ -803,12 +807,12 @@ themes.view.Details = wp.Backbone.View.extend({
 		if ( this.model.cid === this.model.collection.at(0).cid ) {
 			this.$el.find( '.left' )
 				.addClass( 'disabled' )
-				.prop( 'disabled', true );
+				.attr( 'aria-disabled', true );
 		}
 		if ( this.model.cid === this.model.collection.at( this.model.collection.length - 1 ).cid ) {
 			this.$el.find( '.right' )
 				.addClass( 'disabled' )
-				.prop( 'disabled', true );
+				.attr( 'aria-disabled', true );
 		}
 	},
 
@@ -960,6 +964,8 @@ themes.view.Preview = themes.view.Details.extend({
 
 		this.$el.fadeIn( 200, function() {
 			$body.addClass( 'theme-installer-active full-overlay-active' );
+			// Set initial focus on the theme installer overlay modal dialog.
+			self.$el.trigger( 'focus' );
 		});
 
 		this.$el.find( 'iframe' ).one( 'load', function() {
@@ -976,9 +982,9 @@ themes.view.Preview = themes.view.Details.extend({
 		this.$el.fadeOut( 200, function() {
 			$( 'body' ).removeClass( 'theme-installer-active full-overlay-active' );
 
-			// Return focus to the theme div.
+			// Return focus to the opener theme 'more-details' button.
 			if ( themes.focusedTheme ) {
-				themes.focusedTheme.find('.more-details').trigger( 'focus' );
+				themes.focusedTheme.find( '.more-details' ).trigger( 'focus' );
 			}
 		}).removeClass( 'iframe-ready' );
 
@@ -1354,6 +1360,8 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', nextModel.cid );
+			// Set focus again to the 'Next' navigation button after the view fully re-rendeers.
+			$( '.theme-header .right' ).trigger( 'focus' );
 			themes.announceThemeDebounced( nextModel );
 		}
 	},
@@ -1389,6 +1397,8 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Trigger a route update for the current model.
 			self.theme.trigger( 'theme:expand', previousModel.cid );
+			// Set focus again to the 'Previous' navigation button after the view fully re-rendeers.
+			$( '.theme-header .left' ).trigger( 'focus' );
 			themes.announceThemeDebounced( previousModel );
 		}
 	},

@@ -1407,6 +1407,12 @@ body.full-overlay-active {
 	visibility: hidden;
 }
 
+/* Make sure the ARIA live regions are visible, as they inherit the hidden visibility from the body. */
+.a11y-speak-intro-text,
+.a11y-speak-region {
+	visibility: visible;
+}
+
 .wp-full-overlay {
 	background: #1d2327;
 	z-index: 500000;
@@ -1562,6 +1568,14 @@ body.full-overlay-active {
 	box-shadow: none;
 }
 
+.theme-install-overlay .close-full-overlay:focus,
+.theme-install-overlay .previous-theme:focus,
+.theme-install-overlay .next-theme:focus {
+	/* Always visible also in Windows High Contrast mode */
+	outline: 1px solid #c3c4c7;;
+	outline-offset: -1px;
+}
+
 .theme-install-overlay .close-full-overlay::before {
 	font: 400 22px/1 dashicons;
 	content: "\f335";
@@ -1598,7 +1612,6 @@ body.full-overlay-active {
 	color: #c3c4c7;
 	background: #f0f0f1;
 	cursor: default;
-	pointer-events: none;
 }
 
 .theme-install-overlay .close-full-overlay::before,

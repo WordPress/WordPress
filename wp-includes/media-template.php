@@ -206,7 +206,7 @@ function wp_print_media_templates() {
 				<button type="button" class="media-modal-close"><span class="media-modal-icon" aria-hidden="true"></span><span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. */
-					_e( 'Close dialog' );
+					_e( 'Close' );
 					?>
 				</span></button>
 			<# } #>
@@ -369,9 +369,9 @@ function wp_print_media_templates() {
 	<?php // Template for the Attachment Details layout in the media browser. ?>
 	<script type="text/html" id="tmpl-edit-attachment-frame">
 		<div class="edit-media-header">
-			<button class="left dashicons"<# if ( ! data.hasPrevious ) { #> disabled<# } #>><span class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ _e( 'Edit previous media item' ); ?></span></button>
-			<button class="right dashicons"<# if ( ! data.hasNext ) { #> disabled<# } #>><span class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ _e( 'Edit next media item' ); ?></span></button>
-			<button type="button" class="media-modal-close"><span class="media-modal-icon" aria-hidden="true"></span><span class="screen-reader-text"><?php _e( 'Close dialog' ); ?></span></button>
+			<button class="left dashicons"<# if ( ! data.hasPrevious ) { #> aria-disabled='true'<# } #>><span class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ _ex( 'Previous', 'media item' ); ?></span></button>
+			<button class="right dashicons"<# if ( ! data.hasNext ) { #> aria-disabled='true'<# } #>><span class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ _ex( 'Next', 'media item' ); ?></span></button>
+			<button type="button" class="media-modal-close"><span class="media-modal-icon" aria-hidden="true"></span><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
 		</div>
 		<div class="media-frame-title"></div>
 		<div class="media-frame-content"></div>

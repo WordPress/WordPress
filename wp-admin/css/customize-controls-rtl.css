@@ -2456,10 +2456,10 @@ p.customize-section-description {
 
 .wp-customizer .theme-overlay .theme-header .close:focus,
 .wp-customizer .theme-overlay .theme-header .close:hover,
-.wp-customizer .theme-overlay .theme-header .right:focus,
-.wp-customizer .theme-overlay .theme-header .right:hover,
-.wp-customizer .theme-overlay .theme-header .left:focus,
-.wp-customizer .theme-overlay .theme-header .left:hover {
+.wp-customizer .theme-overlay .theme-header .right:focus:not(.disabled),
+.wp-customizer .theme-overlay .theme-header .right:hover:not(.disabled),
+.wp-customizer .theme-overlay .theme-header .left:focus:not(.disabled),
+.wp-customizer .theme-overlay .theme-header .left:hover:not(.disabled) {
 	background: #fff;
 }
 

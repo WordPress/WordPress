@@ -281,7 +281,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		?>
 	</h2>
 	<div class="theme-browser content-filterable"></div>
-	<div class="theme-install-overlay wp-full-overlay expanded"></div>
+	<div class="theme-install-overlay wp-full-overlay expanded" tabindex="0" role="dialog" aria-label="<?php esc_attr_e( 'Browse Themes' ); ?>"></div>
 
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
@@ -390,7 +390,11 @@ if ( $tab ) {
 		</p></div>
 	<# } #>
 
+	<# if ( data.compatible_wp && data.compatible_php ) { #>
+	<button type="button" class="more-details"><?php _ex( 'Details &amp; Preview', 'theme' ); ?></button>
+	<# } else { #>
 	<span class="more-details"><?php _ex( 'Details &amp; Preview', 'theme' ); ?></span>
+	<# } #>
 	<div class="theme-author">
 		<?php
 		/* translators: %s: Theme author name. */
@@ -473,13 +477,13 @@ if ( $tab ) {
 			<button class="previous-theme"><span class="screen-reader-text">
 				<?php
 				/* translators: Hidden accessibility text. */
-				_e( 'Previous theme' );
+				_ex( 'Previous', 'theme' );
 				?>
 			</span></button>
 			<button class="next-theme"><span class="screen-reader-text">
 				<?php
 				/* translators: Hidden accessibility text. */
-				_e( 'Next theme' );
+				_ex( 'Next', 'theme' );
 				?>
 			</span></button>
 			<# if ( data.installed ) { #>

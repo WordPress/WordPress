@@ -835,7 +835,7 @@ div#wp-responsive-toggle a::before {
 .wp-core-ui .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
   box-shadow: 0 0 0 1px rgb(216.9512195122, 105.9756097561, 98.0487804878), 0 0 2px 1px #cf4339;
 }
-.wp-core-ui.wp-customizer .theme-overlay .theme-header .close:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .close:hover, .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:hover, .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:hover {
+.wp-core-ui.wp-customizer .theme-overlay .theme-header .close:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .close:hover, .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:focus:not(.disabled), .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:hover:not(.disabled), .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:focus:not(.disabled), .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:hover:not(.disabled) {
   border-bottom-color: #cf4339;
   color: #0073aa;
 }
