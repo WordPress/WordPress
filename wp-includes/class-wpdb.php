@@ -638,6 +638,7 @@ class wpdb {
 	 * A list of incompatible SQL modes.
 	 *
 	 * @since 3.9.0
+	 * @since 7.2.0 Added `NO_BACKSLASH_ESCAPES`.
 	 *
 	 * @var string[]
 	 */
@@ -648,6 +649,7 @@ class wpdb {
 		'STRICT_ALL_TABLES',
 		'TRADITIONAL',
 		'ANSI',
+		'NO_BACKSLASH_ESCAPES',
 	);
 
 	/**
