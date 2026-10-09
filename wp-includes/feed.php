@@ -854,21 +854,56 @@ function get_feed_build_date( $format ) {
 	$max_modified_time = false;
 	$utc               = new DateTimeZone( 'UTC' );
 
-	if ( ! empty( $wp_query ) && $wp_query->have_posts() ) {
-		// Extract the post modified times from the posts.
-		$modified_times = wp_list_pluck( $wp_query->posts, 'post_modified_gmt' );
+	if ( $wp_query instanceof WP_Query && is_array( $wp_query->posts ) ) {
+		/*
+		 * Collect the post modified times. WP_Post objects are read as-is, since
+		 * passing them through get_post() would look them up again by ID, which
+		 * drops virtual posts and discards in-memory changes. Queries using
+		 * fields => 'ids' (or 'id=>parent') yield post IDs instead, which are
+		 * looked up after priming the post cache to avoid a query per post.
+		 */
+		$modified_times = array();
+		$post_ids       = array();
+		foreach ( $wp_query->posts as $post ) {
+			if ( $post instanceof WP_Post ) {
+				$modified_times[] = $post->post_modified_gmt;
+			} elseif ( is_int( $post ) ) {
+				// A post ID, from a query with fields => 'ids'.
+				$post_ids[] = $post;
+			} elseif ( is_object( $post ) && isset( $post->ID ) && is_int( $post->ID ) ) {
+				/*
+				 * A partial post object of shape object{ ID: int, post_parent: int },
+				 * from a query with fields => 'id=>parent'. It lacks post_modified_gmt,
+				 * so the post is looked up by its ID.
+				 */
+				$post_ids[] = $post->ID;
+			}
+		}
+
+		if ( $post_ids ) {
+			_prime_post_caches( $post_ids, false, false );
+			foreach ( $post_ids as $post_id ) {
+				$post = get_post( $post_id );
+				if ( $post instanceof WP_Post ) {
+					$modified_times[] = $post->post_modified_gmt;
+				}
+			}
+		}
 
 		// If this is a comment feed, check those objects too.
-		if ( $wp_query->is_comment_feed() && $wp_query->comment_count ) {
-			// Extract the comment modified times from the comments.
-			$comment_times = wp_list_pluck( $wp_query->comments, 'comment_date_gmt' );
-
-			// Add the comment times to the post times for comparison.
-			$modified_times = array_merge( $modified_times, $comment_times );
+		if ( $wp_query->is_comment_feed() && is_array( $wp_query->comments ) ) {
+			foreach ( $wp_query->comments as $comment ) {
+				// A 'get_comment' filter may have returned null for a comment.
+				if ( $comment instanceof WP_Comment ) {
+					$modified_times[] = $comment->comment_date_gmt;
+				}
+			}
 		}
 
 		// Determine the maximum modified time.
-		$datetime = date_create_immutable_from_format( 'Y-m-d H:i:s', max( $modified_times ), $utc );
+		if ( $modified_times ) {
+			$datetime = date_create_immutable_from_format( 'Y-m-d H:i:s', max( $modified_times ), $utc );
+		}
 	}
 
 	if ( false === $datetime ) {
