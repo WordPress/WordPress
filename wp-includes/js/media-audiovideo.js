@@ -836,7 +836,6 @@ var media = wp.media,
 	l10n = window._wpMediaViewsL10n || {};
 
 /**
- *
  * Defines the wp.media.mixin object.
  *
  * @mixin
@@ -911,7 +910,6 @@ wp.media.mixin = {
 	},
 
 	/**
-	 *
 	 * Removes and resets all players.
 	 *
 	 * Allows any class that has set 'player' to a MediaElementPlayer
