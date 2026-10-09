@@ -1705,7 +1705,7 @@ function wp_sanitize_html_kses( $content, $allowed_html, $allowed_protocols = ar
 							// Fully normalize all block delimiters: name, whitespace, attributes, flags.
 							if ( WP_Block_Processor::CLOSER === $block_processor->get_delimiter_type() ) {
 								$text = " /wp:{$implicit_block_type} ";
-							} elseif ( isset( $attributes ) ) {
+							} elseif ( ! empty( $attributes ) ) {
 								$serialized_attributes = serialize_block_attributes( $attributes );
 
 								$text = " wp:{$implicit_block_type} {$serialized_attributes} {$voider}";
