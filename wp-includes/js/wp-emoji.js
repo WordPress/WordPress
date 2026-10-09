@@ -1,58 +1,52 @@
 /**
- * wp-emoji.js is used to replace emoji with images in browsers when the browser
- * doesn't support emoji natively.
- *
- * @param {Window} window   The global window object.
- * @param {Object} settings The settings object.
  * @output wp-includes/js/wp-emoji.js
  */
 
-( function( window, settings ) {
+/**
+ * Additional options accepted by wp.emoji.parse().
+ *
+ * @typedef WPEmojiParseArgs
+ * @type {Object}
+ * @property {string}                 [className] Class name to give each generated image.
+ * @property {Record<string, string>} [imgAttr]   Attributes to set on each generated image, in
+ *                                                place of the default ones.
+ */
+
+/**
+ * wp-emoji.js is used to replace emoji with images in browsers when the browser
+ * doesn't support emoji natively.
+ *
+ * @param {Window}          window   The global window object.
+ * @param {WPEmojiSettings} settings The settings object.
+ */
+( function ( window, settings ) {
 	/**
 	 * Replaces emoji with images when browsers don't support emoji.
 	 *
 	 * @since 4.2.0
 	 * @access private
 	 *
-	 * @class
+	 * @see  Twemoji
+	 * @link https://github.com/jdecked/twemoji
 	 *
-	 * @see  Twitter Emoji library
-	 * @link https://github.com/twitter/twemoji
-	 *
-	 * @return {Object} The wpEmoji parse and test functions.
+	 * @return {{
+	 *     parse: ( object: HTMLElement|string, args?: WPEmojiParseArgs ) => HTMLElement|string,
+	 *     test: ( text: ?string ) => boolean
+	 * }} The wpEmoji parse and test functions.
 	 */
 	function wpEmoji() {
-		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
-
 		// Compression and maintain local scope.
-		document = window.document,
+		const document = window.document;
 
 		// Private.
-		twemoji, timer,
-		loaded = false,
-		count = 0,
-		ie11 = window.navigator.userAgent.indexOf( 'Trident/7.0' ) > 0;
+		/** @type {Twemoji|undefined} */
+		let twemoji;
 
-		/**
-		 * Detect if the browser supports SVG.
-		 *
-		 * @since 4.6.0
-		 * @private
-		 *
-		 * @see Modernizr
-		 * @link https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg/asimg.js
-		 *
-		 * @return {boolean} True if the browser supports svg, false if not.
-		 */
-		function browserSupportsSvgAsImage() {
-			if ( !! document.implementation.hasFeature ) {
-				return document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' );
-			}
+		/** @type {number|undefined} */
+		let timer;
 
-			// document.implementation.hasFeature is deprecated. It can be presumed
-			// if future browsers remove it, the browser will support SVGs as images.
-			return true;
-		}
+		let loaded = false;
+		let count = 0;
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of
@@ -89,74 +83,42 @@
 
 			// Initialize the mutation observer, which checks all added nodes for
 			// replaceable emoji characters.
-			if ( MutationObserver ) {
-				new MutationObserver( function( mutationRecords ) {
-					var i = mutationRecords.length,
-						addedNodes, removedNodes, ii, node;
+			new MutationObserver( ( mutationRecords ) => {
+				for ( const { addedNodes, removedNodes } of mutationRecords ) {
+					const addedNode = addedNodes[ 0 ];
+					const removedNode = removedNodes[ 0 ];
 
-					while ( i-- ) {
-						addedNodes = mutationRecords[ i ].addedNodes;
-						removedNodes = mutationRecords[ i ].removedNodes;
-						ii = addedNodes.length;
+					/*
+					 * Checks if an image has been replaced by a text element
+					 * with the same text as the alternate description of the replaced image.
+					 * (presumably because the image could not be loaded).
+					 * If it is, leave this record alone, so that the text is not turned
+					 * straight back into the image which just failed to load.
+					 */
+					if (
+						addedNodes.length === 1 && removedNodes.length === 1 &&
+						addedNode instanceof Text &&
+						removedNode instanceof HTMLImageElement &&
+						addedNode.data === removedNode.alt &&
+						'load-failed' === removedNode.dataset.error
+					) {
+						continue;
+					}
 
-						/*
-						 * Checks if an image has been replaced by a text element
-						 * with the same text as the alternate description of the replaced image.
-						 * (presumably because the image could not be loaded).
-						 * If it is, do absolutely nothing.
-						 *
-						 * Node type 3 is a TEXT_NODE.
-						 *
-						 * @link https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
-						 */
-						if (
-							ii === 1 && removedNodes.length === 1 &&
-							addedNodes[0].nodeType === 3 &&
-							removedNodes[0].nodeName === 'IMG' &&
-							addedNodes[0].data === removedNodes[0].alt &&
-							'load-failed' === removedNodes[0].getAttribute( 'data-error' )
-						) {
-							return;
-						}
+					// Loop through all the added nodes.
+					for ( const addedNode of addedNodes ) {
+						// Emoji in a text node are replaced by parsing the element which contains it.
+						const node = addedNode instanceof Text ? addedNode.parentElement : addedNode;
 
-						// Loop through all the added nodes.
-						while ( ii-- ) {
-							node = addedNodes[ ii ];
-
-							// Node type 3 is a TEXT_NODE.
-							if ( node.nodeType === 3 ) {
-								if ( ! node.parentNode ) {
-									continue;
-								}
-
-								if ( ie11 ) {
-									/*
-									 * IE 11's implementation of MutationObserver is buggy.
-									 * It unnecessarily splits text nodes when it encounters a HTML
-									 * template interpolation symbol ( "{{", for example ). So, we
-									 * join the text nodes back together as a work-around.
-									 *
-									 * Node type 3 is a TEXT_NODE.
-									 */
-									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
-										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
-										node.parentNode.removeChild( node.nextSibling );
-									}
-								}
-
-								node = node.parentNode;
-							}
-
-							if ( test( node.textContent ) ) {
-								parse( node );
-							}
+						if ( node instanceof HTMLElement && test( node.textContent ) ) {
+							parse( node );
 						}
 					}
-				} ).observe( document.body, {
-					childList: true,
-					subtree: true
-				} );
-			}
+				}
+			} ).observe( document.body, {
+				childList: true,
+				subtree: true
+			} );
 
 			parse( document.body );
 		}
@@ -168,18 +130,19 @@
 		 *
 		 * @memberOf wp.emoji
 		 *
-		 * @param {string} text The string to test.
+		 * @param {?string} text The string to test.
 		 *
 		 * @return {boolean} Whether the string contains emoji characters.
 		 */
 		function test( text ) {
 			// Single char. U+20E3 to detect keycaps. U+00A9 "copyright sign" and U+00AE "registered sign" not included.
-			var single = /[\u203C\u2049\u20E3\u2122\u2139\u2194-\u2199\u21A9\u21AA\u2300\u231A\u231B\u2328\u2388\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638\u2639\u263A\u2648-\u2653\u2660\u2663\u2665\u2666\u2668\u267B\u267F\u2692\u2693\u2694\u2696\u2697\u2699\u269B\u269C\u26A0\u26A1\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753\u2754\u2755\u2757\u2763\u2764\u2795\u2796\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05\u2B06\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]/,
+			const single = /[\u203C\u2049\u20E3\u2122\u2139\u2194-\u2199\u21A9\u21AA\u2300\u231A\u231B\u2328\u2388\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638\u2639\u263A\u2648-\u2653\u2660\u2663\u2665\u2666\u2668\u267B\u267F\u2692\u2693\u2694\u2696\u2697\u2699\u269B\u269C\u26A0\u26A1\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753\u2754\u2755\u2757\u2763\u2764\u2795\u2796\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05\u2B06\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]/;
+
 			// Surrogate pair range. Only tests for the second half.
-			pair = /[\uDC00-\uDFFF]/;
+			const pair = /[\uDC00-\uDFFF]/;
 
 			if ( text ) {
-				return  pair.test( text ) || single.test( text );
+				return pair.test( text ) || single.test( text );
 			}
 
 			return false;
@@ -197,14 +160,12 @@
 		 * @memberOf wp.emoji
 		 *
 		 * @param {HTMLElement|string} object The element or string to parse.
-		 * @param {Object}             args   Additional options for Twemoji.
+		 * @param {WPEmojiParseArgs}   [args] Additional options for Twemoji.
 		 *
 		 * @return {HTMLElement|string} A string where all emoji are now image tags of
 		 *                              emoji. Or the element that was passed as the first argument.
 		 */
 		function parse( object, args ) {
-			var params;
-
 			/*
 			 * If the browser has full support, twemoji is not loaded or our
 			 * object is not what was expected, we do not parse anything.
@@ -217,11 +178,16 @@
 
 			// Compose the params for the twitter emoji library.
 			args = args || {};
-			params = {
-				base: browserSupportsSvgAsImage() ? settings.svgUrl : settings.baseUrl,
-				ext:  browserSupportsSvgAsImage() ? settings.svgExt : settings.ext,
+
+			// The caller may replace the attributes given to every generated image.
+			const attributes = typeof args.imgAttr === 'object' ? args.imgAttr : { role: 'img' };
+
+			/** @type {TwemojiParseOptions} */
+			const params = {
+				base: settings.svgUrl,
+				ext: settings.svgExt,
 				className: args.className || 'emoji',
-				callback: function( icon, options ) {
+				callback: ( icon, options ) => {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
 						case 'a9':
@@ -244,47 +210,30 @@
 
 					return ''.concat( options.base, icon, options.ext );
 				},
-				attributes: function() {
-					return {
-						role: 'img'
-					};
-				},
-				onerror: function() {
-					if ( twemoji.parentNode ) {
-						this.setAttribute( 'data-error', 'load-failed' );
-						twemoji.parentNode.replaceChild( document.createTextNode( twemoji.alt ), twemoji );
+				attributes: () => attributes,
+				onerror: function () {
+					/*
+					 * Put the emoji character back in place of the image which failed to load. The
+					 * attribute is what tells the MutationObserver above that this replacement is
+					 * the one it must not turn straight back into an image.
+					 */
+					if ( this.parentNode ) {
+						this.dataset.error = 'load-failed';
+						this.parentNode.replaceChild( document.createTextNode( this.alt ), this );
 					}
 				},
-				doNotParse: function( node ) {
-					if (
-						node &&
-						node.className &&
-						typeof node.className === 'string' &&
-						node.className.indexOf( 'wp-exclude-emoji' ) !== -1
-					) {
-						// Do not parse this node. Emojis will not be replaced in this node and all sub-nodes.
-						return true;
-					}
-
-					return false;
+				doNotParse: ( element ) => {
+					// Emoji will not be replaced in this element, nor in any of its descendants.
+					return element.classList.contains( 'wp-exclude-emoji' );
 				}
 			};
-
-			if ( typeof args.imgAttr === 'object' ) {
-				params.attributes = function() {
-					return args.imgAttr;
-				};
-			}
 
 			return twemoji.parse( object, params );
 		}
 
 		load();
 
-		return {
-			parse: parse,
-			test: test
-		};
+		return { parse, test };
 	}
 
 	window.wp = window.wp || {};
@@ -292,6 +241,6 @@
 	/**
 	 * @namespace wp.emoji
 	 */
-	window.wp.emoji = new wpEmoji();
+	window.wp.emoji = wpEmoji();
 
 } )( window, window._wpemojiSettings );

@@ -4,20 +4,12 @@
 
 // Note: This is loaded as a script module, so there is no need for an IIFE to prevent pollution of the global scope.
 
-/**
- * Emoji Settings as exported in PHP via _print_emoji_detection_script().
- * @typedef WPEmojiSettings
- * @type {Object}
- * @property {?object} source             The source object containing emoji-related URLs.
- * @property {?string} source.concatemoji The URL for the concatenated emoji script.
- * @property {?string} source.twemoji     The URL for the Twemoji script.
- * @property {?string} source.wpemoji     The URL for the WP Emoji script.
- */
+// Note: The WPEmojiSettings and EmojiSupports types are declared in typings/wp-emoji, since wp-emoji.js reads them back.
 
 const selector = 'script#wp-emoji-settings';
 const script = document.querySelector( selector );
 if ( ! ( script instanceof HTMLScriptElement ) ) {
-	throw new Error( `Element missing: ${ selector }`);
+	throw new Error( `Element missing: ${ selector }` );
 }
 const settings = /** @type {WPEmojiSettings} */ ( JSON.parse( script.text ) );
 
@@ -25,14 +17,17 @@ const settings = /** @type {WPEmojiSettings} */ ( JSON.parse( script.text ) );
 window._wpemojiSettings = settings;
 
 /**
- * Support tests.
+ * Results of the emoji support tests.
+ *
  * @typedef SupportTests
  * @type {Object}
- * @property {?boolean} flag  Whether the browser supports flag emojis.
- * @property {?boolean} emoji Whether the browser supports general emojis.
+ * @property {boolean} flag  Whether the browser renders flag emoji.
+ * @property {boolean} emoji Whether the browser renders emoji.
  */
 
 const sessionStorageKey = 'wpEmojiSettingsSupports';
+
+/** @type {Array<keyof SupportTests>} */
 const tests = [ 'flag', 'emoji' ];
 
 /**
@@ -49,16 +44,18 @@ function supportsWorkerOffloading() {
 		typeof Worker !== 'undefined' &&
 		typeof OffscreenCanvas !== 'undefined' &&
 		typeof URL !== 'undefined' &&
-		URL.createObjectURL &&
+		typeof URL.createObjectURL === 'function' &&
 		typeof Blob !== 'undefined'
 	);
 }
 
 /**
+ * Support tests as they are stored in session storage.
+ *
  * @typedef SessionSupportTests
  * @type {Object}
- * @property {number}       timestamp    The timestamp when the support tests were last updated.
- * @property {SupportTests} supportTests The support tests for the browser.
+ * @property {number}       timestamp    When the tests were run, in milliseconds since the epoch.
+ * @property {SupportTests} supportTests What the tests found.
  */
 
 /**
@@ -72,10 +69,13 @@ function supportsWorkerOffloading() {
  */
 function getSessionSupportTests() {
 	try {
+		const itemJson = sessionStorage.getItem( sessionStorageKey );
+		if ( null === itemJson ) {
+			return null;
+		}
+
 		/** @type {SessionSupportTests} */
-		const item = JSON.parse(
-			sessionStorage.getItem( sessionStorageKey )
-		);
+		const item = JSON.parse( itemJson );
 		if (
 			typeof item === 'object' &&
 			typeof item.timestamp === 'number' &&
@@ -95,7 +95,7 @@ function getSessionSupportTests() {
  *
  * @private
  *
- * @param {SupportTests} supportTests Support tests.
+ * @param {SupportTests} supportTests What the tests found.
  */
 function setSessionSupportTests( supportTests ) {
 	try {
@@ -113,6 +113,51 @@ function setSessionSupportTests( supportTests ) {
 }
 
 /**
+ * A 2D context for the support tests.
+ *
+ * Which of the two it is depends on the kind of canvas it came from, and the tests use only what
+ * both provide.
+ *
+ * @typedef {CanvasRenderingContext2D|OffscreenCanvasRenderingContext2D} EmojiTestContext
+ */
+
+/**
+ * Checks if two sets of Emoji characters render the same visually.
+ *
+ * @callback EmojiSetsRenderIdentically
+ *
+ * @param {EmojiTestContext} context 2D Context.
+ * @param {string}           set1    Set of Emoji to test.
+ * @param {string}           set2    Set of Emoji to test.
+ *
+ * @return {boolean} True if the two sets render the same.
+ */
+
+/**
+ * Checks if the center point of a single emoji is empty.
+ *
+ * @callback EmojiRendersEmptyCenterPoint
+ *
+ * @param {EmojiTestContext} context 2D Context.
+ * @param {string}           emoji   Emoji to test.
+ *
+ * @return {boolean} True if the center point is empty.
+ */
+
+/**
+ * Determines if the browser properly renders Emoji that Twemoji can supplement.
+ *
+ * @callback BrowserSupportsEmoji
+ *
+ * @param {EmojiTestContext}             context                      2D Context.
+ * @param {keyof SupportTests}           type                         Which support test to run.
+ * @param {EmojiSetsRenderIdentically}   emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {EmojiRendersEmptyCenterPoint} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ *
+ * @return {boolean} True if the browser can render emoji, false if it cannot.
+ */
+
+/**
  * Checks if two sets of Emoji characters render the same visually.
  *
  * This is used to determine if the browser is rendering an emoji with multiple data points
@@ -127,9 +172,9 @@ function setSessionSupportTests( supportTests ) {
  *
  * @private
  *
- * @param {CanvasRenderingContext2D} context 2D Context.
- * @param {string}                   set1    Set of Emoji to test.
- * @param {string}                   set2    Set of Emoji to test.
+ * @param {EmojiTestContext} context 2D Context.
+ * @param {string}           set1    Set of Emoji to test.
+ * @param {string}           set2    Set of Emoji to test.
  *
  * @return {boolean} True if the two sets render the same.
  */
@@ -177,8 +222,8 @@ function emojiSetsRenderIdentically( context, set1, set2 ) {
  *
  * @private
  *
- * @param {CanvasRenderingContext2D} context 2D Context.
- * @param {string}                   emoji   Emoji to test.
+ * @param {EmojiTestContext} context 2D Context.
+ * @param {string}           emoji   Emoji to test.
  *
  * @return {boolean} True if the center point is empty.
  */
@@ -188,7 +233,7 @@ function emojiRendersEmptyCenterPoint( context, emoji ) {
 	context.fillText( emoji, 0, 0 );
 
 	// Test if the center point (16, 16) is empty (0,0,0,0).
-	const centerPoint = context.getImageData(16, 16, 1, 1);
+	const centerPoint = context.getImageData( 16, 16, 1, 1 );
 	for ( let i = 0; i < centerPoint.data.length; i++ ) {
 		if ( centerPoint.data[ i ] !== 0 ) {
 			// Stop checking the moment it's known not to be empty.
@@ -209,14 +254,15 @@ function emojiRendersEmptyCenterPoint( context, emoji ) {
  *
  * @private
  *
- * @param {CanvasRenderingContext2D} context                      2D Context.
- * @param {string}                   type                         Whether to test for support of "flag" or "emoji".
- * @param {Function}                 emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
- * @param {Function}                 emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ * @param {EmojiTestContext}             context                      2D Context.
+ * @param {keyof SupportTests}           type                         Which support test to run.
+ * @param {EmojiSetsRenderIdentically}   emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {EmojiRendersEmptyCenterPoint} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
  *
  * @return {boolean} True if the browser can render emoji, false if it cannot.
  */
 function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
+	/** @type {boolean} */
 	let isIdentical;
 
 	switch ( type ) {
@@ -256,7 +302,7 @@ function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiR
 
 			/*
 			 * Test for English flag compatibility. England is a country in the United Kingdom, it
-			 * does not have a two letter locale code but rather a five letter sub-division code.
+			 * does not have a two letter locale code but rather a five letter subdivision code.
 			 *
 			 * To test for support, we try to render it, and compare the rendering to how it would look if
 			 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
@@ -288,8 +334,6 @@ function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiR
 			const notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\uDEC8' );
 			return ! notSupported;
 	}
-
-	return false;
 }
 
 /**
@@ -302,25 +346,30 @@ function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiR
  *
  * @private
  *
- * @param {string[]} tests                        Tests.
- * @param {Function} browserSupportsEmoji         Reference to browserSupportsEmoji function, needed due to minification.
- * @param {Function} emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
- * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ * @param {Array<keyof SupportTests>}    tests                        Which support tests to run.
+ * @param {BrowserSupportsEmoji}         browserSupportsEmoji         Reference to browserSupportsEmoji function, needed due to minification.
+ * @param {EmojiSetsRenderIdentically}   emojiSetsRenderIdentically   Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {EmojiRendersEmptyCenterPoint} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
  *
  * @return {SupportTests} Support tests.
  */
 function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
-	let canvas;
+	/** @type {?EmojiTestContext} */
+	let context;
+
 	if (
 		typeof WorkerGlobalScope !== 'undefined' &&
 		self instanceof WorkerGlobalScope
 	) {
-		canvas = new OffscreenCanvas( 300, 150 ); // Dimensions are default for HTMLCanvasElement.
+		// Dimensions are default for HTMLCanvasElement.
+		context = new OffscreenCanvas( 300, 150 ).getContext( '2d', { willReadFrequently: true } );
 	} else {
-		canvas = document.createElement( 'canvas' );
+		context = document.createElement( 'canvas' ).getContext( '2d', { willReadFrequently: true } );
 	}
 
-	const context = canvas.getContext( '2d', { willReadFrequently: true } );
+	if ( ! context ) {
+		throw new Error( 'Unable to obtain a 2D context for the emoji support tests.' );
+	}
 
 	/*
 	 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
@@ -330,7 +379,7 @@ function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentica
 	context.textBaseline = 'top';
 	context.font = '600 32px Arial';
 
-	const supports = {};
+	const supports = /** @type {SupportTests} */ ( {} );
 	tests.forEach( ( test ) => {
 		supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
 	} );
@@ -361,10 +410,11 @@ settings.supports = {
 };
 
 // Obtain the emoji support from the browser, asynchronously when possible.
-new Promise( ( resolve ) => {
-	let supportTests = getSessionSupportTests();
-	if ( supportTests ) {
-		resolve( supportTests );
+/** @type {Promise<SupportTests>} */
+const supportTestsPromise = new Promise( ( resolve ) => {
+	const sessionSupportTests = getSessionSupportTests();
+	if ( sessionSupportTests ) {
+		resolve( sessionSupportTests );
 		return;
 	}
 
@@ -386,20 +436,21 @@ new Promise( ( resolve ) => {
 				type: 'text/javascript'
 			} );
 			const worker = new Worker( URL.createObjectURL( blob ), { name: 'wpTestEmojiSupports' } );
-			worker.onmessage = ( event ) => {
-				supportTests = event.data;
-				setSessionSupportTests( supportTests );
+			worker.onmessage = ( /** @type {MessageEvent<SupportTests>} */ event ) => {
+				setSessionSupportTests( event.data );
 				worker.terminate();
-				resolve( supportTests );
+				resolve( event.data );
 			};
 			return;
 		} catch ( e ) {}
 	}
 
-	supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
-	setSessionSupportTests( supportTests );
-	resolve( supportTests );
-} )
+	const testedSupportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
+	setSessionSupportTests( testedSupportTests );
+	resolve( testedSupportTests );
+} );
+
+supportTestsPromise
 	// Once the browser emoji support has been obtained from the session, finalize the settings.
 	.then( ( supportTests ) => {
 		/*
@@ -407,15 +458,17 @@ new Promise( ( resolve ) => {
 		 * support settings accordingly.
 		 */
 		for ( const test in supportTests ) {
-			settings.supports[ test ] = supportTests[ test ];
+			const key = /** @type {keyof SupportTests} */ ( test );
+			const supported = supportTests[ key ];
+
+			settings.supports[ key ] = supported;
 
 			settings.supports.everything =
-				settings.supports.everything && settings.supports[ test ];
+				settings.supports.everything && supported;
 
-			if ( 'flag' !== test ) {
+			if ( 'flag' !== key ) {
 				settings.supports.everythingExceptFlag =
-					settings.supports.everythingExceptFlag &&
-					settings.supports[ test ];
+					settings.supports.everythingExceptFlag && supported;
 			}
 		}
 
