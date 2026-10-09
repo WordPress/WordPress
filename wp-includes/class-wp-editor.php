@@ -940,9 +940,10 @@ final class _WP_Editors {
 		if ( $user_can_richedit ) {
 			$settings = self::default_settings();
 
-			$settings['toolbar1'] = 'bold,italic,bullist,numlist,link';
-			$settings['wpautop']  = false;
-			$settings['indent']   = true;
+			$settings['toolbar1']    = 'bold,italic,bullist,numlist,link';
+			$settings['wpautop']     = false;
+			$settings['indent']      = true;
+			$settings['elementpath'] = false;
 
 			if ( is_rtl() ) {
 				$settings['directionality'] = 'rtl';
