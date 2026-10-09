@@ -1896,8 +1896,8 @@ body.full-overlay-active {
 .theme-install-overlay iframe {
 	height: 100%;
 	width: 100%;
-	z-index: 20;
 	transition: opacity 0.3s;
+	isolation: isolate; /* Creates a new stacking context to make the iframe sit on top of the spinner. */
 }
 
 #customize-controls {
@@ -1999,7 +1999,6 @@ body.full-overlay-active {
 
 .theme-install-overlay .wp-full-overlay-main {
 	position: absolute;
-	z-index: 0;
 	background-color: #f0f0f1;
 }
 
@@ -2018,7 +2017,6 @@ body.full-overlay-active {
 	position: absolute;
 	right: 50%;
 	top: 50%;
-	z-index: -1;
 	margin: -10px -10px 0 0;
 	transform: translateZ(0);
 	background: transparent url(../images/spinner.gif) no-repeat center center;
