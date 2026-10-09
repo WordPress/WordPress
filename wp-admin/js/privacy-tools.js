@@ -14,6 +14,8 @@ jQuery( function( $ ) {
 	/**
 	 * Sets the state of the action.
 	 *
+	 * @since 4.9.6
+	 *
 	 * @param {jQuery} $action The action to set the state for.
 	 * @param {string} state   The state to set the action to.
 	 * @return {void}
@@ -26,6 +28,8 @@ jQuery( function( $ ) {
 	/**
 	 * Clears any results row after the request row.
 	 *
+	 * @since 4.9.6
+	 *
 	 * @param {jQuery} $requestRow The request row to clear results for.
 	 * @return {void}
 	 */
@@ -37,6 +41,8 @@ jQuery( function( $ ) {
 
 	/**
 	 * Appends a results row after the request row.
+	 *
+	 * @since 4.9.6
 	 *
 	 * @param {jQuery}   $requestRow        The request row to append the results after.
 	 * @param {string}   classes            The classes to add to the results row.
@@ -99,7 +105,10 @@ jQuery( function( $ ) {
 		/**
 		 * Handles a successful export.
 		 *
-		 * @param {string} zipUrl The URL of the generated ZIP file, if available.
+		 * @since 4.9.6
+		 *
+		 * @param {string} [zipUrl] Optional. The URL of the generated ZIP file. Undefined when
+		 *                          the export link is sent by email instead.
 		 * @return {void}
 		 */
 		function onExportDoneSuccess( zipUrl ) {
@@ -125,7 +134,10 @@ jQuery( function( $ ) {
 		/**
 		 * Handles an export failure.
 		 *
-		 * @param {string} errorMessage The error message to display.
+		 * @since 4.9.6
+		 *
+		 * @param {string} [errorMessage] Optional. The error message to display. The results
+		 *                                row is only added when a message is passed.
 		 * @return {void}
 		 */
 		function onExportFailure( errorMessage ) {
@@ -141,9 +153,12 @@ jQuery( function( $ ) {
 		}
 
 		/**
-		 * Updates the progress of the export process.
+		 * Updates the export progress indicator based on the number of completed exporters.
 		 *
-		 * @param {number} exporterIndex The index of the exporter to process.
+		 * @since 5.4.0
+		 *
+		 * @param {number} exporterIndex The number of exporters that have finished. Should be
+		 *                               between 0 and exportersCount.
 		 * @return {void}
 		 */
 		function setExportProgress( exporterIndex ) {
@@ -156,8 +171,11 @@ jQuery( function( $ ) {
 		/**
 		 * Performs the next export request.
 		 *
-		 * @param {number} exporterIndex The index of the exporter to process.
-		 * @param {number} pageIndex     The index of the page to process for the current exporter.
+		 * @since 4.9.6
+		 *
+		 * @param {number} exporterIndex The 1-based index of the exporter to process, between 1
+		 *                               and exportersCount.
+		 * @param {number} pageIndex     The 1-based index of the page to process for the current exporter.
 		 * @return {void}
 		 */
 		function doNextExport( exporterIndex, pageIndex ) {
@@ -229,6 +247,8 @@ jQuery( function( $ ) {
 		/**
 		 * Handles a successful erasure.
 		 *
+		 * @since 4.9.6
+		 *
 		 * @return {void}
 		 */
 		function onErasureDoneSuccess() {
@@ -259,6 +279,10 @@ jQuery( function( $ ) {
 
 		/**
 		 * Handles an erasure failure.
+		 *
+		 * @since 4.9.6
+		 *
+		 * @return {void}
 		 */
 		function onErasureFailure() {
 			var summaryMessage = __( 'An error occurred while attempting to find and erase personal data.' );
@@ -271,9 +295,12 @@ jQuery( function( $ ) {
 		}
 
 		/**
-		 * Updates the progress of the erasure process.
+		 * Updates the erasure progress indicator based on the number of completed erasers.
 		 *
-		 * @param {number} eraserIndex The index of the eraser to process.
+		 * @since 5.4.0
+		 *
+		 * @param {number} eraserIndex The number of erasers that have finished. Should be
+		 *                             between 0 and erasersCount.
 		 * @return {void}
 		 */
 		function setErasureProgress( eraserIndex ) {
@@ -286,8 +313,11 @@ jQuery( function( $ ) {
 		/**
 		 * Performs the next erasure request.
 		 *
-		 * @param {number} eraserIndex The index of the eraser to process.
-		 * @param {number} pageIndex   The index of the page to process for the current eraser.
+		 * @since 4.9.6
+		 *
+		 * @param {number} eraserIndex The 1-based index of the eraser to process, between 1
+		 *                             and erasersCount.
+		 * @param {number} pageIndex   The 1-based index of the page to process for the current eraser.
 		 * @return {void}
 		 */
 		function doNextErasure( eraserIndex, pageIndex ) {
