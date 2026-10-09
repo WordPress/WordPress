@@ -123,7 +123,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	 * @since 6.3.0
 	 *
 	 * @param string $raw_json Encoded JSON from global styles custom post content.
-	 * @return Array|WP_Error
+	 * @return array|WP_Error
 	 */
 	protected function get_decoded_global_styles_json( $raw_json ) {
 		$decoded_json = json_decode( $raw_json, true );
