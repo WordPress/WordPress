@@ -3004,7 +3004,17 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 	className: 'attachment',
 	template:  wp.template('attachment'),
 
-	attributes: function() {
+	/**
+	 * Compute the accessible name for an attachment tile.
+	 *
+	 * Factored out of attributes() so render() can refresh the label when a
+	 * model finishes loading after the view was created. See #65852.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return {string} Accessible name for the attachment.
+	 */
+	getAriaLabel: function() {
 		var ariaLabel = this.model.get( 'title' );
 
 		if ( ! ariaLabel ) {
@@ -3015,10 +3025,14 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 			}
 		}
 
+		return ariaLabel;
+	},
+
+	attributes: function() {
 		return {
 			'tabIndex':     0,
 			'role':         'checkbox',
-			'aria-label':   ariaLabel,
+			'aria-label':   this.getAriaLabel(),
 			'aria-checked': false,
 			'data-id':      this.model.get( 'id' )
 		};
@@ -3147,6 +3161,17 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		this.updateSave();
 
 		this.views.render();
+
+		/*
+		 * Backbone only evaluates attributes() when the element is created.
+		 * When a tile is built for an id-only model that is still fetching,
+		 * the aria-label is computed from empty data and never refreshes.
+		 * Re-apply it here once the model has data. Skip subclasses that
+		 * reset attributes (e.g. Attachment.Details). See #65852, #47458.
+		 */
+		if ( undefined !== _.result( this, 'attributes' )['aria-label'] ) {
+			this.$el.attr( 'aria-label', this.getAriaLabel() );
+		}
 
 		return this;
 	},
