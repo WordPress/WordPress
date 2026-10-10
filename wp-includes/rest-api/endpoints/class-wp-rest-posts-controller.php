@@ -43,7 +43,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Whether the controller supports batching.
 	 *
 	 * @since 5.9.0
-	 * @var array
+	 * @var array|false
 	 */
 	protected $allow_batch = array( 'v1' => true );
 
