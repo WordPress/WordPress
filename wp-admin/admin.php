@@ -101,6 +101,8 @@ if ( get_option( 'db_upgraded' ) ) {
 
 require_once ABSPATH . 'wp-admin/includes/admin.php';
 
+WP_Admin_Notice_Collector::init();
+
 auth_redirect();
 
 // Schedule Trash collection.

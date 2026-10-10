@@ -9342,6 +9342,10 @@ function wp_get_admin_notice( $message, $args = array() ) {
 	 */
 	$args = apply_filters( 'wp_admin_notice_args', $args, $message );
 
+	// Unique ID is intended for internal use, and is not a filterable argument.
+	$unique_id         = wp_unique_prefixed_id( 'wp-admin-notice-' );
+	$args['notice_id'] = $unique_id;
+
 	$wrap_with_p  = false !== $args['paragraph_wrap'];
 	$wrap_opener  = $wrap_with_p ? '<p>' : '';
 	$wrap_closer  = $wrap_with_p ? '</p>' : '';
@@ -9351,9 +9355,15 @@ function wp_get_admin_notice( $message, $args = array() ) {
 	if ( is_string( $args['id'] ) ) {
 		$trimmed_id = trim( $args['id'] );
 
+		$html_builder->set_attribute( 'data-id', $unique_id );
 		if ( '' !== $trimmed_id ) {
 			$html_builder->set_attribute( 'id', $trimmed_id );
+		} else {
+			$html_builder->set_attribute( 'id', $unique_id );
 		}
+	} else {
+		$html_builder->set_attribute( 'data-id', $unique_id );
+		$html_builder->set_attribute( 'id', $unique_id );
 	}
 
 	if ( is_string( $args['type'] ) ) {

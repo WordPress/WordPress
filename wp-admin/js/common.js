@@ -1075,17 +1075,6 @@ $( function() {
 		});
 	}
 
-	/*
-	 * The `.below-h2` class is here just for backward compatibility with plugins
-	 * that are (incorrectly) using it. Do not use. Use `.inline` instead. See #34570.
-	 * If '.wp-header-end' is found, append the notices after it otherwise
-	 * after the first h1 or h2 heading found within the main content.
-	 */
-	if ( ! $headerEnd.length ) {
-		$headerEnd = $( '.wrap h1, .wrap h2' ).first();
-	}
-	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $headerEnd );
-
 	/**
 	 * Makes notices dismissible.
 	 *
@@ -1524,6 +1513,32 @@ $( function() {
 		// Update the status when any file input changes.
 		input.on('change', toggleUploadButton);
 	})();
+
+	/**
+	 * Moves the admin notices into an `aside` element after the first `h1`.
+	 * Prior to 7.2.0, admin notices were only moved after the first `h1`;
+	 * The `aside` wrapper was added in 7.2.0.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return {void}
+	 */
+	function moveAdminNotices() {
+		/*
+		 * The `.below-h2` class is here just for backward compatibility with plugins
+		 * that are (incorrectly) using it. Do not use. Use `.inline` instead. See #34570.
+		 * If '.wp-header-end' is found, append the notices after it otherwise
+		 * after the first h1 or h2 heading found within the main content.
+		 */
+		if ( ! $headerEnd.length ) {
+			$headerEnd = $( '.wrap h1, .wrap h2' ).first();
+		}
+		const $notices = $( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' );
+		if ( $notices.length ) {
+			const $wpAdminNotices = $( '<aside id="wp-admin-notices"></aside>' ).attr( 'aria-label', __( 'Admin Notices' ) ).insertAfter( $headerEnd );
+			$notices.appendTo( $wpAdminNotices );
+		}
+	}
 
 	/**
 	 * Pins the menu while distraction-free writing is enabled.
@@ -2127,6 +2142,7 @@ $( function() {
 	});
 
 	window.wpResponsive.init();
+	moveAdminNotices();
 	setPinMenu();
 	setMenuState();
 	makeNoticesDismissible();
