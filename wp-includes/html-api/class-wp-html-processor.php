@@ -2773,27 +2773,28 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 					$this->state->stack_of_open_elements->remove_node( $node );
 					return true;
+				} else {
+					/*
+					 * > If the stack of open elements does not have a form element in scope,
+					 * > then this is a parse error; return and ignore the token.
+					 *
+					 * Note that unlike in the clause above, this is checking for any FORM in scope.
+					 */
+					if ( ! $this->state->stack_of_open_elements->has_element_in_scope( 'FORM' ) ) {
+						// Parse error: ignore the token.
+						return $this->step();
+					}
+
+					$this->generate_implied_end_tags();
+
+					if ( ! $this->state->stack_of_open_elements->current_node_is( 'FORM' ) ) {
+						// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
+					}
+
+					$this->state->stack_of_open_elements->pop_until( 'FORM' );
+					return true;
 				}
-
-				/*
-				 * > If the stack of open elements does not have a form element in scope,
-				 * > then this is a parse error; return and ignore the token.
-				 *
-				 * Note that unlike in the clause above, this is checking for any FORM in scope.
-				 */
-				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( 'FORM' ) ) {
-					// Parse error: ignore the token.
-					return $this->step();
-				}
-
-				$this->generate_implied_end_tags();
-
-				if ( ! $this->state->stack_of_open_elements->current_node_is( 'FORM' ) ) {
-					// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
-				}
-
-				$this->state->stack_of_open_elements->pop_until( 'FORM' );
-				return true;
+				break;
 
 			/*
 			 * > An end tag whose tag name is "p"
@@ -3355,6 +3356,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			return $this->in_body_any_other_end_tag();
 		}
+
+		$this->bail( 'Should not have been able to reach end of IN BODY processing. Check HTML API code.' );
 	}
 
 	/**
@@ -3371,6 +3374,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether an element was found.
 	 */
 	private function in_body_any_other_end_tag(): bool {
+		$node       = null;
 		$token_name = $this->get_token_name();
 
 		/*
@@ -4963,18 +4967,20 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->state->stack_of_open_elements->pop();
 			}
 			return true;
-		} else {
-			/*
-			 * > An end tag whose name is "script", if the current node is an SVG script element.
-			 */
-			if ( 'SCRIPT' === $this->state->current_token->node_name && 'svg' === $this->state->current_token->namespace ) {
-				$this->state->stack_of_open_elements->pop();
-				return true;
-			}
+		}
 
-			/*
-			 * > Any other end tag
-			 */
+		/*
+		 * > An end tag whose name is "script", if the current node is an SVG script element.
+		 */
+		if ( $this->is_tag_closer() && 'SCRIPT' === $this->state->current_token->node_name && 'svg' === $this->state->current_token->namespace ) {
+			$this->state->stack_of_open_elements->pop();
+			return true;
+		}
+
+		/*
+		 * > Any other end tag
+		 */
+		if ( $this->is_tag_closer() ) {
 			$node = $this->state->stack_of_open_elements->current_node();
 			if ( $tag_name !== $node->node_name ) {
 				// @todo Indicate a parse error once it's possible.
@@ -5074,6 +5080,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					$this->bail( "Unaware of the requested parsing mode: '{$this->state->insertion_mode}'." );
 			}
 		}
+
+		$this->bail( 'Should not have been able to reach end of IN FOREIGN CONTENT processing. Check HTML API code.' );
 	}
 
 	/*
@@ -5092,7 +5100,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string Name of created bookmark.
 	 */
 	private function bookmark_token() {
-		if ( ! parent::set_bookmark( ++$this->bookmark_counter ) ) {
+		if ( ! parent::set_bookmark( (string) ++$this->bookmark_counter ) ) {
 			$this->last_error = self::ERROR_EXCEEDED_MAX_BOOKMARKS;
 			throw new Exception( 'could not allocate bookmark' );
 		}

@@ -690,7 +690,7 @@ class WP_HTML_Tag_Processor {
 	 * Whether the current tag is an opening tag, e.g. <div>, or a closing tag, e.g. </div>.
 	 *
 	 * @since 6.2.0
-	 * @var bool
+	 * @var bool|null
 	 */
 	private $is_closing_tag;
 
@@ -2767,7 +2767,7 @@ class WP_HTML_Tag_Processor {
 			return $by_start;
 		}
 
-		$by_text = isset( $a->text, $b->text ) ? strcmp( $a->text, $b->text ) : 0;
+		$by_text = strcmp( $a->text, $b->text );
 		if ( 0 !== $by_text ) {
 			return $by_text;
 		}
