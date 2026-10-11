@@ -1990,6 +1990,10 @@ p.auto-update-status {
 	line-height: 2.35;
 }
 
+.additional-settings-prefs {
+	margin-top: 14px;
+}
+
 /* This ID appears to be unused in Core. */
 #number-of-columns {
 	display: inline-block;
@@ -2284,6 +2288,11 @@ html.wp-toolbar {
 .postbox .handle-order-lower {
 	color: #646970;
 	width: 1.62rem;
+}
+
+.js.meta-box-reordering-disabled .postbox .handle-order-higher,
+.js.meta-box-reordering-disabled .postbox .handle-order-lower {
+	display: none;
 }
 
 /* Post box order buttons in the block editor meta boxes area. */

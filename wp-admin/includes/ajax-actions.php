@@ -1875,6 +1875,20 @@ function wp_ajax_hidden_columns() {
 }
 
 /**
+ * Handles the meta box reordering setting via Ajax.
+ *
+ * @since 7.2.0
+ */
+function wp_ajax_meta_box_reordering() {
+	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
+
+	$enabled = isset( $_POST['enabled'] ) && '1' === (string) $_POST['enabled'];
+	update_user_option( get_current_user_id(), 'meta_box_reordering', $enabled ? 'enabled' : 'disabled' );
+
+	wp_die( 1 );
+}
+
+/**
  * Handles updating whether to display the welcome panel via AJAX.
  *
  * @since 3.1.0

@@ -1379,6 +1379,10 @@ a.rsswidget {
 	}
 }
 
+.js.meta-box-reordering-disabled #dashboard-widgets .postbox-container .empty-container {
+	display: none;
+}
+
 @media screen and (max-width: 870px) {
 	/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
 	.welcome-panel .welcome-panel-column li {

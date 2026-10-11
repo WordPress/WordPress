@@ -195,6 +195,19 @@ function get_hidden_meta_boxes( $screen ) {
 }
 
 /**
+ * Determines whether meta box reordering is enabled.
+ *
+ * @since 7.2.0
+ *
+ * @return bool Whether meta box reordering is enabled.
+ */
+function wp_is_meta_box_reordering_enabled() {
+	$setting = get_user_option( 'meta_box_reordering' );
+
+	return false === $setting ? true : 'disabled' !== $setting;
+}
+
+/**
  * Register and configure an admin screen option
  *
  * @since 3.1.0

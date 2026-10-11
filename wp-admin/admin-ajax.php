@@ -79,6 +79,7 @@ $core_actions_post = array(
 	'add-user',
 	'closed-postboxes',
 	'hidden-columns',
+	'meta-box-reordering',
 	'update-welcome-panel',
 	'menu-get-metabox',
 	'wp-link-ajax',
