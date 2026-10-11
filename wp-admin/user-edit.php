@@ -465,7 +465,7 @@ switch ( $action ) {
 				<table class="form-table" role="presentation">
 					<tr class="user-user-login-wrap">
 						<th><label for="user_login"><?php _e( 'Username' ); ?></label></th>
-						<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr( $profile_user->user_login ); ?>" readonly="readonly" class="regular-text ltr" /> <span class="description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
+						<td><input type="text" name="user_login" id="user_login" aria-describedby="user-login-description" value="<?php echo esc_attr( $profile_user->user_login ); ?>" readonly="readonly" class="regular-text ltr" /> <span class="description" id="user-login-description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
 					</tr>
 
 					<?php if ( ! IS_PROFILE_PAGE && ! is_network_admin() && current_user_can( 'promote_user', $profile_user->ID ) ) : ?>
@@ -652,8 +652,8 @@ switch ( $action ) {
 				<table class="form-table" role="presentation">
 					<tr class="user-description-wrap">
 						<th><label for="description"><?php _e( 'Biographical Info' ); ?></label></th>
-						<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profile_user->description; // textarea_escaped ?></textarea>
-						<p class="description"><?php _e( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ); ?></p></td>
+						<td><textarea name="description" id="description" rows="5" cols="30" aria-describedby="description-description"><?php echo $profile_user->description; // textarea_escaped ?></textarea>
+						<p class="description" id="description-description"><?php _e( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ); ?></p></td>
 					</tr>
 
 					<?php if ( get_option( 'show_avatars' ) ) : ?>
@@ -757,11 +757,11 @@ switch ( $action ) {
 									<th><?php _e( 'Password Reset' ); ?></th>
 									<td>
 										<div class="generate-reset-link">
-											<button type="button" class="button button-secondary" id="generate-reset-link">
+											<button type="button" class="button button-secondary" id="generate-reset-link" aria-describedby="generate-reset-link-description">
 												<?php _e( 'Send Reset Link' ); ?>
 											</button>
 										</div>
-										<p class="description">
+										<p class="description" id="generate-reset-link-description">
 											<?php
 											printf(
 												/* translators: %s: User's display name. */
@@ -778,8 +778,8 @@ switch ( $action ) {
 								<tr class="user-sessions-wrap hide-if-no-js">
 									<th><?php _e( 'Sessions' ); ?></th>
 									<td aria-live="assertive">
-										<div class="destroy-sessions"><button type="button" disabled class="button"><?php _e( 'Log Out Everywhere Else' ); ?></button></div>
-										<p class="description">
+										<div class="destroy-sessions"><button type="button" disabled class="button" aria-describedby="sessions-description"><?php _e( 'Log Out Everywhere Else' ); ?></button></div>
+										<p class="description" id="sessions-description">
 											<?php _e( 'You are only logged in at this location.' ); ?>
 										</p>
 									</td>
@@ -788,8 +788,8 @@ switch ( $action ) {
 								<tr class="user-sessions-wrap hide-if-no-js">
 									<th><?php _e( 'Sessions' ); ?></th>
 									<td aria-live="assertive">
-										<div class="destroy-sessions"><button type="button" class="button" id="destroy-sessions"><?php _e( 'Log Out Everywhere Else' ); ?></button></div>
-										<p class="description">
+										<div class="destroy-sessions"><button type="button" class="button" id="destroy-sessions" aria-describedby="sessions-description"><?php _e( 'Log Out Everywhere Else' ); ?></button></div>
+										<p class="description" id="sessions-description">
 											<?php _e( 'Did you lose your phone or leave your account logged in at a public computer? You can log out everywhere else, and stay logged in here.' ); ?>
 										</p>
 									</td>
@@ -798,8 +798,8 @@ switch ( $action ) {
 								<tr class="user-sessions-wrap hide-if-no-js">
 									<th><?php _e( 'Sessions' ); ?></th>
 									<td>
-										<p><button type="button" class="button" id="destroy-sessions"><?php _e( 'Log Out Everywhere' ); ?></button></p>
-										<p class="description">
+										<p><button type="button" class="button" id="destroy-sessions" aria-describedby="sessions-description"><?php _e( 'Log Out Everywhere' ); ?></button></p>
+										<p class="description" id="sessions-description">
 											<?php
 											/* translators: %s: User's display name. */
 											printf( __( 'Log %s out of all locations.' ), $profile_user->display_name );
