@@ -51,7 +51,7 @@
 	/**
 	 * Close the current accordion section and open a new one.
 	 *
-	 * @param {Object} el Title element of the accordion section to toggle.
+	 * @param {JQuery} el Title element of the accordion section to toggle.
 	 * @since 3.6.0
 	 */
 	function accordionSwitch ( el ) {
