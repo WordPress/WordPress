@@ -912,11 +912,11 @@
 		setTimeout( function() {
 			var elementToSetFocusTo = $( '.notice[role="alert"]' );
 
-			if ( ! elementToSetFocusTo.length ) {
-				elementToSetFocusTo = $( '.imgedit-wrap' ).find( ':tabbable:first' );
+			if ( elementToSetFocusTo.length ) {
+				elementToSetFocusTo.attr( 'tabindex', '-1' ).trigger( 'focus' );
+			} else {
+				$( '.imgedit-wrap' ).find( ':tabbable:first' ).trigger( 'focus' );
 			}
-
-			elementToSetFocusTo.attr( 'tabindex', '-1' ).trigger( 'focus' );
 		}, 100 );
 	},
 
