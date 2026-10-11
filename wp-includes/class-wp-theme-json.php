@@ -3430,7 +3430,7 @@ class WP_Theme_JSON {
 	 * @since 6.1.1
 	 *
 	 * @param array $declarations List of declarations.
-	 * @return array $declarations List of declarations filtered.
+	 * @return array List of declarations filtered.
 	 */
 	private static function update_separator_declarations( $declarations ) {
 		$background_color     = '';

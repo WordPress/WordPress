@@ -39,7 +39,7 @@ function media_upload_tabs() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $tabs Associative array of default tab names.
- * @return array $tabs Filtered tabs with gallery if post has image attachment.
+ * @return array Filtered tabs with gallery if post has image attachment.
  */
 function update_gallery_tab( $tabs ) {
 	global $wpdb;

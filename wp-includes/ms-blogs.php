@@ -741,7 +741,7 @@ function is_archived( $id ) {
  *
  * @param int    $id       Blog ID.
  * @param string $archived The new status.
- * @return string $archived
+ * @return string The new archived status.
  */
 function update_archived( $id, $archived ) {
 	update_blog_status( $id, 'archived', $archived );
@@ -760,7 +760,7 @@ function update_archived( $id, $archived ) {
  * @param string $pref       Field name.
  * @param string $value      Field value.
  * @param mixed  $deprecated Not used.
- * @return string|false $value
+ * @return string|false The passed field value, or false if the update failed.
  */
 function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 	global $wpdb;
@@ -798,7 +798,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
  *
  * @param int    $id   Blog ID.
  * @param string $pref Field name.
- * @return bool|string|null $value
+ * @return bool|string|null The field value, or null if not found.
  */
 function get_blog_status( $id, $pref ) {
 	global $wpdb;

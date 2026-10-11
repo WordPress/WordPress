@@ -1769,7 +1769,7 @@ final class _WP_Editors {
 	 *     @type int    $pagenum Page number. Default 1.
 	 *     @type string $s       Search keywords.
 	 * }
-	 * @return array|false $results {
+	 * @return array|false {
 	 *     An array of associative arrays of query results, false if there are none.
 	 *
 	 *     @type array ...$0 {

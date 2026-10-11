@@ -3902,7 +3902,7 @@ function _close_comments_for_old_posts( $posts, $query ) {
  *
  * @param bool $open    Comments open or closed.
  * @param int  $post_id Post ID.
- * @return bool $open
+ * @return bool True if comments are open, false otherwise.
  */
 function _close_comments_for_old_post( $open, $post_id ) {
 	if ( ! $open ) {
