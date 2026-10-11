@@ -5663,6 +5663,7 @@ function wp_ob_end_flush_all() {
  * in WordPress 2.5.0.
  *
  * @since 2.3.2
+ * @since 7.2.0 Added status and no-cache headers before loading a custom `db-error.php` drop-in.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -5675,6 +5676,8 @@ function dead_db() {
 
 	// Load custom DB error template, if present.
 	if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
+		status_header( 500 );
+		nocache_headers();
 		require_once WP_CONTENT_DIR . '/db-error.php';
 		die();
 	}
