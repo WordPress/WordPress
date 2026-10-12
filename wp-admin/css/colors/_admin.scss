@@ -521,11 +521,15 @@ ul#adminmenu > li.current > a.current::after {
 	background-color: variables.$adminbar-avatar-frame;
 }
 
+#wpadminbar #wp-admin-bar-user-info .howdy,
 #wpadminbar #wp-admin-bar-user-info .display-name {
 	color: variables.$menu-text;
 }
 
-#wpadminbar #wp-admin-bar-user-info a:hover .display-name {
+#wpadminbar #wp-admin-bar-user-info a:hover .howdy,
+#wpadminbar #wp-admin-bar-user-info a:focus .howdy,
+#wpadminbar #wp-admin-bar-user-info a:hover .display-name,
+#wpadminbar #wp-admin-bar-user-info a:focus .display-name {
 	color: variables.$menu-submenu-focus-text;
 }
 

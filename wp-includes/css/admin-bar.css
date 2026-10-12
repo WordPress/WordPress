@@ -461,9 +461,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 	height: 18px;
 }
 
+#wpadminbar #wp-admin-bar-user-info .howdy,
 #wpadminbar #wp-admin-bar-user-info .display-name,
 #wpadminbar #wp-admin-bar-user-info .username {
 	display: block;
+}
+
+#wpadminbar #wp-admin-bar-user-info .howdy .display-name {
+	display: inline;
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
@@ -1039,11 +1044,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 		margin: 0;
 	}
 
+	#wpadminbar #wp-admin-bar-user-info .howdy,
 	#wpadminbar #wp-admin-bar-user-info .display-name {
 		height: auto;
 		font-size: 16px;
 		line-height: 1.5;
 		color: #f0f0f1;
+	}
+
+	#wpadminbar #wp-admin-bar-user-info .howdy {
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
 
 	#wpadminbar #wp-admin-bar-user-info a {

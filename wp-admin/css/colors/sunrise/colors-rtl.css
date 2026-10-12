@@ -618,11 +618,15 @@ ul#adminmenu > li.current > a.current::after {
   background-color: rgb(164.9213114754, 58.5590163934, 53.7786885246);
 }
 
+#wpadminbar #wp-admin-bar-user-info .howdy,
 #wpadminbar #wp-admin-bar-user-info .display-name {
   color: #fff;
 }
 
-#wpadminbar #wp-admin-bar-user-info a:hover .display-name {
+#wpadminbar #wp-admin-bar-user-info a:hover .howdy,
+#wpadminbar #wp-admin-bar-user-info a:focus .howdy,
+#wpadminbar #wp-admin-bar-user-info a:hover .display-name,
+#wpadminbar #wp-admin-bar-user-info a:focus .display-name {
   color: #fff;
 }
 
