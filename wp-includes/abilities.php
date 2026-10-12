@@ -9,6 +9,8 @@
 
 declare( strict_types = 1 );
 
+require_once __DIR__ . '/abilities/class-wp-abilities-settings.php';
+
 /**
  * Registers the core ability categories.
  *
@@ -45,6 +47,7 @@ function wp_register_core_ability_categories(): void {
  * Registers the default core abilities.
  *
  * @since 6.9.0
+ * @since 7.2.0 Added the `core/settings-get` ability.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */
@@ -360,4 +363,7 @@ function wp_register_core_abilities(): void {
 			),
 		)
 	);
+
+	// Register the settings abilities (currently the read-only `core/settings-get`).
+	( new WP_Abilities_Settings() )->register();
 }

@@ -556,6 +556,7 @@ add_action( 'parse_request', 'rest_api_loaded' );
 
 // Abilities API.
 add_action( 'wp_abilities_api_categories_init', 'wp_register_core_ability_categories' );
+add_action( 'wp_abilities_api_init', '_wp_register_initial_settings_for_abilities', 1 );
 add_action( 'wp_abilities_api_init', 'wp_register_core_abilities' );
 
 // Connectors API.
