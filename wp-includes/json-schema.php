@@ -104,11 +104,9 @@ function wp_prepare_json_schema_for_client( array $schema, string $schema_profil
  * @return array<string, mixed> The prepared schema.
  */
 function _wp_prepare_json_schema_for_client_with_allowed_keywords( array $schema, array $allowed_keywords ): array {
-	if ( isset( $schema['type'] ) && 'object' === $schema['type'] && isset( $schema['default'] ) ) {
-		$default = $schema['default'];
-		if ( is_array( $default ) && empty( $default ) ) {
-			$schema['default'] = (object) $default;
-		}
+	$types = isset( $schema['type'] ) ? (array) $schema['type'] : array();
+	if ( isset( $schema['default'] ) && array() === $schema['default'] && in_array( 'object', $types, true ) && ! in_array( 'array', $types, true ) ) {
+		$schema['default'] = new stdClass();
 	}
 
 	$schema = array_intersect_key( $schema, $allowed_keywords );
