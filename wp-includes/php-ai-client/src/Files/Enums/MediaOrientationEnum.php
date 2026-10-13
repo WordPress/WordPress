@@ -5,7 +5,7 @@ namespace WordPress\AiClient\Files\Enums;
 
 use WordPress\AiClient\Common\AbstractEnum;
 /**
- * Represents the type of file storage.
+ * Represents the media orientation.
  *
  * @method static self square() Returns the square orientation
  * @method static self landscape() Returns the landscape orientation.

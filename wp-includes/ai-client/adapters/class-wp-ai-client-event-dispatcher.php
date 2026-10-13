@@ -48,8 +48,12 @@ class WP_AI_Client_Event_Dispatcher implements EventDispatcherInterface {
 		 *
 		 * - wp_ai_client_before_generate_result
 		 * - wp_ai_client_after_generate_result
+		 * - wp_ai_client_before_generate_embedding
+		 * - wp_ai_client_after_generate_embedding
 		 *
 		 * @since 7.0.0
+		 * @since 7.2.0 Added the `wp_ai_client_before_generate_embedding` and
+		 *              `wp_ai_client_after_generate_embedding` action hooks.
 		 *
 		 * @param object $event The event object.
 		 */

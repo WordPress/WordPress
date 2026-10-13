@@ -6,6 +6,7 @@ namespace WordPress\AiClient\Providers\Models\DTO;
 use WordPress\AiClient\Common\AbstractDataTransferObject;
 use WordPress\AiClient\Common\Exception\InvalidArgumentException;
 use WordPress\AiClient\Messages\DTO\Message;
+use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
 use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
 use WordPress\AiClient\Providers\Models\Enums\OptionEnum;
@@ -22,6 +23,11 @@ use WordPress\AiClient\Providers\Models\Enums\OptionEnum;
  * @phpstan-type ModelRequirementsArrayShape array{
  *     requiredCapabilities: list<string>,
  *     requiredOptions: list<RequiredOptionArrayShape>
+ * }
+ *
+ * @phpstan-type UnmetModelRequirementsShape array{
+ *     capabilities: list<CapabilityEnum>,
+ *     options: list<RequiredOption>
  * }
  *
  * @extends AbstractDataTransferObject<ModelRequirementsArrayShape>
@@ -91,6 +97,23 @@ class ModelRequirements extends AbstractDataTransferObject
      */
     public function areMetBy(\WordPress\AiClient\Providers\Models\DTO\ModelMetadata $metadata): bool
     {
+        $unmetRequirements = $this->getUnmetRequirements($metadata);
+        return $unmetRequirements['capabilities'] === [] && $unmetRequirements['options'] === [];
+    }
+    /**
+     * Determines which of these requirements the given model metadata does not meet.
+     *
+     * Unlike {@see self::areMetBy()}, this method reports the specific capabilities and options that
+     * are unsupported, so that calling code can explain why a model is unsuitable.
+     *
+     * @since 1.5.0
+     *
+     * @param ModelMetadata $metadata The model metadata to check against.
+     * @return UnmetModelRequirementsShape The unsupported capabilities and options. Both lists are empty if the
+     *                                     model meets all requirements.
+     */
+    public function getUnmetRequirements(\WordPress\AiClient\Providers\Models\DTO\ModelMetadata $metadata): array
+    {
         // Create lookup maps for better performance (instead of nested foreach loops)
         $capabilitiesMap = [];
         foreach ($metadata->getSupportedCapabilities() as $capability) {
@@ -100,25 +123,23 @@ class ModelRequirements extends AbstractDataTransferObject
         foreach ($metadata->getSupportedOptions() as $option) {
             $optionsMap[$option->getName()->value] = $option;
         }
-        // Check if all required capabilities are supported using map lookup
+        // Collect required capabilities that are not supported, using map lookup
+        $unmetCapabilities = [];
         foreach ($this->requiredCapabilities as $requiredCapability) {
             if (!isset($capabilitiesMap[$requiredCapability->value])) {
-                return \false;
+                $unmetCapabilities[] = $requiredCapability;
             }
         }
-        // Check if all required options are supported with the specified values
+        // Collect required options that are either unsupported or unsupported with the required value
+        $unmetOptions = [];
         foreach ($this->requiredOptions as $requiredOption) {
             // Use map lookup instead of linear search
-            if (!isset($optionsMap[$requiredOption->getName()->value])) {
-                return \false;
-            }
-            $supportedOption = $optionsMap[$requiredOption->getName()->value];
-            // Check if the required value is supported by this option
-            if (!$supportedOption->isSupportedValue($requiredOption->getValue())) {
-                return \false;
+            $supportedOption = $optionsMap[$requiredOption->getName()->value] ?? null;
+            if ($supportedOption === null || !$supportedOption->isSupportedValue($requiredOption->getValue())) {
+                $unmetOptions[] = $requiredOption;
             }
         }
-        return \true;
+        return ['capabilities' => $unmetCapabilities, 'options' => $unmetOptions];
     }
     /**
      * Creates ModelRequirements from prompt data and model configuration.
@@ -143,24 +164,9 @@ class ModelRequirements extends AbstractDataTransferObject
         $hasFunctionMessageParts = \false;
         foreach ($messages as $message) {
             foreach ($message->getParts() as $part) {
-                // Check for text input
-                if ($part->getType()->isText()) {
-                    $inputModalities[] = ModalityEnum::text();
-                }
-                // Check for file inputs
-                if ($part->getType()->isFile()) {
-                    $file = $part->getFile();
-                    if ($file !== null) {
-                        if ($file->isImage()) {
-                            $inputModalities[] = ModalityEnum::image();
-                        } elseif ($file->isAudio()) {
-                            $inputModalities[] = ModalityEnum::audio();
-                        } elseif ($file->isVideo()) {
-                            $inputModalities[] = ModalityEnum::video();
-                        } elseif ($file->isDocument() || $file->isText()) {
-                            $inputModalities[] = ModalityEnum::document();
-                        }
-                    }
+                $modality = self::inputModalityForPart($part);
+                if ($modality !== null) {
+                    $inputModalities[] = $modality;
                 }
                 // Check for function calls/responses (these might require special capabilities)
                 if ($part->getType()->isFunctionCall() || $part->getType()->isFunctionResponse()) {
@@ -182,6 +188,72 @@ class ModelRequirements extends AbstractDataTransferObject
         }
         // Step 6: Return new ModelRequirements
         return new self($capabilities, $requiredOptions);
+    }
+    /**
+     * Creates ModelRequirements from embedding input data and model configuration.
+     *
+     * Unlike {@see self::fromPromptData()}, embedding inputs are independent items rather than a
+     * conversation, so no chat history capability is inferred. Each input contributes its input
+     * modality (text or file) to the requirements.
+     *
+     * @since 1.4.0
+     *
+     * @param list<MessagePart> $inputs The embedding inputs.
+     * @param ModelConfig $modelConfig The model configuration.
+     * @return self The created requirements.
+     */
+    public static function fromEmbeddingData(array $inputs, \WordPress\AiClient\Providers\Models\DTO\ModelConfig $modelConfig): self
+    {
+        $capabilities = [CapabilityEnum::embeddingGeneration()];
+        $inputModalities = [];
+        // Analyze each input to determine required input modalities. Function call/response parts
+        // are not valid embedding inputs and are rejected before reaching this point.
+        foreach ($inputs as $part) {
+            $modality = self::inputModalityForPart($part);
+            if ($modality !== null) {
+                $inputModalities[] = $modality;
+            }
+        }
+        // Convert ModelConfig to RequiredOptions
+        $requiredOptions = self::toRequiredOptions($modelConfig);
+        // Add input modalities if we have any inputs
+        if (!empty($inputModalities)) {
+            // Remove duplicates
+            $inputModalities = array_unique($inputModalities, \SORT_REGULAR);
+            $requiredOptions = self::includeInRequiredOptions($requiredOptions, new \WordPress\AiClient\Providers\Models\DTO\RequiredOption(OptionEnum::inputModalities(), array_values($inputModalities)));
+        }
+        return new self($capabilities, $requiredOptions);
+    }
+    /**
+     * Determines the input modality contributed by a message part, if any.
+     *
+     * @since 1.4.0
+     *
+     * @param MessagePart $part The message part to analyze.
+     * @return ModalityEnum|null The input modality, or null if the part contributes none.
+     */
+    private static function inputModalityForPart(MessagePart $part): ?ModalityEnum
+    {
+        // Check for text input
+        if ($part->getType()->isText()) {
+            return ModalityEnum::text();
+        }
+        // Check for file inputs
+        if ($part->getType()->isFile()) {
+            $file = $part->getFile();
+            if ($file !== null) {
+                if ($file->isImage()) {
+                    return ModalityEnum::image();
+                } elseif ($file->isAudio()) {
+                    return ModalityEnum::audio();
+                } elseif ($file->isVideo()) {
+                    return ModalityEnum::video();
+                } elseif ($file->isDocument() || $file->isText()) {
+                    return ModalityEnum::document();
+                }
+            }
+        }
+        return null;
     }
     /**
      * Converts ModelConfig to an array of RequiredOptions.
@@ -252,6 +324,9 @@ class ModelRequirements extends AbstractDataTransferObject
         }
         if ($modelConfig->getOutputMediaAspectRatio() !== null) {
             $requiredOptions[] = new \WordPress\AiClient\Providers\Models\DTO\RequiredOption(OptionEnum::outputMediaAspectRatio(), $modelConfig->getOutputMediaAspectRatio());
+        }
+        if ($modelConfig->getDimensions() !== null) {
+            $requiredOptions[] = new \WordPress\AiClient\Providers\Models\DTO\RequiredOption(OptionEnum::dimensions(), $modelConfig->getDimensions());
         }
         // Add custom options as individual RequiredOptions
         foreach ($modelConfig->getCustomOptions() as $key => $value) {

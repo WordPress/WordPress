@@ -9,8 +9,6 @@
 
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Builders\PromptBuilder;
-use WordPress\AiClient\Common\Exception\InvalidArgumentException;
-use WordPress\AiClient\Common\Exception\TokenLimitReachedException;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
@@ -18,9 +16,6 @@ use WordPress\AiClient\Messages\DTO\Message;
 use WordPress\AiClient\Messages\DTO\MessagePart;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
 use WordPress\AiClient\Providers\Http\DTO\RequestOptions;
-use WordPress\AiClient\Providers\Http\Exception\ClientException;
-use WordPress\AiClient\Providers\Http\Exception\NetworkException;
-use WordPress\AiClient\Providers\Http\Exception\ServerException;
 use WordPress\AiClient\Providers\Models\Contracts\ModelInterface;
 use WordPress\AiClient\Providers\Models\DTO\ModelConfig;
 use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
@@ -48,6 +43,9 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * false rather than the error state instance.
  *
  * @since 7.0.0
+ * @since 7.2.0 Now extends the `WP_AI_Client_Builder` base class.
+ *
+ * @see WP_AI_Client_Builder
  *
  * @phpstan-import-type Prompt from PromptBuilder
  *
@@ -106,23 +104,7 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  * @method File|WP_Error generate_video() Generates a video from the prompt.
  * @method list<File>|WP_Error generate_videos(?int $candidateCount = null) Generates multiple videos from the prompt.
  */
-class WP_AI_Client_Prompt_Builder {
-
-	/**
-	 * Wrapped prompt builder instance from the PHP AI Client SDK.
-	 *
-	 * @since 7.0.0
-	 * @var PromptBuilder
-	 */
-	private PromptBuilder $builder;
-
-	/**
-	 * WordPress error instance, if any error occurred during method calls.
-	 *
-	 * @since 7.0.0
-	 * @var WP_Error|null
-	 */
-	private ?WP_Error $error = null;
+class WP_AI_Client_Prompt_Builder extends WP_AI_Client_Builder {
 
 	/**
 	 * List of methods that generate a result from the prompt.
@@ -169,78 +151,6 @@ class WP_AI_Client_Prompt_Builder {
 		'is_supported_for_music_generation'          => true,
 		'is_supported_for_embedding_generation'      => true,
 	);
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param ProviderRegistry $registry The provider registry for finding suitable models.
-	 * @param Prompt           $prompt   Optional. Initial prompt content.
-	 *                                   A string for simple text prompts,
-	 *                                   a MessagePart or Message object for
-	 *                                   structured content, an array for a
-	 *                                   message array shape, or a list of
-	 *                                   parts or messages for multi-turn
-	 *                                   conversations. Default null.
-	 */
-	public function __construct( ProviderRegistry $registry, $prompt = null ) {
-		try {
-			$this->builder = new PromptBuilder( $registry, $prompt, AiClient::getEventDispatcher() );
-		} catch ( Throwable $e ) {
-			$this->builder = new PromptBuilder( $registry, null, AiClient::getEventDispatcher() );
-			$this->error   = $this->throwable_to_wp_error( $e );
-		}
-
-		$default_timeout = 30.0;
-
-		/**
-		 * Filters the default request timeout in seconds for AI Client HTTP requests.
-		 *
-		 * @since 7.0.0
-		 *
-		 * @param float $default_timeout The default timeout in seconds.
-		 */
-		$filtered_default_timeout = apply_filters( 'wp_ai_client_default_request_timeout', $default_timeout );
-		if ( is_numeric( $filtered_default_timeout ) && (float) $filtered_default_timeout >= 0.0 ) {
-			$default_timeout = (float) $filtered_default_timeout;
-		} else {
-			_doing_it_wrong(
-				__METHOD__,
-				sprintf(
-					/* translators: %s: wp_ai_client_default_request_timeout */
-					__( 'The %s filter must return a non-negative number.' ),
-					'<code>wp_ai_client_default_request_timeout</code>'
-				),
-				'7.0.0'
-			);
-		}
-
-		$this->builder->usingRequestOptions(
-			RequestOptions::fromArray(
-				array(
-					RequestOptions::KEY_TIMEOUT => $default_timeout,
-				)
-			)
-		);
-	}
-
-	/**
-	 * Clones the wrapped prompt builder alongside this instance.
-	 *
-	 * The wrapped builder mutates its own state, so without this a clone would
-	 * share that state with the original and any change made to one would be
-	 * visible in the other.
-	 *
-	 * @since 7.2.0
-	 */
-	public function __clone() {
-		$this->builder = clone $this->builder;
-
-		if ( null !== $this->error ) {
-			$this->error = clone $this->error;
-		}
-	}
 
 	/**
 	 * Registers WordPress abilities as function declarations for the AI model.
@@ -297,213 +207,84 @@ class WP_AI_Client_Prompt_Builder {
 	}
 
 	/**
-	 * Magic method to proxy snake_case method calls to their PHP AI Client camelCase counterparts.
+	 * Creates the wrapped prompt builder instance from the PHP AI Client SDK.
 	 *
-	 * This allows WordPress developers to use snake_case naming conventions. It catches
-	 * any exceptions thrown, stores them, and returns a WP_Error when a terminate method
-	 * is called, or false when a support check method is called.
+	 * @since 7.2.0
 	 *
-	 * @since 7.0.0
-	 *
-	 * @param string            $name      The method name in snake_case.
-	 * @param array<int, mixed> $arguments The method arguments.
-	 * @return mixed The result of the method call.
+	 * @param ProviderRegistry $registry The provider registry for finding suitable models.
+	 * @param Prompt           $prompt   Initial prompt content, or null.
+	 *                                   A string for simple text prompts,
+	 *                                   a MessagePart or Message object for
+	 *                                   structured content, an array for a
+	 *                                   message array shape, or a list of
+	 *                                   parts or messages for multi-turn
+	 *                                   conversations.
+	 * @return PromptBuilder The SDK prompt builder instance.
 	 */
-	public function __call( string $name, array $arguments ) {
-		/*
-		 * If an error occurred in a previous method call, either return the error for terminate methods,
-		 * or return the same instance for other methods to maintain the fluent interface.
+	protected function create_sdk_builder( ProviderRegistry $registry, $prompt ): object {
+		return new PromptBuilder( $registry, $prompt, AiClient::getEventDispatcher() );
+	}
+
+	/**
+	 * Retrieves the prefix used for WP_Error codes created by this builder.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return string The error code prefix.
+	 */
+	protected function get_error_code_prefix(): string {
+		return 'prompt';
+	}
+
+	/**
+	 * Retrieves the error message to use when the prompt is prevented by a filter.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return string The translated error message.
+	 */
+	protected function get_prevented_error_message(): string {
+		return __( 'Prompt execution was prevented by a filter.' );
+	}
+
+	/**
+	 * Checks whether the prompt is prevented by the `wp_ai_client_prevent_prompt` filter.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return bool Whether the prompt is prevented.
+	 */
+	protected function is_prevented_by_filter(): bool {
+		/**
+		 * Filters whether to prevent the prompt from being executed.
+		 *
+		 * @since 7.0.0
+		 *
+		 * @param bool                        $prevent Whether to prevent the prompt. Default false.
+		 * @param WP_AI_Client_Prompt_Builder $builder A clone of the prompt builder instance (read-only).
 		 */
-		if ( null !== $this->error ) {
-			if ( self::is_generating_method( $name ) ) {
-				return $this->error;
-			}
-			if ( self::is_support_check_method( $name ) ) {
-				return false;
-			}
-			return $this;
-		}
-
-		// Check if the prompt should be prevented for is_supported* and generate_*/convert_text_to_speech* methods.
-		if ( self::is_support_check_method( $name ) || self::is_generating_method( $name ) ) {
-			// If AI is not supported, then there's no need to apply the filter as the prompt will be prevented anyway.
-			$is_ai_disabled = ! wp_supports_ai();
-			$prevent        = $is_ai_disabled;
-			if ( ! $prevent ) {
-				/**
-				 * Filters whether to prevent the prompt from being executed.
-				 *
-				 * @since 7.0.0
-				 *
-				 * @param bool                        $prevent Whether to prevent the prompt. Default false.
-				 * @param WP_AI_Client_Prompt_Builder $builder A clone of the prompt builder instance (read-only).
-				 */
-				$prevent = (bool) apply_filters( 'wp_ai_client_prevent_prompt', false, clone $this );
-			}
-
-			if ( $prevent ) {
-				// For is_supported* methods, return false.
-				if ( self::is_support_check_method( $name ) ) {
-					return false;
-				}
-
-				$error_message = $is_ai_disabled
-					? __( 'AI features are not supported in this environment.' )
-					: __( 'Prompt execution was prevented by a filter.' );
-
-				// For generate_* and convert_text_to_speech* methods, create a WP_Error.
-				$this->error = new WP_Error(
-					'prompt_prevented',
-					$error_message,
-					array(
-						'status' => 503,
-					)
-				);
-
-				if ( self::is_generating_method( $name ) ) {
-					return $this->error;
-				}
-				return $this;
-			}
-		}
-
-		try {
-			$callable = $this->get_builder_callable( $name );
-			$result   = $callable( ...$arguments );
-
-			// If the result is a PromptBuilder, return the current instance to allow method chaining.
-			if ( $result instanceof PromptBuilder ) {
-				return $this;
-			}
-
-			return $result;
-		} catch ( Throwable $e ) {
-			$this->error = $this->throwable_to_wp_error( $e );
-
-			if ( self::is_generating_method( $name ) ) {
-				return $this->error;
-			}
-			if ( self::is_support_check_method( $name ) ) {
-				return false;
-			}
-			return $this;
-		}
+		return (bool) apply_filters( 'wp_ai_client_prevent_prompt', false, clone $this );
 	}
 
 	/**
-	 * Converts a throwable into a WP_Error with a structured error code and message.
+	 * Retrieves the methods that generate a result from the prompt.
 	 *
-	 * This method maps different throwable types to specific WP_Error codes and HTTP status codes.
-	 * The presence of the status codes means these WP_Error objects can be easily used in REST API responses
-	 * or other contexts where HTTP semantics are relevant.
+	 * @since 7.2.0
 	 *
-	 * @since 7.0.0
-	 *
-	 * @param Throwable $throwable The throwable to convert.
-	 * @return WP_Error The resulting WP_Error object.
+	 * @return array<string, bool> The generating methods map.
 	 */
-	private function throwable_to_wp_error( Throwable $throwable ): WP_Error {
-		if ( $throwable instanceof NetworkException ) {
-			$error_code  = 'prompt_network_error';
-			$status_code = 503;
-		} elseif ( $throwable instanceof ClientException ) {
-			// `ClientException` uses HTTP status codes as exception codes, so we can rely on them.
-			$error_code  = 'prompt_client_error';
-			$status_code = $throwable->getCode() ? $throwable->getCode() : 400;
-		} elseif ( $throwable instanceof ServerException ) {
-			// `ServerException` uses HTTP status codes as exception codes, so we can rely on them.
-			$error_code  = 'prompt_upstream_server_error';
-			$status_code = $throwable->getCode() ? $throwable->getCode() : 500;
-		} elseif ( $throwable instanceof TokenLimitReachedException ) {
-			$error_code  = 'prompt_token_limit_reached';
-			$status_code = 400;
-		} elseif ( $throwable instanceof InvalidArgumentException ) {
-			$error_code  = 'prompt_invalid_argument';
-			$status_code = 400;
-		} else {
-			$error_code  = 'prompt_builder_error';
-			$status_code = 500;
-		}
-
-		return new WP_Error(
-			$error_code,
-			$throwable->getMessage(),
-			array(
-				'status'          => $status_code,
-				'exception_class' => get_class( $throwable ),
-			)
-		);
+	protected function get_generating_methods(): array {
+		return self::$generating_methods;
 	}
 
 	/**
-	 * Checks if a method name is a support check method (is_supported*).
+	 * Retrieves the methods that check whether the prompt is supported.
 	 *
-	 * @since 7.0.0
+	 * @since 7.2.0
 	 *
-	 * @param string $name The method name.
-	 * @return bool True if the method is a support check method, false otherwise.
+	 * @return array<string, bool> The support check methods map.
 	 */
-	private static function is_support_check_method( string $name ): bool {
-		return isset( self::$support_check_methods[ $name ] );
-	}
-
-	/**
-	 * Checks if a method name is a generating method (generate_*, convert_text_to_speech*).
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param string $name The method name.
-	 * @return bool True if the method is a generating method, false otherwise.
-	 */
-	private static function is_generating_method( string $name ): bool {
-		return isset( self::$generating_methods[ $name ] );
-	}
-
-	/**
-	 * Retrieves a callable for a given PHP AI Client SDK prompt builder method name.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param string $name The method name in snake_case.
-	 * @return callable The callable for the specified method.
-	 *
-	 * @throws BadMethodCallException If the method does not exist.
-	 */
-	protected function get_builder_callable( string $name ): callable {
-		$camel_case_name = $this->snake_to_camel_case( $name );
-
-		$method = array( $this->builder, $camel_case_name );
-		if ( ! is_callable( $method ) ) {
-			throw new BadMethodCallException(
-				sprintf(
-					/* translators: 1: Method name. 2: Class name. */
-					__( 'Method %1$s does not exist on %2$s.' ),
-					$name, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-					get_class( $this->builder ) // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-				)
-			);
-		}
-
-		return $method;
-	}
-
-	/**
-	 * Converts snake_case to camelCase.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param string $snake_case The snake_case string.
-	 * @return string The camelCase string.
-	 */
-	private function snake_to_camel_case( string $snake_case ): string {
-		$parts = explode( '_', $snake_case );
-
-		$camel_case  = $parts[0];
-		$parts_count = count( $parts );
-		for ( $i = 1; $i < $parts_count; $i++ ) {
-			$camel_case .= ucfirst( $parts[ $i ] );
-		}
-
-		return $camel_case;
+	protected function get_support_check_methods(): array {
+		return self::$support_check_methods;
 	}
 }

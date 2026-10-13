@@ -43,6 +43,7 @@ use WordPress\AiClient\Tools\DTO\WebSearch;
  *     outputMediaOrientation?: string,
  *     outputMediaAspectRatio?: string,
  *     outputSpeechVoice?: string,
+ *     dimensions?: int,
  *     customOptions?: array<string, mixed>
  * }
  *
@@ -70,6 +71,7 @@ class ModelConfig extends AbstractDataTransferObject
     public const KEY_OUTPUT_MEDIA_ORIENTATION = 'outputMediaOrientation';
     public const KEY_OUTPUT_MEDIA_ASPECT_RATIO = 'outputMediaAspectRatio';
     public const KEY_OUTPUT_SPEECH_VOICE = 'outputSpeechVoice';
+    public const KEY_DIMENSIONS = 'dimensions';
     public const KEY_CUSTOM_OPTIONS = 'customOptions';
     /*
      * Note: This key is not an actual model config key, but specified here for convenience.
@@ -157,6 +159,10 @@ class ModelConfig extends AbstractDataTransferObject
      * @var string|null Output speech voice.
      */
     protected ?string $outputSpeechVoice = null;
+    /**
+     * @var int|null Embedding vector dimensions.
+     */
+    protected ?int $dimensions = null;
     /**
      * @var array<string, mixed> Custom provider-specific options.
      */
@@ -683,6 +689,31 @@ class ModelConfig extends AbstractDataTransferObject
         return $this->outputSpeechVoice;
     }
     /**
+     * Sets the embedding dimensions.
+     *
+     * @since 1.4.0
+     *
+     * @param int $dimensions The embedding dimensions.
+     */
+    public function setDimensions(int $dimensions): void
+    {
+        if ($dimensions < 1) {
+            throw new InvalidArgumentException('Dimensions must be greater than zero.');
+        }
+        $this->dimensions = $dimensions;
+    }
+    /**
+     * Gets the embedding dimensions.
+     *
+     * @since 1.4.0
+     *
+     * @return int|null The embedding dimensions.
+     */
+    public function getDimensions(): ?int
+    {
+        return $this->dimensions;
+    }
+    /**
      * Sets a single custom option.
      *
      * @since 0.1.0
@@ -723,7 +754,7 @@ class ModelConfig extends AbstractDataTransferObject
      */
     public static function getJsonSchema(): array
     {
-        return ['type' => 'object', 'properties' => [self::KEY_OUTPUT_MODALITIES => ['type' => 'array', 'items' => ['type' => 'string', 'enum' => ModalityEnum::getValues()], 'description' => 'Output modalities for the model.'], self::KEY_SYSTEM_INSTRUCTION => ['type' => 'string', 'description' => 'System instruction for the model.'], self::KEY_CANDIDATE_COUNT => ['type' => 'integer', 'minimum' => 1, 'description' => 'Number of response candidates to generate.'], self::KEY_MAX_TOKENS => ['type' => 'integer', 'minimum' => 1, 'description' => 'Maximum number of tokens to generate.'], self::KEY_TEMPERATURE => ['type' => 'number', 'minimum' => 0.0, 'maximum' => 2.0, 'description' => 'Temperature for randomness.'], self::KEY_TOP_P => ['type' => 'number', 'minimum' => 0.0, 'maximum' => 1.0, 'description' => 'Top-p nucleus sampling parameter.'], self::KEY_TOP_K => ['type' => 'integer', 'minimum' => 1, 'description' => 'Top-k sampling parameter.'], self::KEY_STOP_SEQUENCES => ['type' => 'array', 'items' => ['type' => 'string'], 'description' => 'Stop sequences.'], self::KEY_PRESENCE_PENALTY => ['type' => 'number', 'description' => 'Presence penalty for reducing repetition.'], self::KEY_FREQUENCY_PENALTY => ['type' => 'number', 'description' => 'Frequency penalty for reducing repetition.'], self::KEY_LOGPROBS => ['type' => 'boolean', 'description' => 'Whether to return log probabilities.'], self::KEY_TOP_LOGPROBS => ['type' => 'integer', 'minimum' => 1, 'description' => 'Number of top log probabilities to return.'], self::KEY_FUNCTION_DECLARATIONS => ['type' => 'array', 'items' => FunctionDeclaration::getJsonSchema(), 'description' => 'Function declarations available to the model.'], self::KEY_WEB_SEARCH => WebSearch::getJsonSchema(), self::KEY_OUTPUT_FILE_TYPE => ['type' => 'string', 'enum' => FileTypeEnum::getValues(), 'description' => 'Output file type.'], self::KEY_OUTPUT_MIME_TYPE => ['type' => 'string', 'description' => 'Output MIME type.'], self::KEY_OUTPUT_SCHEMA => ['type' => 'object', 'additionalProperties' => \true, 'description' => 'Output schema (JSON schema).'], self::KEY_OUTPUT_MEDIA_ORIENTATION => ['type' => 'string', 'enum' => MediaOrientationEnum::getValues(), 'description' => 'Output media orientation.'], self::KEY_OUTPUT_MEDIA_ASPECT_RATIO => ['type' => 'string', 'pattern' => '^\d+:\d+$', 'description' => 'Output media aspect ratio.'], self::KEY_OUTPUT_SPEECH_VOICE => ['type' => 'string', 'description' => 'Output speech voice.'], self::KEY_CUSTOM_OPTIONS => ['type' => 'object', 'additionalProperties' => \true, 'description' => 'Custom provider-specific options.']], 'additionalProperties' => \false];
+        return ['type' => 'object', 'properties' => [self::KEY_OUTPUT_MODALITIES => ['type' => 'array', 'items' => ['type' => 'string', 'enum' => ModalityEnum::getValues()], 'description' => 'Output modalities for the model.'], self::KEY_SYSTEM_INSTRUCTION => ['type' => 'string', 'description' => 'System instruction for the model.'], self::KEY_CANDIDATE_COUNT => ['type' => 'integer', 'minimum' => 1, 'description' => 'Number of response candidates to generate.'], self::KEY_MAX_TOKENS => ['type' => 'integer', 'minimum' => 1, 'description' => 'Maximum number of tokens to generate.'], self::KEY_TEMPERATURE => ['type' => 'number', 'minimum' => 0.0, 'maximum' => 2.0, 'description' => 'Temperature for randomness.'], self::KEY_TOP_P => ['type' => 'number', 'minimum' => 0.0, 'maximum' => 1.0, 'description' => 'Top-p nucleus sampling parameter.'], self::KEY_TOP_K => ['type' => 'integer', 'minimum' => 1, 'description' => 'Top-k sampling parameter.'], self::KEY_STOP_SEQUENCES => ['type' => 'array', 'items' => ['type' => 'string'], 'description' => 'Stop sequences.'], self::KEY_PRESENCE_PENALTY => ['type' => 'number', 'description' => 'Presence penalty for reducing repetition.'], self::KEY_FREQUENCY_PENALTY => ['type' => 'number', 'description' => 'Frequency penalty for reducing repetition.'], self::KEY_LOGPROBS => ['type' => 'boolean', 'description' => 'Whether to return log probabilities.'], self::KEY_TOP_LOGPROBS => ['type' => 'integer', 'minimum' => 1, 'description' => 'Number of top log probabilities to return.'], self::KEY_FUNCTION_DECLARATIONS => ['type' => 'array', 'items' => FunctionDeclaration::getJsonSchema(), 'description' => 'Function declarations available to the model.'], self::KEY_WEB_SEARCH => WebSearch::getJsonSchema(), self::KEY_OUTPUT_FILE_TYPE => ['type' => 'string', 'enum' => FileTypeEnum::getValues(), 'description' => 'Output file type.'], self::KEY_OUTPUT_MIME_TYPE => ['type' => 'string', 'description' => 'Output MIME type.'], self::KEY_OUTPUT_SCHEMA => ['type' => 'object', 'additionalProperties' => \true, 'description' => 'Output schema (JSON schema).'], self::KEY_OUTPUT_MEDIA_ORIENTATION => ['type' => 'string', 'enum' => MediaOrientationEnum::getValues(), 'description' => 'Output media orientation.'], self::KEY_OUTPUT_MEDIA_ASPECT_RATIO => ['type' => 'string', 'pattern' => '^\d+:\d+$', 'description' => 'Output media aspect ratio.'], self::KEY_OUTPUT_SPEECH_VOICE => ['type' => 'string', 'description' => 'Output speech voice.'], self::KEY_DIMENSIONS => ['type' => 'integer', 'minimum' => 1, 'description' => 'Embedding vector dimensions.'], self::KEY_CUSTOM_OPTIONS => ['type' => 'object', 'additionalProperties' => \true, 'description' => 'Custom provider-specific options.']], 'additionalProperties' => \false];
     }
     /**
      * {@inheritDoc}
@@ -799,6 +830,9 @@ class ModelConfig extends AbstractDataTransferObject
         if ($this->outputSpeechVoice !== null) {
             $data[self::KEY_OUTPUT_SPEECH_VOICE] = $this->outputSpeechVoice;
         }
+        if ($this->dimensions !== null) {
+            $data[self::KEY_DIMENSIONS] = $this->dimensions;
+        }
         if (!empty($this->customOptions)) {
             $data[self::KEY_CUSTOM_OPTIONS] = $this->customOptions;
         }
@@ -873,6 +907,9 @@ class ModelConfig extends AbstractDataTransferObject
         }
         if (isset($array[self::KEY_OUTPUT_SPEECH_VOICE])) {
             $config->setOutputSpeechVoice($array[self::KEY_OUTPUT_SPEECH_VOICE]);
+        }
+        if (isset($array[self::KEY_DIMENSIONS])) {
+            $config->setDimensions($array[self::KEY_DIMENSIONS]);
         }
         if (isset($array[self::KEY_CUSTOM_OPTIONS])) {
             $config->setCustomOptions($array[self::KEY_CUSTOM_OPTIONS]);
