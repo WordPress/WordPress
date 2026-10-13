@@ -779,6 +779,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @since 6.7.2 Refactored so subclasses may extend.
 	 *
 	 * @return bool Whether a token was parsed.
+	 *
+	 * @phpstan-impure
 	 */
 	public function next_token(): bool {
 		return $this->next_visitable_token();
