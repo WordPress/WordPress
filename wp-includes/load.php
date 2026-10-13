@@ -825,6 +825,70 @@ function wp_using_ext_object_cache( $using = null ) {
 }
 
 /**
+ * Loads the secrets.php drop-in, if one exists, and records whether it left the
+ * Secrets API's provider, store, and keyring overrides in a usable state.
+ *
+ * Runs once, before must-use plugins load, so that every interface a drop-in's
+ * classes implement already exists and every plugin sees the drop-in's provider.
+ *
+ * Sets `$GLOBALS['wp_secrets_dropin_loaded']` as soon as the file is found, whether
+ * or not it then loads cleanly: wp_using_secrets_dropin() reports presence, not
+ * health.
+ *
+ * Sets `$GLOBALS['wp_secrets_dropin_broken']` when the require throws, or when any of
+ * `$GLOBALS['wp_secrets_provider']`, `$GLOBALS['wp_secrets_store']`, or
+ * `$GLOBALS['wp_secrets_keyring']` is set to something that does not implement its
+ * interface. A global left unset is fine: a drop-in that overrides only the keyring
+ * leaves the other two alone. Once the flag is set, every Secrets API operation
+ * returns WP_Error for the rest of the request rather than falling back to the
+ * default provider, so a broken drop-in reads as unreachable, never as absent.
+ *
+ * PHP treats a class that implements an interface but omits a required method as an
+ * uncatchable fatal error, even inside the try/catch around the require. That case
+ * cannot be intercepted from PHP code.
+ *
+ * @since 7.2.0
+ * @access private
+ */
+function wp_load_secrets_dropin(): void {
+	static $loaded = false;
+
+	if ( $loaded ) {
+		return;
+	}
+
+	$loaded = true;
+
+	$dropin_path = WP_CONTENT_DIR . '/secrets.php';
+
+	if ( ! file_exists( $dropin_path ) ) {
+		return;
+	}
+
+	$GLOBALS['wp_secrets_dropin_loaded'] = true;
+
+	try {
+		require $dropin_path;
+	} catch ( Throwable $e ) {
+		$GLOBALS['wp_secrets_dropin_broken'] = true;
+
+		return;
+	}
+
+	if ( isset( $GLOBALS['wp_secrets_store'] ) && ! ( $GLOBALS['wp_secrets_store'] instanceof WP_Secrets_Store ) ) {
+		$GLOBALS['wp_secrets_dropin_broken'] = true;
+	}
+
+	if ( isset( $GLOBALS['wp_secrets_keyring'] ) && ! ( $GLOBALS['wp_secrets_keyring'] instanceof WP_Secrets_Keyring ) ) {
+		$GLOBALS['wp_secrets_dropin_broken'] = true;
+	}
+
+	if ( isset( $GLOBALS['wp_secrets_provider'] ) && ! ( $GLOBALS['wp_secrets_provider'] instanceof WP_Secrets_Provider ) ) {
+		$GLOBALS['wp_secrets_dropin_broken'] = true;
+	}
+}
+
+/**
  * Starts the WordPress object cache.
  *
  * If an object-cache.php file exists in the wp-content directory,

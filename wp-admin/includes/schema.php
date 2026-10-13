@@ -732,6 +732,7 @@ function populate_roles() {
 	populate_roles_270();
 	populate_roles_280();
 	populate_roles_300();
+	populate_roles_720();
 
 	// Save the updated roles to the database.
 	if ( $original_use_db ) {
@@ -965,6 +966,19 @@ function populate_roles_300() {
 		$role->add_cap( 'edit_theme_options' );
 		$role->add_cap( 'delete_themes' );
 		$role->add_cap( 'export' );
+	}
+}
+
+/**
+ * Create and modify WordPress roles for WordPress 7.2.
+ *
+ * @since 7.2.0
+ */
+function populate_roles_720(): void {
+	$role = get_role( 'administrator' );
+
+	if ( ! empty( $role ) ) {
+		$role->add_cap( 'manage_secrets' );
 	}
 }
 
