@@ -4,7 +4,7 @@
  *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
  * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
- * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
+ * define('CONCATENATE_SCRIPTS', true); enables concatenation of scripts and CSS in the admin and on the login screen (disabled by default),
  * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
  * define('COMPRESS_CSS', false); disables compression of CSS,
  * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
@@ -37,35 +37,42 @@ require ABSPATH . WPINC . '/functions.wp-styles.php';
 /**
  * Registers TinyMCE scripts.
  *
+ * TinyMCE core and the compat3x plugin are registered as separate files. TinyMCE loads its theme
+ * and any other plugins itself when an editor is initialized. The `wp-tinymce.js` bundle of all of
+ * them is no longer registered, but it can still be registered in their place under the
+ * `wp-tinymce` handle.
+ *
  * @since 5.0.0
+ * @since 7.2.0 The `wp-tinymce.js` bundle is no longer registered, regardless of whether scripts
+ *              are concatenated or compressed.
+ * @since 7.2.0 The `$force_uncompressed` parameter was deprecated and renamed to `$deprecated`.
  *
  * @global string $tinymce_version
- * @global bool   $concatenate_scripts
- * @global bool   $compress_scripts
  *
- * @param WP_Scripts $scripts            WP_Scripts object.
- * @param bool       $force_uncompressed Whether to forcibly prevent gzip compression. Default false.
+ * @param WP_Scripts $scripts    WP_Scripts object.
+ * @param bool       $deprecated Not used.
+ *
+ * @phpstan-param false $deprecated
  */
-function wp_register_tinymce_scripts( $scripts, $force_uncompressed = false ) {
-	global $tinymce_version, $concatenate_scripts, $compress_scripts;
+function wp_register_tinymce_scripts( $scripts, $deprecated = false ): void {
+	global $tinymce_version;
+
+	if ( false !== $deprecated ) {
+		_deprecated_argument( __FUNCTION__, '7.2.0' );
+	}
 
 	$suffix     = wp_scripts_get_suffix();
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
+	/*
+	 * This no longer depends on the concatenation settings, but it is where an admin screen has
+	 * settled them until now, which the 'wp_should_concatenate_admin_scripts' filter documents.
+	 */
 	script_concat_settings();
 
-	$compressed = $compress_scripts && $concatenate_scripts && ! $force_uncompressed;
-
-	/*
-	 * Load tinymce.js when running from /src, otherwise load wp-tinymce.js (in production)
-	 * or tinymce.min.js (when SCRIPT_DEBUG is true).
-	 */
-	if ( $compressed ) {
-		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.js', array(), $tinymce_version );
-	} else {
-		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$dev_suffix.js", array(), $tinymce_version );
-		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$dev_suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
-	}
+	// Load tinymce.js when running from /src, otherwise tinymce.min.js.
+	$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$dev_suffix.js", array(), $tinymce_version );
+	$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$dev_suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
 
 	$scripts->add( 'wp-tinymce-lists', includes_url( "js/tinymce/plugins/lists/plugin$suffix.js" ), array( 'wp-tinymce' ), $tinymce_version );
 }
@@ -2498,7 +2505,7 @@ function script_concat_settings() {
 /**
  * Determines whether scripts and styles are concatenated on admin screens and the login screen.
  *
- * Concatenation is on unless the `CONCATENATE_SCRIPTS` constant turns it off, and `SCRIPT_DEBUG`
+ * Concatenation is off unless the `CONCATENATE_SCRIPTS` constant turns it on, and `SCRIPT_DEBUG`
  * turns it off regardless. Scripts and styles are never concatenated elsewhere.
  *
  * This is the default that script_concat_settings() gives the `$concatenate_scripts` global when
@@ -2515,7 +2522,7 @@ function script_concat_settings() {
  * @return bool Whether scripts and styles are concatenated on admin screens and the login screen.
  */
 function wp_should_concatenate_admin_scripts(): bool {
-	$concatenate = ( defined( 'CONCATENATE_SCRIPTS' ) ? (bool) CONCATENATE_SCRIPTS : true )
+	$concatenate = ( defined( 'CONCATENATE_SCRIPTS' ) ? (bool) CONCATENATE_SCRIPTS : false )
 		&& ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
 	/**
@@ -2532,8 +2539,8 @@ function wp_should_concatenate_admin_scripts(): bool {
 	 *
 	 * @since 7.2.0
 	 *
-	 * @param bool $concatenate Whether scripts and styles are concatenated. Default true, unless the
-	 *                          `CONCATENATE_SCRIPTS` constant is false or `SCRIPT_DEBUG` is true.
+	 * @param bool $concatenate Whether scripts and styles are concatenated. Default false, unless the
+	 *                          `CONCATENATE_SCRIPTS` constant is true and `SCRIPT_DEBUG` is not.
 	 */
 	return (bool) apply_filters( 'wp_should_concatenate_admin_scripts', $concatenate );
 }

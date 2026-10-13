@@ -1541,7 +1541,7 @@ final class _WP_Editors {
 		$wp_scripts = wp_scripts();
 
 		$wp_scripts->remove( 'wp-tinymce' );
-		wp_register_tinymce_scripts( $wp_scripts, true );
+		wp_register_tinymce_scripts( $wp_scripts );
 	}
 
 	/**
