@@ -3478,6 +3478,7 @@ img {
 	display: inline;
 	font-family: dashicons;
 	font-size: 20px;
+	line-height: 1;
 	position: absolute;
 	pointer-events: none;
 }
