@@ -909,6 +909,8 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
  * @param mixed  ...$args    Optional further parameters, typically starting with an object ID.
  * @return bool Whether the current user has the given capability. If `$capability` is a meta cap and `$object_id` is
  *              passed, whether the current user has the given meta capability for the given object.
+ *
+ * @phpstan-impure
  */
 function current_user_can( $capability, ...$args ) {
 	return user_can( wp_get_current_user(), $capability, ...$args );

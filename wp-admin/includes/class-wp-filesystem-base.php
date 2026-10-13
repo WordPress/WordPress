@@ -606,6 +606,8 @@ class WP_Filesystem_Base {
 	 * @param bool      $recursive Optional. If set to true, changes file permissions recursively.
 	 *                             Default false.
 	 * @return bool True on success, false on failure.
+	 *
+	 * @phpstan-impure
 	 */
 	public function chmod( $file, $mode = false, $recursive = false ) {
 		return false;
