@@ -915,6 +915,10 @@ themes.view.Details = wp.Backbone.View.extend({
 		var screenshot, image;
 
 		screenshot = el.find( '.screenshot img' );
+		if ( ! screenshot.length ) {
+			return;
+		}
+
 		image = new Image();
 		image.src = screenshot.attr( 'src' );
 
