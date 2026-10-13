@@ -706,13 +706,6 @@ div.mce-menu .mce-menu-item-sep,
 	box-shadow: 0 1px 0 #c3c4c7;
 }
 
-/* Remove the dotted border on :focus and the extra padding in Firefox */
-.mce-window .mce-btn::-moz-focus-inner {
-	border-width: 0;
-	border-style: none;
-	padding: 0;
-}
-
 .mce-window .mce-btn:hover,
 .mce-window .mce-btn:focus {
 	background: #f6f7f7;

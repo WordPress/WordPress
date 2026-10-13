@@ -233,13 +233,6 @@
 	outline: none;
 }
 
-/* Remove the dotted border on :focus and the extra padding in Firefox */
-.ui-button::-moz-focus-inner {
-	border-width: 0;
-	border-style: none;
-	padding: 0;
-}
-
 .ui-button:hover,
 .ui-button:focus {
 	background: #f6f7f7;

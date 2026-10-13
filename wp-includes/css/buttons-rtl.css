@@ -60,16 +60,6 @@ TABLE OF CONTENTS:
 	box-sizing: border-box;
 }
 
-/* Remove the dotted border on :focus and the extra padding in Firefox */
-.wp-core-ui button::-moz-focus-inner,
-.wp-core-ui input[type="reset"]::-moz-focus-inner,
-.wp-core-ui input[type="button"]::-moz-focus-inner,
-.wp-core-ui input[type="submit"]::-moz-focus-inner {
-	border-width: 0;
-	border-style: none;
-	padding: 0;
-}
-
 /* Compact size - 32px, for space-constrained contexts */
 .wp-core-ui .button.button-compact,
 .wp-core-ui .button-group.button-compact .button {
