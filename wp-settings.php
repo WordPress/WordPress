@@ -115,7 +115,6 @@ require ABSPATH . WPINC . '/utf8.php';
 require ABSPATH . WPINC . '/formatting.php';
 require ABSPATH . WPINC . '/meta.php';
 require ABSPATH . WPINC . '/functions.php';
-require ABSPATH . WPINC . '/class-wp-admin-notice-collector.php';
 require ABSPATH . WPINC . '/class-wp-meta-query.php';
 require ABSPATH . WPINC . '/class-wp-matchesmapregex.php';
 require ABSPATH . WPINC . '/class-wp.php';
