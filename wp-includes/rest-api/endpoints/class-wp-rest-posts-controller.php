@@ -455,9 +455,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			add_filter( 'post_password_required', array( $this, 'check_password_required' ), 10, 2 );
 		}
 
+		$posts = array();
 		if ( ! $is_head_request ) {
-			$posts = array();
-
 			update_post_author_caches( $query_result );
 			update_post_parent_caches( $query_result );
 
@@ -2334,6 +2333,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Gets the link relations available for the post and current user.
 	 *
 	 * @since 4.9.8
+	 * @since 7.2.0 Added the `action-trash` link relation.
 	 *
 	 * @param WP_Post         $post    Post object.
 	 * @param WP_REST_Request $request Request object.
@@ -2366,6 +2366,19 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		if ( post_type_supports( $post_type->name, 'author' ) ) {
 			if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
 				$rels[] = 'https://api.w.org/action-assign-author';
+			}
+		}
+
+		if ( 'trash' !== $post->post_status && $this->check_delete_permission( $post ) ) {
+			$supports_trash = ( EMPTY_TRASH_DAYS > 0 );
+
+			if ( 'attachment' === $post->post_type ) {
+				$supports_trash = $supports_trash && MEDIA_TRASH;
+			}
+
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+			if ( apply_filters( "rest_{$this->post_type}_trashable", $supports_trash, $post ) ) {
+				$rels[] = 'https://api.w.org/action-trash';
 			}
 		}
 
@@ -2840,6 +2853,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Retrieves Link Description Objects that should be added to the Schema for the posts collection.
 	 *
 	 * @since 4.9.8
+	 * @since 7.2.0 Added the `action-trash` link relation.
 	 *
 	 * @return array
 	 */
@@ -2913,6 +2927,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				),
 			);
 		}
+
+		$links[] = array(
+			'rel'   => 'https://api.w.org/action-trash',
+			'title' => __( 'The current user can move this post to the trash.' ),
+			'href'  => $href,
+		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
 

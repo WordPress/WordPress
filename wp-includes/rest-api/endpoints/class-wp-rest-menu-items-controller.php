@@ -692,6 +692,23 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
+	 * Gets the link relations available for the menu item and current user.
+	 *
+	 * Menu items can only be deleted permanently, so the `action-trash` link is skipped.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param WP_Post         $post    Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @return array List of link relations.
+	 */
+	protected function get_available_actions( $post, $request ) {
+		$rels = parent::get_available_actions( $post, $request );
+
+		return array_values( array_diff( $rels, array( 'https://api.w.org/action-trash' ) ) );
+	}
+
+	/**
 	 * Retrieves Link Description Objects that should be added to the Schema for the nav menu items collection.
 	 *
 	 * @since 5.9.0
@@ -700,6 +717,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 */
 	protected function get_schema_links() {
 		$links   = parent::get_schema_links();
+		$links   = array_values( wp_list_filter( $links, array( 'rel' => 'https://api.w.org/action-trash' ), 'NOT' ) );
 		$href    = rest_url( "{$this->namespace}/{$this->rest_base}/{id}" );
 		$links[] = array(
 			'rel'          => 'https://api.w.org/menu-item-object',

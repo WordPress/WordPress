@@ -326,10 +326,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$query        = new WP_Comment_Query();
 		$query_result = $query->query( $prepared_args );
+		$comments     = array();
 
 		if ( ! $is_head_request ) {
-			$comments = array();
-
 			foreach ( $query_result as $comment ) {
 				if ( ! $this->check_read_permission( $comment, $request ) ) {
 					continue;
@@ -1243,7 +1242,18 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $data );
 
 		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
-			$response->add_links( $this->prepare_links( $comment ) );
+			$links = $this->prepare_links( $comment );
+			$response->add_links( $links );
+
+			if ( ! empty( $links['self']['href'] ) ) {
+				$actions = $this->get_available_actions( $comment, $request );
+
+				$self = $links['self']['href'];
+
+				foreach ( $actions as $rel ) {
+					$response->add_link( $rel, $self );
+				}
+			}
 		}
 
 		/**
@@ -1344,6 +1354,32 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Gets the link relations available for the comment and current user.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param WP_Comment      $comment Comment object.
+	 * @param WP_REST_Request $request Request object.
+	 * @return string[] List of link relations.
+	 */
+	protected function get_available_actions( $comment, $request ) {
+		if ( 'edit' !== $request['context'] ) {
+			return array();
+		}
+
+		$rels = array();
+
+		if ( 'trash' !== $comment->comment_approved && $this->check_edit_permission( $comment ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php */
+			if ( apply_filters( 'rest_comment_trashable', ( EMPTY_TRASH_DAYS > 0 ), $comment ) ) {
+				$rels[] = 'https://api.w.org/action-trash';
+			}
+		}
+
+		return $rels;
 	}
 
 	/**
