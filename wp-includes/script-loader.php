@@ -117,7 +117,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'react-dom'                   => '18.3.1.1', // Final .1 due to switch to UMD build, can be removed in the next update.
 		'react-jsx-runtime'           => '18.3.1',
 		'regenerator-runtime'         => '0.14.1',
-		'moment'                      => '2.30.1',
+		'moment'                      => '2.31.0',
 		'lodash'                      => '4.18.1',
 		'wp-polyfill-fetch'           => '3.6.20',
 		'wp-polyfill-formdata'        => '4.0.10',
