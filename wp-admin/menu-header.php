@@ -111,7 +111,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$class[] = esc_attr( $item[4] );
 		}
 
-		$class     = $class ? ' class="' . implode( ' ', $class ) . '"' : '';
+		$class     = ' class="' . implode( ' ', $class ) . '"';
 		$id        = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
 		$img       = '';
 		$img_style = '';
