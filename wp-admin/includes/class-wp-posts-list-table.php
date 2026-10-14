@@ -298,7 +298,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$status_links = array();
 		$num_posts    = wp_count_posts( $post_type, 'readable' );
 		$total_posts  = array_sum( (array) $num_posts );
-		$class        = '';
 
 		$current_user_id = get_current_user_id();
 		$all_args        = array( 'post_type' => $post_type );
@@ -310,10 +309,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		if ( $this->user_posts_count && $this->user_posts_count !== $total_posts ) {
-			if ( isset( $_GET['author'] ) && ( $current_user_id === (int) $_GET['author'] ) ) {
-				$class = 'current';
-			}
-
 			$mine_args = array(
 				'post_type' => $post_type,
 				'author'    => $current_user_id,
@@ -337,7 +332,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 
 			$all_args['all_posts'] = 1;
-			$class                 = '';
 		}
 
 		$all_inner_html = sprintf(
@@ -354,7 +348,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$status_links['all'] = array(
 			'url'     => esc_url( add_query_arg( $all_args, 'edit.php' ) ),
 			'label'   => $all_inner_html,
-			'current' => empty( $class ) && ( $this->is_base_request() || isset( $_REQUEST['all_posts'] ) ),
+			'current' => $this->is_base_request() || isset( $_REQUEST['all_posts'] ),
 		);
 
 		if ( $mine ) {
@@ -362,16 +356,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		foreach ( get_post_stati( array( 'show_in_admin_status_list' => true ), 'objects' ) as $status ) {
-			$class = '';
-
 			$status_name = $status->name;
 
 			if ( ! in_array( $status_name, $avail_post_stati, true ) || empty( $num_posts->$status_name ) ) {
 				continue;
-			}
-
-			if ( isset( $_REQUEST['post_status'] ) && $status_name === $_REQUEST['post_status'] ) {
-				$class = 'current';
 			}
 
 			$status_args = array(
@@ -392,8 +380,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		if ( ! empty( $this->sticky_posts_count ) ) {
-			$class = ! empty( $_REQUEST['show_sticky'] ) ? 'current' : '';
-
 			$sticky_args = array(
 				'post_type'   => $post_type,
 				'show_sticky' => 1,
