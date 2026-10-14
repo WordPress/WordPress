@@ -16,8 +16,8 @@ declare( strict_types = 1 );
  * (exposed-settings discovery and schema generation) that are intended to also back a
  * future write-oriented `core/settings-update` ability.
  *
- * Unlike the other core abilities, which are self-contained closures registered directly
- * in wp_register_core_abilities(), the settings abilities live in a dedicated class
+ * Unlike the core abilities registered directly in wp_register_core_abilities() as
+ * self-contained closures, the settings abilities live in a dedicated class
  * because they share state: the set of exposed settings is computed once at registration
  * and reused by the input schema, the output schema, and the execute callback, and the
  * same helpers are meant to be shared with the future write ability.
