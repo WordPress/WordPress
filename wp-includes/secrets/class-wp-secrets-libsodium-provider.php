@@ -650,7 +650,7 @@ final class WP_Secrets_Libsodium_Provider implements WP_Secrets_Provider {
 		$entries = array();
 
 		foreach ( $names as $name ) {
-			if ( '' !== $name_prefix && 0 !== strpos( $name, $name_prefix . '/' ) ) {
+			if ( '' !== $name_prefix && ! str_starts_with( $name, $name_prefix . '/' ) ) {
 				continue;
 			}
 

@@ -85,7 +85,7 @@ function wp_secrets_site_health_result( string $test, string $label, string $sta
 function wp_secrets_site_health_test_key_source(): array {
 	$key_source = _wp_secrets_get_key_manager()->get_keyring()->get_key_source();
 
-	if ( false !== strpos( $key_source, 'broken' ) ) {
+	if ( str_contains( $key_source, 'broken' ) ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
 			__( 'Secrets API key source is broken' ),
@@ -97,7 +97,7 @@ function wp_secrets_site_health_test_key_source(): array {
 		);
 	}
 
-	if ( false !== strpos( $key_source, 'legacy interpretation' ) ) {
+	if ( str_contains( $key_source, 'legacy interpretation' ) ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
 			__( 'Secrets API key should be regenerated' ),
@@ -109,7 +109,7 @@ function wp_secrets_site_health_test_key_source(): array {
 		);
 	}
 
-	if ( false !== strpos( $key_source, 'LOGGED_IN_KEY' ) ) {
+	if ( str_contains( $key_source, 'LOGGED_IN_KEY' ) ) {
 		return wp_secrets_site_health_result(
 			'secrets_api_key_source',
 			__( 'Secrets API is using a fallback key' ),
