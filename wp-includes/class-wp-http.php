@@ -474,7 +474,9 @@ class WP_Http {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param array $cookies Array of cookies to send with the request.
+	 * @param array<int|string, WP_Http_Cookie|scalar> $cookies Array of cookies to send with the request,
+	 *                                                          as WP_Http_Cookie objects or name/value pairs.
+	 *                                                          Cookies without a scalar value are ignored.
 	 * @return WpOrg\Requests\Cookie\Jar Cookie holder object.
 	 */
 	public static function normalize_cookies( $cookies ) {
@@ -482,16 +484,28 @@ class WP_Http {
 
 		foreach ( $cookies as $name => $value ) {
 			if ( $value instanceof WP_Http_Cookie ) {
-				$attributes                 = array_filter(
+				$cookie_name  = (string) $value->name;
+				$cookie_value = $value->value;
+				$attributes   = array_filter(
 					$value->get_attributes(),
 					static function ( $attr ) {
 						return null !== $attr;
 					}
 				);
-				$cookie_jar[ $value->name ] = new WpOrg\Requests\Cookie( (string) $value->name, $value->value, $attributes, array( 'host-only' => $value->host_only ) );
-			} elseif ( is_scalar( $value ) ) {
-				$cookie_jar[ $name ] = new WpOrg\Requests\Cookie( (string) $name, (string) $value );
+				$flags        = array( 'host-only' => $value->host_only );
+			} else {
+				$cookie_name  = (string) $name;
+				$cookie_value = $value;
+				$attributes   = array();
+				$flags        = array();
 			}
+
+			// A cookie without a value is not sent by WP_Http_Cookie::getHeaderValue() either, and a non-scalar value cannot be represented.
+			if ( ! is_scalar( $cookie_value ) ) {
+				continue;
+			}
+
+			$cookie_jar[ $cookie_name ] = new WpOrg\Requests\Cookie( $cookie_name, (string) $cookie_value, $attributes, $flags );
 		}
 
 		return $cookie_jar;

@@ -26,7 +26,7 @@ class WP_Http_Cookie {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	public $name;
 
@@ -35,16 +35,18 @@ class WP_Http_Cookie {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	public $value;
 
 	/**
-	 * When the cookie expires. Unix timestamp or formatted date.
+	 * When the cookie expires, as a Unix timestamp.
+	 *
+	 * False if the expiration date could not be parsed, or null if not provided.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var string|int|null
+	 * @var int|false|null
 	 */
 	public $expires;
 
@@ -62,7 +64,7 @@ class WP_Http_Cookie {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	public $domain;
 
@@ -76,11 +78,13 @@ class WP_Http_Cookie {
 	public $port;
 
 	/**
-	 * host-only flag.
+	 * Host-only flag.
+	 *
+	 * Null if not provided.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	public $host_only;
 
@@ -100,9 +104,9 @@ class WP_Http_Cookie {
 	 *     @type mixed           $value     Value. Should NOT already be urlencoded.
 	 *     @type string|int|null $expires   Optional. Unix timestamp or formatted date. Default null.
 	 *     @type string|null     $path      Optional. Path. Default '/'.
-	 *     @type string          $domain    Optional. Domain. Default host of parsed $requested_url.
+	 *     @type string|null     $domain    Optional. Domain. Default host of parsed $requested_url.
 	 *     @type int|string|null $port      Optional. Port or comma-separated list of ports. Default null.
-	 *     @type bool            $host_only Optional. host-only storage flag. Default true.
+	 *     @type bool|null       $host_only Optional. Host-only storage flag. Default null.
 	 * }
 	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
 	 *                                    and $port values.
@@ -262,9 +266,9 @@ class WP_Http_Cookie {
 	 * @return array {
 	 *     List of attributes.
 	 *
-	 *     @type string|int|null $expires When the cookie expires. Unix timestamp or formatted date.
-	 *     @type string          $path    Cookie URL path.
-	 *     @type string          $domain  Cookie domain.
+	 *     @type int|false|null $expires When the cookie expires, as a Unix timestamp.
+	 *     @type string         $path    Cookie URL path.
+	 *     @type string|null    $domain  Cookie domain.
 	 * }
 	 */
 	public function get_attributes() {
