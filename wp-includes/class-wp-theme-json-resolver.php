@@ -24,6 +24,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container for keep track of registered blocks.
 	 *
 	 * @since 6.1.0
+	 * @since 7.2.0 Added the `merged` entry.
 	 * @var array
 	 */
 	protected static $blocks_cache = array(
@@ -31,7 +32,16 @@ class WP_Theme_JSON_Resolver {
 		'blocks' => array(),
 		'theme'  => array(),
 		'user'   => array(),
+		'merged' => array(),
 	);
+
+	/**
+	 * Merged data keyed by origin.
+	 *
+	 * @since 7.2.0
+	 * @var array
+	 */
+	protected static $merged = array();
 
 	/**
 	 * Container for data coming from core.
@@ -192,9 +202,11 @@ class WP_Theme_JSON_Resolver {
 	 * Checks whether the registered blocks were already processed for this origin.
 	 *
 	 * @since 6.1.0
+	 * @since 7.2.0 Added the 'merged' origin.
 	 *
 	 * @param string $origin Data source for which to cache the blocks.
-	 *                       Valid values are 'core', 'blocks', 'theme', and 'user'.
+	 *                       Valid values are 'core', 'blocks', 'theme', 'user',
+	 *                       and 'merged'.
 	 * @return bool True on success, false otherwise.
 	 */
 	protected static function has_same_registered_blocks( $origin ) {
@@ -638,6 +650,7 @@ class WP_Theme_JSON_Resolver {
 	 *              added the `$origin` parameter.
 	 * @since 6.1.0 Added block data and generation of spacingSizes array.
 	 * @since 6.2.0 Changed ' $origin' parameter values to 'default', 'blocks', 'theme' or 'custom'.
+	 * @since 7.2.0 Caches the merged data per origin for the request and returns a copy of it.
 	 *
 	 * @param string $origin Optional. To what level should we merge data: 'default', 'blocks', 'theme' or 'custom'.
 	 *                       'custom' is used as default value as well as fallback value if the origin is unknown.
@@ -648,25 +661,39 @@ class WP_Theme_JSON_Resolver {
 			_deprecated_argument( __FUNCTION__, '5.9.0' );
 		}
 
+		if ( ! in_array( $origin, array( 'default', 'blocks', 'theme', 'custom' ), true ) ) {
+			$origin = 'custom';
+		}
+
+		/*
+		 * Discard the merged data when blocks were registered after the last merge.
+		 *
+		 * This check detects new blocks, not theme support changes. Call
+		 * clean_cached_data() after changing theme supports to refresh the merged data.
+		 */
+		if ( ! static::has_same_registered_blocks( 'merged' ) ) {
+			static::$merged = array();
+		}
+		if ( isset( static::$merged[ $origin ] ) ) {
+			return clone static::$merged[ $origin ];
+		}
+
 		$result = new WP_Theme_JSON();
 		$result->merge( static::get_core_data() );
-		if ( 'default' === $origin ) {
-			return $result;
+		if ( 'default' !== $origin ) {
+			$result->merge( static::get_block_data() );
+		}
+		if ( 'theme' === $origin || 'custom' === $origin ) {
+			$result->merge( static::get_theme_data() );
+		}
+		if ( 'custom' === $origin ) {
+			$result->merge( static::get_user_data() );
 		}
 
-		$result->merge( static::get_block_data() );
-		if ( 'blocks' === $origin ) {
-			return $result;
-		}
+		static::$merged[ $origin ] = $result;
 
-		$result->merge( static::get_theme_data() );
-		if ( 'theme' === $origin ) {
-			return $result;
-		}
-
-		$result->merge( static::get_user_data() );
-
-		return $result;
+		// Return a clone so callers can modify the result without changing the cache.
+		return clone $result;
 	}
 
 	/**
@@ -733,16 +760,13 @@ class WP_Theme_JSON_Resolver {
 	 *              and `$i18n_schema` variables to reset.
 	 * @since 6.1.0 Added the `$blocks` and `$blocks_cache` variables
 	 *              to reset.
+	 * @since 7.2.0 Added the `$merged` variable to reset.
 	 */
 	public static function clean_cached_data() {
 		static::$core                     = null;
 		static::$blocks                   = null;
-		static::$blocks_cache             = array(
-			'core'   => array(),
-			'blocks' => array(),
-			'theme'  => array(),
-			'user'   => array(),
-		);
+		static::$blocks_cache             = array_fill_keys( array_keys( static::$blocks_cache ), array() );
+		static::$merged                   = array();
 		static::$theme                    = null;
 		static::$user                     = null;
 		static::$user_custom_post_type_id = null;

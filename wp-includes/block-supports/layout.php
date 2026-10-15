@@ -1022,8 +1022,6 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
  * @return string Filtered block content.
  */
 function wp_render_layout_support_flag( $block_content, $block ) {
-	static $global_styles = null;
-
 	$block_type            = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 	$block_supports_layout = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
 	$style_attr            = $block['attrs']['style'] ?? array();
@@ -1241,10 +1239,8 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 
 		// Get default blockGap value from global styles for use in layouts like grid.
 		// Check style variation first, then block-specific styles, then fall back to root styles.
-		$block_name = $block['blockName'] ?? '';
-		if ( null === $global_styles ) {
-			$global_styles = wp_get_global_styles();
-		}
+		$block_name    = $block['blockName'] ?? '';
+		$global_styles = wp_get_global_styles();
 
 		// Check if the block has an active style variation with a blockGap value.
 		// Only check the registry if the className contains a variation class to avoid unnecessary lookups.

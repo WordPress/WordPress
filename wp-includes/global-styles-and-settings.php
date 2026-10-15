@@ -9,6 +9,7 @@
  * Gets the settings resulting of merging core, theme, and user data.
  *
  * @since 5.9.0
+ * @since 7.2.0 Removed the per-request cache; WP_Theme_JSON_Resolver::get_merged_data() caches the merged data.
  *
  * @param array $path    Path to the specific setting to retrieve. Optional.
  *                       If empty, will return all settings.
@@ -32,53 +33,13 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 		$path = $new_path;
 	}
 
-	/*
-	 * This is the default value when no origin is provided or when it is 'all'.
-	 *
-	 * The $origin is used as part of the cache key. Changes here need to account
-	 * for clearing the cache appropriately.
-	 */
+	// This is the default value when no origin is provided or when it is 'all'.
 	$origin = 'custom';
 	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
 		$origin = 'theme';
 	}
 
-	/*
-	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
-	 * See `wp_cache_add_non_persistent_groups` in src/wp-includes/load.php and other places.
-	 *
-	 * The rationale for this is to make sure derived data from theme.json
-	 * is always fresh from the potential modifications done via hooks
-	 * that can use dynamic data (modify the stylesheet depending on some option,
-	 * settings depending on user permissions, etc.).
-	 * See some of the existing hooks to modify theme.json behavior:
-	 * https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
-	 *
-	 * A different alternative considered was to invalidate the cache upon certain
-	 * events such as options add/update/delete, user meta, etc.
-	 * It was judged not enough, hence this approach.
-	 * See https://github.com/WordPress/gutenberg/pull/45372
-	 */
-	$cache_group = 'theme_json';
-	$cache_key   = 'wp_get_global_settings_' . $origin;
-
-	/*
-	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
-	 * developer's workflow.
-	 */
-	$can_use_cached = ! wp_is_development_mode( 'theme' );
-
-	$settings = false;
-	if ( $can_use_cached ) {
-		$settings = wp_cache_get( $cache_key, $cache_group );
-	}
-
-	if ( false === $settings ) {
-		$settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
-		if ( $can_use_cached ) {
-			wp_cache_set( $cache_key, $settings, $cache_group );
-		}
-	}
+	$settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
 
 	return _wp_array_get( $settings, $path, $settings );
 }
@@ -452,8 +413,6 @@ function wp_theme_has_theme_json() {
 function wp_clean_theme_json_cache() {
 	wp_cache_delete( 'wp_get_global_stylesheet', 'theme_json' );
 	wp_cache_delete( 'wp_get_global_styles_svg_filters', 'theme_json' );
-	wp_cache_delete( 'wp_get_global_settings_custom', 'theme_json' );
-	wp_cache_delete( 'wp_get_global_settings_theme', 'theme_json' );
 	wp_cache_delete( 'wp_get_global_styles_custom_css', 'theme_json' );
 	wp_cache_delete( 'wp_get_theme_data_template_parts', 'theme_json' );
 	WP_Theme_JSON_Resolver::clean_cached_data();
