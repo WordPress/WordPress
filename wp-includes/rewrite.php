@@ -286,6 +286,25 @@ function flush_rewrite_rules( $hard = true ) {
 }
 
 /**
+ * Clears the rewrite rules when the site language changes.
+ *
+ * Rewrite rules can contain translated slugs, such as the default random content
+ * base, see {@see WP_Rewrite::get_random_base()}. Clearing the rules causes them to be
+ * regenerated in the new site language.
+ *
+ * The rules are regenerated on the next request rather than immediately, because
+ * the new language is not loaded until after the option is saved. Clearing the
+ * rules also avoids rewriting the .htaccess file.
+ *
+ * Runs on the {@see 'add_option_WPLANG'} and {@see 'update_option_WPLANG'} actions.
+ *
+ * @since 7.2.0
+ */
+function wp_flush_rewrite_rules_on_site_language_change(): void {
+	update_option( 'rewrite_rules', '' );
+}
+
+/**
  * Adds an endpoint, like /trackback/.
  *
  * Adding an endpoint creates extra rewrite rules for each of the matching

@@ -13,9 +13,10 @@ class WP {
 	 * Long list of public query variables.
 	 *
 	 * @since 2.0.0
+	 * @since 7.2.0 Added the `random` query variable.
 	 * @var string[]
 	 */
-	public $public_query_vars = array( 'm', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'favicon', 'taxonomy', 'term', 'cpage', 'post_type', 'embed' );
+	public $public_query_vars = array( 'm', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'favicon', 'taxonomy', 'term', 'cpage', 'post_type', 'embed', 'random' );
 
 	/**
 	 * Private query variables.
@@ -703,6 +704,62 @@ class WP {
 	}
 
 	/**
+	 * Redirects random content requests to a randomly selected post.
+	 *
+	 * For random content requests, runs the main query to select a single random post
+	 * from the requested archive and redirects to it. For example, `example.com/random/`
+	 * redirects to a random post and `example.com/random/category/news/` redirects to a
+	 * random post in the "news" category.
+	 *
+	 * The random post is selected by the main query, so {@see 'pre_get_posts'} callbacks
+	 * customizing the archive apply to the selection. While the query runs, callbacks
+	 * enforcing the eligible posts, order and limit are added after any other callbacks:
+	 *
+	 * - {@see wp_random_content_pre_get_posts()} on the {@see 'pre_get_posts'} action.
+	 * - {@see wp_random_content_posts_orderby()} on the {@see 'posts_orderby'} filter.
+	 * - {@see wp_random_content_post_limits()} on the {@see 'post_limits'} filter.
+	 *
+	 * If no post is selected, for example on an empty archive, the request is a 404 as
+	 * there is no post to redirect to. If a post is selected but the request is not
+	 * redirected, the request continues with the results of the main query. The main
+	 * query is not run again.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @see wp_is_random_content_query()
+	 * @global WP_Query $wp_the_query WordPress Query object.
+	 *
+	 * @return bool Whether the main query was run for a random content request.
+	 */
+	public function handle_random(): bool {
+		global $wp_the_query;
+
+		if ( ! isset( $this->query_vars['random'] ) || ! wp_is_random_content_redirect_enabled() ) {
+			return false;
+		}
+
+		add_action( 'pre_get_posts', 'wp_random_content_pre_get_posts', 20 );
+		add_filter( 'posts_orderby', 'wp_random_content_posts_orderby', 20, 2 );
+		add_filter( 'post_limits', 'wp_random_content_post_limits', 20, 2 );
+
+		$this->query_posts();
+
+		remove_action( 'pre_get_posts', 'wp_random_content_pre_get_posts', 20 );
+		remove_filter( 'posts_orderby', 'wp_random_content_posts_orderby', 20 );
+		remove_filter( 'post_limits', 'wp_random_content_post_limits', 20 );
+
+		wp_random_content_redirect();
+
+		if ( wp_is_random_content_query( $wp_the_query ) && ! $wp_the_query->post instanceof WP_Post ) {
+			$wp_the_query->set_404();
+			status_header( 404 );
+			nocache_headers();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Set the Headers for 404, if nothing is found for requested URL.
 	 *
 	 * Issue a 404 if a request doesn't match any posts and doesn't match any object
@@ -820,7 +877,9 @@ class WP {
 		$parsed = $this->parse_request( $query_args );
 
 		if ( $parsed ) {
-			$this->query_posts();
+			if ( ! $this->handle_random() ) {
+				$this->query_posts();
+			}
 			$this->handle_404();
 			$this->register_globals();
 		}

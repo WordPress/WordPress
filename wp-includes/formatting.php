@@ -5184,6 +5184,7 @@ function sanitize_option( $option, $value ) {
 		case 'permalink_structure':
 		case 'category_base':
 		case 'tag_base':
+		case 'wp_random_base':
 			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( is_wp_error( $value ) ) {
 				$error = $value->get_error_message();

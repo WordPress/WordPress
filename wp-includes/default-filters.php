@@ -319,6 +319,7 @@ add_filter( 'pre_comment_content', '_wp_kses_sanitize_note_mention_classes', 11 
 add_filter( 'comment_email', 'antispambot' );
 add_filter( 'option_tag_base', '_wp_filter_taxonomy_base' );
 add_filter( 'option_category_base', '_wp_filter_taxonomy_base' );
+add_filter( 'option_wp_random_base', '_wp_filter_taxonomy_base' );
 add_filter( 'the_posts', '_close_comments_for_old_posts', 10, 2 );
 add_filter( 'comments_open', '_close_comments_for_old_post', 10, 2 );
 add_filter( 'pings_open', '_close_comments_for_old_post', 10, 2 );
@@ -493,6 +494,15 @@ add_action( 'attachment_updated', 'wp_check_for_changed_slugs', 12, 3 );
 // Redirect old dates.
 add_action( 'post_updated', 'wp_check_for_changed_dates', 12, 3 );
 add_action( 'attachment_updated', 'wp_check_for_changed_dates', 12, 3 );
+
+// Random content redirects, see WP::handle_random().
+add_filter( 'split_the_query', 'wp_random_content_split_the_query', 10, 2 );
+add_action( 'wp_after_insert_post', 'wp_random_content_flush_rewrite_rules_for_post', 10, 4 );
+add_action( 'after_delete_post', 'wp_random_content_flush_rewrite_rules_for_post', 10, 2 );
+
+// Regenerate rewrite rules in the new site language, they can contain translated slugs.
+add_action( 'add_option_WPLANG', 'wp_flush_rewrite_rules_on_site_language_change', 10, 0 );
+add_action( 'update_option_WPLANG', 'wp_flush_rewrite_rules_on_site_language_change', 10, 0 );
 
 // Nonce check for post previews.
 add_action( 'init', '_show_post_preview' );

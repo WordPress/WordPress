@@ -69,6 +69,9 @@ $help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/support/for
 get_current_screen()->set_help_sidebar( $help_sidebar_content );
 unset( $help_sidebar_content );
 
+/** @global WP_Rewrite $wp_rewrite WordPress rewrite component. */
+global $wp_rewrite;
+
 $home_path           = get_home_path();
 $iis7_permalinks     = iis7_supports_permalinks();
 $permalink_structure = get_option( 'permalink_structure' );
@@ -94,6 +97,8 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site()
 
 $category_base = get_option( 'category_base' );
 $tag_base      = get_option( 'tag_base' );
+$random_base   = get_option( 'wp_random_base' );
+$random_base   = is_string( $random_base ) ? $random_base : '';
 
 $structure_updated        = false;
 $htaccess_update_required = false;
@@ -143,6 +148,16 @@ if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) 
 		}
 
 		$wp_rewrite->set_tag_base( $tag_base );
+	}
+
+	if ( wp_is_random_content_redirect_enabled() && isset( $_POST['wp_random_base'] ) && is_string( $_POST['wp_random_base'] ) ) {
+		$random_base = $_POST['wp_random_base'];
+
+		if ( ! empty( $random_base ) ) {
+			$random_base = $blog_prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $random_base ) );
+		}
+
+		$wp_rewrite->set_random_base( $random_base );
 	}
 }
 
@@ -236,6 +251,7 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site()
 	$permalink_structure = preg_replace( '|^/?blog|', '', $permalink_structure );
 	$category_base       = preg_replace( '|^/?blog|', '', $category_base );
 	$tag_base            = preg_replace( '|^/?blog|', '', $tag_base );
+	$random_base         = preg_replace( '|^/?blog|', '', $random_base ) ?? '';
 }
 
 $url_base = home_url( $blog_prefix . $index_php_prefix );
@@ -457,6 +473,29 @@ printf(
 		<?php endif; ?>
 		</td>
 	</tr>
+	<?php if ( wp_is_random_content_redirect_enabled() ) : ?>
+	<tr>
+		<th>
+			<label for="wp_random_base">
+				<?php _e( 'Random base' ); ?>
+			</label>
+		</th>
+		<td>
+		<?php if ( '' === $blog_prefix ) : ?>
+			<input name="wp_random_base" id="wp_random_base" type="text"
+				value="<?php echo esc_attr( $random_base ); ?>" class="regular-text code"
+			/>
+		<?php else : ?>
+			<span class="code permalink-structure-has-blog-prefix">
+				<code class="no-break"><?php echo $blog_prefix; ?></code>
+				<input name="wp_random_base" id="wp_random_base" type="text"
+					value="<?php echo esc_attr( $random_base ); ?>" class="regular-text code"
+				/>
+			</span>
+		<?php endif; ?>
+		</td>
+	</tr>
+	<?php endif; ?>
 	<?php do_settings_fields( 'permalink', 'optional' ); ?>
 </table>
 
