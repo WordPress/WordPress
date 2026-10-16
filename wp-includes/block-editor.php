@@ -214,6 +214,11 @@ function get_default_block_editor_settings() {
 		'alignWide'                        => get_theme_support( 'align-wide' ),
 		'allowedBlockTypes'                => true,
 		'allowedMimeTypes'                 => get_allowed_mime_types(),
+		/*
+		 * Attaching media to a post moves its attachment page URL, and the old URL then returns a 404.
+		 * Only attach on save when attachment pages are disabled, since they then redirect to the file.
+		 */
+		'autoAttachMediaEnabled'           => ! get_option( 'wp_attachment_pages_enabled' ),
 		'defaultEditorStyles'              => $default_editor_styles,
 		'blockCategories'                  => get_default_block_categories(),
 		'isRTL'                            => is_rtl(),
