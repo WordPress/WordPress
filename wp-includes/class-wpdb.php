@@ -965,7 +965,7 @@ class wpdb {
 			$modes = explode( ',', $modes_array[0] );
 		}
 
-		$modes = array_change_key_case( $modes, CASE_UPPER );
+		$modes = array_map( 'strtoupper', $modes );
 
 		/**
 		 * Filters the list of incompatible SQL modes to exclude.
