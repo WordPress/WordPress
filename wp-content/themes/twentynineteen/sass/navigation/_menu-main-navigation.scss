@@ -13,8 +13,8 @@
 		display: inline;
 	}
 
-	/* Un-style buttons */
 	button {
+		/* Un-style buttons */
 		display: inline-block;
 		border: none;
 		padding: 0;
@@ -102,7 +102,7 @@
 					display: inline-block;
 					margin-right: #{0.25 * $size__spacing-unit};
 
-					/* Priority+ Menu */
+					// Priority+ Menu
 					&.main-menu-more-toggle {
 
 						position: relative;
@@ -243,12 +243,11 @@
 		}
 	}
 
-	/*
-	 * Sub-menu styles
-	 *
-	 * :focus-within needs its own selector so other similar
-	 * selectors don’t get ignored if a browser doesn’t recognize it
-	 */
+	// Sub-menu styles
+	//
+	// :focus-within needs its own selector so other similar
+	// selectors don’t get ignored if a browser doesn’t recognize it
+
 	.main-menu .menu-item-has-children:not(.off-canvas):focus-within > .sub-menu {
 
 		display: block;
@@ -259,7 +258,7 @@
 		min-width: 100%;
 
 
-		/* Non-mobile position */
+		// Non-mobile position
 		@include media(tablet) {
 			display: block;
 			margin-top: 0;
@@ -302,14 +301,14 @@
 			left: 0;
 			opacity: 1;
 
-			/* Non-mobile position */
+			// Non-mobile position
 			@include media(tablet) {
 				float: none;
 				max-width: 100%;
 			}
 		}
 
-		/* Nested sub-menu dashes */
+		// Nested sub-menu dashes
 		.sub-menu {
 			counter-reset: submenu;
 		}
@@ -334,7 +333,7 @@
 		min-width: 100%;
 
 
-		/* Non-mobile position */
+		// Non-mobile position
 		@include media(tablet) {
 			display: block;
 			float: none;
@@ -378,14 +377,14 @@
 			left: 0;
 			opacity: 1;
 
-			/* Non-mobile position */
+			// Non-mobile position
 			@include media(tablet) {
 				float: none;
 				max-width: 100%;
 			}
 		}
 
-		/* Nested sub-menu dashes */
+		// Nested sub-menu dashes
 		.sub-menu {
 			counter-reset: submenu;
 		}
@@ -398,16 +397,12 @@
 		}
 	}
 
-	/**
-	 * Fade-in animation for top-level submenus
-	 */
 	.main-menu > .menu-item-has-children:not(.off-canvas):hover > .sub-menu {
+		/* Fade-in animation for top-level submenus */
 		animation: fade_in 0.1s forwards;
 	}
 
-	/**
-	 * Off-canvas touch device styles
-	 */
+	// Off-canvas touch device styles
 	.main-menu .menu-item-has-children.off-canvas .sub-menu {
 
 		.submenu-expand .svg-icon {
@@ -461,8 +456,8 @@
 				display: block;
 			}
 
-			/* Prevent menu from being blocked by admin bar */
 			.admin-bar & {
+				/* Prevent menu from being blocked by admin bar */
 				top: 46px;
 				height: calc( 100vh - 46px );
 
@@ -470,8 +465,8 @@
 					top: 0;
 				}
 
-				/* WP core breakpoint */
 				@media only screen and ( min-width: 782px ) {
+					/* WP core breakpoint */
 					top: 32px;
 					height: calc( 100vh - 32px );
 

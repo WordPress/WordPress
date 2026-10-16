@@ -43,8 +43,8 @@
 		opacity: .8;
 		z-index: 3;
 
-		/* Browsers supporting mix-blend-mode don't need opacity < 1 */
 		@supports (mix-blend-mode: multiply) {
+			/* Browsers supporting mix-blend-mode don't need opacity < 1 */
 			opacity: 1;
 		}
 	}
@@ -85,9 +85,9 @@
 	}
 }
 
-/* If we add the border using a regular CSS border, it won't look good on non-retina devices,
- * since its edges can look jagged due to lack of antialiasing. In this case, we are several
- * layers of box-shadow to add the border visually, which will render the border smoother. */
+// If we add the border using a regular CSS border, it won't look good on non-retina devices,
+// since its edges can look jagged due to lack of antialiasing. In this case, we are several
+// layers of box-shadow to add the border visually, which will render the border smoother.
 
 @mixin box-shadow( $size ) {
 	box-shadow:
@@ -96,7 +96,7 @@
 		0 0 1px 0 rgba( $color__text-light, 0.7 );      // Antialiasing, outer edge.
 }
 
-/* Calculates maximum width for post content */
+// Calculates maximum width for post content.
 @mixin postContentMaxWidth() {
 
 	@include media(tablet) {
@@ -108,7 +108,7 @@
 	}
 }
 
-/* Nested sub-menu padding: 10 levels deep */
+// Nested sub-menu padding: 10 levels deep.
 @mixin nestedSubMenuPadding() {
 
 	ul {
@@ -123,7 +123,16 @@
 	}
 }
 
-/* Ensure all font family declarations come with non-latin fallbacks */
+// Ensure all font family declarations come with non-latin fallbacks.
+@mixin non-latin-fonts() {
+	@each $lang, $font__fallback in $font__fallbacks {
+		&:lang(#{$lang}) {
+			font-family: unquote( $font__fallback );
+		}
+	}
+}
+
+// Assign theme's font sets or a fallback.
 @mixin font-family( $font_family: $font__body ) {
 	font-family: $font_family;
 	@extend %non-latin-fonts;
@@ -131,11 +140,7 @@
 
 /* Build our non-latin font styles */
 %non-latin-fonts {
-	@each $lang, $font__fallback in $font__fallbacks {
-		&:lang(#{$lang}) {
-			font-family: unquote( $font__fallback );
-		}
-	}
+	@include non-latin-fonts();
 }
 
 @import "utilities";

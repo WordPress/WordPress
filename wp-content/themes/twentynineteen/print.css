@@ -129,8 +129,7 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   .site-header.featured-image .main-navigation li,
   .site-header.featured-image .social-navigation li,
   .site-header.featured-image .entry-meta,
-  .site-header.featured-image .entry-title,
-  .site-header.featured-image#masthead .site-title a {
+  .site-header.featured-image .entry-title, .site-header.featured-image#masthead .site-title a {
     color: #000;
     text-shadow: none;
   }

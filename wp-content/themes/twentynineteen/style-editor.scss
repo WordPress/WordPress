@@ -304,6 +304,10 @@ figcaption,
 		}
 	}
 
+	h2 {
+		@include non-latin-fonts();
+	}
+
 	@include media(tablet) {
 		padding-left: 10%;
 		padding-right: 10%;
@@ -576,6 +580,14 @@ figcaption,
 
 	em {
 		font-style: normal;
+	}
+}
+
+.wp-block[data-type="core/pullquote"][data-align="left"],
+.wp-block[data-type="core/pullquote"][data-align="right"] {
+
+	.wp-block-pullquote__citation {
+		@include non-latin-fonts();
 	}
 }
 

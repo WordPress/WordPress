@@ -11,7 +11,6 @@
 	/* Add text shadow to text, to increase readability. */
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 
-	/* Set white text color when featured image is set. */
 	.site-branding .site-title,
 	.site-branding .site-description,
 	.main-navigation a:after,
@@ -20,6 +19,7 @@
 	.social-navigation li,
 	.entry-meta,
 	.entry-title {
+		/* Set white text color when featured image is set. */
 		color: $color__background-body;
 	}
 
@@ -49,7 +49,7 @@
 		opacity: inherit;
 	}
 
-	/* add focus state to social media icons */
+	// add focus state to social media icons
 	.social-navigation a {
 		&:focus {
 			color: $color__background-body;
@@ -63,7 +63,7 @@
 		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
 	}
 
-	/* Entry header */
+	// Entry header
 	.site-featured-image {
 
 		.post-thumbnail img {
@@ -114,7 +114,7 @@
 				}
 			}
 
-			/* Entry meta */
+			// Entry meta
 
 			.entry-meta {
 
@@ -180,7 +180,7 @@
 		}
 	}
 
-	/* Custom Logo Link */
+	// Custom Logo Link
 
 	.custom-logo-link {
 
@@ -194,9 +194,9 @@
 		}
 	}
 
-	/* Make sure important elements are above pseudo elements used for effects. */
 	.site-branding {
 		position: relative;
+		/* Make sure important elements are above pseudo elements used for effects. */
 		z-index: 10;
 	}
 
@@ -205,11 +205,11 @@
 		z-index: 9;
 	}
 
-	/* Set up image filter layer positioning */
 	.site-branding-container:after,
 	.site-featured-image:before,
 	.site-featured-image:after,
 	&:after {
+		/* Set up image filter layer positioning */
 		display: block;
 		position: absolute;
 		top: 0; left: 0;
@@ -224,50 +224,49 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 
-	/* The intensity of each blend mode is controlled via layer opacity. */
-
-	/* Second layer: screen. */
 	.image-filters-enabled & .site-featured-image:before {
+		/* The intensity of each blend mode is controlled via layer opacity. */
+		/* Second layer: screen. */
 		background: $color__link;
 		mix-blend-mode: screen;
 		opacity: 0.1;
 	}
 
-	/* Third layer: multiply. */
-	/* When image filters are inactive, a black overlay is added. */
 	.site-featured-image:after {
+		/* Third layer: multiply. */
+		/* When image filters are inactive, a black overlay is added. */
 		background: #000;
 		mix-blend-mode: multiply;
 		opacity: .7;
 
-		/* When image filters are active, a blue overlay is added. */
 		.image-filters-enabled & {
+			/* When image filters are active, a blue overlay is added. */
 			background: $color__link;
 			opacity: .8;
 			z-index: 3;
 
-			/* Browsers supporting mix-blend-mode don't need opacity < 1 */
 			@supports (mix-blend-mode: multiply) {
+				/* Browsers supporting mix-blend-mode don't need opacity < 1 */
 				opacity: 1;
 			}
 		}
 	}
 
-	/* Fourth layer: overlay. */
 	.image-filters-enabled & .site-branding-container:after {
+		/* Fourth layer: overlay. */
 		background: rgba(0, 0, 0, 0.35);
 		mix-blend-mode: overlay;
 		opacity: 0.5;
 		z-index: 4;
 
-		/* Browsers supporting mix-blend-mode can have a light overlay */
 		@supports (mix-blend-mode: overlay) {
+			/* Browsers supporting mix-blend-mode can have a light overlay */
 			background: rgba($color__background-body, 0.35);
 		}
 	}
 
-	/* Fifth layer: readability overlay */
 	&:after {
+		/* Fifth layer: readability overlay */
 		background: #000;
 		/**
 		 * Add a transition to the readability overlay, to add a subtle
@@ -277,9 +276,9 @@
 		opacity: 0.7;
 		z-index: 5;
 
-		/* When image filters are active, a blue overlay is added. */
 		.image-filters-enabled & {
-			background: mix($color__link, black, 12%);
+			/* When image filters are active, a blue overlay is added. */
+			background: #000e14; // mix($color__link, black, 12%);
 			opacity: 0.38;
 
 			@include media(tablet) {

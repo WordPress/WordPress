@@ -7,14 +7,25 @@
   },
   "homepage": "https://wordpress.org/themes/twentynineteen/",
   "engines": {
-    "node": ">=20.10.0",
-    "npm": ">=10.2.3"
+    "node": ">=24.18.0",
+    "npm": ">=11.16.0"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.18.0"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.16.0",
+      "onFail": "error"
+    }
   },
   "devDependencies": {
     "@wordpress/browserslist-config": "^6.34.0",
     "autoprefixer": "^10.4.22",
     "chokidar-cli": "^3.0.0",
-    "node-sass": "^9.0.0",
+    "sass": "^1.101.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
@@ -38,11 +49,11 @@
     "extends @wordpress/browserslist-config"
   ],
   "scripts": {
-    "build:style": "node-sass style.scss style.css --output-style expanded && postcss -r style.css",
-    "build:style-editor": "node-sass style-editor.scss style-editor.css --output-style expanded && postcss -r style-editor.css",
-    "build:style-editor-customizer": "node-sass style-editor-customizer.scss style-editor-customizer.css --output-style expanded && postcss -r style-editor-customizer.css",
+    "build:style": "sass style.scss:style.css --style=expanded --no-source-map && postcss -r style.css",
+    "build:style-editor": "sass style-editor.scss:style-editor.css --style=expanded --no-source-map && postcss -r style-editor.css",
+    "build:style-editor-customizer": "sass style-editor-customizer.scss:style-editor-customizer.css --style=expanded --no-source-map && postcss -r style-editor-customizer.css",
     "build:rtl": "rtlcss style.css style-rtl.css",
-    "build:print": "node-sass print.scss print.css --output-style expanded && postcss -r print.css",
+    "build:print": "sass print.scss:print.css --style=expanded --no-source-map && postcss -r print.css",
     "build": "run-p \"build:*\"",
     "watch": "chokidar \"**/*.scss\" -c \"npm run build\" --initial"
   }

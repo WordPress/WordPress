@@ -55,6 +55,11 @@ h6 {
 	@include font-family( $font__body );
 }
 
+.not-found .page-title,
+.error-404 .page-title {
+	@include non-latin-fonts();
+}
+
 .site-branding,
 .main-navigation ul.main-menu > li,
 .social-navigation,

@@ -728,12 +728,12 @@
 		}
 
 		&.is-style-dots {
-			max-width: 100%;
-			@include postContentMaxWidth();
 			background-color: inherit;
 			border: inherit;
 			height: inherit;
 			text-align: center;
+			max-width: 100%;
+			@include postContentMaxWidth();
 
 			// Only apply the default dot color if there's no separator color specified.
 			&:not(.has-text-color):not(.has-background) {
@@ -747,12 +747,11 @@
 			}
 		}
 
-		/* Remove duplicate rule-line when a separator
-		 * is followed by an H1, or H2 */
 		& + h1,
 		& + h2 {
 
 			&:before {
+				/* Remove duplicate rule-line when a separator is followed by an H1 or H2 */
 				display: none;
 			}
 		}

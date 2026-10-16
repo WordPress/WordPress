@@ -35,3 +35,9 @@ input[type="submit"] {
 		outline-offset: -4px;
 	}
 }
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	@include non-latin-fonts();
+}
