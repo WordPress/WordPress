@@ -413,7 +413,10 @@ class WP_Recovery_Mode {
 		$network_plugins = wp_get_active_network_plugins();
 
 		foreach ( $network_plugins as $plugin ) {
-			if ( str_starts_with( $plugin, $extension['slug'] . '/' ) ) {
+			// wp_get_active_network_plugins() returns full paths, while the slug is relative to the plugins directory.
+			$plugin = plugin_basename( $plugin );
+
+			if ( $plugin === $extension['slug'] || str_starts_with( $plugin, $extension['slug'] . '/' ) ) {
 				return true;
 			}
 		}
