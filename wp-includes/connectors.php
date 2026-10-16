@@ -696,7 +696,8 @@ function wp_connectors_sanitize_application_password_credentials( $value, string
  * @return WP_REST_Response The modified response with masked/validated keys.
  */
 function _wp_connectors_rest_settings_dispatch( WP_REST_Response $response, WP_REST_Server $server, WP_REST_Request $request ): WP_REST_Response {
-	if ( '/wp/v2/settings' !== $request->get_route() ) {
+	// Match the route the way WP_REST_Server::match_request_to_handler() does, ignoring case.
+	if ( ! preg_match( '@^/wp/v2/settings$@i', $request->get_route() ) ) {
 		return $response;
 	}
 
