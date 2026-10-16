@@ -71,6 +71,25 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 	 * @return bool Whether the content was successfully replaced.
 	 */
 	public function set_content_between_balanced_tags( string $new_content ): bool {
+		return $this->set_raw_content_between_balanced_tags( esc_html( $new_content ) );
+	}
+
+	/**
+	 * Sets the content between two balanced tags, writing it as given.
+	 *
+	 * Unlike {@see WP_Interactivity_API_Directives_Processor::set_content_between_balanced_tags()},
+	 * it does not escape the content. Like it, it replaces the content between
+	 * the current opener tag and its matching closer tag, and it rewinds to the
+	 * opener tag.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @access private
+	 *
+	 * @param string $new_content The markup to replace the content between the matching tags. It is written as is.
+	 * @return bool Whether the content was successfully replaced.
+	 */
+	public function set_raw_content_between_balanced_tags( string $new_content ): bool {
 		$positions = $this->get_after_opener_tag_and_before_closer_tag_positions( true );
 		if ( ! $positions ) {
 			return false;
@@ -80,7 +99,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 		$this->lexical_updates[] = new WP_HTML_Text_Replacement(
 			$after_opener_tag,
 			$before_closer_tag - $after_opener_tag,
-			esc_html( $new_content )
+			$new_content
 		);
 
 		return true;

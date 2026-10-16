@@ -466,6 +466,7 @@ require ABSPATH . WPINC . '/class-wp-script-modules.php';
 require ABSPATH . WPINC . '/script-modules.php';
 require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api.php';
 require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api-directives-processor.php';
+require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-dangerous-html.php';
 require ABSPATH . WPINC . '/interactivity-api/interactivity-api.php';
 require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 require ABSPATH . WPINC . '/class-wp-url-pattern-prefixer.php';
