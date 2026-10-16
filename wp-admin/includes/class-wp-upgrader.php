@@ -73,11 +73,11 @@ class WP_Upgrader {
 	 * This is set by WP_Upgrader::install_package(), only when the package is installed
 	 * successfully. It will then be an array, unless a WP_Error is returned by the
 	 * {@see 'upgrader_post_install'} filter. In that case, the WP_Error will be assigned to
-	 * it.
+	 * it. Until then, it is an empty array, or null in subclasses which redeclare it.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @var array|WP_Error $result {
+	 * @var array|WP_Error|null $result {
 	 *     @type string $source             The full path to the source the files were installed from.
 	 *     @type string $source_files       List of all the files in the source directory.
 	 *     @type string $destination        The full path to the installation destination folder.

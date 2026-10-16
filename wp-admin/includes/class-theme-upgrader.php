@@ -24,7 +24,8 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Result of the theme upgrade offer.
 	 *
 	 * @since 2.8.0
-	 * @var array|WP_Error $result
+	 * @var array|WP_Error|null $result
+	 * @phpstan-var non-empty-array<string, mixed>|WP_Error|null
 	 * @see WP_Upgrader::$result
 	 */
 	public $result;
@@ -120,6 +121,8 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @param array $hook_extra
 	 * @param array $child_result
 	 * @return bool
+	 *
+	 * @phpstan-param non-empty-array<string, mixed> $child_result
 	 */
 	public function check_parent_theme_filter( $install_result, $hook_extra, $child_result ) {
 		// Check to see if we need to install a parent theme.
@@ -225,7 +228,9 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *                                    Default true.
 	 * }
 	 *
-	 * @return bool|WP_Error True if the installation was successful, false or a WP_Error object otherwise.
+	 * @return bool|WP_Error|null True if the installation was successful, false or a WP_Error object otherwise.
+	 *                            Null if the installation failed before the package was installed, for
+	 *                            example when the package could not be downloaded.
 	 */
 	public function install( $package, $args = array() ) {
 		$defaults    = array(
@@ -290,7 +295,9 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *     @type bool $clear_update_cache Whether to clear the update cache if successful.
 	 *                                    Default true.
 	 * }
-	 * @return bool|WP_Error True if the upgrade was successful, false or a WP_Error object otherwise.
+	 * @return bool|WP_Error|null True if the upgrade was successful, false or a WP_Error object otherwise.
+	 *                            Null if the upgrade failed before the package was installed, for example
+	 *                            when the package could not be downloaded.
 	 */
 	public function upgrade( $theme, $args = array() ) {
 		$defaults    = array(
