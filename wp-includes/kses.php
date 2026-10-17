@@ -2489,7 +2489,7 @@ function wp_kses_split2( $content, $allowed_html, $allowed_protocols ) {
 	 *
 	 * Preserve these comments and do not treat them like tags.
 	 *
-	 * @see https://html.spec.whatwg.org/#bogus-comment-state
+	 * @link https://html.spec.whatwg.org/#bogus-comment-state
 	 */
 	if ( 1 === preg_match( '~^(?:</[^a-zA-Z][^>]*>|<![a-z][^>]*>)$~', $content ) ) {
 		/**
@@ -3389,7 +3389,7 @@ function wp_kses_normalize_entities3( $matches ) {
  *
  * @since 2.7.0
  *
- * @see https://www.w3.org/TR/xml/#charsets
+ * @link https://www.w3.org/TR/xml/#charsets
  *
  * @param int $i Unicode codepoint.
  * @return bool Whether or not the codepoint is a valid Unicode codepoint.

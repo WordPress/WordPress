@@ -32,8 +32,8 @@
  *
  * @since 6.1.0
  *
- * @see https://developer.wordpress.org/block-editor/reference-guides/theme-json-reference/theme-json-living/#styles
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
+ * @link https://developer.wordpress.org/block-editor/reference-guides/theme-json-reference/theme-json-living/#styles
+ * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
  *
  * @param array $block_styles The style object.
  * @param array $options      {

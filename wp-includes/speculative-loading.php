@@ -51,7 +51,7 @@ function wp_get_speculation_rules_configuration(): ?array {
 	 * indicating that speculative loading is entirely disabled.
 	 *
 	 * @since 6.8.0
-	 * @see https://developer.chrome.com/docs/web-platform/prerender-pages
+	 * @link https://developer.chrome.com/docs/web-platform/prerender-pages
 	 *
 	 * @param array<string, string>|null $config Associative array with 'mode' and 'eagerness' keys, or `null`. The
 	 *                                           default value for both of the keys is 'auto'. Other possible values

@@ -144,12 +144,12 @@ function wp_get_global_stylesheet( $types = array() ) {
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
 	 * See some of the existing hooks to modify theme.json behavior:
-	 * @see https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 * @link https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
 	 * events such as options add/update/delete, user meta, etc.
 	 * It was judged not enough, hence this approach.
-	 * @see https://github.com/WordPress/gutenberg/pull/45372
+	 * @link https://github.com/WordPress/gutenberg/pull/45372
 	 */
 	$cache_group = 'theme_json';
 	$cache_key   = 'wp_get_global_stylesheet';

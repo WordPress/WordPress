@@ -6384,12 +6384,12 @@ function wp_get_global_styles_custom_css() {
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
 	 * See some of the existing hooks to modify theme.json behavior:
-	 * @see https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 * @link https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
 	 * events such as options add/update/delete, user meta, etc.
 	 * It was judged not enough, hence this approach.
-	 * @see https://github.com/WordPress/gutenberg/pull/45372
+	 * @link https://github.com/WordPress/gutenberg/pull/45372
 	 */
 	$cache_key   = 'wp_get_global_styles_custom_css';
 	$cache_group = 'theme_json';
@@ -6517,9 +6517,9 @@ function wp_add_editor_classic_theme_styles( $editor_settings ) {
  * @deprecated 6.9.0 Use wp_enqueue_img_auto_sizes_contain_css_fix() instead.
  * @see wp_enqueue_img_auto_sizes_contain_css_fix()
  *
- * @see https://html.spec.whatwg.org/multipage/rendering.html#img-contain-size
- * @see https://core.trac.wordpress.org/ticket/62413
- * @see https://core.trac.wordpress.org/ticket/62731
+ * @link https://html.spec.whatwg.org/multipage/rendering.html#img-contain-size
+ * @link https://core.trac.wordpress.org/ticket/62413
+ * @link https://core.trac.wordpress.org/ticket/62731
  */
 function wp_print_auto_sizes_contain_css_fix() {
 	_deprecated_function( __FUNCTION__, '6.9.0', 'wp_enqueue_img_auto_sizes_contain_css_fix' );

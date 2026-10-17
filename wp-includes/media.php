@@ -2189,9 +2189,9 @@ function wp_sizes_attribute_includes_valid_auto( string $sizes_attr ): bool {
  *
  * @since 6.9.0
  *
- * @see https://html.spec.whatwg.org/multipage/rendering.html#img-contain-size
- * @see https://core.trac.wordpress.org/ticket/62413
- * @see https://core.trac.wordpress.org/ticket/62731
+ * @link https://html.spec.whatwg.org/multipage/rendering.html#img-contain-size
+ * @link https://core.trac.wordpress.org/ticket/62413
+ * @link https://core.trac.wordpress.org/ticket/62731
  */
 function wp_enqueue_img_auto_sizes_contain_css_fix(): void {
 	// Back-compat for plugins that disable functionality by unhooking this action.

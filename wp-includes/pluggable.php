@@ -2392,7 +2392,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 		 * end in a period. To avoid the ambiguity, ensure that the login is not the last query
 		 * arg in the URL. If moving it to the end, a trailing period will need to be escaped.
 		 *
-		 * @see https://core.trac.wordpress.org/tickets/42957
+		 * @link https://core.trac.wordpress.org/ticket/42957
 		 */
 		$message .= network_site_url( 'wp-login.php?login=' . rawurlencode( $user->user_login ) . "&key=$key&action=rp", 'login' ) . "\r\n";
 

@@ -124,7 +124,7 @@ class WP_URL_Pattern_Prefixer {
 	 * Escapes a string for use in a URL pattern component.
 	 *
 	 * @since 6.8.0
-	 * @see https://urlpattern.spec.whatwg.org/#escape-a-pattern-string
+	 * @link https://urlpattern.spec.whatwg.org/#escape-a-pattern-string
 	 *
 	 * @param string $str String to be escaped.
 	 * @return string String with backslashes added where required.

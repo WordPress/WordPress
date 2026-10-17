@@ -22,11 +22,11 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 		 * @since Twenty Twenty 1.0
 		 *
 		 * @see wp_list_comments()
-		 * @see https://developer.wordpress.org/reference/functions/get_comment_author_url/
-		 * @see https://developer.wordpress.org/reference/functions/get_comment_author/
-		 * @see https://developer.wordpress.org/reference/functions/get_avatar/
-		 * @see https://developer.wordpress.org/reference/functions/get_comment_reply_link/
-		 * @see https://developer.wordpress.org/reference/functions/get_edit_comment_link/
+		 * @see get_comment_author_url()
+		 * @see get_comment_author()
+		 * @see get_avatar()
+		 * @see get_comment_reply_link()
+		 * @see get_edit_comment_link()
 		 *
 		 * @param WP_Comment $comment Comment to display.
 		 * @param int        $depth   Depth of the current comment.

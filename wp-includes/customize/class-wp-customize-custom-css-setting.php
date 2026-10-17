@@ -201,7 +201,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 			 * that would have broken out of the containing STYLE element, thus
 			 * corrupting the page and potentially introducing security issues.
 			 *
-			 * @see https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
+			 * @link https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
 			 */
 			$possible_style_close_tag = 0 === substr_compare(
 				$css,

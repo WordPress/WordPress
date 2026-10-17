@@ -1102,9 +1102,9 @@ class WP_Script_Modules {
 				 * is not encoded in UTF-8 then it's not safe to include those literals. They must
 				 * be escaped to avoid encoding issues.
 				 *
-				 * @see https://www.rfc-editor.org/rfc/rfc8259.html for details on encoding requirements.
-				 * @see https://www.php.net/manual/en/json.constants.php for details on these constants.
-				 * @see https://html.spec.whatwg.org/#script-data-state for details on script tag parsing.
+				 * @link https://www.rfc-editor.org/rfc/rfc8259.html for details on encoding requirements.
+				 * @link https://www.php.net/manual/en/json.constants.php for details on these constants.
+				 * @link https://html.spec.whatwg.org/#script-data-state for details on script tag parsing.
 				 */
 				$json_encode_flags = JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS;
 				if ( ! is_utf8_charset() ) {

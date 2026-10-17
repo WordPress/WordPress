@@ -146,7 +146,7 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
 
 			/*
 			 * No shorthand so the Customizer can override individual properties.
-			 * @see https://core.trac.wordpress.org/ticket/31460
+			 * @link https://core.trac.wordpress.org/ticket/31460
 			 */
 			background-image: url(<?php header_image(); ?>);
 			background-repeat: no-repeat;
@@ -162,7 +162,7 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
 
 				/*
 				 * No shorthand so the Customizer can override individual properties.
-				 * @see https://core.trac.wordpress.org/ticket/31460
+				 * @link https://core.trac.wordpress.org/ticket/31460
 				 */
 				background-image: url(<?php header_image(); ?>);
 				background-repeat: no-repeat;

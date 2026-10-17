@@ -18,7 +18,7 @@ if ( ! function_exists( '_' ) ) {
 	 *
 	 * @since 0.71
 	 *
-	 * @see https://php.net/manual/en/function.gettext.php
+	 * @link https://php.net/manual/en/function.gettext.php
 	 *
 	 * @param string $message The message being translated.
 	 * @return string
@@ -459,7 +459,7 @@ if ( ! function_exists( 'array_is_list' ) ) {
 	 *
 	 * An array is considered a list if its keys consist of consecutive numbers from 0 to count($array)-1.
 	 *
-	 * @see https://github.com/symfony/polyfill-php81/tree/main
+	 * @link https://github.com/symfony/polyfill-php81/tree/main
 	 *
 	 * @since 6.5.0
 	 *
