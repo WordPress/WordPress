@@ -2900,8 +2900,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'type'       => 'object',
 				'properties' => array(
 					'content' => array(
-						'raw' => array(
-							'type' => 'string',
+						'type'       => 'object',
+						'properties' => array(
+							'raw' => array(
+								'type' => 'string',
+							),
 						),
 					),
 				),
