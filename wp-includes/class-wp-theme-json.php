@@ -1536,6 +1536,32 @@ class WP_Theme_JSON {
 				$result['viewport'] = self::sanitize_viewport_settings( $input[ $subtree ]['viewport'] );
 			}
 
+			if ( 'settings' === $subtree ) {
+				// Preset leaves are untyped in VALID_SETTINGS, but consumers read `$preset['slug']` as a string.
+				$is_valid_preset = static function ( $preset ) {
+					return is_array( $preset ) && ( ! isset( $preset['slug'] ) || is_scalar( $preset['slug'] ) );
+				};
+				foreach ( static::get_setting_nodes( array( 'settings' => $result ) ) as $node ) {
+					foreach ( static::PRESETS_METADATA as $preset_metadata ) {
+						$path    = array_merge( array_slice( $node['path'], 1 ), $preset_metadata['path'] );
+						$presets = _wp_array_get( $result, $path, null );
+						if ( ! is_array( $presets ) ) {
+							continue;
+						}
+						if ( isset( $presets[0] ) ) {
+							$presets = array_values( array_filter( $presets, $is_valid_preset ) );
+						} else {
+							foreach ( static::VALID_ORIGINS as $origin ) {
+								if ( isset( $presets[ $origin ] ) && is_array( $presets[ $origin ] ) ) {
+									$presets[ $origin ] = array_values( array_filter( $presets[ $origin ], $is_valid_preset ) );
+								}
+							}
+						}
+						_wp_array_set( $result, $path, $presets );
+					}
+				}
+			}
+
 			if ( empty( $result ) ) {
 				unset( $output[ $subtree ] );
 			} else {
