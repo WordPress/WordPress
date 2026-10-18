@@ -6600,3 +6600,41 @@ function _truncate_post_slug( $slug, $length = 200 ) {
 
 	return wp_truncate_slug( $slug, $length );
 }
+
+/**
+ * Starts an output buffer that sends the Document-Isolation-Policy header
+ * and adds crossorigin="anonymous" to cross-origin resources.
+ *
+ * The attribute injection was dropped because `isolate-and-credentialless`
+ * loads cross-origin resources without it, and forcing CORS mode broke
+ * resources served without `Access-Control-Allow-Origin`. Only the header
+ * is sent now.
+ *
+ * @since 7.1.0
+ * @deprecated 7.2.0 Use wp_send_document_isolation_policy_header() instead.
+ * @see wp_send_document_isolation_policy_header()
+ */
+function wp_start_cross_origin_isolation_output_buffer(): void {
+	_deprecated_function( __FUNCTION__, '7.2.0', 'wp_send_document_isolation_policy_header()' );
+
+	wp_send_document_isolation_policy_header();
+}
+
+/**
+ * Adds crossorigin="anonymous" to relevant tags in the given HTML string.
+ *
+ * No longer modifies the HTML. Under `Document-Isolation-Policy:
+ * isolate-and-credentialless` cross-origin resources load without the
+ * attribute, and adding it broke resources served without CORS headers.
+ *
+ * @since 7.1.0
+ * @deprecated 7.2.0
+ *
+ * @param string $html HTML input.
+ * @return string The unmodified HTML.
+ */
+function wp_add_crossorigin_attributes( string $html ): string {
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+
+	return $html;
+}

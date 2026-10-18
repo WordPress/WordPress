@@ -6648,20 +6648,23 @@ function wp_get_chromium_major_version(): ?int {
  * same-origin iframe access that these editors rely on.
  *
  * @since 7.1.0
+ * @since 7.2.0 Returns whether the header was sent.
+ *
+ * @return bool Whether the Document-Isolation-Policy header was sent.
  */
-function wp_set_up_cross_origin_isolation(): void {
+function wp_set_up_cross_origin_isolation(): bool {
 	if ( ! wp_is_client_side_media_processing_enabled() ) {
-		return;
+		return false;
 	}
 
 	$screen = get_current_screen();
 
 	if ( ! $screen ) {
-		return;
+		return false;
 	}
 
 	if ( ! $screen->is_block_editor() && 'site-editor' !== $screen->id && ! ( 'widgets' === $screen->id && wp_use_widgets_block_editor() ) ) {
-		return;
+		return false;
 	}
 
 	/*
@@ -6677,7 +6680,7 @@ function wp_set_up_cross_origin_isolation(): void {
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( 'site-editor.php' === $pagenow && ! wp_is_block_theme() && ( ! isset( $_GET['p'] ) || '/' === $_GET['p'] ) ) {
-		return;
+		return false;
 	}
 
 	/*
@@ -6686,112 +6689,44 @@ function wp_set_up_cross_origin_isolation(): void {
 	 * which blocks same-origin iframe access that these editors rely on.
 	 */
 	if ( isset( $_GET['action'] ) && 'edit' !== $_GET['action'] ) {
-		return;
+		return false;
 	}
 
 	// Cross-origin isolation is not needed if users can't upload files anyway.
 	if ( ! current_user_can( 'upload_files' ) ) {
-		return;
+		return false;
 	}
 
-	wp_start_cross_origin_isolation_output_buffer();
+	return wp_send_document_isolation_policy_header();
 }
 
 /**
  * Sends the Document-Isolation-Policy header for cross-origin isolation.
  *
- * Uses an output buffer to add crossorigin="anonymous" where needed.
+ * The `isolate-and-credentialless` directive loads cross-origin subresources
+ * without credentials instead of blocking them, so no `crossorigin` attribute
+ * is needed on scripts, styles, images, audio, or video for the page to work.
+ * Forcing `crossorigin="anonymous"` would turn those into CORS requests
+ * and break any resource served without `Access-Control-Allow-Origin`.
  *
- * @since 7.1.0
+ * @since 7.2.0
+ *
+ * @return bool Whether the header was sent. False if the browser does not
+ *              support Document-Isolation-Policy or headers were already sent.
  */
-function wp_start_cross_origin_isolation_output_buffer(): void {
+function wp_send_document_isolation_policy_header(): bool {
+	if ( headers_sent() ) {
+		return false;
+	}
+
 	$chromium_version = wp_get_chromium_major_version();
 
 	if ( null === $chromium_version || $chromium_version < 137 ) {
-		return;
+		return false;
 	}
 
-	ob_start(
-		static function ( string $output ): string {
-			header( 'Document-Isolation-Policy: isolate-and-credentialless' );
+	header( 'Document-Isolation-Policy: isolate-and-credentialless' );
 
-			return wp_add_crossorigin_attributes( $output );
-		}
-	);
-}
-
-/**
- * Adds crossorigin="anonymous" to relevant tags in the given HTML string.
- *
- * @since 7.1.0
- *
- * @param string $html HTML input.
- * @return string Modified HTML.
- */
-function wp_add_crossorigin_attributes( string $html ): string {
-	$site_url = site_url();
-
-	$processor = new WP_HTML_Tag_Processor( $html );
-
-	// See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin.
-	$cross_origin_tag_attributes = array(
-		'AUDIO'  => array( 'src' ),
-		'LINK'   => array( 'href' ),
-		'SCRIPT' => array( 'src' ),
-		'VIDEO'  => array( 'src', 'poster' ),
-		'SOURCE' => array( 'src' ),
-	);
-
-	while ( $processor->next_tag() ) {
-		$tag = $processor->get_tag();
-
-		if ( ! isset( $cross_origin_tag_attributes[ $tag ] ) ) {
-			continue;
-		}
-		$crossorigin = $processor->get_attribute( 'crossorigin' );
-		if ( null !== $crossorigin ) {
-			continue;
-		}
-
-		if ( 'AUDIO' === $tag || 'VIDEO' === $tag ) {
-			$processor->set_bookmark( 'audio-video-parent' );
-		}
-
-		$processor->set_bookmark( 'resume' );
-
-		$sought = false;
-
-		$is_cross_origin = false;
-
-		foreach ( $cross_origin_tag_attributes[ $tag ] as $attr ) {
-			$url = $processor->get_attribute( $attr );
-			if ( is_string( $url ) && ! str_starts_with( $url, $site_url ) && ! str_starts_with( $url, '/' ) ) {
-				$is_cross_origin = true;
-			}
-
-			if ( $is_cross_origin ) {
-				break;
-			}
-		}
-
-		if ( $is_cross_origin ) {
-			if ( 'SOURCE' === $tag ) {
-				$sought = $processor->seek( 'audio-video-parent' );
-
-				if ( $sought ) {
-					$processor->set_attribute( 'crossorigin', 'anonymous' );
-				}
-			} else {
-				$processor->set_attribute( 'crossorigin', 'anonymous' );
-			}
-
-			if ( $sought ) {
-				$processor->seek( 'resume' );
-				$processor->release_bookmark( 'audio-video-parent' );
-			}
-		}
-	}
-
-	return $processor->get_updated_html();
+	return true;
 }
 
