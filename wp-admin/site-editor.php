@@ -220,6 +220,7 @@ $preload_paths = array(
 		',',
 		array(
 			'description',
+			'generate_animated_image_subsizes',
 			'gmt_offset',
 			'home',
 			'image_max_bit_depth',

@@ -1463,6 +1463,23 @@ class WP_REST_Server {
 			 */
 			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
 			$available['image_max_bit_depth'] = (int) apply_filters( 'image_max_bit_depth', 16, 16 );
+
+			/**
+			 * Filters whether client-side media processing preserves animation in image sub-sizes.
+			 *
+			 * By default, sub-sizes of animated GIF and WebP images retain animation,
+			 * including cropped sizes. Return false to generate static sub-sizes using
+			 * only the first frame, reducing processing time in the browser.
+			 *
+			 * This setting applies only to client-side media processing. Server-side
+			 * processing continues to generate static sub-sizes.
+			 *
+			 * @since 7.2.0
+			 *
+			 * @param bool $generate_animated_image_subsizes Whether to preserve animation in image sub-sizes.
+			 *                                               Default true.
+			 */
+			$available['generate_animated_image_subsizes'] = (bool) apply_filters( 'wp_generate_animated_image_subsizes', true );
 		}
 
 		$response = new WP_REST_Response( $available );
