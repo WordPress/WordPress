@@ -1600,3 +1600,27 @@ function image_attachment_fields_to_save( $post, $attachment ) {
 function delete_users_add_js() {
 	_deprecated_function( __FUNCTION__, '7.1.0' );
 }
+
+/**
+ * Was used to output JavaScript that tested whether compressing scripts from PHP works.
+ *
+ * The scripts and styles have not been compressed from PHP since 4.9.9, so the result
+ * of the test went unused.
+ *
+ * @since 2.8.0
+ * @deprecated 7.2.0
+ */
+function compression_test() {
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+}
+
+/**
+ * Was used to handle the compression test via AJAX.
+ *
+ * @since 3.1.0
+ * @deprecated 7.2.0
+ */
+function wp_ajax_wp_compression_test() {
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+	wp_die( 0 );
+}

@@ -2673,6 +2673,12 @@ function upgrade_network() {
 		delete_network_option( $network_id, 'site_meta_supported' );
 		is_site_meta_supported();
 	}
+
+	// 7.2.0
+	if ( $wp_current_db_version < 64486 ) {
+		// The compression test that set this option was removed.
+		delete_site_option( 'can_compress_scripts' );
+	}
 }
 
 //

@@ -802,7 +802,7 @@ function wp_load_core_site_options( $network_id = null ) {
 	if ( ! is_multisite() || wp_installing() ) {
 		return;
 	}
-	$core_options = array( 'site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'can_compress_scripts', 'global_terms_enabled', 'ms_files_rewriting', 'WPLANG' );
+	$core_options = array( 'site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'global_terms_enabled', 'ms_files_rewriting', 'WPLANG' );
 
 	wp_prime_network_option_caches( $network_id, $core_options );
 }
