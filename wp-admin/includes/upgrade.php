@@ -3030,6 +3030,33 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 	$blob_fields = array( 'tinyblob', 'blob', 'mediumblob', 'longblob' );
 	$int_fields  = array( 'tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint' );
 
+	/*
+	 * Display widths that a server applies by itself when an integer definition omits one.
+	 * MariaDB does this in every version, as did MySQL before 8.0.17.
+	 */
+	$int_display_widths = array(
+		'tinyint'   => array(
+			'signed'   => 4,
+			'unsigned' => 3,
+		),
+		'smallint'  => array(
+			'signed'   => 6,
+			'unsigned' => 5,
+		),
+		'mediumint' => array(
+			'signed'   => 9,
+			'unsigned' => 8,
+		),
+		'int'       => array(
+			'signed'   => 11,
+			'unsigned' => 10,
+		),
+		'bigint'    => array(
+			'signed'   => 20,
+			'unsigned' => 20,
+		),
+	);
+
 	$global_tables  = $wpdb->tables( 'global' );
 	$db_version     = $wpdb->db_version();
 	$db_server_info = $wpdb->db_server_info();
@@ -3208,6 +3235,12 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 				$fieldtype            = $matches[1];
 				$fieldtype_lowercased = strtolower( $fieldtype );
 
+				/*
+				 * `INTEGER` is an alias for `INT`, and the server reports the column as `int`,
+				 * so the alias never compares equal to the type it created.
+				 */
+				$fieldtype_lowercased = preg_replace( '/^integer\b/', 'int', $fieldtype_lowercased );
+
 				$fieldtype_without_parentheses = preg_replace(
 					'/'
 					. '(.+)'       // Field type, e.g. `int`.
@@ -3239,15 +3272,31 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 					if ( in_array( $fieldtype_base, $int_fields, true ) && in_array( $tablefield_type_base, $int_fields, true )
 						&& $fieldtype_without_parentheses === $tablefield_type_without_parentheses
 					) {
-						/*
-						 * MySQL 8.0.17 or later does not support display width for integer data types,
-						 * so if display width is the only difference, it can be safely ignored.
-						 * Note: This is specific to MySQL and does not affect MariaDB.
-						 */
 						if ( version_compare( $db_version, '8.0.17', '>=' )
 							&& ! str_contains( $db_server_info, 'MariaDB' )
 						) {
+							/*
+							 * MySQL 8.0.17 or later does not support display width for integer data types,
+							 * so if display width is the only difference, it can be safely ignored.
+							 * Note: This is specific to MySQL and does not affect MariaDB.
+							 */
 							$do_change = false;
+						} elseif ( ! str_contains( $fieldtype_lowercased, '(' )
+							&& isset( $int_display_widths[ $fieldtype_base ] )
+						) {
+							/*
+							 * Every other server stores a default display width when the definition
+							 * omits one, so `DESCRIBE` reports a width the query never asked for.
+							 * The `ALTER TABLE` below cannot remove that width, which would leave the
+							 * same difference in place and repeat the query on every call.
+							 */
+							$signedness    = str_contains( $fieldtype_lowercased, 'unsigned' ) ? 'unsigned' : 'signed';
+							$default_width = $int_display_widths[ $fieldtype_base ][ $signedness ];
+							$padded_type   = $fieldtype_base . '(' . $default_width . ')' . substr( $fieldtype_lowercased, strlen( $fieldtype_base ) );
+
+							if ( $tablefield_type_lowercased === $padded_type ) {
+								$do_change = false;
+							}
 						}
 					}
 
