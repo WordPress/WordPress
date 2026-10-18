@@ -4378,10 +4378,12 @@ function is_avatar_comment_type( $comment_type ) {
 	 * @since 3.0.0
 	 *
 	 * @since 6.9.0 The 'note' comment type was added.
+	 * @since 7.2.0 The 'reaction' comment type was added.
 	 *
-	 * @param array $types An array of content types. Default contains 'comment' and 'note'.
+	 * @param array $types An array of content types. Default contains 'comment', 'note',
+	 *                     and 'reaction'.
 	 */
-	$allowed_comment_types = apply_filters( 'get_avatar_comment_types', array( 'comment', 'note' ) );
+	$allowed_comment_types = apply_filters( 'get_avatar_comment_types', array( 'comment', 'note', 'reaction' ) );
 
 	return in_array( $comment_type, (array) $allowed_comment_types, true );
 }

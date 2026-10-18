@@ -401,6 +401,7 @@ function get_default_comment_status( $post_type = 'post', $comment_type = 'comme
  * @since 1.5.0
  * @since 4.7.0 Replaced caching the modified date in a local static variable
  *              with the Object Cache API.
+ * @since 7.2.0 The 'note' and 'reaction' comment types are excluded from the query.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -420,15 +421,15 @@ function get_lastcommentmodified( $timezone = 'server' ) {
 
 	switch ( $timezone ) {
 		case 'gmt':
-			$comment_modified_date = $wpdb->get_var( "SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1" );
+			$comment_modified_date = $wpdb->get_var( "SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_approved = '1' AND comment_type NOT IN ( 'note', 'reaction' ) ORDER BY comment_date_gmt DESC LIMIT 1" );
 			break;
 		case 'blog':
-			$comment_modified_date = $wpdb->get_var( "SELECT comment_date FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1" );
+			$comment_modified_date = $wpdb->get_var( "SELECT comment_date FROM $wpdb->comments WHERE comment_approved = '1' AND comment_type NOT IN ( 'note', 'reaction' ) ORDER BY comment_date_gmt DESC LIMIT 1" );
 			break;
 		case 'server':
 			$add_seconds_server = gmdate( 'Z' );
 
-			$comment_modified_date = $wpdb->get_var( $wpdb->prepare( "SELECT DATE_ADD(comment_date_gmt, INTERVAL %s SECOND) FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $add_seconds_server ) );
+			$comment_modified_date = $wpdb->get_var( $wpdb->prepare( "SELECT DATE_ADD(comment_date_gmt, INTERVAL %s SECOND) FROM $wpdb->comments WHERE comment_approved = '1' AND comment_type NOT IN ( 'note', 'reaction' ) ORDER BY comment_date_gmt DESC LIMIT 1", $add_seconds_server ) );
 			break;
 	}
 
@@ -1571,6 +1572,8 @@ function wp_count_comments( $post_id = 0 ) {
  * post ID available.
  *
  * @since 2.0.0
+ * @since 7.2.0 A note's reactions are deleted along with it, rather than
+ *              being reparented.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1600,6 +1603,27 @@ function wp_delete_comment( $comment_id, $force_delete = false ) {
 	 * @param WP_Comment $comment    The comment to be deleted.
 	 */
 	do_action( 'delete_comment', $comment->comment_ID, $comment );
+
+	/*
+	 * Delete a note's reactions rather than letting them be reparented below.
+	 * A reaction only means anything attached to its note, and an orphaned one
+	 * would keep the reactor's identity on a note that no longer exists. This
+	 * covers every status: a reaction the user removed is trashed, not deleted.
+	 */
+	if ( 'note' === $comment->comment_type ) {
+		$reaction_ids = get_comments(
+			array(
+				'parent' => $comment->comment_ID,
+				'type'   => 'reaction',
+				'status' => 'any',
+				'fields' => 'ids',
+			)
+		);
+
+		foreach ( $reaction_ids as $reaction_id ) {
+			wp_delete_comment( $reaction_id, true );
+		}
+	}
 
 	// Move children up a level.
 	$children = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_parent = %d", $comment->comment_ID ) );
@@ -1651,6 +1675,7 @@ function wp_delete_comment( $comment_id, $force_delete = false ) {
  *
  * @since 2.9.0
  * @since 6.9.0 Any child notes are deleted when deleting a note.
+ * @since 7.2.0 A note's reactions are trashed along with it.
  *
  * @param int|WP_Comment $comment_id Comment ID or WP_Comment object.
  * @return bool True on success, false on failure.
@@ -1716,6 +1741,30 @@ function wp_trash_comment( $comment_id ) {
 		 * @param WP_Comment $comment    The trashed comment.
 		 */
 		do_action( 'trashed_comment', $comment->comment_ID, $comment );
+
+		/*
+		 * Trash a note's reactions with it, at any depth. The child-note
+		 * cascade below trashes each reply in turn, which brings the replies'
+		 * own reactions along through this same branch.
+		 *
+		 * Restoring the note does not bring its reactions back:
+		 * wp_untrash_comment() restores no children of any type, so restoring
+		 * children is left to a cascade that covers every child type together.
+		 */
+		if ( 'note' === $comment->comment_type ) {
+			$reaction_ids = get_comments(
+				array(
+					'parent' => $comment->comment_ID,
+					'type'   => 'reaction',
+					'status' => 'approve',
+					'fields' => 'ids',
+				)
+			);
+
+			foreach ( $reaction_ids as $reaction_id ) {
+				wp_trash_comment( $reaction_id );
+			}
+		}
 
 		// For top level 'note' type comments, also trash children.
 		if ( 'note' === $comment->comment_type && 0 === (int) $comment->comment_parent ) {
@@ -3159,7 +3208,7 @@ function wp_update_comment_count_now( $post_id ) {
 	$new = apply_filters( 'pre_wp_update_comment_count_now', null, $old, $post_id );
 
 	if ( is_null( $new ) ) {
-		$new = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1' AND comment_type != 'note'", $post_id ) );
+		$new = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1' AND comment_type NOT IN ( 'note', 'reaction' )", $post_id ) );
 	} else {
 		$new = (int) $new;
 	}
