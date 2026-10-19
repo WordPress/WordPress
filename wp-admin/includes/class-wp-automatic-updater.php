@@ -87,6 +87,16 @@ class WP_Automatic_Updater {
 	protected $update_results = array();
 
 	/**
+	 * Details of the fatal error detected by the last call to has_fatal_error().
+	 *
+	 * This is the fatal error, or the reason the loopback request to check for one failed.
+	 * It is null when no fatal error was detected.
+	 *
+	 * @since 7.2.0
+	 */
+	private ?string $fatal_error_message = null;
+
+	/**
 	 * Determines whether the entire automatic updater is disabled.
 	 *
 	 * @since 3.7.0
@@ -710,6 +720,10 @@ class WP_Automatic_Updater {
 						}
 					}
 
+					if ( null !== $this->fatal_error_message ) {
+						$upgrade_result->add( 'plugin_update_fatal_error', $this->fatal_error_message );
+					}
+
 					/*
 					 * Should emails not be working, log the message(s) so that
 					 * the log file contains context for the fatal error,
@@ -1268,6 +1282,13 @@ class WP_Automatic_Updater {
 	 * @since 5.5.0
 	 *
 	 * @param array $update_results The results of update tasks.
+	 *
+	 * @phpstan-param array{
+	 *     core?: list<Core_Update_Result>,
+	 *     plugin?: list<Plugin_Update_Result>,
+	 *     theme?: list<Theme_Update_Result>,
+	 *     translation?: list<Translation_Update_Result>,
+	 * } $update_results
 	 */
 	protected function after_plugin_theme_update( $update_results ) {
 		$successful_updates = array();
@@ -1340,6 +1361,10 @@ class WP_Automatic_Updater {
 	 * @param string $type               The type of email to send. Can be one of 'success', 'fail', 'mixed'.
 	 * @param array  $successful_updates A list of updates that succeeded.
 	 * @param array  $failed_updates     A list of updates that failed.
+	 *
+	 * @phpstan-param 'success'|'fail'|'mixed' $type
+	 * @phpstan-param array{ plugin?: list<Plugin_Update_Result>, theme?: list<Theme_Update_Result> } $successful_updates
+	 * @phpstan-param array{ plugin?: list<Plugin_Update_Result>, theme?: list<Theme_Update_Result> } $failed_updates
 	 */
 	protected function send_plugin_theme_email( $type, $successful_updates, $failed_updates ) {
 		// No updates were attempted.
@@ -1486,6 +1511,13 @@ class WP_Automatic_Updater {
 					}
 
 					$body[] = $body_message;
+
+					if ( isset( $item->result ) && is_wp_error( $item->result ) ) {
+						$fatal_error = $item->result->get_error_message( 'plugin_update_fatal_error' );
+						if ( '' !== $fatal_error ) {
+							$body[] = '  ' . $fatal_error;
+						}
+					}
 
 					$past_failure_emails[ $item->item->plugin ] = $item->item->new_version;
 				}
@@ -1862,6 +1894,7 @@ Thanks! -- The WordPress Team"
 	 * Fatal errors cannot be detected unless maintenance mode is enabled.
 	 *
 	 * @since 6.6.0
+	 * @since 7.2.0 Details of a detected fatal error are recorded for the update result.
 	 *
 	 * @global int $upgrading The Unix timestamp marking when upgrading WordPress began.
 	 *
@@ -1869,6 +1902,8 @@ Thanks! -- The WordPress Team"
 	 */
 	protected function has_fatal_error() {
 		global $upgrading;
+
+		$this->fatal_error_message = null;
 
 		$maintenance_file = ABSPATH . '.maintenance';
 		if ( ! file_exists( $maintenance_file ) ) {
@@ -1916,6 +1951,12 @@ Thanks! -- The WordPress Team"
 		$response  = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $response ) ) {
+			$this->fatal_error_message = sprintf(
+				/* translators: %s: Error message. */
+				__( 'The loopback request to check for fatal errors failed: %s' ),
+				$response->get_error_message()
+			);
+
 			if ( $is_debug ) {
 				error_log( 'Loopback request failed: ' . $response->get_error_message() );
 			}
@@ -1935,6 +1976,19 @@ Thanks! -- The WordPress Team"
 			$error_output = substr( $body, $scrape_result_position + strlen( $needle_start ) );
 			$error_output = substr( $error_output, 0, strpos( $error_output, $needle_end ) );
 			$result       = json_decode( trim( $error_output ), true );
+		}
+
+		if ( is_array( $result ) && isset( $result['type'] ) && ! empty( $result['message'] ) && is_string( $result['message'] ) ) {
+			/*
+			 * Only the first line of the message is kept, as the message for an uncaught exception
+			 * continues with a stack trace, which can include the values of function arguments.
+			 */
+			$this->fatal_error_message = sprintf(
+				'PHP Fatal error: %s in %s on line %d',
+				explode( "\n", $result['message'], 2 )[0],
+				isset( $result['file'] ) && is_string( $result['file'] ) ? $result['file'] : 'unknown',
+				isset( $result['line'] ) && is_numeric( $result['line'] ) ? (int) $result['line'] : 0
+			);
 		}
 
 		delete_transient( $transient );
