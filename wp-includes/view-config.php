@@ -342,6 +342,7 @@ function _wp_get_entity_view_config_posttype_wp_block( $data ) {
 				'styles' => array(
 					'author' => array(
 						'width' => '1%',
+						'align' => 'start',
 					),
 				),
 			),
