@@ -31,6 +31,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	protected $show_autoupdates = true;
 
 	/**
+	 * The auto-update message shown for themes with an update available.
+	 *
+	 * Determined once per list table, as it is the same for every theme.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @var string|null Null until first needed.
+	 */
+	private $auto_update_message = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.1.0
@@ -867,10 +878,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		}
 
 		if ( isset( $available_updates->response[ $stylesheet ] ) ) {
+			if ( null === $this->auto_update_message ) {
+				$this->auto_update_message = wp_get_auto_update_message( 'theme' );
+			}
+
 			$html[] = sprintf(
 				'<div class="auto-update-time%s">%s</div>',
 				$time_class,
-				wp_get_auto_update_message()
+				$this->auto_update_message
 			);
 		}
 

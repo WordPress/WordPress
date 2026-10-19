@@ -811,7 +811,7 @@ function wp_theme_auto_update_setting_template() {
 				<# } else { #>
 					<span class="auto-update-time hidden">
 				<# } #>
-				<br />' . wp_get_auto_update_message() . '</span>
+				<br />' . wp_get_auto_update_message( 'theme' ) . '</span>
 			<# } #>
 			' . $notice . '
 		</div>

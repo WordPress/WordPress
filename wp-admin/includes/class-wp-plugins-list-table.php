@@ -25,6 +25,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	protected $show_autoupdates = true;
 
 	/**
+	 * The auto-update message shown for plugins with an update available.
+	 *
+	 * Determined once per list table, as it is the same for every plugin.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @var string|null Null until first needed.
+	 */
+	private $auto_update_message = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.2.0
@@ -1434,10 +1445,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 
 					if ( ! empty( $plugin_data['update'] ) ) {
+						if ( null === $this->auto_update_message ) {
+							$this->auto_update_message = wp_get_auto_update_message( 'plugin' );
+						}
+
 						$html[] = sprintf(
 							'<div class="auto-update-time%s">%s</div>',
 							$time_class,
-							wp_get_auto_update_message()
+							$this->auto_update_message
 						);
 					}
 
