@@ -1116,9 +1116,12 @@ class WP_Duotone {
 			 */
 
 			$duotone_attr = $block['attrs']['style']['color']['duotone'];
-			$is_preset    = is_string( $duotone_attr ) && self::is_preset( $duotone_attr );
-			$is_css       = is_string( $duotone_attr ) && ! $is_preset;
-			$is_custom    = is_array( $duotone_attr );
+			if ( ! is_string( $duotone_attr ) && ! is_array( $duotone_attr ) ) {
+				return $block_content;
+			}
+
+			$is_preset = is_string( $duotone_attr ) && self::is_preset( $duotone_attr );
+			$is_css    = is_string( $duotone_attr ) && ! $is_preset;
 
 			if ( $is_preset ) {
 
@@ -1136,7 +1139,7 @@ class WP_Duotone {
 
 				// Just block CSS.
 				self::enqueue_block_css( $filter_id, $duotone_selector, $filter_value );
-			} elseif ( $is_custom ) {
+			} else {
 				$slug         = wp_unique_id( sanitize_key( implode( '-', $duotone_attr ) . '-' ) ); // e.g. '000000-ffffff-2'.
 				$filter_id    = self::get_filter_id( $slug ); // e.g. 'wp-duotone-filter-000000-ffffff-2'.
 				$filter_value = self::get_filter_url( $filter_id ); // e.g. 'url(#wp-duotone-filter-000000-ffffff-2)'.
@@ -1148,7 +1151,7 @@ class WP_Duotone {
 				// SVG filter and block CSS.
 				self::enqueue_custom_filter( $filter_id, $duotone_selector, $filter_value, $filter_data );
 			}
-		} elseif ( $has_global_styles_duotone ) {
+		} else {
 			$slug         = $global_styles_block_names[ $block['blockName'] ]; // e.g. 'blue-orange'.
 			$filter_id    = self::get_filter_id( $slug ); // e.g. 'wp-duotone-filter-blue-orange'.
 			$filter_value = self::get_css_var( $slug ); // e.g. 'var(--wp--preset--duotone--blue-orange)'.
