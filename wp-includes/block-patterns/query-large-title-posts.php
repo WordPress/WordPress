@@ -22,7 +22,7 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center","width":"80%"} -->
-					<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:post-title {"isLink":true,"style":{"typography":{"fontSize":"72px","lineHeight":"1.1"},"color":{"text":"#ffffff","link":"#ffffff"}}} /--></div>
+					<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:80%"><!-- wp:post-title {"isLink":true,"style":{"typography":{"fontSize":"72px","lineHeight":"1.1"},"color":{"text":"#ffffff"},"elements":{"link":{"color":{"text":"#ffffff"}}}}} /--></div>
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->
 					<!-- /wp:post-template --></div>
