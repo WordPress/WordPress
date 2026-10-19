@@ -706,7 +706,6 @@ final class WP_Interactivity_API {
 	 * @since 6.6.0 Removed `default_namespace` and `context` arguments.
 	 * @since 6.6.0 Add support for derived state.
 	 * @since 6.9.0 Receive $entry as an argument instead of the directive value string.
-	 * @since 7.2.0 Tracks the path of a token that marks HTML as trusted, reached through state.
 	 *
 	 * @param array $entry An array containing a whole directive entry with its namespace, value, suffix, or unique ID.
 	 * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist or the namespace is falsy.
@@ -732,9 +731,8 @@ final class WP_Interactivity_API {
 		$path                = $should_negate_value ? substr( $path, 1 ) : $path;
 
 		// Extracts the value from the store using the reference path.
-		$path_segments  = explode( '.', $path );
-		$current        = $store;
-		$called_closure = false;
+		$path_segments = explode( '.', $path );
+		$current       = $store;
 		foreach ( $path_segments as $index => $path_segment ) {
 			/*
 			 * Special case for numeric arrays and strings. Add length
@@ -783,8 +781,7 @@ final class WP_Interactivity_API {
 				 */
 				array_push( $this->namespace_stack, $ns );
 				try {
-					$called_closure = true;
-					$current        = $current();
+					$current = $current();
 
 					/*
 					 * Tracks derived state properties that are accessed during
@@ -815,28 +812,6 @@ final class WP_Interactivity_API {
 					// Remove the property's namespace from the stack.
 					array_pop( $this->namespace_stack );
 				}
-			}
-		}
-
-		/*
-		 * Tracks the tokens that mark HTML as trusted and that a reference
-		 * reaches through state, the way derived state closures are tracked, so
-		 * the client keeps the server-rendered content of a token until its
-		 * store supplies a value. A token reached through context, or through
-		 * the result of a derived state closure, is not tracked: the client has
-		 * no context store to resolve it from, and the closure is tracked
-		 * instead.
-		 *
-		 * @since 7.2.0
-		 */
-		if (
-			'state' === $path_segments[0] &&
-			! $called_closure &&
-			$current instanceof WP_Interactivity_Dangerous_HTML
-		) {
-			$this->derived_state_closures[ $ns ] ??= array();
-			if ( ! in_array( $path, $this->derived_state_closures[ $ns ], true ) ) {
-				$this->derived_state_closures[ $ns ][] = $path;
 			}
 		}
 

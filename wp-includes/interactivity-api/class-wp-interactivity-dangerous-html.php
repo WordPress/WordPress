@@ -14,15 +14,22 @@
  * Create tokens with {@see wp_interactivity_as_dangerous_html()}, which
  * documents the risks of marking HTML as trusted.
  *
- * The HTML is kept in a private property, so encoding a token as JSON never
- * includes it. A token restored by unserialization is inert: it holds no HTML,
- * so it never renders.
+ * The HTML is kept in a private property, so it never reaches JSON: a token
+ * encodes as the marker `{"wpServerHtml":true}`, which tells the client to
+ * keep the content the element already has. The marker holds no HTML. A token
+ * restored by unserialization is inert: it holds no HTML, so it never renders,
+ * and it encodes as the marker too.
+ *
+ * Both JSON encoding paths of `wp_json_encode()` print the marker: `json_encode()`
+ * uses {@see WP_Interactivity_Dangerous_HTML::jsonSerialize()}, and the fallback
+ * for data that is not valid UTF-8 rebuilds the object by iterating it with
+ * {@see WP_Interactivity_Dangerous_HTML::getIterator()}.
  *
  * @since 7.2.0
  *
  * @access private
  */
-final class WP_Interactivity_Dangerous_HTML {
+final class WP_Interactivity_Dangerous_HTML implements JsonSerializable, IteratorAggregate {
 	/**
 	 * The trusted HTML. It is `null` for a token restored by unserialization,
 	 * which never renders.
@@ -72,5 +79,33 @@ final class WP_Interactivity_Dangerous_HTML {
 			__( 'A token that marks HTML as trusted should not be unserialized. The unserialized token holds no HTML and does not render.' ),
 			'7.2.0'
 		);
+	}
+
+	/**
+	 * Gets the value that JSON encoding prints in place of the token.
+	 *
+	 * It is the same for every token and holds none of its HTML.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return array<string, bool> The marker: a single `wpServerHtml` entry set to `true`,
+	 *                             which `json_encode()` prints as `{"wpServerHtml":true}`.
+	 */
+	public function jsonSerialize(): array {
+		return array( 'wpServerHtml' => true );
+	}
+
+	/**
+	 * Gets the iterator that `foreach` and the fallback of `wp_json_encode()` read.
+	 *
+	 * It yields the same single entry as {@see WP_Interactivity_Dangerous_HTML::jsonSerialize()}
+	 * and none of the token's HTML.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return Traversable<string, bool> An iterator yielding `wpServerHtml` => `true`, once.
+	 */
+	public function getIterator(): Traversable {
+		return new ArrayIterator( $this->jsonSerialize() );
 	}
 }
