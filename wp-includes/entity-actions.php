@@ -15,7 +15,8 @@
  *
  * Actions are registered on the `wp_entity_actions_api_init` action, and only there,
  * with {@see wp_register_entity_actions()} and {@see wp_unregister_entity_actions()}. The
- * other functions read the registry.
+ * other functions read the registry. WordPress core registers its own
+ * actions the same way, from packages/core-actions.
  *
  * @package WordPress
  * @subpackage Entity Actions
@@ -185,4 +186,33 @@ function _wp_add_entity_action_modules_to_editor_script( $scripts = null ) {
 		// `add_data()` replaces the value, hence the merge above.
 		$scripts->add_data( 'wp-editor', 'module_dependencies', $dependencies );
 	}
+}
+
+/**
+ * Preloads the actions of the post type the post editor edits.
+ *
+ * The actions menu of the post editor reads them from the `wp/v2/entity-actions`
+ * route as it loads, see `useEntityActions()` in
+ * packages/editor/src/dataviews/entity-actions-loader.ts. The path must match the
+ * request of the `getEntityActionsConfig` core data resolver, see
+ * packages/core-data/src/resolvers.js.
+ *
+ * @since 7.2.0
+ *
+ * @param array                   $paths   REST API paths to preload.
+ * @param WP_Block_Editor_Context $context Block editor context.
+ * @return array Filtered preload paths.
+ */
+function _wp_preload_entity_actions( $paths, $context ) {
+	if ( 'core/edit-post' === $context->name && isset( $context->post ) ) {
+		$paths[] = add_query_arg(
+			array(
+				'kind' => 'postType',
+				'name' => $context->post->post_type,
+			),
+			'/wp/v2/entity-actions'
+		);
+	}
+
+	return $paths;
 }
