@@ -1208,21 +1208,12 @@ class WP_HTML_Tag_Processor {
 
 		$is_quirks = self::QUIRKS_MODE === $this->compat_mode;
 
-		$at = 0;
-		while ( $at < strlen( $class ) ) {
-			// Skip past any initial boundary characters.
-			$at += strspn( $class, " \t\f\r\n", $at );
-			if ( $at >= strlen( $class ) ) {
-				return;
-			}
-
+		$at           = strspn( $class, " \t\f\r\n" );
+		$class_length = strlen( $class );
+		while ( $at < $class_length ) {
 			// Find the byte length until the next boundary.
 			$length = strcspn( $class, " \t\f\r\n", $at );
-			if ( 0 === $length ) {
-				return;
-			}
-
-			$name = substr( $class, $at, $length );
+			$name   = substr( $class, $at, $length );
 			if ( $is_quirks ) {
 				$name = strtolower( $name );
 			}
@@ -1233,12 +1224,12 @@ class WP_HTML_Tag_Processor {
 			 * Given this, it is probably faster overall to scan an array for a value rather
 			 * than to use the class name as a key and check if it's a key of $seen.
 			 */
-			if ( in_array( $name, $seen, true ) ) {
-				continue;
+			if ( ! in_array( $name, $seen, true ) ) {
+				$seen[] = $name;
+				yield $name;
 			}
 
-			$seen[] = $name;
-			yield $name;
+			$at += strspn( $class, " \t\f\r\n", $at );
 		}
 	}
 
