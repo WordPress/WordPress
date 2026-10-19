@@ -841,7 +841,7 @@ add_filter( 'rest_pre_insert_wp_template', 'inject_ignored_hooked_blocks_metadat
 add_filter( 'rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes' );
 
 // View Config API.
-foreach ( array( 'page', 'wp_block', 'wp_template_part', 'wp_template' ) as $post_type ) {
+foreach ( array( 'page', 'wp_block', 'wp_template_part', 'wp_template', 'attachment' ) as $post_type ) {
 	// Base definitions run before the default priority, so third-party
 	// callbacks registered at the default compose on top of them
 	// regardless of registration order.

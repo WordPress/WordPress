@@ -772,6 +772,61 @@ function _wp_get_entity_view_config_posttype_wp_template( $data ) {
 }
 
 /**
+ * Provides the view configuration for the `attachment` post type.
+ *
+ * An attachment is edited through a form (the media editor) that shares
+ * nothing with the default post type form, so the `form` is replaced: the
+ * editable fields first, in a regular layout, then the metadata and the file
+ * information, in panels. The generic `default_view`, `default_layouts`, and
+ * `view_list` built by wp_get_entity_view_config() are left untouched.
+ *
+ * @since 7.2.0
+ *
+ * @param WP_View_Config_Data $data The view configuration container for the entity.
+ * @return WP_View_Config_Data The updated view configuration container.
+ */
+function _wp_get_entity_view_config_posttype_attachment( $data ) {
+	$regular_layout = array(
+		'type'          => 'regular',
+		'labelPosition' => 'top',
+	);
+
+	return $data->set(
+		array(
+			'form' => array(
+				'layout' => array( 'type' => 'panel' ),
+				'fields' => array(
+					array(
+						'id'     => 'title',
+						'layout' => $regular_layout,
+					),
+					array(
+						'id'     => 'alt_text',
+						'layout' => $regular_layout,
+					),
+					array(
+						'id'     => 'caption',
+						'layout' => $regular_layout,
+					),
+					array(
+						'id'     => 'description',
+						'layout' => $regular_layout,
+					),
+					'date',
+					'author',
+					'filename',
+					'mime_type',
+					'filesize',
+					'media_dimensions',
+					'attached_to',
+				),
+			),
+		),
+		1
+	);
+}
+
+/**
  * Provides the view configuration for the `root`/`site` entity.
  *
  * The site settings are a singleton record edited through a form (the site
