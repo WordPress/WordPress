@@ -534,6 +534,7 @@ class WP_Dependencies {
 	 * Get etag header for cache validation.
 	 *
 	 * @since 6.7.0
+	 * @deprecated 7.2.0 Scripts and styles are no longer concatenated by load-scripts.php or load-styles.php.
 	 *
 	 * @global string $wp_version The WordPress version string.
 	 *
@@ -543,12 +544,9 @@ class WP_Dependencies {
 	 * @phpstan-return non-falsy-string
 	 */
 	public function get_etag( $load ) {
-		/*
-		 * Note: wp_get_wp_version() is not used here, as this file can be included
-		 * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
-		 * wp-includes/functions.php is not loaded.
-		 */
 		global $wp_version;
+
+		_deprecated_function( __METHOD__, '7.2.0' );
 
 		$etag = "WP:{$wp_version};";
 

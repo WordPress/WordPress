@@ -6602,6 +6602,77 @@ function _truncate_post_slug( $slug, $length = 200 ) {
 }
 
 /**
+ * Determines the concatenation settings for scripts and styles.
+ *
+ * Scripts and styles are no longer concatenated, so this only gives the `$concatenate_scripts`,
+ * `$compress_scripts`, and `$compress_css` globals a value of false when they are not already set,
+ * for code that still reads them.
+ *
+ * @since 2.8.0
+ * @since 7.2.0 The `$compress_scripts` and `$compress_css` globals default to false, as PHP compression
+ *              of scripts and styles was removed in 4.9.9.
+ * @deprecated 7.2.0 Scripts and styles are no longer concatenated.
+ *
+ * @global bool $concatenate_scripts
+ * @global bool $compress_scripts
+ * @global bool $compress_css
+ */
+function script_concat_settings(): void {
+	global $concatenate_scripts, $compress_scripts, $compress_css;
+
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+
+	if ( ! isset( $concatenate_scripts ) ) {
+		$concatenate_scripts = false;
+	}
+
+	if ( ! isset( $compress_scripts ) ) {
+		$compress_scripts = false;
+	}
+
+	if ( ! isset( $compress_css ) ) {
+		$compress_css = false;
+	}
+}
+
+/**
+ * Prints scripts (internal use only)
+ *
+ * @since 2.8.0
+ * @deprecated 7.2.0 Scripts are no longer concatenated.
+ *
+ * @ignore
+ *
+ * @global WP_Scripts $wp_scripts
+ */
+function _print_scripts(): void {
+	global $wp_scripts;
+
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+
+	if ( ! empty( $wp_scripts->print_html ) ) {
+		echo $wp_scripts->print_html;
+	}
+}
+
+/**
+ * Prints styles (internal use only).
+ *
+ * @ignore
+ * @since 3.3.0
+ * @deprecated 7.2.0 Styles are no longer concatenated.
+ */
+function _print_styles(): void {
+	_deprecated_function( __FUNCTION__, '7.2.0' );
+
+	$wp_styles = wp_styles();
+
+	if ( ! empty( $wp_styles->print_html ) ) {
+		echo $wp_styles->print_html;
+	}
+}
+
+/**
  * Starts an output buffer that sends the Document-Isolation-Policy header
  * and adds crossorigin="anonymous" to cross-origin resources.
  *

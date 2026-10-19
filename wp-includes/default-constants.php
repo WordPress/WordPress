@@ -115,8 +115,8 @@ function wp_initial_constants() {
 	}
 
 	/*
-	 * Add define( 'SCRIPT_DEBUG', true ); to wp-config.php to enable loading of non-minified,
-	 * non-concatenated scripts and stylesheets.
+	 * Add define( 'SCRIPT_DEBUG', true ); to wp-config.php to enable loading of non-minified
+	 * scripts and stylesheets.
 	 */
 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 		if ( ! empty( $wp_version ) ) {

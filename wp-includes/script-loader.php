@@ -2,11 +2,8 @@
 /**
  * WordPress scripts and styles default loader.
  *
- * These constants are used to manage the loading and concatenating of scripts and CSS:
- * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables concatenation,
- * define('CONCATENATE_SCRIPTS', true); enables concatenation of scripts and CSS in the admin and on the login screen (disabled by default).
- *
- * The global $concatenate_scripts can be set by plugins to temporarily override the above settings.
+ * This constant is used to manage the loading of scripts and CSS:
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS.
  *
  * @package WordPress
  */
@@ -58,12 +55,6 @@ function wp_register_tinymce_scripts( $scripts, $deprecated = false ): void {
 
 	$suffix     = wp_scripts_get_suffix();
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
-
-	/*
-	 * This no longer depends on the concatenation settings, but it is where an admin screen has
-	 * settled them until now, which the 'wp_should_concatenate_admin_scripts' filter documents.
-	 */
-	script_concat_settings();
 
 	// Load tinymce.js when running from /src, otherwise tinymce.min.js.
 	$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$dev_suffix.js", array(), $tinymce_version );
@@ -692,21 +683,7 @@ function wp_scripts_get_suffix( $type = '' ) {
 	static $suffixes;
 
 	if ( null === $suffixes ) {
-		/*
-		 * Include an unmodified $wp_version.
-		 *
-		 * Note: wp_get_wp_version() is not used here, as this file can be included
-		 * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
-		 * wp-includes/functions.php is not loaded.
-		 */
-		require ABSPATH . WPINC . '/version.php';
-
-		/*
-		 * Note: str_contains() is not used here, as this file can be included
-		 * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
-		 * the polyfills from wp-includes/compat.php are not loaded.
-		 */
-		$develop_src = false !== strpos( $wp_version, '-src' );
+		$develop_src = str_contains( wp_get_wp_version(), '-src' );
 
 		if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 			define( 'SCRIPT_DEBUG', $develop_src );
@@ -751,7 +728,7 @@ function wp_default_scripts( $scripts ) {
 	$scripts->base_url        = $guessurl;
 	$scripts->content_url     = defined( 'WP_CONTENT_URL' ) ? WP_CONTENT_URL : '';
 	$scripts->default_version = get_bloginfo( 'version' );
-	$scripts->default_dirs    = array( '/wp-admin/js/', '/wp-includes/js/' );
+	$scripts->default_dirs    = array( '/wp-admin/js/', '/wp-includes/js/' ); // Deprecated, but still set for plugins that read it.
 
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize(
@@ -1559,24 +1536,6 @@ function wp_default_scripts( $scripts ) {
 function wp_default_styles( $styles ) {
 	global $editor_styles;
 
-	/*
-	 * Include an unmodified $wp_version.
-	 *
-	 * Note: wp_get_wp_version() is not used here, as this file can be included
-	 * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
-	 * wp-includes/functions.php is not loaded.
-	 */
-	require ABSPATH . WPINC . '/version.php';
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
-		/*
-		 * Note: str_contains() is not used here, as this file can be included
-		 * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
-		 * the polyfills from wp-includes/compat.php are not loaded.
-		 */
-		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
-	}
-
 	$guessurl = site_url();
 
 	if ( ! $guessurl ) {
@@ -1586,8 +1545,8 @@ function wp_default_styles( $styles ) {
 	$styles->base_url        = $guessurl;
 	$styles->content_url     = defined( 'WP_CONTENT_URL' ) ? WP_CONTENT_URL : '';
 	$styles->default_version = get_bloginfo( 'version' );
-	$styles->text_direction  = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
-	$styles->default_dirs    = array( '/wp-admin/', '/wp-includes/css/' );
+	$styles->text_direction  = is_rtl() ? 'rtl' : 'ltr';
+	$styles->default_dirs    = array( '/wp-admin/', '/wp-includes/css/' ); // Deprecated, but still set for plugins that read it.
 
 	// Open Sans is no longer used by core, but may be relied upon by themes and plugins.
 	$open_sans_font_url = '';
@@ -1620,7 +1579,7 @@ function wp_default_styles( $styles ) {
 	// Register a stylesheet for the selected admin color scheme.
 	$styles->add( 'colors', true, array( 'wp-admin', 'buttons' ) );
 
-	$suffix = SCRIPT_DEBUG ? '' : '.min';
+	$suffix = wp_scripts_get_suffix();
 
 	// Admin CSS.
 	$styles->add( 'wp-tooltip', "/wp-admin/css/wp-tooltip$suffix.css", array( 'dashicons' ) );
@@ -2157,34 +2116,26 @@ function wp_style_loader_src( $src, $handle ) {
  *
  * @see wp_print_scripts()
  *
- * @global bool $concatenate_scripts
- *
  * @return string[] Handles of the scripts that were printed.
  */
 function print_head_scripts() {
-	global $concatenate_scripts;
-
 	if ( ! did_action( 'wp_print_scripts' ) ) {
 		/** This action is documented in wp-includes/functions.wp-scripts.php */
 		do_action( 'wp_print_scripts' );
 	}
 
 	$wp_scripts = wp_scripts();
-
-	script_concat_settings();
-	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
 	/**
 	 * Filters whether to print the head scripts.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated, so there is nothing for this filter to control.
 	 *
 	 * @param bool $print Whether to print the head scripts. Default true.
 	 */
-	if ( apply_filters( 'print_head_scripts', true ) ) {
-		_print_scripts();
-	}
+	apply_filters_deprecated( 'print_head_scripts', array( true ), '7.2.0' );
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
@@ -2196,68 +2147,29 @@ function print_head_scripts() {
  * @since 2.8.0
  *
  * @global WP_Scripts $wp_scripts
- * @global bool       $concatenate_scripts
  *
  * @return string[] Handles of the scripts that were printed.
  */
 function print_footer_scripts() {
-	global $wp_scripts, $concatenate_scripts;
+	global $wp_scripts;
 
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
 		return array(); // No need to run if not instantiated.
 	}
-	script_concat_settings();
-	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_footer_items();
 
 	/**
 	 * Filters whether to print the footer scripts.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated, so there is nothing for this filter to control.
 	 *
 	 * @param bool $print Whether to print the footer scripts. Default true.
 	 */
-	if ( apply_filters( 'print_footer_scripts', true ) ) {
-		_print_scripts();
-	}
+	apply_filters_deprecated( 'print_footer_scripts', array( true ), '7.2.0' );
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
-}
-
-/**
- * Prints scripts (internal use only)
- *
- * @since 2.8.0
- *
- * @ignore
- *
- * @global WP_Scripts $wp_scripts
- */
-function _print_scripts() {
-	global $wp_scripts;
-
-	$concat = trim( $wp_scripts->concat, ', ' );
-
-	if ( $concat ) {
-		if ( ! empty( $wp_scripts->print_code ) ) {
-			wp_print_inline_script_tag( $wp_scripts->print_code . "\n//# sourceURL=" . rawurlencode( 'js-inline-concat-' . $concat ) );
-		}
-
-		$concat       = str_split( $concat, 128 );
-		$concatenated = '';
-
-		foreach ( $concat as $key => $chunk ) {
-			$concatenated .= "&load%5Bchunk_{$key}%5D={$chunk}";
-		}
-
-		$src = $wp_scripts->base_url . '/wp-admin/load-scripts.php?' . ltrim( $concatenated, '&' ) . '&ver=' . $wp_scripts->default_version;
-		wp_print_script_tag( array( 'src' => $src ) );
-	}
-
-	if ( ! empty( $wp_scripts->print_html ) ) {
-		echo $wp_scripts->print_html;
-	}
 }
 
 /**
@@ -2342,29 +2254,21 @@ function wp_enqueue_scripts() {
  *
  * @since 2.8.0
  *
- * @global bool $concatenate_scripts
- *
  * @return string[] Handles of the styles that were printed.
  */
 function print_admin_styles() {
-	global $concatenate_scripts;
-
 	$wp_styles = wp_styles();
-
-	script_concat_settings();
-	$wp_styles->do_concat = $concatenate_scripts;
 	$wp_styles->do_items( false );
 
 	/**
 	 * Filters whether to print the admin styles.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Styles are no longer concatenated, so there is nothing for this filter to control.
 	 *
 	 * @param bool $print Whether to print the admin styles. Default true.
 	 */
-	if ( apply_filters( 'print_admin_styles', true ) ) {
-		_print_styles();
-	}
+	apply_filters_deprecated( 'print_admin_styles', array( true ), '7.2.0' );
 
 	$wp_styles->reset();
 	return $wp_styles->done;
@@ -2376,145 +2280,30 @@ function print_admin_styles() {
  * @since 3.3.0
  *
  * @global WP_Styles $wp_styles
- * @global bool      $concatenate_scripts
  *
  * @return string[]|null
  */
 function print_late_styles() {
-	global $wp_styles, $concatenate_scripts;
+	global $wp_styles;
 
 	if ( ! ( $wp_styles instanceof WP_Styles ) ) {
 		return null;
 	}
 
-	script_concat_settings();
-	$wp_styles->do_concat = $concatenate_scripts;
 	$wp_styles->do_footer_items();
 
 	/**
 	 * Filters whether to print the styles queued too late for the HTML head.
 	 *
 	 * @since 3.3.0
+	 * @deprecated 7.2.0 Styles are no longer concatenated, so there is nothing for this filter to control.
 	 *
 	 * @param bool $print Whether to print the 'late' styles. Default true.
 	 */
-	if ( apply_filters( 'print_late_styles', true ) ) {
-		_print_styles();
-	}
+	apply_filters_deprecated( 'print_late_styles', array( true ), '7.2.0' );
 
 	$wp_styles->reset();
 	return $wp_styles->done;
-}
-
-/**
- * Prints styles (internal use only).
- *
- * @ignore
- * @since 3.3.0
- */
-function _print_styles() {
-	$wp_styles = wp_styles();
-
-	$concat = trim( $wp_styles->concat, ', ' );
-
-	if ( $concat ) {
-		$dir = $wp_styles->text_direction;
-		$ver = $wp_styles->default_version;
-
-		$concat_source_url = 'css-inline-concat-' . $concat;
-		$concat            = str_split( $concat, 128 );
-		$concatenated      = '';
-
-		foreach ( $concat as $key => $chunk ) {
-			$concatenated .= "&load%5Bchunk_{$key}%5D={$chunk}";
-		}
-
-		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?dir={$dir}" . $concatenated . '&ver=' . $ver;
-		echo "<link rel='stylesheet' href='" . esc_attr( $href ) . "' media='all' />\n";
-
-		if ( ! empty( $wp_styles->print_code ) ) {
-			$processor = new WP_HTML_Tag_Processor( '<style></style>' );
-			$processor->next_tag();
-			$style_tag_contents = "\n{$wp_styles->print_code}\n"
-				. sprintf( "/*# sourceURL=%s */\n", rawurlencode( $concat_source_url ) );
-			$processor->set_modifiable_text( $style_tag_contents );
-			echo "{$processor->get_updated_html()}\n";
-		}
-	}
-
-	if ( ! empty( $wp_styles->print_html ) ) {
-		echo $wp_styles->print_html;
-	}
-}
-
-/**
- * Determines the concatenation settings for scripts and styles.
- *
- * @since 2.8.0
- * @since 7.2.0 The `$compress_scripts` and `$compress_css` globals default to false, as PHP compression
- *              of scripts and styles was removed in 4.9.9.
- *
- * @global bool $concatenate_scripts
- * @global bool $compress_scripts
- * @global bool $compress_css
- */
-function script_concat_settings() {
-	global $concatenate_scripts, $compress_scripts, $compress_css;
-
-	if ( ! isset( $concatenate_scripts ) ) {
-		$concatenate_scripts = ( is_admin() || did_action( 'login_init' ) ) && wp_should_concatenate_admin_scripts();
-	}
-
-	if ( ! isset( $compress_scripts ) ) {
-		$compress_scripts = false;
-	}
-
-	if ( ! isset( $compress_css ) ) {
-		$compress_css = false;
-	}
-}
-
-/**
- * Determines whether scripts and styles are concatenated on admin screens and the login screen.
- *
- * Concatenation is off unless the `CONCATENATE_SCRIPTS` constant turns it on, and `SCRIPT_DEBUG`
- * turns it off regardless. Scripts and styles are never concatenated elsewhere.
- *
- * This is the default that script_concat_settings() gives the `$concatenate_scripts` global when
- * the global has not already been set. It is also how wp_prefetch_admin_assets() predicts, from the
- * login screen, what the admin screen the login leads to will do.
- *
- * This function and its filter are intended to be removed before 7.2-beta1. They exist only while
- * concatenation is still an option, and once concatenation is retired, there is nothing left for
- * them to decide. Do not rely on them; setting the `$concatenate_scripts` global remains the way
- * to override concatenation on a request.
- *
- * @since 7.2.0
- *
- * @return bool Whether scripts and styles are concatenated on admin screens and the login screen.
- */
-function wp_should_concatenate_admin_scripts(): bool {
-	$concatenate = ( defined( 'CONCATENATE_SCRIPTS' ) ? (bool) CONCATENATE_SCRIPTS : false )
-		&& ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
-
-	/**
-	 * Filters whether scripts and styles are concatenated on admin screens and the login screen.
-	 *
-	 * Setting the `$concatenate_scripts` global directly still takes precedence over this filter on
-	 * the request where it is set.
-	 *
-	 * An admin screen settles the global the first time scripts are registered, when the
-	 * {@see 'wp_default_scripts'} action registers TinyMCE. That can be as early as while plugins
-	 * load, before the theme's functions.php, whereas the login screen reads this filter only when
-	 * it prints, to predict what the admin will do. So add a callback when a plugin loads, rather
-	 * than from a theme or on a later hook, or the admin may not see it while the login screen does.
-	 *
-	 * @since 7.2.0
-	 *
-	 * @param bool $concatenate Whether scripts and styles are concatenated. Default false, unless the
-	 *                          `CONCATENATE_SCRIPTS` constant is true and `SCRIPT_DEBUG` is not.
-	 */
-	return (bool) apply_filters( 'wp_should_concatenate_admin_scripts', $concatenate );
 }
 
 /**
@@ -2523,11 +2312,11 @@ function wp_should_concatenate_admin_scripts(): bool {
  * Runs wherever the next screen can be predicted with confidence, and prefetches only what that
  * screen is certain to need. Two cases qualify today:
  *
- * - The login screen, which is followed by an admin screen. With concatenation disabled that
- *   screen downloads each core script and stylesheet separately, which is what makes an uncached
- *   admin load slower than a concatenated one. Requesting the ones that block its first paint
- *   while the login form is on screen puts them in the HTTP cache during the time the user spends
- *   typing credentials, so the redirect that follows finds them already there.
+ * - The login screen, which is followed by an admin screen. That screen downloads each core script
+ *   and stylesheet separately, which is what makes an uncached admin load slow. Requesting the
+ *   ones that block its first paint while the login form is on screen puts them in the HTTP cache
+ *   during the time the user spends typing credentials, so the redirect that follows finds them
+ *   already there.
  * - The Dashboard and the post list tables, from which the editor is the usual next stop. Only the
  *   editor's stylesheets are prefetched, not its scripts: the scripts run to well over a megabyte
  *   compressed, which is far too much to spend on a screen the user may never open, whereas the
@@ -2559,42 +2348,25 @@ function wp_should_concatenate_admin_scripts(): bool {
  * page, such as the password reset form, since those mostly lead to the admin as well. Nothing is
  * printed at all when `redirect_to` points outside this site's admin.
  *
- * Nothing is printed when the next screen will concatenate its assets, since `load-scripts.php`
- * and `load-styles.php` already collapse these handles into a handful of requests.
- *
  * @since 7.2.0
  *
  * @see wp_preload_resources()
- * @see wp_should_concatenate_admin_scripts()
  *
- * @global bool           $concatenate_scripts Whether scripts and styles are concatenated.
- * @global WP_Screen|null $current_screen      The current admin screen, if any.
+ * @global WP_Screen|null $current_screen The current admin screen, if any.
  */
 function wp_prefetch_admin_assets(): void {
-	global $concatenate_scripts, $current_screen;
+	global $current_screen;
 
 	/*
 	 * The context is told apart by the request rather than by the hook this runs on, so it works
 	 * from whichever hook it is added to. The 'login_init' action is fired by wp-login.php however
-	 * it is reached, which is also how script_concat_settings() recognizes it. The is_login()
-	 * function would not do: it compares the login URL with the script handling the request, and a
-	 * plugin serving the login screen at a URL of its own runs wp-login.php from another script,
-	 * such as index.php.
+	 * it is reached. The is_login() function would not do: it compares the login URL with the
+	 * script handling the request, and a plugin serving the login screen at a URL of its own runs
+	 * wp-login.php from another script, such as index.php.
 	 */
 	$on_login = (bool) did_action( 'login_init' );
 
-	if ( $on_login ) {
-		/*
-		 * Deliberately not the $concatenate_scripts global: script_concat_settings() often runs on a
-		 * login request before 'login_init' fires — anything registering a script on 'init' is enough
-		 * to trigger it — and at that point it evaluates is_admin() as false and settles the global on
-		 * false whatever the constant says. What matters here is what the admin screen this login
-		 * leads to will do, which is what wp_should_concatenate_admin_scripts() predicts.
-		 */
-		if ( wp_should_concatenate_admin_scripts() ) {
-			return;
-		}
-	} else {
+	if ( ! $on_login ) {
 		/*
 		 * From the Dashboard and the post list tables, the editor is the usual next stop. Anywhere
 		 * else in the admin there is no destination worth guessing at.
@@ -2604,16 +2376,6 @@ function wp_prefetch_admin_assets(): void {
 		 * this prints nothing.
 		 */
 		if ( ! $current_screen instanceof WP_Screen || ! in_array( $current_screen->base, array( 'dashboard', 'edit' ), true ) ) {
-			return;
-		}
-
-		/*
-		 * On an admin screen the global has settled by the time its head is printed, and the editor
-		 * will be served the same way.
-		 */
-		script_concat_settings();
-
-		if ( $concatenate_scripts ) {
 			return;
 		}
 	}

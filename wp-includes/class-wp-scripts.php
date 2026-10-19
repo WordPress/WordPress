@@ -57,6 +57,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * Holds a list of script handles which will be concatenated.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var string
 	 */
 	public $concat = '';
@@ -74,6 +75,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * Whether to perform concatenation.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var bool
 	 */
 	public $do_concat = false;
@@ -83,6 +85,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * is enabled.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var string
 	 */
 	public $print_html = '';
@@ -91,6 +94,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * Holds inline code if concatenation is enabled.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var string
 	 */
 	public $print_code = '';
@@ -102,6 +106,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * Unused in core.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var string
 	 */
 	public $ext_handles = '';
@@ -113,6 +118,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * Unused in core.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 * @var string
 	 */
 	public $ext_version = '';
@@ -120,7 +126,12 @@ class WP_Scripts extends WP_Dependencies {
 	/**
 	 * List of default directories.
 	 *
+	 * Only the deprecated {@see WP_Scripts::in_default_dir()} reads this, but
+	 * {@see wp_default_scripts()} still sets it for plugins that read it.
+	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
+	 * @see WP_Scripts::in_default_dir()
 	 * @see wp_default_scripts()
 	 * @var string[]|null
 	 */
@@ -224,23 +235,14 @@ class WP_Scripts extends WP_Dependencies {
 	 */
 	public function print_extra_script( $handle, $display = true ) {
 		$output = $this->get_data( $handle, 'data' );
-		if ( ! $output ) {
+		if ( ! is_string( $output ) || ! $output ) {
 			return null;
 		}
 
-		/*
-		 * Do not print a sourceURL comment if concatenation is enabled.
-		 *
-		 * Extra scripts may be concatenated into a single script.
-		 * The line-based sourceURL comments may break concatenated scripts
-		 * and do not make sense when multiple scripts are joined together.
-		 */
-		if ( ! $this->do_concat ) {
-			$output .= sprintf(
-				"\n//# sourceURL=%s",
-				rawurlencode( "{$handle}-js-extra" )
-			);
-		}
+		$output .= sprintf(
+			"\n//# sourceURL=%s",
+			rawurlencode( "{$handle}-js-extra" )
+		);
 
 		if ( ! $display ) {
 			return $output;
@@ -302,16 +304,6 @@ class WP_Scripts extends WP_Dependencies {
 			return false;
 		}
 
-		if ( null === $obj->ver ) {
-			$ver = '';
-		} else {
-			$ver = $obj->ver ? $obj->ver : $this->default_version;
-		}
-
-		if ( isset( $this->args[ $handle ] ) ) {
-			$ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
-		}
-
 		$src               = $obj->src;
 		$strategy          = $this->get_eligible_loading_strategy( $handle );
 		$intended_strategy = (string) $this->get_data( $handle, 'strategy' );
@@ -348,12 +340,6 @@ class WP_Scripts extends WP_Dependencies {
 			$inline_script_tag = '';
 		}
 
-		/*
-		 * Prevent concatenation of scripts if the text domain is defined
-		 * to ensure the dependency order is respected.
-		 */
-		$translations_stop_concat = ! empty( $obj->textdomain );
-
 		$translations = $this->print_translations( $handle, false );
 		if ( $translations ) {
 			/*
@@ -368,48 +354,12 @@ class WP_Scripts extends WP_Dependencies {
 			$translations  = wp_get_inline_script_tag( $translations, array( 'id' => "{$handle}-js-translations" ) );
 		}
 
-		if ( $this->do_concat ) {
-			/**
-			 * Filters the script loader source.
-			 *
-			 * @since 2.2.0
-			 *
-			 * @param string $src    Script loader source path.
-			 * @param string $handle Script handle.
-			 */
-			$filtered_src = apply_filters( 'script_loader_src', $src, $handle );
-
-			if (
-				is_string( $filtered_src )
-				&& $this->in_default_dir( $filtered_src )
-				&& ( $before_script || $after_script || $translations_stop_concat || $this->is_delayed_strategy( $strategy ) )
-			) {
-				$this->do_concat = false;
-
-				// Have to print the so-far concatenated scripts right away to maintain the right order.
-				_print_scripts();
-				$this->reset();
-			} elseif ( $this->in_default_dir( $filtered_src ) ) {
-				$this->print_code     .= $this->print_extra_script( $handle, false );
-				$this->concat         .= "$handle,";
-				$this->concat_version .= "$handle$ver";
-				return true;
-			} else {
-				$this->ext_handles .= "$handle,";
-				$this->ext_version .= "$handle$ver";
-			}
-		}
-
 		$this->print_extra_script( $handle );
 
 		// A single item may alias a set of items, by having dependencies, but no source.
 		if ( ! $src ) {
 			if ( $inline_script_tag ) {
-				if ( $this->do_concat ) {
-					$this->print_html .= $inline_script_tag;
-				} else {
-					echo $inline_script_tag;
-				}
+				echo $inline_script_tag;
 			}
 
 			return true;
@@ -465,11 +415,7 @@ class WP_Scripts extends WP_Dependencies {
 		 */
 		$tag = apply_filters( 'script_loader_tag', $tag, $handle, $src );
 
-		if ( $this->do_concat ) {
-			$this->print_html .= $tag;
-		} else {
-			echo $tag;
-		}
+		echo $tag;
 
 		return true;
 	}
@@ -531,7 +477,14 @@ class WP_Scripts extends WP_Dependencies {
 			}
 		}
 
-		/** This filter is documented in wp-includes/class-wp-scripts.php */
+		/**
+		 * Filters the script loader source.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $src    Script loader source path.
+		 * @param string $handle Script handle.
+		 */
 		$src = apply_filters( 'script_loader_src', $src, $handle );
 
 		return is_string( $src ) ? $src : '';
@@ -610,12 +563,6 @@ class WP_Scripts extends WP_Dependencies {
 			return '';
 		}
 
-		/*
-		 * Print sourceURL comment regardless of concatenation.
-		 *
-		 * Inline scripts prevent scripts from being concatenated, so
-		 * sourceURL comments are safe to print for inline scripts.
-		 */
 		$data[] = sprintf(
 			'//# sourceURL=%s',
 			rawurlencode( "{$handle}-js-{$position}" )
@@ -871,11 +818,14 @@ JS;
 	 * Whether a handle's source is in a default directory.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 7.2.0 Scripts are no longer concatenated.
 	 *
 	 * @param string $src The source of the enqueued script.
 	 * @return bool True if found, false if not.
 	 */
 	public function in_default_dir( $src ) {
+		_deprecated_function( __METHOD__, '7.2.0' );
+
 		if ( ! $this->default_dirs ) {
 			return true;
 		}
