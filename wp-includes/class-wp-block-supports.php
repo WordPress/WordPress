@@ -195,8 +195,12 @@ class WP_Block_Supports {
  *
  * @since 5.6.0
  *
- * @param string[] $extra_attributes Optional. Array of extra attributes to render on the block wrapper.
- * @return string String of HTML attributes.
+ * @param array<string, string|int|float> $extra_attributes Optional. Extra attributes to render on the block wrapper,
+ *                                                          keyed by attribute name. Values are unescaped strings or
+ *                                                          numbers. This function escapes them, so do not escape them
+ *                                                          first. Numbers are cast to strings, and values of other
+ *                                                          types are ignored. Default empty array.
+ * @return string String of HTML attributes with escaped values, ready to print inside an HTML tag.
  */
 function get_block_wrapper_attributes( $extra_attributes = array() ) {
 	$new_attributes = WP_Block_Supports::get_instance()->apply_block_supports();
