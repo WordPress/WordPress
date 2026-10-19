@@ -3588,6 +3588,12 @@ function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	/**
 	 * Filters attributes to be added to a script tag.
 	 *
+	 * Escaping and normalization can make the text a browser parses from the printed tag differ
+	 * from `$data`. A callback that needs that text, such as one computing a CSP hash, can set
+	 * `$data` as the modifiable text of a SCRIPT tag in a `WP_HTML_Tag_Processor` with the
+	 * filtered attributes applied and then read {@see WP_HTML_Tag_Processor::get_modifiable_text()},
+	 * at a late priority so that the attributes are final.
+	 *
 	 * @since 5.7.0
 	 *
 	 * @param array<string, string|bool> $attributes Key-value pairs representing `<script>` tag attributes.
