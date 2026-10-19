@@ -1396,6 +1396,8 @@ function uninstall_plugin( $plugin ) {
  *                                the color scheme. This should begin with 'data:image/svg+xml;base64,'.
  *                              * Pass the name of a Dashicons helper class to use a font icon,
  *                                e.g. 'dashicons-chart-pie'.
+ *                              * Pass the namespaced name of a registered icon to render it as an inline SVG,
+ *                                e.g. 'core-admin/pin'.
  *                              * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
  * @param int|float $position   Optional. The position in the menu order this item should appear.
  * @return string The resulting page's hook_suffix.

@@ -280,31 +280,51 @@
 	background-size: 20px auto;
 }
 
+#adminmenu div.wp-menu-image.svg-icon {
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+
+/* Dashicons back-compat: allow `::before` with `content` to fill the slot and push the SVG icon out of view. */
+#adminmenu div.wp-menu-image.svg-icon::before {
+	flex: 0 0 100%;
+}
+
+#adminmenu div.wp-menu-image.svg-icon svg {
+	flex: none;
+	margin: auto;
+	fill: currentColor;
+}
+
 div.wp-menu-image::before {
-	color: #a7aaad;
-	color: rgba(240, 246, 252, 0.6);
 	padding: 7px 0;
 	transition: all 0.1s ease-in-out;
 }
 
-#adminmenu div.wp-menu-image::before {
+#adminmenu div.wp-menu-image {
 	color: #a7aaad;
 	color: rgba(240, 246, 252, 0.6);
+	transition: color 0.1s ease-in-out;
 }
 
-#adminmenu li.wp-has-current-submenu:hover div.wp-menu-image::before,
-#adminmenu .wp-has-current-submenu div.wp-menu-image::before,
-#adminmenu .current div.wp-menu-image::before,
-#adminmenu a.wp-has-current-submenu:hover div.wp-menu-image::before,
-#adminmenu a.current:hover div.wp-menu-image::before,
-#adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image::before,
-#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image::before {
+#adminmenu div.wp-menu-image::before {
+	color: inherit;
+}
+
+#adminmenu li.wp-has-current-submenu:hover div.wp-menu-image,
+#adminmenu .wp-has-current-submenu div.wp-menu-image,
+#adminmenu .current div.wp-menu-image,
+#adminmenu a.wp-has-current-submenu:hover div.wp-menu-image,
+#adminmenu a.current:hover div.wp-menu-image,
+#adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image,
+#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image {
 	color: #fff;
 }
 
-#adminmenu li:hover div.wp-menu-image::before,
-#adminmenu li a:focus div.wp-menu-image::before,
-#adminmenu li.opensub div.wp-menu-image::before {
+#adminmenu li:hover div.wp-menu-image,
+#adminmenu li a:focus div.wp-menu-image,
+#adminmenu li.opensub div.wp-menu-image {
 	color: #72aee6;
 }
 
@@ -313,6 +333,10 @@ div.wp-menu-image::before {
 	height: 30px;
 	position: absolute;
 	z-index: 25;
+}
+
+.folded #adminmenu div.wp-menu-image.svg-icon {
+	height: 34px;
 }
 
 .folded #adminmenu a.menu-top {
@@ -492,35 +516,32 @@ ul#adminmenu > li.current > a.current::after {
 #collapse-button .collapse-button-icon {
 	width: 36px;
 	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .folded #collapse-button .collapse-button-label {
 	display: none;
 }
 
-#collapse-button .collapse-button-icon::after {
-	content: "\f148";
-	content: "\f148" / "";
-	display: block;
+#collapse-button .collapse-button-icon svg {
+	fill: currentColor;
 	position: relative;
-	top: 7px;
-	text-align: center;
-	font: 400 20px/1 dashicons !important;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	top: -1px;
 }
 
 /* rtl:ignore */
-.folded #collapse-button .collapse-button-icon::after,
-.rtl #collapse-button .collapse-button-icon::after {
+.folded #collapse-button .collapse-button-icon svg,
+.rtl #collapse-button .collapse-button-icon svg {
 	transform: rotate(180deg);
 }
 
-.rtl.folded #collapse-button .collapse-button-icon::after {
+.rtl.folded #collapse-button .collapse-button-icon svg {
 	transform: none;
 }
 
-#collapse-button .collapse-button-icon::after,
+#collapse-button .collapse-button-icon svg,
 #collapse-button .collapse-button-label {
 	transition: all 0.1s ease-in-out;
 }
@@ -600,6 +621,10 @@ li#wp-admin-bar-menu-toggle {
 		z-index: 25;
 	}
 
+	.auto-fold #adminmenu div.wp-menu-image.svg-icon {
+		height: 34px;
+	}
+
 	.auto-fold #adminmenu a.menu-top {
 		min-height: 34px;
 	}
@@ -641,11 +666,11 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	/* rtl:ignore */
-	.auto-fold #collapse-button .collapse-button-icon::after {
+	.auto-fold #collapse-button .collapse-button-icon svg {
 		transform: rotate(180deg);
 	}
 
-	.rtl.auto-fold #collapse-button .collapse-button-icon::after {
+	.rtl.auto-fold #collapse-button .collapse-button-icon svg {
 		transform: none;
 	}
 
@@ -806,26 +831,19 @@ li#wp-admin-bar-menu-toggle {
 		border: 1px solid transparent;
 	}
 
-	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon::before {
-		content: "\f228";
-		display: inline-block;
+	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon {
+		display: flex;
+		align-items: center;
 		float: left;
-		font: 400 40px/45px dashicons;
-		vertical-align: middle;
-		outline: none;
 		margin: 0;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
 		height: 44px;
 		width: 50px;
 		padding: 0;
 		border: none;
-		text-align: center;
-		text-decoration: none;
 		box-sizing: border-box;
 	}
 
-	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon::before {
+	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon {
 		color: #72aee6;
 	}
 }

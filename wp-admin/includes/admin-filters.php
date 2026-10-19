@@ -40,6 +40,7 @@ add_filter( 'media_upload_tabs', 'update_gallery_tab' );
 // Admin color schemes.
 add_action( 'admin_init', 'register_admin_color_schemes', 1 );
 add_action( 'admin_head', 'wp_color_scheme_settings' );
+add_action( 'admin_enqueue_scripts', 'wp_color_scheme_menu_icon_styles' );
 add_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 
 // Misc hooks.

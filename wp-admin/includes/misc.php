@@ -1037,6 +1037,7 @@ function admin_color_scheme_picker( $user_id ) {
 				<input name="admin_color" id="admin_color_<?php echo esc_attr( $color ); ?>" type="radio" value="<?php echo esc_attr( $color ); ?>" <?php checked( $color, $current_color ); ?> />
 				<input type="hidden" class="css_url" value="<?php echo esc_url( $color_info->url ); ?>" />
 				<input type="hidden" class="icon_colors" value="<?php echo esc_attr( wp_json_encode( array( 'icons' => $color_info->icon_colors ) ) ); ?>" />
+				<input type="hidden" class="menu_icon_styles" value="<?php echo esc_attr( _wp_get_color_scheme_menu_icon_styles( $color ) ); ?>" />
 				<label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
 				<div class="color-palette">
 				<?php
@@ -1087,6 +1088,74 @@ function wp_color_scheme_settings() {
 	}
 
 	echo '<script>var _wpColorScheme = ' . wp_json_encode( array( 'icons' => $icon_colors ), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ";</script>\n";
+}
+
+/**
+ * Colors inline SVG admin menu icons with the icon colors of the current admin color scheme.
+ *
+ * These are the colors a scheme registers through the `$icons` argument of
+ * wp_admin_css_color(). svg-painter.js applies the same colors to menu icons
+ * given as base64-encoded SVG; this does it for inline SVG icons, with CSS.
+ *
+ * The rules are printed before the stylesheet of the scheme, so a scheme
+ * that colors the icon element itself overrides them.
+ *
+ * @since 7.2.0
+ *
+ * @see wp_color_scheme_settings()
+ */
+function wp_color_scheme_menu_icon_styles() {
+	$styles = _wp_get_color_scheme_menu_icon_styles( get_user_option( 'admin_color' ) );
+
+	if ( '' !== $styles ) {
+		wp_add_inline_style( 'admin-menu', $styles );
+	}
+}
+
+/**
+ * Returns the CSS that colors inline SVG admin menu icons with the icon colors of an admin color scheme.
+ *
+ * A scheme without icon colors gets CSS that makes the icons follow the
+ * text color of the menu links instead.
+ *
+ * The color scheme picker also passes it to user-profile.js, which applies
+ * it when another scheme is selected.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @global array $_wp_admin_css_colors
+ *
+ * @param string $color_scheme The name of the color scheme.
+ * @return string The CSS, or an empty string if the scheme needs none.
+ */
+function _wp_get_color_scheme_menu_icon_styles( $color_scheme ) {
+	global $_wp_admin_css_colors;
+
+	if ( empty( $_wp_admin_css_colors[ $color_scheme ] ) ) {
+		return '';
+	}
+
+	// The core schemes have no stylesheet of their own, or one from the core colors directory.
+	$url = $_wp_admin_css_colors[ $color_scheme ]->url;
+	if ( ! is_string( $url ) || '' === $url || str_starts_with( $url, admin_url( 'css/colors/' ) ) ) {
+		return '';
+	}
+
+	$base_selector    = '#adminmenu div.wp-menu-image';
+	$focus_selector   = '#adminmenu li:hover div.wp-menu-image,#adminmenu li a:focus div.wp-menu-image,#adminmenu li.opensub div.wp-menu-image';
+	$current_selector = '#adminmenu li.wp-has-current-submenu div.wp-menu-image,#adminmenu li.wp-has-current-submenu:hover div.wp-menu-image,#adminmenu a.wp-has-current-submenu:hover div.wp-menu-image,#adminmenu a.current:hover div.wp-menu-image,#adminmenu li.current div.wp-menu-image,#adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image,#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image';
+
+	$icon_colors = array_map( 'sanitize_hex_color', wp_parse_args( (array) $_wp_admin_css_colors[ $color_scheme ]->icon_colors, array_fill_keys( array( 'base', 'focus', 'current' ), '' ) ) );
+
+	// Without icon colors, the icons follow the text color that the scheme gives to the menu links.
+	if ( ! $icon_colors['base'] || ! $icon_colors['focus'] || ! $icon_colors['current'] ) {
+		return "$base_selector,$focus_selector,$current_selector{color:inherit}";
+	}
+
+	return "$base_selector{color:{$icon_colors['base']}}" .
+		"$focus_selector{color:{$icon_colors['focus']}}" .
+		"$current_selector{color:{$icon_colors['current']}}";
 }
 
 /**

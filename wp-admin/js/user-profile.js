@@ -493,7 +493,7 @@
 	} );
 
 	$( function() {
-		var $colorpicker, $stylesheet, user_id, current_user_id,
+		var $colorpicker, $stylesheet, $selectedMenuIconStyles, initialMenuIconStyles, user_id, current_user_id,
 			select       = $( '#display_name' ),
 			username     = $( '#user_login' ).val(),
 			myAccount    = $( '#wp-admin-bar-my-account' ),
@@ -564,6 +564,8 @@
 
 		$colorpicker = $( '#color-picker' );
 		$stylesheet = $( '#colors-css' );
+		$selectedMenuIconStyles = $();
+		initialMenuIconStyles = $colorpicker.find( '.selected .menu_icon_styles' ).val();
 		user_id = $( 'input#user_id' ).val();
 		current_user_id = $( 'input[name="checkuser_id"]' ).val();
 
@@ -598,6 +600,19 @@
 						wp.svgPainter.paint();
 					}
 				}
+
+				// Color the inline SVG menu icons.
+				if ( 0 === $selectedMenuIconStyles.length ) {
+					// Remove the color scheme styles that were already printed.
+					if ( initialMenuIconStyles ) {
+						$( 'style' ).each( function() {
+							this.textContent = this.textContent.replace( initialMenuIconStyles, '' );
+						} );
+					}
+					// Insert before the colors stylesheet, so that the stylesheet can override these styles.
+					$selectedMenuIconStyles = $( '<style />' ).insertBefore( $stylesheet );
+				}
+				$selectedMenuIconStyles.text( $this.children( '.menu_icon_styles' ).val() || '' );
 
 				// Update user option.
 				$.post( ajaxurl, {
