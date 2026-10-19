@@ -286,7 +286,7 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 		array(
 			'id'     => 'my-account',
 			'parent' => 'top-secondary',
-			'title'  => '<span class="display-name">' . $display_name . '</span>' . $avatar,
+			'title'  => '<span class="display-name user-display-name">' . $display_name . '</span>' . $avatar,
 			'href'   => $profile_url,
 			'meta'   => array(
 				'class'      => empty( $avatar ) ? '' : 'with-avatar',
@@ -335,14 +335,13 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 	}
 
 	/* translators: %s: Current user's display name. */
-	$howdy = sprintf( __( 'Howdy, %s' ), '<span class="display-name">' . $display_name . '</span>' );
+	$howdy = sprintf( __( 'Howdy, %s' ), "<span class='user-display-name'>" . $display_name . '</span>' );
 
 	$user_info  = get_avatar( $user_id, 64 );
-	$user_info .= '<span class="howdy">' . $howdy . '</span>';
+	$user_info .= "<span class='display-name howdy'>" . $howdy . '</span>';
 
-	if ( $display_name !== $current_user->user_login ) {
-		$user_info .= "<span class='username'>{$current_user->user_login}</span>";
-	}
+	$username_hidden = ( $display_name === $current_user->user_login ) ? ' hidden' : '';
+	$user_info      .= "<span class='username'{$username_hidden}>{$current_user->user_login}</span>";
 
 	if ( false !== $profile_url ) {
 		$user_info .= "<span class='display-name edit-profile'>" . __( 'Edit Profile' ) . '</span>';
