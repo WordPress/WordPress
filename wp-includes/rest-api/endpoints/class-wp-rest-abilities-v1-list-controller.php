@@ -103,6 +103,10 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 			$query_args['meta'] = array_merge( $request['meta'], $query_args['meta'] );
 		}
 
+		if ( ! empty( $request['has_required_capabilities'] ) ) {
+			$query_args['has_required_capabilities'] = true;
+		}
+
 		$abilities = wp_get_abilities( $query_args );
 
 		$page     = $request['page'];
@@ -204,13 +208,14 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $ability, $request ) {
 		$data = array(
-			'name'          => $ability->get_name(),
-			'label'         => $ability->get_label(),
-			'description'   => $ability->get_description(),
-			'category'      => $ability->get_category(),
-			'input_schema'  => wp_prepare_json_schema_for_client( $ability->get_input_schema() ),
-			'output_schema' => wp_prepare_json_schema_for_client( $ability->get_output_schema() ),
-			'meta'          => $ability->get_meta(),
+			'name'                  => $ability->get_name(),
+			'label'                 => $ability->get_label(),
+			'description'           => $ability->get_description(),
+			'category'              => $ability->get_category(),
+			'required_capabilities' => $ability->get_required_capabilities(),
+			'input_schema'          => wp_prepare_json_schema_for_client( $ability->get_input_schema() ),
+			'output_schema'         => wp_prepare_json_schema_for_client( $ability->get_output_schema() ),
+			'meta'                  => $ability->get_meta(),
 		);
 
 		$context = $request['context'] ?? 'view';
@@ -245,6 +250,7 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	 *
 	 * @since 6.9.0
 	 * @since 7.1.0 Added the `meta.public` property.
+	 * @since 7.2.0 Added the `required_capabilities` property.
 	 *
 	 * @return array<string, mixed> Item schema data.
 	 */
@@ -254,43 +260,52 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 			'title'      => 'ability',
 			'type'       => 'object',
 			'properties' => array(
-				'name'          => array(
+				'name'                  => array(
 					'description' => __( 'Unique identifier for the ability.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'label'         => array(
+				'label'                 => array(
 					'description' => __( 'Display label for the ability.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'description'   => array(
+				'description'           => array(
 					'description' => __( 'Description of the ability.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'category'      => array(
+				'category'              => array(
 					'description' => __( 'Ability category this ability belongs to.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'input_schema'  => array(
+				'required_capabilities' => array(
+					'description' => __( 'Capabilities the current user must have to run the ability.' ),
+					'type'        => 'array',
+					'items'       => array(
+						'type' => 'string',
+					),
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'input_schema'          => array(
 					'description' => __( 'JSON Schema for the ability input.' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'output_schema' => array(
+				'output_schema'         => array(
 					'description' => __( 'JSON Schema for the ability output.' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'meta'          => array(
+				'meta'                  => array(
 					'description' => __( 'Meta information about the ability.' ),
 					'type'        => 'object',
 					'properties'  => array(
@@ -332,38 +347,39 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 	 *
 	 * @since 6.9.0
 	 * @since 7.1.0 Added the `namespace` and `meta` parameters and the `rest_abilities_collection_params` filter.
+	 * @since 7.2.0 Added the `has_required_capabilities` parameter.
 	 *
 	 * @return array<string, mixed> Collection parameters.
 	 */
 	public function get_collection_params(): array {
 		$query_params = array(
-			'context'   => $this->get_context_param( array( 'default' => 'view' ) ),
-			'page'      => array(
+			'context'                   => $this->get_context_param( array( 'default' => 'view' ) ),
+			'page'                      => array(
 				'description' => __( 'Current page of the collection.' ),
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
 			),
-			'per_page'  => array(
+			'per_page'                  => array(
 				'description' => __( 'Maximum number of items to be returned in result set.' ),
 				'type'        => 'integer',
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
 			),
-			'category'  => array(
+			'category'                  => array(
 				'description'       => __( 'Limit results to abilities in specific ability category.' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_key',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'namespace' => array(
+			'namespace'                 => array(
 				'description'       => __( 'Limit results to abilities in a specific namespace.' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_key',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'meta'      => array(
+			'meta'                      => array(
 				'description'          => __( 'Limit results to abilities matching all of the given meta fields.' ),
 				'type'                 => 'object',
 				'properties'           => array(
@@ -389,6 +405,11 @@ class WP_REST_Abilities_V1_List_Controller extends WP_REST_Controller {
 					),
 				),
 				'additionalProperties' => true,
+			),
+			'has_required_capabilities' => array(
+				'description' => __( 'Limit results to abilities whose required capabilities the current user has. Abilities without required capabilities are always included. Permission callbacks don\'t run, so an included ability can still deny execution.' ),
+				'type'        => 'boolean',
+				'default'     => false,
 			),
 		);
 
