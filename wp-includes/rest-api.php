@@ -436,6 +436,10 @@ function create_initial_rest_routes() {
 	// View Config.
 	$view_config_controller = new WP_REST_View_Config_Controller();
 	$view_config_controller->register_routes();
+
+	// Entity Actions.
+	$entity_actions_controller = new WP_REST_Entity_Actions_Controller();
+	$entity_actions_controller->register_routes();
 }
 
 /**
