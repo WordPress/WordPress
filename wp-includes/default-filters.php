@@ -856,4 +856,8 @@ add_filter( 'get_entity_view_config_root_site', '_wp_get_entity_view_config_root
 // Entity Actions API.
 add_action( 'admin_footer', '_wp_add_entity_action_modules_to_editor_script', 10, 0 );
 
+// Entity Fields API.
+add_action( 'admin_footer', '_wp_add_entity_field_modules_to_editor_script', 10, 0 );
+add_filter( 'block_editor_rest_api_preload_paths', '_wp_preload_entity_fields', 10, 2 );
+
 unset( $filter, $action, $post_type );

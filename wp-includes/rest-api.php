@@ -440,6 +440,10 @@ function create_initial_rest_routes() {
 	// Entity Actions.
 	$entity_actions_controller = new WP_REST_Entity_Actions_Controller();
 	$entity_actions_controller->register_routes();
+
+	// Entity Fields.
+	$entity_fields_controller = new WP_REST_Entity_Fields_Controller();
+	$entity_fields_controller->register_routes();
 }
 
 /**
