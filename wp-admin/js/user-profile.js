@@ -494,9 +494,14 @@
 
 	$( function() {
 		var $colorpicker, $stylesheet, user_id, current_user_id,
-			select   = $( '#display_name' ),
-			username = $( '#user_login' ).val(),
-			greeting = $( '#wp-admin-bar-my-account' ).find( '.display-name' );
+			select       = $( '#display_name' ),
+			username     = $( '#user_login' ).val(),
+			myAccount    = $( '#wp-admin-bar-my-account' ),
+			displayNames = myAccount.find( '.user-display-name' ),
+			usernameLine = myAccount.find( '#wp-admin-bar-user-info .username' ),
+			menus        = myAccount.children( '.ab-sub-wrapper' ).children( '[role="menu"]' ).filter( function() {
+				return this.getAttribute( 'aria-label' ) === displayNames.first().text();
+			} );
 
 		$( '#pass1' ).val( '' ).on( 'input' + ' pwupdate', check_pass_strength );
 		$('#pass-strength-result').show();
@@ -549,7 +554,11 @@
 
 				var display_name = this.value.trim() || username;
 
-				greeting.text( display_name );
+				displayNames.text( display_name );
+				menus.attr( 'aria-label', display_name );
+
+				// Only show the username when it differs from the display name.
+				usernameLine.prop( 'hidden', display_name === username );
 			} );
 		}
 
