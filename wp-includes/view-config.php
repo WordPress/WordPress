@@ -369,7 +369,7 @@ function _wp_get_entity_view_config_posttype_wp_block( $data ) {
 			'slug'  => 'all-patterns',
 		),
 		array(
-			'title' => __( 'My patterns' ),
+			'title' => __( 'Site patterns' ),
 			'slug'  => 'my-patterns',
 		),
 	);
