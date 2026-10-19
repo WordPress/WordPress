@@ -27,7 +27,7 @@ class WP_HTTP_Response {
 	 * Response headers.
 	 *
 	 * @since 4.4.0
-	 * @var array
+	 * @var array<string, string>
 	 */
 	public $headers;
 
@@ -36,6 +36,7 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 * @var int
+	 * @phpstan-var int<100, 599>
 	 */
 	public $status;
 
@@ -44,9 +45,11 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param mixed $data    Response data. Default null.
-	 * @param int   $status  Optional. HTTP status code. Default 200.
-	 * @param array $headers Optional. HTTP header map. Default empty array.
+	 * @param mixed                 $data    Response data. Default null.
+	 * @param int                   $status  Optional. HTTP status code. Default 200.
+	 * @param array<string, string> $headers Optional. HTTP header map. Default empty array.
+	 *
+	 * @phpstan-param int<100, 599> $status
 	 */
 	public function __construct( $data = null, $status = 200, $headers = array() ) {
 		$this->set_data( $data );
@@ -59,7 +62,7 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return array Map of header name to header value.
+	 * @return array<string, string> Map of header name to header value.
 	 */
 	public function get_headers() {
 		return $this->headers;
@@ -70,7 +73,7 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $headers Map of header name to header value.
+	 * @param array<string, string> $headers Map of header name to header value.
 	 */
 	public function set_headers( $headers ) {
 		$this->headers = $headers;
@@ -100,6 +103,8 @@ class WP_HTTP_Response {
 	 * @since 4.4.0
 	 *
 	 * @return int The 3-digit HTTP status code.
+	 *
+	 * @phpstan-return int<100, 599>
 	 */
 	public function get_status() {
 		return $this->status;
@@ -111,6 +116,8 @@ class WP_HTTP_Response {
 	 * @since 4.4.0
 	 *
 	 * @param int $code HTTP status.
+	 *
+	 * @phpstan-param int<100, 599> $code
 	 */
 	public function set_status( $code ) {
 		$this->status = absint( $code );

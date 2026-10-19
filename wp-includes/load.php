@@ -1538,7 +1538,10 @@ function is_multisite() {
  *
  * @param mixed $maybeint Data you wish to have converted to a non-negative integer.
  * @return int A non-negative integer.
- * @phpstan-return non-negative-int
+ *
+ * @phpstan-template T
+ * @phpstan-param T $maybeint
+ * @phpstan-return (T is non-negative-int ? T : non-negative-int)
  */
 function absint( $maybeint ): int {
 	if ( is_float( $maybeint ) ) {

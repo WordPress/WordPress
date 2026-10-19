@@ -1683,6 +1683,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @param WP_Comment      $comment Comment object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return string[] List of link relations.
+	 *
+	 * @phpstan-return array<non-falsy-string>
 	 */
 	protected function get_available_actions( $comment, $request ) {
 		if ( 'edit' !== $request['context'] ) {

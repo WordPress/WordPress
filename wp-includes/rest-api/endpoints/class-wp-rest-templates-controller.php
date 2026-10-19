@@ -1013,6 +1013,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * @since 5.8.0
 	 *
 	 * @return string[] List of link relations.
+	 *
+	 * @phpstan-return array<non-falsy-string>
 	 */
 	protected function get_available_actions() {
 		$rels = array();

@@ -20,6 +20,8 @@
  *
  * @since 4.4.0
  *
+ * @phpstan-import-type Target_Hints from WP_REST_Response
+ *
  * @phpstan-type Endpoint_Arg array{
  *     required?: bool,
  *     default?: mixed,
@@ -32,6 +34,7 @@
  *     methods: array<uppercase-string, true>,
  *     callback?: callable|null,
  *     permission_callback?: callable|null,
+ *     validate_callback?: callable|null,
  *     args: array<non-empty-string, Endpoint_Arg>,
  *     accept_json: bool,
  *     accept_raw: bool,
@@ -270,6 +273,8 @@ class WP_REST_Server {
 	 * @param string   $message Human-readable message.
 	 * @param int|null $status  Optional. HTTP status code to send. Default null.
 	 * @return string JSON representation of the error.
+	 *
+	 * @phpstan-param int<100, 599>|null $status
 	 */
 	protected function json_error( $code, $message, $status = null ) {
 		if ( $status ) {
@@ -531,7 +536,7 @@ class WP_REST_Server {
 		 * Send no-cache headers if $send_no_cache_headers is true,
 		 * OR if the HTTP_X_HTTP_METHOD_OVERRIDE is used but resulted a 4xx response code.
 		 */
-		if ( $send_no_cache_headers || ( true === $method_overridden && str_starts_with( $code, '4' ) ) ) {
+		if ( $send_no_cache_headers || ( true === $method_overridden && $code >= 400 && $code < 500 ) ) {
 			foreach ( wp_get_nocache_headers() as $header => $header_value ) {
 				if ( empty( $header_value ) ) {
 					$this->remove_header( $header );
@@ -701,8 +706,17 @@ class WP_REST_Server {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param array $link The link to get target hints for.
-	 * @return array|null
+	 * @param array<string, mixed> $link The link to get target hints for.
+	 * @return array<string, string[]>|null Map of hint name to list of values, which is empty if the route
+	 *                                      allows no methods. Null if the link already has an `allow` hint,
+	 *                                      or its URL does not resolve to a valid REST API request.
+	 *
+	 * @phpstan-param array{
+	 *     href: non-falsy-string,
+	 *     targetHints?: Target_Hints,
+	 *     ...<string, mixed>
+	 * } $link
+	 * @phpstan-return array<lowercase-string, list<string>>|null
 	 */
 	protected static function get_target_hints_for_link( $link ) {
 		// Prefer targetHints that were specifically designated by the developer.
@@ -1213,7 +1227,9 @@ class WP_REST_Server {
 	 * @since 5.6.0
 	 *
 	 * @param WP_REST_Request $request The request object.
-	 * @return array|WP_Error The route and request handler on success or a WP_Error instance if no handler was found.
+	 * @return array<int, string|array<string, mixed>>|WP_Error The route and request handler on success or a WP_Error instance if no handler was found.
+	 *
+	 * @phpstan-return array{non-empty-string, Route_Handler}|WP_Error
 	 */
 	protected function match_request_to_handler( $request ) {
 		$method = $request->get_method();
@@ -1294,11 +1310,13 @@ class WP_REST_Server {
 	 * @access private
 	 * @since 5.6.0
 	 *
-	 * @param WP_REST_Request $request  The request object.
-	 * @param string          $route    The matched route regex.
-	 * @param array           $handler  The matched route handler.
-	 * @param WP_Error|null   $response The current error object if any.
+	 * @param WP_REST_Request      $request  The request object.
+	 * @param string               $route    The matched route regex.
+	 * @param array<string, mixed> $handler  The matched route handler.
+	 * @param WP_Error|null        $response The current error object if any.
 	 * @return WP_REST_Response
+	 *
+	 * @phpstan-param Route_Handler $handler
 	 */
 	protected function respond_to_request( $request, $route, $handler, $response ) {
 		/**
@@ -1315,8 +1333,10 @@ class WP_REST_Server {
 		 *
 		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
 		 *                                                                   Usually a WP_REST_Response or WP_Error.
-		 * @param array                                            $handler  Route handler used for the request.
+		 * @param array<string, mixed>                             $handler  Route handler used for the request.
 		 * @param WP_REST_Request                                  $request  Request used to generate the response.
+		 *
+		 * @phpstan-param Route_Handler $handler
 		 */
 		$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
 
@@ -1344,10 +1364,12 @@ class WP_REST_Server {
 			 * @since 4.4.0
 			 * @since 4.5.0 Added `$route` and `$handler` parameters.
 			 *
-			 * @param mixed           $dispatch_result Dispatch result, will be used if not empty.
-			 * @param WP_REST_Request $request         Request used to generate the response.
-			 * @param string          $route           Route matched for the request.
-			 * @param array           $handler         Route handler used for the request.
+			 * @param mixed                $dispatch_result Dispatch result, will be used if not empty.
+			 * @param WP_REST_Request      $request         Request used to generate the response.
+			 * @param string               $route           Route matched for the request.
+			 * @param array<string, mixed> $handler         Route handler used for the request.
+			 *
+			 * @phpstan-param Route_Handler $handler
 			 */
 			$dispatch_result = apply_filters( 'rest_dispatch_request', null, $request, $route, $handler );
 
@@ -1377,8 +1399,10 @@ class WP_REST_Server {
 		 *
 		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
 		 *                                                                   Usually a WP_REST_Response or WP_Error.
-		 * @param array                                            $handler  Route handler used for the request.
+		 * @param array<string, mixed>                             $handler  Route handler used for the request.
 		 * @param WP_REST_Request                                  $request  Request used to generate the response.
+		 *
+		 * @phpstan-param Route_Handler $handler
 		 */
 		$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
 
@@ -1987,6 +2011,8 @@ class WP_REST_Server {
 	 * @since 4.4.0
 	 *
 	 * @param int $code HTTP status.
+	 *
+	 * @phpstan-param int<100, 599> $code
 	 */
 	protected function set_status( $code ) {
 		status_header( $code );
@@ -2017,7 +2043,7 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $headers Map of header name to header value.
+	 * @param array<string, string> $headers Map of header name to header value.
 	 */
 	public function send_headers( $headers ) {
 		foreach ( $headers as $key => $value ) {
