@@ -10969,7 +10969,7 @@ media.transition = function( selector, sensitivity ) {
 
 	if ( $.support.transition ) {
 		if ( ! (selector instanceof $) ) {
-			selector = $( selector );
+			selector = $( document ).find( selector );
 		}
 
 		// Resolve the deferred when the first element finishes animating.

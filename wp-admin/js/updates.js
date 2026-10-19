@@ -253,7 +253,7 @@
 	 *
 	 */
 	wp.updates.addAdminNotice = function( data ) {
-		var $notice = $( data.selector ),
+		var $notice = $( document ).find( data.selector ),
 			$headerEnd = $( '.wp-header-end' ),
 			$adminNotice;
 

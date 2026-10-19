@@ -586,7 +586,7 @@ jQuery( function($) {
 				$(this).attr( 'aria-selected', 'true' ).removeAttr( 'tabindex' );
 				$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
 				$('#' + taxonomy + '-tabs').siblings('.tabs-panel').hide();
-				$(t).show();
+				$( document ).find( t ).show();
 				if ( '#' + taxonomy + '-all' == t ) {
 					deleteUserSetting( settingName );
 				} else {

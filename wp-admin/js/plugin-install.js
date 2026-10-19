@@ -218,7 +218,7 @@ jQuery( function( $ ) {
 
 		// Flip the content.
 		$( '#section-holder div.section' ).hide(); // Hide 'em all.
-		$( '#section-' + tab ).show();
+		$( '#section-' + CSS.escape( tab ) ).show();
 	});
 
 	/*

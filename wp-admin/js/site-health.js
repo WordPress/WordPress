@@ -66,7 +66,7 @@ jQuery( function( $ ) {
 		var hash = window.location.hash;
 
 		if ( hash ) {
-			var requestedPanel = $( hash );
+			var requestedPanel = $( document ).find( hash );
 
 			if ( requestedPanel.is( '.health-check-accordion-trigger' ) ) {
 				requestedPanel.trigger( 'click' );
