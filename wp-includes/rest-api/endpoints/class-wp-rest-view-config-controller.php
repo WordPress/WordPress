@@ -155,10 +155,10 @@ class WP_REST_View_Config_Controller extends WP_REST_Controller {
 			'kind'            => $kind,
 			'name'            => $name,
 			'version'         => WP_View_Config_Data::LATEST_VERSION,
-			'default_view'    => _rest_cast_empty_objects_from_schema( $config['default_view'], $schema['properties']['default_view'] ),
-			'default_layouts' => _rest_cast_empty_objects_from_schema( $config['default_layouts'], $schema['properties']['default_layouts'] ),
-			'view_list'       => _rest_cast_empty_objects_from_schema( $config['view_list'], $schema['properties']['view_list'] ),
-			'form'            => _rest_cast_empty_objects_from_schema( $config['form'], $schema['properties']['form'] ),
+			'default_view'    => wp_prepare_json_value_for_client( $config['default_view'], $schema['properties']['default_view'] ),
+			'default_layouts' => wp_prepare_json_value_for_client( $config['default_layouts'], $schema['properties']['default_layouts'] ),
+			'view_list'       => wp_prepare_json_value_for_client( $config['view_list'], $schema['properties']['view_list'] ),
+			'form'            => wp_prepare_json_value_for_client( $config['form'], $schema['properties']['form'] ),
 		);
 
 		return rest_ensure_response( $response );
@@ -169,16 +169,16 @@ class WP_REST_View_Config_Controller extends WP_REST_Controller {
 	 * objects.
 	 *
 	 * @since 7.1.0
-	 * @since 7.2.0 Moved the logic to _rest_cast_empty_objects_from_schema().
+	 * @since 7.2.0 Uses wp_prepare_json_value_for_client().
 	 *
-	 * @see _rest_cast_empty_objects_from_schema()
+	 * @see wp_prepare_json_value_for_client()
 	 *
 	 * @param mixed $value  The value to normalize.
 	 * @param array $schema The schema node describing the value.
 	 * @return mixed The normalized value, with empty object-typed arrays cast to objects.
 	 */
 	protected function cast_empty_objects( $value, $schema ) {
-		return _rest_cast_empty_objects_from_schema( $value, $schema );
+		return is_array( $schema ) ? wp_prepare_json_value_for_client( $value, $schema ) : $value;
 	}
 
 	/**
