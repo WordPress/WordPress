@@ -74,13 +74,14 @@ function wp_register_colors_support( $block_type ) {
  * @since 5.6.0
  * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
  * @since 7.1.0 Suppresses color.gradient when background.gradient is supported and set.
+ * @since 7.2.0 Skips `has-background` for a background color clipped to the text.
  * @access private
  *
- * @param WP_Block_Type $block_type       Block type.
- * @param array         $block_attributes Block attributes.
- * @return array Colors CSS classes and inline styles.
+ * @param WP_Block_Type        $block_type       Block type.
+ * @param array<string, mixed> $block_attributes Block attributes.
+ * @return array<string, mixed> Colors CSS classes and inline styles.
  */
-function wp_apply_colors_support( $block_type, $block_attributes ) {
+function wp_apply_colors_support( WP_Block_Type $block_type, array $block_attributes ): array {
 	$color_support = $block_type->supports['color'] ?? false;
 
 	if (
@@ -132,6 +133,18 @@ function wp_apply_colors_support( $block_type, $block_attributes ) {
 
 	$attributes = array();
 	$styles     = wp_style_engine_get_styles( array( 'color' => $color_block_styles ), array( 'convert_vars_to_classnames' => true ) );
+
+	/*
+	 * Mirror of the background support: a color clipped to the text paints the
+	 * glyphs, not the box, so only a gradient still adds `has-background`.
+	 */
+	$clips_to_text = 'text' === ( $block_attributes['style']['background']['backgroundClip'] ?? null ) &&
+		block_has_support( $block_type, array( 'background', 'backgroundClip' ), false ) &&
+		! wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundClip' );
+
+	if ( $clips_to_text && ! empty( $styles['classnames'] ) && empty( $color_block_styles['gradient'] ) ) {
+		$styles['classnames'] = implode( ' ', array_diff( explode( ' ', $styles['classnames'] ), array( 'has-background' ) ) );
+	}
 
 	if ( ! empty( $styles['classnames'] ) ) {
 		$attributes['class'] = $styles['classnames'];

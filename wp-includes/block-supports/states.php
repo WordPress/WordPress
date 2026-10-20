@@ -148,6 +148,96 @@ function wp_get_state_declarations_with_background_resets( $declarations ) {
 }
 
 /**
+ * Merges one state style object over another.
+ *
+ * Mirror of `mergeStyleObjects` in packages/block-editor/src/hooks/style.jsx.
+ *
+ * @since 7.2.0
+ *
+ * @param array<string, mixed> $target Styles underneath.
+ * @param array<string, mixed> $source Styles layered over them.
+ * @return array<string, mixed> Merged style object.
+ */
+function wp_merge_state_style_objects( $target, $source ) {
+	$target = is_array( $target ) ? $target : array();
+	$source = is_array( $source ) ? $source : array();
+	$merged = $target;
+
+	foreach ( $source as $key => $value ) {
+		$merged[ $key ] = is_array( $value ) && isset( $merged[ $key ] ) && is_array( $merged[ $key ] )
+			? wp_merge_state_style_objects( $merged[ $key ], $value )
+			: $value;
+	}
+
+	return $merged;
+}
+
+/**
+ * Checks whether a state paints its own background.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @param array<string, mixed> $state_style State style object.
+ * @return bool Whether the state sets a gradient or background image.
+ */
+function wp_state_paints_own_background( array $state_style ): bool {
+	return ! empty( $state_style['background']['gradient'] ) ||
+		! empty( $state_style['background']['backgroundImage'] ) ||
+		! empty( $state_style['color']['gradient'] );
+}
+
+/**
+ * Returns the declarations that unclip a text clip when a state sets a different clip.
+ *
+ * Mirror of `getStateTextClipEscapeCSS` in packages/block-editor/src/hooks/style.jsx.
+ *
+ * @since 7.2.0
+ *
+ * @param array<string, mixed> $state_style State style object.
+ * @param string               $base_clip   Background clip of the styles the state layers over.
+ * @return array<string, string> CSS declarations, empty when no escape is needed.
+ *
+ * @phpstan-return array<non-falsy-string, non-falsy-string>
+ */
+function wp_get_state_text_clip_escape( array $state_style, string $base_clip ): array {
+	$state_clip = $state_style['background']['backgroundClip'] ?? '';
+	if ( ! in_array( $state_clip, WP_Style_Engine::VALID_BACKGROUND_CLIP_VALUES, true ) ) {
+		$state_clip = '';
+	}
+	if ( empty( $state_clip ) || 'text' === $state_clip || 'text' !== $base_clip || wp_state_paints_own_background( $state_style ) ) {
+		return array();
+	}
+	return array( 'background-image' => 'unset' );
+}
+
+/**
+ * Returns the declarations that refill the letters when a state sets a text color but no clip.
+ *
+ * The fill is added even without a known text clip, since a block instance
+ * cannot see a clip set in global styles. It does nothing when no clip applies.
+ *
+ * Mirror of `getStateTextFillResetCSS` in packages/block-editor/src/hooks/style.jsx.
+ *
+ * @since 7.2.0
+ *
+ * @param array<string, mixed> $state_style State style object.
+ * @return array<string, string> CSS declarations, empty when no reset is needed.
+ *
+ * @phpstan-return array<non-falsy-string, non-falsy-string>
+ */
+function wp_get_state_text_fill_reset( array $state_style ): array {
+	$state_clip = $state_style['background']['backgroundClip'] ?? '';
+	if ( ! in_array( $state_clip, WP_Style_Engine::VALID_BACKGROUND_CLIP_VALUES, true ) ) {
+		$state_clip = '';
+	}
+	if ( ! empty( $state_clip ) || empty( $state_style['color']['text'] ) || wp_state_paints_own_background( $state_style ) ) {
+		return array();
+	}
+	return array( '-webkit-text-fill-color' => 'currentColor' );
+}
+
+/**
  * Adds fallback dimension styles for aspectRatio and height block-support values.
  *
  * @since 7.1.0
@@ -365,14 +455,16 @@ function wp_get_block_state_element_selectors( $root_selector ) {
  *
  * @since 7.1.0
  * @since 7.2.0 Added fallback dimension styles.
+ *              Added the `$base_style` parameter.
  *
- * @param array       $css_rules   Style rules.
- * @param string      $state       Pseudo-state selector.
- * @param string|null $selector    Block, feature, or element selector.
- * @param array       $style       Style object.
- * @param string|null $rules_group Optional CSS grouping rule, e.g. a media query.
+ * @param array[]                   $css_rules   Style rules.
+ * @param string                    $state       Pseudo-state selector.
+ * @param string|null               $selector    Block, feature, or element selector.
+ * @param array<string, mixed>      $style       Style object.
+ * @param string|null               $rules_group Optional CSS grouping rule, e.g. a media query.
+ * @param array<string, mixed>|null $base_style  Optional styles the state layers over.
  */
-function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, $rules_group = null ) {
+function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, $rules_group = null, $base_style = null ) {
 	if ( empty( $style ) || ! is_array( $style ) ) {
 		return;
 	}
@@ -387,6 +479,16 @@ function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, 
 	// Base text alignment is class-based, so state styles need a declaration.
 	if ( is_string( $text_align ) && '' !== trim( $text_align ) ) {
 		$declarations['text-align'] = $text_align;
+	}
+
+	// Only block states pass a base; element states match the editor and skip it.
+	if ( null !== $base_style ) {
+		$base_clip    = $base_style['background']['backgroundClip'] ?? '';
+		$declarations = array_merge(
+			$declarations,
+			wp_get_state_text_clip_escape( $style, is_string( $base_clip ) ? $base_clip : '' ),
+			wp_get_state_text_fill_reset( $style )
+		);
 	}
 
 	if ( empty( $declarations ) ) {
@@ -407,13 +509,20 @@ function wp_add_block_state_style_rule( &$css_rules, $state, $selector, $style, 
  * Builds compiled state style rules, preserving the selector each rule targets.
  *
  * @since 7.1.0
+ * @since 7.2.0 Added the `$base_style` parameter.
  *
- * @param array         $state_styles Map of state to style array.
- * @param WP_Block_Type $block_type   Block type.
- * @param string|null   $rules_group  Optional CSS grouping rule, e.g. a media query.
+ * @param array<string, mixed>      $state_styles Map of state to style array.
+ * @param WP_Block_Type             $block_type   Block type.
+ * @param string|null               $rules_group  Optional CSS grouping rule, e.g. a media query.
+ * @param array<string, mixed>|null $base_style   Optional styles the state layers over.
  * @return array[] State style rules.
  */
-function wp_get_block_state_style_rules( $state_styles, $block_type, $rules_group = null ) {
+function wp_get_block_state_style_rules( $state_styles, $block_type, $rules_group = null, $base_style = null ) {
+	// Only a block that supports the clip can sit under a text clip to escape.
+	if ( ! block_has_support( $block_type, array( 'background', 'backgroundClip' ), false ) ) {
+		$base_style = null;
+	}
+
 	$css_rules       = array();
 	$block_selectors = is_array( $block_type->selectors )
 		? $block_type->selectors
@@ -430,7 +539,8 @@ function wp_get_block_state_style_rules( $state_styles, $block_type, $rules_grou
 				$state,
 				$group['selector'],
 				$group['style'],
-				$rules_group
+				$rules_group,
+				$base_style
 			);
 		}
 	}
@@ -576,6 +686,10 @@ function wp_render_block_states_support( $block_content, $block ) {
 
 	$supported_pseudo_states  = WP_Theme_JSON::VALID_BLOCK_PSEUDO_SELECTORS[ $block_name ] ?? array();
 	$css_rules                = array();
+	$default_root_style       = wp_get_root_state_style(
+		$style,
+		array_merge( array( 'elements' ), $supported_pseudo_states )
+	);
 	$viewport_settings        = wp_get_global_settings( array( 'viewport' ) );
 	$responsive_media_queries = WP_Theme_JSON::get_viewport_media_queries( $viewport_settings );
 
@@ -588,7 +702,9 @@ function wp_render_block_states_support( $block_content, $block ) {
 			$css_rules,
 			wp_get_block_state_style_rules(
 				array( $pseudo_state => $style[ $pseudo_state ] ),
-				$block_type
+				$block_type,
+				null,
+				$default_root_style
 			)
 		);
 	}
@@ -609,7 +725,8 @@ function wp_render_block_states_support( $block_content, $block ) {
 				wp_get_block_state_style_rules(
 					array( '' => $root_state_style ),
 					$block_type,
-					$media_query
+					$media_query,
+					$default_root_style
 				)
 			);
 		}
@@ -675,7 +792,11 @@ function wp_render_block_states_support( $block_content, $block ) {
 				wp_get_block_state_style_rules(
 					array( $pseudo_state => $style[ $breakpoint ][ $pseudo_state ] ),
 					$block_type,
-					$media_query
+					$media_query,
+					wp_merge_state_style_objects(
+						$default_root_style,
+						$root_state_style
+					)
 				)
 			);
 		}
