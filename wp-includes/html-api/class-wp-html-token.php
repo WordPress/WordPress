@@ -54,7 +54,7 @@ class WP_HTML_Token {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#self-closing-flag
+	 * @link https://html.spec.whatwg.org/#self-closing-flag
 	 *
 	 * @var bool
 	 */

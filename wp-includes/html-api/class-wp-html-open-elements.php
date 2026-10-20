@@ -25,8 +25,8 @@
  * @access private
  * @ignore
  *
- * @see https://html.spec.whatwg.org/#stack-of-open-elements
  * @see WP_HTML_Processor
+ * @link https://html.spec.whatwg.org/#stack-of-open-elements
  */
 class WP_HTML_Open_Elements {
 	/**
@@ -235,7 +235,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-the-specific-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-the-specific-scope
 	 *
 	 * @param string   $tag_name         Name of tag check.
 	 * @param string[] $termination_list List of elements that terminate the search.
@@ -296,7 +296,7 @@ class WP_HTML_Open_Elements {
 	 * @since 6.4.0
 	 * @since 6.7.0 Full support.
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-scope
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
@@ -345,7 +345,7 @@ class WP_HTML_Open_Elements {
 	 * @since 6.5.0 Implemented: no longer throws on every invocation.
 	 * @since 6.7.0 Supports all required HTML elements.
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
@@ -395,7 +395,7 @@ class WP_HTML_Open_Elements {
 	 * @since 6.4.0
 	 * @since 6.7.0 Supports all required HTML elements.
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-button-scope
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
@@ -444,7 +444,7 @@ class WP_HTML_Open_Elements {
 	 * @since 6.4.0
 	 * @since 6.7.0 Full implementation.
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-table-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-table-scope
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
@@ -491,7 +491,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
+	 * @link https://html.spec.whatwg.org/#has-an-element-in-button-scope
 	 *
 	 * @return bool Whether a P is in BUTTON scope.
 	 */
@@ -504,7 +504,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#stack-of-open-elements
+	 * @link https://html.spec.whatwg.org/#stack-of-open-elements
 	 *
 	 * @return bool Whether a node was popped off of the stack.
 	 */
@@ -556,7 +556,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#stack-of-open-elements
+	 * @link https://html.spec.whatwg.org/#stack-of-open-elements
 	 *
 	 * @param WP_HTML_Token $stack_item Item to add onto stack.
 	 */
@@ -774,7 +774,7 @@ class WP_HTML_Open_Elements {
 	 * > that the UA must, while the current node is not a table, template, or html element, pop
 	 * > elements from the stack of open elements.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-context
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-context
 	 *
 	 * @since 6.7.0
 	 */
@@ -798,7 +798,7 @@ class WP_HTML_Open_Elements {
 	 * > means that the UA must, while the current node is not a tbody, tfoot, thead, template, or
 	 * > html element, pop elements from the stack of open elements.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-body-context
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-body-context
 	 *
 	 * @since 6.7.0
 	 */
@@ -824,7 +824,7 @@ class WP_HTML_Open_Elements {
 	 * > means that the UA must, while the current node is not a tr, template, or html element, pop
 	 * > elements from the stack of open elements.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-row-context
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-row-context
 	 *
 	 * @since 6.7.0
 	 */

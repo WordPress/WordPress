@@ -31,8 +31,8 @@
  * @access private
  * @ignore
  *
- * @see https://html.spec.whatwg.org/#list-of-active-formatting-elements
  * @see WP_HTML_Processor
+ * @link https://html.spec.whatwg.org/#list-of-active-formatting-elements
  */
 class WP_HTML_Active_Formatting_Elements {
 	/**
@@ -95,7 +95,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 * > formatting from "leaking" into applet, object, marquee, template,
 	 * > td, th, and caption elements.
 	 *
-	 * @see https://html.spec.whatwg.org/#concept-parser-marker
+	 * @link https://html.spec.whatwg.org/#concept-parser-marker
 	 *
 	 * @since 6.7.0
 	 */
@@ -108,7 +108,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see https://html.spec.whatwg.org/#push-onto-the-list-of-active-formatting-elements
+	 * @link https://html.spec.whatwg.org/#push-onto-the-list-of-active-formatting-elements
 	 *
 	 * @param WP_HTML_Token $token Push this node onto the stack.
 	 */
@@ -215,7 +215,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 * >    The list has been cleared up to the last marker.
 	 * > 4. Go to step 1.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-list-of-active-formatting-elements-up-to-the-last-marker
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#clear-the-list-of-active-formatting-elements-up-to-the-last-marker
 	 *
 	 * @since 6.7.0
 	 */

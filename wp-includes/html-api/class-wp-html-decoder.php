@@ -345,7 +345,7 @@ class WP_HTML_Decoder {
 			 * This comment is here to note and explain why there's no check to
 			 * remove these characters or replace them.
 			 *
-			 * @see https://infra.spec.whatwg.org/#noncharacter
+			 * @link https://infra.spec.whatwg.org/#noncharacter
 			 */
 
 			/*
@@ -456,8 +456,8 @@ class WP_HTML_Decoder {
 		 * `/?random&amp;degree&amp;gt=0&amp;lt=360&amp;not=90` produces the intended
 		 * value regardless of the following character.)
 		 *
-		 * @see https://html.spec.whatwg.org/multipage/parsing.html#named-character-reference-state
-		 * @see https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
+		 * @link https://html.spec.whatwg.org/multipage/parsing.html#named-character-reference-state
+		 * @link https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
 		 */
 		if ( 'attribute' !== $context || ';' === $text[ $after_name - 1 ] || $after_name >= $length ) {
 			$match_byte_length = $after_name - $at;
@@ -494,7 +494,7 @@ class WP_HTML_Decoder {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @see https://www.rfc-editor.org/rfc/rfc3629 For the UTF-8 standard.
+	 * @link https://www.rfc-editor.org/rfc/rfc3629 For the UTF-8 standard.
 	 *
 	 * @param int $code_point Which code point to convert.
 	 * @return string Converted code point, or `�` if invalid.

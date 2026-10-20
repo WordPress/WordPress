@@ -27,26 +27,24 @@
  * they match only when byte-for-byte identical (no-quirks mode).
  *
  * All HTML documents should start with the standard HTML5 DOCTYPE: `<!DOCTYPE html>`.
+ * The {@link https://html.spec.whatwg.org/#the-doctype HTML Standard} explains why:
  *
  * > DOCTYPEs are required for legacy reasons. When omitted, browsers tend to use a different
  * > rendering mode that is incompatible with some specifications. Including the DOCTYPE in a
  * > document ensures that the browser makes a best-effort attempt at following the
  * > relevant specifications.
  *
- * @see https://html.spec.whatwg.org/#the-doctype
- *
  * DOCTYPE declarations comprise four properties: a name, public identifier, system identifier,
  * and an indication of which document compatibility mode they would imply if an HTML parser
- * hadn't already determined it from other information.
+ * hadn't already determined it from other information. The HTML parser's
+ * {@link https://html.spec.whatwg.org/#the-initial-insertion-mode initial insertion mode}
+ * defines which compatibility mode a DOCTYPE declaration implies.
  *
- * @see https://html.spec.whatwg.org/#the-initial-insertion-mode
- *
- * Historically, the DOCTYPE declaration was used in SGML documents to instruct a parser how
+ * Historically, the DOCTYPE declaration was used in
+ * {@link https://www.iso.org/standard/16387.html SGML documents} to instruct a parser how
  * to interpret the various tags and entities within a document. Its role in HTML diverged
  * from how it was used in SGML and no meaning should be back-read into HTML based on how it
  * is used in SGML, XML, or XHTML documents.
- *
- * @see https://www.iso.org/standard/16387.html
  *
  * @since 6.7.0
  * @since 7.1.0 Spec update: missing and empty SYSTEM identifiers are handled
@@ -67,7 +65,7 @@ class WP_HTML_Doctype_Info {
 	 *     <!DOCTYPE html>
 	 *               ╰──┴── name is "html".
 	 *
-	 * @see https://html.spec.whatwg.org/#tokenization
+	 * @link https://html.spec.whatwg.org/#tokenization
 	 *
 	 * @since 6.7.0
 	 *
@@ -91,7 +89,7 @@ class WP_HTML_Doctype_Info {
 	 *               │  │         ╰─── public identifier ─────╯
 	 *               ╰──┴── name is "html".
 	 *
-	 * @see https://html.spec.whatwg.org/#tokenization
+	 * @link https://html.spec.whatwg.org/#tokenization
 	 *
 	 * @since 6.7.0
 	 *
@@ -121,7 +119,7 @@ class WP_HTML_Doctype_Info {
 	 *               │  │         ╰─── public identifier ─────╯   ╰──── system identifier ────╯
 	 *               ╰──┴── name is "html".
 	 *
-	 * @see https://html.spec.whatwg.org/#tokenization
+	 * @link https://html.spec.whatwg.org/#tokenization
 	 *
 	 * @since 6.7.0
 	 *
@@ -149,7 +147,7 @@ class WP_HTML_Doctype_Info {
 	 * before the HTML element has been opened and before finding any other
 	 * DOCTYPE declaration tokens.
 	 *
-	 * @see https://html.spec.whatwg.org/#the-initial-insertion-mode
+	 * @link https://html.spec.whatwg.org/#the-initial-insertion-mode
 	 *
 	 * @since 6.7.0
 	 *
@@ -171,7 +169,7 @@ class WP_HTML_Doctype_Info {
 	 * > and system identifier must be marked as missing (which is a distinct state from the
 	 * > empty string), and the force-quirks flag must be set to off (its other state is on).
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#tokenization
+	 * @link https://html.spec.whatwg.org/multipage/parsing.html#tokenization
 	 *
 	 * @since 6.7.0
 	 *
@@ -424,7 +422,7 @@ class WP_HTML_Doctype_Info {
 		 * This parser combines the rules for parsing DOCTYPE tokens found in the HTML
 		 * specification for the DOCTYPE related tokenizer states.
 		 *
-		 * @see https://html.spec.whatwg.org/#doctype-state
+		 * @link https://html.spec.whatwg.org/#doctype-state
 		 */
 
 		/*
@@ -449,8 +447,8 @@ class WP_HTML_Doctype_Info {
 		/*
 		 * Perform newline normalization and ensure the $end value is correct after normalization.
 		 *
-		 * @see https://html.spec.whatwg.org/#preprocessing-the-input-stream
-		 * @see https://infra.spec.whatwg.org/#normalize-newlines
+		 * @link https://html.spec.whatwg.org/#preprocessing-the-input-stream
+		 * @link https://infra.spec.whatwg.org/#normalize-newlines
 		 */
 		$doctype_html = str_replace( "\r\n", "\n", $doctype_html );
 		$doctype_html = str_replace( "\r", "\n", $doctype_html );
@@ -479,7 +477,7 @@ class WP_HTML_Doctype_Info {
 		 * Parsing effectively begins in "Before DOCTYPE name state". Ignore whitespace and
 		 * proceed to the next state.
 		 *
-		 * @see https://html.spec.whatwg.org/#before-doctype-name-state
+		 * @link https://html.spec.whatwg.org/#before-doctype-name-state
 		 */
 		$at += strspn( $doctype_html, " \t\n\f\r", $at );
 
@@ -502,7 +500,7 @@ class WP_HTML_Doctype_Info {
 		 * Find a case-insensitive match for "PUBLIC" or "SYSTEM" at this point.
 		 * Otherwise, set force-quirks and enter bogus DOCTYPE state (skip the rest of the doctype).
 		 *
-		 * @see https://html.spec.whatwg.org/#after-doctype-name-state
+		 * @link https://html.spec.whatwg.org/#after-doctype-name-state
 		 */
 		if ( $at + 6 >= $end ) {
 			return new self( $doctype_name, $doctype_public_id, $doctype_system_id, true );
@@ -549,8 +547,8 @@ class WP_HTML_Doctype_Info {
 		 * "DOCTYPE public identifier (single-quoted) state" by finding one of the valid quotes.
 		 * Anything else forces quirks mode and ignores the rest of the contents.
 		 *
-		 * @see https://html.spec.whatwg.org/#doctype-public-identifier-(double-quoted)-state
-		 * @see https://html.spec.whatwg.org/#doctype-public-identifier-(single-quoted)-state
+		 * @link https://html.spec.whatwg.org/#doctype-public-identifier-(double-quoted)-state
+		 * @link https://html.spec.whatwg.org/#doctype-public-identifier-(single-quoted)-state
 		 */
 		$closer_quote = $doctype_html[ $at ];
 
@@ -579,7 +577,7 @@ class WP_HTML_Doctype_Info {
 		 *
 		 * Advance through whitespace between public and system identifiers.
 		 *
-		 * @see https://html.spec.whatwg.org/#between-doctype-public-and-system-identifiers-state
+		 * @link https://html.spec.whatwg.org/#between-doctype-public-and-system-identifiers-state
 		 */
 		$at += strspn( $doctype_html, " \t\n\f\r", $at, $end - $at );
 		if ( $at >= $end ) {
@@ -592,8 +590,8 @@ class WP_HTML_Doctype_Info {
 		 * "DOCTYPE system identifier (single-quoted) state" by finding one of the valid quotes.
 		 * Anything else forces quirks mode and ignores the rest of the contents.
 		 *
-		 * @see https://html.spec.whatwg.org/#doctype-system-identifier-(double-quoted)-state
-		 * @see https://html.spec.whatwg.org/#doctype-system-identifier-(single-quoted)-state
+		 * @link https://html.spec.whatwg.org/#doctype-system-identifier-(double-quoted)-state
+		 * @link https://html.spec.whatwg.org/#doctype-system-identifier-(single-quoted)-state
 		 */
 		$closer_quote = $doctype_html[ $at ];
 
