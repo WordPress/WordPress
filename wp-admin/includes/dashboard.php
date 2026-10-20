@@ -7,6 +7,33 @@
  */
 
 /**
+ * Determines whether the site has ever received a comment.
+ *
+ * The result is persisted so the Recent Comments widget remains registered if
+ * all comments are later deleted, preserving its Screen Options and position.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @return bool Whether the site has received a comment.
+ */
+function _wp_dashboard_has_received_comments() {
+	if ( get_option( 'dashboard_recent_comments_widget_registered' ) ) {
+		return true;
+	}
+
+	$comment_count = wp_count_comments();
+
+	if ( empty( $comment_count->all ) ) {
+		return false;
+	}
+
+	update_option( 'dashboard_recent_comments_widget_registered', 1, false );
+
+	return true;
+}
+
+/**
  * Registers dashboard widgets.
  *
  * Handles POST data, sets up filters.
@@ -80,6 +107,11 @@ function wp_dashboard_setup() {
 	// Activity Widget.
 	if ( is_blog_admin() ) {
 		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_site_activity' );
+	}
+
+	// Recent Comments Widget.
+	if ( is_blog_admin() && _wp_dashboard_has_received_comments() ) {
+		wp_add_dashboard_widget( 'dashboard_recent_comments', __( 'Recent Comments' ), 'wp_dashboard_recent_comments_widget' );
 	}
 
 	// QuickPress Widget.
@@ -941,12 +973,14 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
  * Callback function for {@see 'dashboard_activity'}.
  *
  * @since 3.8.0
+ * @since 7.2.0 Added the On This Day section and moved Recent Comments to a dedicated widget.
  */
 function wp_dashboard_site_activity() {
 
 	echo '<div id="activity-widget">';
 
-	$future_posts = wp_dashboard_recent_posts(
+	$on_this_day_posts = wp_dashboard_on_this_day_get_posts();
+	$future_posts      = wp_dashboard_recent_posts(
 		array(
 			'max'    => 5,
 			'status' => 'future',
@@ -955,25 +989,196 @@ function wp_dashboard_site_activity() {
 			'id'     => 'future-posts',
 		)
 	);
-	$recent_posts = wp_dashboard_recent_posts(
+	$recent_posts      = wp_dashboard_recent_posts(
 		array(
-			'max'    => 5,
-			'status' => 'publish',
-			'order'  => 'DESC',
-			'title'  => __( 'Recently Published' ),
-			'id'     => 'published-posts',
+			'max'     => 5,
+			'status'  => 'publish',
+			'order'   => 'DESC',
+			'title'   => __( 'Recently Published' ),
+			'id'      => 'published-posts',
+			'exclude' => wp_list_pluck( $on_this_day_posts, 'ID' ),
 		)
 	);
 
-	$recent_comments = wp_dashboard_recent_comments();
+	$on_this_day_rendered = wp_dashboard_on_this_day( $on_this_day_posts );
 
-	if ( ! $future_posts && ! $recent_posts && ! $recent_comments ) {
+	if ( ! $future_posts && ! $recent_posts && ! $on_this_day_rendered ) {
 		echo '<div class="no-activity">';
 		echo '<p>' . __( 'No activity yet!' ) . '</p>';
 		echo '</div>';
 	}
 
 	echo '</div>';
+}
+
+/**
+ * Outputs the On This Day section of the Activity widget.
+ *
+ * @since 7.2.0
+ *
+ * @param WP_Post[]|null $posts Optional. Posts to render. Defaults to querying for posts.
+ * @return bool False if no posts were found. True otherwise.
+ */
+function wp_dashboard_on_this_day( $posts = null ) {
+	if ( null === $posts ) {
+		$posts = wp_dashboard_on_this_day_get_posts();
+	}
+
+	if ( empty( $posts ) ) {
+		return false;
+	}
+
+	echo '<div id="on-this-day-posts" class="activity-block">';
+	echo '<h3>' . esc_html__( 'Published On This Day' ) . '</h3>';
+	echo '<ul>';
+
+	foreach ( $posts as $post ) {
+		/* translators: Date format for posts published in a previous year. */
+		$date = get_the_date( __( 'M jS, Y' ), $post );
+
+		$title = get_the_title( $post );
+
+		if ( '' === trim( $title ) ) {
+			$title = __( '(no title)' );
+
+			if ( current_user_can( 'read_post', $post->ID ) && ! post_password_required( $post ) ) {
+				$excerpt = get_the_excerpt( $post );
+
+				if ( is_string( $excerpt ) && '' !== $excerpt ) {
+					$title .= ' ' . wp_trim_words( $excerpt, 15 );
+				}
+			}
+		}
+
+		$can_edit = current_user_can( 'edit_post', $post->ID );
+		$link     = $can_edit ? get_edit_post_link( $post->ID ) : get_permalink( $post );
+
+		if ( $can_edit ) {
+			/* translators: %s: Post title. */
+			$aria_label = sprintf( __( 'Edit &#8220;%s&#8221;' ), $title );
+		} else {
+			/* translators: %s: Post title. */
+			$aria_label = sprintf( __( 'View &#8220;%s&#8221;' ), $title );
+		}
+
+		$author_id   = (int) $post->post_author;
+		$author_name = $author_id > 0 ? (string) get_the_author_meta( 'display_name', $author_id ) : '';
+
+		printf(
+			'<li><span>%1$s</span><span><a href="%2$s" aria-label="%3$s">%4$s</a>',
+			esc_html( $date ),
+			esc_url( $link ),
+			esc_attr( $aria_label ),
+			esc_html( $title )
+		);
+
+		if ( '' !== trim( $author_name ) && get_current_user_id() !== $author_id ) {
+			printf(
+				' <span class="wp-on-this-day-post-author">%s</span>',
+				esc_html(
+					sprintf(
+						/* translators: %s: Post author's display name. */
+						__( 'by %s' ),
+						$author_name
+					)
+				)
+			);
+		}
+
+		echo '</span></li>';
+	}
+
+	echo '</ul>';
+	echo '</div>';
+
+	return true;
+}
+
+/**
+ * Retrieves posts published on this calendar day in previous years.
+ *
+ * Up to ten posts are returned by default. Use the
+ * {@see 'wp_dashboard_on_this_day_query_args'} filter to change the limit.
+ * Results are cached by WP_Query's native query caching.
+ *
+ * @since 7.2.0
+ *
+ * @return WP_Post[] Array of posts ordered by newest first.
+ */
+function wp_dashboard_on_this_day_get_posts() {
+	$today = current_datetime();
+	$year  = (int) $today->format( 'Y' );
+
+	$args = array(
+		'post_type'              => 'post',
+		'post_status'            => array( 'publish' ),
+		'posts_per_page'         => 10,
+		'ignore_sticky_posts'    => true,
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'update_post_term_cache' => false,
+		'update_post_meta_cache' => false,
+		'date_query'             => array(
+			'relation' => 'AND',
+			array(
+				'before' => array( 'year' => $year ),
+			),
+			_wp_dashboard_on_this_day_date_query_clause( $today ),
+		),
+	);
+
+	/**
+	 * Filters the arguments used to query posts for the On This Day section.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @param array $args WP_Query arguments.
+	 */
+	$args = apply_filters( 'wp_dashboard_on_this_day_query_args', $args );
+
+	$query = new WP_Query( $args );
+
+	return $query->posts;
+}
+
+/**
+ * Builds the date query clause for today's anniversary date.
+ *
+ * On February 28 in a non-leap year, February 29 posts are included so
+ * leap-day anniversaries still appear.
+ *
+ * @since 7.2.0
+ * @access private
+ *
+ * @param DateTimeInterface $date Date to build the clause for.
+ * @return array Date query clause.
+ */
+function _wp_dashboard_on_this_day_date_query_clause( $date ) {
+	$month  = (int) $date->format( 'm' );
+	$day    = (int) $date->format( 'd' );
+	$clause = array(
+		'month' => $month,
+		'day'   => $day,
+	);
+
+	// Display leap day posts on February 28 in non-leap years.
+	if (
+		28 === $day
+		&& 2 === $month
+		&& false === (bool) $date->format( 'L' )
+	) {
+		$clause = array(
+			'relation' => 'OR',
+			$clause,
+			array(
+				'month' => 2,
+				'day'   => 29,
+			),
+		);
+	}
+
+	return $clause;
 }
 
 /**
@@ -989,6 +1194,7 @@ function wp_dashboard_site_activity() {
  *     @type string $order   Designates ascending ('ASC') or descending ('DESC') order.
  *     @type string $title   Section title.
  *     @type string $id      The container id.
+ *     @type int[]  $exclude Optional. Post IDs to exclude.
  * }
  * @return bool False if no posts were found. True otherwise.
  */
@@ -1003,6 +1209,10 @@ function wp_dashboard_recent_posts( $args ) {
 		'cache_results'  => true,
 		'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',
 	);
+
+	if ( ! empty( $args['exclude'] ) ) {
+		$query_args['post__not_in'] = array_map( 'intval', $args['exclude'] );
+	}
 
 	/**
 	 * Filters the query arguments used for the Recent Posts widget.
@@ -1075,14 +1285,29 @@ function wp_dashboard_recent_posts( $args ) {
 }
 
 /**
- * Show Comments section.
+ * Outputs the Recent Comments dashboard widget.
+ *
+ * Callback function for {@see 'dashboard_recent_comments'}.
+ *
+ * @since 7.2.0
+ */
+function wp_dashboard_recent_comments_widget() {
+	if ( ! wp_dashboard_recent_comments( 5, false ) ) {
+		echo '<p>' . esc_html__( 'No comments to show.' ) . '</p>';
+	}
+}
+
+/**
+ * Outputs recent comments.
  *
  * @since 3.8.0
+ * @since 7.2.0 Moved from the Activity widget to a dedicated dashboard widget.
  *
- * @param int $total_items Optional. Number of comments to query. Default 5.
+ * @param int  $total_items Optional. Number of comments to query. Default 5.
+ * @param bool $show_title  Optional. Whether to display the section title. Default true.
  * @return bool False if no comments were found. True otherwise.
  */
-function wp_dashboard_recent_comments( $total_items = 5 ) {
+function wp_dashboard_recent_comments( $total_items = 5, $show_title = true ) {
 	// Select all comment types and filter out spam later for better query performance.
 	$comments = array();
 
@@ -1126,7 +1351,10 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 
 	if ( $comments ) {
 		echo '<div id="latest-comments" class="activity-block table-view-list">';
-		echo '<h3>' . __( 'Recent Comments' ) . '</h3>';
+
+		if ( $show_title ) {
+			echo '<h3>' . esc_html__( 'Recent Comments' ) . '</h3>';
+		}
 
 		echo '<ul id="the-comment-list" data-wp-lists="list:comment">';
 		foreach ( $comments as $comment ) {

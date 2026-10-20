@@ -86,7 +86,11 @@ if ( current_user_can( 'edit_posts' ) ) {
 	$help .= '<p>' . __( '<strong>At a Glance</strong> &mdash; Displays a summary of the content on your site and identifies which theme and version of WordPress you are using.' ) . '</p>';
 }
 
-$help .= '<p>' . __( '<strong>Activity</strong> &mdash; Shows the upcoming scheduled posts, recently published posts, and the most recent comments on your posts and allows you to moderate them.' ) . '</p>';
+$help .= '<p>' . __( '<strong>Activity</strong> &mdash; Shows upcoming scheduled posts, recently published posts, and posts published on this day in previous years.' ) . '</p>';
+
+if ( _wp_dashboard_has_received_comments() ) {
+	$help .= '<p>' . __( '<strong>Recent Comments</strong> &mdash; Shows the most recent comments on your posts and allows you to moderate them.' ) . '</p>';
+}
 
 if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 	$help .= '<p>' . __( "<strong>Quick Draft</strong> &mdash; Allows you to create a new post and save it as a draft. Also displays links to the 3 most recent draft posts you've started." ) . '</p>';
