@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .comment-content a {
 	word-wrap: break-word;
 }
@@ -149,7 +151,7 @@
 
 			a:not(.comment-edit-link) {
 				font-weight: bold;
-				font-size: $font__size-base / (1 * $font__size-ratio);
+				font-size: math.div($font__size-base, 1 * $font__size-ratio);
 				line-height: 1.5;
 				padding-right: #{0.5 * $size__spacing-unit};
 				display: block;
@@ -401,7 +403,7 @@
 	.comment-form-author,
 	.comment-form-email {
 		@include media(tablet) {
-			width: calc(50% - #{$size__spacing-unit / 2});
+			width: calc(50% - math.div($size__spacing-unit, 2));
 			float: left;
 		}
 	}

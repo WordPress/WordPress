@@ -54,7 +54,7 @@
     "build:style-editor-customizer": "sass style-editor-customizer.scss:style-editor-customizer.css --style=expanded --no-source-map && postcss -r style-editor-customizer.css",
     "build:rtl": "rtlcss style.css style-rtl.css",
     "build:print": "sass print.scss:print.css --style=expanded --no-source-map && postcss -r print.css",
-    "build": "run-p \"build:*\"",
+    "build": "run-s \"build:*\"",
     "watch": "chokidar \"**/*.scss\" -c \"npm run build\" --initial"
   }
 }

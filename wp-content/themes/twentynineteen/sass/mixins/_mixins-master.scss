@@ -1,3 +1,5 @@
+@use "sass:string";
+
 // Rem output with px fallback
 @mixin font-size($sizeValue: 1) {
 	font-size: ($sizeValue * 16) * 1px;
@@ -127,7 +129,7 @@
 @mixin non-latin-fonts() {
 	@each $lang, $font__fallback in $font__fallbacks {
 		&:lang(#{$lang}) {
-			font-family: unquote( $font__fallback );
+			font-family: string.unquote( $font__fallback );
 		}
 	}
 }

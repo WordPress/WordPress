@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 /*
  * Chrome renders extra-wide &nbsp; characters for the Hoefler Text font.
  * This results in a jumping cursor when typing in both the Classic and block
@@ -68,9 +70,9 @@ $font__pre: "Courier 10 Pitch", Courier, monospace;
 $font__size_base: 22px;
 $font__size-ratio: 1.125;
 
-$font__size-xxs:   1em / (1.5 * $font__size-ratio);
-$font__size-xs:    1em / (1.25 * $font__size-ratio);
-$font__size-sm:    1em / (1 * $font__size-ratio);
+$font__size-xxs:   math.div(1em, 1.5 * $font__size-ratio);
+$font__size-xs:    math.div(1em, 1.25 * $font__size-ratio);
+$font__size-sm:    math.div(1em, 1 * $font__size-ratio);
 $font__size-md:    1em * (1 * $font__size-ratio);
 $font__size-lg:    1em * (1.5 * $font__size-ratio);
 $font__size-xl:    1em * (2 * $font__size-ratio);
